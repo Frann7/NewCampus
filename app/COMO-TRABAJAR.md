@@ -110,9 +110,11 @@ A la derecha del calendario está la **agenda**: filas cortas agrupadas por mes,
 (todo / parciales / prácticos), cuántos días y horas faltan —se recalcula solo— y, al tocarlas, el
 calendario salta a ese día. Al final hay un desplegable **Recordatorios** con una casilla por
 materia (no por fecha) y el interruptor general; **solo la casilla marca y desmarca**, y los cambios
-no se aplican hasta tocar **Aceptar**. Con eso encendido, al entrar al campus sale el cartel
-**"Lo que se viene"** con lo más próximo (`newcampus:avisos` guarda las materias APAGADAS, así una
-materia nueva avisa sin tocar nada; el filtro va en `newcampus:agenda`).
+no se aplican hasta tocar **Aceptar**. Con eso encendido, al entrar al campus salen los
+**avisos**: arriba a la derecha, uno por materia (la fecha más próxima de cada una, diciendo cuántas
+otras tiene), cuatro segundos cada uno y se van solos; la ✕ corta la tanda y tocarlos lleva a ese día.
+(`newcampus:avisos` guarda las materias APAGADAS, así una materia nueva avisa sin tocar nada; el
+filtro va en `newcampus:agenda`.)
 
 **Ventanas duplicadas** (`assets/ventanas.js`): manteniendo apretada una pestaña 0,8 s sale una **copia**
 de ese apartado en otra ventana (`index.html?panel=1#<materia>/<unidad>/<pestaña>`). La copia no

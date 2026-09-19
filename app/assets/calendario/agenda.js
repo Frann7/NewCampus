@@ -10,7 +10,8 @@
      RECORDATORIOS el bloque desplegable del final: una casilla por materia
                    (no por fecha, que era lo que alargaba la lista) mas el
                    interruptor general. Nada se aplica hasta tocar Aceptar.
-     CARTEL        lo que sale al entrar al campus con lo mas proximo.
+     AVISOS        al entrar al campus, un aviso por materia arriba a la
+                   derecha, unos segundos cada uno, y se van solos.
 
    Configuracion de avisos en localStorage "newcampus:avisos":
 
@@ -31,7 +32,8 @@ window.NC = window.NC || {};
   var CLAVE_VISTA = "newcampus:agenda";
   var HORIZONTE = 365;      // dias hacia adelante que mira la agenda
   var EN_AGENDA = 40;       // tope de filas listadas
-  var EN_CARTEL = 4;        // cuantas entran en el cartel del arranque
+  var MAX_AVISOS = 5;       // cuantas materias avisan al entrar
+  var DURA_AVISO = 4000;    // cuanto dura en pantalla cada aviso
   var REFRESCO = 30000;     // cada cuanto se recalcula "cuanto falta"
 
   var DIA = 86400000;
@@ -378,47 +380,88 @@ window.NC = window.NC || {};
   }
 
   /* ============================================================
-     CARTEL DEL ARRANQUE
+     AVISOS DEL ARRANQUE
+     ------------------------------------------------------------
+     Uno por materia, arriba a la derecha, unos segundos cada uno y se
+     van solos. El que se esta viendo se cierra por reloj, no por el fin
+     de una animacion: si el navegador no corre animaciones, igual pasa
+     al siguiente.
      ============================================================ */
+
+  // La fecha mas proxima de cada materia, en orden, con cuantas mas tiene
+  function porMateria(lista) {
+    var vistas = {};
+    var salida = [];
+    lista.forEach(function (e) {
+      if (vistas[e.materia]) { vistas[e.materia].mas += 1; return; }
+      vistas[e.materia] = { evento: e, mas: 0 };
+      salida.push(vistas[e.materia]);
+    });
+    return salida;
+  }
+
+  var relojAviso = null;
+
+  function limpiarAvisos() {
+    if (relojAviso) { window.clearTimeout(relojAviso); relojAviso = null; }
+    var pila = document.querySelector(".cal-avisos-pila");
+    if (pila && pila.parentNode) { pila.parentNode.removeChild(pila); }
+  }
 
   function recordatorio() {
     if (!EV() || !config().activo) { return; }
-    var lista = proximos(EN_CARTEL, true, "todo");
-    if (!lista.length) { return; }
+    var cola = porMateria(proximos(EN_AGENDA, true, "todo")).slice(0, MAX_AVISOS);
+    if (!cola.length) { return; }
 
-    var viejo = document.querySelector(".cal-recordatorio");
-    if (viejo) { viejo.parentNode.removeChild(viejo); }
+    limpiarAvisos();
+    var pila = el("div", "cal-avisos-pila");
+    document.body.appendChild(pila);
 
-    var caja = el("aside", "cal-recordatorio");
+    (function siguiente(i) {
+      if (i >= cola.length) { limpiarAvisos(); return; }
+
+      var aviso = cartel(cola[i]);
+      pila.appendChild(aviso);
+
+      relojAviso = window.setTimeout(function () {
+        if (aviso.parentNode) { aviso.parentNode.removeChild(aviso); }
+        siguiente(i + 1);
+      }, DURA_AVISO);
+    })(0);
+  }
+
+  function cartel(item) {
+    var e = item.evento;
+    var mat = EV().materia(e.materia);
+    var cuenta = cuantoFalta(e.fecha, false);
+
+    var caja = el("aside", "cal-aviso");
     caja.setAttribute("role", "status");
+    caja.style.setProperty("--h", mat.tono);
 
-    var cab = el("div", "cal-recordatorio-cab");
-    cab.appendChild(el("span", "cal-recordatorio-tit", "Lo que se viene"));
-    var x = boton("cal-recordatorio-x", "✕", function () { caja.parentNode.removeChild(caja); });
-    x.title = "Cerrar";
-    cab.appendChild(x);
-    caja.appendChild(cab);
-
-    lista.forEach(function (e) {
-      var mat = EV().materia(e.materia);
-      var cuenta = cuantoFalta(e.fecha, false);
-
-      var b = el("button", "cal-recordatorio-item");
-      b.type = "button";
-      b.style.setProperty("--h", mat.tono);
-      b.appendChild(el("span", "cal-recordatorio-tipo",
-        EV().TIPOS[e.tipo].glifo + " " + (e.tipo === "parcial" ? "Parcial" : "TP")));
-      b.appendChild(el("span", "cal-recordatorio-materia", mat.nombre));
-      b.appendChild(el("span", "cal-recordatorio-falta" + (cuenta.urgente ? " es-urgente" : ""),
-        cuenta.texto + " · " + fechaCorta(e.fecha)));
-      b.addEventListener("click", function () {
-        caja.parentNode.removeChild(caja);
-        irAlCalendario(e.fecha);
-      });
-      caja.appendChild(b);
+    var cuerpo = el("button", "cal-aviso-cuerpo");
+    cuerpo.type = "button";
+    cuerpo.title = "Ver el " + EV().largo(e.fecha) + " en el calendario";
+    cuerpo.appendChild(el("span", "cal-aviso-tipo",
+      EV().TIPOS[e.tipo].glifo + " " + (e.tipo === "parcial" ? "Parcial" : "Trabajo práctico")));
+    cuerpo.appendChild(el("span", "cal-aviso-materia", mat.nombre));
+    cuerpo.appendChild(el("span", "cal-aviso-falta" + (cuenta.urgente ? " es-urgente" : ""),
+      cuenta.texto + " · " + fechaCorta(e.fecha)));
+    if (item.mas) {
+      cuerpo.appendChild(el("span", "cal-aviso-mas",
+        item.mas === 1 ? "y 1 fecha más de esta materia" : "y " + item.mas + " fechas más de esta materia"));
+    }
+    cuerpo.addEventListener("click", function () {
+      limpiarAvisos();
+      irAlCalendario(e.fecha);
     });
+    caja.appendChild(cuerpo);
 
-    document.body.appendChild(caja);
+    var x = boton("cal-aviso-x", "✕", limpiarAvisos);
+    x.title = "No mostrar el resto";
+    caja.appendChild(x);
+
+    return caja;
   }
 
   // Cambia a la pestania Calendario y para en ese dia

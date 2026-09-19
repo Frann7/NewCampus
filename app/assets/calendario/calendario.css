@@ -610,7 +610,7 @@
    ============================================================ */
 
 /* Tonos derivados del color de la materia para pintar el dia entero */
-.cal-dia, .cal-prox, .cal-recordatorio-item{
+.cal-dia, .cal-prox{
   --mat:hsl(var(--h, 232) 48% 40%);
   --mat-bg:hsl(var(--h, 232) 62% 94%);
   --mat-linea:hsl(var(--h, 232) 45% 78%);
@@ -622,8 +622,7 @@
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]) .cal-dia,
-  :root:not([data-theme="light"]) .cal-prox,
-  :root:not([data-theme="light"]) .cal-recordatorio-item{
+  :root:not([data-theme="light"]) .cal-prox{
     --mat:hsl(var(--h, 232) 72% 76%);
     --mat-bg:hsl(var(--h, 232) 36% 21%);
     --mat-linea:hsl(var(--h, 232) 34% 40%);
@@ -635,8 +634,7 @@
   }
 }
 :root[data-theme="dark"] .cal-dia,
-:root[data-theme="dark"] .cal-prox,
-:root[data-theme="dark"] .cal-recordatorio-item{
+:root[data-theme="dark"] .cal-prox{
   --mat:hsl(var(--h, 232) 72% 76%);
   --mat-bg:hsl(var(--h, 232) 36% 21%);
   --mat-linea:hsl(var(--h, 232) 34% 40%);
@@ -883,76 +881,105 @@
 .cal-agenda-cambios-btns{display:flex;gap:6px;}
 .cal-agenda-cambios-btns .cal-btn{flex:1 1 auto;text-align:center;padding:5px 8px;}
 
-/* ---------- recordatorio al entrar ---------- */
+/* ---------- avisos del arranque (arriba a la derecha) ---------- */
 
-/* Arranca justo despues del menu lateral: asi no tapa las materias ni la
-   agenda de la derecha. */
-.cal-recordatorio{
+.cal-avisos-pila{
   position:fixed;
-  left:308px;
-  bottom:18px;
+  top:96px;
+  right:18px;
   z-index:4600;
-  width:288px;
+  width:286px;
   max-width:calc(100vw - 36px);
-  background:var(--surface);
-  border:1px solid var(--line);
-  border-radius:14px;
-  box-shadow:var(--shadow);
-  padding:12px;
   display:flex;
   flex-direction:column;
   gap:8px;
+  pointer-events:none;     /* el hueco vacio no tapa la pagina */
 }
 
-.cal-recordatorio-cab{display:flex;align-items:center;justify-content:space-between;gap:8px;}
-.cal-recordatorio-tit{
-  font-size:11.5px;
-  font-weight:700;
-  letter-spacing:.08em;
-  text-transform:uppercase;
-  color:var(--ink-soft);
-}
-.cal-recordatorio-x{
-  background:none;
-  border:1px solid var(--line);
-  border-radius:7px;
-  width:24px;
-  height:24px;
-  font:inherit;
-  font-size:12px;
-  color:var(--ink-faint);
-  cursor:pointer;
-}
-.cal-recordatorio-x:hover{background:var(--surface-2);color:var(--ink);}
-
-.cal-recordatorio-item{
-  background:var(--mat-suave);
+.cal-aviso{
+  position:relative;
+  pointer-events:auto;
+  background:var(--surface);
   border:1px solid var(--line);
   border-left:3px solid var(--mat);
-  border-radius:10px;
-  padding:8px 10px;
+  border-radius:12px;
+  box-shadow:var(--shadow);
+  animation:cal-aviso-entra .22s ease-out;
+}
+.cal-aviso{
+  --mat:hsl(var(--h, 232) 48% 42%);
+  --mat-suave:hsl(var(--h, 232) 70% 96%);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]) .cal-aviso{
+    --mat:hsl(var(--h, 232) 72% 76%);
+    --mat-suave:hsl(var(--h, 232) 28% 17%);
+  }
+}
+:root[data-theme="dark"] .cal-aviso{
+  --mat:hsl(var(--h, 232) 72% 76%);
+  --mat-suave:hsl(var(--h, 232) 28% 17%);
+}
+
+@keyframes cal-aviso-entra{
+  from{opacity:0;transform:translateX(16px);}
+  to{opacity:1;transform:translateX(0);}
+}
+@media (prefers-reduced-motion: reduce){
+  .cal-aviso{animation:none;}
+}
+
+.cal-aviso-cuerpo{
+  width:100%;
+  background:none;
+  border:none;
+  border-radius:12px;
+  padding:11px 32px 11px 13px;
   font:inherit;
   text-align:left;
   cursor:pointer;
   display:flex;
   flex-direction:column;
   gap:2px;
+  min-width:0;
 }
-.cal-recordatorio-item:hover{border-color:var(--mat);}
-.cal-recordatorio-tipo{
-  font-size:10px;
+.cal-aviso-cuerpo:hover{background:var(--mat-suave);}
+
+.cal-aviso-tipo{
+  font-size:10.5px;
   font-weight:700;
-  letter-spacing:.06em;
+  letter-spacing:.07em;
   text-transform:uppercase;
   color:var(--mat);
 }
-.cal-recordatorio-materia{font-size:13.5px;font-weight:700;color:var(--ink);line-height:1.3;}
-.cal-recordatorio-falta{font-size:12px;color:var(--ink-soft);}
-.cal-recordatorio-falta.es-urgente{color:var(--practica);font-weight:600;}
+.cal-aviso-materia{
+  font-size:14px;
+  font-weight:700;
+  color:var(--ink);
+  line-height:1.3;
+}
+.cal-aviso-falta{font-size:12.5px;color:var(--ink-soft);}
+.cal-aviso-falta.es-urgente{color:var(--practica);font-weight:600;}
+.cal-aviso-mas{font-size:11.5px;color:var(--ink-faint);}
+
+.cal-aviso-x{
+  position:absolute;
+  top:7px;
+  right:7px;
+  background:none;
+  border:1px solid transparent;
+  border-radius:7px;
+  width:22px;
+  height:22px;
+  font:inherit;
+  font-size:11px;
+  color:var(--ink-faint);
+  cursor:pointer;
+}
+.cal-aviso-x:hover{background:var(--surface-2);border-color:var(--line);color:var(--ink);}
 
 @media (max-width:900px){
-  /* sin menu lateral al costado, vuelve al borde */
-  .cal-recordatorio{left:10px;right:10px;bottom:10px;width:auto;}
+  .cal-avisos-pila{top:auto;bottom:10px;left:10px;right:10px;width:auto;}
 }
 
 /* ---------- pantallas angostas ---------- */

@@ -1063,5 +1063,7 @@ window.NC = window.NC || {};
     initLatido();
     state = rutaInicial();
     render();
+    // recordatorio de parciales y trabajos practicos (solo la ventana principal)
+    if (!PANEL && window.NC.calAgenda) { window.NC.calAgenda.recordatorio(); }
   });
 })();

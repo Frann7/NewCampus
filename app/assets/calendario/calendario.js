@@ -83,7 +83,10 @@ window.NC = window.NC || {};
   })();
 
   function guardar() {
-    try { localStorage.setItem(CLAVE, JSON.stringify(estado)); } catch (e) {}
+    // el dia elegido no se guarda: el anillo no tiene que sobrevivir a una recarga
+    try {
+      localStorage.setItem(CLAVE, JSON.stringify({ modo: estado.modo, anio: estado.anio, mes: estado.mes }));
+    } catch (e) {}
   }
 
   /* ---------- armado ---------- */
@@ -98,6 +101,8 @@ window.NC = window.NC || {};
   var raiz = null;        // el <div class="cal"> montado
   var titulo = null;
   var cuerpo = null;
+  var agenda = null;
+  var pendiente = null;   // dia al que hay que saltar apenas se monte
 
   function montar(pane) {
     raiz = el("div", "cal");
@@ -152,11 +157,17 @@ window.NC = window.NC || {};
 
     raiz.appendChild(barra);
 
+    var marco = el("div", "cal-marco");
     cuerpo = el("div", "cal-cuerpo");
-    raiz.appendChild(cuerpo);
+    agenda = el("aside", "cal-agenda");
+    marco.appendChild(cuerpo);
+    marco.appendChild(agenda);
+    raiz.appendChild(marco);
 
     pane.appendChild(raiz);
     pintar(null);
+    if (window.NC.calAgenda) { window.NC.calAgenda.montar(agenda); }
+    if (pendiente) { var f = pendiente; pendiente = null; irA(f); }
 
     // flechas del teclado: comodo para hojear meses
     raiz.addEventListener("keydown", function (ev) {
@@ -224,7 +235,25 @@ window.NC = window.NC || {};
 
   // Redibuja sin animacion, conservando la vista (lo llama detalle.js
   // despues de agregar, editar o borrar).
-  function refrescar() { if (raiz) { pintar(null); } }
+  function refrescar() {
+    if (!raiz) { return; }
+    pintar(null);
+    if (window.NC.calAgenda) { window.NC.calAgenda.pintar(); }
+  }
+
+  // Parar en un dia concreto: lo usan la agenda y el recordatorio del arranque.
+  function irA(fecha) {
+    if (!EV()) { return; }
+    if (!raiz) { pendiente = fecha; return; }
+    var p = EV().partes(fecha);
+    estado.anio = p.anio;
+    estado.mes = p.mes;
+    estado.modo = "mes";
+    estado.seleccion = fecha;
+    pintar(null);
+    var casilla = raiz.querySelector('.cal-dia[data-fecha="' + fecha + '"]');
+    if (casilla && casilla.scrollIntoView) { casilla.scrollIntoView({ block: "nearest" }); }
+  }
 
   /* ---------- dibujo ---------- */
 
@@ -300,10 +329,21 @@ window.NC = window.NC || {};
 
     var d = el("button", "cal-dia");
     d.type = "button";
+    d.setAttribute("data-fecha", c.fecha);
     if (c.otro) { d.classList.add("es-otro"); }
     if (c.semana > 4) { d.classList.add("es-finde"); }
     if (esHoy(c)) { d.classList.add("es-hoy"); }
     if (fijas.length) { d.classList.add("tiene-fija", "es-" + fijas[0].tipo); }
+    if (estado.seleccion === c.fecha) { d.classList.add("es-elegido"); }
+
+    // El dia toma el color de la materia: fuerte si hay parcial, apenas
+    // teñido si lo que hay es un trabajo practico.
+    var parcial = eventos.filter(function (e) { return e.tipo === "parcial"; })[0];
+    var marcador = parcial || eventos[0];
+    if (marcador) {
+      d.classList.add(parcial ? "tiene-parcial" : "tiene-tp");
+      d.style.setProperty("--h", EV().materia(marcador.materia).tono);
+    }
 
     var cab = el("span", "cal-dia-cab");
     cab.appendChild(el("span", "cal-num", String(c.n)));
@@ -416,5 +456,5 @@ window.NC = window.NC || {};
     return b;
   }
 
-  window.NC.cal = { montar: montar, refrescar: refrescar };
+  window.NC.cal = { montar: montar, refrescar: refrescar, irA: irA };
 })();

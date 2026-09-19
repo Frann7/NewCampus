@@ -23,7 +23,8 @@ NewCampus/
     ├── assets/           ← estilos.css, app.js (navegación, índice, visor de PDF), logo.svg
     │   ├── ventanas.js   ← sacar una pestaña a otra ventana manteniéndola apretada
     │   ├── calendario/   ← pestaña Calendario: fechas (fijas) · eventos (del usuario)
-    │   │                    · detalle (ficha del día) · calendario (las dos vistas)
+    │   │                    · detalle (ficha del día) · agenda (próximas fechas y
+    │   │                    recordatorios) · calendario (las dos vistas)
     │   └── evaluacion/   ← pestaña Evaluación, un archivo por responsabilidad:
     │                        nucleo · banco · formulario · examen · informe · evaluacion (+ .css)
     ├── contenido/        ← LOS APUNTES SE EDITAN ACÁ
@@ -95,6 +96,15 @@ En cada día se ven dos cosas:
 
 Tocar un día abre su **ficha**: lo que hay ese día, con los botones de editar y eliminar, y el
 formulario para agregar. Se guardan en el `localStorage` (`newcampus:eventos`).
+
+El día con **parcial** se pinta entero del color de la materia, para que no se pueda pasar por alto;
+el que solo tiene **trabajo práctico** queda apenas teñido.
+
+A la derecha del calendario está la **agenda**: los parciales y trabajos prácticos que vienen, con
+cuántos días y horas faltan (se recalcula solo) y, al tocarlos, el calendario salta a ese día. Cada
+fila tiene una casilla **Notificar** que vale para toda la materia, y arriba una para apagarlas todas.
+Con eso encendido, al entrar al campus sale el cartel **"Lo que se viene"** con lo más próximo
+(`newcampus:avisos` guarda las materias APAGADAS, así una materia nueva avisa sin tocar nada).
 
 **Ventanas duplicadas** (`assets/ventanas.js`): manteniendo apretada una pestaña 0,8 s sale una **copia**
 de ese apartado en otra ventana (`index.html?panel=1#<materia>/<unidad>/<pestaña>`). La copia no

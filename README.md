@@ -46,11 +46,10 @@ python construir.py
 Eso arma `app/generado/apuntes.js`, que es el único archivo que carga la página.
 Nunca se edita `generado/` a mano.
 
-## Nota sobre el material de cátedra
+## Material de cátedra
 
-Los PDFs de la cátedra **no están en el repositorio** (quedan fuera por `.gitignore`): son
-material de terceros. La aplicación funciona igual; solo los botones flotantes de "Material de
-cátedra" se quedan sin archivo. Para tenerlos, copiá los PDFs a `app/pdf/<materia>/`.
+Los PDFs de la cátedra que usa el visor viven en `app/pdf/<materia>/`, una sola copia por
+archivo. Son material de la facultad, subido acá solo para estudiar.
 
 ## Versiones
 

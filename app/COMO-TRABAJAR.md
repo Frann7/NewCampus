@@ -34,7 +34,8 @@ NewCampus/
     │       │      01-....html, 02-....html                 un archivo por ejercicio o sección
     │       └── evaluacion/
     │           ├── parciales/<año>-<nombre>/             meta.json + un archivo por ejercicio
-    │           └── preguntas/<unidad>.html               banco de la autoevaluación
+    │           └── preguntas/<unidad>/<id>.html         un archivo por pregunta
+    │                        (el formato está en preguntas/FORMATO.md)
     ├── generado/         ← GENERADO. NO EDITAR. indice.js (lo unico que carga
     │                        la pagina al arrancar) + una pieza por unidad
     ├── pdf/<materia>/    ← PDFs de cátedra, una sola copia por materia
@@ -88,8 +89,9 @@ El contenido de cada unidad llega en su propia pieza cuando la abrís (con un `<
   índice lateral muestra solo los ejercicios mientras están cerradas. Al **abrir** una explicación,
   sus incisos (`.paso`) y subtítulos (`h4`) se suman al índice de la derecha, debajo de su ejercicio,
   y desaparecen al cerrarla.
-* **Banco de preguntas:** el formato completo está explicado en el comentario de arriba de
-  `preguntas/u4.html`. Cada `<article class="preg" data-id data-tipo="teoria|practica">` lleva
+* **Banco de preguntas:** una carpeta por unidad y **un archivo por pregunta**, cuyo nombre es el
+  `data-id`. El formato completo está en `preguntas/FORMATO.md`.
+  Cada `<article class="preg" data-id data-tipo="teoria|practica">` lleva
   enunciado, opciones (`data-correcta`), pista y explicación; las de práctica además
   `p-pregunta` (modo normal) y `ol.p-pasos` (modo interactivo), con `data-nivel` en cada paso
   (`avanzado` = aparece siempre, `medio` = medio y principiante, `principiante` = solo principiante).

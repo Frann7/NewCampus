@@ -15,7 +15,8 @@ Que deja en  generado/ :
 De donde lo saca:
   contenido/<materia>/<unidad>/<pestania>/*.html            apuntes de cada unidad
   contenido/<materia>/evaluacion/parciales/<id>.html        parciales transcriptos
-  contenido/<materia>/evaluacion/preguntas/<unidad>.html    banco de autoevaluacion
+  contenido/<materia>/evaluacion/preguntas/<unidad>/*.html  banco de autoevaluacion,
+                                                            un archivo por pregunta
 
 Cada apunte es una CARPETA con un archivo por bloque (la intro, cada ejercicio,
 cada seccion de teoria). Se pegan en orden de nombre y se envuelven en el
@@ -229,23 +230,30 @@ def main():
         indice["parciales"].setdefault(materia, []).append(ficha)
         hubo_problemas |= informar(rel, texto, problemas)
 
-    # 2.b Bancos de preguntas
-    for ruta in sorted(glob.glob(os.path.join(CONTENIDO, "*", EVALUACION, "*", "*.html"))):
-        rel = os.path.relpath(ruta, CONTENIDO).replace(os.sep, "/")
-        materia, _, clase, archivo = rel.split("/")
-        clave = os.path.splitext(archivo)[0]
-        if clase != "preguntas":
-            print("  [SALTEADO] %s  (la carpeta tiene que ser parciales o preguntas)" % rel)
-            hubo_problemas = True
+    # 2.b Bancos de preguntas: una carpeta por unidad, un archivo por pregunta
+    for carpeta in sorted(glob.glob(os.path.join(CONTENIDO, "*", EVALUACION, "preguntas", "*"))):
+        if not os.path.isdir(carpeta):
             continue
+        rel = os.path.relpath(carpeta, CONTENIDO).replace(os.sep, "/")
+        materia = rel.split("/")[0]
+        clave = os.path.basename(carpeta)
 
-        texto = io.open(ruta, encoding="utf-8").read().strip()
-        problemas = revisar_preguntas(texto, ids_vistos)
+        partes = []
+        problemas = []
+        for ruta in sorted(glob.glob(os.path.join(carpeta, "*.html"))):
+            pregunta = io.open(ruta, encoding="utf-8").read().strip()
+            for pr in revisar_preguntas(pregunta, ids_vistos):
+                problemas.append("%s: %s" % (os.path.basename(ruta), pr))
+            partes.append(pregunta)
+        if not partes:
+            hubo_problemas |= informar(rel, "", ["la carpeta esta vacia"])
+            continue
+        texto = (NL + NL).join(partes)
         indice["preguntas"].setdefault(materia, {})[clave] = guardar_pieza(
             "preguntas", materia + "/" + clave,
             "window.Apuntes.registrarPreguntas(%s, %s, %s);"
             % (json.dumps(materia), json.dumps(clave), json.dumps(texto)))
-        hubo_problemas |= informar(rel[:-len(".html")], texto, problemas)
+        hubo_problemas |= informar(rel, texto, problemas)
 
     # 3. El indice: lo unico que carga index.html de entrada
     indice["construido"] = time.strftime("%Y-%m-%d %H:%M:%S")

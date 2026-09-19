@@ -27,5 +27,5 @@ window.Apuntes.registrarIndice({
       "u6": "preguntas/pye-u6.js"
     }
   },
-  "construido": "2026-09-19 18:25:52"
+  "construido": "2026-09-19 18:29:48"
 });

@@ -136,7 +136,8 @@ calendario salta a ese día. Al final hay un desplegable **Recordatorios** con u
 materia (no por fecha) y el interruptor general; **solo la casilla marca y desmarca**, y los cambios
 no se aplican hasta tocar **Aceptar**. Con eso encendido, al entrar al campus salen los
 **avisos**: arriba a la derecha, uno por materia con **todas** las fechas que esa materia tiene por
-delante, unos segundos cada uno y se van solos; la ✕ corta la tanda y tocar una fecha lleva a ese día.
+delante, ordenados de la más próxima a la más lejana, unos segundos cada uno y se van solos; la ✕
+corta la tanda y tocar una fecha lleva a ese día.
 (`newcampus:avisos` guarda las materias APAGADAS, así una materia nueva avisa sin tocar nada; el
 filtro va en `newcampus:agenda`.)
 

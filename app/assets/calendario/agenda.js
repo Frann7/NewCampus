@@ -35,7 +35,7 @@ window.NC = window.NC || {};
   var EN_AGENDA = 40;       // tope de filas listadas
   var MAX_AVISOS = 12;      // tope de materias que avisan al entrar
   var EN_AVISO = 5;         // fechas que entran en el aviso de una materia
-  var DURA_AVISO = 4000;    // cuanto dura en pantalla un aviso de una sola fecha
+  var DURA_AVISO = 5000;    // cuanto dura en pantalla un aviso de una sola fecha
   var REFRESCO = 30000;     // cada cuanto se recalcula "cuanto falta"
 
   var DIA = 86400000;
@@ -176,6 +176,15 @@ window.NC = window.NC || {};
     return { texto: corto ? "menos de 1 h" : "Falta menos de una hora", urgente: true };
   }
 
+  // Primero lo que falta menos. A igual dia, el parcial antes que el practico.
+  // OJO: tiene que devolver 0 cuando son iguales. Con un comparador que nunca
+  // devuelve 0, el navegador puede desordenar listas de mas de diez fechas.
+  function ordenar(a, b) {
+    if (a.fecha !== b.fecha) { return a.fecha < b.fecha ? -1 : 1; }
+    if (a.tipo !== b.tipo) { return a.tipo === "parcial" ? -1 : 1; }
+    return 0;
+  }
+
   // Lo que viene, de hoy en adelante
   function proximos(limite, soloConAviso, tipo) {
     var hoy = hoyISO();
@@ -188,10 +197,7 @@ window.NC = window.NC || {};
         if (tipo && tipo !== "todo" && e.tipo !== tipo) { return false; }
         return !soloConAviso || avisaDe(e.materia);
       })
-      .sort(function (a, b) {
-        if (a.fecha !== b.fecha) { return a.fecha < b.fecha ? -1 : 1; }
-        return a.tipo === "parcial" ? -1 : 1;
-      })
+      .sort(ordenar)
       .slice(0, limite || EN_AGENDA);
   }
 
@@ -394,7 +400,8 @@ window.NC = window.NC || {};
      siguiente.
      ============================================================ */
 
-  // Agrupa lo que viene por materia, conservando el orden por fecha
+  // Agrupa lo que viene por materia. Adentro de cada una, de la mas proxima
+  // a la mas lejana; y las materias entre si, por su fecha mas proxima.
   function porMateria(lista) {
     var vistas = {};
     var salida = [];
@@ -405,6 +412,8 @@ window.NC = window.NC || {};
       }
       vistas[e.materia].eventos.push(e);
     });
+    salida.forEach(function (m) { m.eventos.sort(ordenar); });
+    salida.sort(function (a, b) { return ordenar(a.eventos[0], b.eventos[0]); });
     return salida;
   }
 

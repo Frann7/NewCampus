@@ -1,0 +1,112 @@
+<!--
+  BANCO DE PREGUNTAS - Unidad 4
+  El nombre del archivo (u4) es la unidad. Formato de cada pregunta:
+
+  <article class="preg" data-id="unico" data-tipo="teoria|practica">
+    <div class="p-enunciado">   enunciado (en practica: el ejercicio completo)
+    <div class="p-pregunta">    solo practica: lo que se pregunta en modo NORMAL
+    <ul class="p-opciones">     opciones; la correcta lleva data-correcta
+    <div class="p-pista">       pista de la lamparita (modo INTERACTIVO)
+    <div class="p-explicacion"> se muestra al corregir y en el informe
+    <ol class="p-pasos">        solo practica: los pasos del modo INTERACTIVO
+      <li data-nivel="..." data-respuesta="0,88">   paso con respuesta numerica
+      <li data-nivel="...">  + <ul class="p-opciones">   paso con opciones
+
+  data-nivel = el nivel MAS AVANZADO en el que todavia aparece el paso:
+    avanzado     -> aparece en los tres niveles (partes principales)
+    medio        -> aparece en medio y principiante
+    principiante -> aparece solo en principiante (las cuentas mas chicas)
+  data-tolerancia (opcional): margen aceptado. Si no esta, se acepta un 1 %.
+-->
+
+<article class="preg" data-id="u4-t-cov-independientes" data-tipo="teoria">
+  <div class="p-enunciado">
+    <p>Si \(X\) e \(Y\) son variables aleatorias <strong>independientes</strong>, ¿cuánto vale \(Cov(X, Y)\)?</p>
+  </div>
+  <ul class="p-opciones">
+    <li data-correcta>\(0\)</li>
+    <li>\(1\)</li>
+    <li>\(E(X)\,E(Y)\)</li>
+    <li>No se puede saber sin la tabla conjunta</li>
+  </ul>
+  <div class="p-pista">
+    <p>Escribí la definición: \(Cov(X,Y) = E(XY) - E(X)\,E(Y)\). ¿Qué pasa con \(E(XY)\) cuando son independientes?</p>
+  </div>
+  <div class="p-explicacion">
+    <p>Con independencia \(E(XY) = E(X)\,E(Y)\), así que \(Cov(X,Y) = E(X)E(Y) - E(X)E(Y) = 0\).</p>
+    <p>Ojo: al revés no vale siempre. Covarianza 0 no garantiza independencia.</p>
+  </div>
+</article>
+
+<article class="preg" data-id="u4-t-varianza-lineal" data-tipo="teoria">
+  <div class="p-enunciado">
+    <p>Para constantes \(a\) y \(b\), ¿a qué es igual \(V(aX + b)\)?</p>
+  </div>
+  <ul class="p-opciones">
+    <li data-correcta>\(a^2\,V(X)\)</li>
+    <li>\(a\,V(X) + b\)</li>
+    <li>\(a^2\,V(X) + b\)</li>
+    <li>\(a\,V(X)\)</li>
+  </ul>
+  <div class="p-pista">
+    <p>Sumar una constante corre todos los valores juntos: ¿cambia qué tan dispersos están?</p>
+  </div>
+  <div class="p-explicacion">
+    <p>La \(b\) desplaza la distribución sin dispersarla, por eso desaparece. La \(a\) sale <strong>al cuadrado</strong> porque la varianza mide distancias al cuadrado.</p>
+  </div>
+</article>
+
+<article class="preg" data-id="u4-p-tela-varianza" data-tipo="practica">
+  <div class="p-enunciado">
+    <p>Sea \(X\) el número de imperfecciones cada 10 metros de una tela sintética, con la distribución:</p>
+    <div class="tabla-wrap">
+      <table class="t">
+        <tr><th>\(x\)</th><td>0</td><td>1</td><td>2</td><td>3</td><td>4</td></tr>
+        <tr><th>\(f(x)\)</th><td>0,41</td><td>0,37</td><td>0,16</td><td>0,05</td><td>0,01</td></tr>
+      </table>
+    </div>
+  </div>
+  <div class="p-pregunta"><p>¿Cuál es la varianza de \(X\)?</p></div>
+  <ul class="p-opciones">
+    <li data-correcta>\(0{,}8456\)</li>
+    <li>\(1{,}62\)</li>
+    <li>\(0{,}88\)</li>
+    <li>\(0{,}9196\)</li>
+  </ul>
+  <div class="p-explicacion">
+    <p>\(E(X) = 0{,}88\) y \(E(X^2) = 1{,}62\), entonces \(V(X) = E(X^2) - [E(X)]^2 = 1{,}62 - 0{,}7744 = 0{,}8456\).</p>
+    <p>\(1{,}62\) es \(E(X^2)\), \(0{,}88\) es la esperanza y \(0{,}9196\) es el desvío.</p>
+  </div>
+  <ol class="p-pasos">
+    <li data-nivel="principiante" data-respuesta="0,32">
+      <div class="p-consigna"><p>La esperanza suma los productos \(x \cdot f(x)\). Calculá el término de \(x = 2\).</p></div>
+      <div class="p-pista"><p>Multiplicá el valor por su probabilidad: \(2 \times 0{,}16\).</p></div>
+      <div class="p-explicacion"><p>\(2 \times 0{,}16 = 0{,}32\).</p></div>
+    </li>
+    <li data-nivel="avanzado" data-respuesta="0,88">
+      <div class="p-consigna"><p>Calculá \(E(X) = \sum x \cdot f(x)\).</p></div>
+      <div class="p-pista"><p>\(0(0{,}41) + 1(0{,}37) + 2(0{,}16) + 3(0{,}05) + 4(0{,}01)\).</p></div>
+      <div class="p-explicacion"><p>\(0 + 0{,}37 + 0{,}32 + 0{,}15 + 0{,}04 = 0{,}88\).</p></div>
+    </li>
+    <li data-nivel="medio" data-respuesta="1,62">
+      <div class="p-consigna"><p>Calculá \(E(X^2) = \sum x^2 \cdot f(x)\).</p></div>
+      <div class="p-pista"><p>Ahora cada valor va al cuadrado antes de multiplicar: \(1^2(0{,}37) + 2^2(0{,}16) + \dots\)</p></div>
+      <div class="p-explicacion"><p>\(0 + 0{,}37 + 0{,}64 + 0{,}45 + 0{,}16 = 1{,}62\).</p></div>
+    </li>
+    <li data-nivel="principiante" data-respuesta="0,7744">
+      <div class="p-consigna"><p>Calculá \([E(X)]^2\).</p></div>
+      <div class="p-pista"><p>Es la esperanza que ya sacaste, elevada al cuadrado: \(0{,}88^2\).</p></div>
+      <div class="p-explicacion"><p>\(0{,}88^2 = 0{,}7744\).</p></div>
+    </li>
+    <li data-nivel="avanzado" data-respuesta="0,8456">
+      <div class="p-consigna"><p>Calculá \(V(X) = E(X^2) - [E(X)]^2\).</p></div>
+      <div class="p-pista"><p>Si no tenés \(E(X^2)\), primero sacalo: suma de \(x^2 \cdot f(x)\).</p></div>
+      <div class="p-explicacion"><p>\(1{,}62 - 0{,}7744 = 0{,}8456\).</p></div>
+    </li>
+    <li data-nivel="medio" data-respuesta="0,9196">
+      <div class="p-consigna"><p>Calculá el desvío estándar \(\sigma = \sqrt{V(X)}\).</p></div>
+      <div class="p-pista"><p>Raíz cuadrada de la varianza.</p></div>
+      <div class="p-explicacion"><p>\(\sqrt{0{,}8456} \approx 0{,}9196\).</p></div>
+    </li>
+  </ol>
+</article>

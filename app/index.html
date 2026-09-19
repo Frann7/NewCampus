@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NewCampus</title>
+<link rel="icon" href="assets/logo.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;600&amp;display=swap">
+<link rel="stylesheet" href="assets/estilos.css">
+<link rel="stylesheet" href="assets/evaluacion/evaluacion.css">
+<link rel="stylesheet" href="assets/calendario/calendario.css">
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+  options: { skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'] },
+  chtml: { scale: 1.02 },
+  startup: {
+    // No tipografiamos todo el documento al cargar: los paneles ocultos se
+    // medirian mal y el arranque seria lento. Cada panel se procesa al abrirse.
+    typeset: false,
+    ready: function () {
+      window.MathJax.startup.defaultReady();
+      document.dispatchEvent(new Event("mathjax-listo"));
+    }
+  }
+};
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+
+<div class="app">
+
+  <!-- ==================== BARRA LATERAL ==================== -->
+  <aside class="sidebar">
+    <div class="brand">
+      <img class="brand-mark" src="assets/logo.svg" alt="">
+      <div class="brand-name">NewCampus</div>
+    </div>
+
+    <div class="nav-label">Materias</div>
+
+    <div class="materia" data-materia="pye">
+      <button class="materia-btn">
+        <span class="m-nombre">Probabilidad y Estadistica</span>
+        <span class="chev">&#9654;</span>
+      </button>
+      <ul class="unidades">
+        <li><button data-unidad="u4" data-titulo="Unidad 4 &mdash; Esperanza, Varianza y Covarianza">
+          <span class="u-num">Unidad 4</span>
+          <span class="u-name">Esperanza, Varianza y Covarianza</span>
+        </button></li>
+        <li><button data-unidad="u5" data-titulo="Unidad 5 &mdash; Distribuciones Discretas">
+          <span class="u-num">Unidad 5</span>
+          <span class="u-name">Distribuciones Discretas</span>
+        </button></li>
+        <li><button data-unidad="u6" data-titulo="Unidad 6 &mdash; Distribuciones Continuas">
+          <span class="u-num">Unidad 6</span>
+          <span class="u-name">Distribuciones Continuas</span>
+        </button></li>
+      </ul>
+    </div>
+
+    <div class="materia" data-materia="pa">
+      <button class="materia-btn" disabled>
+        <span class="m-nombre">Programacion Avanzada</span>
+        <span class="pill-soon">pronto</span>
+      </button>
+    </div>
+
+    <div class="materia" data-materia="bd">
+      <button class="materia-btn" disabled>
+        <span class="m-nombre">Base de Datos</span>
+        <span class="pill-soon">pronto</span>
+      </button>
+    </div>
+
+    <div class="materia" data-materia="ing2">
+      <button class="materia-btn" disabled>
+        <span class="m-nombre">Ingenieria de Software II</span>
+        <span class="pill-soon">pronto</span>
+      </button>
+    </div>
+
+    <div class="materia" data-materia="so">
+      <button class="materia-btn" disabled>
+        <span class="m-nombre">Sistemas Operativos</span>
+        <span class="pill-soon">pronto</span>
+      </button>
+    </div>
+
+    <p class="firma">versión 0.5.0-alpha<br>by Abasto Franco</p>
+  </aside>
+
+  <!-- ==================== ZONA PRINCIPAL ==================== -->
+  <main class="main">
+
+    <div class="topbar">
+      <div class="crumbs">
+        <span id="crumb-materia"></span>
+        <span>&rsaquo;</span>
+        <b id="crumb-unidad"></b>
+      </div>
+      <div class="topbar-row">
+        <div class="tabs">
+          <button class="tab" data-tab="teoria">Teoría</button>
+          <button class="tab" data-tab="practica">Práctica</button>
+          <button class="tab" data-tab="evaluacion">Evaluación</button>
+          <button class="tab" data-tab="calendario">Calendario</button>
+        </div>
+        <div class="topbar-acciones">
+          <div class="reloj">
+            <span class="reloj-hora" id="reloj-hora">--:--:--</span>
+            <span class="reloj-sesion">
+              <span class="reloj-etq">en la página</span>
+              <span class="reloj-tiempo" id="reloj-tiempo">00:00:00</span>
+              <button class="reloj-reset" id="reloj-reset" type="button"
+                      title="Reiniciar el tiempo en la página">&#8635;</button>
+            </span>
+          </div>
+          <button class="theme-btn" id="theme-btn">Modo oscuro</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="content-wrap">
+
+      <aside class="toc-panel" id="toc-panel">
+        <button class="toc-toggle" id="toc-toggle" aria-expanded="true">
+          <span class="toc-toggle-txt">Indice de la seccion</span>
+          <span class="chev">&#9662;</span>
+        </button>
+        <nav class="toc" id="toc"></nav>
+      </aside>
+
+      <!-- Los apuntes NO viven aca: app.js inserta en este div la unidad que
+           abris, tomandola de generado/apuntes.js -->
+      <div class="content" id="contenido"></div>
+    </div>
+  </main>
+</div>
+
+<!-- Material de catedra: botones flotantes y ventanas de PDF.
+     Los botones los arma app.js segun la unidad abierta (ver MATERIAL_CATEDRA). -->
+<div class="pdf-lanzador" id="pdf-lanzador" hidden></div>
+<div class="pdf-capa" id="pdf-capa"></div>
+
+<script src="assets/app.js"></script>
+<!-- Sacar una pestania a otra ventana manteniendola apretada -->
+<script src="assets/ventanas.js"></script>
+<!-- Evaluacion: parciales y autoevaluaciones (un archivo por responsabilidad) -->
+<script src="assets/evaluacion/nucleo.js"></script>
+<script src="assets/evaluacion/banco.js"></script>
+<script src="assets/evaluacion/formulario.js"></script>
+<script src="assets/evaluacion/examen.js"></script>
+<script src="assets/evaluacion/informe.js"></script>
+<script src="assets/evaluacion/evaluacion.js"></script>
+<!-- Calendario: vista de un mes y vista del anio entero -->
+<script src="assets/calendario/calendario.js"></script>
+<script src="generado/apuntes.js"></script>
+</body>
+</html>

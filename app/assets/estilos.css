@@ -1,0 +1,988 @@
+/* ============================================================
+   NEWCAMPUS - hoja de estilos
+   Estructura pensada para escalar a varias materias.
+   ============================================================ */
+
+:root{
+  --paper:#f5f6fa;
+  --surface:#ffffff;
+  --surface-2:#eef0f7;
+  --surface-3:#e6e9f3;
+  --ink:#1a1c28;
+  --ink-soft:#535871;
+  --ink-faint:#868ba0;
+  --line:#dcdfeb;
+  --line-soft:#e9ebf3;
+
+  --accent:#3d4a9e;
+  --accent-bg:#e9ecfa;
+  --brand-ink:#ffffff;
+  --firma:#4d6aa6;
+
+  --teoria:#3f4b96;
+  --teoria-bg:#eaedfa;
+  --practica:#9c4a33;
+  --practica-bg:#faeee9;
+
+  --ok:#1c6b52;
+  --ok-bg:#e4f2ec;
+  --warn:#8a6112;
+  --warn-bg:#fbf1dc;
+  --dato:#215c78;
+  --dato-bg:#e4f0f6;
+
+  --shadow:0 1px 2px rgba(26,28,40,.05), 0 10px 30px rgba(26,28,40,.07);
+  --radius:14px;
+}
+
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#10121c;
+    --surface:#181b27;
+    --surface-2:#1f2331;
+    --surface-3:#272c3c;
+    --ink:#e7e9f2;
+    --ink-soft:#a3a8bd;
+    --ink-faint:#7c8196;
+    --line:#2b3042;
+    --line-soft:#232838;
+
+    --accent:#93a0f0;
+    --accent-bg:#212741;
+    --brand-ink:#12141f;
+    --firma:#7d97cf;
+
+    --teoria:#9aa4ef;
+    --teoria-bg:#212741;
+    --practica:#e59e83;
+    --practica-bg:#33231c;
+
+    --ok:#5fbd9b;
+    --ok-bg:#152e26;
+    --warn:#dcae5b;
+    --warn-bg:#302713;
+    --dato:#6fb6d8;
+    --dato-bg:#132a35;
+
+    --shadow:0 1px 2px rgba(0,0,0,.35), 0 10px 30px rgba(0,0,0,.4);
+  }
+}
+
+:root[data-theme="dark"]{
+  --paper:#10121c;
+  --surface:#181b27;
+  --surface-2:#1f2331;
+  --surface-3:#272c3c;
+  --ink:#e7e9f2;
+  --ink-soft:#a3a8bd;
+  --ink-faint:#7c8196;
+  --line:#2b3042;
+  --line-soft:#232838;
+
+  --accent:#93a0f0;
+  --accent-bg:#212741;
+  --brand-ink:#12141f;
+  --firma:#7d97cf;
+
+  --teoria:#9aa4ef;
+  --teoria-bg:#212741;
+  --practica:#e59e83;
+  --practica-bg:#33231c;
+
+  --ok:#5fbd9b;
+  --ok-bg:#152e26;
+  --warn:#dcae5b;
+  --warn-bg:#302713;
+  --dato:#6fb6d8;
+  --dato-bg:#132a35;
+
+  --shadow:0 1px 2px rgba(0,0,0,.35), 0 10px 30px rgba(0,0,0,.4);
+}
+
+*{box-sizing:border-box;}
+
+/* Sin scroll-behavior:smooth global: en algunos entornos la animacion no corre
+   y los saltos del indice quedan sin efecto. El desplazamiento se hace por JS. */
+
+body{
+  margin:0;
+  background:var(--paper);
+  color:var(--ink);
+  font-family:"Public Sans","Segoe UI",Arial,sans-serif;
+  font-size:16.5px;
+  line-height:1.75;
+  -webkit-font-smoothing:antialiased;
+}
+
+/* ---------- Layout general ---------- */
+
+.app{
+  display:grid;
+  grid-template-columns:290px minmax(0,1fr);
+  min-height:100vh;
+}
+
+/* ---------- Barra lateral (materias) ---------- */
+
+.sidebar{
+  background:var(--surface);
+  border-right:1px solid var(--line);
+  padding:22px 18px 40px;
+  position:sticky;
+  top:0;
+  height:100vh;
+  overflow-y:auto;
+  display:flex;
+  flex-direction:column;
+}
+
+.brand{
+  display:flex;
+  align-items:center;
+  gap:11px;
+  margin-bottom:26px;
+}
+
+.brand-mark{
+  width:38px;height:38px;
+  border-radius:10px;
+  display:block;
+  flex:none;
+}
+
+.brand-name{font-weight:700;font-size:19px;letter-spacing:-.02em;}
+
+/* Firma al pie de la barra lateral: presente pero sin robar atencion */
+.firma{
+  margin:auto 0 0;
+  padding-top:28px;
+  font-family:"Segoe Script","Lucida Handwriting","Snell Roundhand","Apple Chancery",cursive;
+  font-size:12.5px;
+  line-height:1.5;
+  color:var(--firma);
+  opacity:.8;
+}
+
+.nav-label{
+  font-size:11px;
+  text-transform:uppercase;
+  letter-spacing:.09em;
+  color:var(--ink-faint);
+  font-weight:600;
+  margin:20px 0 8px 6px;
+}
+
+.materia{margin-bottom:6px;}
+
+.materia-btn{
+  width:100%;
+  text-align:left;
+  background:none;
+  border:1px solid transparent;
+  border-radius:10px;
+  padding:9px 12px;
+  font:inherit;
+  font-size:14.5px;
+  font-weight:600;
+  color:var(--ink);
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px;
+}
+.materia-btn:hover{background:var(--surface-2);}
+.materia.is-open > .materia-btn{background:var(--accent-bg);color:var(--accent);}
+
+/* La flecha NO se rota por CSS: app.js cambia el caracter (▶ cerrado / ▼ abierto).
+   Asi el estado se ve siempre, sin depender de que corra la transicion. */
+.materia-btn .chev{
+  font-size:10px;
+  color:var(--ink-faint);
+  flex:none;
+}
+
+.materia-btn[disabled]{
+  color:var(--ink-faint);
+  cursor:not-allowed;
+  font-weight:500;
+}
+.materia-btn[disabled]:hover{background:none;}
+
+.pill-soon{
+  font-size:10px;
+  letter-spacing:.05em;
+  text-transform:uppercase;
+  background:var(--surface-3);
+  color:var(--ink-faint);
+  border-radius:20px;
+  padding:2px 8px;
+  font-weight:600;
+}
+
+.unidades{
+  list-style:none;
+  margin:4px 0 10px;
+  padding:0 0 0 12px;
+  border-left:1px solid var(--line);
+  display:none;
+}
+.materia.is-open .unidades{display:block;}
+
+.unidades button{
+  width:100%;
+  text-align:left;
+  background:none;
+  border:none;
+  border-radius:8px;
+  padding:7px 10px;
+  font:inherit;
+  color:var(--ink-soft);
+  cursor:pointer;
+  line-height:1.45;
+  margin-bottom:2px;
+}
+.unidades button:hover{background:var(--surface-2);color:var(--ink);}
+.unidades button.is-active{
+  background:var(--accent-bg);
+  color:var(--accent);
+}
+.unidades .u-num{display:block;font-weight:700;font-size:11.5px;letter-spacing:.05em;text-transform:uppercase;}
+.unidades .u-name{display:block;font-size:12.5px;opacity:.85;}
+
+/* ---------- Zona principal ---------- */
+
+.main{min-width:0;display:flex;flex-direction:column;}
+
+.topbar{
+  position:sticky;
+  top:0;
+  z-index:20;
+  background:var(--paper);
+  border-bottom:1px solid var(--line);
+  padding:14px 34px 0;
+}
+
+.crumbs{
+  font-size:12.5px;
+  color:var(--ink-faint);
+  display:flex;
+  align-items:center;
+  gap:8px;
+  margin-bottom:10px;
+  flex-wrap:wrap;
+}
+.crumbs b{color:var(--ink-soft);font-weight:600;}
+
+.topbar-row{
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:16px;
+}
+
+.tabs{display:flex;gap:4px;}
+
+.tab{
+  background:none;
+  border:none;
+  border-bottom:2px solid transparent;
+  padding:9px 16px 11px;
+  font:inherit;
+  font-size:14.5px;
+  font-weight:600;
+  color:var(--ink-faint);
+  cursor:pointer;
+  border-radius:8px 8px 0 0;
+}
+.tab:hover{color:var(--ink);background:var(--surface-2);}
+.tab.is-active[data-tab="teoria"]{color:var(--teoria);border-bottom-color:var(--teoria);}
+.tab.is-active[data-tab="practica"]{color:var(--practica);border-bottom-color:var(--practica);}
+.tab.is-active[data-tab="evaluacion"]{color:var(--dato);border-bottom-color:var(--dato);}
+.tab.is-active[data-tab="calendario"]{color:var(--ok);border-bottom-color:var(--ok);}
+
+.theme-btn{
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:9px;
+  padding:6px 12px;
+  font:inherit;
+  font-size:13px;
+  color:var(--ink-soft);
+  cursor:pointer;
+  white-space:nowrap;
+  text-decoration:none;
+}
+.theme-btn:hover{background:var(--surface-2);color:var(--ink);}
+
+.topbar-acciones{display:flex;gap:8px;margin-bottom:8px;}
+
+/* Reloj (UTC-3) y tiempo con la pagina abierta */
+.reloj{
+  display:flex;
+  flex-direction:column;
+  align-items:flex-end;
+  gap:1px;
+  line-height:1.25;
+}
+.reloj-hora{
+  font-family:"JetBrains Mono",Consolas,monospace;
+  font-size:17px;
+  font-weight:600;
+  color:var(--ink);
+  font-variant-numeric:tabular-nums;
+}
+.reloj-sesion{display:flex;align-items:center;gap:6px;font-size:11.5px;color:var(--ink-faint);}
+.reloj-etq{text-transform:uppercase;letter-spacing:.06em;}
+.reloj-tiempo{font-family:"JetBrains Mono",Consolas,monospace;font-variant-numeric:tabular-nums;}
+.reloj-reset{
+  background:none;
+  border:1px solid var(--line);
+  border-radius:6px;
+  padding:0 5px;
+  font:inherit;
+  font-size:12px;
+  line-height:16px;
+  color:var(--ink-faint);
+  cursor:pointer;
+}
+.reloj-reset:hover{background:var(--surface-2);color:var(--ink);}
+
+.content-wrap{
+  display:grid;
+  grid-template-columns:minmax(0,1fr);
+  gap:0 32px;
+  align-items:start;
+  padding:26px 34px 90px;
+  max-width:1420px;
+  width:100%;
+}
+
+.content{
+  min-width:0;
+  max-width:1080px;
+  width:100%;
+}
+
+/* ---------- Aviso mientras se baja un apunte ---------- */
+
+.aviso-carga{
+  padding:40px 4px;
+  color:var(--ink-faint);
+  font-size:14.5px;
+}
+.aviso-carga.error{
+  color:var(--warn);
+  background:var(--warn-bg);
+  border-radius:11px;
+  padding:18px 22px;
+}
+
+/* ---------- Panes ---------- */
+
+.pane{display:none;}
+.pane.is-active{display:block;}
+
+.pane > h1{
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:32px;
+  font-weight:600;
+  line-height:1.25;
+  letter-spacing:-.015em;
+  margin:0 0 6px;
+}
+.pane-intro{
+  color:var(--ink-soft);
+  font-size:15.5px;
+  margin:0 0 28px;
+  padding-bottom:22px;
+  border-bottom:1px solid var(--line);
+}
+
+/* ---------- Bloques de contenido ---------- */
+
+.bloque{
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  padding:24px 28px 26px;
+  margin:0 0 22px;
+  box-shadow:var(--shadow);
+}
+
+.bloque > h2{
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:24px;
+  font-weight:600;
+  letter-spacing:-.01em;
+  margin:0 0 4px;
+  line-height:1.3;
+}
+
+.pane h2, .pane h3{scroll-margin-top:110px;}
+
+.bloque h3{
+  font-size:17px;
+  font-weight:600;
+  margin:30px 0 8px;
+  letter-spacing:-.005em;
+}
+.bloque h3:first-of-type{margin-top:18px;}
+
+.bloque h4{
+  font-size:15.5px;
+  font-weight:600;
+  color:var(--ink-soft);
+  margin:22px 0 6px;
+}
+
+.kicker{
+  font-size:11.5px;
+  text-transform:uppercase;
+  letter-spacing:.1em;
+  font-weight:700;
+  margin:0 0 10px;
+  color:var(--teoria);
+}
+
+.bloque p{margin:0 0 14px;}
+.bloque ul, .bloque ol{margin:0 0 16px;padding-left:22px;}
+.bloque li{margin-bottom:9px;}
+
+hr.sep{
+  border:none;
+  border-top:1px solid var(--line-soft);
+  margin:30px 0;
+}
+
+/* ---------- Cajas semanticas ---------- */
+
+.caja{
+  border-radius:11px;
+  padding:15px 18px;
+  margin:18px 0;
+  border:1px solid var(--line);
+  font-size:15.5px;
+}
+.caja p:last-child{margin-bottom:0;}
+.caja ul:last-child, .caja ol:last-child{margin-bottom:0;}
+.caja .caja-tit{
+  display:block;
+  font-weight:700;
+  font-size:12px;
+  text-transform:uppercase;
+  letter-spacing:.08em;
+  margin-bottom:6px;
+}
+
+.caja-formula{background:var(--teoria-bg);}
+.caja-formula .caja-tit{color:var(--teoria);}
+
+.caja-ejemplo{background:var(--dato-bg);}
+.caja-ejemplo .caja-tit{color:var(--dato);}
+
+.caja-ojo{background:var(--warn-bg);}
+.caja-ojo .caja-tit{color:var(--warn);}
+
+.caja-resp{background:var(--ok-bg);}
+.caja-resp .caja-tit{color:var(--ok);}
+
+.caja-calc{
+  background:var(--surface-2);
+  font-family:"JetBrains Mono",Consolas,monospace;
+  font-size:14px;
+}
+.caja-calc .caja-tit{color:var(--ink-faint);font-family:"Public Sans","Segoe UI",Arial,sans-serif;}
+
+/* ---------- Tablas ---------- */
+
+.tabla-wrap{overflow-x:auto;margin:18px 0;}
+
+table.t{
+  border-collapse:collapse;
+  font-size:14.5px;
+  background:var(--surface);
+}
+table.t th, table.t td{
+  border:1px solid var(--line);
+  padding:8px 14px;
+  text-align:center;
+  white-space:nowrap;
+}
+table.t th{
+  background:var(--surface-2);
+  font-weight:600;
+  color:var(--ink-soft);
+}
+table.t td.lbl, table.t th.lbl{text-align:left;font-weight:600;}
+table.t.full{width:100%;}
+table.t.full td, table.t.full th{white-space:normal;text-align:left;}
+
+/* ---------- Ejercicios ---------- */
+
+.ej{
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-left:3px solid var(--practica);
+  border-radius:var(--radius);
+  padding:24px 28px 26px;
+  margin:0 0 24px;
+  box-shadow:var(--shadow);
+}
+.ej > h2{
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:22px;
+  font-weight:600;
+  margin:0 0 12px;
+}
+.ej .tag{
+  display:inline-block;
+  font-size:11px;
+  text-transform:uppercase;
+  letter-spacing:.08em;
+  font-weight:700;
+  background:var(--practica-bg);
+  color:var(--practica);
+  border-radius:20px;
+  padding:3px 11px;
+  margin-bottom:10px;
+}
+.ej .enunciado{
+  background:var(--surface-2);
+  border-radius:10px;
+  padding:14px 18px;
+  margin:0 0 22px;
+  font-size:15.5px;
+  color:var(--ink-soft);
+}
+.ej .enunciado p:last-child{margin-bottom:0;}
+.ej p{margin:0 0 14px;}
+.ej ul, .ej ol{margin:0 0 16px;padding-left:22px;}
+.ej li{margin-bottom:9px;}
+.ej h3{font-size:17px;font-weight:600;margin:28px 0 8px;}
+.ej h4{font-size:15.5px;font-weight:600;color:var(--ink-soft);margin:22px 0 6px;}
+
+.paso{
+  font-size:12px;
+  text-transform:uppercase;
+  letter-spacing:.08em;
+  font-weight:700;
+  color:var(--practica);
+  display:block;
+  margin:26px 0 4px;
+}
+
+/* ---------- Ventanas duplicadas ----------
+   Mantener apretada una pestania saca una copia de ese apartado en otra
+   ventana. La barrita de abajo del boton marca cuanto falta para que salga:
+   la dibuja ventanas.js con el tiempo real que paso, no con una transicion. */
+
+.tab{position:relative;overflow:hidden;user-select:none;-webkit-user-select:none;}
+.tab.sosteniendo{background:var(--surface-2);color:var(--ink);}
+
+.tab-carga{
+  position:absolute;
+  left:0;
+  bottom:0;
+  width:0;
+  height:3px;
+  background:var(--accent);
+  border-radius:0 2px 0 0;
+  pointer-events:none;
+}
+
+/* Chapita que identifica a la ventana copia */
+.panel-chip{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  margin-bottom:10px;
+}
+.panel-chip-etq{
+  font-size:10.5px;
+  font-weight:700;
+  letter-spacing:.09em;
+  text-transform:uppercase;
+  color:var(--accent);
+  background:var(--accent-bg);
+  border:1px solid var(--line);
+  border-radius:999px;
+  padding:2px 9px;
+}
+.panel-chip-txt{font-size:15px;font-weight:700;color:var(--ink);}
+
+/* La copia: sin menu de materias ni pestanias, con su indice y su material */
+html.es-panel .app{grid-template-columns:minmax(0,1fr);}
+html.es-panel .sidebar{display:none;}
+html.es-panel .tabs{display:none;}
+html.es-panel .reloj{display:none;}
+html.es-panel .topbar{padding:12px 24px 0;}
+html.es-panel .topbar-row{align-items:center;}
+html.es-panel .content-wrap{padding:22px 24px 80px;}
+
+@media (min-width:900px){
+  /* en la copia el indice entra a la derecha antes que en la ventana grande,
+     porque la ventana es mas angosta pero se lee igual */
+  html.es-panel .content-wrap{grid-template-columns:minmax(0,1fr) 230px;}
+  html.es-panel .content-wrap.sin-indice{grid-template-columns:minmax(0,1fr);}
+  html.es-panel .content{grid-column:1;grid-row:1;}
+  html.es-panel .toc-panel{
+    grid-column:2;
+    grid-row:1;
+    position:sticky;
+    top:92px;
+    margin-bottom:0;
+  }
+  html.es-panel .toc{max-height:calc(100vh - 160px);}
+  html.es-panel body.con-lanzador .toc{max-height:calc(100vh - 172px - var(--alto-lanzador, 0px));}
+}
+
+/* ---------- Indice desplegable de la seccion ---------- */
+
+.toc-panel{
+  order:-1;             /* en pantallas angostas va arriba del contenido */
+  margin-bottom:24px;
+  min-width:0;
+}
+.toc-panel.is-empty{display:none;}
+
+.toc-toggle{
+  width:100%;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:10px;
+  padding:9px 14px;
+  font:inherit;
+  font-size:12px;
+  font-weight:700;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  color:var(--ink-soft);
+  cursor:pointer;
+}
+.toc-toggle:hover{background:var(--surface-2);color:var(--ink);}
+.toc-toggle .chev{
+  font-size:10px;
+  color:var(--ink-faint);
+  flex:none;
+}
+.toc-panel.is-collapsed .toc{display:none;}
+
+.toc{
+  margin-top:8px;
+  font-size:12.5px;
+  overflow-y:auto;
+  border-left:1px solid var(--line);
+  padding-left:2px;
+}
+
+.toc a{
+  display:block;
+  color:var(--ink-faint);
+  text-decoration:none;
+  padding:5px 8px 5px 12px;
+  border-left:2px solid transparent;
+  margin-left:-2px;
+  line-height:1.35;
+  border-radius:0 6px 6px 0;
+}
+.toc a:hover{color:var(--ink);background:var(--surface-2);}
+.toc a.lvl-4{
+  padding-left:38px;
+  font-size:12.5px;
+  color:var(--ink-faint);
+}
+.toc a.lvl-paso{font-weight:700;color:var(--ink-soft);}
+.toc a.lvl-3{
+  padding-left:24px;
+  font-size:11.5px;
+  opacity:.85;
+}
+
+/* numerito del ejercicio de la guia */
+.toc .toc-num{
+  display:inline-block;
+  min-width:26px;
+  margin-right:2px;
+  font-weight:700;
+  color:var(--practica);
+  font-variant-numeric:tabular-nums;
+}
+.toc a.is-current .toc-num{color:inherit;}
+.toc a.is-current{
+  color:var(--accent);
+  border-left-color:var(--accent);
+  font-weight:600;
+  background:var(--accent-bg);
+}
+
+@media (min-width:1280px){
+  /* El panel esta antes del contenido en el HTML, asi que en pantallas anchas
+     lo mandamos explicitamente a la segunda columna, misma fila. */
+  .content-wrap{grid-template-columns:minmax(0,1fr) 252px;}
+  /* sin indice (el calendario) el contenido se queda con todo el ancho */
+  .content-wrap.sin-indice{grid-template-columns:minmax(0,1fr);}
+  .content{grid-column:1;grid-row:1;}
+  .toc-panel{
+    grid-column:2;
+    grid-row:1;
+    position:sticky;
+    top:116px;
+    margin-bottom:0;
+  }
+  .toc{max-height:calc(100vh - 190px);}
+  /* si hay botones flotantes abajo a la derecha, el indice se acorta para no
+     quedar tapado (app.js mide los botones y escribe --alto-lanzador) */
+  body.con-lanzador .toc{max-height:calc(100vh - 202px - var(--alto-lanzador, 0px));}
+}
+@media (max-width:1279px){
+  .toc{max-height:320px;}
+}
+
+/* ---------- MathJax ---------- */
+
+mjx-container{overflow-x:auto;overflow-y:hidden;max-width:100%;}
+mjx-container[display="true"]{margin:14px 0 !important;}
+
+/* ---------- Pendientes ---------- */
+
+.pendiente{
+  border:1px dashed var(--line);
+  border-radius:var(--radius);
+  padding:20px 24px;
+  color:var(--ink-soft);
+  margin-bottom:22px;
+}
+.pendiente h3{margin-top:0;font-size:16px;color:var(--ink);}
+
+/* ============================================================
+   MATERIAL DE CATEDRA: botones flotantes + ventanas de PDF
+   Todo va por encima del apunte, sin tocar su maquetado.
+   ============================================================ */
+
+.pdf-lanzador{
+  position:fixed;
+  right:18px;
+  bottom:18px;
+  z-index:400;
+  display:flex;
+  flex-direction:column;
+  align-items:flex-end;
+  gap:8px;
+}
+.pdf-lanzador[hidden]{display:none;}
+
+.pdf-lanzador-tit{
+  font-size:9.5px;
+  text-transform:uppercase;
+  letter-spacing:.12em;
+  font-weight:700;
+  color:var(--ink-faint);
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:20px;
+  padding:3px 10px;
+  box-shadow:var(--shadow);
+}
+
+/* cada fila del lanzador: [x descartar] [ pastilla del documento ] */
+.pdf-item{display:flex;align-items:center;gap:6px;}
+
+.pdf-btn-x{
+  width:26px;height:26px;
+  flex:none;
+  border-radius:50%;
+  background:var(--surface);
+  border:1px solid var(--line);
+  color:var(--ink-faint);
+  font:inherit;
+  font-size:11px;
+  line-height:1;
+  cursor:pointer;
+  display:none;
+  place-items:center;
+  box-shadow:var(--shadow);
+}
+/* solo aparece si el PDF esta cargado (abierto o minimizado) */
+.pdf-item.con-estado .pdf-btn-x{display:grid;}
+.pdf-btn-x:hover{background:#c0392b;border-color:#c0392b;color:#fff;}
+
+.pdf-btn{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:22px;
+  padding:9px 16px 9px 12px;
+  font:inherit;
+  font-size:13px;
+  font-weight:600;
+  color:var(--ink);
+  cursor:pointer;
+  box-shadow:var(--shadow);
+  white-space:nowrap;
+  max-width:min(280px, 60vw);
+}
+.pdf-btn:hover{background:var(--surface-2);border-color:var(--accent);}
+.pdf-btn.is-abierto{border-color:var(--accent);color:var(--accent);background:var(--accent-bg);}
+/* minimizado: se nota que sigue cargado, pero no esta a la vista */
+.pdf-btn.is-minimizado{border-style:dashed;border-color:var(--accent);color:var(--accent);}
+.pdf-btn .pdf-icono{
+  width:22px;height:22px;flex:none;
+  border-radius:6px;
+  background:var(--accent-bg);
+  color:var(--accent);
+  display:grid;place-items:center;
+  font-size:9px;font-weight:800;letter-spacing:.02em;
+}
+.pdf-btn .pdf-txt{overflow:hidden;text-overflow:ellipsis;}
+
+/* ---------- Ventana ---------- */
+
+.pdf-capa{position:fixed;inset:0;pointer-events:none;z-index:500;}
+
+.pdf-ventana.minimizada{display:none;}
+
+.pdf-ventana{
+  position:fixed;
+  pointer-events:auto;
+  display:flex;
+  flex-direction:column;
+  min-width:280px;
+  min-height:200px;
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:12px;
+  box-shadow:0 18px 60px rgba(0,0,0,.38), 0 2px 8px rgba(0,0,0,.2);
+  overflow:hidden;
+}
+
+.pdf-cabecera{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  padding:8px 8px 8px 14px;
+  background:var(--surface-2);
+  border-bottom:1px solid var(--line);
+  cursor:grab;
+  user-select:none;
+  flex:none;
+}
+.pdf-cabecera.arrastrando{cursor:grabbing;}
+
+.pdf-titulo{
+  font-size:12.5px;
+  font-weight:600;
+  color:var(--ink);
+  flex:1;
+  min-width:0;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+
+/* por encima de los bordes de redimensionar, para que el click siempre
+   le llegue al boton y no empiece a estirar la ventana */
+.pdf-acciones{display:flex;gap:2px;flex:none;position:relative;z-index:6;}
+
+.pdf-accion{
+  width:28px;height:28px;
+  display:grid;place-items:center;
+  background:none;
+  border:none;
+  border-radius:7px;
+  color:var(--ink-soft);
+  font:inherit;
+  font-size:13px;
+  line-height:1;
+  cursor:pointer;
+}
+.pdf-accion:hover{background:var(--surface-3);color:var(--ink);}
+.pdf-accion.cerrar:hover{background:#c0392b;color:#fff;}
+
+.pdf-cuerpo{
+  flex:1;
+  min-height:0;
+  position:relative;
+  background:#525659;   /* el gris del visor de PDF, evita el flash blanco */
+}
+.pdf-cuerpo object,
+.pdf-cuerpo iframe{
+  width:100%;
+  height:100%;
+  border:none;
+  display:block;
+}
+
+/* Se ve solo si el navegador no puede incrustar el PDF (fallback nativo de <object>) */
+.pdf-fallback{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:14px;
+  height:100%;
+  padding:28px;
+  text-align:center;
+  background:var(--surface);
+  color:var(--ink-soft);
+  font-size:14px;
+  line-height:1.6;
+}
+.pdf-fallback a{
+  display:inline-block;
+  background:var(--accent);
+  color:var(--brand-ink);
+  text-decoration:none;
+  font-weight:600;
+  border-radius:9px;
+  padding:9px 18px;
+}
+
+/* Mientras se arrastra o redimensiona, los iframes se tragarian los eventos
+   del mouse. Se los desactiva a todos durante el gesto. */
+body.pdf-gesto .pdf-cuerpo{pointer-events:none;}
+body.pdf-gesto{user-select:none;}
+
+/* ---------- Bordes para redimensionar (los 8, como una ventana de Windows) ----------
+   Van por dentro de la ventana porque tiene overflow:hidden. */
+
+.pdf-borde{position:absolute;z-index:4;}
+.pdf-ventana.maximizada .pdf-borde{display:none;}
+
+.pdf-borde-n  {top:0;    left:9px;  right:9px;  height:6px;  cursor:ns-resize;}
+.pdf-borde-s  {bottom:0; left:9px;  right:9px;  height:6px;  cursor:ns-resize;}
+.pdf-borde-w  {left:0;   top:9px;   bottom:9px; width:6px;   cursor:ew-resize;}
+.pdf-borde-e  {right:0;  top:9px;   bottom:9px; width:6px;   cursor:ew-resize;}
+
+.pdf-borde-nw {top:0;    left:0;    width:14px; height:14px; cursor:nwse-resize;}
+.pdf-borde-ne {top:0;    right:0;   width:14px; height:14px; cursor:nesw-resize;}
+.pdf-borde-sw {bottom:0; left:0;    width:14px; height:14px; cursor:nesw-resize;}
+.pdf-borde-se {bottom:0; right:0;   width:18px; height:18px; cursor:nwse-resize;}
+
+/* la esquina de abajo a la derecha ademas se ve, para que se note que se puede agarrar */
+.pdf-borde-se::after{
+  content:"";
+  position:absolute;
+  right:4px;bottom:4px;
+  width:8px;height:8px;
+  border-right:2px solid var(--ink-faint);
+  border-bottom:2px solid var(--ink-faint);
+  border-radius:0 0 3px 0;
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width:900px){
+  .app{grid-template-columns:1fr;}
+  .sidebar{position:static;height:auto;border-right:none;border-bottom:1px solid var(--line);}
+  .topbar{padding:14px 18px 0;}
+  .content-wrap{padding:20px 18px 70px;}
+  .bloque,.ej{padding:20px 18px 22px;}
+  .pane > h1{font-size:26px;}
+}

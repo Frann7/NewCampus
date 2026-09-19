@@ -817,6 +817,9 @@ window.NC = window.NC || {};
 
   function mostrarPane(id) {
     limpiarAvisos();
+    // el detalle de un dia del calendario no tiene que quedar flotando
+    // encima de otra pestania
+    if (window.NC.calDetalle) { window.NC.calDetalle.cerrar(); }
 
     var activo = null;
     $$(".pane").forEach(function (p) {

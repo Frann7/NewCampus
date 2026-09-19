@@ -22,7 +22,8 @@ NewCampus/
     ├── COMO-TRABAJAR.md  ← este archivo
     ├── assets/           ← estilos.css, app.js (navegación, índice, visor de PDF), logo.svg
     │   ├── ventanas.js   ← sacar una pestaña a otra ventana manteniéndola apretada
-    │   ├── calendario/   ← pestaña Calendario (vista de un mes y vista del año)
+    │   ├── calendario/   ← pestaña Calendario: fechas (fijas) · eventos (del usuario)
+    │   │                    · detalle (ficha del día) · calendario (las dos vistas)
     │   └── evaluacion/   ← pestaña Evaluación, un archivo por responsabilidad:
     │                        nucleo · banco · formulario · examen · informe · evaluacion (+ .css)
     ├── contenido/        ← LOS APUNTES SE EDITAN ACÁ
@@ -82,7 +83,20 @@ Vista **Mes** (el mes ocupando la pantalla, flechas a los costados, el día de h
 **Año** (los doce meses; al hacer clic en uno se entra a su vista Mes). La semana empieza el lunes y
 "hoy" se calcula en UTC-3, igual que el reloj. La vista y el mes quedan guardados en el navegador.
 
-**Ventanas duplicadas** (`assets/ventanas.js`): manteniendo apretada una pestaña sale una **copia**
+En cada día se ven dos cosas:
+
+* **Fechas académicas fijas** (feriados, mesas de examen, días sin actividad). Se cargan a mano en
+  `assets/calendario/fechas.js`, que tiene el formato explicado arriba de todo. Van marcadas con una
+  franja de color a la izquierda del día.
+* **Parciales y trabajos prácticos** que anota el usuario con el botón **+ Fecha** o tocando un día.
+  Se elige materia (de las del menú lateral, estén disponibles o no), unidades si la materia tiene,
+  el día y una descripción opcional; después se pueden editar y eliminar. Cada materia tiene su color,
+  sacado de su lugar en el menú (`--h`, el tono; el nombre corto sale de `data-corto`).
+
+Tocar un día abre su **ficha**: lo que hay ese día, con los botones de editar y eliminar, y el
+formulario para agregar. Se guardan en el `localStorage` (`newcampus:eventos`).
+
+**Ventanas duplicadas** (`assets/ventanas.js`): manteniendo apretada una pestaña 0,8 s sale una **copia**
 de ese apartado en otra ventana (`index.html?panel=1#<materia>/<unidad>/<pestaña>`). La copia no
 tiene menú de materias ni pestañas, pero sí su índice y su material; la ventana original no se mueve.
 Máximo 4 copias a la vez. Las copias **no laten** al servidor (no cuentan tiempo ni pisan el último
@@ -199,6 +213,8 @@ de ejercicio leyéndolo del `.tag`.
 1. Crear `contenido/<materia>/<unidad>/teoria.html` y `practica.html`.
 2. Agregar la materia y sus unidades al menú lateral en `index.html`
    (copiá el bloque `<div class="materia" data-materia="pye">` y adaptalo).
+   El `data-corto` es el nombre que entra en el cuadrito de un día del calendario, y el orden en
+   el menú define el color que le toca ahí.
 3. Si tiene PDFs de cátedra para el visor: copiarlos **una sola vez** a `pdf/<materia>/` y
    asignarlos a las unidades que los usan en `MATERIAL_CATEDRA`, arriba de `assets/app.js`.
 4. Correr `python construir.py`.

@@ -10,7 +10,7 @@
   function plural(n, uno, varios) { return n + " " + (n === 1 ? uno : varios); }
 
   E.informe = {
-    /* acciones: { volver(aviso), lanzar(ae, reiniciar) } */
+    /* acciones: { volver(aviso), lanzar(ae, reiniciar), eliminar(ae) } */
     mostrar: function (cont, materia, ae, acciones, aviso) {
       var h = E.h, B = E.banco;
       var it = ae.intento, c = it.config;
@@ -43,7 +43,8 @@
           h("p", {}, "Duración: " + E.duracion(it.fin - it.inicio) + " · " + E.fecha(it.fin))
         ]),
         h("div", { class: "inf-botones" }, [
-          h("button", { class: "ev-btn ev-btn-primario", type: "button", onclick: function () { acciones.lanzar(ae, true); } }, "↻ Rehacer")
+          h("button", { class: "ev-btn ev-btn-primario", type: "button", onclick: function () { acciones.lanzar(ae, true); } }, "↻ Rehacer"),
+          h("button", { class: "ev-btn ev-btn-peligro", type: "button", onclick: function () { acciones.eliminar(ae); } }, "Eliminar")
         ])
       ]));
 

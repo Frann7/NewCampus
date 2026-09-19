@@ -52,7 +52,22 @@
       },
       nueva: function () { E.formulario.mostrar(cont, materia, acciones); },
       lanzar: function (ae, reiniciar) { E.examen.lanzar(cont, materia, ae, reiniciar, acciones); },
-      informe: function (ae, aviso) { E.informe.mostrar(cont, materia, ae, acciones, aviso); }
+      informe: function (ae, aviso) { E.informe.mostrar(cont, materia, ae, acciones, aviso); },
+      // La usan la ✕ de la tarjeta y el boton del informe final: en los dos
+      // casos se pregunta primero y despues se vuelve a las tarjetas.
+      eliminar: function (ae) {
+        E.dialogo({
+          titulo: "¿Seguro que querés eliminar esta autoevaluación?",
+          texto: "“" + ae.nombre + "” se borra con su progreso y su historial. No se puede deshacer.",
+          botones: [
+            { texto: "Cancelar" },
+            { texto: "Eliminar", clase: "ev-btn-rojo", accion: function () {
+              E.almacen.borrar(ae.id);
+              inicio("Se eliminó “" + ae.nombre + "”.");
+            } }
+          ]
+        });
+      }
     };
 
     /* ---------- desplegable ---------- */
@@ -139,17 +154,7 @@
         "aria-label": ae.nombre + ": " + estado.texto }, [
         h("button", { class: "ev-borrar", type: "button", title: "Eliminar autoevaluación", "aria-label": "Eliminar", onclick: function (ev) {
           ev.stopPropagation();
-          E.dialogo({
-            titulo: "¿Seguro que querés eliminar esta autoevaluación?",
-            texto: "“" + ae.nombre + "” se borra con su progreso y su historial. No se puede deshacer.",
-            botones: [
-              { texto: "Cancelar" },
-              { texto: "Eliminar", clase: "ev-btn-rojo", accion: function () {
-                E.almacen.borrar(ae.id);
-                inicio("Se eliminó “" + ae.nombre + "”.");
-              } }
-            ]
-          });
+          acciones.eliminar(ae);
         } }, "✕"),
         h("span", { class: "ev-chip", "data-estado": estado.clave }, estado.texto),
         h("span", { class: "ev-tarjeta-titulo" }, ae.nombre),

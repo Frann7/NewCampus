@@ -1,0 +1,69 @@
+<div class="ej">
+  <span class="tag">Ejercicio 10 &middot; Hipergeometrica</span>
+  <h2>Esquema de aceptacion en dos etapas</h2>
+  <div class="enunciado">
+    <p>
+      Se preparan cajas de <strong>25 articulos</strong> y se prueba una <strong>muestra de 3</strong>
+      en busca de defectuosos. Si se encuentra alguno defectuoso, toda la caja se regresa para
+      verificar el 100%. Caso contrario, la caja se embarca. Cual es la probabilidad de que:
+      a) se embarque una caja que contiene <strong>3 defectuosos</strong>;
+      b) una caja que contenga <strong>solo un articulo defectuoso</strong> se regrese para su revision?
+    </p>
+  </div>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Lo que hay que entender antes de calcular</span>
+    <p>
+      Los dos incisos son <strong>cajas distintas</strong>: cambia el \(k\) en cada uno.
+      Ademas piden cosas opuestas:
+    </p>
+    <ul>
+      <li><strong>Embarcar</strong> = no encontrar ningun defectuoso en la muestra &rarr; \(P(X = 0)\).</li>
+      <li><strong>Regresar</strong> = encontrar al menos uno &rarr; \(P(X \geq 1)\).</li>
+    </ul>
+  </div>
+
+  <p>Modelo: <strong>Hipergeometrica</strong> (caja finita de 25, muestra sin reposicion).</p>
+  <p>Denominador comun a los dos incisos:</p>
+  <p>\[ \binom{25}{3} = 2{.}300 \]</p>
+
+  <span class="paso">Inciso a &mdash; Caja con 3 defectuosos que igual se embarca</span>
+  <h4>Desarme</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>A donde va</th></tr>
+      <tr><td>"cajas de 25 articulos"</td><td>\(N = 25\)</td></tr>
+      <tr><td>"una caja que contiene 3 defectuosos"</td><td>\(k = 3\), y entonces \(N-k = 22\)</td></tr>
+      <tr><td>"se prueba una muestra de 3"</td><td>\(n = 3\)</td></tr>
+      <tr><td>"se embarque" = no se encontro ninguno</td><td>\(x = 0\)</td></tr>
+    </table>
+  </div>
+
+  <p>Formula:</p>
+  <p>\[ P(X = x) = \frac{\dbinom{k}{x}\dbinom{N-k}{\,n-x\,}}{\dbinom{N}{n}} \]</p>
+  <p>\[ P(X = 0) = \frac{\dbinom{3}{0}\dbinom{22}{3}}{\dbinom{25}{3}} = \frac{1 \times 1{.}540}{2{.}300} = \mathbf{0{,}6696} \]</p>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta a</span>
+    <p>
+      66,96%. Dos de cada tres cajas con 3 articulos defectuosos <strong>pasan el control y se
+      embarcan igual</strong>.
+    </p>
+  </div>
+
+  <span class="paso">Inciso b &mdash; Caja con 1 defectuoso que se regresa</span>
+  <p>Ahora la caja tiene un solo defectuoso, asi que \(k = 1\) y \(N - k = 24\).</p>
+  <p>"Se regrese" significa encontrar al menos uno, asi que vamos por complemento:</p>
+  <p>\[ P(X \geq 1) = 1 - P(X = 0) \]</p>
+  <p>\[ P(X = 0) = \frac{\dbinom{1}{0}\dbinom{24}{3}}{\dbinom{25}{3}} = \frac{1 \times 2{.}024}{2{.}300} = 0{,}88 \]</p>
+  <p>\[ P(X \geq 1) = 1 - 0{,}88 = \mathbf{0{,}12} \]</p>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Resultados oficiales de la catedra</span>
+    <p>a) 0,6696; &nbsp; b) 0,12 &nbsp;&#10003;</p>
+    <p>
+      Control de sentido comun: si la caja tiene un solo articulo malo entre 25 y solo mirás 3,
+      es logico que casi siempre se te escape. Por eso el 12% es bajo.
+    </p>
+  </div>
+</div>

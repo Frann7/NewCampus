@@ -1,0 +1,149 @@
+<div class="bloque">
+  <p class="kicker">Tercer concepto</p>
+  <h2>3. Varianza y Desvio Estandar</h2>
+
+  <p>La Esperanza sola miente. Estas dos situaciones tienen la misma Esperanza (0):</p>
+  <ul>
+    <li><strong>A:</strong> ganar $1 o perder $1, mitad y mitad. Un jueguito tranquilo.</li>
+    <li><strong>B:</strong> ganar $1.000.000 o perder $1.000.000, mitad y mitad. Un infarto.</li>
+  </ul>
+
+  <p>
+    Lo que las diferencia es cuanto se <strong>desparraman</strong> los resultados alrededor del centro.
+    Eso lo mide la <strong>Varianza</strong>.
+  </p>
+
+  <div class="caja caja-formula">
+    <span class="caja-tit">Definicion formal</span>
+    <p>\[ V(X) \;=\; \sigma^{2} \;=\; E\big[(X - \mu)^{2}\big] \]</p>
+    <p>
+      Es decir: para cada valor calculo cuanto se aparta del centro \((X - \mu)\), lo elevo al
+      cuadrado (para que los apartamientos negativos no se cancelen con los positivos) y saco
+      el promedio de esos cuadrados.
+    </p>
+  </div>
+
+  <p>
+    Esa definicion es incomoda para calcular. Desarrollando el cuadrado y aplicando propiedades
+    se llega a la version que <strong>siempre se usa en el parcial</strong>:
+  </p>
+
+  <div class="caja caja-formula">
+    <span class="caja-tit">Formula madre de la Varianza</span>
+    <p>\[ V(X) \;=\; E(X^{2}) \;-\; \big[E(X)\big]^{2} \]</p>
+    <p>Y el <strong>Desvio Estandar</strong> es simplemente su raiz:</p>
+    <p>\[ \sigma \;=\; SD(X) \;=\; \sqrt{V(X)} \]</p>
+  </div>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">La confusion clasica</span>
+    <p>
+      \(E(X^{2})\) y \([E(X)]^{2}\) <strong>no son lo mismo</strong> y el orden de las operaciones es
+      todo:
+    </p>
+    <ul>
+      <li>\(E(X^{2})\): primero elevo al cuadrado <em>cada valor de la tabla</em>, despues promedio.</li>
+      <li>\([E(X)]^{2}\): primero promedio, despues elevo al cuadrado <em>el resultado</em>.</li>
+    </ul>
+    <p>
+      Como el primero siempre da mayor o igual que el segundo, la Varianza nunca puede darte
+      negativa. <strong>Si te da negativa, te equivocaste en una cuenta.</strong>
+    </p>
+  </div>
+
+  <h4>Por que existe el Desvio Estandar si ya tengo la Varianza</h4>
+  <p>
+    Por una cuestion de unidades. Si \(X\) esta en pesos, la Varianza queda en "pesos al cuadrado",
+    que no significa nada fisicamente. Al sacarle la raiz volvemos a pesos, y ahi si el numero se
+    puede leer: <em>"los resultados se apartan tipicamente unos $X del promedio"</em>.
+  </p>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; Varianza de la tabla anterior</h3>
+
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>
+      Con \(x = 1, 2, 3\) y \(f(x) = 0{,}5;\ 0{,}3;\ 0{,}2\), calcule la Varianza y el Desvio.
+    </p>
+  </div>
+
+  <p>Ya calculamos en el punto anterior:</p>
+  <p>\[ E(X) = 1{,}7 \qquad\qquad E(X^{2}) = 3{,}5 \]</p>
+  <p>Formula:</p>
+  <p>\[ V(X) = E(X^{2}) - \big[E(X)\big]^{2} \]</p>
+  <p>\[ V(X) = 3{,}5 - (1{,}7)^{2} = 3{,}5 - 2{,}89 = 0{,}61 \]</p>
+  <p>Formula:</p>
+  <p>\[ \sigma = \sqrt{V(X)} = \sqrt{0{,}61} = 0{,}781 \]</p>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>\(V(X) = 0{,}61\) y \(\sigma = 0{,}781\).</p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; Para que sirve: comparar dos proveedores</h3>
+
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>
+      Dos proveedores de hosting ofrecen el mismo servicio. El tiempo de respuesta en
+      milisegundos de cada uno tiene la siguiente distribucion:
+    </p>
+    <div class="tabla-wrap">
+      <table class="t">
+        <tr><th class="lbl">Proveedor A: \(x\)</th><td>90</td><td>100</td><td>110</td></tr>
+        <tr><th class="lbl">\(f(x)\)</th><td>0,1</td><td>0,8</td><td>0,1</td></tr>
+      </table>
+    </div>
+    <div class="tabla-wrap">
+      <table class="t">
+        <tr><th class="lbl">Proveedor B: \(x\)</th><td>50</td><td>100</td><td>150</td></tr>
+        <tr><th class="lbl">\(f(x)\)</th><td>0,25</td><td>0,5</td><td>0,25</td></tr>
+      </table>
+    </div>
+    <p>Cual conviene contratar si se necesita un servicio predecible?</p>
+  </div>
+
+  <h4>Paso 1 &mdash; Esperanza de cada uno</h4>
+  <p>Formula:</p>
+  <p>\[ E(X) = \sum x \cdot f(x) \]</p>
+  <p><strong>Proveedor A:</strong></p>
+  <p>\[ E(X_A) = (90)(0{,}1) + (100)(0{,}8) + (110)(0{,}1) = 9 + 80 + 11 = 100 \]</p>
+  <p><strong>Proveedor B:</strong></p>
+  <p>\[ E(X_B) = (50)(0{,}25) + (100)(0{,}5) + (150)(0{,}25) = 12{,}5 + 50 + 37{,}5 = 100 \]</p>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Aca esta la gracia</span>
+    <p>
+      Los dos tienen <strong>exactamente la misma Esperanza</strong>: 100 ms. Si solo miraras el
+      promedio, dirias que son identicos. Pero no lo son.
+    </p>
+  </div>
+
+  <h4>Paso 2 &mdash; Varianza de cada uno</h4>
+  <p>Formula:</p>
+  <p>\[ E(X^{2}) = \sum x^{2} \cdot f(x) \]</p>
+  <p><strong>Proveedor A:</strong></p>
+  <p>\[ E(X_A^{2}) = (8100)(0{,}1) + (10000)(0{,}8) + (12100)(0{,}1) = 810 + 8000 + 1210 = 10{.}020 \]</p>
+  <p>\[ V(X_A) = 10{.}020 - (100)^{2} = 10{.}020 - 10{.}000 = 20 \]</p>
+  <p>\[ \sigma_A = \sqrt{20} = 4{,}47 \text{ ms} \]</p>
+
+  <p><strong>Proveedor B:</strong></p>
+  <p>\[ E(X_B^{2}) = (2500)(0{,}25) + (10000)(0{,}5) + (22500)(0{,}25) = 625 + 5000 + 5625 = 11{.}250 \]</p>
+  <p>\[ V(X_B) = 11{.}250 - 10{.}000 = 1{.}250 \]</p>
+  <p>\[ \sigma_B = \sqrt{1250} = 35{,}36 \text{ ms} \]</p>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>
+      Conviene el <strong>Proveedor A</strong>. Con la misma media de 100 ms, sus tiempos se
+      desvian tipicamente 4,47 ms, mientras que los de B se desvian 35,36 ms: casi ocho veces mas.
+    </p>
+    <p>
+      <strong>Esta es la razon de ser de la Varianza.</strong> La Esperanza te dice donde esta el
+      centro; la Varianza te dice si podes confiar en ese centro.
+    </p>
+  </div>
+</div>

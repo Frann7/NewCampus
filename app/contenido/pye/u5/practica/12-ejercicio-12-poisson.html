@@ -1,0 +1,98 @@
+<div class="ej">
+  <span class="tag">Ejercicio 12 &middot; Poisson</span>
+  <h2>Errores de un programador cada 50 lineas</h2>
+  <div class="enunciado">
+    <p>
+      Un programador comete <strong>dos errores cada 50 lineas</strong> de codigo, en promedio.
+      Cual es la probabilidad de que en las <strong>siguientes 50 lineas</strong> cometa:
+      a) al menos cuatro errores; b) ningun error; c) mas de uno pero no mas de siete errores;
+      d) entre dos y cinco errores, ambos inclusive?
+    </p>
+  </div>
+
+  <span class="paso">Paso 1 &mdash; Identificar el modelo</span>
+  <ul>
+    <li>
+      Tasa promedio por unidad de <strong>longitud de codigo</strong>. Poisson no solo sirve para
+      tiempo: tambien para longitud, area o volumen.
+    </li>
+    <li>No hay tope de errores posibles.</li>
+  </ul>
+  <p>Modelo: <strong>Poisson</strong>.</p>
+
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Traduccion</th><th>A donde va</th></tr>
+      <tr><td>"dos errores cada 50 lineas"</td><td>la unidad es "50 lineas"</td><td>\(\lambda = 2\) por cada 50 lineas</td></tr>
+      <tr><td>"en las siguientes 50 lineas"</td><td>una sola unidad</td><td>\(t = 1\)</td></tr>
+      <tr><td>(producto)</td><td>promedio del intervalo</td><td>\(\lambda t = 2\)</td></tr>
+    </table>
+  </div>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Ojo con la unidad</span>
+    <p>
+      Aca la unidad <strong>no</strong> es "una linea": es "50 lineas". Como te preguntan justo por
+      50 lineas, \(t = 1\) y \(\lambda t = 2\).
+    </p>
+    <p>
+      Si te preguntaran por 100 lineas serian dos unidades, \(t = 2\) y \(\lambda t = 4\).
+      Si te preguntaran por 25 lineas, \(t = 0{,}5\) y \(\lambda t = 1\).
+    </p>
+  </div>
+
+  <p>Como \(\lambda t = 2\), reutilizamos la misma tabla del ejercicio anterior, extendida:</p>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th>\(x\)</th><th>\(P(X = x)\)</th><th>Acumulado \(P(X \leq x)\)</th></tr>
+      <tr><td>0</td><td>0,1353</td><td>0,1353</td></tr>
+      <tr><td>1</td><td>0,2707</td><td>0,4060</td></tr>
+      <tr><td>2</td><td>0,2707</td><td>0,6767</td></tr>
+      <tr><td>3</td><td>0,1804</td><td>0,8571</td></tr>
+      <tr><td>4</td><td>0,0902</td><td>0,9473</td></tr>
+      <tr><td>5</td><td>0,0361</td><td>0,9834</td></tr>
+      <tr><td>6</td><td>0,0120</td><td>0,9955</td></tr>
+      <tr><td>7</td><td>0,0034</td><td>0,9989</td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Inciso a &mdash; Al menos cuatro errores</span>
+  <p>El 4 entra, asi que se descarta del 3 para abajo:</p>
+  <p>\[ P(X \geq 4) = 1 - P(X \leq 3) \]</p>
+  <p>\[ P(X \geq 4) = 1 - 0{,}8571 = \mathbf{0{,}1429} \]</p>
+
+  <span class="paso">Inciso b &mdash; Ningun error</span>
+  <p>Formula:</p>
+  <p>\[ P(X = x) = \frac{e^{-\lambda t}\,(\lambda t)^{x}}{x!} \]</p>
+  <p>\[ P(X = 0) = \frac{e^{-2}\,(2)^{0}}{0!} = \frac{e^{-2} \times 1}{1} = e^{-2} = \mathbf{0{,}1353} \]</p>
+  <p>Recordá: cualquier numero elevado a la 0 da 1, y \(0! = 1\) por definicion.</p>
+
+  <span class="paso">Inciso c &mdash; Mas de uno pero no mas de siete</span>
+  <p>Traduccion literal: el 1 <strong>no</strong> entra, el 7 <strong>si</strong>. Queremos \(\{2,3,4,5,6,7\}\).</p>
+  <p>\[ P(1 &lt; X \leq 7) = P(X \leq 7) - P(X \leq 1) \]</p>
+  <p>Techo: fila 7. Lo que hay que tirar es \(\{0,1\}\), o sea la fila 1.</p>
+  <p>\[ = 0{,}9989 - 0{,}4060 = \mathbf{0{,}5929} \]</p>
+
+  <span class="paso">Inciso d &mdash; Entre dos y cinco, ambos inclusive</span>
+  <p>Queremos \(\{2,3,4,5\}\). Techo: fila 5. Lo que hay que tirar es \(\{0,1\}\), o sea la fila 1.</p>
+  <p>\[ P(2 \leq X \leq 5) = P(X \leq 5) - P(X \leq 1) \]</p>
+  <p>\[ = 0{,}9834 - 0{,}4060 = \mathbf{0{,}5774} \]</p>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Compara c con d</span>
+    <p>
+      Los dos restan la misma fila de abajo (la 1), porque los dos arrancan en el 2. Lo unico que
+      cambia es el techo: 7 en un caso, 5 en el otro.
+    </p>
+    <p>
+      Escribir la lista de valores en el borrador antes de buscar es lo que evita este tipo de
+      error.
+    </p>
+  </div>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Resultados oficiales de la catedra</span>
+    <p>a) 0,1429; &nbsp; b) 0,1353; &nbsp; c) 0,5929; &nbsp; d) 0,5774 &nbsp;&#10003;</p>
+  </div>
+</div>

@@ -1,0 +1,195 @@
+<div class="bloque">
+  <p class="kicker">Modelo 4 &mdash; el mas usado de los tres ultimos</p>
+  <h2>7. Distribucion Exponencial \(exp(\beta)\)</h2>
+
+  <p>
+    Es el <strong>caso particular de la Gamma con \(\alpha = 1\)</strong>. Si en la formula de arriba
+    ponés \(\alpha = 1\), como \(\Gamma(1) = 1\) y \(x^{0} = 1\), todo se simplifica:
+  </p>
+
+  <div class="caja caja-formula">
+    <span class="caja-tit">Formulas</span>
+    <p>\[ f(x) = \frac{1}{\beta}\, e^{-x/\beta}, \qquad x &gt; 0 \]</p>
+    <p>\[ E(X) = \beta \qquad\qquad V(X) = \beta^{2} \]</p>
+    <p><strong>Funcion acumulada</strong> (esta es la que se usa siempre en la practica):</p>
+    <p>\[ F(x) = P(X \leq x) = 1 - e^{-x/\beta} \]</p>
+    <p>\[ P(X &gt; x) = e^{-x/\beta} \]</p>
+  </div>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">La gran ventaja de la Exponencial</span>
+    <p>
+      A diferencia de la Normal, <strong>no necesita tabla</strong>: la acumulada tiene formula
+      cerrada. Solo hace falta la tecla \(e^{x}\) de la calculadora.
+    </p>
+  </div>
+
+  <h4>De donde sale la acumulada</h4>
+  <p>Integrando la densidad desde 0 hasta \(x\):</p>
+  <p>\[ F(x) = \int_{0}^{x} \frac{1}{\beta} e^{-t/\beta}\, dt = \left[ -e^{-t/\beta} \right]_{0}^{x} = -e^{-x/\beta} + 1 = 1 - e^{-x/\beta} \]</p>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Cuidado con \(\beta\) vs \(\lambda\) &mdash; la trampa numero uno</span>
+    <p>
+      Algunos textos escriben la exponencial con \(\lambda\) en vez de \(\beta\). Son
+      <strong>inversos</strong>: \(\beta = \frac{1}{\lambda}\).
+    </p>
+    <div class="tabla-wrap">
+      <table class="t full">
+        <tr><th>Si el enunciado dice&hellip;</th><th>Ese numero es&hellip;</th><th>Entonces \(\beta\) vale</th></tr>
+        <tr><td>"tiempo medio de falla de 5 anos"</td><td>un <strong>tiempo</strong></td><td>\(\beta = 5\)</td></tr>
+        <tr><td>"vida media de 3 segundos"</td><td>un <strong>tiempo</strong></td><td>\(\beta = 3\)</td></tr>
+        <tr><td>"tasa de falla de 0,01 por hora"</td><td>una <strong>tasa</strong> (\(\lambda\))</td><td>\(\beta = 1/0{,}01 = 100\)</td></tr>
+        <tr><td>"llegan 5 por minuto"</td><td>una <strong>tasa</strong> (\(\lambda\))</td><td>\(\beta = 1/5 = 0{,}2\)</td></tr>
+      </table>
+    </div>
+    <p>
+      Pregunta de control: <em>el numero que me dieron esta en unidades de tiempo, o en
+      "cosas por unidad de tiempo"?</em> Si es lo primero, es \(\beta\) directo. Si es lo segundo,
+      hay que darlo vuelta.
+    </p>
+  </div>
+
+  <h3>Relacion con Poisson</h3>
+
+  <p>Poisson y Exponencial son <strong>dos caras del mismo fenomeno</strong>:</p>
+  <ul>
+    <li><strong>Poisson</strong> (discreta) cuenta <em>cuantos eventos</em> ocurren en un intervalo.</li>
+    <li><strong>Exponencial</strong> (continua) mide <em>cuanto tiempo pasa</em> hasta el primer evento.</li>
+  </ul>
+
+  <p>La deduccion de la catedra es elegante. Que pase un tiempo \(t\) sin que ocurra el primer
+  evento es lo mismo que decir que en ese intervalo hubo <strong>cero</strong> eventos. Por Poisson:</p>
+  <p>\[ P(X = 0) = \frac{e^{-\lambda t}(\lambda t)^{0}}{0!} = e^{-\lambda t} \]</p>
+  <p>que es exactamente \(P(T &gt; t)\) de la exponencial. Y como \(\lambda\) es la cantidad media de
+  eventos por unidad de tiempo, su inversa</p>
+  <p>\[ \beta = \mu = \frac{1}{\lambda} \]</p>
+  <p>es el <strong>tiempo medio entre eventos</strong>.</p>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; Sistemas que siguen funcionando (Ejemplo 5 de la catedra)</h3>
+
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>
+      Un sistema tiene un <strong>tiempo medio de falla de 5 anos</strong>. Se instalan
+      <strong>5</strong> de estos sistemas. Cual es la probabilidad de que al cabo de
+      <strong>8 anos</strong> sigan funcionando <strong>al menos dos</strong> de ellos?
+    </p>
+  </div>
+
+  <h4>Por que hay DOS modelos encadenados</h4>
+  <p>Este ejercicio es el tipico de "modelo dentro de modelo", y conviene identificarlo bien:</p>
+  <ul>
+    <li>
+      La <strong>duracion de un sistema</strong> es una variable continua de tiempo de vida &rarr;
+      <strong>Exponencial</strong>. Eso nos da la probabilidad de que <em>un</em> sistema aguante.
+    </li>
+    <li>
+      La <strong>cantidad de sistemas</strong> que aguantan, de los 5 instalados, es un conteo con
+      \(n\) fijo y probabilidad constante &rarr; <strong>Binomial</strong>.
+    </li>
+  </ul>
+
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Traduccion</th><th>A donde va</th></tr>
+      <tr><td>"tiempo medio de falla de 5 anos"</td><td>es un tiempo, asi que es \(\beta\) directo</td><td>\(\beta = 5\) (Exponencial)</td></tr>
+      <tr><td>"al cabo de 8 anos"</td><td>el valor que hay que superar</td><td>\(x = 8\)</td></tr>
+      <tr><td>"sigan funcionando"</td><td>que la duracion SUPERE los 8 anos</td><td>\(P(T &gt; 8)\)</td></tr>
+      <tr><td>"se instalan 5"</td><td>pruebas fijas</td><td>\(n = 5\) (Binomial)</td></tr>
+      <tr><td>"al menos dos"</td><td>el 2 entra</td><td>\(P(X \geq 2)\)</td></tr>
+    </table>
+  </div>
+
+  <h4>Paso 1 &mdash; Exponencial: que UN sistema sobreviva 8 anos</h4>
+  <p>Formula:</p>
+  <p>\[ P(X &gt; x) = e^{-x/\beta} \]</p>
+  <p>\[ P(T &gt; 8) = e^{-8/5} = e^{-1{,}6} = 0{,}2019 \]</p>
+  <p>Este numero pasa a ser la <strong>\(p\) de la Binomial</strong>.</p>
+
+  <h4>Paso 2 &mdash; Binomial con \(n = 5\) y \(p = 0{,}2019\)</h4>
+  <p>\[ P(X \geq 2) = 1 - P(X=0) - P(X=1) \]</p>
+  <p>\[ P(X=0) = \binom{5}{0}(0{,}2019)^{0}(0{,}7981)^{5} = 0{,}3238 \]</p>
+  <p>\[ P(X=1) = \binom{5}{1}(0{,}2019)^{1}(0{,}7981)^{4} = 5(0{,}2019)(0{,}4057) = 0{,}4096 \]</p>
+  <p>\[ P(X \geq 2) = 1 - 0{,}3238 - 0{,}4096 = 0{,}2666 \]</p>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>26,66%.</p>
+    <p>
+      <em>Nota:</em> la catedra redondea \(p \approx 0{,}20\) en la diapositiva, con lo que el
+      resultado queda en 0,2627. La diferencia es solo por el redondeo.
+    </p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; Cuando te dan la TASA en vez del tiempo medio</h3>
+
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>
+      Un componente electronico tiene una <strong>tasa de falla constante de 0,02 por hora</strong>
+      y se aplica la distribucion exponencial.
+      a) Cual es el tiempo medio de operacion antes del fallo?
+      b) Cual es la probabilidad de que pasen <strong>100 horas o mas</strong> antes de que falle?
+      c) Cual es la probabilidad de que falle <strong>antes de las 20 horas</strong>?
+    </p>
+  </div>
+
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Traduccion</th><th>Cuenta</th><th>A donde va</th></tr>
+      <tr>
+        <td>"tasa de falla de <strong>0,02 por hora</strong>"</td>
+        <td>es una TASA, no un tiempo. Hay que invertirla.</td>
+        <td>\(\beta = \dfrac{1}{0{,}02} = 50\)</td>
+        <td>\(\beta = 50\) horas</td>
+      </tr>
+      <tr><td>"100 horas o mas"</td><td>cola derecha</td><td>&mdash;</td><td>\(P(X \geq 100)\)</td></tr>
+      <tr><td>"antes de las 20 horas"</td><td>cola izquierda (acumulada)</td><td>&mdash;</td><td>\(P(X &lt; 20)\)</td></tr>
+    </table>
+  </div>
+
+  <h4>Inciso a &mdash; Tiempo medio</h4>
+  <p>Formula:</p>
+  <p>\[ E(X) = \beta \]</p>
+  <p>\[ E(X) = 50 \text{ horas} \]</p>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta a</span>
+    <p>
+      50 horas de operacion media antes del fallo.
+    </p>
+    <p>
+      Chequeo intuitivo: si falla 0,02 veces por hora, o sea 2 veces cada 100 horas, entonces en
+      promedio pasa <strong>una</strong> falla cada 50 horas. La inversion tiene sentido.
+    </p>
+  </div>
+
+  <h4>Inciso b &mdash; 100 horas o mas</h4>
+  <p>Formula:</p>
+  <p>\[ P(X &gt; x) = e^{-x/\beta} \]</p>
+  <p>\[ P(X &gt; 100) = e^{-100/50} = e^{-2} = 0{,}1353 \]</p>
+  <div class="caja caja-resp"><span class="caja-tit">Respuesta b</span><p>13,53%.</p></div>
+
+  <h4>Inciso c &mdash; Antes de las 20 horas</h4>
+  <p>Formula:</p>
+  <p>\[ P(X \leq x) = 1 - e^{-x/\beta} \]</p>
+  <p>\[ P(X &lt; 20) = 1 - e^{-20/50} = 1 - e^{-0{,}4} = 1 - 0{,}6703 = 0{,}3297 \]</p>
+  <div class="caja caja-resp"><span class="caja-tit">Respuesta c</span><p>32,97%.</p></div>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Para no confundir las dos formulas</span>
+    <p>
+      Solo hay que recordar una: \(P(X &gt; x) = e^{-x/\beta}\), o sea
+      "sobrevivir es la exponencial pelada".
+    </p>
+    <p>
+      La otra sale sola: <strong>fallar antes es 1 menos sobrevivir.</strong>
+    </p>
+  </div>
+</div>

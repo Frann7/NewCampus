@@ -29,9 +29,11 @@ NewCampus/
     │                        nucleo · banco · formulario · examen · informe · evaluacion (+ .css)
     ├── contenido/        ← LOS APUNTES SE EDITAN ACÁ
     │   └── <materia>/
-    │       ├── <unidad>/<teoria|practica>.html           ej: pye/u5/practica.html
+    │       ├── <unidad>/<teoria|practica>/               una CARPETA por pestaña:
+    │       │      00-intro.html                            el título y la bajada
+    │       │      01-....html, 02-....html                 un archivo por ejercicio o sección
     │       └── evaluacion/
-    │           ├── parciales/<año>-<nombre>.html         un parcial transcripto por archivo
+    │           ├── parciales/<año>-<nombre>/             meta.json + un archivo por ejercicio
     │           └── preguntas/<unidad>.html               banco de la autoevaluación
     ├── generado/         ← GENERADO: apuntes.js. NO EDITAR.
     ├── pdf/<materia>/    ← PDFs de cátedra, una sola copia por materia
@@ -40,7 +42,9 @@ NewCampus/
 
 **Regla de oro del flujo de trabajo:**
 
-1. Los apuntes se editan **solamente** en `contenido/`.
+1. Los apuntes se editan **solamente** en `contenido/`, y **un archivo por ejercicio o por
+   sección**. Nunca vuelvas a juntar una unidad en un solo archivo: abrir 4 KB para corregir un
+   ejercicio en vez de 80 KB es lo que hace que agregar contenido no se vuelva impagable.
 2. Después de cada edición corrés `python construir.py` dentro de `app/`.
    No hay botón de actualizar en la página: la construcción la corrés vos.
 3. Nunca edites `generado/apuntes.js`: se pisa en la próxima construcción.
@@ -48,15 +52,22 @@ NewCampus/
    de la raíz en el mismo commit. Es la cara del repositorio: tiene que decir siempre lo
    que la aplicación hace hoy.
 
-Cada archivo de `contenido/` tiene un único `<section class="pane" data-view="materia/unidad/pestaña">`.
-La carpeta y el `data-view` tienen que coincidir; `construir.py` lo verifica y avisa si no.
+Los fragmentos se escriben **al margen, sin `<section>` ni sangría**: `construir.py` los pega en
+orden de nombre, los indenta y los envuelve en el `<section class="pane" data-view="...">` que
+espera la página, sacando el `data-view` de la carpeta.
+
+El número con el que arranca cada nombre es su **orden**, no el número del ejercicio (hay unidades
+con dos guías y numeración repetida). Para meter algo entre el 03 y el 04 alcanza con llamarlo
+`03b-...`; para reordenar, renombrar.
 
 Todos los apuntes viajan en `generado/apuntes.js`, pero al documento se inserta **solo la unidad
 que se abre**. Para analizar o editar un tema, leé únicamente su archivo de `contenido/`.
 
 **Pestaña Evaluación** (una por materia, no depende de la unidad):
 
-* **Parciales:** cada archivo es un `<article class="parcial" data-titulo data-fecha data-detalle data-temas>`.
+* **Parciales:** cada parcial es una carpeta con `meta.json` (titulo, fecha, detalle, temas: lo que
+  muestra la tarjeta sin abrir el parcial) y un archivo por ejercicio. El `<article class="parcial">`
+  lo arma `construir.py`.
   Se transcribe respetando la estructura del original (cabecera, ejercicios con `<h2>` y puntaje,
   `ol.parcial-incisos` para a) b) c), `ol.parcial-sub-incisos` para I) II) III), fórmula y tabla en `.parcial-dos`).
   No se transcriben nombres ni notas de alumnos.

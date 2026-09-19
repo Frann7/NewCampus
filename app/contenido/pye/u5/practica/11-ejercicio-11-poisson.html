@@ -1,0 +1,87 @@
+<div class="ej">
+  <span class="tag">Ejercicio 11 &middot; Poisson</span>
+  <h2>Discos rigidos defectuosos por dia</h2>
+  <div class="enunciado">
+    <p>
+      En una fabrica de discos rigidos el numero <strong>promedio de defectuosos producidos en un
+      dia</strong> es igual a <strong>2</strong>. Calcule la probabilidad de que:
+      a) la cantidad de defectuosos en un dia sea igual a 5;
+      b) en un dia se produzcan al menos 5 defectuosos;
+      c) en un dia se produzcan menos de 5 defectuosos.
+    </p>
+  </div>
+
+  <span class="paso">Paso 1 &mdash; Identificar el modelo</span>
+  <ul>
+    <li>Nos dan un <strong>promedio por unidad de tiempo</strong> (2 por dia), no una cantidad de intentos.</li>
+    <li>No hay tope: podrian salir 0, 3 o 20 defectuosos en un dia.</li>
+  </ul>
+  <p>Modelo: <strong>Poisson</strong>.</p>
+
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Traduccion</th><th>A donde va</th></tr>
+      <tr><td>"promedio de 2 defectuosos por dia"</td><td>la tasa, con su unidad</td><td>\(\lambda = 2\) por dia</td></tr>
+      <tr><td>"en un dia" (los tres incisos)</td><td>el intervalo coincide con la unidad</td><td>\(t = 1\)</td></tr>
+      <tr><td>(producto)</td><td>promedio en el intervalo</td><td>\(\lambda t = 2 \times 1 = 2\)</td></tr>
+    </table>
+  </div>
+  <p>
+    No hay que reescalar nada en este ejercicio: la tasa ya viene por dia y preguntan por un dia.
+  </p>
+
+  <span class="paso">Inciso a &mdash; Exactamente 5 defectuosos</span>
+  <p>Formula:</p>
+  <p>\[ P(X = x) = \frac{e^{-\lambda t}\,(\lambda t)^{x}}{x!} \]</p>
+  <p>\[ P(X = 5) = \frac{e^{-2}\,(2)^{5}}{5!} \]</p>
+  <p>Pieza por pieza:</p>
+  <ul>
+    <li>\(e^{-2} = 0{,}135335\)</li>
+    <li>\(2^{5} = 32\)</li>
+    <li>\(5! = 5 \times 4 \times 3 \times 2 \times 1 = 120\)</li>
+  </ul>
+  <p>\[ P(X = 5) = \frac{0{,}135335 \times 32}{120} = \frac{4{,}33072}{120} = \mathbf{0{,}0361} \]</p>
+
+  <span class="paso">Preparacion para b y c &mdash; la tabla acumulada</span>
+  <p>
+    Los dos incisos que faltan son rangos. Calculamos una vez los terminos de Poisson con
+    \(\lambda t = 2\) y los reutilizamos (esto es justamente lo que trae hecho la tabla acumulada
+    de la catedra, columna \(\lambda t = 2{,}0\)):
+  </p>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th>\(x\)</th><th>\(P(X = x)\)</th><th>Acumulado \(P(X \leq x)\)</th></tr>
+      <tr><td>0</td><td>0,1353</td><td>0,1353</td></tr>
+      <tr><td>1</td><td>0,2707</td><td>0,4060</td></tr>
+      <tr><td>2</td><td>0,2707</td><td>0,6767</td></tr>
+      <tr><td>3</td><td>0,1804</td><td>0,8571</td></tr>
+      <tr><td>4</td><td>0,0902</td><td><strong>0,9473</strong></td></tr>
+      <tr><td>5</td><td>0,0361</td><td>0,9834</td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Inciso b &mdash; Al menos 5 defectuosos</span>
+  <p>
+    "Al menos 5" incluye al 5, asi que lo que hay que descartar es <strong>del 4 para abajo</strong>:
+  </p>
+  <p>\[ P(X \geq 5) = 1 - P(X \leq 4) \]</p>
+  <p>\[ P(X \geq 5) = 1 - 0{,}9473 = \mathbf{0{,}0527} \]</p>
+
+  <span class="paso">Inciso c &mdash; Menos de 5 defectuosos</span>
+  <p>"Menos de 5" <strong>no</strong> incluye al 5: es del 4 para abajo, directo.</p>
+  <p>\[ P(X &lt; 5) = P(X \leq 4) = \mathbf{0{,}9473} \]</p>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Los incisos b y c son complementarios</span>
+    <p>
+      \(0{,}0527 + 0{,}9473 = 1\). Tiene que dar exactamente 1, porque "al menos 5" y "menos de 5"
+      cubren todos los casos posibles sin superponerse. Es un control gratis.
+    </p>
+  </div>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Resultados oficiales de la catedra</span>
+    <p>a) 0,0361; &nbsp; b) 0,0527; &nbsp; c) 0,9473 &nbsp;&#10003;</p>
+  </div>
+</div>

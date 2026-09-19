@@ -1,0 +1,175 @@
+<div class="bloque">
+  <p class="kicker">Herramienta de parcial</p>
+  <h2>9. Como usar la tabla acumulada</h2>
+
+  <p>
+    La catedra provee el PDF <em>tabla Probabilidad y Estadistica-LSI</em>. Sin ella, varios
+    ejercicios serian imposibles de terminar a tiempo.
+  </p>
+
+  <h3>Que es fisicamente la tabla</h3>
+
+  <p>Hay dos tablas distintas y conviene no confundirlas:</p>
+  <ul>
+    <li>
+      <strong>Tabla Binomial acumulada:</strong> esta dividida en <strong>bloques</strong>, uno por
+      cada valor de \(n\) (n=1, n=2, &hellip; n=20). Dentro de cada bloque, las
+      <strong>filas</strong> son \(r = 0, 1, 2, \ldots, n\) y las <strong>columnas</strong> son
+      los valores de \(p\) (0,10 &nbsp; 0,15 &nbsp; 0,20 &nbsp; 0,25 &nbsp; 0,30 &hellip; 0,50).
+    </li>
+    <li>
+      <strong>Tabla de Poisson acumulada:</strong> las <strong>columnas</strong> son valores de
+      \(\lambda t\) y las <strong>filas</strong> son \(r\).
+    </li>
+  </ul>
+
+  <div class="caja caja-formula">
+    <span class="caja-tit">Regla de oro, la unica que hay que recordar</span>
+    <p>
+      El numero que sacas de la tabla <strong>siempre</strong> es
+    </p>
+    <p>\[ P(X \leq r) \]</p>
+    <p>
+      o sea <strong>"de ese numero para abajo, todo incluido"</strong>. Nunca es un valor puntual
+      ni un "para arriba".
+    </p>
+  </div>
+
+  <h3>Como se busca, con un ejemplo concreto</h3>
+
+  <p>
+    Aca abajo esta reproducido el <strong>bloque \(n = 5\)</strong> de la tabla binomial, para que
+    veas exactamente que forma tiene lo que estas buscando en el PDF:
+  </p>
+
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr>
+        <th class="lbl">\(n=5\)<br>\(r\)</th>
+        <th>\(p=0{,}10\)</th><th>\(p=0{,}20\)</th><th>\(p=0{,}25\)</th>
+        <th style="background:var(--accent-bg);color:var(--accent)">\(p=0{,}30\)</th>
+        <th>\(p=0{,}50\)</th>
+      </tr>
+      <tr><th class="lbl">0</th><td>0,5905</td><td>0,3277</td><td>0,2373</td><td style="background:var(--accent-bg)">0,1681</td><td>0,0313</td></tr>
+      <tr><th class="lbl">1</th><td>0,9185</td><td>0,7373</td><td>0,6328</td><td style="background:var(--accent-bg)">0,5282</td><td>0,1875</td></tr>
+      <tr><th class="lbl" style="background:var(--accent-bg);color:var(--accent)">2</th><td>0,9914</td><td>0,9421</td><td>0,8965</td><td style="background:var(--accent-bg)"><strong>0,8369</strong></td><td>0,5000</td></tr>
+      <tr><th class="lbl">3</th><td>0,9995</td><td>0,9933</td><td>0,9844</td><td style="background:var(--accent-bg)">0,9692</td><td>0,8125</td></tr>
+      <tr><th class="lbl">4</th><td>1,0000</td><td>0,9997</td><td>0,9990</td><td style="background:var(--accent-bg)">0,9976</td><td>0,9688</td></tr>
+      <tr><th class="lbl">5</th><td>1,0000</td><td>1,0000</td><td>1,0000</td><td style="background:var(--accent-bg)">1,0000</td><td>1,0000</td></tr>
+    </table>
+  </div>
+
+  <p>El procedimiento para buscar es siempre este:</p>
+  <ol>
+    <li><strong>Ubicar el bloque</strong> segun tu \(n\). Aca: \(n = 5\).</li>
+    <li><strong>Ubicar la columna</strong> segun tu \(p\). Digamos \(p = 0{,}30\) (resaltada).</li>
+    <li><strong>Ubicar la fila</strong> segun el \(r\) que te haga falta. Digamos \(r = 2\).</li>
+    <li><strong>Leer el cruce.</strong> Da <strong>0,8369</strong>.</li>
+  </ol>
+
+  <p>Y ese numero significa, literalmente:</p>
+  <p>\[ P(X \leq 2) = 0{,}8369 \]</p>
+  <p>
+    es decir, la probabilidad de sacar 0, 1 o 2 exitos, todo sumado. La tabla ya hizo esas tres
+    cuentas por vos.
+  </p>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Comprobalo vos mismo</span>
+    <p>
+      En el <strong>Ejercicio 3</strong> de la practica calculamos a mano, con \(n=5\) y \(p=0{,}30\):
+      \(P(0) = 0{,}16807\), \(P(1) = 0{,}36015\) y \(P(2) = 0{,}30870\).
+    </p>
+    <p>
+      Sumalos: \(0{,}16807 + 0{,}36015 + 0{,}30870 = 0{,}83692\). Es <strong>exactamente</strong> el
+      0,8369 de la tabla. Eso es todo lo que hace la tabla: sumar por vos.
+    </p>
+  </div>
+
+  <h3>Traduccion del castellano a simbolos</h3>
+
+  <p>
+    Este es el paso donde se pierden mas puntos. Antes de buscar nada, escribi la pregunta en
+    simbolos:
+  </p>
+
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Como lo dice el enunciado</th><th>En simbolos</th><th>Que buscas en la tabla</th></tr>
+      <tr><td>"exactamente 5"</td><td>\(P(X = 5)\)</td><td>\(P(X \leq 5) - P(X \leq 4)\) &nbsp;<em>(o formula directa)</em></td></tr>
+      <tr><td>"a lo sumo 5" / "no mas de 5" / "5 o menos" / "como maximo 5"</td><td>\(P(X \leq 5)\)</td><td>fila 5, directo</td></tr>
+      <tr><td>"menos de 5"</td><td>\(P(X \leq 4)\)</td><td>fila 4 &nbsp;<em>(el 5 no entra)</em></td></tr>
+      <tr><td>"mas de 5"</td><td>\(P(X &gt; 5)\)</td><td>\(1 - P(X \leq 5)\)</td></tr>
+      <tr><td>"al menos 5" / "5 o mas"</td><td>\(P(X \geq 5)\)</td><td>\(1 - P(X \leq 4)\)</td></tr>
+      <tr><td>"entre 3 y 8, ambos inclusive"</td><td>\(P(3 \leq X \leq 8)\)</td><td>\(P(X \leq 8) - P(X \leq 2)\)</td></tr>
+      <tr><td>"mas de 3 pero no mas de 8"</td><td>\(P(3 &lt; X \leq 8)\)</td><td>\(P(X \leq 8) - P(X \leq 3)\)</td></tr>
+    </table>
+  </div>
+
+  <h4>Las tres reglas de las que sale toda esa tabla</h4>
+
+  <p>No hace falta memorizar las siete filas. Salen de tres ideas:</p>
+
+  <ol>
+    <li>
+      <strong>La tabla lee para abajo.</strong> Si te piden "para abajo", es directo.
+    </li>
+    <li>
+      <strong>Para arriba se usa el complemento.</strong> Todo lo que no es "para arriba" es
+      "para abajo", asi que \(P(\text{arriba}) = 1 - P(\text{abajo})\).
+      <br>
+      La unica gimnasia es <strong>decidir donde cortar</strong>: si el numero que te nombran
+      <em>entra</em> ("al menos 5"), restas la fila de <strong>abajo</strong> (\(r=4\)); si
+      <em>no entra</em> ("mas de 5"), restas <strong>su propia fila</strong> (\(r=5\)).
+    </li>
+    <li>
+      <strong>Para un pedazo del medio se restan dos filas.</strong> Agarras todo hasta el techo y
+      le sacas todo lo que sobra abajo. El techo es la fila de arriba tal cual; el piso es
+      <strong>la fila anterior al primer valor que quieras conservar</strong>.
+    </li>
+  </ol>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Los dos errores que mas se cometen</span>
+    <ul>
+      <li>
+        <strong>"al menos" vs "mas de".</strong> "Al menos 5" incluye al 5, entonces restas
+        \(P(X \leq 4)\). "Mas de 5" no lo incluye, entonces restas \(P(X \leq 5)\).
+        Un numero de diferencia cambia el resultado.
+      </li>
+      <li>
+        <strong>El piso de un rango.</strong> Para \(P(3 \leq X \leq 8)\) hay que restar la fila
+        <strong>2</strong>, no la 3. Si restaras la fila 3 estarias tirando a la basura el valor 3,
+        que si te lo estan pidiendo.
+      </li>
+    </ul>
+    <p>
+      Truco para no dudar: escribi en el borrador la lista de valores que queres.
+      \(P(3 \leq X \leq 8)\) es \(\{3,4,5,6,7,8\}\). Lo que hay que tirar es \(\{0,1,2\}\), o sea
+      la fila 2. Se ve solo.
+    </p>
+  </div>
+
+  <h3>Ejemplo completo de lectura</h3>
+
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>
+      Con \(n = 5\) y \(p = 0{,}30\), calcular: a) a lo sumo 2 exitos; b) al menos 3 exitos;
+      c) entre 1 y 3 exitos inclusive.
+    </p>
+  </div>
+
+  <p><strong>a) A lo sumo 2</strong></p>
+  <p>\[ P(X \leq 2) \]</p>
+  <p>Directo de la tabla, fila 2: \(\mathbf{0{,}8369}\)</p>
+
+  <p><strong>b) Al menos 3</strong></p>
+  <p>El 3 entra, asi que hay que tirar \(\{0,1,2\}\), o sea la fila 2:</p>
+  <p>\[ P(X \geq 3) = 1 - P(X \leq 2) = 1 - 0{,}8369 = \mathbf{0{,}1631} \]</p>
+  <p><em>Este es exactamente el resultado del Ejercicio 3 de la guia.</em></p>
+
+  <p><strong>c) Entre 1 y 3 inclusive</strong></p>
+  <p>Queremos \(\{1,2,3\}\). Techo: fila 3. Lo que sobra abajo es \(\{0\}\), o sea fila 0:</p>
+  <p>\[ P(1 \leq X \leq 3) = P(X \leq 3) - P(X \leq 0) = 0{,}9692 - 0{,}1681 = \mathbf{0{,}8011} \]</p>
+</div>

@@ -1,0 +1,73 @@
+<div class="ej">
+  <span class="tag">Ejercicio 18 &middot; Geometrica</span>
+  <h2>Fusibles probados hasta encontrar el primero defectuoso</h2>
+  <div class="enunciado">
+    <p>
+      Los fusibles se compran en lotes grandes y se prueban <strong>secuencialmente hasta que se
+      observa el primer fusible defectuoso</strong>. Si el lote contiene <strong>10% de fusibles
+      defectuosos</strong>, cual es la probabilidad de que el primer fusible defectuoso sea
+      <strong>uno de los primeros cinco</strong> probados?
+    </p>
+  </div>
+
+  <span class="paso">Paso 1 &mdash; Identificar el modelo</span>
+  <ul>
+    <li>
+      No hay cantidad fija de pruebas: se prueba <strong>hasta que</strong> aparezca el defectuoso.
+      Eso descarta Binomial.
+    </li>
+    <li>Se busca el <strong>primer</strong> defectuoso &rarr; Geometrica, no Binomial Negativa.</li>
+    <li>
+      El lote es <strong>grande</strong>, asi que sacar fusibles no cambia practicamente la
+      proporcion: \(p\) se mantiene constante y no hace falta Hipergeometrica.
+    </li>
+  </ul>
+  <p>Modelo: <strong>Geometrica \(Ge(p = 0{,}10)\)</strong>.</p>
+
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Traduccion</th><th>Cuenta</th><th>A donde va</th></tr>
+      <tr><td>"10% de fusibles defectuosos"</td><td>el exito es que salga defectuoso</td><td>\(10 \div 100 = 0{,}10\)</td><td>\(p = 0{,}10\)</td></tr>
+      <tr><td>(deduccion)</td><td>que salga bueno</td><td>\(1 - 0{,}10 = 0{,}90\)</td><td>\(1-p = 0{,}90\)</td></tr>
+      <tr><td>"sea uno de los primeros cinco"</td><td>que aparezca en el intento 1, 2, 3, 4 o 5</td><td>&mdash;</td><td>\(P(X \leq 5)\)</td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Paso 2 &mdash; Elegir el camino</span>
+  <p>Se podria sumar los cinco terminos con la formula:</p>
+  <p>\[ P(X = x) = p\,(1-p)^{\,x-1} \]</p>
+  <p>Pero hay un atajo mucho mas corto. Pensalo al reves:</p>
+
+  <div class="caja caja-formula">
+    <span class="caja-tit">Atajo de la Geometrica</span>
+    <p>
+      Que el primer exito <strong>no</strong> aparezca en los primeros \(n\) intentos significa que
+      <strong>los \(n\) fallaron</strong>. Y eso es una sola multiplicacion:
+    </p>
+    <p>\[ P(X &gt; n) = (1-p)^{n} \qquad\Longrightarrow\qquad P(X \leq n) = 1 - (1-p)^{n} \]</p>
+  </div>
+
+  <span class="paso">Paso 3 &mdash; Calcular</span>
+  <p>\[ P(X \leq 5) = 1 - (1 - 0{,}10)^{5} = 1 - (0{,}90)^{5} \]</p>
+  <p>\[ (0{,}90)^{5} = 0{,}59049 \]</p>
+  <p>\[ P(X \leq 5) = 1 - 0{,}59049 = \mathbf{0{,}40951} \]</p>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Verificacion sumando termino a termino</span>
+    <p>Por si no te convence el atajo, la suma larga da lo mismo:</p>
+    <ul>
+      <li>\(P(1) = 0{,}10\)</li>
+      <li>\(P(2) = 0{,}10(0{,}90)^{1} = 0{,}09\)</li>
+      <li>\(P(3) = 0{,}10(0{,}90)^{2} = 0{,}081\)</li>
+      <li>\(P(4) = 0{,}10(0{,}90)^{3} = 0{,}0729\)</li>
+      <li>\(P(5) = 0{,}10(0{,}90)^{4} = 0{,}06561\)</li>
+    </ul>
+    <p>Suma: \(0{,}10 + 0{,}09 + 0{,}081 + 0{,}0729 + 0{,}06561 = 0{,}40951\) &#10003;</p>
+  </div>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Resultado oficial de la catedra</span>
+    <p>0,40951 &nbsp;&#10003;</p>
+  </div>
+</div>

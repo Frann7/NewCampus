@@ -1,0 +1,62 @@
+<div class="ej">
+  <span class="tag">Ejercicio 9 &middot; Hipergeometrica</span>
+  <h2>Procedimiento de inspeccion de embarques</h2>
+  <div class="enunciado">
+    <p>
+      Una compania evalua su procedimiento de inspeccion en embarques de <strong>50 articulos</strong>
+      identicos. El procedimiento consiste en tomar una <strong>muestra de 5</strong> y
+      <strong>pasa el embarque si no se encuentran mas de dos defectuosos</strong>.
+      Que proporcion de embarques con <strong>20% de defectuosos</strong> se despachara?
+    </p>
+  </div>
+
+  <span class="paso">Paso 1 &mdash; Traducir el porcentaje a cantidad</span>
+  <p>
+    El 20% <strong>no</strong> es la \(p\) de una binomial: es la cantidad de defectuosos que hay
+    dentro del embarque concreto de 50.
+  </p>
+  <p>\[ 50 \times 0{,}20 = 10 \text{ articulos defectuosos} \]</p>
+  <p>Por lo tanto quedan \(50 - 10 = 40\) articulos buenos.</p>
+
+  <span class="paso">Paso 2 &mdash; Identificar el modelo</span>
+  <ul>
+    <li>Embarque finito de 50 articulos.</li>
+    <li>Se toma una muestra de 5 sin devolverlos.</li>
+  </ul>
+  <p>Modelo: <strong>Hipergeometrica</strong> con \(N = 50\), \(k = 10\), \(n = 5\).</p>
+
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Traduccion</th><th>Cuenta</th><th>A donde va</th></tr>
+      <tr><td>"embarques de 50 articulos"</td><td>poblacion</td><td>&mdash;</td><td>\(N = 50\)</td></tr>
+      <tr><td>"20% de defectuosos"</td><td>exitos dentro del embarque</td><td>\(50 \times 0{,}20 = 10\)</td><td>\(k = 10\)</td></tr>
+      <tr><td>(deduccion) los buenos</td><td>fracasos</td><td>\(50 - 10 = 40\)</td><td>\(N-k = 40\)</td></tr>
+      <tr><td>"una muestra de 5"</td><td>muestra</td><td>&mdash;</td><td>\(n = 5\)</td></tr>
+      <tr><td>"pasa si <strong>no</strong> se encuentran mas de dos"</td><td>pasa con 0, 1 o 2</td><td>&mdash;</td><td>\(P(X \leq 2)\)</td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Paso 3 &mdash; Calcular los tres terminos</span>
+  <p>Formula:</p>
+  <p>\[ P(X = x) = \frac{\dbinom{k}{x}\dbinom{N-k}{\,n-x\,}}{\dbinom{N}{n}} \]</p>
+  <p>Denominador comun a todo el ejercicio:</p>
+  <p>\[ \binom{50}{5} = 2{.}118{.}760 \]</p>
+
+  <p>\[ P(X = 0) = \frac{\dbinom{10}{0}\dbinom{40}{5}}{\dbinom{50}{5}} = \frac{1 \times 658{.}008}{2{.}118{.}760} = 0{,}31056 \]</p>
+  <p>\[ P(X = 1) = \frac{\dbinom{10}{1}\dbinom{40}{4}}{\dbinom{50}{5}} = \frac{10 \times 91{.}390}{2{.}118{.}760} = \frac{913{.}900}{2{.}118{.}760} = 0{,}43134 \]</p>
+  <p>\[ P(X = 2) = \frac{\dbinom{10}{2}\dbinom{40}{3}}{\dbinom{50}{5}} = \frac{45 \times 9{.}880}{2{.}118{.}760} = \frac{444{.}600}{2{.}118{.}760} = 0{,}20984 \]</p>
+
+  <span class="paso">Paso 4 &mdash; Sumar</span>
+  <p>\[ P(X \leq 2) = 0{,}31056 + 0{,}43134 + 0{,}20984 = \mathbf{0{,}9517} \]</p>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Resultado oficial de la catedra</span>
+    <p>0,9517 &nbsp;&#10003;</p>
+    <p>
+      Interpretacion para la empresa: el procedimiento <strong>despacha el 95% de los embarques
+      que tienen 20% de defectuosos</strong>. Es decir, es un control malisimo: casi no detecta
+      nada.
+    </p>
+  </div>
+</div>

@@ -1,0 +1,126 @@
+<div class="ej">
+  <span class="tag">Ejercicio 13 &middot; Poisson con reescalado</span>
+  <h2>Clientes que llegan a una casa de computacion</h2>
+  <div class="enunciado">
+    <p>
+      A una casa de computacion llegan en promedio <strong>16 clientes por hora</strong>.
+      a) Probabilidad de que en una hora arriben exactamente 9 clientes?
+      b) Probabilidad de que en <strong>quince minutos</strong> no arriben clientes?
+      c) Probabilidad de que en una hora arriben <strong>a lo sumo 6</strong> clientes?
+      d) Probabilidad de que <strong>de 10 a 11:30 hs</strong> arriben entre 4 y 10 clientes inclusive?
+    </p>
+  </div>
+
+  <span class="paso">Paso 1 &mdash; Identificar el modelo</span>
+  <p>
+    Tasa promedio por unidad de tiempo, sin tope de clientes posibles &rarr;
+    <strong>Poisson</strong> con \(\lambda = 16\) por hora.
+  </p>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Este es EL ejercicio del reescalado</span>
+    <p>
+      Cada inciso pregunta por un intervalo distinto, asi que <strong>\(\lambda t\) cambia en cada
+      uno</strong>. Lo primero que hay que hacer en cada inciso es calcularlo.
+    </p>
+  </div>
+
+  <h4>Desarme del enunciado, inciso por inciso</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Inciso</th><th>Intervalo</th><th>\(t\) en horas</th><th>Cuenta</th><th>\(\lambda t\)</th></tr>
+      <tr><td>a</td><td>"en una hora"</td><td>1</td><td>\(16 \times 1\)</td><td><strong>16</strong></td></tr>
+      <tr><td>b</td><td>"en quince minutos"</td><td>\(15/60 = 0{,}25\)</td><td>\(16 \times 0{,}25\)</td><td><strong>4</strong></td></tr>
+      <tr><td>c</td><td>"en una hora"</td><td>1</td><td>\(16 \times 1\)</td><td><strong>16</strong></td></tr>
+      <tr><td>d</td><td>"de 10 a 11:30 hs"</td><td>1,5</td><td>\(16 \times 1{,}5\)</td><td><strong>24</strong></td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Inciso a &mdash; Exactamente 9 clientes en una hora</span>
+  <p>Con \(\lambda t = 16\). Formula:</p>
+  <p>\[ P(X = x) = \frac{e^{-\lambda t}\,(\lambda t)^{x}}{x!} \]</p>
+  <p>\[ P(X = 9) = \frac{e^{-16}\,(16)^{9}}{9!} \]</p>
+  <p>Pieza por pieza (conviene notacion cientifica porque los numeros se van a las nubes):</p>
+  <ul>
+    <li>\(e^{-16} = 1{,}1254 \times 10^{-7}\)</li>
+    <li>\(16^{9} = 6{,}8719 \times 10^{10}\)</li>
+    <li>\(9! = 362{.}880\)</li>
+  </ul>
+  <p>\[ P(X = 9) = \frac{(1{,}1254 \times 10^{-7})(6{,}8719 \times 10^{10})}{362{.}880} = \frac{7{.}734{,}6}{362{.}880} = \mathbf{0{,}0213} \]</p>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta a</span>
+    <p>2,13%. Es baja porque 9 esta lejos del promedio de 16.</p>
+  </div>
+
+  <span class="paso">Inciso b &mdash; Ningun cliente en quince minutos</span>
+  <p><strong>Primero el reescalado:</strong></p>
+  <p>\[ \lambda t = 16 \times \frac{15}{60} = 16 \times 0{,}25 = 4 \]</p>
+  <p>Ahora la formula con \(x = 0\):</p>
+  <p>\[ P(X = 0) = \frac{e^{-4}\,(4)^{0}}{0!} = \frac{e^{-4} \times 1}{1} = e^{-4} = \mathbf{0{,}0183} \]</p>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">La hoja de resultados de la catedra tiene un error aca</span>
+    <p>El PDF oficial dice <em>0,0132</em>. El valor correcto es <strong>0,0183</strong>.</p>
+    <p><strong>Se puede reconstruir exactamente que paso.</strong> Si en vez de \(x = 0\) se usa \(x = 9\) (el 9 que venia del inciso a), manteniendo \(\lambda t = 4\):</p>
+    <p>\[ \frac{e^{-4}\,(4)^{9}}{9!} = \frac{0{,}0183156 \times 262{.}144}{362{.}880} = 0{,}01323 \]</p>
+    <p>
+      Da 0,0132, que es justo el valor publicado. O sea que en la hoja de resultados se arrastro el
+      \(x = 9\) del inciso anterior. El enunciado pide "no arriben clientes", que es \(x = 0\).
+    </p>
+  </div>
+
+  <span class="paso">Inciso c &mdash; A lo sumo 6 clientes en una hora</span>
+  <p>Volvemos a \(\lambda t = 16\). "A lo sumo 6" incluye el 6:</p>
+  <p>\[ P(X \leq 6) = P(0) + P(1) + P(2) + P(3) + P(4) + P(5) + P(6) \]</p>
+  <p>Calculando cada termino con \(\lambda t = 16\):</p>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th>\(x\)</th><th>\(P(X = x)\)</th></tr>
+      <tr><td>0</td><td>0,00000011</td></tr>
+      <tr><td>1</td><td>0,00000180</td></tr>
+      <tr><td>2</td><td>0,00001440</td></tr>
+      <tr><td>3</td><td>0,00007682</td></tr>
+      <tr><td>4</td><td>0,00030730</td></tr>
+      <tr><td>5</td><td>0,00098335</td></tr>
+      <tr><td>6</td><td>0,00262226</td></tr>
+      <tr><th class="lbl">Suma</th><th>0,0040</th></tr>
+    </table>
+  </div>
+  <p>\[ P(X \leq 6) = \mathbf{0{,}0040} \]</p>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Aca tambien hay un error en la hoja oficial</span>
+    <p>El PDF dice <em>0,0433</em>. Ese numero es \(P(X \leq 9)\), no \(P(X \leq 6)\):</p>
+    <p>\[ P(X \leq 9) = 0{,}0040 + 0{,}0060 + 0{,}0120 + 0{,}0213 = 0{,}0433 \]</p>
+    <p>
+      Es el mismo 9 del inciso a arrastrado otra vez. El enunciado dice "a lo sumo 6", asi que la
+      respuesta correcta es <strong>0,0040</strong>.
+    </p>
+    <p>
+      <strong>Control de sentido comun:</strong> el promedio de la hora es 16 clientes. Que lleguen
+      6 o menos es quedarse a menos de la mitad del promedio: tiene que dar un numero muy chico.
+      0,0040 (0,4%) es coherente; 0,0433 seria demasiado alto para semejante desvio.
+    </p>
+  </div>
+
+  <span class="paso">Inciso d &mdash; Entre 4 y 10 clientes, de 10 a 11:30 hs</span>
+  <p><strong>Primero el reescalado.</strong> De 10:00 a 11:30 hay una hora y media:</p>
+  <p>\[ \lambda t = 16 \times 1{,}5 = 24 \]</p>
+  <p>"Entre 4 y 10 inclusive" es \(\{4,5,6,7,8,9,10\}\). Techo: 10. Lo que se tira: \(\{0,1,2,3\}\), o sea la fila 3.</p>
+  <p>\[ P(4 \leq X \leq 10) = P(X \leq 10) - P(X \leq 3) \]</p>
+  <p>Con \(\lambda t = 24\):</p>
+  <ul>
+    <li>\(P(X \leq 10) = 0{,}00108500\)</li>
+    <li>\(P(X \leq 3) = 0{,}00000010\) &nbsp;(practicamente cero)</li>
+  </ul>
+  <p>\[ P(4 \leq X \leq 10) = 0{,}00108500 - 0{,}00000010 = \mathbf{0{,}0010849} \]</p>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Resultados de la catedra</span>
+    <p>a) 0,0213 &#10003; &nbsp;&middot;&nbsp; d) 0,0010849 &#10003;</p>
+    <p>
+      b) y c) de la hoja oficial (0,0132 y 0,0433) <strong>estan mal</strong>; los valores correctos
+      son 0,0183 y 0,0040, con la explicacion del error detallada arriba.
+    </p>
+  </div>
+</div>

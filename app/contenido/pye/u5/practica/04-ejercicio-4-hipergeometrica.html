@@ -1,0 +1,70 @@
+<div class="ej">
+  <span class="tag">Ejercicio 4 &middot; Hipergeometrica</span>
+  <h2>Trabajadores elegidos para una entrevista</h2>
+  <div class="enunciado">
+    <p>
+      En una manifestacion hay 24 trabajadores de una empresa, de los cuales 9 son mujeres y el
+      resto hombres. Un periodista selecciona a 4 trabajadores para entrevistarlos.
+      a) Probabilidad de que la entrevista incluya 2 mujeres.
+      b) Probabilidad de que haya al menos una mujer.
+    </p>
+  </div>
+
+  <span class="paso">Paso 1 &mdash; Identificar el modelo</span>
+  <p>
+    Poblacion concreta y finita (24 personas), y una persona elegida <strong>no puede volver a ser
+    elegida</strong>: es sin reposicion.
+  </p>
+  <p>Modelo: <strong>Hipergeometrica \(H(N, k, n)\)</strong> con:</p>
+  <ul>
+    <li>\(N = 24\) (total de trabajadores)</li>
+    <li>\(k = 9\) (los "exitos" en la poblacion: las mujeres)</li>
+    <li>\(n = 4\) (tamano de la muestra: los entrevistados)</li>
+    <li>\(N - k = 15\) (los hombres)</li>
+  </ul>
+
+  <p>Formula madre:</p>
+  <p>\[ P(X = x) = \frac{\dbinom{k}{x}\dbinom{N-k}{\,n-x\,}}{\dbinom{N}{n}} \]</p>
+
+  <span class="paso">Paso 2 &mdash; El denominador (sirve para los dos incisos)</span>
+  <p>\[ \binom{24}{4} = 10{.}626 \]</p>
+  <p>Son todas las formas posibles de elegir 4 personas entre 24.</p>
+
+  <span class="paso">Inciso a &mdash; Exactamente 2 mujeres</span>
+  <p>
+    Si 2 de los 4 son mujeres, los otros 2 son hombres necesariamente. Por eso el segundo
+    combinatorio es \(\binom{15}{2}\).
+  </p>
+  <p>\[ P(X = 2) = \frac{\dbinom{9}{2}\dbinom{15}{2}}{\dbinom{24}{4}} \]</p>
+  <p>Calculamos cada combinatorio:</p>
+  <ul>
+    <li>\(\binom{9}{2} = 36\)</li>
+    <li>\(\binom{15}{2} = 105\)</li>
+  </ul>
+  <p>\[ P(X = 2) = \frac{36 \times 105}{10{.}626} = \frac{3{.}780}{10{.}626} = \mathbf{0{,}3557} \]</p>
+  <div class="caja caja-resp"><span class="caja-tit">Respuesta a</span><p>\(0{,}3557\)</p></div>
+
+  <span class="paso">Inciso b &mdash; Al menos una mujer</span>
+  <p>
+    "Al menos una" son los casos \(x = 1, 2, 3, 4\): cuatro cuentas. Mucho mas rapido es ir por
+    el complemento, que es una sola:
+  </p>
+  <p>\[ P(X \geq 1) = 1 - P(X = 0) \]</p>
+  <p>\(P(X=0)\) es que los 4 entrevistados sean hombres:</p>
+  <p>\[ P(X = 0) = \frac{\dbinom{9}{0}\dbinom{15}{4}}{\dbinom{24}{4}} = \frac{1 \times 1365}{10{.}626} = 0{,}12846 \]</p>
+  <p>\[ P(X \geq 1) = 1 - 0{,}12846 = \mathbf{0{,}8715} \]</p>
+  <div class="caja caja-resp"><span class="caja-tit">Respuesta b</span><p>\(0{,}8715\)</p></div>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Regla practica</span>
+    <p>
+      Cada vez que veas <strong>"al menos uno"</strong>, pensa inmediatamente en
+      \(1 - P(\text{ninguno})\). Es siempre el camino corto.
+    </p>
+  </div>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Resultados oficiales de la catedra</span>
+    <p>a) 0,3557; b) 0,8715 &nbsp;&#10003;</p>
+  </div>
+</div>

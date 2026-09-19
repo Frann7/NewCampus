@@ -1,0 +1,291 @@
+<div class="bloque">
+  <p class="kicker">Modelo 6 &mdash; el que mas se cae en el parcial</p>
+  <h2>8. Distribucion de Poisson</h2>
+
+  <h3>Antes que nada: que problema resuelve</h3>
+
+  <p>
+    Todos los modelos anteriores necesitaban saber <strong>cuantos intentos hay</strong>. Pero hay
+    situaciones donde esa pregunta ni siquiera tiene sentido:
+  </p>
+
+  <ul>
+    <li>"Llegan 16 clientes por hora." &mdash; Cuantos intentos hubo? No hay intentos.</li>
+    <li>"Hay 1,5 fallas por milimetro de alambre." &mdash; Cuantos milimetros se probaron? Ninguno, es una tasa.</li>
+    <li>"Un servidor recibe 2 intentos de acceso por minuto." &mdash; Idem.</li>
+  </ul>
+
+  <p>
+    En todos estos casos hay <strong>un intervalo continuo</strong> (tiempo, longitud, area,
+    volumen) y una <strong>tasa promedio</strong> de ocurrencias dentro de ese intervalo.
+    Eso es Poisson.
+  </p>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">La diferencia con Binomial, en una frase</span>
+    <ul>
+      <li><strong>Binomial:</strong> "de 10 personas, cuantas mueren". Hay un tope: no pueden morir 11.</li>
+      <li><strong>Poisson:</strong> "cuantos clientes llegan en una hora". No hay tope: podrian llegar 3, 40 o 200.</li>
+    </ul>
+    <p>
+      Si en el enunciado podes contar el total de "casos posibles", es Binomial o Hipergeometrica.
+      Si solo te dan un promedio por unidad de tiempo o espacio, es Poisson.
+    </p>
+  </div>
+
+  <h3>Caracteristicas del Proceso de Poisson</h3>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Esto se pregunta textual en el parcial</span>
+    <p>
+      El Ejercicio 4 del parcial 2025 pedia: <em>"Indique las caracteristicas del Proceso de
+      Poisson"</em>. Es teoria pura y son estos tres puntos:
+    </p>
+  </div>
+
+  <ol>
+    <li>
+      <strong>Sin memoria (independencia entre intervalos).</strong> La cantidad de ocurrencias en
+      un intervalo es <em>independiente</em> de la cantidad que ocurrio en cualquier otro intervalo
+      que no se superponga. Que hayan entrado muchos clientes entre las 10 y las 11 no cambia lo
+      que pase entre las 11 y las 12.
+    </li>
+    <li>
+      <strong>Proporcionalidad.</strong> En un intervalo muy chiquito, la probabilidad de que
+      ocurra <em>exactamente una</em> ocurrencia es proporcional al largo del intervalo. El doble
+      de tiempo, el doble de chance.
+    </li>
+    <li>
+      <strong>No hay ocurrencias simultaneas.</strong> En un intervalo suficientemente chico, la
+      probabilidad de que ocurran <em>dos o mas</em> cosas a la vez es despreciable.
+    </li>
+  </ol>
+
+  <p>
+    Ademas se supone que la <strong>tasa \(\lambda\) es constante</strong> a lo largo de todo el
+    periodo que se analiza.
+  </p>
+
+  <h3>La formula</h3>
+
+  <div class="caja caja-formula">
+    <span class="caja-tit">Formulas</span>
+    <p>\[ P(X = x) = \frac{e^{-\lambda t}\,(\lambda t)^{x}}{x!} \qquad x = 0, 1, 2, \ldots \]</p>
+    <p>\[ E(X) = \lambda t \qquad\qquad V(X) = \lambda t \]</p>
+  </div>
+
+  <h4>Que es cada simbolo</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Simbolo</th><th>Que es</th><th>Ejemplo</th></tr>
+      <tr><td>\(\lambda\) (lambda)</td><td>la tasa: ocurrencias <strong>por unidad</strong> de tiempo o espacio</td><td>2 intentos <em>por minuto</em></td></tr>
+      <tr><td>\(t\)</td><td>cuantas unidades abarca la pregunta</td><td>"en 5 minutos" &rarr; \(t = 5\)</td></tr>
+      <tr><td>\(\lambda t\)</td><td><strong>el promedio dentro del intervalo que preguntan</strong></td><td>\(2 \times 5 = 10\) intentos</td></tr>
+      <tr><td>\(x\)</td><td>cuantas ocurrencias pedis</td><td>"exactamente 3" &rarr; \(x = 3\)</td></tr>
+      <tr><td>\(e\)</td><td>el numero de Euler, \(2{,}71828\ldots\)</td><td>tecla \(e^{x}\) de la calculadora</td></tr>
+      <tr><td>\(x!\)</td><td>factorial: \(3! = 3\cdot2\cdot1 = 6\)</td><td>tecla \(x!\)</td></tr>
+    </table>
+  </div>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">La regla que resuelve el 90% de los errores en Poisson</span>
+    <p>
+      <strong>\(\lambda t\) es un solo numero: el promedio en el intervalo por el que te preguntan.</strong>
+    </p>
+    <p>
+      No pienses en "lambda" y "te" por separado. Antes de tocar la formula, contestá esta pregunta:
+      <em>"en el pedazo de tiempo/espacio que me estan preguntando, cuantas cosas pasan en
+      promedio?"</em> Ese numero va entero adentro de la formula, en los dos lugares donde aparece
+      \(\lambda t\).
+    </p>
+  </div>
+
+  <h4>Como reescalar, con ejemplos</h4>
+  <p>Si te dan "16 clientes por hora" (\(\lambda = 16\) por hora), entonces:</p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>La pregunta dice</th><th>\(t\) vale</th><th>Cuenta</th><th>\(\lambda t\)</th></tr>
+      <tr><td>"en una hora"</td><td>1 hora</td><td>\(16 \times 1\)</td><td>16</td></tr>
+      <tr><td>"en 15 minutos"</td><td>\(15/60 = 0{,}25\) h</td><td>\(16 \times 0{,}25\)</td><td>4</td></tr>
+      <tr><td>"en media hora"</td><td>0,5 h</td><td>\(16 \times 0{,}5\)</td><td>8</td></tr>
+      <tr><td>"de 10 a 11:30 hs"</td><td>1,5 h</td><td>\(16 \times 1{,}5\)</td><td>24</td></tr>
+    </table>
+  </div>
+  <p>
+    Lo importante: <strong>\(t\) se mide en la misma unidad en que viene \(\lambda\)</strong>.
+    Si \(\lambda\) es por hora, \(t\) va en horas. Si mezclás unidades, el resultado sale mal.
+  </p>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">La particularidad de Poisson</span>
+    <p>
+      Es el unico modelo donde <strong>la Esperanza y la Varianza valen exactamente lo mismo</strong>.
+      Si en un parcial te dan "media 4 y varianza 4", te estan gritando que es Poisson.
+    </p>
+  </div>
+
+  <div class="caja caja-calc">
+    <span class="caja-tit">En la calculadora</span>
+    <p>\(e^{-10}\): tecla SHIFT + ln (que da \(e^{x}\)), luego (&minus;)10 &rarr; 0.0000453999</p>
+    <p>\(x!\): tecla <strong>x!</strong>, generalmente en SHIFT arriba del nCr</p>
+    <p>Ejemplo completo de \(\frac{e^{-2}\,2^{3}}{3!}\): &nbsp; e^(-2) &times; 2 ^ 3 &divide; 3 x! =</p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; Estilo parcial 2025: intentos de acceso al servidor</h3>
+
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado (Ejercicio 4 del Parcial 2025)</span>
+    <p>
+      Un servidor recibe en promedio <strong>2 intentos de acceso no autorizado por minuto</strong>.
+      Se supone que el numero de intentos en un intervalo de tiempo sigue una distribucion de Poisson.
+    </p>
+    <p>
+      b) Cual es la probabilidad de que, <strong>en un minuto</strong>, se detecte
+      <strong>al menos un</strong> intento de acceso no autorizado?<br>
+      c) Cual es la probabilidad de que, <strong>en 5 minutos</strong>, se registren
+      <strong>como maximo 8</strong> intentos?
+    </p>
+  </div>
+
+  <h4>Por que este modelo</h4>
+  <ul>
+    <li>Nos dan una <strong>tasa por unidad de tiempo</strong> (2 por minuto), no una cantidad de intentos.</li>
+    <li>No hay tope: podrian llegar 0, 3 o 50 intentos en un minuto.</li>
+    <li>Los intentos de distintos minutos son independientes entre si.</li>
+  </ul>
+
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Traduccion</th><th>A donde va</th></tr>
+      <tr><td>"2 intentos&hellip; por minuto"</td><td>la tasa, con su unidad</td><td>\(\lambda = 2\) por minuto</td></tr>
+      <tr><td>"en un minuto" (inciso b)</td><td>el intervalo de la pregunta</td><td>\(t = 1\)</td></tr>
+      <tr><td>"en 5 minutos" (inciso c)</td><td>el intervalo de la pregunta</td><td>\(t = 5\)</td></tr>
+    </table>
+  </div>
+
+  <h4>Inciso b &mdash; Al menos un intento en un minuto</h4>
+
+  <p><strong>Paso 1: calcular \(\lambda t\) para ESTE inciso.</strong></p>
+  <p>\[ \lambda t = 2 \times 1 = 2 \text{ intentos esperados en el minuto} \]</p>
+
+  <p><strong>Paso 2: traducir la pregunta.</strong></p>
+  <p>
+    "Al menos uno" es 1, o 2, o 3, o&hellip; infinitos. No se pueden sumar infinitos terminos, asi
+    que <strong>siempre</strong> se hace por complemento:
+  </p>
+  <p>\[ P(X \geq 1) = 1 - P(X = 0) \]</p>
+
+  <p><strong>Paso 3: calcular \(P(X=0)\) con la formula.</strong></p>
+  <p>Formula:</p>
+  <p>\[ P(X = x) = \frac{e^{-\lambda t}\,(\lambda t)^{x}}{x!} \]</p>
+  <p>\[ P(X = 0) = \frac{e^{-2}\,(2)^{0}}{0!} \]</p>
+  <p>Aca hay dos cosas que se simplifican:</p>
+  <ul>
+    <li>\((2)^{0} = 1\) &mdash; cualquier numero elevado a la 0 da 1.</li>
+    <li>\(0! = 1\) &mdash; por definicion, el factorial de cero vale 1.</li>
+  </ul>
+  <p>\[ P(X = 0) = \frac{e^{-2} \times 1}{1} = e^{-2} = 0{,}1353 \]</p>
+
+  <p><strong>Paso 4: restar.</strong></p>
+  <p>\[ P(X \geq 1) = 1 - 0{,}1353 = 0{,}8647 \]</p>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta b</span>
+    <p>86,47% de probabilidad de que en un minuto haya al menos un intento.</p>
+    <p>
+      Control de sentido comun: si en promedio llegan 2 por minuto, era esperable que la chance de
+      que llegue "al menos uno" fuera alta. &#10003;
+    </p>
+  </div>
+
+  <h4>Inciso c &mdash; Como maximo 8 intentos en 5 minutos</h4>
+
+  <p><strong>Paso 1: reescalar. Este es EL paso del ejercicio.</strong></p>
+  <p>
+    La tasa venia por minuto, pero ahora preguntan por 5 minutos. Entonces \(t = 5\):
+  </p>
+  <p>\[ \lambda t = 2 \times 5 = 10 \text{ intentos esperados en los 5 minutos} \]</p>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Error clasico</span>
+    <p>
+      Usar \(\lambda t = 2\) porque "la tasa es 2". No: la tasa es 2 <em>por minuto</em>, y te estan
+      preguntando por 5 minutos. El promedio del intervalo es 10.
+    </p>
+  </div>
+
+  <p><strong>Paso 2: traducir la pregunta.</strong></p>
+  <p>"Como maximo 8" es 8 o menos:</p>
+  <p>\[ P(X \leq 8) \]</p>
+
+  <p><strong>Paso 3: resolver.</strong></p>
+  <p>
+    Habria que calcular \(P(0) + P(1) + \ldots + P(8)\), que son nueve veces la formula. Para eso
+    existe la <strong>tabla acumulada de Poisson</strong>: se busca la columna \(\lambda t = 10\) y
+    la fila \(r = 8\).
+  </p>
+  <p>\[ P(X \leq 8) = 0{,}3328 \]</p>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta c</span>
+    <p>33,28%.</p>
+    <p>
+      Tiene sentido que sea menos del 50%: como el promedio del intervalo es 10, quedarse en 8 o
+      menos es quedarse por debajo de lo esperado.
+    </p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; Reescalado a un intervalo mas chico</h3>
+
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>
+      A una casa de computacion llegan en promedio <strong>16 clientes por hora</strong>.
+      a) Probabilidad de que en <strong>15 minutos</strong> no llegue ningun cliente?
+      b) Probabilidad de que en <strong>una hora</strong> lleguen exactamente 9 clientes?
+    </p>
+  </div>
+
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Traduccion</th><th>Cuenta</th><th>A donde va</th></tr>
+      <tr><td>"16 clientes por hora"</td><td>tasa, en clientes por hora</td><td>&mdash;</td><td>\(\lambda = 16\) por hora</td></tr>
+      <tr><td>"en 15 minutos"</td><td>hay que pasarlo a horas</td><td>\(15 \div 60 = 0{,}25\)</td><td>\(t = 0{,}25\)</td></tr>
+      <tr><td>"no llegue ninguno"</td><td>cero clientes</td><td>&mdash;</td><td>\(x = 0\)</td></tr>
+      <tr><td>"exactamente 9"</td><td>nueve clientes</td><td>&mdash;</td><td>\(x = 9\)</td></tr>
+    </table>
+  </div>
+
+  <h4>Inciso a &mdash; Ninguno en 15 minutos</h4>
+  <p><strong>Paso 1: reescalar.</strong></p>
+  <p>15 minutos es un cuarto de hora. Como \(\lambda\) viene por hora, \(t\) va en horas:</p>
+  <p>\[ \lambda t = 16 \times 0{,}25 = 4 \text{ clientes esperados en los 15 minutos} \]</p>
+  <p><strong>Paso 2: aplicar la formula con \(x = 0\).</strong></p>
+  <p>Formula:</p>
+  <p>\[ P(X = x) = \frac{e^{-\lambda t}\,(\lambda t)^{x}}{x!} \]</p>
+  <p>\[ P(X = 0) = \frac{e^{-4}\,(4)^{0}}{0!} = \frac{e^{-4} \times 1}{1} = e^{-4} = 0{,}0183 \]</p>
+  <div class="caja caja-resp"><span class="caja-tit">Respuesta a</span><p>1,83%.</p></div>
+
+  <h4>Inciso b &mdash; Exactamente 9 en una hora</h4>
+  <p><strong>Paso 1: reescalar.</strong> El intervalo coincide con la unidad de la tasa, asi que \(t = 1\):</p>
+  <p>\[ \lambda t = 16 \times 1 = 16 \]</p>
+  <p><strong>Paso 2: formula con \(x = 9\).</strong></p>
+  <p>\[ P(X = 9) = \frac{e^{-16}\,(16)^{9}}{9!} \]</p>
+  <p>Pieza por pieza:</p>
+  <ul>
+    <li>\(e^{-16} = 1{,}1254 \times 10^{-7}\)</li>
+    <li>\(16^{9} = 6{,}8719 \times 10^{10}\)</li>
+    <li>\(9! = 362{.}880\)</li>
+  </ul>
+  <p>\[ P(X = 9) = \frac{(1{,}1254 \times 10^{-7})(6{,}8719 \times 10^{10})}{362{.}880} = \frac{7734{,}6}{362{.}880} = 0{,}0213 \]</p>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta b</span>
+    <p>2,13%. Bajo, porque 9 esta lejos del promedio de 16.</p>
+  </div>
+</div>

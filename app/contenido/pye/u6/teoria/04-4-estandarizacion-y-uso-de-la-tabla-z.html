@@ -1,0 +1,231 @@
+<div class="bloque">
+  <p class="kicker">La herramienta clave</p>
+  <h2>4. Estandarizacion y uso de la tabla \(Z\)</h2>
+
+  <p>
+    Cada problema tiene su \(\mu\) y su \(\sigma\), asi que habria que tabular infinitas campanas.
+    El truco es transformar <strong>cualquier</strong> normal en una sola normal de referencia,
+    la <strong>normal estandar</strong>, que tiene \(\mu = 0\) y \(\sigma = 1\).
+  </p>
+
+  <div class="caja caja-formula">
+    <span class="caja-tit">Transformacion</span>
+    <p>\[ Z = \frac{X - \mu}{\sigma} \]</p>
+    <p>Y para volver de \(Z\) a \(X\) (cuando el problema es inverso):</p>
+    <p>\[ X = \mu + Z \cdot \sigma \]</p>
+  </div>
+
+  <h4>Que significa \(Z\) fisicamente</h4>
+  <p>
+    \(Z\) mide <strong>a cuantos desvios estandar de la media esta el valor</strong>.
+    Es una regla de tres disfrazada: primero calculas cuanto te alejaste de la media
+    \((x - \mu)\), y despues preguntas "cuantos desvios entran en ese alejamiento" dividiendo por
+    \(\sigma\).
+  </p>
+  <ul>
+    <li>\(Z = 0\): el valor es exactamente la media.</li>
+    <li>\(Z = +1\): esta un desvio por encima de la media.</li>
+    <li>\(Z = -2{,}5\): esta dos desvios y medio por debajo.</li>
+  </ul>
+  <p>
+    Por eso el resultado no tiene unidades: es un numero puro, y esa es la razon por la que una
+    sola tabla sirve para todos los problemas del mundo.
+  </p>
+
+  <h3>Como se lee la Tabla 3</h3>
+
+  <div class="caja caja-formula">
+    <span class="caja-tit">Regla de oro</span>
+    <p>
+      La tabla siempre devuelve <strong>el area a la IZQUIERDA</strong>:
+    </p>
+    <p>\[ F(z) = P(Z &lt; z) \]</p>
+    <p>Todo lo demas se arma a partir de eso.</p>
+  </div>
+
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Lo que te piden</th><th>Como se calcula</th><th>Por que</th></tr>
+      <tr><td>Area a la izquierda de \(z\)</td><td>\(F(z)\)</td><td>es lo que da la tabla, directo</td></tr>
+      <tr><td>Area a la derecha de \(z\)</td><td>\(1 - F(z)\)</td><td>todo el area vale 1; le sacas la izquierda</td></tr>
+      <tr><td>Area entre \(z_1\) y \(z_2\)</td><td>\(F(z_2) - F(z_1)\)</td><td>al area hasta el mayor le sacas la que sobra abajo</td></tr>
+    </table>
+  </div>
+
+  <h4>Como se ubica el numero</h4>
+  <p>
+    El valor de \(z\) se parte en dos: <strong>la fila</strong> trae el entero y el primer decimal
+    (por ejemplo 1,2), y <strong>la columna</strong> trae el segundo decimal (por ejemplo 0,04).
+    El cruce de la fila 1,2 con la columna 0,04 es \(F(1{,}24)\).
+  </p>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Control rapido de signos</span>
+    <ul>
+      <li>Si \(z\) es <strong>negativo</strong>, \(F(z)\) tiene que dar <strong>menor a 0,5</strong>.</li>
+      <li>Si \(z\) es <strong>positivo</strong>, \(F(z)\) tiene que dar <strong>mayor a 0,5</strong>.</li>
+      <li>\(F(0) = 0{,}5000\) exacto, porque la media parte la campana al medio.</li>
+    </ul>
+    <p>Si tu numero no cumple esto, te equivocaste de fila o de signo.</p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; Entre dos valores (Ejemplo 2 de la catedra)</h3>
+
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>
+      Dada una variable aleatoria \(X\) con distribucion normal con <strong>\(\mu = 50\)</strong> y
+      <strong>\(\sigma = 10\)</strong>, calcule la probabilidad de que \(X\) tome un valor
+      <strong>entre 45 y 62</strong>.
+    </p>
+  </div>
+
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Traduccion</th><th>A donde va</th></tr>
+      <tr><td>"distribucion normal"</td><td>modelo identificado</td><td>usar \(z = \frac{x-\mu}{\sigma}\)</td></tr>
+      <tr><td>"\(\mu = 50\)"</td><td>el centro de la campana</td><td>\(\mu = 50\)</td></tr>
+      <tr><td>"\(\sigma = 10\)"</td><td>ya es el desvio (no la varianza)</td><td>\(\sigma = 10\)</td></tr>
+      <tr><td>"entre 45 y 62"</td><td>hay que estandarizar los DOS extremos</td><td>\(x_1 = 45,\ x_2 = 62\)</td></tr>
+    </table>
+  </div>
+
+  <h4>Paso 1 &mdash; Estandarizar cada extremo</h4>
+  <p>Formula:</p>
+  <p>\[ z = \frac{x - \mu}{\sigma} \]</p>
+  <p>\[ z_1 = \frac{45 - 50}{10} = \frac{-5}{10} = -0{,}5 \]</p>
+  <p>\[ z_2 = \frac{62 - 50}{10} = \frac{12}{10} = 1{,}2 \]</p>
+
+  <h4>Paso 2 &mdash; Reescribir la probabilidad</h4>
+  <p>\[ P(45 &lt; X &lt; 62) = P(-0{,}5 &lt; Z &lt; 1{,}2) = F(1{,}2) - F(-0{,}5) \]</p>
+
+  <h4>Paso 3 &mdash; Buscar en la tabla y restar</h4>
+  <p>\[ F(1{,}2) = 0{,}8849 \qquad F(-0{,}5) = 0{,}3085 \]</p>
+  <p>\[ P(45 &lt; X &lt; 62) = 0{,}8849 - 0{,}3085 = 0{,}5764 \]</p>
+  <div class="caja caja-resp"><span class="caja-tit">Respuesta</span><p>57,64%.</p></div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; Estilo parcial 2025: duracion de pilas</h3>
+
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado (Ejercicio 2 del Parcial 2025)</span>
+    <p>
+      Un fabricante de pilas para linternas asegura que la duracion de su producto tiene
+      distribucion normal de media <strong>\(\mu = 80\) horas</strong> de uso con una
+      <strong>varianza de \(\sigma^{2} = 16\)</strong>. Se pide:
+    </p>
+    <p>
+      a) Que una pila tomada al azar dure <strong>mas de 90 horas</strong>.<br>
+      b) Que una pila tomada al azar dure <strong>entre 70 y 85 horas</strong>.<br>
+      c) A partir de que valor de vida las pilas estaran dentro del <strong>0,62% mas alto</strong>.
+    </p>
+  </div>
+
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Traduccion</th><th>Cuenta</th><th>A donde va</th></tr>
+      <tr><td>"media \(\mu = 80\) horas"</td><td>centro de la campana</td><td>&mdash;</td><td>\(\mu = 80\)</td></tr>
+      <tr>
+        <td>"<strong>varianza</strong> de \(\sigma^{2} = 16\)"</td>
+        <td>OJO: te dan la varianza, no el desvio</td>
+        <td>\(\sigma = \sqrt{16} = 4\)</td>
+        <td>\(\sigma = 4\)</td>
+      </tr>
+      <tr><td>"mas de 90 horas"</td><td>cola derecha</td><td>&mdash;</td><td>\(x = 90\)</td></tr>
+      <tr><td>"entre 70 y 85"</td><td>tramo del medio</td><td>&mdash;</td><td>\(x_1=70,\ x_2=85\)</td></tr>
+    </table>
+  </div>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">La trampa numero uno de este ejercicio</span>
+    <p>
+      El enunciado da \(\sigma^{2} = 16\), que es la <strong>varianza</strong>. En la formula de
+      estandarizacion va el <strong>desvio</strong>, o sea \(\sigma = \sqrt{16} = 4\).
+    </p>
+    <p>
+      Si dividis por 16 en vez de por 4, todos los incisos salen mal. Cada vez que veas
+      \(\sigma^{2}\) en un enunciado, sacale la raiz <strong>antes</strong> de empezar.
+    </p>
+  </div>
+
+  <h4>Inciso a &mdash; Mas de 90 horas</h4>
+  <p>Formula:</p>
+  <p>\[ z = \frac{x - \mu}{\sigma} \]</p>
+  <p>\[ z = \frac{90 - 80}{4} = \frac{10}{4} = 2{,}50 \]</p>
+  <p>Formula (cola derecha):</p>
+  <p>\[ P(X &gt; x) = 1 - F(z) \]</p>
+  <p>\[ P(X &gt; 90) = 1 - F(2{,}50) = 1 - 0{,}9938 = 0{,}0062 \]</p>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta a</span>
+    <p>0,62% de las pilas dura mas de 90 horas.</p>
+  </div>
+
+  <h4>Inciso b &mdash; Entre 70 y 85 horas</h4>
+  <p>Estandarizamos los dos extremos:</p>
+  <p>\[ z_1 = \frac{70 - 80}{4} = \frac{-10}{4} = -2{,}50 \]</p>
+  <p>\[ z_2 = \frac{85 - 80}{4} = \frac{5}{4} = 1{,}25 \]</p>
+  <p>Formula:</p>
+  <p>\[ P(x_1 &lt; X &lt; x_2) = F(z_2) - F(z_1) \]</p>
+  <p>\[ P(70 &lt; X &lt; 85) = F(1{,}25) - F(-2{,}50) = 0{,}8944 - 0{,}0062 = 0{,}8882 \]</p>
+  <div class="caja caja-resp"><span class="caja-tit">Respuesta b</span><p>88,82%.</p></div>
+
+  <h4>Inciso c &mdash; El 0,62% mas alto (problema inverso)</h4>
+  <p>
+    Aca cambia el sentido del recorrido: <strong>nos dan el area y buscan el valor de \(x\)</strong>.
+  </p>
+
+  <p><strong>Paso 1 &mdash; Pasar el porcentaje a area a la izquierda.</strong></p>
+  <p>
+    Nos hablan del 0,62% <em>mas alto</em>, o sea un area de 0,0062 <strong>a la derecha</strong>.
+    La tabla no lee derechas, asi que lo damos vuelta:
+  </p>
+  <p>\[ F(z) = 1 - 0{,}0062 = 0{,}9938 \]</p>
+
+  <p><strong>Paso 2 &mdash; Buscar 0,9938 ADENTRO de la tabla.</strong></p>
+  <p>
+    Esta vez no entramos por los margenes sino por el cuerpo, y leemos a que \(z\) corresponde:
+  </p>
+  <p>\[ z = 2{,}50 \]</p>
+
+  <p><strong>Paso 3 &mdash; Desestandarizar.</strong></p>
+  <p>Formula:</p>
+  <p>\[ x = \mu + z \cdot \sigma \]</p>
+  <p>\[ x = 80 + (2{,}50)(4) = 80 + 10 = 90 \text{ horas} \]</p>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta c</span>
+    <p>A partir de las <strong>90 horas</strong> de vida, la pila entra en el 0,62% mas alto.</p>
+    <p>
+      Fijate que este inciso es exactamente el inciso a <strong>leido al reves</strong>: alli
+      salimos de 90 horas y llegamos a 0,62%; aca salimos de 0,62% y llegamos a 90 horas.
+      Es una buena forma de autocontrolarse.
+    </p>
+  </div>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Los dos sentidos, resumidos</span>
+    <div class="tabla-wrap">
+      <table class="t full">
+        <tr><th></th><th>Problema directo</th><th>Problema inverso</th></tr>
+        <tr><td>Te dan</td><td>un valor de \(x\)</td><td>un porcentaje / area</td></tr>
+        <tr><td>Buscan</td><td>una probabilidad</td><td>un valor de \(x\)</td></tr>
+        <tr><td>Entras a la tabla por</td><td>los margenes (el \(z\))</td><td>el cuerpo (el area)</td></tr>
+        <tr><td>Formula</td><td>\(z = \frac{x-\mu}{\sigma}\)</td><td>\(x = \mu + z\sigma\)</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Cuando el area no figura exacta</span>
+    <p>
+      Casi nunca vas a encontrar el numero exacto en la tabla. Se toma
+      <strong>el valor mas cercano</strong>; si dos quedan igual de cerca se puede interpolar,
+      pero para el parcial alcanza con el mas proximo.
+    </p>
+  </div>
+</div>

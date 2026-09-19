@@ -1,0 +1,96 @@
+<div class="bloque">
+  <p class="kicker">Herramienta algebraica</p>
+  <h2>10. Sistemas de ecuaciones con esperanzas</h2>
+
+  <p>
+    Hay un tipo de ejercicio donde te dan datos como \(E[(X-1)^2] = 10\) y te piden \(\mu\) y \(\sigma^2\).
+    No hay tabla ni funcion: la tecnica es <strong>desarrollar el binomio y repartir la Esperanza</strong>
+    para que aparezcan las dos incognitas que sirven, \(E(X)\) y \(E(X^{2})\).
+  </p>
+
+  <div class="caja caja-formula">
+    <span class="caja-tit">Desarrollos</span>
+    <p>\[ E\big[(X - b)^{2}\big] \;=\; E(X^{2}) - 2b\,E(X) + b^{2} \]</p>
+    <p>\[ E\big[(X + b)^{2}\big] \;=\; E(X^{2}) + 2b\,E(X) + b^{2} \]</p>
+  </div>
+
+  <h4>El procedimiento, en cuatro pasos</h4>
+  <ol>
+    <li>Desarrollar cada dato hasta dejarlo en funcion de \(E(X)\) y \(E(X^{2})\).</li>
+    <li>Restar las dos ecuaciones para que se cancele \(E(X^{2})\) y despejar \(E(X)\).</li>
+    <li>Volver a cualquiera de las dos ecuaciones y recuperar \(E(X^{2})\).</li>
+    <li>Aplicar \(V(X) = E(X^{2}) - [E(X)]^{2}\).</li>
+  </ol>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; El del Ejercicio 16 de la guia</h3>
+
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>Si \(E[(X-1)^{2}] = 10\) y \(E[(X-2)^{2}] = 6\), encuentre \(\mu\) y \(\sigma^{2}\).</p>
+  </div>
+
+  <p><strong>Paso 1 &mdash; Desarrollar.</strong> Con \(b = 1\):</p>
+  <p>\[ E(X^{2}) - 2(1)E(X) + 1^{2} = 10 \;\Longrightarrow\; E(X^{2}) - 2E(X) = 9 \qquad (1) \]</p>
+  <p>Con \(b = 2\):</p>
+  <p>\[ E(X^{2}) - 2(2)E(X) + 2^{2} = 6 \;\Longrightarrow\; E(X^{2}) - 4E(X) = 2 \qquad (2) \]</p>
+
+  <p><strong>Paso 2 &mdash; Restar (1) menos (2).</strong> El \(E(X^{2})\) se cancela:</p>
+  <p>\[ -2E(X) + 4E(X) = 9 - 2 \;\Longrightarrow\; 2E(X) = 7 \;\Longrightarrow\; E(X) = 3{,}5 \]</p>
+
+  <p><strong>Paso 3 &mdash; Recuperar \(E(X^{2})\)</strong> desde (1):</p>
+  <p>\[ E(X^{2}) = 9 + 2(3{,}5) = 16 \]</p>
+
+  <p><strong>Paso 4 &mdash; Varianza.</strong></p>
+  <p>\[ V(X) = 16 - (3{,}5)^{2} = 16 - 12{,}25 = 3{,}75 \]</p>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>\(\mu = 3{,}5\) y \(\sigma^{2} = 3{,}75\).</p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; Otro sistema, para fijar el metodo</h3>
+
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>Si \(E[(X-3)^{2}] = 4\) y \(E[(X-5)^{2}] = 8\), encuentre \(\mu\) y \(\sigma\).</p>
+  </div>
+
+  <p><strong>Paso 1 &mdash; Desarrollar.</strong> Con \(b = 3\):</p>
+  <p>\[ E(X^{2}) - 6E(X) + 9 = 4 \;\Longrightarrow\; E(X^{2}) - 6E(X) = -5 \qquad (1) \]</p>
+  <p>Con \(b = 5\):</p>
+  <p>\[ E(X^{2}) - 10E(X) + 25 = 8 \;\Longrightarrow\; E(X^{2}) - 10E(X) = -17 \qquad (2) \]</p>
+
+  <p><strong>Paso 2 &mdash; Restar (1) menos (2).</strong></p>
+  <p>\[ -6E(X) + 10E(X) = -5 - (-17) \]</p>
+  <p>\[ 4E(X) = 12 \;\Longrightarrow\; E(X) = 3 \]</p>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Ojo con el doble signo</span>
+    <p>
+      Del lado derecho quedo \(-5 - (-17)\). Menos por menos da mas, asi que es \(-5 + 17 = 12\).
+      Es el paso donde mas se equivoca la gente.
+    </p>
+  </div>
+
+  <p><strong>Paso 3 &mdash; Recuperar \(E(X^{2})\)</strong> desde (1):</p>
+  <p>\[ E(X^{2}) = -5 + 6(3) = -5 + 18 = 13 \]</p>
+
+  <p><strong>Paso 4 &mdash; Varianza y desvio.</strong></p>
+  <p>\[ V(X) = 13 - (3)^{2} = 13 - 9 = 4 \qquad\Longrightarrow\qquad \sigma = \sqrt{4} = 2 \]</p>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>\(\mu = 3\) y \(\sigma = 2\).</p>
+  </div>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Verificacion</span>
+    <p>
+      Metemos los resultados en la segunda condicion:
+      \(E(X^{2}) - 10E(X) + 25 = 13 - 30 + 25 = 8\) &#10003;. Coincide con el dato, asi que
+      esta bien resuelto.
+    </p>
+  </div>
+</div>

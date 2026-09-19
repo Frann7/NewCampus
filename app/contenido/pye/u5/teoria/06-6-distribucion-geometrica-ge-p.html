@@ -1,0 +1,130 @@
+<div class="bloque">
+  <p class="kicker">Modelo 4</p>
+  <h2>6. Distribucion Geometrica \(Ge(p)\)</h2>
+
+  <h3>Cuando se usa</h3>
+  <p>
+    Cuando repetis un experimento <strong>hasta que sale el primer exito</strong>, y lo que te
+    interesa es <em>en que intento ocurrio</em>. Aca <strong>no hay \(n\) fijo</strong>: seguis
+    intentando hasta ganar.
+  </p>
+
+  <div class="caja caja-formula">
+    <span class="caja-tit">Formulas</span>
+    <p>\[ P(X = x) = p\,(1-p)^{\,x-1} \qquad x = 1, 2, 3, \ldots \]</p>
+    <p>\[ E(X) = \frac{1}{p} \qquad\qquad V(X) = \frac{1-p}{p^{2}} \]</p>
+  </div>
+
+  <h4>Como leer la formula</h4>
+  <p>
+    Para que el exito llegue <strong>recien</strong> en el intento numero \(x\), tienen que pasar
+    dos cosas seguidas:
+  </p>
+  <ol>
+    <li>que fallen los \(x-1\) intentos anteriores &rarr; \((1-p)^{x-1}\)</li>
+    <li>que el intento numero \(x\) sea exito &rarr; \(p\)</li>
+  </ol>
+  <p>
+    Como son independientes, se multiplican. Y no hay ningun combinatorio adelante porque
+    <strong>hay un solo orden posible</strong>: el exito esta obligado a ser el ultimo.
+  </p>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">El detalle del exponente</span>
+    <p>
+      Es \(x-1\), no \(x\). Si el exito llega en el intento 4, hubo <strong>3</strong> fracasos
+      antes, no 4. Es el error tipico.
+    </p>
+  </div>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Por que \(E(X) = 1/p\)</span>
+    <p>
+      Si algo pasa 1 vez de cada 6, esperas tener que intentarlo unas 6 veces para que salga.
+      \(E(X) = \frac{1}{1/6} = 6\). La formula solo formaliza esa intuicion.
+    </p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; Tirar un dado hasta sacar un 6</h3>
+
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>Tiro un dado hasta que salga un 6. Cual es la probabilidad de que salga recien en el 4to tiro?</p>
+  </div>
+
+  <h4>Por que este modelo</h4>
+  <ul>
+    <li>No hay cantidad fija de tiros: tiro <strong>hasta</strong> que salga. Eso descarta Binomial.</li>
+    <li>Busco el <strong>primer</strong> 6, no el tercero ni el quinto. Eso lo separa de la Binomial Negativa.</li>
+  </ul>
+
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Traduccion</th><th>Cuenta</th><th>A donde va</th></tr>
+      <tr><td>"que salga un 6"</td><td>1 cara favorable de 6 posibles</td><td>\(1/6 = 0{,}1667\)</td><td>\(p = 0{,}1667\)</td></tr>
+      <tr><td>(deduccion) "que no salga 6"</td><td>las otras 5 caras</td><td>\(5/6 = 0{,}8333\)</td><td>\(1-p = 0{,}8333\)</td></tr>
+      <tr><td>"recien en el 4to tiro"</td><td>el exito ocurre en el intento 4</td><td>&mdash;</td><td>\(x = 4\)</td></tr>
+      <tr><td>(consecuencia)</td><td>los 3 anteriores fallaron</td><td>\(4 - 1 = 3\)</td><td>exponente \(x-1 = 3\)</td></tr>
+    </table>
+  </div>
+
+  <h4>Resolucion</h4>
+  <p>Formula:</p>
+  <p>\[ P(X = x) = p\,(1-p)^{\,x-1} \]</p>
+  <p>\[ P(X = 4) = \left(\tfrac{1}{6}\right)\left(\tfrac{5}{6}\right)^{4-1} = \left(\tfrac{1}{6}\right)\left(\tfrac{5}{6}\right)^{3} \]</p>
+  <p>\[ = 0{,}1667 \times 0{,}5787 = 0{,}0965 \]</p>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>9,65%. Y el numero esperado de tiros hasta el primer 6 es \(E(X) = \frac{1}{1/6} = 6\) tiros.</p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; Estilo parcial: primer intento de acceso bloqueado</h3>
+
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>
+      Un firewall bloquea el <strong>30%</strong> de los intentos de acceso que recibe. Los intentos
+      se van revisando de a uno.
+      a) Cual es la probabilidad de que <strong>el primer bloqueo</strong> ocurra en el
+      <strong>cuarto</strong> intento revisado?
+      b) Cuantos intentos se esperan revisar hasta el primer bloqueo?
+    </p>
+  </div>
+
+  <h4>Por que este modelo</h4>
+  <ul>
+    <li>Se revisan de a uno <strong>hasta</strong> que ocurra algo: no hay \(n\) fijo.</li>
+    <li>Nos interesa el <strong>primer</strong> bloqueo &rarr; Geometrica.</li>
+  </ul>
+
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Traduccion</th><th>Cuenta</th><th>A donde va</th></tr>
+      <tr><td>"bloquea el 30%"</td><td>el exito es que bloquee</td><td>\(30 \div 100 = 0{,}30\)</td><td>\(p = 0{,}30\)</td></tr>
+      <tr><td>(deduccion)</td><td>que no bloquee</td><td>\(1 - 0{,}30 = 0{,}70\)</td><td>\(1-p = 0{,}70\)</td></tr>
+      <tr><td>"el primer bloqueo en el cuarto"</td><td>exito en el intento 4</td><td>&mdash;</td><td>\(x = 4\)</td></tr>
+    </table>
+  </div>
+
+  <h4>Inciso a</h4>
+  <p>Formula:</p>
+  <p>\[ P(X = x) = p\,(1-p)^{\,x-1} \]</p>
+  <p>\[ P(X = 4) = (0{,}30)(0{,}70)^{4-1} = (0{,}30)(0{,}70)^{3} \]</p>
+  <p>\[ = 0{,}30 \times 0{,}343 = 0{,}1029 \]</p>
+  <div class="caja caja-resp"><span class="caja-tit">Respuesta a</span><p>10,29%.</p></div>
+
+  <h4>Inciso b</h4>
+  <p>Formula:</p>
+  <p>\[ E(X) = \frac{1}{p} \]</p>
+  <p>\[ E(X) = \frac{1}{0{,}30} = 3{,}33 \]</p>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta b</span>
+    <p>Se esperan revisar unos <strong>3,33 intentos</strong> hasta encontrar el primer bloqueado.</p>
+  </div>
+</div>

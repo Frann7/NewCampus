@@ -1,0 +1,62 @@
+<div class="ej">
+  <span class="tag">Ejercicio 17 &middot; Poisson</span>
+  <h2>Pacientes por traumatismo en urgencias</h2>
+  <div class="enunciado">
+    <p>
+      El numero medio de personas que llegan por traumatismos a una sala de urgencias en
+      <strong>una hora</strong> es igual a <strong>5</strong>. Cual es la probabilidad de que:
+      a) lleguen exactamente cuatro pacientes en 60 minutos;
+      b) lleguen al menos cuatro pacientes en una hora;
+      c) lleguen al menos uno y no mas de tres pacientes en una hora?
+    </p>
+  </div>
+
+  <span class="paso">Paso 1 &mdash; Identificar el modelo y los parametros</span>
+  <p>
+    Tasa promedio por hora &rarr; <strong>Poisson</strong>. Los tres incisos preguntan por una hora
+    (ojo que "60 minutos" es lo mismo que "una hora"), asi que \(t = 1\) siempre:
+  </p>
+  <p>\[ \lambda t = 5 \times 1 = 5 \]</p>
+
+  <p>Calculamos una vez los terminos que vamos a necesitar:</p>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th>\(x\)</th><th>\(P(X = x)\)</th><th>Acumulado \(P(X \leq x)\)</th></tr>
+      <tr><td>0</td><td>0,0067</td><td>0,0067</td></tr>
+      <tr><td>1</td><td>0,0337</td><td>0,0404</td></tr>
+      <tr><td>2</td><td>0,0842</td><td>0,1247</td></tr>
+      <tr><td>3</td><td>0,1404</td><td><strong>0,2650</strong></td></tr>
+      <tr><td>4</td><td><strong>0,1755</strong></td><td>0,4405</td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Inciso a &mdash; Exactamente cuatro pacientes</span>
+  <p>Formula:</p>
+  <p>\[ P(X = x) = \frac{e^{-\lambda t}\,(\lambda t)^{x}}{x!} \]</p>
+  <p>\[ P(X = 4) = \frac{e^{-5}\,(5)^{4}}{4!} = \frac{0{,}0067379 \times 625}{24} = \frac{4{,}21118}{24} = \mathbf{0{,}1755} \]</p>
+
+  <span class="paso">Inciso b &mdash; Al menos cuatro pacientes</span>
+  <p>El 4 entra, asi que se descarta del 3 para abajo:</p>
+  <p>\[ P(X \geq 4) = 1 - P(X \leq 3) \]</p>
+  <p>\[ P(X \geq 4) = 1 - 0{,}2650 = \mathbf{0{,}7350} \]</p>
+
+  <span class="paso">Inciso c &mdash; Al menos uno y no mas de tres</span>
+  <p>Traduccion: el 1 entra y el 3 entra. Queremos \(\{1, 2, 3\}\).</p>
+  <p>\[ P(1 \leq X \leq 3) = P(X \leq 3) - P(X \leq 0) \]</p>
+  <p>Techo: fila 3. Lo unico que sobra abajo es el \(\{0\}\), o sea la fila 0.</p>
+  <p>\[ = 0{,}2650 - 0{,}0067 = \mathbf{0{,}2583} \]</p>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Otra forma de verlo</span>
+    <p>
+      Tambien podes sumar directo los tres terminos:
+      \(0{,}0337 + 0{,}0842 + 0{,}1404 = 0{,}2583\). Da lo mismo. Con rangos cortos a veces sumar
+      es mas rapido que restar acumuladas.
+    </p>
+  </div>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Resultados oficiales de la catedra</span>
+    <p>a) 0,1755; &nbsp; b) 0,7350; &nbsp; c) 0,2583 &nbsp;&#10003;</p>
+  </div>
+</div>

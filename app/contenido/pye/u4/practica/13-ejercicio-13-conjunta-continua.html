@@ -1,0 +1,81 @@
+<div class="ej">
+  <span class="tag">Ejercicio 13 &middot; Conjunta continua</span>
+  <h2>Covarianza con densidad conjunta \(f(x,y) = x + y\)</h2>
+  <div class="enunciado">
+    <p>
+      Encuentre la covarianza y el coeficiente de correlacion de las variables aleatorias \(X\) e
+      \(Y\), cuya funcion de densidad de probabilidad conjunta es
+      \(f(x,y) = x + y\) para \(0 &lt; x &lt; 1\) y \(0 &lt; y &lt; 1\).
+    </p>
+  </div>
+
+  <p>
+    Es el mismo esquema del ejercicio 11, pero en vez de sumar celdas hay que integrar. Como los
+    limites de ambas variables van de 0 a 1, todas las integrales son dobles de 0 a 1.
+  </p>
+
+  <span class="paso">Paso 1 &mdash; \(E(X)\)</span>
+  <p>Formula:</p>
+  <p>\[ E(X) = \int_{0}^{1}\!\!\int_{0}^{1} x \cdot f(x,y)\, dx\, dy \]</p>
+  <p>\[ E(X) = \int_{0}^{1}\!\!\int_{0}^{1} x(x+y)\, dx\, dy = \int_{0}^{1}\!\!\int_{0}^{1} (x^{2} + xy)\, dx\, dy \]</p>
+  <p>
+    Resolvemos primero la integral de adentro (respecto de \(x\)), tratando a \(y\) como si fuera
+    un numero fijo:
+  </p>
+  <p>\[ \int_{0}^{1} (x^{2} + xy)\, dx = \left[ \frac{x^{3}}{3} + \frac{x^{2}y}{2} \right]_{0}^{1} = \frac{1}{3} + \frac{y}{2} \]</p>
+  <p>Ahora integramos ese resultado respecto de \(y\):</p>
+  <p>\[ E(X) = \int_{0}^{1} \left( \frac{1}{3} + \frac{y}{2} \right) dy = \left[ \frac{y}{3} + \frac{y^{2}}{4} \right]_{0}^{1} = \frac{1}{3} + \frac{1}{4} = \mathbf{\frac{7}{12}} \]</p>
+
+  <p>
+    Por <strong>simetria</strong> (la funcion \(x+y\) trata igual a las dos variables, y los
+    limites son iguales), sin hacer cuentas:
+  </p>
+  <p>\[ E(Y) = \frac{7}{12} \]</p>
+
+  <span class="paso">Paso 2 &mdash; \(E(XY)\)</span>
+  <p>Formula:</p>
+  <p>\[ E(XY) = \int_{0}^{1}\!\!\int_{0}^{1} x\,y \cdot f(x,y)\, dx\, dy \]</p>
+  <p>\[ E(XY) = \int_{0}^{1}\!\!\int_{0}^{1} xy(x+y)\, dx\, dy = \int_{0}^{1}\!\!\int_{0}^{1} (x^{2}y + xy^{2})\, dx\, dy \]</p>
+  <p>Integral interna respecto de \(x\):</p>
+  <p>\[ \left[ \frac{x^{3}y}{3} + \frac{x^{2}y^{2}}{2} \right]_{0}^{1} = \frac{y}{3} + \frac{y^{2}}{2} \]</p>
+  <p>Integral externa respecto de \(y\):</p>
+  <p>\[ \int_{0}^{1} \left( \frac{y}{3} + \frac{y^{2}}{2} \right) dy = \left[ \frac{y^{2}}{6} + \frac{y^{3}}{6} \right]_{0}^{1} = \frac{1}{6} + \frac{1}{6} = \mathbf{\frac{1}{3}} \]</p>
+
+  <span class="paso">Paso 3 &mdash; Covarianza</span>
+  <p>Formula:</p>
+  <p>\[ Cov(X,Y) = E(XY) - E(X)\cdot E(Y) \]</p>
+  <p>\[ Cov(X,Y) = \frac{1}{3} - \left(\frac{7}{12}\right)\left(\frac{7}{12}\right) = \frac{1}{3} - \frac{49}{144} \]</p>
+  <p>Denominador comun 144 (porque \(\frac{1}{3} = \frac{48}{144}\)):</p>
+  <p>\[ Cov(X,Y) = \frac{48}{144} - \frac{49}{144} = \mathbf{-\frac{1}{144}} \approx -0{,}00694 \]</p>
+
+  <span class="paso">Paso 4 &mdash; Varianzas</span>
+  <p>Formula:</p>
+  <p>\[ E(X^{2}) = \int_{0}^{1}\!\!\int_{0}^{1} x^{2}(x+y)\, dx\, dy \]</p>
+  <p>Integral interna:</p>
+  <p>\[ \int_{0}^{1} (x^{3} + x^{2}y)\, dx = \left[ \frac{x^{4}}{4} + \frac{x^{3}y}{3} \right]_{0}^{1} = \frac{1}{4} + \frac{y}{3} \]</p>
+  <p>Integral externa:</p>
+  <p>\[ E(X^{2}) = \int_{0}^{1} \left( \frac{1}{4} + \frac{y}{3} \right) dy = \frac{1}{4} + \frac{1}{6} = \frac{5}{12} \]</p>
+
+  <p>Formula:</p>
+  <p>\[ V(X) = E(X^{2}) - \big[E(X)\big]^{2} \]</p>
+  <p>\[ V(X) = \frac{5}{12} - \frac{49}{144} = \frac{60}{144} - \frac{49}{144} = \frac{11}{144} \]</p>
+  <p>Y por simetria, \(V(Y) = \frac{11}{144}\) tambien.</p>
+
+  <span class="paso">Paso 5 &mdash; Coeficiente de correlacion</span>
+  <p>Formula:</p>
+  <p>\[ \rho = \frac{Cov(X,Y)}{\sigma_X \sigma_Y} \]</p>
+  <p>
+    Como \(\sigma_X = \sigma_Y = \sqrt{\frac{11}{144}}\), el producto de los dos desvios es
+    justamente \(\frac{11}{144}\) (raiz por raiz del mismo numero = el numero):
+  </p>
+  <p>\[ \rho = \frac{-\frac{1}{144}}{\frac{11}{144}} = -\frac{1}{11} = \mathbf{-0{,}0909} \]</p>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Resultado oficial de la catedra</span>
+    <p>\(Cov(X,Y) = -\frac{1}{144}\); &nbsp; \(\rho = -\frac{1}{11} = -0{,}09\) &nbsp;&#10003;</p>
+    <p>
+      Interpretacion: hay una relacion negativa, pero <strong>debilisima</strong> (esta casi
+      pegada al cero). Practicamente no se influyen.
+    </p>
+  </div>
+</div>

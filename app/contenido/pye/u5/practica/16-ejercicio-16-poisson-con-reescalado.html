@@ -1,0 +1,60 @@
+<div class="ej">
+  <span class="tag">Ejercicio 16 &middot; Poisson con reescalado</span>
+  <h2>Llamadas para solicitar prestamos</h2>
+  <div class="enunciado">
+    <p>
+      En promedio se reciben <strong>tres llamadas por hora</strong> en una sucursal del banco con
+      el fin de solicitar prestamos.
+      a) Probabilidad de que en una hora particular la sucursal reciba <strong>mas de cuatro</strong>
+      llamadas? b) Probabilidad de que en <strong>10 minutos</strong> reciba <strong>exactamente
+      dos</strong> llamadas?
+    </p>
+  </div>
+
+  <span class="paso">Paso 1 &mdash; Identificar el modelo</span>
+  <p>Tasa promedio por hora, sin tope &rarr; <strong>Poisson</strong> con \(\lambda = 3\) por hora.</p>
+
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Inciso</th><th>Intervalo</th><th>\(t\) en horas</th><th>Cuenta</th><th>\(\lambda t\)</th></tr>
+      <tr><td>a</td><td>"una hora particular"</td><td>1</td><td>\(3 \times 1\)</td><td><strong>3</strong></td></tr>
+      <tr><td>b</td><td>"10 minutos"</td><td>\(10/60 = 0{,}1667\)</td><td>\(3 \times 0{,}1667\)</td><td><strong>0,5</strong></td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Inciso a &mdash; Mas de cuatro llamadas en una hora</span>
+  <p>Con \(\lambda t = 3\). "Mas de cuatro" no incluye al 4: es del 5 en adelante.</p>
+  <p>\[ P(X &gt; 4) = 1 - P(X \leq 4) \]</p>
+  <p>Calculamos los cinco terminos con \(\lambda t = 3\):</p>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th>\(x\)</th><th>Cuenta</th><th>\(P(X = x)\)</th></tr>
+      <tr><td>0</td><td>\(e^{-3}(3)^{0}/0!\)</td><td>0,0498</td></tr>
+      <tr><td>1</td><td>\(e^{-3}(3)^{1}/1!\)</td><td>0,1494</td></tr>
+      <tr><td>2</td><td>\(e^{-3}(3)^{2}/2!\)</td><td>0,2240</td></tr>
+      <tr><td>3</td><td>\(e^{-3}(3)^{3}/3!\)</td><td>0,2240</td></tr>
+      <tr><td>4</td><td>\(e^{-3}(3)^{4}/4!\)</td><td>0,1680</td></tr>
+      <tr><th class="lbl">\(P(X \leq 4)\)</th><th></th><th>0,8153</th></tr>
+    </table>
+  </div>
+  <p>\[ P(X &gt; 4) = 1 - 0{,}8153 = \mathbf{0{,}1847} \]</p>
+
+  <span class="paso">Inciso b &mdash; Exactamente dos llamadas en 10 minutos</span>
+  <p><strong>Primero el reescalado.</strong> 10 minutos es la sexta parte de una hora:</p>
+  <p>\[ \lambda t = 3 \times \frac{10}{60} = 3 \times 0{,}1667 = 0{,}5 \]</p>
+  <p>Formula:</p>
+  <p>\[ P(X = x) = \frac{e^{-\lambda t}\,(\lambda t)^{x}}{x!} \]</p>
+  <p>\[ P(X = 2) = \frac{e^{-0{,}5}\,(0{,}5)^{2}}{2!} \]</p>
+  <ul>
+    <li>\(e^{-0{,}5} = 0{,}606531\)</li>
+    <li>\((0{,}5)^{2} = 0{,}25\)</li>
+    <li>\(2! = 2\)</li>
+  </ul>
+  <p>\[ P(X = 2) = \frac{0{,}606531 \times 0{,}25}{2} = \frac{0{,}151633}{2} = \mathbf{0{,}0758} \]</p>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Resultados oficiales de la catedra</span>
+    <p>a) 0,1847; &nbsp; b) 0,0758 &nbsp;&#10003;</p>
+  </div>
+</div>

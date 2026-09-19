@@ -1,0 +1,63 @@
+<div class="ej">
+  <span class="tag">Ejercicio 15 &middot; Poisson con reescalado</span>
+  <h2>Fallas de una computadora</h2>
+  <div class="enunciado">
+    <p>
+      Una computadora tiene fallas de funcionamiento a razon de <strong>una cada seis horas</strong>
+      en promedio.
+      a) Probabilidad de que falle tres veces en un turno de <strong>doce horas</strong>.
+      b) Probabilidad de que <strong>no falle en todo el dia</strong>.
+      c) Probabilidad de que falle <strong>al menos una vez</strong> durante el dia.
+    </p>
+  </div>
+
+  <span class="paso">Paso 1 &mdash; Convertir el dato a una tasa</span>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Cuidado con como viene el dato</span>
+    <p>
+      El enunciado dice "una cada seis horas", que es un <strong>tiempo entre fallas</strong>, no
+      una tasa. Para Poisson necesitamos fallas <em>por hora</em>:
+    </p>
+    <p>\[ \lambda = \frac{1 \text{ falla}}{6 \text{ horas}} = 0{,}1667 \text{ fallas por hora} \]</p>
+    <p>
+      En la practica conviene no pasar por ese decimal: como \(\lambda t = t/6\), alcanza con
+      dividir las horas del intervalo por 6.
+    </p>
+  </div>
+
+  <h4>Desarme del enunciado, inciso por inciso</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Inciso</th><th>Intervalo</th><th>Cuenta</th><th>\(\lambda t\)</th><th>Se pide</th></tr>
+      <tr><td>a</td><td>turno de 12 horas</td><td>\(12 / 6\)</td><td><strong>2</strong></td><td>\(P(X = 3)\)</td></tr>
+      <tr><td>b</td><td>un dia = 24 horas</td><td>\(24 / 6\)</td><td><strong>4</strong></td><td>\(P(X = 0)\)</td></tr>
+      <tr><td>c</td><td>un dia = 24 horas</td><td>\(24 / 6\)</td><td><strong>4</strong></td><td>\(P(X \geq 1)\)</td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Inciso a &mdash; Tres fallas en doce horas</span>
+  <p>Con \(\lambda t = 2\). Formula:</p>
+  <p>\[ P(X = x) = \frac{e^{-\lambda t}\,(\lambda t)^{x}}{x!} \]</p>
+  <p>\[ P(X = 3) = \frac{e^{-2}\,(2)^{3}}{3!} = \frac{0{,}135335 \times 8}{6} = \frac{1{,}08268}{6} = \mathbf{0{,}1804} \]</p>
+
+  <span class="paso">Inciso b &mdash; Ninguna falla en todo el dia</span>
+  <p>Con \(\lambda t = 4\) y \(x = 0\):</p>
+  <p>\[ P(X = 0) = \frac{e^{-4}\,(4)^{0}}{0!} = e^{-4} = \mathbf{0{,}0183} \]</p>
+
+  <span class="paso">Inciso c &mdash; Al menos una falla durante el dia</span>
+  <p>"Al menos una" es el complemento exacto de "ninguna":</p>
+  <p>\[ P(X \geq 1) = 1 - P(X = 0) \]</p>
+  <p>\[ P(X \geq 1) = 1 - 0{,}0183 = \mathbf{0{,}9817} \]</p>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">b y c son el mismo calculo</span>
+    <p>
+      Una vez que tenés el inciso b, el c sale restando. No vuelvas a calcular nada.
+    </p>
+  </div>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Resultados oficiales de la catedra</span>
+    <p>a) 0,1804; &nbsp; b) 0,0183; &nbsp; c) 0,9817 &nbsp;&#10003;</p>
+  </div>
+</div>

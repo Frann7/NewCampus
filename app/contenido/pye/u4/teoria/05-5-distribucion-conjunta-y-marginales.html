@@ -1,0 +1,164 @@
+<div class="bloque">
+  <p class="kicker">Dos variables a la vez</p>
+  <h2>5. Distribucion conjunta y marginales</h2>
+
+  <p>
+    Hasta aca miramos una variable sola. Ahora aparecen dos al mismo tiempo, \(X\) e \(Y\), y en
+    lugar de una tabla de una fila tenemos una tabla de doble entrada (como una batalla naval).
+    Cada celda contiene \(f(x,y)\): la probabilidad de que ocurra <strong>ese</strong> valor de \(X\)
+    <strong>y a la vez ese</strong> valor de \(Y\).
+  </p>
+
+  <div class="caja caja-formula">
+    <span class="caja-tit">Distribuciones marginales</span>
+    <p>\[ f(x) \;=\; \sum_{y} f(x,y) \qquad\qquad f(y) \;=\; \sum_{x} f(x,y) \]</p>
+    <p>
+      En criollo: <strong>aplastar la tabla</strong>. Para la marginal de \(X\) se suma todo lo que
+      acompaña a cada valor de \(X\); para la de \(Y\), lo que acompaña a cada valor de \(Y\).
+      El gran total tiene que dar 1 &mdash; si no da 1, copiaste mal algun numero.
+    </p>
+  </div>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Cuidado con la orientacion de la tabla</span>
+    <p>
+      <strong>No memorices "filas para X, columnas para Y".</strong> Depende de como este armada la
+      tabla del enunciado. Mira siempre los encabezados: si las filas estan rotuladas con valores de
+      \(X\), la marginal de \(X\) sale sumando <em>filas</em>; si estan rotuladas con \(Y\), sale
+      sumando <em>columnas</em>.
+    </p>
+    <p>
+      En la practica de esta unidad, el <strong>Ejercicio 11</strong> tiene las filas en \(X\) y el
+      <strong>Ejercicio 12</strong> las tiene en \(Y\). Justamente para que te caigas si vas en
+      automatico.
+    </p>
+  </div>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Por que se llaman "marginales"</span>
+    <p>
+      Porque los resultados quedan escritos en los margenes de la tabla, en el borde. No es un
+      nombre tecnico raro: es literalmente donde se anotan.
+    </p>
+  </div>
+
+  <p>
+    Una vez que tenes la marginal, <strong>calculas \(E(X)\) y \(V(X)\) exactamente igual que
+    siempre</strong>, usando esa tablita chica y olvidandote de la tabla grande.
+  </p>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; Una tabla 2&times;2 para entender el mecanismo</h3>
+
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>Obtenga las marginales de la siguiente distribucion conjunta.</p>
+    <div class="tabla-wrap">
+      <table class="t">
+        <tr><th>\(f(x,y)\)</th><th>\(y=0\)</th><th>\(y=1\)</th></tr>
+        <tr><th class="lbl">\(x=0\)</th><td>0,20</td><td>0,30</td></tr>
+        <tr><th class="lbl">\(x=1\)</th><td>0,10</td><td>0,40</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <h4>Resolucion</h4>
+  <p>
+    Las <strong>filas</strong> estan rotuladas con \(X\), asi que la marginal de \(X\) sale
+    sumando cada fila completa:
+  </p>
+  <ul>
+    <li>\(f(0) = 0{,}20 + 0{,}30 = 0{,}50\)</li>
+    <li>\(f(1) = 0{,}10 + 0{,}40 = 0{,}50\)</li>
+  </ul>
+  <p>Y la marginal de \(Y\) sumando cada columna:</p>
+  <ul>
+    <li>\(f(0) = 0{,}20 + 0{,}10 = 0{,}30\)</li>
+    <li>\(f(1) = 0{,}30 + 0{,}40 = 0{,}70\)</li>
+  </ul>
+
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th>\(f(x,y)\)</th><th>\(y=0\)</th><th>\(y=1\)</th><th style="background:var(--surface-3)">\(f(x)\)</th></tr>
+      <tr><th class="lbl">\(x=0\)</th><td>0,20</td><td>0,30</td><td style="background:var(--surface-2)"><strong>0,50</strong></td></tr>
+      <tr><th class="lbl">\(x=1\)</th><td>0,10</td><td>0,40</td><td style="background:var(--surface-2)"><strong>0,50</strong></td></tr>
+      <tr><th class="lbl" style="background:var(--surface-3)">\(f(y)\)</th><td style="background:var(--surface-2)"><strong>0,30</strong></td><td style="background:var(--surface-2)"><strong>0,70</strong></td><td style="background:var(--surface-2)"><strong>1,00</strong></td></tr>
+    </table>
+  </div>
+  <p>Control: el gran total da 1. &#10003;</p>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; Estilo parcial 2025: archivos de respaldo</h3>
+
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado (Ejercicio 1 del Parcial 2025)</span>
+    <p>
+      En un servidor se almacenan 8 archivos de respaldo: 3 del sistema operativo, 2 de bases de
+      datos y 3 de usuario. Se selecciona al azar una muestra de 4 archivos.
+      \(X\) = "numero de archivos del sistema operativo seleccionados",
+      \(Y\) = "numero de archivos de bases de datos seleccionados".
+      La funcion de probabilidad conjunta es:
+    </p>
+    <div class="tabla-wrap">
+      <table class="t">
+        <tr><th>\(X\) \ \(Y\)</th><th>\(y=0\)</th><th>\(y=1\)</th><th>\(y=2\)</th></tr>
+        <tr><th class="lbl">\(x=0\)</th><td>0</td><td>2/70</td><td>3/70</td></tr>
+        <tr><th class="lbl">\(x=1\)</th><td>3/70</td><td>18/70</td><td>9/70</td></tr>
+        <tr><th class="lbl">\(x=2\)</th><td>9/70</td><td>18/70</td><td>3/70</td></tr>
+        <tr><th class="lbl">\(x=3\)</th><td>3/70</td><td>2/70</td><td>0</td></tr>
+      </table>
+    </div>
+    <p>a) Identifique las funciones de probabilidad marginales y escribalas en tablas separadas.</p>
+  </div>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Truco para trabajar comodo</span>
+    <p>
+      Todos los denominadores son 70. <strong>Trabaja solo con los numeradores</strong> y divide por
+      70 al final. Es mucho mas rapido y se cometen menos errores.
+    </p>
+  </div>
+
+  <h4>Marginal de \(X\) &mdash; sumando filas</h4>
+  <ul>
+    <li>\(x=0\): \(0 + 2 + 3 = 5\) &rarr; \(5/70\)</li>
+    <li>\(x=1\): \(3 + 18 + 9 = 30\) &rarr; \(30/70\)</li>
+    <li>\(x=2\): \(9 + 18 + 3 = 30\) &rarr; \(30/70\)</li>
+    <li>\(x=3\): \(3 + 2 + 0 = 5\) &rarr; \(5/70\)</li>
+  </ul>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th class="lbl">\(x\)</th><td>0</td><td>1</td><td>2</td><td>3</td></tr>
+      <tr><th class="lbl">\(g(x)\)</th><td>5/70</td><td>30/70</td><td>30/70</td><td>5/70</td></tr>
+    </table>
+  </div>
+
+  <h4>Marginal de \(Y\) &mdash; sumando columnas</h4>
+  <ul>
+    <li>\(y=0\): \(0 + 3 + 9 + 3 = 15\) &rarr; \(15/70\)</li>
+    <li>\(y=1\): \(2 + 18 + 18 + 2 = 40\) &rarr; \(40/70\)</li>
+    <li>\(y=2\): \(3 + 9 + 3 + 0 = 15\) &rarr; \(15/70\)</li>
+  </ul>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th class="lbl">\(y\)</th><td>0</td><td>1</td><td>2</td></tr>
+      <tr><th class="lbl">\(h(y)\)</th><td>15/70</td><td>40/70</td><td>15/70</td></tr>
+    </table>
+  </div>
+
+  <p>
+    Control: \(5+30+30+5 = 70\) &#10003; &nbsp;y&nbsp; \(15+40+15 = 70\) &#10003;
+    Las dos marginales suman 1.
+  </p>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Seguimos con este ejemplo</span>
+    <p>
+      Esta tabla nos va a acompañar hasta el punto 9: con ella vamos a calcular esperanzas,
+      varianzas, la covarianza, la correlacion, la independencia y \(E(Z)\), que es exactamente
+      lo que pedia el parcial.
+    </p>
+  </div>
+</div>

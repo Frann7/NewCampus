@@ -1,0 +1,129 @@
+<div class="ej">
+  <span class="tag">Ejercicio 11 &middot; Conjunta + Covarianza</span>
+  <h2>Cajeros en Parana y Santa Fe</h2>
+  <div class="enunciado">
+    <p>
+      Un autoservicio tiene sucursales en Parana y Santa Fe, cada una con dos cajas registradoras.
+      Sean \(X\) e \(Y\) los numeros de cajeros operando simultaneamente en Parana y Santa Fe
+      respectivamente. La funcion de probabilidad conjunta es:
+    </p>
+    <div class="tabla-wrap">
+      <table class="t">
+        <tr><th>\(X\) \ \(Y\)</th><th>0</th><th>1</th><th>2</th></tr>
+        <tr><th class="lbl">0</th><td>0,12</td><td>0,04</td><td>0,04</td></tr>
+        <tr><th class="lbl">1</th><td>0,08</td><td>0,19</td><td>0,05</td></tr>
+        <tr><th class="lbl">2</th><td>0,06</td><td>0,12</td><td>0,30</td></tr>
+      </table>
+    </div>
+    <p>
+      a) Numero promedio de cajas operando en Parana y su variancia.
+      b) Covarianza de las variables. c) Coeficiente de correlacion.
+    </p>
+  </div>
+
+  <span class="paso">Paso 1 &mdash; Marginales (obligatorio antes de todo)</span>
+  <p>Formula:</p>
+  <p>\[ f(x) = \sum_{y} f(x,y) \qquad\qquad f(y) = \sum_{x} f(x,y) \]</p>
+
+  <p><strong>Marginal de \(X\)</strong> (Parana) &mdash; sumamos cada fila:</p>
+  <ul>
+    <li>\(x=0\): \(0{,}12 + 0{,}04 + 0{,}04 = 0{,}20\)</li>
+    <li>\(x=1\): \(0{,}08 + 0{,}19 + 0{,}05 = 0{,}32\)</li>
+    <li>\(x=2\): \(0{,}06 + 0{,}12 + 0{,}30 = 0{,}48\)</li>
+  </ul>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th class="lbl">\(x\)</th><td>0</td><td>1</td><td>2</td></tr>
+      <tr><th class="lbl">\(f(x)\)</th><td>0,20</td><td>0,32</td><td>0,48</td></tr>
+    </table>
+  </div>
+
+  <p><strong>Marginal de \(Y\)</strong> (Santa Fe) &mdash; sumamos cada columna:</p>
+  <ul>
+    <li>\(y=0\): \(0{,}12 + 0{,}08 + 0{,}06 = 0{,}26\)</li>
+    <li>\(y=1\): \(0{,}04 + 0{,}19 + 0{,}12 = 0{,}35\)</li>
+    <li>\(y=2\): \(0{,}04 + 0{,}05 + 0{,}30 = 0{,}39\)</li>
+  </ul>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th class="lbl">\(y\)</th><td>0</td><td>1</td><td>2</td></tr>
+      <tr><th class="lbl">\(f(y)\)</th><td>0,26</td><td>0,35</td><td>0,39</td></tr>
+    </table>
+  </div>
+  <p>Control: ambas marginales suman 1. &#10003;</p>
+
+  <span class="paso">Inciso a &mdash; Promedio y variancia en Parana</span>
+  <p>Desde aca trabajamos <strong>solo con la marginal de \(X\)</strong>, como si fuera un ejercicio comun.</p>
+  <p>Formula:</p>
+  <p>\[ E(X) = \sum x \cdot f(x) \]</p>
+  <p>\[ E(X) = (0)(0{,}20) + (1)(0{,}32) + (2)(0{,}48) = 0 + 0{,}32 + 0{,}96 = \mathbf{1{,}28} \]</p>
+
+  <p>Formula:</p>
+  <p>\[ E(X^{2}) = \sum x^{2} \cdot f(x) \]</p>
+  <p>\[ E(X^{2}) = (0)(0{,}20) + (1)(0{,}32) + (4)(0{,}48) = 0{,}32 + 1{,}92 = 2{,}24 \]</p>
+
+  <p>Formula:</p>
+  <p>\[ V(X) = E(X^{2}) - \big[E(X)\big]^{2} \]</p>
+  <p>\[ V(X) = 2{,}24 - (1{,}28)^{2} = 2{,}24 - 1{,}6384 = \mathbf{0{,}6016} \]</p>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta a</span>
+    <p>En Parana operan en promedio <strong>1,28 cajas</strong>, con variancia <strong>0,6016</strong>.</p>
+  </div>
+
+  <span class="paso">Inciso b &mdash; Covarianza</span>
+  <p>Formula:</p>
+  <p>\[ Cov(X,Y) = E(XY) - E(X)\cdot E(Y) \]</p>
+
+  <p>Nos falta \(E(Y)\). Sale de la marginal de \(Y\):</p>
+  <p>\[ E(Y) = (0)(0{,}26) + (1)(0{,}35) + (2)(0{,}39) = 0 + 0{,}35 + 0{,}78 = 1{,}13 \]</p>
+
+  <h4>Y ahora el paso que mas cuesta: \(E(XY)\)</h4>
+  <p>Formula:</p>
+  <p>\[ E(XY) = \sum_{x}\sum_{y} x \cdot y \cdot f(x,y) \]</p>
+  <p>
+    Volvemos a la tabla grande. Cada casillero aporta el producto de tres numeros:
+    el valor de la fila (\(x\)), el de la columna (\(y\)), y la probabilidad de adentro.
+  </p>
+  <p>
+    Toda la fila \(x=0\) y toda la columna \(y=0\) dan cero, asi que sobreviven solo cuatro
+    casilleros:
+  </p>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th>Casillero</th><th>Cuenta</th><th>Aporte</th></tr>
+      <tr><td>fila 1, col 1</td><td>\(1 \times 1 \times 0{,}19\)</td><td>0,19</td></tr>
+      <tr><td>fila 1, col 2</td><td>\(1 \times 2 \times 0{,}05\)</td><td>0,10</td></tr>
+      <tr><td>fila 2, col 1</td><td>\(2 \times 1 \times 0{,}12\)</td><td>0,24</td></tr>
+      <tr><td>fila 2, col 2</td><td>\(2 \times 2 \times 0{,}30\)</td><td>1,20</td></tr>
+    </table>
+  </div>
+  <p>\[ E(XY) = 0{,}19 + 0{,}10 + 0{,}24 + 1{,}20 = 1{,}73 \]</p>
+
+  <p>Ahora si, a la formula:</p>
+  <p>\[ Cov(X,Y) = 1{,}73 - (1{,}28)(1{,}13) = 1{,}73 - 1{,}4464 = \mathbf{0{,}2836} \]</p>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta b</span>
+    <p>\(Cov(X,Y) = 0{,}2836\). Al ser positiva: cuando Parana abre mas cajas, Santa Fe tiende a abrir mas tambien.</p>
+  </div>
+
+  <span class="paso">Inciso c &mdash; Coeficiente de correlacion</span>
+  <p>Formula:</p>
+  <p>\[ \rho = \frac{Cov(X,Y)}{\sigma_X \cdot \sigma_Y} \]</p>
+
+  <p>Ya tenemos \(V(X)\). Falta \(V(Y)\):</p>
+  <p>\[ E(Y^{2}) = (0)(0{,}26) + (1)(0{,}35) + (4)(0{,}39) = 0{,}35 + 1{,}56 = 1{,}91 \]</p>
+  <p>\[ V(Y) = 1{,}91 - (1{,}13)^{2} = 1{,}91 - 1{,}2769 = 0{,}6331 \]</p>
+
+  <p>Los desvios:</p>
+  <p>\[ \sigma_X = \sqrt{0{,}6016} = 0{,}77563 \qquad \sigma_Y = \sqrt{0{,}6331} = 0{,}79568 \]</p>
+
+  <p>\[ \rho = \frac{0{,}2836}{(0{,}77563)(0{,}79568)} = \frac{0{,}2836}{0{,}61715} = \mathbf{0{,}4595} \]</p>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Resultado oficial de la catedra</span>
+    <p>a) \(E(X)=1{,}28\); \(V(X)=0{,}6016\) &nbsp; b) \(Cov=0{,}2836\) &nbsp; c) \(\rho = 0{,}4595\) &nbsp;&#10003;</p>
+    <p>Interpretacion: correlacion positiva moderada (esta a mitad de camino entre 0 y 1).</p>
+  </div>
+</div>

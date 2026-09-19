@@ -1,0 +1,249 @@
+<!-- ==================== EJERCICIO 4 ==================== -->
+<section class="parcial-ej">
+  <div class="parcial-ej-cab">
+    <h2>Ejercicio 4</h2>
+    <span class="parcial-pts">26 puntos</span>
+    <span class="parcial-tema">Unidad 5 &middot; Distribución de Poisson</span>
+  </div>
+
+  <p>
+    Un servidor recibe en promedio 2 intentos de acceso no autorizado por minuto. Se supone que el
+    número de intentos en un intervalo de tiempo sigue una distribución de Poisson.
+  </p>
+
+  <ol class="parcial-incisos">
+    <li>Indique las características del Proceso de Poisson.</li>
+    <li>¿Cuál es la probabilidad de que, en un minuto, se detecte al menos un intento de acceso no autorizado?</li>
+    <li>¿Cuál es la probabilidad de que, en 5 minutos, se registren como máximo 8 intentos de acceso no autorizado?</li>
+  </ol>
+
+  <div class="parcial-extras">
+    <details class="parcial-desp pd-resultados">
+      <summary>
+        <span class="pd-icono">&#10003;</span>
+        <span class="pd-txt"><b>Resultados</b><small>Solo las respuestas, sin procedimiento</small></span>
+      </summary>
+      <div class="pd-cuerpo">
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Inciso</th><th>Resultado</th></tr>
+            <tr>
+              <td class="lbl">a) Características</td>
+              <td>Independencia entre intervalos (sin memoria) &middot; la probabilidad de una ocurrencia en un intervalo chico es proporcional a su longitud &middot; la probabilidad de dos o más ocurrencias en un intervalo chico es despreciable. Además \(\lambda\) constante.</td>
+            </tr>
+            <tr><td class="lbl">b) Al menos uno en 1 minuto</td><td>\(\lambda t = 2\); \(P(X \geq 1) = 1 - e^{-2} = 0{,}8647\)</td></tr>
+            <tr><td class="lbl">c) Como máximo 8 en 5 minutos</td><td>\(\lambda t = 10\); \(P(X \leq 8) = 0{,}3328\) (tabla acumulada)</td></tr>
+          </table>
+        </div>
+      </div>
+    </details>
+
+    <details class="parcial-desp pd-explicacion">
+      <summary>
+        <span class="pd-icono">&#9998;</span>
+        <span class="pd-txt"><b>Explicación detallada</b><small>Desde cero: teoría, desarme del enunciado, resolución y comparación con la guía</small></span>
+      </summary>
+      <div class="pd-cuerpo">
+
+        <div class="caja caja-ejemplo">
+          <span class="caja-tit">El enunciado, otra vez</span>
+          <p>
+            Un servidor recibe en promedio 2 intentos de acceso no autorizado por minuto, con
+            distribución de Poisson. Piden las características del proceso, la probabilidad de al menos
+            un intento en un minuto y la de como máximo 8 intentos en 5 minutos.
+          </p>
+        </div>
+
+        <h4>¿De qué tema es?</h4>
+        <p>
+          <strong>Unidad 5</strong>, distribución de Poisson: el modelo para contar cuántas veces ocurre
+          algo en un intervalo de tiempo (o en una región), cuando lo único que te dan es un promedio.
+        </p>
+
+        <h4>Los conceptos que hacen falta, desde cero</h4>
+
+        <div class="caja caja-formula">
+          <span class="caja-tit">1. Cuándo es Poisson y no Binomial</span>
+          <ul>
+            <li><strong>Binomial:</strong> &ldquo;de 10 personas, cuántas mueren&rdquo;. Hay un tope: no pueden morir 11.</li>
+            <li><strong>Poisson:</strong> &ldquo;cuántos intentos llegan en un minuto&rdquo;. No hay tope: pueden ser 0, 3 o 50.</li>
+          </ul>
+          <p>
+            Si podés contar el total de casos posibles, es Binomial o Hipergeométrica. Si solo te dan un
+            promedio por unidad de tiempo o de espacio, es <strong>Poisson</strong>.
+          </p>
+        </div>
+
+        <div class="caja caja-formula">
+          <span class="caja-tit">2. La fórmula y sus símbolos</span>
+          <p>\[ P(X = x) = \frac{e^{-\lambda t}\,(\lambda t)^{x}}{x!} \qquad x = 0, 1, 2, \ldots \]</p>
+          <p>\[ E(X) = \lambda t \qquad\qquad V(X) = \lambda t \]</p>
+          <div class="tabla-wrap">
+            <table class="t full">
+              <tr><th>Símbolo</th><th>Qué es</th><th>Acá vale</th></tr>
+              <tr><td>\(\lambda\)</td><td>la tasa: ocurrencias <strong>por unidad</strong> de tiempo</td><td>2 intentos por minuto</td></tr>
+              <tr><td>\(t\)</td><td>cuántas unidades abarca la pregunta</td><td>1 minuto (b) o 5 minutos (c)</td></tr>
+              <tr><td>\(\lambda t\)</td><td><strong>el promedio dentro del intervalo que preguntan</strong></td><td>2 (b) o 10 (c)</td></tr>
+              <tr><td>\(x\)</td><td>cuántas ocurrencias pedís</td><td>lo que sigue a &ldquo;al menos&rdquo;, &ldquo;como máximo&rdquo;&hellip;</td></tr>
+              <tr><td>\(e\)</td><td>el número de Euler, \(2{,}71828\ldots\)</td><td>tecla \(e^{x}\)</td></tr>
+            </table>
+          </div>
+        </div>
+
+        <div class="caja caja-ojo">
+          <span class="caja-tit">La regla que evita el 90 % de los errores en Poisson</span>
+          <p>
+            <strong>\(\lambda t\) es un solo número: el promedio en el intervalo por el que te preguntan.</strong>
+            Antes de tocar la fórmula, contestá: <em>&ldquo;en ese pedazo de tiempo, ¿cuántas cosas pasan en
+            promedio?&rdquo;</em>. Ese número va entero en los dos lugares donde aparece \(\lambda t\).
+          </p>
+        </div>
+
+        <h4>Desarme del enunciado</h4>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Frase del enunciado</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+            <tr><td>&ldquo;en promedio 2 intentos&hellip; por minuto&rdquo;</td><td>la tasa, con su unidad</td><td>&mdash;</td><td>\(\lambda = 2\) por minuto</td></tr>
+            <tr><td>&ldquo;en un minuto&rdquo; (inciso b)</td><td>el intervalo de la pregunta</td><td>\(2 \times 1\)</td><td>\(\lambda t = 2\)</td></tr>
+            <tr><td>&ldquo;al menos un intento&rdquo;</td><td>uno o más</td><td>&mdash;</td><td>\(P(X \geq 1)\)</td></tr>
+            <tr><td>&ldquo;en 5 minutos&rdquo; (inciso c)</td><td>hay que reescalar la tasa</td><td>\(2 \times 5\)</td><td>\(\lambda t = 10\)</td></tr>
+            <tr><td>&ldquo;como máximo 8&rdquo;</td><td>8 o menos (el 8 entra)</td><td>&mdash;</td><td>\(P(X \leq 8)\)</td></tr>
+          </table>
+        </div>
+
+        <span class="paso">Inciso a &mdash; Características del Proceso de Poisson</span>
+        <p>Es teoría pura, y son los tres postulados que da la cátedra:</p>
+        <ol>
+          <li>
+            <strong>Sin memoria (independencia entre intervalos).</strong> Lo que ocurre en un intervalo es
+            independiente de lo que ocurrió en cualquier otro que no se superponga. Que hayan llegado
+            muchos intentos entre las 10:00 y las 10:01 no cambia lo que pase en el minuto siguiente.
+          </li>
+          <li>
+            <strong>Proporcionalidad.</strong> En un intervalo muy chiquito, la probabilidad de que ocurra
+            <em>exactamente una</em> vez es proporcional al largo de ese intervalo. El doble de tiempo, el
+            doble de chance.
+          </li>
+          <li>
+            <strong>No hay ocurrencias simultáneas.</strong> En un intervalo suficientemente chico, la
+            probabilidad de que ocurran <em>dos o más</em> cosas a la vez es despreciable (tiende a cero).
+          </li>
+        </ol>
+        <p>A eso se le suma que la <strong>tasa \(\lambda\) se mantiene constante</strong> durante todo el período analizado.</p>
+        <div class="caja caja-resp">
+          <span class="caja-tit">Respuesta a</span>
+          <p>Independencia entre intervalos, proporcionalidad al largo del intervalo y ausencia de ocurrencias simultáneas, con \(\lambda\) constante.</p>
+        </div>
+
+        <span class="paso">Inciso b &mdash; Al menos un intento en un minuto</span>
+        <p><strong>Paso 1 &mdash; Calcular \(\lambda t\) para este inciso.</strong></p>
+        <p>\[ \lambda t = 2 \times 1 = 2 \text{ intentos esperados en el minuto} \]</p>
+
+        <p><strong>Paso 2 &mdash; Traducir la pregunta.</strong></p>
+        <p>
+          &ldquo;Al menos uno&rdquo; es 1, o 2, o 3&hellip; infinitos términos. No se pueden sumar infinitos, así que
+          <strong>siempre</strong> se va por el complemento: lo contrario de &ldquo;al menos uno&rdquo; es &ldquo;ninguno&rdquo;.
+        </p>
+        <p>\[ P(X \geq 1) = 1 - P(X = 0) \]</p>
+
+        <p><strong>Paso 3 &mdash; Calcular \(P(X = 0)\).</strong> Fórmula:</p>
+        <p>\[ P(X = x) = \frac{e^{-\lambda t}\,(\lambda t)^{x}}{x!} \]</p>
+        <p>\[ P(X = 0) = \frac{e^{-2}\,(2)^{0}}{0!} \]</p>
+        <p>Dos simplificaciones: \((2)^{0} = 1\) y \(0! = 1\). Queda solo la exponencial:</p>
+        <p>\[ P(X = 0) = e^{-2} = 0{,}1353 \]</p>
+
+        <p><strong>Paso 4 &mdash; Restar.</strong></p>
+        <p>\[ P(X \geq 1) = 1 - 0{,}1353 = 0{,}8647 \]</p>
+
+        <div class="caja caja-calc">
+          <span class="caja-tit">En la calculadora</span>
+          <p>\(e^{-2}\): &nbsp; SHIFT + ln (\(e^{x}\)) &rarr; (&minus;) 2 &rarr; = &nbsp; da 0.1353352832</p>
+        </div>
+
+        <div class="caja caja-resp">
+          <span class="caja-tit">Respuesta b</span>
+          <p>\(P(X \geq 1) = 0{,}8647\): el <strong>86,47 %</strong>.</p>
+          <p>Control: si en promedio llegan 2 por minuto, era esperable que &ldquo;al menos uno&rdquo; fuera muy probable. &#10003;</p>
+        </div>
+
+        <span class="paso">Inciso c &mdash; Como máximo 8 intentos en 5 minutos</span>
+        <p><strong>Paso 1 &mdash; Reescalar. Este es EL paso del ejercicio.</strong></p>
+        <p>La tasa viene por minuto y ahora preguntan por 5 minutos, así que \(t = 5\):</p>
+        <p>\[ \lambda t = 2 \times 5 = 10 \text{ intentos esperados en los 5 minutos} \]</p>
+
+        <div class="caja caja-ojo">
+          <span class="caja-tit">Error clásico</span>
+          <p>
+            Usar \(\lambda t = 2\) &ldquo;porque la tasa es 2&rdquo;. No: la tasa es 2 <em>por minuto</em> y te
+            preguntan por 5 minutos. El promedio del intervalo es 10.
+          </p>
+        </div>
+
+        <p><strong>Paso 2 &mdash; Traducir la pregunta.</strong></p>
+        <p>&ldquo;Como máximo 8&rdquo; es 8 o menos, y el 8 entra:</p>
+        <p>\[ P(X \leq 8) \]</p>
+
+        <p><strong>Paso 3 &mdash; Resolver con la tabla acumulada.</strong></p>
+        <p>
+          Hacerlo con la fórmula serían nueve cuentas (\(P(0) + P(1) + \ldots + P(8)\)). Para eso está la
+          <strong>tabla acumulada de Poisson</strong>: se busca la columna \(\lambda t = 10\) y la fila \(r = 8\).
+        </p>
+        <p>\[ P(X \leq 8) = 0{,}3328 \]</p>
+
+        <div class="caja caja-resp">
+          <span class="caja-tit">Respuesta c</span>
+          <p>\(P(X \leq 8) = 0{,}3328\): el <strong>33,28 %</strong>.</p>
+          <p>
+            Control: como el promedio del intervalo es 10, quedarse en 8 o menos es quedarse por debajo de
+            lo esperado, así que tenía que dar menos del 50 %. &#10003;
+          </p>
+        </div>
+
+        <div class="caja caja-ojo">
+          <span class="caja-tit">Cómo saber si va tabla o fórmula</span>
+          <div class="tabla-wrap">
+            <table class="t full">
+              <tr><th>La pregunta dice</th><th>Se escribe</th><th>Cómo conviene resolverlo</th></tr>
+              <tr><td>&ldquo;exactamente 3&rdquo;</td><td>\(P(X = 3)\)</td><td>fórmula directa</td></tr>
+              <tr><td>&ldquo;como máximo 8&rdquo;, &ldquo;a lo sumo 8&rdquo;</td><td>\(P(X \leq 8)\)</td><td>tabla acumulada, directo</td></tr>
+              <tr><td>&ldquo;menos de 8&rdquo;</td><td>\(P(X \leq 7)\)</td><td>tabla, pero un renglón más arriba</td></tr>
+              <tr><td>&ldquo;al menos 1&rdquo;</td><td>\(1 - P(X = 0)\)</td><td>complemento con la fórmula</td></tr>
+              <tr><td>&ldquo;más de 8&rdquo;</td><td>\(1 - P(X \leq 8)\)</td><td>complemento con la tabla</td></tr>
+            </table>
+          </div>
+        </div>
+
+        <h4>Parecido en la guía</h4>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Ejercicio de la guía</th><th>Qué tiene igual</th><th>Qué cambia en el parcial</th></tr>
+            <tr>
+              <td class="lbl">Unidad 5, Ejercicio 11<br><em>Discos rígidos defectuosos</em></td>
+              <td>La tasa también es 2 por unidad de tiempo. Pide &ldquo;al menos 5&rdquo; y &ldquo;menos de 5&rdquo;: complemento y tabla, igual que acá.</td>
+              <td>Allá el intervalo coincide con la unidad de la tasa (un día); acá hay que reescalar a 5 minutos.</td>
+            </tr>
+            <tr>
+              <td class="lbl">Unidad 5, Ejercicio 15<br><em>Fallas de una computadora</em></td>
+              <td>El inciso c es exactamente el b del parcial: &ldquo;al menos una&rdquo; \(= 1 - P(X=0)\).</td>
+              <td>Allá el dato viene como &ldquo;una cada seis horas&rdquo; y primero hay que convertirlo en tasa.</td>
+            </tr>
+            <tr>
+              <td class="lbl">Unidad 5, Ejercicio 13<br><em>Clientes en una casa de computación</em></td>
+              <td>Reescalado del intervalo y uso de la tabla acumulada para &ldquo;a lo sumo&rdquo;.</td>
+              <td>Allá hay que pasar minutos a horas; acá el reescalado es más simple (multiplicar por 5).</td>
+            </tr>
+          </table>
+        </div>
+
+        <div class="caja caja-ojo">
+          <span class="caja-tit">Las tres trampas de este ejercicio</span>
+          <ol>
+            <li><strong>No reescalar:</strong> si el intervalo de la pregunta no coincide con la unidad de la tasa, \(\lambda t\) cambia.</li>
+            <li><strong>Sumar infinitos términos:</strong> &ldquo;al menos uno&rdquo; siempre se hace por complemento.</li>
+            <li><strong>El inciso a es teoría</strong> y vale tanto como una cuenta. Son tres puntos concretos, no una charla.</li>
+          </ol>
+        </div>
+      </div>
+    </details>
+  </div>
+</section>

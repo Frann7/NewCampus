@@ -1,0 +1,137 @@
+<div class="ej">
+  <span class="tag">Ejercicio 1 &middot; Binomial + tabla</span>
+  <h2>Examen de 20 preguntas contestado al azar</h2>
+  <div class="enunciado">
+    <p>
+      Se tiene un examen con 20 preguntas de respuestas multiples. El estudiante desconoce en
+      absoluto el tema y elige una unica opcion de manera aleatoria. Cada pregunta tiene cuatro
+      opciones. Cual es la probabilidad de que obtenga:
+      a) exactamente el 80% correctas; b) a lo sumo el 50%; c) menos de 5; d) mas de 12;
+      e) al menos 12; f) mas de 8 pero no mas de 10; g) entre 8 y 10 inclusive;
+      h) entre 6 y 15 inclusive; i) numero esperado de correctas.
+    </p>
+  </div>
+
+  <span class="paso">Paso 1 &mdash; Identificar el modelo</span>
+  <ul>
+    <li>Cantidad fija de intentos? Si, 20 preguntas &rarr; \(n = 20\).</li>
+    <li>Dicotomico? Si: acierta o no acierta.</li>
+    <li>Probabilidad constante? Si: son 4 opciones y tira al azar &rarr; \(p = 1/4 = 0{,}25\).</li>
+    <li>Independientes? Si: lo que conteste en una pregunta no cambia la siguiente.</li>
+  </ul>
+  <p>Modelo: <strong>Binomial \(Bi(n=20,\ p=0{,}25)\)</strong>.</p>
+  <p>Formula madre:</p>
+  <p>\[ P(X = x) = \binom{n}{x}\, p^{x}\, (1-p)^{\,n-x} \]</p>
+
+  <span class="paso">Inciso a &mdash; Exactamente el 80% correctas</span>
+  <p>Primero traducimos el porcentaje a cantidad de preguntas:</p>
+  <p>\[ 20 \times 0{,}80 = 16 \text{ preguntas} \]</p>
+  <p>Nos piden \(P(X = 16)\). Como es un valor puntual, va formula directa:</p>
+  <p>\[ P(X = 16) = \binom{20}{16}\,(0{,}25)^{16}\,(1 - 0{,}25)^{20-16} \]</p>
+  <p>\[ P(X = 16) = \binom{20}{16}\,(0{,}25)^{16}\,(0{,}75)^{4} \]</p>
+  <div class="caja caja-calc">
+    <span class="caja-tit">En la calculadora</span>
+    <p>20 nCr 16 &times; 0.25 ^ 16 &times; 0.75 ^ 4</p>
+  </div>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta a</span>
+    <p>\(P(X=16) = 3{,}6 \times 10^{-7}\). Practicamente imposible sacar 16 de 20 tirando al azar.</p>
+  </div>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Por que a partir del inciso b se usa la TABLA</span>
+    <p>
+      En el inciso a nos pidieron un valor exacto: una sola formula y listo.
+    </p>
+    <p>
+      De aca en mas piden <strong>rangos</strong>. "A lo sumo 10" significa 0, o 1, o 2 &hellip;
+      hasta 10: tendrias que aplicar la formula <strong>once veces</strong> y sumar. Media hora
+      por inciso.
+    </p>
+    <p>
+      La tabla acumulada ya hizo esa suma. Buscas el bloque \(n = 20\), la columna \(p = 0{,}25\)
+      y la fila \(r\), y te devuelve \(P(X \leq r)\).
+    </p>
+  </div>
+
+  <span class="paso">Inciso b &mdash; A lo sumo el 50% correctas</span>
+  <p>\[ 20 \times 0{,}50 = 10 \text{ preguntas} \]</p>
+  <p>"A lo sumo" incluye el 10 y todo lo de abajo:</p>
+  <p>\[ P(X \leq 10) \]</p>
+  <p>Tabla: bloque \(n=20\), columna \(p=0{,}25\), fila \(r=10\).</p>
+  <div class="caja caja-resp"><span class="caja-tit">Respuesta b</span><p>\(0{,}9961\)</p></div>
+
+  <span class="paso">Inciso c &mdash; Menos de 5 correctas</span>
+  <p>"Menos de 5" <strong>no</strong> incluye el 5. Nos sirve del 4 para abajo:</p>
+  <p>\[ P(X &lt; 5) = P(X \leq 4) \]</p>
+  <p>Tabla, fila \(r=4\).</p>
+  <div class="caja caja-resp"><span class="caja-tit">Respuesta c</span><p>\(0{,}4148\)</p></div>
+
+  <span class="paso">Inciso d &mdash; Mas de 12 correctas</span>
+  <p>"Mas de 12" es del 13 en adelante. La tabla no lee para arriba, asi que usamos el complemento:</p>
+  <p>\[ P(X &gt; 12) = 1 - P(X \leq 12) \]</p>
+  <p>Tabla, fila \(r=12\) da \(0{,}9998\):</p>
+  <p>\[ P(X &gt; 12) = 1 - 0{,}9998 = 0{,}0002 \]</p>
+  <div class="caja caja-resp"><span class="caja-tit">Respuesta d</span><p>\(0{,}0002\)</p></div>
+
+  <span class="paso">Inciso e &mdash; Al menos 12 correctas</span>
+  <p>
+    "Al menos 12" <strong>si</strong> incluye el 12. Entonces lo que hay que descartar es del
+    <strong>11</strong> para abajo:
+  </p>
+  <p>\[ P(X \geq 12) = 1 - P(X \leq 11) \]</p>
+  <p>Tabla, fila \(r=11\) da \(0{,}9991\):</p>
+  <p>\[ P(X \geq 12) = 1 - 0{,}9991 = 0{,}0009 \]</p>
+  <div class="caja caja-resp"><span class="caja-tit">Respuesta e</span><p>\(0{,}0009\)</p></div>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Compara d con e</span>
+    <p>
+      Los dos incisos se parecen muchisimo y la unica diferencia es <strong>que fila restas</strong>.
+      En "mas de 12" restas la fila 12; en "al menos 12" restas la fila 11.
+    </p>
+  </div>
+
+  <span class="paso">Inciso f &mdash; Mas de 8 pero no mas de 10</span>
+  <p>Traduccion: queremos el 9 y el 10 solamente.</p>
+  <p>\[ P(8 &lt; X \leq 10) = P(X \leq 10) - P(X \leq 8) \]</p>
+  <p>
+    Logica: agarramos todo lo que hay hasta el techo (10) y le sacamos todo lo que hay hasta el
+    piso que no queremos (8).
+  </p>
+  <p>\[ = 0{,}9961 - 0{,}9591 = 0{,}0370 \]</p>
+  <div class="caja caja-resp"><span class="caja-tit">Respuesta f</span><p>\(0{,}0370\)</p></div>
+
+  <span class="paso">Inciso g &mdash; Entre 8 y 10, ambos inclusive</span>
+  <p>Ahora el 8 <strong>si</strong> entra, asi que el piso a descartar baja al 7:</p>
+  <p>\[ P(8 \leq X \leq 10) = P(X \leq 10) - P(X \leq 7) \]</p>
+  <p>\[ = 0{,}9961 - 0{,}8982 = 0{,}0979 \]</p>
+  <div class="caja caja-resp"><span class="caja-tit">Respuesta g</span><p>\(0{,}0979\)</p></div>
+
+  <span class="paso">Inciso h &mdash; Entre 6 y 15, ambos inclusive</span>
+  <p>Mismo esquema: techo 15, piso a descartar 5.</p>
+  <p>\[ P(6 \leq X \leq 15) = P(X \leq 15) - P(X \leq 5) \]</p>
+  <p>\[ = 1{,}0000 - 0{,}6172 = 0{,}3828 \]</p>
+  <p>
+    El \(1{,}0000\) de la fila 15 no significa certeza absoluta: significa que la probabilidad de
+    pasar de 15 es tan chica que la tabla la redondea a cero.
+  </p>
+  <div class="caja caja-resp"><span class="caja-tit">Respuesta h</span><p>\(0{,}3828\)</p></div>
+
+  <span class="paso">Inciso i &mdash; Numero esperado de correctas</span>
+  <p>Formula (machete de la Binomial):</p>
+  <p>\[ E(X) = n \cdot p \]</p>
+  <p>\[ E(X) = 20 \times 0{,}25 = 5 \]</p>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta i</span>
+    <p>Se esperan <strong>5 respuestas correctas</strong>. Coherente: si adivinas entre 4 opciones, acertas 1 de cada 4.</p>
+  </div>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Resultados oficiales de la catedra</span>
+    <p>
+      a) \(3{,}6\times10^{-7}\); b) 0,9961; c) 0,4148; d) 0,0002; e) 0,0009;
+      f) 0,0370; g) 0,0979; h) 0,3828; i) \(E(X)=np=5\) &nbsp;&#10003;
+    </p>
+  </div>
+</div>

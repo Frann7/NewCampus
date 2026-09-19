@@ -1,0 +1,276 @@
+<div class="bloque">
+  <p class="kicker">Modelo 2 &mdash; el mas usado</p>
+  <h2>4. Distribucion Binomial \(Bi(n, p)\)</h2>
+
+  <h3>Cuando se usa</h3>
+  <p>Tienen que cumplirse las cuatro condiciones del <strong>proceso de Bernoulli</strong>:</p>
+  <ol>
+    <li>El experimento consiste en un numero <strong>fijo</strong> de pruebas, \(n\).</li>
+    <li>Cada prueba es <strong>dicotomica</strong>: exito o fracaso, no hay tercera opcion.</li>
+    <li>La probabilidad de exito \(p\) se <strong>mantiene constante</strong> en cada prueba.</li>
+    <li>Las pruebas son <strong>independientes</strong>: lo que salio antes no afecta lo que sale despues.</li>
+  </ol>
+
+  <div class="caja caja-formula">
+    <span class="caja-tit">Formulas</span>
+    <p>\[ P(X = x) = \binom{n}{x}\, p^{x}\, (1-p)^{\,n-x} \qquad x = 0, 1, \ldots, n \]</p>
+    <p>\[ E(X) = n \cdot p \qquad\qquad V(X) = n \cdot p \cdot (1-p) \]</p>
+  </div>
+
+  <h4>Que significa cada letra</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Simbolo</th><th>Nombre</th><th>Como lo reconoces en el enunciado</th></tr>
+      <tr><td>\(n\)</td><td>cantidad de pruebas</td><td>"se toman 10 articulos", "20 preguntas", "un grupo de 10 personas"</td></tr>
+      <tr><td>\(p\)</td><td>probabilidad de exito</td><td>un porcentaje o una tasa: "el 20% falla", "tasa de 0,10"</td></tr>
+      <tr><td>\(1-p\)</td><td>probabilidad de fracaso</td><td>lo que falta para llegar a 1 (tambien se escribe \(q\))</td></tr>
+      <tr><td>\(x\)</td><td>cantidad de exitos que pedis</td><td>lo que sigue a "exactamente", "al menos", "a lo sumo"</td></tr>
+    </table>
+  </div>
+
+  <h4>De donde sale cada pedazo de la formula</h4>
+  <ul>
+    <li>
+      \(p^{x}\): la probabilidad de que ocurran los \(x\) exitos que pediste (como son
+      independientes, se multiplican entre si).
+    </li>
+    <li>
+      \((1-p)^{n-x}\): la probabilidad de que los \(n-x\) restantes sean fracasos.
+    </li>
+    <li>
+      \(\binom{n}{x}\): <strong>en cuantos ordenes distintos</strong> puede pasar eso. Si de 3
+      articulos quiero exactamente 1 defectuoso, puede ser el primero, el segundo o el tercero:
+      son 3 caminos, todos con la misma probabilidad. Por eso se multiplica.
+    </li>
+  </ul>
+
+  <div class="caja caja-calc">
+    <span class="caja-tit">En la calculadora</span>
+    <p>\(\binom{n}{x}\) es la tecla <strong>nCr</strong>. Para \(\binom{20}{16}\) tipeas: 20 nCr 16</p>
+  </div>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Caso particular: Bernoulli</span>
+    <p>
+      Cuando \(n = 1\) (una sola prueba), la Binomial se llama <strong>Bernoulli</strong>:
+      \(b(x; 1, p)\). Es simplemente "sale o no sale, una sola vez".
+    </p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; Articulos defectuosos (Ejemplo 3 de la catedra)</h3>
+
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>
+      Se seleccionan al azar tres articulos de un proceso de fabricacion y se clasifican como
+      Defectuoso o No defectuoso. Sea \(X\) el numero de articulos defectuosos. La maquina tiene
+      una probabilidad de fabricar un articulo defectuoso <strong>del 20%</strong>.
+      Cual es la probabilidad de que exactamente 1 sea defectuoso?
+    </p>
+  </div>
+
+  <h4>Por que este modelo</h4>
+  <p>Recorremos las cuatro condiciones de Bernoulli, una por una:</p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Condicion</th><th>Se cumple?</th></tr>
+      <tr><td>Numero fijo de pruebas</td><td>Si: son exactamente <strong>3 articulos</strong>, ni mas ni menos.</td></tr>
+      <tr><td>Dicotomica</td><td>Si: cada articulo es Defectuoso o No defectuoso. No hay opcion intermedia.</td></tr>
+      <tr><td>\(p\) constante</td><td>Si: la maquina falla el 20% <em>siempre</em>, no se cansa ni mejora.</td></tr>
+      <tr><td>Independientes</td><td>Si: es un proceso continuo de fabricacion, lo que salga en uno no cambia el siguiente.</td></tr>
+    </table>
+  </div>
+  <p>Las cuatro se cumplen &rarr; <strong>es Binomial</strong>.</p>
+
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase del enunciado</th><th>Traduccion</th><th>Cuenta</th><th>A donde va</th></tr>
+      <tr>
+        <td>"se seleccionan <strong>tres</strong> articulos"</td>
+        <td>la cantidad de pruebas es 3</td>
+        <td>&mdash;</td>
+        <td>\(n = 3\)</td>
+      </tr>
+      <tr>
+        <td>"probabilidad de fabricar un articulo defectuoso <strong>del 20%</strong>"</td>
+        <td>el "exito" que contamos es que salga defectuoso</td>
+        <td>\(20\% = \dfrac{20}{100} = 0{,}20\)</td>
+        <td>\(p = 0{,}20\)</td>
+      </tr>
+      <tr>
+        <td>(no lo dice, se deduce)</td>
+        <td>si el 20% falla, el resto sale bien</td>
+        <td>\(1 - 0{,}20 = 0{,}80\)</td>
+        <td>\(1-p = 0{,}80\)</td>
+      </tr>
+      <tr>
+        <td>"<strong>exactamente 1</strong> sea defectuoso"</td>
+        <td>queremos justo un exito</td>
+        <td>&mdash;</td>
+        <td>\(x = 1\)</td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Como se pasa un porcentaje a probabilidad</span>
+    <p>
+      Un porcentaje se divide por 100. El 20% es \(20 \div 100 = 0{,}20\). El 5% es \(0{,}05\).
+      El 7,5% es \(0{,}075\). Siempre queda un numero entre 0 y 1, porque una probabilidad
+      <strong>nunca</strong> puede ser mayor que 1.
+    </p>
+  </div>
+
+  <h4>Resolucion</h4>
+  <p>Formula:</p>
+  <p>\[ P(X = x) = \binom{n}{x}\, p^{x}\, (1-p)^{\,n-x} \]</p>
+  <p>Metemos cada pieza en su lugar:</p>
+  <p>\[ P(X = 1) = \binom{3}{1}\,(0{,}20)^{1}\,(0{,}80)^{3-1} \]</p>
+  <p>Resolvemos el exponente de arriba a la derecha: \(3 - 1 = 2\).</p>
+  <p>\[ P(X = 1) = \binom{3}{1}\,(0{,}20)^{1}\,(0{,}80)^{2} \]</p>
+  <p>Pieza por pieza:</p>
+  <ul>
+    <li>\(\binom{3}{1} = 3\) &nbsp;(hay 3 lugares donde puede caer el unico defectuoso)</li>
+    <li>\((0{,}20)^{1} = 0{,}20\)</li>
+    <li>\((0{,}80)^{2} = 0{,}64\)</li>
+  </ul>
+  <p>\[ P(X = 1) = 3 \times 0{,}20 \times 0{,}64 = 0{,}384 \]</p>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>38,4% de probabilidad de que haya exactamente 1 defectuoso entre los 3.</p>
+    <p>
+      De paso, el numero esperado de defectuosos es \(E(X) = n p = 3 (0{,}2) = 0{,}6\) articulos.
+    </p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; Estilo parcial 2025: mortalidad por accidente laboral</h3>
+
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado (Ejercicio 3 del Parcial 2025)</span>
+    <p>
+      Se sabe que la tasa de mortalidad para determinado accidente laboral es de <strong>0,10</strong>.
+      Consideramos la variable aleatoria "numero de personas que mueren luego del accidente por cada
+      grupo de <strong>10</strong> personas accidentadas". Se pide:
+    </p>
+    <p>
+      a) Identificar la funcion de distribucion de probabilidad. <strong>Justificar.</strong><br>
+      b) Hallar la probabilidad de que: I) ninguna persona sobreviva; II) al menos tres mueran;
+      III) exactamente tres mueran.<br>
+      c) Calcular la esperanza y el desvio estandar.
+    </p>
+  </div>
+
+  <h4>Inciso a &mdash; Identificar y justificar</h4>
+  <p>Justificacion punto por punto, que es lo que evalua la catedra:</p>
+  <ul>
+    <li>
+      <strong>Numero fijo de pruebas:</strong> el grupo tiene exactamente 10 personas
+      accidentadas &rarr; \(n = 10\).
+    </li>
+    <li>
+      <strong>Dicotomica:</strong> cada persona muere o sobrevive. No hay tercer resultado.
+    </li>
+    <li>
+      <strong>\(p\) constante:</strong> la tasa de mortalidad es 0,10 <em>para todos</em> los
+      accidentados, no cambia de persona a persona.
+    </li>
+    <li>
+      <strong>Independencia:</strong> lo que le pasa a una persona del grupo no altera lo que le
+      pasa a otra.
+    </li>
+  </ul>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta a</span>
+    <p>Es una <strong>Binomial \(Bi(n = 10,\ p = 0{,}10)\)</strong>, con \(X\) = personas que mueren.</p>
+  </div>
+
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Traduccion</th><th>A donde va</th></tr>
+      <tr><td>"grupo de 10 personas accidentadas"</td><td>tamano del grupo</td><td>\(n = 10\)</td></tr>
+      <tr><td>"tasa de mortalidad de 0,10"</td><td>ya viene en decimales, no hay que dividir por 100</td><td>\(p = 0{,}10\)</td></tr>
+      <tr><td>"numero de personas que <strong>mueren</strong>"</td><td>el exito es morir (aunque suene horrible)</td><td>define quien es \(X\)</td></tr>
+      <tr><td>(deduccion)</td><td>probabilidad de sobrevivir</td><td>\(1-p = 0{,}90\)</td></tr>
+    </table>
+  </div>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">La trampa mas grande de este ejercicio</span>
+    <p>
+      \(X\) cuenta <strong>muertes</strong>, no sobrevivientes. Todo inciso que hable de
+      sobrevivir hay que darlo vuelta antes de calcular.
+    </p>
+  </div>
+
+  <h4>Inciso b.I &mdash; Que ninguna persona sobreviva</h4>
+  <p>
+    Aca esta la trampa. "Ninguna sobrevive" significa que <strong>las 10 mueren</strong>.
+    Como \(X\) cuenta muertes:
+  </p>
+  <p>\[ P(\text{ninguna sobrevive}) = P(X = 10) \]</p>
+  <p>Formula:</p>
+  <p>\[ P(X = x) = \binom{n}{x}\, p^{x}\, (1-p)^{\,n-x} \]</p>
+  <p>\[ P(X = 10) = \binom{10}{10}\,(0{,}10)^{10}\,(0{,}90)^{10-10} \]</p>
+  <p>\[ = 1 \times (0{,}10)^{10} \times (0{,}90)^{0} = 1 \times 10^{-10} \times 1 \]</p>
+  <p>\[ P(X = 10) = 0{,}0000000001 = 1 \times 10^{-10} \]</p>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta b.I</span>
+    <p>Practicamente cero. Es virtualmente imposible que mueran las 10.</p>
+    <p><em>Recordatorio: cualquier numero elevado a la 0 da 1, y \(\binom{10}{10} = 1\).</em></p>
+  </div>
+
+  <h4>Inciso b.II &mdash; Que al menos tres mueran</h4>
+  <p>"Al menos 3" incluye el 3, o sea 3, 4, 5&hellip; hasta 10. Son ocho cuentas. Vamos por el complemento:</p>
+  <p>\[ P(X \geq 3) = 1 - P(X \leq 2) = 1 - \big[P(0) + P(1) + P(2)\big] \]</p>
+  <p>Calculamos los tres terminos:</p>
+  <p>\[ P(X=0) = \binom{10}{0}(0{,}10)^{0}(0{,}90)^{10} = 1 \times 1 \times 0{,}34868 = 0{,}34868 \]</p>
+  <p>\[ P(X=1) = \binom{10}{1}(0{,}10)^{1}(0{,}90)^{9} = 10 \times 0{,}10 \times 0{,}38742 = 0{,}38742 \]</p>
+  <p>\[ P(X=2) = \binom{10}{2}(0{,}10)^{2}(0{,}90)^{8} = 45 \times 0{,}01 \times 0{,}43047 = 0{,}19371 \]</p>
+  <p>\[ P(X \leq 2) = 0{,}34868 + 0{,}38742 + 0{,}19371 = 0{,}92981 \]</p>
+  <p>\[ P(X \geq 3) = 1 - 0{,}92981 = 0{,}0702 \]</p>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta b.II</span>
+    <p>7,02%.</p>
+    <p>
+      <em>Atajo:</em> con la tabla acumulada (bloque \(n=10\), columna \(p=0{,}10\), fila \(r=2\))
+      leias directamente 0,9298 y te ahorrabas las tres cuentas.
+    </p>
+  </div>
+
+  <h4>Inciso b.III &mdash; Que exactamente tres mueran</h4>
+  <p>"Exactamente" es un valor puntual, va formula directa:</p>
+  <p>\[ P(X = 3) = \binom{10}{3}\,(0{,}10)^{3}\,(0{,}90)^{7} \]</p>
+  <ul>
+    <li>\(\binom{10}{3} = 120\)</li>
+    <li>\((0{,}10)^{3} = 0{,}001\)</li>
+    <li>\((0{,}90)^{7} = 0{,}47830\)</li>
+  </ul>
+  <p>\[ P(X = 3) = 120 \times 0{,}001 \times 0{,}47830 = 0{,}0574 \]</p>
+  <div class="caja caja-resp"><span class="caja-tit">Respuesta b.III</span><p>5,74%.</p></div>
+
+  <h4>Inciso c &mdash; Esperanza y desvio estandar</h4>
+  <p>Aca es donde se usan los machetes del modelo.</p>
+  <p>Formula:</p>
+  <p>\[ E(X) = n \cdot p \]</p>
+  <p>\[ E(X) = 10 \times 0{,}10 = 1 \]</p>
+  <p>Formula:</p>
+  <p>\[ V(X) = n \cdot p \cdot (1-p) \]</p>
+  <p>\[ V(X) = 10 \times 0{,}10 \times 0{,}90 = 0{,}90 \]</p>
+  <p>Formula:</p>
+  <p>\[ \sigma = \sqrt{V(X)} \]</p>
+  <p>\[ \sigma = \sqrt{0{,}90} = 0{,}9487 \]</p>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta c</span>
+    <p>
+      Se espera <strong>1 muerte</strong> por cada grupo de 10 accidentados, con un desvio estandar
+      de <strong>0,9487 personas</strong>.
+    </p>
+  </div>
+</div>

@@ -1,0 +1,67 @@
+<div class="ej">
+  <span class="tag">Ejercicio 6 &middot; Hipergeometrica</span>
+  <h2>Caja de vino con botellas mal selladas</h2>
+  <div class="enunciado">
+    <p>
+      Un empleado elige periodicamente una caja de prueba (con <strong>6 botellas</strong>) para
+      determinar si el proceso de sellado es adecuado. Selecciona al azar una muestra de
+      <strong>2 botellas</strong> de la caja y si <strong>al menos una</strong> esta mal sellada,
+      descarta la caja por completo. Si una caja tiene <strong>2 botellas en mal estado</strong>,
+      determine la probabilidad de que el empleado descarte la caja completa.
+    </p>
+  </div>
+
+  <span class="paso">Paso 1 &mdash; Identificar el modelo</span>
+  <ul>
+    <li>Poblacion finita y concreta: 6 botellas.</li>
+    <li>
+      Saca 2 botellas de la caja y no las devuelve: <strong>sin reposicion</strong>.
+      Despues de sacar la primera quedan 5 y la probabilidad ya cambio.
+    </li>
+  </ul>
+  <p>Modelo: <strong>Hipergeometrica</strong>.</p>
+
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Traduccion</th><th>A donde va</th></tr>
+      <tr><td>"una caja de prueba con 6 botellas"</td><td>poblacion total</td><td>\(N = 6\)</td></tr>
+      <tr><td>"2 botellas de vino en mal estado"</td><td>exitos disponibles</td><td>\(k = 2\)</td></tr>
+      <tr><td>(deduccion) las otras 4</td><td>fracasos disponibles</td><td>\(N - k = 4\)</td></tr>
+      <tr><td>"una muestra de 2 botellas"</td><td>tamano de la muestra</td><td>\(n = 2\)</td></tr>
+      <tr><td>"si al menos una esta mal sellada"</td><td>el 1 entra</td><td>\(P(X \geq 1)\)</td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Paso 2 &mdash; Elegir el camino corto</span>
+  <p>
+    "Al menos una" seria \(P(1) + P(2)\): dos cuentas. Por complemento es una sola, y ademas la
+    mas facil (el caso en que no sale ninguna mala):
+  </p>
+  <p>\[ P(X \geq 1) = 1 - P(X = 0) \]</p>
+
+  <span class="paso">Paso 3 &mdash; Calcular \(P(X = 0)\)</span>
+  <p>Formula:</p>
+  <p>\[ P(X = x) = \frac{\dbinom{k}{x}\dbinom{N-k}{\,n-x\,}}{\dbinom{N}{n}} \]</p>
+  <p>Con \(x = 0\): las 2 botellas elegidas salen de las 4 buenas.</p>
+  <p>\[ P(X = 0) = \frac{\dbinom{2}{0}\dbinom{4}{2}}{\dbinom{6}{2}} \]</p>
+  <ul>
+    <li>\(\binom{2}{0} = 1\)</li>
+    <li>\(\binom{4}{2} = 6\)</li>
+    <li>\(\binom{6}{2} = 15\)</li>
+  </ul>
+  <p>\[ P(X = 0) = \frac{1 \times 6}{15} = \frac{6}{15} = 0{,}40 \]</p>
+
+  <span class="paso">Paso 4 &mdash; Restar</span>
+  <p>\[ P(X \geq 1) = 1 - 0{,}40 = \mathbf{0{,}60} \]</p>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Resultado oficial de la catedra</span>
+    <p>0,60 &nbsp;&#10003;</p>
+    <p>
+      El 60% de las cajas con 2 botellas falladas termina descartada. Dicho al reves: el
+      procedimiento <strong>deja pasar el 40%</strong> de las cajas defectuosas, que es el dato
+      interesante para el empleado.
+    </p>
+  </div>
+</div>

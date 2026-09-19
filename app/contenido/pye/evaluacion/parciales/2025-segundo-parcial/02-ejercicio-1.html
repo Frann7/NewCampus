@@ -1,0 +1,422 @@
+<!-- ==================== EJERCICIO 1 ==================== -->
+<section class="parcial-ej">
+  <div class="parcial-ej-cab">
+    <h2>Ejercicio 1</h2>
+    <span class="parcial-pts">26 puntos</span>
+    <span class="parcial-tema">Unidad 4 &middot; Conjunta, marginales y covarianza</span>
+  </div>
+
+  <p>
+    En un servidor se almacenan <strong>8 archivos de respaldo</strong>: <strong>3 pertenecen al
+    sistema operativo</strong> (archivos críticos), <strong>2 pertenecen a bases de datos</strong>,
+    <strong>3 corresponden a archivos de usuario</strong>. Se selecciona al azar una muestra de
+    <strong>4 archivos</strong> para auditar su integridad. Sean las variables aleatorias:
+    \(X\) = &ldquo;número de archivos del sistema operativo seleccionados&rdquo;,
+    \(Y\) = &ldquo;número de archivos de bases de datos seleccionados&rdquo;.
+  </p>
+  <p>La función de probabilidad conjunta de \((X, Y)\) es</p>
+
+  <div class="parcial-dos">
+    <div class="parcial-formula">
+      <p>\[ P(X = x,\ Y = y) = \frac{\binom{3}{x}\binom{2}{y}\binom{3}{4-x-y}}{\binom{8}{4}} \]</p>
+      <p class="parcial-dominio">\(x = 0, 1, 2, 3;\) &ensp; \(y = 0, 1, 2;\) &ensp; \(1 \leq x + y \leq 4\)</p>
+    </div>
+
+    <div class="tabla-wrap">
+      <table class="t parcial-tabla">
+        <tr><th>\(X \backslash Y\)</th><th>0</th><th>1</th><th>2</th><th>\(g(x)\)</th></tr>
+        <tr><th>0</th><td>0</td><td>\(\frac{2}{70}\)</td><td>\(\frac{3}{70}\)</td><td class="marg">\(\frac{5}{70}\)</td></tr>
+        <tr><th>1</th><td>\(\frac{3}{70}\)</td><td>\(\frac{18}{70}\)</td><td>\(\frac{9}{70}\)</td><td class="marg">\(\frac{30}{70}\)</td></tr>
+        <tr><th>2</th><td>\(\frac{9}{70}\)</td><td>\(\frac{18}{70}\)</td><td>\(\frac{3}{70}\)</td><td class="marg">\(\frac{30}{70}\)</td></tr>
+        <tr><th>3</th><td>\(\frac{3}{70}\)</td><td>\(\frac{2}{70}\)</td><td>0</td><td class="marg">\(\frac{5}{70}\)</td></tr>
+        <tr><th>\(h(y)\)</th><td class="marg">\(\frac{15}{70}\)</td><td class="marg">\(\frac{40}{70}\)</td><td class="marg">\(\frac{15}{70}\)</td><td class="vacia"></td></tr>
+      </table>
+    </div>
+  </div>
+
+  <ol class="parcial-incisos">
+    <li>Identifique las funciones de probabilidad marginales y escríbalas en tablas separadas.</li>
+    <li>Encuentre la \(E(X)\), \(E(Y)\), \(V(X)\) y \(V(Y)\).</li>
+    <li>Demuestre la propiedad \(V(X) = E(X^2) - \mu^2\).</li>
+    <li>¿Son \(X\) y \(Y\) independientes? ¿Cuál es la \(Cov(X, Y)\)?</li>
+    <li>Si \(Z = X + Y\) es el total de archivos del sistema y de bases de datos seleccionados, encuentre la \(E(Z)\).</li>
+  </ol>
+
+  <div class="parcial-extras">
+    <details class="parcial-desp pd-resultados">
+      <summary>
+        <span class="pd-icono">&#10003;</span>
+        <span class="pd-txt"><b>Resultados</b><small>Solo las respuestas, sin procedimiento</small></span>
+      </summary>
+      <div class="pd-cuerpo">
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Inciso</th><th>Resultado</th></tr>
+            <tr>
+              <td class="lbl">a) Marginales</td>
+              <td>\(g(x) = \tfrac{5}{70},\ \tfrac{30}{70},\ \tfrac{30}{70},\ \tfrac{5}{70}\) para \(x = 0,1,2,3\) &nbsp;&middot;&nbsp;
+                  \(h(y) = \tfrac{15}{70},\ \tfrac{40}{70},\ \tfrac{15}{70}\) para \(y = 0,1,2\)</td>
+            </tr>
+            <tr>
+              <td class="lbl">b) Esperanzas y varianzas</td>
+              <td>\(E(X) = 1{,}5\) &nbsp;&middot;&nbsp; \(E(Y) = 1\) &nbsp;&middot;&nbsp;
+                  \(V(X) = 0{,}5357\) &nbsp;&middot;&nbsp; \(V(Y) = 0{,}4286\)</td>
+            </tr>
+            <tr>
+              <td class="lbl">c) Demostración</td>
+              <td>\(E(X^{2}) = 2{,}7857\); \(E(X^{2}) - \mu^{2} = 2{,}7857 - 2{,}25 = 0{,}5357\), igual que \(E[(X-\mu)^{2}]\)</td>
+            </tr>
+            <tr>
+              <td class="lbl">d) Independencia y covarianza</td>
+              <td><strong>No</strong> son independientes &nbsp;&middot;&nbsp; \(Cov(X,Y) = -0{,}2143 = -\tfrac{3}{14}\)</td>
+            </tr>
+            <tr><td class="lbl">e) Esperanza de \(Z\)</td><td>\(E(Z) = 2{,}5\) archivos</td></tr>
+          </table>
+        </div>
+      </div>
+    </details>
+
+    <details class="parcial-desp pd-explicacion">
+      <summary>
+        <span class="pd-icono">&#9998;</span>
+        <span class="pd-txt"><b>Explicación detallada</b><small>Desde cero: teoría, desarme del enunciado, resolución y comparación con la guía</small></span>
+      </summary>
+      <div class="pd-cuerpo">
+
+        <div class="caja caja-ejemplo">
+          <span class="caja-tit">El enunciado, otra vez</span>
+          <p>
+            8 archivos de respaldo: 3 del sistema operativo, 2 de bases de datos y 3 de usuario.
+            Se eligen 4 al azar. \(X\) cuenta los del sistema operativo que salieron y
+            \(Y\) los de bases de datos. Nos dan la tabla conjunta y piden marginales, esperanzas,
+            varianzas, la demostración de \(V(X) = E(X^{2}) - \mu^{2}\), independencia, covarianza y \(E(Z)\).
+          </p>
+        </div>
+
+        <h4>¿De qué tema es?</h4>
+        <p>
+          Es <strong>Unidad 4</strong> completa: distribución conjunta, marginales, esperanza, varianza,
+          covarianza e independencia. Cae todo en un solo ejercicio.
+        </p>
+        <p>
+          La <em>tabla</em> viene de la Unidad 5: es una <strong>hipergeométrica con tres grupos</strong>
+          (sistema, bases, usuario). Pero eso no hay que resolverlo: la tabla ya viene hecha y solo
+          se la usa como punto de partida.
+        </p>
+
+        <h4>Los conceptos que hacen falta, desde cero</h4>
+
+        <div class="caja caja-formula">
+          <span class="caja-tit">1. Función de probabilidad conjunta</span>
+          <p>
+            \(f(x,y) = P(X = x \ \text{y a la vez}\ Y = y)\). Es una tabla de doble entrada:
+            cada casillero dice qué probabilidad tiene <em>esa</em> combinación.
+          </p>
+          <p>Control obligatorio: todos los casilleros tienen que sumar 1.</p>
+          <p>\[ 0+2+3+3+18+9+9+18+3+3+2+0 = 70 \quad\Rightarrow\quad \frac{70}{70} = 1 \ \checkmark \]</p>
+        </div>
+
+        <div class="caja caja-formula">
+          <span class="caja-tit">2. Marginales: aplastar la tabla</span>
+          <p>\[ g(x) = \sum_{y} f(x,y) \qquad\qquad h(y) = \sum_{x} f(x,y) \]</p>
+          <p>
+            La marginal de \(X\) se olvida de \(Y\): suma toda la fila. La de \(Y\) suma toda la columna.
+            Se llaman &ldquo;marginales&rdquo; porque quedan anotadas en el margen de la tabla.
+          </p>
+        </div>
+
+        <div class="caja caja-formula">
+          <span class="caja-tit">3. Esperanza y varianza (con la marginal ya sacada)</span>
+          <p>\[ E(X) = \sum x \cdot g(x) \qquad E(X^{2}) = \sum x^{2} \cdot g(x) \qquad V(X) = E(X^{2}) - \big[E(X)\big]^{2} \]</p>
+          <p>
+            La esperanza es el promedio de la variable pesando cada valor por su probabilidad.
+            La varianza mide cuánto se desparraman los valores alrededor de ese promedio.
+          </p>
+        </div>
+
+        <div class="caja caja-formula">
+          <span class="caja-tit">4. Covarianza e independencia</span>
+          <p>\[ Cov(X,Y) = E(XY) - E(X)\cdot E(Y) \qquad\text{con}\qquad E(XY) = \sum_{x}\sum_{y} x \cdot y \cdot f(x,y) \]</p>
+          <p>\(X\) e \(Y\) son <strong>independientes</strong> si \(f(x,y) = g(x)\cdot h(y)\) en <em>todos</em> los casilleros.</p>
+        </div>
+
+        <div class="caja caja-ojo">
+          <span class="caja-tit">De dónde sale la tabla (por si querés entenderla)</span>
+          <p>
+            Cada casillero se calcula eligiendo cuántos archivos de cada grupo entran en la muestra de 4.
+            Por ejemplo, el casillero \((x=1,\ y=1)\): 1 del sistema, 1 de bases y los \(4-1-1 = 2\) restantes de usuario:
+          </p>
+          <p>\[ P(X=1, Y=1) = \frac{\binom{3}{1}\binom{2}{1}\binom{3}{2}}{\binom{8}{4}} = \frac{3 \times 2 \times 3}{70} = \frac{18}{70} \]</p>
+          <p>Ese 70 del denominador es \(\binom{8}{4}\): todas las formas de elegir 4 archivos entre 8.</p>
+        </div>
+
+        <h4>Desarme del enunciado</h4>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Frase del enunciado</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+            <tr><td>&ldquo;8 archivos de respaldo&rdquo;</td><td>el total disponible</td><td>&mdash;</td><td>\(N = 8\)</td></tr>
+            <tr><td>&ldquo;3 pertenecen al sistema operativo&rdquo;</td><td>el grupo que cuenta \(X\)</td><td>&mdash;</td><td>\(x\) puede ir de 0 a 3</td></tr>
+            <tr><td>&ldquo;2 pertenecen a bases de datos&rdquo;</td><td>el grupo que cuenta \(Y\)</td><td>&mdash;</td><td>\(y\) puede ir de 0 a 2</td></tr>
+            <tr><td>&ldquo;una muestra de 4 archivos&rdquo;</td><td>cuántos se sacan, sin reposición</td><td>&mdash;</td><td>\(n = 4\)</td></tr>
+            <tr><td>&ldquo;\(1 \leq x + y \leq 4\)&rdquo;</td><td>entre los dos grupos no pueden sumar más de 4 (es el tamaño de la muestra), y no pueden sumar 0 porque solo hay 3 de usuario</td><td>&mdash;</td><td>explica los dos ceros de la tabla</td></tr>
+          </table>
+        </div>
+
+        <div class="caja caja-ojo">
+          <span class="caja-tit">Truco que ahorra tiempo y errores</span>
+          <p>
+            <strong>Todos los denominadores son 70.</strong> Trabajá solo con los numeradores
+            (0, 2, 3, 18, 9&hellip;) y dividí por 70 recién al final.
+          </p>
+        </div>
+
+        <span class="paso">Inciso a &mdash; Las marginales, en tablas separadas</span>
+        <p>Fórmula:</p>
+        <p>\[ g(x) = \sum_{y} f(x,y) \]</p>
+        <p>Sumamos cada <strong>fila</strong> (las filas están rotuladas con \(X\)):</p>
+        <ul>
+          <li>\(x = 0\): &nbsp; \(0 + 2 + 3 = 5\) &rarr; \(5/70\)</li>
+          <li>\(x = 1\): &nbsp; \(3 + 18 + 9 = 30\) &rarr; \(30/70\)</li>
+          <li>\(x = 2\): &nbsp; \(9 + 18 + 3 = 30\) &rarr; \(30/70\)</li>
+          <li>\(x = 3\): &nbsp; \(3 + 2 + 0 = 5\) &rarr; \(5/70\)</li>
+        </ul>
+        <div class="tabla-wrap">
+          <table class="t">
+            <tr><th class="lbl">\(x\)</th><td>0</td><td>1</td><td>2</td><td>3</td></tr>
+            <tr><th class="lbl">\(g(x)\)</th><td>\(\frac{5}{70}\)</td><td>\(\frac{30}{70}\)</td><td>\(\frac{30}{70}\)</td><td>\(\frac{5}{70}\)</td></tr>
+          </table>
+        </div>
+
+        <p>Fórmula:</p>
+        <p>\[ h(y) = \sum_{x} f(x,y) \]</p>
+        <p>Sumamos cada <strong>columna</strong>:</p>
+        <ul>
+          <li>\(y = 0\): &nbsp; \(0 + 3 + 9 + 3 = 15\) &rarr; \(15/70\)</li>
+          <li>\(y = 1\): &nbsp; \(2 + 18 + 18 + 2 = 40\) &rarr; \(40/70\)</li>
+          <li>\(y = 2\): &nbsp; \(3 + 9 + 3 + 0 = 15\) &rarr; \(15/70\)</li>
+        </ul>
+        <div class="tabla-wrap">
+          <table class="t">
+            <tr><th class="lbl">\(y\)</th><td>0</td><td>1</td><td>2</td></tr>
+            <tr><th class="lbl">\(h(y)\)</th><td>\(\frac{15}{70}\)</td><td>\(\frac{40}{70}\)</td><td>\(\frac{15}{70}\)</td></tr>
+          </table>
+        </div>
+        <p>Control: \(5+30+30+5 = 70\) &#10003; &nbsp;y&nbsp; \(15+40+15 = 70\) &#10003;</p>
+
+        <span class="paso">Inciso b &mdash; Esperanzas y varianzas</span>
+        <p>Desde acá se trabaja <strong>solo con las marginales</strong>, como si fueran dos ejercicios comunes de una variable.</p>
+
+        <p>Fórmula:</p>
+        <p>\[ E(X) = \sum x \cdot g(x) \]</p>
+        <p>\[ E(X) = \frac{(0)(5) + (1)(30) + (2)(30) + (3)(5)}{70} = \frac{0 + 30 + 60 + 15}{70} = \frac{105}{70} = 1{,}5 \]</p>
+
+        <p>Fórmula:</p>
+        <p>\[ E(Y) = \sum y \cdot h(y) \]</p>
+        <p>\[ E(Y) = \frac{(0)(15) + (1)(40) + (2)(15)}{70} = \frac{0 + 40 + 30}{70} = \frac{70}{70} = 1 \]</p>
+
+        <p>Fórmula:</p>
+        <p>\[ E(X^{2}) = \sum x^{2} \cdot g(x) \]</p>
+        <p>\[ E(X^{2}) = \frac{(0)(5) + (1)(30) + (4)(30) + (9)(5)}{70} = \frac{0 + 30 + 120 + 45}{70} = \frac{195}{70} = 2{,}7857 \]</p>
+
+        <p>Fórmula:</p>
+        <p>\[ V(X) = E(X^{2}) - \big[E(X)\big]^{2} \]</p>
+        <p>\[ V(X) = 2{,}7857 - (1{,}5)^{2} = 2{,}7857 - 2{,}25 = 0{,}5357 \]</p>
+
+        <p>Fórmula:</p>
+        <p>\[ E(Y^{2}) = \sum y^{2} \cdot h(y) \]</p>
+        <p>\[ E(Y^{2}) = \frac{(0)(15) + (1)(40) + (4)(15)}{70} = \frac{40 + 60}{70} = \frac{100}{70} = 1{,}4286 \]</p>
+
+        <p>Fórmula:</p>
+        <p>\[ V(Y) = E(Y^{2}) - \big[E(Y)\big]^{2} \]</p>
+        <p>\[ V(Y) = 1{,}4286 - (1)^{2} = 0{,}4286 \]</p>
+
+        <div class="caja caja-resp">
+          <span class="caja-tit">Respuesta b</span>
+          <p>
+            \(E(X) = 1{,}5\) archivos del sistema y \(E(Y) = 1\) de bases de datos;
+            \(V(X) = 0{,}5357\) y \(V(Y) = 0{,}4286\).
+          </p>
+          <p>
+            Control con sentido común: de los 8 archivos, 3 son del sistema, o sea el 37,5%.
+            Si sacás 4, esperás \(4 \times 0{,}375 = 1{,}5\). &#10003;
+          </p>
+        </div>
+
+        <span class="paso">Inciso c &mdash; Demostrar que \(V(X) = E(X^{2}) - \mu^{2}\)</span>
+        <p>
+          La varianza se <strong>define</strong> como el promedio de los apartamientos al cuadrado:
+        </p>
+        <p>\[ V(X) = E\big[(X - \mu)^{2}\big] \]</p>
+        <p>Desarrollamos el cuadrado adentro de la esperanza:</p>
+        <p>\[ V(X) = E\big[X^{2} - 2\mu X + \mu^{2}\big] \]</p>
+        <p>La esperanza se reparte en las sumas, y las constantes salen afuera:</p>
+        <p>\[ V(X) = E(X^{2}) - 2\mu\,E(X) + \mu^{2} \]</p>
+        <p>Pero \(E(X)\) <em>es</em> \(\mu\), así que el término del medio queda \(-2\mu^{2}\):</p>
+        <p>\[ V(X) = E(X^{2}) - 2\mu^{2} + \mu^{2} \]</p>
+        <p>\[ V(X) = E(X^{2}) - \mu^{2} \qquad \blacksquare \]</p>
+
+        <h4>Y ahora la comprobación con los números del ejercicio</h4>
+        <p>Calculamos \(E[(X-\mu)^{2}]\) a mano, con \(\mu = 1{,}5\):</p>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>\(x\)</th><th>\(x - \mu\)</th><th>\((x-\mu)^{2}\)</th><th>numerador de \(g(x)\)</th><th>Aporte</th></tr>
+            <tr><td>0</td><td>\(-1{,}5\)</td><td>2,25</td><td>5</td><td>11,25</td></tr>
+            <tr><td>1</td><td>\(-0{,}5\)</td><td>0,25</td><td>30</td><td>7,50</td></tr>
+            <tr><td>2</td><td>\(0{,}5\)</td><td>0,25</td><td>30</td><td>7,50</td></tr>
+            <tr><td>3</td><td>\(1{,}5\)</td><td>2,25</td><td>5</td><td>11,25</td></tr>
+            <tr><th class="lbl" colspan="4">Suma</th><th>37,50</th></tr>
+          </table>
+        </div>
+        <p>\[ E\big[(X-\mu)^{2}\big] = \frac{37{,}50}{70} = 0{,}5357 \]</p>
+        <div class="caja caja-resp">
+          <span class="caja-tit">Respuesta c</span>
+          <p>
+            Por definición da \(0{,}5357\) y por la fórmula \(E(X^{2}) - \mu^{2} = 2{,}7857 - 2{,}25 = 0{,}5357\).
+            <strong>Son el mismo número</strong>: la propiedad queda demostrada y verificada.
+          </p>
+        </div>
+
+        <span class="paso">Inciso d &mdash; ¿Independientes? ¿Cuánto vale la covarianza?</span>
+
+        <h4>Primero la independencia</h4>
+        <p>
+          Para <strong>negar</strong> la independencia alcanza con encontrar <em>un</em> casillero donde
+          \(f(x,y) \neq g(x)\cdot h(y)\). El más fácil es el que vale cero:
+        </p>
+        <p>Lo que dice la tabla:</p>
+        <p>\[ f(0,0) = 0 \]</p>
+        <p>Lo que debería valer si fueran independientes:</p>
+        <p>\[ g(0)\cdot h(0) = \frac{5}{70} \times \frac{15}{70} = \frac{75}{4900} = 0{,}0153 \]</p>
+        <p>\[ 0 \neq 0{,}0153 \]</p>
+
+        <div class="caja caja-ojo">
+          <span class="caja-tit">Por qué ese casillero vale cero, en criollo</span>
+          <p>
+            \(f(0,0)\) es la probabilidad de sacar 4 archivos y que <em>ninguno</em> sea del sistema ni de
+            bases de datos: los 4 tendrían que ser de usuario, y de usuario hay solo 3. Es imposible.
+          </p>
+          <p>Ese &ldquo;no alcanzan&rdquo; es justamente la dependencia: las dos variables se pelean los mismos 4 lugares.</p>
+        </div>
+
+        <h4>Ahora la covarianza</h4>
+        <p>Fórmula:</p>
+        <p>\[ Cov(X,Y) = E(XY) - E(X)\cdot E(Y) \]</p>
+        <p>Falta fabricar \(E(XY)\). Fórmula:</p>
+        <p>\[ E(XY) = \sum_{x}\sum_{y} x \cdot y \cdot f(x,y) \]</p>
+        <p>
+          Se vuelve a la <strong>tabla grande</strong> y en cada casillero se multiplican tres números:
+          el \(x\) de la fila, el \(y\) de la columna y la probabilidad de adentro. La fila \(x=0\) y la
+          columna \(y=0\) aportan cero: ni las calculamos.
+        </p>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Casillero</th><th>Cuenta (numeradores)</th><th>Aporte</th></tr>
+            <tr><td>\(x=1,\ y=1\)</td><td>\(1 \times 1 \times 18\)</td><td>18</td></tr>
+            <tr><td>\(x=1,\ y=2\)</td><td>\(1 \times 2 \times 9\)</td><td>18</td></tr>
+            <tr><td>\(x=2,\ y=1\)</td><td>\(2 \times 1 \times 18\)</td><td>36</td></tr>
+            <tr><td>\(x=2,\ y=2\)</td><td>\(2 \times 2 \times 3\)</td><td>12</td></tr>
+            <tr><td>\(x=3,\ y=1\)</td><td>\(3 \times 1 \times 2\)</td><td>6</td></tr>
+            <tr><td>\(x=3,\ y=2\)</td><td>\(3 \times 2 \times 0\)</td><td>0</td></tr>
+            <tr><th class="lbl" colspan="2">Suma de numeradores</th><th>90</th></tr>
+          </table>
+        </div>
+        <p>\[ E(XY) = \frac{90}{70} = 1{,}2857 \]</p>
+        <p>Reemplazamos en la fórmula:</p>
+        <p>\[ Cov(X,Y) = 1{,}2857 - (1{,}5)(1) = -0{,}2143 \]</p>
+
+        <div class="caja caja-resp">
+          <span class="caja-tit">Respuesta d</span>
+          <p>
+            <strong>No son independientes</strong> (falla el casillero \((0,0)\)) y
+            \(Cov(X,Y) = -0{,}2143 = -\tfrac{3}{14}\).
+          </p>
+          <p>
+            El signo negativo tiene sentido: como solo entran 4 archivos, cuantos más sean del sistema
+            operativo, menos lugar queda para los de bases de datos.
+          </p>
+          <p>
+            Coherencia: si fueran independientes, la covarianza tendría que haber dado exactamente 0.
+            Dio distinto de 0, así que confirma la respuesta anterior. &#10003;
+          </p>
+        </div>
+
+        <div class="caja caja-ojo">
+          <span class="caja-tit">Ojo con el sentido inverso</span>
+          <p>Independientes \(\Rightarrow\) \(Cov = 0\), <strong>siempre</strong>.</p>
+          <p>
+            Pero \(Cov = 0\) <strong>no</strong> garantiza independencia: puede haber una relación que no
+            sea lineal y la covarianza igual da cero.
+          </p>
+        </div>
+
+        <span class="paso">Inciso e &mdash; Esperanza de \(Z = X + Y\)</span>
+        <p>Fórmula:</p>
+        <p>\[ E(X + Y) = E(X) + E(Y) \]</p>
+        <p>\[ E(Z) = 1{,}5 + 1 = 2{,}5 \text{ archivos} \]</p>
+
+        <div class="caja caja-ojo">
+          <span class="caja-tit">La pregunta que se cae de maduro</span>
+          <p>
+            &ldquo;¿No hay que usar la covarianza, si no son independientes?&rdquo; No: la esperanza se reparte
+            en las sumas <strong>siempre</strong>. La independencia recién hace falta para la
+            <em>varianza</em> de una suma.
+          </p>
+        </div>
+
+        <h4>Verificación por otro camino</h4>
+        <p>
+          \(Z\) cuenta los archivos que son del sistema <em>o</em> de bases de datos. De esas dos categorías
+          hay \(3 + 2 = 5\) entre los 8, y se eligen 4: es una hipergeométrica con \(N=8,\ k=5,\ n=4\).
+        </p>
+        <p>\[ E(Z) = \frac{n\,k}{N} = \frac{4 \times 5}{8} = 2{,}5 \ \checkmark \]</p>
+
+        <div class="caja caja-resp">
+          <span class="caja-tit">Respuesta e</span>
+          <p>\(E(Z) = 2{,}5\) archivos.</p>
+        </div>
+
+        <div class="caja caja-calc">
+          <span class="caja-tit">Si además pidieran \(V(Z)\)</span>
+          <p>\[ V(X+Y) = V(X) + V(Y) + 2\,Cov(X,Y) = 0{,}5357 + 0{,}4286 + 2(-0{,}2143) = 0{,}5357 \]</p>
+          <p>Sin el término de covarianza daría 0,9643: casi el doble. Ahí sí importa la independencia.</p>
+        </div>
+
+        <h4>Parecido en la guía</h4>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Ejercicio de la guía</th><th>Qué tiene igual</th><th>Qué cambia en el parcial</th></tr>
+            <tr>
+              <td class="lbl">Unidad 4, Ejercicio 11<br><em>Cajeros en Paraná y Santa Fe</em></td>
+              <td>Tabla conjunta de doble entrada; marginales sumando filas y columnas; \(E(X)\), \(V(X)\), \(E(XY)\) casillero por casillero y covarianza. El procedimiento es <strong>idéntico</strong>.</td>
+              <td>Allá los números vienen en decimales y acá en fracciones con denominador 70. Además el parcial pide independencia, la demostración de la propiedad y \(E(Z)\).</td>
+            </tr>
+            <tr>
+              <td class="lbl">Unidad 4, Ejercicio 12<br><em>Variables independientes</em></td>
+              <td>Verificar \(f(x,y) = g(x)h(y)\) casillero por casillero.</td>
+              <td>Allá el enunciado ya <em>avisa</em> que son independientes; acá hay que descubrir que <strong>no</strong> lo son.</td>
+            </tr>
+            <tr>
+              <td class="lbl">Unidad 4, Ejercicios 14 y 15<br><em>Combinación lineal</em></td>
+              <td>\(E\) y \(V\) de una combinación de dos variables.</td>
+              <td>Acá solo piden \(E(Z)\), que es la parte fácil: no hace falta la covarianza.</td>
+            </tr>
+            <tr>
+              <td class="lbl">Unidad 5, Ejercicios 4 a 10<br><em>Hipergeométricas</em></td>
+              <td>De ahí sale la tabla: elegir sin reposición de grupos distintos.</td>
+              <td>En el parcial la tabla ya viene calculada; no hay que armarla.</td>
+            </tr>
+          </table>
+        </div>
+
+        <div class="caja caja-ojo">
+          <span class="caja-tit">Las tres trampas de este ejercicio</span>
+          <ol>
+            <li><strong>Orientación de la tabla:</strong> acá las filas son \(X\). Si estuvieran al revés, las marginales se sacan al revés. Mirá siempre los encabezados.</li>
+            <li><strong>\(E(XY)\) se calcula con la tabla grande</strong>, no con las marginales.</li>
+            <li><strong>Demostrar no es solo calcular:</strong> el inciso c pide el desarrollo algebraico; el número solo lo acompaña.</li>
+          </ol>
+        </div>
+      </div>
+    </details>
+  </div>
+</section>

@@ -1,0 +1,116 @@
+<div class="bloque">
+  <p class="kicker">Modelo 5</p>
+  <h2>7. Distribucion Binomial Negativa \(Bi^{*}(k, p)\)</h2>
+
+  <h3>Cuando se usa</h3>
+  <p>
+    Igual que la Geometrica, pero no paras en el primer exito: seguis
+    <strong>hasta juntar \(k\) exitos</strong>. La pregunta es en que intento llega el exito
+    numero \(k\).
+  </p>
+
+  <div class="caja caja-formula">
+    <span class="caja-tit">Formulas</span>
+    <p>\[ P(X = x) = \binom{x-1}{k-1}\, p^{k}\, (1-p)^{\,x-k} \qquad x = k, k+1, k+2, \ldots \]</p>
+    <p>\[ E(X) = \frac{k}{p} \qquad\qquad V(X) = \frac{k(1-p)}{p^{2}} \]</p>
+  </div>
+
+  <h4>Por que el combinatorio es \(\binom{x-1}{k-1}\) y no \(\binom{x}{k}\)</h4>
+  <p>
+    Porque el <strong>ultimo intento esta obligado a ser exito</strong> (si no, el experimento
+    habria terminado antes). Entonces solo se pueden reordenar los \(k-1\) exitos restantes
+    dentro de los \(x-1\) intentos previos. Ese detalle es lo unico que diferencia esta formula
+    de la Binomial comun.
+  </p>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Relacion con la Geometrica</span>
+    <p>
+      La <strong>Geometrica es el caso particular con \(k = 1\)</strong>. Si en la formula de arriba
+      ponés \(k=1\), el combinatorio \(\binom{x-1}{0}\) vale 1 y queda exactamente
+      \(p(1-p)^{x-1}\).
+    </p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; Penales</h3>
+
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>
+      Un jugador mete penales con probabilidad <strong>0,7</strong>. Cual es la probabilidad de que
+      su <strong>3er gol</strong> llegue justo en el <strong>5to penal</strong>?
+    </p>
+  </div>
+
+  <h4>Por que este modelo</h4>
+  <ul>
+    <li>No hay cantidad fija de penales: patea hasta juntar goles.</li>
+    <li>No busca el primero sino <strong>el tercero</strong> &rarr; Binomial Negativa, no Geometrica.</li>
+  </ul>
+
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Traduccion</th><th>A donde va</th></tr>
+      <tr><td>"mete penales con probabilidad 0,7"</td><td>probabilidad de exito</td><td>\(p = 0{,}7\)</td></tr>
+      <tr><td>"su 3er gol"</td><td>cuantos exitos hay que juntar</td><td>\(k = 3\)</td></tr>
+      <tr><td>"en el 5to penal"</td><td>en que intento cae ese exito</td><td>\(x = 5\)</td></tr>
+    </table>
+  </div>
+
+  <h4>Resolucion</h4>
+  <p>Formula:</p>
+  <p>\[ P(X = x) = \binom{x-1}{k-1}\, p^{k}\, (1-p)^{\,x-k} \]</p>
+  <p>Reemplazamos con cuidado los tres lugares donde entran los numeros:</p>
+  <p>\[ P(X = 5) = \binom{5-1}{3-1}\,(0{,}7)^{3}\,(0{,}3)^{5-3} = \binom{4}{2}\,(0{,}7)^{3}\,(0{,}3)^{2} \]</p>
+  <ul>
+    <li>\(\binom{4}{2} = 6\)</li>
+    <li>\((0{,}7)^{3} = 0{,}343\)</li>
+    <li>\((0{,}3)^{2} = 0{,}09\)</li>
+  </ul>
+  <p>\[ P(X = 5) = 6 \times 0{,}343 \times 0{,}09 = 0{,}1852 \]</p>
+  <div class="caja caja-resp"><span class="caja-tit">Respuesta</span><p>18,52%.</p></div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; Estilo parcial: tercer intento bloqueado</h3>
+
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>
+      Un sistema de seguridad bloquea el <strong>80%</strong> de los intentos de acceso no
+      autorizado. a) Cual es la probabilidad de que el <strong>tercer bloqueo</strong> se produzca
+      en el <strong>quinto</strong> intento registrado? b) Cuantos intentos se esperan registrar
+      hasta juntar 3 bloqueos?
+    </p>
+  </div>
+
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Traduccion</th><th>Cuenta</th><th>A donde va</th></tr>
+      <tr><td>"bloquea el 80%"</td><td>probabilidad de exito</td><td>\(80 \div 100 = 0{,}80\)</td><td>\(p = 0{,}80\)</td></tr>
+      <tr><td>(deduccion)</td><td>que no bloquee</td><td>\(1 - 0{,}80 = 0{,}20\)</td><td>\(1-p = 0{,}20\)</td></tr>
+      <tr><td>"el tercer bloqueo"</td><td>exitos a juntar</td><td>&mdash;</td><td>\(k = 3\)</td></tr>
+      <tr><td>"en el quinto intento"</td><td>intento donde cae</td><td>&mdash;</td><td>\(x = 5\)</td></tr>
+    </table>
+  </div>
+
+  <h4>Inciso a</h4>
+  <p>Formula:</p>
+  <p>\[ P(X = x) = \binom{x-1}{k-1}\, p^{k}\, (1-p)^{\,x-k} \]</p>
+  <p>\[ P(X = 5) = \binom{4}{2}\,(0{,}80)^{3}\,(0{,}20)^{2} \]</p>
+  <p>\[ = 6 \times 0{,}512 \times 0{,}04 = 0{,}1229 \]</p>
+  <div class="caja caja-resp"><span class="caja-tit">Respuesta a</span><p>12,29%.</p></div>
+
+  <h4>Inciso b</h4>
+  <p>Formula:</p>
+  <p>\[ E(X) = \frac{k}{p} \]</p>
+  <p>\[ E(X) = \frac{3}{0{,}80} = 3{,}75 \]</p>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta b</span>
+    <p>Se esperan registrar <strong>3,75 intentos</strong> hasta juntar los 3 bloqueos.</p>
+  </div>
+</div>

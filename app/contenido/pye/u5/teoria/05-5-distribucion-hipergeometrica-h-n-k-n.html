@@ -1,0 +1,214 @@
+<div class="bloque">
+  <p class="kicker">Modelo 3</p>
+  <h2>5. Distribucion Hipergeometrica \(H(N, k, n)\)</h2>
+
+  <h3>Cuando se usa</h3>
+  <p>
+    Es la hermana de la Binomial, pero <strong>sin reposicion</strong> y sobre una poblacion
+    <strong>finita y chica</strong>. Al no devolver lo que sacas, la probabilidad de exito
+    <em>cambia en cada extraccion</em>, y por eso no se puede usar Binomial.
+  </p>
+
+  <div class="caja caja-formula">
+    <span class="caja-tit">Formulas</span>
+    <p>\[ P(X = x) = \frac{\dbinom{k}{x} \cdot \dbinom{N-k}{\,n-x\,}}{\dbinom{N}{n}} \]</p>
+    <p>\[ E(X) = \frac{n k}{N} \qquad\qquad V(X) = \frac{N-n}{N-1} \cdot n \cdot \frac{k}{N}\left(1 - \frac{k}{N}\right) \]</p>
+  </div>
+
+  <h4>Que significa cada letra</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Simbolo</th><th>Nombre</th><th>Como lo reconoces</th></tr>
+      <tr><td>\(N\)</td><td>total de la poblacion</td><td>"un lote de 40", "una caja de 25", "8 archivos"</td></tr>
+      <tr><td>\(k\)</td><td>exitos que hay en la poblacion</td><td>"de los cuales 9 son mujeres", "3 son criticos"</td></tr>
+      <tr><td>\(n\)</td><td>tamano de la muestra</td><td>"se seleccionan 4", "se prueban 3"</td></tr>
+      <tr><td>\(x\)</td><td>exitos que pedis en la muestra</td><td>lo que sigue a "exactamente", "al menos"&hellip;</td></tr>
+      <tr><td>\(N-k\)</td><td>fracasos en la poblacion</td><td>el resto: total menos exitos</td></tr>
+    </table>
+  </div>
+
+  <h4>Como leer la formula</h4>
+  <ul>
+    <li>\(\binom{k}{x}\): de cuantas formas elijo \(x\) exitos entre los \(k\) disponibles.</li>
+    <li>\(\binom{N-k}{n-x}\): de cuantas formas relleno los lugares que faltan con fracasos.</li>
+    <li>\(\binom{N}{n}\): total de muestras posibles. Es el denominador, el "universo".</li>
+  </ul>
+  <p>Es la definicion clasica de probabilidad: <em>casos favorables sobre casos posibles</em>.</p>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Como distinguirla de la Binomial</span>
+    <p>Preguntate: <strong>lo que saco, lo devuelvo?</strong></p>
+    <ul>
+      <li>Si lo devuelvo (o la poblacion es enorme y no se nota) &rarr; <strong>Binomial</strong>.</li>
+      <li>Si no lo devuelvo y la poblacion es chica &rarr; <strong>Hipergeometrica</strong>.</li>
+    </ul>
+    <p>
+      Palabras clave que delatan Hipergeometrica: <em>"lote de 40"</em>, <em>"caja de 25"</em>,
+      <em>"de los 24 trabajadores"</em>, <em>"se seleccionan 5 de los 50"</em>. Siempre hay un
+      <strong>total concreto</strong>.
+    </p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; Bolitas en una bolsa</h3>
+
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>
+      Una bolsa tiene <strong>10 bolitas</strong> en total, de las cuales <strong>3 son rojas</strong>.
+      Metes la mano y sacas <strong>4 de golpe</strong>. Probabilidad de que exactamente 2 sean rojas?
+    </p>
+  </div>
+
+  <h4>Por que este modelo</h4>
+  <ul>
+    <li>La poblacion es chica y concreta: 10 bolitas. No es un proceso infinito.</li>
+    <li>
+      Sacas 4 <strong>de golpe</strong>, o sea que no devolves ninguna. Despues de sacar la primera
+      quedan 9, y la probabilidad de roja ya cambio. <strong>Sin reposicion = Hipergeometrica.</strong>
+    </li>
+  </ul>
+
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Traduccion</th><th>A donde va</th></tr>
+      <tr><td>"10 bolitas en total"</td><td>toda la poblacion</td><td>\(N = 10\)</td></tr>
+      <tr><td>"3 son rojas"</td><td>los exitos disponibles</td><td>\(k = 3\)</td></tr>
+      <tr><td>(deduccion) "las otras 7"</td><td>los fracasos disponibles</td><td>\(N - k = 7\)</td></tr>
+      <tr><td>"sacas 4 de golpe"</td><td>tamano de la muestra</td><td>\(n = 4\)</td></tr>
+      <tr><td>"exactamente 2 sean rojas"</td><td>exitos pedidos</td><td>\(x = 2\)</td></tr>
+      <tr><td>(deduccion) "las otras 2 de la mano"</td><td>fracasos en la muestra</td><td>\(n - x = 2\)</td></tr>
+    </table>
+  </div>
+
+  <h4>Resolucion</h4>
+  <p>Formula:</p>
+  <p>\[ P(X = x) = \frac{\dbinom{k}{x}\dbinom{N-k}{\,n-x\,}}{\dbinom{N}{n}} \]</p>
+  <p>Reemplazamos:</p>
+  <p>\[ P(X = 2) = \frac{\dbinom{3}{2}\dbinom{7}{2}}{\dbinom{10}{4}} \]</p>
+  <p>Cada combinatorio por separado:</p>
+  <ul>
+    <li>\(\binom{3}{2} = 3\) &nbsp;(formas de elegir 2 rojas entre las 3)</li>
+    <li>\(\binom{7}{2} = 21\) &nbsp;(formas de elegir 2 no rojas entre las 7)</li>
+    <li>\(\binom{10}{4} = 210\) &nbsp;(todas las manos posibles de 4 bolitas)</li>
+  </ul>
+  <p>\[ P(X = 2) = \frac{3 \times 21}{210} = \frac{63}{210} = 0{,}30 \]</p>
+  <div class="caja caja-resp"><span class="caja-tit">Respuesta</span><p>30% de probabilidad.</p></div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; Estilo parcial 2025: archivos de respaldo del servidor</h3>
+
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado (adaptado del Ejercicio 1 del Parcial 2025)</span>
+    <p>
+      En un servidor se almacenan <strong>8 archivos de respaldo</strong>: <strong>3 pertenecen al
+      sistema operativo</strong> (criticos), 2 pertenecen a bases de datos y 3 son archivos de
+      usuario. Se selecciona al azar una muestra de <strong>4 archivos</strong> para auditar su
+      integridad. Sea \(X\) = "numero de archivos del sistema operativo seleccionados".
+    </p>
+    <p>Encuentre la distribucion de \(X\), su Esperanza y su Varianza.</p>
+  </div>
+
+  <h4>Por que este modelo</h4>
+  <ul>
+    <li>Poblacion finita y concreta: 8 archivos.</li>
+    <li>
+      Se selecciona <strong>una muestra de 4</strong>: un archivo no puede aparecer dos veces en la
+      muestra, asi que es sin reposicion.
+    </li>
+    <li>
+      Solo nos importa una categoria (sistema operativo) contra "todo lo demas". Los archivos de
+      bases de datos y de usuario, para \(X\), son lo mismo: <strong>no son exito</strong>.
+    </li>
+  </ul>
+
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Traduccion</th><th>Cuenta</th><th>A donde va</th></tr>
+      <tr><td>"8 archivos de respaldo"</td><td>poblacion total</td><td>&mdash;</td><td>\(N = 8\)</td></tr>
+      <tr><td>"3 pertenecen al sistema operativo"</td><td>exitos disponibles</td><td>&mdash;</td><td>\(k = 3\)</td></tr>
+      <tr><td>"2 de bases de datos + 3 de usuario"</td><td>todo lo que no es exito</td><td>\(2 + 3 = 5\)</td><td>\(N - k = 5\)</td></tr>
+      <tr><td>"muestra de 4 archivos"</td><td>tamano de la muestra</td><td>&mdash;</td><td>\(n = 4\)</td></tr>
+    </table>
+  </div>
+
+  <h4>Paso 1 &mdash; Escribir la distribucion</h4>
+  <p>Formula:</p>
+  <p>\[ P(X = x) = \frac{\dbinom{k}{x}\dbinom{N-k}{\,n-x\,}}{\dbinom{N}{n}} \]</p>
+  <p>\[ P(X = x) = \frac{\dbinom{3}{x}\dbinom{5}{\,4-x\,}}{\dbinom{8}{4}} \qquad x = 0, 1, 2, 3 \]</p>
+  <p>El denominador es fijo para todo el ejercicio:</p>
+  <p>\[ \binom{8}{4} = 70 \]</p>
+
+  <h4>Paso 2 &mdash; Calcular la tabla completa</h4>
+  <p>Vamos valor por valor. Notá que \(x\) no puede pasar de 3 porque solo hay 3 archivos criticos.</p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>\(x\)</th><th>Numerador</th><th>Cuenta</th><th>\(f(x)\)</th></tr>
+      <tr><td>0</td><td>\(\binom{3}{0}\binom{5}{4}\)</td><td>\(1 \times 5 = 5\)</td><td>\(5/70 = 0{,}0714\)</td></tr>
+      <tr><td>1</td><td>\(\binom{3}{1}\binom{5}{3}\)</td><td>\(3 \times 10 = 30\)</td><td>\(30/70 = 0{,}4286\)</td></tr>
+      <tr><td>2</td><td>\(\binom{3}{2}\binom{5}{2}\)</td><td>\(3 \times 10 = 30\)</td><td>\(30/70 = 0{,}4286\)</td></tr>
+      <tr><td>3</td><td>\(\binom{3}{3}\binom{5}{1}\)</td><td>\(1 \times 5 = 5\)</td><td>\(5/70 = 0{,}0714\)</td></tr>
+    </table>
+  </div>
+  <p>Control: \(\frac{5 + 30 + 30 + 5}{70} = \frac{70}{70} = 1\) &#10003;</p>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Dato util</span>
+    <p>
+      Esta es exactamente la columna \(g(x)\) que aparece en el enunciado del parcial 2025
+      (5/70, 30/70, 30/70, 5/70). O sea que la marginal de \(X\) de aquel ejercicio
+      <strong>es una hipergeometrica</strong>.
+    </p>
+  </div>
+
+  <h4>Paso 3 &mdash; Esperanza, por los dos caminos</h4>
+
+  <p><strong>Con la tabla</strong> (definicion de la Unidad 4):</p>
+  <p>\[ E(X) = (0)\tfrac{5}{70} + (1)\tfrac{30}{70} + (2)\tfrac{30}{70} + (3)\tfrac{5}{70} \]</p>
+  <p>\[ E(X) = \frac{0 + 30 + 60 + 15}{70} = \frac{105}{70} = 1{,}5 \]</p>
+
+  <p><strong>Con el machete del modelo:</strong></p>
+  <p>Formula:</p>
+  <p>\[ E(X) = \frac{n \cdot k}{N} \]</p>
+  <p>\[ E(X) = \frac{4 \times 3}{8} = \frac{12}{8} = 1{,}5 \]</p>
+  <p>Coinciden. Y tiene sentido: si 3 de cada 8 archivos son criticos, en una muestra de 4 esperas
+  la misma proporcion, \(4 \times \frac{3}{8} = 1{,}5\).</p>
+
+  <h4>Paso 4 &mdash; Varianza</h4>
+  <p>Formula:</p>
+  <p>\[ V(X) = \frac{N-n}{N-1} \cdot n \cdot \frac{k}{N}\left(1 - \frac{k}{N}\right) \]</p>
+  <p>Vamos por partes para no perdernos:</p>
+  <ul>
+    <li>\(\dfrac{N-n}{N-1} = \dfrac{8-4}{8-1} = \dfrac{4}{7} = 0{,}5714\)</li>
+    <li>\(\dfrac{k}{N} = \dfrac{3}{8} = 0{,}375\)</li>
+    <li>\(1 - \dfrac{k}{N} = 1 - 0{,}375 = 0{,}625\)</li>
+  </ul>
+  <p>Ahora multiplicamos todo:</p>
+  <p>\[ V(X) = 0{,}5714 \times 4 \times 0{,}375 \times 0{,}625 \]</p>
+  <p>\[ V(X) = 0{,}5714 \times 0{,}9375 = 0{,}5357 \]</p>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Que es ese \(\frac{N-n}{N-1}\) que la Binomial no tiene</span>
+    <p>
+      Se llama <strong>factor de correccion por poblacion finita</strong>. Compara la formula con la
+      de la Binomial: \(V(X) = n \cdot p \cdot (1-p)\), donde aca \(p = k/N\). Es la misma cosa
+      multiplicada por ese factor.
+    </p>
+    <p>
+      El factor siempre es menor que 1, o sea que <strong>achica la varianza</strong>. Tiene logica:
+      sacar sin reposicion "gasta" la poblacion, y eso hace que los resultados sean menos variables
+      que si repusieras. Si \(N\) fuera gigante comparado con \(n\), el factor tenderia a 1 y las dos
+      formulas se volverian iguales &mdash; que es justo la razon por la que en poblaciones enormes
+      se puede usar Binomial sin problema.
+    </p>
+  </div>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>\(E(X) = 1{,}5\) archivos criticos esperados en la muestra, con \(V(X) = 0{,}5357\).</p>
+  </div>
+</div>

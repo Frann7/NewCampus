@@ -1,0 +1,102 @@
+<div class="bloque">
+  <p class="kicker">Resumen</p>
+  <h2>10. Machete: como reconocer cada modelo</h2>
+
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr>
+        <th>Pregunta clave</th>
+        <th>Modelo</th>
+        <th>Parametros</th>
+        <th>\(f(x)\)</th>
+        <th>\(E(X)\)</th>
+        <th>\(V(X)\)</th>
+      </tr>
+      <tr>
+        <td>Todos los resultados igual de probables</td>
+        <td><strong>Uniforme</strong></td>
+        <td>\(k\)</td>
+        <td>\(\frac{1}{k}\)</td>
+        <td>\(\sum \frac{x_i}{k}\)</td>
+        <td>\(\sum \frac{(x_i-\mu)^2}{k}\)</td>
+      </tr>
+      <tr>
+        <td>\(n\) intentos fijos, con reposicion, \(p\) constante</td>
+        <td><strong>Binomial</strong></td>
+        <td>\(n,\ p\)</td>
+        <td>\(\binom{n}{x}p^{x}(1-p)^{n-x}\)</td>
+        <td>\(np\)</td>
+        <td>\(np(1-p)\)</td>
+      </tr>
+      <tr>
+        <td>Muestra sin reposicion de una poblacion finita</td>
+        <td><strong>Hipergeometrica</strong></td>
+        <td>\(N,\ k,\ n\)</td>
+        <td>\(\frac{\binom{k}{x}\binom{N-k}{n-x}}{\binom{N}{n}}\)</td>
+        <td>\(\frac{nk}{N}\)</td>
+        <td>\(\frac{N-n}{N-1}n\frac{k}{N}(1-\frac{k}{N})\)</td>
+      </tr>
+      <tr>
+        <td>Repetir hasta el PRIMER exito</td>
+        <td><strong>Geometrica</strong></td>
+        <td>\(p\)</td>
+        <td>\(p(1-p)^{x-1}\)</td>
+        <td>\(\frac{1}{p}\)</td>
+        <td>\(\frac{1-p}{p^{2}}\)</td>
+      </tr>
+      <tr>
+        <td>Repetir hasta juntar \(k\) exitos</td>
+        <td><strong>Binomial Negativa</strong></td>
+        <td>\(k,\ p\)</td>
+        <td>\(\binom{x-1}{k-1}p^{k}(1-p)^{x-k}\)</td>
+        <td>\(\frac{k}{p}\)</td>
+        <td>\(\frac{k(1-p)}{p^{2}}\)</td>
+      </tr>
+      <tr>
+        <td>Contar ocurrencias en tiempo / area / longitud</td>
+        <td><strong>Poisson</strong></td>
+        <td>\(\lambda t\)</td>
+        <td>\(\frac{e^{-\lambda t}(\lambda t)^{x}}{x!}\)</td>
+        <td>\(\lambda t\)</td>
+        <td>\(\lambda t\)</td>
+      </tr>
+    </table>
+  </div>
+
+  <h4>Arbol de decision rapido</h4>
+  <ol>
+    <li>
+      El enunciado te da una <strong>tasa promedio por unidad de tiempo/espacio</strong>
+      ("2 por dia", "16 por hora", "1,5 por milimetro")? &rarr; <strong>Poisson</strong>.
+    </li>
+    <li>
+      Te dice <strong>cuantos intentos se hacen</strong> y pregunta cuantos exitos hubo?
+      <ul>
+        <li>Con poblacion finita y sin reposicion &rarr; <strong>Hipergeometrica</strong>.</li>
+        <li>Si no &rarr; <strong>Binomial</strong>.</li>
+      </ul>
+    </li>
+    <li>
+      Te pregunta <strong>en que intento</strong> ocurre algo ("la quinta persona", "el tercer
+      intento", "el septimo lanzamiento")?
+      <ul>
+        <li>Busca el primer exito &rarr; <strong>Geometrica</strong>.</li>
+        <li>Busca el exito numero \(k\) &rarr; <strong>Binomial Negativa</strong>.</li>
+      </ul>
+    </li>
+  </ol>
+
+  <h4>Tabla de traduccion de palabras clave</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Si en el enunciado ves&hellip;</th><th>Pensa en&hellip;</th></tr>
+      <tr><td>"un lote de N", "una caja de N", "de los N"</td><td>Hipergeometrica</td></tr>
+      <tr><td>"el x% de", "una tasa de 0,xx", "la probabilidad es p"</td><td>\(p\) de Binomial / Geometrica / Bin. Negativa</td></tr>
+      <tr><td>"en promedio &hellip; por hora / por dia / por metro"</td><td>\(\lambda\) de Poisson</td></tr>
+      <tr><td>"hasta que", "el primero que"</td><td>Geometrica</td></tr>
+      <tr><td>"el tercero que", "el k-esimo"</td><td>Binomial Negativa</td></tr>
+      <tr><td>"se seleccionan n de N sin reponer"</td><td>Hipergeometrica</td></tr>
+      <tr><td>media = varianza</td><td>Poisson</td></tr>
+    </table>
+  </div>
+</div>

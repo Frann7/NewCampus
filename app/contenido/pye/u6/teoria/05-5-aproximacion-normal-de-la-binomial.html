@@ -1,0 +1,192 @@
+<div class="bloque">
+  <p class="kicker">Puente entre unidades</p>
+  <h2>5. Aproximacion Normal de la Binomial</h2>
+
+  <p>
+    Calcular una Binomial con \(n = 400\) a mano es impracticable, y las tablas de la catedra
+    llegan hasta \(n = 20\). La salida es <strong>reemplazar la Binomial por una Normal</strong>
+    que se le parezca.
+  </p>
+
+  <div class="caja caja-formula">
+    <span class="caja-tit">Condiciones para poder aproximar</span>
+    <ul>
+      <li>\(n\) grande: \(n \geq 30\).</li>
+      <li>\(p\) cercano a 0,5 (para que la binomial no quede asimetrica).</li>
+    </ul>
+    <p>
+      La catedra aclara que aun sin cumplirse la primera, la aproximacion es bastante buena
+      cuando \(p \approx 0{,}5\).
+    </p>
+  </div>
+
+  <div class="caja caja-formula">
+    <span class="caja-tit">Que Normal se usa</span>
+    <p>Se toman prestados la media y la varianza de la propia Binomial:</p>
+    <p>\[ \mu = n \cdot p \qquad\qquad \sigma^{2} = n \cdot p \cdot (1-p) \qquad\qquad \sigma = \sqrt{n\,p\,(1-p)} \]</p>
+    <p>\[ b(x;\, n,\, p) \;\approx\; N\!\left(np,\; \sqrt{np(1-p)}\right) \]</p>
+  </div>
+
+  <h3>Correccion por continuidad (el paso que todos olvidan)</h3>
+
+  <p>
+    La Binomial es discreta (solo enteros) y la Normal es continua. Al pasar de una a otra hay que
+    "ensanchar" cada entero medio punto para cada lado: el valor 7 discreto se convierte en el
+    tramo continuo que va de 6,5 a 7,5.
+  </p>
+
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Binomial (discreta)</th><th>Normal (continua)</th></tr>
+      <tr><td>\(P(X = 7)\)</td><td>\(P(6{,}5 &lt; Y &lt; 7{,}5)\)</td></tr>
+      <tr><td>\(P(X \leq 7)\)</td><td>\(P(Y &lt; 7{,}5)\)</td></tr>
+      <tr><td>\(P(X &lt; 7)\) &nbsp;<em>(o sea \(\leq 6\))</em></td><td>\(P(Y &lt; 6{,}5)\)</td></tr>
+      <tr><td>\(P(X \geq 7)\)</td><td>\(P(Y &gt; 6{,}5)\)</td></tr>
+      <tr><td>\(P(X &gt; 7)\) &nbsp;<em>(o sea \(\geq 8\))</em></td><td>\(P(Y &gt; 7{,}5)\)</td></tr>
+      <tr><td>\(P(84 \leq X \leq 95)\)</td><td>\(P(83{,}5 &lt; Y &lt; 95{,}5)\)</td></tr>
+    </table>
+  </div>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Regla mental para no equivocarse</span>
+    <p>
+      Preguntate <strong>que enteros quiero que entren</strong>, y despues corré el limite medio
+      punto <em>hacia afuera</em> de ese grupo.
+    </p>
+    <p>
+      Ejemplo: "al menos 70" quiere decir que el 70 entra, entonces el borde va medio punto por
+      debajo del 70: <strong>69,5</strong>.
+    </p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; Vacuna (Ejemplo 4 de la catedra)</h3>
+
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>
+      Una dosis de vacuna es eficiente en el <strong>60%</strong> de los casos. Cual es la
+      probabilidad de que sea efectiva en <strong>por lo menos 70 casos</strong> de una muestra de
+      <strong>100 pacientes</strong>?
+    </p>
+  </div>
+
+  <h4>Por que este modelo</h4>
+  <ul>
+    <li>
+      De origen es una <strong>Binomial</strong>: 100 pacientes fijos, cada uno funciona o no
+      funciona, con probabilidad constante 0,60.
+    </li>
+    <li>
+      Pero \(n = 100\) es enorme para calcularla a mano y no entra en la tabla, asi que se
+      aproxima por Normal.
+    </li>
+  </ul>
+
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Traduccion</th><th>Cuenta</th><th>A donde va</th></tr>
+      <tr><td>"muestra de 100 pacientes"</td><td>pruebas fijas</td><td>&mdash;</td><td>\(n = 100\)</td></tr>
+      <tr><td>"eficiente en el 60%"</td><td>probabilidad de exito</td><td>\(60 \div 100 = 0{,}60\)</td><td>\(p = 0{,}60\)</td></tr>
+      <tr><td>(deduccion)</td><td>que no funcione</td><td>\(1 - 0{,}60 = 0{,}40\)</td><td>\(1-p = 0{,}40\)</td></tr>
+      <tr><td>"por lo menos 70 casos"</td><td>el 70 entra</td><td>&mdash;</td><td>\(P(X \geq 70)\)</td></tr>
+    </table>
+  </div>
+
+  <h4>Paso 1 &mdash; Verificar las condiciones</h4>
+  <ul>
+    <li>\(n = 100 \geq 30\) &#10003;</li>
+    <li>\(p = 0{,}60\), cercano a 0,5 &#10003;</li>
+  </ul>
+
+  <h4>Paso 2 &mdash; Parametros de la Normal</h4>
+  <p>Formula:</p>
+  <p>\[ \mu = n \cdot p \]</p>
+  <p>\[ \mu = 100 \times 0{,}60 = 60 \]</p>
+  <p>Formula:</p>
+  <p>\[ \sigma^{2} = n \cdot p \cdot (1-p) \]</p>
+  <p>\[ \sigma^{2} = 100 \times 0{,}60 \times 0{,}40 = 24 \qquad\Longrightarrow\qquad \sigma = \sqrt{24} = 4{,}899 \]</p>
+
+  <h4>Paso 3 &mdash; Correccion por continuidad</h4>
+  <p>"Por lo menos 70" incluye al 70, asi que el borde va medio punto por debajo:</p>
+  <p>\[ P(X \geq 70) \approx P(Y &gt; 69{,}5) \]</p>
+
+  <h4>Paso 4 &mdash; Estandarizar y buscar</h4>
+  <p>\[ z = \frac{69{,}5 - 60}{4{,}899} = \frac{9{,}5}{4{,}899} = 1{,}94 \]</p>
+  <p>\[ P(Y &gt; 69{,}5) = 1 - F(1{,}94) = 1 - 0{,}9738 = 0{,}0262 \]</p>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>2,62%. <em>(Valor oficial de la catedra: 0,0262.)</em></p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; Paquetes que requieren reenvio</h3>
+
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>
+      Una empresa despacha <strong>200 paquetes por dia</strong> y se sabe que el
+      <strong>25%</strong> requiere reenvio. Cual es la probabilidad de que en un dia
+      <strong>mas de 60</strong> paquetes requieran reenvio?
+    </p>
+  </div>
+
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Traduccion</th><th>Cuenta</th><th>A donde va</th></tr>
+      <tr><td>"200 paquetes por dia"</td><td>pruebas fijas</td><td>&mdash;</td><td>\(n = 200\)</td></tr>
+      <tr><td>"el 25% requiere reenvio"</td><td>exito = requerir reenvio</td><td>\(25 \div 100 = 0{,}25\)</td><td>\(p = 0{,}25\)</td></tr>
+      <tr><td>"mas de 60"</td><td>el 60 NO entra: arranca en 61</td><td>&mdash;</td><td>\(P(X &gt; 60)\)</td></tr>
+    </table>
+  </div>
+
+  <h4>Paso 1 &mdash; Condiciones</h4>
+  <p>\(n = 200 \geq 30\) &#10003;. El \(p = 0{,}25\) no es 0,5, pero con \(n\) tan grande la aproximacion sigue siendo buena.</p>
+
+  <h4>Paso 2 &mdash; Parametros</h4>
+  <p>\[ \mu = n p = 200 \times 0{,}25 = 50 \]</p>
+  <p>\[ \sigma^{2} = n p (1-p) = 200 \times 0{,}25 \times 0{,}75 = 37{,}5 \qquad\Longrightarrow\qquad \sigma = \sqrt{37{,}5} = 6{,}124 \]</p>
+
+  <h4>Paso 3 &mdash; Correccion por continuidad</h4>
+  <p>
+    "Mas de 60" significa 61, 62, 63&hellip; El 60 <strong>no</strong> entra. Entonces el borde va
+    medio punto por <em>arriba</em> del 60:
+  </p>
+  <p>\[ P(X &gt; 60) \approx P(Y &gt; 60{,}5) \]</p>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Compara con el ejemplo anterior</span>
+    <p>
+      En el ejemplo 1 ("por lo menos 70", el 70 entra) el borde fue <strong>69,5</strong>, medio
+      punto para <em>abajo</em>.
+    </p>
+    <p>
+      Aca ("mas de 60", el 60 no entra) el borde es <strong>60,5</strong>, medio punto para
+      <em>arriba</em>. Siempre se corre hacia afuera del grupo que queres conservar.
+    </p>
+  </div>
+
+  <h4>Paso 4 &mdash; Estandarizar y buscar</h4>
+  <p>\[ z = \frac{60{,}5 - 50}{6{,}124} = \frac{10{,}5}{6{,}124} = 1{,}71 \]</p>
+  <p>\[ P(Y &gt; 60{,}5) = 1 - F(1{,}71) = 1 - 0{,}9564 = 0{,}0436 \]</p>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>4,36% de probabilidad de que mas de 60 paquetes requieran reenvio.</p>
+  </div>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Cuando NO conviene aproximar</span>
+    <p>
+      Si te piden un <strong>valor puntual</strong> como \(P(X = 6)\), la aproximacion te obliga a
+      calcular \(P(5{,}5 &lt; Y &lt; 6{,}5)\), o sea dos busquedas en la tabla. Para un solo valor
+      conviene la formula binomial directa. La aproximacion se justifica cuando piden
+      \(P(X &lt; a)\) o \(P(X &gt; a)\) con \(n\) grande.
+    </p>
+  </div>
+</div>

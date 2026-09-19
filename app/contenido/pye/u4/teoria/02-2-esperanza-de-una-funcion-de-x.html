@@ -1,0 +1,111 @@
+<div class="bloque">
+  <p class="kicker">Segundo concepto</p>
+  <h2>2. Esperanza de una funcion de X</h2>
+
+  <p>
+    A veces no te piden el promedio de \(X\), sino el promedio de <em>algo hecho con</em> \(X\).
+    Por ejemplo: si \(X\) es el lado de un cuadrado, el area es \(X^2\), y el area promedio es
+    \(E(X^2)\).
+  </p>
+
+  <div class="caja caja-formula">
+    <span class="caja-tit">Formula general</span>
+    <p>\[ E[g(X)] \;=\; \sum_{x} g(x) \cdot f(x) \qquad \text{(discreta)} \]</p>
+    <p>\[ E[g(X)] \;=\; \int_{-\infty}^{+\infty} g(x) \cdot f(x)\, dx \qquad \text{(continua)} \]</p>
+    <p style="margin-top:10px">
+      La probabilidad \(f(x)\) <strong>no se toca nunca</strong>. Lo unico que se transforma es el
+      valor \(x\), que pasa por la maquinita \(g\).
+    </p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; Calcular \(E(X^{2})\)</h3>
+
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>Sea la siguiente tabla de distribucion. Calcule \(E(X)\) y \(E(X^{2})\).</p>
+    <div class="tabla-wrap">
+      <table class="t">
+        <tr><th class="lbl">\(x\)</th><td>1</td><td>2</td><td>3</td></tr>
+        <tr><th class="lbl">\(f(x)\)</th><td>0,5</td><td>0,3</td><td>0,2</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <h4>Resolucion</h4>
+  <p>Formula:</p>
+  <p>\[ E(X) = \sum x \cdot f(x) \]</p>
+  <p>\[ E(X) = (1)(0{,}5) + (2)(0{,}3) + (3)(0{,}2) = 0{,}5 + 0{,}6 + 0{,}6 = 1{,}7 \]</p>
+
+  <p>Formula, ahora con \(g(x) = x^{2}\):</p>
+  <p>\[ E[g(X)] = \sum g(x) \cdot f(x) \;\Longrightarrow\; E(X^{2}) = \sum x^{2} \cdot f(x) \]</p>
+  <p>
+    Elevamos al cuadrado <strong>solo los valores de \(x\)</strong>, las probabilidades quedan
+    intactas:
+  </p>
+  <p>\[ E(X^{2}) = (1^{2})(0{,}5) + (2^{2})(0{,}3) + (3^{2})(0{,}2) \]</p>
+  <p>\[ E(X^{2}) = (1)(0{,}5) + (4)(0{,}3) + (9)(0{,}2) = 0{,}5 + 1{,}2 + 1{,}8 = 3{,}5 \]</p>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Lo mas importante de este ejemplo</span>
+    <p>
+      \(E(X^{2}) = 3{,}5\) &nbsp;pero&nbsp; \([E(X)]^{2} = (1{,}7)^{2} = 2{,}89\).
+    </p>
+    <p>
+      <strong>No son lo mismo</strong>, y de esa diferencia sale justamente la Varianza que vemos
+      en el punto siguiente.
+    </p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; Una funcion mas complicada, por dos caminos</h3>
+
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>Con la siguiente tabla, calcule \(E[(X-1)^{2}]\).</p>
+    <div class="tabla-wrap">
+      <table class="t">
+        <tr><th class="lbl">\(x\)</th><td>1</td><td>2</td><td>3</td></tr>
+        <tr><th class="lbl">\(f(x)\)</th><td>0,2</td><td>0,5</td><td>0,3</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <h4>Camino 1 &mdash; Transformando la tabla</h4>
+  <p>Pasamos cada \(x\) por la maquinita \(g(x) = (x-1)^{2}\):</p>
+  <ul>
+    <li>\(x = 1 \Rightarrow (1-1)^{2} = 0^{2} = 0\)</li>
+    <li>\(x = 2 \Rightarrow (2-1)^{2} = 1^{2} = 1\)</li>
+    <li>\(x = 3 \Rightarrow (3-1)^{2} = 2^{2} = 4\)</li>
+  </ul>
+  <p>La tabla nueva conserva las mismas probabilidades:</p>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th class="lbl">\(g(x)\)</th><td>0</td><td>1</td><td>4</td></tr>
+      <tr><th class="lbl">\(f(x)\)</th><td>0,2</td><td>0,5</td><td>0,3</td></tr>
+    </table>
+  </div>
+  <p>\[ E[g(X)] = (0)(0{,}2) + (1)(0{,}5) + (4)(0{,}3) = 0 + 0{,}5 + 1{,}2 = 1{,}7 \]</p>
+
+  <h4>Camino 2 &mdash; Con algebra</h4>
+  <p>Desarrollamos el binomio antes de tomar esperanza:</p>
+  <p>\[ (X-1)^{2} = X^{2} - 2X + 1 \]</p>
+  <p>La Esperanza se reparte en las sumas y saca las constantes:</p>
+  <p>\[ E[(X-1)^{2}] = E(X^{2}) - 2\,E(X) + 1 \]</p>
+  <p>Necesitamos los dos ingredientes de la tabla original:</p>
+  <p>\[ E(X) = (1)(0{,}2) + (2)(0{,}5) + (3)(0{,}3) = 0{,}2 + 1{,}0 + 0{,}9 = 2{,}1 \]</p>
+  <p>\[ E(X^{2}) = (1)(0{,}2) + (4)(0{,}5) + (9)(0{,}3) = 0{,}2 + 2{,}0 + 2{,}7 = 4{,}9 \]</p>
+  <p>Reemplazamos:</p>
+  <p>\[ E[(X-1)^{2}] = 4{,}9 - 2(2{,}1) + 1 = 4{,}9 - 4{,}2 + 1 = 1{,}7 \]</p>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>Los dos caminos dan <strong>1,7</strong>.</p>
+    <p>
+      Guardate el camino 2: es exactamente la tecnica que se usa en el
+      <strong>Ejercicio 16</strong> de la practica, donde no hay tabla y hay que despejar.
+    </p>
+  </div>
+</div>

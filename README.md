@@ -47,8 +47,8 @@ queda junto al reloj de Windows.
 
 ## Cómo se edita
 
-Los apuntes se escriben en `app/contenido/<materia>/<unidad>/<teoria|practica>.html` y después
-se corre, dentro de `app/`:
+Los apuntes se escriben en `app/contenido/<materia>/<unidad>/<teoria|practica>/`, **un archivo por
+ejercicio o sección** (`01-....html`, `02-....html`), y después se corre, dentro de `app/`:
 
 ```bash
 python construir.py

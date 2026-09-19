@@ -103,11 +103,16 @@ formulario para agregar. Se guardan en el `localStorage` (`newcampus:eventos`).
 El día con **parcial** se pinta entero del color de la materia, para que no se pueda pasar por alto;
 el que solo tiene **trabajo práctico** queda apenas teñido.
 
-A la derecha del calendario está la **agenda**: los parciales y trabajos prácticos que vienen, con
-cuántos días y horas faltan (se recalcula solo) y, al tocarlos, el calendario salta a ese día. Cada
-fila tiene una casilla **Notificar** que vale para toda la materia, y arriba una para apagarlas todas.
-Con eso encendido, al entrar al campus sale el cartel **"Lo que se viene"** con lo más próximo
-(`newcampus:avisos` guarda las materias APAGADAS, así una materia nueva avisa sin tocar nada).
+No puede haber dos fechas del mismo tipo, de la misma materia y el mismo día: el formulario avisa
+y manda a editar la que ya está.
+
+A la derecha del calendario está la **agenda**: filas cortas agrupadas por mes, con filtro por tipo
+(todo / parciales / prácticos), cuántos días y horas faltan —se recalcula solo— y, al tocarlas, el
+calendario salta a ese día. Al final hay un desplegable **Recordatorios** con una casilla por
+materia (no por fecha) y el interruptor general; **solo la casilla marca y desmarca**, y los cambios
+no se aplican hasta tocar **Aceptar**. Con eso encendido, al entrar al campus sale el cartel
+**"Lo que se viene"** con lo más próximo (`newcampus:avisos` guarda las materias APAGADAS, así una
+materia nueva avisa sin tocar nada; el filtro va en `newcampus:agenda`).
 
 **Ventanas duplicadas** (`assets/ventanas.js`): manteniendo apretada una pestaña 0,8 s sale una **copia**
 de ese apartado en otra ventana (`index.html?panel=1#<materia>/<unidad>/<pestaña>`). La copia no

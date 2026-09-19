@@ -19,8 +19,9 @@ abre los apuntes en el navegador. No hay nube, no hay cuenta, no sale nada a int
   Se le anotan **parciales y trabajos prácticos** (materia, unidades que entran, día y una
   descripción); el día con parcial se pinta entero del color de la materia. Trae cargados los
   feriados, las mesas de examen y los días sin actividad.
-* **Próximas fechas**: el índice de la derecha del calendario, con cuántos días y horas faltan
-  para cada parcial, y un **recordatorio al entrar** que se enciende o apaga por materia.
+* **Próximas fechas**: el índice de la derecha del calendario, agrupado por mes y con filtro por
+  tipo, que dice cuántos días y horas faltan para cada fecha y te lleva a ella con un clic.
+  Incluye un **recordatorio al entrar** que se enciende o apaga por materia.
 * **Índice lateral** de la sección que estás leyendo, con seguimiento del scroll.
 * **Visor de PDFs** de cátedra en ventanas movibles.
 * **Ventanas duplicadas**: manteniendo apretada una pestaña sale una copia de ese apartado en

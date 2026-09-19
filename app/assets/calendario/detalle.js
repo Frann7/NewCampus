@@ -336,6 +336,13 @@ window.NC = window.NC || {};
       if (!datos.materia) { return fallar("Elegí de qué materia es."); }
       if (!/^\d{4}-\d{2}-\d{2}$/.test(datos.fecha)) { return fallar("Poné el día."); }
 
+      var repetida = EV.duplicado(datos, editando ? evento.id : null);
+      if (repetida) {
+        return fallar("Ya hay " + (datos.tipo === "parcial" ? "un parcial" : "un trabajo práctico") +
+                      " de " + EV.materia(datos.materia).nombre + " anotado el " +
+                      EV.largo(datos.fecha) + ". Editá ese en vez de cargarlo de nuevo.");
+      }
+
       if (editando) { EV.actualizar(evento.id, datos); }
       else { EV.agregar(datos); }
 

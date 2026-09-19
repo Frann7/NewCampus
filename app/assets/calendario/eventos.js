@@ -107,7 +107,21 @@ window.NC = window.NC || {};
     try { localStorage.setItem(CLAVE, JSON.stringify(todos)); } catch (e) {}
   }
 
+  // Dos fechas del mismo tipo, de la misma materia y el mismo dia son la
+  // misma fecha cargada dos veces. Devuelve la que ya estaba, o null.
+  function duplicado(datos, exceptoId) {
+    var iguales = lista().filter(function (e) {
+      return e.id !== exceptoId &&
+             e.tipo === datos.tipo &&
+             e.materia === datos.materia &&
+             e.fecha === datos.fecha;
+    });
+    return iguales.length ? iguales[0] : null;
+  }
+
+  // Devuelve null si ya existia esa misma fecha
   function agregar(datos) {
+    if (duplicado(datos, null)) { return null; }
     var todos = lista();
     var nuevo = {
       id: "ev-" + Date.now() + "-" + Math.random().toString(36).slice(2, 6),
@@ -124,6 +138,7 @@ window.NC = window.NC || {};
   }
 
   function actualizar(id, datos) {
+    if (duplicado(datos, id)) { return null; }
     var todos = lista();
     for (var i = 0; i < todos.length; i++) {
       if (todos[i].id === id) {
@@ -222,6 +237,7 @@ window.NC = window.NC || {};
     materia: materia,
     unidad: unidad,
     lista: lista,
+    duplicado: duplicado,
     agregar: agregar,
     actualizar: actualizar,
     borrar: borrar,

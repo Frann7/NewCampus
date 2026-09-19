@@ -17,12 +17,13 @@ abre los apuntes en el navegador. No hay nube, no hay cuenta, no sale nada a int
   interactivo (con pistas, vidas y resolución paso a paso), con su informe final.
 * **Calendario**: un mes a pantalla completa con flechas para navegar, o el año entero.
   Se le anotan **parciales y trabajos prácticos** (materia, unidades que entran, día y una
-  descripción); el día con parcial se pinta entero del color de la materia. Trae cargados los
-  feriados, las mesas de examen y los días sin actividad.
+  descripción); el día con parcial se pinta entero del color de la materia, y si ese día cae más de
+  una, la casilla se parte en franjas. Trae cargados los feriados, las mesas de examen y los días
+  sin actividad.
 * **Próximas fechas**: el índice de la derecha del calendario, agrupado por mes y con filtro por
   tipo, que dice cuántos días y horas faltan para cada fecha y te lleva a ella con un clic.
-  Al entrar al campus avisa arriba a la derecha, un aviso por materia de unos segundos, y se
-  encienden o apagan **por materia**.
+  Al entrar al campus avisa arriba a la derecha: un aviso por materia, con todas sus fechas, unos
+  segundos cada uno. Se encienden o apagan **por materia**.
 * **Todo plegable**: cada sección de teoría y cada ejercicio de práctica se abre y se cierra, así
   entrás a una unidad y ves la lista de lo que hay en vez de un muro de texto.
 * **Índice lateral** de la sección que estás leyendo, con seguimiento del scroll: al tocar un título

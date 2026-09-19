@@ -124,7 +124,8 @@ Tocar un día abre su **ficha**: lo que hay ese día, con los botones de editar 
 **+ Agregar fecha** y **Aceptar** (que la cierra); el formulario de alta tiene Cancelar y Agregar. Se guardan en el `localStorage` (`newcampus:eventos`).
 
 El día con **parcial** se pinta entero del color de la materia, para que no se pueda pasar por alto;
-el que solo tiene **trabajo práctico** queda apenas teñido.
+el que solo tiene **trabajo práctico** queda apenas teñido. Si ese día cae más de una materia, la
+casilla se parte en franjas horizontales, una por materia.
 
 No puede haber dos fechas del mismo tipo, de la misma materia y el mismo día: el formulario avisa
 y manda a editar la que ya está.
@@ -134,8 +135,8 @@ A la derecha del calendario está la **agenda**: filas cortas agrupadas por mes,
 calendario salta a ese día. Al final hay un desplegable **Recordatorios** con una casilla por
 materia (no por fecha) y el interruptor general; **solo la casilla marca y desmarca**, y los cambios
 no se aplican hasta tocar **Aceptar**. Con eso encendido, al entrar al campus salen los
-**avisos**: arriba a la derecha, uno por materia (la fecha más próxima de cada una, diciendo cuántas
-otras tiene), cuatro segundos cada uno y se van solos; la ✕ corta la tanda y tocarlos lleva a ese día.
+**avisos**: arriba a la derecha, uno por materia con **todas** las fechas que esa materia tiene por
+delante, unos segundos cada uno y se van solos; la ✕ corta la tanda y tocar una fecha lleva a ese día.
 (`newcampus:avisos` guarda las materias APAGADAS, así una materia nueva avisa sin tocar nada; el
 filtro va en `newcampus:agenda`.)
 

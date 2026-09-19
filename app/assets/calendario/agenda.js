@@ -11,7 +11,8 @@
                    (no por fecha, que era lo que alargaba la lista) mas el
                    interruptor general. Nada se aplica hasta tocar Aceptar.
      AVISOS        al entrar al campus, un aviso por materia arriba a la
-                   derecha, unos segundos cada uno, y se van solos.
+                   derecha con TODAS las fechas que esa materia tiene por
+                   delante, unos segundos cada uno, y se van solos.
 
    Configuracion de avisos en localStorage "newcampus:avisos":
 
@@ -32,8 +33,9 @@ window.NC = window.NC || {};
   var CLAVE_VISTA = "newcampus:agenda";
   var HORIZONTE = 365;      // dias hacia adelante que mira la agenda
   var EN_AGENDA = 40;       // tope de filas listadas
-  var MAX_AVISOS = 5;       // cuantas materias avisan al entrar
-  var DURA_AVISO = 4000;    // cuanto dura en pantalla cada aviso
+  var MAX_AVISOS = 12;      // tope de materias que avisan al entrar
+  var EN_AVISO = 5;         // fechas que entran en el aviso de una materia
+  var DURA_AVISO = 4000;    // cuanto dura en pantalla un aviso de una sola fecha
   var REFRESCO = 30000;     // cada cuanto se recalcula "cuanto falta"
 
   var DIA = 86400000;
@@ -383,21 +385,32 @@ window.NC = window.NC || {};
      AVISOS DEL ARRANQUE
      ------------------------------------------------------------
      Uno por materia, arriba a la derecha, unos segundos cada uno y se
-     van solos. El que se esta viendo se cierra por reloj, no por el fin
-     de una animacion: si el navegador no corre animaciones, igual pasa
-     al siguiente.
+     van solos. Cada aviso lista TODAS las fechas que esa materia tiene
+     por delante, no solo la mas proxima: si no, las otras no se veian
+     en ningun lado.
+
+     El que se esta viendo se cierra por reloj, no por el fin de una
+     animacion: si el navegador no corre animaciones, igual pasa al
+     siguiente.
      ============================================================ */
 
-  // La fecha mas proxima de cada materia, en orden, con cuantas mas tiene
+  // Agrupa lo que viene por materia, conservando el orden por fecha
   function porMateria(lista) {
     var vistas = {};
     var salida = [];
     lista.forEach(function (e) {
-      if (vistas[e.materia]) { vistas[e.materia].mas += 1; return; }
-      vistas[e.materia] = { evento: e, mas: 0 };
-      salida.push(vistas[e.materia]);
+      if (!vistas[e.materia]) {
+        vistas[e.materia] = { materia: e.materia, eventos: [] };
+        salida.push(vistas[e.materia]);
+      }
+      vistas[e.materia].eventos.push(e);
     });
     return salida;
+  }
+
+  // Un aviso con tres fechas necesita mas tiempo en pantalla que uno con una
+  function duracion(cuantas) {
+    return Math.min(DURA_AVISO + (cuantas - 1) * 900, DURA_AVISO * 2);
   }
 
   var relojAviso = null;
@@ -426,40 +439,45 @@ window.NC = window.NC || {};
       relojAviso = window.setTimeout(function () {
         if (aviso.parentNode) { aviso.parentNode.removeChild(aviso); }
         siguiente(i + 1);
-      }, DURA_AVISO);
+      }, duracion(Math.min(cola[i].eventos.length, EN_AVISO)));
     })(0);
   }
 
   function cartel(item) {
-    var e = item.evento;
-    var mat = EV().materia(e.materia);
-    var cuenta = cuantoFalta(e.fecha, false);
+    var mat = EV().materia(item.materia);
 
     var caja = el("aside", "cal-aviso");
     caja.setAttribute("role", "status");
     caja.style.setProperty("--h", mat.tono);
 
-    var cuerpo = el("button", "cal-aviso-cuerpo");
-    cuerpo.type = "button";
-    cuerpo.title = "Ver el " + EV().largo(e.fecha) + " en el calendario";
-    cuerpo.appendChild(el("span", "cal-aviso-tipo",
-      EV().TIPOS[e.tipo].glifo + " " + (e.tipo === "parcial" ? "Parcial" : "Trabajo práctico")));
-    cuerpo.appendChild(el("span", "cal-aviso-materia", mat.nombre));
-    cuerpo.appendChild(el("span", "cal-aviso-falta" + (cuenta.urgente ? " es-urgente" : ""),
-      cuenta.texto + " · " + fechaCorta(e.fecha)));
-    if (item.mas) {
-      cuerpo.appendChild(el("span", "cal-aviso-mas",
-        item.mas === 1 ? "y 1 fecha más de esta materia" : "y " + item.mas + " fechas más de esta materia"));
-    }
-    cuerpo.addEventListener("click", function () {
-      limpiarAvisos();
-      irAlCalendario(e.fecha);
-    });
-    caja.appendChild(cuerpo);
-
     var x = boton("cal-aviso-x", "✕", limpiarAvisos);
     x.title = "No mostrar el resto";
     caja.appendChild(x);
+
+    caja.appendChild(el("span", "cal-aviso-materia", mat.nombre));
+
+    item.eventos.slice(0, EN_AVISO).forEach(function (e) {
+      var cuenta = cuantoFalta(e.fecha, false);
+
+      var fila = el("button", "cal-aviso-fila");
+      fila.type = "button";
+      fila.title = "Ver el " + EV().largo(e.fecha) + " en el calendario";
+      fila.appendChild(el("span", "cal-aviso-tipo",
+        EV().TIPOS[e.tipo].glifo + " " + (e.tipo === "parcial" ? "Parcial" : "Trabajo práctico")));
+      fila.appendChild(el("span", "cal-aviso-falta" + (cuenta.urgente ? " es-urgente" : ""),
+        cuenta.texto + " · " + fechaCorta(e.fecha)));
+      fila.addEventListener("click", function () {
+        limpiarAvisos();
+        irAlCalendario(e.fecha);
+      });
+      caja.appendChild(fila);
+    });
+
+    var resto = item.eventos.length - EN_AVISO;
+    if (resto > 0) {
+      caja.appendChild(el("span", "cal-aviso-mas",
+        resto === 1 ? "y 1 fecha más de esta materia" : "y " + resto + " fechas más de esta materia"));
+    }
 
     return caja;
   }

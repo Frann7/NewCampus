@@ -338,11 +338,28 @@ window.NC = window.NC || {};
 
     // El dia toma el color de la materia: fuerte si hay parcial, apenas
     // teñido si lo que hay es un trabajo practico.
-    var parcial = eventos.filter(function (e) { return e.tipo === "parcial"; })[0];
-    var marcador = parcial || eventos[0];
-    if (marcador) {
-      d.classList.add(parcial ? "tiene-parcial" : "tiene-tp");
-      d.style.setProperty("--h", EV().materia(marcador.materia).tono);
+    // El color lo ponen los parciales; si no hay, los trabajos practicos.
+    // Si ese dia cae mas de una materia, la casilla se parte en franjas.
+    var parciales = eventos.filter(function (e) { return e.tipo === "parcial"; });
+    var mandan = parciales.length ? parciales : eventos;
+    var tonos = [];
+    mandan.forEach(function (e) {
+      var tono = EV().materia(e.materia).tono;
+      if (tonos.indexOf(tono) === -1) { tonos.push(tono); }
+    });
+
+    if (tonos.length) {
+      d.classList.add(parciales.length ? "tiene-parcial" : "tiene-tp");
+      d.style.setProperty("--h", tonos[0]);
+      if (tonos.length > 1) {
+        d.classList.add("es-doble");
+        d.style.setProperty("--h2", tonos[1]);
+      }
+      if (tonos.length > 2) {
+        d.classList.remove("es-doble");
+        d.classList.add("es-triple");
+        d.style.setProperty("--h3", tonos[2]);
+      }
     }
 
     var cab = el("span", "cal-dia-cab");

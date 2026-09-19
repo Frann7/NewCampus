@@ -64,6 +64,11 @@ El número con el que arranca cada nombre es su **orden**, no el número del eje
 con dos guías y numeración repetida). Para meter algo entre el 03 y el 04 alcanza con llamarlo
 `03b-...`; para reordenar, renombrar.
 
+Cada `.bloque` de teoría y cada `.ej` de práctica se convierte **solo** en un desplegable: app.js
+le arma la cabecera con el `.kicker`/`.tag` y el `<h2>`, y esconde el resto. Los fragmentos de
+`contenido/` se siguen escribiendo igual que siempre, sin envoltorios. Arriba del todo quedan
+**Abrir todo** y **Cerrar todo**, y el índice de la derecha abre la sección que toques.
+
 Al arrancar, la página solo carga `generado/indice.js`, que dice qué hay y en qué archivo está.
 El contenido de cada unidad llega en su propia pieza cuando la abrís (con un `<script>`, no con
 `fetch()`, para que también funcione con `file://`). Para analizar o editar un tema, leé
@@ -240,6 +245,10 @@ de ejercicio leyéndolo del `.tag`.
 * **Fórmulas:** MathJax con `\( ... \)` y `\[ ... \]`. **Nunca** `$`, porque hay precios en el texto.
 * **Los apuntes no se cargan con `fetch()`**: cada pieza de `generado/` entra con un `<script>`, que es lo único que `file://` deja hacer. Los únicos `fetch()` son el latido a `api/ping` y el número de corrida.
 * **Nada de `<` crudo** en el texto: usá `&lt;` o `\leq` dentro de la fórmula.
+* **Las fórmulas se tipografían al abrir, no antes.** MathJax mide mal lo que está oculto, así que
+  el cuerpo de una sección cerrada no se toca. Y la marca de "esto ya se tipografió" **no puede
+  llamarse `data-mjx...`**: MathJax ignora cualquier elemento que tenga un atributo así (se llama
+  `data-tipografiado`).
 * **Nada que comunique un estado por transición o animación CSS.** Hay entornos donde se congelan.
   Si algo indica abierto/cerrado/activo, el valor final tiene que quedar aplicado por JS o por
   una clase, no por un `transform` animado.

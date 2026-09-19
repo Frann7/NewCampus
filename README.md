@@ -23,7 +23,10 @@ abre los apuntes en el navegador. No hay nube, no hay cuenta, no sale nada a int
   tipo, que dice cuántos días y horas faltan para cada fecha y te lleva a ella con un clic.
   Al entrar al campus avisa arriba a la derecha, un aviso por materia de unos segundos, y se
   encienden o apagan **por materia**.
-* **Índice lateral** de la sección que estás leyendo, con seguimiento del scroll.
+* **Todo plegable**: cada sección de teoría y cada ejercicio de práctica se abre y se cierra, así
+  entrás a una unidad y ves la lista de lo que hay en vez de un muro de texto.
+* **Índice lateral** de la sección que estás leyendo, con seguimiento del scroll: al tocar un título
+  abre la sección que corresponda.
 * **Visor de PDFs** de cátedra en ventanas movibles.
 * **Ventanas duplicadas**: manteniendo apretada una pestaña sale una copia de ese apartado en
   otra ventana, para leer dos partes a la vez.

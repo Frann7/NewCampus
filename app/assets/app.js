@@ -154,6 +154,9 @@ window.NC = window.NC || {};
     var cont = $("#contenido");
     if (!cont) { return false; }
     cont.insertAdjacentHTML("beforeend", html);
+
+    var pane = document.querySelector('.pane[data-view="' + id + '"]');
+    if (pane) { prepararSecciones(pane); }
     return estaEnPantalla(id);
   }
 
@@ -259,6 +262,7 @@ window.NC = window.NC || {};
   var ALTO_BARRA = 96;   // alto de la barra superior fija
 
   function irAlTitulo(h) {
+    abrirSeccionDe(h);        // si estaba plegada, se abre
     var y = h.getBoundingClientRect().top + window.pageYOffset - ALTO_BARRA;
     window.scrollTo(0, Math.max(0, y));
     marcarTOCActual();
@@ -285,7 +289,13 @@ window.NC = window.NC || {};
     // h2 = secciones / ejercicios ; h3 = subtemas dentro de cada uno.
     // En los parciales, la explicacion detallada que este ABIERTA suma sus partes
     // (los incisos y sus subtitulos) para poder leerla parte por parte.
-    var titulos = $$("h2, h3, .pd-explicacion[open] > .pd-cuerpo > .paso, .pd-explicacion[open] > .pd-cuerpo > h4", pane);
+    var titulos = $$("h2, h3, .pd-explicacion[open] > .pd-cuerpo > .paso, .pd-explicacion[open] > .pd-cuerpo > h4", pane)
+      .filter(function (h) {
+        // un h3 de una seccion cerrada no se puede leer: tampoco se lista
+        if (h.tagName !== "H3") { return true; }
+        var seccion = h.closest(".es-seccion");
+        return !seccion || seccionAbierta(seccion);
+      });
     if (titulos.length < 2) { vacio(true); return; }
     vacio(false);
 
@@ -403,25 +413,153 @@ window.NC = window.NC || {};
     });
   }
 
-  /* ---------- MathJax bajo demanda ---------- */
+  /* ------------------------------------------------------------
+     SECCIONES PLEGABLES
+     Una unidad entera de corrido es un chorizo. Cada bloque de teoria
+     y cada ejercicio de practica se convierte en un desplegable: se ve
+     la lista de titulos y abris el que vas a leer.
 
-  var tipografiados = {};
+     La conversion se hace en el documento, no en el contenido: los
+     fragmentos de contenido/ se siguen escribiendo como siempre.
+
+     Cabecera = boton, cuerpo = div con hidden (igual que Evaluacion).
+     No se usa <details>: MathJax no entra a un <summary> y los titulos
+     con formulas quedaban sin tipografiar.
+
+     Las formulas del cuerpo se tipografian al ABRIR. MathJax mide mal
+     lo que esta oculto, asi que lo cerrado no se toca.
+     ------------------------------------------------------------ */
+
+  function seccionAbierta(seccion) { return seccion.classList.contains("is-open"); }
+
+  function abrirSeccion(seccion, abrir) {
+    if (seccionAbierta(seccion) === abrir) { return; }
+    var cuerpo = $(":scope > .seccion-cuerpo", seccion);
+    var cab = $(":scope > .seccion-cab", seccion);
+    var chev = $(".seccion-chev", cab);
+
+    seccion.classList.toggle("is-open", abrir);
+    cuerpo.hidden = !abrir;
+    cab.setAttribute("aria-expanded", String(abrir));
+    if (chev) { chev.textContent = abrir ? FLECHA_ABIERTA : FLECHA_CERRADA; }
+
+    if (abrir) { tipografiarPartes([cuerpo]); }
+    construirTOC($(".pane.is-active"));      // los h3 solo cuentan si esta abierta
+  }
+
+  function armarSeccion(caja) {
+    var titulo = $(":scope > h2", caja);
+    if (!titulo) { return null; }            // sin titulo no hay nada que plegar
+
+    caja.classList.add("es-seccion");
+
+    var cab = document.createElement("button");
+    cab.type = "button";
+    cab.className = "seccion-cab";
+    cab.setAttribute("aria-expanded", "false");
+
+    var chev = document.createElement("span");
+    chev.className = "seccion-chev";
+    chev.textContent = FLECHA_CERRADA;
+
+    var textos = document.createElement("div");
+    textos.className = "seccion-tit";
+    // el rotulo (kicker / tag) y el titulo pasan a ser la cabecera
+    var rotulo = $(":scope > .kicker, :scope > .tag", caja);
+    if (rotulo) { textos.appendChild(rotulo); }
+    textos.appendChild(titulo);
+
+    cab.appendChild(chev);
+    cab.appendChild(textos);
+
+    var cuerpo = document.createElement("div");
+    cuerpo.className = "seccion-cuerpo";
+    cuerpo.hidden = true;
+    while (caja.firstChild) { cuerpo.appendChild(caja.firstChild); }
+
+    caja.appendChild(cab);
+    caja.appendChild(cuerpo);
+    cab.addEventListener("click", function () { abrirSeccion(caja, !seccionAbierta(caja)); });
+
+    return caja;
+  }
+
+  function prepararSecciones(pane) {
+    var secciones = [];
+    $$(":scope > .bloque, :scope > .ej", pane).forEach(function (c) {
+      if (armarSeccion(c)) { secciones.push(c); }
+    });
+    if (secciones.length < 2) {
+      secciones.forEach(function (s) { abrirSeccion(s, true); });   // una sola: abierta
+      return;
+    }
+
+    // Abrir todo / Cerrar todo, arriba de la primera seccion
+    var barra = document.createElement("div");
+    barra.className = "pane-controles";
+
+    var cuenta = document.createElement("span");
+    cuenta.className = "pane-controles-cuenta";
+    cuenta.textContent = secciones.length +
+      (pane.getAttribute("data-view").indexOf("/practica") > 0 ? " ejercicios" : " secciones");
+    barra.appendChild(cuenta);
+
+    function boton(texto, abrir) {
+      var b = document.createElement("button");
+      b.type = "button";
+      b.className = "pane-control";
+      b.textContent = texto;
+      b.addEventListener("click", function () {
+        secciones.forEach(function (s) { abrirSeccion(s, abrir); });
+      });
+      return b;
+    }
+    barra.appendChild(boton("Abrir todo", true));
+    barra.appendChild(boton("Cerrar todo", false));
+
+    secciones[0].parentNode.insertBefore(barra, secciones[0]);
+  }
+
+  // Abre la seccion que contenga a ese titulo (la usa el indice de la derecha)
+  function abrirSeccionDe(el) {
+    var seccion = el.closest ? el.closest(".es-seccion") : null;
+    if (seccion) { abrirSeccion(seccion, true); }
+    return seccion;
+  }
+
+  /* ---------- MathJax bajo demanda ---------- */
 
   // Evaluacion cambia de pantalla sin cambiar de pane: rearma el indice cuando lo pide.
   window.NC.reconstruirIndice = function () { construirTOC($(".pane.is-active")); };
 
-  function tipografiar(pane) {
-    if (!pane) { return; }
+  // Cada parte se tipografia una sola vez. Lo que esta adentro de una seccion
+  // cerrada NO se toca: MathJax mide mal lo que no esta a la vista.
+  function tipografiarPartes(partes) {
     if (!window.MathJax || !window.MathJax.typesetPromise) { return; }
-    var id = pane.getAttribute("data-view");
-    if (tipografiados[id]) { return; }
-    tipografiados[id] = true;
-    window.MathJax.typesetPromise([pane]).then(function () {
+    // OJO: la marca NO puede llamarse data-mjx*, MathJax ignora lo que la tenga
+    var nuevas = partes.filter(function (p) { return p && p.dataset.tipografiado !== "1"; });
+    if (!nuevas.length) { return; }
+    nuevas.forEach(function (p) { p.dataset.tipografiado = "1"; });
+
+    window.MathJax.typesetPromise(nuevas).then(function () {
       // al renderizar las formulas cambian las alturas: recalculamos el indice
       marcarTOCActual();
     }).catch(function () {
-      tipografiados[id] = false;
+      nuevas.forEach(function (p) { p.dataset.tipografiado = ""; });
     });
+  }
+
+  // Lo que se ve de un pane: los titulos de todas las secciones, el cuerpo de
+  // las abiertas y todo lo que no sea seccion (la intro, los pendientes).
+  function tipografiar(pane) {
+    if (!pane) { return; }
+    var partes = [];
+    Array.prototype.forEach.call(pane.children, function (hijo) {
+      if (!hijo.classList.contains("es-seccion")) { partes.push(hijo); return; }
+      partes.push($(":scope > .seccion-cab > .seccion-tit", hijo));
+      if (seccionAbierta(hijo)) { partes.push($(":scope > .seccion-cuerpo", hijo)); }
+    });
+    tipografiarPartes(partes);
   }
 
   /* ============================================================

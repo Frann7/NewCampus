@@ -29,7 +29,8 @@ window.NC = window.NC || {};
 
   var MARCA = "nc-copia-";     // nombre que llevan las ventanas que sacamos
   var MAXIMO = 4;              // copias abiertas a la vez
-  var MS_SOSTENER = 550;       // cuanto hay que mantener apretado
+  var MS_GRACIA = 240;         // antes de esto no pasa absolutamente nada: es un clic
+  var MS_SOSTENER = 800;       // recien acá sale la copia
   var REVISAR_PADRE = 2000;    // cada cuanto la copia mira si vive la principal
 
   function $(sel, ctx) { return (ctx || document).querySelector(sel); }
@@ -164,9 +165,12 @@ window.NC = window.NC || {};
     return "bloqueada";
   }
 
-  // Barra de progreso de la pulsacion: se dibuja con el tiempo real que paso,
-  // no con una transicion de CSS, asi marca siempre lo mismo aunque la maquina
-  // vaya lenta.
+  // Barra de progreso de la pulsacion. Dos tiempos:
+  //   0 .. MS_GRACIA      no se dibuja nada. Un clic normal entra entero aca,
+  //                       asi que cambiar de pestania no muestra ningun amague.
+  //   MS_GRACIA .. MS_SOSTENER   se llena la barra; al llenarse sale la copia.
+  // Se dibuja con el tiempo real que paso, no con una transicion de CSS, asi
+  // marca siempre lo mismo aunque la maquina vaya lenta.
   function prepararPestania(t) {
     if (t.dataset.nombre === undefined) { t.dataset.nombre = t.textContent.trim(); }
     t.title = "Clic para abrirla acá. Mantené apretado para sacarla en otra ventana.";
@@ -186,7 +190,11 @@ window.NC = window.NC || {};
     }
 
     function pintar() {
-      var p = Math.min(1, (Date.now() - desde) / MS_SOSTENER);
+      var paso = Date.now() - desde;
+      if (paso < MS_GRACIA) { cuadro = window.requestAnimationFrame(pintar); return; }
+
+      t.classList.add("sosteniendo");
+      var p = Math.min(1, (paso - MS_GRACIA) / (MS_SOSTENER - MS_GRACIA));
       barra.style.width = (p * 100).toFixed(1) + "%";
       if (p < 1) { cuadro = window.requestAnimationFrame(pintar); }
     }
@@ -195,7 +203,6 @@ window.NC = window.NC || {};
       if (ev.button !== 0 || t.disabled) { return; }
       soltar();
       desde = Date.now();
-      t.classList.add("sosteniendo");
       pintar();
       reloj = window.setTimeout(function () {
         soltar();

@@ -97,8 +97,8 @@ En cada día se ven dos cosas:
   el día y una descripción opcional; después se pueden editar y eliminar. Cada materia tiene su color,
   sacado de su lugar en el menú (`--h`, el tono; el nombre corto sale de `data-corto`).
 
-Tocar un día abre su **ficha**: lo que hay ese día, con los botones de editar y eliminar, y el
-formulario para agregar. Se guardan en el `localStorage` (`newcampus:eventos`).
+Tocar un día abre su **ficha**: lo que hay ese día, con los botones de editar y eliminar, y abajo
+**+ Agregar fecha** y **Aceptar** (que la cierra); el formulario de alta tiene Cancelar y Agregar. Se guardan en el `localStorage` (`newcampus:eventos`).
 
 El día con **parcial** se pinta entero del color de la materia, para que no se pueda pasar por alto;
 el que solo tiene **trabajo práctico** queda apenas teñido.

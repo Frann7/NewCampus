@@ -125,9 +125,10 @@ window.NC = window.NC || {};
     eventos.forEach(function (e) { cuerpo.appendChild(tarjeta(e)); });
 
     var pie = el("div", "cal-ficha-pie");
-    pie.appendChild(boton("cal-btn cal-btn-primario", "+ Agregar fecha", function () {
+    pie.appendChild(boton("cal-btn cal-btn-agregar", "+ Agregar fecha", function () {
       pintarFormulario(null, fecha);
     }));
+    pie.appendChild(boton("cal-btn cal-btn-primario", "Aceptar", cerrar));
     cuerpo.appendChild(pie);
   }
 

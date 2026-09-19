@@ -10,16 +10,25 @@ abre los apuntes en el navegador. No hay nube, no hay cuenta, no sale nada a int
 ## Qué tiene hasta ahora
 
 * **Apuntes por materia y unidad**, con pestañas de **Teoría** y **Práctica**.
-  Por ahora solo Probabilidad y Estadística (unidades 4, 5 y 6).
+  Con contenido, por ahora, solo Probabilidad y Estadística (unidades 4, 5 y 6); el resto de las
+  materias de tercer año ya están en el menú como "pronto".
 * **Evaluación**: parciales de la cátedra transcriptos, cada ejercicio con resultados y
   explicación detallada desplegables; y **autoevaluaciones** que armás vos, en modo normal o
-  interactivo (con pistas, vidas y resolución paso a paso).
+  interactivo (con pistas, vidas y resolución paso a paso), con su informe final.
 * **Calendario**: un mes a pantalla completa con flechas para navegar, o el año entero.
+  Se le anotan **parciales y trabajos prácticos** (materia, unidades que entran, día y una
+  descripción); el día con parcial se pinta entero del color de la materia. Trae cargados los
+  feriados, las mesas de examen y los días sin actividad.
+* **Próximas fechas**: el índice de la derecha del calendario, con cuántos días y horas faltan
+  para cada parcial, y un **recordatorio al entrar** que se enciende o apaga por materia.
 * **Índice lateral** de la sección que estás leyendo, con seguimiento del scroll.
 * **Visor de PDFs** de cátedra en ventanas movibles.
 * **Ventanas duplicadas**: manteniendo apretada una pestaña sale una copia de ese apartado en
   otra ventana, para leer dos partes a la vez.
 * Modo claro / oscuro, reloj de Argentina y contador de tiempo de uso.
+
+Lo que cargás vos —autoevaluaciones, fechas del calendario, recordatorios— se guarda en el
+navegador de esa máquina, no en ningún servidor.
 
 ## Qué necesitás para correrlo
 

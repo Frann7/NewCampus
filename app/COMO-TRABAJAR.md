@@ -44,6 +44,9 @@ NewCampus/
 2. Después de cada edición corrés `python construir.py` dentro de `app/`.
    No hay botón de actualizar en la página: la construcción la corrés vos.
 3. Nunca edites `generado/apuntes.js`: se pisa en la próxima construcción.
+4. Cada vez que se agrega o se cambia una funcionalidad, **se actualiza el `README.md`**
+   de la raíz en el mismo commit. Es la cara del repositorio: tiene que decir siempre lo
+   que la aplicación hace hoy.
 
 Cada archivo de `contenido/` tiene un único `<section class="pane" data-view="materia/unidad/pestaña">`.
 La carpeta y el `data-view` tienen que coincidir; `construir.py` lo verifica y avisa si no.

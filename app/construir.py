@@ -4,7 +4,15 @@ Junta todo el contenido en un solo archivo que lee index.html.
 
     python construir.py      (o el boton "Actualizar" de NewCampus)
 
-Que junta en  generado/apuntes.js :
+Que deja en  generado/ :
+  indice.js                  que hay y en que archivo esta (es lo unico
+                             que carga index.html al arrancar)
+  panes/<materia>-<unidad>-<pestania>.js
+  parciales/<materia>-<id>.js
+  preguntas/<materia>-<unidad>.js
+                             cada uno se carga recien cuando se abre
+
+De donde lo saca:
   contenido/<materia>/<unidad>/<pestania>/*.html            apuntes de cada unidad
   contenido/<materia>/evaluacion/parciales/<id>.html        parciales transcriptos
   contenido/<materia>/evaluacion/preguntas/<unidad>.html    banco de autoevaluacion
@@ -19,6 +27,10 @@ Por que un .js y no leer los .html directamente:
   abriendo index.html con doble clic (file://) el navegador no deja leer otros
   archivos con fetch(), pero si deja cargar un <script>. El HTML viaja escapado
   con json.dumps, asi que las barras de las formulas (\\frac, \\leq) llegan intactas.
+
+Por que una pieza por unidad y no todo junto:
+  con todo junto el navegador se traga TODAS las materias antes de mostrar
+  la primera linea. Asi se carga solo lo que abris.
 
 Para agregar una unidad o una materia nueva:
   - crear  contenido/<materia>/<unidad>/<teoria|practica>/00-intro.html  y un
@@ -39,7 +51,7 @@ import time
 AQUI = os.path.dirname(os.path.abspath(__file__))
 CONTENIDO = os.path.join(AQUI, "contenido")
 GENERADO = os.path.join(AQUI, "generado")
-SALIDA = os.path.join(GENERADO, "apuntes.js")
+SALIDA = os.path.join(GENERADO, "indice.js")
 EVALUACION = "evaluacion"
 NL = chr(10)
 
@@ -139,11 +151,42 @@ def informar(nombre, texto, problemas):
     return bool(problemas)
 
 
-def main():
-    lineas = ["/* GENERADO por construir.py - NO EDITAR. El contenido se edita en contenido/ */"]
-    hubo_problemas = False
+CABECERA = "/* GENERADO por construir.py - NO EDITAR. El contenido se edita en contenido/ */"
 
+
+def escribir(ruta, texto):
+    """Se escribe aparte y se reemplaza de una vez: la pagina nunca lee un
+    archivo a medias."""
+    carpeta = os.path.dirname(ruta)
+    if not os.path.isdir(carpeta):
+        os.makedirs(carpeta)
+    temporal = ruta + ".tmp"
+    io.open(temporal, "w", encoding="utf-8", newline=NL).write(texto)
+    os.replace(temporal, ruta)
+
+
+def limpiar_generado():
+    """Se borra lo de la vuelta anterior: si se renombra o se saca una unidad,
+    no queda el archivo viejo dando vueltas."""
+    for patron in ("*.js", os.path.join("*", "*.js")):
+        for ruta in glob.glob(os.path.join(GENERADO, patron)):
+            os.remove(ruta)
+
+
+def guardar_pieza(carpeta, clave, llamada):
+    """Cada pieza va en su propio .js, que la pagina carga solo cuando hace
+    falta. Devuelve la ruta relativa que se anota en el indice."""
+    archivo = "%s/%s.js" % (carpeta, clave.replace("/", "-"))
+    escribir(os.path.join(GENERADO, archivo.replace("/", os.sep)), CABECERA + NL + llamada + NL)
+    return archivo
+
+
+def main():
     print("Armando NewCampus\n")
+    hubo_problemas = False
+    indice = {"panes": {}, "parciales": {}, "preguntas": {}}
+
+    limpiar_generado()
 
     # 1. Apuntes de cada unidad (una carpeta de fragmentos por pestania)
     apuntes = sorted(p for p in glob.glob(os.path.join(CONTENIDO, "*", "*", "*"))
@@ -157,13 +200,16 @@ def main():
         if texto is None:
             hubo_problemas |= informar(vista, "", problemas)
             continue
-        lineas.append("window.Apuntes.registrarPane(%s, %s);" % (json.dumps(vista), json.dumps(texto)))
+        indice["panes"][vista] = guardar_pieza(
+            "panes", vista,
+            "window.Apuntes.registrarPane(%s, %s);" % (json.dumps(vista), json.dumps(texto)))
         hubo_problemas |= informar(vista, texto, problemas)
 
     # 2. Evaluacion: parciales y bancos de preguntas de cada materia
     ids_vistos = set()
 
-    # 2.a Parciales: una carpeta por parcial
+    # 2.a Parciales: una carpeta por parcial. Lo que muestra la tarjeta va en el
+    # indice, asi la lista se dibuja sin cargar ningun parcial.
     for carpeta in sorted(glob.glob(os.path.join(CONTENIDO, "*", EVALUACION, "parciales", "*"))):
         if not os.path.isdir(carpeta):
             continue
@@ -174,8 +220,13 @@ def main():
         if texto is None:
             hubo_problemas |= informar(rel, "", problemas)
             continue
-        lineas.append("window.Apuntes.registrarParcial(%s, %s, %s);"
-                      % (json.dumps(materia), json.dumps(clave), json.dumps(texto)))
+
+        ficha = {"id": clave, "archivo": guardar_pieza(
+            "parciales", materia + "/" + clave,
+            "window.Apuntes.registrarParcial(%s, %s, %s);"
+            % (json.dumps(materia), json.dumps(clave), json.dumps(texto)))}
+        ficha.update(meta)
+        indice["parciales"].setdefault(materia, []).append(ficha)
         hubo_problemas |= informar(rel, texto, problemas)
 
     # 2.b Bancos de preguntas
@@ -183,31 +234,30 @@ def main():
         rel = os.path.relpath(ruta, CONTENIDO).replace(os.sep, "/")
         materia, _, clase, archivo = rel.split("/")
         clave = os.path.splitext(archivo)[0]
-        texto = io.open(ruta, encoding="utf-8").read().strip()
-
-        if clase == "preguntas":
-            funcion, problemas = "registrarPreguntas", revisar_preguntas(texto, ids_vistos)
-        else:
+        if clase != "preguntas":
             print("  [SALTEADO] %s  (la carpeta tiene que ser parciales o preguntas)" % rel)
             hubo_problemas = True
             continue
 
-        lineas.append("window.Apuntes.%s(%s, %s, %s);"
-                      % (funcion, json.dumps(materia), json.dumps(clave), json.dumps(texto)))
+        texto = io.open(ruta, encoding="utf-8").read().strip()
+        problemas = revisar_preguntas(texto, ids_vistos)
+        indice["preguntas"].setdefault(materia, {})[clave] = guardar_pieza(
+            "preguntas", materia + "/" + clave,
+            "window.Apuntes.registrarPreguntas(%s, %s, %s);"
+            % (json.dumps(materia), json.dumps(clave), json.dumps(texto)))
         hubo_problemas |= informar(rel[:-len(".html")], texto, problemas)
 
-    # Marca de la construccion: el boton "Actualizar" espera a que cambie para recargar.
-    lineas.append("window.Apuntes.construido = %s;" % json.dumps(time.strftime("%Y-%m-%d %H:%M:%S")))
+    # 3. El indice: lo unico que carga index.html de entrada
+    indice["construido"] = time.strftime("%Y-%m-%d %H:%M:%S")
+    escribir(SALIDA, CABECERA + NL +
+             "window.Apuntes.registrarIndice(" + json.dumps(indice, indent=2) + ");" + NL)
 
-    if not os.path.isdir(GENERADO):
-        os.makedirs(GENERADO)
-
-    # Se escribe aparte y se reemplaza de una vez: la pagina nunca lee un archivo a medias.
-    temporal = SALIDA + ".tmp"
-    io.open(temporal, "w", encoding="utf-8").write("\n".join(lineas) + "\n")
-    os.replace(temporal, SALIDA)
-
-    print("\n  generado/apuntes.js: %d bytes" % os.path.getsize(SALIDA))
+    piezas = glob.glob(os.path.join(GENERADO, "*", "*.js"))
+    pesado = max(piezas, key=os.path.getsize) if piezas else None
+    print("\n  generado/indice.js: %d bytes  (lo unico que se carga al arrancar)"
+          % os.path.getsize(SALIDA))
+    print("  %d piezas que se cargan cuando se abren; la mas grande: %s con %d bytes"
+          % (len(piezas), os.path.basename(pesado), os.path.getsize(pesado)))
 
     if hubo_problemas:
         print("\n  ATENCION: hay partes marcadas como REVISAR (ver arriba).")

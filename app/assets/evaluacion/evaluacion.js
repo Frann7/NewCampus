@@ -29,18 +29,22 @@
   }
 
   // Lee los datos de la tarjeta desde los data-* del <article class="parcial">
-  function datosParcial(html) {
-    var t = document.createElement("template");
-    t.innerHTML = html;
-    var a = t.content.querySelector(".parcial");
-    var dato = function (n) { return a ? a.getAttribute("data-" + n) || "" : ""; };
-    return { titulo: dato("titulo") || "Parcial", fecha: dato("fecha"), detalle: dato("detalle"), temas: dato("temas") };
+  // Lo que muestra la tarjeta viene del indice (construir.py lo saca del
+  // meta.json de cada parcial), asi la lista se dibuja sin cargar nada.
+  function fichasParcial(materia) {
+    var fichas = ((window.Apuntes.indice || {}).parciales || {})[materia] || [];
+    return fichas.slice().sort(function (a, b) {
+      return a.id < b.id ? 1 : -1;      // los mas nuevos primero
+    });
   }
 
   E.montar = function (pane, materia) {
     var h = E.h;
     var cont = h("div", { class: "ev" });
     pane.appendChild(cont);
+    // Los bancos de preguntas son chicos y los necesita todo el apartado
+    // (armar, rendir, corregir): se traen una vez al entrar.
+    E.banco.asegurar(materia, function () { inicio(); });
 
     var acciones = {
       volver: function (aviso) { inicio(aviso); },
@@ -102,8 +106,7 @@
 
     function inicio(aviso) {
       E.vaciar(cont);
-      var parciales = (window.Apuntes.parciales || {})[materia] || {};
-      var ids = Object.keys(parciales).sort().reverse();   // los mas nuevos primero
+      var fichas = fichasParcial(materia);
       var guardadas = E.almacen.listar(materia);
       var enCurso = guardadas.filter(function (a) { return E.estadoDe(a).clave === "en-curso"; }).length;
 
@@ -113,12 +116,11 @@
       if (aviso) { cont.appendChild(h("div", { class: "ae-aviso" }, aviso)); }
 
       cont.appendChild(seccion("parciales", "📄", "Parciales",
-        ids.length ? ids.length + (ids.length === 1 ? " parcial transcripto" : " parciales transcriptos") : "Todavía no hay parciales cargados",
+        fichas.length ? fichas.length + (fichas.length === 1 ? " parcial transcripto" : " parciales transcriptos") : "Todavía no hay parciales cargados",
         function (cuerpo) {
-          if (!ids.length) { cuerpo.appendChild(h("p", { class: "ev-vacio" }, "Cuando se transcriba un parcial va a aparecer acá.")); return; }
-          cuerpo.appendChild(h("div", { class: "ev-tarjetas" }, ids.map(function (id) {
-            var d = datosParcial(parciales[id]);
-            return h("button", { class: "ev-tarjeta", type: "button", onclick: function () { verParcial(id); } }, [
+          if (!fichas.length) { cuerpo.appendChild(h("p", { class: "ev-vacio" }, "Cuando se transcriba un parcial va a aparecer acá.")); return; }
+          cuerpo.appendChild(h("div", { class: "ev-tarjetas" }, fichas.map(function (d) {
+            return h("button", { class: "ev-tarjeta", type: "button", onclick: function () { verParcial(d); } }, [
               h("span", { class: "ev-tarjeta-fecha" }, d.fecha),
               h("span", { class: "ev-tarjeta-titulo" }, d.titulo),
               h("span", { class: "ev-tarjeta-detalle" }, d.detalle),
@@ -176,9 +178,18 @@
       return tarjeta;
     }
 
-    function verParcial(id) {
-      var html = ((window.Apuntes.parciales || {})[materia] || {})[id];
-      if (!html) { inicio(); return; }
+    function verParcial(ficha) {
+      var html = ((window.Apuntes.parciales || {})[materia] || {})[ficha.id];
+      if (!html) {
+        // todavia no se cargo: se trae y se vuelve a entrar
+        E.vaciar(cont);
+        cont.appendChild(h("p", { class: "ev-vacio" }, "Abriendo el parcial…"));
+        window.Apuntes.cargar(ficha.archivo, function (llego) {
+          if (llego) { verParcial(ficha); }
+          else { inicio("No pude abrir el parcial. Corré python construir.py en app/."); }
+        });
+        return;
+      }
       E.vaciar(cont);
       cont.appendChild(h("button", { class: "ev-volver", type: "button", onclick: function () { inicio(); } }, "← Evaluación"));
       cont.appendChild(h("div", { html: html }));
@@ -200,7 +211,5 @@
 
       E.pantallaNueva(cont);
     }
-
-    inicio();
   };
 })(window.NC.eval);

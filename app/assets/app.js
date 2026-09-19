@@ -3,20 +3,50 @@
    Ruta: #<materia>/<unidad>/<pestania>   ej: #pye/u4/teoria
    ============================================================ */
 
-/* Registro de apuntes. Tiene que existir antes que generado/apuntes.js,
-   que al cargarse llama a registrarPane() una vez por apunte. */
+/* Registro de apuntes. Tiene que existir antes que generado/indice.js.
+
+   El indice dice QUE hay y en que archivo esta; el contenido de cada unidad
+   llega despues, cuando la abris, en su propio .js. Se carga con un <script>
+   y no con fetch() para que el apunte tambien funcione abierto con file://. */
 window.Apuntes = window.Apuntes || {
   cache: {},        // "pye/u5/practica" -> html
   parciales: {},    // "pye" -> { "2025-segundo-parcial": html }
   preguntas: {},    // "pye" -> { "u5": html del banco de preguntas }
+  indice: { panes: {}, parciales: {}, preguntas: {} },
+  pedidos: {},      // archivo -> lista de avisos esperando, o true si ya llego
+
+  registrarIndice: function (i) { this.indice = i; },
   registrarPane: function (vista, html) { this.cache[vista] = html; },
   registrarParcial: function (materia, id, html) {
     (this.parciales[materia] = this.parciales[materia] || {})[id] = html;
   },
   registrarPreguntas: function (materia, unidad, html) {
     (this.preguntas[materia] = this.preguntas[materia] || {})[unidad] = html;
+  },
+
+  /* Trae una pieza de generado/ una sola vez. avisar(true/false) al terminar. */
+  cargar: function (archivo, avisar) {
+    if (!archivo) { avisar(false); return; }
+    var estado = this.pedidos[archivo];
+    if (estado === true) { avisar(true); return; }
+    if (estado) { estado.push(avisar); return; }   // ya se esta trayendo
+
+    var esperando = this.pedidos[archivo] = [avisar];
+    var registro = this;
+
+    function terminar(ok) {
+      registro.pedidos[archivo] = ok ? true : null;
+      esperando.forEach(function (f) { f(ok); });
+    }
+
+    var s = document.createElement("script");
+    s.src = "generado/" + archivo;
+    s.onload = function () { terminar(true); };
+    s.onerror = function () { terminar(false); };
+    document.head.appendChild(s);
   }
 };
+
 window.NC = window.NC || {};
 
 (function () {
@@ -85,13 +115,23 @@ window.NC = window.NC || {};
   // La ruta del hash siempre lleva las tres partes, asi se recuerda la unidad.
   function rutaDe(s) { return s.materia + "/" + s.unidad + "/" + s.tab; }
 
+  // Lo que EXISTE lo dice el indice; el contenido puede no estar cargado todavia.
   function existePane(s) {
     if (s.tab === CALENDARIO) { return !!(window.NC.cal && window.NC.cal.montar); }
+    var panes = window.Apuntes.indice.panes || {};
     if (s.tab === EVALUACION) {
       var prefijo = s.materia + "/";
-      return Object.keys(window.Apuntes.cache).some(function (k) { return k.indexOf(prefijo) === 0; });
+      return Object.keys(panes).some(function (k) { return k.indexOf(prefijo) === 0; });
     }
-    return Object.prototype.hasOwnProperty.call(window.Apuntes.cache, paneId(s));
+    return Object.prototype.hasOwnProperty.call(panes, paneId(s));
+  }
+
+  // Trae la pieza de la unidad si todavia no esta. Evaluacion y Calendario no
+  // tienen pieza propia: se arman con JS.
+  function asegurarPane(id, avisar) {
+    if (id === CALENDARIO || id.split("/")[1] === EVALUACION) { avisar(true); return; }
+    if (window.Apuntes.cache[id]) { avisar(true); return; }
+    window.Apuntes.cargar((window.Apuntes.indice.panes || {})[id], avisar);
   }
 
   function estaEnPantalla(id) {
@@ -99,9 +139,9 @@ window.NC = window.NC || {};
   }
 
   /* ---------- apuntes ----------
-     generado/apuntes.js deja todos los apuntes como texto en Apuntes.cache.
-     Al documento se inserta recien la unidad que abris, y queda ahi para que
-     volver a ella sea instantaneo. */
+     Cada unidad viaja en su propio generado/panes/*.js y se trae cuando la
+     abris. Una vez traida queda en Apuntes.cache y en el documento, asi que
+     volver a ella es instantaneo. */
 
   function insertarPane(id) {
     var partes = id.split("/");
@@ -808,12 +848,20 @@ window.NC = window.NC || {};
     var id = paneId(state);
     pintarNavegacion(id);
 
-    if (!insertarPane(id)) {
-      aviso("No encuentro los apuntes (generado/apuntes.js). Toca Actualizar para armarlos.", "error");
-      return;
-    }
-    mostrarPane(id);
+    // La unidad llega en su propio archivo: puede tardar un instante. El numero
+    // de pedido evita que una unidad lenta se dibuje encima de otra mas nueva.
+    var mio = ++pedido;
+    asegurarPane(id, function (llego) {
+      if (mio !== pedido) { return; }
+      if (!llego || !insertarPane(id)) {
+        aviso("No encuentro los apuntes de esta unidad. Corré python construir.py en app/.", "error");
+        return;
+      }
+      mostrarPane(id);
+    });
   }
+
+  var pedido = 0;
 
   function mostrarPane(id) {
     limpiarAvisos();

@@ -35,7 +35,8 @@ NewCampus/
     │       └── evaluacion/
     │           ├── parciales/<año>-<nombre>/             meta.json + un archivo por ejercicio
     │           └── preguntas/<unidad>.html               banco de la autoevaluación
-    ├── generado/         ← GENERADO: apuntes.js. NO EDITAR.
+    ├── generado/         ← GENERADO. NO EDITAR. indice.js (lo unico que carga
+    │                        la pagina al arrancar) + una pieza por unidad
     ├── pdf/<materia>/    ← PDFs de cátedra, una sola copia por materia
     └── lanzador/         ← código fuente de NewCampus.exe (C#) y su ícono
 ```
@@ -60,8 +61,10 @@ El número con el que arranca cada nombre es su **orden**, no el número del eje
 con dos guías y numeración repetida). Para meter algo entre el 03 y el 04 alcanza con llamarlo
 `03b-...`; para reordenar, renombrar.
 
-Todos los apuntes viajan en `generado/apuntes.js`, pero al documento se inserta **solo la unidad
-que se abre**. Para analizar o editar un tema, leé únicamente su archivo de `contenido/`.
+Al arrancar, la página solo carga `generado/indice.js`, que dice qué hay y en qué archivo está.
+El contenido de cada unidad llega en su propia pieza cuando la abrís (con un `<script>`, no con
+`fetch()`, para que también funcione con `file://`). Para analizar o editar un tema, leé
+únicamente su fragmento de `contenido/`.
 
 **Pestaña Evaluación** (una por materia, no depende de la unidad):
 
@@ -231,7 +234,7 @@ de ejercicio leyéndolo del `.tag`.
 ## 8. Cosas que rompen el proyecto (no las hagas)
 
 * **Fórmulas:** MathJax con `\( ... \)` y `\[ ... \]`. **Nunca** `$`, porque hay precios en el texto.
-* **Los apuntes no se cargan con `fetch()`**: viajan en `generado/apuntes.js` para que la página también funcione abierta con `file://`. El único `fetch()` es el latido a `api/ping`, que mantiene vivo al .exe.
+* **Los apuntes no se cargan con `fetch()`**: cada pieza de `generado/` entra con un `<script>`, que es lo único que `file://` deja hacer. Los únicos `fetch()` son el latido a `api/ping` y el número de corrida.
 * **Nada de `<` crudo** en el texto: usá `&lt;` o `\leq` dentro de la fórmula.
 * **Nada que comunique un estado por transición o animación CSS.** Hay entornos donde se congelan.
   Si algo indica abierto/cerrado/activo, el valor final tiene que quedar aplicado por JS o por

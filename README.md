@@ -54,8 +54,8 @@ ejercicio o sección** (`01-....html`, `02-....html`), y después se corre, dent
 python construir.py
 ```
 
-Eso arma `app/generado/apuntes.js`, que es el único archivo que carga la página.
-Nunca se edita `generado/` a mano.
+Eso arma `app/generado/`: un `indice.js` chiquito con lo que hay, y un archivo por unidad que la
+página se trae **solo cuando abrís esa unidad**. Nunca se edita `generado/` a mano.
 
 ## Material de cátedra
 

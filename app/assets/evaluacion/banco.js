@@ -79,7 +79,25 @@
     return /^-?\d*\.?\d+(e-?\d+)?$/i.test(s) ? parseFloat(s) : NaN;
   }
 
+  /* Los bancos llegan en generado/preguntas/*.js, uno por unidad, y se traen
+     cuando entras a Evaluacion. avisar() corre cuando ya estan todos. */
+  function asegurar(materia, avisar) {
+    var archivos = ((window.Apuntes.indice || {}).preguntas || {})[materia] || {};
+    var cargados = window.Apuntes.preguntas[materia] || {};
+    var faltan = Object.keys(archivos).filter(function (u) { return !cargados[u]; });
+    if (!faltan.length) { avisar(); return; }
+
+    var pendientes = faltan.length;
+    faltan.forEach(function (unidad) {
+      window.Apuntes.cargar(archivos[unidad], function () {
+        pendientes -= 1;
+        if (!pendientes) { delete cache[materia]; avisar(); }
+      });
+    });
+  }
+
   E.banco = {
+    asegurar: asegurar,
     obtener: function (materia, id) { return cargar(materia).porId[id] || null; },
 
     // Cuantas preguntas de cada tipo hay en esas unidades.

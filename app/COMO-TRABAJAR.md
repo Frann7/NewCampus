@@ -67,7 +67,9 @@ con dos guías y numeración repetida). Para meter algo entre el 03 y el 04 alca
 Cada `.bloque` de teoría y cada `.ej` de práctica se convierte **solo** en un desplegable: app.js
 le arma la cabecera con el `.kicker`/`.tag` y el `<h2>`, y esconde el resto. Los fragmentos de
 `contenido/` se siguen escribiendo igual que siempre, sin envoltorios. Arriba del todo quedan
-**Abrir todo** y **Cerrar todo**, y el índice de la derecha abre la sección que toques.
+**Abrir todo** y **Cerrar todo**. En el índice de la derecha, cada sección lleva su propia flechita:
+**la flecha pliega y despliega** (lo mismo que desde la página) y **el texto solo lleva** al título,
+sin abrir nada.
 
 Al arrancar, la página solo carga `generado/indice.js`, que dice qué hay y en qué archivo está.
 El contenido de cada unidad llega en su propia pieza cuando la abrís (con un `<script>`, no con

@@ -26,8 +26,8 @@ abre los apuntes en el navegador. No hay nube, no hay cuenta, no sale nada a int
   más próxima a la más lejana. Se encienden o apagan **por materia**.
 * **Todo plegable**: cada sección de teoría y cada ejercicio de práctica se abre y se cierra, así
   entrás a una unidad y ves la lista de lo que hay en vez de un muro de texto.
-* **Índice lateral** de la sección que estás leyendo, con seguimiento del scroll: al tocar un título
-  abre la sección que corresponda.
+* **Índice lateral** de la sección que estás leyendo, con seguimiento del scroll: el texto te lleva
+  al título y la flechita de al lado pliega o despliega esa sección, igual que desde la página.
 * **Visor de PDFs** de cátedra en ventanas movibles.
 * **Ventanas duplicadas**: manteniendo apretada una pestaña sale una copia de ese apartado en
   otra ventana, para leer dos partes a la vez.

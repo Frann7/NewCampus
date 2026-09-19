@@ -261,8 +261,9 @@ window.NC = window.NC || {};
 
   var ALTO_BARRA = 96;   // alto de la barra superior fija
 
+  // Lleva al titulo y nada mas: si la seccion esta plegada, queda plegada.
+  // Para abrirla esta la flechita que el indice pone al lado.
   function irAlTitulo(h) {
-    abrirSeccionDe(h);        // si estaba plegada, se abre
     var y = h.getBoundingClientRect().top + window.pageYOffset - ALTO_BARRA;
     window.scrollTo(0, Math.max(0, y));
     marcarTOCActual();
@@ -325,7 +326,34 @@ window.NC = window.NC || {};
         ev.preventDefault();
         irAlTitulo(h);
       });
-      toc.appendChild(a);
+
+      // Si ese titulo es una seccion plegable, el indice le pone su propia
+      // flechita: pliega y despliega igual que desde la pagina. El texto
+      // sigue llevando a la seccion, como cualquier indice.
+      var seccion = h.tagName === "H2" && h.closest ? h.closest(".es-seccion") : null;
+      if (seccion) {
+        var fila = document.createElement("div");
+        fila.className = "toc-fila";
+
+        var chev = document.createElement("button");
+        chev.type = "button";
+        chev.className = "toc-chev";
+        var abierta = seccionAbierta(seccion);
+        chev.textContent = abierta ? FLECHA_ABIERTA : FLECHA_CERRADA;
+        chev.title = abierta ? "Plegar esta sección" : "Desplegar esta sección";
+        chev.setAttribute("aria-expanded", String(abierta));
+        chev.addEventListener("click", function (ev) {
+          ev.preventDefault();
+          ev.stopPropagation();
+          abrirSeccion(seccion, !seccionAbierta(seccion));   // rearma el indice solo
+        });
+
+        fila.appendChild(chev);
+        fila.appendChild(a);
+        toc.appendChild(fila);
+      } else {
+        toc.appendChild(a);
+      }
       enlacesTOC.push({ a: a, h: h });
     });
 
@@ -520,12 +548,6 @@ window.NC = window.NC || {};
     secciones[0].parentNode.insertBefore(barra, secciones[0]);
   }
 
-  // Abre la seccion que contenga a ese titulo (la usa el indice de la derecha)
-  function abrirSeccionDe(el) {
-    var seccion = el.closest ? el.closest(".es-seccion") : null;
-    if (seccion) { abrirSeccion(seccion, true); }
-    return seccion;
-  }
 
   /* ---------- MathJax bajo demanda ---------- */
 

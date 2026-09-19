@@ -27,5 +27,105 @@ window.Apuntes.registrarIndice({
       "u6": "preguntas/pye-u6.js"
     }
   },
-  "construido": "2026-09-19 18:29:48"
+  "materias": [
+    {
+      "clave": "pye",
+      "nombre": "Probabilidad y Estadistica",
+      "corto": "PyE",
+      "unidades": [
+        {
+          "clave": "u4",
+          "num": "Unidad 4",
+          "nombre": "Esperanza, Varianza y Covarianza"
+        },
+        {
+          "clave": "u5",
+          "num": "Unidad 5",
+          "nombre": "Distribuciones Discretas"
+        },
+        {
+          "clave": "u6",
+          "num": "Unidad 6",
+          "nombre": "Distribuciones Continuas"
+        }
+      ],
+      "pdf": [
+        {
+          "id": "resumen",
+          "sigla": "RES",
+          "titulo": "Resumen de distribuciones",
+          "archivo": "pdf/pye/resumen-de-distribuciones.pdf"
+        },
+        {
+          "id": "tablas",
+          "sigla": "TAB",
+          "titulo": "Tablas de probabilidad",
+          "archivo": "pdf/pye/tabla-probabilidad-y-estadistica-lsi.pdf"
+        }
+      ],
+      "material": {
+        "u5": [
+          "resumen",
+          "tablas"
+        ],
+        "u6": [
+          "resumen",
+          "tablas"
+        ],
+        "evaluacion": [
+          "resumen",
+          "tablas"
+        ]
+      }
+    },
+    {
+      "clave": "pa",
+      "nombre": "Programacion Avanzada",
+      "corto": "Prog. Av.",
+      "unidades": []
+    },
+    {
+      "clave": "bd",
+      "nombre": "Base de Datos",
+      "corto": "Base de Datos",
+      "unidades": []
+    },
+    {
+      "clave": "ing2",
+      "nombre": "Ingenieria de Software II",
+      "corto": "Ing. Soft. II",
+      "unidades": []
+    },
+    {
+      "clave": "so-teoria",
+      "nombre": "Sistemas Operativos \u2014 Teoria",
+      "corto": "SO Teor\u00eda",
+      "unidades": []
+    },
+    {
+      "clave": "so-practica",
+      "nombre": "Sistemas Operativos \u2014 Practica",
+      "corto": "SO Pr\u00e1ctica",
+      "unidades": []
+    },
+    {
+      "clave": "pyl",
+      "nombre": "Paradigmas y Lenguajes",
+      "corto": "Paradigmas",
+      "unidades": []
+    },
+    {
+      "clave": "emp",
+      "nombre": "Emprendedurismo",
+      "corto": "Emprend.",
+      "unidades": []
+    },
+    {
+      "clave": "taller",
+      "nombre": "Taller de Integracion",
+      "corto": "Taller",
+      "unidades": []
+    }
+  ],
+  "construido": "2026-09-19 18:43:16"
 });

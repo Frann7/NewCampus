@@ -17,7 +17,8 @@ Vive en `C:\Users\Fran\Desktop\NewCampus\` y se distribuye como zip.
 NewCampus/
 ├── NewCampus.exe         ← doble clic: levanta el servidor local y abre el navegador
 └── app/
-    ├── index.html        ← esqueleto: menú de materias, pestañas, firma. Se edita a mano.
+    ├── index.html        ← esqueleto: pestañas, reloj, firma. Casi nunca se toca:
+    │                        el menú de materias lo dibuja app.js solo.
     ├── construir.py      ← junta contenido/ en generado/apuntes.js
     ├── COMO-TRABAJAR.md  ← este archivo
     ├── assets/           ← estilos.css, app.js (navegación, índice, visor de PDF), logo.svg
@@ -28,6 +29,7 @@ NewCampus/
     │   └── evaluacion/   ← pestaña Evaluación, un archivo por responsabilidad:
     │                        nucleo · banco · formulario · examen · informe · evaluacion (+ .css)
     ├── contenido/        ← LOS APUNTES SE EDITAN ACÁ
+    │   ├── materias.json ← el menú lateral y el material de cátedra
     │   └── <materia>/
     │       ├── <unidad>/<teoria|practica>/               una CARPETA por pestaña:
     │       │      00-intro.html                            el título y la bajada
@@ -244,16 +246,20 @@ de ejercicio leyéndolo del `.tag`.
 * No agregues dependencias ni frameworks. Es HTML, CSS y JS a mano, más MathJax por CDN.
 * Ante la duda, la versión más corta. Sin agregados innecesarios.
 
-## 9. Para agregar una materia nueva
+## 9. Para agregar una materia o una unidad nueva
 
-1. Crear `contenido/<materia>/<unidad>/teoria.html` y `practica.html`.
-2. Agregar la materia y sus unidades al menú lateral en `index.html`
-   (copiá el bloque `<div class="materia" data-materia="pye">` y adaptalo).
-   El `data-corto` es el nombre que entra en el cuadrito de un día del calendario, y el orden en
-   el menú define el color que le toca ahí.
-3. Si tiene PDFs de cátedra para el visor: copiarlos **una sola vez** a `pdf/<materia>/` y
-   asignarlos a las unidades que los usan en `MATERIAL_CATEDRA`, arriba de `assets/app.js`.
+**No se toca `index.html`.** Todo el menú sale de `contenido/materias.json`:
+
+1. Crear los fragmentos en `contenido/<materia>/<unidad>/<teoria|practica>/`.
+2. En `contenido/materias.json`, agregar la materia (o la unidad, si la materia ya está) con su
+   `nombre`, su `corto` —el nombre que entra en el cuadrito de un día del calendario— y el `num` y
+   `nombre` de cada unidad. El orden de la lista es el del menú, y define el color en el calendario.
+3. Si tiene PDFs de cátedra: copiarlos **una sola vez** a `pdf/<materia>/`, listarlos en el `pdf` de
+   esa materia y decir en `material` a qué unidades se les muestran (`evaluacion` es la pestaña).
 4. Correr `python construir.py`.
+
+Una materia **sin apuntes todavía** aparece como "pronto" sola, sin hacer nada: alcanza con que esté
+en la lista. Una unidad que tenga apuntes pero no esté en `materias.json` la marca como REVISAR.
 
 ## 10. Lo primero que tenés que hacer
 

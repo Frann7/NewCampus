@@ -57,6 +57,9 @@ python construir.py
 Eso arma `app/generado/`: un `indice.js` chiquito con lo que hay, y un archivo por unidad que la
 página se trae **solo cuando abrís esa unidad**. Nunca se edita `generado/` a mano.
 
+El menú de materias no se escribe a mano: sale de `app/contenido/materias.json`. Para sumar una
+unidad alcanza con crear su carpeta, nombrarla ahí y volver a construir.
+
 ## Material de cátedra
 
 Los PDFs de la cátedra que usa el visor viven en `app/pdf/<materia>/`, una sola copia por

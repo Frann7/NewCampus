@@ -13,6 +13,8 @@ Que deja en  generado/ :
                              cada uno se carga recien cuando se abre
 
 De donde lo saca:
+  contenido/materias.json                                   el menu lateral y el
+                                                            material de catedra
   contenido/<materia>/<unidad>/<pestania>/*.html            apuntes de cada unidad
   contenido/<materia>/evaluacion/parciales/<id>.html        parciales transcriptos
   contenido/<materia>/evaluacion/preguntas/<unidad>/*.html  banco de autoevaluacion,
@@ -182,6 +184,60 @@ def guardar_pieza(carpeta, clave, llamada):
     return archivo
 
 
+def armar_materias(panes):
+    """El menu lateral y el material de catedra salen de contenido/materias.json.
+    Una materia se muestra completa si tiene unidades con contenido; si no,
+    aparece como 'pronto'. Una unidad sin contenido no se lista."""
+    problemas = []
+    ruta = os.path.join(CONTENIDO, "materias.json")
+    if not os.path.isfile(ruta):
+        return [], ["falta contenido/materias.json"]
+    try:
+        datos = json.loads(io.open(ruta, encoding="utf-8").read())
+    except ValueError as e:
+        return [], ["materias.json no se entiende: %s" % e]
+
+    con_contenido = {}
+    for vista in panes:
+        materia, unidad, _ = vista.split("/")
+        con_contenido.setdefault(materia, set()).add(unidad)
+
+    salida = []
+    listadas = set()
+    for m in datos.get("materias", []):
+        clave = m.get("clave")
+        if not clave or not m.get("nombre"):
+            problemas.append("hay una materia sin clave o sin nombre")
+            continue
+        listadas.add(clave)
+        tiene = con_contenido.get(clave, set())
+
+        unidades = []
+        for u in m.get("unidades", []):
+            if u.get("clave") not in tiene:
+                continue          # todavia no tiene apuntes: no se muestra
+            unidades.append({"clave": u["clave"],
+                             "num": u.get("num", u["clave"]),
+                             "nombre": u.get("nombre", "")})
+
+        sin_listar = tiene - set(u["clave"] for u in unidades)
+        for u in sorted(sin_listar):
+            problemas.append("%s/%s tiene apuntes pero no esta en materias.json" % (clave, u))
+
+        ficha = {"clave": clave, "nombre": m["nombre"],
+                 "corto": m.get("corto", m["nombre"][:6]), "unidades": unidades}
+        if m.get("pdf"):
+            ficha["pdf"] = m["pdf"]
+        if m.get("material"):
+            ficha["material"] = m["material"]
+        salida.append(ficha)
+
+    for clave in sorted(set(con_contenido) - listadas):
+        problemas.append("la materia %s tiene apuntes pero no esta en materias.json" % clave)
+
+    return salida, problemas
+
+
 def main():
     print("Armando NewCampus\n")
     hubo_problemas = False
@@ -256,6 +312,12 @@ def main():
         hubo_problemas |= informar(rel, texto, problemas)
 
     # 3. El indice: lo unico que carga index.html de entrada
+    indice["materias"], problemas_menu = armar_materias(indice["panes"])
+    if problemas_menu:
+        hubo_problemas |= informar("menu (contenido/materias.json)", "", problemas_menu)
+    else:
+        print("  [OK     ] %-38s %7d materias" % ("menu (contenido/materias.json)",
+                                                  len(indice["materias"])))
     indice["construido"] = time.strftime("%Y-%m-%d %H:%M:%S")
     escribir(SALIDA, CABECERA + NL +
              "window.Apuntes.registrarIndice(" + json.dumps(indice, indent=2) + ");" + NL)

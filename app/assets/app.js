@@ -52,7 +52,8 @@ window.NC = window.NC || {};
 (function () {
   "use strict";
 
-  var DEFAULT_ROUTE = { materia: "pye", unidad: "u4", tab: "teoria" };
+  // La ruta por defecto sale del indice (ver rutaPorDefecto): la primera
+  // materia que tenga apuntes.
   var STORE_KEY = "apuntes:ruta";
   var THEME_KEY = "apuntes:tema";
   var MATERIAS_KEY = "apuntes:materias";
@@ -62,27 +63,7 @@ window.NC = window.NC || {};
   var FLECHA_ABIERTA = "▼";   // ▼
   var FLECHA_CERRADA = "▶";   // ▶
 
-  /* ------------------------------------------------------------
-     MATERIAL DE CATEDRA
-     Que PDFs muestra cada unidad como boton flotante.
-     Cada PDF esta una sola vez en pdf/<materia>/ y se asigna a las
-     unidades que lo usan (clave "materia/unidad").
-     Para sumar otro: copiarlo a pdf/<materia>/ y agregarlo aca.
-     ------------------------------------------------------------ */
-  var PDF_PYE = [
-    { id: "resumen",  sigla: "RES",   titulo: "Resumen de distribuciones",
-      archivo: "pdf/pye/resumen-de-distribuciones.pdf" },
-    { id: "tablas",   sigla: "TAB",   titulo: "Tablas de probabilidad",
-      archivo: "pdf/pye/tabla-probabilidad-y-estadistica-lsi.pdf" }
-  ];
-
-  var MATERIAL_CATEDRA = {
-    "pye/u5": PDF_PYE,
-    "pye/u6": PDF_PYE,
-    "pye/evaluacion": PDF_PYE
-  };
-
-  var state = Object.assign({}, DEFAULT_ROUTE);
+  var state = { materia: '', unidad: '', tab: 'teoria' };
 
   /* ---------- modo copia (ventana duplicada) ----------
      index.html?panel=1#pye/u5/teoria abre una COPIA de un solo apartado:
@@ -469,11 +450,6 @@ window.NC = window.NC || {};
   // Ahora cada vez que se abre arranca en su lugar por defecto.
   try { localStorage.removeItem("apuntes:pdf-ventanas"); } catch (e) {}
 
-  function materialDeLaUnidad() {
-    var clave = state.materia + "/" + (esGlobal(state.tab) ? state.tab : state.unidad);
-    return MATERIAL_CATEDRA[clave] || null;
-  }
-
   // Si la pestania esta oculta o minimizada, el navegador informa 0 de alto y
   // de ancho. En ese caso usamos una medida razonable para no armar la ventana
   // del tamanio minimo pegada al angulo.
@@ -835,6 +811,115 @@ window.NC = window.NC || {};
     });
   });
 
+  /* ------------------------------------------------------------
+     MENU LATERAL
+     No se escribe a mano: sale de contenido/materias.json, que
+     construir.py deja en generado/indice.js. Para sumar una unidad
+     alcanza con crear su carpeta, nombrarla ahi y construir.
+     Una materia sin apuntes todavia se muestra como "pronto".
+     ------------------------------------------------------------ */
+
+  function materiasDelIndice() {
+    return (window.Apuntes.indice || {}).materias || [];
+  }
+
+  function construirMenu() {
+    var caja = $("#materias");
+    if (!caja) { return; }
+    caja.innerHTML = "";
+
+    materiasDelIndice().forEach(function (m) {
+      var disponible = !!(m.unidades && m.unidades.length);
+
+      var bloque = document.createElement("div");
+      bloque.className = "materia";
+      bloque.setAttribute("data-materia", m.clave);
+      bloque.setAttribute("data-corto", m.corto || m.nombre);
+
+      var btn = document.createElement("button");
+      btn.className = "materia-btn";
+      btn.type = "button";
+      if (!disponible) { btn.disabled = true; }
+
+      var nombre = document.createElement("span");
+      nombre.className = "m-nombre";
+      nombre.textContent = m.nombre;
+      btn.appendChild(nombre);
+
+      var marca = document.createElement("span");
+      if (disponible) {
+        marca.className = "chev";
+        marca.textContent = FLECHA_CERRADA;
+      } else {
+        marca.className = "pill-soon";
+        marca.textContent = "pronto";
+      }
+      btn.appendChild(marca);
+      bloque.appendChild(btn);
+
+      if (disponible) {
+        var lista = document.createElement("ul");
+        lista.className = "unidades";
+        m.unidades.forEach(function (u) {
+          var li = document.createElement("li");
+          var bu = document.createElement("button");
+          bu.type = "button";
+          bu.setAttribute("data-unidad", u.clave);
+          bu.setAttribute("data-titulo", u.nombre ? u.num + " — " + u.nombre : u.num);
+
+          var num = document.createElement("span");
+          num.className = "u-num";
+          num.textContent = u.num;
+
+          var tema = document.createElement("span");
+          tema.className = "u-name";
+          tema.textContent = u.nombre || "";
+
+          bu.appendChild(num);
+          bu.appendChild(tema);
+          li.appendChild(bu);
+          lista.appendChild(li);
+        });
+        bloque.appendChild(lista);
+      }
+
+      caja.appendChild(bloque);
+    });
+  }
+
+  // La primera materia con apuntes: es donde se para el campus si no hay
+  // nada guardado ni nada en la direccion.
+  function rutaPorDefecto() {
+    var conApuntes = materiasDelIndice().filter(function (m) {
+      return m.unidades && m.unidades.length;
+    })[0];
+    if (!conApuntes) { return { materia: "", unidad: "", tab: "teoria" }; }
+    return { materia: conApuntes.clave, unidad: conApuntes.unidades[0].clave, tab: "teoria" };
+  }
+
+  /* ------------------------------------------------------------
+     MATERIAL DE CATEDRA
+     Que PDFs muestra cada unidad como boton flotante. Tambien sale
+     de materias.json: "pdf" es el catalogo de la materia (una sola
+     copia de cada archivo) y "material" dice a que unidades se les
+     muestra cada uno ("evaluacion" es la pestania).
+     ------------------------------------------------------------ */
+
+  function materialDeLaUnidad() {
+    var ficha = null;
+    materiasDelIndice().forEach(function (m) {
+      if (m.clave === state.materia) { ficha = m; }
+    });
+    if (!ficha || !ficha.pdf || !ficha.material) { return null; }
+
+    var donde = esGlobal(state.tab) ? state.tab : state.unidad;
+    var pedidos = ficha.material[donde] || [];
+    var lista = pedidos.map(function (id) {
+      return ficha.pdf.filter(function (d) { return d.id === id; })[0];
+    }).filter(Boolean);
+    return lista.length ? lista : null;
+  }
+
   /* ---------- render ---------- */
 
   function render() {
@@ -842,7 +927,7 @@ window.NC = window.NC || {};
       // si la pestania pedida no existe, se cae a teoria
       var alt = Object.assign({}, state, { tab: "teoria" });
       if (existePane(alt)) { state = alt; }
-      else { state = Object.assign({}, DEFAULT_ROUTE); }
+      else { state = rutaPorDefecto(); }
     }
 
     var id = paneId(state);
@@ -1094,7 +1179,7 @@ window.NC = window.NC || {};
       var g = (localStorage.getItem(STORE_KEY) || "").split("/");
       if (g.length === 3) { return { materia: g[0], unidad: g[1], tab: g[2] }; }
     } catch (e) {}
-    return Object.assign({}, DEFAULT_ROUTE);
+    return rutaPorDefecto();
   }
 
   // MathJax carga con async: si termina despues del primer render,
@@ -1104,6 +1189,7 @@ window.NC = window.NC || {};
   });
 
   document.addEventListener("DOMContentLoaded", function () {
+    construirMenu();          // antes que nada: el resto lee el menu del documento
     initTema();
     initTOC();
     initEventos();

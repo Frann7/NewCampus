@@ -71,6 +71,12 @@ archivo. Son material de la facultad, subido acá solo para estudiar.
 ## Versiones
 
 `0.x.y-alpha` mientras esté en desarrollo. La `1.0.0` queda reservada para cuando esté terminado.
+La versión actual se lee al pie del menú lateral.
+
+* **0.6.0-alpha** — calendario con parciales, trabajos prácticos y recordatorios; contenido partido
+  en fragmentos y cargado por unidad; menú lateral automático; teoría y práctica plegables.
+* **0.5.0-alpha** — primera versión publicada: apuntes, evaluación con parciales y autoevaluaciones,
+  calendario, ventanas duplicadas.
 
 ---
 

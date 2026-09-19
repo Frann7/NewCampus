@@ -10,15 +10,15 @@
    y no con fetch() para que el apunte tambien funcione abierto con file://. */
 window.Apuntes = window.Apuntes || {
   cache: {},        // "pye/u5/practica" -> html
-  parciales: {},    // "pye" -> { "2025-segundo-parcial": html }
+  examenes: {},     // "pye" -> { "2025-segundo-parcial": html }  (parciales y finales)
   preguntas: {},    // "pye" -> { "u5": html del banco de preguntas }
-  indice: { panes: {}, parciales: {}, preguntas: {} },
+  indice: { panes: {}, examenes: {}, preguntas: {} },
   pedidos: {},      // archivo -> lista de avisos esperando, o true si ya llego
 
   registrarIndice: function (i) { this.indice = i; },
   registrarPane: function (vista, html) { this.cache[vista] = html; },
-  registrarParcial: function (materia, id, html) {
-    (this.parciales[materia] = this.parciales[materia] || {})[id] = html;
+  registrarExamen: function (materia, id, html) {
+    (this.examenes[materia] = this.examenes[materia] || {})[id] = html;
   },
   registrarPreguntas: function (materia, unidad, html) {
     (this.preguntas[materia] = this.preguntas[materia] || {})[unidad] = html;
@@ -288,13 +288,15 @@ window.NC = window.NC || {};
     if (!pane) { vacio(true); return; }
 
     // h2 = secciones / ejercicios ; h3 = subtemas dentro de cada uno.
-    // En los parciales, la explicacion detallada que este ABIERTA suma sus partes
+    // En los examenes, la explicacion detallada que este ABIERTA suma sus partes
     // (los incisos y sus subtitulos) para poder leerla parte por parte.
     var titulos = $$("h2, h3, .pd-explicacion[open] > .pd-cuerpo > .paso, .pd-explicacion[open] > .pd-cuerpo > h4", pane)
       .filter(function (h) {
+        var seccion = h.closest ? h.closest(".es-seccion") : null;
+        // lo que el filtro por marca dejo afuera no esta en la pagina
+        if (seccion && seccion.hidden) { return false; }
         // un h3 de una seccion cerrada no se puede leer: tampoco se lista
         if (h.tagName !== "H3") { return true; }
-        var seccion = h.closest(".es-seccion");
         return !seccion || seccionAbierta(seccion);
       });
     if (titulos.length < 2) { vacio(true); return; }
@@ -304,6 +306,7 @@ window.NC = window.NC || {};
 
     titulos.forEach(function (h, i) {
       if (!h.id) { h.id = base + "-h" + i; }
+      var seccion = h.tagName === "H2" && h.closest ? h.closest(".es-seccion") : null;
       var a = document.createElement("a");
       a.href = "#" + h.id;
       a.className = h.tagName === "H2" ? "lvl-2"
@@ -322,6 +325,17 @@ window.NC = window.NC || {};
         a.textContent = tituloDe(h);
       }
 
+      // la marca de examen tambien se ve en el indice: es la lista donde
+      // elegis que estudiar
+      var nivel = seccion ? nivelDe(seccion) : "";
+      if (nivel) {
+        var marca = trozo("span", "toc-marca", MARCAS[nivel].glifo);
+        marca.setAttribute("data-nivel", nivel);
+        marca.title = MARCAS[nivel].desde +
+          (seccion.getAttribute("data-examen-ref") || "los examenes de la catedra");
+        a.appendChild(marca);
+      }
+
       a.addEventListener("click", function (ev) {
         ev.preventDefault();
         irAlTitulo(h);
@@ -330,7 +344,6 @@ window.NC = window.NC || {};
       // Si ese titulo es una seccion plegable, el indice le pone su propia
       // flechita: pliega y despliega igual que desde la pagina. El texto
       // sigue llevando a la seccion, como cualquier indice.
-      var seccion = h.tagName === "H2" && h.closest ? h.closest(".es-seccion") : null;
       if (seccion) {
         var fila = document.createElement("div");
         fila.className = "toc-fila";
@@ -458,6 +471,127 @@ window.NC = window.NC || {};
      lo que esta oculto, asi que lo cerrado no se toca.
      ------------------------------------------------------------ */
 
+  /* ---------- Marcas de examen ----------
+     El fragmento de contenido dice si ese ejercicio (o esa seccion de teoria)
+     ya fue tomado, con  data-examen="igual|variante" :
+
+       igual     tal cual como lo tomaron; cambian los numeros y nada mas
+       variante  el mismo tema pero con un cambio (otra formula, un inciso de mas)
+
+     data-examen-ref  dice en que examen aparecio  ("Parcial 2023 - ej. 4")
+     data-examen-nota dice QUE cambia; se muestra al abrir la seccion.
+
+     Sin marca no quiere decir que no pueda caer: quiere decir que no aparecio
+     en los examenes que estan cargados. Eso lo aclara la leyenda. */
+
+  var MARCAS = {
+    igual:    { glifo: "★", rotulo: "Tomados",   desde: "Tomado tal cual en " },
+    variante: { glifo: "◈", rotulo: "Variantes", desde: "Variante de " }
+  };
+
+  function nivelDe(seccion) {
+    var n = seccion.getAttribute("data-examen");
+    return MARCAS[n] ? n : "";
+  }
+
+  function trozo(etiqueta, clase, texto) {
+    var e = document.createElement(etiqueta);
+    e.className = clase;
+    e.textContent = texto;
+    return e;
+  }
+
+  // El chip que va en la cabecera, al lado del titulo
+  function chipExamen(seccion) {
+    var nivel = nivelDe(seccion);
+    if (!nivel) { return null; }
+    var ref = seccion.getAttribute("data-examen-ref") || "";
+
+    var chip = document.createElement("span");
+    chip.className = "marca-examen";
+    chip.setAttribute("data-nivel", nivel);
+    chip.title = MARCAS[nivel].desde + (ref || "los examenes de la catedra");
+    chip.appendChild(trozo("span", "marca-glifo", MARCAS[nivel].glifo));
+    if (ref) { chip.appendChild(trozo("span", "marca-ref", ref)); }
+    return chip;
+  }
+
+  // La aclaracion de que cambia respecto del examen, arriba del cuerpo.
+  // Va como texto: si trae formulas las tipografia MathJax al abrir.
+  function notaExamen(seccion) {
+    var texto = seccion.getAttribute("data-examen-nota");
+    return texto ? trozo("p", "examen-nota", texto) : null;
+  }
+
+  function contarMarcas(secciones) {
+    var n = { igual: 0, variante: 0 };
+    secciones.forEach(function (s) {
+      var nivel = nivelDe(s);
+      if (nivel) { n[nivel]++; }
+    });
+    return n;
+  }
+
+  // Deja a la vista solo las secciones de una marca. Sirve para estudiar
+  // nada mas que lo que ya tomaron sin ir mirando ejercicio por ejercicio.
+  function filtroDeExamen(secciones) {
+    var n = contarMarcas(secciones);
+    if (!n.igual && !n.variante) { return null; }
+
+    var grupo = document.createElement("div");
+    grupo.className = "pane-filtro";
+    grupo.setAttribute("role", "group");
+    grupo.setAttribute("aria-label", "Filtrar por marca de examen");
+    var botones = [];
+
+    function aplicar(modo) {
+      secciones.forEach(function (s) {
+        s.hidden = !(modo === "todo" || nivelDe(s) === modo);
+      });
+      botones.forEach(function (b) {
+        b.setAttribute("aria-pressed", String(b.getAttribute("data-modo") === modo));
+      });
+      construirTOC($(".pane.is-active"));
+    }
+
+    [["todo", "Todo", secciones.length],
+     ["igual", MARCAS.igual.glifo + " " + MARCAS.igual.rotulo, n.igual],
+     ["variante", MARCAS.variante.glifo + " " + MARCAS.variante.rotulo, n.variante]
+    ].forEach(function (f) {
+      if (!f[2]) { return; }
+      var b = trozo("button", "pane-filtro-btn", f[1] + " (" + f[2] + ")");
+      b.type = "button";
+      b.setAttribute("data-modo", f[0]);
+      b.setAttribute("aria-pressed", String(f[0] === "todo"));
+      b.addEventListener("click", function () { aplicar(f[0]); });
+      grupo.appendChild(b);
+      botones.push(b);
+    });
+    return grupo;
+  }
+
+  function leyendaExamen(secciones) {
+    var n = contarMarcas(secciones);
+    if (!n.igual && !n.variante) { return null; }
+
+    var p = document.createElement("p");
+    p.className = "examen-leyenda";
+    [["igual", "tal cual como lo tomaron"],
+     ["variante", "el mismo tema, con un cambio"]
+    ].forEach(function (f) {
+      if (!n[f[0]]) { return; }
+      var glifo = trozo("span", "marca-glifo", MARCAS[f[0]].glifo);
+      glifo.setAttribute("data-nivel", f[0]);
+      var item = trozo("span", "examen-leyenda-item", "");
+      item.appendChild(glifo);
+      item.appendChild(document.createTextNode(" " + f[1]));
+      p.appendChild(item);
+    });
+    p.appendChild(trozo("span", "examen-leyenda-item",
+      "sin marca: no apareció en los exámenes cargados (igual puede caer)"));
+    return p;
+  }
+
   function seccionAbierta(seccion) { return seccion.classList.contains("is-open"); }
 
   function abrirSeccion(seccion, abrir) {
@@ -499,11 +633,15 @@ window.NC = window.NC || {};
 
     cab.appendChild(chev);
     cab.appendChild(textos);
+    var chip = chipExamen(caja);
+    if (chip) { cab.appendChild(chip); }
 
     var cuerpo = document.createElement("div");
     cuerpo.className = "seccion-cuerpo";
     cuerpo.hidden = true;
     while (caja.firstChild) { cuerpo.appendChild(caja.firstChild); }
+    var nota = notaExamen(caja);
+    if (nota) { cuerpo.insertBefore(nota, cuerpo.firstChild); }
 
     caja.appendChild(cab);
     caja.appendChild(cuerpo);
@@ -532,13 +670,16 @@ window.NC = window.NC || {};
       (pane.getAttribute("data-view").indexOf("/practica") > 0 ? " ejercicios" : " secciones");
     barra.appendChild(cuenta);
 
+    var filtro = filtroDeExamen(secciones);
+    if (filtro) { barra.appendChild(filtro); }
+
     function boton(texto, abrir) {
-      var b = document.createElement("button");
+      var b = trozo("button", "pane-control", texto);
       b.type = "button";
-      b.className = "pane-control";
-      b.textContent = texto;
       b.addEventListener("click", function () {
-        secciones.forEach(function (s) { abrirSeccion(s, abrir); });
+        // lo que el filtro dejo afuera no se toca: al volver a "Todo"
+        // tiene que aparecer como estaba
+        secciones.forEach(function (s) { if (!s.hidden) { abrirSeccion(s, abrir); } });
       });
       return b;
     }
@@ -546,6 +687,9 @@ window.NC = window.NC || {};
     barra.appendChild(boton("Cerrar todo", false));
 
     secciones[0].parentNode.insertBefore(barra, secciones[0]);
+
+    var leyenda = leyendaExamen(secciones);
+    if (leyenda) { barra.parentNode.insertBefore(leyenda, barra.nextSibling); }
   }
 
 

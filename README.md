@@ -12,9 +12,14 @@ abre los apuntes en el navegador. No hay nube, no hay cuenta, no sale nada a int
 * **Apuntes por materia y unidad**, con pestañas de **Teoría** y **Práctica**.
   Con contenido, por ahora, solo Probabilidad y Estadística (unidades 4, 5 y 6); el resto de las
   materias de tercer año ya están en el menú como "pronto".
-* **Evaluación**: parciales de la cátedra transcriptos, cada ejercicio con resultados y
-  explicación detallada desplegables; y **autoevaluaciones** que armás vos, en modo normal o
-  interactivo (con pistas, vidas y resolución paso a paso), con su informe final.
+* **Evaluación**: **parciales y finales** de la cátedra transcriptos, en dos listas. Algunos traen
+  cada ejercicio con resultados y explicación detallada desplegables; otros están solo transcriptos,
+  para usarlos como práctica. Y **autoevaluaciones** que armás vos, en modo normal o interactivo
+  (con pistas, vidas y resolución paso a paso), con su informe final.
+* **Qué entró en el examen**: cada ejercicio de la guía y cada sección de teoría puede venir marcada
+  con ★ (tal cual como lo tomaron) o ◈ (el mismo tema, con un cambio), diciendo en qué examen
+  apareció y qué cambia. La marca se ve en la tarjeta y en el índice lateral, y una barra de filtro
+  deja a la vista solo lo marcado, para estudiar primero lo que ya tomaron.
 * **Calendario**: un mes a pantalla completa con flechas para navegar, o el año entero.
   Se le anotan **parciales y trabajos prácticos** (materia, unidades que entran, día y una
   descripción); el día con parcial se pinta entero del color de la materia, y si ese día cae más de
@@ -74,6 +79,8 @@ archivo. Son material de la facultad, subido acá solo para estudiar.
 `0.x.y-alpha` mientras esté en desarrollo. La `1.0.0` queda reservada para cuando esté terminado.
 La versión actual se lee al pie del menú lateral.
 
+* **0.7.0-alpha** — finales transcriptos además de los parciales, y marcas ★ / ◈ en teoría y
+  práctica con filtro por lo que ya tomaron.
 * **0.6.0-alpha** — calendario con parciales, trabajos prácticos y recordatorios; contenido partido
   en fragmentos y cargado por unidad; menú lateral automático; teoría y práctica plegables.
 * **0.5.0-alpha** — primera versión publicada: apuntes, evaluación con parciales y autoevaluaciones,

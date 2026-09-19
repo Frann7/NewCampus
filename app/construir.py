@@ -8,7 +8,7 @@ Que deja en  generado/ :
   indice.js                  que hay y en que archivo esta (es lo unico
                              que carga index.html al arrancar)
   panes/<materia>-<unidad>-<pestania>.js
-  parciales/<materia>-<id>.js
+  examenes/<materia>-<id>.js
   preguntas/<materia>-<unidad>.js
                              cada uno se carga recien cuando se abre
 
@@ -16,7 +16,8 @@ De donde lo saca:
   contenido/materias.json                                   el menu lateral y el
                                                             material de catedra
   contenido/<materia>/<unidad>/<pestania>/*.html            apuntes de cada unidad
-  contenido/<materia>/evaluacion/parciales/<id>.html        parciales transcriptos
+  contenido/<materia>/evaluacion/parciales/<id>/           parciales transcriptos
+  contenido/<materia>/evaluacion/finales/<id>/              finales transcriptos
   contenido/<materia>/evaluacion/preguntas/<unidad>/*.html  banco de autoevaluacion,
                                                             un archivo por pregunta
 
@@ -97,9 +98,10 @@ def armar_apunte(carpeta, vista):
     return texto, problemas
 
 
-def armar_parcial(carpeta):
-    """Un parcial es una carpeta: meta.json con los datos de la tarjeta y un
-    archivo por ejercicio."""
+def armar_examen(carpeta, tipo):
+    """Un examen (parcial o final) es una carpeta: meta.json con los datos de la
+    tarjeta y un archivo por ejercicio. El tipo sale de la carpeta que lo
+    contiene, asi no hay que repetirlo en cada meta.json."""
     problemas = []
     ruta_meta = os.path.join(carpeta, "meta.json")
     if not os.path.isfile(ruta_meta):
@@ -122,8 +124,9 @@ def armar_parcial(carpeta):
     if not partes:
         return None, None, problemas + ["la carpeta no tiene ejercicios"]
 
+    meta["tipo"] = tipo
     atributos = "".join(NL + '  data-%s="%s"' % (k, meta[k])
-                        for k in ("titulo", "fecha", "detalle", "temas") if meta.get(k))
+                        for k in ("tipo", "titulo", "fecha", "detalle", "temas") if meta.get(k))
     texto = ('<article class="parcial"%s>%s%s%s</article>'
              % (atributos, NL + NL, (NL + NL).join(partes), NL))
     return texto, meta, problemas
@@ -241,7 +244,7 @@ def armar_materias(panes):
 def main():
     print("Armando NewCampus\n")
     hubo_problemas = False
-    indice = {"panes": {}, "parciales": {}, "preguntas": {}}
+    indice = {"panes": {}, "examenes": {}, "preguntas": {}}
 
     limpiar_generado()
 
@@ -265,26 +268,28 @@ def main():
     # 2. Evaluacion: parciales y bancos de preguntas de cada materia
     ids_vistos = set()
 
-    # 2.a Parciales: una carpeta por parcial. Lo que muestra la tarjeta va en el
-    # indice, asi la lista se dibuja sin cargar ningun parcial.
-    for carpeta in sorted(glob.glob(os.path.join(CONTENIDO, "*", EVALUACION, "parciales", "*"))):
-        if not os.path.isdir(carpeta):
-            continue
-        rel = os.path.relpath(carpeta, CONTENIDO).replace(os.sep, "/")
-        materia = rel.split("/")[0]
-        clave = os.path.basename(carpeta)
-        texto, meta, problemas = armar_parcial(carpeta)
-        if texto is None:
-            hubo_problemas |= informar(rel, "", problemas)
-            continue
+    # 2.a Examenes: una carpeta por examen, adentro de parciales/ o de finales/.
+    # Lo que muestra la tarjeta va en el indice, asi la lista se dibuja sin
+    # cargar ningun examen.
+    for carpeta_tipo, tipo in (("parciales", "parcial"), ("finales", "final")):
+        for carpeta in sorted(glob.glob(os.path.join(CONTENIDO, "*", EVALUACION, carpeta_tipo, "*"))):
+            if not os.path.isdir(carpeta):
+                continue
+            rel = os.path.relpath(carpeta, CONTENIDO).replace(os.sep, "/")
+            materia = rel.split("/")[0]
+            clave = os.path.basename(carpeta)
+            texto, meta, problemas = armar_examen(carpeta, tipo)
+            if texto is None:
+                hubo_problemas |= informar(rel, "", problemas)
+                continue
 
-        ficha = {"id": clave, "archivo": guardar_pieza(
-            "parciales", materia + "/" + clave,
-            "window.Apuntes.registrarParcial(%s, %s, %s);"
-            % (json.dumps(materia), json.dumps(clave), json.dumps(texto)))}
-        ficha.update(meta)
-        indice["parciales"].setdefault(materia, []).append(ficha)
-        hubo_problemas |= informar(rel, texto, problemas)
+            ficha = {"id": clave, "archivo": guardar_pieza(
+                "examenes", materia + "/" + clave,
+                "window.Apuntes.registrarExamen(%s, %s, %s);"
+                % (json.dumps(materia), json.dumps(clave), json.dumps(texto)))}
+            ficha.update(meta)
+            indice["examenes"].setdefault(materia, []).append(ficha)
+            hubo_problemas |= informar(rel, texto, problemas)
 
     # 2.b Bancos de preguntas: una carpeta por unidad, un archivo por pregunta
     for carpeta in sorted(glob.glob(os.path.join(CONTENIDO, "*", EVALUACION, "preguntas", "*"))):

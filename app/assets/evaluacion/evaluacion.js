@@ -28,14 +28,15 @@
     window.scrollTo(0, Math.max(0, el.getBoundingClientRect().top + window.pageYOffset - ALTO_BARRA));
   }
 
-  // Lee los datos de la tarjeta desde los data-* del <article class="parcial">
   // Lo que muestra la tarjeta viene del indice (construir.py lo saca del
-  // meta.json de cada parcial), asi la lista se dibuja sin cargar nada.
-  function fichasParcial(materia) {
-    var fichas = ((window.Apuntes.indice || {}).parciales || {})[materia] || [];
-    return fichas.slice().sort(function (a, b) {
-      return a.id < b.id ? 1 : -1;      // los mas nuevos primero
-    });
+  // meta.json de cada examen), asi la lista se dibuja sin cargar nada.
+  // El tipo lo pone construir.py segun la carpeta: parciales/ o finales/.
+  function fichasExamen(materia, tipo) {
+    var fichas = ((window.Apuntes.indice || {}).examenes || {})[materia] || [];
+    return fichas.filter(function (f) { return f.tipo === tipo; })
+      .sort(function (a, b) {
+        return a.id < b.id ? 1 : -1;    // los mas nuevos primero
+      });
   }
 
   E.montar = function (pane, materia) {
@@ -106,28 +107,18 @@
 
     function inicio(aviso) {
       E.vaciar(cont);
-      var fichas = fichasParcial(materia);
+      var parciales = fichasExamen(materia, "parcial");
+      var finales = fichasExamen(materia, "final");
       var guardadas = E.almacen.listar(materia);
       var enCurso = guardadas.filter(function (a) { return E.estadoDe(a).clave === "en-curso"; }).length;
 
       cont.appendChild(h("h1", { class: "ev-h1" }, "Evaluación"));
       cont.appendChild(h("p", { class: "pane-intro" },
-        "Parciales de la cátedra y autoevaluaciones de " + E.nombreMateria(materia) + "."));
+        "Parciales, finales y autoevaluaciones de " + E.nombreMateria(materia) + "."));
       if (aviso) { cont.appendChild(h("div", { class: "ae-aviso" }, aviso)); }
 
-      cont.appendChild(seccion("parciales", "📄", "Parciales",
-        fichas.length ? fichas.length + (fichas.length === 1 ? " parcial transcripto" : " parciales transcriptos") : "Todavía no hay parciales cargados",
-        function (cuerpo) {
-          if (!fichas.length) { cuerpo.appendChild(h("p", { class: "ev-vacio" }, "Cuando se transcriba un parcial va a aparecer acá.")); return; }
-          cuerpo.appendChild(h("div", { class: "ev-tarjetas" }, fichas.map(function (d) {
-            return h("button", { class: "ev-tarjeta", type: "button", onclick: function () { verParcial(d); } }, [
-              h("span", { class: "ev-tarjeta-fecha" }, d.fecha),
-              h("span", { class: "ev-tarjeta-titulo" }, d.titulo),
-              h("span", { class: "ev-tarjeta-detalle" }, d.detalle),
-              d.temas ? h("span", { class: "ev-tarjeta-temas" }, d.temas) : null
-            ]);
-          })));
-        }));
+      cont.appendChild(seccionExamenes("parciales", "📄", "Parciales", "parcial", parciales));
+      cont.appendChild(seccionExamenes("finales", "🎓", "Finales", "final", finales));
 
       cont.appendChild(seccion("autoevaluacion", "🧠", "Autoevaluación",
         guardadas.length
@@ -144,6 +135,30 @@
         }));
 
       E.pantallaNueva(cont);
+    }
+
+    // Parciales y finales se listan igual: cambia el rotulo y de donde salen.
+    function seccionExamenes(id, icono, titulo, palabra, fichas) {
+      var plural = palabra === "parcial" ? "parciales" : "finales";
+      var resumen = fichas.length === 1 ? "1 " + palabra + " transcripto"
+        : fichas.length ? fichas.length + " " + plural + " transcriptos"
+        : "Todavía no hay " + plural + " cargados";
+      return seccion(id, icono, titulo, resumen,
+        function (cuerpo) {
+          if (!fichas.length) {
+            cuerpo.appendChild(h("p", { class: "ev-vacio" },
+              "Cuando se transcriba un " + palabra + " va a aparecer acá."));
+            return;
+          }
+          cuerpo.appendChild(h("div", { class: "ev-tarjetas" }, fichas.map(function (d) {
+            return h("button", { class: "ev-tarjeta", type: "button", onclick: function () { verExamen(d); } }, [
+              h("span", { class: "ev-tarjeta-fecha" }, d.fecha),
+              h("span", { class: "ev-tarjeta-titulo" }, d.titulo),
+              h("span", { class: "ev-tarjeta-detalle" }, d.detalle),
+              d.temas ? h("span", { class: "ev-tarjeta-temas" }, d.temas) : null
+            ]);
+          })));
+        });
     }
 
     // La tarjeta es un div (no un boton) porque adentro lleva sus propios botones.
@@ -178,15 +193,15 @@
       return tarjeta;
     }
 
-    function verParcial(ficha) {
-      var html = ((window.Apuntes.parciales || {})[materia] || {})[ficha.id];
+    function verExamen(ficha) {
+      var html = ((window.Apuntes.examenes || {})[materia] || {})[ficha.id];
       if (!html) {
         // todavia no se cargo: se trae y se vuelve a entrar
         E.vaciar(cont);
-        cont.appendChild(h("p", { class: "ev-vacio" }, "Abriendo el parcial…"));
+        cont.appendChild(h("p", { class: "ev-vacio" }, "Abriendo el examen…"));
         window.Apuntes.cargar(ficha.archivo, function (llego) {
-          if (llego) { verParcial(ficha); }
-          else { inicio("No pude abrir el parcial. Corré python construir.py en app/."); }
+          if (llego) { verExamen(ficha); }
+          else { inicio("No pude abrir el examen. Corré python construir.py en app/."); }
         });
         return;
       }

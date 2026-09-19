@@ -36,6 +36,7 @@ NewCampus/
     │       │      01-....html, 02-....html                 un archivo por ejercicio o sección
     │       └── evaluacion/
     │           ├── parciales/<año>-<nombre>/             meta.json + un archivo por ejercicio
+    │           ├── finales/<fecha>-final/               igual que un parcial
     │           └── preguntas/<unidad>/<id>.html         un archivo por pregunta
     │                        (el formato está en preguntas/FORMATO.md)
     ├── generado/         ← GENERADO. NO EDITAR. indice.js (lo unico que carga
@@ -71,6 +72,25 @@ le arma la cabecera con el `.kicker`/`.tag` y el `<h2>`, y esconde el resto. Los
 **la flecha pliega y despliega** (lo mismo que desde la página) y **el texto solo lleva** al título,
 sin abrir nada.
 
+**Marcas de examen.** El fragmento puede decir que ese ejercicio (o esa sección de teoría) ya fue
+tomado, con atributos en su elemento raíz (`.ej` o `.bloque`):
+
+```html
+<div class="ej" data-examen="igual"
+     data-examen-ref="Parcial 2023 · ej. 4"
+     data-examen-nota="Qué cambia respecto del examen (opcional).">
+```
+
+* `data-examen="igual"` &rarr; ★, tal cual como lo tomaron; cambian los números y nada más.
+* `data-examen="variante"` &rarr; ◈, el mismo tema con un cambio (otra fórmula, un inciso de más).
+* Sin atributo: no apareció en los exámenes que están cargados. **No** quiere decir que no pueda
+  caer, y la leyenda que dibuja app.js lo aclara.
+
+app.js pone el chip en la cabecera, el glifo en el índice de la derecha, la nota arriba del cuerpo
+al abrir la sección, y una barra de filtro **Todo / ★ Tomados / ◈ Variantes** que esconde el resto.
+La marca se escribe **mirando los exámenes transcriptos**, nunca de memoria: si se suma un parcial
+nuevo hay que repasar las marcas.
+
 Al arrancar, la página solo carga `generado/indice.js`, que dice qué hay y en qué archivo está.
 El contenido de cada unidad llega en su propia pieza cuando la abrís (con un `<script>`, no con
 `fetch()`, para que también funcione con `file://`). Para analizar o editar un tema, leé
@@ -78,13 +98,18 @@ El contenido de cada unidad llega en su propia pieza cuando la abrís (con un `<
 
 **Pestaña Evaluación** (una por materia, no depende de la unidad):
 
-* **Parciales:** cada parcial es una carpeta con `meta.json` (titulo, fecha, detalle, temas: lo que
-  muestra la tarjeta sin abrir el parcial) y un archivo por ejercicio. El `<article class="parcial">`
-  lo arma `construir.py`.
+* **Parciales y finales:** cada examen es una carpeta con `meta.json` (titulo, fecha, detalle,
+  temas: lo que muestra la tarjeta sin abrir el examen) y un archivo por ejercicio. El
+  `<article class="parcial">` lo arma `construir.py`, que también le pone el `data-tipo` según la
+  carpeta que lo contiene: `parciales/` o `finales/`. Son dos listas separadas en la pantalla de
+  Evaluación, pero se escriben y se estilan igual.
   Se transcribe respetando la estructura del original (cabecera, ejercicios con `<h2>` y puntaje,
   `ol.parcial-incisos` para a) b) c), `ol.parcial-sub-incisos` para I) II) III), fórmula y tabla en `.parcial-dos`).
   No se transcriben nombres ni notas de alumnos.
-  Debajo de los incisos de **cada ejercicio** van dos desplegables dentro de `<div class="parcial-extras">`:
+  Un examen puede quedar **solo transcripto**, sin resolver: en ese caso no lleva los desplegables
+  y la nota de arriba usa `class="parcial-nota parcial-nota-crudo"` para avisarlo. Cuando se
+  resuelve, debajo de los incisos de **cada ejercicio** van dos desplegables dentro de
+  `<div class="parcial-extras">`:
 
   1. `<details class="parcial-desp pd-resultados">` — solo las respuestas, como la hoja de resultados
      de una guía. Sin procedimiento.

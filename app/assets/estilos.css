@@ -638,13 +638,13 @@ html.es-panel .content-wrap{padding:22px 24px 80px;}
 }
 
 /* ---------- Secciones plegables (teoria y practica) ----------
-   app.js convierte cada .bloque y cada .ej en un <details>. La cabecera
-   es el titulo de siempre; el estado lo dice el caracter de la flecha,
-   no una rotacion por CSS. */
+   app.js convierte cada .bloque y cada .ej en cabecera (boton) + cuerpo.
+   El estado lo dice el caracter de la flecha, no una rotacion por CSS. */
 
 .pane-controles{
   display:flex;
   align-items:center;
+  flex-wrap:wrap;
   gap:8px;
   margin:0 0 16px;
 }
@@ -665,6 +665,83 @@ html.es-panel .content-wrap{padding:22px 24px 80px;}
   cursor:pointer;
 }
 .pane-control:hover{background:var(--surface-2);color:var(--ink);}
+
+/* ---------- Marcas de examen ----------
+   Que ejercicio o que seccion de teoria ya fue tomada. Dos niveles:
+   ★ igual (dorado) y ◈ variante (color de acento). El color no es lo
+   unico que las separa: cada una tiene su glifo y su texto. */
+
+.marca-examen{
+  flex:none;
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+  max-width:44%;
+  margin-top:2px;
+  padding:3px 9px;
+  border-radius:999px;
+  font-size:11px;
+  font-weight:600;
+  line-height:1.5;
+}
+.marca-ref{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.marca-glifo{flex:none;font-size:12px;}
+
+.marca-examen[data-nivel="igual"]{background:var(--warn-bg);color:var(--warn);}
+.marca-examen[data-nivel="variante"]{background:var(--accent-bg);color:var(--accent);}
+
+/* la aclaracion de que cambia respecto del examen, al abrir la seccion */
+.examen-nota{
+  margin:0 0 18px;
+  padding:10px 14px;
+  border-left:3px solid var(--warn);
+  border-radius:0 8px 8px 0;
+  background:var(--warn-bg);
+  font-size:13.5px;
+  color:var(--ink-soft);
+}
+
+/* filtro de la barra de controles */
+.pane-filtro{display:flex;gap:0;}
+.pane-filtro-btn{
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-right-width:0;
+  padding:6px 11px;
+  font:inherit;
+  font-size:12.5px;
+  font-weight:600;
+  color:var(--ink-faint);
+  cursor:pointer;
+}
+.pane-filtro-btn:first-child{border-radius:9px 0 0 9px;}
+.pane-filtro-btn:last-child{border-radius:0 9px 9px 0;border-right-width:1px;}
+.pane-filtro-btn:hover{background:var(--surface-2);color:var(--ink);}
+.pane-filtro-btn[aria-pressed="true"]{
+  background:var(--accent-bg);
+  color:var(--accent);
+  border-color:var(--accent);
+}
+
+.examen-leyenda{
+  display:flex;
+  flex-wrap:wrap;
+  gap:6px 16px;
+  margin:-8px 0 18px;
+  font-size:12px;
+  color:var(--ink-faint);
+}
+.examen-leyenda .marca-glifo[data-nivel="igual"]{color:var(--warn);}
+.examen-leyenda .marca-glifo[data-nivel="variante"]{color:var(--accent);}
+
+/* una seccion que el filtro dejo afuera no ocupa lugar */
+.es-seccion[hidden]{display:none;}
+
+/* y en el indice de la derecha */
+.toc-marca{margin-left:6px;font-size:10px;}
+.toc-marca[data-nivel="igual"]{color:var(--warn);}
+.toc-marca[data-nivel="variante"]{color:var(--accent);}
+.toc a.is-current .toc-marca{color:inherit;}
 
 /* la tarjeta cerrada ocupa solo su cabecera */
 .es-seccion{padding:0;overflow:hidden;}

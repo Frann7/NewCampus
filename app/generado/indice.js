@@ -8,15 +8,43 @@ window.Apuntes.registrarIndice({
     "pye/u6/practica": "panes/pye-u6-practica.js",
     "pye/u6/teoria": "panes/pye-u6-teoria.js"
   },
-  "parciales": {
+  "examenes": {
     "pye": [
       {
+        "id": "2023-segundo-parcial",
+        "archivo": "examenes/pye-2023-segundo-parcial.js",
+        "titulo": "Segundo Parcial (Grupo 1)",
+        "fecha": "23/8/2023",
+        "detalle": "6 ejercicios",
+        "temas": "Conjunta discreta \u00b7 Densidad continua \u00b7 Normal \u00b7 Hipergeom\u00e9trica \u00b7 Poisson \u00b7 Binomial",
+        "tipo": "parcial"
+      },
+      {
         "id": "2025-segundo-parcial",
-        "archivo": "parciales/pye-2025-segundo-parcial.js",
+        "archivo": "examenes/pye-2025-segundo-parcial.js",
         "titulo": "Segundo Parcial",
         "fecha": "1/10/2025",
         "detalle": "4 ejercicios \u00b7 100 puntos",
-        "temas": "Conjunta y marginales \u00b7 Normal \u00b7 Binomial \u00b7 Poisson"
+        "temas": "Conjunta y marginales \u00b7 Normal \u00b7 Binomial \u00b7 Poisson",
+        "tipo": "parcial"
+      },
+      {
+        "id": "2025-11-26-final",
+        "archivo": "examenes/pye-2025-11-26-final.js",
+        "titulo": "Final Regulares",
+        "fecha": "26/11/2025",
+        "detalle": "4 ejercicios \u00b7 104 puntos",
+        "temas": "Densidad conjunta continua \u00b7 Normal \u00b7 Inferencia \u00b7 Bayes",
+        "tipo": "final"
+      },
+      {
+        "id": "2025-12-10-final",
+        "archivo": "examenes/pye-2025-12-10-final.js",
+        "titulo": "Final Regulares",
+        "fecha": "10/12/2025",
+        "detalle": "4 ejercicios \u00b7 100 puntos",
+        "temas": "Bayes \u00b7 Densidad conjunta continua \u00b7 Normal \u00b7 Inferencia",
+        "tipo": "final"
       }
     ]
   },
@@ -127,5 +155,5 @@ window.Apuntes.registrarIndice({
       "unidades": []
     }
   ],
-  "construido": "2026-09-19 18:43:16"
+  "construido": "2026-09-19 20:08:08"
 });

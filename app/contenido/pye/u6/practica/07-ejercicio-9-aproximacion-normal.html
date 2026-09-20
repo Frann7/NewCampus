@@ -1,0 +1,103 @@
+<div class="ej" data-examen="igual" data-examen-ref="Parcial 2023 &middot; ej. 6b" data-examen-nota="Es el modelo del ejercicio 6b del parcial 2023, que ademas pide justificar la metodologia: por que se puede aproximar y por que se corrige por continuidad.">
+  <span class="tag">Ejercicio 9 &middot; Aproximacion Normal de la Binomial</span>
+  <h2>Articulos defectuosos de un proceso</h2>
+  <div class="enunciado">
+    <p>
+      Un proceso produce <strong>10% de articulos defectuosos</strong>. Si se seleccionan al azar
+      <strong>100 articulos</strong> del proceso: a) cual es la probabilidad de que el numero de
+      defectuosos <strong>exceda los 13</strong>?; b) cual es la probabilidad de que el numero de
+      defectuosos sea <strong>menor a 8</strong>?
+    </p>
+  </div>
+
+  <span class="paso">Paso 1 &mdash; Por que este modelo</span>
+  <p>
+    Hay una cantidad fija de intentos (\(n = 100\) articulos) y un porcentaje constante
+    (\(p = 0{,}10\)) de que cada uno salga defectuoso. Eso es una <strong>Binomial</strong>:
+    \(X \sim Bi(100;\ 0{,}10)\).
+  </p>
+  <p>
+    El problema es practico: la tabla acumulada binomial de la catedra llega hasta \(n = 20\), y
+    calcular \(P(X \leq 13)\) a mano son <strong>catorce terminos</strong>. Por eso se
+    <strong>aproxima por la Normal</strong>.
+  </p>
+
+  <div class="caja caja-formula">
+    <span class="caja-tit">Cuando se puede aproximar</span>
+    <p>\[ n\,p \geq 5 \qquad \text{y} \qquad n(1-p) \geq 5 \]</p>
+    <p>
+      Aca: \(n\,p = 100 \cdot 0{,}10 = 10\) y \(n(1-p) = 100 \cdot 0{,}90 = 90\).
+      Las dos se cumplen holgadamente, asi que la aproximacion es valida.
+      <strong>Esta justificacion hay que escribirla</strong>: en el parcial 2023 la piden explicitamente.
+    </p>
+  </div>
+
+  <span class="paso">Paso 2 &mdash; Los parametros de la Normal</span>
+  <p>La Normal que reemplaza a la Binomial usa la media y el desvio de la propia Binomial:</p>
+  <p>\[ \mu = n\,p \qquad \sigma = \sqrt{n\,p\,(1-p)} \]</p>
+  <p>\[ \mu = 100 \cdot 0{,}10 = 10 \qquad \sigma = \sqrt{100 \cdot 0{,}10 \cdot 0{,}90} = \sqrt{9} = 3 \]</p>
+
+  <span class="paso">Paso 3 &mdash; La correccion por continuidad</span>
+  <p>
+    Estamos reemplazando una variable <strong>discreta</strong> (que solo toma 0, 1, 2, 3&hellip;)
+    por una <strong>continua</strong>. En la discreta, el valor 13 es un palito; en la continua,
+    ese 13 ocupa toda la franja que va de <strong>12,5 a 13,5</strong>. Por eso cada valor entero se
+    estira medio punto para cada lado antes de estandarizar.
+  </p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Lo que dice el enunciado</th><th>En la discreta</th><th>Con que \(x\) se entra</th></tr>
+      <tr><td class="lbl">exceda los 13 / mas de 13</td><td>\(X \geq 14\)</td><td>\(P(Y &gt; 13{,}5)\)</td></tr>
+      <tr><td class="lbl">al menos 13 / 13 o mas</td><td>\(X \geq 13\)</td><td>\(P(Y &gt; 12{,}5)\)</td></tr>
+      <tr><td class="lbl">menor a 8 / menos de 8</td><td>\(X \leq 7\)</td><td>\(P(Y &lt; 7{,}5)\)</td></tr>
+      <tr><td class="lbl">a lo sumo 8 / 8 o menos</td><td>\(X \leq 8\)</td><td>\(P(Y &lt; 8{,}5)\)</td></tr>
+      <tr><td class="lbl">exactamente 8</td><td>\(X = 8\)</td><td>\(P(7{,}5 &lt; Y &lt; 8{,}5)\)</td></tr>
+    </table>
+  </div>
+  <p>
+    La regla corta: <strong>escribi primero la desigualdad en enteros</strong> y recien despues
+    corre medio punto hacia afuera del conjunto que queres.
+  </p>
+
+  <span class="paso">Inciso a &mdash; Que exceda los 13</span>
+  <p>&laquo;Exceda los 13&raquo; deja el 13 <strong>afuera</strong>: en enteros es \(X \geq 14\).</p>
+  <p>Con la correccion, el borde cae en 13,5. Formula de estandarizacion:</p>
+  <p>\[ z = \frac{x - \mu}{\sigma} \]</p>
+  <p>\[ z = \frac{13{,}5 - 10}{3} = \frac{3{,}5}{3} = 1{,}17 \]</p>
+  <p>Traducimos la pregunta a area:</p>
+  <p>\[ P(X &gt; 13) \approx P(Y &gt; 13{,}5) = 1 - F(1{,}17) \]</p>
+  <p>\[ = 1 - 0{,}8790 = \mathbf{0{,}1210} \]</p>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta a</span>
+    <p>
+      12,10%. Control de sentido comun: se esperan 10 defectuosos y preguntamos por mas de 13, o sea
+      algo mas de un desvio por encima. Tenia que dar bastante menos que la mitad.
+    </p>
+  </div>
+
+  <span class="paso">Inciso b &mdash; Que sea menor a 8</span>
+  <p>&laquo;Menor a 8&raquo; deja el 8 <strong>afuera</strong>: en enteros es \(X \leq 7\).</p>
+  <p>Con la correccion, el borde cae en 7,5. Formula de estandarizacion:</p>
+  <p>\[ z = \frac{x - \mu}{\sigma} \]</p>
+  <p>\[ z = \frac{7{,}5 - 10}{3} = \frac{-2{,}5}{3} = -0{,}83 \]</p>
+  <p>Traducimos la pregunta a area:</p>
+  <p>\[ P(X &lt; 8) \approx P(Y &lt; 7{,}5) = F(-0{,}83) = \mathbf{0{,}2033} \]</p>
+  <p>Como es &laquo;menor a&raquo;, el area a la izquierda es directamente la respuesta.</p>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta b</span>
+    <p>20,33%.</p>
+  </div>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Las dos trampas de este tema</span>
+    <p>
+      <strong>1. Correr el medio punto para el lado equivocado.</strong> Si en el inciso a usas 12,5
+      en vez de 13,5 estas incluyendo al 13, que el enunciado dejaba afuera. Escribi siempre primero
+      la desigualdad en enteros.
+    </p>
+    <p>
+      <strong>2. Olvidar que \(\sigma\) lleva raiz.</strong> \(np(1-p) = 9\) es la
+      <em>varianza</em>; el desvio es 3. Si estandarizas con 9 todo el ejercicio se cae.
+    </p>
+  </div>
+</div>

@@ -315,38 +315,124 @@ body{
 }
 .theme-btn:hover{background:var(--surface-2);color:var(--ink);}
 
-.topbar-acciones{display:flex;gap:8px;margin-bottom:8px;}
+.topbar-acciones{display:flex;align-items:center;flex-wrap:wrap;gap:14px;margin-bottom:8px;}
 
-/* Reloj (UTC-3) y tiempo con la pagina abierta */
-.reloj{
+/* ---------- Medidores de la barra superior ----------
+   La hora, el rato que llevas abierto y el cronometro van en una sola
+   caja, separados entre si por una linea. Antes estaban sueltos y se
+   confundian con el boton de tema, que ahora queda claramente aparte. */
+
+.medidores{
+  display:flex;
+  align-items:stretch;
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:11px;
+  overflow:hidden;
+}
+.medidor{
   display:flex;
   flex-direction:column;
-  align-items:flex-end;
-  gap:1px;
-  line-height:1.25;
+  justify-content:center;
+  gap:3px;
+  padding:6px 14px;
+  min-width:0;
 }
-.reloj-hora{
+.medidor + .medidor{border-left:1px solid var(--line);}
+
+.medidor-etq{
+  font-size:9.5px;
+  text-transform:uppercase;
+  letter-spacing:.08em;
+  color:var(--ink-faint);
+  white-space:nowrap;
+}
+.medidor-valor{
+  display:flex;
+  align-items:center;
+  gap:7px;
   font-family:"JetBrains Mono",Consolas,monospace;
-  font-size:17px;
+  font-size:15px;
   font-weight:600;
+  line-height:1.15;
   color:var(--ink);
   font-variant-numeric:tabular-nums;
 }
-.reloj-sesion{display:flex;align-items:center;gap:6px;font-size:11.5px;color:var(--ink-faint);}
-.reloj-etq{text-transform:uppercase;letter-spacing:.06em;}
-.reloj-tiempo{font-family:"JetBrains Mono",Consolas,monospace;font-variant-numeric:tabular-nums;}
-.reloj-reset{
+
+/* la flecha del tiempo en la pagina y la cruz del cronometro */
+.medidor-btn{
+  flex:none;
   background:none;
   border:1px solid var(--line);
   border-radius:6px;
   padding:0 5px;
-  font:inherit;
-  font-size:12px;
+  font-family:"Public Sans","Segoe UI",Arial,sans-serif;
+  font-size:11px;
   line-height:16px;
   color:var(--ink-faint);
   cursor:pointer;
 }
-.reloj-reset:hover{background:var(--surface-2);color:var(--ink);}
+.medidor-btn:hover{background:var(--surface-2);color:var(--ink);}
+
+/* ---------- Cronometro de estudio ---------- */
+
+.medidor-crono{justify-content:center;}
+.medidor-crono[hidden]{display:none;}
+
+.crono-iniciar{
+  background:var(--accent-bg);
+  border:1px solid transparent;
+  border-radius:8px;
+  padding:7px 13px;
+  font:inherit;
+  font-size:12.5px;
+  font-weight:600;
+  color:var(--accent);
+  white-space:nowrap;
+  cursor:pointer;
+}
+.crono-iniciar:hover{border-color:var(--accent);}
+
+.crono-cuenta{font-size:17px;}
+/* poco tiempo: cambia el color Y el peso, no depende de ninguna animacion */
+.crono-cuenta.es-poco{color:var(--practica);font-weight:700;}
+
+.crono-cancelar{font-size:10px;}
+.crono-cancelar:hover{border-color:var(--practica);color:var(--practica);}
+
+/* los carteles reusan la caja del dialogo de Evaluacion */
+.crono-elegir .ev-dialogo-texto{margin-bottom:14px;}
+.crono-chips{display:flex;flex-wrap:wrap;gap:7px;margin:0 0 18px;}
+.crono-chip{
+  background:var(--surface-2);
+  border:1px solid var(--line);
+  border-radius:999px;
+  padding:7px 14px;
+  font:inherit;
+  font-size:13px;
+  font-weight:600;
+  color:var(--ink-soft);
+  cursor:pointer;
+}
+.crono-chip:hover{background:var(--accent-bg);border-color:var(--accent);color:var(--accent);}
+
+.crono-libre{display:flex;align-items:center;flex-wrap:wrap;gap:10px;margin:0 0 6px;}
+.crono-libre-etq{font-size:13.5px;color:var(--ink-soft);}
+.crono-input{
+  width:92px;
+  background:var(--paper);
+  border:1px solid var(--line);
+  border-radius:8px;
+  padding:7px 10px;
+  font:inherit;
+  font-size:14px;
+  color:var(--ink);
+}
+.crono-input:focus{outline:2px solid var(--accent);outline-offset:1px;}
+.crono-error{margin:10px 0 0;font-size:12.5px;color:var(--practica);}
+
+.crono-btn-primario{background:var(--accent);border-color:var(--accent);color:#fff;}
+.crono-btn-rojo{background:var(--practica);border-color:var(--practica);color:#fff;}
 
 .content-wrap{
   display:grid;
@@ -615,7 +701,7 @@ table.t.full td, table.t.full th{white-space:normal;text-align:left;}
 html.es-panel .app{grid-template-columns:minmax(0,1fr);}
 html.es-panel .sidebar{display:none;}
 html.es-panel .tabs{display:none;}
-html.es-panel .reloj{display:none;}
+html.es-panel .medidores{display:none;}
 html.es-panel .topbar{padding:12px 24px 0;}
 html.es-panel .topbar-row{align-items:center;}
 html.es-panel .content-wrap{padding:22px 24px 80px;}

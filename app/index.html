@@ -66,15 +66,31 @@ window.MathJax = {
           <button class="tab" data-tab="calendario">Calendario</button>
         </div>
         <div class="topbar-acciones">
-          <div class="reloj">
-            <span class="reloj-hora" id="reloj-hora">--:--:--</span>
-            <span class="reloj-sesion">
-              <span class="reloj-etq">en la página</span>
-              <span class="reloj-tiempo" id="reloj-tiempo">00:00:00</span>
-              <button class="reloj-reset" id="reloj-reset" type="button"
-                      title="Reiniciar el tiempo en la página">&#8635;</button>
-            </span>
+
+          <!-- Los tres medidores van juntos en una sola caja y separados entre
+               si por una linea: la hora, el rato que llevas y el cronometro.
+               El boton de tema queda aparte, que no es un medidor. -->
+          <div class="medidores">
+            <div class="medidor">
+              <span class="medidor-etq">Hora ARG</span>
+              <span class="medidor-valor" id="reloj-hora">--:--:--</span>
+            </div>
+
+            <div class="medidor">
+              <span class="medidor-etq">En la página</span>
+              <span class="medidor-valor">
+                <span id="reloj-tiempo">00:00:00</span>
+                <button class="medidor-btn" id="reloj-reset" type="button"
+                        title="Reiniciar el tiempo en la página"
+                        aria-label="Reiniciar el tiempo en la página">&#8635;</button>
+              </span>
+            </div>
+
+            <!-- Lo dibuja assets/cronometro.js: el boton de arrancar y, cuando
+                 corre, la cuenta regresiva en ese mismo lugar. -->
+            <div class="medidor medidor-crono" id="crono"></div>
           </div>
+
           <button class="theme-btn" id="theme-btn">Modo oscuro</button>
         </div>
       </div>
@@ -105,6 +121,8 @@ window.MathJax = {
 <script src="assets/app.js"></script>
 <!-- Sacar una pestania a otra ventana manteniendola apretada -->
 <script src="assets/ventanas.js"></script>
+<!-- Cronometro de estudio, al lado del reloj -->
+<script src="assets/cronometro.js"></script>
 <!-- Evaluacion: parciales y autoevaluaciones (un archivo por responsabilidad) -->
 <script src="assets/evaluacion/nucleo.js"></script>
 <script src="assets/evaluacion/banco.js"></script>

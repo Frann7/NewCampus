@@ -38,7 +38,12 @@ abre los apuntes en el navegador. No hay nube, no hay cuenta, no sale nada a int
 * **Visor de PDFs** de cátedra en ventanas movibles.
 * **Ventanas duplicadas**: manteniendo apretada una pestaña sale una copia de ese apartado en
   otra ventana, para leer dos partes a la vez.
-* Modo claro / oscuro, reloj de Argentina y contador de tiempo de uso.
+* **Cronómetro de estudio**: en la barra de arriba, al lado del reloj. Le ponés los minutos que
+  quieras (o elegís uno de los sugeridos), la cuenta regresiva aparece en ese mismo lugar, y cuando
+  llega a cero sale un cartel para cortar, repetir el mismo tiempo o poner otro. Pensado para
+  trabajar de a tandas: 30 minutos de estudio, 5 de descanso.
+* Modo claro / oscuro, y arriba a la derecha tres medidores juntos y separados entre sí: la hora de
+  Argentina, el tiempo que llevás en la página y el cronómetro.
 
 Lo que cargás vos —autoevaluaciones, fechas del calendario, recordatorios— se guarda en el
 navegador de esa máquina, no en ningún servidor.
@@ -83,7 +88,8 @@ La versión actual se lee al pie del menú lateral.
 
 * **0.7.0-alpha** — finales transcriptos además de los parciales, marcas ★ / ◈ en teoría y
   práctica con filtro por lo que ya tomaron, banco de autoevaluación de 38 preguntas sacadas de los
-  exámenes, y cuenta regresiva en la ficha del día del calendario.
+  exámenes, cronómetro de estudio en la barra superior, y cuenta regresiva en la ficha del día del
+  calendario.
 * **0.6.0-alpha** — calendario con parciales, trabajos prácticos y recordatorios; contenido partido
   en fragmentos y cargado por unidad; menú lateral automático; teoría y práctica plegables.
 * **0.5.0-alpha** — primera versión publicada: apuntes, evaluación con parciales y autoevaluaciones,

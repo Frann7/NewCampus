@@ -23,6 +23,7 @@ NewCampus/
     ├── COMO-TRABAJAR.md  ← este archivo
     ├── assets/           ← estilos.css, app.js (navegación, índice, visor de PDF), logo.svg
     │   ├── ventanas.js   ← sacar una pestaña a otra ventana manteniéndola apretada
+    │   ├── cronometro.js ← el cronómetro de estudio de la barra de arriba
     │   ├── calendario/   ← pestaña Calendario: fechas (fijas) · eventos (del usuario)
     │   │                    · detalle (ficha del día) · agenda (próximas fechas y
     │   │                    recordatorios) · calendario (las dos vistas)
@@ -268,6 +269,13 @@ Usá estas y no inventes otras, así el diseño se mantiene consistente:
 
 El índice lateral se arma solo con los `<h2>` y `<h3>` del pane, y les pone adelante el número
 de ejercicio leyéndolo del `.tag`.
+
+**La barra de arriba a la derecha** son tres `.medidor` dentro de una sola caja `.medidores`,
+separados por una línea: la hora de Argentina, el tiempo en la página y el cronómetro. Cada uno
+lleva un `.medidor-etq` (el rótulo chiquito) y un `.medidor-valor`. El botón de tema queda **fuera**
+de esa caja a propósito: no es un medidor, y antes se confundía con ellos. En las ventanas
+duplicadas la caja entera no se muestra (`html.es-panel .medidores`), igual que pasaba con el reloj:
+un cronómetro por ventana no se sabría cuál manda.
 
 ## 8. Cosas que rompen el proyecto (no las hagas)
 

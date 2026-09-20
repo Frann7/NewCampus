@@ -78,11 +78,19 @@ window.NC = window.NC || {};
     document.addEventListener("keydown", porTecla, true);
   }
 
-  function titular(titulo, bajada) {
+  // Cuanto falta para ese dia. Lo calcula la agenda, que es la que ya sabe
+  // contar dias y horas: aca se muestra una sola vez porque todo lo que hay
+  // en la ficha es del MISMO dia.
+  function cuantoFalta(fecha) {
+    var ag = window.NC.calAgenda;
+    return ag && ag.cuantoFalta ? ag.cuantoFalta(fecha, false) : null;
+  }
+
+  function titular(titulo, bajada, clase) {
     cabecera.innerHTML = "";
     var textos = el("div", "cal-ficha-tit");
     textos.appendChild(el("span", "cal-ficha-dia", titulo));
-    if (bajada) { textos.appendChild(el("span", "cal-ficha-sub", bajada)); }
+    if (bajada) { textos.appendChild(el("span", "cal-ficha-sub" + (clase ? " " + clase : ""), bajada)); }
     cabecera.appendChild(textos);
     cabecera.appendChild(boton("cal-ficha-x", "✕", cerrar));
   }
@@ -99,13 +107,17 @@ window.NC = window.NC || {};
   }
 
   function pintarDia(fecha) {
-    var p = EV.partes(fecha);
+    var fijas = EV.academicas(fecha);
+    var eventos = EV.delDia(fecha);
+
+    // la cuenta regresiva solo tiene sentido si ese dia hay algo anotado
+    var cuenta = (eventos.length || fijas.length) ? cuantoFalta(fecha) : null;
     titular(EV.largo(fecha).replace(/^./, function (c) { return c.toUpperCase(); }),
-            null);
+            cuenta ? cuenta.texto : null,
+            cuenta ? (cuenta.urgente ? "es-urgente" : cuenta.pasado ? "es-pasado" : "") : "");
 
     cuerpo.innerHTML = "";
 
-    var fijas = EV.academicas(fecha);
     fijas.forEach(function (f) {
       var caja = el("div", "cal-fija cal-fija-" + f.tipo);
       caja.appendChild(el("span", "cal-fija-etq", etiquetaFija(f.tipo)));
@@ -117,7 +129,6 @@ window.NC = window.NC || {};
       cuerpo.appendChild(caja);
     });
 
-    var eventos = EV.delDia(fecha);
     if (!eventos.length && !fijas.length) {
       cuerpo.appendChild(el("p", "cal-vacio", "No hay nada anotado este día."));
     }

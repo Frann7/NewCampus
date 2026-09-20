@@ -15,7 +15,8 @@ abre los apuntes en el navegador. No hay nube, no hay cuenta, no sale nada a int
 * **Evaluación**: **parciales y finales** de la cátedra transcriptos, en dos listas. Algunos traen
   cada ejercicio con resultados y explicación detallada desplegables; otros están solo transcriptos,
   para usarlos como práctica. Y **autoevaluaciones** que armás vos, en modo normal o interactivo
-  (con pistas, vidas y resolución paso a paso), con su informe final.
+  (con pistas, vidas y resolución paso a paso), con su informe final. El banco tiene 38 preguntas
+  armadas sobre los exámenes, cada una diciendo de qué parcial o final salió.
 * **Qué entró en el examen**: cada ejercicio de la guía y cada sección de teoría puede venir marcada
   con ★ (tal cual como lo tomaron) o ◈ (el mismo tema, con un cambio), diciendo en qué examen
   apareció y qué cambia. La marca se ve en la tarjeta y en el índice lateral, y una barra de filtro
@@ -23,7 +24,8 @@ abre los apuntes en el navegador. No hay nube, no hay cuenta, no sale nada a int
 * **Calendario**: un mes a pantalla completa con flechas para navegar, o el año entero.
   Se le anotan **parciales y trabajos prácticos** (materia, unidades que entran, día y una
   descripción); el día con parcial se pinta entero del color de la materia, y si ese día cae más de
-  una, la casilla se parte en franjas. Trae cargados los feriados, las mesas de examen y los días
+  una, la casilla se parte en franjas. Al abrir un día, la ficha dice **cuánto falta** para ese día.
+  Trae cargados los feriados, las mesas de examen y los días
   sin actividad.
 * **Próximas fechas**: el índice de la derecha del calendario, agrupado por mes y con filtro por
   tipo, que dice cuántos días y horas faltan para cada fecha y te lleva a ella con un clic.
@@ -79,8 +81,9 @@ archivo. Son material de la facultad, subido acá solo para estudiar.
 `0.x.y-alpha` mientras esté en desarrollo. La `1.0.0` queda reservada para cuando esté terminado.
 La versión actual se lee al pie del menú lateral.
 
-* **0.7.0-alpha** — finales transcriptos además de los parciales, y marcas ★ / ◈ en teoría y
-  práctica con filtro por lo que ya tomaron.
+* **0.7.0-alpha** — finales transcriptos además de los parciales, marcas ★ / ◈ en teoría y
+  práctica con filtro por lo que ya tomaron, banco de autoevaluación de 38 preguntas sacadas de los
+  exámenes, y cuenta regresiva en la ficha del día del calendario.
 * **0.6.0-alpha** — calendario con parciales, trabajos prácticos y recordatorios; contenido partido
   en fragmentos y cargado por unidad; menú lateral automático; teoría y práctica plegables.
 * **0.5.0-alpha** — primera versión publicada: apuntes, evaluación con parciales y autoevaluaciones,

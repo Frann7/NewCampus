@@ -22,4 +22,252 @@
     <li>Calcule la probabilidad de que en las seis piezas elegidas, sólo 4 sean del proveedor A.</li>
     <li>Calcule la probabilidad de que en las seis piezas elegidas, al menos 4 sean del proveedor A.</li>
   </ol>
+
+  <div class="parcial-extras">
+    <details class="parcial-desp pd-resultados">
+      <summary>
+        <span class="pd-icono">&#10003;</span>
+        <span class="pd-txt"><b>Resultados</b><small>Solo las respuestas, sin procedimiento</small></span>
+      </summary>
+      <div class="pd-cuerpo">
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Inciso</th><th>Resultado</th></tr>
+            <tr>
+              <td class="lbl">a) Distribución</td>
+              <td>
+                <strong>Hipergeométrica</strong> \(H(N = 10,\ k = 5,\ n = 6)\),
+                \(P(X=x) = \dfrac{\binom{5}{x}\binom{5}{6-x}}{\binom{10}{6}}\),
+                válida para \(x = 1, 2, 3, 4, 5\)
+              </td>
+            </tr>
+            <tr><td class="lbl">b) Sólo 4 del proveedor A</td><td>\(P(X = 4) = \tfrac{50}{210} = \mathbf{0{,}2381}\)</td></tr>
+            <tr><td class="lbl">c) Al menos 4 del proveedor A</td><td>\(P(X \geq 4) = \tfrac{55}{210} = \mathbf{0{,}2619}\)</td></tr>
+          </table>
+        </div>
+      </div>
+    </details>
+
+    <details class="parcial-desp pd-explicacion">
+      <summary>
+        <span class="pd-icono">&#9998;</span>
+        <span class="pd-txt"><b>Explicación detallada</b><small>Desde cero: teoría, desarme del enunciado, resolución y comparación con la guía</small></span>
+      </summary>
+      <div class="pd-cuerpo">
+
+        <div class="caja caja-ejemplo">
+          <span class="caja-tit">El enunciado, otra vez</span>
+          <p>
+            Hay 10 piezas en total: 5 del proveedor A y 5 del B. Se eligen 6 al azar y \(X\) cuenta
+            cuántas de esas 6 son de A. Piden identificar el modelo <em>completo</em> (nombre,
+            parámetros, fórmula y recorrido) y dos probabilidades.
+          </p>
+        </div>
+
+        <h4>¿De qué tema es?</h4>
+        <p>
+          <strong>Unidad 5</strong>, modelos discretos. Es Hipergeométrica: muestra
+          <strong>sin reposición</strong> de una población finita y concreta.
+        </p>
+
+        <h4>Los conceptos que hacen falta, desde cero</h4>
+
+        <div class="caja caja-formula">
+          <span class="caja-tit">1. Binomial o Hipergeométrica: cómo se distinguen</span>
+          <p>
+            Las dos cuentan &ldquo;cuántos de los que saqué son de cierto tipo&rdquo;. Lo que cambia
+            es si la probabilidad se mantiene constante:
+          </p>
+          <ul>
+            <li>
+              <strong>Binomial:</strong> el enunciado te da un <em>porcentaje</em>
+              (&ldquo;el 20&nbsp;% de los sistemas&rdquo;) y una cantidad fija de intentos. \(p\) no
+              cambia entre uno y otro.
+            </li>
+            <li>
+              <strong>Hipergeométrica:</strong> el enunciado te da un <em>total concreto</em>
+              (&ldquo;10 piezas, 5 de cada uno&rdquo;) y sacás sin reposición. Cada pieza que sacás
+              cambia la composición de lo que queda.
+            </li>
+          </ul>
+          <p>
+            Acá la primera pieza que sale es de A con probabilidad \(5/10\); si salió de A, la segunda
+            lo es con \(4/9\). Cambió: es hipergeométrica.
+          </p>
+        </div>
+
+        <div class="caja caja-formula">
+          <span class="caja-tit">2. La fórmula y de dónde sale cada pedazo</span>
+          <p>\[ P(X = x) = \frac{\binom{k}{x}\binom{N-k}{n-x}}{\binom{N}{n}} \]</p>
+          <ul>
+            <li>\(N\) = total de la población &rarr; acá <strong>10 piezas</strong>.</li>
+            <li>\(k\) = cuántos de ese total son &ldquo;éxito&rdquo; &rarr; acá <strong>5 de A</strong>.</li>
+            <li>\(n\) = tamaño de la muestra &rarr; acá <strong>6 elegidas</strong>.</li>
+          </ul>
+          <p>
+            Es puro conteo: <strong>casos favorables sobre casos posibles</strong>. El denominador
+            \(\binom{N}{n}\) son todas las formas de elegir 6 piezas de 10. El numerador son las
+            formas de elegir \(x\) de las 5 de A <em>por</em> las formas de completar con
+            \(6-x\) de las 5 de B.
+          </p>
+        </div>
+
+        <div class="caja caja-formula">
+          <span class="caja-tit">3. El recorrido, que es lo que casi todos se olvidan</span>
+          <p>\[ \max(0,\ n - (N-k)) \ \leq \ x \ \leq \ \min(k,\ n) \]</p>
+          <p>
+            No siempre va de 0 a \(n\). El mínimo no es 0 si la muestra es más grande que el grupo de
+            fracasos, y el máximo se corta en \(k\) si hay menos éxitos que el tamaño de la muestra.
+          </p>
+        </div>
+
+        <h4>Desarme del enunciado</h4>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Frase del enunciado</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+            <tr><td>&ldquo;5 piezas de cada uno&hellip; y las junta&rdquo;</td><td>población total</td><td>\(5 + 5\)</td><td>\(N = 10\)</td></tr>
+            <tr><td>&ldquo;aportadas por el proveedor A&rdquo;</td><td>qué cuenta como éxito</td><td>&mdash;</td><td>\(k = 5\)</td></tr>
+            <tr><td>&ldquo;se eligen 6 al azar&rdquo;</td><td>tamaño de la muestra</td><td>&mdash;</td><td>\(n = 6\)</td></tr>
+            <tr><td>&ldquo;sólo 4 sean de A&rdquo;</td><td>exactamente 4</td><td>&mdash;</td><td>\(P(X = 4)\)</td></tr>
+            <tr><td>&ldquo;al menos 4 sean de A&rdquo;</td><td>4 o más</td><td>&mdash;</td><td>\(P(X \geq 4)\)</td></tr>
+          </table>
+        </div>
+
+        <span class="paso">Inciso a &mdash; Identificar la distribución</span>
+        <p>La cátedra pide <strong>cuatro cosas</strong> y cada una suma:</p>
+        <ol>
+          <li>
+            <strong>Nombre:</strong> Hipergeométrica. Se elige una muestra <em>sin reposición</em> de
+            una población finita de 10 piezas dividida en dos grupos.
+          </li>
+          <li><strong>Parámetros:</strong> \(N = 10\), \(k = 5\), \(n = 6\).</li>
+          <li>
+            <strong>Fórmula:</strong>
+            \[ P(X = x) = \frac{\binom{5}{x}\binom{5}{6-x}}{\binom{10}{6}} \]
+          </li>
+          <li>
+            <strong>Recorrido:</strong>
+            \[ \max(0,\ 6 - 5) = 1 \quad \leq \ x \ \leq \quad \min(5,\ 6) = 5 \]
+            o sea \(x = 1, 2, 3, 4, 5\).
+          </li>
+        </ol>
+        <div class="caja caja-ojo">
+          <span class="caja-tit">Por qué \(x\) no puede ser 0</span>
+          <p>
+            Si eligiéramos 6 piezas y <em>ninguna</em> fuera de A, las 6 tendrían que venir de B, pero
+            de B hay solo 5. Es imposible. Por eso el recorrido arranca en 1 y no en 0.
+          </p>
+        </div>
+        <div class="caja caja-resp">
+          <span class="caja-tit">Respuesta a</span>
+          <p>
+            \(X \sim H(N = 10,\ k = 5,\ n = 6)\), con
+            \(P(X=x) = \dfrac{\binom{5}{x}\binom{5}{6-x}}{\binom{10}{6}}\) para
+            \(x = 1, 2, 3, 4, 5\).
+          </p>
+        </div>
+
+        <span class="paso">Inciso b &mdash; Que sólo 4 sean del proveedor A</span>
+        <p>
+          Si 4 de las 6 son de A, las otras <strong>2 tienen que ser de B</strong>. Ese es el segundo
+          combinatorio.
+        </p>
+        <p>Fórmula:</p>
+        <p>\[ P(X = x) = \frac{\binom{5}{x}\binom{5}{6-x}}{\binom{10}{6}} \]</p>
+        <p>\[ P(X = 4) = \frac{\binom{5}{4}\binom{5}{2}}{\binom{10}{6}} \]</p>
+        <p>Calculamos los tres combinatorios:</p>
+        <p>\[ \binom{5}{4} = 5 \qquad \binom{5}{2} = \frac{5 \cdot 4}{2} = 10 \qquad \binom{10}{6} = \binom{10}{4} = 210 \]</p>
+        <p>\[ P(X = 4) = \frac{5 \cdot 10}{210} = \frac{50}{210} = \mathbf{0{,}2381} \]</p>
+        <div class="caja caja-resp">
+          <span class="caja-tit">Respuesta b</span>
+          <p>23,81&nbsp;%.</p>
+        </div>
+
+        <span class="paso">Inciso c &mdash; Que al menos 4 sean del proveedor A</span>
+        <p>
+          &ldquo;Al menos 4&rdquo; es \(X = 4\) o más. Pero el recorrido se corta en 5, así que son
+          <strong>solo dos términos</strong>:
+        </p>
+        <p>\[ P(X \geq 4) = P(X = 4) + P(X = 5) \]</p>
+        <p>El de 4 ya lo tenemos. Calculamos el de 5, con la misma fórmula:</p>
+        <p>\[ P(X = 5) = \frac{\binom{5}{5}\binom{5}{1}}{\binom{10}{6}} = \frac{1 \cdot 5}{210} = \frac{5}{210} = 0{,}0238 \]</p>
+        <p>\[ P(X \geq 4) = \frac{50}{210} + \frac{5}{210} = \frac{55}{210} = \mathbf{0{,}2619} \]</p>
+        <div class="caja caja-ojo">
+          <span class="caja-tit">Acá el complemento NO conviene</span>
+          <p>
+            La reacción automática ante un &ldquo;al menos&rdquo; es ir por
+            \(1 - P(X \leq 3)\). Pero eso obliga a calcular \(P(1)\), \(P(2)\) y \(P(3)\):
+            <strong>tres términos en vez de dos</strong>. Y no hay tabla acumulada para la
+            hipergeométrica, así que todo se calcula a mano.
+          </p>
+          <p>
+            <strong>La regla:</strong> antes de arrancar, contá cuántos términos tiene cada camino y
+            elegí el más corto. Acá el directo gana porque el recorrido está cortado arriba.
+          </p>
+        </div>
+        <div class="caja caja-resp">
+          <span class="caja-tit">Respuesta c</span>
+          <p>26,19&nbsp;%.</p>
+        </div>
+
+        <h4>La distribución completa, para chequear</h4>
+        <p>Si querés verificar que no te equivocaste, las cinco probabilidades tienen que sumar 1:</p>
+        <div class="tabla-wrap">
+          <table class="t">
+            <tr><th class="lbl">\(x\)</th><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td></tr>
+            <tr><th class="lbl">\(P(X=x)\)</th><td>0,0238</td><td>0,2381</td><td>0,4762</td><td>0,2381</td><td>0,0238</td></tr>
+          </table>
+        </div>
+        <p>
+          \(0{,}0238 + 0{,}2381 + 0{,}4762 + 0{,}2381 + 0{,}0238 = 1\). &#10003; Y notá que es
+          <strong>simétrica</strong>: tiene sentido, porque hay la misma cantidad de piezas de A que
+          de B.
+        </p>
+
+        <h4>Parecido en la guía</h4>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Ejercicio de la guía</th><th>Qué tiene igual</th><th>Qué cambia en el parcial</th></tr>
+            <tr>
+              <td class="lbl">Unidad 5, Ejercicio 4<br><em>Trabajadores para una entrevista</em></td>
+              <td>Población chica dividida en dos grupos, un inciso de &ldquo;exactamente&rdquo; y otro de cola.</td>
+              <td>Allá \(N = 24\), \(k = 9\), \(n = 4\) y el recorrido arranca normal en 0. Acá el parcial pide además nombrar el modelo y su recorrido.</td>
+            </tr>
+            <tr>
+              <td class="lbl">Unidad 5, Ejercicio 7<br><em>Fútbol y básquet</em></td>
+              <td>Números tan chicos como acá, con &ldquo;exactamente 2&rdquo; y &ldquo;la mayoría&rdquo; (una suma de colas).</td>
+              <td>Mismo esquema, sin la parte teórica.</td>
+            </tr>
+            <tr>
+              <td class="lbl">Unidad 5, Ejercicio 5<br><em>Mouses ópticos</em></td>
+              <td>El &ldquo;al menos&rdquo; resuelto sumando términos.</td>
+              <td>Allá conviene el complemento (\(1 - P(0) - P(1)\)); acá conviene el camino directo. Es el mismo tipo de decisión al revés.</td>
+            </tr>
+          </table>
+        </div>
+
+        <div class="caja caja-ojo">
+          <span class="caja-tit">Las trampas de este ejercicio</span>
+          <ol>
+            <li>
+              <strong>El recorrido.</strong> Lo piden explícitamente y casi todos escriben
+              &ldquo;\(x = 0, \ldots, 6\)&rdquo;. Son \(1\) a \(5\).
+            </li>
+            <li>
+              <strong>Confundirlo con una binomial.</strong> Como hay 5 y 5, tienta poner
+              \(p = 0{,}5\) y usar \(Bi(6;\ 0{,}5)\). Está mal: no hay reposición.
+              (De paso: esa binomial daría \(P(X=4) = 0{,}2344\), parecido pero distinto.)
+            </li>
+            <li>
+              <strong>Elegir mal el camino en el inciso c.</strong> El complemento acá es más largo.
+            </li>
+            <li>
+              <strong>El inciso a vale casi tanto como los otros dos juntos.</strong> Nombre,
+              parámetros, fórmula y recorrido: las cuatro cosas, escritas.
+            </li>
+          </ol>
+        </div>
+      </div>
+    </details>
+  </div>
 </section>

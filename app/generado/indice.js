@@ -15,7 +15,7 @@ window.Apuntes.registrarIndice({
         "archivo": "examenes/pye-2023-segundo-parcial.js",
         "titulo": "Segundo Parcial (Grupo 1)",
         "fecha": "23/8/2023",
-        "detalle": "6 ejercicios",
+        "detalle": "6 ejercicios \u00b7 resuelto",
         "temas": "Conjunta discreta \u00b7 Densidad continua \u00b7 Normal \u00b7 Hipergeom\u00e9trica \u00b7 Poisson \u00b7 Binomial",
         "tipo": "parcial"
       },
@@ -155,5 +155,5 @@ window.Apuntes.registrarIndice({
       "unidades": []
     }
   ],
-  "construido": "2026-09-20 20:02:45"
+  "construido": "2026-09-20 20:10:00"
 });

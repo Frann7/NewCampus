@@ -21,4 +21,228 @@
       <strong>Justifique la metodología empleada</strong> en el cálculo de esta probabilidad.
     </li>
   </ol>
+
+  <div class="parcial-extras">
+    <details class="parcial-desp pd-resultados">
+      <summary>
+        <span class="pd-icono">&#10003;</span>
+        <span class="pd-txt"><b>Resultados</b><small>Solo las respuestas, sin procedimiento</small></span>
+      </summary>
+      <div class="pd-cuerpo">
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Inciso</th><th>Método</th><th>Resultado</th></tr>
+            <tr>
+              <td class="lbl">a) \(n = 15\), menos de 7</td>
+              <td>Tabla acumulada binomial</td>
+              <td>\(P(X &lt; 7) = P(X \leq 6) = \mathbf{0{,}9819}\)</td>
+            </tr>
+            <tr>
+              <td class="lbl">b) \(n = 100\), a lo sumo 30</td>
+              <td>Aproximación Normal con corrección por continuidad<br>\(\mu = 20\), \(\sigma = 4\), \(z = 2{,}63\)</td>
+              <td>\(P(X \leq 30) \approx \Phi(2{,}63) = \mathbf{0{,}9957}\)</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </details>
+
+    <details class="parcial-desp pd-explicacion">
+      <summary>
+        <span class="pd-icono">&#9998;</span>
+        <span class="pd-txt"><b>Explicación detallada</b><small>Desde cero: teoría, desarme del enunciado, resolución y comparación con la guía</small></span>
+      </summary>
+      <div class="pd-cuerpo">
+
+        <div class="caja caja-ejemplo">
+          <span class="caja-tit">El enunciado, otra vez</span>
+          <p>
+            La analista se equivoca en el 20&nbsp;% de las evaluaciones. El inciso a pregunta con
+            \(n = 15\) y el b con \(n = 100\). <strong>Es el mismo modelo en los dos</strong>: lo que
+            cambia es que con \(n = 100\) no hay tabla, y por eso hay que aproximar.
+          </p>
+        </div>
+
+        <h4>¿De qué tema es?</h4>
+        <p>
+          <strong>Unidad 5</strong> (Binomial) en el inciso a y <strong>Unidad 6</strong>
+          (aproximación Normal de la Binomial) en el b. Es el único ejercicio del parcial que cruza
+          dos unidades, y el que pide justificar el método.
+        </p>
+
+        <h4>Los conceptos que hacen falta, desde cero</h4>
+
+        <div class="caja caja-formula">
+          <span class="caja-tit">1. Por qué es Binomial</span>
+          <p>Las cuatro condiciones del proceso de Bernoulli:</p>
+          <ol>
+            <li><strong>Número fijo de pruebas:</strong> 15 (o 100) evaluaciones.</li>
+            <li><strong>Dicotómica:</strong> cada evaluación tiene error o no lo tiene.</li>
+            <li><strong>\(p\) constante:</strong> 0,20 para todas.</li>
+            <li><strong>Independientes:</strong> equivocarse en una no cambia la siguiente.</li>
+          </ol>
+          <p>\[ P(X = x) = \binom{n}{x} p^{x}(1-p)^{\,n-x} \qquad \mu = np \qquad \sigma = \sqrt{np(1-p)} \]</p>
+        </div>
+
+        <div class="caja caja-formula">
+          <span class="caja-tit">2. Cuándo se puede aproximar por la Normal</span>
+          <p>\[ n\,p \geq 5 \qquad \text{y} \qquad n(1-p) \geq 5 \]</p>
+          <p>
+            Cumpliéndose las dos, la binomial ya es lo bastante simétrica como para que una campana
+            la calque bien. La Normal que la reemplaza usa <strong>la media y el desvío de la propia
+            binomial</strong>.
+          </p>
+        </div>
+
+        <div class="caja caja-formula">
+          <span class="caja-tit">3. La corrección por continuidad</span>
+          <p>
+            Estamos cambiando una variable <strong>discreta</strong> por una
+            <strong>continua</strong>. En la discreta, el valor 30 es un palito; en la continua, ese
+            30 ocupa la franja de <strong>29,5 a 30,5</strong>. Por eso cada entero se estira medio
+            punto hacia afuera del conjunto que te interesa.
+          </p>
+          <div class="tabla-wrap">
+            <table class="t full">
+              <tr><th>Frase</th><th>En la discreta</th><th>Con qué \(x\) se entra</th></tr>
+              <tr><td>a lo sumo 30</td><td>\(X \leq 30\)</td><td>\(P(Y &lt; 30{,}5)\)</td></tr>
+              <tr><td>menos de 30</td><td>\(X \leq 29\)</td><td>\(P(Y &lt; 29{,}5)\)</td></tr>
+              <tr><td>al menos 30</td><td>\(X \geq 30\)</td><td>\(P(Y &gt; 29{,}5)\)</td></tr>
+              <tr><td>más de 30</td><td>\(X \geq 31\)</td><td>\(P(Y &gt; 30{,}5)\)</td></tr>
+            </table>
+          </div>
+        </div>
+
+        <h4>Desarme del enunciado</h4>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Frase del enunciado</th><th>Qué significa</th><th>A dónde va</th></tr>
+            <tr><td>&ldquo;errores en el 20&nbsp;% de las evaluaciones&rdquo;</td><td>probabilidad de &ldquo;éxito&rdquo; (acá, equivocarse)</td><td>\(p = 0{,}20\)</td></tr>
+            <tr><td>&ldquo;evaluaciones a \(n = 15\) sistemas&rdquo;</td><td>pruebas del inciso a</td><td>\(n = 15\)</td></tr>
+            <tr><td>&ldquo;menos de 7&rdquo;</td><td>deja el 7 afuera</td><td>\(X \leq 6\)</td></tr>
+            <tr><td>&ldquo;evaluaciones a \(n = 100\) sistemas&rdquo;</td><td>pruebas del inciso b</td><td>\(n = 100\)</td></tr>
+            <tr><td>&ldquo;a lo sumo 30&rdquo;</td><td>incluye al 30</td><td>\(X \leq 30\)</td></tr>
+          </table>
+        </div>
+
+        <span class="paso">Inciso a &mdash; Menos de 7 con \(n = 15\)</span>
+        <p>\(X \sim Bi(15;\ 0{,}20)\), donde \(X\) = cantidad de evaluaciones con error.</p>
+        <p>&ldquo;Menos de 7&rdquo; deja el 7 afuera:</p>
+        <p>\[ P(X &lt; 7) = P(X \leq 6) \]</p>
+        <p>
+          Eso es exactamente lo que devuelve la tabla acumulada binomial. Entramos con \(n = 15\),
+          columna \(p = 0{,}20\), fila \(r = 6\):
+        </p>
+        <p>\[ P(X \leq 6) = \mathbf{0{,}9819} \]</p>
+        <div class="caja caja-resp">
+          <span class="caja-tit">Respuesta a</span>
+          <p>98,19&nbsp;%.</p>
+          <p>
+            Control: la media es \(np = 15 \cdot 0{,}20 = 3\) errores. Preguntar por &ldquo;menos de
+            7&rdquo; es preguntar por casi todo el peso de la distribución, así que tenía que dar
+            altísimo.
+          </p>
+        </div>
+
+        <span class="paso">Inciso b &mdash; A lo sumo 30 con \(n = 100\)</span>
+
+        <p><strong>Paso 1 &mdash; Justificar por qué se aproxima.</strong> Esto es lo que el enunciado pide explícitamente:</p>
+        <ul>
+          <li>
+            La tabla acumulada binomial de la cátedra <strong>llega hasta \(n = 20\)</strong>: con
+            \(n = 100\) no sirve.
+          </li>
+          <li>
+            Calcular \(P(X \leq 30)\) con la fórmula serían <strong>31 términos</strong> a mano.
+            Inviable en un parcial.
+          </li>
+          <li>
+            Se verifican las condiciones:
+            \[ n\,p = 100 \cdot 0{,}20 = 20 \geq 5 \qquad n(1-p) = 100 \cdot 0{,}80 = 80 \geq 5 \]
+            Las dos se cumplen holgadamente, así que la aproximación Normal es válida.
+          </li>
+        </ul>
+
+        <p><strong>Paso 2 &mdash; Parámetros de la Normal.</strong> Salen de la propia binomial:</p>
+        <p>\[ \mu = n\,p = 100 \cdot 0{,}20 = 20 \]</p>
+        <p>\[ \sigma = \sqrt{n\,p\,(1-p)} = \sqrt{100 \cdot 0{,}20 \cdot 0{,}80} = \sqrt{16} = 4 \]</p>
+
+        <p><strong>Paso 3 &mdash; Corrección por continuidad.</strong> &ldquo;A lo sumo 30&rdquo; incluye al 30 entero, que en la continua llega hasta 30,5:</p>
+        <p>\[ P(X \leq 30) \approx P(Y &lt; 30{,}5) \]</p>
+
+        <p><strong>Paso 4 &mdash; Estandarizar.</strong> Fórmula:</p>
+        <p>\[ z = \frac{x - \mu}{\sigma} \]</p>
+        <p>\[ z = \frac{30{,}5 - 20}{4} = \frac{10{,}5}{4} = 2{,}625 \approx 2{,}63 \]</p>
+
+        <p><strong>Paso 5 &mdash; Tabla \(Z\).</strong> Fila 2,6, columna 0,03:</p>
+        <p>\[ P(X \leq 30) \approx F(2{,}63) = \mathbf{0{,}9957} \]</p>
+
+        <div class="caja caja-resp">
+          <span class="caja-tit">Respuesta b</span>
+          <p>
+            <strong>99,57&nbsp;%</strong>, calculado por aproximación Normal de la Binomial con
+            corrección por continuidad, porque \(n = 100\) excede la tabla binomial y se cumplen
+            \(np = 20 \geq 5\) y \(n(1-p) = 80 \geq 5\).
+          </p>
+          <p>
+            Control: se esperan 20 errores, y 30 está a \(2{,}5\) desvíos por encima. Que la
+            probabilidad de no pasarlo sea casi 1 tiene todo el sentido.
+          </p>
+        </div>
+
+        <div class="caja caja-calc">
+          <span class="caja-tit">Cuánto cambia la corrección</span>
+          <p>
+            Sin corregir (\(x = 30\)) daría \(z = 2{,}50\) y \(0{,}9938\). La diferencia con
+            \(0{,}9957\) es chica, pero <strong>el inciso pide justificar la metodología</strong>: la
+            corrección es parte de esa justificación y por eso se descuenta si no está.
+          </p>
+        </div>
+
+        <h4>Parecido en la guía</h4>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Ejercicio de la guía</th><th>Qué tiene igual</th><th>Qué cambia en el parcial</th></tr>
+            <tr>
+              <td class="lbl">Unidad 5, Ejercicio 2<br><em>Estudiantes que quedan libres</em></td>
+              <td>Es el gemelo del inciso a: binomial con \(p = 0{,}20\) y tabla acumulada.</td>
+              <td>Allá \(n = 18\) y piden además el número esperado.</td>
+            </tr>
+            <tr>
+              <td class="lbl">Unidad 6, Ejercicio 9<br><em>Artículos defectuosos de un proceso</em></td>
+              <td>Es el gemelo del inciso b: \(n = 100\), corrección por continuidad, mismo circuito completo.</td>
+              <td>Allá \(p = 0{,}10\) y \(\sigma = 3\). Mismo procedimiento con otros números.</td>
+            </tr>
+            <tr>
+              <td class="lbl">Unidad 5, Ejercicio 1<br><em>Examen contestado al azar</em></td>
+              <td>Traducir &ldquo;menos de&rdquo;, &ldquo;a lo sumo&rdquo; y &ldquo;al menos&rdquo; antes de entrar a la tabla.</td>
+              <td>Allá los incisos vienen en porcentajes y hay que convertirlos a cantidades.</td>
+            </tr>
+          </table>
+        </div>
+
+        <div class="caja caja-ojo">
+          <span class="caja-tit">Las trampas de este ejercicio</span>
+          <ol>
+            <li>
+              <strong>&ldquo;Menos de 7&rdquo; es \(r = 6\).</strong> Con \(r = 7\) la tabla da
+              0,9958 en vez de 0,9819.
+            </li>
+            <li>
+              <strong>Justificar de verdad el inciso b.</strong> No alcanza con hacer la cuenta: hay
+              que escribir por qué no se usa la tabla binomial, verificar \(np\) y \(n(1-p)\), y
+              explicar la corrección por continuidad. Es medio inciso de puntaje.
+            </li>
+            <li>
+              <strong>\(\sigma\) lleva raíz.</strong> \(np(1-p) = 16\) es la varianza; el desvío es 4.
+            </li>
+            <li>
+              <strong>Correr el medio punto para el lado correcto.</strong> &ldquo;A lo sumo 30&rdquo;
+              va a 30,5 (el 30 entra). Si fuera &ldquo;menos de 30&rdquo; iría a 29,5.
+            </li>
+          </ol>
+        </div>
+      </div>
+    </details>
+  </div>
 </section>

@@ -19,4 +19,211 @@
       ambos extremos incluidos.
     </li>
   </ol>
+
+  <div class="parcial-extras">
+    <details class="parcial-desp pd-resultados">
+      <summary>
+        <span class="pd-icono">&#10003;</span>
+        <span class="pd-txt"><b>Resultados</b><small>Solo las respuestas, sin procedimiento</small></span>
+      </summary>
+      <div class="pd-cuerpo">
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Inciso</th><th>\(\lambda t\)</th><th>Resultado</th></tr>
+            <tr><td class="lbl">a) Exactamente 1 en un minuto</td><td>\(0{,}2\)</td><td>\(P(X = 1) = e^{-0{,}2}(0{,}2) = \mathbf{0{,}1637}\)</td></tr>
+            <tr><td class="lbl">b) Al menos 10 en una hora</td><td>\(12\)</td><td>\(1 - P(X \leq 9) = 1 - 0{,}2424 = \mathbf{0{,}7576}\)</td></tr>
+            <tr><td class="lbl">c) Entre 7 y 12 en una hora</td><td>\(12\)</td><td>\(P(X \leq 12) - P(X \leq 6) = 0{,}5760 - 0{,}0458 = \mathbf{0{,}5302}\)</td></tr>
+          </table>
+        </div>
+      </div>
+    </details>
+
+    <details class="parcial-desp pd-explicacion">
+      <summary>
+        <span class="pd-icono">&#9998;</span>
+        <span class="pd-txt"><b>Explicación detallada</b><small>Desde cero: teoría, desarme del enunciado, resolución y comparación con la guía</small></span>
+      </summary>
+      <div class="pd-cuerpo">
+
+        <div class="caja caja-ejemplo">
+          <span class="caja-tit">El enunciado, otra vez</span>
+          <p>
+            Un servidor recibe 0,2 mensajes por minuto en promedio. El inciso a pregunta por
+            <strong>un minuto</strong>; los incisos b y c por <strong>una hora</strong>. Ese cambio de
+            intervalo es todo el ejercicio.
+          </p>
+        </div>
+
+        <h4>¿De qué tema es?</h4>
+        <p>
+          <strong>Unidad 5</strong>, distribución de Poisson. Lo que se evalúa no es la fórmula: es el
+          <strong>reescalado del intervalo</strong> y la traducción de frases a la tabla acumulada.
+        </p>
+
+        <h4>Los conceptos que hacen falta, desde cero</h4>
+
+        <div class="caja caja-formula">
+          <span class="caja-tit">1. Cuándo es Poisson</span>
+          <p>
+            Cuando el enunciado dice <strong>&ldquo;en promedio X por unidad&rdquo;</strong> de tiempo,
+            longitud, superficie o volumen, y no hay un número fijo de intentos. Acá: &ldquo;0,2
+            mensajes <em>por minuto</em>&rdquo;.
+          </p>
+          <p>Las tres características del proceso de Poisson, por si las piden:</p>
+          <ol>
+            <li><strong>Independencia:</strong> lo que pasa en un intervalo no afecta a otro que no se superponga.</li>
+            <li><strong>Proporcionalidad:</strong> en un intervalo muy chico, la probabilidad de un evento es proporcional a su longitud.</li>
+            <li><strong>No simultaneidad:</strong> la probabilidad de dos o más eventos en un intervalo muy chico es despreciable.</li>
+          </ol>
+        </div>
+
+        <div class="caja caja-formula">
+          <span class="caja-tit">2. La fórmula</span>
+          <p>\[ P(X = x) = \frac{e^{-\lambda t}\,(\lambda t)^{x}}{x!} \qquad x = 0, 1, 2, \ldots \]</p>
+          <p>\[ E(X) = V(X) = \lambda t \]</p>
+          <p>
+            Que la media y la varianza coincidan es la marca registrada de Poisson.
+            El desvío es \(\sqrt{\lambda t}\).
+          </p>
+        </div>
+
+        <div class="caja caja-formula">
+          <span class="caja-tit">3. El reescalado, que es el corazón del ejercicio</span>
+          <p>
+            \(\lambda\) es la tasa <em>por unidad</em> y \(t\) es <strong>cuántas unidades</strong>
+            abarca el intervalo del que te preguntan. El parámetro que entra en la fórmula y en la
+            tabla es siempre el producto \(\lambda t\).
+          </p>
+          <div class="tabla-wrap">
+            <table class="t full">
+              <tr><th>Intervalo de la pregunta</th><th>\(t\) (en minutos)</th><th>\(\lambda t\)</th></tr>
+              <tr><td>1 minuto</td><td>1</td><td>\(0{,}2 \cdot 1 = 0{,}2\)</td></tr>
+              <tr><td>1 hora</td><td>60</td><td>\(0{,}2 \cdot 60 = 12\)</td></tr>
+            </table>
+          </div>
+        </div>
+
+        <div class="caja caja-formula">
+          <span class="caja-tit">4. Traducir frases a la tabla acumulada</span>
+          <p>La tabla devuelve \(P(X \leq r)\). Todo lo demás se arma:</p>
+          <div class="tabla-wrap">
+            <table class="t full">
+              <tr><th>Frase</th><th>Desigualdad</th><th>Con la tabla</th></tr>
+              <tr><td>exactamente \(k\)</td><td>\(X = k\)</td><td>\(F(k) - F(k-1)\) o la fórmula directa</td></tr>
+              <tr><td>a lo sumo \(k\)</td><td>\(X \leq k\)</td><td>\(F(k)\)</td></tr>
+              <tr><td>menos de \(k\)</td><td>\(X \leq k-1\)</td><td>\(F(k-1)\)</td></tr>
+              <tr><td>al menos \(k\)</td><td>\(X \geq k\)</td><td>\(1 - F(k-1)\)</td></tr>
+              <tr><td>más de \(k\)</td><td>\(X \geq k+1\)</td><td>\(1 - F(k)\)</td></tr>
+              <tr><td>entre \(a\) y \(b\), inclusive</td><td>\(a \leq X \leq b\)</td><td>\(F(b) - F(a-1)\)</td></tr>
+            </table>
+          </div>
+        </div>
+
+        <h4>Desarme del enunciado</h4>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Frase del enunciado</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+            <tr><td>&ldquo;en promedio 0,2 mensajes por minuto&rdquo;</td><td>la tasa</td><td>&mdash;</td><td>\(\lambda = 0{,}2\) por minuto</td></tr>
+            <tr><td>&ldquo;exactamente un mensaje en un minuto&rdquo;</td><td>\(t = 1\) minuto</td><td>\(0{,}2 \cdot 1\)</td><td>\(\lambda t = 0{,}2\)</td></tr>
+            <tr><td>&ldquo;al menos diez&hellip; en una hora&rdquo;</td><td>\(t = 60\) minutos</td><td>\(0{,}2 \cdot 60\)</td><td>\(\lambda t = 12\)</td></tr>
+            <tr><td>&ldquo;entre siete y doce&hellip; ambos extremos incluidos&rdquo;</td><td>los dos bordes entran</td><td>&mdash;</td><td>\(F(12) - F(6)\)</td></tr>
+          </table>
+        </div>
+
+        <span class="paso">Inciso a &mdash; Exactamente un mensaje en un minuto</span>
+        <p>El intervalo es un minuto, que es la unidad de la tasa: \(t = 1\) y \(\lambda t = 0{,}2\).</p>
+        <p>Fórmula:</p>
+        <p>\[ P(X = x) = \frac{e^{-\lambda t}\,(\lambda t)^{x}}{x!} \]</p>
+        <p>\[ P(X = 1) = \frac{e^{-0{,}2}\,(0{,}2)^{1}}{1!} \]</p>
+        <p>\[ = e^{-0{,}2} \cdot 0{,}2 = 0{,}8187 \cdot 0{,}2 = \mathbf{0{,}1637} \]</p>
+        <div class="caja caja-resp">
+          <span class="caja-tit">Respuesta a</span>
+          <p>16,37&nbsp;%.</p>
+          <p>
+            Acá <strong>no se usa la tabla</strong>: la tabla acumulada da \(P(X \leq r)\) y esto es
+            un valor puntual con \(\lambda t\) chico. Sale más rápido con la fórmula.
+          </p>
+        </div>
+
+        <span class="paso">Inciso b &mdash; Al menos diez mensajes en una hora</span>
+        <p><strong>Paso 1: reescalar.</strong> La pregunta es por una hora, o sea 60 minutos:</p>
+        <p>\[ \lambda t = 0{,}2 \cdot 60 = 12 \text{ mensajes por hora} \]</p>
+        <p><strong>Paso 2: traducir la frase.</strong> &ldquo;Al menos 10&rdquo; incluye al 10, así que lo contrario es &ldquo;9 o menos&rdquo;:</p>
+        <p>\[ P(X \geq 10) = 1 - P(X \leq 9) \]</p>
+        <p><strong>Paso 3: tabla acumulada</strong>, columna \(\lambda t = 12\), fila \(r = 9\):</p>
+        <p>\[ P(X \leq 9) = 0{,}2424 \]</p>
+        <p>\[ P(X \geq 10) = 1 - 0{,}2424 = \mathbf{0{,}7576} \]</p>
+        <div class="caja caja-resp">
+          <span class="caja-tit">Respuesta b</span>
+          <p>75,76&nbsp;%.</p>
+          <p>
+            Control: se esperan 12 mensajes por hora, así que que lleguen 10 o más tenía que ser lo
+            más probable. Si te dio un número chiquito, no reescalaste.
+          </p>
+        </div>
+
+        <span class="paso">Inciso c &mdash; Entre siete y doce, ambos incluidos</span>
+        <p>Mismo \(\lambda t = 12\) que el inciso b. &ldquo;Ambos extremos incluidos&rdquo; es \(7 \leq X \leq 12\).</p>
+        <p>Fórmula con la tabla acumulada:</p>
+        <p>\[ P(a \leq X \leq b) = F(b) - F(a-1) \]</p>
+        <p>\[ P(7 \leq X \leq 12) = P(X \leq 12) - P(X \leq 6) \]</p>
+        <p>El \(-1\) es lo que deja el 7 <strong>adentro</strong>. Buscamos las dos filas en la tabla:</p>
+        <p>\[ P(X \leq 12) = 0{,}5760 \qquad P(X \leq 6) = 0{,}0458 \]</p>
+        <p>\[ P(7 \leq X \leq 12) = 0{,}5760 - 0{,}0458 = \mathbf{0{,}5302} \]</p>
+        <div class="caja caja-resp">
+          <span class="caja-tit">Respuesta c</span>
+          <p>53,02&nbsp;%.</p>
+          <p>
+            Control: \(P(X \leq 12) \approx 0{,}58\) tiene sentido, porque 12 es la media y la
+            acumulada en la media ronda 0,5.
+          </p>
+        </div>
+
+        <h4>Parecido en la guía</h4>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Ejercicio de la guía</th><th>Qué tiene igual</th><th>Qué cambia en el parcial</th></tr>
+            <tr>
+              <td class="lbl">Unidad 5, Ejercicio 13<br><em>Clientes en una casa de computación</em></td>
+              <td>Es el gemelo: tasa por hora, reescalado a otros intervalos, y los mismos tipos de inciso (exactamente, a lo sumo, entre dos valores).</td>
+              <td>Allá la tasa viene por hora y se baja a 15 minutos; acá viene por minuto y se sube a una hora. El reescalado va para el otro lado.</td>
+            </tr>
+            <tr>
+              <td class="lbl">Unidad 5, Ejercicio 16<br><em>Llamadas para préstamos</em></td>
+              <td>Reescalado de una hora a diez minutos.</td>
+              <td>Un solo salto y números más chicos.</td>
+            </tr>
+            <tr>
+              <td class="lbl">Unidad 5, Ejercicio 11<br><em>Discos rígidos defectuosos</em></td>
+              <td>Los tres tipos de inciso con la tabla acumulada.</td>
+              <td>Allá no hay que reescalar nada: el intervalo de la pregunta es el de la tasa.</td>
+            </tr>
+          </table>
+        </div>
+
+        <div class="caja caja-ojo">
+          <span class="caja-tit">Las trampas de este ejercicio</span>
+          <ol>
+            <li>
+              <strong>No reescalar.</strong> Usar \(\lambda t = 0{,}2\) en los incisos b y c da números
+              absurdos (\(P(X \geq 10)\) daría casi 0). Es el error que el ejercicio está buscando:
+              por eso el inciso a usa un minuto y los otros dos una hora.
+            </li>
+            <li>
+              <strong>El \(-1\) del inciso c.</strong> Restar \(F(7)\) en vez de \(F(6)\) deja el 7
+              afuera y da 0,4427 en vez de 0,5302.
+            </li>
+            <li>
+              <strong>&ldquo;Al menos 10&rdquo; es \(1 - F(9)\), no \(1 - F(10)\).</strong> Descontar
+              hasta 10 se come el propio 10.
+            </li>
+            <li>
+              <strong>Mezclar \(\lambda\) con \(\lambda t\).</strong> Escribí siempre el reescalado
+              como un paso aparte y con su unidad al lado.
+            </li>
+          </ol>
+        </div>
+      </div>
+    </details>
+  </div>
 </section>

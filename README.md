@@ -21,6 +21,8 @@ abre los apuntes en el navegador. No hay nube, no hay cuenta, no sale nada a int
   con ★ (tal cual como lo tomaron) o ◈ (el mismo tema, con un cambio), diciendo en qué examen
   apareció y qué cambia. La marca se ve en la tarjeta y en el índice lateral, y una barra de filtro
   deja a la vista solo lo marcado, para estudiar primero lo que ya tomaron.
+* **Índice lateral con subíndices**: en la práctica, cada ejercicio abierto lista debajo sus
+  pasos e incisos, y tocar uno lleva directo a ese inciso.
 * **Calendario**: un mes a pantalla completa con flechas para navegar, o el año entero.
   Se le anotan **parciales y trabajos prácticos** (materia, unidades que entran, día y una
   descripción); el día con parcial se pinta entero del color de la materia, y si ese día cae más de

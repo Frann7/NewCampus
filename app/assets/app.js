@@ -288,15 +288,19 @@ window.NC = window.NC || {};
     if (!pane) { vacio(true); return; }
 
     // h2 = secciones / ejercicios ; h3 = subtemas dentro de cada uno.
-    // En los examenes, la explicacion detallada que este ABIERTA suma sus partes
-    // (los incisos y sus subtitulos) para poder leerla parte por parte.
-    var titulos = $$("h2, h3, .pd-explicacion[open] > .pd-cuerpo > .paso, .pd-explicacion[open] > .pd-cuerpo > h4", pane)
+    // En la practica, los "Paso" e "Inciso" de cada ejercicio abierto son sus
+    // subindices. En los examenes, la explicacion detallada que este ABIERTA
+    // suma sus partes (los incisos y sus subtitulos) para leerla parte por parte.
+    var titulos = $$("h2, h3, .es-seccion .paso, .pd-explicacion[open] > .pd-cuerpo > .paso, " +
+               ".pd-explicacion[open] > .pd-cuerpo > h4", pane)
       .filter(function (h) {
         var seccion = h.closest ? h.closest(".es-seccion") : null;
         // lo que el filtro por marca dejo afuera no esta en la pagina
         if (seccion && seccion.hidden) { return false; }
-        // un h3 de una seccion cerrada no se puede leer: tampoco se lista
-        if (h.tagName !== "H3") { return true; }
+        // un paso dentro de algo plegado (la explicacion de un examen) no se ve
+        if (h.classList.contains("paso") && h.closest("details:not([open])")) { return false; }
+        // un subtitulo de una seccion cerrada no se puede leer: tampoco se lista
+        if (h.tagName === "H2" || h.tagName === "H4") { return true; }
         return !seccion || seccionAbierta(seccion);
       });
     if (titulos.length < 2) { vacio(true); return; }

@@ -82,13 +82,15 @@ tomado, con atributos en su elemento raíz (`.ej` o `.bloque`):
      data-examen-nota="Qué cambia respecto del examen (opcional).">
 ```
 
-* `data-examen="igual"` &rarr; ★, tal cual como lo tomaron; cambian los números y nada más.
-* `data-examen="variante"` &rarr; ◈, el mismo tema con un cambio (otra fórmula, un inciso de más).
+* `data-examen="igual"` &rarr; ★, tal cual como lo tomaron **en un parcial**; cambian los números y nada más.
+* `data-examen="variante"` &rarr; ◈, el mismo tema con un cambio (otra fórmula, un inciso de más),
+  **o algo que solo tomaron en finales**. Lo de final nunca es dorado: el dorado es para preparar
+  el parcial. Si un tema aparece en un parcial y también en finales, manda el parcial.
 * Sin atributo: no apareció en los exámenes que están cargados. **No** quiere decir que no pueda
   caer, y la leyenda que dibuja app.js lo aclara.
 
 app.js pone el chip en la cabecera, el glifo en el índice de la derecha, la nota arriba del cuerpo
-al abrir la sección, y una barra de filtro **Todo / ★ Tomados / ◈ Variantes** que esconde el resto.
+al abrir la sección, y una barra de filtro **Todo / ★ Tomados / ◈ Variantes y finales** que esconde el resto.
 La marca se escribe **mirando los exámenes transcriptos**, nunca de memoria: si se suma un parcial
 nuevo hay que repasar las marcas.
 

@@ -479,8 +479,10 @@ window.NC = window.NC || {};
      El fragmento de contenido dice si ese ejercicio (o esa seccion de teoria)
      ya fue tomado, con  data-examen="igual|variante" :
 
-       igual     tal cual como lo tomaron; cambian los numeros y nada mas
-       variante  el mismo tema pero con un cambio (otra formula, un inciso de mas)
+       igual     tal cual como lo tomaron EN UN PARCIAL; cambian los numeros y nada mas
+       variante  el mismo tema pero con un cambio (otra formula, un inciso de mas),
+                 o algo que solo tomaron en finales: lo de final nunca es dorado,
+                 porque el objetivo del dorado es preparar el parcial
 
      data-examen-ref  dice en que examen aparecio  ("Parcial 2023 - ej. 4")
      data-examen-nota dice QUE cambia; se muestra al abrir la seccion.
@@ -490,7 +492,7 @@ window.NC = window.NC || {};
 
   var MARCAS = {
     igual:    { glifo: "★", rotulo: "Tomados",   desde: "Tomado tal cual en " },
-    variante: { glifo: "◈", rotulo: "Variantes", desde: "Variante de " }
+    variante: { glifo: "◈", rotulo: "Variantes y finales", desde: "Variante o tema de final: " }
   };
 
   function nivelDe(seccion) {
@@ -580,8 +582,8 @@ window.NC = window.NC || {};
 
     var p = document.createElement("p");
     p.className = "examen-leyenda";
-    [["igual", "tal cual como lo tomaron"],
-     ["variante", "el mismo tema, con un cambio"]
+    [["igual", "tal cual como lo tomaron en un parcial"],
+     ["variante", "el mismo tema con un cambio, o solo lo tomaron en finales"]
     ].forEach(function (f) {
       if (!n[f[0]]) { return; }
       var glifo = trozo("span", "marca-glifo", MARCAS[f[0]].glifo);

@@ -15,11 +15,11 @@ abre los apuntes en el navegador. No hay nube, no hay cuenta, no sale nada a int
 * **Evaluación**: **parciales y finales** de la cátedra transcriptos, en dos listas. Algunos traen
   cada ejercicio con resultados y explicación detallada desplegables; otros están solo transcriptos,
   para usarlos como práctica. Y **autoevaluaciones** que armás vos, en modo normal o interactivo
-  (con pistas, vidas y resolución paso a paso), con su informe final. El banco tiene 38 preguntas
+  (con pistas, vidas y resolución paso a paso), con su informe final. El banco tiene 48 preguntas
   armadas sobre los exámenes, cada una diciendo de qué parcial o final salió.
 * **Qué entró en el examen**: cada ejercicio de la guía y cada sección de teoría puede venir marcada
-  con ★ (tal cual como lo tomaron) o ◈ (el mismo tema, con un cambio), diciendo en qué examen
-  apareció y qué cambia. La marca se ve en la tarjeta y en el índice lateral, y una barra de filtro
+  con ★ (tal cual como lo tomaron en un parcial) o ◈ (el mismo tema con un cambio, o algo que
+  solo tomaron en finales), diciendo en qué examen apareció y qué cambia. La marca se ve en la tarjeta y en el índice lateral, y una barra de filtro
   deja a la vista solo lo marcado, para estudiar primero lo que ya tomaron.
 * **Índice lateral con subíndices**: en la práctica, cada ejercicio abierto lista debajo sus
   pasos e incisos, y tocar uno lleva directo a ese inciso.

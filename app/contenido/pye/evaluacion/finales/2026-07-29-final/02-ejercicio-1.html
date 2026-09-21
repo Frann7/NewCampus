@@ -1,0 +1,556 @@
+<!-- ==================== EJERCICIO 1 ==================== -->
+<section class="parcial-ej">
+  <div class="parcial-ej-cab">
+    <h2>Ejercicio 1</h2>
+    <span class="parcial-pts">26 puntos</span>
+    <span class="parcial-tema">Unidades 3 y 4 &middot; Densidad continua, \(F(x)\), esperanza y varianza</span>
+  </div>
+
+  <p>
+    El tiempo \(X\), medido en horas, que tarda un técnico de soporte en resolver un ticket de
+    reclamo se modela mediante una variable aleatoria continua cuya función de densidad está dada por:
+  </p>
+
+  <div class="parcial-formula">
+    <p>\[ f(x) = \begin{cases} k(4 - x), &amp; 0 \leq x \leq 4, \\ 0, &amp; \text{en otro caso.} \end{cases} \]</p>
+  </div>
+
+  <p>Se pide:</p>
+
+  <ol class="parcial-incisos">
+    <li>
+      Determinar el valor de \(k\) para que \(f(x)\) sea una función de densidad de probabilidad.
+      Justificar verificando las condiciones necesarias.
+    </li>
+    <li>Representar gráficamente la función de densidad \(f(x)\).</li>
+    <li>Obtener la función de distribución acumulada \(F(x)\), expresándola por tramos.</li>
+    <li>
+      Calcular las probabilidades \(P(X \leq 1)\) y \(P(1 &lt; X \leq 3)\) e interpretar los
+      resultados en el contexto del problema.
+    </li>
+    <li>
+      Calcular la esperanza \(E(X)\) y la varianza \(\mathrm{Var}(X)\). Interpretar el valor de la
+      esperanza en el contexto del problema.
+    </li>
+    <li>Demostrar que \[ \mathrm{Var}(X) = E(X^{2}) - [E(X)]^{2}. \]</li>
+  </ol>
+
+  <div class="parcial-extras">
+    <details class="parcial-desp pd-resultados">
+      <summary>
+        <span class="pd-icono">&#10003;</span>
+        <span class="pd-txt"><b>Resultados</b><small>Solo las respuestas, sin procedimiento</small></span>
+      </summary>
+      <div class="pd-cuerpo">
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Inciso</th><th>Resultado</th></tr>
+            <tr><td class="lbl">a) Constante</td><td>\(k = \tfrac{1}{8} = 0{,}125\). Cumple \(f(x) \geq 0\) (porque \(k &gt; 0\) y \(4 - x \geq 0\) en \([0,4]\)) y área total 1</td></tr>
+            <tr><td class="lbl">b) Gráfico</td><td>Recta que baja de \((0\,;\,0{,}5)\) a \((4\,;\,0)\); vale 0 fuera de \([0,4]\). Forma de triángulo</td></tr>
+            <tr><td class="lbl">c) Acumulada</td><td>\(F(x) = \begin{cases} 0, &amp; x &lt; 0 \\ \dfrac{x}{2} - \dfrac{x^{2}}{16}, &amp; 0 \leq x \leq 4 \\ 1, &amp; x &gt; 4 \end{cases}\)</td></tr>
+            <tr><td class="lbl">d) \(P(X \leq 1)\)</td><td>\(F(1) = \tfrac{7}{16} = \mathbf{0{,}4375}\): el 43,75&nbsp;% de los tickets se resuelve en una hora o menos</td></tr>
+            <tr><td class="lbl">d) \(P(1 &lt; X \leq 3)\)</td><td>\(F(3) - F(1) = \tfrac{15}{16} - \tfrac{7}{16} = \tfrac{1}{2} = \mathbf{0{,}5000}\): la mitad tarda más de 1 hora y hasta 3</td></tr>
+            <tr><td class="lbl">e) Esperanza</td><td>\(E(X) = \tfrac{4}{3} \approx \mathbf{1{,}3333}\) horas (1 h 20 min por ticket, en promedio)</td></tr>
+            <tr><td class="lbl">e) Varianza</td><td>\(E(X^{2}) = \tfrac{8}{3}\); \(\mathrm{Var}(X) = \tfrac{8}{9} \approx \mathbf{0{,}8889}\) h\(^{2}\) (desvío \(\approx 0{,}9428\) h)</td></tr>
+            <tr><td class="lbl">f) Demostración</td><td>\(E[(X-\mu)^{2}] = E(X^{2}) - 2\mu E(X) + \mu^{2} = E(X^{2}) - \mu^{2}\)</td></tr>
+          </table>
+        </div>
+      </div>
+    </details>
+
+    <details class="parcial-desp pd-explicacion">
+      <summary>
+        <span class="pd-icono">&#9998;</span>
+        <span class="pd-txt"><b>Explicación detallada</b><small>Desde cero: teoría, desarme del enunciado, resolución y comparación con la guía</small></span>
+      </summary>
+      <div class="pd-cuerpo">
+
+        <div class="caja caja-ejemplo">
+          <span class="caja-tit">El enunciado, otra vez</span>
+          <p>
+            El tiempo que tarda un técnico en resolver un ticket, en horas, tiene densidad
+            \(f(x) = k(4 - x)\) entre 0 y 4 horas. Piden: la constante \(k\), el gráfico, la
+            acumulada \(F(x)\) por tramos, dos probabilidades, la esperanza y la varianza, y la
+            demostración de la fórmula de la varianza.
+          </p>
+        </div>
+
+        <h4>¿De qué tema es?</h4>
+        <p>
+          Variable aleatoria <strong>continua</strong>. La densidad, la constante y la acumulada
+          \(F(x)\) son de la <strong>Unidad 3</strong> (Variables aleatorias, todavía no cargada en
+          la app); la esperanza, la varianza y la demostración son de la <strong>Unidad 4</strong>.
+        </p>
+
+        <h4>Los conceptos que hacen falta, desde cero</h4>
+
+        <div class="caja caja-formula">
+          <span class="caja-tit">1. Qué es una función de densidad</span>
+          <p>
+            Una variable continua puede tomar cualquier valor de un intervalo (1 hora, 1,3 horas,
+            1,3333 horas&hellip;). No se puede hacer una tabla con todos los valores, así que el
+            modelo es una <strong>curva</strong> \(f(x)\). La probabilidad no es la altura de la
+            curva: es el <strong>área debajo</strong> de ella.
+          </p>
+          <p>\[ P(a \leq X \leq b) = \int_{a}^{b} f(x)\, dx \]</p>
+          <p>Para que una función cualquiera sirva como densidad tiene que cumplir <strong>dos condiciones</strong>:</p>
+          <ol>
+            <li>
+              <strong>No negativa:</strong> \(f(x) \geq 0\) para todo \(x\). Si la curva bajara del
+              eje, habría áreas negativas, o sea probabilidades negativas, que no existen.
+            </li>
+            <li>
+              <strong>Área total 1:</strong> \(\displaystyle\int_{-\infty}^{\infty} f(x)\, dx = 1\).
+              Algo tiene que pasar: la probabilidad de que \(X\) tome <em>algún</em> valor es 1.
+            </li>
+          </ol>
+          <p>
+            Donde \(f\) vale 0 no aporta área, así que la integral de \(-\infty\) a \(\infty\) se
+            reduce a integrar sobre el tramo donde \(f\) no es cero.
+          </p>
+        </div>
+
+        <div class="caja caja-formula">
+          <span class="caja-tit">2. Cómo se halla la constante \(k\)</span>
+          <p>
+            Cuando la densidad trae una constante desconocida, la condición 2 (área 1) es la que da la
+            ecuación: se integra con \(k\) adentro, se iguala a 1 y se despeja. Después se chequea la
+            condición 1 con el \(k\) obtenido.
+          </p>
+          <p>\[ \int_{a}^{b} k \cdot g(x)\, dx = 1 \;\Longrightarrow\; k \int_{a}^{b} g(x)\, dx = 1 \;\Longrightarrow\; k = \frac{1}{\int_{a}^{b} g(x)\, dx} \]</p>
+          <p>
+            La \(k\) sale afuera de la integral porque es una constante:
+            \(\int k\,g(x)\,dx = k\int g(x)\,dx\).
+          </p>
+          <p>
+            <strong>Mini-ejemplo:</strong> \(f(x) = kx\) en \([0,2]\).
+            \(k\int_{0}^{2} x\,dx = k\left[\tfrac{x^{2}}{2}\right]_{0}^{2} = 2k = 1\), entonces
+            \(k = \tfrac{1}{2}\). Y \(\tfrac{1}{2}x \geq 0\) en \([0,2]\), así que es densidad.
+          </p>
+        </div>
+
+        <div class="caja caja-formula">
+          <span class="caja-tit">3. La función de distribución acumulada \(F(x)\)</span>
+          <p>
+            \(F(x)\) responde siempre la misma pregunta: <strong>¿qué probabilidad hay de que \(X\) no
+            pase de \(x\)?</strong> Es el área acumulada desde la punta izquierda hasta \(x\):
+          </p>
+          <p>\[ F(x) = P(X \leq x) = \int_{-\infty}^{x} f(t)\, dt \]</p>
+          <p>
+            Se usa la letra \(t\) adentro porque \(x\) ya está ocupada como límite de arriba: \(t\)
+            recorre los valores desde la izquierda hasta llegar a \(x\).
+          </p>
+          <p>
+            <strong>Por qué va por tramos:</strong> como \(f\) está definida por tramos, el área
+            acumulada también. Con una densidad que vive en \([a, b]\) siempre hay tres tramos:
+          </p>
+          <ul>
+            <li>\(x &lt; a\): todavía no se acumuló nada, \(F(x) = 0\).</li>
+            <li>\(a \leq x \leq b\): se acumula el área desde \(a\) hasta \(x\), \(F(x) = \int_{a}^{x} f(t)\,dt\).</li>
+            <li>\(x &gt; b\): ya se juntó toda el área, \(F(x) = 1\).</li>
+          </ul>
+          <p>
+            <strong>Controles:</strong> \(F(a) = 0\), \(F(b) = 1\), y \(F\) nunca baja (el área
+            acumulada solo puede crecer).
+          </p>
+          <p>
+            <strong>Para qué sirve:</strong> una vez que tenés \(F\), las probabilidades salen sin
+            volver a integrar:
+          </p>
+          <p>\[ P(X \leq x) = F(x) \qquad P(a &lt; X \leq b) = F(b) - F(a) \qquad P(X &gt; x) = 1 - F(x) \]</p>
+          <p>
+            <strong>Mini-ejemplo:</strong> \(f(x) = \tfrac{1}{2}\) en \([0,2]\). En el tramo del medio
+            \(F(x) = \int_{0}^{x} \tfrac{1}{2}\,dt = \tfrac{x}{2}\). Control: \(F(0) = 0\) y
+            \(F(2) = 1\). Entonces \(P(X \leq 1) = F(1) = 0{,}5\).
+          </p>
+        </div>
+
+        <div class="caja caja-formula">
+          <span class="caja-tit">4. En una continua da igual \(&lt;\) que \(\leq\)</span>
+          <p>La probabilidad de un valor puntual es el área de un segmento sin ancho:</p>
+          <p>\[ P(X = a) = \int_{a}^{a} f(x)\, dx = 0 \]</p>
+          <p>
+            Por eso \(P(X \leq 1) = P(X &lt; 1)\) y \(P(1 &lt; X \leq 3) = P(1 \leq X \leq 3)\).
+            En las discretas esto <strong>no</strong> vale y cambiar uno por otro cambia el resultado.
+          </p>
+        </div>
+
+        <div class="caja caja-formula">
+          <span class="caja-tit">5. Esperanza y varianza de una continua</span>
+          <p>
+            La <strong>esperanza</strong> es el promedio a la larga: cada valor pesado por su
+            densidad. Es la misma idea que \(\sum x\,f(x)\) de las discretas, con integral:
+          </p>
+          <p>\[ E(X) = \mu = \int_{-\infty}^{\infty} x \cdot f(x)\, dx \]</p>
+          <p>
+            El <strong>momento de segundo orden</strong> es lo mismo pero con \(x^{2}\). En general, la
+            esperanza de cualquier función \(g(X)\) se calcula así:
+          </p>
+          <p>\[ E\big[g(X)\big] = \int_{-\infty}^{\infty} g(x) \cdot f(x)\, dx \qquad\Longrightarrow\qquad E(X^{2}) = \int_{-\infty}^{\infty} x^{2} \cdot f(x)\, dx \]</p>
+          <p>
+            La <strong>varianza</strong> mide cuánto se desparraman los valores alrededor de la media:
+            es el promedio de las distancias al cuadrado a \(\mu\).
+          </p>
+          <p>\[ \mathrm{Var}(X) = E\big[(X - \mu)^{2}\big] \qquad \text{(definición)} \]</p>
+          <p>\[ \mathrm{Var}(X) = E(X^{2}) - [E(X)]^{2} \qquad \text{(fórmula de cálculo, se demuestra en el inciso f)} \]</p>
+          <p>
+            Y el desvío estándar es su raíz, \(\sigma = \sqrt{\mathrm{Var}(X)}\), que vuelve a estar
+            en la misma unidad que \(X\). (En la app la varianza también aparece escrita \(V(X)\); es
+            lo mismo.)
+          </p>
+          <p>
+            <strong>Mini-ejemplo:</strong> \(f(x) = \tfrac{1}{2}\) en \([0,2]\).
+            \(E(X) = \int_{0}^{2} x\cdot\tfrac{1}{2}\,dx = 1\);
+            \(E(X^{2}) = \int_{0}^{2} x^{2}\cdot\tfrac{1}{2}\,dx = \tfrac{4}{3}\);
+            \(\mathrm{Var}(X) = \tfrac{4}{3} - 1^{2} = \tfrac{1}{3}\).
+          </p>
+        </div>
+
+        <h4>Desarme del enunciado</h4>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Frase del enunciado</th><th>Qué significa</th><th>A dónde va</th></tr>
+            <tr><td>&ldquo;tiempo \(X\), medido en horas&rdquo;</td><td>la unidad de \(X\)</td><td>todas las respuestas en horas (la varianza en horas\(^{2}\))</td></tr>
+            <tr><td>&ldquo;variable aleatoria continua&rdquo;</td><td>probabilidad = área</td><td>integrales, y \(P(X = a) = 0\)</td></tr>
+            <tr><td>&ldquo;\(k(4 - x)\), \(0 \leq x \leq 4\)&rdquo;</td><td>recta que baja; vive en \([0,4]\)</td><td>integrar de 0 a 4</td></tr>
+            <tr><td>&ldquo;Justificar verificando las condiciones&rdquo;</td><td>no alcanza con dar \(k\)</td><td>mostrar \(f \geq 0\) <strong>y</strong> área 1</td></tr>
+            <tr><td>&ldquo;expresándola por tramos&rdquo;</td><td>los tres tramos de \(F\)</td><td>\(x &lt; 0\); \(0 \leq x \leq 4\); \(x &gt; 4\)</td></tr>
+            <tr><td>&ldquo;\(P(X \leq 1)\)&rdquo;</td><td>área acumulada hasta 1</td><td>\(F(1)\)</td></tr>
+            <tr><td>&ldquo;\(P(1 &lt; X \leq 3)\)&rdquo;</td><td>área entre 1 y 3</td><td>\(F(3) - F(1)\)</td></tr>
+            <tr><td>&ldquo;Demostrar que&hellip;&rdquo;</td><td>partir de la definición de varianza</td><td>desarrollar \(E[(X-\mu)^{2}]\)</td></tr>
+          </table>
+        </div>
+
+        <span class="paso">Inciso a &mdash; La constante \(k\)</span>
+        <p>Fórmula (condición 2, área total 1):</p>
+        <p>\[ \int_{-\infty}^{\infty} f(x)\, dx = 1 \]</p>
+        <p>Fuera de \([0,4]\) la densidad vale 0 y no aporta área, así que solo queda integrar de 0 a 4:</p>
+        <p>\[ \int_{0}^{4} k(4 - x)\, dx = 1 \]</p>
+        <p>La \(k\) es constante y sale afuera:</p>
+        <p>\[ k \int_{0}^{4} (4 - x)\, dx = 1 \]</p>
+        <p>Primitiva de \(4\) es \(4x\), y la de \(x\) es \(\frac{x^{2}}{2}\):</p>
+        <p>\[ k \left[ 4x - \frac{x^{2}}{2} \right]_{0}^{4} = 1 \]</p>
+        <p>Evaluamos en 4 y restamos el valor en 0 (que da 0):</p>
+        <p>\[ k \left( 16 - \frac{16}{2} \right) = k\,(16 - 8) = 8k = 1 \]</p>
+        <p>\[ k = \frac{1}{8} = \mathbf{0{,}125} \]</p>
+        <p>
+          <strong>Control geométrico:</strong> el gráfico es un triángulo de base 4 y altura
+          \(f(0) = 4k\). Su área es \(\frac{4 \cdot 4k}{2} = 8k\), la misma ecuación.
+        </p>
+        <p><strong>Ahora la condición 1</strong> (no negatividad), con \(k = \frac{1}{8}\):</p>
+        <ul>
+          <li>Fuera de \([0,4]\): \(f(x) = 0 \geq 0\). &#10003;</li>
+          <li>
+            En \([0,4]\): \(f(x) = \frac{1}{8}(4 - x)\). El factor \(\frac{1}{8}\) es positivo, y
+            \(4 - x \geq 0\) porque \(x \leq 4\). Producto de dos no negativos: \(f(x) \geq 0\). &#10003;
+          </li>
+        </ul>
+
+        <div class="caja caja-calc">
+          <span class="caja-tit">En la calculadora (control)</span>
+          <p>
+            En las Casio con tecla de integral (fx-82ES PLUS, fx-570, fx-991): tecla \(\int\square\,dx\)
+            &rarr; escribir <code>4 &minus; X</code> (la X sale con ALPHA + ) ) &rarr; límite de abajo 0,
+            de arriba 4 &rarr; = &nbsp; da <code>8</code>. Como \(8k = 1\), \(k = 1/8\).
+          </p>
+        </div>
+
+        <div class="caja caja-resp">
+          <span class="caja-tit">Respuesta a</span>
+          <p>
+            \(k = \tfrac{1}{8}\). Con ese valor \(f(x) = \tfrac{1}{8}(4 - x)\) es densidad porque cumple
+            las dos condiciones: es no negativa en todo \(\mathbb{R}\) (vale 0 afuera y
+            \(\tfrac{1}{8} &gt; 0\), \(4 - x \geq 0\) adentro) y su área total vale 1.
+          </p>
+        </div>
+
+        <span class="paso">Inciso b &mdash; Gráfico de la densidad</span>
+        <p>
+          Con \(k = \frac{1}{8}\), la fórmula es \(f(x) = \frac{4 - x}{8}\): una <strong>recta</strong>
+          con pendiente negativa. Para una recta alcanzan dos puntos, pero armamos una tabla para
+          verla bien:
+        </p>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>\(x\) (horas)</th><td>\(x &lt; 0\)</td><td>0</td><td>1</td><td>2</td><td>3</td><td>4</td><td>\(x &gt; 4\)</td></tr>
+            <tr><th>\(f(x)\)</th><td>0</td><td>0,5</td><td>0,375</td><td>0,25</td><td>0,125</td><td>0</td><td>0</td></tr>
+          </table>
+        </div>
+
+        <div class="pd-grafico">
+          <svg viewBox="0 0 620 250" role="img" aria-label="Densidad triangular que baja en línea recta desde 0,5 en x igual a 0 hasta 0 en x igual a 4" style="max-width:100%;height:auto">
+            <path class="area suave" d="M 80,205 L 80,55 L 480,205 Z"/>
+            <line class="eje" x1="30" y1="205" x2="590" y2="205"/>
+            <line class="eje" x1="80" y1="30" x2="80" y2="215"/>
+            <line class="campana" x1="30" y1="205" x2="80" y2="205"/>
+            <line class="campana" x1="80" y1="55" x2="480" y2="205"/>
+            <line class="campana" x1="480" y1="205" x2="580" y2="205"/>
+            <line class="guia" x1="80" y1="130" x2="280" y2="130"/>
+            <line class="guia" x1="280" y1="130" x2="280" y2="205"/>
+            <circle class="punto" cx="80" cy="55" r="4"/>
+            <circle class="punto" cx="280" cy="130" r="4"/>
+            <circle class="punto" cx="480" cy="205" r="4"/>
+            <text class="rotulo" x="80" y="228" text-anchor="middle">0</text>
+            <text class="rotulo" x="180" y="228" text-anchor="middle">1</text>
+            <text class="rotulo" x="280" y="228" text-anchor="middle">2</text>
+            <text class="rotulo" x="380" y="228" text-anchor="middle">3</text>
+            <text class="rotulo" x="480" y="228" text-anchor="middle">4</text>
+            <text class="rotulo" x="580" y="228" text-anchor="middle">x (h)</text>
+            <text class="rotulo" x="72" y="59" text-anchor="end">0,5</text>
+            <text class="rotulo" x="72" y="134" text-anchor="end">0,25</text>
+            <text class="rotulo" x="90" y="38">f(x)</text>
+            <text class="valor" x="200" y="180" text-anchor="middle">área = 1</text>
+          </svg>
+          <p class="pd-pie">Un triángulo: base 4, altura 0,5, área \(\tfrac{4 \cdot 0{,}5}{2} = 1\). Fuera de \([0,4]\) la densidad es la recta \(f = 0\), pegada al eje.</p>
+        </div>
+
+        <div class="caja caja-resp">
+          <span class="caja-tit">Respuesta b</span>
+          <p>
+            La densidad es un segmento de recta que baja desde \((0\,;\,0{,}5)\) hasta \((4\,;\,0)\) y
+            vale 0 en el resto. <strong>Lectura:</strong> los tiempos cortos son los más probables y
+            cuanto más largo el tiempo, menos probable; ningún ticket lleva más de 4 horas.
+          </p>
+        </div>
+
+        <span class="paso">Inciso c &mdash; La acumulada \(F(x)\) por tramos</span>
+        <p>Fórmula:</p>
+        <p>\[ F(x) = P(X \leq x) = \int_{-\infty}^{x} f(t)\, dt \]</p>
+        <p><strong>Tramo 1, \(x &lt; 0\):</strong> a la izquierda de 0 la densidad es 0, no hay área acumulada.</p>
+        <p>\[ F(x) = \int_{-\infty}^{x} 0\, dt = 0 \]</p>
+        <p><strong>Tramo 2, \(0 \leq x \leq 4\):</strong> se acumula el área desde 0 hasta \(x\) (antes de 0 no suma nada):</p>
+        <p>\[ F(x) = \int_{0}^{x} \frac{1}{8}(4 - t)\, dt = \frac{1}{8} \left[ 4t - \frac{t^{2}}{2} \right]_{0}^{x} \]</p>
+        <p>Evaluamos en \(x\) y restamos el valor en 0 (que da 0):</p>
+        <p>\[ F(x) = \frac{1}{8} \left( 4x - \frac{x^{2}}{2} \right) = \frac{4x}{8} - \frac{x^{2}}{16} = \frac{x}{2} - \frac{x^{2}}{16} \]</p>
+        <p><strong>Tramo 3, \(x &gt; 4\):</strong> ya se acumuló toda el área, que vale 1.</p>
+        <p>\[ F(x) = \int_{0}^{4} f(t)\, dt + \int_{4}^{x} 0\, dt = 1 + 0 = 1 \]</p>
+        <p><strong>Controles:</strong></p>
+        <p>\[ F(0) = 0 - 0 = 0 \qquad F(4) = \frac{4}{2} - \frac{16}{16} = 2 - 1 = 1 \]</p>
+        <p>
+          Los tramos empalman (no hay saltos: 0 a la izquierda, 1 a la derecha), y en el medio \(F\)
+          crece porque su derivada es \(f(x) \geq 0\).
+        </p>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>\(x\)</th><td>0</td><td>1</td><td>2</td><td>3</td><td>4</td></tr>
+            <tr><th>\(F(x)\)</th><td>0</td><td>\(\tfrac{7}{16} = 0{,}4375\)</td><td>\(\tfrac{3}{4} = 0{,}75\)</td><td>\(\tfrac{15}{16} = 0{,}9375\)</td><td>1</td></tr>
+          </table>
+        </div>
+
+        <div class="caja caja-resp">
+          <span class="caja-tit">Respuesta c</span>
+          <p>\[ F(x) = \begin{cases} 0, &amp; x &lt; 0 \\ \dfrac{x}{2} - \dfrac{x^{2}}{16}, &amp; 0 \leq x \leq 4 \\ 1, &amp; x &gt; 4 \end{cases} \]</p>
+        </div>
+
+        <span class="paso">Inciso d &mdash; \(P(X \leq 1)\) y \(P(1 &lt; X \leq 3)\)</span>
+        <p><strong>Primera probabilidad.</strong> Fórmula:</p>
+        <p>\[ P(X \leq x) = F(x) \]</p>
+        <p>Como 1 está en el tramo del medio, usamos \(F(x) = \frac{x}{2} - \frac{x^{2}}{16}\):</p>
+        <p>\[ P(X \leq 1) = F(1) = \frac{1}{2} - \frac{1}{16} = \frac{8}{16} - \frac{1}{16} = \frac{7}{16} = \mathbf{0{,}4375} \]</p>
+        <p><strong>Segunda probabilidad.</strong> Fórmula:</p>
+        <p>\[ P(a &lt; X \leq b) = F(b) - F(a) \]</p>
+        <p>\[ F(3) = \frac{3}{2} - \frac{9}{16} = \frac{24}{16} - \frac{9}{16} = \frac{15}{16} \]</p>
+        <p>\[ P(1 &lt; X \leq 3) = F(3) - F(1) = \frac{15}{16} - \frac{7}{16} = \frac{8}{16} = \frac{1}{2} = \mathbf{0{,}5000} \]</p>
+        <p>
+          <strong>Control por integral directa</strong> (sin usar \(F\)):
+          \(\int_{0}^{1} \frac{1}{8}(4-x)\,dx = \frac{1}{8}\left(4 - \frac{1}{2}\right) = \frac{3{,}5}{8} = 0{,}4375\). &#10003;
+        </p>
+        <p>
+          El \(\leq\) o \(&lt;\) no cambia nada: \(X\) es continua y \(P(X = 1) = 0\), así que
+          \(P(X \leq 1) = P(X &lt; 1)\) y \(P(1 &lt; X \leq 3) = P(1 \leq X \leq 3)\).
+        </p>
+
+        <div class="pd-grafico">
+          <svg viewBox="0 0 620 250" role="img" aria-label="Densidad triangular con el tramo de 0 a 1 sombreado fuerte y el de 1 a 3 sombreado suave" style="max-width:100%;height:auto">
+            <path class="area" d="M 80,205 L 80,55 L 180,92.5 L 180,205 Z"/>
+            <path class="area suave" d="M 180,205 L 180,92.5 L 380,167.5 L 380,205 Z"/>
+            <line class="eje" x1="30" y1="205" x2="590" y2="205"/>
+            <line class="eje" x1="80" y1="30" x2="80" y2="215"/>
+            <line class="campana" x1="30" y1="205" x2="80" y2="205"/>
+            <line class="campana" x1="80" y1="55" x2="480" y2="205"/>
+            <line class="campana" x1="480" y1="205" x2="580" y2="205"/>
+            <line class="corte" x1="180" y1="92.5" x2="180" y2="205"/>
+            <line class="corte" x1="380" y1="167.5" x2="380" y2="205"/>
+            <text class="rotulo" x="80" y="228" text-anchor="middle">0</text>
+            <text class="rotulo" x="180" y="228" text-anchor="middle">1</text>
+            <text class="rotulo" x="280" y="228" text-anchor="middle">2</text>
+            <text class="rotulo" x="380" y="228" text-anchor="middle">3</text>
+            <text class="rotulo" x="480" y="228" text-anchor="middle">4</text>
+            <text class="rotulo" x="580" y="228" text-anchor="middle">x (h)</text>
+            <text class="valor" x="130" y="160" text-anchor="middle">0,4375</text>
+            <text class="valor" x="270" y="180" text-anchor="middle">0,5</text>
+          </svg>
+          <p class="pd-pie">Área fuerte: \(P(X \leq 1)\). Área suave: \(P(1 &lt; X \leq 3)\). Lo que queda (de 3 a 4) es \(1 - \tfrac{15}{16} = 0{,}0625\).</p>
+        </div>
+
+        <div class="caja caja-resp">
+          <span class="caja-tit">Respuesta d</span>
+          <p>
+            \(P(X \leq 1) = \tfrac{7}{16} = 0{,}4375\): el <strong>43,75&nbsp;%</strong> de los tickets
+            se resuelve en <strong>una hora o menos</strong>.
+          </p>
+          <p>
+            \(P(1 &lt; X \leq 3) = \tfrac{1}{2} = 0{,}5\): la <strong>mitad</strong> de los tickets
+            tarda <strong>más de una hora pero no más de tres</strong>.
+          </p>
+          <p>
+            Fijate que el tramo de 0 a 1 mide 1 hora y tiene casi tanta probabilidad como el de 1 a 3,
+            que mide el doble: es porque la densidad es más alta a la izquierda.
+          </p>
+        </div>
+
+        <span class="paso">Inciso e &mdash; Esperanza y varianza</span>
+        <p><strong>Esperanza.</strong> Fórmula:</p>
+        <p>\[ E(X) = \int_{-\infty}^{\infty} x \cdot f(x)\, dx \]</p>
+        <p>\[ E(X) = \int_{0}^{4} x \cdot \frac{1}{8}(4 - x)\, dx \]</p>
+        <p>Antes de integrar hay que <strong>distribuir la \(x\)</strong>, porque no se integra un producto así como está:</p>
+        <p>\[ = \frac{1}{8} \int_{0}^{4} (4x - x^{2})\, dx = \frac{1}{8} \left[ 2x^{2} - \frac{x^{3}}{3} \right]_{0}^{4} \]</p>
+        <p>(Primitiva de \(4x\) es \(\frac{4x^{2}}{2} = 2x^{2}\); la de \(x^{2}\) es \(\frac{x^{3}}{3}\).) Evaluamos:</p>
+        <p>\[ = \frac{1}{8} \left( 32 - \frac{64}{3} \right) = \frac{1}{8} \cdot \frac{96 - 64}{3} = \frac{1}{8} \cdot \frac{32}{3} = \frac{4}{3} \approx \mathbf{1{,}3333} \]</p>
+
+        <p><strong>Momento de segundo orden.</strong> Fórmula:</p>
+        <p>\[ E(X^{2}) = \int_{-\infty}^{\infty} x^{2} \cdot f(x)\, dx \]</p>
+        <p>\[ E(X^{2}) = \int_{0}^{4} x^{2} \cdot \frac{1}{8}(4 - x)\, dx = \frac{1}{8} \int_{0}^{4} (4x^{2} - x^{3})\, dx \]</p>
+        <p>\[ = \frac{1}{8} \left[ \frac{4x^{3}}{3} - \frac{x^{4}}{4} \right]_{0}^{4} = \frac{1}{8} \left( \frac{256}{3} - 64 \right) = \frac{1}{8} \cdot \frac{256 - 192}{3} = \frac{1}{8} \cdot \frac{64}{3} = \frac{8}{3} \approx 2{,}6667 \]</p>
+
+        <p><strong>Varianza.</strong> Fórmula:</p>
+        <p>\[ \mathrm{Var}(X) = E(X^{2}) - [E(X)]^{2} \]</p>
+        <p>\[ \mathrm{Var}(X) = \frac{8}{3} - \left( \frac{4}{3} \right)^{2} = \frac{8}{3} - \frac{16}{9} = \frac{24}{9} - \frac{16}{9} = \frac{8}{9} \approx \mathbf{0{,}8889} \]</p>
+        <p>Y el desvío:</p>
+        <p>\[ \sigma = \sqrt{\frac{8}{9}} = \frac{2\sqrt{2}}{3} \approx 0{,}9428 \text{ horas} \]</p>
+
+        <div class="caja caja-calc">
+          <span class="caja-tit">En la calculadora</span>
+          <p>La cuenta final, con fracciones exactas: <code>8 &divide; 3 &minus; ( 4 &divide; 3 ) x&sup2; =</code> &nbsp; da <code>8/9</code>; con S&hArr;D pasa a <code>0.8888888889</code>.</p>
+          <p>Control de las integrales con la tecla \(\int\square\,dx\): \(\int_{0}^{4} X(4-X)\div 8\) da 1.333333333 y \(\int_{0}^{4} X^{2}(4-X)\div 8\) da 2.666666667.</p>
+        </div>
+
+        <div class="caja caja-resp">
+          <span class="caja-tit">Respuesta e</span>
+          <p>
+            \(E(X) = \tfrac{4}{3} \approx 1{,}3333\) horas. <strong>Interpretación:</strong> a la
+            larga, resolviendo muchos tickets, el técnico tarda en promedio
+            <strong>1 hora y 20 minutos</strong> por ticket (\(0{,}3333 \cdot 60 = 20\) minutos).
+          </p>
+          <p>
+            \(\mathrm{Var}(X) = \tfrac{8}{9} \approx 0{,}8889\) horas\(^{2}\); desvío \(\approx 0{,}9428\)
+            horas (unos 57 minutos).
+          </p>
+          <p>
+            Control: la densidad pesa más a la izquierda, así que la media tenía que quedar
+            <em>por debajo</em> del centro del recorrido (2). Da 1,33: cierra.
+          </p>
+        </div>
+
+        <span class="paso">Inciso f &mdash; Demostración de \(\mathrm{Var}(X) = E(X^{2}) - [E(X)]^{2}\)</span>
+        <p>
+          Hay que partir de la <strong>definición</strong> de varianza y llegar a la fórmula de
+          cálculo. Llamamos \(\mu = E(X)\), que es <strong>un número fijo</strong> (una constante).
+          Lo hacemos para una continua, que es el caso del ejercicio; al final se aclara la discreta.
+        </p>
+        <p>Las propiedades que se van a usar, cada una con su porqué:</p>
+        <ul>
+          <li><strong>(P1)</strong> \(E[g(X)] = \int g(x) f(x)\,dx\): la esperanza de una función de \(X\).</li>
+          <li><strong>(P2)</strong> La integral de una suma es la suma de las integrales.</li>
+          <li><strong>(P3)</strong> Una constante sale afuera de la integral: \(\int c\,h(x)\,dx = c\int h(x)\,dx\).</li>
+          <li><strong>(P4)</strong> \(\int f(x)\,dx = 1\): el área total de la densidad.</li>
+        </ul>
+        <p><strong>Paso 1 &mdash; Definición.</strong></p>
+        <p>\[ \mathrm{Var}(X) = E\big[(X - \mu)^{2}\big] \]</p>
+        <p><strong>Paso 2 &mdash; Por (P1)</strong>, con \(g(x) = (x - \mu)^{2}\):</p>
+        <p>\[ = \int_{-\infty}^{\infty} (x - \mu)^{2} f(x)\, dx \]</p>
+        <p><strong>Paso 3 &mdash; Cuadrado de un binomio</strong>, \((a - b)^{2} = a^{2} - 2ab + b^{2}\):</p>
+        <p>\[ = \int_{-\infty}^{\infty} \big( x^{2} - 2\mu x + \mu^{2} \big) f(x)\, dx \]</p>
+        <p><strong>Paso 4 &mdash; Distributiva y (P2)</strong>: se separa en tres integrales:</p>
+        <p>\[ = \int_{-\infty}^{\infty} x^{2} f(x)\, dx \;-\; \int_{-\infty}^{\infty} 2\mu\, x f(x)\, dx \;+\; \int_{-\infty}^{\infty} \mu^{2} f(x)\, dx \]</p>
+        <p><strong>Paso 5 &mdash; (P3)</strong>: \(2\mu\) y \(\mu^{2}\) son constantes, salen afuera:</p>
+        <p>\[ = \int_{-\infty}^{\infty} x^{2} f(x)\, dx \;-\; 2\mu \int_{-\infty}^{\infty} x f(x)\, dx \;+\; \mu^{2} \int_{-\infty}^{\infty} f(x)\, dx \]</p>
+        <p><strong>Paso 6 &mdash; Reconocer cada integral:</strong> la primera es \(E(X^{2})\) por (P1); la segunda es \(E(X) = \mu\) por definición de esperanza; la tercera vale 1 por (P4):</p>
+        <p>\[ = E(X^{2}) - 2\mu \cdot \mu + \mu^{2} \cdot 1 \]</p>
+        <p><strong>Paso 7 &mdash; Juntar términos semejantes:</strong></p>
+        <p>\[ = E(X^{2}) - 2\mu^{2} + \mu^{2} = E(X^{2}) - \mu^{2} \]</p>
+        <p><strong>Paso 8 &mdash; Volver a escribir \(\mu = E(X)\):</strong></p>
+        <p>\[ \mathrm{Var}(X) = E(X^{2}) - [E(X)]^{2} \qquad \blacksquare \]</p>
+        <div class="caja caja-ejemplo">
+          <span class="caja-tit">La misma demostración en una línea (con propiedades de \(E\))</span>
+          <p>
+            Usando la linealidad de la esperanza, \(E(aY + bZ + c) = aE(Y) + bE(Z) + c\), que es justo
+            lo que resumen (P2), (P3) y (P4):
+          </p>
+          <p>\[ E\big[(X-\mu)^{2}\big] = E\big[X^{2} - 2\mu X + \mu^{2}\big] = E(X^{2}) - 2\mu E(X) + \mu^{2} = E(X^{2}) - 2\mu^{2} + \mu^{2} = E(X^{2}) - \mu^{2} \]</p>
+          <p>
+            Para una discreta es idéntica cambiando cada integral por una sumatoria
+            \(\sum_{x}\) y usando \(\sum f(x) = 1\).
+          </p>
+        </div>
+        <p>
+          <strong>Verificación con este ejercicio:</strong> por la definición,
+          \(\int_{0}^{4} \left(x - \tfrac{4}{3}\right)^{2} \tfrac{1}{8}(4-x)\,dx = \tfrac{8}{9}\), lo mismo
+          que dio la fórmula en el inciso e.
+        </p>
+
+        <div class="caja caja-resp">
+          <span class="caja-tit">Respuesta f</span>
+          <p>
+            Se parte de \(\mathrm{Var}(X) = E[(X-\mu)^{2}]\), se desarrolla el binomio, se reparte la
+            esperanza (integral de la suma, constantes afuera), se usa \(E(X) = \mu\) y
+            \(\int f = 1\), y queda \(E(X^{2}) - 2\mu^{2} + \mu^{2} = E(X^{2}) - [E(X)]^{2}\).
+          </p>
+        </div>
+
+        <h4>Parecido en la guía</h4>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Ejercicio de la guía</th><th>Qué tiene igual</th><th>Qué cambia en el final</th></tr>
+            <tr>
+              <td class="lbl">Unidad 4, Ejercicio 2<br><em>Ganancia del distribuidor</em></td>
+              <td>Densidad lineal que baja, \(f(x) = 2(1-x)\): media y varianza por integral, distribuir antes de integrar.</td>
+              <td>Allá la densidad ya viene normalizada; acá hay que hallar \(k\) y justificar. Además acá piden \(F(x)\), gráfico y probabilidades.</td>
+            </tr>
+            <tr>
+              <td class="lbl">Unidad 4, Ejercicio 6<br><em>Tiempo de espera en el 911</em></td>
+              <td>Tiempo continuo en un intervalo acotado, \(\mu\) y \(\sigma^{2}\) con \(E(X^{2}) - \mu^{2}\).</td>
+              <td>Allá la densidad es constante (uniforme); acá es una recta inclinada.</td>
+            </tr>
+            <tr>
+              <td class="lbl">Unidad 4, Teoría 3<br><em>Varianza y desvío estándar</em></td>
+              <td>La fórmula \(V(X) = E(X^{2}) - [E(X)]^{2}\) y su desarrollo desde la definición.</td>
+              <td>Acá la piden <strong>demostrada por escrito</strong>, justificando cada igualdad.</td>
+            </tr>
+          </table>
+        </div>
+        <p>La constante y la acumulada \(F(x)\) son de la Unidad 3, que todavía no está cargada en la app.</p>
+
+        <div class="caja caja-ojo">
+          <span class="caja-tit">Las trampas de este ejercicio</span>
+          <ol>
+            <li>
+              <strong>&ldquo;Justificar verificando las condiciones&rdquo; son dos condiciones.</strong>
+              Dar solo \(k = 1/8\) por el área deja afuera la no negatividad (\(k &gt; 0\) y
+              \(4 - x \geq 0\) en \([0,4]\)).
+            </li>
+            <li>
+              <strong>\(F(x)\) sin los tramos de afuera está incompleta.</strong> Hay que escribir
+              también el 0 para \(x &lt; 0\) y el 1 para \(x &gt; 4\).
+            </li>
+            <li>
+              <strong>Confundir \(f\) con \(F\).</strong> \(f(1) = 0{,}375\) es una altura, no una
+              probabilidad; la probabilidad es \(F(1) = 0{,}4375\).
+            </li>
+            <li>
+              <strong>\(E(X^{2})\) no es \([E(X)]^{2}\).</strong> \(\tfrac{8}{3} \neq \tfrac{16}{9}\); la
+              diferencia entre los dos es justamente la varianza.
+            </li>
+            <li>
+              <strong>Distribuir la \(x\) antes de integrar</strong> en \(E(X)\) y \(E(X^{2})\).
+            </li>
+            <li>
+              <strong>La demostración se justifica paso a paso.</strong> Escribir solo la cadena de
+              igualdades sin decir por qué \(\mu\) sale afuera o por qué \(\int f = 1\) no alcanza.
+            </li>
+          </ol>
+        </div>
+      </div>
+    </details>
+  </div>
+</section>

@@ -1,4 +1,4 @@
-<div class="bloque" data-examen="igual" data-examen-ref="Parcial 2023 · ej. 2c" data-examen-nota="Preguntan la probabilidad de que la empresa gane exactamente 1000 dólares con una densidad continua. La respuesta es 0: en una continua P(X = a) = 0 siempre.">
+<div class="bloque" data-examen="igual" data-examen-ref="Parcial 2023 · ej. 2 · los 4 finales" data-examen-nota="Hallar la constante k para que f sea densidad cae en cinco de los seis exámenes (el parcial 2023 y los cuatro finales); F(x) por tramos, en los dos finales de 2026. Y en el parcial 2023 preguntan la probabilidad de ganar exactamente 1000 dólares con una densidad continua: es 0, porque en una continua P(X = a) = 0 siempre.">
   <p class="kicker">Antes de empezar</p>
   <h2>1. Que cambia respecto de las discretas</h2>
 
@@ -35,6 +35,162 @@
       El origen es el mismo de siempre: alguien tomo \(E(X) = \int x \cdot f(x)\,dx\), le metio la
       densidad del modelo, resolvio la integral <strong>una sola vez en general</strong>, y publico
       el resultado. Nosotros lo usamos hecho.
+    </p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Hallar la constante \(k\) para que sea una distribucion valida</h3>
+
+  <p>
+    Es el primer inciso de casi todos los ejercicios de densidad: te dan la formula de \(f\) con una
+    letra suelta (\(k\) o \(c\)) y te piden su valor. La idea es siempre la misma, sea discreta o
+    continua: <strong>una distribucion reparte el 100&nbsp;% de la probabilidad, ni mas ni
+    menos</strong>. Entonces se exige que el total de 1 y se despeja la letra.
+  </p>
+
+  <div class="caja caja-formula">
+    <span class="caja-tit">Las dos condiciones que tiene que cumplir</span>
+    <div class="tabla-wrap">
+      <table class="t full">
+        <tr><th></th><th>Discreta (tabla)</th><th>Continua (densidad)</th></tr>
+        <tr>
+          <td class="lbl">1. Nunca negativa</td>
+          <td>\(f(x) \geq 0\) en cada columna</td>
+          <td>\(f(x) \geq 0\) en todo el dominio</td>
+        </tr>
+        <tr>
+          <td class="lbl">2. El total es 1</td>
+          <td>\(\displaystyle \sum_{x} f(x) = 1\)</td>
+          <td>\(\displaystyle \int_{-\infty}^{\infty} f(x)\,dx = 1\)</td>
+        </tr>
+      </table>
+    </div>
+    <p>
+      La condicion 2 es la que <strong>da el valor</strong> de \(k\). La condicion 1 se usa para
+      <strong>justificar</strong> que el valor sirve, y el enunciado casi siempre dice
+      &ldquo;justificar verificando las condiciones&rdquo;: hay que escribir las dos.
+    </p>
+  </div>
+
+  <h4>Ejemplo 1 &mdash; Discreta: la \(k\) esta en la tabla</h4>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th>\(x\)</th><td>0</td><td>1</td><td>2</td><td>3</td></tr>
+      <tr><th>\(f(x)\)</th><td>\(0{,}10\)</td><td>\(0{,}20\)</td><td>\(k\)</td><td>\(0{,}30\)</td></tr>
+    </table>
+  </div>
+  <p>Condicion 2, la suma de todas las columnas es 1:</p>
+  <p>\[ \sum_{x} f(x) = 1 \]</p>
+  <p>\[ 0{,}10 + 0{,}20 + k + 0{,}30 = 1 \;\Rightarrow\; 0{,}60 + k = 1 \;\Rightarrow\; k = \mathbf{0{,}40} \]</p>
+  <p>
+    Condicion 1: todos los valores de la tabla, incluido \(k = 0{,}40\), son positivos. Las dos se
+    cumplen, asi que es una funcion de probabilidad.
+  </p>
+
+  <h4>Ejemplo 2 &mdash; Continua: la \(k\) multiplica a la formula</h4>
+  <p>\[ f(x) = \begin{cases} k\,x, &amp; 0 \leq x \leq 2 \\ 0, &amp; \text{en otro caso} \end{cases} \]</p>
+  <p>
+    Condicion 2, el area total es 1. Afuera de \([0, 2]\) la densidad vale 0 y no aporta area, asi
+    que la integral se hace solo donde vive:
+  </p>
+  <p>\[ \int_{-\infty}^{\infty} f(x)\,dx = \int_{0}^{2} k\,x\,dx = 1 \]</p>
+  <p>
+    La \(k\) es un numero fijo: sale afuera de la integral. Despues se integra \(x\) (sube un grado
+    y se divide por el nuevo exponente) y se evalua en los bordes:
+  </p>
+  <p>\[ k \int_{0}^{2} x\,dx = k \left[ \frac{x^{2}}{2} \right]_{0}^{2} = k \left( \frac{4}{2} - 0 \right) = 2k \]</p>
+  <p>\[ 2k = 1 \;\Rightarrow\; k = \mathbf{\tfrac{1}{2}} \]</p>
+  <p>
+    Condicion 1: en \([0, 2]\), \(x \geq 0\) y \(k = \tfrac12 &gt; 0\), entonces
+    \(f(x) = \tfrac12 x \geq 0\). Afuera vale 0. Las dos se cumplen.
+  </p>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Control rapido que te salva el inciso</span>
+    <p>
+      Si te da \(k\) negativa, el error esta en la integral (casi siempre, un signo al evaluar en
+      el borde de abajo). Una densidad con \(k &lt; 0\) daria areas negativas: no existe.
+    </p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>La funcion de distribucion acumulada \(F(x)\), por tramos</h3>
+
+  <p>
+    \(F(x)\) contesta siempre la misma pregunta: <strong>&ldquo;cuanta probabilidad junte desde
+    el principio hasta \(x\)&rdquo;</strong>. Es decir, \(F(x) = P(X \leq x)\).
+  </p>
+
+  <div class="caja caja-formula">
+    <span class="caja-tit">Como se arma</span>
+    <div class="tabla-wrap">
+      <table class="t full">
+        <tr><th>Discreta</th><th>Continua</th></tr>
+        <tr>
+          <td>\(\displaystyle F(x) = \sum_{t \leq x} f(t)\) &mdash; se van sumando las columnas</td>
+          <td>\(\displaystyle F(x) = \int_{-\infty}^{x} f(t)\,dt\) &mdash; se integra desde el principio hasta \(x\)</td>
+        </tr>
+        <tr>
+          <td>El grafico es una <strong>escalera</strong>: salta en cada valor posible y queda plana entre medio.</td>
+          <td>El grafico es una <strong>curva continua</strong> que sube sin saltos.</td>
+        </tr>
+      </table>
+    </div>
+    <p>En los dos casos: arranca en 0, termina en 1 y nunca baja (es no decreciente).</p>
+  </div>
+
+  <p>
+    &ldquo;Por tramos&rdquo; significa que hay que decir cuanto vale \(F\) en <strong>toda</strong>
+    la recta, no solo donde la densidad es distinta de cero. Siempre son tres pedazos:
+  </p>
+  <ol>
+    <li><strong>Antes del dominio</strong>: todavia no junte nada, \(F(x) = 0\).</li>
+    <li><strong>Dentro del dominio</strong>: la integral (o la suma) hasta \(x\).</li>
+    <li><strong>Despues del dominio</strong>: ya junte todo, \(F(x) = 1\).</li>
+  </ol>
+
+  <h4>Ejemplo 3 &mdash; \(F(x)\) de la densidad del ejemplo 2</h4>
+  <p>Con \(f(x) = \tfrac12 x\) en \([0, 2]\). Para un \(x\) dentro del dominio:</p>
+  <p>\[ F(x) = \int_{0}^{x} \tfrac12\,t\,dt = \tfrac12 \left[ \frac{t^{2}}{2} \right]_{0}^{x} = \frac{x^{2}}{4} \]</p>
+  <p>
+    La variable de adentro se llama \(t\) para no confundirla con la \(x\) del borde de arriba:
+    \(x\) es hasta donde se junta, \(t\) recorre el camino.
+  </p>
+  <p>Y los tres tramos juntos:</p>
+  <p>\[ F(x) = \begin{cases} 0, &amp; x &lt; 0 \\ \dfrac{x^{2}}{4}, &amp; 0 \leq x \leq 2 \\ 1, &amp; x &gt; 2 \end{cases} \]</p>
+  <p>
+    Control: en el borde de arriba \(F(2) = \tfrac{4}{4} = 1\). Si no da 1, la \(k\) estaba mal.
+  </p>
+
+  <h4>Para que sirve: probabilidades sin volver a integrar</h4>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Probabilidad de un tramo con \(F\)</span>
+    <p>\[ P(a &lt; X \leq b) = F(b) - F(a) \]</p>
+  </div>
+  <p>Con el ejemplo 3:</p>
+  <p>\[ P(X \leq 1) = F(1) = \frac{1^{2}}{4} = \mathbf{0{,}25} \]</p>
+  <p>\[ P(1 &lt; X \leq 2) = F(2) - F(1) = 1 - 0{,}25 = \mathbf{0{,}75} \]</p>
+
+  <h4>Ejemplo 4 &mdash; \(F(x)\) de la tabla del ejemplo 1</h4>
+  <p>Se suman las columnas de izquierda a derecha:</p>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th>\(x\)</th><td>0</td><td>1</td><td>2</td><td>3</td></tr>
+      <tr><th>\(f(x)\)</th><td>\(0{,}10\)</td><td>\(0{,}20\)</td><td>\(0{,}40\)</td><td>\(0{,}30\)</td></tr>
+      <tr><th>\(F(x)\)</th><td>\(0{,}10\)</td><td>\(0{,}30\)</td><td>\(0{,}70\)</td><td>\(1\)</td></tr>
+    </table>
+  </div>
+  <p>Escrita por tramos, entre un valor y el siguiente la escalera queda plana:</p>
+  <p>\[ F(x) = \begin{cases} 0, &amp; x &lt; 0 \\ 0{,}10, &amp; 0 \leq x &lt; 1 \\ 0{,}30, &amp; 1 \leq x &lt; 2 \\ 0{,}70, &amp; 2 \leq x &lt; 3 \\ 1, &amp; x \geq 3 \end{cases} \]</p>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">La diferencia que mas errores trae</span>
+    <p>
+      En la <strong>discreta</strong> el borde importa: \(P(X \geq 2) = 1 - F(1) = 1 - 0{,}30 =
+      0{,}70\), porque el 2 pesa y tiene que quedar adentro. En la <strong>continua</strong> no:
+      \(P(X &gt; 1)\) y \(P(X \geq 1)\) dan lo mismo, porque un punto solo no tiene area.
     </p>
   </div>
 </div>

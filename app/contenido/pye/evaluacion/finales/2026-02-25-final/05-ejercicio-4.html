@@ -1,0 +1,456 @@
+<!-- ==================== EJERCICIO 4 ==================== -->
+<section class="parcial-ej">
+  <div class="parcial-ej-cab">
+    <h2>Ejercicio 4</h2>
+    <span class="parcial-pts">22 puntos</span>
+    <span class="parcial-tema">Inferencia (unidad no cargada) &middot; Prueba de hipótesis para la media</span>
+  </div>
+
+  <p>
+    Se mide el consumo de memoria (en GB) de <strong>30 procesos</strong> en un servidor. Se obtuvo
+    un consumo promedio de <strong>2,4 GB</strong> y una <strong>varianza muestral de
+    0,36&nbsp;GB²</strong>. Se considera aceptable que el consumo medio <strong>no supere los
+    2,7&nbsp;GB</strong>. Suponiendo normalidad y utilizando un nivel de significación del
+    <strong>0,05</strong>, responda:
+  </p>
+
+  <ol class="parcial-incisos">
+    <li>Identifique la variable de estudio y el parámetro de interés.</li>
+    <li>El análisis se trata sobre una población o una muestra. Indique la diferencia.</li>
+    <li>Enuncie el Teorema del Límite Central.</li>
+    <li>Pruebe la hipótesis de que el consumo medio de memoria es inferior al nivel aceptable.</li>
+    <li>Si el valor \(p\) del contraste fuera 0,008, ¿qué decisión tomaría y por qué?</li>
+  </ol>
+
+  <div class="parcial-extras">
+    <details class="parcial-desp pd-resultados">
+      <summary>
+        <span class="pd-icono">&#10003;</span>
+        <span class="pd-txt"><b>Resultados</b><small>Solo las respuestas, sin procedimiento</small></span>
+      </summary>
+      <div class="pd-cuerpo">
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Inciso</th><th>Planteo</th><th>Resultado</th></tr>
+            <tr><td class="lbl">a) Variable y parámetro</td><td>&mdash;</td><td>\(X\): consumo de memoria (GB) de un proceso. Parámetro: \(\mu\), consumo medio de todos los procesos.</td></tr>
+            <tr><td class="lbl">b) Población o muestra</td><td>&mdash;</td><td>Se trabaja con una <strong>muestra</strong> de 30 procesos para concluir sobre la <strong>población</strong> (todos los procesos).</td></tr>
+            <tr><td class="lbl">c) TCL</td><td>&mdash;</td><td>Para \(n\) grande, \(\bar{X}\) es aproximadamente normal con media \(\mu\) y desvío \(\frac{\sigma}{\sqrt{n}}\).</td></tr>
+            <tr><td class="lbl">d) Hipótesis</td><td>\(H_0: \mu \geq 2{,}7\) vs \(H_1: \mu &lt; 2{,}7\)</td><td>\(t = \frac{2{,}4 - 2{,}7}{0{,}6/\sqrt{30}} = \mathbf{-2{,}7386} &lt; -1{,}699\): <strong>se rechaza \(H_0\)</strong>. El consumo medio es inferior a 2,7 GB.</td></tr>
+            <tr><td class="lbl">e) Valor \(p = 0{,}008\)</td><td>\(p\) vs \(\alpha\)</td><td>\(0{,}008 &lt; 0{,}05\): <strong>se rechaza \(H_0\)</strong>.</td></tr>
+          </table>
+        </div>
+      </div>
+    </details>
+
+    <details class="parcial-desp pd-explicacion">
+      <summary>
+        <span class="pd-icono">&#9998;</span>
+        <span class="pd-txt"><b>Explicación detallada</b><small>Desde cero: teoría, desarme del enunciado, resolución y trampas</small></span>
+      </summary>
+      <div class="pd-cuerpo">
+
+        <div class="caja caja-ejemplo">
+          <span class="caja-tit">El enunciado, otra vez</span>
+          <p>
+            Se midieron 30 procesos: en promedio consumen 2,4 GB, con varianza 0,36. Lo aceptable es
+            que el promedio de <em>todos</em> los procesos no pase de 2,7 GB. La pregunta de fondo:
+            ¿alcanza con ver que en 30 procesos dio 2,4 para asegurar que el promedio real está por
+            debajo de 2,7, o ese 2,4 podría ser pura casualidad de la muestra?
+          </p>
+        </div>
+
+        <h4>¿De qué tema es?</h4>
+        <p>
+          <strong>Inferencia estadística</strong>: población y muestra, Teorema del Límite Central y
+          prueba de hipótesis para una media. Es una unidad que <strong>todavía no está
+          cargada</strong> en la app, así que abajo va cada herramienta explicada en general antes
+          de usarla. Lo único que se reutiliza de lo cargado es la idea de estandarizar de la
+          Unidad 6.
+        </p>
+
+        <h4>Los conceptos que hacen falta, desde cero</h4>
+
+        <div class="caja caja-formula">
+          <span class="caja-tit">1. Población, muestra, parámetro y estadístico</span>
+          <p>
+            La <strong>población</strong> es el conjunto de <strong>todos</strong> los elementos que
+            interesan. La <strong>muestra</strong> es la parte de la población que realmente se
+            observa.
+          </p>
+          <p>
+            Un <strong>parámetro</strong> es un número que describe a la población (\(\mu\),
+            \(\sigma\)): existe, pero casi nunca se conoce. Un <strong>estadístico</strong> es un
+            número calculado con la muestra (\(\bar{x}\), \(s\)): se conoce, pero cambia de muestra en
+            muestra. La inferencia usa el estadístico para sacar conclusiones sobre el parámetro.
+          </p>
+          <p>
+            Mini-ejemplo: querés saber la altura media de los alumnos de la facultad (\(\mu\),
+            parámetro). Medís a 40 (muestra) y te da \(\bar{x} = 1{,}72\) m (estadístico).
+          </p>
+        </div>
+
+        <div class="caja caja-formula">
+          <span class="caja-tit">2. La media muestral también es una variable aleatoria</span>
+          <p>
+            Si sacás otra muestra de 30, el promedio no va a dar exactamente 2,4. Entonces
+            \(\bar{X}\) tiene su propia distribución (la <strong>distribución muestral de la
+            media</strong>), con:
+          </p>
+          <p>\[ E(\bar{X}) = \mu \qquad \sigma_{\bar{X}} = \frac{\sigma}{\sqrt{n}} \]</p>
+          <p>
+            \(\frac{\sigma}{\sqrt{n}}\) se llama <strong>error estándar</strong>: cuánto varía el
+            promedio de una muestra a otra. Es más chico que \(\sigma\): los promedios varían menos
+            que los datos sueltos, y menos cuanto más grande es \(n\).
+          </p>
+        </div>
+
+        <div class="caja caja-formula">
+          <span class="caja-tit">3. Prueba de hipótesis: la lógica</span>
+          <p>
+            Es un juicio: se parte de una afirmación que se da por cierta mientras no haya pruebas
+            fuertes en contra, y se mira si los datos alcanzan para descartarla.
+          </p>
+          <ul>
+            <li>
+              <strong>Hipótesis nula \(H_0\):</strong> la que se da por cierta de entrada. Siempre
+              lleva la <strong>igualdad</strong> (\(=\), \(\geq\) o \(\leq\)).
+            </li>
+            <li>
+              <strong>Hipótesis alternativa \(H_1\):</strong> lo que se quiere probar. Lleva la
+              desigualdad estricta (\(&lt;\), \(&gt;\) o \(\neq\)), y su signo indica hacia qué lado
+              se busca la evidencia.
+            </li>
+            <li>
+              <strong>Nivel de significación \(\alpha\):</strong> la probabilidad de rechazar \(H_0\)
+              cuando en realidad era verdadera (error de tipo I). Es el riesgo que uno acepta correr;
+              acá \(\alpha = 0{,}05\).
+            </li>
+          </ul>
+          <p>
+            Mini-ejemplo: un fabricante dice que sus pilas duran en promedio al menos 80 horas y
+            sospechás que duran menos. \(H_0: \mu \geq 80\) (lo que se da por cierto) y
+            \(H_1: \mu &lt; 80\) (lo que querés probar).
+          </p>
+        </div>
+
+        <div class="caja caja-formula">
+          <span class="caja-tit">4. El estadístico de prueba \(t\) y los grados de libertad</span>
+          <p>
+            Para decidir, se mide <strong>a cuántos errores estándar</strong> está la media muestral
+            del valor que dice \(H_0\) (\(\mu_0\)). Es la misma idea que el \(z\) de la Normal:
+          </p>
+          <p>\[ z = \frac{\bar{x} - \mu_0}{\sigma / \sqrt{n}} \quad \text{(si se conoce } \sigma\text{)} \qquad t = \frac{\bar{x} - \mu_0}{s / \sqrt{n}} \quad \text{(si no se conoce)} \]</p>
+          <p>
+            Cuando \(\sigma\) de la población es <strong>desconocida</strong> y se la reemplaza por
+            el desvío muestral \(s\), el cociente ya no es exactamente normal: sigue una
+            <strong>distribución \(t\) de Student</strong>. Es una campana simétrica centrada en 0,
+            parecida a la \(Z\) pero con colas más gruesas, porque suma la incertidumbre de haber
+            estimado \(\sigma\).
+          </p>
+          <p>
+            La \(t\) depende de los <strong>grados de libertad</strong>:
+          </p>
+          <p>\[ gl = n - 1 \]</p>
+          <p>
+            Son la cantidad de datos que pueden variar libremente una vez fijado el promedio (que ya
+            se usó para calcular \(s\)). Mini-ejemplo: tres números con promedio 5; si elegís 4 y 7,
+            el tercero está obligado a ser 4. Solo dos eran libres: 2 grados de libertad.
+          </p>
+          <p>
+            Cuantos más grados de libertad, más se parece la \(t\) a la \(Z\): con infinitos son
+            idénticas.
+          </p>
+        </div>
+
+        <div class="caja caja-formula">
+          <span class="caja-tit">5. La tabla \(t\) y la región de rechazo</span>
+          <p>
+            La tabla \(t\) se lee cruzando la fila de los <strong>grados de libertad</strong> con la
+            columna del <strong>área de la cola</strong> (\(\alpha\) para una cola). Da el valor
+            <strong>crítico</strong> \(t_\alpha\) que deja esa área en la cola derecha; por simetría,
+            el de la cola izquierda es el mismo con signo menos.
+          </p>
+          <p>
+            La <strong>región de rechazo</strong> es la zona de valores de \(t\) tan extremos que, si
+            \(H_0\) fuera cierta, saldrían con probabilidad \(\alpha\) o menos. Está en el lado que
+            marca \(H_1\):
+          </p>
+          <div class="tabla-wrap">
+            <table class="t full">
+              <tr><th>\(H_1\)</th><th>Tipo de prueba</th><th>Se rechaza \(H_0\) si</th></tr>
+              <tr><td>\(\mu &lt; \mu_0\)</td><td>unilateral izquierda</td><td>\(t &lt; -t_\alpha\)</td></tr>
+              <tr><td>\(\mu &gt; \mu_0\)</td><td>unilateral derecha</td><td>\(t &gt; t_\alpha\)</td></tr>
+              <tr><td>\(\mu \neq \mu_0\)</td><td>bilateral</td><td>\(|t| &gt; t_{\alpha/2}\)</td></tr>
+            </table>
+          </div>
+          <p>
+            Mini-ejemplo: con 10 grados de libertad y \(\alpha = 0{,}05\) a una cola, la tabla da
+            \(t = 1{,}812\). Si la prueba es unilateral izquierda, se rechaza \(H_0\) cuando el
+            \(t\) calculado es menor que \(-1{,}812\).
+          </p>
+        </div>
+
+        <div class="caja caja-formula">
+          <span class="caja-tit">6. El valor \(p\)</span>
+          <p>
+            Es la probabilidad de obtener un resultado <strong>tan extremo o más</strong> que el de
+            la muestra (en la dirección de \(H_1\)), <strong>suponiendo que \(H_0\) es
+            verdadera</strong>. Mide qué tan raro sería lo que viste si \(H_0\) fuera cierta.
+          </p>
+          <p>\[ \text{si } p \leq \alpha \Rightarrow \text{se rechaza } H_0 \qquad \text{si } p &gt; \alpha \Rightarrow \text{no se rechaza } H_0 \]</p>
+          <p>
+            Mini-ejemplo: sospechás que una moneda está cargada y en 10 tiros salen 10 caras. Si la
+            moneda fuera equilibrada (\(H_0\)), eso pasa con probabilidad
+            \(0{,}5^{10} \approx 0{,}001\). Es tan raro que dudás de \(H_0\): \(p = 0{,}001 &lt; 0{,}05\).
+          </p>
+        </div>
+
+        <h4>Desarme del enunciado</h4>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Frase del enunciado</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+            <tr><td>&ldquo;30 procesos&rdquo;</td><td>tamaño de la muestra</td><td>&mdash;</td><td>\(n = 30\); \(gl = 29\)</td></tr>
+            <tr><td>&ldquo;consumo promedio de 2,4 GB&rdquo;</td><td>media de la muestra</td><td>&mdash;</td><td>\(\bar{x} = 2{,}4\)</td></tr>
+            <tr><td>&ldquo;<strong>varianza</strong> muestral de 0,36 GB²&rdquo;</td><td>OJO: es \(s^{2}\), no \(s\)</td><td>\(s = \sqrt{0{,}36} = 0{,}6\)</td><td>\(s = 0{,}6\)</td></tr>
+            <tr><td>&ldquo;no supere los 2,7 GB&rdquo;</td><td>el valor de referencia</td><td>&mdash;</td><td>\(\mu_0 = 2{,}7\)</td></tr>
+            <tr><td>&ldquo;suponiendo normalidad&rdquo;</td><td>la población es normal</td><td>&mdash;</td><td>vale usar \(t\)</td></tr>
+            <tr><td>&ldquo;nivel de significación del 0,05&rdquo;</td><td>riesgo de error tipo I</td><td>&mdash;</td><td>\(\alpha = 0{,}05\)</td></tr>
+            <tr><td>&ldquo;pruebe que el consumo medio es <strong>inferior</strong>&rdquo;</td><td>lo que se quiere probar: va en \(H_1\)</td><td>&mdash;</td><td>\(H_1: \mu &lt; 2{,}7\), cola izquierda</td></tr>
+          </table>
+        </div>
+
+        <span class="paso">Inciso a &mdash; Variable de estudio y parámetro de interés</span>
+        <p>
+          La <strong>variable de estudio</strong> es lo que se mide en cada elemento. El
+          <strong>parámetro de interés</strong> es el número de la población sobre el que se quiere
+          concluir.
+        </p>
+        <div class="caja caja-resp">
+          <span class="caja-tit">Respuesta a</span>
+          <p>
+            <strong>Variable:</strong> \(X\) = consumo de memoria (en GB) de un proceso del
+            servidor. Es cuantitativa continua.
+          </p>
+          <p>
+            <strong>Parámetro:</strong> \(\mu\) = consumo medio de memoria de <em>todos</em> los
+            procesos del servidor (la media poblacional), que es lo que se compara con 2,7 GB.
+          </p>
+        </div>
+
+        <span class="paso">Inciso b &mdash; ¿Población o muestra?</span>
+        <div class="caja caja-resp">
+          <span class="caja-tit">Respuesta b</span>
+          <p>
+            Los datos son de una <strong>muestra</strong>: 30 procesos de todos los que corren en el
+            servidor. Pero la conclusión que se busca es sobre la <strong>población</strong> (el
+            consumo medio de todos los procesos). Por eso hace falta inferencia.
+          </p>
+          <p>
+            <strong>Diferencia:</strong> la población es el conjunto completo de elementos que
+            interesan y se describe con parámetros (\(\mu = ?\), desconocido); la muestra es un
+            subconjunto observado de la población y se describe con estadísticos
+            (\(\bar{x} = 2{,}4\), \(s^{2} = 0{,}36\), conocidos).
+          </p>
+        </div>
+
+        <span class="paso">Inciso c &mdash; Teorema del Límite Central</span>
+        <div class="caja caja-formula">
+          <span class="caja-tit">Enunciado formal</span>
+          <p>
+            Si \(\bar{X}\) es la media de una muestra aleatoria de tamaño \(n\) tomada de una
+            población con media \(\mu\) y varianza finita \(\sigma^{2}\), entonces la forma límite de
+            la distribución de
+          </p>
+          <p>\[ Z = \frac{\bar{X} - \mu}{\sigma / \sqrt{n}} \]</p>
+          <p>
+            cuando \(n \to \infty\), es la distribución normal estándar \(N(0, 1)\).
+          </p>
+        </div>
+        <p>
+          <strong>En palabras:</strong> no importa qué forma tenga la población (sesgada, uniforme,
+          discreta&hellip;); si la muestra es grande, <strong>el promedio</strong> se comporta como
+          una Normal con media \(\mu\) y desvío \(\frac{\sigma}{\sqrt{n}}\). En la práctica, la
+          aproximación se considera buena desde \(n \geq 30\). Si la población ya es normal, \(\bar{X}\)
+          es normal para cualquier \(n\).
+        </p>
+        <p>
+          <strong>Ejemplo:</strong> un dado tiene \(\mu = 3{,}5\) y \(\sigma = 1{,}7078\), y su
+          distribución es plana, nada parecida a una campana. Pero el promedio de 36 tiradas es
+          aproximadamente normal con media 3,5 y desvío \(\frac{1{,}7078}{\sqrt{36}} = 0{,}2846\).
+          Así se puede calcular, por ejemplo, \(P(\bar{X} &gt; 4)\): \(z = \frac{4 - 3{,}5}{0{,}2846}
+          = 1{,}76\) y \(1 - 0{,}9608 = 0{,}0392\).
+        </p>
+        <div class="caja caja-resp">
+          <span class="caja-tit">Respuesta c</span>
+          <p>
+            Para muestras grandes, la media muestral \(\bar{X}\) tiene distribución aproximadamente
+            normal con media \(\mu\) y desvío \(\frac{\sigma}{\sqrt{n}}\), cualquiera sea la
+            distribución de la población. En este ejercicio, además de suponer normalidad, \(n = 30\)
+            respalda tratar a \(\bar{X}\) como normal.
+          </p>
+        </div>
+
+        <span class="paso">Inciso d &mdash; Prueba de hipótesis</span>
+
+        <p><strong>Paso 1 &mdash; Plantear las hipótesis.</strong></p>
+        <p>
+          Lo que se quiere probar es que el consumo medio es <strong>inferior</strong> a 2,7: eso es
+          \(H_1\). La nula es lo contrario, con la igualdad:
+        </p>
+        <p>\[ H_0: \mu \geq 2{,}7 \qquad H_1: \mu &lt; 2{,}7 \]</p>
+        <p>
+          El signo \(&lt;\) de \(H_1\) dice que es una prueba <strong>unilateral izquierda</strong>:
+          la evidencia contra \(H_0\) sería una media muestral bastante <em>menor</em> que 2,7.
+        </p>
+
+        <p><strong>Paso 2 &mdash; Nivel de significación:</strong> \(\alpha = 0{,}05\).</p>
+
+        <p><strong>Paso 3 &mdash; Elegir el estadístico.</strong></p>
+        <p>
+          \(\sigma\) de la población es <strong>desconocida</strong> (solo tenemos la varianza de la
+          muestra) y la población es normal, así que corresponde el estadístico \(t\) con
+          \(gl = n - 1 = 29\). Fórmula:
+        </p>
+        <p>\[ t = \frac{\bar{x} - \mu_0}{s / \sqrt{n}} \]</p>
+
+        <p><strong>Paso 4 &mdash; Calcularlo.</strong> Primero el desvío, porque nos dieron la varianza:</p>
+        <p>\[ s = \sqrt{s^{2}} = \sqrt{0{,}36} = 0{,}6 \]</p>
+        <p>El error estándar:</p>
+        <p>\[ \frac{s}{\sqrt{n}} = \frac{0{,}6}{\sqrt{30}} = \frac{0{,}6}{5{,}4772} = 0{,}1095 \]</p>
+        <p>Reemplazamos en la fórmula:</p>
+        <p>\[ t = \frac{2{,}4 - 2{,}7}{0{,}6 / \sqrt{30}} = \frac{-0{,}3}{0{,}1095} = \mathbf{-2{,}7386} \]</p>
+        <p>La media muestral está casi 2,74 errores estándar por debajo de 2,7.</p>
+
+        <p><strong>Paso 5 &mdash; Valor crítico y región de rechazo.</strong></p>
+        <p>
+          Tabla \(t\): fila \(gl = 29\), columna \(\alpha = 0{,}05\) (una cola):
+          \(t_{0{,}05;\,29} = 1{,}699\). Como la prueba es a la izquierda, se usa con signo menos:
+        </p>
+        <p>\[ \text{Región de rechazo: } t &lt; -1{,}699 \]</p>
+
+        <div class="pd-grafico">
+          <svg viewBox="0 0 620 250" role="img" aria-label="Campana t con la región de rechazo en la cola izquierda desde -1,699 y el estadístico -2,74 dentro de ella">
+            <defs>
+              <clipPath id="f26e4d"><rect x="40" y="0" width="174" height="205"/></clipPath>
+            </defs>
+            <path class="campana" d="M 40,205 L 51,205 L 62,205 L 74,205 L 85,205 L 96,205 L 108,205 L 119,205 L 130,204 L 141,203 L 152,202 L 164,200 L 175,196 L 186,191 L 198,184 L 209,174 L 220,162 L 231,147 L 242,130 L 254,111 L 265,92 L 276,76 L 288,62 L 299,53 L 310,50 L 321,53 L 332,62 L 344,76 L 355,92 L 366,111 L 378,130 L 389,147 L 400,162 L 411,174 L 422,184 L 434,191 L 445,196 L 456,200 L 468,202 L 479,203 L 490,204 L 501,205 L 512,205 L 524,205 L 535,205 L 546,205 L 558,205 L 569,205 L 580,205 Z"/>
+            <path class="area" clip-path="url(#f26e4d)" d="M 40,205 L 51,205 L 62,205 L 74,205 L 85,205 L 96,205 L 108,205 L 119,205 L 130,204 L 141,203 L 152,202 L 164,200 L 175,196 L 186,191 L 198,184 L 209,174 L 220,162 L 231,147 L 242,130 L 254,111 L 265,92 L 276,76 L 288,62 L 299,53 L 310,50 L 321,53 L 332,62 L 344,76 L 355,92 L 366,111 L 378,130 L 389,147 L 400,162 L 411,174 L 422,184 L 434,191 L 445,196 L 456,200 L 468,202 L 479,203 L 490,204 L 501,205 L 512,205 L 524,205 L 535,205 L 546,205 L 558,205 L 569,205 L 580,205 Z"/>
+            <line class="eje" x1="30" y1="205" x2="595" y2="205"/>
+            <line class="guia" x1="310" y1="50" x2="310" y2="205"/>
+            <line class="corte" x1="214" y1="169" x2="214" y2="205"/>
+            <circle class="punto" cx="156" cy="205" r="5"/>
+            <text class="rotulo" x="310" y="228" text-anchor="middle">0</text>
+            <text class="rotulo" x="222" y="228" text-anchor="middle">−1,699</text>
+            <text class="rotulo" x="138" y="228" text-anchor="middle">t = −2,74</text>
+            <text class="valor" x="150" y="175" text-anchor="middle">rechazo</text>
+            <text class="rotulo" x="140" y="150" text-anchor="middle">área 0,05</text>
+          </svg>
+          <p class="pd-pie">La zona sombreada es la región de rechazo; el \(t\) calculado cae adentro.</p>
+        </div>
+
+        <p><strong>Paso 6 &mdash; Decisión.</strong></p>
+        <p>\[ t = -2{,}7386 &lt; -1{,}699 \;\Longrightarrow\; \text{se rechaza } H_0 \]</p>
+        <p>
+          Otra forma de verlo, en GB: el límite de la región de rechazo es
+          \(\bar{x}_c = 2{,}7 - 1{,}699 \cdot 0{,}1095 = 2{,}5139\). Cualquier media muestral por
+          debajo de 2,5139 GB lleva a rechazar, y la nuestra es 2,4.
+        </p>
+
+        <p><strong>Paso 7 &mdash; Conclusión en contexto.</strong></p>
+        <div class="caja caja-resp">
+          <span class="caja-tit">Respuesta d</span>
+          <p>
+            \(H_0: \mu \geq 2{,}7\) vs \(H_1: \mu &lt; 2{,}7\); \(t = -2{,}7386\) con 29 grados de
+            libertad; valor crítico \(-1{,}699\). Se rechaza \(H_0\).
+          </p>
+          <p>
+            Con un nivel de significación de 0,05, los datos dan evidencia suficiente para afirmar
+            que el <strong>consumo medio de memoria de los procesos es inferior a 2,7 GB</strong>: el
+            consumo está dentro de lo aceptable.
+          </p>
+        </div>
+
+        <div class="caja caja-calc">
+          <span class="caja-tit">¿Y si se usa \(z\) en vez de \(t\)?</span>
+          <p>
+            Algunos docentes, con \(n \geq 30\), aceptan aproximar con la Normal (por el TCL) y usar
+            \(s\) como si fuera \(\sigma\). La cuenta del estadístico es la misma
+            (\(z = -2{,}7386\)); cambia el valor crítico: en la tabla \(Z\) el área 0,05 a la
+            izquierda está entre \(z = -1{,}64\) (0,0505) y \(z = -1{,}65\) (0,0495), y se toma
+            \(-1{,}645\).
+          </p>
+          <p>
+            \(-2{,}7386 &lt; -1{,}645\): <strong>la decisión es la misma</strong>, se rechaza \(H_0\).
+            Lo correcto con \(\sigma\) desconocida y población normal es \(t\); con \(n = 30\) las dos
+            dan casi igual (1,699 contra 1,645).
+          </p>
+        </div>
+
+        <div class="caja caja-calc">
+          <span class="caja-tit">En la calculadora</span>
+          <p>
+            Hacé primero el error estándar: <code>0,6 &#247; &#8730;30 =</code> da 0,10954. Después
+            <code>(2,4 &minus; 2,7) &#247; Ans =</code> da &minus;2,7386. Hacerlo en una sola línea
+            sin paréntesis alrededor de \(\frac{0{,}6}{\sqrt{30}}\) divide mal.
+          </p>
+        </div>
+
+        <span class="paso">Inciso e &mdash; Si el valor \(p\) fuera 0,008</span>
+        <p>Regla de decisión con el valor \(p\):</p>
+        <p>\[ p \leq \alpha \;\Longrightarrow\; \text{se rechaza } H_0 \]</p>
+        <p>\[ 0{,}008 \leq 0{,}05 \;\Longrightarrow\; \text{se rechaza } H_0 \]</p>
+        <div class="caja caja-resp">
+          <span class="caja-tit">Respuesta e</span>
+          <p>
+            <strong>Se rechaza \(H_0\)</strong>, porque el valor \(p\) (0,008) es menor que el nivel
+            de significación (0,05).
+          </p>
+          <p>
+            <strong>Por qué:</strong> si el consumo medio real fuera 2,7 GB, obtener una muestra de 30
+            procesos con un promedio tan bajo como 2,4 pasaría solo el 0,8&nbsp;% de las veces. Es
+            demasiado improbable para atribuirlo a la casualidad, así que se concluye que el consumo
+            medio es inferior a 2,7 GB. Coincide con la decisión del inciso d.
+          </p>
+          <p>
+            Dato: con los números del enunciado, la tabla \(t\) con 29 gl ubica el valor \(p\) entre
+            0,005 y 0,01 (porque 2,74 cae entre 2,462 y 2,756); el valor exacto es 0,0052. El 0,008
+            del inciso es hipotético, pero cae en ese mismo rango y lleva a la misma decisión.
+          </p>
+        </div>
+
+        <h4>Parecido en la guía</h4>
+        <p>
+          Es de inferencia, una unidad que todavía no está cargada: no hay ejercicio parecido en las
+          guías de las Unidades 4, 5 y 6.
+        </p>
+
+        <div class="caja caja-ojo">
+          <span class="caja-tit">Las trampas de este ejercicio</span>
+          <ol>
+            <li>
+              <strong>Usar la varianza como desvío.</strong> 0,36 es \(s^{2}\); en la fórmula va
+              \(s = 0{,}6\). Con 0,36 daría \(t = -4{,}56\): la decisión no cambia, pero el valor está
+              mal y se descuenta.
+            </li>
+            <li>
+              <strong>Poner lo que se quiere probar en \(H_0\).</strong> &ldquo;Pruebe que es
+              inferior&rdquo; va en \(H_1\) (\(\mu &lt; 2{,}7\)). La igualdad siempre queda en \(H_0\).
+            </li>
+            <li>
+              <strong>Olvidarse del signo del valor crítico.</strong> La prueba es a la izquierda: se
+              compara con \(-1{,}699\), no con \(+1{,}699\).
+            </li>
+            <li>
+              <strong>Dividir por \(n\) en vez de \(\sqrt{n}\)</strong> en el error estándar, o
+              buscar en la tabla con \(n = 30\) grados de libertad en vez de \(n - 1 = 29\).
+            </li>
+            <li>
+              <strong>Quedarse en &ldquo;se rechaza \(H_0\)&rdquo;.</strong> Siempre hay que cerrar
+              con la conclusión en el contexto del problema: el consumo medio es aceptable.
+            </li>
+          </ol>
+        </div>
+      </div>
+    </details>
+  </div>
+</section>

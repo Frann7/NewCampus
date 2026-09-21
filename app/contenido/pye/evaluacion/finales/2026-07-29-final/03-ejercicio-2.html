@@ -1,0 +1,586 @@
+<!-- ==================== EJERCICIO 2 ==================== -->
+<section class="parcial-ej">
+  <div class="parcial-ej-cab">
+    <h2>Ejercicio 2</h2>
+    <span class="parcial-pts">28 puntos</span>
+    <span class="parcial-tema">Unidad 6 &middot; Normal &middot; Inferencia (unidad no cargada)</span>
+  </div>
+
+  <p>
+    El contenido \(X\), medido en mililitros, de las botellas de gaseosa envasadas por una máquina
+    automática se distribuye normalmente, con media \(\mu = 355\) ml y desvío estándar
+    \(\sigma = 4\) ml.
+  </p>
+  <p>A partir de esa información, se pide:</p>
+
+  <ol class="parcial-incisos">
+    <li>
+      Calcular la proporción de botellas cuyo contenido se encuentra entre 350 ml y 360 ml.
+      Representar gráficamente la probabilidad obtenida sobre la curva normal.
+    </li>
+    <li>
+      Una botella se considera subllenada cuando contiene menos de 348 ml. Calcular la probabilidad
+      de que una botella seleccionada al azar sea subllenada. Interpretar el resultado.
+    </li>
+    <li>
+      Se considera que una botella está sobrellenada cuando su contenido supera el percentil 98 de
+      la distribución. Determinar el contenido, expresado en mililitros, a partir del cual una
+      botella se clasifica como sobrellenada.
+    </li>
+    <li>
+      Determinar el tamaño mínimo de muestra necesario para estimar la media poblacional con un
+      margen de error máximo de 1 ml y un nivel de confianza del 95&nbsp;%, suponiendo conocido el
+      desvío estándar poblacional.
+    </li>
+    <li>
+      Se selecciona una muestra aleatoria de 36 botellas y se obtiene un contenido medio de
+      353,5 ml. Con un nivel de significación del 5&nbsp;%, analizar si existe evidencia estadística
+      suficiente para afirmar que la máquina está entregando, en promedio, menos contenido que el
+      valor nominal de 355 ml.
+    </li>
+    <li>
+      Para la muestra del inciso anterior, construir un intervalo de confianza del 95&nbsp;% para el
+      contenido medio poblacional. Interpretar el intervalo y analizar si el resultado es coherente
+      con la conclusión obtenida en la prueba de hipótesis.
+    </li>
+  </ol>
+
+  <div class="parcial-extras">
+    <details class="parcial-desp pd-resultados">
+      <summary>
+        <span class="pd-icono">&#10003;</span>
+        <span class="pd-txt"><b>Resultados</b><small>Solo las respuestas, sin procedimiento</small></span>
+      </summary>
+      <div class="pd-cuerpo">
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Inciso</th><th>Dato clave</th><th>Resultado</th></tr>
+            <tr><td class="lbl">a) Entre 350 y 360 ml</td><td>\(z = \pm 1{,}25\)</td><td>\(0{,}8944 - 0{,}1056 = \mathbf{0{,}7888}\) (78,88&nbsp;% de las botellas)</td></tr>
+            <tr><td class="lbl">b) Subllenada (&lt; 348 ml)</td><td>\(z = -1{,}75\)</td><td>\(F(-1{,}75) = \mathbf{0{,}0401}\) (4,01&nbsp;%)</td></tr>
+            <tr><td class="lbl">c) Percentil 98</td><td>\(z = 2{,}05\)</td><td>\(x = 355 + 2{,}05 \cdot 4 = \mathbf{363{,}2}\) ml</td></tr>
+            <tr><td class="lbl">d) Tamaño de muestra</td><td>\(z = 1{,}96\)</td><td>\(n = (1{,}96 \cdot 4 / 1)^{2} = 61{,}47 \Rightarrow \mathbf{n = 62}\) botellas</td></tr>
+            <tr><td class="lbl">e) Prueba de hipótesis</td><td>\(H_1: \mu &lt; 355\)</td><td>\(z = -2{,}25 &lt; -1{,}645\) &rArr; <strong>se rechaza \(H_0\)</strong>: hay evidencia de que entrega menos de 355 ml (valor \(p = 0{,}0122\))</td></tr>
+            <tr><td class="lbl">f) IC 95&nbsp;%</td><td>\(E = 1{,}3067\)</td><td>\([\mathbf{352{,}19}\ ;\ \mathbf{354{,}81}]\) ml; 355 queda afuera (por arriba) &rArr; coherente con el rechazo</td></tr>
+          </table>
+        </div>
+      </div>
+    </details>
+
+    <details class="parcial-desp pd-explicacion">
+      <summary>
+        <span class="pd-icono">&#9998;</span>
+        <span class="pd-txt"><b>Explicación detallada</b><small>Desde cero: teoría, desarme del enunciado, resolución y comparación con la guía</small></span>
+      </summary>
+      <div class="pd-cuerpo">
+
+        <div class="caja caja-ejemplo">
+          <span class="caja-tit">El enunciado, otra vez</span>
+          <p>
+            El contenido de una botella es normal con \(\mu = 355\) ml y \(\sigma = 4\) ml. Los
+            incisos a, b y c son sobre <strong>una botella</strong> (Normal y tabla \(Z\)). Los
+            incisos d, e y f son sobre <strong>muestras de botellas</strong>: tamaño de muestra,
+            prueba de hipótesis e intervalo de confianza para la media.
+          </p>
+        </div>
+
+        <h4>¿De qué tema es?</h4>
+        <p>
+          a, b y c: <strong>Unidad 6</strong>, distribución Normal (dos probabilidades directas y un
+          problema inverso). d, e y f: <strong>inferencia</strong> sobre la media con \(\sigma\)
+          conocido, que es de una unidad todavía no cargada en la app. Por eso toda la teoría de
+          inferencia está explicada acá desde cero.
+        </p>
+
+        <h4>Los conceptos que hacen falta, desde cero &mdash; Parte 1: la Normal</h4>
+
+        <div class="caja caja-formula">
+          <span class="caja-tit">1. Estandarizar</span>
+          <p>
+            Hay infinitas normales (una por cada par \(\mu, \sigma\)) y una sola tabla. El truco es
+            traducir cualquier valor \(x\) a la normal estándar \(Z\) (media 0, desvío 1):
+          </p>
+          <p>\[ z = \frac{x - \mu}{\sigma} \]</p>
+          <p>
+            \(z\) dice <strong>a cuántos desvíos de la media</strong> está \(x\). Se redondea a
+            <strong>2 decimales</strong>, porque la tabla trae \(z\) con dos decimales (la fila da el
+            entero y el primer decimal; la columna, el segundo).
+          </p>
+          <p><strong>Mini-ejemplo:</strong> con \(\mu = 50\), \(\sigma = 10\), el valor 62 da \(z = \frac{62-50}{10} = 1{,}20\).</p>
+        </div>
+
+        <div class="caja caja-formula">
+          <span class="caja-tit">2. Qué devuelve la tabla y cómo se arma todo lo demás</span>
+          <p>La tabla da siempre el <strong>área a la izquierda</strong>:</p>
+          <p>\[ F(z) = P(Z &lt; z) \]</p>
+          <p>
+            Para el área a la derecha se usa el <strong>complemento</strong>: como el área total vale
+            1, lo que no está a la izquierda está a la derecha.
+          </p>
+          <p>\[ P(Z &gt; z) = 1 - F(z) \qquad P(z_1 &lt; Z &lt; z_2) = F(z_2) - F(z_1) \qquad F(-z) = 1 - F(z) \]</p>
+          <p>
+            La última es la <strong>simetría</strong> de la campana: el área a la izquierda de
+            \(-1{,}25\) es igual al área a la derecha de \(+1{,}25\).
+          </p>
+          <p><strong>Mini-ejemplo:</strong> \(P(Z &gt; 1{,}20) = 1 - 0{,}8849 = 0{,}1151\).</p>
+        </div>
+
+        <div class="caja caja-formula">
+          <span class="caja-tit">3. El problema inverso y el percentil</span>
+          <p>
+            En el problema directo te dan \(x\) y buscás un área. En el <strong>inverso</strong> te dan
+            el área y buscás \(x\): se entra por el <strong>cuerpo</strong> de la tabla (buscando el
+            área a la izquierda), se lee el \(z\) del margen y se despeja:
+          </p>
+          <p>\[ x = \mu + z \cdot \sigma \]</p>
+          <p>
+            Si el área exacta no está en la tabla, se toma la <strong>más cercana</strong>.
+          </p>
+          <p>
+            El <strong>percentil \(k\)</strong>, \(P_k\), es el valor que deja el \(k\)&nbsp;% de los
+            datos por debajo. Es un problema inverso con área izquierda \(k/100\).
+          </p>
+          <p><strong>Mini-ejemplo:</strong> el percentil 90 de \(N(50, 10)\): área 0,90 &rarr; lo más cercano es 0,8997 en \(z = 1{,}28\) &rarr; \(x = 50 + 1{,}28 \cdot 10 = 62{,}8\).</p>
+        </div>
+
+        <h4>Los conceptos que hacen falta, desde cero &mdash; Parte 2: inferencia</h4>
+
+        <div class="caja caja-formula">
+          <span class="caja-tit">4. De una botella a una muestra: la media muestral y su error estándar</span>
+          <p>
+            Si tomamos \(n\) botellas al azar y promediamos, ese promedio \(\bar{X}\) también es una
+            variable aleatoria (cambia de muestra en muestra). Si \(X\) es normal, \(\bar{X}\) es
+            normal con la <strong>misma media</strong> pero con un desvío <strong>más chico</strong>:
+          </p>
+          <p>\[ \bar{X} \sim N\!\left(\mu,\ \frac{\sigma}{\sqrt{n}}\right) \]</p>
+          <p>
+            \(\frac{\sigma}{\sqrt{n}}\) se llama <strong>error estándar</strong>. Es más chico que
+            \(\sigma\) porque al promediar, los valores altos y bajos se compensan: un promedio de 36
+            botellas se mueve mucho menos que una botella suelta.
+          </p>
+          <p><strong>Mini-ejemplo:</strong> con \(\sigma = 10\) y \(n = 25\), el error estándar es \(10/5 = 2\).</p>
+        </div>
+
+        <div class="caja caja-formula">
+          <span class="caja-tit">5. Nivel de confianza y \(z_{\alpha/2}\)</span>
+          <p>
+            Un nivel de confianza del 95&nbsp;% significa dejar un 95&nbsp;% de área en el
+            <strong>centro</strong> de la campana. Lo que sobra, \(\alpha = 0{,}05\), se reparte en
+            las dos colas: 0,025 en cada una. El \(z\) que corta ahí se llama \(z_{\alpha/2}\) y se
+            busca como problema inverso con área izquierda \(1 - 0{,}025 = 0{,}975\):
+          </p>
+          <p>\[ F(z) = 0{,}975 \;\Longrightarrow\; z_{\alpha/2} = 1{,}96 \]</p>
+          <p>(0,9750 está exacto en la tabla: fila 1,9, columna 0,06.)</p>
+        </div>
+
+        <div class="caja caja-formula">
+          <span class="caja-tit">6. Margen de error e intervalo de confianza</span>
+          <p>
+            El <strong>margen de error</strong> \(E\) es cuánto puede errar, como mucho, la media
+            muestral respecto de la verdadera (con la confianza elegida):
+          </p>
+          <p>\[ E = z_{\alpha/2} \cdot \frac{\sigma}{\sqrt{n}} \]</p>
+          <p>
+            El <strong>intervalo de confianza</strong> es la media muestral más y menos ese margen:
+          </p>
+          <p>\[ IC = \left[ \bar{x} - z_{\alpha/2}\frac{\sigma}{\sqrt{n}} \ ;\ \bar{x} + z_{\alpha/2}\frac{\sigma}{\sqrt{n}} \right] \]</p>
+          <p>
+            <strong>Cómo se lee:</strong> \(\mu\) es un número fijo y desconocido; lo que cambia es el
+            intervalo. &ldquo;95&nbsp;% de confianza&rdquo; quiere decir que si repitiéramos el
+            muestreo muchas veces, el 95&nbsp;% de los intervalos así construidos atraparía a \(\mu\).
+          </p>
+          <p><strong>Mini-ejemplo:</strong> \(\bar{x} = 50\), \(\sigma = 10\), \(n = 25\): \(E = 1{,}96 \cdot 2 = 3{,}92\) &rarr; \(IC = [46{,}08\ ;\ 53{,}92]\).</p>
+        </div>
+
+        <div class="caja caja-formula">
+          <span class="caja-tit">7. Tamaño de muestra</span>
+          <p>
+            Es la fórmula del margen de error <strong>despejada al revés</strong>: te fijan \(E\) y
+            buscás \(n\).
+          </p>
+          <p>\[ E = z_{\alpha/2}\frac{\sigma}{\sqrt{n}} \;\Longrightarrow\; \sqrt{n} = \frac{z_{\alpha/2}\,\sigma}{E} \;\Longrightarrow\; n = \left( \frac{z_{\alpha/2} \cdot \sigma}{E} \right)^{2} \]</p>
+          <p>
+            <strong>Siempre se redondea hacia arriba</strong>, aunque el decimal sea chico: \(n\) es
+            un <em>mínimo</em>. Con menos botellas el margen de error queda por encima del pedido; con
+            una más, queda por debajo, que es lo que se busca.
+          </p>
+          <p><strong>Mini-ejemplo:</strong> \(\sigma = 10\), \(E = 2\), 95&nbsp;%: \(n = (1{,}96 \cdot 10/2)^{2} = 96{,}04 \Rightarrow n = 97\).</p>
+        </div>
+
+        <div class="caja caja-formula">
+          <span class="caja-tit">8. Prueba de hipótesis para la media (\(\sigma\) conocido)</span>
+          <p>Es un juicio: se supone &ldquo;inocente&rdquo; a la máquina y se ve si los datos alcanzan para condenarla.</p>
+          <ol>
+            <li>
+              <strong>Hipótesis.</strong> \(H_0\) (nula): lo que se da por cierto, con el signo
+              \(=\): \(\mu = \mu_0\). \(H_1\) (alternativa): lo que se quiere probar. Si la frase dice
+              &ldquo;menos que&rdquo;, \(H_1: \mu &lt; \mu_0\) (<strong>unilateral izquierda</strong>);
+              &ldquo;más que&rdquo;, \(\mu &gt; \mu_0\); &ldquo;distinto&rdquo;, \(\mu \neq \mu_0\)
+              (bilateral).
+            </li>
+            <li>
+              <strong>Nivel de significación \(\alpha\):</strong> la probabilidad de rechazar \(H_0\)
+              siendo cierta que estamos dispuestos a aceptar (error de tipo I).
+            </li>
+            <li>
+              <strong>Estadístico de prueba:</strong> cuántos errores estándar se alejó la media
+              muestral del valor de \(H_0\).
+              \[ z = \frac{\bar{x} - \mu_0}{\sigma / \sqrt{n}} \]
+            </li>
+            <li>
+              <strong>Región de rechazo:</strong> la zona de valores de \(z\) tan raros (si \(H_0\)
+              fuera cierta) que su probabilidad total es \(\alpha\). Va del lado que apunta \(H_1\). En
+              una unilateral izquierda con \(\alpha = 0{,}05\) es \(z &lt; -z_{\alpha}\), con \(z_{\alpha}\)
+              tal que \(F(z_\alpha) = 0{,}95\).
+            </li>
+            <li><strong>Decisión:</strong> si \(z\) cae en la región de rechazo, se rechaza \(H_0\); si no, no se rechaza.</li>
+            <li><strong>Conclusión</strong> en palabras del problema.</li>
+          </ol>
+          <p>
+            <strong>Valor \(p\)</strong> (control): la probabilidad de obtener un \(z\) tan extremo
+            como el observado si \(H_0\) fuera cierta. Si \(p &lt; \alpha\), se rechaza. Da la misma
+            decisión que la región de rechazo.
+          </p>
+          <p>
+            <strong>Mini-ejemplo:</strong> \(H_1: \mu &gt; 50\), \(\bar{x} = 53\), \(\sigma = 10\),
+            \(n = 25\): \(z = \frac{3}{2} = 1{,}5\); región \(z &gt; 1{,}645\); 1,5 no llega &rArr; no se
+            rechaza \(H_0\).
+          </p>
+        </div>
+
+        <h4>Desarme del enunciado</h4>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Frase del enunciado</th><th>Qué significa</th><th>A dónde va</th></tr>
+            <tr><td>&ldquo;se distribuye normalmente&rdquo;</td><td>modelo Normal</td><td>\(z = \frac{x-\mu}{\sigma}\) y tabla</td></tr>
+            <tr><td>&ldquo;\(\mu = 355\), \(\sigma = 4\)&rdquo;</td><td>ya es el desvío (no la varianza)</td><td>\(\sigma = 4\), sin raíz</td></tr>
+            <tr><td>&ldquo;proporción&hellip; entre 350 y 360&rdquo;</td><td>tramo del medio</td><td>\(F(z_2) - F(z_1)\)</td></tr>
+            <tr><td>&ldquo;menos de 348 ml&rdquo;</td><td>cola izquierda</td><td>\(F(z)\) directo</td></tr>
+            <tr><td>&ldquo;supera el percentil 98&rdquo;</td><td>problema inverso, área izquierda 0,98</td><td>\(x = \mu + z\sigma\)</td></tr>
+            <tr><td>&ldquo;margen de error máximo de 1 ml&rdquo;, &ldquo;95&nbsp;%&rdquo;</td><td>\(E = 1\), \(z_{\alpha/2} = 1{,}96\)</td><td>\(n = (z\sigma/E)^{2}\)</td></tr>
+            <tr><td>&ldquo;36 botellas&hellip; media 353,5&rdquo;</td><td>\(n = 36\), \(\bar{x} = 353{,}5\)</td><td>\(\sigma/\sqrt{n} = 4/6\)</td></tr>
+            <tr><td>&ldquo;significación del 5&nbsp;%&rdquo;</td><td>\(\alpha = 0{,}05\)</td><td>región de rechazo</td></tr>
+            <tr><td>&ldquo;<strong>menos</strong> contenido que 355&rdquo;</td><td>lo que se quiere probar</td><td>\(H_1: \mu &lt; 355\), unilateral izquierda</td></tr>
+          </table>
+        </div>
+        <p>
+          Como la Normal es continua, \(P(X = a) = 0\): da lo mismo &ldquo;menos de 348&rdquo; que
+          &ldquo;348 o menos&rdquo;.
+        </p>
+
+        <span class="paso">Inciso a &mdash; Entre 350 y 360 ml</span>
+        <p>Fórmula de estandarización, para los dos extremos:</p>
+        <p>\[ z = \frac{x - \mu}{\sigma} \]</p>
+        <p>\[ z_1 = \frac{350 - 355}{4} = \frac{-5}{4} = -1{,}25 \qquad z_2 = \frac{360 - 355}{4} = \frac{5}{4} = 1{,}25 \]</p>
+        <p>Fórmula del tramo del medio:</p>
+        <p>\[ P(x_1 &lt; X &lt; x_2) = F(z_2) - F(z_1) \]</p>
+        <p>De la tabla: \(F(1{,}25) = 0{,}8944\) (fila 1,2, columna 0,05). Para el negativo, simetría: \(F(-1{,}25) = 1 - 0{,}8944 = 0{,}1056\).</p>
+        <p>\[ P(350 &lt; X &lt; 360) = 0{,}8944 - 0{,}1056 = \mathbf{0{,}7888} \]</p>
+
+        <div class="pd-grafico">
+          <svg viewBox="0 0 620 250" role="img" aria-label="Campana normal con el tramo entre 350 y 360 ml sombreado" style="max-width:100%;height:auto">
+            <defs>
+              <clipPath id="f260729a"><rect x="225.5" y="0" width="169" height="205"/></clipPath>
+            </defs>
+            <path class="campana" d="M 40,205 L 53,205 L 67,205 L 81,205 L 94,204 L 108,203 L 121,202 L 134,200 L 148,196 L 162,191 L 175,184 L 188,174 L 202,162 L 216,147 L 229,130 L 242,111 L 256,92 L 269,76 L 283,62 L 297,53 L 310,50 L 323,53 L 337,62 L 351,76 L 364,92 L 378,111 L 391,130 L 404,147 L 418,162 L 432,174 L 445,184 L 458,191 L 472,196 L 486,200 L 499,202 L 512,203 L 526,204 L 539,205 L 553,205 L 566,205 L 580,205 L 580,205 Z"/>
+            <path class="area" clip-path="url(#f260729a)" d="M 40,205 L 53,205 L 67,205 L 81,205 L 94,204 L 108,203 L 121,202 L 134,200 L 148,196 L 162,191 L 175,184 L 188,174 L 202,162 L 216,147 L 229,130 L 242,111 L 256,92 L 269,76 L 283,62 L 297,53 L 310,50 L 323,53 L 337,62 L 351,76 L 364,92 L 378,111 L 391,130 L 404,147 L 418,162 L 432,174 L 445,184 L 458,191 L 472,196 L 486,200 L 499,202 L 512,203 L 526,204 L 539,205 L 553,205 L 566,205 L 580,205 L 580,205 Z"/>
+            <line class="eje" x1="30" y1="205" x2="595" y2="205"/>
+            <line class="guia" x1="310" y1="50" x2="310" y2="205"/>
+            <line class="corte" x1="225.5" y1="134" x2="225.5" y2="205"/>
+            <line class="corte" x1="394.5" y1="134" x2="394.5" y2="205"/>
+            <text class="rotulo" x="225.5" y="228" text-anchor="middle">350</text>
+            <text class="rotulo" x="310" y="228" text-anchor="middle">μ = 355</text>
+            <text class="rotulo" x="394.5" y="228" text-anchor="middle">360</text>
+            <text class="rotulo" x="225.5" y="245" text-anchor="middle">z = −1,25</text>
+            <text class="rotulo" x="394.5" y="245" text-anchor="middle">z = 1,25</text>
+            <text class="valor" x="310" y="160" text-anchor="middle">0,7888</text>
+          </svg>
+          <p class="pd-pie">El tramo es simétrico alrededor de la media: 1,25 desvíos para cada lado.</p>
+        </div>
+
+        <div class="caja caja-calc">
+          <span class="caja-tit">Atajo por simetría</span>
+          <p>Como el tramo es simétrico, \(P(-z &lt; Z &lt; z) = 2F(z) - 1 = 2(0{,}8944) - 1 = 0{,}7888\). Una sola búsqueda en la tabla.</p>
+        </div>
+
+        <div class="caja caja-resp">
+          <span class="caja-tit">Respuesta a</span>
+          <p>
+            \(P(350 &lt; X &lt; 360) = 0{,}7888\): el <strong>78,88&nbsp;%</strong> de las botellas trae
+            entre 350 y 360 ml. (Con la normal exacta, sin redondear la tabla, da 0,7887.)
+          </p>
+        </div>
+
+        <span class="paso">Inciso b &mdash; Botella subllenada (menos de 348 ml)</span>
+        <p>Fórmula:</p>
+        <p>\[ z = \frac{x - \mu}{\sigma} \]</p>
+        <p>\[ z = \frac{348 - 355}{4} = \frac{-7}{4} = -1{,}75 \]</p>
+        <p>&ldquo;Menos de&rdquo; es área a la izquierda, que es lo que da la tabla. Fórmula:</p>
+        <p>\[ P(X &lt; x) = F(z) \]</p>
+        <p>Por simetría: \(F(-1{,}75) = 1 - F(1{,}75) = 1 - 0{,}9599 = 0{,}0401\).</p>
+        <p>\[ P(X &lt; 348) = F(-1{,}75) = \mathbf{0{,}0401} \]</p>
+
+        <div class="pd-grafico">
+          <svg viewBox="0 0 620 250" role="img" aria-label="Campana normal con la cola izquierda sombreada por debajo de 348 ml" style="max-width:100%;height:auto">
+            <defs>
+              <clipPath id="f260729b"><rect x="40" y="0" width="151.7" height="205"/></clipPath>
+            </defs>
+            <path class="campana" d="M 40,205 L 53,205 L 67,205 L 81,205 L 94,204 L 108,203 L 121,202 L 134,200 L 148,196 L 162,191 L 175,184 L 188,174 L 202,162 L 216,147 L 229,130 L 242,111 L 256,92 L 269,76 L 283,62 L 297,53 L 310,50 L 323,53 L 337,62 L 351,76 L 364,92 L 378,111 L 391,130 L 404,147 L 418,162 L 432,174 L 445,184 L 458,191 L 472,196 L 486,200 L 499,202 L 512,203 L 526,204 L 539,205 L 553,205 L 566,205 L 580,205 L 580,205 Z"/>
+            <path class="area" clip-path="url(#f260729b)" d="M 40,205 L 53,205 L 67,205 L 81,205 L 94,204 L 108,203 L 121,202 L 134,200 L 148,196 L 162,191 L 175,184 L 188,174 L 202,162 L 216,147 L 229,130 L 242,111 L 256,92 L 269,76 L 283,62 L 297,53 L 310,50 L 323,53 L 337,62 L 351,76 L 364,92 L 378,111 L 391,130 L 404,147 L 418,162 L 432,174 L 445,184 L 458,191 L 472,196 L 486,200 L 499,202 L 512,203 L 526,204 L 539,205 L 553,205 L 566,205 L 580,205 L 580,205 Z"/>
+            <line class="eje" x1="30" y1="205" x2="595" y2="205"/>
+            <line class="guia" x1="310" y1="50" x2="310" y2="205"/>
+            <line class="corte" x1="191.7" y1="150" x2="191.7" y2="205"/>
+            <text class="rotulo" x="191.7" y="228" text-anchor="middle">348</text>
+            <text class="rotulo" x="310" y="228" text-anchor="middle">μ = 355</text>
+            <text class="valor" x="140" y="160" text-anchor="middle">0,0401</text>
+          </svg>
+          <p class="pd-pie">Las subllenadas son la colita izquierda, a 1,75 desvíos por debajo de la media.</p>
+        </div>
+
+        <div class="caja caja-resp">
+          <span class="caja-tit">Respuesta b</span>
+          <p>
+            \(P(X &lt; 348) = 0{,}0401\). <strong>Interpretación:</strong> alrededor del
+            <strong>4&nbsp;%</strong> de las botellas sale subllenada: unas 4 de cada 100. Es poco
+            frecuente pero no despreciable en una producción grande (en 10&nbsp;000 botellas, unas 401).
+          </p>
+        </div>
+
+        <span class="paso">Inciso c &mdash; El percentil 98 (problema inverso)</span>
+        <p>
+          El percentil 98 deja el 98&nbsp;% de las botellas por debajo: es área
+          <strong>izquierda</strong> 0,98, que es lo que trabaja la tabla. No hay que dar vuelta nada.
+        </p>
+        <p>\[ F(z) = 0{,}98 \]</p>
+        <p>
+          Buscamos 0,98 <strong>en el cuerpo</strong> de la tabla. No está exacto; los dos vecinos
+          son:
+        </p>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>\(z\)</th><th>\(F(z)\)</th><th>Distancia a 0,98</th></tr>
+            <tr><td>2,05</td><td>0,9798</td><td>0,0002</td></tr>
+            <tr><td>2,06</td><td>0,9803</td><td>0,0003</td></tr>
+          </table>
+        </div>
+        <p>El más cercano es 0,9798, así que \(z = 2{,}05\). Despejamos \(x\) de la fórmula de estandarización:</p>
+        <p>\[ z = \frac{x - \mu}{\sigma} \;\Longrightarrow\; x = \mu + z \cdot \sigma \]</p>
+        <p>\[ x = 355 + 2{,}05 \cdot 4 = 355 + 8{,}2 = \mathbf{363{,}2} \text{ ml} \]</p>
+
+        <div class="caja caja-calc">
+          <span class="caja-tit">Cuánto cambia la elección de \(z\)</span>
+          <p>
+            Con \(z = 2{,}06\) daría \(355 + 2{,}06 \cdot 4 = 363{,}24\) ml. El valor exacto (sin
+            redondear \(z\), \(z = 2{,}0537\)) es 363,21 ml. La diferencia entre opciones es de
+            4 centésimas de mililitro: no cambia la conclusión, pero la convención es tomar el área
+            más cercana.
+          </p>
+        </div>
+
+        <div class="pd-grafico">
+          <svg viewBox="0 0 620 250" role="img" aria-label="Campana normal con la cola derecha sombreada por encima de 363,2 ml" style="max-width:100%;height:auto">
+            <defs>
+              <clipPath id="f260729c"><rect x="448.6" y="0" width="131.4" height="205"/></clipPath>
+            </defs>
+            <path class="campana" d="M 40,205 L 53,205 L 67,205 L 81,205 L 94,204 L 108,203 L 121,202 L 134,200 L 148,196 L 162,191 L 175,184 L 188,174 L 202,162 L 216,147 L 229,130 L 242,111 L 256,92 L 269,76 L 283,62 L 297,53 L 310,50 L 323,53 L 337,62 L 351,76 L 364,92 L 378,111 L 391,130 L 404,147 L 418,162 L 432,174 L 445,184 L 458,191 L 472,196 L 486,200 L 499,202 L 512,203 L 526,204 L 539,205 L 553,205 L 566,205 L 580,205 L 580,205 Z"/>
+            <path class="area" clip-path="url(#f260729c)" d="M 40,205 L 53,205 L 67,205 L 81,205 L 94,204 L 108,203 L 121,202 L 134,200 L 148,196 L 162,191 L 175,184 L 188,174 L 202,162 L 216,147 L 229,130 L 242,111 L 256,92 L 269,76 L 283,62 L 297,53 L 310,50 L 323,53 L 337,62 L 351,76 L 364,92 L 378,111 L 391,130 L 404,147 L 418,162 L 432,174 L 445,184 L 458,191 L 472,196 L 486,200 L 499,202 L 512,203 L 526,204 L 539,205 L 553,205 L 566,205 L 580,205 L 580,205 Z"/>
+            <line class="eje" x1="30" y1="205" x2="595" y2="205"/>
+            <line class="guia" x1="310" y1="50" x2="310" y2="205"/>
+            <line class="corte" x1="448.6" y1="160" x2="448.6" y2="205"/>
+            <text class="rotulo" x="310" y="228" text-anchor="middle">μ = 355</text>
+            <text class="rotulo" x="448.6" y="228" text-anchor="middle">363,2</text>
+            <text class="valor" x="240" y="170" text-anchor="middle">0,98</text>
+            <text class="valor" x="520" y="170" text-anchor="middle">0,02</text>
+          </svg>
+          <p class="pd-pie">El percentil 98 deja 0,98 a la izquierda; las sobrellenadas son el 2&nbsp;% de la derecha.</p>
+        </div>
+
+        <div class="caja caja-resp">
+          <span class="caja-tit">Respuesta c</span>
+          <p>
+            A partir de <strong>363,2 ml</strong> una botella se clasifica como sobrellenada (el 2&nbsp;%
+            con más contenido).
+          </p>
+          <p>Control: el valor tiene que quedar <em>por encima</em> de la media, porque es el grupo con más contenido. 363,2 &gt; 355. &#10003;</p>
+        </div>
+
+        <span class="paso">Inciso d &mdash; Tamaño mínimo de muestra</span>
+        <p>Datos: \(\sigma = 4\), \(E = 1\) ml, confianza 95&nbsp;% &rArr; \(z_{\alpha/2} = 1{,}96\) (área izquierda 0,975, concepto 5). Fórmula:</p>
+        <p>\[ n = \left( \frac{z_{\alpha/2} \cdot \sigma}{E} \right)^{2} \]</p>
+        <p>\[ n = \left( \frac{1{,}96 \cdot 4}{1} \right)^{2} = (7{,}84)^{2} = 61{,}4656 \]</p>
+        <p><strong>Se redondea hacia arriba:</strong> \(n = 62\). Comprobación con la fórmula del margen de error \(E = z_{\alpha/2}\,\sigma/\sqrt{n}\):</p>
+        <p>\[ n = 61: \ E = \frac{1{,}96 \cdot 4}{\sqrt{61}} = 1{,}0038 &gt; 1 \ \text{(no alcanza)} \qquad n = 62: \ E = \frac{1{,}96 \cdot 4}{\sqrt{62}} = 0{,}9957 \leq 1 \ \text{(cumple)} \]</p>
+
+        <div class="caja caja-resp">
+          <span class="caja-tit">Respuesta d</span>
+          <p>
+            Hacen falta como mínimo <strong>62 botellas</strong>. Redondear a 61 (el entero más
+            cercano) daría un margen de error apenas mayor que 1 ml, que viola el máximo pedido.
+          </p>
+        </div>
+
+        <span class="paso">Inciso e &mdash; Prueba de hipótesis</span>
+        <p><strong>1. Hipótesis.</strong> Se quiere probar que entrega <em>menos</em> que 355, así que eso va en \(H_1\):</p>
+        <p>\[ H_0: \mu = 355 \qquad H_1: \mu &lt; 355 \quad \text{(unilateral izquierda)} \]</p>
+        <p><strong>2. Nivel de significación:</strong> \(\alpha = 0{,}05\).</p>
+        <p>
+          <strong>3. Estadístico.</strong> Se usa \(z\) porque \(X\) es normal y \(\sigma = 4\) es
+          conocido (con eso \(\bar{X}\) es exactamente normal). Fórmula:
+        </p>
+        <p>\[ z = \frac{\bar{x} - \mu_0}{\sigma / \sqrt{n}} \]</p>
+        <p>\[ \frac{\sigma}{\sqrt{n}} = \frac{4}{\sqrt{36}} = \frac{4}{6} = 0{,}6667 \]</p>
+        <p>\[ z = \frac{353{,}5 - 355}{0{,}6667} = \frac{-1{,}5}{0{,}6667} = \mathbf{-2{,}25} \]</p>
+        <p>
+          <strong>4. Región de rechazo.</strong> Toda el área \(\alpha = 0{,}05\) va en la cola
+          <strong>izquierda</strong> (hacia donde apunta \(H_1\)). Buscamos \(F(z) = 0{,}95\) en el
+          cuerpo de la tabla: 0,9495 (\(z = 1{,}64\)) y 0,9505 (\(z = 1{,}65\)) quedan
+          <strong>igual de cerca</strong>, así que se toma el punto medio, \(z_{\alpha} = 1{,}645\).
+          Por simetría, el corte izquierdo es \(-1{,}645\):
+        </p>
+        <p>\[ \text{Se rechaza } H_0 \text{ si } z &lt; -1{,}645 \]</p>
+        <p><strong>5. Decisión:</strong> \(-2{,}25 &lt; -1{,}645\): el estadístico cae en la región de rechazo &rArr; <strong>se rechaza \(H_0\)</strong>.</p>
+        <p>
+          <strong>Control con el valor \(p\):</strong> \(p = P(Z &lt; -2{,}25) = F(-2{,}25) = 1 - 0{,}9878 = 0{,}0122\).
+          Como \(0{,}0122 &lt; 0{,}05\), misma decisión.
+        </p>
+
+        <div class="pd-grafico">
+          <svg viewBox="0 0 620 250" role="img" aria-label="Campana normal estándar con la región de rechazo a la izquierda de menos 1,645 y el estadístico menos 2,25 adentro" style="max-width:100%;height:auto">
+            <defs>
+              <clipPath id="f260729d"><rect x="40" y="0" width="158.8" height="205"/></clipPath>
+            </defs>
+            <path class="campana" d="M 40,205 L 53,205 L 67,205 L 81,205 L 94,204 L 108,203 L 121,202 L 134,200 L 148,196 L 162,191 L 175,184 L 188,174 L 202,162 L 216,147 L 229,130 L 242,111 L 256,92 L 269,76 L 283,62 L 297,53 L 310,50 L 323,53 L 337,62 L 351,76 L 364,92 L 378,111 L 391,130 L 404,147 L 418,162 L 432,174 L 445,184 L 458,191 L 472,196 L 486,200 L 499,202 L 512,203 L 526,204 L 539,205 L 553,205 L 566,205 L 580,205 L 580,205 Z"/>
+            <path class="area" clip-path="url(#f260729d)" d="M 40,205 L 53,205 L 67,205 L 81,205 L 94,204 L 108,203 L 121,202 L 134,200 L 148,196 L 162,191 L 175,184 L 188,174 L 202,162 L 216,147 L 229,130 L 242,111 L 256,92 L 269,76 L 283,62 L 297,53 L 310,50 L 323,53 L 337,62 L 351,76 L 364,92 L 378,111 L 391,130 L 404,147 L 418,162 L 432,174 L 445,184 L 458,191 L 472,196 L 486,200 L 499,202 L 512,203 L 526,204 L 539,205 L 553,205 L 566,205 L 580,205 L 580,205 Z"/>
+            <line class="eje" x1="30" y1="205" x2="595" y2="205"/>
+            <line class="guia" x1="310" y1="50" x2="310" y2="205"/>
+            <line class="corte" x1="198.8" y1="160" x2="198.8" y2="205"/>
+            <circle class="punto" cx="157.9" cy="205" r="5"/>
+            <text class="rotulo" x="310" y="228" text-anchor="middle">0</text>
+            <text class="rotulo" x="206" y="228" text-anchor="middle">−1,645</text>
+            <text class="rotulo" x="150" y="245" text-anchor="middle">z = −2,25</text>
+            <text class="valor" x="120" y="150" text-anchor="middle">rechazo</text>
+            <text class="valor" x="120" y="168" text-anchor="middle">α = 0,05</text>
+          </svg>
+          <p class="pd-pie">El punto (\(z = -2{,}25\)) cae dentro de la región de rechazo, más allá de \(-1{,}645\).</p>
+        </div>
+
+        <div class="caja caja-resp">
+          <span class="caja-tit">Respuesta e</span>
+          <p>
+            Se rechaza \(H_0\). Con un nivel de significación del 5&nbsp;% <strong>hay evidencia
+            estadística suficiente</strong> para afirmar que la máquina está entregando, en promedio,
+            menos de 355 ml. Una media de 353,5 ml en 36 botellas es demasiado baja para atribuirla
+            al azar si la máquina estuviera bien calibrada (eso pasaría solo un 1,22&nbsp;% de las veces).
+          </p>
+        </div>
+
+        <span class="paso">Inciso f &mdash; Intervalo de confianza del 95&nbsp;% y coherencia</span>
+        <p>Datos: \(\bar{x} = 353{,}5\), \(\sigma = 4\), \(n = 36\), \(z_{\alpha/2} = 1{,}96\). Fórmula:</p>
+        <p>\[ IC = \left[ \bar{x} - z_{\alpha/2}\frac{\sigma}{\sqrt{n}} \ ;\ \bar{x} + z_{\alpha/2}\frac{\sigma}{\sqrt{n}} \right] \]</p>
+        <p>Primero el margen de error:</p>
+        <p>\[ E = z_{\alpha/2}\frac{\sigma}{\sqrt{n}} = 1{,}96 \cdot \frac{4}{6} = 1{,}96 \cdot 0{,}6667 = 1{,}3067 \]</p>
+        <p>\[ IC = [353{,}5 - 1{,}3067\ ;\ 353{,}5 + 1{,}3067] = [\mathbf{352{,}1933}\ ;\ \mathbf{354{,}8067}] \approx [352{,}19\ ;\ 354{,}81] \text{ ml} \]</p>
+        <p>
+          <strong>Interpretación:</strong> con un 95&nbsp;% de confianza, el contenido medio real de
+          todas las botellas que llena la máquina está entre 352,19 y 354,81 ml.
+        </p>
+
+        <h4>¿Es coherente con la prueba? Hay que mirarlo con cuidado</h4>
+        <p>
+          El valor nominal 355 <strong>queda afuera</strong> del intervalo, por encima del límite
+          superior (354,81). Los valores de \(\mu\) que el intervalo considera creíbles son todos
+          menores que 355: eso apunta a lo mismo que la prueba, que el promedio real está por debajo
+          del nominal.
+        </p>
+        <p>Pero no son exactamente la misma herramienta:</p>
+        <ul>
+          <li>
+            El intervalo del 95&nbsp;% es <strong>bilateral</strong>: deja 0,025 en cada cola
+            (\(z = 1{,}96\)). Se corresponde exactamente con una prueba <strong>bilateral</strong>
+            (\(H_1: \mu \neq 355\)) con \(\alpha = 0{,}05\).
+          </li>
+          <li>
+            La prueba del inciso e es <strong>unilateral</strong>: pone todo el 0,05 en una cola
+            (\(z = 1{,}645\)). Su intervalo &ldquo;gemelo&rdquo; sería una cota superior unilateral:
+            \(\mu \leq \bar{x} + 1{,}645\cdot\frac{\sigma}{\sqrt{n}} = 353{,}5 + 1{,}645 \cdot 0{,}6667 = 354{,}60\).
+          </li>
+        </ul>
+        <p>
+          ¿Por qué igual son coherentes acá? Que 355 quede fuera del intervalo bilateral equivale a
+          rechazar con una cola de solo 0,025, que es un criterio <strong>más exigente</strong> que el
+          de la prueba (0,05 en la cola). Si se rechaza con el criterio más exigente, con más razón se
+          rechaza con el menos exigente. Además 355 también queda fuera de la cota unilateral
+          (\(355 &gt; 354{,}60\)).
+        </p>
+        <div class="caja caja-ojo">
+          <span class="caja-tit">Lo que no hay que concluir</span>
+          <p>
+            La equivalencia no funciona al revés: si 355 hubiera caído <em>adentro</em> del intervalo
+            bilateral pero cerca del borde (entre 354,60 y 354,81), la prueba unilateral igual podría
+            haber rechazado. Intervalo bilateral y prueba unilateral coinciden solo cuando el valor
+            queda fuera del intervalo del lado que apunta \(H_1\), como pasa acá.
+          </p>
+        </div>
+
+        <div class="caja caja-resp">
+          <span class="caja-tit">Respuesta f</span>
+          <p>
+            \(IC_{95\%} = [352{,}19\ ;\ 354{,}81]\) ml. Con 95&nbsp;% de confianza, el contenido medio
+            real está en ese rango. Como 355 queda afuera y por encima, el intervalo es
+            <strong>coherente</strong> con el rechazo de \(H_0\) del inciso e: la máquina llena en
+            promedio menos que el valor nominal.
+          </p>
+        </div>
+
+        <h4>Parecido en la guía</h4>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Ejercicio de la guía</th><th>Qué tiene igual</th><th>Qué cambia en el final</th></tr>
+            <tr>
+              <td class="lbl">Unidad 6, Ejercicio 4<br><em>Vida de los ratones</em></td>
+              <td>\(\mu\) y \(\sigma\) dados; probabilidades &ldquo;menor que&rdquo; y &ldquo;entre dos valores&rdquo; (incisos a y b de acá).</td>
+              <td>Acá además piden el gráfico sobre la campana y la interpretación.</td>
+            </tr>
+            <tr>
+              <td class="lbl">Unidad 6, Ejercicio 5<br><em>Anillos de pistón</em></td>
+              <td>El inciso d es problema inverso, como el c de acá.</td>
+              <td>Allá es &ldquo;por debajo del 15&nbsp;%&rdquo;; acá es el percentil 98 y el área 0,98 no está exacta en la tabla.</td>
+            </tr>
+          </table>
+        </div>
+        <p>Los incisos d, e y f son de inferencia, una unidad todavía no cargada en la app: no hay ejercicio de la guía para comparar.</p>
+
+        <div class="caja caja-ojo">
+          <span class="caja-tit">Las trampas de este ejercicio</span>
+          <ol>
+            <li>
+              <strong>En la muestra se divide por \(\sigma/\sqrt{n}\), no por \(\sigma\).</strong> En
+              los incisos a, b y c es una botella (\(\sigma = 4\)); en e y f es un promedio de 36
+              (\(4/6\)). Usar 4 en el inciso e da \(z = -0{,}375\) y se concluye al revés.
+            </li>
+            <li>
+              <strong>El tamaño de muestra se redondea siempre hacia arriba.</strong> 61,47 &rarr; 62,
+              no 61.
+            </li>
+            <li>
+              <strong>\(z\) de una cola y \(z\) de dos colas.</strong> Prueba unilateral al 5&nbsp;%:
+              1,645. Intervalo o tamaño de muestra al 95&nbsp;%: 1,96. No se intercambian.
+            </li>
+            <li>
+              <strong>La alternativa va con lo que se quiere probar.</strong> &ldquo;Menos contenido
+              que 355&rdquo; es \(H_1: \mu &lt; 355\); el igual va siempre en \(H_0\).
+            </li>
+            <li>
+              <strong>Percentil 98 es área izquierda 0,98.</strong> No hay que hacer \(1 - 0{,}98\):
+              eso daría el percentil 2.
+            </li>
+            <li>
+              <strong>La coherencia se justifica, no se afirma.</strong> Decir &ldquo;355 está afuera,
+              entonces es coherente&rdquo; sin notar que una es unilateral y el otro bilateral deja la
+              respuesta a medias.
+            </li>
+          </ol>
+        </div>
+      </div>
+    </details>
+  </div>
+</section>

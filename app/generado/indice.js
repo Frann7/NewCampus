@@ -45,6 +45,24 @@ window.Apuntes.registrarIndice({
         "detalle": "4 ejercicios \u00b7 100 puntos",
         "temas": "Bayes \u00b7 Densidad conjunta continua \u00b7 Normal \u00b7 Inferencia",
         "tipo": "final"
+      },
+      {
+        "id": "2026-02-25-final",
+        "archivo": "examenes/pye-2026-02-25-final.js",
+        "titulo": "Final Regulares",
+        "fecha": "25/02/2026",
+        "detalle": "4 ejercicios \u00b7 100 puntos \u00b7 resuelto",
+        "temas": "Probabilidad cl\u00e1sica \u00b7 Variable discreta y F(x) \u00b7 Normal \u00b7 Prueba de hip\u00f3tesis",
+        "tipo": "final"
+      },
+      {
+        "id": "2026-07-29-final",
+        "archivo": "examenes/pye-2026-07-29-final.js",
+        "titulo": "Final Regulares",
+        "fecha": "29/07/2026",
+        "detalle": "4 ejercicios \u00b7 100 puntos \u00b7 resuelto",
+        "temas": "Densidad continua \u00b7 Normal \u00b7 Inferencia \u00b7 Descriptiva \u00b7 Bayes",
+        "tipo": "final"
       }
     ]
   },
@@ -155,5 +173,5 @@ window.Apuntes.registrarIndice({
       "unidades": []
     }
   ],
-  "construido": "2026-09-21 19:41:22"
+  "construido": "2026-09-21 20:09:03"
 });

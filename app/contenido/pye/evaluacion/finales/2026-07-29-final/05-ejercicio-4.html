@@ -1,0 +1,368 @@
+<!-- ==================== EJERCICIO 4 ==================== -->
+<section class="parcial-ej">
+  <div class="parcial-ej-cab">
+    <h2>Ejercicio 4</h2>
+    <span class="parcial-pts">20 puntos</span>
+    <span class="parcial-tema">Unidad 1 &middot; Probabilidad total y Bayes</span>
+  </div>
+
+  <p>
+    Una empresa de software utiliza un filtro antispam para clasificar los correos electrónicos que
+    reciben sus usuarios. Se sabe que el 20&nbsp;% de los correos recibidos son realmente spam; el
+    filtro identifica correctamente como spam al 95&nbsp;% de los correos que efectivamente lo son;
+    y el 3&nbsp;% de los correos legítimos es clasificado erróneamente como spam.
+  </p>
+  <p>A partir de los datos brindados, se solicita:</p>
+
+  <ol class="parcial-incisos">
+    <li>Definir los eventos involucrados en el problema y construir el árbol de probabilidades correspondiente.</li>
+    <li>
+      Calcular la probabilidad de que un correo elegido al azar sea clasificado como spam por el
+      filtro. Interpretar el resultado.
+    </li>
+    <li>
+      Si un correo fue clasificado como spam por el filtro, calcular la probabilidad de que
+      efectivamente sea spam. Interpretar el resultado en términos de la confiabilidad del filtro.
+    </li>
+    <li>
+      Si un correo fue clasificado como &ldquo;no spam&rdquo;, calcular la probabilidad de que en
+      realidad sí sea spam, es decir, que se trate de un falso negativo. Interpretar el resultado.
+    </li>
+    <li>
+      Enunciar y demostrar los teoremas utilizados para resolver el ejercicio e indicar en qué inciso
+      se aplicó cada uno.
+    </li>
+  </ol>
+
+  <div class="parcial-extras">
+    <details class="parcial-desp pd-resultados">
+      <summary>
+        <span class="pd-icono">&#10003;</span>
+        <span class="pd-txt"><b>Resultados</b><small>Solo las respuestas, sin procedimiento</small></span>
+      </summary>
+      <div class="pd-cuerpo">
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Inciso</th><th>Resultado</th></tr>
+            <tr><td class="lbl">a) Eventos</td><td>\(S\): el correo es spam; \(S'\): es legítimo; \(C\): el filtro lo clasifica como spam; \(C'\): lo clasifica como no spam. \(P(S) = 0{,}20\), \(P(C \mid S) = 0{,}95\), \(P(C \mid S') = 0{,}03\)</td></tr>
+            <tr><td class="lbl">a) Árbol</td><td>Ramas finales: \(S \cap C = 0{,}19\); \(S \cap C' = 0{,}01\); \(S' \cap C = 0{,}024\); \(S' \cap C' = 0{,}776\)</td></tr>
+            <tr><td class="lbl">b) Clasificado como spam</td><td>\(P(C) = 0{,}19 + 0{,}024 = \mathbf{0{,}2140}\)</td></tr>
+            <tr><td class="lbl">c) Spam dado que se clasificó spam</td><td>\(P(S \mid C) = \tfrac{0{,}19}{0{,}214} = \tfrac{95}{107} = \mathbf{0{,}8879}\)</td></tr>
+            <tr><td class="lbl">d) Falso negativo</td><td>\(P(S \mid C') = \tfrac{0{,}01}{0{,}786} = \tfrac{5}{393} = \mathbf{0{,}0127}\)</td></tr>
+            <tr><td class="lbl">e) Teoremas</td><td><strong>Probabilidad total</strong> en b (y en el denominador de c y d); <strong>Bayes</strong> en c y d</td></tr>
+          </table>
+        </div>
+      </div>
+    </details>
+
+    <details class="parcial-desp pd-explicacion">
+      <summary>
+        <span class="pd-icono">&#9998;</span>
+        <span class="pd-txt"><b>Explicación detallada</b><small>Desde cero: teoría, desarme del enunciado, resolución y comparación con la guía</small></span>
+      </summary>
+      <div class="pd-cuerpo">
+
+        <div class="caja caja-ejemplo">
+          <span class="caja-tit">El enunciado, otra vez</span>
+          <p>
+            El 20&nbsp;% de los correos es spam. El filtro marca como spam al 95&nbsp;% de los spam y,
+            por error, al 3&nbsp;% de los legítimos. Piden el árbol, la probabilidad de que un correo
+            sea marcado como spam, y dos probabilidades &ldquo;dadas vuelta&rdquo;: sabiendo lo que
+            dijo el filtro, qué es realmente el correo. Y enunciar y demostrar los teoremas usados.
+          </p>
+        </div>
+
+        <h4>¿De qué tema es?</h4>
+        <p>
+          <strong>Unidad 1</strong>, probabilidad condicional, teorema de la probabilidad total y
+          teorema de Bayes. Es del primer parcial y todavía no está cargada en la app.
+        </p>
+
+        <h4>Los conceptos que hacen falta, desde cero</h4>
+
+        <div class="caja caja-formula">
+          <span class="caja-tit">1. Eventos y complemento</span>
+          <p>
+            Un <strong>evento</strong> es un resultado posible del experimento, nombrado con una letra
+            (acá el experimento es &ldquo;llega un correo y pasa por el filtro&rdquo;). El
+            <strong>complemento</strong> \(A'\) es &ldquo;no ocurre \(A\)&rdquo;, y como uno de los dos
+            tiene que pasar:
+          </p>
+          <p>\[ P(A') = 1 - P(A) \]</p>
+          <p><strong>Mini-ejemplo:</strong> si el 20&nbsp;% de los correos es spam, el 80&nbsp;% no lo es: \(1 - 0{,}20 = 0{,}80\).</p>
+        </div>
+
+        <div class="caja caja-formula">
+          <span class="caja-tit">2. Probabilidad condicional y regla del producto</span>
+          <p>
+            \(P(A \mid B)\) se lee &ldquo;probabilidad de \(A\) <strong>dado</strong> \(B\)&rdquo;: la
+            probabilidad de \(A\) cuando ya sabemos que ocurrió \(B\). Saber que ocurrió \(B\) achica
+            el universo a \(B\), y de ahí se mira qué parte es también \(A\):
+          </p>
+          <p>\[ P(A \mid B) = \frac{P(A \cap B)}{P(B)} \qquad (P(B) &gt; 0) \]</p>
+          <p>Despejando se obtiene la <strong>regla del producto</strong>, que es la que se usa para recorrer un árbol:</p>
+          <p>\[ P(A \cap B) = P(B) \cdot P(A \mid B) \]</p>
+          <p>
+            <strong>Ojo con el orden:</strong> \(P(C \mid S)\) (de los spam, cuántos marca el filtro)
+            no es lo mismo que \(P(S \mid C)\) (de los marcados, cuántos son spam). Todo el ejercicio
+            es pasar de uno al otro.
+          </p>
+          <p><strong>Mini-ejemplo:</strong> en un curso el 40&nbsp;% es mujer y de ellas el 50&nbsp;% usa lentes: \(P(M \cap L) = 0{,}4 \cdot 0{,}5 = 0{,}20\).</p>
+        </div>
+
+        <div class="caja caja-formula">
+          <span class="caja-tit">3. El árbol de probabilidades</span>
+          <p>
+            Es un dibujo de la regla del producto. Primero se abren las ramas de lo que pasa
+            &ldquo;primero&rdquo; (acá: si el correo es spam o no), con sus probabilidades. De cada una
+            salen las ramas de lo que pasa después (qué dice el filtro), con probabilidades
+            <strong>condicionales</strong>.
+          </p>
+          <ul>
+            <li>Las ramas que salen de un mismo nudo suman 1.</li>
+            <li>La probabilidad de un camino completo es el <strong>producto</strong> de sus ramas.</li>
+            <li>Los caminos finales suman 1 entre todos.</li>
+          </ul>
+        </div>
+
+        <div class="caja caja-formula">
+          <span class="caja-tit">4. Teorema de la probabilidad total</span>
+          <p>
+            Se usa cuando un evento \(A\) puede llegar por <strong>varios caminos</strong> y hay que
+            sumar todos. Los caminos tienen que ser una <strong>partición</strong>: eventos
+            \(B_1, \dots, B_n\) que no se superponen y que juntos cubren todo.
+          </p>
+          <p>\[ P(A) = \sum_{i=1}^{n} P(B_i) \cdot P(A \mid B_i) \]</p>
+          <p>En el árbol: se suman todos los caminos que terminan en \(A\).</p>
+          <p><strong>Mini-ejemplo:</strong> 40&nbsp;% mujeres con 50&nbsp;% de lentes, 60&nbsp;% varones con 25&nbsp;%: \(P(L) = 0{,}4 \cdot 0{,}5 + 0{,}6 \cdot 0{,}25 = 0{,}35\).</p>
+        </div>
+
+        <div class="caja caja-formula">
+          <span class="caja-tit">5. Teorema de Bayes</span>
+          <p>
+            Se usa cuando se conoce el <strong>resultado</strong> (\(A\)) y se pregunta por la
+            <strong>causa</strong> (\(B_k\)): da vuelta la condicional.
+          </p>
+          <p>\[ P(B_k \mid A) = \frac{P(B_k) \cdot P(A \mid B_k)}{\sum_{i=1}^{n} P(B_i) \cdot P(A \mid B_i)} = \frac{P(B_k) \cdot P(A \mid B_k)}{P(A)} \]</p>
+          <p>En el árbol: el camino que interesa dividido por la suma de todos los caminos que terminan en \(A\).</p>
+          <p><strong>Mini-ejemplo:</strong> con los datos anteriores, si alguien usa lentes, \(P(M \mid L) = \frac{0{,}20}{0{,}35} = 0{,}5714\).</p>
+        </div>
+
+        <h4>Desarme del enunciado</h4>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Frase del enunciado</th><th>Qué significa</th><th>A dónde va</th></tr>
+            <tr><td>&ldquo;el 20&nbsp;% de los correos son realmente spam&rdquo;</td><td>probabilidad sin condición</td><td>\(P(S) = 0{,}20\), \(P(S') = 0{,}80\)</td></tr>
+            <tr><td>&ldquo;identifica correctamente como spam al 95&nbsp;% de los que efectivamente lo son&rdquo;</td><td>&ldquo;de los que son spam&rdquo; = dado \(S\)</td><td>\(P(C \mid S) = 0{,}95\), \(P(C' \mid S) = 0{,}05\)</td></tr>
+            <tr><td>&ldquo;el 3&nbsp;% de los legítimos es clasificado erróneamente como spam&rdquo;</td><td>&ldquo;de los legítimos&rdquo; = dado \(S'\)</td><td>\(P(C \mid S') = 0{,}03\), \(P(C' \mid S') = 0{,}97\)</td></tr>
+            <tr><td>&ldquo;sea clasificado como spam&rdquo;</td><td>sin condición, por cualquier camino</td><td>\(P(C)\), probabilidad total</td></tr>
+            <tr><td>&ldquo;<strong>Si</strong> fue clasificado como spam&hellip; efectivamente sea spam&rdquo;</td><td>se sabe \(C\), se pregunta \(S\)</td><td>\(P(S \mid C)\), Bayes</td></tr>
+            <tr><td>&ldquo;<strong>Si</strong> fue clasificado como no spam&hellip; sí sea spam&rdquo;</td><td>se sabe \(C'\), se pregunta \(S\)</td><td>\(P(S \mid C')\), Bayes</td></tr>
+          </table>
+        </div>
+
+        <span class="paso">Inciso a &mdash; Eventos y árbol</span>
+        <ul>
+          <li>\(S\): el correo es realmente spam. \(S'\): el correo es legítimo (no es spam).</li>
+          <li>\(C\): el filtro clasifica el correo como spam. \(C'\): el filtro lo clasifica como no spam.</li>
+        </ul>
+        <p>\(S\) y \(S'\) forman una <strong>partición</strong>: todo correo es spam o legítimo, y no las dos cosas. Por complemento:</p>
+        <p>\[ P(S') = 1 - 0{,}20 = 0{,}80 \qquad P(C' \mid S) = 1 - 0{,}95 = 0{,}05 \qquad P(C' \mid S') = 1 - 0{,}03 = 0{,}97 \]</p>
+        <p>Cada camino con la regla del producto, \(P(A \cap B) = P(B) \cdot P(A \mid B)\):</p>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Camino</th><th>Cuenta</th><th>Probabilidad</th><th>Qué es</th></tr>
+            <tr><td>\(S \cap C\)</td><td>\(0{,}20 \cdot 0{,}95\)</td><td>0,19</td><td>spam bien detectado</td></tr>
+            <tr><td>\(S \cap C'\)</td><td>\(0{,}20 \cdot 0{,}05\)</td><td>0,01</td><td>spam que se escapa (falso negativo)</td></tr>
+            <tr><td>\(S' \cap C\)</td><td>\(0{,}80 \cdot 0{,}03\)</td><td>0,024</td><td>legítimo marcado como spam (falso positivo)</td></tr>
+            <tr><td>\(S' \cap C'\)</td><td>\(0{,}80 \cdot 0{,}97\)</td><td>0,776</td><td>legítimo que pasa bien</td></tr>
+            <tr><td colspan="2"><strong>Total</strong></td><td><strong>1</strong></td><td>control &#10003;</td></tr>
+          </table>
+        </div>
+
+        <div class="pd-grafico">
+          <svg viewBox="0 0 620 260" role="img" aria-label="Árbol de probabilidades: spam 0,20 y legítimo 0,80; de spam salen clasificado spam 0,95 y no spam 0,05; de legítimo salen clasificado spam 0,03 y no spam 0,97" style="max-width:100%;height:auto">
+            <line x1="40" y1="130" x2="200" y2="65" stroke="currentColor" stroke-width="1.5"/>
+            <line x1="40" y1="130" x2="200" y2="195" stroke="currentColor" stroke-width="1.5"/>
+            <line x1="230" y1="65" x2="390" y2="30" stroke="currentColor" stroke-width="1.5"/>
+            <line x1="230" y1="65" x2="390" y2="100" stroke="currentColor" stroke-width="1.5"/>
+            <line x1="230" y1="195" x2="390" y2="160" stroke="currentColor" stroke-width="1.5"/>
+            <line x1="230" y1="195" x2="390" y2="230" stroke="currentColor" stroke-width="1.5"/>
+            <circle class="punto" cx="40" cy="130" r="5"/>
+            <text class="valor" x="215" y="70" text-anchor="middle">S</text>
+            <text class="valor" x="215" y="200" text-anchor="middle">S'</text>
+            <text class="valor" x="405" y="35" text-anchor="middle">C</text>
+            <text class="valor" x="405" y="105" text-anchor="middle">C'</text>
+            <text class="valor" x="405" y="165" text-anchor="middle">C</text>
+            <text class="valor" x="405" y="235" text-anchor="middle">C'</text>
+            <text class="rotulo" x="105" y="85" text-anchor="middle">0,20</text>
+            <text class="rotulo" x="105" y="190" text-anchor="middle">0,80</text>
+            <text class="rotulo" x="305" y="38" text-anchor="middle">0,95</text>
+            <text class="rotulo" x="305" y="100" text-anchor="middle">0,05</text>
+            <text class="rotulo" x="305" y="168" text-anchor="middle">0,03</text>
+            <text class="rotulo" x="305" y="230" text-anchor="middle">0,97</text>
+            <text class="rotulo" x="440" y="35">S∩C = 0,19</text>
+            <text class="rotulo" x="440" y="105">S∩C' = 0,01</text>
+            <text class="rotulo" x="440" y="165">S'∩C = 0,024</text>
+            <text class="rotulo" x="440" y="235">S'∩C' = 0,776</text>
+          </svg>
+          <p class="pd-pie">Primer nivel: qué es el correo. Segundo nivel: qué dice el filtro (probabilidades condicionales). A la derecha, el producto de cada camino.</p>
+        </div>
+
+        <div class="caja caja-resp">
+          <span class="caja-tit">Respuesta a</span>
+          <p>
+            Eventos \(S\), \(S'\), \(C\), \(C'\) como arriba. Árbol: \(P(S) = 0{,}20\) y
+            \(P(S') = 0{,}80\); de \(S\) salen \(P(C \mid S) = 0{,}95\) y \(P(C' \mid S) = 0{,}05\); de
+            \(S'\) salen \(P(C \mid S') = 0{,}03\) y \(P(C' \mid S') = 0{,}97\).
+          </p>
+        </div>
+
+        <span class="paso">Inciso b &mdash; Probabilidad de que el filtro lo clasifique como spam</span>
+        <p>\(C\) puede ocurrir por dos caminos: el correo es spam y el filtro acierta, o es legítimo y el filtro se equivoca. Fórmula de probabilidad total:</p>
+        <p>\[ P(C) = P(S) \cdot P(C \mid S) + P(S') \cdot P(C \mid S') \]</p>
+        <p>\[ P(C) = 0{,}20 \cdot 0{,}95 + 0{,}80 \cdot 0{,}03 = 0{,}19 + 0{,}024 = \mathbf{0{,}2140} \]</p>
+        <div class="caja caja-resp">
+          <span class="caja-tit">Respuesta b</span>
+          <p>
+            \(P(C) = 0{,}214\): el filtro manda a la carpeta de spam al <strong>21,4&nbsp;%</strong> de
+            los correos. Es un poco más que el 20&nbsp;% que realmente es spam porque, aunque se le
+            escapan algunos spam (0,01), marca por error más legítimos (0,024).
+          </p>
+        </div>
+
+        <span class="paso">Inciso c &mdash; Si fue clasificado como spam, ¿es spam?</span>
+        <p>Se sabe \(C\) y se pregunta por \(S\): es la condicional dada vuelta. Fórmula de Bayes:</p>
+        <p>\[ P(S \mid C) = \frac{P(S) \cdot P(C \mid S)}{P(S) \cdot P(C \mid S) + P(S') \cdot P(C \mid S')} = \frac{P(S) \cdot P(C \mid S)}{P(C)} \]</p>
+        <p>El numerador es el camino \(S \cap C\) y el denominador es el resultado del inciso b:</p>
+        <p>\[ P(S \mid C) = \frac{0{,}20 \cdot 0{,}95}{0{,}214} = \frac{0{,}19}{0{,}214} = \frac{95}{107} = \mathbf{0{,}8879} \]</p>
+        <div class="caja caja-calc">
+          <span class="caja-tit">En la calculadora</span>
+          <p><code>0.2 &times; 0.95 &divide; ( 0.2 &times; 0.95 + 0.8 &times; 0.03 ) =</code> &nbsp; da <code>0.8878504673</code>. Los paréntesis del denominador son obligatorios.</p>
+        </div>
+        <div class="caja caja-resp">
+          <span class="caja-tit">Respuesta c</span>
+          <p>
+            \(P(S \mid C) = 0{,}8879\). De los correos que el filtro marca como spam, el
+            <strong>88,79&nbsp;%</strong> es spam de verdad. <strong>Confiabilidad:</strong> es un
+            filtro bastante confiable cuando dice &ldquo;spam&rdquo;, pero no perfecto: el 11,21&nbsp;%
+            de lo que va a la carpeta de spam son correos legítimos (\(0{,}024/0{,}214\)), así que
+            conviene revisarla de vez en cuando. Fijate que la confiabilidad (88,79&nbsp;%) es menor
+            que el 95&nbsp;% de acierto del filtro: como los legítimos son mayoría (80&nbsp;%), un
+            error chico sobre muchos correos pesa.
+          </p>
+        </div>
+
+        <span class="paso">Inciso d &mdash; Falso negativo: clasificado como no spam, pero es spam</span>
+        <p>Se sabe \(C'\) y se pregunta por \(S\). Primero hace falta \(P(C')\), por complemento del inciso b (o por probabilidad total):</p>
+        <p>\[ P(C') = 1 - P(C) = 1 - 0{,}214 = 0{,}786 \qquad \left(= 0{,}20 \cdot 0{,}05 + 0{,}80 \cdot 0{,}97 = 0{,}01 + 0{,}776\right) \]</p>
+        <p>Fórmula de Bayes:</p>
+        <p>\[ P(S \mid C') = \frac{P(S) \cdot P(C' \mid S)}{P(S) \cdot P(C' \mid S) + P(S') \cdot P(C' \mid S')} = \frac{P(S) \cdot P(C' \mid S)}{P(C')} \]</p>
+        <p>\[ P(S \mid C') = \frac{0{,}20 \cdot 0{,}05}{0{,}786} = \frac{0{,}01}{0{,}786} = \frac{5}{393} = \mathbf{0{,}0127} \]</p>
+        <div class="caja caja-resp">
+          <span class="caja-tit">Respuesta d</span>
+          <p>
+            \(P(S \mid C') = 0{,}0127\). De los correos que el filtro deja pasar a la bandeja de entrada,
+            solo el <strong>1,27&nbsp;%</strong> es spam: aproximadamente 1 de cada 79. El filtro es
+            muy bueno para que no se cuele spam; su punto débil está más en los falsos positivos del
+            inciso c que en los falsos negativos.
+          </p>
+        </div>
+
+        <span class="paso">Inciso e &mdash; Enunciados y demostraciones</span>
+
+        <h4>Herramientas que se usan en las demostraciones</h4>
+        <ul>
+          <li><strong>(D) Definición de probabilidad condicional:</strong> \(P(A \mid B) = \frac{P(A \cap B)}{P(B)}\), con \(P(B) &gt; 0\).</li>
+          <li><strong>(RP) Regla del producto</strong>, que sale de despejar (D): \(P(A \cap B) = P(B) \cdot P(A \mid B)\).</li>
+          <li><strong>(A3) Tercer axioma de Kolmogorov (aditividad):</strong> si los eventos son mutuamente excluyentes (dos a dos no tienen elementos en común), la probabilidad de su unión es la suma de sus probabilidades.</li>
+          <li><strong>Distributiva</strong> de la intersección respecto de la unión: \(A \cap (B_1 \cup B_2) = (A \cap B_1) \cup (A \cap B_2)\).</li>
+        </ul>
+
+        <div class="caja caja-formula">
+          <span class="caja-tit">Teorema de la probabilidad total (usado en el inciso b)</span>
+          <p>
+            <strong>Enunciado.</strong> Sean \(B_1, B_2, \dots, B_n\) eventos que forman una
+            <strong>partición</strong> del espacio muestral \(\Omega\) (son mutuamente excluyentes,
+            \(B_i \cap B_j = \varnothing\) si \(i \neq j\); su unión es \(\Omega\); y
+            \(P(B_i) &gt; 0\)). Entonces, para cualquier evento \(A\):
+          </p>
+          <p>\[ P(A) = \sum_{i=1}^{n} P(B_i) \cdot P(A \mid B_i) \]</p>
+        </div>
+        <p><strong>Demostración.</strong></p>
+        <p><strong>Paso 1.</strong> \(A\) está contenido en \(\Omega\), así que \(A = A \cap \Omega\). Como los \(B_i\) cubren todo, \(\Omega = B_1 \cup \dots \cup B_n\):</p>
+        <p>\[ A = A \cap (B_1 \cup B_2 \cup \dots \cup B_n) \]</p>
+        <p><strong>Paso 2.</strong> Por la <strong>distributiva</strong>:</p>
+        <p>\[ A = (A \cap B_1) \cup (A \cap B_2) \cup \dots \cup (A \cap B_n) \]</p>
+        <p>
+          <strong>Paso 3.</strong> Los pedazos \(A \cap B_i\) son <strong>mutuamente excluyentes</strong>:
+          si un resultado estuviera en \(A \cap B_i\) y en \(A \cap B_j\), estaría en
+          \(B_i \cap B_j = \varnothing\), imposible. Entonces vale <strong>(A3)</strong>:
+        </p>
+        <p>\[ P(A) = P(A \cap B_1) + P(A \cap B_2) + \dots + P(A \cap B_n) = \sum_{i=1}^{n} P(A \cap B_i) \]</p>
+        <p><strong>Paso 4.</strong> Cada término se reescribe con la <strong>regla del producto (RP)</strong>, que se puede usar porque \(P(B_i) &gt; 0\):</p>
+        <p>\[ P(A) = \sum_{i=1}^{n} P(B_i) \cdot P(A \mid B_i) \qquad \blacksquare \]</p>
+        <p><strong>Dónde se aplicó:</strong> en el <strong>inciso b</strong>, con la partición \(\{S, S'\}\) y \(A = C\). También está adentro del denominador de Bayes en c y d (en d, con \(A = C'\)).</p>
+
+        <div class="caja caja-formula">
+          <span class="caja-tit">Teorema de Bayes (usado en los incisos c y d)</span>
+          <p>
+            <strong>Enunciado.</strong> Sean \(B_1, \dots, B_n\) una partición de \(\Omega\) con
+            \(P(B_i) &gt; 0\), y \(A\) un evento con \(P(A) &gt; 0\). Entonces, para cada \(k\):
+          </p>
+          <p>\[ P(B_k \mid A) = \frac{P(B_k) \cdot P(A \mid B_k)}{\displaystyle\sum_{i=1}^{n} P(B_i) \cdot P(A \mid B_i)} \]</p>
+        </div>
+        <p><strong>Demostración.</strong></p>
+        <p><strong>Paso 1.</strong> Por la <strong>definición de condicional (D)</strong>, que vale porque \(P(A) &gt; 0\):</p>
+        <p>\[ P(B_k \mid A) = \frac{P(B_k \cap A)}{P(A)} \]</p>
+        <p><strong>Paso 2.</strong> La intersección es conmutativa, \(B_k \cap A = A \cap B_k\), y por la <strong>regla del producto (RP)</strong> condicionando en \(B_k\):</p>
+        <p>\[ P(B_k \cap A) = P(B_k) \cdot P(A \mid B_k) \]</p>
+        <p><strong>Paso 3.</strong> El denominador \(P(A)\) se reemplaza por el <strong>teorema de la probabilidad total</strong> (recién demostrado), porque los \(B_i\) son una partición:</p>
+        <p>\[ P(A) = \sum_{i=1}^{n} P(B_i) \cdot P(A \mid B_i) \]</p>
+        <p><strong>Paso 4.</strong> Reemplazando numerador y denominador:</p>
+        <p>\[ P(B_k \mid A) = \frac{P(B_k) \cdot P(A \mid B_k)}{\displaystyle\sum_{i=1}^{n} P(B_i) \cdot P(A \mid B_i)} \qquad \blacksquare \]</p>
+        <p><strong>Dónde se aplicó:</strong> en el <strong>inciso c</strong> (\(B_k = S\), \(A = C\)) y en el <strong>inciso d</strong> (\(B_k = S\), \(A = C'\)).</p>
+
+        <div class="caja caja-resp">
+          <span class="caja-tit">Respuesta e</span>
+          <p>
+            <strong>Probabilidad total</strong> (inciso b): si \(B_1, \dots, B_n\) es una partición,
+            \(P(A) = \sum P(B_i)P(A \mid B_i)\). <strong>Bayes</strong> (incisos c y d):
+            \(P(B_k \mid A) = \frac{P(B_k)P(A \mid B_k)}{\sum P(B_i)P(A \mid B_i)}\). Las dos
+            demostraciones están arriba, justificando cada igualdad con la definición de condicional,
+            la regla del producto, la distributiva y el axioma de aditividad.
+          </p>
+        </div>
+
+        <h4>Parecido en la guía</h4>
+        <p>Probabilidad total y Bayes son de la Unidad 1, que todavía no está cargada en la app: no hay ejercicio de la guía para comparar.</p>
+
+        <div class="caja caja-ojo">
+          <span class="caja-tit">Las trampas de este ejercicio</span>
+          <ol>
+            <li>
+              <strong>Leer bien a quién se refiere cada porcentaje.</strong> &ldquo;El 3&nbsp;% de los
+              legítimos&rdquo; es \(P(C \mid S') = 0{,}03\), no \(P(S' \cap C)\) ni \(P(S' \mid C)\).
+            </li>
+            <li>
+              <strong>\(P(S \mid C) \neq P(C \mid S)\).</strong> Responder 0,95 en el inciso c es el
+              error clásico: 0,95 es cuánto spam detecta; 0,8879 es cuánto de lo marcado es spam.
+            </li>
+            <li>
+              <strong>En el inciso d el denominador es \(P(C')\), no \(P(C)\).</strong> Y el numerador
+              usa \(P(C' \mid S) = 0{,}05\), que hay que sacar por complemento.
+            </li>
+            <li>
+              <strong>&ldquo;Enunciar&rdquo; incluye las hipótesis.</strong> Sin decir que los
+              \(B_i\) forman una partición (excluyentes y que cubren todo), el enunciado está incompleto.
+            </li>
+            <li>
+              <strong>&ldquo;Indicar en qué inciso&rdquo; también suma.</strong> Probabilidad total
+              en b; Bayes en c y d.
+            </li>
+          </ol>
+        </div>
+      </div>
+    </details>
+  </div>
+</section>

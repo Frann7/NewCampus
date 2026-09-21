@@ -218,29 +218,124 @@
   <p>Formula:</p>
   <p>\[ P(X = x) = \binom{n}{x}\, p^{x}\, (1-p)^{\,n-x} \]</p>
   <p>\[ P(X = 10) = \binom{10}{10}\,(0{,}10)^{10}\,(0{,}90)^{10-10} \]</p>
-  <p>\[ = 1 \times (0{,}10)^{10} \times (0{,}90)^{0} = 1 \times 10^{-10} \times 1 \]</p>
-  <p>\[ P(X = 10) = 0{,}0000000001 = 1 \times 10^{-10} \]</p>
+  <p>Pieza por pieza:</p>
+  <ul>
+    <li>\(\binom{10}{10} = 1\) &nbsp;(hay una sola forma de elegir las 10 de 10: todas)</li>
+    <li>\((0{,}10)^{10} = 10^{-10}\)</li>
+    <li>\((0{,}90)^{0} = 1\) &nbsp;(cualquier numero elevado a la 0 da 1)</li>
+  </ul>
+  <p>\[ P(X = 10) = 1 \times 10^{-10} \times 1 = 1 \times 10^{-10} \]</p>
+
+  <div class="caja caja-formula">
+    <span class="caja-tit">Por que \((0{,}10)^{10}\) da justo \(10^{-10}\)</span>
+    <p>Porque \(0{,}10\) es \(\dfrac{1}{10} = 10^{-1}\). Elevarlo a la 10 multiplica el exponente:</p>
+    <p>\[ (0{,}10)^{10} = \left(10^{-1}\right)^{10} = 10^{-10} \]</p>
+    <p>
+      No siempre sale tan redondo: si la tasa fuera \(p = 0{,}20\), la calculadora te devolveria
+      \(1{,}024 \times 10^{-7}\), que se trata exactamente igual.
+    </p>
+  </div>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Este es el caso del que hablamos en la seccion 1</span>
+    <p>
+      \(1 \times 10^{-10}\) es \(0{,}0000000001\): la coma corrida 10 lugares a la izquierda.
+      En la calculadora lo vas a ver como <code>1e-10</code> o
+      <code>1.&times;10<sup>-10</sup></code>.
+    </p>
+    <p>
+      Redondeado a los 4 decimales que usa la catedra quedaria <strong>0,0000</strong>, y ahi
+      parece que escribiste "es imposible" cuando en realidad no lo es: es <em>posible pero
+      despreciable</em>. Por eso, cuando el numero es mas chico que \(0{,}0001\), la respuesta se
+      deja en notacion cientifica y se acompana con la lectura en palabras.
+    </p>
+  </div>
+
   <div class="caja caja-resp">
-    <span class="caja-tit">Respuesta b.I</span>
-    <p>Practicamente cero. Es virtualmente imposible que mueran las 10.</p>
-    <p><em>Recordatorio: cualquier numero elevado a la 0 da 1, y \(\binom{10}{10} = 1\).</em></p>
+    <span class="caja-tit">Respuesta b.I &mdash; asi se escribe</span>
+    <p>\[ P(X = 10) = 1 \times 10^{-10} \]</p>
+    <p>
+      "La probabilidad de que <strong>ninguna de las 10 personas sobreviva</strong> es
+      \(1 \times 10^{-10}\), o sea <strong>practicamente cero</strong>: es posible en teoria, pero
+      no ocurre en la practica."
+    </p>
+    <p>
+      Esa segunda frase no es relleno. Cuando el resultado es un numero que no se entiende solo,
+      la interpretacion es parte de la respuesta.
+    </p>
   </div>
 
   <h4>Inciso b.II &mdash; Que al menos tres mueran</h4>
-  <p>"Al menos 3" incluye el 3, o sea 3, 4, 5&hellip; hasta 10. Son ocho cuentas. Vamos por el complemento:</p>
-  <p>\[ P(X \geq 3) = 1 - P(X \leq 2) = 1 - \big[P(0) + P(1) + P(2)\big] \]</p>
-  <p>Calculamos los tres terminos:</p>
+  <p><strong>Paso 1 &mdash; Traducir la frase.</strong> "Al menos 3" incluye al 3:</p>
+  <p>\[ P(\text{al menos 3 mueran}) = P(X \geq 3) \]</p>
+  <p>
+    Por formula directa eso significa sumar \(P(3) + P(4) + P(5) + P(6) + P(7) + P(8) + P(9) +
+    P(10)\): <strong>ocho cuentas</strong>, cada una con su combinatorio y sus dos potencias.
+  </p>
+
+  <p><strong>Paso 2 &mdash; Mirar el otro camino.</strong> Lo contrario de "al menos 3" es "2 o menos":</p>
+  <p>\[ P(X \leq 2) = P(0) + P(1) + P(2) \]</p>
+  <p>
+    <strong>Tres cuentas</strong> en vez de ocho. Por eso aca conviene el
+    <strong>complemento</strong>, la herramienta que vimos en la seccion 1.
+  </p>
+
+  <div class="caja caja-formula">
+    <span class="caja-tit">El complemento, aplicado a este inciso</span>
+    <p>Regla general:</p>
+    <p>\[ P(A) = 1 - P(\text{no } A) \]</p>
+    <p>
+      Aca \(A\) es "mueren al menos 3" y "no \(A\)" es "mueren 2 o menos". Entre las dos cosas
+      estan <em>todos</em> los casos posibles (de 0 a 10 muertes, no hay otra opcion), y todos los
+      casos posibles suman 1. Entonces:
+    </p>
+    <p>\[ P(X \geq 3) = 1 - P(X \leq 2) \]</p>
+    <p>
+      <strong>Donde cortar:</strong> el 3 <em>entra</em> en lo que te piden, asi que lo contrario
+      arranca un numero antes, en el 2. Si el enunciado dijera "mas de 3" (que deja al 3 afuera),
+      lo contrario cortaria en el 3 y quedaria \(1 - P(X \leq 3)\).
+    </p>
+  </div>
+
+  <p><strong>Paso 3 &mdash; Calcular los tres terminos</strong>, con la misma formula de siempre:</p>
+  <p>\[ P(X = x) = \binom{n}{x}\, p^{x}\, (1-p)^{\,n-x} \]</p>
   <p>\[ P(X=0) = \binom{10}{0}(0{,}10)^{0}(0{,}90)^{10} = 1 \times 1 \times 0{,}34868 = 0{,}34868 \]</p>
   <p>\[ P(X=1) = \binom{10}{1}(0{,}10)^{1}(0{,}90)^{9} = 10 \times 0{,}10 \times 0{,}38742 = 0{,}38742 \]</p>
   <p>\[ P(X=2) = \binom{10}{2}(0{,}10)^{2}(0{,}90)^{8} = 45 \times 0{,}01 \times 0{,}43047 = 0{,}19371 \]</p>
+  <p><strong>Paso 4 &mdash; Sumar y restar de 1.</strong></p>
   <p>\[ P(X \leq 2) = 0{,}34868 + 0{,}38742 + 0{,}19371 = 0{,}92981 \]</p>
-  <p>\[ P(X \geq 3) = 1 - 0{,}92981 = 0{,}0702 \]</p>
+  <p>\[ P(X \geq 3) = 1 - 0{,}92981 = \mathbf{0{,}0702} \]</p>
+
   <div class="caja caja-resp">
     <span class="caja-tit">Respuesta b.II</span>
-    <p>7,02%.</p>
     <p>
-      <em>Atajo:</em> con la tabla acumulada (bloque \(n=10\), columna \(p=0{,}10\), fila \(r=2\))
-      leias directamente 0,9298 y te ahorrabas las tres cuentas.
+      \(P(X \geq 3) = 0{,}0702\). Hay un <strong>7,02%</strong> de probabilidad de que mueran al
+      menos 3 personas del grupo de 10.
+    </p>
+    <p>
+      Control de sentido comun: se espera \(np = 1\) muerte por grupo, asi que tres o mas es
+      bastante peor que lo habitual. Tenia que dar un numero chico.
+    </p>
+  </div>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">El mismo inciso con la tabla acumulada</span>
+    <p>
+      Las tres cuentas de arriba se pueden evitar: la <strong>tabla acumulada</strong> de la
+      catedra ya trae sumado \(P(X \leq r)\). Entrando por el bloque \(n = 10\), la columna
+      \(p = 0{,}10\) y la fila \(r = 2\), se lee directamente:
+    </p>
+    <p>\[ P(X \leq 2) = 0{,}9298 \qquad\Longrightarrow\qquad P(X \geq 3) = 1 - 0{,}9298 = 0{,}0702 \]</p>
+    <p>
+      <strong>Mismo resultado</strong>, con una lectura en vez de tres cuentas. La diferencia en el
+      quinto decimal (0,92981 contra 0,9298) es solo el redondeo de la tabla y no mueve la
+      respuesta.
+    </p>
+    <p>
+      Eso es lo que conviene hacer en el parcial. El procedimiento completo de como se busca esta
+      explicado en la <strong>seccion 9</strong>; aca se resolvio por formula porque todavia no la
+      vimos, y porque hay casos en los que no queda otra: si el \(n\) o el \(p\) del enunciado no
+      figuran en la tabla, hay que calcular a mano igual.
     </p>
   </div>
 

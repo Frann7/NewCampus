@@ -27,4 +27,157 @@
       modelo <strong>y saber explicar por que</strong> vale puntos por si solo.
     </p>
   </div>
+
+  <hr class="sep">
+
+  <h3>Dos herramientas que vas a usar en TODOS los modelos</h3>
+
+  <p>
+    Antes de meternos con las formulas conviene dejar estas dos cosas explicadas, porque aparecen
+    en la Binomial, en la Hipergeometrica, en Poisson y en la Geometrica por igual. Si no estan
+    dichas ahora, mas adelante te las vas a encontrar en el medio de un ejercicio sin saber de
+    donde salieron.
+  </p>
+
+  <h4>Herramienta 1 &mdash; El complemento</h4>
+
+  <p>
+    La idea es de sentido comun: <strong>o pasa algo, o no pasa</strong>. No hay tercera opcion, y
+    entre las dos cubren absolutamente todos los casos posibles. Como todos los casos posibles
+    suman 1, se despeja uno a partir del otro.
+  </p>
+
+  <div class="caja caja-formula">
+    <span class="caja-tit">Formula del complemento</span>
+    <p>\[ P(A) = 1 - P(\text{no } A) \]</p>
+    <p>
+      Se lee: "la probabilidad de que pase \(A\) es 1 menos la probabilidad de que NO pase \(A\)".
+    </p>
+  </div>
+
+  <p>
+    Ejemplo numerico suelto, sin modelos de por medio: si la probabilidad de que llueva manana es
+    \(0{,}30\), la de que <em>no</em> llueva es \(1 - 0{,}30 = 0{,}70\). Nada mas que eso.
+  </p>
+
+  <h4>Para que sirve aca</h4>
+
+  <p>
+    Sirve para <strong>ahorrar cuentas</strong>. Cuando te piden "al menos 3" de un grupo de 10,
+    la lista de casos que cumplen es \(3, 4, 5, 6, 7, 8, 9, 10\): <strong>ocho cuentas</strong>.
+    La lista contraria, "2 o menos", es \(0, 1, 2\): <strong>tres cuentas</strong>. Se calcula la
+    corta y se resta de 1. El resultado es identico, se trabaja menos y hay menos lugares donde
+    equivocarse.
+  </p>
+
+  <div class="caja caja-formula">
+    <span class="caja-tit">Como se traduce, frase por frase</span>
+    <div class="tabla-wrap">
+      <table class="t full">
+        <tr><th>Te piden</th><th>Lo contrario es</th><th>Se calcula asi</th></tr>
+        <tr><td>"al menos 3" \(\;(X \geq 3)\)</td><td>"2 o menos"</td><td>\(1 - P(X \leq 2)\)</td></tr>
+        <tr><td>"mas de 5" \(\;(X &gt; 5)\)</td><td>"5 o menos"</td><td>\(1 - P(X \leq 5)\)</td></tr>
+        <tr><td>"al menos 1" \(\;(X \geq 1)\)</td><td>"ninguno"</td><td>\(1 - P(X = 0)\)</td></tr>
+        <tr><td>"menos de 4" \(\;(X &lt; 4)\)</td><td>"4 o mas"</td><td>\(1 - P(X \geq 4)\) &nbsp;<em>(aca no conviene: el directo es mas corto)</em></td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Donde cortar: la unica gimnasia del complemento</span>
+    <p>El numero que te nombran, <strong>entra o no entra</strong>?</p>
+    <ul>
+      <li>
+        Si <strong>entra</strong> ("al menos 3" incluye al 3), lo contrario arranca
+        <strong>un numero antes</strong>: \(X \leq 2\).
+      </li>
+      <li>
+        Si <strong>no entra</strong> ("mas de 5" deja al 5 afuera), lo contrario corta en
+        <strong>ese mismo numero</strong>: \(X \leq 5\).
+      </li>
+    </ul>
+    <p>
+      Equivocarse por uno es el error mas frecuente de toda la unidad, y cambia el resultado.
+    </p>
+  </div>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Cuando conviene usarlo</span>
+    <p>
+      <strong>Conta cuantos terminos tiene cada camino antes de arrancar.</strong> Si el directo
+      tiene mas, vas por el complemento; si tiene menos, vas derecho. No es automatico: hay
+      ejercicios (por ejemplo en la Hipergeometrica, donde el recorrido se corta arriba) en los
+      que el complemento termina siendo <em>mas</em> largo.
+    </p>
+    <p>
+      El unico caso que siempre va por complemento es <strong>"al menos uno"</strong>: lo contrario
+      es "ninguno", que es una sola cuenta.
+    </p>
+  </div>
+
+  <h4>Herramienta 2 &mdash; Numeros muy chicos (notacion cientifica)</h4>
+
+  <p>
+    Multiplicando probabilidades varias veces los resultados se van haciendo diminutos, y la
+    calculadora deja de mostrarlos con coma y ceros. En vez de eso te muestra algo asi:
+  </p>
+
+  <div class="caja caja-calc">
+    <span class="caja-tit">Lo que ves en la pantalla</span>
+    <p>
+      <code>1e-10</code> &nbsp;&middot;&nbsp; <code>1E-10</code> &nbsp;&middot;&nbsp;
+      <code>1.&times;10<sup>-10</sup></code> &nbsp;&middot;&nbsp; <code>1 -10</code>
+    </p>
+    <p>
+      Las cuatro dicen <strong>exactamente lo mismo</strong>: \(1 \times 10^{-10}\). Ese numerito
+      del final es un exponente, no una resta.
+    </p>
+  </div>
+
+  <div class="caja caja-formula">
+    <span class="caja-tit">Como se lee</span>
+    <p>\[ 1 \times 10^{-10} = 0{,}0000000001 \]</p>
+    <p>
+      El exponente negativo dice <strong>cuantos lugares hay que correr la coma hacia la
+      izquierda</strong>. Con \(-10\), la coma se corre 10 lugares: quedan 9 ceros y despues el 1.
+    </p>
+    <p>\[ 3{,}6 \times 10^{-7} = 0{,}00000036 \qquad\qquad 6{,}87 \times 10^{10} = 68.700.000.000 \]</p>
+    <p>
+      Con exponente <strong>positivo</strong> es al reves: la coma se corre hacia la derecha y el
+      numero se agranda.
+    </p>
+  </div>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Como se escribe en la respuesta del parcial</span>
+    <p>
+      La catedra trabaja con <strong>4 decimales</strong>. Pero si el resultado es mas chico que
+      \(0{,}0001\), redondear a 4 decimales te lo convierte en \(0{,}0000\) y perdes la
+      informacion: parece que dijiste que es imposible cuando en realidad no lo es.
+    </p>
+    <p>La regla practica:</p>
+    <ol>
+      <li>
+        Si al redondear a 4 decimales te queda algo distinto de cero, escribilo normal:
+        \(0{,}0574\).
+      </li>
+      <li>
+        Si te queda \(0{,}0000\), <strong>dejalo en notacion cientifica</strong> y agregale la
+        lectura en palabras: <em>"\(P(X = 10) = 1 \times 10^{-10}\), practicamente cero"</em>.
+      </li>
+    </ol>
+    <p>
+      Lo que <strong>no</strong> conviene es escribir el mar de ceros (\(0{,}0000000001\)): es
+      dificil de contar, se presta a errores de transcripcion y no aporta nada.
+    </p>
+  </div>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Un resultado diminuto casi siempre significa algo</span>
+    <p>
+      No lo dejes como un numero pelado. Si te da \(1 \times 10^{-10}\), la interpretacion es
+      "eso no pasa nunca en la practica", y esa frase tambien vale puntos cuando el enunciado pide
+      interpretar. Lo mismo al reves: un resultado cercano a 1 significa "pasa casi siempre".
+    </p>
+  </div>
 </div>

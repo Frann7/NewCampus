@@ -201,6 +201,26 @@ entre corridas.
 
 ## 3. Cómo se escribe la TEORÍA
 
+> **Regla de oro: nada se usa antes de estar explicado en general.**
+>
+> Si en un ejercicio aparece una herramienta, un atajo o una notación, primero tiene que estar
+> explicada **en abstracto** —qué es, por qué funciona, cuándo conviene, con su fórmula y un
+> ejemplo numérico chiquito suelto— y recién después aplicada al caso. Nunca al revés, y nunca
+> un *"vamos por el complemento"* sin haber dicho antes qué es el complemento.
+>
+> Lo general va en la sección más temprana que corresponda (en la Unidad 5, las herramientas
+> transversales están en la sección 1) y el punto de uso la referencia: *"la herramienta que
+> vimos en la sección 1"*.
+>
+> Si algo se resuelve por el camino largo porque el corto todavía no se explicó, **decilo**:
+> mostrá cómo quedaría por el camino corto, verificá que da lo mismo y apuntá a la sección donde
+> se explica. De molde sirven el *complemento* y la *notación científica* de
+> `u5/teoria/01-...`, aplicados después en la Binomial.
+>
+> Lo mismo vale para los **resultados que no se entienden solos** (un \(1 \times 10^{-10}\), un
+> número gigante): explicá cómo se leen y **cómo se escriben en la respuesta**, no los dejes
+> pelados.
+
 * Basada íntegramente en el PDF teórico de la cátedra, pero traducida a algo digerible.
   Resumí de a poco.
 * Cada concepto y cada fórmula general va acompañado de un **ejemplo práctico numérico**.

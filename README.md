@@ -15,8 +15,12 @@ abre los apuntes en el navegador. No hay nube, no hay cuenta, no sale nada a int
 * **Evaluación**: **parciales y finales** de la cátedra transcriptos, en dos listas. Algunos traen
   cada ejercicio con resultados y explicación detallada desplegables; otros están solo transcriptos,
   para usarlos como práctica. Y **autoevaluaciones** que armás vos, en modo normal o interactivo
-  (con pistas, vidas y resolución paso a paso), con su informe final. El banco tiene 48 preguntas
-  armadas sobre los exámenes, cada una diciendo de qué parcial o final salió.
+  (con pistas, vidas y resolución paso a paso), con su informe final. Primero se elige **qué etapa
+  del parcial** se simula: la **1ra, el cuestionario virtual** (opción única, varias correctas,
+  verdadero o falso y completar con coma y 2 decimales, corregido al entregar sobre 100 puntos y con
+  lo que esa nota significa según el reglamento), o la **2da, el escrito**. Todas las preguntas
+  salen de los exámenes: cada una dice de qué parcial o final viene, con ★ o ◈, y al sortear salen
+  más las de parciales.
 * **Qué entró en el examen**: cada ejercicio de la guía y cada sección de teoría puede venir marcada
   con ★ (tal cual como lo tomaron en un parcial) o ◈ (el mismo tema con un cambio, o algo que
   solo tomaron en finales), diciendo en qué examen apareció y qué cambia. La marca se ve en la tarjeta y en el índice lateral, y una barra de filtro
@@ -88,6 +92,10 @@ archivo. Son material de la facultad, subido acá solo para estudiar.
 `0.x.y-alpha` mientras esté en desarrollo. La `1.0.0` queda reservada para cuando esté terminado.
 La versión actual se lee al pie del menú lateral.
 
+* **0.8.0-alpha** — autoevaluación por etapa del parcial: la 1ra etapa (cuestionario del Aula
+  Virtual) con su propio banco y corrección con puntaje parcial; todas las preguntas marcadas con
+  su examen de origen y sorteo que prioriza parciales; finales de febrero y julio de 2026
+  resueltos.
 * **0.7.0-alpha** — finales transcriptos además de los parciales, marcas ★ / ◈ en teoría y
   práctica con filtro por lo que ya tomaron, banco de autoevaluación de 38 preguntas sacadas de los
   exámenes, cronómetro de estudio en la barra superior, y cuenta regresiva en la ficha del día del

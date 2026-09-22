@@ -726,9 +726,118 @@
 .inf-paso-dato{font-size:14px;color:var(--ink-soft);}
 .inf-paso-dato small{color:var(--ink-faint);}
 
+/* ---------- origen de cada pregunta y etapa ----------
+   Los mismos colores que las marcas de teoria y practica:
+   dorado = lo tomaron en un parcial, violeta = solo en finales. */
+
+.ev-chip-origen[data-origen="parcial"]{background:var(--warn-bg);color:var(--warn);}
+.ev-chip-origen[data-origen="final"]{background:var(--accent-bg);color:var(--accent);}
+.ev-chip-etapa{background:var(--dato-bg);color:var(--dato);}
+.ae-ayuda-arriba{margin:0 0 12px;}
+.ae-sub .ae-ayuda-arriba{margin:0;}
+
+/* ---------- 1ra etapa: cuestionario del Aula Virtual ---------- */
+
+.cu-nav{display:flex;flex-wrap:wrap;gap:6px;width:100%;}
+.cu-casilla{
+  font:inherit;font-size:13px;font-weight:700;
+  width:32px;height:32px;
+  border:1px solid var(--line);
+  border-radius:7px;
+  background:var(--paper);
+  color:var(--ink-soft);
+  cursor:pointer;
+}
+.cu-casilla:hover{border-color:var(--dato);}
+.cu-casilla.es-respondida{background:var(--dato-bg);border-color:var(--dato);color:var(--dato);}
+
+.cu-lista{display:flex;flex-direction:column;gap:16px;}
+.cu-preg{
+  display:grid;
+  grid-template-columns:150px minmax(0,1fr);
+  gap:18px;
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  padding:18px 22px;
+  margin:0 0 14px;
+}
+.cu-lista .cu-preg{margin:0;}
+.cu-info{
+  display:flex;flex-direction:column;gap:4px;
+  align-self:start;
+  background:var(--surface-2);
+  border-radius:9px;
+  padding:10px 12px;
+  font-size:13px;
+  color:var(--ink-soft);
+}
+.cu-info-num{font-size:14px;color:var(--ink);}
+.cu-info-num b{font-size:17px;}
+.cu-info-pts{color:var(--ink-faint);}
+.cu-cuerpo{min-width:0;}
+.cu-consigna{font-weight:600;color:var(--dato);margin:0 0 8px;}
+
+.cu-opciones{display:flex;flex-direction:column;gap:6px;margin:0 0 6px;}
+.cu-op{
+  display:flex;align-items:center;gap:10px;
+  padding:7px 12px;
+  border:1px solid var(--line);
+  border-radius:9px;
+  cursor:pointer;
+  font-size:15px;
+}
+.cu-op:hover{border-color:var(--dato);}
+.cu-op:has(input:checked){border-color:var(--dato);background:var(--dato-bg);}
+.cu-op input{accent-color:var(--dato);margin:0;flex:none;}
+.cu-letra{font-weight:700;color:var(--ink-faint);min-width:18px;}
+
+.cu-hueco{
+  font:inherit;font-size:15px;
+  color:var(--ink);
+  background:var(--paper);
+  border:1px solid var(--line);
+  border-radius:7px;
+  padding:3px 8px;
+  margin:0 3px;
+  vertical-align:baseline;
+}
+.cu-hueco:focus{outline:2px solid var(--dato);outline-offset:1px;}
+.cu-hueco-num{width:84px;text-align:center;}
+.cu-hueco-lista{max-width:100%;}
+.cu-entregar{display:flex;align-items:center;justify-content:flex-end;gap:14px;flex-wrap:wrap;}
+.cu-entregar .ae-ayuda{margin:0;}
+
+/* revision */
+.cu-revision{border-left:4px solid var(--ink-faint);}
+.cu-revision.inf-bien{border-left-color:var(--ok);}
+.cu-revision.inf-parcial{border-left-color:var(--dato);}
+.cu-revision.inf-mal{border-left-color:var(--warn);}
+.cu-revision.inf-bien .cu-info-estado{color:var(--ok);font-weight:700;}
+.cu-revision.inf-parcial .cu-info-estado{color:var(--dato);font-weight:700;}
+.cu-revision.inf-mal .cu-info-estado{color:var(--warn);font-weight:700;}
+.cu-hueco-rev{
+  display:inline;
+  border-radius:6px;
+  padding:1px 6px;
+  font-weight:700;
+}
+.cu-hueco-rev.es-correcta{background:var(--ok-bg);color:var(--ok);}
+.cu-hueco-rev.es-incorrecta{background:var(--warn-bg);color:var(--warn);}
+.cu-hueco-correcta{font-weight:600;color:var(--ink-soft);}
+.cu-nota[data-condicion="accede"]{border-color:var(--ok-bg);}
+.cu-nota[data-condicion="no"]{border-color:var(--warn-bg);}
+.cu-condicion{font-weight:700;}
+.cu-condicion[data-condicion="accede"]{color:var(--ok);}
+.cu-condicion[data-condicion="regular"]{color:var(--dato);}
+.cu-condicion[data-condicion="no"]{color:var(--warn);}
+
 @media (max-width:700px){
   .parcial{padding:22px 18px;}
   .inf-resultado{grid-template-columns:1fr;justify-items:start;}
   .inf-botones{flex-direction:row;}
   .ae-paso{padding:16px 16px 18px !important;}
+  .cu-preg{grid-template-columns:1fr;gap:10px;padding:16px;}
+  .cu-info{flex-direction:row;flex-wrap:wrap;gap:4px 12px;}
 }

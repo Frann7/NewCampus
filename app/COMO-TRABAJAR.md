@@ -127,12 +127,28 @@ El contenido de cada unidad llega en su propia pieza cuando la abrís (con un `<
   sus incisos (`.paso`) y subtítulos (`h4`) se suman al índice de la derecha, debajo de su ejercicio,
   y desaparecen al cerrarla.
 * **Banco de preguntas:** una carpeta por unidad y **un archivo por pregunta**, cuyo nombre es el
-  `data-id`. El formato completo está en `preguntas/FORMATO.md`.
-  Cada `<article class="preg" data-id data-tipo="teoria|practica">` lleva
-  enunciado, opciones (`data-correcta`), pista y explicación; las de práctica además
-  `p-pregunta` (modo normal) y `ol.p-pasos` (modo interactivo), con `data-nivel` en cada paso
-  (`avanzado` = aparece siempre, `medio` = medio y principiante, `principiante` = solo principiante).
+  `data-id`. El formato completo está en `preguntas/FORMATO.md`. Hay preguntas para las **dos
+  etapas del parcial**, porque la cátedra toma cada parcial en dos instancias:
+  * **1ra etapa** (`u4-c-...`, `data-etapa="1"`): el cuestionario del Aula Virtual, respuesta corta.
+    `data-formato="opcion|multiple|completar"`; en `completar` los huecos son `span.p-hueco`
+    (numérico con `data-respuesta="0,20"`, que se acepta **solo con coma y 2 decimales**, o
+    desplegable con sus opciones adentro). Sin modo interactivo ni pistas.
+  * **2da etapa** (`u4-t-...` / `u4-p-...`): el escrito. `data-tipo="teoria|practica"`, con
+    enunciado, opciones (`data-correcta`), pista y explicación; las de práctica además
+    `p-pregunta` (modo normal) y `ol.p-pasos` (modo interactivo), con `data-nivel` en cada paso
+    (`avanzado` = aparece siempre, `medio` = medio y principiante, `principiante` = solo principiante).
+
+  **Toda pregunta está orientada a los exámenes:** lleva `data-origen="parcial|final"` (se ve como
+  ★ dorado o ◈ violeta, con la misma regla que las marcas: si el tema lo tomaron en un parcial, es
+  dorado) y un `p-fuente` que dice de qué examen sale. Al sortear, las de parcial salen el doble de
+  seguido. `construir.py` rechaza una pregunta sin origen.
   **Toda respuesta numérica se verifica con una cuenta antes de cargarla.**
+* **Autoevaluaciones:** lo primero que se elige es la **etapa** que se simula, y hasta elegirla el
+  resto del formulario queda bloqueado. La 1ra etapa corre en `cuestionario.js` (todas las
+  preguntas en una página, se entrega al final, nota sobre 100 con puntaje parcial y lo que
+  significa según el reglamento: 30 regulariza, 60 pasa a la 2da instancia). La 2da corre en
+  `examen.js` e `informe.js`, como siempre. Las que se guardaron antes de existir las etapas se
+  toman como de 2da etapa.
 * Las autoevaluaciones que arma el usuario se guardan en el `localStorage` del navegador.
 
 **Pestaña Calendario** (una sola, no depende de la materia ni de la unidad): `assets/calendario/`.

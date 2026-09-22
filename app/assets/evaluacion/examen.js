@@ -434,7 +434,8 @@
         var pasos = c.modo === "interactivo" && p.tipo === "practica" ? B.pasosDelNivel(p, c.nivel) : [];
         var etiquetas = [
           h("span", { class: "ev-chip ev-chip-" + p.tipo }, E.TIPOS[p.tipo]),
-          h("span", { class: "ev-chip" }, E.numeroDeUnidad(materia, p.unidad))
+          h("span", { class: "ev-chip" }, E.numeroDeUnidad(materia, p.unidad)),
+          E.chipOrigen(p)
         ];
         if (pasos.length) { etiquetas.push(h("span", { class: "ev-chip" }, "Nivel " + E.NIVELES[c.nivel].toLowerCase())); }
         var tarjeta = h("div", { class: "ex-tarjeta" }, h("div", { class: "ex-etiquetas" }, etiquetas));

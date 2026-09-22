@@ -81,6 +81,7 @@
           h("span", { class: "inf-item-num" }, String(i + 1)),
           preg ? h("span", { class: "ev-chip ev-chip-" + preg.tipo }, E.TIPOS[preg.tipo]) : null,
           preg ? h("span", { class: "ev-chip" }, E.numeroDeUnidad(materia, preg.unidad)) : null,
+          preg ? E.chipOrigen(preg) : null,
           h("span", { class: "inf-veredicto" }, veredicto)
         ]));
 

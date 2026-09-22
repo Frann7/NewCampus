@@ -2,13 +2,22 @@
    NEWCAMPUS - Evaluacion: formulario de una autoevaluacion
    Crea una autoevaluacion nueva. Una vez guardada no se edita: se juega,
    se rehace o se borra desde su tarjeta. Las opciones se habilitan en cadena:
-   unidades -> tipo de enunciado -> cantidad -> orden.
+   etapa -> (todo lo demas) ; unidades -> tipo de enunciado -> cantidad -> orden.
+
+   Lo primero es la ETAPA del parcial que se simula, y hasta elegirla todo lo
+   demas queda bloqueado: las dos etapas no se parecen en nada.
+     1ra  cuestionario del Aula Virtual: sin modo interactivo, sin tipos,
+          se corrige al entregar sobre 100 puntos
+     2da  escrito: normal o interactivo, teoria y practica
+   Los pasos que no corresponden a la etapa elegida se esconden (data-etapa)
+   y los numeros de los pasos se recalculan.
    ============================================================ */
 
 (function (E) {
   "use strict";
 
   var POR_DEFECTO = {
+    etapa: null, cantCuestionario: 8,
     modo: "normal", nivel: "medio", fallos: 3, verRespuesta: true,
     unidades: [], teoria: false, practica: false,
     reparto: "separado", cantTeoria: 5, cantPractica: 3, cantMezcla: 8,
@@ -21,15 +30,33 @@
     avanzado: "Solo pide las partes principales del ejercicio."
   };
 
+  var BLOQUEADO = '<p class="ae-motivo">Elegí primero la etapa del parcial.</p>';
+
   var PLANTILLA =
-    '<fieldset class="ae-paso">' +
-    '  <legend><span class="ae-num">1</span>Nombre</legend>' +
+    '<fieldset class="ae-paso ae-paso-etapa">' +
+    '  <legend><span class="ae-num"></span>Etapa del parcial</legend>' +
+    '  <p class="ae-ayuda ae-ayuda-arriba">El parcial tiene dos instancias y se preparan distinto. Elegí cuál querés simular: el resto del formulario se acomoda a esa etapa.</p>' +
+    '  <div class="ae-modos">' +
+    '    <label class="ae-modo"><input type="radio" name="etapa" value="1">' +
+    '      <span class="ae-modo-tit">Primera etapa · virtual</span>' +
+    '      <span class="ae-modo-desc">El cuestionario del Aula Virtual: respuesta corta y rápida. Opción única, varias correctas, verdadero o falso y completar con coma y 2 decimales. Se corrige al entregar, sobre 100 puntos.</span></label>' +
+    '    <label class="ae-modo"><input type="radio" name="etapa" value="2">' +
+    '      <span class="ae-modo-tit">Segunda etapa · escrito</span>' +
+    '      <span class="ae-modo-desc">Problemas y teoría a desarrollar, como el escrito. Se puede hacer en modo normal o interactivo, paso a paso.</span></label>' +
+    '  </div>' +
+    '  <div class="ae-sub" data-etapa="1" hidden>' +
+    '    <p class="ae-ayuda ae-ayuda-arriba">Según el reglamento de la cátedra, la nota de esta instancia decide qué sigue: <b>de 30 a 59</b> seguís en condiciones de regularizar; <b>con 60 o más</b> pasás a la 2da instancia escrita. En la nota del parcial pesa un 40&nbsp;%.</p>' +
+    '  </div>' +
+    '</fieldset>' +
+
+    '<fieldset class="ae-paso" data-tras-etapa>' +
+    '  <legend><span class="ae-num"></span>Nombre</legend>' + BLOQUEADO +
     '  <input class="ae-input" name="nombre" maxlength="60" autocomplete="off" placeholder="Ej: Repaso de la Unidad 5 antes del parcial">' +
     '  <p class="ae-ayuda">Obligatorio. Con este nombre la vas a encontrar guardada.</p>' +
     '</fieldset>' +
 
-    '<fieldset class="ae-paso">' +
-    '  <legend><span class="ae-num">2</span>Modo</legend>' +
+    '<fieldset class="ae-paso" data-tras-etapa data-etapa="2">' +
+    '  <legend><span class="ae-num"></span>Modo</legend>' +
     '  <div class="ae-modos">' +
     '    <label class="ae-modo"><input type="radio" name="modo" value="normal">' +
     '      <span class="ae-modo-tit">Normal</span>' +
@@ -56,13 +83,13 @@
     '  </div>' +
     '</fieldset>' +
 
-    '<fieldset class="ae-paso">' +
-    '  <legend><span class="ae-num">3</span>Contenido</legend>' +
+    '<fieldset class="ae-paso" data-tras-etapa>' +
+    '  <legend><span class="ae-num"></span>Contenido</legend>' + BLOQUEADO +
     '  <div class="ae-campo">' +
     '    <span class="ae-etq">Unidades</span>' +
     '    <div class="ae-caja-unidades" data-unidades></div>' +
     '  </div>' +
-    '  <fieldset class="ae-campo" data-bloque="tipos">' +
+    '  <fieldset class="ae-campo" data-bloque="tipos" data-etapa="2">' +
     '    <span class="ae-etq">Tipo de enunciado</span>' +
     '    <div class="ae-tipos">' +
     '      <label class="ae-chip"><input type="checkbox" name="teoria"><span><b>Teoría</b><small data-disp="teoria"></small></span></label>' +
@@ -72,9 +99,14 @@
     '  </fieldset>' +
     '</fieldset>' +
 
-    '<fieldset class="ae-paso">' +
-    '  <legend><span class="ae-num">4</span>Cantidad y orden</legend>' +
-    '  <fieldset class="ae-campo" data-bloque="cantidad">' +
+    '<fieldset class="ae-paso" data-tras-etapa>' +
+    '  <legend><span class="ae-num"></span>Cantidad</legend>' + BLOQUEADO +
+    '  <fieldset class="ae-campo" data-bloque="cuestionario" data-etapa="1">' +
+    '    <label class="ae-cant">Preguntas <input class="ae-input ae-corto" type="number" name="cantCuestionario" min="1"> <small data-de="cuestionario"></small></label>' +
+    '    <p class="ae-ayuda">El cuestionario real trae 8 preguntas de 12 o 14 puntos. Acá cada pregunta vale lo mismo y la nota se lleva a 100.</p>' +
+    '    <p class="ae-motivo">Elegí al menos una unidad para habilitar esto.</p>' +
+    '  </fieldset>' +
+    '  <fieldset class="ae-campo" data-bloque="cantidad" data-etapa="2">' +
     '    <span class="ae-etq">Cantidad de preguntas</span>' +
     '    <label class="ae-opcion"><input type="radio" name="reparto" value="separado"><span>Por separado</span></label>' +
     '    <div class="ae-cantidades">' +
@@ -88,7 +120,7 @@
     '    <p class="ae-motivo">Marcá Teoría, Práctica o ambas para elegir la cantidad.</p>' +
     '    <p class="ae-ayuda" data-ayuda-mezcla hidden>La mezcla necesita Teoría y Práctica marcadas.</p>' +
     '  </fieldset>' +
-    '  <fieldset class="ae-campo" data-bloque="orden">' +
+    '  <fieldset class="ae-campo" data-bloque="orden" data-etapa="2">' +
     '    <label class="ae-etq">Orden de las preguntas</label>' +
     '    <select class="ae-input ae-select" name="orden">' +
     '      <option value="aleatorio">Aleatorio</option>' +
@@ -99,9 +131,10 @@
     '  </fieldset>' +
     '</fieldset>' +
 
-    '<fieldset class="ae-paso">' +
-    '  <legend><span class="ae-num">5</span>Corrección y tiempo</legend>' +
-    '  <fieldset class="ae-campo" data-bloque="correccion">' +
+    '<fieldset class="ae-paso" data-tras-etapa>' +
+    '  <legend><span class="ae-num"></span>Corrección y tiempo</legend>' + BLOQUEADO +
+    '  <p class="ae-ayuda ae-ayuda-arriba" data-etapa="1">Como en el Aula Virtual: contestás todo, entregás, y recién ahí ves la corrección de cada pregunta.</p>' +
+    '  <fieldset class="ae-campo" data-bloque="correccion" data-etapa="2">' +
     '    <label class="ae-check"><input type="checkbox" name="verRespuesta"><span>Mostrar la respuesta correcta después de cada pregunta</span></label>' +
     '    <p class="ae-ayuda">Desactivado: respondés de corrido y en el informe final ves cuáles hiciste bien y qué elegiste.</p>' +
     '    <p class="ae-motivo">En modo interactivo la corrección siempre es inmediata.</p>' +
@@ -156,6 +189,7 @@
 
       // Cargar valores
       campo("nombre").value = "";
+      campo("cantCuestionario").value = c.cantCuestionario;
       form.querySelector('[name="modo"][value="' + c.modo + '"]').checked = true;
       form.querySelector('[name="nivel"][value="' + c.nivel + '"]').checked = true;
       campo("fallos").value = c.fallos;
@@ -174,6 +208,8 @@
       function leer() {
         var marcado = function (sel) { var el = form.querySelector(sel + ":checked"); return el ? el.value : null; };
         return {
+          etapa: marcado('[name="etapa"]'),
+          cantCuestionario: entero(campo("cantCuestionario").value),
           modo: marcado('[name="modo"]'),
           nivel: marcado('[name="nivel"]'),
           fallos: entero(campo("fallos").value),
@@ -194,8 +230,30 @@
 
       function sincronizar() {
         var v = leer();
-        var interactivo = v.modo === "interactivo";
         var disp = E.banco.disponibles(materia, v.unidades);
+
+        // etapa -> todo lo demas. Lo de la otra etapa se esconde.
+        Array.prototype.forEach.call(form.querySelectorAll("[data-tras-etapa]"), function (f) {
+          f.disabled = !v.etapa;
+        });
+        // antes de elegir se ven los pasos de la 2da (bloqueados), para que se note lo que viene
+        Array.prototype.forEach.call(form.querySelectorAll("[data-etapa]"), function (el) {
+          el.hidden = el.getAttribute("data-etapa") !== (v.etapa || "2");
+        });
+        var n = 0;
+        Array.prototype.forEach.call(form.querySelectorAll(".ae-paso"), function (f) {
+          if (!f.hidden) { f.querySelector(".ae-num").textContent = String(++n); }
+        });
+        var primera = v.etapa === "1";
+        var interactivo = !primera && v.modo === "interactivo";
+
+        // 1ra etapa: unidades -> cantidad del cuestionario
+        bloque("cuestionario").disabled = !v.unidades.length;
+        campo("cantCuestionario").max = disp.cuestionario;
+        if (disp.cuestionario > 0 && entero(campo("cantCuestionario").value) > disp.cuestionario) {
+          campo("cantCuestionario").value = disp.cuestionario;
+        }
+        form.querySelector('[data-de="cuestionario"]').textContent = "de " + disp.cuestionario;
 
         form.querySelector("[data-solo-interactivo]").hidden = !interactivo;
         form.querySelector("[data-ayuda-nivel]").textContent = AYUDA_NIVEL[v.nivel];
@@ -241,15 +299,27 @@
 
         campo("minutos").disabled = !v.conTiempo;
 
-        form.querySelector("[data-resumen]").textContent = hayTipo
-          ? "Resumen: " + E.resumenConfig(materia, v).join(" · ")
+        var completo = primera ? hayUnidad : hayTipo;
+        form.querySelector("[data-resumen]").textContent = !v.etapa
+          ? "Elegí la etapa del parcial para empezar."
+          : completo ? "Resumen: " + E.resumenConfig(materia, v).join(" · ")
           : "Completá los pasos para ver el resumen.";
       }
 
       function validar(v, nombre) {
         var errores = [];
         var disp = E.banco.disponibles(materia, v.unidades);
+        if (!v.etapa) { return ["Elegí la etapa del parcial que querés simular."]; }
         if (!nombre) { errores.push("Poné un nombre: es obligatorio."); }
+        if (v.etapa === "1") {
+          if (!v.unidades.length) { errores.push("Elegí al menos una unidad."); }
+          else if (!disp.cuestionario) { errores.push("No hay preguntas de 1ra etapa en las unidades elegidas."); }
+          else if (v.cantCuestionario < 1 || v.cantCuestionario > disp.cuestionario) {
+            errores.push("La cantidad de preguntas tiene que ir de 1 a " + disp.cuestionario + ".");
+          }
+          if (v.conTiempo && (v.minutos < 1 || v.minutos > MAX_MINUTOS)) { errores.push("El contador va de 1 a 240 minutos (4 horas)."); }
+          return errores;
+        }
         if (v.modo === "interactivo" && (v.fallos < 1 || v.fallos > 200)) {
           errores.push("Las vidas van de 1 a 200.");
         }
@@ -275,17 +345,18 @@
         var nombre = campo("nombre").value.trim();
         var errores = validar(v, nombre);
         var caja = form.querySelector("[data-errores]");
-        campo("nombre").classList.toggle("ae-invalido", !nombre);
+        campo("nombre").classList.toggle("ae-invalido", !!v.etapa && !nombre);
 
         if (errores.length) {
           E.vaciar(caja);
           caja.appendChild(h("b", {}, "Falta completar:"));
           caja.appendChild(h("ul", {}, errores.map(function (e) { return h("li", {}, e); })));
           caja.hidden = false;
-          if (!nombre) { campo("nombre").focus(); }
+          if (v.etapa && !nombre) { campo("nombre").focus(); }
           return;
         }
 
+        if (v.etapa === "1") { v.modo = "normal"; v.teoria = false; v.practica = false; v.verRespuesta = false; }
         var nueva = { id: "ae-" + Date.now().toString(36), materia: materia, creada: Date.now(),
                       nombre: nombre, config: v, historial: [], intento: null };
         if (!E.almacen.guardar(nueva)) {
@@ -303,7 +374,6 @@
 
       sincronizar();
       E.pantallaNueva(cont);
-      campo("nombre").focus();
     }
   };
 })(window.NC.eval);

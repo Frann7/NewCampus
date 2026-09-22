@@ -56,8 +56,16 @@
         else { acciones.lanzar(ae, false); }
       },
       nueva: function () { E.formulario.mostrar(cont, materia, acciones); },
-      lanzar: function (ae, reiniciar) { E.examen.lanzar(cont, materia, ae, reiniciar, acciones); },
-      informe: function (ae, aviso) { E.informe.mostrar(cont, materia, ae, acciones, aviso); },
+      // Cada etapa del parcial tiene su pantalla: la 1ra es un cuestionario
+      // (cuestionario.js) y la 2da el examen de siempre (examen.js / informe.js).
+      lanzar: function (ae, reiniciar) {
+        if (E.etapaDe(ae.config) === "1") { E.cuestionario.lanzar(cont, materia, ae, reiniciar, acciones); }
+        else { E.examen.lanzar(cont, materia, ae, reiniciar, acciones); }
+      },
+      informe: function (ae, aviso) {
+        if (E.etapaDe(ae.config) === "1") { E.cuestionario.informe(cont, materia, ae, acciones, aviso); }
+        else { E.informe.mostrar(cont, materia, ae, acciones, aviso); }
+      },
       // La usan la ✕ de la tarjeta y el boton del informe final: en los dos
       // casos se pregunta primero y despues se vuelve a las tarjetas.
       eliminar: function (ae) {

@@ -133,20 +133,46 @@ def armar_examen(carpeta, tipo):
 
 
 def revisar_preguntas(texto, ids_vistos):
-    """Cada <article class="preg"> necesita un data-id unico y un data-tipo valido."""
+    """Cada <article class="preg"> necesita un data-id unico y un data-origen
+    (parcial o final). Las de 2da etapa llevan data-tipo; las de 1ra etapa
+    (data-etapa="1") llevan data-formato y lo que ese formato necesita.
+    Se llama con un archivo por vez: una pregunta por archivo.
+    El formato completo esta en preguntas/FORMATO.md."""
     problemas = revisar_formulas(texto)
     sin_comentarios = re.sub(r"<!--.*?-->", "", texto, flags=re.S)
     for m in re.finditer(r'<article class="preg"([^>]*)>', sin_comentarios):
-        pid = re.search(r'data-id="([^"]+)"', m.group(1))
-        tipo = re.search(r'data-tipo="([^"]+)"', m.group(1))
+        def atributo(nombre):
+            a = re.search(r'data-%s="([^"]+)"' % nombre, m.group(1))
+            return a.group(1) if a else None
+        pid = atributo("id")
         if not pid:
             problemas.append("hay una pregunta sin data-id")
             continue
-        if pid.group(1) in ids_vistos:
-            problemas.append("data-id repetido: %s" % pid.group(1))
-        ids_vistos.add(pid.group(1))
-        if not tipo or tipo.group(1) not in ("teoria", "practica"):
-            problemas.append("%s: data-tipo tiene que ser teoria o practica" % pid.group(1))
+        if pid in ids_vistos:
+            problemas.append("data-id repetido: %s" % pid)
+        ids_vistos.add(pid)
+        if atributo("origen") not in ("parcial", "final"):
+            problemas.append("%s: data-origen tiene que ser parcial o final" % pid)
+
+        if atributo("etapa") != "1":
+            if atributo("tipo") not in ("teoria", "practica"):
+                problemas.append("%s: data-tipo tiene que ser teoria o practica" % pid)
+            continue
+
+        formato = atributo("formato")
+        correctas = sin_comentarios.count("data-correcta")
+        if formato == "opcion" and correctas != 1:
+            problemas.append("%s: opcion unica lleva exactamente una data-correcta" % pid)
+        elif formato == "multiple" and correctas < 1:
+            problemas.append("%s: marca al menos una data-correcta" % pid)
+        elif formato == "completar":
+            if 'class="p-hueco"' not in sin_comentarios:
+                problemas.append("%s: completar necesita al menos un p-hueco" % pid)
+            for r in re.findall(r'class="p-hueco" data-respuesta="([^"]*)"', sin_comentarios):
+                if not re.match(r"^-?\d+(,\d+)?$", r):
+                    problemas.append("%s: respuesta de hueco con formato raro: %s" % (pid, r))
+        elif formato not in ("opcion", "multiple", "completar"):
+            problemas.append("%s: data-formato tiene que ser opcion, multiple o completar" % pid)
     return problemas
 
 

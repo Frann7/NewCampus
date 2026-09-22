@@ -239,6 +239,13 @@ entre corridas.
 > número gigante): explicá cómo se leen y **cómo se escriben en la respuesta**, no los dejes
 > pelados.
 
+> **Cada unidad guía al lector.** `00-intro.html` lleva una sección "Cómo leer esta unidad" con
+> `data-abierta` (la app la abre sola): qué entró en los exámenes, en qué orden leer y qué dejar
+> para después. Si el tema es visual, cada concepto e inciso lleva su gráfico SVG con las clases
+> `.pd-grafico` (definidas en `assets/estilos.css`, siguen el tema claro/oscuro). Las curvas se
+> calculan con un script, no se dibujan a ojo; cada gráfico va en
+> `<div class="pd-grafico" data-g="nombre">` para poder regenerarlo.
+
 * Basada íntegramente en el PDF teórico de la cátedra, pero traducida a algo digerible.
   Resumí de a poco.
 * Cada concepto y cada fórmula general va acompañado de un **ejemplo práctico numérico**.

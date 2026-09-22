@@ -665,6 +665,8 @@ window.NC = window.NC || {};
       secciones.forEach(function (s) { abrirSeccion(s, true); });   // una sola: abierta
       return;
     }
+    // la guia de "como leer esta unidad" se ve apenas entras (data-abierta)
+    secciones.forEach(function (s) { if (s.hasAttribute("data-abierta")) { abrirSeccion(s, true); } });
 
     // Abrir todo / Cerrar todo, arriba de la primera seccion
     var barra = document.createElement("div");

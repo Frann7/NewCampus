@@ -99,17 +99,22 @@ window.NC.eval = window.NC.eval || {};
 
   /* Los modos de la 2da etapa:
        normal + estilo "parcial"  enunciado y opciones, como en el examen
-       normal + estilo "guiado"   las mismas preguntas, con pistas, vidas y la
-                                  practica paso a paso (era el interactivo de antes)
+       normal + estilo "guiado"   las mismas preguntas, faciles: con pistas y la
+                                  practica en todos sus pasos. Sin vidas ni nivel:
+                                  si te equivocas, volves a intentar.
        interactivo                un ejercicio de parcial completo, desglosado en
-                                  pasos segun el nivel
-     "Guiado" (pistas + vidas + pasos) es comun al estilo guiado y al interactivo. */
+                                  pasos segun el nivel, con vidas
+     "Guiado" (pistas + pasos) es comun al estilo guiado y al interactivo; el nivel
+     y las vidas son solo del interactivo. */
   E.guiado = function (c) {
     return !!c && (c.modo === "interactivo" || (c.modo === "normal" && c.estilo === "guiado"));
   };
+  E.conVidas = function (c) { return !!c && c.modo === "interactivo"; };
+  // El estilo guiado siempre desglosa en todos los pasos (son las "faciles").
+  E.nivelDe = function (c) { return c.modo === "interactivo" ? c.nivel : "principiante"; };
   E.nombreModo = function (c) {
     if (c.modo === "interactivo") { return "Interactivo · " + E.NIVELES[c.nivel]; }
-    if (c.estilo === "guiado") { return "Normal · guiadas · " + E.NIVELES[c.nivel]; }
+    if (c.estilo === "guiado") { return "Normal · fáciles y guiadas"; }
     return "Normal";
   };
   E.NIVELES = { principiante: "Principiante", medio: "Medio", avanzado: "Avanzado" };
@@ -230,7 +235,7 @@ window.NC.eval = window.NC.eval || {};
     migrarModo(it.config);
     if (it.estado === "finalizada") { it.estado = "terminada"; it.motivo = "completa"; }
     if (it.estado === "tiempo-agotado") { it.estado = "terminada"; it.motivo = "tiempo"; }
-    if (E.guiado(it.config) && typeof it.vidas !== "number") {
+    if (E.conVidas(it.config) && typeof it.vidas !== "number") {
       var usados = it.preguntas.reduce(function (s, p) { return s + (p.fallos || 0); }, 0);
       it.vidas = Math.max(0, it.config.fallos - usados);
     }
@@ -306,7 +311,7 @@ window.NC.eval = window.NC.eval || {};
       var partes = [primera ? "Respondidas " + respondidas + " de " + p.total
                             : "Pregunta " + Math.min(it.actual + 1, p.total) + " de " + p.total];
       if (it.limite) { partes.push("quedan " + E.reloj(it.limite - Date.now())); }
-      if (E.guiado(it.config)) { partes.push("❤ " + (it.vidas === 1 ? "queda 1" : "quedan " + it.vidas)); }
+      if (E.conVidas(it.config)) { partes.push("❤ " + (it.vidas === 1 ? "queda 1" : "quedan " + it.vidas)); }
       return { clave: "en-curso", texto: "En curso", detalle: partes.join(" · ") };
     }
     return { clave: "terminada", texto: "Terminada",
@@ -332,7 +337,7 @@ window.NC.eval = window.NC.eval || {};
       ? (cant === 1 ? " ejercicio" : " ejercicios")
       : (cant === 1 ? " pregunta" : " preguntas")));
     partes.push(c.unidades.map(function (u) { return E.numeroDeUnidad(materia, u); }).join(", "));
-    if (E.etapaDe(c) === "2" && E.guiado(c)) { partes.push(c.fallos + (c.fallos === 1 ? " vida" : " vidas")); }
+    if (E.etapaDe(c) === "2" && E.conVidas(c)) { partes.push(c.fallos + (c.fallos === 1 ? " vida" : " vidas")); }
     if (E.etapaDe(c) === "2" && c.modo === "normal" && c.navLibre) { partes.push("navegación libre"); }
     partes.push(c.conTiempo ? c.minutos + " min" : "Sin límite");
     return partes;

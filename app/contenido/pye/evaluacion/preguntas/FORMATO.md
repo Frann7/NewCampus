@@ -28,7 +28,7 @@ Se practica de tres maneras, y cada una usa preguntas distintas:
 | Modo | Qué es | Preguntas que usa |
 | :--- | :--- | :--- |
 | Normal · como en el parcial | Enunciado y opciones, se corrige | `-t-` y `-p-` |
-| Normal · fáciles y guiadas | Las mismas, con pistas, vidas y la práctica paso a paso | `-t-` y `-p-` |
+| Normal · fáciles y guiadas | Las mismas, con pistas y la práctica en todos sus pasos (sin vidas) | `-t-` y `-p-` |
 | Interactivo | **Un ejercicio de parcial completo**, desglosado en partes según el nivel | `-e-` |
 
 ```html

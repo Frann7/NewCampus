@@ -148,10 +148,11 @@ El contenido de cada unidad llega en su propia pieza cuando la abrís (con un `<
   preguntas en una página, se entrega al final, nota sobre 100 con puntaje parcial y lo que
   significa según el reglamento: 30 regulariza, 60 pasa a la 2da instancia). La 2da corre en
   `examen.js` e `informe.js` y tiene tres maneras (`config.modo` + `config.estilo`): **normal /
-  parcial** (opciones), **normal / guiado** (pistas, vidas y pasos: lo que antes se llamaba
-  interactivo) e **interactivo** (ejercicios `-e-` completos, reales e inventados, con los pasos
+  parcial** (opciones), **normal / guiado** (pistas y todos los pasos, sin vidas ni nivel:
+  lo que antes se llamaba interactivo) e **interactivo** (ejercicios `-e-` completos, reales e inventados, con los pasos
   agrupados por `data-inciso` y un botón para saltear el ejercicio entero). `E.guiado(c)` dice si
-  hay pistas y vidas. En normal, `config.navLibre` agrega casillas, Anterior/Saltear y Terminar.
+  hay pistas y pasos; `E.conVidas(c)` y `E.nivelDe(c)`, que vidas y nivel son solo del interactivo
+  (el guiado usa siempre el nivel principiante). En normal, `config.navLibre` agrega casillas, Anterior/Saltear y Terminar.
   Las que se guardaron antes de existir las etapas se toman como de 2da etapa, y las viejas en
   modo interactivo (sin `config.v`) se migran a normal / guiado, que es lo que eran.
 * Las autoevaluaciones que arma el usuario se guardan en el `localStorage` del navegador.

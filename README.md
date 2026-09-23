@@ -21,7 +21,7 @@ fórmulas (MathJax) y las tipografías. Tus datos no salen de tu máquina.
   sobre 100 puntos y con lo que esa nota significa según el reglamento), o la **2da, el escrito**,
   que se practica de tres maneras:
   * **Normal, como en el parcial:** preguntas de teoría y práctica con opciones.
-  * **Normal, fáciles y guiadas:** las mismas, con pistas, vidas y la práctica paso a paso.
+  * **Normal, fáciles y guiadas:** las mismas, más fáciles: con pistas y la práctica en todos sus pasos; si te equivocás, volvés a intentar (sin vidas ni nivel, que son del interactivo).
   * **Interactivo:** un **ejercicio de parcial completo** (reales de los exámenes mezclados con
     inventados de la misma forma) que se va desglosando en partes: en avanzado se pide el
     resultado de cada inciso; en principiante, cada cuenta chica. Se puede saltear un ejercicio

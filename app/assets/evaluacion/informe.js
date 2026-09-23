@@ -14,7 +14,7 @@
     mostrar: function (cont, materia, ae, acciones, aviso) {
       var h = E.h, B = E.banco;
       var it = ae.intento, c = it.config;
-      var interactivo = E.guiado(c);   // pistas, vidas y pasos: estilo guiado o interactivo
+      var interactivo = E.guiado(c);   // pistas y pasos: estilo guiado o interactivo
       var p = E.puntaje(it);
       var porcentaje = p.total ? Math.round(100 * p.correctas / p.total) : 0;
 
@@ -40,7 +40,7 @@
         h("div", { class: "inf-datos" }, [
           h("span", { class: "ev-chip", "data-estado": "terminada" }, "Terminada · " + (E.MOTIVOS[it.motivo] || "")),
           h("p", {}, E.resumenConfig(materia, c).join(" · ")),
-          h("p", {}, detalle + (interactivo ? " · Vidas restantes: " + it.vidas : "")),
+          h("p", {}, detalle + (E.conVidas(c) ? " · Vidas restantes: " + it.vidas : "")),
           h("p", {}, "Duración: " + E.duracion(it.fin - it.inicio) + " · " + E.fecha(it.fin))
         ]),
         h("div", { class: "inf-botones" }, [
@@ -93,7 +93,7 @@
 
         item.appendChild(h("div", { class: "ex-enunciado", html: preg.enunciado }));
         var pasos = interactivo && (preg.tipo === "practica" || preg.tipo === "ejercicio")
-          ? B.pasosDelNivel(preg, c.nivel) : [];
+          ? B.pasosDelNivel(preg, E.nivelDe(c)) : [];
 
         if (pasos.length) {
           // Ejercicio interactivo: como te fue en cada paso

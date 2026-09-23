@@ -10,8 +10,9 @@
           se corrige al entregar sobre 100 puntos
      2da  escrito, en tres maneras:
             normal, estilo "parcial"   enunciado y opciones
-            normal, estilo "guiado"    con pistas, vidas y pasos (el interactivo de antes)
-            interactivo                un ejercicio de parcial completo, por partes
+            normal, estilo "guiado"    faciles: con pistas y todos los pasos, sin vidas
+            interactivo                un ejercicio de parcial completo, por partes,
+                                       con nivel y vidas
           En normal se puede sumar la navegacion libre (saltear y volver).
    Los pasos que no corresponden a la etapa elegida se esconden (data-etapa)
    y los numeros de los pasos se recalculan.
@@ -30,16 +31,9 @@
   };
 
   var AYUDA_NIVEL = {
-    guiado: {
-      principiante: "Divide cada ejercicio en muchos pasos chicos, cuenta por cuenta.",
-      medio: "Divide cada ejercicio en los pasos intermedios importantes.",
-      avanzado: "Solo pide las partes principales del ejercicio."
-    },
-    interactivo: {
-      principiante: "Muchos pasos chicos: cada suma, cada resta, cada valor de tabla.",
-      medio: "Cada inciso en sus resultados intermedios importantes.",
-      avanzado: "Solo el resultado de cada inciso, como en el parcial."
-    }
+    principiante: "Muchos pasos chicos: cada suma, cada resta, cada valor de tabla.",
+    medio: "Cada inciso en sus resultados intermedios importantes.",
+    avanzado: "Solo el resultado de cada inciso, como en el parcial."
   };
 
   var BLOQUEADO = '<p class="ae-motivo">Elegí primero la etapa del parcial.</p>';
@@ -91,7 +85,7 @@
     '      <p class="ae-ayuda">Opcional. Aparecen las casillas numeradas para ir a cualquier pregunta, y podés terminar cuando quieras. Si la corrección es al final, podés cambiar lo que contestaste hasta terminar.</p>' +
     '    </div>' +
     '  </div>' +
-    '  <div class="ae-sub" data-guiado hidden>' +
+    '  <div class="ae-sub" data-modo="interactivo">' +
     '    <div class="ae-campo">' +
     '      <span class="ae-etq">Nivel</span>' +
     '      <div class="ae-segmentos">' +
@@ -299,11 +293,9 @@
         }
         form.querySelector('[data-de="cuestionario"]').textContent = "de " + disp.cuestionario;
 
-        form.querySelector("[data-guiado]").hidden = !guiado;
-        form.querySelector("[data-ayuda-nivel]").textContent =
-          AYUDA_NIVEL[interactivo ? "interactivo" : "guiado"][v.nivel];
+        form.querySelector("[data-ayuda-nivel]").textContent = AYUDA_NIVEL[v.nivel];
         form.querySelector("[data-ayuda-estilo]").textContent = v.estilo === "guiado"
-          ? "Las mismas preguntas, con pistas, vidas y la práctica resuelta paso a paso según el nivel."
+          ? "Preguntas fáciles: con pistas, la práctica en todos sus pasos, y si te equivocás volvés a intentar."
           : "Enunciado y opciones: respondés y se corrige, como en el examen.";
 
         // interactivo: unidades -> cantidad de ejercicios
@@ -380,7 +372,7 @@
           if (v.conTiempo && (v.minutos < 1 || v.minutos > MAX_MINUTOS)) { errores.push("El contador va de 1 a 240 minutos (4 horas)."); }
           return errores;
         }
-        if (E.guiado(v) && (v.fallos < 1 || v.fallos > 200)) {
+        if (E.conVidas(v) && (v.fallos < 1 || v.fallos > 200)) {
           errores.push("Las vidas van de 1 a 200.");
         }
         if (v.modo === "interactivo") {

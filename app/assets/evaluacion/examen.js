@@ -2,9 +2,9 @@
    NEWCAMPUS - Evaluacion: autoevaluacion en curso (2da etapa)
    NORMAL, estilo parcial:  enunciado completo + opciones. Corrige al responder
                 o al final.
-   NORMAL, estilo guiado:   pistas con la lamparita y vidas: cada error resta una
-                y se puede reintentar; sin vidas, la autoevaluacion termina.
-                En practica pide el ejercicio paso a paso segun el nivel.
+   NORMAL, estilo guiado:   preguntas faciles: pistas con la lamparita, y si te
+                equivocas volves a intentar (sin vidas). En practica pide el
+                ejercicio en todos sus pasos.
    INTERACTIVO: un ejercicio de parcial completo, desglosado en pasos por
                 inciso segun el nivel, con pistas y vidas. Se puede saltear
                 entero.
@@ -26,7 +26,7 @@
       inicio: ahora,
       fin: null,
       limite: c.conTiempo ? ahora + c.minutos * 60000 : null,
-      vidas: E.guiado(c) ? c.fallos : null,
+      vidas: E.conVidas(c) ? c.fallos : null,
       actual: 0,
       preguntas: E.banco.seleccionar(materia, c).map(function (id) {
         return { id: id, hecho: false, ok: null, elegida: null, orden: null, salteado: false,
@@ -80,7 +80,7 @@
       var progresoTxt = h("span", { class: "ex-progreso-txt" });
       var relleno = h("span", { class: "ex-barra-relleno" });
       var tiempo = h("span", { class: "ex-tiempo" }, it.limite ? "" : "Sin límite");
-      var vidas = E.guiado(c) ? h("span", { class: "ex-vidas" }) : null;
+      var vidas = E.conVidas(c) ? h("span", { class: "ex-vidas" }) : null;
       var casillas = libre ? h("div", { class: "cu-nav", "aria-label": "Ir a una pregunta" }) : null;
 
       cont.appendChild(h("div", { class: "ex-barra" }, [
@@ -135,8 +135,17 @@
 
       function textoQuedan(n) { return n === 1 ? "te queda 1 vida" : "te quedan " + n + " vidas"; }
 
+      // Lo que se dice despues de un error: en el interactivo cuesta una vida;
+      // en el estilo guiado no hay vidas, se vuelve a intentar.
+      function textoError(inicio) {
+        return E.conVidas(c)
+          ? inicio + " Perdiste una vida: " + textoQuedan(it.vidas) + "."
+          : inicio + " Probá de nuevo.";
+      }
+
       // Resta una vida. Devuelve false si fue la ultima (y ya termino la autoevaluacion).
       function perderVida() {
+        if (!E.conVidas(c)) { guardar(); return true; }
         it.vidas = Math.max(0, it.vidas - 1);
         guardar();
         pintarBarra();
@@ -402,7 +411,7 @@
           boton.disabled = true;
           boton.classList.add("es-incorrecta");
           if (!perderVida()) { return; }
-          devolucion.appendChild(cartel("caja-ojo ex-cartel", "No es esa. Perdiste una vida: " + textoQuedan(it.vidas) + "."));
+          devolucion.appendChild(cartel("caja-ojo ex-cartel", textoError("No es esa.")));
         });
 
         function resuelta() {
@@ -478,7 +487,7 @@
         function resolver() {
           ep.ok = true;
           r.paso = k + 1;
-          var pasos = B.pasosDelNivel(B.obtener(materia, r.id), c.nivel);
+          var pasos = B.pasosDelNivel(B.obtener(materia, r.id), E.nivelDe(c));
           if (r.paso >= pasos.length) {
             r.hecho = true;
             r.ok = r.fallos === 0;
@@ -494,7 +503,7 @@
           r.fallos++;
           if (!perderVida()) { return false; }
           E.vaciar(devolucion);
-          devolucion.appendChild(cartel("caja-ojo ex-cartel", "No da. Revisá la cuenta. Perdiste una vida: " + textoQuedan(it.vidas) + "."));
+          devolucion.appendChild(cartel("caja-ojo ex-cartel", textoError("No da. Revisá la cuenta.")));
           return true;
         }
 
@@ -557,13 +566,13 @@
         }
 
         var conPasos = E.guiado(c) && (p.tipo === "practica" || p.tipo === "ejercicio");
-        var pasos = conPasos ? B.pasosDelNivel(p, c.nivel) : [];
+        var pasos = conPasos ? B.pasosDelNivel(p, E.nivelDe(c)) : [];
         var etiquetas = [
           h("span", { class: "ev-chip ev-chip-" + p.tipo }, E.TIPOS[p.tipo]),
           h("span", { class: "ev-chip" }, E.numeroDeUnidad(materia, p.unidad)),
           E.chipOrigen(p)
         ];
-        if (pasos.length) { etiquetas.push(h("span", { class: "ev-chip" }, "Nivel " + E.NIVELES[c.nivel].toLowerCase())); }
+        if (pasos.length && c.modo === "interactivo") { etiquetas.push(h("span", { class: "ev-chip" }, "Nivel " + E.NIVELES[c.nivel].toLowerCase())); }
         var tarjeta = h("div", { class: "ex-tarjeta" }, h("div", { class: "ex-etiquetas" }, etiquetas));
         zona.appendChild(tarjeta);
 

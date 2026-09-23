@@ -245,6 +245,10 @@ entre corridas.
 > `.pd-grafico` (definidas en `assets/estilos.css`, siguen el tema claro/oscuro). Las curvas se
 > calculan con un script, no se dibujan a ojo; cada gráfico va en
 > `<div class="pd-grafico" data-g="nombre">` para poder regenerarlo.
+> **Los gráficos son para entender, no una instrucción.** La cátedra resuelve los ejercicios con
+> cuentas y la guía no pide gráficos: el texto nunca dice que el alumno "tiene que dibujar". Solo
+> se habla de graficar en los incisos que lo piden con todas las letras (las propiedades de la
+> curva normal "con los gráficos necesarios", "representar gráficamente…").
 
 * Basada íntegramente en el PDF teórico de la cátedra, pero traducida a algo digerible.
   Resumí de a poco.

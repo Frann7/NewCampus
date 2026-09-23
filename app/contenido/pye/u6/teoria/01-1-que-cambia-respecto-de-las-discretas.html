@@ -2,32 +2,31 @@
   <p class="kicker">La base de toda la unidad</p>
   <h2>1. De contar a medir: la densidad</h2>
 
-  <p>Esta seccion tiene cuatro partes, y cada una usa la anterior:</p>
+  <p>Cuatro partes, cada una usa la anterior:</p>
   <ol>
-    <li><strong>A.</strong> Por que en una variable que se mide no alcanza con una tabla.</li>
-    <li><strong>B.</strong> La idea central de la unidad: la probabilidad es un <strong>area</strong>.</li>
-    <li><strong>C.</strong> Hallar la constante \(k\) que hace que una formula sea una densidad.</li>
-    <li><strong>D.</strong> La acumulada \(F(x)\): cuanta probabilidad se junto hasta \(x\).</li>
+    <li><strong>A.</strong> La densidad \(f(x)\): la curva que reemplaza a la tabla.</li>
+    <li><strong>B.</strong> La probabilidad es el area bajo esa curva.</li>
+    <li><strong>C.</strong> Hallar la constante \(k\) (el primer inciso de casi todo ejercicio).</li>
+    <li><strong>D.</strong> La acumulada \(F(x)\).</li>
   </ol>
 
   <hr class="sep">
 
-  <h3>A. Por que no alcanza con una tabla</h3>
+  <h3>A. La densidad \(f(x)\)</h3>
 
   <p>
-    En la Unidad 5 la variable tomaba valores sueltos (0, 1, 2, 3&hellip;) y a cada uno le
-    asignabamos una probabilidad en una tabla. Con una variable que se <strong>mide</strong> eso no
-    se puede hacer: el tiempo de respuesta de un servidor puede ser 48 ms, 48,3 ms, 48,31 ms&hellip;
-    Entre dos valores cualesquiera hay infinitos otros, y no hay tabla que los liste.
+    En la Unidad 5 la variable tomaba valores sueltos (0, 1, 2&hellip;) y cada uno tenia su
+    probabilidad en una tabla. Una variable que se <strong>mide</strong> no tiene valores sueltos:
+    un tiempo puede ser 48 ms, 48,3 ms, 48,31 ms&hellip; No hay tabla que los liste.
   </p>
   <p>
-    Lo que si se puede hacer es agrupar en tramos y contar cuantos cayeron en cada uno. Eso es un
-    <strong>histograma</strong> (lo viste en la Unidad 2). Si se miden cada vez mas datos y los
-    tramos se hacen cada vez mas finos, las barras se van pareciendo a una curva suave:
+    En lugar de la tabla se usa una <strong>curva</strong>, la <strong>funcion de densidad
+    \(f(x)\)</strong>. Es alta donde caen muchos valores y baja donde caen pocos. Sale de medir
+    muchos datos y agruparlos en tramos: las barras terminan dibujando la curva.
   </p>
 
   <div class="pd-grafico" data-g="u6-histograma">
-<svg viewBox="0 0 620 250" role="img" aria-label="Histograma de tiempos con la curva de densidad por encima">
+    <svg viewBox="0 0 620 250" role="img" aria-label="Histograma de tiempos con la curva de densidad por encima">
   <rect class="barra" x="41" y="196.4" width="43" height="3.6"/>
   <rect class="barra" x="86" y="188" width="43" height="12"/>
   <rect class="barra" x="131" y="168.3" width="43" height="31.7"/>
@@ -53,19 +52,15 @@
   <text class="rotulo" x="40" y="60" text-anchor="start">cada barra: cuántos cayeron en ese tramo</text>
   <text class="rotulo" x="310" y="243" text-anchor="middle">tiempo de respuesta (ms)</text>
 </svg>
-    <p class="pd-pie">Muchas mediciones agrupadas en tramos de 5 ms. La curva es el "limite" de las barras.</p>
+    <p class="pd-pie">Tiempos de respuesta agrupados en tramos de 5 ms. La curva es la densidad.</p>
   </div>
 
-  <div class="caja caja-formula">
-    <span class="caja-tit">Funcion de densidad \(f(x)\)</span>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">La altura no es una probabilidad</span>
     <p>
-      Es esa curva. Dice <strong>donde se amontonan los valores</strong>: donde la curva es alta hay
-      muchos valores, donde es baja hay pocos.
-    </p>
-    <p>
-      Ojo con una cosa: la altura \(f(x)\) <strong>no es una probabilidad</strong>. En el grafico,
-      \(f(50) \approx 0{,}04\), y eso no quiere decir que 50 ms tenga un 4&nbsp;% de chance. La
-      probabilidad aparece recien cuando se toma un tramo, que es la parte B.
+      En el grafico, \(f(50) \approx 0{,}04\), y eso <strong>no</strong> quiere decir que 50 ms tenga
+      un 4&nbsp;% de chance. La altura solo dice donde se amontonan los valores. La probabilidad
+      aparece con un tramo, que es la parte B.
     </p>
   </div>
 
@@ -74,25 +69,33 @@
   <h3>B. La probabilidad es un area</h3>
 
   <p>
-    En el histograma, la cantidad de datos de un tramo es el tamaño de su barra. Con la curva pasa lo
-    mismo: la probabilidad de que \(X\) caiga en un tramo es <strong>el area que queda debajo de la
-    curva en ese tramo</strong>. Y un area bajo una curva se calcula con una integral.
+    La probabilidad de que \(X\) caiga en un tramo es <strong>el area debajo de la curva en ese
+    tramo</strong>. El area bajo una curva se calcula con una integral:
   </p>
 
   <div class="caja caja-formula">
     <span class="caja-tit">Probabilidad en una variable continua</span>
-    <p>\[ P(a &lt; X \leq b) = \int_{a}^{b} f(x)\,dx = \text{area bajo } f \text{ entre } a \text{ y } b \]</p>
+    <p>\[ P(a &lt; X \leq b) = \int_{a}^{b} f(x)\,dx \]</p>
   </div>
 
-  <h4>Ejemplo &mdash; un tiempo de resolucion de tickets</h4>
+  <div class="caja caja-calc">
+    <span class="caja-tit">Lo unico de integrales que hace falta en la unidad</span>
+    <ol>
+      <li><strong>Potencia:</strong> \(\int x^{n}\,dx = \dfrac{x^{n+1}}{n+1}\). Un numero suelto: \(\int 4\,dx = 4x\).</li>
+      <li><strong>Los numeros que multiplican salen afuera:</strong> \(\int 3x\,dx = 3 \int x\,dx\).</li>
+      <li><strong>Evaluar (Barrow):</strong> se reemplaza el borde de arriba, se reemplaza el de abajo, y se restan.</li>
+    </ol>
+    <p>\[ \int_{0}^{2} x\,dx = \left[ \frac{x^{2}}{2} \right]_{0}^{2} = \frac{2^{2}}{2} - \frac{0^{2}}{2} = 2 - 0 = 2 \]</p>
+  </div>
+
+  <h4>Ejemplo &mdash; tiempo de resolucion de tickets (final 29/07)</h4>
   <p>
     El tiempo \(X\), en horas, que tarda un tecnico en resolver un ticket tiene densidad
-    \(f(x) = \frac{4 - x}{8}\) entre 0 y 4 horas (es la del final del 29/07). La probabilidad de que
-    tarde entre 1 y 3 horas es el area pintada:
+    \(f(x) = \frac{4 - x}{8}\) entre 0 y 4. &iquest;Probabilidad de que tarde entre 1 y 3 horas?
   </p>
 
   <div class="pd-grafico" data-g="u6-area">
-<svg viewBox="0 0 620 250" role="img" aria-label="Densidad triangular con el área entre 1 y 3 sombreada: esa área es la probabilidad">
+    <svg viewBox="0 0 620 250" role="img" aria-label="Densidad triangular con el área entre 1 y 3 sombreada: esa área es la probabilidad">
   <path class="area" d="M 202,200 L 202,90.9 L 204.7,91.8 L 207.4,92.7 L 210.1,93.6 L 212.8,94.5 L 215.5,95.5 L 218.2,96.4 L 220.9,97.3 L 223.6,98.2 L 226.3,99.1 L 229,100 L 231.7,100.9 L 234.4,101.8 L 237.1,102.7 L 239.8,103.6 L 242.5,104.5 L 245.2,105.5 L 247.9,106.4 L 250.6,107.3 L 253.3,108.2 L 256,109.1 L 258.7,110 L 261.4,110.9 L 264.1,111.8 L 266.8,112.7 L 269.5,113.6 L 272.2,114.5 L 274.9,115.5 L 277.6,116.4 L 280.3,117.3 L 283,118.2 L 285.7,119.1 L 288.4,120 L 291.1,120.9 L 293.8,121.8 L 296.5,122.7 L 299.2,123.6 L 301.9,124.5 L 304.6,125.5 L 307.3,126.4 L 310,127.3 L 312.7,128.2 L 315.4,129.1 L 318.1,130 L 320.8,130.9 L 323.5,131.8 L 326.2,132.7 L 328.9,133.6 L 331.6,134.5 L 334.3,135.5 L 337,136.4 L 339.7,137.3 L 342.4,138.2 L 345.1,139.1 L 347.8,140 L 350.5,140.9 L 353.2,141.8 L 355.9,142.7 L 358.6,143.6 L 361.3,144.5 L 364,145.5 L 366.7,146.4 L 369.4,147.3 L 372.1,148.2 L 374.8,149.1 L 377.5,150 L 380.2,150.9 L 382.9,151.8 L 385.6,152.7 L 388.3,153.6 L 391,154.5 L 393.7,155.5 L 396.4,156.4 L 399.1,157.3 L 401.8,158.2 L 404.5,159.1 L 407.2,160 L 409.9,160.9 L 412.6,161.8 L 415.3,162.7 L 418,163.6 L 418,200 Z"/>
   <path class="campana" d="M 94,54.5 L 310,127.3 L 526,200"/>
   <line class="campana" x1="40" y1="200" x2="94" y2="200"/>
@@ -109,67 +112,52 @@
   <text class="rotulo" x="104.8" y="48.7" text-anchor="start">f(x) = (4 − x) / 8</text>
   <text class="rotulo" x="472" y="95.3" text-anchor="middle">el área total bajo f vale 1</text>
 </svg>
-    <p class="pd-pie">La curva baja: la mayoria de los tickets se resuelve rapido.</p>
+    <p class="pd-pie">La probabilidad pedida es el area pintada, entre 1 y 3.</p>
   </div>
 
-  <p>
-    Ese pedazo es un trapecio, asi que se puede calcular sin integrar: base por el promedio de las
-    dos alturas.
-  </p>
-  <p>\[ f(1) = \tfrac{3}{8} \qquad f(3) = \tfrac{1}{8} \qquad \text{area} = (3 - 1) \cdot \frac{\tfrac38 + \tfrac18}{2} = 2 \cdot \tfrac14 = 0{,}50 \]</p>
-  <p>Con la integral da lo mismo, como tiene que ser:</p>
-  <p>\[ \int_{1}^{3} \frac{4 - x}{8}\,dx = \frac{1}{8}\left[ 4x - \frac{x^{2}}{2} \right]_{1}^{3} = \frac{1}{8}\,(7{,}5 - 3{,}5) = 0{,}50 \]</p>
+  <p>\[ P(a &lt; X \leq b) = \int_{a}^{b} f(x)\,dx \]</p>
+  <p>\[ P(1 &lt; X \leq 3) = \int_{1}^{3} \frac{4 - x}{8}\,dx = \frac{1}{8}\left[ 4x - \frac{x^{2}}{2} \right]_{1}^{3} = \frac{1}{8}\left( 7{,}5 - 3{,}5 \right) = \mathbf{0{,}50} \]</p>
 
   <h4>Tres consecuencias que se preguntan directo</h4>
   <ol>
     <li>
-      <strong>La probabilidad de un valor exacto es cero.</strong> Un solo punto es una linea
-      vertical, y una linea no tiene area: \(P(X = 2) = 0\). En el parcial 2023 preguntaron la
-      probabilidad de ganar <em>exactamente</em> 1000 dolares con una densidad: la respuesta era 0.
+      <strong>Un valor exacto tiene probabilidad 0.</strong> Un punto es una linea, y una linea no
+      tiene area: \(P(X = 2) = 0\). En el parcial 2023 preguntaron la probabilidad de ganar
+      <em>exactamente</em> 1000 dolares: era 0.
     </li>
     <li>
-      <strong>Da lo mismo \(&lt;\) que \(\leq\).</strong> Como el borde no aporta area,
-      \(P(X &lt; 3) = P(X \leq 3)\). En la Unidad 5 esto <em>no</em> valia: ahi el 3 era una barra
-      con su propio peso.
+      <strong>Da lo mismo \(&lt;\) que \(\leq\).</strong> El borde no suma area:
+      \(P(X &lt; 3) = P(X \leq 3)\). (En la Unidad 5 no valia.)
     </li>
-    <li>
-      <strong>El area total vale 1.</strong> La variable tiene que caer en algun lado, asi que toda
-      la curva encierra el 100&nbsp;%.
-    </li>
+    <li><strong>El area total vale 1</strong>: la variable tiene que caer en algun lado.</li>
   </ol>
 
   <hr class="sep">
 
-  <h3>C. Hallar la constante \(k\) para que sea una densidad</h3>
+  <h3>C. Hallar la constante \(k\)</h3>
 
   <p>
-    Es el primer inciso de casi todos los ejercicios de densidad: te dan la formula con una letra
-    suelta (\(k\) o \(c\)) y te piden su valor. Sale de la consecuencia 3 de la parte B:
-    <strong>el area total tiene que dar 1</strong>. Se plantea eso y se despeja la letra.
+    Te dan la densidad con una letra suelta (\(k\) o \(c\)) y piden su valor. Sale de la
+    consecuencia 3: <strong>el area total tiene que dar 1</strong>.
   </p>
 
   <div class="caja caja-formula">
     <span class="caja-tit">Las dos condiciones de una densidad</span>
     <ol>
-      <li><strong>Nunca negativa:</strong> \(f(x) \geq 0\) en todo el dominio. (Un area negativa no tiene sentido.)</li>
+      <li><strong>Nunca negativa:</strong> \(f(x) \geq 0\) en todo su tramo.</li>
       <li><strong>Area total 1:</strong> \(\displaystyle \int_{-\infty}^{\infty} f(x)\,dx = 1\).</li>
     </ol>
     <p>
-      La 2 es la que <strong>da el valor</strong> de \(k\). La 1 sirve para <strong>justificar</strong>
-      que ese valor sirve, y los enunciados dicen "justificar verificando las condiciones": hay que
-      escribir las dos.
+      La 2 <strong>da el valor</strong> de \(k\). La 1 <strong>justifica</strong> que sirve. Cuando
+      el enunciado dice "justificar verificando las condiciones", se escriben las dos.
     </p>
   </div>
 
   <h4>Ejemplo &mdash; \(f(x) = kx\) entre 0 y 2</h4>
   <p>\[ f(x) = \begin{cases} k\,x, &amp; 0 \leq x \leq 2 \\ 0, &amp; \text{en otro caso} \end{cases} \]</p>
-  <p>
-    Antes de integrar sirve imaginar su forma (no hace falta entregar el dibujo): es una recta que
-    sale del 0 y llega a \(2k\) en \(x = 2\). Forma un triangulo, y eso da un control rapido.
-  </p>
 
   <div class="pd-grafico" data-g="u6-hallar-k">
-<svg viewBox="0 0 620 250" role="img" aria-label="La densidad kx en el tramo de 0 a 2 forma un triángulo; su área tiene que ser 1">
+    <svg viewBox="0 0 620 250" role="img" aria-label="La densidad kx en el tramo de 0 a 2 forma un triángulo; su área tiene que ser 1">
   <path class="area suave" d="M 107.5,200 L 107.5,200 L 111.7,198.4 L 115.9,196.8 L 120.2,195.2 L 124.4,193.6 L 128.6,192 L 132.8,190.4 L 137,188.8 L 141.3,187.2 L 145.5,185.6 L 149.7,184 L 153.9,182.4 L 158.1,180.8 L 162.3,179.2 L 166.6,177.6 L 170.8,176 L 175,174.4 L 179.2,172.8 L 183.4,171.2 L 187.7,169.6 L 191.9,168 L 196.1,166.4 L 200.3,164.8 L 204.5,163.2 L 208.8,161.6 L 213,160 L 217.2,158.4 L 221.4,156.8 L 225.6,155.2 L 229.8,153.6 L 234.1,152 L 238.3,150.4 L 242.5,148.8 L 246.7,147.2 L 250.9,145.6 L 255.2,144 L 259.4,142.4 L 263.6,140.8 L 267.8,139.2 L 272,137.6 L 276.2,136 L 280.5,134.4 L 284.7,132.8 L 288.9,131.2 L 293.1,129.6 L 297.3,128 L 301.6,126.4 L 305.8,124.8 L 310,123.2 L 314.2,121.6 L 318.4,120 L 322.7,118.4 L 326.9,116.8 L 331.1,115.2 L 335.3,113.6 L 339.5,112 L 343.8,110.4 L 348,108.8 L 352.2,107.2 L 356.4,105.6 L 360.6,104 L 364.8,102.4 L 369.1,100.8 L 373.3,99.2 L 377.5,97.6 L 381.7,96 L 385.9,94.4 L 390.2,92.8 L 394.4,91.2 L 398.6,89.6 L 402.8,88 L 407,86.4 L 411.3,84.8 L 415.5,83.2 L 419.7,81.6 L 423.9,80 L 428.1,78.4 L 432.3,76.8 L 436.6,75.2 L 440.8,73.6 L 445,72 L 445,200 Z"/>
   <path class="campana" d="M 107.5,200 L 276.2,136 L 445,72"/>
   <line class="campana" x1="445" y1="72" x2="445" y2="200"/>
@@ -182,71 +170,49 @@
   <text class="valor" x="335.3" y="168" text-anchor="middle">área = base × altura / 2</text>
   <text class="rotulo" x="335.3" y="188" text-anchor="middle">= 2 × 2k / 2 = 2k = 1</text>
 </svg>
-    <p class="pd-pie">Todavia no sabemos cuanto vale \(k\), pero si la forma: un triangulo de base 2.</p>
+    <p class="pd-pie">Una recta que sale del 0: forma un triangulo de base 2 y altura \(2k\).</p>
   </div>
 
-  <p><strong>Condicion 2, con la integral.</strong> Afuera de \([0, 2]\) la densidad vale 0 y no suma area, asi que se integra solo donde vive. La \(k\) es un numero fijo y sale afuera:</p>
-  <p>\[ \int_{0}^{2} k\,x\,dx = k \left[ \frac{x^{2}}{2} \right]_{0}^{2} = k \cdot \frac{4}{2} = 2k = 1 \;\Longrightarrow\; k = \mathbf{\tfrac{1}{2}} \]</p>
-  <p><strong>Control con el dibujo:</strong> area del triangulo = base &times; altura / 2 = \(2 \cdot 2k / 2 = 2k\). Lo mismo.</p>
+  <p><strong>Condicion 2.</strong> Fuera de \([0, 2]\) vale 0, asi que se integra solo entre 0 y 2:</p>
+  <p>\[ \int_{0}^{2} k\,x\,dx = k \left[ \frac{x^{2}}{2} \right]_{0}^{2} = k \cdot 2 = 1 \;\Longrightarrow\; k = \mathbf{\tfrac{1}{2}} \]</p>
   <p>
-    <strong>Condicion 1:</strong> en \([0, 2]\), \(x \geq 0\) y \(k = \tfrac12 &gt; 0\), asi que
-    \(f(x) \geq 0\); afuera vale 0. Las dos se cumplen: es una densidad.
+    <strong>Condicion 1.</strong> Entre 0 y 2, \(x \geq 0\) y \(k = \tfrac12 &gt; 0\): \(f(x) \geq 0\).
+    Afuera vale 0. Se cumplen las dos.
   </p>
-
-  <div class="caja caja-ojo">
-    <span class="caja-tit">Si te da \(k\) negativa, hay un error</span>
-    <p>
-      Casi siempre es un signo al evaluar el borde de abajo de la integral. Una densidad con
-      \(k &lt; 0\) quedaria por debajo del eje: areas negativas, que no existen.
-    </p>
-  </div>
+  <p>Si \(k\) te da negativa, hay un error de signo: una densidad nunca queda por debajo del eje.</p>
 
   <div class="caja caja-ejemplo">
-    <span class="caja-tit">Si la \(k\) viene en una tabla (variable discreta)</span>
-    <p>
-      Es la misma idea con una suma en lugar de una integral: las probabilidades de la tabla tienen
-      que sumar 1. Con \(f(0) = 0{,}10\), \(f(1) = 0{,}20\), \(f(2) = k\), \(f(3) = 0{,}30\):
-    </p>
+    <span class="caja-tit">Si la \(k\) viene en una tabla (final 25/02)</span>
+    <p>Misma idea con una suma: las probabilidades de la tabla suman 1.</p>
     <p>\[ 0{,}10 + 0{,}20 + k + 0{,}30 = 1 \;\Longrightarrow\; k = 0{,}40 \]</p>
-    <p>Y para justificar: todos los valores, incluida \(k\), son positivos. Asi vino en el final del 25/02.</p>
+    <p>Justificacion: todos los valores, incluida \(k\), son positivos.</p>
   </div>
 
   <hr class="sep">
 
-  <h3>D. La acumulada \(F(x)\), por tramos</h3>
+  <h3>D. La acumulada \(F(x)\)</h3>
 
-  <p>
-    \(F(x)\) contesta siempre la misma pregunta: <strong>cuanta probabilidad se junto desde el
-    principio hasta \(x\)</strong>. O sea, el area a la izquierda de \(x\):
-  </p>
+  <p>\(F(x)\) es <strong>el area a la izquierda de \(x\)</strong>: cuanta probabilidad se junto hasta ese valor.</p>
 
   <div class="caja caja-formula">
     <span class="caja-tit">Funcion de distribucion acumulada</span>
     <p>\[ F(x) = P(X \leq x) = \int_{-\infty}^{x} f(t)\,dt \]</p>
-    <p>
-      La variable de adentro se llama \(t\) para no confundirla con la \(x\) del borde: \(x\) dice
-      hasta donde se junta, \(t\) recorre el camino.
-    </p>
+    <p>La \(t\) es solo el nombre de la variable que se integra, para no confundirla con la \(x\) del borde.</p>
   </div>
 
-  <p>
-    "Por tramos" quiere decir que hay que decir cuanto vale \(F\) en <strong>toda</strong> la recta,
-    no solo donde la densidad es distinta de cero. Siempre son tres pedazos:
-  </p>
+  <p>Se escribe <strong>por tramos</strong>, cubriendo toda la recta:</p>
   <ol>
-    <li><strong>Antes del dominio:</strong> todavia no se junto nada, \(F(x) = 0\).</li>
-    <li><strong>Dentro del dominio:</strong> la integral desde el comienzo hasta \(x\).</li>
-    <li><strong>Despues del dominio:</strong> ya se junto todo, \(F(x) = 1\).</li>
+    <li><strong>Antes del tramo de la variable:</strong> no se junto nada, \(F(x) = 0\).</li>
+    <li><strong>Dentro:</strong> la integral desde el comienzo hasta \(x\).</li>
+    <li><strong>Despues:</strong> ya se junto todo, \(F(x) = 1\).</li>
   </ol>
 
-  <h4>Ejemplo &mdash; la \(F(x)\) de \(f(x) = \tfrac12 x\)</h4>
-  <p>Con la densidad de la parte C, ya con \(k = \tfrac12\). Para un \(x\) dentro de \([0, 2]\):</p>
+  <h4>Ejemplo &mdash; la \(F(x)\) de \(f(x) = \tfrac12 x\) (la de la parte C)</h4>
   <p>\[ F(x) = \int_{0}^{x} \tfrac12\,t\,dt = \tfrac12 \left[ \frac{t^{2}}{2} \right]_{0}^{x} = \frac{x^{2}}{4} \]</p>
-  <p>Los tres tramos juntos:</p>
   <p>\[ F(x) = \begin{cases} 0, &amp; x &lt; 0 \\ \dfrac{x^{2}}{4}, &amp; 0 \leq x \leq 2 \\ 1, &amp; x &gt; 2 \end{cases} \]</p>
 
   <div class="pd-grafico" data-g="u6-f-y-F">
-<svg viewBox="0 0 620 250" role="img" aria-label="A la izquierda la densidad con el área hasta 1 sombreada; a la derecha la acumulada, que en 1 vale ese mismo 0,25">
+    <svg viewBox="0 0 620 250" role="img" aria-label="A la izquierda la densidad con el área hasta 1 sombreada; a la derecha la acumulada, que en 1 vale ese mismo 0,25">
   <path class="area" d="M 87.8,200 L 87.8,200 L 88.7,199.2 L 89.6,198.3 L 90.5,197.5 L 91.4,196.7 L 92.3,195.8 L 93.2,195 L 94.1,194.2 L 95,193.3 L 95.9,192.5 L 96.8,191.7 L 97.7,190.8 L 98.6,190 L 99.5,189.2 L 100.4,188.3 L 101.3,187.5 L 102.2,186.7 L 103.1,185.8 L 104,185 L 104.9,184.2 L 105.8,183.3 L 106.7,182.5 L 107.6,181.7 L 108.5,180.8 L 109.4,180 L 110.3,179.2 L 111.3,178.3 L 112.2,177.5 L 113.1,176.7 L 114,175.8 L 114.9,175 L 115.8,174.2 L 116.7,173.3 L 117.6,172.5 L 118.5,171.7 L 119.4,170.8 L 120.3,170 L 121.2,169.2 L 122.1,168.3 L 123,167.5 L 123.9,166.7 L 124.8,165.8 L 125.7,165 L 126.6,164.2 L 127.5,163.3 L 128.4,162.5 L 129.3,161.7 L 130.2,160.8 L 131.1,160 L 132,159.2 L 132.9,158.3 L 133.8,157.5 L 134.7,156.7 L 135.6,155.8 L 136.5,155 L 137.4,154.2 L 138.3,153.3 L 139.2,152.5 L 140.1,151.7 L 141,150.8 L 141.9,150 L 142.8,149.2 L 143.8,148.3 L 144.7,147.5 L 145.6,146.7 L 146.5,145.8 L 147.4,145 L 148.3,144.2 L 149.2,143.3 L 150.1,142.5 L 151,141.7 L 151.9,140.8 L 152.8,140 L 153.7,139.2 L 154.6,138.3 L 155.5,137.5 L 156.4,136.7 L 157.3,135.8 L 158.2,135 L 159.1,134.2 L 160,133.3 L 160,200 Z"/>
   <path class="campana" d="M 30,200 L 58.9,200 L 87.8,200"/>
   <path class="campana" d="M 87.8,200 L 160,133.3 L 232.2,66.7"/>
@@ -270,27 +236,19 @@
   <text class="valor" x="333.6" y="160.7" text-anchor="start">F(1) = 0,25</text>
   <text class="rotulo" x="586.4" y="58.7" text-anchor="end">1</text>
 </svg>
-    <p class="pd-pie">El area pintada a la izquierda (hasta 1) es exactamente la altura de \(F\) en 1: \(F(1) = \tfrac14\).</p>
+    <p class="pd-pie">El area pintada hasta 1 es la altura de \(F\) en 1: \(F(1) = \tfrac14\). \(F\) sube de 0 a 1 y nunca baja.</p>
   </div>
 
-  <p>
-    Mira como se leen juntos los dos graficos: \(F\) arranca en 0, sube mas rapido donde \(f\) es
-    alta, y llega a 1 en el final del dominio, donde queda plana. <strong>Nunca baja</strong>, porque
-    lo juntado no se pierde.
-  </p>
-
-  <h4>Para que sirve: probabilidades sin volver a integrar</h4>
   <div class="caja caja-formula">
-    <span class="caja-tit">Probabilidad de un tramo con \(F\)</span>
+    <span class="caja-tit">Para que sirve: probabilidades sin integrar de nuevo</span>
     <p>\[ P(a &lt; X \leq b) = F(b) - F(a) \]</p>
-    <p>Todo lo juntado hasta \(b\), menos lo que ya se habia juntado antes de \(a\).</p>
   </div>
   <p>\[ P(X \leq 1) = F(1) = \frac{1^{2}}{4} = \mathbf{0{,}25} \qquad P(1 &lt; X \leq 2) = F(2) - F(1) = 1 - 0{,}25 = \mathbf{0{,}75} \]</p>
-  <p>Control: \(F\) en el borde de arriba tiene que dar 1. Aca \(F(2) = \tfrac44 = 1\). Si no da 1, la \(k\) estaba mal.</p>
+  <p>Control: en el final del tramo \(F\) tiene que dar 1. Aca \(F(2) = \tfrac44 = 1\).</p>
 
   <div class="caja caja-ejemplo">
     <span class="caja-tit">La \(F(x)\) de una tabla es una escalera</span>
-    <p>Con la tabla del recuadro de la parte C, se suman las columnas de izquierda a derecha:</p>
+    <p>Con la tabla de la parte C, se va sumando de izquierda a derecha:</p>
     <div class="tabla-wrap">
       <table class="t">
         <tr><th>\(x\)</th><td>0</td><td>1</td><td>2</td><td>3</td></tr>
@@ -300,18 +258,13 @@
     </div>
     <p>\[ F(x) = \begin{cases} 0, &amp; x &lt; 0 \\ 0{,}10, &amp; 0 \leq x &lt; 1 \\ 0{,}30, &amp; 1 \leq x &lt; 2 \\ 0{,}70, &amp; 2 \leq x &lt; 3 \\ 1, &amp; x \geq 3 \end{cases} \]</p>
     <p>
-      Su grafico es una escalera: plana entre valor y valor, y con un salto en cada uno, de altura
-      \(f(x)\). En la continua, en cambio, \(F\) sube sin saltos. Y ojo: en la tabla el borde
-      <strong>si</strong> importa, \(P(X \geq 2) = 1 - F(1) = 0{,}70\).
+      Queda plana entre valor y valor y salta en cada uno. Y aca el borde <strong>si</strong>
+      importa: \(P(X \geq 2) = 1 - F(1) = 0{,}70\).
     </p>
   </div>
 
-  <div class="caja caja-ojo">
-    <span class="caja-tit">Y la Esperanza y la Varianza de cada modelo</span>
-    <p>
-      Como en la Unidad 5, cada modelo continuo trae sus formulas de \(E(X)\) y \(V(X)\) ya
-      resueltas (estan en el <em>Resumen de distribuciones</em> de la catedra). Salen de hacer una
-      sola vez, en general, la integral \(E(X) = \int x\,f(x)\,dx\) de la Unidad 4.
-    </p>
-  </div>
+  <p>
+    Por ultimo, como en la Unidad 5, cada modelo de esta unidad trae sus formulas de \(E(X)\) y
+    \(V(X)\) ya hechas: no hay que integrar para sacarlas.
+  </p>
 </div>

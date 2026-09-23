@@ -4,150 +4,61 @@
 
   <div class="caja caja-ojo">
     <span class="caja-tit">No aparecio en los examenes cargados</span>
-    <p>
-      Ninguno de los seis examenes (dos parciales y cuatro finales) lo tomo. Leelo despues de tener
-      firmes las secciones 1 a 5: igual es parte del programa y puede caer.
-    </p>
+    <p>Leela despues de tener firmes las secciones 1 a 5. Es parte del programa y puede caer.</p>
   </div>
 
-  <h3>Primero: la funcion Gamma \(\Gamma(\alpha)\)</h3>
+  <h3>Cuando se usa</h3>
   <p>
-    Antes de la distribucion hay que definir una funcion auxiliar, que es una especie de
-    <strong>factorial generalizado</strong> (sirve tambien para numeros no enteros):
+    Para el <strong>tiempo hasta que ocurren varios eventos</strong>: hasta la tercera falla, hasta
+    la segunda llamada. (Si es hasta el <em>primero</em>, es la Exponencial de la seccion 7.)
   </p>
 
+  <h3>Primero, la funcion \(\Gamma\)</h3>
+  <p>La formula de la distribucion usa \(\Gamma(\alpha)\), que es un factorial generalizado:</p>
   <div class="caja caja-formula">
-    <span class="caja-tit">Definicion y propiedades</span>
+    <span class="caja-tit">Funcion Gamma</span>
     <p>\[ \Gamma(\alpha) = \int_{0}^{\infty} x^{\alpha - 1} e^{-x}\, dx, \qquad \alpha &gt; 0 \]</p>
-    <p>\[ \Gamma(1) = 1 \qquad\qquad \Gamma(\alpha) = (\alpha - 1)\,\Gamma(\alpha - 1) \]</p>
-    <p>\[ \Gamma(n) = (n-1)! \quad \text{para } n = 1, 2, 3, \ldots \qquad\qquad \Gamma(\tfrac{1}{2}) = \sqrt{\pi} \]</p>
+    <p>\[ \Gamma(n) = (n-1)! \quad \text{si } n \text{ es entero} \qquad \Gamma(1) = 1 \qquad \Gamma(\tfrac{1}{2}) = \sqrt{\pi} \]</p>
   </div>
+  <p>Lo que se usa: si \(\alpha\) es entero, \(\Gamma(\alpha)\) es el factorial de \(\alpha - 1\). Ejemplo: \(\Gamma(4) = 3! = 6\).</p>
 
-  <p>
-    La propiedad que importa para el parcial es la tercera:
-    <strong>si \(\alpha\) es entero, \(\Gamma(\alpha)\) es el factorial de \(\alpha - 1\)</strong>.
-    Por ejemplo \(\Gamma(4) = 3! = 6\) y \(\Gamma(3) = 2! = 2\).
-  </p>
-
-  <h3>La distribucion Gamma</h3>
-
+  <h3>La distribucion</h3>
   <div class="caja caja-formula">
     <span class="caja-tit">Formulas</span>
     <p>\[ f(x) = \frac{1}{\beta^{\alpha}\,\Gamma(\alpha)}\; x^{\alpha - 1}\, e^{-x/\beta}, \qquad x &gt; 0 \]</p>
     <p>\[ E(X) = \alpha \cdot \beta \qquad\qquad V(X) = \alpha \cdot \beta^{2} \]</p>
+    <p>\(\alpha\) = cuantos eventos se esperan. \(\beta\) = tiempo medio entre eventos.</p>
   </div>
-
-  <h4>Que significa cada parametro</h4>
-  <div class="tabla-wrap">
-    <table class="t full">
-      <tr><th>Simbolo</th><th>Nombre</th><th>Que representa en la practica</th></tr>
-      <tr><td>\(\alpha\)</td><td>parametro de forma</td><td><strong>cuantos eventos</strong> hay que esperar (el 1ro, el 2do, el k-esimo)</td></tr>
-      <tr><td>\(\beta\)</td><td>parametro de escala</td><td>el <strong>tiempo medio entre eventos</strong></td></tr>
-    </table>
-  </div>
-
-  <p>
-    Se usa en <strong>teoria de confiabilidad</strong> y en el calculo de probabilidades de tiempos
-    de falla de componentes y sistemas electricos.
-  </p>
 
   <hr class="sep">
 
-  <h3>Ejemplo 1 &mdash; Tiempo hasta la tercera falla</h3>
-
+  <h3>Ejemplo 1 &mdash; Hasta la tercera falla</h3>
   <div class="caja caja-ejemplo">
     <span class="caja-tit">Enunciado</span>
-    <p>
-      Una impresora industrial falla en promedio <strong>cada 4 horas</strong>. Cuanto tiempo se
-      espera que pase hasta que ocurra la <strong>tercera</strong> falla, y con que varianza?
-    </p>
+    <p>Una impresora falla en promedio <strong>cada 4 horas</strong>. &iquest;Cuanto se espera hasta la <strong>tercera</strong> falla, y con que desvio?</p>
   </div>
-
-  <h4>Por que este modelo</h4>
-  <ul>
-    <li>La variable es <strong>tiempo</strong> (continua).</li>
-    <li>
-      No preguntan por la <em>primera</em> falla (eso seria Exponencial) sino por la
-      <strong>tercera</strong>. Cuando se acumulan varios eventos, el modelo es
-      <strong>Gamma</strong>.
-    </li>
-  </ul>
-
-  <h4>Desarme del enunciado</h4>
-  <div class="tabla-wrap">
-    <table class="t full">
-      <tr><th>Frase</th><th>Traduccion</th><th>A donde va</th></tr>
-      <tr><td>"falla cada 4 horas en promedio"</td><td>tiempo medio entre fallas</td><td>\(\beta = 4\)</td></tr>
-      <tr><td>"la tercera falla"</td><td>cuantos eventos acumulamos</td><td>\(\alpha = 3\)</td></tr>
-    </table>
-  </div>
-
-  <h4>Resolucion</h4>
-  <p>Formula:</p>
-  <p>\[ E(X) = \alpha \cdot \beta \]</p>
-  <p>\[ E(X) = 3 \times 4 = 12 \text{ horas} \]</p>
-  <p>Formula:</p>
-  <p>\[ V(X) = \alpha \cdot \beta^{2} \]</p>
-  <p>\[ V(X) = 3 \times 4^{2} = 3 \times 16 = 48 \qquad\Longrightarrow\qquad \sigma = \sqrt{48} = 6{,}93 \text{ horas} \]</p>
-
+  <p><strong>Datos:</strong> tiempo hasta 3 eventos &rarr; Gamma con \(\alpha = 3\), \(\beta = 4\).</p>
+  <p>\[ E(X) = \alpha \cdot \beta = 3 \cdot 4 = 12 \text{ horas} \]</p>
+  <p>\[ V(X) = \alpha \cdot \beta^{2} = 3 \cdot 16 = 48 \qquad \sigma = \sqrt{48} = 6{,}93 \text{ horas} \]</p>
   <div class="caja caja-resp">
     <span class="caja-tit">Respuesta</span>
-    <p>
-      Se esperan <strong>12 horas</strong> hasta la tercera falla, con desvio de 6,93 horas.
-    </p>
-    <p>
-      Chequeo intuitivo: si cada falla tarda 4 horas en promedio, tres fallas tardan
-      \(3 \times 4 = 12\). La formula \(E(X) = \alpha\beta\) esta diciendo exactamente eso.
-    </p>
+    <p>12 horas en promedio (tres fallas de 4 horas cada una), con un desvio de 6,93 horas.</p>
   </div>
-
-  <hr class="sep">
 
   <h3>Ejemplo 2 &mdash; Dos solicitudes en un minuto (Ejemplo 6 de la catedra)</h3>
-
   <div class="caja caja-ejemplo">
     <span class="caja-tit">Enunciado</span>
-    <p>
-      Las solicitudes que llegan a una central de atencion al usuario son de <strong>5 por minuto</strong>
-      en promedio. Cual es la probabilidad de que <strong>antes de transcurrido un minuto</strong>
-      hayan llegado <strong>dos</strong> solicitudes?
-    </p>
+    <p>Llegan en promedio <strong>5 solicitudes por minuto</strong>. &iquest;Probabilidad de que en <strong>menos de un minuto</strong> ya hayan llegado <strong>dos</strong>?</p>
   </div>
-
-  <h4>Por que este modelo</h4>
-  <ul>
-    <li>
-      Se pregunta por el <strong>tiempo</strong> que tarda en acumularse cierta cantidad de
-      eventos, no por la cantidad de eventos en un tiempo dado. Eso ya descarta Poisson.
-    </li>
-    <li>Y son <strong>dos</strong> eventos, no uno, asi que tampoco es Exponencial. Es Gamma.</li>
-  </ul>
-
-  <h4>Desarme del enunciado</h4>
-  <div class="tabla-wrap">
-    <table class="t full">
-      <tr><th>Frase</th><th>Traduccion</th><th>Cuenta</th><th>A donde va</th></tr>
-      <tr><td>"5 por minuto en promedio"</td><td>tasa de llegada</td><td>&mdash;</td><td>\(\lambda = 5\) por minuto</td></tr>
-      <tr><td>(conversion)</td><td>tiempo medio entre solicitudes</td><td>\(\beta = 1/\lambda = 1/5\)</td><td>\(\beta = 0{,}2\) min</td></tr>
-      <tr><td>"dos solicitudes"</td><td>eventos a acumular</td><td>&mdash;</td><td>\(\alpha = 2\)</td></tr>
-      <tr><td>"antes de transcurrido un minuto"</td><td>limite superior de la integral</td><td>&mdash;</td><td>\(P(X &lt; 1)\)</td></tr>
-    </table>
-  </div>
-
-  <h4>Resolucion</h4>
   <p>
-    Hay que integrar la densidad Gamma entre 0 y 1 con \(\alpha = 2\) y \(\beta = 0{,}2\).
-    La catedra resuelve esa integral por partes y llega a:
+    <strong>Datos:</strong> tiempo hasta 2 eventos &rarr; Gamma con \(\alpha = 2\). Dan una tasa (5
+    por minuto), y \(\beta\) es un tiempo, asi que se invierte: \(\beta = \frac{1}{5} = 0{,}2\) min.
+    Se pide \(P(X &lt; 1)\).
   </p>
-  <p>\[ P(X &lt; 1) = 1 - 6e^{-5} \]</p>
-  <p>\[ = 1 - 6(0{,}006738) = 1 - 0{,}040428 = 0{,}9596 \]</p>
-
+  <p>Se integra la densidad entre 0 y 1 (por partes); la catedra llega a:</p>
+  <p>\[ P(X &lt; 1) = 1 - 6e^{-5} = 1 - 6 \cdot 0{,}006738 = 0{,}9596 \]</p>
   <div class="caja caja-resp">
     <span class="caja-tit">Respuesta</span>
-    <p>95,96%.</p>
-    <p>
-      Tiene sentido que sea altisimo: si llegan 5 por minuto en promedio, que lleguen al menos 2 en
-      un minuto entero es casi seguro.
-    </p>
+    <p>95,96&nbsp;%. Tiene sentido: si llegan 5 por minuto, que lleguen 2 en un minuto es casi seguro.</p>
   </div>
 </div>

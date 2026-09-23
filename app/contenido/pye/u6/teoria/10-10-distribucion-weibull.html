@@ -4,109 +4,50 @@
 
   <div class="caja caja-ojo">
     <span class="caja-tit">No aparecio en los examenes cargados</span>
-    <p>
-      Ninguno de los seis examenes (dos parciales y cuatro finales) lo tomo. Leelo despues de tener
-      firmes las secciones 1 a 5: igual es parte del programa y puede caer.
-    </p>
+    <p>Leela despues de tener firmes las secciones 1 a 5. Es parte del programa y puede caer.</p>
   </div>
 
   <p>
-    Muy utilizada en <strong>probabilidad de fallas de sistemas electricos</strong> y, sobre todo,
-    en el calculo de probabilidad de la <strong>velocidad del viento</strong>. Tiene dos parametros,
-    lo que le da mucha flexibilidad para ajustarse a datos reales de un anemometro.
+    Se usa para <strong>fallas de sistemas electricos</strong> y para la <strong>velocidad del
+    viento</strong>. Tiene dos parametros: \(k\) (forma) y \(c\) (escala).
   </p>
 
   <div class="caja caja-formula">
     <span class="caja-tit">Formulas</span>
     <p>\[ f(v) = \frac{k}{c}\left(\frac{v}{c}\right)^{k-1} e^{-\left(\frac{v}{c}\right)^{k}}, \qquad v &gt; 0 \]</p>
-    <p>\(k\) es el <strong>parametro de forma</strong> y \(c\) el <strong>de escala</strong>.</p>
-    <p>Momentos (usados para estimar \(c\) y \(k\)):</p>
-    <p>\[ \mu = c \cdot \Gamma\!\left(1 + \frac{1}{k}\right) \qquad\qquad \overline{v^{2}} = c^{2} \cdot \Gamma\!\left(1 + \frac{2}{k}\right) \]</p>
-    <p>\[ \sigma^{2} = \overline{v^{2}} - \mu^{2} \]</p>
-  </div>
-
-  <div class="caja caja-ojo">
-    <span class="caja-tit">Estimacion de los parametros</span>
+    <p>La que se usa para calcular:</p>
+    <p>\[ P(V &gt; v) = e^{-\left(\frac{v}{c}\right)^{k}} \qquad\qquad P(V \leq v) = 1 - e^{-\left(\frac{v}{c}\right)^{k}} \]</p>
+    <p>\[ \mu = c \cdot \Gamma\!\left(1 + \tfrac{1}{k}\right) \qquad \sigma^{2} = c^{2} \cdot \Gamma\!\left(1 + \tfrac{2}{k}\right) - \mu^{2} \]</p>
     <p>
-      Combinando los dos momentos se llega a una ecuacion que depende solo de \(k\) y
-      <strong>se resuelve por iteraciones</strong> (no se despeja algebraicamente). En la practica
-      se hace con software, como el StatGraphics que usa la catedra.
-    </p>
-    <p>Notacion alternativa (Walpole): \(\frac{1}{c^{k}} = \alpha\), \(k = \beta\).</p>
-  </div>
-
-  <hr class="sep">
-
-  <h3>Ejemplo 1 &mdash; Viento en Parana AERO (Ejemplo 8 de la catedra)</h3>
-
-  <div class="caja caja-ejemplo">
-    <span class="caja-tit">Enunciado</span>
-    <p>
-      Para Parana AERO (estacion 87374), en un ano normal la velocidad media del viento es
-      <strong>\(\mu = 3{,}04\) m/s</strong> con <strong>\(\sigma = 1{,}81\) m/s</strong>.
-      Calcule los parametros de Weibull y la probabilidad de que la velocidad
-      <strong>exceda los 8 m/s</strong> (28,8 km/h) en un dia cualquiera.
-    </p>
-  </div>
-
-  <h4>Paso 1 &mdash; Estimar los parametros</h4>
-  <p>
-    Este paso se hace por iteraciones con software. La catedra, con StatGraphics, obtiene:
-  </p>
-  <p>\[ k = 1{,}72947 \qquad\qquad c = 3{,}41095 \]</p>
-
-  <h4>Paso 2 &mdash; Calcular la probabilidad</h4>
-  <p>
-    Integrando la densidad que da la catedra se obtiene la funcion acumulada, que tiene forma
-    cerrada (igual que la exponencial):
-  </p>
-  <p>\[ P(V &gt; v) = e^{-\left(\frac{v}{c}\right)^{k}} \]</p>
-  <p>Reemplazamos por partes:</p>
-  <ul>
-    <li>\(\dfrac{v}{c} = \dfrac{8}{3{,}41095} = 2{,}3454\)</li>
-    <li>\((2{,}3454)^{1{,}72947} = 4{,}369\)</li>
-  </ul>
-  <p>\[ P(V &gt; 8) = e^{-4{,}369} = 0{,}0126 \]</p>
-
-  <div class="caja caja-resp">
-    <span class="caja-tit">Respuesta</span>
-    <p>
-      1,26% de probabilidad. <em>(Resultado de la catedra con StatGraphics: 0,0126775.)</em>
+      Si te dan \(\mu\) y \(\sigma\), \(k\) y \(c\) no se despejan a mano: se sacan con software
+      (la catedra usa StatGraphics). Con \(k = 1\) queda la Exponencial con \(\beta = c\).
+      (En el Walpole: \(\alpha = \frac{1}{c^{k}}\), \(\beta = k\).)
     </p>
   </div>
 
   <hr class="sep">
 
-  <h3>Ejemplo 2 &mdash; Vida util de un rodamiento</h3>
-
+  <h3>Ejemplo 1 &mdash; Viento en Parana (Ejemplo 8 de la catedra)</h3>
   <div class="caja caja-ejemplo">
     <span class="caja-tit">Enunciado</span>
-    <p>
-      La vida util de un rodamiento, en miles de horas, sigue una Weibull con
-      <strong>\(k = 2\)</strong> y <strong>\(c = 5\)</strong>.
-      a) Probabilidad de que dure mas de 6 mil horas?
-      b) Probabilidad de que falle antes de las 3 mil horas?
-    </p>
+    <p>En Parana AERO el viento tiene media <strong>3,04 m/s</strong> y desvio <strong>1,81 m/s</strong>. &iquest;Probabilidad de que <strong>supere 8 m/s</strong> un dia cualquiera?</p>
   </div>
-
-  <h4>Inciso a</h4>
-  <p>Formula:</p>
+  <p><strong>Paso 1.</strong> Con software, la catedra obtiene \(k = 1{,}72947\) y \(c = 3{,}41095\).</p>
+  <p><strong>Paso 2.</strong></p>
   <p>\[ P(V &gt; v) = e^{-\left(\frac{v}{c}\right)^{k}} \]</p>
-  <p>\[ P(V &gt; 6) = e^{-\left(\frac{6}{5}\right)^{2}} = e^{-(1{,}2)^{2}} = e^{-1{,}44} = 0{,}2369 \]</p>
-  <div class="caja caja-resp"><span class="caja-tit">Respuesta a</span><p>23,69%.</p></div>
+  <p>\[ \frac{8}{3{,}41095} = 2{,}3454 \qquad (2{,}3454)^{1{,}72947} = 4{,}369 \qquad P(V &gt; 8) = e^{-4{,}369} = 0{,}0126 \]</p>
+  <div class="caja caja-resp"><span class="caja-tit">Respuesta</span><p>1,26&nbsp;% (catedra: 0,0126775).</p></div>
 
-  <h4>Inciso b</h4>
-  <p>Formula (el complemento):</p>
+  <h3>Ejemplo 2 &mdash; Vida de un rodamiento</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>La vida de un rodamiento, en miles de horas, es Weibull con <strong>\(k = 2\)</strong> y <strong>\(c = 5\)</strong>. a) &iquest;Que dure mas de 6? b) &iquest;Que falle antes de 3?</p>
+  </div>
+  <p><strong>a)</strong></p>
+  <p>\[ P(V &gt; v) = e^{-\left(\frac{v}{c}\right)^{k}} \]</p>
+  <p>\[ P(V &gt; 6) = e^{-(6/5)^{2}} = e^{-1{,}44} = 0{,}2369 \]</p>
+  <p><strong>b)</strong></p>
   <p>\[ P(V \leq v) = 1 - e^{-\left(\frac{v}{c}\right)^{k}} \]</p>
-  <p>\[ P(V \leq 3) = 1 - e^{-\left(\frac{3}{5}\right)^{2}} = 1 - e^{-0{,}36} = 1 - 0{,}6977 = 0{,}3023 \]</p>
-  <div class="caja caja-resp"><span class="caja-tit">Respuesta b</span><p>30,23%.</p></div>
-
-  <div class="caja caja-ojo">
-    <span class="caja-tit">Weibull y Exponencial</span>
-    <p>
-      Si en la formula de Weibull ponés \(k = 1\), queda \(P(V &gt; v) = e^{-v/c}\), que es
-      <strong>exactamente la exponencial</strong> con \(\beta = c\). O sea que la Exponencial es una
-      Weibull con forma 1.
-    </p>
-  </div>
+  <p>\[ P(V \leq 3) = 1 - e^{-(3/5)^{2}} = 1 - e^{-0{,}36} = 1 - 0{,}6977 = 0{,}3023 \]</p>
+  <div class="caja caja-resp"><span class="caja-tit">Respuesta</span><p>a) 23,69&nbsp;%. b) 30,23&nbsp;%.</p></div>
 </div>

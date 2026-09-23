@@ -259,13 +259,57 @@ window.NC = window.NC || {};
     return tag.dataset.numEj === "-" ? "" : tag.dataset.numEj;
   }
 
-  var ALTO_BARRA = 96;   // alto de la barra superior fija
+  /* Donde termina la barra superior fija una vez pegada arriba. Se mide cada
+     vez: su alto cambia con el ancho de la ventana (los medidores bajan de
+     renglon cuando no entran), y un numero fijo dejaba el titulo tapado. No se
+     usa su posicion actual: en pantallas angostas el menu de materias va arriba
+     y la barra recien se pega cuando bajas; lo que vale es su "top" de sticky. */
+  function altoBarra() {
+    var barra = $(".topbar");
+    if (!barra) { return 124; }
+    var pegada = parseFloat(window.getComputedStyle(barra).top) || 0;
+    return Math.ceil(pegada + barra.getBoundingClientRect().height) + 14;
+  }
 
-  // Lleva al titulo y nada mas: si la seccion esta plegada, queda plegada.
-  // Para abrirla esta la flechita que el indice pone al lado.
+  var ancla = null;   // el salto del indice que se esta sosteniendo
+
+  function soltarAncla() {
+    if (!ancla) { return; }
+    window.cancelAnimationFrame(ancla.cuadro);
+    window.clearTimeout(ancla.marca);
+    ancla.titulo.classList.remove("es-destino");
+    ["wheel", "touchstart", "keydown"].forEach(function (ev) {
+      window.removeEventListener(ev, soltarAncla, true);
+    });
+    ancla = null;
+  }
+
+  /* Lleva al titulo y nada mas: si la seccion esta plegada, queda plegada.
+     Para abrirla esta la flechita que el indice pone al lado.
+     Durante un segundo y medio el titulo se sostiene en su lugar: si algo de
+     arriba cambia de alto despues del salto (formulas que MathJax termina de
+     dibujar), sin esto el titulo quedaba corrido. Si el usuario scrollea, se
+     suelta enseguida. El titulo queda resaltado ese rato para que se vea a
+     donde llevo, aunque este cerca del final y la pagina no pueda subirlo. */
   function irAlTitulo(h) {
-    var y = h.getBoundingClientRect().top + window.pageYOffset - ALTO_BARRA;
-    window.scrollTo(0, Math.max(0, y));
+    soltarAncla();
+    function ubicar() {
+      var y = h.getBoundingClientRect().top + window.pageYOffset - altoBarra();
+      window.scrollTo(0, Math.max(0, y));
+    }
+    ubicar();
+    h.classList.add("es-destino");
+    // el reloj suelta el ancla aunque el navegador frene los cuadros (pestania de fondo)
+    ancla = { titulo: h, hasta: Date.now() + 1500, marca: window.setTimeout(soltarAncla, 1500) };
+    (function sostener() {
+      if (!ancla) { return; }
+      if (Date.now() > ancla.hasta) { soltarAncla(); return; }
+      if (Math.abs(h.getBoundingClientRect().top - altoBarra()) > 2) { ubicar(); }
+      ancla.cuadro = window.requestAnimationFrame(sostener);
+    })();
+    ["wheel", "touchstart", "keydown"].forEach(function (ev) {
+      window.addEventListener(ev, soltarAncla, true);
+    });
     marcarTOCActual();
   }
 
@@ -309,7 +353,13 @@ window.NC = window.NC || {};
     var base = pane.getAttribute("data-view").replace(/\//g, "-");
 
     titulos.forEach(function (h, i) {
-      if (!h.id) { h.id = base + "-h" + i; }
+      // Id unico de verdad: el numero de orden cambia cuando se abren o cierran
+      // secciones, y reusarlo repetia ids en la pagina.
+      if (!h.id) {
+        var n = i;
+        while (document.getElementById(base + "-h" + n)) { n++; }
+        h.id = base + "-h" + n;
+      }
       var seccion = h.tagName === "H2" && h.closest ? h.closest(".es-seccion") : null;
       var a = document.createElement("a");
       a.href = "#" + h.id;
@@ -381,9 +431,9 @@ window.NC = window.NC || {};
   function marcarTOCActual() {
     if (!enlacesTOC.length) { return; }
     var actual = enlacesTOC[0];
+    var limite = altoBarra() + 30;   // un poco por debajo de la barra fija
     for (var i = 0; i < enlacesTOC.length; i++) {
-      // 150px = alto aproximado de la barra superior fija
-      if (enlacesTOC[i].h.getBoundingClientRect().top <= 150) { actual = enlacesTOC[i]; }
+      if (enlacesTOC[i].h.getBoundingClientRect().top <= limite) { actual = enlacesTOC[i]; }
       else { break; }
     }
     enlacesTOC.forEach(function (e) { e.a.classList.remove("is-current"); });

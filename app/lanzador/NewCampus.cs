@@ -12,6 +12,16 @@
 //   POST /api/ping         latido de la pagina abierta
 //   POST /api/adios        la pestania se esta cerrando (apaga mas rapido)
 //
+// Requisitos:
+//   Al arrancar revisa lo que el campus necesita y, si falta algo, lo dice en
+//   un solo cartel con lo que hay que instalar: un navegador predeterminado,
+//   conexion a internet (las formulas se cargan de internet) y, solo si faltan
+//   los apuntes generados, Python 3 para armarlos. El .NET Framework 4 no se
+//   puede revisar desde aca: es lo que hace correr este .exe, y si faltara
+//   Windows avisa por su cuenta antes de abrirlo.
+//   NewCampus.exe --diagnostico=archivo.txt escribe el resultado sin mostrar
+//   nada (sirve para probarlo).
+//
 // Seguridad:
 //   - Escucha en "localhost" y ademas rechaza todo pedido que no venga de esta
 //     misma PC: no se puede entrar desde otra computadora de la red.
@@ -25,6 +35,7 @@
 //     /out:NewCampus.exe app\lanzador\NewCampus.cs
 
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
@@ -72,6 +83,36 @@ static class NewCampus
         BorrarRegistroViejo();
         bool abrirNavegador = Array.IndexOf(args, "--sin-navegador") < 0;   // solo para pruebas
 
+        // Internet se prueba en paralelo: si hay conexion tarda un instante,
+        // y si no la hay no se quiere hacer esperar el arranque de mas.
+        bool hayInternet = false;
+        var pruebaInternet = new Thread(() => { hayInternet = HayInternet(); }) { IsBackground = true };
+        pruebaInternet.Start();
+
+        string diagnostico = null;
+        foreach (string a in args) { if (a.StartsWith("--diagnostico=")) { diagnostico = a.Substring(14); } }
+        if (diagnostico != null)
+        {
+            pruebaInternet.Join(5000);
+            var falta = Faltantes(hayInternet, null, BuscarPython() != null);
+            File.WriteAllText(diagnostico, falta.Count == 0 ? "OK" : string.Join(Environment.NewLine + Environment.NewLine, falta.ToArray()));
+            return 0;
+        }
+
+        // Sin los apuntes generados no hay nada que mostrar. Si esta Python,
+        // se generan solos; si no, se avisa que hay que instalarlo.
+        if (!File.Exists(Path.Combine(app, "generado", "indice.js")))
+        {
+            string python = BuscarPython();
+            if (python != null) { Generar(python); }
+            if (!File.Exists(Path.Combine(app, "generado", "indice.js")))
+            {
+                pruebaInternet.Join(5000);
+                Aviso(Cartel(Faltantes(hayInternet, null, python != null)), MessageBoxIcon.Error);
+                return 1;
+            }
+        }
+
         bool primero;
         using (var unico = new Mutex(true, "Local\\NewCampus", out primero))
         {
@@ -91,7 +132,16 @@ static class NewCampus
                 return 1;
             }
 
-            if (abrirNavegador) { Abrir(origen + "/"); }
+            pruebaInternet.Join(5000);
+            var faltan = Faltantes(hayInternet, origen, true);
+            if (faltan.Count > 0) { Aviso(Cartel(faltan), MessageBoxIcon.Warning); }
+
+            if (abrirNavegador && !Abrir(origen + "/") && faltan.Count == 0)
+            {
+                // habia navegador configurado, pero no se dejo abrir
+                Aviso("No se pudo abrir el navegador.\n\nPodes abrir el campus a mano escribiendo esta " +
+                      "direccion en Edge, Chrome o Firefox:\n\n" + origen + "/", MessageBoxIcon.Warning);
+            }
             using (icono = CrearIcono())
             using (new System.Threading.Timer(_ => Vigilar(), null, 2000, 2000))
             {
@@ -300,9 +350,130 @@ static class NewCampus
         try { Registry.CurrentUser.DeleteSubKeyTree(@"Software\Classes\newcampus", false); } catch { }
     }
 
-    static void Abrir(string url)
+    static bool Abrir(string url)
     {
-        try { Process.Start(url); } catch { }
+        try { Process.Start(url); return true; } catch { return false; }
+    }
+
+    /* ---------------- requisitos ----------------
+       Lo que el campus necesita ademas de este .exe. Todo lo que falte se
+       junta en una sola lista, cada cosa con que es y como conseguirla. */
+
+    static List<string> Faltantes(bool hayInternet, string direccion, bool hayPython)
+    {
+        var falta = new List<string>();
+
+        if (!File.Exists(Path.Combine(app, "generado", "indice.js")) && hayPython)
+        {
+            falta.Add("LOS APUNTES GENERADOS - falta la carpeta app\\generado y no se pudo armar sola. " +
+                      "Abri una consola en la carpeta app y corre: python construir.py (ahi se ve el error).");
+        }
+        else if (!File.Exists(Path.Combine(app, "generado", "indice.js")))
+        {
+            falta.Add("PYTHON 3 - faltan los apuntes generados (la carpeta app\\generado) y para " +
+                      "armarlos hace falta Python 3. Instalalo desde https://www.python.org/downloads/ " +
+                      "marcando la opcion \"Add python.exe to PATH\", y volve a abrir NewCampus: " +
+                      "los apuntes se generan solos.");
+        }
+        if (!HayNavegador())
+        {
+            falta.Add("UN NAVEGADOR WEB - no hay ninguno elegido como predeterminado. Instala Microsoft " +
+                      "Edge, Google Chrome o Firefox, o elegi uno en Configuracion > Aplicaciones > " +
+                      "Aplicaciones predeterminadas." +
+                      (direccion != null ? " Mientras tanto, el campus se abre escribiendo " + direccion +
+                       "/ en cualquier navegador." : ""));
+        }
+        if (!hayInternet)
+        {
+            falta.Add("CONEXION A INTERNET - las formulas matematicas se cargan de internet. Sin " +
+                      "conexion el campus abre igual, pero las formulas se ven como texto (por ejemplo " +
+                      "\\frac{1}{2}) hasta que vuelva la conexion.");
+        }
+        return falta;
+    }
+
+    static string Cartel(List<string> falta)
+    {
+        return "Para que NewCampus funcione bien falta:\n\n- " + string.Join("\n\n- ", falta.ToArray());
+    }
+
+    // Navegador predeterminado: el que eligio el usuario para los enlaces http,
+    // o en su defecto el que tenga registrado Windows.
+    static bool HayNavegador()
+    {
+        try
+        {
+            using (var k = Registry.CurrentUser.OpenSubKey(
+                @"Software\Microsoft\Windows\Shell\Associations\UrlAssociations\http\UserChoice"))
+            {
+                string prog = k == null ? null : k.GetValue("ProgId") as string;
+                if (!string.IsNullOrEmpty(prog))
+                {
+                    using (var c = Registry.ClassesRoot.OpenSubKey(prog + @"\shell\open\command"))
+                    {
+                        if (c != null) { return true; }
+                    }
+                }
+            }
+            using (var c = Registry.ClassesRoot.OpenSubKey(@"http\shell\open\command"))
+            {
+                return c != null;
+            }
+        }
+        catch { return true; }   // si no se puede leer el registro, no se asusta a nadie
+    }
+
+    // Se prueba contra el mismo lugar del que la pagina carga MathJax.
+    static bool HayInternet()
+    {
+        try
+        {
+            ServicePointManager.SecurityProtocol |= (SecurityProtocolType)3072;   // TLS 1.2
+            var pedido = (HttpWebRequest)WebRequest.Create("https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js");
+            pedido.Method = "HEAD";
+            pedido.Timeout = 4000;
+            using (pedido.GetResponse()) { return true; }
+        }
+        catch { return false; }
+    }
+
+    // "py" es el lanzador oficial de Python en Windows; "python" puede ser el
+    // atajo de la Microsoft Store que no tiene Python instalado: por eso se
+    // pide la version y se exige que diga "Python 3".
+    static string BuscarPython()
+    {
+        foreach (string comando in new[] { "py", "python" })
+        {
+            try
+            {
+                var inicio = new ProcessStartInfo(comando, "--version")
+                {
+                    UseShellExecute = false, CreateNoWindow = true,
+                    RedirectStandardOutput = true, RedirectStandardError = true
+                };
+                using (var p = Process.Start(inicio))
+                {
+                    string salida = p.StandardOutput.ReadToEnd() + p.StandardError.ReadToEnd();
+                    p.WaitForExit(5000);
+                    if (salida.Contains("Python 3")) { return comando; }
+                }
+            }
+            catch { }
+        }
+        return null;
+    }
+
+    static void Generar(string python)
+    {
+        try
+        {
+            var inicio = new ProcessStartInfo(python, "construir.py")
+            {
+                UseShellExecute = false, CreateNoWindow = true, WorkingDirectory = app
+            };
+            using (var p = Process.Start(inicio)) { p.WaitForExit(120000); }
+        }
+        catch { }
     }
 
     static void Aviso(string texto, MessageBoxIcon icono)

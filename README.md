@@ -58,12 +58,15 @@ navegador de esa máquina, no en ningún servidor.
 
 | Para | Necesitás |
 | :--- | :--- |
-| Usarlo | Windows con .NET Framework 4 (ya viene instalado) y un navegador |
+| Usarlo | Windows con .NET Framework 4 (ya viene instalado), un navegador predeterminado y conexión a internet para las fórmulas |
 | Editar los apuntes | Python 3 (para `app/construir.py`) |
 | Recompilar el ejecutable | `csc.exe` del .NET Framework 4 (el comando está arriba de `app/lanzador/NewCampus.cs`) |
 
 Doble clic en `NewCampus.exe`: levanta el servidor en `http://localhost:47800` y abre el
-navegador. Escucha **solo en localhost** y rechaza cualquier pedido que no venga de esa misma PC.
+navegador. Antes revisa que esté todo lo necesario y, si falta algo, lo dice en un solo
+cartel con lo que hay que instalar: un navegador, la conexión a internet (las fórmulas se cargan
+de ahí) o Python 3 si faltan los apuntes generados (y si Python está, los genera solo). El .NET
+Framework 4 no lo puede revisar el propio `.exe`: si faltara, Windows avisa antes de abrirlo. Escucha **solo en localhost** y rechaza cualquier pedido que no venga de esa misma PC.
 Cuando cerrás la pestaña, el servidor se apaga solo; también podés cerrarlo desde el ícono que
 queda junto al reloj de Windows.
 

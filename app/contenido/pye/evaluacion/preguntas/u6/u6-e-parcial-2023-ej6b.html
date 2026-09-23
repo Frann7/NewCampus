@@ -1,0 +1,134 @@
+<article class="preg" data-id="u6-e-parcial-2023-ej6b" data-tipo="ejercicio" data-origen="parcial">
+  <div class="p-enunciado">
+    <p>
+      En 2022, una analista en sistemas ha cometido errores en el <strong>20&nbsp;%</strong> de las
+      evaluaciones de los sistemas informáticos de una empresa.
+    </p>
+    <p>
+      <strong>b)</strong> Si la analista es responsable de realizar evaluaciones a \(n = 100\) sistemas
+      informáticos, ¿cuál es la probabilidad de que cometa errores en a lo sumo 30 de estas?
+      <strong>Justifique la metodología empleada</strong> en el cálculo de esta probabilidad.
+    </p>
+    <p>
+      (El inciso a, con \(n = 15\), se resuelve con la tabla binomial de la Unidad 5 y queda afuera
+      de este ejercicio.)
+    </p>
+    <p class="p-fuente">Segundo Parcial 2023, Ejercicio 6 b</p>
+  </div>
+  <div class="p-explicacion">
+    <p>\(X \sim Bi(100;\ 0{,}20)\), aproximada por una Normal con corrección por continuidad:</p>
+    <div class="tabla-wrap">
+      <table class="t full">
+        <tr><th>Parte</th><th>Resultado</th></tr>
+        <tr><td class="lbl">Justificación</td><td>La tabla binomial llega hasta \(n = 20\). Se aproxima por la Normal: \(n = 100 \geq 30\), \(np = 20 \geq 5\) y \(n(1-p) = 80 \geq 5\)</td></tr>
+        <tr><td class="lbl">Parámetros</td><td>\(\mu = np = 20\); \(\sigma = \sqrt{np(1-p)} = \sqrt{16} = 4\)</td></tr>
+        <tr><td class="lbl">Corrección</td><td>&ldquo;A lo sumo 30&rdquo; incluye al 30: \(P(X \leq 30) \approx P(Y &lt; 30{,}5)\)</td></tr>
+        <tr><td class="lbl">b) A lo sumo 30</td><td>\(z = \frac{30{,}5 - 20}{4} = 2{,}63\) &rArr; \(P \approx F(2{,}63) = \mathbf{0{,}9957}\)</td></tr>
+      </table>
+    </div>
+  </div>
+  <ol class="p-pasos">
+    <li data-inciso="b" data-nivel="principiante">
+      <div class="p-consigna"><p>\(X\) = cantidad de evaluaciones con error entre las 100. ¿Qué modelo tiene \(X\)?</p></div>
+      <ul class="p-opciones">
+        <li>Normal con \(\mu = 20\), porque el problema está en la Unidad 6</li>
+        <li data-correcta>Binomial con \(n = 100\) y \(p = 0{,}20\)</li>
+        <li>Hipergeométrica, porque se evalúan sistemas de una empresa</li>
+        <li>Poisson con \(\lambda = 0{,}20\)</li>
+      </ul>
+      <div class="p-pista"><p>Hay un número fijo de pruebas, cada una sale bien o mal, con la misma probabilidad de error.</p></div>
+      <div class="p-explicacion"><p>100 evaluaciones independientes, cada una con error o sin error, con \(p = 0{,}20\) constante: \(X \sim Bi(100;\ 0{,}20)\). La Normal va a entrar como <em>aproximación</em>, no como el modelo de origen.</p></div>
+    </li>
+    <li data-inciso="b" data-nivel="principiante">
+      <div class="p-consigna"><p>¿Se puede calcular \(P(X \leq 30)\) con la tabla binomial acumulada de la cátedra?</p></div>
+      <ul class="p-opciones">
+        <li>Sí, se busca en la fila \(n = 100\), \(x = 30\)</li>
+        <li data-correcta>No: la tabla llega hasta \(n = 20\), y sumar 31 términos a mano es inviable</li>
+        <li>No, porque la binomial no tiene acumulada</li>
+      </ul>
+      <div class="p-pista"><p>Acordate hasta qué \(n\) llegan las tablas de la Unidad 5.</p></div>
+      <div class="p-explicacion"><p>La tabla llega hasta \(n = 20\). Con \(n = 100\) hay que aproximar, y por eso el enunciado pide justificar la metodología.</p></div>
+    </li>
+    <li data-inciso="b" data-nivel="medio">
+      <div class="p-consigna"><p>Primera condición de la cátedra para aproximar por la Normal: \(n\) grande. ¿Se cumple?</p></div>
+      <ul class="p-opciones">
+        <li data-correcta>Sí: \(n = 100 \geq 30\)</li>
+        <li>No: haría falta \(n \geq 1000\)</li>
+        <li>No se puede saber sin conocer \(\sigma\)</li>
+      </ul>
+      <div class="p-pista"><p>La cátedra pide \(n \geq 30\).</p></div>
+      <div class="p-explicacion"><p>\(n = 100 \geq 30\) &#10003;. Falta ver que \(p\) no deje la binomial torcida contra una punta: eso se controla con \(np\) y \(n(1-p)\).</p></div>
+    </li>
+    <li data-inciso="b" data-nivel="medio" data-respuesta="20">
+      <div class="p-consigna"><p>Calculá \(np\). Sirve dos veces: para la segunda condición y porque es la media \(\mu\) de la Normal que aproxima.</p></div>
+      <div class="p-pista"><p>\(100 \cdot 0{,}20\).</p></div>
+      <div class="p-explicacion"><p>\(np = 20 \geq 5\) &#10003;. Y la Normal que reemplaza a la binomial tiene \(\mu = 20\).</p></div>
+    </li>
+    <li data-inciso="b" data-nivel="principiante" data-respuesta="80">
+      <div class="p-consigna"><p>Calculá \(n(1-p)\).</p></div>
+      <div class="p-pista"><p>\(1 - p = 0{,}80\); multiplicalo por 100.</p></div>
+      <div class="p-explicacion"><p>\(n(1-p) = 100 \cdot 0{,}80 = 80 \geq 5\) &#10003;. La media queda lejos de las dos puntas (0 y 100).</p></div>
+    </li>
+    <li data-inciso="b" data-nivel="avanzado">
+      <div class="p-consigna"><p>b) Justificación de la metodología: ¿cuál es la correcta?</p></div>
+      <ul class="p-opciones">
+        <li>Se usa la tabla binomial porque \(X\) es binomial</li>
+        <li>Se aproxima por Poisson porque \(n\) es grande</li>
+        <li data-correcta>Se aproxima por la Normal: la tabla binomial no llega a \(n = 100\), \(n \geq 30\), \(np = 20 \geq 5\) y \(n(1-p) = 80 \geq 5\); y se corrige por continuidad porque se pasa de una discreta a una continua</li>
+        <li>Se aproxima por la Normal sin corrección, porque con \(n = 100\) la corrección no cambia nada</li>
+      </ul>
+      <div class="p-pista"><p>Hay que decir por qué no se usa la tabla, qué condiciones se cumplen y qué ajuste se hace al pasar de discreta a continua.</p></div>
+      <div class="p-explicacion"><p>Normal con \(n = 100 \geq 30\), \(np = 20 \geq 5\) y \(n(1-p) = 80 \geq 5\), más la corrección por continuidad. Poisson se usa con \(p\) chico (\(np &lt; 5\)), que no es el caso.</p></div>
+    </li>
+    <li data-inciso="b" data-nivel="principiante" data-respuesta="16">
+      <div class="p-consigna"><p>Calculá la varianza de la binomial, \(\sigma^{2} = np(1-p)\).</p></div>
+      <div class="p-pista"><p>\(np = 20\); multiplicalo por \(1 - p = 0{,}80\).</p></div>
+      <div class="p-explicacion"><p>\(\sigma^{2} = 20 \cdot 0{,}80 = 16\).</p></div>
+    </li>
+    <li data-inciso="b" data-nivel="medio" data-respuesta="4">
+      <div class="p-consigna"><p>¿Cuánto vale \(\sigma\) de la Normal que aproxima?</p></div>
+      <div class="p-pista"><p>\(\sigma = \sqrt{np(1-p)}\). En la estandarización va el desvío, no la varianza.</p></div>
+      <div class="p-explicacion"><p>\(\sigma = \sqrt{16} = 4\).</p></div>
+    </li>
+    <li data-inciso="b" data-nivel="principiante">
+      <div class="p-consigna"><p>&ldquo;A lo sumo 30&rdquo;: ¿qué valores enteros de \(X\) entran?</p></div>
+      <ul class="p-opciones">
+        <li>0, 1, &hellip;, 29 (el 30 no)</li>
+        <li data-correcta>0, 1, &hellip;, 30 (el 30 sí)</li>
+        <li>30, 31, &hellip;, 100</li>
+      </ul>
+      <div class="p-pista"><p>&ldquo;A lo sumo&rdquo; es \(\leq\).</p></div>
+      <div class="p-explicacion"><p>\(X \leq 30\): del 0 al 30, con el 30 incluido.</p></div>
+    </li>
+    <li data-inciso="b" data-nivel="avanzado" data-respuesta="30,5">
+      <div class="p-consigna"><p>b) Con la corrección por continuidad, ¿qué valor de \(x\) se usa en la Normal para \(P(X \leq 30)\)?</p></div>
+      <div class="p-pista"><p>Cada entero ocupa medio punto para cada lado. Corré el borde medio punto hacia afuera del grupo que querés conservar.</p></div>
+      <div class="p-explicacion"><p>El 30 entra y en la continua ocupa de 29,5 a 30,5. Para quedarse con él entero: \(P(X \leq 30) \approx P(Y &lt; 30{,}5)\).</p></div>
+    </li>
+    <li data-inciso="b" data-nivel="medio">
+      <div class="p-consigna"><p>\(P(Y &lt; 30{,}5)\): ¿qué área se busca?</p></div>
+      <ul class="p-opciones">
+        <li data-correcta>A la izquierda: \(F(z)\), directo de la tabla</li>
+        <li>A la derecha: \(1 - F(z)\)</li>
+        <li>Entre dos valores: \(F(z_2) - F(z_1)\)</li>
+      </ul>
+      <div class="p-pista"><p>&ldquo;Menor que&rdquo; es todo lo que queda a la izquierda del borde.</p></div>
+      <div class="p-explicacion"><p>Área a la izquierda: es justo lo que da la tabla, no hay que dar vuelta nada.</p></div>
+    </li>
+    <li data-inciso="b" data-nivel="principiante" data-respuesta="10,5">
+      <div class="p-consigna"><p>Calculá \(x - \mu\) con el borde corregido.</p></div>
+      <div class="p-pista"><p>\(30{,}5 - 20\).</p></div>
+      <div class="p-explicacion"><p>\(30{,}5 - 20 = 10{,}5\).</p></div>
+    </li>
+    <li data-inciso="b" data-nivel="medio" data-respuesta="2,63" data-tolerancia="0,01">
+      <div class="p-consigna"><p>Estandarizá: ¿cuánto vale \(z\)? (con 2 decimales)</p></div>
+      <div class="p-pista"><p>\(z = \frac{30{,}5 - 20}{4}\).</p></div>
+      <div class="p-explicacion"><p>\(z = \frac{10{,}5}{4} = 2{,}625 \approx 2{,}63\).</p></div>
+    </li>
+    <li data-inciso="b" data-nivel="avanzado" data-respuesta="0,9957" data-tolerancia="0,0005">
+      <div class="p-consigna"><p>b) ¿Cuánto vale \(P(X \leq 30)\), la probabilidad de que cometa errores en a lo sumo 30 evaluaciones?</p></div>
+      <div class="p-pista"><p>\(\mu = np\), \(\sigma = \sqrt{np(1-p)}\), borde 30,5 y área a la izquierda.</p></div>
+      <div class="p-explicacion"><p>\(P(X \leq 30) \approx P(Y &lt; 30{,}5) = F(2{,}63) = 0{,}9957\). Sin la corrección (\(x = 30\), \(z = 2{,}50\)) daría 0,9938.</p></div>
+    </li>
+  </ol>
+</article>

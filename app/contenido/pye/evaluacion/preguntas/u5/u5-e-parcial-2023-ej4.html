@@ -1,0 +1,250 @@
+<article class="preg" data-id="u5-e-parcial-2023-ej4" data-tipo="ejercicio" data-origen="parcial">
+  <div class="p-enunciado">
+    <p>
+      Una empresa tiene dos proveedores <strong>A</strong> y <strong>B</strong> de cierta pieza que
+      utiliza en la manufactura de uno de sus productos. El área de ensamble extrae aleatoriamente un
+      lote de <strong>5 piezas de cada uno</strong> de los proveedores y las junta. Si de las
+      <strong>10 piezas</strong> se eligen <strong>6 al azar</strong> para utilizarse en el armado de un
+      producto, interesa estudiar la variable aleatoria \(X\) que es la &ldquo;cantidad de piezas
+      elegidas al azar para el armado que son aportadas por el proveedor A&rdquo;.
+    </p>
+    <p>
+      <strong>a)</strong> ¿Cuál es la distribución de probabilidad de \(X\)? Diga el nombre de la
+      distribución, sus parámetros, la fórmula y para qué valores de \(X\) es válida.
+    </p>
+    <p><strong>b)</strong> Calcule la probabilidad de que en las seis piezas elegidas, sólo 4 sean del proveedor A.</p>
+    <p><strong>c)</strong> Calcule la probabilidad de que en las seis piezas elegidas, al menos 4 sean del proveedor A.</p>
+    <p class="p-fuente">Segundo Parcial 2023, Ejercicio 4</p>
+  </div>
+  <div class="p-explicacion">
+    <table class="t full">
+      <tr><th>Inciso</th><th>Resultado</th></tr>
+      <tr>
+        <td class="lbl">a) Distribución</td>
+        <td>
+          Hipergeométrica \(H(N = 10,\ k = 5,\ n = 6)\),
+          \(P(X=x) = \dfrac{\binom{5}{x}\binom{5}{6-x}}{\binom{10}{6}}\), válida para \(x = 1, 2, 3, 4, 5\)
+        </td>
+      </tr>
+      <tr><td class="lbl">b) Sólo 4 de A</td><td>\(P(X = 4) = \frac{50}{210} = \mathbf{0{,}2381}\)</td></tr>
+      <tr><td class="lbl">c) Al menos 4 de A</td><td>\(P(X \geq 4) = \frac{55}{210} = \mathbf{0{,}2619}\)</td></tr>
+    </table>
+  </div>
+  <ol class="p-pasos">
+
+    <!-- ===== Inciso a: modelo, parametros, formula, recorrido ===== -->
+    <li data-inciso="a" data-nivel="principiante">
+      <div class="p-consigna"><p>¿Cómo se eligen las 6 piezas de entre las 10?</p></div>
+      <ul class="p-opciones">
+        <li data-correcta>Sin reposición: una pieza elegida no vuelve al lote</li>
+        <li>Con reposición: cada pieza se devuelve antes de elegir la siguiente</li>
+        <li>Se elige una sola pieza, 6 veces por separado de lotes distintos</li>
+        <li>No se puede saber con el enunciado</li>
+      </ul>
+      <div class="p-pista"><p>Se eligen 6 piezas <em>distintas</em> para armar un producto. ¿Puede la misma pieza usarse dos veces?</p></div>
+      <div class="p-explicacion"><p>Sin reposición: las 6 piezas son distintas, así que cada una que sale cambia lo que queda en el lote.</p></div>
+    </li>
+    <li data-inciso="a" data-nivel="principiante" data-respuesta="0,4444">
+      <div class="p-consigna"><p>Si la primera pieza elegida fue de A, ¿cuál es la probabilidad de que la segunda también sea de A?</p></div>
+      <div class="p-pista"><p>Después de sacar una de A, quedan 9 piezas: ¿cuántas de A?</p></div>
+      <div class="p-explicacion">
+        <p>
+          Quedan 4 de A entre 9 piezas: \(4/9 = 0{,}4444\). La primera era de A con \(5/10 = 0{,}5\):
+          la probabilidad <strong>cambió</strong> de una extracción a otra. Por eso no es binomial
+          (que pide \(p\) constante).
+        </p>
+      </div>
+    </li>
+    <li data-inciso="a" data-nivel="medio">
+      <div class="p-consigna"><p>¿Qué modelo corresponde a \(X\)?</p></div>
+      <ul class="p-opciones">
+        <li data-correcta>Hipergeométrica: muestra sin reposición de una población finita dividida en dos grupos</li>
+        <li>Binomial con \(p = 0{,}5\), porque hay la misma cantidad de piezas de A y de B</li>
+        <li>Poisson, porque se cuenta una cantidad de piezas</li>
+        <li>Binomial, porque cada pieza es de A o de B</li>
+      </ul>
+      <div class="p-pista"><p>Binomial pide \(p\) constante. Recién viste que acá \(p\) pasa de \(5/10\) a \(4/9\).</p></div>
+      <div class="p-explicacion">
+        <p>
+          Hipergeométrica. El enunciado da un <em>total concreto</em> (10 piezas, 5 de cada proveedor) y
+          se saca sin reposición. Una binomial \(Bi(6;\ 0{,}5)\) daría números parecidos pero distintos.
+        </p>
+      </div>
+    </li>
+    <li data-inciso="a" data-nivel="principiante" data-respuesta="10">
+      <div class="p-consigna"><p>\(N\) es el tamaño de la población. ¿Cuánto vale?</p></div>
+      <div class="p-pista"><p>El lote se arma con 5 piezas de A y 5 de B, juntas.</p></div>
+      <div class="p-explicacion"><p>\(N = 5 + 5 = 10\) piezas.</p></div>
+    </li>
+    <li data-inciso="a" data-nivel="principiante" data-respuesta="5">
+      <div class="p-consigna"><p>\(k\) es la cantidad de &ldquo;éxitos&rdquo; en la población (lo que cuenta \(X\)). ¿Cuánto vale?</p></div>
+      <div class="p-pista"><p>\(X\) cuenta piezas del proveedor A. ¿Cuántas de A hay en el lote?</p></div>
+      <div class="p-explicacion"><p>\(k = 5\) piezas de A.</p></div>
+    </li>
+    <li data-inciso="a" data-nivel="principiante" data-respuesta="6">
+      <div class="p-consigna"><p>\(n\) es el tamaño de la muestra. ¿Cuánto vale?</p></div>
+      <div class="p-pista"><p>¿Cuántas piezas se eligen para el armado?</p></div>
+      <div class="p-explicacion"><p>\(n = 6\) piezas elegidas.</p></div>
+    </li>
+    <li data-inciso="a" data-nivel="avanzado">
+      <div class="p-consigna"><p>¿Qué distribución sigue \(X\), con sus parámetros?</p></div>
+      <ul class="p-opciones">
+        <li data-correcta>\(H(N = 10,\ k = 5,\ n = 6)\)</li>
+        <li>\(H(N = 10,\ k = 6,\ n = 5)\)</li>
+        <li>\(H(N = 6,\ k = 5,\ n = 10)\)</li>
+        <li>\(Bi(n = 6,\ p = 0{,}5)\)</li>
+      </ul>
+      <div class="p-pista"><p>\(N\) = población, \(k\) = cuántos son de A, \(n\) = cuántos se eligen.</p></div>
+      <div class="p-explicacion">
+        <p>
+          Hipergeométrica con \(N = 10\) piezas, \(k = 5\) de A y \(n = 6\) elegidas. No es binomial:
+          sin reposición, la probabilidad de sacar una de A cambia en cada extracción.
+        </p>
+      </div>
+    </li>
+    <li data-inciso="a" data-nivel="avanzado">
+      <div class="p-consigna"><p>¿Cuál es la fórmula de \(P(X = x)\)?</p></div>
+      <ul class="p-opciones">
+        <li data-correcta>\(\dfrac{\binom{5}{x}\binom{5}{6-x}}{\binom{10}{6}}\)</li>
+        <li>\(\dfrac{\binom{5}{x}\binom{5}{6-x}}{\binom{10}{5}}\)</li>
+        <li>\(\dfrac{\binom{6}{x}\binom{4}{5-x}}{\binom{10}{5}}\)</li>
+        <li>\(\binom{6}{x}(0{,}5)^{x}(0{,}5)^{6-x}\)</li>
+      </ul>
+      <div class="p-pista">
+        <p>
+          General: \(P(X = x) = \dfrac{\binom{k}{x}\binom{N-k}{n-x}}{\binom{N}{n}}\). Casos favorables
+          (x de A y el resto de B) sobre casos posibles (todas las formas de elegir 6 de 10).
+        </p>
+      </div>
+      <div class="p-explicacion">
+        <p>
+          \(\binom{5}{x}\): formas de elegir \(x\) piezas de las 5 de A. \(\binom{5}{6-x}\): formas de
+          completar las 6 con piezas de B. \(\binom{10}{6}\): todas las formas de elegir 6 piezas de 10.
+        </p>
+      </div>
+    </li>
+    <li data-inciso="a" data-nivel="medio" data-respuesta="1">
+      <div class="p-consigna"><p>¿Cuál es el <strong>menor</strong> valor que puede tomar \(X\)?</p></div>
+      <div class="p-pista">
+        <p>
+          Mínimo: \(\max(0,\ n - (N-k))\). Pensalo así: si se eligen 6 piezas y de B hay solo 5,
+          ¿pueden ser todas de B?
+        </p>
+      </div>
+      <div class="p-explicacion">
+        <p>
+          \(\max(0,\ 6 - 5) = 1\). Para que \(X = 0\), las 6 piezas tendrían que ser de B, pero de B hay
+          solo 5. Siempre entra al menos una de A.
+        </p>
+      </div>
+    </li>
+    <li data-inciso="a" data-nivel="medio" data-respuesta="5">
+      <div class="p-consigna"><p>¿Cuál es el <strong>mayor</strong> valor que puede tomar \(X\)?</p></div>
+      <div class="p-pista"><p>Máximo: \(\min(k,\ n)\). Se eligen 6, pero ¿cuántas de A hay?</p></div>
+      <div class="p-explicacion"><p>\(\min(5,\ 6) = 5\). No puede haber 6 piezas de A si solo hay 5.</p></div>
+    </li>
+    <li data-inciso="a" data-nivel="avanzado">
+      <div class="p-consigna"><p>¿Para qué valores de \(X\) es válida la fórmula?</p></div>
+      <ul class="p-opciones">
+        <li data-correcta>\(x = 1, 2, 3, 4, 5\)</li>
+        <li>\(x = 0, 1, 2, 3, 4, 5, 6\)</li>
+        <li>\(x = 0, 1, 2, 3, 4, 5\)</li>
+        <li>\(x = 1, 2, 3, 4, 5, 6\)</li>
+      </ul>
+      <div class="p-pista"><p>\(\max(0,\ n-(N-k)) \leq x \leq \min(k,\ n)\).</p></div>
+      <div class="p-explicacion">
+        <p>
+          De \(\max(0,\ 6-5) = 1\) a \(\min(5,\ 6) = 5\). El 0 no entra (de B hay solo 5) y el 6 tampoco
+          (de A hay solo 5). Es la parte del inciso que casi todos se olvidan.
+        </p>
+      </div>
+    </li>
+
+    <!-- ===== Inciso b: exactamente 4 ===== -->
+    <li data-inciso="b" data-nivel="principiante">
+      <div class="p-consigna"><p>&ldquo;Sólo 4 sean del proveedor A&rdquo;, ¿cómo se escribe?</p></div>
+      <ul class="p-opciones">
+        <li data-correcta>\(P(X = 4)\)</li>
+        <li>\(P(X \leq 4)\)</li>
+        <li>\(P(X \geq 4)\)</li>
+        <li>\(P(X &lt; 4)\)</li>
+      </ul>
+      <div class="p-pista"><p>&ldquo;Sólo 4&rdquo; quiere decir 4, ni más ni menos.</p></div>
+      <div class="p-explicacion"><p>Es un valor puntual: \(P(X = 4)\), exactamente 4.</p></div>
+    </li>
+    <li data-inciso="b" data-nivel="principiante" data-respuesta="2">
+      <div class="p-consigna"><p>Si 4 de las 6 piezas son de A, ¿cuántas son de B?</p></div>
+      <div class="p-pista"><p>Las 6 elegidas se reparten entre A y B.</p></div>
+      <div class="p-explicacion"><p>\(6 - 4 = 2\) de B. Es el \(n - x\) del segundo combinatorio.</p></div>
+    </li>
+    <li data-inciso="b" data-nivel="principiante" data-respuesta="5">
+      <div class="p-consigna"><p>Calculá \(\binom{5}{4}\): formas de elegir 4 de las 5 piezas de A.</p></div>
+      <div class="p-pista"><p>En la calculadora: 5 nCr 4. O pensalo al revés: elegir 4 de 5 es elegir cuál 1 queda afuera.</p></div>
+      <div class="p-explicacion"><p>\(\binom{5}{4} = 5\).</p></div>
+    </li>
+    <li data-inciso="b" data-nivel="principiante" data-respuesta="10">
+      <div class="p-consigna"><p>Calculá \(\binom{5}{2}\): formas de elegir 2 de las 5 piezas de B.</p></div>
+      <div class="p-pista"><p>\(\frac{5 \cdot 4}{2 \cdot 1}\).</p></div>
+      <div class="p-explicacion"><p>\(\binom{5}{2} = \frac{5 \cdot 4}{2} = 10\).</p></div>
+    </li>
+    <li data-inciso="b" data-nivel="medio" data-respuesta="210">
+      <div class="p-consigna"><p>Calculá el denominador \(\binom{10}{6}\): todas las formas de elegir 6 piezas de 10.</p></div>
+      <div class="p-pista"><p>En la calculadora: 10 nCr 6. Da lo mismo que \(\binom{10}{4} = \frac{10 \cdot 9 \cdot 8 \cdot 7}{4 \cdot 3 \cdot 2 \cdot 1}\).</p></div>
+      <div class="p-explicacion"><p>\(\binom{10}{6} = 210\). Es el mismo denominador para todos los valores de \(x\).</p></div>
+    </li>
+    <li data-inciso="b" data-nivel="avanzado" data-respuesta="0,2381">
+      <div class="p-consigna"><p>Calculá \(P(X = 4)\).</p></div>
+      <div class="p-pista"><p>\(\dfrac{\binom{5}{4}\binom{5}{2}}{\binom{10}{6}} = \dfrac{5 \cdot 10}{210}\).</p></div>
+      <div class="p-explicacion"><p>\(P(X = 4) = \frac{5 \cdot 10}{210} = \frac{50}{210} = 0{,}2381\).</p></div>
+    </li>
+
+    <!-- ===== Inciso c: al menos 4 ===== -->
+    <li data-inciso="c" data-nivel="medio">
+      <div class="p-consigna"><p>¿Qué valores de \(X\) entran en &ldquo;al menos 4&rdquo;?</p></div>
+      <ul class="p-opciones">
+        <li data-correcta>Solo \(x = 4\) y \(x = 5\)</li>
+        <li>\(x = 4, 5, 6\)</li>
+        <li>\(x = 4, 5, 6, \ldots\) sin tope</li>
+        <li>\(x = 1, 2, 3, 4\)</li>
+      </ul>
+      <div class="p-pista"><p>&ldquo;Al menos 4&rdquo; es 4 o más. Pero acordate del recorrido del inciso a.</p></div>
+      <div class="p-explicacion"><p>\(P(X \geq 4) = P(X = 4) + P(X = 5)\). El recorrido se corta en 5: no hay 6 piezas de A.</p></div>
+    </li>
+    <li data-inciso="c" data-nivel="principiante">
+      <div class="p-consigna"><p>¿Conviene calcularlo directo o por el complemento \(1 - P(X \leq 3)\)?</p></div>
+      <ul class="p-opciones">
+        <li data-correcta>Directo: son 2 términos (\(x = 4, 5\)) contra 3 del complemento (\(x = 1, 2, 3\))</li>
+        <li>Por el complemento: con &ldquo;al menos&rdquo; siempre se usa</li>
+        <li>Por el complemento, buscando \(P(X \leq 3)\) en la tabla acumulada</li>
+        <li>Da lo mismo la cantidad de cuentas</li>
+      </ul>
+      <div class="p-pista">
+        <p>
+          El complemento es &ldquo;todo lo que no&rdquo;: \(P(X \geq 4) = 1 - P(X \leq 3)\), porque las
+          probabilidades de todo el recorrido suman 1. Contá cuántos términos tiene cada camino.
+        </p>
+      </div>
+      <div class="p-explicacion">
+        <p>
+          Directo. El complemento pediría \(P(1) + P(2) + P(3)\), y la hipergeométrica no tiene tabla
+          acumulada: todo se calcula a mano. Antes de arrancar, elegí el camino más corto.
+        </p>
+      </div>
+    </li>
+    <li data-inciso="c" data-nivel="principiante" data-respuesta="5">
+      <div class="p-consigna"><p>Casos favorables de \(X = 5\): calculá \(\binom{5}{5}\binom{5}{1}\).</p></div>
+      <div class="p-pista"><p>5 de las 5 de A (una sola forma) y 1 de las 5 de B.</p></div>
+      <div class="p-explicacion"><p>\(\binom{5}{5}\binom{5}{1} = 1 \cdot 5 = 5\).</p></div>
+    </li>
+    <li data-inciso="c" data-nivel="medio" data-respuesta="0,0238">
+      <div class="p-consigna"><p>Calculá \(P(X = 5)\).</p></div>
+      <div class="p-pista"><p>\(\dfrac{\binom{5}{5}\binom{5}{1}}{\binom{10}{6}}\), con el mismo denominador 210.</p></div>
+      <div class="p-explicacion"><p>\(P(X = 5) = \frac{1 \cdot 5}{210} = 0{,}0238\).</p></div>
+    </li>
+    <li data-inciso="c" data-nivel="avanzado" data-respuesta="0,2619">
+      <div class="p-consigna"><p>Calculá \(P(X \geq 4)\).</p></div>
+      <div class="p-pista"><p>\(P(X = 4) + P(X = 5) = 0{,}2381 + 0{,}0238\).</p></div>
+      <div class="p-explicacion"><p>\(P(X \geq 4) = \frac{50}{210} + \frac{5}{210} = \frac{55}{210} = 0{,}2619\).</p></div>
+    </li>
+  </ol>
+</article>

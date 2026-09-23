@@ -155,8 +155,27 @@ def revisar_preguntas(texto, ids_vistos):
             problemas.append("%s: data-origen tiene que ser parcial o final" % pid)
 
         if atributo("etapa") != "1":
-            if atributo("tipo") not in ("teoria", "practica"):
-                problemas.append("%s: data-tipo tiene que ser teoria o practica" % pid)
+            tipo = atributo("tipo")
+            if tipo not in ("teoria", "practica", "ejercicio"):
+                problemas.append("%s: data-tipo tiene que ser teoria, practica o ejercicio" % pid)
+            if tipo == "ejercicio":
+                # cada paso dice su inciso, y todo inciso tiene su resultado en avanzado
+                pasos = re.findall(r'<li([^>]*data-nivel="[^"]*"[^>]*)>', sin_comentarios)
+                if not pasos:
+                    problemas.append("%s: un ejercicio necesita sus pasos (ol.p-pasos)" % pid)
+                incisos, con_avanzado = [], set()
+                for attrs in pasos:
+                    inc = re.search(r'data-inciso="([^"]+)"', attrs)
+                    if not inc:
+                        problemas.append("%s: hay un paso sin data-inciso" % pid)
+                        continue
+                    if inc.group(1) not in incisos:
+                        incisos.append(inc.group(1))
+                    if 'data-nivel="avanzado"' in attrs:
+                        con_avanzado.add(inc.group(1))
+                for inc in incisos:
+                    if inc not in con_avanzado:
+                        problemas.append("%s: el inciso %s no tiene ningun paso avanzado" % (pid, inc))
             continue
 
         formato = atributo("formato")

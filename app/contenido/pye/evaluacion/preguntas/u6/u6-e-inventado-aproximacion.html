@@ -1,0 +1,191 @@
+<article class="preg" data-id="u6-e-inventado-aproximacion" data-tipo="ejercicio" data-origen="parcial">
+  <div class="p-enunciado">
+    <p>
+      En un servicio técnico se sabe que el <strong>10&nbsp;%</strong> de las notebooks que ingresan
+      tiene una <strong>falla de disco</strong>. En un año ingresan \(n = 400\) notebooks, que se
+      comportan de forma independiente.
+    </p>
+    <p>
+      <strong>a)</strong> Justifique si la cantidad de notebooks con falla de disco puede aproximarse
+      por una distribución normal, y dé sus parámetros \(\mu\) y \(\sigma\).
+    </p>
+    <p><strong>b)</strong> ¿Cuál es la probabilidad de que al menos 48 notebooks tengan falla de disco?</p>
+    <p><strong>c)</strong> ¿Cuál es la probabilidad de que entre 33 y 44 notebooks, ambos inclusive, tengan falla de disco?</p>
+    <p class="p-fuente">Inventado, estilo del Segundo Parcial 2023, Ej. 6 b</p>
+  </div>
+  <div class="p-explicacion">
+    <p>\(X \sim Bi(400;\ 0{,}10)\), aproximada por una Normal con corrección por continuidad:</p>
+    <div class="tabla-wrap">
+      <table class="t full">
+        <tr><th>Inciso</th><th>Planteo</th><th>Resultado</th></tr>
+        <tr><td class="lbl">a) Justificación</td><td>Tabla binomial hasta \(n = 20\)</td><td>\(n = 400 \geq 30\), \(np = 40 \geq 5\), \(n(1-p) = 360 \geq 5\) &rArr; se aproxima por la Normal</td></tr>
+        <tr><td class="lbl">a) Parámetros</td><td>\(\mu = np\); \(\sigma = \sqrt{np(1-p)}\)</td><td>\(\mu = \mathbf{40}\); \(\sigma = \sqrt{36} = \mathbf{6}\)</td></tr>
+        <tr><td class="lbl">b) Al menos 48</td><td>\(P(Y &gt; 47{,}5)\), \(z = 1{,}25\)</td><td>\(1 - 0{,}8944 = \mathbf{0{,}1056}\)</td></tr>
+        <tr><td class="lbl">c) Entre 33 y 44</td><td>\(P(32{,}5 &lt; Y &lt; 44{,}5)\), \(z_1 = -1{,}25;\ z_2 = 0{,}75\)</td><td>\(0{,}7734 - 0{,}1056 = \mathbf{0{,}6678}\)</td></tr>
+      </table>
+    </div>
+  </div>
+  <ol class="p-pasos">
+    <li data-inciso="a" data-nivel="principiante">
+      <div class="p-consigna"><p>a) \(X\) = cantidad de notebooks con falla de disco entre las 400. ¿Qué modelo tiene \(X\)?</p></div>
+      <ul class="p-opciones">
+        <li>Normal con \(\mu = 0{,}10\)</li>
+        <li data-correcta>Binomial con \(n = 400\) y \(p = 0{,}10\)</li>
+        <li>Poisson con \(\lambda = 400\)</li>
+      </ul>
+      <div class="p-pista"><p>Número fijo de pruebas independientes, cada una con falla o sin falla, con la misma probabilidad.</p></div>
+      <div class="p-explicacion"><p>\(X \sim Bi(400;\ 0{,}10)\). La Normal entra como aproximación.</p></div>
+    </li>
+    <li data-inciso="a" data-nivel="principiante">
+      <div class="p-consigna"><p>¿Por qué no se calcula directo con la tabla binomial de la cátedra?</p></div>
+      <ul class="p-opciones">
+        <li>Porque la binomial no sirve para porcentajes</li>
+        <li data-correcta>Porque la tabla llega hasta \(n = 20\), y sumar a mano cientos de términos es inviable</li>
+        <li>Porque \(p\) es menor que 0,5</li>
+      </ul>
+      <div class="p-pista"><p>Acordate hasta qué \(n\) llegan las tablas de la Unidad 5.</p></div>
+      <div class="p-explicacion"><p>La tabla llega hasta \(n = 20\). Con \(n = 400\) hay que aproximar.</p></div>
+    </li>
+    <li data-inciso="a" data-nivel="avanzado" data-respuesta="40">
+      <div class="p-consigna"><p>a) Calculá \(\mu = np\), la media de la Normal que aproxima.</p></div>
+      <div class="p-pista"><p>\(400 \cdot 0{,}10\).</p></div>
+      <div class="p-explicacion"><p>\(\mu = np = 40\). Y como \(np = 40 \geq 5\), ya se cumple una de las condiciones.</p></div>
+    </li>
+    <li data-inciso="a" data-nivel="medio" data-respuesta="360">
+      <div class="p-consigna"><p>Calculá \(n(1-p)\) para la otra condición.</p></div>
+      <div class="p-pista"><p>\(1 - p = 0{,}90\); multiplicalo por 400.</p></div>
+      <div class="p-explicacion"><p>\(n(1-p) = 400 \cdot 0{,}90 = 360 \geq 5\) &#10003;.</p></div>
+    </li>
+    <li data-inciso="a" data-nivel="principiante">
+      <div class="p-consigna"><p>La cátedra pide además que \(n\) sea grande. ¿Se cumple?</p></div>
+      <ul class="p-opciones">
+        <li data-correcta>Sí: \(n = 400 \geq 30\)</li>
+        <li>No: con \(p = 0{,}10\) haría falta \(p\) cercano a 0,5</li>
+        <li>No se puede saber sin \(\sigma\)</li>
+      </ul>
+      <div class="p-pista"><p>La condición de la cátedra es \(n \geq 30\).</p></div>
+      <div class="p-explicacion"><p>\(n = 400 \geq 30\) &#10003;. Que \(p\) no sea 0,5 no molesta: lo que importa es que \(np\) y \(n(1-p)\) queden lejos de las puntas, y lo están.</p></div>
+    </li>
+    <li data-inciso="a" data-nivel="avanzado">
+      <div class="p-consigna"><p>a) ¿Cuál es la justificación correcta para aproximar por la Normal?</p></div>
+      <ul class="p-opciones">
+        <li>Se puede porque toda binomial es normal</li>
+        <li>No se puede, porque \(p = 0{,}10\) está lejos de 0,5</li>
+        <li>Se aproxima por Poisson, porque \(p\) es chico</li>
+        <li data-correcta>Se puede: \(n = 400 \geq 30\), \(np = 40 \geq 5\) y \(n(1-p) = 360 \geq 5\); y al pasar de discreta a continua se corrige por continuidad</li>
+      </ul>
+      <div class="p-pista"><p>Hay que mostrar las condiciones con números, no solo nombrarlas.</p></div>
+      <div class="p-explicacion"><p>Las tres condiciones se cumplen. Poisson se usa cuando \(p\) es chico <em>y</em> \(np &lt; 5\); acá \(np = 40\), así que no corresponde.</p></div>
+    </li>
+    <li data-inciso="a" data-nivel="principiante" data-respuesta="36">
+      <div class="p-consigna"><p>Calculá la varianza \(\sigma^{2} = np(1-p)\).</p></div>
+      <div class="p-pista"><p>\(40 \cdot 0{,}90\).</p></div>
+      <div class="p-explicacion"><p>\(\sigma^{2} = 40 \cdot 0{,}90 = 36\).</p></div>
+    </li>
+    <li data-inciso="a" data-nivel="avanzado" data-respuesta="6">
+      <div class="p-consigna"><p>a) Calculá \(\sigma = \sqrt{np(1-p)}\), el desvío de la Normal que aproxima.</p></div>
+      <div class="p-pista"><p>Raíz de \(400 \cdot 0{,}10 \cdot 0{,}90\).</p></div>
+      <div class="p-explicacion"><p>\(\sigma = \sqrt{36} = 6\).</p></div>
+    </li>
+    <li data-inciso="b" data-nivel="principiante">
+      <div class="p-consigna"><p>b) &ldquo;Al menos 48&rdquo;: ¿qué valores enteros de \(X\) entran?</p></div>
+      <ul class="p-opciones">
+        <li>0, 1, &hellip;, 48</li>
+        <li>49, 50, &hellip;, 400 (el 48 no)</li>
+        <li data-correcta>48, 49, &hellip;, 400 (el 48 sí)</li>
+      </ul>
+      <div class="p-pista"><p>&ldquo;Al menos&rdquo; es \(\geq\).</p></div>
+      <div class="p-explicacion"><p>\(X \geq 48\): del 48 para arriba, con el 48 incluido.</p></div>
+    </li>
+    <li data-inciso="b" data-nivel="avanzado" data-respuesta="47,5">
+      <div class="p-consigna"><p>b) Con la corrección por continuidad, ¿qué borde se usa en la Normal para \(P(X \geq 48)\)?</p></div>
+      <div class="p-pista"><p>La barra del 48 va de 47,5 a 48,5. Corré el borde medio punto hacia afuera del grupo que querés conservar.</p></div>
+      <div class="p-explicacion"><p>Para que el 48 entre entero: \(P(X \geq 48) \approx P(Y &gt; 47{,}5)\). Si cortaras en 48,5 perderías la barra del 48.</p></div>
+    </li>
+    <li data-inciso="b" data-nivel="medio">
+      <div class="p-consigna"><p>\(P(Y &gt; 47{,}5)\): ¿qué área se busca?</p></div>
+      <ul class="p-opciones">
+        <li>A la izquierda: \(F(z)\)</li>
+        <li data-correcta>A la derecha: \(1 - F(z)\)</li>
+        <li>Entre dos valores: \(F(z_2) - F(z_1)\)</li>
+      </ul>
+      <div class="p-pista"><p>&ldquo;Mayor que&rdquo; es la cola de arriba.</p></div>
+      <div class="p-explicacion"><p>Cola derecha: \(1 - F(z)\).</p></div>
+    </li>
+    <li data-inciso="b" data-nivel="principiante" data-respuesta="7,5">
+      <div class="p-consigna"><p>Calculá \(x - \mu\) con el borde corregido.</p></div>
+      <div class="p-pista"><p>\(47{,}5 - 40\).</p></div>
+      <div class="p-explicacion"><p>\(47{,}5 - 40 = 7{,}5\).</p></div>
+    </li>
+    <li data-inciso="b" data-nivel="medio" data-respuesta="1,25" data-tolerancia="0,01">
+      <div class="p-consigna"><p>Estandarizá: ¿cuánto vale \(z\)?</p></div>
+      <div class="p-pista"><p>\(z = \frac{47{,}5 - 40}{6}\).</p></div>
+      <div class="p-explicacion"><p>\(z = \frac{7{,}5}{6} = 1{,}25\).</p></div>
+    </li>
+    <li data-inciso="b" data-nivel="medio" data-respuesta="0,8944" data-tolerancia="0,0005">
+      <div class="p-consigna"><p>Buscá en la tabla \(F(1{,}25)\).</p></div>
+      <div class="p-pista"><p>Fila 1,2 y columna 0,05.</p></div>
+      <div class="p-explicacion"><p>\(F(1{,}25) = 0{,}8944\).</p></div>
+    </li>
+    <li data-inciso="b" data-nivel="avanzado" data-respuesta="0,1056" data-tolerancia="0,0005">
+      <div class="p-consigna"><p>b) ¿Cuánto vale \(P(X \geq 48)\), la probabilidad de que al menos 48 notebooks tengan falla de disco?</p></div>
+      <div class="p-pista"><p>Borde 47,5, \(z = \frac{47{,}5 - \mu}{\sigma}\) y cola derecha.</p></div>
+      <div class="p-explicacion"><p>\(P(X \geq 48) \approx P(Y &gt; 47{,}5) = 1 - F(1{,}25) = 1 - 0{,}8944 = 0{,}1056\).</p></div>
+    </li>
+    <li data-inciso="c" data-nivel="principiante">
+      <div class="p-consigna"><p>c) &ldquo;Entre 33 y 44, ambos inclusive&rdquo;: ¿qué valores enteros entran?</p></div>
+      <ul class="p-opciones">
+        <li data-correcta>33, 34, &hellip;, 44 (los dos extremos entran)</li>
+        <li>34, 35, &hellip;, 43 (los extremos no)</li>
+        <li>33, 34, &hellip;, 43 (el 44 no)</li>
+      </ul>
+      <div class="p-pista"><p>&ldquo;Ambos inclusive&rdquo; quiere decir que el 33 y el 44 cuentan.</p></div>
+      <div class="p-explicacion"><p>\(33 \leq X \leq 44\): entran las barras del 33 y del 44 completas.</p></div>
+    </li>
+    <li data-inciso="c" data-nivel="medio" data-respuesta="32,5">
+      <div class="p-consigna"><p>¿Cuál es el borde <strong>inferior</strong> corregido?</p></div>
+      <div class="p-pista"><p>El 33 entra: el borde va medio punto por debajo.</p></div>
+      <div class="p-explicacion"><p>La barra del 33 empieza en 32,5.</p></div>
+    </li>
+    <li data-inciso="c" data-nivel="medio" data-respuesta="44,5">
+      <div class="p-consigna"><p>¿Y el borde <strong>superior</strong> corregido?</p></div>
+      <div class="p-pista"><p>El 44 entra: el borde va medio punto por arriba.</p></div>
+      <div class="p-explicacion"><p>La barra del 44 termina en 44,5. Queda \(P(33 \leq X \leq 44) \approx P(32{,}5 &lt; Y &lt; 44{,}5)\): los dos bordes se corren hacia afuera.</p></div>
+    </li>
+    <li data-inciso="c" data-nivel="principiante">
+      <div class="p-consigna"><p>\(P(32{,}5 &lt; Y &lt; 44{,}5)\): ¿cómo se calcula con la tabla?</p></div>
+      <ul class="p-opciones">
+        <li>\(1 - F(z_2)\)</li>
+        <li>\(F(z_1) - F(z_2)\)</li>
+        <li data-correcta>\(F(z_2) - F(z_1)\), con \(z_1\) el de 32,5 y \(z_2\) el de 44,5</li>
+      </ul>
+      <div class="p-pista"><p>Tramo del medio: el área hasta el mayor menos la que sobra abajo.</p></div>
+      <div class="p-explicacion"><p>Entre dos valores: \(F(z_2) - F(z_1)\).</p></div>
+    </li>
+    <li data-inciso="c" data-nivel="medio" data-respuesta="-1,25" data-tolerancia="0,01">
+      <div class="p-consigna"><p>¿Cuánto vale \(z_1\), el de 32,5?</p></div>
+      <div class="p-pista"><p>\(z_1 = \frac{32{,}5 - 40}{6}\).</p></div>
+      <div class="p-explicacion"><p>\(z_1 = \frac{-7{,}5}{6} = -1{,}25\).</p></div>
+    </li>
+    <li data-inciso="c" data-nivel="medio" data-respuesta="0,75" data-tolerancia="0,01">
+      <div class="p-consigna"><p>¿Cuánto vale \(z_2\), el de 44,5?</p></div>
+      <div class="p-pista"><p>\(z_2 = \frac{44{,}5 - 40}{6}\).</p></div>
+      <div class="p-explicacion"><p>\(z_2 = \frac{4{,}5}{6} = 0{,}75\).</p></div>
+    </li>
+    <li data-inciso="c" data-nivel="principiante" data-respuesta="0,1056" data-tolerancia="0,0005">
+      <div class="p-consigna"><p>¿Cuánto vale \(F(-1{,}25)\)? Podés sacarlo por simetría con lo del inciso b.</p></div>
+      <div class="p-pista"><p>\(F(-1{,}25) = 1 - F(1{,}25)\).</p></div>
+      <div class="p-explicacion"><p>\(F(-1{,}25) = 1 - 0{,}8944 = 0{,}1056\).</p></div>
+    </li>
+    <li data-inciso="c" data-nivel="medio" data-respuesta="0,7734" data-tolerancia="0,0005">
+      <div class="p-consigna"><p>Buscá en la tabla \(F(0{,}75)\).</p></div>
+      <div class="p-pista"><p>Fila 0,7 y columna 0,05.</p></div>
+      <div class="p-explicacion"><p>\(F(0{,}75) = 0{,}7734\).</p></div>
+    </li>
+    <li data-inciso="c" data-nivel="avanzado" data-respuesta="0,6678" data-tolerancia="0,0005">
+      <div class="p-consigna"><p>c) ¿Cuánto vale \(P(33 \leq X \leq 44)\), la probabilidad de que entre 33 y 44 notebooks (ambos inclusive) tengan falla de disco?</p></div>
+      <div class="p-pista"><p>Bordes corregidos 32,5 y 44,5, un \(z\) para cada uno y \(F(z_2) - F(z_1)\).</p></div>
+      <div class="p-explicacion"><p>\(P(33 \leq X \leq 44) \approx F(0{,}75) - F(-1{,}25) = 0{,}7734 - 0{,}1056 = 0{,}6678\).</p></div>
+    </li>
+  </ol>
+</article>

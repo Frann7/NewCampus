@@ -8,7 +8,11 @@
    demas queda bloqueado: las dos etapas no se parecen en nada.
      1ra  cuestionario del Aula Virtual: sin modo interactivo, sin tipos,
           se corrige al entregar sobre 100 puntos
-     2da  escrito: normal o interactivo, teoria y practica
+     2da  escrito, en tres maneras:
+            normal, estilo "parcial"   enunciado y opciones
+            normal, estilo "guiado"    con pistas, vidas y pasos (el interactivo de antes)
+            interactivo                un ejercicio de parcial completo, por partes
+          En normal se puede sumar la navegacion libre (saltear y volver).
    Los pasos que no corresponden a la etapa elegida se esconden (data-etapa)
    y los numeros de los pasos se recalculan.
    ============================================================ */
@@ -18,16 +22,24 @@
 
   var POR_DEFECTO = {
     etapa: null, cantCuestionario: 8,
-    modo: "normal", nivel: "medio", fallos: 3, verRespuesta: true,
+    modo: "normal", estilo: "parcial", navLibre: false, cantEjercicios: 2,
+    nivel: "medio", fallos: 3, verRespuesta: true,
     unidades: [], teoria: false, practica: false,
     reparto: "separado", cantTeoria: 5, cantPractica: 3, cantMezcla: 8,
     orden: "aleatorio", conTiempo: false, minutos: 30
   };
 
   var AYUDA_NIVEL = {
-    principiante: "Divide cada ejercicio en muchos pasos chicos, cuenta por cuenta.",
-    medio: "Divide cada ejercicio en los pasos intermedios importantes.",
-    avanzado: "Solo pide las partes principales del ejercicio."
+    guiado: {
+      principiante: "Divide cada ejercicio en muchos pasos chicos, cuenta por cuenta.",
+      medio: "Divide cada ejercicio en los pasos intermedios importantes.",
+      avanzado: "Solo pide las partes principales del ejercicio."
+    },
+    interactivo: {
+      principiante: "Muchos pasos chicos: cada suma, cada resta, cada valor de tabla.",
+      medio: "Cada inciso en sus resultados intermedios importantes.",
+      avanzado: "Solo el resultado de cada inciso, como en el parcial."
+    }
   };
 
   var BLOQUEADO = '<p class="ae-motivo">Elegí primero la etapa del parcial.</p>';
@@ -60,12 +72,26 @@
     '  <div class="ae-modos">' +
     '    <label class="ae-modo"><input type="radio" name="modo" value="normal">' +
     '      <span class="ae-modo-tit">Normal</span>' +
-    '      <span class="ae-modo-desc">Enunciado completo y opciones, como en un examen.</span></label>' +
+    '      <span class="ae-modo-desc">Preguntas sueltas sacadas de los parciales: teoría y práctica, con opciones.</span></label>' +
     '    <label class="ae-modo"><input type="radio" name="modo" value="interactivo">' +
     '      <span class="ae-modo-tit">Interactivo</span>' +
-    '      <span class="ae-modo-desc">Te guía por partes: pistas, cuentas paso a paso y reintentos.</span></label>' +
+    '      <span class="ae-modo-desc">Un ejercicio de parcial completo, con todos sus incisos, que se va desglosando en partes. Cuanto más fácil el nivel, más pasos.</span></label>' +
     '  </div>' +
-    '  <div class="ae-sub" data-solo-interactivo hidden>' +
+    '  <div class="ae-sub" data-modo="normal">' +
+    '    <div class="ae-campo">' +
+    '      <span class="ae-etq">Estilo</span>' +
+    '      <div class="ae-segmentos">' +
+    '        <label><input type="radio" name="estilo" value="parcial"><span>Como en el parcial</span></label>' +
+    '        <label><input type="radio" name="estilo" value="guiado"><span>Fáciles y guiadas</span></label>' +
+    '      </div>' +
+    '      <p class="ae-ayuda" data-ayuda-estilo></p>' +
+    '    </div>' +
+    '    <div class="ae-campo">' +
+    '      <label class="ae-check"><input type="checkbox" name="navLibre"><span>Navegación libre: saltear preguntas y volver atrás</span></label>' +
+    '      <p class="ae-ayuda">Opcional. Aparecen las casillas numeradas para ir a cualquier pregunta, y podés terminar cuando quieras. Si la corrección es al final, podés cambiar lo que contestaste hasta terminar.</p>' +
+    '    </div>' +
+    '  </div>' +
+    '  <div class="ae-sub" data-guiado hidden>' +
     '    <div class="ae-campo">' +
     '      <span class="ae-etq">Nivel</span>' +
     '      <div class="ae-segmentos">' +
@@ -89,7 +115,8 @@
     '    <span class="ae-etq">Unidades</span>' +
     '    <div class="ae-caja-unidades" data-unidades></div>' +
     '  </div>' +
-    '  <fieldset class="ae-campo" data-bloque="tipos" data-etapa="2">' +
+    '  <p class="ae-ayuda" data-modo="interactivo" data-etapa="2" data-disp-ejercicios></p>' +
+    '  <fieldset class="ae-campo" data-bloque="tipos" data-etapa="2" data-modo="normal">' +
     '    <span class="ae-etq">Tipo de enunciado</span>' +
     '    <div class="ae-tipos">' +
     '      <label class="ae-chip"><input type="checkbox" name="teoria"><span><b>Teoría</b><small data-disp="teoria"></small></span></label>' +
@@ -106,7 +133,12 @@
     '    <p class="ae-ayuda">El cuestionario real trae 8 preguntas de 12 o 14 puntos. Acá cada pregunta vale lo mismo y la nota se lleva a 100.</p>' +
     '    <p class="ae-motivo">Elegí al menos una unidad para habilitar esto.</p>' +
     '  </fieldset>' +
-    '  <fieldset class="ae-campo" data-bloque="cantidad" data-etapa="2">' +
+    '  <fieldset class="ae-campo" data-bloque="ejercicios" data-etapa="2" data-modo="interactivo">' +
+    '    <label class="ae-cant">Ejercicios <input class="ae-input ae-corto" type="number" name="cantEjercicios" min="1"> <small data-de="ejercicio"></small></label>' +
+    '    <p class="ae-ayuda">Se mezclan ejercicios reales de los parciales y finales con otros inventados con la misma forma. Si uno no lo querés hacer, lo podés saltear entero.</p>' +
+    '    <p class="ae-motivo">Elegí al menos una unidad para habilitar esto.</p>' +
+    '  </fieldset>' +
+    '  <fieldset class="ae-campo" data-bloque="cantidad" data-etapa="2" data-modo="normal">' +
     '    <span class="ae-etq">Cantidad de preguntas</span>' +
     '    <label class="ae-opcion"><input type="radio" name="reparto" value="separado"><span>Por separado</span></label>' +
     '    <div class="ae-cantidades">' +
@@ -120,7 +152,7 @@
     '    <p class="ae-motivo">Marcá Teoría, Práctica o ambas para elegir la cantidad.</p>' +
     '    <p class="ae-ayuda" data-ayuda-mezcla hidden>La mezcla necesita Teoría y Práctica marcadas.</p>' +
     '  </fieldset>' +
-    '  <fieldset class="ae-campo" data-bloque="orden" data-etapa="2">' +
+    '  <fieldset class="ae-campo" data-bloque="orden" data-etapa="2" data-modo="normal">' +
     '    <label class="ae-etq">Orden de las preguntas</label>' +
     '    <select class="ae-input ae-select" name="orden">' +
     '      <option value="aleatorio">Aleatorio</option>' +
@@ -137,7 +169,7 @@
     '  <fieldset class="ae-campo" data-bloque="correccion" data-etapa="2">' +
     '    <label class="ae-check"><input type="checkbox" name="verRespuesta"><span>Mostrar la respuesta correcta después de cada pregunta</span></label>' +
     '    <p class="ae-ayuda">Desactivado: respondés de corrido y en el informe final ves cuáles hiciste bien y qué elegiste.</p>' +
-    '    <p class="ae-motivo">En modo interactivo la corrección siempre es inmediata.</p>' +
+    '    <p class="ae-motivo">En el estilo guiado y en el interactivo la corrección siempre es inmediata.</p>' +
     '  </fieldset>' +
     '  <div class="ae-campo">' +
     '    <span class="ae-etq">Tiempo</span>' +
@@ -191,6 +223,9 @@
       campo("nombre").value = "";
       campo("cantCuestionario").value = c.cantCuestionario;
       form.querySelector('[name="modo"][value="' + c.modo + '"]').checked = true;
+      form.querySelector('[name="estilo"][value="' + c.estilo + '"]').checked = true;
+      campo("navLibre").checked = c.navLibre;
+      campo("cantEjercicios").value = c.cantEjercicios;
       form.querySelector('[name="nivel"][value="' + c.nivel + '"]').checked = true;
       campo("fallos").value = c.fallos;
       form.querySelectorAll('[name="unidad"]').forEach(function (i) { i.checked = c.unidades.indexOf(i.value) !== -1; });
@@ -211,6 +246,9 @@
           etapa: marcado('[name="etapa"]'),
           cantCuestionario: entero(campo("cantCuestionario").value),
           modo: marcado('[name="modo"]'),
+          estilo: marcado('[name="estilo"]'),
+          navLibre: campo("navLibre").checked,
+          cantEjercicios: entero(campo("cantEjercicios").value),
           nivel: marcado('[name="nivel"]'),
           fallos: entero(campo("fallos").value),
           verRespuesta: campo("verRespuesta").checked,
@@ -240,12 +278,18 @@
         Array.prototype.forEach.call(form.querySelectorAll("[data-etapa]"), function (el) {
           el.hidden = el.getAttribute("data-etapa") !== (v.etapa || "2");
         });
+        // y dentro de la 2da, lo de cada modo
+        Array.prototype.forEach.call(form.querySelectorAll("[data-modo]"), function (el) {
+          if (el.getAttribute("data-etapa") && el.hidden) { return; }
+          el.hidden = el.getAttribute("data-modo") !== v.modo;
+        });
         var n = 0;
         Array.prototype.forEach.call(form.querySelectorAll(".ae-paso"), function (f) {
           if (!f.hidden) { f.querySelector(".ae-num").textContent = String(++n); }
         });
         var primera = v.etapa === "1";
         var interactivo = !primera && v.modo === "interactivo";
+        var guiado = !primera && E.guiado(v);
 
         // 1ra etapa: unidades -> cantidad del cuestionario
         bloque("cuestionario").disabled = !v.unidades.length;
@@ -255,8 +299,24 @@
         }
         form.querySelector('[data-de="cuestionario"]').textContent = "de " + disp.cuestionario;
 
-        form.querySelector("[data-solo-interactivo]").hidden = !interactivo;
-        form.querySelector("[data-ayuda-nivel]").textContent = AYUDA_NIVEL[v.nivel];
+        form.querySelector("[data-guiado]").hidden = !guiado;
+        form.querySelector("[data-ayuda-nivel]").textContent =
+          AYUDA_NIVEL[interactivo ? "interactivo" : "guiado"][v.nivel];
+        form.querySelector("[data-ayuda-estilo]").textContent = v.estilo === "guiado"
+          ? "Las mismas preguntas, con pistas, vidas y la práctica resuelta paso a paso según el nivel."
+          : "Enunciado y opciones: respondés y se corrige, como en el examen.";
+
+        // interactivo: unidades -> cantidad de ejercicios
+        var hayUnidadI = v.unidades.length > 0;
+        bloque("ejercicios").disabled = !hayUnidadI;
+        campo("cantEjercicios").max = disp.ejercicio;
+        if (disp.ejercicio > 0 && entero(campo("cantEjercicios").value) > disp.ejercicio) {
+          campo("cantEjercicios").value = disp.ejercicio;
+        }
+        form.querySelector('[data-de="ejercicio"]').textContent = "de " + disp.ejercicio;
+        form.querySelector("[data-disp-ejercicios]").textContent = hayUnidadI
+          ? "Ejercicios completos disponibles en esas unidades: " + disp.ejercicio + "."
+          : "Elegí las unidades y se cuentan los ejercicios disponibles.";
 
         // unidades -> tipos
         var hayUnidad = v.unidades.length > 0;
@@ -295,11 +355,11 @@
         bloque("orden").disabled = !ambos;
 
         // modo -> correccion
-        bloque("correccion").disabled = interactivo;
+        bloque("correccion").disabled = guiado;
 
         campo("minutos").disabled = !v.conTiempo;
 
-        var completo = primera ? hayUnidad : hayTipo;
+        var completo = primera || interactivo ? hayUnidad : hayTipo;
         form.querySelector("[data-resumen]").textContent = !v.etapa
           ? "Elegí la etapa del parcial para empezar."
           : completo ? "Resumen: " + E.resumenConfig(materia, v).join(" · ")
@@ -320,8 +380,17 @@
           if (v.conTiempo && (v.minutos < 1 || v.minutos > MAX_MINUTOS)) { errores.push("El contador va de 1 a 240 minutos (4 horas)."); }
           return errores;
         }
-        if (v.modo === "interactivo" && (v.fallos < 1 || v.fallos > 200)) {
+        if (E.guiado(v) && (v.fallos < 1 || v.fallos > 200)) {
           errores.push("Las vidas van de 1 a 200.");
+        }
+        if (v.modo === "interactivo") {
+          if (!v.unidades.length) { errores.push("Elegí al menos una unidad."); }
+          else if (!disp.ejercicio) { errores.push("No hay ejercicios completos en las unidades elegidas."); }
+          else if (v.cantEjercicios < 1 || v.cantEjercicios > disp.ejercicio) {
+            errores.push("La cantidad de ejercicios tiene que ir de 1 a " + disp.ejercicio + ".");
+          }
+          if (v.conTiempo && (v.minutos < 1 || v.minutos > MAX_MINUTOS)) { errores.push("El contador va de 1 a 240 minutos (4 horas)."); }
+          return errores;
         }
         if (!v.unidades.length) { errores.push("Elegí al menos una unidad."); }
         else if (!v.teoria && !v.practica) { errores.push("Marcá Teoría, Práctica o ambas."); }
@@ -357,6 +426,8 @@
         }
 
         if (v.etapa === "1") { v.modo = "normal"; v.teoria = false; v.practica = false; v.verRespuesta = false; }
+        if (v.modo === "interactivo") { v.teoria = false; v.practica = false; v.navLibre = false; }
+        v.v = 2;   // esquema de modos nuevo (ver E.guiado en nucleo.js)
         var nueva = { id: "ae-" + Date.now().toString(36), materia: materia, creada: Date.now(),
                       nombre: nombre, config: v, historial: [], intento: null };
         if (!E.almacen.guardar(nueva)) {

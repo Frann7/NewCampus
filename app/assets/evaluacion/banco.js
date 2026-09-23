@@ -16,6 +16,7 @@
   // Nivel mas avanzado en el que aparece cada paso. Un paso se muestra si su
   // rango es menor o igual al del nivel elegido.
   var RANGO = { avanzado: 1, medio: 2, principiante: 3 };
+  var TIPOS_2DA = ["teoria", "practica", "ejercicio"];
 
   function html(el) { return el ? el.innerHTML.trim() : ""; }
 
@@ -36,6 +37,7 @@
   function leerPaso(li) {
     return {
       nivel: RANGO[li.getAttribute("data-nivel")] ? li.getAttribute("data-nivel") : "avanzado",
+      inciso: li.getAttribute("data-inciso") || "",   // solo en los ejercicios completos
       consigna: html(hijo(li, "p-consigna")),
       respuesta: li.getAttribute("data-respuesta"),
       tolerancia: li.getAttribute("data-tolerancia"),
@@ -76,7 +78,9 @@
         var p = {
           id: a.getAttribute("data-id"),
           etapa: etapa,
-          tipo: a.getAttribute("data-tipo") === "practica" ? "practica" : "teoria",
+          // teoria / practica: preguntas del modo Normal; ejercicio: un ejercicio
+          // de parcial completo, para el modo Interactivo
+          tipo: TIPOS_2DA.indexOf(a.getAttribute("data-tipo")) !== -1 ? a.getAttribute("data-tipo") : "teoria",
           formato: etapa === "1" ? a.getAttribute("data-formato") : null,
           huecos: etapa === "1" ? leerHuecos(a) : [],
           origen: a.getAttribute("data-origen") === "final" ? "final" : "parcial",
@@ -183,7 +187,7 @@
 
     // Cuantas preguntas hay en esas unidades: las de 2da etapa por tipo, y las de 1ra.
     disponibles: function (materia, unidades) {
-      var r = { teoria: 0, practica: 0, cuestionario: 0 };
+      var r = { teoria: 0, practica: 0, ejercicio: 0, cuestionario: 0 };
       cargar(materia).lista.forEach(function (p) {
         if (unidades.indexOf(p.unidad) === -1) { return; }
         if (p.etapa === "1") { r.cuestionario++; } else { r[p.tipo]++; }
@@ -196,6 +200,11 @@
       var pool = delPool(materia, c);
       if (etapaDe(c) === "1") {
         return mezclarPorOrigen(pool).slice(0, c.cantCuestionario).map(function (p) { return p.id; });
+      }
+      if (c.modo === "interactivo") {
+        // reales e inventados mezclados, con ventaja para lo de parciales
+        return mezclarPorOrigen(pool.filter(function (p) { return p.tipo === "ejercicio"; }))
+          .slice(0, c.cantEjercicios).map(function (p) { return p.id; });
       }
       var teoria = mezclarPorOrigen(pool.filter(function (p) { return p.tipo === "teoria"; }));
       var practica = mezclarPorOrigen(pool.filter(function (p) { return p.tipo === "practica"; }));

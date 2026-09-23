@@ -1,0 +1,210 @@
+<article class="preg" data-id="u5-e-inventado-hipergeometrica" data-tipo="ejercicio" data-origen="parcial">
+  <div class="p-enunciado">
+    <p>
+      Un servidor guarda los <strong>12 archivos de log</strong> del día, de los cuales
+      <strong>4 registran errores críticos</strong>. Un script de auditoría elige <strong>5 archivos al
+      azar</strong>, sin repetir, para revisarlos. Interesa estudiar la variable aleatoria \(X\) que es la
+      &ldquo;cantidad de archivos elegidos que registran errores críticos&rdquo;.
+    </p>
+    <p>
+      <strong>a)</strong> ¿Cuál es la distribución de probabilidad de \(X\)? Diga el nombre de la
+      distribución, sus parámetros y para qué valores de \(X\) es válida.
+    </p>
+    <p><strong>b)</strong> Calcule la probabilidad de que exactamente 2 de los archivos elegidos registren errores críticos.</p>
+    <p><strong>c)</strong> Calcule la probabilidad de que al menos 2 de los archivos elegidos registren errores críticos.</p>
+    <p class="p-fuente">Inventado, estilo del Segundo Parcial 2023, Ej. 4</p>
+  </div>
+  <div class="p-explicacion">
+    <table class="t full">
+      <tr><th>Inciso</th><th>Resultado</th></tr>
+      <tr>
+        <td class="lbl">a) Distribución</td>
+        <td>
+          Hipergeométrica \(H(N = 12,\ k = 4,\ n = 5)\),
+          \(P(X=x) = \dfrac{\binom{4}{x}\binom{8}{5-x}}{\binom{12}{5}}\), válida para \(x = 0, 1, 2, 3, 4\)
+        </td>
+      </tr>
+      <tr><td class="lbl">b) Exactamente 2</td><td>\(P(X = 2) = \frac{336}{792} = \mathbf{0{,}4242}\)</td></tr>
+      <tr><td class="lbl">c) Al menos 2</td><td>\(P(X \geq 2) = 1 - P(0) - P(1) = 1 - \frac{56}{792} - \frac{280}{792} = \mathbf{0{,}5758}\)</td></tr>
+    </table>
+  </div>
+  <ol class="p-pasos">
+
+    <!-- ===== Inciso a: nombre, parametros, recorrido ===== -->
+    <li data-inciso="a" data-nivel="principiante">
+      <div class="p-consigna"><p>¿Cómo elige el script los 5 archivos?</p></div>
+      <ul class="p-opciones">
+        <li data-correcta>Sin reposición: un archivo elegido no se vuelve a elegir</li>
+        <li>Con reposición: puede elegir el mismo archivo dos veces</li>
+        <li>Elige uno por hora durante 5 horas</li>
+        <li>No se puede saber con el enunciado</li>
+      </ul>
+      <div class="p-pista"><p>El enunciado dice &ldquo;sin repetir&rdquo;.</p></div>
+      <div class="p-explicacion"><p>Sin reposición: cada archivo que sale cambia la composición de lo que queda.</p></div>
+    </li>
+    <li data-inciso="a" data-nivel="principiante" data-respuesta="0,2727">
+      <div class="p-consigna"><p>Si el primer archivo elegido tiene errores críticos, ¿cuál es la probabilidad de que el segundo también los tenga?</p></div>
+      <div class="p-pista"><p>Después de sacar uno con errores quedan 11 archivos: ¿cuántos con errores?</p></div>
+      <div class="p-explicacion">
+        <p>
+          Quedan 3 con errores entre 11: \(3/11 = 0{,}2727\). El primero los tenía con \(4/12 = 0{,}3333\):
+          la probabilidad <strong>cambió</strong>, así que no es Binomial.
+        </p>
+      </div>
+    </li>
+    <li data-inciso="a" data-nivel="medio">
+      <div class="p-consigna"><p>¿Qué modelo corresponde a \(X\)?</p></div>
+      <ul class="p-opciones">
+        <li data-correcta>Hipergeométrica: muestra sin reposición de una población finita dividida en dos grupos</li>
+        <li>Binomial con \(p = 4/12\), porque cada archivo tiene errores o no</li>
+        <li>Poisson, porque se cuentan errores</li>
+        <li>Binomial con \(n = 12\)</li>
+      </ul>
+      <div class="p-pista"><p>Binomial pide \(p\) constante. Recién viste que acá pasa de \(4/12\) a \(3/11\).</p></div>
+      <div class="p-explicacion"><p>Hipergeométrica: el enunciado da un total concreto (12 archivos, 4 con errores) y se elige sin reposición.</p></div>
+    </li>
+    <li data-inciso="a" data-nivel="principiante" data-respuesta="12">
+      <div class="p-consigna"><p>\(N\) es el tamaño de la población. ¿Cuánto vale?</p></div>
+      <div class="p-pista"><p>¿Cuántos archivos hay en total?</p></div>
+      <div class="p-explicacion"><p>\(N = 12\) archivos de log.</p></div>
+    </li>
+    <li data-inciso="a" data-nivel="principiante" data-respuesta="4">
+      <div class="p-consigna"><p>\(k\) es la cantidad de &ldquo;éxitos&rdquo; en la población (lo que cuenta \(X\)). ¿Cuánto vale?</p></div>
+      <div class="p-pista"><p>\(X\) cuenta archivos con errores críticos.</p></div>
+      <div class="p-explicacion"><p>\(k = 4\) archivos con errores críticos (y \(N - k = 8\) sin ellos).</p></div>
+    </li>
+    <li data-inciso="a" data-nivel="principiante" data-respuesta="5">
+      <div class="p-consigna"><p>\(n\) es el tamaño de la muestra. ¿Cuánto vale?</p></div>
+      <div class="p-pista"><p>¿Cuántos archivos elige el script?</p></div>
+      <div class="p-explicacion"><p>\(n = 5\) archivos elegidos.</p></div>
+    </li>
+    <li data-inciso="a" data-nivel="avanzado">
+      <div class="p-consigna"><p>¿Qué distribución sigue \(X\), con sus parámetros?</p></div>
+      <ul class="p-opciones">
+        <li data-correcta>\(H(N = 12,\ k = 4,\ n = 5)\)</li>
+        <li>\(H(N = 12,\ k = 5,\ n = 4)\)</li>
+        <li>\(H(N = 5,\ k = 4,\ n = 12)\)</li>
+        <li>\(Bi(n = 5,\ p = 0{,}33)\)</li>
+      </ul>
+      <div class="p-pista"><p>\(N\) = población, \(k\) = cuántos tienen errores, \(n\) = cuántos se eligen.</p></div>
+      <div class="p-explicacion">
+        <p>
+          Hipergeométrica con \(N = 12\), \(k = 4\), \(n = 5\):
+          \(P(X = x) = \dfrac{\binom{4}{x}\binom{8}{5-x}}{\binom{12}{5}}\).
+        </p>
+      </div>
+    </li>
+    <li data-inciso="a" data-nivel="medio" data-respuesta="0">
+      <div class="p-consigna"><p>¿Cuál es el <strong>menor</strong> valor que puede tomar \(X\)?</p></div>
+      <div class="p-pista"><p>Mínimo: \(\max(0,\ n - (N-k))\). ¿Pueden ser los 5 elegidos archivos sin errores?</p></div>
+      <div class="p-explicacion"><p>\(\max(0,\ 5 - 8) = 0\). Hay 8 archivos sin errores, así que los 5 elegidos pueden ser todos limpios.</p></div>
+    </li>
+    <li data-inciso="a" data-nivel="medio" data-respuesta="4">
+      <div class="p-consigna"><p>¿Cuál es el <strong>mayor</strong> valor que puede tomar \(X\)?</p></div>
+      <div class="p-pista"><p>Máximo: \(\min(k,\ n)\). Se eligen 5, pero ¿cuántos con errores hay?</p></div>
+      <div class="p-explicacion"><p>\(\min(4,\ 5) = 4\). No puede haber 5 archivos con errores si solo hay 4.</p></div>
+    </li>
+    <li data-inciso="a" data-nivel="avanzado">
+      <div class="p-consigna"><p>¿Para qué valores de \(X\) es válida la distribución?</p></div>
+      <ul class="p-opciones">
+        <li data-correcta>\(x = 0, 1, 2, 3, 4\)</li>
+        <li>\(x = 0, 1, 2, 3, 4, 5\)</li>
+        <li>\(x = 1, 2, 3, 4\)</li>
+        <li>\(x = 0, 1, \ldots, 12\)</li>
+      </ul>
+      <div class="p-pista"><p>\(\max(0,\ n-(N-k)) \leq x \leq \min(k,\ n)\).</p></div>
+      <div class="p-explicacion"><p>De \(\max(0,\ 5-8) = 0\) a \(\min(4,\ 5) = 4\). El recorrido se corta arriba: no hay 5 archivos con errores.</p></div>
+    </li>
+
+    <!-- ===== Inciso b: exactamente 2 ===== -->
+    <li data-inciso="b" data-nivel="principiante">
+      <div class="p-consigna"><p>&ldquo;Exactamente 2 registren errores críticos&rdquo;, ¿cómo se escribe?</p></div>
+      <ul class="p-opciones">
+        <li data-correcta>\(P(X = 2)\)</li>
+        <li>\(P(X \leq 2)\)</li>
+        <li>\(P(X \geq 2)\)</li>
+        <li>\(P(X = 3)\)</li>
+      </ul>
+      <div class="p-pista"><p>&ldquo;Exactamente&rdquo; es un valor puntual.</p></div>
+      <div class="p-explicacion"><p>\(P(X = 2)\).</p></div>
+    </li>
+    <li data-inciso="b" data-nivel="principiante" data-respuesta="6">
+      <div class="p-consigna"><p>Calculá \(\binom{4}{2}\): formas de elegir 2 de los 4 archivos con errores.</p></div>
+      <div class="p-pista"><p>\(\frac{4 \cdot 3}{2 \cdot 1}\).</p></div>
+      <div class="p-explicacion"><p>\(\binom{4}{2} = 6\).</p></div>
+    </li>
+    <li data-inciso="b" data-nivel="principiante" data-respuesta="56">
+      <div class="p-consigna"><p>Si 2 de los 5 tienen errores, los otros 3 salen de los 8 sin errores. Calculá \(\binom{8}{3}\).</p></div>
+      <div class="p-pista"><p>\(\frac{8 \cdot 7 \cdot 6}{3 \cdot 2 \cdot 1}\).</p></div>
+      <div class="p-explicacion"><p>\(\binom{8}{3} = 56\).</p></div>
+    </li>
+    <li data-inciso="b" data-nivel="medio" data-respuesta="792">
+      <div class="p-consigna"><p>Calculá el denominador \(\binom{12}{5}\): todas las formas de elegir 5 archivos de 12.</p></div>
+      <div class="p-pista"><p>En la calculadora: 12 nCr 5.</p></div>
+      <div class="p-explicacion"><p>\(\binom{12}{5} = 792\). Es el mismo denominador para todos los valores de \(x\).</p></div>
+    </li>
+    <li data-inciso="b" data-nivel="avanzado" data-respuesta="0,4242">
+      <div class="p-consigna"><p>Calculá \(P(X = 2)\).</p></div>
+      <div class="p-pista"><p>\(\dfrac{\binom{4}{2}\binom{8}{3}}{\binom{12}{5}} = \dfrac{6 \cdot 56}{792}\).</p></div>
+      <div class="p-explicacion"><p>\(P(X = 2) = \frac{6 \cdot 56}{792} = \frac{336}{792} = 0{,}4242\).</p></div>
+    </li>
+
+    <!-- ===== Inciso c: al menos 2 por complemento ===== -->
+    <li data-inciso="c" data-nivel="medio">
+      <div class="p-consigna"><p>¿Cómo conviene escribir &ldquo;al menos 2&rdquo;?</p></div>
+      <ul class="p-opciones">
+        <li data-correcta>\(1 - P(X = 0) - P(X = 1)\)</li>
+        <li>\(P(X = 2) + P(X = 3) + P(X = 4) + P(X = 5)\)</li>
+        <li>\(1 - P(X = 0) - P(X = 1) - P(X = 2)\)</li>
+        <li>\(1 - P(X = 2)\)</li>
+      </ul>
+      <div class="p-pista">
+        <p>
+          Complemento: como las probabilidades de todo el recorrido suman 1,
+          \(P(X \geq 2) = 1 - P(\text{lo contrario})\). Lo contrario de &ldquo;2 o más&rdquo; es &ldquo;0 o 1&rdquo;.
+        </p>
+      </div>
+      <div class="p-explicacion"><p>\(P(X \geq 2) = 1 - P(X \leq 1) = 1 - P(X = 0) - P(X = 1)\).</p></div>
+    </li>
+    <li data-inciso="c" data-nivel="principiante">
+      <div class="p-consigna"><p>¿Por qué acá conviene el complemento?</p></div>
+      <ul class="p-opciones">
+        <li data-correcta>Son 2 términos (\(x = 0, 1\)) contra 3 del camino directo (\(x = 2, 3, 4\))</li>
+        <li>Porque con &ldquo;al menos&rdquo; siempre hay que usarlo</li>
+        <li>Porque \(P(X \leq 1)\) está en la tabla acumulada</li>
+        <li>Porque el directo tiene infinitos términos</li>
+      </ul>
+      <div class="p-pista"><p>La hipergeométrica no tiene tabla acumulada: contá cuántas cuentas pide cada camino.</p></div>
+      <div class="p-explicacion"><p>El complemento pide \(P(0)\) y \(P(1)\); el directo, \(P(2)\), \(P(3)\) y \(P(4)\). Gana el más corto.</p></div>
+    </li>
+    <li data-inciso="c" data-nivel="principiante" data-respuesta="56">
+      <div class="p-consigna"><p>Casos favorables de \(X = 0\): calculá \(\binom{4}{0}\binom{8}{5}\).</p></div>
+      <div class="p-pista"><p>\(\binom{4}{0} = 1\) (ninguno con errores) y los 5 salen de los 8 sin errores.</p></div>
+      <div class="p-explicacion"><p>\(\binom{4}{0}\binom{8}{5} = 1 \cdot 56 = 56\).</p></div>
+    </li>
+    <li data-inciso="c" data-nivel="medio" data-respuesta="0,0707">
+      <div class="p-consigna"><p>Calculá \(P(X = 0)\).</p></div>
+      <div class="p-pista"><p>\(\dfrac{\binom{4}{0}\binom{8}{5}}{\binom{12}{5}}\).</p></div>
+      <div class="p-explicacion"><p>\(P(X = 0) = \frac{56}{792} = 0{,}0707\).</p></div>
+    </li>
+    <li data-inciso="c" data-nivel="principiante" data-respuesta="280">
+      <div class="p-consigna"><p>Casos favorables de \(X = 1\): calculá \(\binom{4}{1}\binom{8}{4}\).</p></div>
+      <div class="p-pista"><p>1 de los 4 con errores y 4 de los 8 sin errores. \(\binom{8}{4} = 70\).</p></div>
+      <div class="p-explicacion"><p>\(\binom{4}{1}\binom{8}{4} = 4 \cdot 70 = 280\).</p></div>
+    </li>
+    <li data-inciso="c" data-nivel="medio" data-respuesta="0,3535">
+      <div class="p-consigna"><p>Calculá \(P(X = 1)\).</p></div>
+      <div class="p-pista"><p>\(\dfrac{\binom{4}{1}\binom{8}{4}}{\binom{12}{5}}\).</p></div>
+      <div class="p-explicacion"><p>\(P(X = 1) = \frac{280}{792} = 0{,}3535\).</p></div>
+    </li>
+    <li data-inciso="c" data-nivel="avanzado" data-respuesta="0,5758">
+      <div class="p-consigna"><p>Calculá \(P(X \geq 2)\).</p></div>
+      <div class="p-pista"><p>\(1 - P(X = 0) - P(X = 1) = 1 - 0{,}0707 - 0{,}3535\).</p></div>
+      <div class="p-explicacion">
+        <p>
+          \(P(X \geq 2) = 1 - \frac{56}{792} - \frac{280}{792} = \frac{456}{792} = 0{,}5758\).
+        </p>
+      </div>
+    </li>
+  </ol>
+</article>

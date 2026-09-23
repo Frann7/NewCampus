@@ -2,7 +2,8 @@
 
 Campus de apuntes orientado a la carrera **Analista en Sistemas de Información** (por ahora,
 solo tercer año). Corre **en local**: un ejecutable levanta un servidor en tu propia máquina y
-abre los apuntes en el navegador. No hay nube, no hay cuenta, no sale nada a internet.
+abre los apuntes en el navegador. No hay nube ni cuenta: lo único que se trae de internet son las
+fórmulas (MathJax) y las tipografías. Tus datos no salen de tu máquina.
 
 > **Versión en desarrollo (alpha).** Está a medio hacer y cambia seguido. Todavía no es una
 > versión pensada para descargar y usar en serio.
@@ -14,11 +15,20 @@ abre los apuntes en el navegador. No hay nube, no hay cuenta, no sale nada a int
   materias de tercer año ya están en el menú como "pronto".
 * **Evaluación**: **parciales y finales** de la cátedra transcriptos, en dos listas. Algunos traen
   cada ejercicio con resultados y explicación detallada desplegables; otros están solo transcriptos,
-  para usarlos como práctica. Y **autoevaluaciones** que armás vos, en modo normal o interactivo
-  (con pistas, vidas y resolución paso a paso), con su informe final. Primero se elige **qué etapa
-  del parcial** se simula: la **1ra, el cuestionario virtual** (opción única, varias correctas,
-  verdadero o falso y completar con coma y 2 decimales, corregido al entregar sobre 100 puntos y con
-  lo que esa nota significa según el reglamento), o la **2da, el escrito**. Todas las preguntas
+  para usarlos como práctica. Y **autoevaluaciones** que armás vos, con su informe final. Primero
+  se elige **qué etapa del parcial** se simula: la **1ra, el cuestionario virtual** (opción única,
+  varias correctas, verdadero o falso y completar con coma y 2 decimales, corregido al entregar
+  sobre 100 puntos y con lo que esa nota significa según el reglamento), o la **2da, el escrito**,
+  que se practica de tres maneras:
+  * **Normal, como en el parcial:** preguntas de teoría y práctica con opciones.
+  * **Normal, fáciles y guiadas:** las mismas, con pistas, vidas y la práctica paso a paso.
+  * **Interactivo:** un **ejercicio de parcial completo** (reales de los exámenes mezclados con
+    inventados de la misma forma) que se va desglosando en partes: en avanzado se pide el
+    resultado de cada inciso; en principiante, cada cuenta chica. Se puede saltear un ejercicio
+    entero.
+
+  En Normal hay además una **navegación libre** opcional: casillas para saltar a cualquier
+  pregunta, saltear y volver, y terminar cuando quieras. Todas las preguntas
   salen de los exámenes: cada una dice de qué parcial o final viene, con ★ o ◈, y al sortear salen
   más las de parciales.
 * **Qué entró en el examen**: cada ejercicio de la guía y cada sección de teoría puede venir marcada
@@ -66,7 +76,8 @@ Doble clic en `NewCampus.exe`: levanta el servidor en `http://localhost:47800` y
 navegador. Antes revisa que esté todo lo necesario y, si falta algo, lo dice en un solo
 cartel con lo que hay que instalar: un navegador, la conexión a internet (las fórmulas se cargan
 de ahí) o Python 3 si faltan los apuntes generados (y si Python está, los genera solo). El .NET
-Framework 4 no lo puede revisar el propio `.exe`: si faltara, Windows avisa antes de abrirlo. Escucha **solo en localhost** y rechaza cualquier pedido que no venga de esa misma PC.
+Framework 4 no lo puede revisar el propio `.exe`: si faltara, Windows avisa antes de abrirlo.
+Escucha **solo en localhost** y rechaza cualquier pedido que no venga de esa misma PC.
 Cuando cerrás la pestaña, el servidor se apaga solo; también podés cerrarlo desde el ícono que
 queda junto al reloj de Windows.
 
@@ -95,6 +106,10 @@ archivo. Son material de la facultad, subido acá solo para estudiar.
 `0.x.y-alpha` mientras esté en desarrollo. La `1.0.0` queda reservada para cuando esté terminado.
 La versión actual se lee al pie del menú lateral.
 
+* **0.9.0-alpha** — autoevaluación de la 2da etapa en tres maneras: normal, guiada e interactiva
+  con ejercicios de parcial completos desglosados por nivel (se pueden saltear); navegación libre
+  en el modo normal; `NewCampus.exe` avisa qué falta instalar; teoría de la U6 reorganizada con
+  gráficos y guías "Cómo leer esta unidad" en las U4, U5 y U6.
 * **0.8.0-alpha** — autoevaluación por etapa del parcial: la 1ra etapa (cuestionario del Aula
   Virtual) con su propio banco y corrección con puntaje parcial; todas las preguntas marcadas con
   su examen de origen y sorteo que prioriza parciales; finales de febrero y julio de 2026

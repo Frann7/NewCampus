@@ -14,7 +14,7 @@
     mostrar: function (cont, materia, ae, acciones, aviso) {
       var h = E.h, B = E.banco;
       var it = ae.intento, c = it.config;
-      var interactivo = c.modo === "interactivo";
+      var interactivo = E.guiado(c);   // pistas, vidas y pasos: estilo guiado o interactivo
       var p = E.puntaje(it);
       var porcentaje = p.total ? Math.round(100 * p.correctas / p.total) : 0;
 
@@ -30,6 +30,7 @@
         ? "Al primer intento: " + p.correctas + " · Con errores: " + p.incorrectas
         : "Correctas: " + p.correctas + " · Incorrectas: " + p.incorrectas;
       if (p.sinResponder) { detalle += " · Sin responder: " + p.sinResponder; }
+      if (p.salteadas) { detalle += " · Salteados: " + p.salteadas; }
 
       cont.appendChild(h("div", { class: "inf-resultado" }, [
         h("div", { class: "inf-nota" }, [
@@ -70,8 +71,8 @@
 
       it.preguntas.forEach(function (r, i) {
         var preg = B.obtener(materia, r.id);
-        var clase = !r.hecho ? "sin-responder" : (r.ok ? "bien" : "mal");
-        var veredicto = !r.hecho ? "Sin responder"
+        var clase = r.salteado || !r.hecho ? "sin-responder" : (r.ok ? "bien" : "mal");
+        var veredicto = r.salteado ? "Salteado" : !r.hecho ? "Sin responder"
           : r.ok ? (interactivo ? "✓ Al primer intento" : "✓ Correcta")
           : (interactivo ? "Resuelta con " + plural(r.fallos, "fallo", "fallos") : "✗ Incorrecta");
 
@@ -91,7 +92,8 @@
         }
 
         item.appendChild(h("div", { class: "ex-enunciado", html: preg.enunciado }));
-        var pasos = interactivo && preg.tipo === "practica" ? B.pasosDelNivel(preg, c.nivel) : [];
+        var pasos = interactivo && (preg.tipo === "practica" || preg.tipo === "ejercicio")
+          ? B.pasosDelNivel(preg, c.nivel) : [];
 
         if (pasos.length) {
           // Ejercicio interactivo: como te fue en cada paso
@@ -105,6 +107,7 @@
               : (ep.fallos ? "Bien con " + plural(ep.fallos, "fallo", "fallos") : "Bien al primer intento");
             if (ep && ep.pistas) { como += " · usaste la pista"; }
             return h("li", { class: ep && ep.ok && !ep.fallos ? "bien" : "mal" }, [
+              paso.inciso ? h("span", { class: "ex-paso-cab" }, "Inciso " + paso.inciso + ")") : null,
               h("div", { html: paso.consigna }),
               h("div", { class: "inf-paso-dato" }, ["Respuesta: ", respuesta, h("small", {}, " — " + como)])
             ]);

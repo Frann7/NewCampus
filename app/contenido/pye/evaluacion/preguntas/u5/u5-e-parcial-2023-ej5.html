@@ -1,0 +1,206 @@
+<article class="preg" data-id="u5-e-parcial-2023-ej5" data-tipo="ejercicio" data-origen="parcial">
+  <div class="p-enunciado">
+    <p>
+      Una computadora es utilizada como servidor y recibe en promedio <strong>0,2 mensajes por
+      minuto</strong>. Si interesa estudiar el número de mensajes que llegan al servidor en dicho lapso
+      de tiempo:
+    </p>
+    <p><strong>a)</strong> Calcule la probabilidad de que el servidor reciba exactamente un mensaje en un minuto.</p>
+    <p><strong>b)</strong> Calcule la probabilidad de que lleguen al servidor al menos diez mensajes en una hora.</p>
+    <p>
+      <strong>c)</strong> Determine la probabilidad de que en una hora el servidor reciba entre siete y
+      doce mensajes, ambos extremos incluidos.
+    </p>
+    <p class="p-fuente">Segundo Parcial 2023, Ejercicio 5</p>
+  </div>
+  <div class="p-explicacion">
+    <table class="t full">
+      <tr><th>Inciso</th><th>\(\lambda t\)</th><th>Resultado</th></tr>
+      <tr><td class="lbl">a) Exactamente 1 en un minuto</td><td>\(0{,}2\)</td><td>\(P(X = 1) = e^{-0{,}2} \cdot 0{,}2 = \mathbf{0{,}1637}\)</td></tr>
+      <tr><td class="lbl">b) Al menos 10 en una hora</td><td>\(12\)</td><td>\(1 - P(X \leq 9) = 1 - 0{,}2424 = \mathbf{0{,}7576}\)</td></tr>
+      <tr><td class="lbl">c) Entre 7 y 12 en una hora</td><td>\(12\)</td><td>\(P(X \leq 12) - P(X \leq 6) = 0{,}5760 - 0{,}0458 = \mathbf{0{,}5302}\)</td></tr>
+    </table>
+  </div>
+  <ol class="p-pasos">
+
+    <!-- ===== Modelo ===== -->
+    <li data-inciso="a" data-nivel="principiante">
+      <div class="p-consigna"><p>¿Qué dato del enunciado te indica el modelo?</p></div>
+      <ul class="p-opciones">
+        <li data-correcta>Un promedio por unidad de tiempo (0,2 mensajes por minuto), sin un número fijo de intentos</li>
+        <li>Una cantidad fija de mensajes, cada uno llega o no llega</li>
+        <li>Una población finita de mensajes de la que se elige una muestra</li>
+        <li>Un porcentaje de mensajes con error</li>
+      </ul>
+      <div class="p-pista"><p>¿Hay un tope para la cantidad de mensajes que pueden llegar en un minuto?</p></div>
+      <div class="p-explicacion">
+        <p>
+          &ldquo;En promedio X por unidad&rdquo; de tiempo, y el conteo no tiene tope (pueden llegar 0, 1,
+          5&hellip; mensajes). Es la marca de Poisson.
+        </p>
+      </div>
+    </li>
+    <li data-inciso="a" data-nivel="avanzado">
+      <div class="p-consigna"><p>¿Qué modelo sigue \(X\) = número de mensajes que llegan en un intervalo?</p></div>
+      <ul class="p-opciones">
+        <li data-correcta>Poisson</li>
+        <li>Binomial</li>
+        <li>Hipergeométrica</li>
+        <li>Ninguno: hay que armar la tabla de probabilidades</li>
+      </ul>
+      <div class="p-pista"><p>Solo te dan una tasa promedio por minuto.</p></div>
+      <div class="p-explicacion">
+        <p>
+          Poisson: \(P(X = x) = \dfrac{e^{-\lambda t}\,(\lambda t)^{x}}{x!}\), \(x = 0, 1, 2, \ldots\)
+          Acá \(\lambda = 0{,}2\) mensajes por minuto y \(t\) es la cantidad de minutos del intervalo por
+          el que preguntan. El producto \(\lambda t\) es el promedio en ese intervalo.
+        </p>
+      </div>
+    </li>
+
+    <!-- ===== Inciso a: exactamente 1 en un minuto ===== -->
+    <li data-inciso="a" data-nivel="medio" data-respuesta="0,2">
+      <div class="p-consigna"><p>¿Cuánto vale \(\lambda t\) para un minuto?</p></div>
+      <div class="p-pista"><p>El intervalo coincide con la unidad de la tasa: \(t = 1\).</p></div>
+      <div class="p-explicacion"><p>\(\lambda t = 0{,}2 \cdot 1 = 0{,}2\) mensajes esperados en un minuto.</p></div>
+    </li>
+    <li data-inciso="a" data-nivel="principiante" data-respuesta="0,8187">
+      <div class="p-consigna"><p>Calculá \(e^{-\lambda t} = e^{-0{,}2}\).</p></div>
+      <div class="p-pista"><p>En la calculadora: SHIFT + ln (\(e^{x}\)), (&minus;) 0,2, =.</p></div>
+      <div class="p-explicacion"><p>\(e^{-0{,}2} = 0{,}8187\).</p></div>
+    </li>
+    <li data-inciso="a" data-nivel="principiante" data-respuesta="0,2">
+      <div class="p-consigna"><p>Calculá \(\dfrac{(\lambda t)^{x}}{x!}\) con \(x = 1\).</p></div>
+      <div class="p-pista"><p>\((0{,}2)^{1} = 0{,}2\) y \(1! = 1\).</p></div>
+      <div class="p-explicacion"><p>\(\dfrac{(0{,}2)^{1}}{1!} = 0{,}2\).</p></div>
+    </li>
+    <li data-inciso="a" data-nivel="avanzado" data-respuesta="0,1637">
+      <div class="p-consigna"><p>Calculá \(P(X = 1)\) en un minuto.</p></div>
+      <div class="p-pista"><p>\(P(X = 1) = \dfrac{e^{-0{,}2}\,(0{,}2)^{1}}{1!}\).</p></div>
+      <div class="p-explicacion">
+        <p>
+          \(P(X = 1) = 0{,}8187 \cdot 0{,}2 = 0{,}1637\). Sin tabla: es un valor puntual y la fórmula sale
+          en una cuenta.
+        </p>
+      </div>
+    </li>
+
+    <!-- ===== Inciso b: al menos 10 en una hora ===== -->
+    <li data-inciso="b" data-nivel="principiante" data-respuesta="60">
+      <div class="p-consigna"><p>La tasa viene por minuto y la pregunta es por una hora. ¿Cuánto vale \(t\) (en minutos)?</p></div>
+      <div class="p-pista"><p>¿Cuántos minutos tiene una hora?</p></div>
+      <div class="p-explicacion"><p>\(t = 60\) minutos. \(t\) siempre va en la misma unidad que la tasa.</p></div>
+    </li>
+    <li data-inciso="b" data-nivel="avanzado" data-respuesta="12">
+      <div class="p-consigna"><p>Reescalá: ¿cuánto vale \(\lambda t\) para una hora?</p></div>
+      <div class="p-pista"><p>0,2 mensajes por minuto, durante 60 minutos.</p></div>
+      <div class="p-explicacion">
+        <p>
+          \(\lambda t = 0{,}2 \cdot 60 = 12\) mensajes esperados en una hora. Si usás 0,2 en este inciso, el
+          resultado da casi 0: es el error que busca el ejercicio.
+        </p>
+      </div>
+    </li>
+    <li data-inciso="b" data-nivel="principiante">
+      <div class="p-consigna"><p>La tabla acumulada de Poisson, ¿qué probabilidad te da?</p></div>
+      <ul class="p-opciones">
+        <li data-correcta>\(P(X \leq r)\): la probabilidad de \(r\) o menos</li>
+        <li>\(P(X = r)\): la probabilidad de exactamente \(r\)</li>
+        <li>\(P(X \geq r)\): la probabilidad de \(r\) o más</li>
+        <li>\(P(X &lt; r)\): la probabilidad de menos de \(r\)</li>
+      </ul>
+      <div class="p-pista"><p>Se llama &ldquo;acumulada&rdquo; porque suma desde 0 hasta la fila \(r\).</p></div>
+      <div class="p-explicacion">
+        <p>
+          \(F(r) = P(X \leq r)\), que se busca en la columna \(\lambda t\) y la fila \(r\). Todo lo demás
+          (&ldquo;al menos&rdquo;, &ldquo;entre&rdquo;) se arma a partir de eso.
+        </p>
+      </div>
+    </li>
+    <li data-inciso="b" data-nivel="medio">
+      <div class="p-consigna"><p>¿Cómo se escribe &ldquo;al menos 10&rdquo; con la tabla acumulada?</p></div>
+      <ul class="p-opciones">
+        <li data-correcta>\(1 - P(X \leq 9)\)</li>
+        <li>\(1 - P(X \leq 10)\)</li>
+        <li>\(P(X \leq 10)\)</li>
+        <li>\(P(X \leq 9)\)</li>
+      </ul>
+      <div class="p-pista">
+        <p>
+          &ldquo;Al menos 10&rdquo; incluye al 10 y no tiene tope. Usá el complemento: como las
+          probabilidades suman 1, \(P(X \geq 10) = 1 - P(\text{lo contrario})\).
+        </p>
+      </div>
+      <div class="p-explicacion">
+        <p>
+          Lo contrario de &ldquo;10 o más&rdquo; es &ldquo;9 o menos&rdquo;:
+          \(P(X \geq 10) = 1 - P(X \leq 9)\). Restar \(P(X \leq 10)\) se comería el propio 10.
+        </p>
+      </div>
+    </li>
+    <li data-inciso="b" data-nivel="medio" data-respuesta="0,2424">
+      <div class="p-consigna"><p>Buscá \(P(X \leq 9)\) en la tabla acumulada con \(\lambda t = 12\).</p></div>
+      <div class="p-pista"><p>Columna \(\lambda t = 12\), fila \(r = 9\).</p></div>
+      <div class="p-explicacion"><p>\(P(X \leq 9) = 0{,}2424\).</p></div>
+    </li>
+    <li data-inciso="b" data-nivel="avanzado" data-respuesta="0,7576">
+      <div class="p-consigna"><p>Calculá \(P(X \geq 10)\) en una hora.</p></div>
+      <div class="p-pista"><p>\(1 - P(X \leq 9)\), con \(\lambda t = 12\).</p></div>
+      <div class="p-explicacion">
+        <p>
+          \(P(X \geq 10) = 1 - 0{,}2424 = 0{,}7576\). Tiene sentido: se esperan 12 por hora, así que 10 o
+          más es lo más probable.
+        </p>
+      </div>
+    </li>
+
+    <!-- ===== Inciso c: entre 7 y 12 en una hora ===== -->
+    <li data-inciso="c" data-nivel="principiante">
+      <div class="p-consigna"><p>¿Qué \(\lambda t\) se usa en el inciso c?</p></div>
+      <ul class="p-opciones">
+        <li data-correcta>12, porque el intervalo es otra vez una hora</li>
+        <li>0,2, porque es la tasa del enunciado</li>
+        <li>7, porque es el primer valor del rango</li>
+        <li>60, porque una hora tiene 60 minutos</li>
+      </ul>
+      <div class="p-pista"><p>\(\lambda t\) depende solo del intervalo por el que preguntan.</p></div>
+      <div class="p-explicacion"><p>Mismo intervalo que el inciso b (una hora): \(\lambda t = 12\).</p></div>
+    </li>
+    <li data-inciso="c" data-nivel="medio">
+      <div class="p-consigna"><p>&ldquo;Entre 7 y 12, ambos incluidos&rdquo;, ¿cómo se escribe con la tabla acumulada?</p></div>
+      <ul class="p-opciones">
+        <li data-correcta>\(P(X \leq 12) - P(X \leq 6)\)</li>
+        <li>\(P(X \leq 12) - P(X \leq 7)\)</li>
+        <li>\(P(X \leq 11) - P(X \leq 7)\)</li>
+        <li>\(P(X \leq 12) + P(X \leq 6)\)</li>
+      </ul>
+      <div class="p-pista">
+        <p>
+          \(P(a \leq X \leq b) = F(b) - F(a-1)\): a todo lo que llega hasta 12 le sacás lo que queda
+          por debajo del 7.
+        </p>
+      </div>
+      <div class="p-explicacion">
+        <p>
+          \(P(7 \leq X \leq 12) = P(X \leq 12) - P(X \leq 6)\). El \(-1\) es lo que deja el 7 adentro:
+          restar \(P(X \leq 7)\) lo sacaría.
+        </p>
+      </div>
+    </li>
+    <li data-inciso="c" data-nivel="medio" data-respuesta="0,5760">
+      <div class="p-consigna"><p>Buscá \(P(X \leq 12)\) en la tabla con \(\lambda t = 12\).</p></div>
+      <div class="p-pista"><p>Columna \(\lambda t = 12\), fila \(r = 12\).</p></div>
+      <div class="p-explicacion"><p>\(P(X \leq 12) = 0{,}5760\). Ronda 0,5 porque 12 es la media.</p></div>
+    </li>
+    <li data-inciso="c" data-nivel="medio" data-respuesta="0,0458">
+      <div class="p-consigna"><p>Buscá \(P(X \leq 6)\) en la tabla con \(\lambda t = 12\).</p></div>
+      <div class="p-pista"><p>Columna \(\lambda t = 12\), fila \(r = 6\).</p></div>
+      <div class="p-explicacion"><p>\(P(X \leq 6) = 0{,}0458\).</p></div>
+    </li>
+    <li data-inciso="c" data-nivel="avanzado" data-respuesta="0,5302">
+      <div class="p-consigna"><p>Calculá \(P(7 \leq X \leq 12)\) en una hora.</p></div>
+      <div class="p-pista"><p>\(P(X \leq 12) - P(X \leq 6)\), con \(\lambda t = 12\).</p></div>
+      <div class="p-explicacion"><p>\(P(7 \leq X \leq 12) = 0{,}5760 - 0{,}0458 = 0{,}5302\).</p></div>
+    </li>
+  </ol>
+</article>

@@ -1,9 +1,15 @@
 /* ============================================================
-   NEWCAMPUS - Evaluacion: autoevaluacion en curso
-   NORMAL:      enunciado completo + opciones. Corrige al responder o al final.
-   INTERACTIVO: pistas con la lamparita y vidas: cada error resta una y se puede
-                reintentar; sin vidas, la autoevaluacion termina.
+   NEWCAMPUS - Evaluacion: autoevaluacion en curso (2da etapa)
+   NORMAL, estilo parcial:  enunciado completo + opciones. Corrige al responder
+                o al final.
+   NORMAL, estilo guiado:   pistas con la lamparita y vidas: cada error resta una
+                y se puede reintentar; sin vidas, la autoevaluacion termina.
                 En practica pide el ejercicio paso a paso segun el nivel.
+   INTERACTIVO: un ejercicio de parcial completo, desglosado en pasos por
+                inciso segun el nivel, con pistas y vidas. Se puede saltear
+                entero.
+   En normal, la navegacion libre agrega casillas para ir a cualquier pregunta
+   y deja terminar cuando se quiera.
    Cada respuesta se guarda al instante, asi se puede salir y continuar.
    Con contador, salir pregunta: terminar, mantener el contador o cancelar.
    ============================================================ */
@@ -20,10 +26,10 @@
       inicio: ahora,
       fin: null,
       limite: c.conTiempo ? ahora + c.minutos * 60000 : null,
-      vidas: c.modo === "interactivo" ? c.fallos : null,
+      vidas: E.guiado(c) ? c.fallos : null,
       actual: 0,
       preguntas: E.banco.seleccionar(materia, c).map(function (id) {
-        return { id: id, hecho: false, ok: null, elegida: null, orden: null,
+        return { id: id, hecho: false, ok: null, elegida: null, orden: null, salteado: false,
                  fallos: 0, pistas: 0, descartadas: [], paso: 0, pasos: [] };
       })
     };
@@ -61,35 +67,65 @@
       var cerrarDialogo = null;
 
       function guardar() { E.almacen.guardar(ae); }
-      function esLaUltima() { return it.actual >= it.preguntas.length - 1; }
+      var libre = c.modo === "normal" && !!c.navLibre;
+      function pendientes() { return it.preguntas.filter(function (r) { return !r.hecho && !r.salteado; }); }
+      // con navegacion libre "la ultima" es cuando no queda ninguna otra por hacer
+      function esLaUltima() {
+        if (libre) { return pendientes().filter(function (r) { return r !== it.preguntas[it.actual]; }).length === 0; }
+        return it.actual >= it.preguntas.length - 1;
+      }
 
       /* ---------- barra superior ---------- */
 
       var progresoTxt = h("span", { class: "ex-progreso-txt" });
       var relleno = h("span", { class: "ex-barra-relleno" });
       var tiempo = h("span", { class: "ex-tiempo" }, it.limite ? "" : "Sin límite");
-      var vidas = c.modo === "interactivo" ? h("span", { class: "ex-vidas" }) : null;
+      var vidas = E.guiado(c) ? h("span", { class: "ex-vidas" }) : null;
+      var casillas = libre ? h("div", { class: "cu-nav", "aria-label": "Ir a una pregunta" }) : null;
 
       cont.appendChild(h("div", { class: "ex-barra" }, [
         h("div", { class: "ex-barra-info" }, [
           h("span", { class: "ex-nombre" }, ae.nombre),
-          h("span", { class: "ev-chip" }, E.MODOS[c.modo] + (c.modo === "interactivo" ? " · " + E.NIVELES[c.nivel] : "")),
+          h("span", { class: "ev-chip" }, E.nombreModo(c)),
           progresoTxt
         ]),
         h("div", { class: "ex-barra-acciones" }, [
           vidas,
           tiempo,
+          libre ? h("button", { class: "ev-btn", type: "button", onclick: terminarLibre }, "Terminar") : null,
           h("button", { class: "ev-btn", type: "button", onclick: salir }, "Salir")
         ]),
+        casillas,
         h("div", { class: "ex-barra-linea" }, relleno)
       ]));
 
       var zona = h("div", { class: "ex-zona" });
       cont.appendChild(zona);
 
+      if (casillas) {
+        it.preguntas.forEach(function (r, i) {
+          casillas.appendChild(h("button", { class: "cu-casilla", type: "button", title: "Ir a la pregunta " + (i + 1),
+            onclick: function () { irA(i); } }, String(i + 1)));
+        });
+      }
+
+      function irA(i) {
+        it.actual = i;
+        guardar();
+        pintar();
+        window.scrollTo(0, 0);
+      }
+
       function pintarBarra() {
-        var hechas = it.preguntas.filter(function (r) { return r.hecho; }).length;
-        progresoTxt.textContent = "Pregunta " + (it.actual + 1) + " de " + it.preguntas.length;
+        var hechas = it.preguntas.filter(function (r) { return r.hecho || r.salteado; }).length;
+        progresoTxt.textContent = (c.modo === "interactivo" ? "Ejercicio " : "Pregunta ") +
+          (it.actual + 1) + " de " + it.preguntas.length;
+        if (casillas) {
+          Array.prototype.forEach.call(casillas.children, function (b, i) {
+            b.classList.toggle("es-respondida", it.preguntas[i].hecho);
+            b.classList.toggle("is-actual", i === it.actual);
+          });
+        }
         relleno.style.width = Math.round(100 * hechas / it.preguntas.length) + "%";
         if (vidas) {
           vidas.textContent = E.textoVidas(it.vidas);
@@ -154,10 +190,67 @@
 
       function siguiente() {
         if (esLaUltima()) { terminar("completa"); return; }
+        if (libre) {
+          // la proxima sin hacer, dando la vuelta si hace falta
+          var n = it.preguntas.length;
+          for (var k = 1; k <= n; k++) {
+            var j = (it.actual + k) % n;
+            if (!it.preguntas[j].hecho) { irA(j); return; }
+          }
+        }
         it.actual++;
         guardar();
         pintar();
         window.scrollTo(0, 0);
+      }
+
+      // Terminar cuando uno quiera (navegacion libre). Si quedan sin hacer, avisa.
+      function terminarLibre() {
+        var faltan = pendientes().length;
+        if (!faltan) { terminar("completa"); return; }
+        cerrarDialogo = E.dialogo({
+          titulo: "¿Terminar ahora?",
+          texto: (faltan === 1 ? "Te queda 1 pregunta sin responder" : "Te quedan " + faltan + " preguntas sin responder") +
+                 ": en el informe van a figurar como sin responder.",
+          botones: [
+            { texto: "Seguir respondiendo" },
+            { texto: "Terminar", clase: "ev-btn-primario", accion: function () { terminar("entregada"); } }
+          ]
+        });
+      }
+
+      // Barra de abajo de cada pregunta con navegacion libre: ir y volver sin responder.
+      function navegacion() {
+        if (!libre) { return null; }
+        var r = it.preguntas[it.actual];
+        return h("div", { class: "ex-nav" }, [
+          h("button", { class: "ev-btn", type: "button", disabled: it.actual === 0 ? true : null,
+            onclick: function () { irA(it.actual - 1); } }, "← Anterior"),
+          h("span", { class: "ex-nav-espacio" }),
+          it.actual < it.preguntas.length - 1
+            ? h("button", { class: "ev-btn", type: "button", onclick: function () { irA(it.actual + 1); } },
+                r.hecho ? "Siguiente →" : "Saltear →")
+            : null
+        ]);
+      }
+
+      // Interactivo: el ejercicio entero se puede dejar para otro momento.
+      function botonSaltear(r) {
+        if (c.modo !== "interactivo" || r.hecho) { return null; }
+        return h("button", { class: "ev-btn ex-saltear", type: "button", onclick: function () {
+          cerrarDialogo = E.dialogo({
+            titulo: "¿Saltear este ejercicio?",
+            texto: "Se saltea completo, con todos sus incisos. En el informe figura como salteado y no suma ni resta.",
+            botones: [
+              { texto: "Seguir con el ejercicio" },
+              { texto: "Saltear el ejercicio", clase: "ev-btn-primario", accion: function () {
+                r.salteado = true;
+                guardar();
+                siguiente();
+              } }
+            ]
+          });
+        } }, "Saltear ejercicio →");
       }
 
       /* ---------- piezas comunes ---------- */
@@ -220,6 +313,7 @@
 
       function pintarNormal(tarjeta, p, r) {
         enunciado(tarjeta, p);
+        if (libre && !c.verRespuesta) { pintarNormalCambiable(tarjeta, p, r); return; }
         var seleccion = null;
         var lista = listaOpciones(p.opciones, r, function (orig, boton) {
           if (r.hecho) { return; }
@@ -256,6 +350,32 @@
         });
 
         if (r.hecho) { corregir(); } else { pie.appendChild(btn); }
+      }
+
+      /* Navegacion libre sin correccion inmediata: como la 1ra instancia, se
+         marca una opcion y queda guardada; se puede cambiar hasta terminar. */
+      function pintarNormalCambiable(tarjeta, p, r) {
+        var lista = listaOpciones(p.opciones, r, function (orig, boton) {
+          r.elegida = orig;
+          r.ok = orig === p.opciones.correcta;
+          r.hecho = true;
+          guardar();
+          pintarBarra();
+          Array.prototype.forEach.call(lista.children, function (b) { b.classList.toggle("is-sel", b === boton); });
+          boton.blur();
+          E.vaciar(pie);
+          pie.appendChild(h("span", { class: "ae-ayuda" }, "Guardada. Podés cambiarla hasta terminar."));
+          pie.appendChild(botonSiguiente());
+        });
+        tarjeta.appendChild(lista);
+        var pie = h("div", { class: "ex-acciones" });
+        tarjeta.appendChild(pie);
+        if (r.hecho) {
+          var b = lista.querySelector('[data-orig="' + r.elegida + '"]');
+          if (b) { b.classList.add("is-sel"); }
+          pie.appendChild(h("span", { class: "ae-ayuda" }, "Guardada. Podés cambiarla hasta terminar."));
+          pie.appendChild(botonSiguiente());
+        }
       }
 
       /* ---------- INTERACTIVO: una pregunta con opciones ---------- */
@@ -320,8 +440,11 @@
         pasos.forEach(function (paso, k) {
           if (k > r.paso) { return; }
           var ep = r.pasos[k] = r.pasos[k] || { ok: null, fallos: 0, pistas: 0, dada: null, orden: null, descartadas: [] };
+          var nuevoInciso = paso.inciso && (k === 0 || pasos[k - 1].inciso !== paso.inciso);
+          if (nuevoInciso) { lista.appendChild(h("li", { class: "ex-inciso" }, "Inciso " + paso.inciso + ")")); }
           var li = h("li", { class: "ex-paso" + (k < r.paso ? " es-bien" : " es-actual") }, [
-            h("div", { class: "ex-paso-cab" }, "Paso " + (k + 1) + " de " + pasos.length),
+            h("div", { class: "ex-paso-cab" }, (paso.inciso ? "Inciso " + paso.inciso + ") · " : "") +
+              "Paso " + (k + 1) + " de " + pasos.length),
             h("div", { class: "ex-paso-consigna", html: paso.consigna })
           ]);
           lista.appendChild(li);
@@ -332,6 +455,8 @@
           tarjeta.appendChild(cartel(r.ok ? "caja-resp" : "caja-formula",
             r.ok ? "¡Ejercicio completo sin errores!" : "¡Ejercicio completo! (con " + r.fallos + (r.fallos === 1 ? " fallo)" : " fallos)"), p.explicacion));
           tarjeta.appendChild(h("div", { class: "ex-acciones" }, botonSiguiente()));
+        } else if (c.modo === "interactivo") {
+          tarjeta.appendChild(h("div", { class: "ex-acciones" }, botonSaltear(r)));
         }
         return actual;
       }
@@ -431,7 +556,8 @@
           return;
         }
 
-        var pasos = c.modo === "interactivo" && p.tipo === "practica" ? B.pasosDelNivel(p, c.nivel) : [];
+        var conPasos = E.guiado(c) && (p.tipo === "practica" || p.tipo === "ejercicio");
+        var pasos = conPasos ? B.pasosDelNivel(p, c.nivel) : [];
         var etiquetas = [
           h("span", { class: "ev-chip ev-chip-" + p.tipo }, E.TIPOS[p.tipo]),
           h("span", { class: "ev-chip" }, E.numeroDeUnidad(materia, p.unidad)),
@@ -442,9 +568,16 @@
         zona.appendChild(tarjeta);
 
         var actual = null;
-        if (c.modo === "normal") { pintarNormal(tarjeta, p, r); }
+        if (r.salteado) {
+          tarjeta.appendChild(h("div", { class: "ex-enunciado", html: p.enunciado }));
+          tarjeta.appendChild(cartel("caja-ojo", "Lo salteaste", "<p>Este ejercicio quedó salteado y no se puede retomar en este intento.</p>"));
+          tarjeta.appendChild(h("div", { class: "ex-acciones" }, botonSiguiente()));
+        }
+        else if (!E.guiado(c)) { pintarNormal(tarjeta, p, r); }
         else if (pasos.length) { actual = pintarPasos(tarjeta, p, r, pasos); }
         else { pintarOpcionesInteractivas(tarjeta, p, r); }
+        var nav = navegacion();
+        if (nav) { tarjeta.appendChild(nav); }
 
         E.tipografiar(zona);
         if (mismaPregunta && actual) {

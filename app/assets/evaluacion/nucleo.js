@@ -94,8 +94,24 @@ window.NC.eval = window.NC.eval || {};
   };
 
   E.LETRAS = "ABCDEFGHIJ";
-  E.TIPOS = { teoria: "Teoría", practica: "Práctica" };
+  E.TIPOS = { teoria: "Teoría", practica: "Práctica", ejercicio: "Ejercicio de parcial" };
   E.MODOS = { normal: "Normal", interactivo: "Interactivo" };
+
+  /* Los modos de la 2da etapa:
+       normal + estilo "parcial"  enunciado y opciones, como en el examen
+       normal + estilo "guiado"   las mismas preguntas, con pistas, vidas y la
+                                  practica paso a paso (era el interactivo de antes)
+       interactivo                un ejercicio de parcial completo, desglosado en
+                                  pasos segun el nivel
+     "Guiado" (pistas + vidas + pasos) es comun al estilo guiado y al interactivo. */
+  E.guiado = function (c) {
+    return !!c && (c.modo === "interactivo" || (c.modo === "normal" && c.estilo === "guiado"));
+  };
+  E.nombreModo = function (c) {
+    if (c.modo === "interactivo") { return "Interactivo · " + E.NIVELES[c.nivel]; }
+    if (c.estilo === "guiado") { return "Normal · guiadas · " + E.NIVELES[c.nivel]; }
+    return "Normal";
+  };
   E.NIVELES = { principiante: "Principiante", medio: "Medio", avanzado: "Avanzado" };
 
   /* El parcial de la catedra tiene dos instancias, y cada autoevaluacion
@@ -189,18 +205,32 @@ window.NC.eval = window.NC.eval || {};
     completa: "La completaste",
     tiempo: "Se terminó el tiempo",
     abandonada: "La terminaste antes de completarla",
+    entregada: "La entregaste con preguntas sin responder",
     "sin-vidas": "Te quedaste sin vidas"
   };
 
   // Datos guardados con versiones anteriores de NewCampus.
+  /* Antes de los ejercicios completos, "interactivo" eran las preguntas del
+     banco con pistas y vidas: eso hoy es Normal en estilo guiado. Las guardadas
+     con el esquema viejo (sin v: 2) se pasan a lo que eran. */
+  function migrarModo(c) {
+    if (!c) { return; }
+    if (!c.etapa) { c.etapa = "2"; }
+    if (!c.v) {
+      if (c.modo === "interactivo") { c.modo = "normal"; c.estilo = "guiado"; }
+      if (!c.estilo) { c.estilo = "parcial"; }
+      c.v = 2;
+    }
+  }
+
   function normalizar(ae) {
-    if (ae && ae.config && !ae.config.etapa) { ae.config.etapa = "2"; }
+    if (ae) { migrarModo(ae.config); }
     var it = ae && ae.intento;
     if (!it) { return ae; }
-    if (!it.config.etapa) { it.config.etapa = "2"; }
+    migrarModo(it.config);
     if (it.estado === "finalizada") { it.estado = "terminada"; it.motivo = "completa"; }
     if (it.estado === "tiempo-agotado") { it.estado = "terminada"; it.motivo = "tiempo"; }
-    if (it.config.modo === "interactivo" && typeof it.vidas !== "number") {
+    if (E.guiado(it.config) && typeof it.vidas !== "number") {
       var usados = it.preguntas.reduce(function (s, p) { return s + (p.fallos || 0); }, 0);
       it.vidas = Math.max(0, it.config.fallos - usados);
     }
@@ -215,9 +245,11 @@ window.NC.eval = window.NC.eval || {};
      En la 1ra etapa cada pregunta tiene una fraccion (0 a 1, hay puntaje parcial)
      que se calcula al entregar; la nota es sobre 100. */
   E.puntaje = function (intento) {
-    var r = { correctas: 0, incorrectas: 0, parciales: 0, sinResponder: 0, total: intento.preguntas.length, nota: null };
+    var r = { correctas: 0, incorrectas: 0, parciales: 0, sinResponder: 0, salteadas: 0,
+              total: intento.preguntas.length, nota: null };
     var suma = 0;
     intento.preguntas.forEach(function (p) {
+      if (p.salteado) { r.salteadas++; return; }
       if (!p.hecho) { r.sinResponder++; return; }
       if (typeof p.fraccion === "number") {
         suma += p.fraccion;
@@ -274,7 +306,7 @@ window.NC.eval = window.NC.eval || {};
       var partes = [primera ? "Respondidas " + respondidas + " de " + p.total
                             : "Pregunta " + Math.min(it.actual + 1, p.total) + " de " + p.total];
       if (it.limite) { partes.push("quedan " + E.reloj(it.limite - Date.now())); }
-      if (it.config.modo === "interactivo") { partes.push("❤ " + (it.vidas === 1 ? "queda 1" : "quedan " + it.vidas)); }
+      if (E.guiado(it.config)) { partes.push("❤ " + (it.vidas === 1 ? "queda 1" : "quedan " + it.vidas)); }
       return { clave: "en-curso", texto: "En curso", detalle: partes.join(" · ") };
     }
     return { clave: "terminada", texto: "Terminada",
@@ -291,13 +323,17 @@ window.NC.eval = window.NC.eval || {};
       partes.push("1ra etapa · Cuestionario");
       cant = c.cantCuestionario;
     } else {
-      partes.push("2da etapa · " + E.MODOS[c.modo] + (c.modo === "interactivo" ? " · " + E.NIVELES[c.nivel] : ""));
-      if (c.teoria && c.practica && c.reparto === "mezcla") { cant = c.cantMezcla; }
+      partes.push("2da etapa · " + E.nombreModo(c));
+      if (c.modo === "interactivo") { cant = c.cantEjercicios; }
+      else if (c.teoria && c.practica && c.reparto === "mezcla") { cant = c.cantMezcla; }
       else { cant = (c.teoria ? c.cantTeoria : 0) + (c.practica ? c.cantPractica : 0); }
     }
-    partes.push(cant + (cant === 1 ? " pregunta" : " preguntas"));
+    partes.push(cant + (c.modo === "interactivo" && E.etapaDe(c) === "2"
+      ? (cant === 1 ? " ejercicio" : " ejercicios")
+      : (cant === 1 ? " pregunta" : " preguntas")));
     partes.push(c.unidades.map(function (u) { return E.numeroDeUnidad(materia, u); }).join(", "));
-    if (c.modo === "interactivo") { partes.push(c.fallos + (c.fallos === 1 ? " vida" : " vidas")); }
+    if (E.etapaDe(c) === "2" && E.guiado(c)) { partes.push(c.fallos + (c.fallos === 1 ? " vida" : " vidas")); }
+    if (E.etapaDe(c) === "2" && c.modo === "normal" && c.navLibre) { partes.push("navegación libre"); }
     partes.push(c.conTiempo ? c.minutos + " min" : "Sin límite");
     return partes;
   };

@@ -8,7 +8,7 @@ El parcial tiene **dos etapas**, y el banco tiene preguntas para cada una:
 | Etapa | Cómo es en la cátedra | Prefijo del archivo |
 | :--- | :--- | :--- |
 | 1ra (virtual) | Cuestionario del Aula Virtual: respuesta corta, rápida | `u4-c-...` |
-| 2da (escrito) | Problemas y teoría a desarrollar | `u4-t-...` (teoría) · `u4-p-...` (práctica) |
+| 2da (escrito) | Problemas y teoría a desarrollar | `u4-t-...` (teoría) · `u4-p-...` (práctica) · `u4-e-...` (ejercicio completo) |
 
 ## Regla para todas: orientadas a los exámenes
 
@@ -22,6 +22,14 @@ práctica. Lo dice con dos cosas:
 Al armar una autoevaluación, las de parcial salen el doble de seguido que las de final.
 
 ## 2da etapa (escrito)
+
+Se practica de tres maneras, y cada una usa preguntas distintas:
+
+| Modo | Qué es | Preguntas que usa |
+| :--- | :--- | :--- |
+| Normal · como en el parcial | Enunciado y opciones, se corrige | `-t-` y `-p-` |
+| Normal · fáciles y guiadas | Las mismas, con pistas, vidas y la práctica paso a paso | `-t-` y `-p-` |
+| Interactivo | **Un ejercicio de parcial completo**, desglosado en partes según el nivel | `-e-` |
 
 ```html
 <article class="preg" data-id="unico" data-tipo="teoria|practica" data-origen="parcial|final">
@@ -39,6 +47,36 @@ Al armar una autoevaluación, las de parcial salen el doble de seguido que las d
 `avanzado` aparece en los tres niveles (partes principales), `medio` en medio y principiante,
 `principiante` solo en principiante (las cuentas mas chicas).
 `data-tolerancia` (opcional): margen aceptado. Si no esta, se acepta un 1 %.
+
+### Ejercicio completo (modo Interactivo)
+
+Es un ejercicio **real** de un parcial o final, con todos sus incisos, que el modo Interactivo
+va desglosando en pasos. Cuanto más fácil el nivel, más pasos: el mismo ejercicio se hace en 5
+pasos en avanzado y en 20 en principiante.
+
+```html
+<article class="preg" data-id="u4-e-parcial-2025-ej1" data-tipo="ejercicio" data-origen="parcial">
+  <div class="p-enunciado">   el enunciado COMPLETO, con sus incisos a), b)... + p-fuente
+  <div class="p-explicacion"> cierre: los resultados de todos los incisos, en una tabla
+  <ol class="p-pasos">
+    <li data-inciso="a" data-nivel="avanzado" data-respuesta="0,35">  paso numérico
+      <div class="p-consigna">  lo que se pide en este paso
+      <div class="p-pista">     pista de la lamparita
+      <div class="p-explicacion"> se muestra al resolver el paso
+    <li data-inciso="b" data-nivel="medio">  + <ul class="p-opciones">  paso con opciones
+```
+
+* Cada paso dice a qué inciso pertenece con `data-inciso` (la letra), y los pasos van en el orden
+  en que se resuelve el ejercicio.
+* **Los niveles** usan la misma regla de `data-nivel` de siempre:
+  * `avanzado`: el **resultado de cada inciso** (uno o varios pasos por inciso si el inciso pide
+    varios valores). Todo inciso tiene al menos un paso `avanzado`.
+  * `medio`: los resultados intermedios importantes (una marginal, un \(z\), \(E(X^{2})\)).
+  * `principiante`: cada cuenta chica (cada suma de una marginal, cada término de una esperanza).
+* Los incisos de teoría (demostrar, justificar, enunciar) se desglosan con pasos de opciones:
+  "¿cuál es el paso que sigue en la demostración?", "¿qué condición justifica el modelo?".
+* Los incisos que no se pueden corregir solos (un gráfico) se dejan afuera o se convierten en una
+  pregunta de opciones sobre el gráfico.
 
 ## 1ra etapa (cuestionario virtual)
 

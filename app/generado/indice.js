@@ -6,7 +6,9 @@ window.Apuntes.registrarIndice({
     "pye/u5/practica": "panes/pye-u5-practica.js",
     "pye/u5/teoria": "panes/pye-u5-teoria.js",
     "pye/u6/practica": "panes/pye-u6-practica.js",
-    "pye/u6/teoria": "panes/pye-u6-teoria.js"
+    "pye/u6/teoria": "panes/pye-u6-teoria.js",
+    "pye/u7/practica": "panes/pye-u7-practica.js",
+    "pye/u7/teoria": "panes/pye-u7-teoria.js"
   },
   "examenes": {
     "pye": [
@@ -93,6 +95,11 @@ window.Apuntes.registrarIndice({
           "clave": "u6",
           "num": "Unidad 6",
           "nombre": "Distribuciones Continuas"
+        },
+        {
+          "clave": "u7",
+          "num": "Unidad 7",
+          "nombre": "Distribuciones Muestrales y Estimacion"
         }
       ],
       "pdf": [
@@ -107,6 +114,12 @@ window.Apuntes.registrarIndice({
           "sigla": "TAB",
           "titulo": "Tablas de probabilidad",
           "archivo": "pdf/pye/tabla-probabilidad-y-estadistica-lsi.pdf"
+        },
+        {
+          "id": "icph",
+          "sigla": "IC",
+          "titulo": "Tabla de intervalos de confianza y prueba de hipotesis",
+          "archivo": "pdf/pye/tabla-ic-ph.pdf"
         }
       ],
       "material": {
@@ -118,9 +131,14 @@ window.Apuntes.registrarIndice({
           "resumen",
           "tablas"
         ],
+        "u7": [
+          "tablas",
+          "icph"
+        ],
         "evaluacion": [
           "resumen",
-          "tablas"
+          "tablas",
+          "icph"
         ]
       }
     },
@@ -173,5 +191,5 @@ window.Apuntes.registrarIndice({
       "unidades": []
     }
   ],
-  "construido": "2026-09-23 22:07:16"
+  "construido": "2026-09-23 22:24:21"
 });

@@ -43,10 +43,6 @@
     var h = E.h;
     var cont = h("div", { class: "ev" });
     pane.appendChild(cont);
-    // Los bancos de preguntas son chicos y los necesita todo el apartado
-    // (armar, rendir, corregir): se traen una vez al entrar.
-    E.banco.asegurar(materia, function () { inicio(); });
-
     var acciones = {
       volver: function (aviso) { inicio(aviso); },
       abrir: function (id) {
@@ -55,7 +51,7 @@
         if (E.estadoDe(ae).clave === "terminada") { acciones.informe(ae); }
         else { acciones.lanzar(ae, false); }
       },
-      nueva: function () { E.formulario.mostrar(cont, materia, acciones); },
+      nueva: function (inicial) { E.formulario.mostrar(cont, materia, acciones, inicial); },
       // Cada etapa del parcial tiene su pantalla: la 1ra es un cuestionario
       // (cuestionario.js) y la 2da el examen de siempre (examen.js / informe.js).
       lanzar: function (ae, reiniciar) {
@@ -201,14 +197,33 @@
       return tarjeta;
     }
 
-    function verExamen(ficha) {
+    // Lo que puede pedir la ruta recomendada (ver E.pedir)
+    var api = {
+      verExamen: function (id, ejercicio) {
+        var ficha = ((window.Apuntes.indice.examenes || {})[materia] || [])
+          .filter(function (f) { return f.id === id; })[0];
+        if (ficha) { verExamen(ficha, ejercicio); } else { inicio(); }
+      },
+      nueva: function (inicial) { acciones.nueva(inicial); }
+    };
+
+    // Los bancos de preguntas son chicos y los necesita todo el apartado
+    // (armar, rendir, corregir): se traen una vez al entrar. Si mientras
+    // tanto la ruta pidio algo, se hace eso en lugar de mostrar el inicio.
+    E.banco.asegurar(materia, function () {
+      var ctl = controles[materia] = controles[materia] || {};
+      ctl.api = api;
+      if (ctl.cola) { var f = ctl.cola; ctl.cola = null; f(api); } else { inicio(); }
+    });
+
+    function verExamen(ficha, ejercicio) {
       var html = ((window.Apuntes.examenes || {})[materia] || {})[ficha.id];
       if (!html) {
         // todavia no se cargo: se trae y se vuelve a entrar
         E.vaciar(cont);
         cont.appendChild(h("p", { class: "ev-vacio" }, "Abriendo el examen…"));
         window.Apuntes.cargar(ficha.archivo, function (llego) {
-          if (llego) { verExamen(ficha); }
+          if (llego) { verExamen(ficha, ejercicio); }
           else { inicio("No pude abrir el examen. Corré python construir.py en app/."); }
         });
         return;
@@ -233,6 +248,22 @@
       });
 
       E.pantallaNueva(cont);
+
+      // desde la ruta: ir directo a ese ejercicio del examen
+      if (ejercicio && window.NC.irAlTitulo) {
+        var titulo = Array.prototype.filter.call(cont.querySelectorAll(".parcial-ej h2"), function (t) {
+          return t.textContent.trim() === "Ejercicio " + ejercicio;
+        })[0];
+        if (titulo) { window.NC.irAlTitulo(titulo); }
+      }
     }
+  };
+
+  // La ruta recomendada abre un examen o un formulario ya completo. Si el
+  // apartado todavia se esta armando, el pedido espera a que este listo.
+  var controles = {};   // materia -> { api, cola }
+  E.pedir = function (materia, fn) {
+    var ctl = controles[materia] = controles[materia] || {};
+    if (ctl.api) { fn(ctl.api); } else { ctl.cola = fn; }
   };
 })(window.NC.eval);

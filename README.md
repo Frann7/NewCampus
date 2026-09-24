@@ -40,7 +40,11 @@ fórmulas (MathJax) y las tipografías. Tus datos no salen de tu máquina.
 * **Ruta recomendada**: una pestaña por materia, al lado del Calendario, con lo fundamental para
   el parcial dividido en partes (teoría, práctica, parciales y autoevaluación en el orden en que
   conviene hacerlos). Cada paso se tacha y queda guardado en el navegador, con la cuenta de cada
-  parte y el progreso total. Se escribe en `app/contenido/<materia>/ruta/`.
+  parte y el progreso total. Cada paso tiene un botón que lleva directo a donde hay que ir: la
+  sección de teoría o el primer ejercicio recomendado (ya desplegados), el parcial en ese
+  ejercicio, o el formulario de autoevaluación completo con lo que recomienda la ruta (solo falta
+  guardar). Mantenerlo apretado lo abre en una ventana aparte, como las pestañas. Se escribe en
+  `app/contenido/<materia>/ruta/`.
 * **Calendario**: un mes a pantalla completa con flechas para navegar, o el año entero.
   Se le anotan **parciales y trabajos prácticos** (materia, unidades que entran, día y una
   descripción); el día con parcial se pinta entero del color de la materia, y si ese día cae más de

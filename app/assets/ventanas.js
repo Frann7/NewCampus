@@ -3,7 +3,9 @@
    ------------------------------------------------------------
    Manteniendo apretada una pestania (Teoria / Practica / Evaluacion)
    se saca una COPIA de ese apartado en una ventana aparte, para poder
-   leer dos partes del mismo apunte al mismo tiempo.
+   leer dos partes del mismo apunte al mismo tiempo. Lo mismo con los
+   botones de la ruta recomendada: la copia abre ese mismo destino
+   (NC.ventanas.sostener).
 
    La copia es la misma index.html abierta como:
 
@@ -97,7 +99,7 @@ window.NC = window.NC || {};
 
   var abiertas = [];           // ventanas duplicadas vivas
   var recienSacada = false;    // para que el clic posterior no cambie de pestania
-  var pendiente = null;        // pestania que quedo esperando para reintentar
+  var pendiente = null;        // direccion que quedo esperando para reintentar
 
   function vivas() {
     abiertas = abiertas.filter(function (w) {
@@ -123,15 +125,20 @@ window.NC = window.NC || {};
     };
   }
 
-  // Abre la ventana. Devuelve null si el navegador la bloqueo.
-  function abrirCopia(tab) {
+  // La copia de una pestania: el mismo apartado que se esta viendo.
+  function urlDeTab(tab) {
     var ruta = window.NC.rutaActual ? window.NC.rutaActual(tab) : null;
-    if (!ruta) { return null; }
+    return ruta ? "index.html?panel=1#" + ruta : null;
+  }
+
+  // Abre la ventana. Devuelve null si el navegador la bloqueo.
+  function abrirCopia(url) {
+    if (!url) { return null; }
 
     var g = geometria(vivas().length);
     try {
       return window.open(
-        "index.html?panel=1#" + ruta,
+        url,
         MARCA + Date.now(),
         "popup=yes,width=" + g.w + ",height=" + g.h + ",left=" + g.x + ",top=" + g.y
       );
@@ -142,7 +149,7 @@ window.NC = window.NC || {};
   // Chrome deja abrir ventanas un rato despues de que apretaste, asi que la
   // copia sale sola al llenarse la barra. Si igual la bloquea, se reintenta al
   // soltar el boton, que es un gesto tuyo y ahi no la puede bloquear.
-  function pedirCopia(tab, ultimoIntento) {
+  function pedirCopia(url, ultimoIntento) {
     if (vivas().length >= MAXIMO) {
       cartel("Ya tenés " + MAXIMO + " ventanas duplicadas",
              "El tope es de " + MAXIMO + " copias abiertas a la vez para no cargar la máquina. " +
@@ -150,7 +157,7 @@ window.NC = window.NC || {};
       return "tope";
     }
 
-    var w = abrirCopia(tab);
+    var w = abrirCopia(url);
     if (w) {
       abiertas.push(w);
       try { w.focus(); } catch (e) {}
@@ -173,7 +180,15 @@ window.NC = window.NC || {};
   // marca siempre lo mismo aunque la maquina vaya lenta.
   function prepararPestania(t) {
     if (t.dataset.nombre === undefined) { t.dataset.nombre = t.textContent.trim(); }
-    t.title = "Clic para abrirla acá. Mantené apretado para sacarla en otra ventana.";
+    prepararSostener(t, function () { return urlDeTab(t.getAttribute("data-tab")); },
+      "Clic para abrirla acá. Mantené apretado para sacarla en otra ventana.");
+  }
+
+  // Cualquier boton que al mantenerlo apretado saque una copia. obtenerUrl()
+  // dice que abrir en la ventana nueva.
+  function prepararSostener(t, obtenerUrl, ayuda) {
+    t.setAttribute("data-sostenible", "");
+    if (ayuda) { t.title = ayuda; }
 
     var barra = el("span", "tab-carga");
     t.appendChild(barra);
@@ -209,17 +224,17 @@ window.NC = window.NC || {};
         recienSacada = true;
         // por si el clic nunca llega (se solto afuera del boton)
         window.setTimeout(function () { recienSacada = false; }, 1500);
-        var tab = t.getAttribute("data-tab");
-        pendiente = pedirCopia(tab, false) === "bloqueada" ? tab : null;
+        var url = obtenerUrl();
+        pendiente = pedirCopia(url, false) === "bloqueada" ? url : null;
       }, MS_SOSTENER);
     });
 
     t.addEventListener("pointerup", function () {
       soltar();
       if (pendiente) {
-        var tab = pendiente;
+        var url = pendiente;
         pendiente = null;
-        pedirCopia(tab, true);
+        pedirCopia(url, true);
       }
     });
 
@@ -238,7 +253,7 @@ window.NC = window.NC || {};
     // que app.js puso en el propio boton.
     document.addEventListener("click", function (ev) {
       if (!recienSacada) { return; }
-      if (!ev.target.closest || !ev.target.closest(".tab")) { return; }
+      if (!ev.target.closest || !ev.target.closest("[data-sostenible]")) { return; }
       recienSacada = false;
       ev.preventDefault();
       ev.stopPropagation();
@@ -262,7 +277,11 @@ window.NC = window.NC || {};
 
   window.NC.ventanas = {
     maximo: MAXIMO,
-    duplicar: function (tab) { return pedirCopia(tab, true); },
+    duplicar: function (tab) { return pedirCopia(urlDeTab(tab), true); },
+    sostener: function (boton, obtenerUrl) {
+      if (window.NC.esPanel) { return; }      // una copia no saca copias
+      prepararSostener(boton, obtenerUrl, "Clic para ir. Mantené apretado para abrirlo en otra ventana.");
+    },
     abiertas: function () { return vivas().length; }
   };
 })();

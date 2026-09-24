@@ -763,6 +763,7 @@ window.NC = window.NC || {};
 
   // Evaluacion cambia de pantalla sin cambiar de pane: rearma el indice cuando lo pide.
   window.NC.reconstruirIndice = function () { construirTOC($(".pane.is-active")); };
+  window.NC.irAlTitulo = function (h) { irAlTitulo(h); };
 
   // Cada parte se tipografia una sola vez. Lo que esta adentro de una seccion
   // cerrada NO se toca: MathJax mide mal lo que no esta a la vista.
@@ -1308,7 +1309,7 @@ window.NC = window.NC || {};
       var total = 0;
       cajas.forEach(function (c) {
         c.checked = !!hechos[c.getAttribute("data-paso")];
-        var fila = c.closest(".ruta-paso");
+        var fila = c.closest(".ruta-item") || c.closest(".ruta-paso");
         if (fila) { fila.classList.toggle("is-hecho", c.checked); }
         if (c.checked) { total++; }
       });
@@ -1327,6 +1328,21 @@ window.NC = window.NC || {};
       }
     }
 
+    $$(".ruta-ir", pane).forEach(function (b) {
+      b.addEventListener("click", function () { seguirRuta(b.dataset, materia); });
+      // mantenerlo apretado abre el mismo destino en otra ventana (ventanas.js);
+      // la copia lee el destino de ?ir= al arrancar
+      if (window.NC.ventanas && window.NC.ventanas.sostener) {
+        window.NC.ventanas.sostener(b, function () {
+          var d = Object.assign({}, b.dataset);
+          delete d.sostenible;                 // la marca de ventanas.js, no es parte del destino
+          var s = { materia: materia, unidad: d.unidad || state.unidad, tab: d.tab };
+          return "index.html?panel=1&ir=" + encodeURIComponent(JSON.stringify(d)) +
+                 "#" + rutaDe(s);
+        });
+      }
+    });
+
     cajas.forEach(function (c) {
       c.addEventListener("change", function () {
         var id = c.getAttribute("data-paso");
@@ -1336,6 +1352,46 @@ window.NC = window.NC || {};
       });
     });
     pintar();
+  }
+
+  /* Un boton de la ruta lleva a donde dice su data-*:
+       data-tab + data-unidad + data-seccion="5"     la seccion 5 de la teoria
+       data-tab + data-unidad + data-ejercicio="..." el ejercicio cuya etiqueta dice eso
+       data-tab="evaluacion" + data-examen (+ data-ejercicio)   un parcial, en ese ejercicio
+       data-tab="evaluacion" + data-autoeval (JSON) + data-nombre
+                                                     el formulario ya completo */
+  function seguirRuta(d, materia) {
+    var s = { materia: materia, unidad: d.unidad || state.unidad, tab: d.tab };
+    var id = paneId(s);
+    if (d.tab === EVALUACION) {
+      destino = { id: id, hacer: function () {
+        window.NC.eval.pedir(materia, function (api) {
+          if (d.examen) { api.verExamen(d.examen, d.ejercicio); }
+          else if (d.autoeval) { api.nueva({ nombre: d.nombre || "", config: JSON.parse(d.autoeval) }); }
+        });
+      } };
+    } else {
+      destino = { id: id, hacer: function (pane) { irAlBloque(pane, d); } };
+    }
+    ir(s);
+  }
+
+  function escaparRegex(t) { return t.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"); }
+
+  // Busca la seccion (por su numero) o el ejercicio (por su etiqueta), la
+  // despliega y la deja arriba de todo.
+  function irAlBloque(pane, d) {
+    var patron = d.seccion
+      ? new RegExp("^\\s*" + escaparRegex(d.seccion) + "\\.")
+      : new RegExp(escaparRegex(d.ejercicio || "") + "(?!\\d)");
+    var bloque = $$(".bloque, .ej", pane).filter(function (b) {
+      var h2 = $("h2", b), tag = $(".tag", b);
+      var texto = d.seccion ? (h2 ? h2.textContent : "") : (tag ? tag.textContent : "");
+      return patron.test(texto.replace(/\s+/g, " "));
+    })[0];
+    if (!bloque) { return; }
+    if (bloque.classList.contains("es-seccion")) { abrirSeccion(bloque, true); }
+    irAlTitulo($("h2", bloque) || bloque);
   }
 
   /* ---------- render ---------- */
@@ -1365,6 +1421,9 @@ window.NC = window.NC || {};
   }
 
   var pedido = 0;
+  // Que hacer cuando termine de mostrarse un apartado: { id, hacer(pane) }.
+  // Lo usan los botones de la ruta recomendada (ver seguirRuta).
+  var destino = null;
 
   function mostrarPane(id) {
     limpiarAvisos();
@@ -1382,6 +1441,9 @@ window.NC = window.NC || {};
     construirTOC(activo);
     tipografiar(activo);
     window.scrollTo(0, 0);
+
+    // lo que pidio un boton de la ruta para cuando se abriera este apartado
+    if (destino && destino.id === id) { var d = destino; destino = null; d.hacer(activo); }
   }
 
   function pintarNavegacion(id) {
@@ -1616,6 +1678,10 @@ window.NC = window.NC || {};
     initLatido();
     state = rutaInicial();
     render();
+    // una copia sacada desde un boton de la ruta trae su destino en ?ir=
+    var destinoCopia = null;
+    try { destinoCopia = JSON.parse(new URLSearchParams(window.location.search).get("ir") || "null"); } catch (e) {}
+    if (destinoCopia) { seguirRuta(destinoCopia, state.materia); }
     // recordatorio de parciales y trabajos practicos (solo la ventana principal)
     if (!PANEL && window.NC.calAgenda) { window.NC.calAgenda.recordatorio(); }
   });

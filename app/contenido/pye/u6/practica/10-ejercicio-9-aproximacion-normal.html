@@ -10,39 +10,71 @@
     </p>
   </div>
 
-  <span class="paso">Paso 1 &mdash; Por que este modelo</span>
+  <span class="paso">Que modelo y por que</span>
   <p>
-    Hay una cantidad fija de intentos (\(n = 100\) articulos) y un porcentaje constante
-    (\(p = 0{,}10\)) de que cada uno salga defectuoso. Eso es una <strong>Binomial</strong>:
-    \(X \sim Bi(100;\ 0{,}10)\).
+    <strong>De origen es una Binomial.</strong> \(X\) = "cantidad de defectuosos entre los 100", y se
+    cumplen las condiciones de la Unidad 5:
   </p>
+  <ul>
+    <li>cantidad fija de pruebas: 100 articulos &rarr; \(n = 100\);</li>
+    <li>cada articulo tiene dos resultados: defectuoso o no;</li>
+    <li>la probabilidad de defectuoso es la misma para todos: \(p = 0{,}10\);</li>
+    <li>los articulos son independientes entre si.</li>
+  </ul>
   <p>
-    El problema es practico: la tabla acumulada binomial de la catedra llega hasta \(n = 20\), y
-    calcular \(P(X \leq 13)\) a mano son <strong>catorce terminos</strong>. Por eso se
-    <strong>aproxima por la Normal</strong>.
+    <strong>Por que no se resuelve como Binomial:</strong> la tabla acumulada de la catedra llega
+    hasta \(n = 20\), y con la formula, "a lo sumo 13" son catorce terminos (del 0 al 13). Con \(n\)
+    grande las barras de la Binomial ya tienen forma de campana, asi que se
+    <strong>aproxima por la Normal</strong> y se resuelve con la tabla \(Z\).
   </p>
 
   <div class="caja caja-formula">
-    <span class="caja-tit">Cuando se puede aproximar</span>
-    <p>\[ n\,p \geq 5 \qquad \text{y} \qquad n(1-p) \geq 5 \]</p>
+    <span class="caja-tit">Condiciones para aproximar (hay que escribirlas en el parcial)</span>
+    <ul>
+      <li>\(n = 100 \geq 30\) &#10003;</li>
+      <li>\(n\,p = 100 \cdot 0{,}10 = 10 \geq 5\) &#10003;</li>
+      <li>\(n\,(1-p) = 100 \cdot 0{,}90 = 90 \geq 5\) &#10003;</li>
+    </ul>
     <p>
-      Aca: \(n\,p = 100 \cdot 0{,}10 = 10\) y \(n(1-p) = 100 \cdot 0{,}90 = 90\).
-      Las dos se cumplen holgadamente, asi que la aproximacion es valida.
-      <strong>Esta justificacion hay que escribirla</strong>: en el parcial 2023 la piden explicitamente.
+      Se cumplen las tres: la aproximacion es valida. En el parcial 2023 piden
+      <strong>justificar la metodologia</strong>: estas tres lineas son esa justificacion.
     </p>
   </div>
 
-  <span class="paso">Paso 2 &mdash; Los parametros de la Normal</span>
-  <p>La Normal que reemplaza a la Binomial usa la media y el desvio de la propia Binomial:</p>
-  <p>\[ \mu = n\,p \qquad \sigma = \sqrt{n\,p\,(1-p)} \]</p>
-  <p>\[ \mu = 100 \cdot 0{,}10 = 10 \qquad \sigma = \sqrt{100 \cdot 0{,}10 \cdot 0{,}90} = \sqrt{9} = 3 \]</p>
+  <span class="paso">Desarme del enunciado</span>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Traduccion</th><th>Cuenta</th><th>A donde va</th></tr>
+      <tr><td>"100 articulos"</td><td>cantidad de pruebas</td><td>&mdash;</td><td>\(n = 100\)</td></tr>
+      <tr><td>"10% de articulos defectuosos"</td><td>el exito que se cuenta es salir defectuoso</td><td>\(10 \div 100 = 0{,}10\)</td><td>\(p = 0{,}10\)</td></tr>
+      <tr><td>(se deduce)</td><td>no salir defectuoso</td><td>\(1 - 0{,}10 = 0{,}90\)</td><td>\(1 - p = 0{,}90\)</td></tr>
+      <tr><td>"exceda los 13"</td><td>14, 15, 16&hellip;: el 13 <strong>no</strong> entra. Area a la derecha</td><td>borde corregido: 13,5</td><td>inciso a: \(P(X \geq 14)\)</td></tr>
+      <tr><td>"menor a 8"</td><td>&hellip;, 6, 7: el 8 <strong>no</strong> entra. Area a la izquierda</td><td>borde corregido: 7,5</td><td>inciso b: \(P(X \leq 7)\)</td></tr>
+    </table>
+  </div>
 
-  <span class="paso">Paso 3 &mdash; La correccion por continuidad</span>
+  <span class="paso">Paso previo 1 &mdash; La media y el desvio de la Normal</span>
   <p>
-    Estamos reemplazando una variable <strong>discreta</strong> (que solo toma 0, 1, 2, 3&hellip;)
-    por una <strong>continua</strong>. En la discreta, el valor 13 es un palito; en la continua,
-    ese 13 ocupa toda la franja que va de <strong>12,5 a 13,5</strong>. Por eso cada valor entero se
-    estira medio punto para cada lado antes de estandarizar.
+    <strong>Que se hace:</strong> se arma la campana que reemplaza a la Binomial.
+    <strong>Por que con estas formulas:</strong> la campana tiene que estar centrada donde la
+    Binomial y tener su mismo ancho, asi que usa la media y el desvio de la propia Binomial.
+  </p>
+  <p>Formula de la media:</p>
+  <p>\[ \mu = n \cdot p \]</p>
+  <p>\[ \mu = 100 \cdot 0{,}10 = 10 \]</p>
+  <p>Se esperan 10 defectuosos: ahi esta el centro de la campana.</p>
+  <p>Formula del desvio:</p>
+  <p>\[ \sigma = \sqrt{n \cdot p \cdot (1-p)} \]</p>
+  <p>\[ \sigma = \sqrt{100 \cdot 0{,}10 \cdot 0{,}90} = \sqrt{9} = 3 \]</p>
+  <p>Ojo: \(n\,p\,(1-p) = 9\) es la <em>varianza</em>; el desvio es su raiz, 3.</p>
+
+  <span class="paso">Paso previo 2 &mdash; La correccion por continuidad</span>
+  <p>
+    Se reemplaza una variable <strong>discreta</strong> (solo toma 0, 1, 2, 3&hellip;) por una
+    <strong>continua</strong>. En la Binomial cada entero es una barra de ancho 1
+    <strong>centrada</strong> en su valor: la barra del 13 va de 12,5 a 13,5. Para que el area de la
+    campana tome las barras enteras, el borde se corre <strong>medio punto hacia afuera</strong> de
+    los enteros que se quieren contar.
   </p>
   <div class="tabla-wrap">
     <table class="t full">
@@ -60,32 +92,66 @@
   </p>
 
   <span class="paso">Inciso a &mdash; Que exceda los 13</span>
-  <p>&laquo;Exceda los 13&raquo; deja el 13 <strong>afuera</strong>: en enteros es \(X \geq 14\).</p>
-  <p>Con la correccion, el borde cae en 13,5. Formula de estandarizacion:</p>
+  <p><strong>Paso 1 &mdash; Pasar a enteros.</strong> "Exceda los 13" deja el 13 <strong>afuera</strong>: los enteros que entran son 14, 15, 16&hellip;</p>
+  <p>\[ P(X &gt; 13) = P(X \geq 14) \]</p>
+
+  <p>
+    <strong>Paso 2 &mdash; Corregir el borde.</strong> El primer entero que entra es el 14, y su barra
+    empieza en 13,5. El borde va ahi, medio punto por debajo del 14 (hacia afuera del grupo):
+  </p>
+  <p>\[ P(X \geq 14) \approx P(Y &gt; 13{,}5) \]</p>
+
+  <p><strong>Paso 3 &mdash; Ubicar el area.</strong> "Mayor que 13,5" es un area a la derecha:</p>
+  <p>Formula:</p>
+  <p>\[ P(Y &gt; x) = 1 - F(z) \]</p>
+
+  <p><strong>Paso 4 &mdash; Estandarizar el borde corregido.</strong></p>
+  <p>Formula:</p>
   <p>\[ z = \frac{x - \mu}{\sigma} \]</p>
-  <p>\[ z = \frac{13{,}5 - 10}{3} = \frac{3{,}5}{3} = 1{,}17 \]</p>
-  <p>Traducimos la pregunta a area:</p>
-  <p>\[ P(X &gt; 13) \approx P(Y &gt; 13{,}5) = 1 - F(1{,}17) \]</p>
-  <p>\[ = 1 - 0{,}8790 = \mathbf{0{,}1210} \]</p>
+  <p>\[ z = \frac{13{,}5 - 10}{3} = \frac{3{,}5}{3} = 1{,}1667 \approx 1{,}17 \]</p>
+  <p>El borde esta 1,17 desvios por encima de la media.</p>
+
+  <p><strong>Paso 5 &mdash; Tabla.</strong> \(F(1{,}17)\): fila 1,1, columna 0,07 &rarr; 0,8790.</p>
+
+  <p><strong>Paso 6 &mdash; La cuenta del paso 3.</strong></p>
+  <p>\[ P(X &gt; 13) \approx 1 - F(1{,}17) = 1 - 0{,}8790 = \mathbf{0{,}1210} \]</p>
   <div class="caja caja-resp">
     <span class="caja-tit">Respuesta a</span>
+    <p>La probabilidad de que haya mas de 13 defectuosos entre los 100 es aproximadamente 0,1210 (12,10%).</p>
     <p>
-      12,10%. Control de sentido comun: se esperan 10 defectuosos y preguntamos por mas de 13, o sea
-      algo mas de un desvio por encima. Tenia que dar bastante menos que la mitad.
+      Control: se esperan 10 defectuosos y preguntamos por mas de 13, algo mas de un desvio por
+      encima. Tenia que dar bastante menos que la mitad. &#10003;
     </p>
   </div>
 
   <span class="paso">Inciso b &mdash; Que sea menor a 8</span>
-  <p>&laquo;Menor a 8&raquo; deja el 8 <strong>afuera</strong>: en enteros es \(X \leq 7\).</p>
-  <p>Con la correccion, el borde cae en 7,5. Formula de estandarizacion:</p>
+  <p><strong>Paso 1 &mdash; Pasar a enteros.</strong> "Menor a 8" deja el 8 <strong>afuera</strong>: entran 0, 1, &hellip;, 7.</p>
+  <p>\[ P(X &lt; 8) = P(X \leq 7) \]</p>
+
+  <p>
+    <strong>Paso 2 &mdash; Corregir el borde.</strong> El ultimo entero que entra es el 7, y su barra
+    termina en 7,5. El borde va ahi, medio punto por encima del 7:
+  </p>
+  <p>\[ P(X \leq 7) \approx P(Y &lt; 7{,}5) \]</p>
+
+  <p><strong>Paso 3 &mdash; Ubicar el area.</strong> "Menor que 7,5" es un area a la izquierda, lo que da la tabla:</p>
+  <p>Formula:</p>
+  <p>\[ P(Y &lt; x) = F(z) \]</p>
+
+  <p><strong>Paso 4 &mdash; Estandarizar el borde corregido.</strong></p>
+  <p>Formula:</p>
   <p>\[ z = \frac{x - \mu}{\sigma} \]</p>
-  <p>\[ z = \frac{7{,}5 - 10}{3} = \frac{-2{,}5}{3} = -0{,}83 \]</p>
-  <p>Traducimos la pregunta a area:</p>
-  <p>\[ P(X &lt; 8) \approx P(Y &lt; 7{,}5) = F(-0{,}83) = \mathbf{0{,}2033} \]</p>
-  <p>Como es &laquo;menor a&raquo;, el area a la izquierda es directamente la respuesta.</p>
+  <p>\[ z = \frac{7{,}5 - 10}{3} = \frac{-2{,}5}{3} = -0{,}8333 \approx -0{,}83 \]</p>
+  <p>El borde esta 0,83 desvios por debajo de la media.</p>
+
+  <p><strong>Paso 5 &mdash; Tabla.</strong> \(F(-0{,}83)\): fila \(-0{,}8\), columna 0,03 &rarr; 0,2033.</p>
+
+  <p><strong>Paso 6 &mdash; Resultado.</strong> Como es area a la izquierda, el valor de la tabla ya es la respuesta:</p>
+  <p>\[ P(X &lt; 8) \approx F(-0{,}83) = \mathbf{0{,}2033} \]</p>
   <div class="caja caja-resp">
     <span class="caja-tit">Respuesta b</span>
-    <p>20,33%.</p>
+    <p>La probabilidad de que haya menos de 8 defectuosos es aproximadamente 0,2033 (20,33%).</p>
+    <p>Control: 8 esta por debajo de lo esperado (10), asi que tenia que dar menos de la mitad. &#10003;</p>
   </div>
 
   <div class="caja caja-ojo">
@@ -99,5 +165,10 @@
       <strong>2. Olvidar que \(\sigma\) lleva raiz.</strong> \(np(1-p) = 9\) es la
       <em>varianza</em>; el desvio es 3. Si estandarizas con 9 todo el ejercicio se cae.
     </p>
+  </div>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Resumen de respuestas</span>
+    <p>a) 0,1210 &nbsp;&middot;&nbsp; b) 0,2033</p>
   </div>
 </div>

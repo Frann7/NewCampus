@@ -11,17 +11,44 @@
     </p>
   </div>
 
-  <span class="paso">Paso 1 &mdash; Desarme del enunciado</span>
+  <span class="paso">Que modelo y por que</span>
   <p>
-    El enunciado te da el porcentaje de las que <strong>cumplen</strong> (95%) pero las dos preguntas
-    son sobre las <strong>defectuosas</strong>. Hay que dar vuelta el porcentaje antes de arrancar:
+    <strong>De origen es una Binomial.</strong> \(X\) = "cantidad de resistencias defectuosas en el
+    lote de 100":
   </p>
-  <p>\[ p = 1 - 0{,}95 = 0{,}05 \]</p>
-  <p>\(X\) = &laquo;cantidad de resistencias defectuosas en el lote&raquo;, con \(X \sim Bi(100;\ 0{,}05)\).</p>
+  <ul>
+    <li>cantidad fija de pruebas: las 100 resistencias del lote &rarr; \(n = 100\);</li>
+    <li>cada resistencia tiene dos resultados: cumple o es defectuosa;</li>
+    <li>la probabilidad es la misma para todas;</li>
+    <li>una resistencia no cambia a otra.</li>
+  </ul>
+  <p>
+    Las preguntas son sobre las <strong>defectuosas</strong>, asi que el exito que se cuenta es ser
+    defectuosa. El enunciado da el porcentaje de las que <strong>cumplen</strong> (95%): hay que dar
+    vuelta el porcentaje antes de arrancar.
+  </p>
+  <p>Con \(n = 100\) no hay tabla binomial: se <strong>aproxima por la Normal</strong>, si se cumplen las condiciones.</p>
 
+  <span class="paso">Desarme del enunciado</span>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Traduccion</th><th>Cuenta</th><th>A donde va</th></tr>
+      <tr><td>"lotes de 100"</td><td>cantidad de pruebas</td><td>&mdash;</td><td>\(n = 100\)</td></tr>
+      <tr><td>"el 95% cumplen"</td><td>probabilidad de <strong>cumplir</strong>: es el fracaso, porque se cuentan defectuosas</td><td>\(95 \div 100 = 0{,}95\)</td><td>\(1 - p = 0{,}95\)</td></tr>
+      <tr><td>(se deduce)</td><td>probabilidad de ser defectuosa: el exito</td><td>\(1 - 0{,}95 = 0{,}05\)</td><td>\(p = 0{,}05\)</td></tr>
+      <tr><td>"mas de 2 defectuosas"</td><td>desde el 3: el 2 <strong>no</strong> entra. Area a la derecha</td><td>borde corregido: 2,5</td><td>inciso a: \(P(X \geq 3)\)</td></tr>
+      <tr><td>"mas de 10 defectuosas"</td><td>desde el 11: el 10 <strong>no</strong> entra. Area a la derecha</td><td>borde corregido: 10,5</td><td>inciso b: \(P(X \geq 11)\)</td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Paso previo 1 &mdash; Condiciones para aproximar</span>
+  <ul>
+    <li>\(n = 100 \geq 30\) &#10003;</li>
+    <li>\(n\,p = 100 \cdot 0{,}05 = 5 \geq 5\) &#10003; (justo)</li>
+    <li>\(n\,(1-p) = 100 \cdot 0{,}95 = 95 \geq 5\) &#10003;</li>
+  </ul>
   <div class="caja caja-ojo">
     <span class="caja-tit">Las condiciones quedan justo en el limite</span>
-    <p>\[ n\,p = 100 \cdot 0{,}05 = 5 \qquad n(1-p) = 100 \cdot 0{,}95 = 95 \]</p>
     <p>
       \(n\,p = 5\) es <strong>exactamente</strong> el minimo. La aproximacion se puede usar, pero
       queda justa: con \(p\) chico la binomial es asimetrica y la Normal, que es simetrica, la
@@ -29,34 +56,58 @@
     </p>
   </div>
 
-  <p>Parametros de la Normal:</p>
-  <p>\[ \mu = n\,p = 5 \qquad \sigma = \sqrt{n\,p\,(1-p)} = \sqrt{100 \cdot 0{,}05 \cdot 0{,}95} = \sqrt{4{,}75} = 2{,}18 \]</p>
+  <span class="paso">Paso previo 2 &mdash; La media y el desvio de la Normal</span>
+  <p>Formula de la media:</p>
+  <p>\[ \mu = n \cdot p \]</p>
+  <p>\[ \mu = 100 \cdot 0{,}05 = 5 \]</p>
+  <p>Se esperan 5 defectuosas por lote: el centro de la campana.</p>
+  <p>Formula del desvio:</p>
+  <p>\[ \sigma = \sqrt{n \cdot p \cdot (1-p)} \]</p>
+  <p>\[ \sigma = \sqrt{100 \cdot 0{,}05 \cdot 0{,}95} = \sqrt{4{,}75} = 2{,}1794 \approx 2{,}18 \]</p>
+  <p>Aca la raiz no es exacta: se redondea a dos decimales y se usa 2,18 en las dos estandarizaciones.</p>
 
   <span class="paso">Inciso a &mdash; Mas de 2 defectuosas</span>
-  <p>&laquo;Mas de 2&raquo; deja el 2 afuera: en enteros es \(X \geq 3\), y el borde cae en 2,5.</p>
-  <p>Formula de estandarizacion:</p>
+  <p><strong>Paso 1 &mdash; Pasar a enteros.</strong> "Mas de 2" deja el 2 afuera: entran del 3 en adelante.</p>
+  <p>\[ P(X &gt; 2) = P(X \geq 3) \]</p>
+  <p><strong>Paso 2 &mdash; Corregir el borde.</strong> El primero que entra es el 3; su barra empieza en 2,5:</p>
+  <p>\[ P(X \geq 3) \approx P(Y &gt; 2{,}5) \]</p>
+  <p><strong>Paso 3 &mdash; Ubicar el area.</strong> Area a la derecha: el total menos la izquierda.</p>
+  <p>Formula:</p>
+  <p>\[ P(Y &gt; x) = 1 - F(z) \]</p>
+  <p><strong>Paso 4 &mdash; Estandarizar el borde corregido.</strong></p>
+  <p>Formula:</p>
   <p>\[ z = \frac{x - \mu}{\sigma} \]</p>
-  <p>\[ z = \frac{2{,}5 - 5}{2{,}18} = \frac{-2{,}5}{2{,}18} = -1{,}15 \]</p>
-  <p>Formula del area a la derecha:</p>
+  <p>\[ z = \frac{2{,}5 - 5}{2{,}18} = \frac{-2{,}5}{2{,}18} = -1{,}1468 \approx -1{,}15 \]</p>
+  <p>El borde esta 1,15 desvios por debajo de la media.</p>
+  <p><strong>Paso 5 &mdash; Tabla.</strong> \(F(-1{,}15)\): fila \(-1{,}1\), columna 0,05 &rarr; 0,1251.</p>
+  <p><strong>Paso 6 &mdash; La cuenta del paso 3.</strong></p>
   <p>\[ P(X &gt; 2) \approx 1 - F(-1{,}15) = 1 - 0{,}1251 = \mathbf{0{,}8749} \]</p>
   <div class="caja caja-resp">
     <span class="caja-tit">Respuesta a</span>
-    <p>
-      87,49%. Se esperan 5 defectuosas por lote, asi que que haya mas de 2 es lo normal:
-      tenia que dar alto.
-    </p>
+    <p>La probabilidad de que un lote tenga mas de 2 resistencias defectuosas es aproximadamente 0,8749 (87,49%).</p>
+    <p>Control: se esperan 5 defectuosas por lote, asi que que haya mas de 2 es lo normal: tenia que dar alto.</p>
   </div>
 
   <span class="paso">Inciso b &mdash; Mas de 10 defectuosas</span>
-  <p>&laquo;Mas de 10&raquo; deja el 10 afuera: en enteros es \(X \geq 11\), y el borde cae en 10,5.</p>
-  <p>Formula de estandarizacion:</p>
+  <p><strong>Paso 1 &mdash; Pasar a enteros.</strong> "Mas de 10" deja el 10 afuera: entran del 11 en adelante.</p>
+  <p>\[ P(X &gt; 10) = P(X \geq 11) \]</p>
+  <p><strong>Paso 2 &mdash; Corregir el borde.</strong> El primero que entra es el 11; su barra empieza en 10,5:</p>
+  <p>\[ P(X \geq 11) \approx P(Y &gt; 10{,}5) \]</p>
+  <p><strong>Paso 3 &mdash; Ubicar el area.</strong> Area a la derecha.</p>
+  <p>Formula:</p>
+  <p>\[ P(Y &gt; x) = 1 - F(z) \]</p>
+  <p><strong>Paso 4 &mdash; Estandarizar el borde corregido.</strong></p>
+  <p>Formula:</p>
   <p>\[ z = \frac{x - \mu}{\sigma} \]</p>
-  <p>\[ z = \frac{10{,}5 - 5}{2{,}18} = \frac{5{,}5}{2{,}18} = 2{,}52 \]</p>
-  <p>Formula del area a la derecha:</p>
+  <p>\[ z = \frac{10{,}5 - 5}{2{,}18} = \frac{5{,}5}{2{,}18} = 2{,}5229 \approx 2{,}52 \]</p>
+  <p>El borde esta 2,52 desvios por encima de la media: muy lejos.</p>
+  <p><strong>Paso 5 &mdash; Tabla.</strong> \(F(2{,}52)\): fila 2,5, columna 0,02 &rarr; 0,9941.</p>
+  <p><strong>Paso 6 &mdash; La cuenta del paso 3.</strong></p>
   <p>\[ P(X &gt; 10) \approx 1 - F(2{,}52) = 1 - 0{,}9941 = \mathbf{0{,}0059} \]</p>
   <div class="caja caja-resp">
     <span class="caja-tit">Respuesta b</span>
-    <p>0,59%. Mas del doble de lo esperado en un lote es muy raro.</p>
+    <p>La probabilidad de que un lote tenga mas de 10 defectuosas es aproximadamente 0,0059 (0,59%).</p>
+    <p>Mas del doble de lo esperado en un lote es muy raro.</p>
   </div>
 
   <div class="caja caja-calc">
@@ -71,5 +122,10 @@
       \(\lambda = n\,p = 5\), que aca funciona mejor: da 0,8753 y 0,0137. Salvo que la catedra pida
       otra cosa, <strong>en esta unidad se resuelve por Normal</strong>, que es el tema de la guia.
     </p>
+  </div>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Resumen de respuestas</span>
+    <p>a) 0,8749 &nbsp;&middot;&nbsp; b) 0,0059</p>
   </div>
 </div>

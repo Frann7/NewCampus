@@ -1,0 +1,70 @@
+<div class="ej">
+  <span class="tag">Guia 7A &middot; Ejercicio 5 &middot; TLC</span>
+  <h2>Resistencias electricas: la suma pasada a media</h2>
+  <div class="enunciado">
+    <p>
+      Si cierta maquina fabrica resistencias electricas que tienen una resistencia media de 40 ohms y
+      una desviacion estandar de 2 ohms, &iquest;cual es la probabilidad de que una muestra aleatoria
+      de 36 de estas resistencias tenga una resistencia combinada de mas de 1458 ohms?
+    </p>
+  </div>
+
+  <span class="paso">Que metodo y por que</span>
+  <ul>
+    <li>
+      El enunciado <strong>no dice</strong> que las resistencias sean normales. Sin eso, no se sabe
+      que forma tiene una resistencia sola.
+    </li>
+    <li>
+      <strong>Teorema del Limite Central (TLC):</strong> si se promedian \(n\) valores de
+      <em>cualquier</em> poblacion (con media \(\mu\) y desvio \(\sigma\)), y \(n\) es grande (la
+      catedra usa \(n \geq 30\)), la media muestral \(\bar{X}\) es aproximadamente normal con media
+      \(\mu\) y desvio \(\sigma/\sqrt{n}\). Aca \(n = 36 \geq 30\): se puede usar la tabla \(Z\).
+    </li>
+    <li>
+      El problema pregunta por la <strong>suma</strong> ("resistencia combinada") y no por la media.
+      Se pasa a media dividiendo por \(n\), porque la media es la suma dividida por la cantidad.
+    </li>
+  </ul>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Formulas</span>
+    <p>\[ \bar{X} = \frac{X_1 + X_2 + \cdots + X_n}{n} \qquad \sigma_{\bar{X}} = \frac{\sigma}{\sqrt{n}} \qquad z = \frac{\bar{x} - \mu}{\sigma/\sqrt{n}} \]</p>
+  </div>
+
+  <span class="paso">Desarme del enunciado</span>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Traduccion</th><th>Cuenta</th><th>A donde va</th></tr>
+      <tr><td>"resistencia media de 40 ohms"</td><td>centro de la poblacion</td><td>&mdash;</td><td>\(\mu = 40\)</td></tr>
+      <tr><td>"desviacion estandar de 2 ohms"</td><td>desvio de una resistencia</td><td>&mdash;</td><td>\(\sigma = 2\)</td></tr>
+      <tr><td>"muestra aleatoria de 36"</td><td>\(n \geq 30\): habilita el TLC</td><td>\(\sigma_{\bar{X}} = \dfrac{2}{\sqrt{36}} = \dfrac{2}{6} = 0{,}3333\)</td><td>\(n = 36\)</td></tr>
+      <tr><td>"resistencia combinada de mas de 1458"</td><td>la suma de las 36 supera 1458; en media: supera 1458 / 36</td><td>\(\dfrac{1458}{36} = 40{,}5\)</td><td>\(P(\bar{X} &gt; 40{,}5)\)</td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Paso 1 &mdash; Pasar de suma a media</span>
+  <p>Si la suma de 36 resistencias es mayor que 1458, al dividir los dos lados por 36 la desigualdad se mantiene:</p>
+  <p>\[ X_1 + \cdots + X_{36} &gt; 1458 \iff \frac{X_1 + \cdots + X_{36}}{36} &gt; \frac{1458}{36} \iff \bar{X} &gt; 40{,}5 \]</p>
+  <p>La pregunta es: &iquest;que probabilidad hay de que el promedio de 36 resistencias supere 40,5 ohms?</p>
+
+  <span class="paso">Paso 2 &mdash; Estandarizar</span>
+  <p>Formula:</p>
+  <p>\[ z = \frac{\bar{x} - \mu}{\sigma/\sqrt{n}} \]</p>
+  <p>\[ z = \frac{40{,}5 - 40}{2/\sqrt{36}} = \frac{0{,}5}{0{,}3333} = 1{,}50 \]</p>
+  <p>40,5 esta 1,5 errores estandar por encima de la media.</p>
+
+  <span class="paso">Paso 3 &mdash; Area a la derecha</span>
+  <p>"Mas de" es a la derecha. La tabla da la izquierda, entonces:</p>
+  <p>Formula:</p>
+  <p>\[ P(\bar{X} &gt; \bar{x}) = 1 - F(z) \]</p>
+  <p>\(F(1{,}50)\): fila 1,5, columna 0,00 &rarr; 0,9332.</p>
+  <p>\[ P(\bar{X} &gt; 40{,}5) = 1 - 0{,}9332 = \mathbf{0{,}0668} \]</p>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>
+      La probabilidad de que 36 resistencias sumen mas de 1458 ohms es <strong>0,0668</strong>
+      (6,68&nbsp;%). Se puede usar la normal gracias al TLC, porque \(n = 36 \geq 30\).
+    </p>
+  </div>
+</div>

@@ -1,0 +1,134 @@
+<div class="ej" data-examen="variante" data-examen-ref="Final 26/11 · ej. 3c" data-examen-nota="En el final: 15 datos sueltos de duración de baterías, calcular media y desvío, e IC del 95 % (t con 14 grados de libertad). Acá son 9 datos y 99 %: mismo procedimiento, cambia la fila y la columna de la tabla t.">
+  <span class="tag">Estimacion &middot; Ejercicio 5 &middot; IC con \(t\) de Student (datos sueltos)</span>
+  <h2>Diametro medio de piezas cilindricas</h2>
+  <div class="enunciado">
+    <p>
+      Una maquina produce piezas metalicas de forma cilindrica. Se toma una muestra de los diametros
+      de las piezas obteniendo: 1,01; 0,97; 1,03; 1,04; 0,99; 0,98; 0,99; 1,01 y 1,03 cm.
+      a) Determine un intervalo de confianza del 99% para el diametro medio de las piezas producidas
+      por esta maquina. b) Suponga una distribucion aproximadamente normal en los diametros.
+    </p>
+  </div>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">El "inciso b" no es una pregunta</span>
+    <p>
+      "Suponga una distribucion aproximadamente normal" es un <strong>dato</strong> para el inciso a,
+      no algo que haya que calcular. En la guia 2020 (ejercicio 7) esta misma frase va pegada al
+      enunciado. Se usa para justificar la \(t\) de Student.
+    </p>
+  </div>
+
+  <span class="paso">Que metodo y por que</span>
+  <p>
+    Se quiere \(\mu\), el diametro medio de <strong>todas</strong> las piezas que produce la maquina.
+    Se estima con un <strong>intervalo de confianza</strong>: \(\bar{x}\) mas y menos un margen \(E\)
+    (error de estimacion).
+  </p>
+  <p><strong>Que caso de la Tabla IC-PH es:</strong></p>
+  <ul>
+    <li>\(n = 9 &lt; 30\): muestra chica.</li>
+    <li>No hay desvio de la poblacion: \(\sigma\) desconocida, el desvio sale de los 9 datos (\(s\)).</li>
+    <li>Los diametros son aproximadamente normales (el "inciso b"): es el requisito de la \(t\).</li>
+  </ul>
+  <p>Segunda fila: \(n &lt; 30\), \(\sigma\) desconocida &rarr; <strong>\(t\) de Student con \(s\) y \(\nu = n - 1\)</strong>.</p>
+  <p>
+    <strong>Por que \(t\):</strong> al reemplazar \(\sigma\) por \(s\) (que con 9 datos puede errarle
+    bastante), el cociente \(\frac{\bar{X} - \mu}{s/\sqrt{n}}\) ya no es normal estandar sino
+    \(t\) de Student: una campana con colas mas pesadas, que da valores de tabla mas grandes y un
+    intervalo mas ancho. Los <strong>grados de libertad</strong> \(\nu = n - 1\) eligen cual \(t\)
+    usar: se pierde uno porque las desviaciones \(x - \bar{x}\) estan obligadas a sumar 0.
+  </p>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Intervalo para \(\mu\) con \(n &lt; 30\) y \(\sigma\) desconocida</span>
+    <p>\[ \bar{x} \pm t_{(\alpha/2;\,n-1)}\,\frac{s}{\sqrt{n}} \qquad E = t_{(\alpha/2;\,n-1)}\,\frac{s}{\sqrt{n}} \]</p>
+    <p>\[ \bar{x} = \frac{\sum x}{n} \qquad s = \sqrt{\frac{\sum (x - \bar{x})^{2}}{n - 1}} \]</p>
+  </div>
+
+  <span class="paso">Desarme del enunciado</span>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Traduccion</th><th>Cuenta</th><th>A donde va</th></tr>
+      <tr><td>los 9 diametros</td><td>muestra chica; de ahi salen \(\bar{x}\) y \(s\)</td><td>\(\nu = 9 - 1 = 8\)</td><td>\(n = 9\)</td></tr>
+      <tr><td>(no dan desvio de la poblacion)</td><td>\(\sigma\) desconocida</td><td>&mdash;</td><td>se usa \(t\)</td></tr>
+      <tr><td>"99%"</td><td>afuera 1&nbsp;%, repartido en dos colas</td><td>\(\alpha = 0{,}01\); \(\alpha/2 = 0{,}005\)</td><td>\(t_{(0{,}005;\,8)}\)</td></tr>
+      <tr><td>"distribucion aproximadamente normal"</td><td>requisito de la \(t\)</td><td>&mdash;</td><td>justificacion</td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Inciso a &mdash; Paso 1: media y desvio de la muestra</span>
+  <p>Formula de la media:</p>
+  <p>\[ \bar{x} = \frac{\sum x}{n} \]</p>
+  <p>\[ \bar{x} = \frac{1{,}01 + 0{,}97 + 1{,}03 + 1{,}04 + 0{,}99 + 0{,}98 + 0{,}99 + 1{,}01 + 1{,}03}{9} = \frac{9{,}05}{9} = 1{,}0056 \text{ cm} \]</p>
+  <p>Tabla de desvios (con \(\bar{x} = 1{,}0056\)):</p>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th>\(x\)</th><th>\(x - \bar{x}\)</th><th>\((x - \bar{x})^{2}\)</th></tr>
+      <tr><td>1,01</td><td>0,0044</td><td>0,00001936</td></tr>
+      <tr><td>0,97</td><td>&minus;0,0356</td><td>0,00126736</td></tr>
+      <tr><td>1,03</td><td>0,0244</td><td>0,00059536</td></tr>
+      <tr><td>1,04</td><td>0,0344</td><td>0,00118336</td></tr>
+      <tr><td>0,99</td><td>&minus;0,0156</td><td>0,00024336</td></tr>
+      <tr><td>0,98</td><td>&minus;0,0256</td><td>0,00065536</td></tr>
+      <tr><td>0,99</td><td>&minus;0,0156</td><td>0,00024336</td></tr>
+      <tr><td>1,01</td><td>0,0044</td><td>0,00001936</td></tr>
+      <tr><td>1,03</td><td>0,0244</td><td>0,00059536</td></tr>
+      <tr><th>Suma</th><th>&asymp; 0 (control)</th><th>0,00482224</th></tr>
+    </table>
+  </div>
+  <p>(La suma de los desvios da \(-0{,}0004\) y no 0 exacto solo por haber redondeado \(\bar{x}\).)</p>
+  <p>Formula del desvio muestral:</p>
+  <p>\[ s = \sqrt{\frac{\sum (x - \bar{x})^{2}}{n - 1}} \]</p>
+  <p>\[ s = \sqrt{\frac{0{,}004822}{9 - 1}} = \sqrt{\frac{0{,}004822}{8}} = \sqrt{0{,}0006028} = 0{,}02455 \text{ cm} \]</p>
+
+  <div class="caja caja-calc">
+    <span class="caja-tit">En la calculadora</span>
+    <p>
+      Modo estadistico de una variable (Casio: <code>MODE</code> &rarr; <code>STAT</code> &rarr;
+      <code>1-VAR</code>; modelos viejos: <code>MODE</code> &rarr; <code>SD</code>). Cargar los 9
+      diametros y leer en el menu de resultados:
+    </p>
+    <ul>
+      <li>\(\bar{x}\) &rarr; 1,005555&hellip;</li>
+      <li><strong>\(s_x\)</strong> (o <strong>\(x\sigma_{n-1}\)</strong>) &rarr; 0,024551&hellip; Este es el que va.</li>
+    </ul>
+    <p><strong>No usar \(\sigma_x\) (o \(x\sigma_n\))</strong>, que da 0,0231: divide por \(n\) en lugar de \(n - 1\).</p>
+    <p>Con datos tan parecidos entre si conviene la calculadora: a mano es facil equivocarse con tantos ceros.</p>
+  </div>
+
+  <span class="paso">Inciso a &mdash; Paso 2: \(t\) de la tabla A.4</span>
+  <p>
+    Filas: grados de libertad. Columnas: area a la <strong>derecha</strong> de \(t\). Para el
+    intervalo se usa la columna \(\alpha/2\), que es el area de la cola derecha:
+  </p>
+  <ul>
+    <li>fila \(\nu = n - 1 = 8\)</li>
+    <li>columna \(\alpha/2 = 0{,}005\)</li>
+  </ul>
+  <p>\[ t_{(0{,}005;\,8)} = 3{,}355 \]</p>
+
+  <span class="paso">Inciso a &mdash; Paso 3: error de estimacion</span>
+  <p>Formula:</p>
+  <p>\[ E = t_{(\alpha/2;\,n-1)}\,\frac{s}{\sqrt{n}} \]</p>
+  <ul>
+    <li>\(\sqrt{n} = \sqrt{9} = 3\)</li>
+    <li>\(\dfrac{s}{\sqrt{n}} = \dfrac{0{,}02455}{3} = 0{,}008184\) cm (error estandar estimado)</li>
+  </ul>
+  <p>\[ E = 3{,}355 \times 0{,}008184 = 0{,}02746 \text{ cm} \]</p>
+
+  <span class="paso">Inciso a &mdash; Paso 4: el intervalo</span>
+  <p>Formula:</p>
+  <p>\[ \bar{x} - E &lt; \mu &lt; \bar{x} + E \]</p>
+  <p>\[ 1{,}0056 - 0{,}02746 &lt; \mu &lt; 1{,}0056 + 0{,}02746 \]</p>
+  <p>\[ \mathbf{0{,}978 &lt; \mu &lt; 1{,}033} \]</p>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>
+      \(IC_{99\%}(\mu) = [\,0{,}978\ ;\ 1{,}033\,]\) cm. Con 99&nbsp;% de confianza, el diametro medio
+      real de todas las piezas que produce la maquina esta entre 0,978 y 1,033 cm. (El 99&nbsp;% es
+      del metodo: de muchos intervalos armados asi con muestras de 9 piezas, el 99&nbsp;% contendria
+      a \(\mu\).) Por ejemplo, un diametro nominal de 1 cm es compatible con la muestra.
+    </p>
+  </div>
+</div>

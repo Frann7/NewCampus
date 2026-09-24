@@ -10,47 +10,124 @@
     </p>
   </div>
 
-  <span class="paso">Paso 1 &mdash; Modelo y parametros</span>
+  <span class="paso">Que modelo y por que</span>
   <p>
-    \(X\) = &laquo;cantidad de pacientes que sobreviven de los 100&raquo;, con
-    \(X \sim Bi(100;\ 0{,}90)\).
+    <strong>De origen es una Binomial.</strong> \(X\) = "cantidad de pacientes que sobreviven, de
+    los 100":
   </p>
+  <ul>
+    <li>cantidad fija de pruebas: 100 pacientes &rarr; \(n = 100\);</li>
+    <li>cada paciente tiene dos resultados: se recupera o no;</li>
+    <li>la probabilidad de recuperarse es la misma para todos: \(p = 0{,}9\);</li>
+    <li>lo que le pasa a un paciente no cambia lo que le pasa a otro.</li>
+  </ul>
   <p>
-    <strong>Ojo con quien es el exito.</strong> Aca el enunciado pregunta por los que
-    <em>sobreviven</em>, asi que \(p = 0{,}90\). Si tomaras como exito &laquo;no sobrevivir&raquo;
-    tendrias que dar vuelta todas las desigualdades despues, y ahi se pierde el ejercicio.
+    Con \(n = 100\) no hay tabla binomial y la formula serian decenas de terminos: se
+    <strong>aproxima por la Normal</strong>.
   </p>
-  <p>Condiciones para aproximar:</p>
-  <p>\[ n\,p = 100 \cdot 0{,}90 = 90 \geq 5 \qquad n(1-p) = 100 \cdot 0{,}10 = 10 \geq 5 \]</p>
-  <p>Parametros de la Normal:</p>
-  <p>\[ \mu = n\,p = 90 \qquad \sigma = \sqrt{n\,p\,(1-p)} = \sqrt{100 \cdot 0{,}9 \cdot 0{,}1} = \sqrt{9} = 3 \]</p>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Condiciones para aproximar</span>
+    <ul>
+      <li>\(n = 100 \geq 30\) &#10003;</li>
+      <li>\(n\,p = 100 \cdot 0{,}90 = 90 \geq 5\) &#10003;</li>
+      <li>\(n\,(1-p) = 100 \cdot 0{,}10 = 10 \geq 5\) &#10003;</li>
+    </ul>
+    <p>Se cumplen: la aproximacion es valida.</p>
+  </div>
+
+  <span class="paso">Desarme del enunciado</span>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Traduccion</th><th>Cuenta</th><th>A donde va</th></tr>
+      <tr><td>"los siguientes 100 pacientes"</td><td>cantidad de pruebas</td><td>&mdash;</td><td>\(n = 100\)</td></tr>
+      <tr><td>"probabilidad de que se recupere es 0,9"</td><td>el exito que se cuenta es sobrevivir. Ya viene en decimal</td><td>&mdash;</td><td>\(p = 0{,}90\)</td></tr>
+      <tr><td>(se deduce)</td><td>no recuperarse</td><td>\(1 - 0{,}90 = 0{,}10\)</td><td>\(1 - p = 0{,}10\)</td></tr>
+      <tr><td>"entre 84 y 95 <strong>inclusive</strong>"</td><td>84, 85, &hellip;, 95: los dos extremos <strong>entran</strong>. Area entre dos bordes</td><td>bordes corregidos: 83,5 y 95,5</td><td>inciso a: \(P(84 \leq X \leq 95)\)</td></tr>
+      <tr><td>"menos de 86"</td><td>&hellip;, 84, 85: el 86 <strong>no</strong> entra. Area a la izquierda</td><td>borde corregido: 85,5</td><td>inciso b: \(P(X \leq 85)\)</td></tr>
+    </table>
+  </div>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Ojo con quien es el exito</span>
+    <p>
+      Las dos preguntas son sobre los que <em>sobreviven</em>, asi que el exito es sobrevivir y
+      \(p = 0{,}90\). Si tomaras como exito "no sobrevivir" (\(p = 0{,}10\)) tendrias que dar vuelta
+      todas las desigualdades despues, y ahi se pierde el ejercicio.
+    </p>
+  </div>
+
+  <span class="paso">Paso previo &mdash; La media y el desvio de la Normal</span>
+  <p>La campana que reemplaza a la Binomial usa la media y el desvio de la propia Binomial.</p>
+  <p>Formula de la media:</p>
+  <p>\[ \mu = n \cdot p \]</p>
+  <p>\[ \mu = 100 \cdot 0{,}90 = 90 \]</p>
+  <p>Se esperan 90 sobrevivientes: el centro de la campana.</p>
+  <p>Formula del desvio:</p>
+  <p>\[ \sigma = \sqrt{n \cdot p \cdot (1-p)} \]</p>
+  <p>\[ \sigma = \sqrt{100 \cdot 0{,}9 \cdot 0{,}1} = \sqrt{9} = 3 \]</p>
 
   <span class="paso">Inciso a &mdash; Entre 84 y 95 inclusive</span>
+  <p><strong>Paso 1 &mdash; Pasar a enteros.</strong> "Inclusive" dice que los dos extremos entran:</p>
+  <p>\[ P(84 \leq X \leq 95) \]</p>
+
   <p>
-    En enteros es \(84 \leq X \leq 95\). Los <strong>dos extremos entran</strong>, asi que cada uno
-    se corre medio punto <strong>hacia afuera</strong>: de 83,5 a 95,5.
+    <strong>Paso 2 &mdash; Corregir los bordes.</strong> Cada extremo se corre medio punto
+    <strong>hacia afuera</strong> del grupo, para no perder la mitad de su barra: el 84 baja a 83,5 y
+    el 95 sube a 95,5.
   </p>
-  <p>Formula de estandarizacion, una vez por extremo:</p>
+  <p>\[ P(84 \leq X \leq 95) \approx P(83{,}5 &lt; Y &lt; 95{,}5) \]</p>
+
+  <p><strong>Paso 3 &mdash; Ubicar el area.</strong> Entre dos valores: \(z_1\) es el del borde izquierdo (83,5) y \(z_2\) el del derecho (95,5).</p>
+  <p>Formula:</p>
+  <p>\[ P(x_1 &lt; Y &lt; x_2) = F(z_2) - F(z_1) \]</p>
+
+  <p><strong>Paso 4 &mdash; Estandarizar los dos bordes.</strong></p>
+  <p>Formula:</p>
   <p>\[ z = \frac{x - \mu}{\sigma} \]</p>
-  <p>\[ z_1 = \frac{83{,}5 - 90}{3} = \frac{-6{,}5}{3} = -2{,}17 \qquad z_2 = \frac{95{,}5 - 90}{3} = \frac{5{,}5}{3} = 1{,}83 \]</p>
-  <p>Formula del area entre dos valores:</p>
-  <p>\[ P(84 \leq X \leq 95) \approx F(z_2) - F(z_1) \]</p>
-  <p>\[ = F(1{,}83) - F(-2{,}17) = 0{,}9664 - 0{,}0150 = \mathbf{0{,}9514} \]</p>
+  <p>\[ z_1 = \frac{83{,}5 - 90}{3} = \frac{-6{,}5}{3} = -2{,}1667 \approx -2{,}17 \]</p>
+  <p>El borde izquierdo esta 2,17 desvios por debajo de la media.</p>
+  <p>\[ z_2 = \frac{95{,}5 - 90}{3} = \frac{5{,}5}{3} = 1{,}8333 \approx 1{,}83 \]</p>
+  <p>El borde derecho esta 1,83 desvios por encima.</p>
+
+  <p><strong>Paso 5 &mdash; Tabla</strong>, una busqueda por borde:</p>
+  <ul>
+    <li>\(F(1{,}83)\): fila 1,8, columna 0,03 &rarr; 0,9664.</li>
+    <li>\(F(-2{,}17)\): fila \(-2{,}1\), columna 0,07 &rarr; 0,0150.</li>
+  </ul>
+
+  <p><strong>Paso 6 &mdash; La cuenta del paso 3.</strong></p>
+  <p>\[ P(84 \leq X \leq 95) \approx F(1{,}83) - F(-2{,}17) = 0{,}9664 - 0{,}0150 = \mathbf{0{,}9514} \]</p>
   <div class="caja caja-resp">
     <span class="caja-tit">Respuesta a</span>
-    <p>95,14%. Se esperan 90 sobrevivientes, y el intervalo 84&ndash;95 rodea a la media: tenia que dar alto.</p>
+    <p>La probabilidad de que sobrevivan entre 84 y 95 pacientes (inclusive) es aproximadamente 0,9514 (95,14%).</p>
+    <p>Control: se esperan 90 sobrevivientes, y el intervalo 84&ndash;95 rodea a la media con casi 2 desvios de cada lado: tenia que dar alto.</p>
   </div>
 
   <span class="paso">Inciso b &mdash; Menos de 86</span>
-  <p>&laquo;Menos de 86&raquo; deja el 86 afuera: en enteros es \(X \leq 85\), y el borde cae en 85,5.</p>
-  <p>Formula de estandarizacion:</p>
+  <p><strong>Paso 1 &mdash; Pasar a enteros.</strong> "Menos de 86" deja el 86 afuera: entran hasta el 85.</p>
+  <p>\[ P(X &lt; 86) = P(X \leq 85) \]</p>
+
+  <p><strong>Paso 2 &mdash; Corregir el borde.</strong> El ultimo que entra es el 85; su barra termina en 85,5:</p>
+  <p>\[ P(X \leq 85) \approx P(Y &lt; 85{,}5) \]</p>
+
+  <p><strong>Paso 3 &mdash; Ubicar el area.</strong> Area a la izquierda: lo que da la tabla.</p>
+  <p>Formula:</p>
+  <p>\[ P(Y &lt; x) = F(z) \]</p>
+
+  <p><strong>Paso 4 &mdash; Estandarizar el borde corregido.</strong></p>
+  <p>Formula:</p>
   <p>\[ z = \frac{x - \mu}{\sigma} \]</p>
   <p>\[ z = \frac{85{,}5 - 90}{3} = \frac{-4{,}5}{3} = -1{,}50 \]</p>
-  <p>Formula del area a la izquierda:</p>
-  <p>\[ P(X &lt; 86) \approx P(Y &lt; 85{,}5) = F(-1{,}50) = \mathbf{0{,}0668} \]</p>
+  <p>El borde esta un desvio y medio por debajo de la media.</p>
+
+  <p><strong>Paso 5 &mdash; Tabla.</strong> \(F(-1{,}50)\): fila \(-1{,}5\), columna 0,00 &rarr; 0,0668.</p>
+
+  <p><strong>Paso 6 &mdash; Resultado.</strong> Area a la izquierda: el valor de la tabla es la respuesta.</p>
+  <p>\[ P(X &lt; 86) \approx F(-1{,}50) = \mathbf{0{,}0668} \]</p>
   <div class="caja caja-resp">
     <span class="caja-tit">Respuesta b</span>
-    <p>6,68%.</p>
+    <p>La probabilidad de que sobrevivan menos de 86 pacientes es aproximadamente 0,0668 (6,68%).</p>
+    <p>Control: 86 esta por debajo de lo esperado (90), asi que tenia que dar chico. &#10003;</p>
   </div>
 
   <div class="caja caja-ojo">
@@ -60,5 +137,10 @@
       en enteros seria \(85 \leq X \leq 94\) y los bordes irian a 84,5 y 94,5. Una palabra del
       enunciado mueve los dos limites.
     </p>
+  </div>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Resumen de respuestas</span>
+    <p>a) 0,9514 &nbsp;&middot;&nbsp; b) 0,0668</p>
   </div>
 </div>

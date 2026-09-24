@@ -1,0 +1,150 @@
+<div class="ej">
+  <span class="tag">Ejercicio 15 &middot; Exponencial + Binomial</span>
+  <h2>Atencion en una casa de repuestos</h2>
+  <div class="enunciado">
+    <p>
+      La longitud de tiempo para que un individuo sea atendido en una casa de repuestos automotrices
+      es una variable aleatoria exponencial con media de 4 minutos. Cual es la probabilidad de que
+      una persona sea atendida en menos de 3 minutos, en al menos 4 de los siguientes 6 dias?
+    </p>
+  </div>
+
+  <span class="paso">Que modelo y por que</span>
+  <p>Hay <strong>dos variables</strong>, y cada una tiene su modelo:</p>
+  <ul>
+    <li>
+      <strong>\(T\) = tiempo que tarda en ser atendida una persona</strong> (en minutos). El
+      enunciado dice que es "<strong>exponencial</strong> con media de 4 minutos": es un tiempo de
+      espera.
+    </li>
+    <li>
+      <strong>\(Y\) = en cuantos de los 6 dias la persona es atendida en menos de 3 minutos</strong>.
+      Es un conteo que cumple las condiciones de la <strong>Binomial</strong> (Unidad 5):
+      <ul>
+        <li>cantidad fija de pruebas: 6 dias &rarr; \(n = 6\);</li>
+        <li>cada dia tiene dos resultados: la atienden en menos de 3 minutos, o no;</li>
+        <li>la probabilidad es la misma todos los dias (el mismo tiempo exponencial);</li>
+        <li>lo que pasa un dia no cambia lo que pasa otro.</li>
+      </ul>
+    </li>
+  </ul>
+  <p>
+    <strong>Como se encadenan:</strong> la Exponencial da la probabilidad de que en <em>un</em> dia la
+    atiendan en menos de 3 minutos. Ese numero es la <strong>\(p\) de la Binomial</strong>. Despues la
+    Binomial cuenta cuantos de los 6 dias pasa. Es el mismo esquema que el ejemplo 1 de la seccion 7
+    de la teoria (sistemas que siguen funcionando).
+  </p>
+
+  <span class="paso">Desarme del enunciado</span>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Traduccion</th><th>Cuenta</th><th>A donde va</th></tr>
+      <tr><td>"variable aleatoria exponencial"</td><td>el tiempo de atencion: Exponencial</td><td>&mdash;</td><td>\(T\)</td></tr>
+      <tr><td>"con media de 4 minutos"</td><td>es un tiempo (minutos), no una tasa: \(\beta\) directo</td><td>&mdash;</td><td>\(\beta = 4\)</td></tr>
+      <tr><td>"sea atendida en menos de 3 minutos"</td><td>lo que tiene que cumplir cada dia: area a la izquierda de 3</td><td>\(1 - e^{-3/4}\)</td><td>la \(p\) de la Binomial</td></tr>
+      <tr><td>"los siguientes 6 dias"</td><td>cantidad de pruebas</td><td>&mdash;</td><td>\(n = 6\)</td></tr>
+      <tr><td>"en al menos 4"</td><td>4, 5 o 6 dias: el 4 <strong>entra</strong></td><td>&mdash;</td><td>\(P(Y \geq 4)\)</td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Parte 1 &mdash; La Exponencial da la \(p\)</span>
+  <p><strong>Que se busca:</strong> la probabilidad de que en un dia la persona sea atendida en menos de 3 minutos.</p>
+  <p>
+    <strong>Paso 1 &mdash; Elegir la formula.</strong> "Menos de 3" es el area a la izquierda de 3: la
+    formula de "\(x\) o menos" (la acumulada).
+  </p>
+  <p>Formula:</p>
+  <p>\[ P(T \leq x) = 1 - e^{-x/\beta} \]</p>
+  <p><strong>Paso 2 &mdash; Reemplazar</strong> (\(x = 3\), \(\beta = 4\)):</p>
+  <p>\[ P(T &lt; 3) = 1 - e^{-3/4} \]</p>
+  <p><strong>Paso 3 &mdash; Pieza por pieza.</strong></p>
+  <ul>
+    <li>El exponente: \(-\frac{3}{4} = -0{,}75\).</li>
+    <li>La potencia: \(e^{-0{,}75} = 0{,}4724\). Esto es \(P(T &gt; 3)\), que tarde mas de 3.</li>
+    <li>Lo que se pide es lo contrario: \(1 - 0{,}4724 = 0{,}5276\).</li>
+  </ul>
+  <p>\[ p = P(T &lt; 3) = 0{,}5276 \qquad 1 - p = 0{,}4724 \]</p>
+  <div class="caja caja-calc">
+    <span class="caja-tit">En la calculadora</span>
+    <p>1 &minus; e^( (-) 3 &divide; 4 ) = 0,5276 &nbsp;&nbsp;(en las Casio, \(e^{x}\) es SHIFT + ln)</p>
+  </div>
+  <p>
+    Que significa: cada dia hay un 52,76% de probabilidad de que la atiendan en menos de 3 minutos.
+    <strong>No es la respuesta</strong>: es la probabilidad de exito de cada dia.
+  </p>
+
+  <span class="paso">Parte 2 &mdash; La Binomial cuenta los dias</span>
+  <p>
+    <strong>Que se busca:</strong> con \(Y \sim Bi(n = 6;\ p = 0{,}5276)\), que en al menos 4 dias la
+    atiendan rapido:
+  </p>
+  <p>\[ P(Y \geq 4) = P(Y = 4) + P(Y = 5) + P(Y = 6) \]</p>
+  <p>
+    <strong>Por que sumando y no con el complemento:</strong> "al menos 4" son tres valores (4, 5 y
+    6). El complemento (0, 1, 2 y 3) serian cuatro cuentas: el camino directo es mas corto. Y no hay
+    tabla, porque 0,5276 no es una columna de la tabla binomial.
+  </p>
+  <p>Formula:</p>
+  <p>\[ P(Y = y) = \binom{n}{y}\, p^{y}\, (1-p)^{\,n-y} \]</p>
+
+  <p><strong>Termino \(y = 4\)</strong> (4 dias rapidos y 2 no):</p>
+  <p>\[ P(Y = 4) = \binom{6}{4}\,(0{,}5276)^{4}\,(0{,}4724)^{2} \]</p>
+  <ul>
+    <li>\(\binom{6}{4} = 15\)</li>
+    <li>\((0{,}5276)^{4} = 0{,}077485\)</li>
+    <li>\((0{,}4724)^{2} = 0{,}223162\)</li>
+  </ul>
+  <p>\[ P(Y = 4) = 15 \times 0{,}077485 \times 0{,}223162 = 0{,}25938 \]</p>
+
+  <p><strong>Termino \(y = 5\)</strong> (5 dias rapidos y 1 no):</p>
+  <p>\[ P(Y = 5) = \binom{6}{5}\,(0{,}5276)^{5}\,(0{,}4724)^{1} \]</p>
+  <ul>
+    <li>\(\binom{6}{5} = 6\)</li>
+    <li>\((0{,}5276)^{5} = 0{,}040881\)</li>
+    <li>\((0{,}4724)^{1} = 0{,}4724\)</li>
+  </ul>
+  <p>\[ P(Y = 5) = 6 \times 0{,}040881 \times 0{,}4724 = 0{,}11587 \]</p>
+
+  <p><strong>Termino \(y = 6\)</strong> (los 6 dias rapidos):</p>
+  <p>\[ P(Y = 6) = \binom{6}{6}\,(0{,}5276)^{6}\,(0{,}4724)^{0} \]</p>
+  <ul>
+    <li>\(\binom{6}{6} = 1\) y \((0{,}4724)^{0} = 1\)</li>
+    <li>\((0{,}5276)^{6} = 0{,}021569\)</li>
+  </ul>
+  <p>\[ P(Y = 6) = 0{,}021569 \]</p>
+
+  <p><strong>La suma:</strong></p>
+  <p>\[ P(Y \geq 4) = 0{,}25938 + 0{,}11587 + 0{,}02157 = \mathbf{0{,}3968} \]</p>
+
+  <div class="caja caja-calc">
+    <span class="caja-tit">En la calculadora</span>
+    <p>6 nCr 4 &times; 0.5276 ^ 4 &times; 0.4724 ^ 2 + 6 nCr 5 &times; 0.5276 ^ 5 &times; 0.4724 + 0.5276 ^ 6</p>
+    <p>
+      Se arrastran 5 decimales en cada termino para que la suma no se corra: si redondeas cada uno
+      a 4 decimales te da 0,3969.
+    </p>
+  </div>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>
+      La probabilidad de que la persona sea atendida en menos de 3 minutos en al menos 4 de los
+      siguientes 6 dias es <strong>0,3968</strong> (39,68%).
+    </p>
+    <p>
+      Control: se esperan \(n\,p = 6 \times 0{,}5276 = 3{,}2\) dias rapidos. Pedir 4 o mas es pedir
+      algo por encima de lo esperado, asi que tenia que dar menos de la mitad. &#10003;
+    </p>
+  </div>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Dos trampas</span>
+    <p>
+      <strong>1. Usar \(e^{-3/4}\) como \(p\).</strong> Eso es la probabilidad de tardar
+      <em>mas</em> de 3 minutos. "Menos de 3" es \(1 - e^{-3/4}\).
+    </p>
+    <p>
+      <strong>2. Contestar 0,5276.</strong> Ese numero es para un dia; la pregunta es por 4 de 6.
+    </p>
+  </div>
+</div>

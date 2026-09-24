@@ -72,7 +72,8 @@ window.Apuntes.registrarIndice({
     "pye": {
       "u4": "preguntas/pye-u4.js",
       "u5": "preguntas/pye-u5.js",
-      "u6": "preguntas/pye-u6.js"
+      "u6": "preguntas/pye-u6.js",
+      "u7": "preguntas/pye-u7.js"
     }
   },
   "materias": [
@@ -191,5 +192,5 @@ window.Apuntes.registrarIndice({
       "unidades": []
     }
   ],
-  "construido": "2026-09-23 22:28:59"
+  "construido": "2026-09-23 22:33:42"
 });

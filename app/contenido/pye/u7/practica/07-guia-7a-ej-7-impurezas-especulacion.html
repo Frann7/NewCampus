@@ -1,0 +1,93 @@
+<div class="ej">
+  <span class="tag">Guia 7A &middot; Ejercicio 7 &middot; TLC</span>
+  <h2>Impurezas: &iquest;es creible que \(\mu = 0{,}20\)?</h2>
+  <div class="enunciado">
+    <p>
+      En un proceso quimico la cantidad de cierto tipo de impureza en el producto es dificil de
+      controlar y por ello es una variable aleatoria. Se especula que la cantidad media de la
+      poblacion de impurezas es 0,20 gramos por gramo del producto. Se sabe que la desviacion
+      estandar es 0,1 gramos por gramo. Se realiza un experimento para entender mejor la especulacion
+      de que \(\mu = 0{,}2\). El proceso se lleva a cabo 50 veces en un laboratorio y el promedio de
+      la muestra \(\bar{x}\) resulta ser 0,23 gramos por gramo. Comente sobre la especulacion de que
+      la cantidad media de impurezas es 0,20 gramos por gramo. Utilice el teorema del limite central
+      en su respuesta.
+    </p>
+  </div>
+
+  <span class="paso">Que metodo y por que</span>
+  <p>
+    Es un razonamiento de "&iquest;me cierra lo que vi?". La idea:
+  </p>
+  <ol>
+    <li><strong>Suponer que la especulacion es cierta</strong>: \(\mu = 0{,}20\).</li>
+    <li>
+      Con esa suposicion, ver <strong>que tan probable</strong> seria obtener un promedio de 0,23 o
+      mas en 50 repeticiones.
+    </li>
+    <li>
+      Si esa probabilidad es muy chica, lo observado no cuadra con la suposicion: hay motivos para
+      dudar de que \(\mu = 0{,}20\).
+    </li>
+  </ol>
+  <p>
+    Para el paso 2 hace falta saber como se distribuye \(\bar{X}\). No se sabe si la impureza es
+    normal, pero \(n = 50 \geq 30\): por el <strong>Teorema del Limite Central</strong>, \(\bar{X}\)
+    es aproximadamente normal con media \(\mu\) y error estandar \(\sigma/\sqrt{n}\).
+  </p>
+  <p>
+    Por que se mira "0,23 <strong>o mas</strong>" y no "exactamente 0,23": en una variable continua
+    cualquier valor exacto tiene probabilidad 0. Lo que se mide es que tan <em>lejos</em> (o mas
+    lejos) cae el resultado respecto de lo esperado.
+  </p>
+
+  <span class="paso">Desarme del enunciado</span>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Traduccion</th><th>Cuenta</th><th>A donde va</th></tr>
+      <tr><td>"se especula que la cantidad media es 0,20"</td><td>valor supuesto de \(\mu\), el que se quiere poner a prueba</td><td>&mdash;</td><td>\(\mu = 0{,}20\)</td></tr>
+      <tr><td>"se sabe que la desviacion estandar es 0,1"</td><td>\(\sigma\) conocida</td><td>&mdash;</td><td>\(\sigma = 0{,}1\)</td></tr>
+      <tr><td>"se lleva a cabo 50 veces"</td><td>tama&ntilde;o de muestra, \(n \geq 30\): TLC</td><td>\(\sigma_{\bar{X}} = \dfrac{0{,}1}{\sqrt{50}} = \dfrac{0{,}1}{7{,}0711} = 0{,}01414\)</td><td>\(n = 50\)</td></tr>
+      <tr><td>"el promedio de la muestra resulta 0,23"</td><td>lo observado</td><td>&mdash;</td><td>\(\bar{x} = 0{,}23\)</td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Paso 1 &mdash; A cuantos errores estandar esta 0,23</span>
+  <p>Formula:</p>
+  <p>\[ z = \frac{\bar{x} - \mu}{\sigma/\sqrt{n}} \]</p>
+  <p>\[ z = \frac{0{,}23 - 0{,}20}{0{,}1/\sqrt{50}} = \frac{0{,}03}{0{,}01414} = 2{,}1213 \approx 2{,}12 \]</p>
+  <p>Si \(\mu\) fuera 0,20, el promedio observado estaria mas de 2 errores estandar por encima de lo esperado.</p>
+
+  <span class="paso">Paso 2 &mdash; Probabilidad de un promedio asi o mayor</span>
+  <p>Formula:</p>
+  <p>\[ P(\bar{X} \geq \bar{x}) = 1 - F(z) \]</p>
+  <p>\(F(2{,}12)\): fila 2,1, columna 0,02 &rarr; 0,9830.</p>
+  <p>\[ P(\bar{X} \geq 0{,}23) = 1 - 0{,}9830 = \mathbf{0{,}0170} \]</p>
+
+  <span class="paso">Paso 3 &mdash; Comentar la especulacion</span>
+  <p>
+    Si la media real fuera 0,20, solo en 1,7&nbsp;% de los experimentos de 50 repeticiones se
+    obtendria un promedio de 0,23 o mas. Es un resultado muy poco probable bajo esa suposicion.
+    Hay dos opciones: o paso algo muy raro, o la suposicion esta mal. Lo razonable es lo segundo.
+  </p>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>
+      Con \(\mu = 0{,}20\), \(P(\bar{X} \geq 0{,}23) = 0{,}0170\). Como es muy chica, el resultado del
+      laboratorio <strong>no apoya la especulacion</strong>: la cantidad media de impurezas
+      probablemente es <strong>mayor</strong> que 0,20 gramos por gramo.
+    </p>
+  </div>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Por que 0,23 si es "lejos" y otro valor no lo seria</span>
+    <p>
+      Lo que decide no es la diferencia en gramos (0,03 parece poco) sino cuantos
+      <strong>errores estandar</strong> son. Con 50 repeticiones el promedio casi no se mueve
+      (\(\sigma_{\bar{X}} = 0{,}01414\)), asi que 0,03 son mas de 2 errores estandar. Si el promedio
+      hubiera dado 0,21: \(z = \frac{0{,}01}{0{,}01414} = 0{,}71\) y
+      \(P(\bar{X} \geq 0{,}21) = 1 - 0{,}7611 = 0{,}2389\), algo que pasa casi una de cada cuatro
+      veces: ese resultado <em>no</em> contradiria la especulacion.
+    </p>
+  </div>
+</div>

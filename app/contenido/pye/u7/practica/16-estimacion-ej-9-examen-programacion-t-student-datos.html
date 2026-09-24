@@ -1,0 +1,125 @@
+<div class="ej" data-examen="variante" data-examen-ref="Final 26/11 · ej. 3c" data-examen-nota="En el final: 15 datos sueltos, media, desvío e IC del 95 % (t con 14 grados de libertad). Acá son 8 datos y 90 %: se entra a la tabla t por la columna 0,05 y la fila 7.">
+  <span class="tag">Estimacion &middot; Ejercicio 9 &middot; IC con \(t\) de Student (datos sueltos)</span>
+  <h2>Tiempo medio en un examen de programacion</h2>
+  <div class="enunciado">
+    <p>
+      Se desea estimar el tiempo promedio que los estudiantes de una facultad tardan en completar un
+      examen de programacion. Se cronometra a un grupo de 8 estudiantes seleccionados al azar,
+      obteniendo los siguientes tiempos en minutos: 85, 92, 78, 95, 88, 81, 79, 86. Calcule un
+      intervalo de confianza del 90% para el tiempo medio real que tardan todos los estudiantes.
+    </p>
+  </div>
+
+  <span class="paso">Que metodo y por que</span>
+  <p>
+    Se quiere \(\mu\), el tiempo medio de <strong>todos</strong> los estudiantes de la facultad. Se
+    estima con un <strong>intervalo de confianza</strong>: \(\bar{x}\) mas y menos un margen \(E\)
+    (el error de estimacion).
+  </p>
+  <p><strong>Que caso de la Tabla IC-PH es:</strong></p>
+  <ul>
+    <li>\(n = 8 &lt; 30\): muestra chica.</li>
+    <li>No hay desvio de la poblacion: \(\sigma\) desconocida, el desvio se calcula con los 8 tiempos (\(s\)).</li>
+  </ul>
+  <p>Segunda fila: \(n &lt; 30\), \(\sigma\) desconocida &rarr; <strong>\(t\) de Student con \(s\) y \(\nu = n - 1\)</strong>.</p>
+  <p>
+    <strong>Por que \(t\):</strong> con 8 datos, \(s\) puede errarle bastante a \(\sigma\). Al usar
+    \(s\), el cociente \(\frac{\bar{X} - \mu}{s/\sqrt{n}}\) sigue una \(t\) de Student (colas mas
+    pesadas que la normal), que da un margen mas grande para compensar esa incertidumbre. Los
+    <strong>grados de libertad</strong> son \(\nu = n - 1 = 7\): uno menos que los datos, porque los
+    desvios respecto de \(\bar{x}\) estan obligados a sumar 0.
+  </p>
+  <p>
+    La \(t\) supone que los tiempos son <strong>normales</strong>. El enunciado no lo dice; se asume
+    (con 8 datos no hay otra forma de hacer el intervalo).
+  </p>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Intervalo para \(\mu\) con \(n &lt; 30\) y \(\sigma\) desconocida</span>
+    <p>\[ \bar{x} \pm t_{(\alpha/2;\,n-1)}\,\frac{s}{\sqrt{n}} \qquad E = t_{(\alpha/2;\,n-1)}\,\frac{s}{\sqrt{n}} \]</p>
+    <p>\[ \bar{x} = \frac{\sum x}{n} \qquad s = \sqrt{\frac{\sum (x - \bar{x})^{2}}{n - 1}} \]</p>
+  </div>
+
+  <span class="paso">Desarme del enunciado</span>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Traduccion</th><th>Cuenta</th><th>A donde va</th></tr>
+      <tr><td>"un grupo de 8 estudiantes seleccionados al azar"</td><td>muestra chica</td><td>\(\nu = 8 - 1 = 7\)</td><td>\(n = 8\)</td></tr>
+      <tr><td>los 8 tiempos</td><td>de ahi salen \(\bar{x}\) y \(s\)</td><td>ver Paso 1</td><td>\(\bar{x}\), \(s\)</td></tr>
+      <tr><td>"90%"</td><td>afuera 10&nbsp;%, 5&nbsp;% por cola</td><td>\(\alpha = 0{,}10\); \(\alpha/2 = 0{,}05\)</td><td>\(t_{(0{,}05;\,7)}\)</td></tr>
+      <tr><td>"tiempo medio real que tardan todos"</td><td>el parametro \(\mu\)</td><td>&mdash;</td><td>lo que se estima</td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Paso 1 &mdash; Media y desvio de la muestra</span>
+  <p>Formula de la media:</p>
+  <p>\[ \bar{x} = \frac{\sum x}{n} \]</p>
+  <p>\[ \bar{x} = \frac{85 + 92 + 78 + 95 + 88 + 81 + 79 + 86}{8} = \frac{684}{8} = 85{,}5 \text{ min} \]</p>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th>\(x\)</th><th>\(x - \bar{x}\)</th><th>\((x - \bar{x})^{2}\)</th></tr>
+      <tr><td>85</td><td>&minus;0,5</td><td>0,25</td></tr>
+      <tr><td>92</td><td>6,5</td><td>42,25</td></tr>
+      <tr><td>78</td><td>&minus;7,5</td><td>56,25</td></tr>
+      <tr><td>95</td><td>9,5</td><td>90,25</td></tr>
+      <tr><td>88</td><td>2,5</td><td>6,25</td></tr>
+      <tr><td>81</td><td>&minus;4,5</td><td>20,25</td></tr>
+      <tr><td>79</td><td>&minus;6,5</td><td>42,25</td></tr>
+      <tr><td>86</td><td>0,5</td><td>0,25</td></tr>
+      <tr><th>Suma</th><th>0 (control)</th><th>258</th></tr>
+    </table>
+  </div>
+  <p>Formula del desvio muestral:</p>
+  <p>\[ s = \sqrt{\frac{\sum (x - \bar{x})^{2}}{n - 1}} \]</p>
+  <p>\[ s = \sqrt{\frac{258}{8 - 1}} = \sqrt{\frac{258}{7}} = \sqrt{36{,}8571} = 6{,}0710 \text{ min} \]</p>
+
+  <div class="caja caja-calc">
+    <span class="caja-tit">En la calculadora</span>
+    <p>
+      Modo estadistico de una variable (Casio: <code>MODE</code> &rarr; <code>STAT</code> &rarr;
+      <code>1-VAR</code>; modelos viejos: <code>MODE</code> &rarr; <code>SD</code>). Cargar los 8
+      tiempos y leer:
+    </p>
+    <ul>
+      <li>\(\bar{x}\) &rarr; 85,5</li>
+      <li><strong>\(s_x\)</strong> (o <strong>\(x\sigma_{n-1}\)</strong>) &rarr; 6,071008&hellip; Este es el que va.</li>
+    </ul>
+    <p><strong>No usar \(\sigma_x\) (o \(x\sigma_n\))</strong>, que da 5,6789: divide por 8 en lugar de por 7.</p>
+  </div>
+
+  <span class="paso">Paso 2 &mdash; \(t\) de la tabla A.4</span>
+  <p>
+    Filas: grados de libertad. Columnas: area a la <strong>derecha</strong> de \(t\). Con 90&nbsp;% de
+    confianza, en la cola derecha queda \(\alpha/2 = 0{,}05\):
+  </p>
+  <ul>
+    <li>fila \(\nu = 7\)</li>
+    <li>columna \(0{,}05\)</li>
+  </ul>
+  <p>\[ t_{(0{,}05;\,7)} = 1{,}895 \]</p>
+  <p>(Con \(z\) seria 1,645; la \(t\) es mayor.)</p>
+
+  <span class="paso">Paso 3 &mdash; Error estandar y error de estimacion</span>
+  <p>Formula:</p>
+  <p>\[ E = t_{(\alpha/2;\,n-1)}\,\frac{s}{\sqrt{n}} \]</p>
+  <ul>
+    <li>\(\sqrt{n} = \sqrt{8} = 2{,}8284\)</li>
+    <li>\(\dfrac{s}{\sqrt{n}} = \dfrac{6{,}0710}{2{,}8284} = 2{,}1464\) min (error estandar estimado)</li>
+  </ul>
+  <p>\[ E = 1{,}895 \times 2{,}1464 = 4{,}07 \text{ min} \]</p>
+
+  <span class="paso">Paso 4 &mdash; Armar el intervalo</span>
+  <p>Formula:</p>
+  <p>\[ \bar{x} - E &lt; \mu &lt; \bar{x} + E \]</p>
+  <p>\[ 85{,}5 - 4{,}07 &lt; \mu &lt; 85{,}5 + 4{,}07 \]</p>
+  <p>\[ \mathbf{81{,}43 &lt; \mu &lt; 89{,}57} \]</p>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>
+      \(IC_{90\%}(\mu) = [\,81{,}43\ ;\ 89{,}57\,]\) minutos. Con 90&nbsp;% de confianza, el tiempo
+      medio real que tardan todos los estudiantes de la facultad en completar el examen esta entre
+      81,43 y 89,57 minutos. El 90&nbsp;% es del metodo: de muchos intervalos armados asi con grupos
+      de 8, el 90&nbsp;% contendria a la verdadera media.
+    </p>
+  </div>
+</div>

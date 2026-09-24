@@ -1,0 +1,72 @@
+<div class="ej">
+  <span class="tag">Guia 7A &middot; Ejercicio 6 &middot; TLC</span>
+  <h2>Tiempo de atencion en la ventanilla del banco</h2>
+  <div class="enunciado">
+    <p>
+      La cantidad de tiempo que le toma al cajero de un banco atender a un cliente es una variable
+      aleatoria con una media \(\mu = 3{,}2\) minutos y una desviacion estandar \(\sigma = 1{,}6\)
+      minutos. Si se observa una muestra aleatoria de 64 clientes, calcule la probabilidad de que el
+      tiempo medio que el cliente pasa en la ventanilla del cajero sea a) a lo sumo 2,7 minutos;
+      b) mas de 3,5 minutos; c) al menos 3,2 minutos pero menos de 3,4 minutos.
+    </p>
+  </div>
+
+  <span class="paso">Que metodo y por que</span>
+  <ul>
+    <li>Se pregunta por el <strong>tiempo medio</strong> de 64 clientes: la variable es \(\bar{X}\).</li>
+    <li>
+      No se dice que los tiempos sean normales (de hecho, los tiempos de atencion suelen ser
+      asimetricos: muchos cortos y algunos muy largos). Pero \(n = 64 \geq 30\), asi que por el
+      <strong>Teorema del Limite Central</strong> la media \(\bar{X}\) es aproximadamente normal, con
+      media \(\mu\) y error estandar \(\sigma/\sqrt{n}\).
+    </li>
+  </ul>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Formulas</span>
+    <p>\[ \sigma_{\bar{X}} = \frac{\sigma}{\sqrt{n}} \qquad z = \frac{\bar{x} - \mu}{\sigma/\sqrt{n}} \]</p>
+  </div>
+
+  <span class="paso">Desarme del enunciado</span>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Traduccion</th><th>Cuenta</th><th>A donde va</th></tr>
+      <tr><td>"\(\mu = 3{,}2\) minutos"</td><td>centro de la poblacion</td><td>&mdash;</td><td>\(\mu = 3{,}2\)</td></tr>
+      <tr><td>"\(\sigma = 1{,}6\) minutos"</td><td>desvio de un cliente</td><td>&mdash;</td><td>\(\sigma = 1{,}6\)</td></tr>
+      <tr><td>"muestra aleatoria de 64 clientes"</td><td>\(n \geq 30\): TLC</td><td>\(\sigma_{\bar{X}} = \dfrac{1{,}6}{\sqrt{64}} = \dfrac{1{,}6}{8} = 0{,}2\)</td><td>\(n = 64\)</td></tr>
+      <tr><td>"a lo sumo 2,7"</td><td>2,7 o menos: area a la izquierda</td><td>&mdash;</td><td>inciso a</td></tr>
+      <tr><td>"mas de 3,5"</td><td>area a la derecha</td><td>&mdash;</td><td>inciso b</td></tr>
+      <tr><td>"al menos 3,2 pero menos de 3,4"</td><td>entre 3,2 y 3,4</td><td>&mdash;</td><td>inciso c</td></tr>
+    </table>
+  </div>
+  <p>
+    En una variable continua da igual \(&lt;\) que \(\leq\): la probabilidad de un punto exacto es
+    0. Por eso "a lo sumo" y "menos de" se calculan igual.
+  </p>
+
+  <span class="paso">Inciso a &mdash; A lo sumo 2,7 minutos</span>
+  <p>Formula:</p>
+  <p>\[ P(\bar{X} \leq \bar{x}) = F(z) \qquad z = \frac{\bar{x} - \mu}{\sigma/\sqrt{n}} \]</p>
+  <p>\[ z = \frac{2{,}7 - 3{,}2}{0{,}2} = \frac{-0{,}5}{0{,}2} = -2{,}50 \]</p>
+  <p>\(F(-2{,}50)\): fila \(-2{,}5\), columna 0,00 &rarr; 0,0062.</p>
+  <p>\[ P(\bar{X} \leq 2{,}7) = \mathbf{0{,}0062} \]</p>
+  <div class="caja caja-resp"><span class="caja-tit">Respuesta a</span><p><strong>0,0062</strong>: es muy raro (0,62&nbsp;%) que el promedio de 64 clientes sea de 2,7 minutos o menos; 2,7 esta 2,5 errores estandar por debajo del centro.</p></div>
+
+  <span class="paso">Inciso b &mdash; Mas de 3,5 minutos</span>
+  <p>Formula:</p>
+  <p>\[ P(\bar{X} &gt; \bar{x}) = 1 - F(z) \qquad z = \frac{\bar{x} - \mu}{\sigma/\sqrt{n}} \]</p>
+  <p>\[ z = \frac{3{,}5 - 3{,}2}{0{,}2} = \frac{0{,}3}{0{,}2} = 1{,}50 \]</p>
+  <p>\(F(1{,}50)\): fila 1,5, columna 0,00 &rarr; 0,9332.</p>
+  <p>\[ P(\bar{X} &gt; 3{,}5) = 1 - 0{,}9332 = \mathbf{0{,}0668} \]</p>
+  <div class="caja caja-resp"><span class="caja-tit">Respuesta b</span><p><strong>0,0668</strong> (6,68&nbsp;%).</p></div>
+
+  <span class="paso">Inciso c &mdash; Al menos 3,2 pero menos de 3,4</span>
+  <p>Formula:</p>
+  <p>\[ P(\bar{x}_1 \leq \bar{X} &lt; \bar{x}_2) = F(z_2) - F(z_1) \]</p>
+  <p>\[ z_1 = \frac{3{,}2 - 3{,}2}{0{,}2} = \frac{0}{0{,}2} = 0 \qquad z_2 = \frac{3{,}4 - 3{,}2}{0{,}2} = \frac{0{,}2}{0{,}2} = 1{,}00 \]</p>
+  <ul>
+    <li>\(F(1{,}00)\): fila 1,0, columna 0,00 &rarr; 0,8413.</li>
+    <li>\(F(0)\): fila 0,0, columna 0,00 &rarr; 0,5000 (la media parte la campana al medio).</li>
+  </ul>
+  <p>\[ P(3{,}2 \leq \bar{X} &lt; 3{,}4) = 0{,}8413 - 0{,}5000 = \mathbf{0{,}3413} \]</p>
+  <div class="caja caja-resp"><span class="caja-tit">Respuesta c</span><p><strong>0,3413</strong>: un 34,13&nbsp;% de las muestras de 64 clientes tendria un promedio entre 3,2 y 3,4 minutos (entre la media y un error estandar por encima).</p></div>
+</div>

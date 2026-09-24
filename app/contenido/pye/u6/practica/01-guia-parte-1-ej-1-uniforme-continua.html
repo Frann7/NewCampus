@@ -10,40 +10,143 @@
     </p>
   </div>
 
-  <span class="paso">Paso 1 &mdash; Escribir la densidad</span>
-  <p>Formula:</p>
-  <p>\[ f(x) = \frac{1}{B - A} \]</p>
-  <p>\[ f(x) = \frac{1}{10 - 7} = \frac{1}{3}, \qquad 7 &lt; x &lt; 10 \]</p>
+  <span class="paso">Que modelo y por que</span>
   <p>
-    Es un rectangulo de base 3 y altura 1/3. Su area total es \(3 \times \frac{1}{3} = 1\), como
-    corresponde a toda funcion de densidad.
+    El enunciado lo dice con todas las letras: "distribucion continua <strong>uniforme</strong>".
+    Uniforme quiere decir que <strong>todos los valores entre \(A\) y \(B\) son igual de
+    probables</strong>: la maquina puede servir cualquier cantidad entre 7 y 10 litros, y ningun
+    tramo de ese intervalo es mas probable que otro del mismo ancho.
+  </p>
+  <p>
+    La densidad es un <strong>rectangulo</strong>, y la probabilidad es el area de un pedazo de ese
+    rectangulo: <strong>base por altura</strong>. No hace falta tabla ni integral.
   </p>
 
-  <span class="paso">Inciso a &mdash; A lo mas 8,8 litros</span>
-  <p>\[ P(X \leq 8{,}8) \]</p>
+  <span class="paso">Desarme del enunciado</span>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Traduccion</th><th>Cuenta</th><th>A donde va</th></tr>
+      <tr><td>"distribucion continua uniforme"</td><td>el modelo: densidad plana, un rectangulo</td><td>&mdash;</td><td>\(X \sim U(A, B)\)</td></tr>
+      <tr><td>"\(A = 7\)"</td><td>el valor mas chico posible: la maquina nunca sirve menos de 7 litros</td><td>&mdash;</td><td>borde izquierdo del rectangulo</td></tr>
+      <tr><td>"\(B = 10\)"</td><td>el valor mas grande posible: nunca sirve mas de 10 litros</td><td>&mdash;</td><td>borde derecho del rectangulo</td></tr>
+      <tr><td>"a lo mas 8,8"</td><td>8,8 o menos. Pero por debajo de 7 no hay nada: el tramo util va de 7 a 8,8</td><td>&mdash;</td><td>inciso a: \(P(7 \leq X \leq 8{,}8)\)</td></tr>
+      <tr><td>"mas de 7,4 pero menos de 9,5"</td><td>un tramo con dos bordes, los dos adentro de 7&ndash;10</td><td>&mdash;</td><td>inciso b: \(P(7{,}4 &lt; X &lt; 9{,}5)\)</td></tr>
+      <tr><td>"al menos 8,5"</td><td>8,5 o mas. Pero por encima de 10 no hay nada: el tramo util va de 8,5 a 10</td><td>&mdash;</td><td>inciso c: \(P(8{,}5 \leq X \leq 10)\)</td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Paso previo &mdash; La altura del rectangulo</span>
   <p>
-    Cuidado con el limite inferior: la variable <strong>arranca en 7</strong>, no en 0. Por debajo
-    de 7 la densidad vale cero, asi que el tramo util va de 7 a 8,8.
+    <strong>Que se hace:</strong> se calcula la densidad \(f(x)\), que es la altura del rectangulo.
+  </p>
+  <p>
+    <strong>Por que:</strong> toda densidad tiene que encerrar un area total igual a 1 (la
+    probabilidad de que pase <em>algo</em>). El rectangulo tiene base \(B - A\); para que base por
+    altura de 1, la altura tiene que ser 1 dividido la base.
+  </p>
+  <p>Formula:</p>
+  <p>\[ f(x) = \frac{1}{B - A}, \qquad A &lt; x &lt; B \]</p>
+  <p>Reemplazando:</p>
+  <p>\[ f(x) = \frac{1}{10 - 7} = \frac{1}{3}, \qquad 7 &lt; x &lt; 10 \]</p>
+  <p>
+    <strong>Que significa:</strong> el rectangulo tiene base 3 (de 7 a 10) y altura \(\frac{1}{3}\).
+    Control: \(3 \times \frac{1}{3} = 1\). &#10003;
+  </p>
+  <p>
+    De aca sale la formula para cualquier tramo: el area de un pedazo es su base
+    \((x_2 - x_1)\) por la altura \(\frac{1}{B - A}\):
+  </p>
+  <p>\[ P(x_1 &lt; X &lt; x_2) = (x_2 - x_1) \cdot \frac{1}{B - A} = \frac{x_2 - x_1}{B - A} \]</p>
+
+  <span class="paso">Inciso a &mdash; A lo mas 8,8 litros</span>
+  <p>
+    <strong>Que se busca:</strong> la probabilidad de que la maquina sirva 8,8 litros o menos.
+  </p>
+  <p>
+    <strong>Donde esta la trampa:</strong> "a lo mas 8,8" suena a "de 0 a 8,8", pero la variable
+    <strong>arranca en 7</strong>. Entre 0 y 7 la densidad vale cero (la maquina nunca sirve tan
+    poco), asi que ese pedazo no suma area. El tramo util es de 7 a 8,8: \(x_1 = 7\), \(x_2 = 8{,}8\).
   </p>
   <p>Formula:</p>
   <p>\[ P(x_1 &lt; X &lt; x_2) = \frac{x_2 - x_1}{B - A} \]</p>
-  <p>\[ P(7 \leq X \leq 8{,}8) = \frac{8{,}8 - 7}{3} = \frac{1{,}8}{3} = \mathbf{0{,}60} \]</p>
-  <div class="caja caja-resp"><span class="caja-tit">Respuesta a</span><p>\(0{,}60\)</p></div>
+  <p>Reemplazando:</p>
+  <p>\[ P(X \leq 8{,}8) = P(7 \leq X \leq 8{,}8) = \frac{8{,}8 - 7}{10 - 7} \]</p>
+  <p>Pieza por pieza:</p>
+  <ul>
+    <li>Base del tramo: \(8{,}8 - 7 = 1{,}8\)</li>
+    <li>Base total: \(10 - 7 = 3\)</li>
+    <li>Cociente: \(\frac{1{,}8}{3} = 0{,}60\)</li>
+  </ul>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta a</span>
+    <p>\(P(X \leq 8{,}8) = 0{,}60\): el 60% de los dias la maquina sirve a lo mas 8,8 litros.</p>
+    <p>Control: el tramo 7&ndash;8,8 mide 1,8 de los 3 litros posibles, un poco mas de la mitad. 0,60 cierra.</p>
+  </div>
 
-  <span class="paso">Inciso b &mdash; Entre 7,4 y 9,5 litros</span>
-  <p>Los dos limites caen adentro del intervalo, asi que se restan directamente:</p>
-  <p>\[ P(7{,}4 &lt; X &lt; 9{,}5) = \frac{9{,}5 - 7{,}4}{3} = \frac{2{,}1}{3} = \mathbf{0{,}70} \]</p>
-  <div class="caja caja-resp"><span class="caja-tit">Respuesta b</span><p>\(0{,}70\)</p></div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Si hubieras usado 0 como borde</span>
+    <p>
+      \(\frac{8{,}8 - 0}{3} = 2{,}93\): una "probabilidad" mayor que 1, que es imposible. Cuando una
+      cuenta da mas de 1, el borde esta mal puesto.
+    </p>
+  </div>
+
+  <span class="paso">Inciso b &mdash; Mas de 7,4 pero menos de 9,5 litros</span>
+  <p>
+    <strong>Que se busca:</strong> el area del tramo entre 7,4 y 9,5. Los dos bordes caen adentro
+    del intervalo 7&ndash;10, asi que se usan tal cual: \(x_1 = 7{,}4\) (el borde izquierdo) y
+    \(x_2 = 9{,}5\) (el derecho).
+  </p>
+  <p>Formula:</p>
+  <p>\[ P(x_1 &lt; X &lt; x_2) = \frac{x_2 - x_1}{B - A} \]</p>
+  <p>Reemplazando:</p>
+  <p>\[ P(7{,}4 &lt; X &lt; 9{,}5) = \frac{9{,}5 - 7{,}4}{10 - 7} \]</p>
+  <p>Pieza por pieza:</p>
+  <ul>
+    <li>Base del tramo: \(9{,}5 - 7{,}4 = 2{,}1\)</li>
+    <li>Base total: \(10 - 7 = 3\)</li>
+    <li>Cociente: \(\frac{2{,}1}{3} = 0{,}70\)</li>
+  </ul>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta b</span>
+    <p>\(P(7{,}4 &lt; X &lt; 9{,}5) = 0{,}70\): el 70% de los dias sirve entre 7,4 y 9,5 litros.</p>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">"Mas de" o "al menos": en una continua da igual</span>
+    <p>
+      En una variable continua la probabilidad de un valor exacto es cero (un punto no tiene base,
+      no tiene area). Por eso \(P(X &gt; 7{,}4)\) y \(P(X \geq 7{,}4)\) dan lo mismo, y no hay que
+      preocuparse por si el borde entra o no. En la Binomial (Unidad 5) si importaba.
+    </p>
+  </div>
 
   <span class="paso">Inciso c &mdash; Al menos 8,5 litros</span>
   <p>
-    "Al menos 8,5" significa de 8,5 para arriba, pero la variable <strong>termina en 10</strong>:
-    no hay nada mas alla.
+    <strong>Que se busca:</strong> 8,5 litros o mas. Otra vez hay que mirar el intervalo: la
+    variable <strong>termina en 10</strong>, mas alla no hay area. El tramo util es de 8,5 a 10:
+    \(x_1 = 8{,}5\), \(x_2 = 10\).
   </p>
-  <p>\[ P(X \geq 8{,}5) = \frac{10 - 8{,}5}{3} = \frac{1{,}5}{3} = \mathbf{0{,}50} \]</p>
+  <p>Formula:</p>
+  <p>\[ P(x_1 &lt; X &lt; x_2) = \frac{x_2 - x_1}{B - A} \]</p>
+  <p>Reemplazando:</p>
+  <p>\[ P(X \geq 8{,}5) = P(8{,}5 \leq X \leq 10) = \frac{10 - 8{,}5}{10 - 7} \]</p>
+  <p>Pieza por pieza:</p>
+  <ul>
+    <li>Base del tramo: \(10 - 8{,}5 = 1{,}5\)</li>
+    <li>Base total: \(10 - 7 = 3\)</li>
+    <li>Cociente: \(\frac{1{,}5}{3} = 0{,}50\)</li>
+  </ul>
   <div class="caja caja-resp">
     <span class="caja-tit">Respuesta c</span>
-    <p>\(0{,}50\). Tiene sentido: 8,5 es justo el punto medio entre 7 y 10, y en una uniforme el
-    punto medio parte el area en dos mitades iguales.</p>
+    <p>\(P(X \geq 8{,}5) = 0{,}50\): la mitad de los dias sirve al menos 8,5 litros.</p>
+    <p>
+      Tiene sentido: 8,5 es justo el punto medio entre 7 y 10, y en un rectangulo el punto medio
+      parte el area en dos mitades iguales.
+    </p>
+  </div>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Resumen de respuestas</span>
+    <p>a) 0,60 &nbsp;&middot;&nbsp; b) 0,70 &nbsp;&middot;&nbsp; c) 0,50</p>
   </div>
 </div>

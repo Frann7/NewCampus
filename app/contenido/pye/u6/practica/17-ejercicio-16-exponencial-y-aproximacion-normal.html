@@ -1,0 +1,143 @@
+<div class="ej">
+  <span class="tag">Ejercicio 16 &middot; Exponencial + Binomial por Normal</span>
+  <h2>Interruptores que fallan en el primer ano</h2>
+  <div class="enunciado">
+    <p>
+      La vida, en anos, de un interruptor electrico tiene una distribucion exponencial con
+      \(\beta = 2\). Si 100 de estos interruptores se instalan en diferentes sistemas, cual es la
+      probabilidad de que a lo mas 30 fallen durante el primer ano?
+    </p>
+  </div>
+
+  <span class="paso">Que modelo y por que</span>
+  <p>Hay <strong>dos variables</strong>, y el ejercicio encadena tres herramientas:</p>
+  <ul>
+    <li>
+      <strong>\(T\) = vida de UN interruptor</strong> (en anos). El enunciado dice que es
+      "<strong>exponencial</strong> con \(\beta = 2\)": un tiempo de vida, con media de 2 anos.
+    </li>
+    <li>
+      <strong>\(Y\) = cuantos de los 100 interruptores fallan en el primer ano</strong>. Es un conteo
+      que cumple las condiciones de la <strong>Binomial</strong>:
+      <ul>
+        <li>cantidad fija de pruebas: 100 interruptores &rarr; \(n = 100\);</li>
+        <li>cada uno tiene dos resultados: falla en el primer ano, o no;</li>
+        <li>la probabilidad es la misma para todos (la misma Exponencial);</li>
+        <li>estan en "diferentes sistemas": uno no afecta al otro.</li>
+      </ul>
+    </li>
+    <li>
+      Como \(n = 100\) es grande, la Binomial se resuelve con la <strong>aproximacion Normal</strong>
+      (como en los ejercicios 9 a 12).
+    </li>
+  </ul>
+  <p>
+    <strong>El orden:</strong> Exponencial &rarr; da la \(p\) de un interruptor &rarr; Binomial con
+    \(n = 100\) &rarr; se aproxima por Normal &rarr; tabla \(Z\).
+  </p>
+
+  <span class="paso">Desarme del enunciado</span>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Traduccion</th><th>Cuenta</th><th>A donde va</th></tr>
+      <tr><td>"distribucion exponencial con \(\beta = 2\)"</td><td>la vida de un interruptor; \(\beta\) es el tiempo medio: 2 anos</td><td>&mdash;</td><td>\(\beta = 2\)</td></tr>
+      <tr><td>"fallen durante el primer ano"</td><td>que la vida sea menor a 1 ano: area a la izquierda de 1</td><td>\(1 - e^{-1/2}\)</td><td>la \(p\) de la Binomial</td></tr>
+      <tr><td>"100 de estos interruptores"</td><td>cantidad de pruebas</td><td>&mdash;</td><td>\(n = 100\)</td></tr>
+      <tr><td>"a lo mas 30 fallen"</td><td>0, 1, &hellip;, 30: el 30 <strong>entra</strong>. Area a la izquierda</td><td>borde corregido: 30,5</td><td>\(P(Y \leq 30)\)</td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Parte 1 &mdash; La Exponencial da la \(p\)</span>
+  <p>
+    <strong>Paso 1 &mdash; Elegir la formula.</strong> Fallar durante el primer ano es que la vida sea
+    <strong>menor a 1</strong>: el area a la izquierda de 1, la acumulada.
+  </p>
+  <p>Formula:</p>
+  <p>\[ P(T \leq x) = 1 - e^{-x/\beta} \]</p>
+  <p><strong>Paso 2 &mdash; Reemplazar</strong> (\(x = 1\), \(\beta = 2\)):</p>
+  <p>\[ P(T &lt; 1) = 1 - e^{-1/2} \]</p>
+  <p><strong>Paso 3 &mdash; Pieza por pieza.</strong></p>
+  <ul>
+    <li>El exponente: \(-\frac{1}{2} = -0{,}5\).</li>
+    <li>La potencia: \(e^{-0{,}5} = 0{,}6065\): la probabilidad de que el interruptor pase el primer ano.</li>
+    <li>Lo que se pide es lo contrario: \(1 - 0{,}6065 = 0{,}3935\).</li>
+  </ul>
+  <p>\[ p = P(T &lt; 1) = 0{,}3935 \qquad 1 - p = 0{,}6065 \]</p>
+  <div class="caja caja-calc">
+    <span class="caja-tit">En la calculadora</span>
+    <p>1 &minus; e^( (-) 1 &divide; 2 ) = 0,3935 &nbsp;&nbsp;(en las Casio, \(e^{x}\) es SHIFT + ln)</p>
+  </div>
+  <p>Que significa: cada interruptor tiene un 39,35% de probabilidad de fallar en el primer ano. Es la \(p\) de cada prueba.</p>
+
+  <span class="paso">Parte 2 &mdash; La Binomial, y por que se aproxima</span>
+  <p>
+    Con \(Y \sim Bi(n = 100;\ p = 0{,}3935)\) se pide \(P(Y \leq 30)\): con la formula serian 31
+    terminos (del 0 al 30), y no hay tabla para \(n = 100\). Se aproxima por la Normal.
+  </p>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Condiciones para aproximar</span>
+    <ul>
+      <li>\(n = 100 \geq 30\) &#10003;</li>
+      <li>\(n\,p = 100 \cdot 0{,}3935 = 39{,}35 \geq 5\) &#10003;</li>
+      <li>\(n\,(1-p) = 100 \cdot 0{,}6065 = 60{,}65 \geq 5\) &#10003;</li>
+    </ul>
+    <p>Se cumplen: la aproximacion es valida.</p>
+  </div>
+
+  <p><strong>Paso 1 &mdash; Media y desvio de la Normal.</strong></p>
+  <p>Formula de la media:</p>
+  <p>\[ \mu = n \cdot p \]</p>
+  <p>\[ \mu = 100 \cdot 0{,}3935 = 39{,}35 \]</p>
+  <p>Se espera que fallen unos 39 interruptores: el centro de la campana.</p>
+  <p>Formula del desvio:</p>
+  <p>\[ \sigma = \sqrt{n \cdot p \cdot (1-p)} \]</p>
+  <p>\[ \sigma = \sqrt{100 \cdot 0{,}3935 \cdot 0{,}6065} = \sqrt{23{,}8658} = 4{,}885 \]</p>
+
+  <p><strong>Paso 2 &mdash; Pasar a enteros y corregir el borde.</strong></p>
+  <p>
+    "A lo mas 30" es 30 o menos: el 30 <strong>entra</strong>. Su barra termina en 30,5, asi que el
+    borde va medio punto por encima (hacia afuera del grupo 0&hellip;30):
+  </p>
+  <p>\[ P(Y \leq 30) \approx P(W &lt; 30{,}5) \]</p>
+  <p>(\(W\) es la Normal que reemplaza a la Binomial.)</p>
+
+  <p><strong>Paso 3 &mdash; Ubicar el area.</strong> "Menor que 30,5" es un area a la izquierda: lo que da la tabla.</p>
+  <p>Formula:</p>
+  <p>\[ P(W &lt; x) = F(z) \]</p>
+
+  <p><strong>Paso 4 &mdash; Estandarizar el borde corregido.</strong></p>
+  <p>Formula:</p>
+  <p>\[ z = \frac{x - \mu}{\sigma} \]</p>
+  <p>\[ z = \frac{30{,}5 - 39{,}35}{4{,}885} = \frac{-8{,}85}{4{,}885} = -1{,}8117 \approx -1{,}81 \]</p>
+  <p>El borde esta 1,81 desvios por debajo de la media.</p>
+
+  <p><strong>Paso 5 &mdash; Tabla.</strong> \(F(-1{,}81)\): fila \(-1{,}8\), columna 0,01 &rarr; 0,0351.</p>
+
+  <p><strong>Paso 6 &mdash; Resultado.</strong> Area a la izquierda: el valor de la tabla es la respuesta.</p>
+  <p>\[ P(Y \leq 30) \approx F(-1{,}81) = \mathbf{0{,}0351} \]</p>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>
+      La probabilidad de que a lo mas 30 de los 100 interruptores fallen durante el primer ano es
+      aproximadamente <strong>0,0351</strong> (3,51%).
+    </p>
+    <p>
+      Control: se espera que fallen unos 39, y 30 esta casi 2 desvios por debajo. Que fallen tan
+      pocos es poco probable: tenia que dar chico. &#10003; (La binomial exacta, calculada con
+      computadora, da 0,0334: la aproximacion anda bien.)
+    </p>
+  </div>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Donde se pierde este ejercicio</span>
+    <p>
+      <strong>1. Usar \(e^{-1/2}\) como \(p\).</strong> Eso es la probabilidad de <em>sobrevivir</em>
+      el primer ano. Los que fallan son \(1 - e^{-1/2}\).
+    </p>
+    <p>
+      <strong>2. Correr el borde para el lado equivocado.</strong> "A lo mas 30" incluye al 30: el
+      borde es 30,5, no 29,5.
+    </p>
+  </div>
+</div>

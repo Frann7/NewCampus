@@ -1,0 +1,92 @@
+<div class="ej">
+  <span class="tag">Ejercicio 14 &middot; Exponencial con tasa</span>
+  <h2>Dispositivo con tasa de falla constante</h2>
+  <div class="enunciado">
+    <p>
+      La vida de cierto dispositivo tiene una tasa de falla anunciada de 0,01 por hora. La tasa de
+      falla es constante y se aplica la distribucion exponencial:
+      a) Cual es el tiempo medio de operacion antes del fallo?
+      b) Cual es la probabilidad de que pasen 200 horas o mas antes de que se observe una falla?
+    </p>
+  </div>
+
+  <span class="paso">Que modelo y por que</span>
+  <p>
+    El enunciado lo dice: "se aplica la distribucion <strong>exponencial</strong>". Es el modelo del
+    tiempo de vida de algo que falla a <strong>tasa constante</strong>: la variable es cuantas horas
+    funciona el dispositivo hasta fallar.
+  </p>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Las formulas de la Exponencial (teoria, seccion 7)</span>
+    <p>\[ E(X) = \beta \qquad\qquad P(X &gt; x) = e^{-x/\beta} \qquad\qquad \beta = \frac{1}{\lambda} \]</p>
+    <p>
+      \(\beta\) es el tiempo medio; \(\lambda\) es la tasa (cuantas fallas por unidad de tiempo). Las
+      formulas usan \(\beta\): si te dan la tasa, primero se invierte.
+    </p>
+  </div>
+
+  <span class="paso">Desarme del enunciado</span>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Traduccion</th><th>Cuenta</th><th>A donde va</th></tr>
+      <tr><td>"se aplica la distribucion exponencial"</td><td>el modelo: Exponencial</td><td>&mdash;</td><td>formulas de arriba</td></tr>
+      <tr><td>"tasa de falla de 0,01 <strong>por hora</strong>"</td><td>"por hora" = cosas por unidad de tiempo: es una <strong>tasa</strong>, no un tiempo. Hay que invertirla</td><td>\(\beta = \dfrac{1}{0{,}01} = 100\)</td><td>\(\lambda = 0{,}01\); \(\beta = 100\) horas</td></tr>
+      <tr><td>"tiempo medio de operacion antes del fallo"</td><td>la esperanza</td><td>&mdash;</td><td>inciso a: \(E(X)\)</td></tr>
+      <tr><td>"200 horas o mas antes de que se observe una falla"</td><td>que dure al menos 200 horas: area a la derecha de 200</td><td>&mdash;</td><td>inciso b: \(P(X \geq 200)\)</td></tr>
+    </table>
+  </div>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">La pregunta de control: &iquest;me dieron un tiempo o una tasa?</span>
+    <p>
+      Si usas 0,01 como si fuera \(\beta\), el inciso b da \(e^{-200/0{,}01} = e^{-20000}\), que es
+      practicamente cero. Cuando el numero viene "por hora", "por minuto", es una tasa: se da vuelta.
+    </p>
+  </div>
+
+  <span class="paso">Inciso a &mdash; Tiempo medio antes del fallo</span>
+  <p><strong>Paso 1 &mdash; Pasar la tasa a tiempo medio.</strong></p>
+  <p>Formula:</p>
+  <p>\[ \beta = \frac{1}{\lambda} \]</p>
+  <p>\[ \beta = \frac{1}{0{,}01} = 100 \text{ horas} \]</p>
+  <p><strong>Paso 2 &mdash; La esperanza.</strong> En la Exponencial, la media es \(\beta\):</p>
+  <p>Formula:</p>
+  <p>\[ E(X) = \beta \]</p>
+  <p>\[ E(X) = \mathbf{100 \text{ horas}} \]</p>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta a</span>
+    <p>El tiempo medio de operacion antes del fallo es de <strong>100 horas</strong>.</p>
+    <p>Control: 0,01 fallas por hora es 1 falla cada 100 horas. &#10003;</p>
+  </div>
+
+  <span class="paso">Inciso b &mdash; 200 horas o mas sin fallar</span>
+  <p>
+    <strong>Paso 1 &mdash; Elegir la formula.</strong> "Pasen 200 horas o mas antes de una falla" es
+    que el dispositivo <strong>sobreviva</strong> mas alla de 200: la formula de "mas que \(x\)". En
+    una variable continua \(\geq\) y \(&gt;\) dan lo mismo (un valor exacto tiene probabilidad cero).
+  </p>
+  <p>Formula:</p>
+  <p>\[ P(X &gt; x) = e^{-x/\beta} \]</p>
+  <p><strong>Paso 2 &mdash; Reemplazar</strong> (\(x = 200\), \(\beta = 100\)):</p>
+  <p>\[ P(X \geq 200) = e^{-200/100} \]</p>
+  <p><strong>Paso 3 &mdash; Pieza por pieza.</strong></p>
+  <ul>
+    <li>El exponente: \(-\frac{200}{100} = -2\). Que significa: 200 horas son 2 veces la vida media.</li>
+    <li>La potencia: \(e^{-2} = 0{,}1353\).</li>
+  </ul>
+  <p>\[ P(X \geq 200) = \mathbf{0{,}1353} \]</p>
+  <div class="caja caja-calc">
+    <span class="caja-tit">En la calculadora</span>
+    <p>e^( (-) 200 &divide; 100 ) = 0,1353 &nbsp;&nbsp;(en las Casio, \(e^{x}\) es SHIFT + ln)</p>
+  </div>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta b</span>
+    <p>La probabilidad de que pasen 200 horas o mas sin que se observe una falla es 0,1353 (13,53%).</p>
+    <p>Control: durar mas que la media ya es poco probable (\(e^{-1} = 0{,}3679\)); durar el doble tenia que dar menos todavia. &#10003;</p>
+  </div>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Resumen de respuestas</span>
+    <p>a) 100 horas &nbsp;&middot;&nbsp; b) 0,1353</p>
+  </div>
+</div>

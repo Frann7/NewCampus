@@ -1,0 +1,199 @@
+<div class="ej" data-examen="variante" data-examen-ref="Parcial 2023 · ej. 3c" data-examen-nota="El inciso b es el “20 % más alto” del parcial 2023, pedido como intervalo. El inciso a (una Normal cuyo resultado pasa a ser la p de una Binomial) no apareció en los exámenes cargados.">
+  <span class="tag">Ejercicio 8 &middot; Normal + Binomial</span>
+  <h2>Solvente en latas de pintura</h2>
+  <div class="enunciado">
+    <p>
+      Se conoce que la cantidad de solvente agregado por una maquina a ciertas latas de pintura es una
+      variable aproximadamente normal con media de 20,8 cm&sup3; con un desvio estandar de 4,5 cm&sup3;.
+      a) Cual es la probabilidad de que la maquina deposite entre 18 y 22 cm&sup3; de solvente en 4 de
+      las siguientes 10 latas?
+      b) Determine un intervalo de la cantidad de solvente para caracterizar al 20% de las latas de
+      pintura mas diluida.
+    </p>
+  </div>
+
+  <span class="paso">Que modelo y por que</span>
+  <p>
+    Hay <strong>dos variables distintas</strong>, y cada una tiene su modelo:
+  </p>
+  <ul>
+    <li>
+      <strong>\(X\) = cantidad de solvente en UNA lata</strong> (en cm&sup3;). Es una medicion, y el
+      enunciado dice que es "aproximadamente <strong>normal</strong>" con \(\mu = 20{,}8\) y
+      \(\sigma = 4{,}5\).
+    </li>
+    <li>
+      <strong>\(Y\) = cuantas latas de las 10 quedan entre 18 y 22 cm&sup3;</strong>. Es un conteo, y
+      cumple las condiciones de la <strong>Binomial</strong> (Unidad 5):
+      <ul>
+        <li>cantidad fija de pruebas: 10 latas &rarr; \(n = 10\);</li>
+        <li>cada lata tiene dos resultados: queda entre 18 y 22, o no;</li>
+        <li>la probabilidad es la misma para todas (es la misma maquina, con la misma campana);</li>
+        <li>lo que pasa con una lata no cambia lo que pasa con otra (independientes).</li>
+      </ul>
+    </li>
+  </ul>
+  <p>
+    <strong>Como se encadenan:</strong> la Normal da la probabilidad de que <em>una</em> lata quede
+    entre 18 y 22. Ese numero es la probabilidad de exito de cada prueba: pasa a ser la
+    <strong>\(p\) de la Binomial</strong>. Despues la Binomial cuenta cuantas de las 10 lo cumplen.
+  </p>
+  <p>El inciso b usa solo la Normal: es un problema inverso.</p>
+
+  <span class="paso">Desarme del enunciado</span>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Traduccion</th><th>Cuenta</th><th>A donde va</th></tr>
+      <tr><td>"variable aproximadamente normal"</td><td>el solvente de una lata: Normal</td><td>&mdash;</td><td>\(X \sim N(\mu, \sigma)\)</td></tr>
+      <tr><td>"media de 20,8 cm&sup3;"</td><td>el centro de la campana</td><td>&mdash;</td><td>\(\mu = 20{,}8\)</td></tr>
+      <tr><td>"desvio estandar de 4,5 cm&sup3;"</td><td>ya es el desvio: sin raiz</td><td>&mdash;</td><td>\(\sigma = 4{,}5\)</td></tr>
+      <tr><td>"entre 18 y 22 cm&sup3;"</td><td>lo que tiene que cumplir cada lata: un area con dos bordes</td><td>\(F(z_2) - F(z_1)\)</td><td>la \(p\) de la Binomial</td></tr>
+      <tr><td>"las siguientes 10 latas"</td><td>cantidad de pruebas</td><td>&mdash;</td><td>\(n = 10\)</td></tr>
+      <tr><td>"en 4 de las 10"</td><td>exactamente 4 latas cumplen (y las otras 6 no)</td><td>&mdash;</td><td>\(P(Y = 4)\)</td></tr>
+      <tr><td>"el 20% de las latas mas diluidas"</td><td>el solvente es lo que <strong>diluye</strong> la pintura: mas diluida = mas solvente. Es la cola de <strong>arriba</strong>, 0,20 a la derecha</td><td>\(1 - 0{,}20 = 0{,}80\)</td><td>inciso b: \(F(z) = 0{,}80\)</td></tr>
+      <tr><td>"determine un intervalo"</td><td>desde el borde que se calcule hacia arriba</td><td>&mdash;</td><td>\(x = \mu + z\sigma\)</td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Inciso a &mdash; Parte 1: la Normal da la \(p\)</span>
+  <p><strong>Que se busca:</strong> la probabilidad de que <em>una</em> lata tenga entre 18 y 22 cm&sup3;.</p>
+
+  <p><strong>Paso 1 &mdash; Ubicar el area.</strong> Entre dos valores: \(z_1\) es el del borde izquierdo (18) y \(z_2\) el del derecho (22).</p>
+  <p>Formula:</p>
+  <p>\[ P(x_1 &lt; X &lt; x_2) = F(z_2) - F(z_1) \]</p>
+
+  <p><strong>Paso 2 &mdash; Estandarizar los dos bordes.</strong></p>
+  <p>Formula:</p>
+  <p>\[ z = \frac{x - \mu}{\sigma} \]</p>
+  <p>Borde izquierdo, \(x_1 = 18\):</p>
+  <p>\[ z_1 = \frac{18 - 20{,}8}{4{,}5} = \frac{-2{,}8}{4{,}5} = -0{,}6222 \approx -0{,}62 \]</p>
+  <p>18 cm&sup3; esta 0,62 desvios por debajo de la media.</p>
+  <p>Borde derecho, \(x_2 = 22\):</p>
+  <p>\[ z_2 = \frac{22 - 20{,}8}{4{,}5} = \frac{1{,}2}{4{,}5} = 0{,}2667 \approx 0{,}27 \]</p>
+  <p>22 cm&sup3; esta 0,27 desvios por encima de la media.</p>
+
+  <p><strong>Paso 3 &mdash; Tabla</strong>, una busqueda por borde:</p>
+  <ul>
+    <li>\(F(0{,}27)\): fila 0,2, columna 0,07 &rarr; 0,6064.</li>
+    <li>\(F(-0{,}62)\): fila \(-0{,}6\), columna 0,02 &rarr; 0,2676.</li>
+  </ul>
+
+  <p><strong>Paso 4 &mdash; La cuenta del paso 1.</strong></p>
+  <p>\[ P(18 &lt; X &lt; 22) = F(0{,}27) - F(-0{,}62) = 0{,}6064 - 0{,}2676 = 0{,}3388 \]</p>
+  <p>
+    Que significa: cada lata tiene un 33,88% de probabilidad de quedar entre 18 y 22 cm&sup3;. Este
+    numero <strong>no es la respuesta</strong>: es la probabilidad de exito de cada lata.
+  </p>
+  <p>\[ p = 0{,}3388 \qquad 1 - p = 1 - 0{,}3388 = 0{,}6612 \]</p>
+
+  <span class="paso">Inciso a &mdash; Parte 2: la Binomial cuenta las latas</span>
+  <p>
+    <strong>Que se busca:</strong> que de las 10 latas, exactamente 4 queden entre 18 y 22 cm&sup3;.
+    Con \(Y \sim Bi(n = 10;\ p = 0{,}3388)\), es \(P(Y = 4)\).
+  </p>
+  <p>
+    <strong>Por que con la formula y no con la tabla:</strong> la tabla binomial de la catedra
+    trae columnas para \(p\) redondos (0,30; 0,40&hellip;) y 0,3388 no esta. Y no se aproxima por
+    Normal porque \(n = 10\) es chico (hace falta \(n \geq 30\)). Queda la formula, que para un solo
+    valor es una sola cuenta.
+  </p>
+  <p>Formula:</p>
+  <p>\[ P(Y = y) = \binom{n}{y}\, p^{y}\, (1-p)^{\,n-y} \]</p>
+  <p>Reemplazando (\(n = 10\), \(y = 4\), \(n - y = 6\)):</p>
+  <p>\[ P(Y = 4) = \binom{10}{4}\,(0{,}3388)^{4}\,(0{,}6612)^{6} \]</p>
+  <p>Pieza por pieza:</p>
+  <ul>
+    <li>\(\binom{10}{4} = \frac{10!}{4!\,6!} = 210\): las formas de elegir cuales son las 4 latas que cumplen.</li>
+    <li>\((0{,}3388)^{4} = 0{,}013176\): que esas 4 cumplan.</li>
+    <li>\((0{,}6612)^{6} = 0{,}083560\): que las otras 6 no cumplan.</li>
+  </ul>
+  <p>\[ P(Y = 4) = 210 \times 0{,}013176 \times 0{,}083560 = \mathbf{0{,}2312} \]</p>
+
+  <div class="caja caja-calc">
+    <span class="caja-tit">En la calculadora</span>
+    <p>10 nCr 4 &times; 0.3388 ^ 4 &times; 0.6612 ^ 6</p>
+    <p>Todo en una sola linea, para no arrastrar redondeos intermedios.</p>
+  </div>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta a</span>
+    <p>
+      La probabilidad de que la maquina deposite entre 18 y 22 cm&sup3; en exactamente 4 de las
+      siguientes 10 latas es <strong>0,2312</strong> (23,12%).
+    </p>
+    <p>
+      Control: se esperan \(n\,p = 10 \times 0{,}3388 = 3{,}4\) latas que cumplan, asi que 4 es un valor
+      cercano a lo esperado. Que sea uno de los resultados mas probables, con algo mas del 20%, cierra.
+    </p>
+  </div>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">La trampa del inciso a</span>
+    <p>
+      Contestar 0,3388. Ese numero es para <em>una</em> lata; la pregunta es por 4 de 10. Cada vez que
+      el enunciado cuenta cuantas de un grupo cumplen algo, el primer resultado es la \(p\) y todavia
+      falta la Binomial.
+    </p>
+  </div>
+
+  <span class="paso">Inciso b &mdash; El 20% de las latas mas diluidas (problema inverso)</span>
+  <p>
+    <strong>Que se busca:</strong> a partir de que cantidad de solvente una lata esta entre el 20%
+    mas diluido. Se tiene el area (20%) y falta el borde: la receta para atras, area &rarr; \(z\)
+    &rarr; cm&sup3;.
+  </p>
+
+  <p><strong>Paso 1 &mdash; Pasar el porcentaje a area a la izquierda.</strong></p>
+  <p>
+    Mas diluida es <strong>mas solvente</strong>: son las latas de la cola de la
+    <strong>derecha</strong>, un area de 0,20. La tabla solo tiene izquierdas, asi que se da vuelta:
+  </p>
+  <p>Formula:</p>
+  <p>\[ F(z) = 1 - \text{area a la derecha} \]</p>
+  <p>\[ F(z) = 1 - 0{,}20 = 0{,}80 \]</p>
+
+  <p><strong>Paso 2 &mdash; Buscar 0,8000 adentro de la tabla.</strong> No aparece exacto:</p>
+  <ul>
+    <li>\(F(0{,}84) = 0{,}7995\) (fila 0,8, columna 0,04). Diferencia: 0,0005.</li>
+    <li>\(F(0{,}85) = 0{,}8023\) (fila 0,8, columna 0,05). Diferencia: 0,0023.</li>
+  </ul>
+  <p>El mas cercano es \(z = 0{,}84\): el borde esta 0,84 desvios por encima de la media.</p>
+
+  <p><strong>Paso 3 &mdash; Volver de \(z\) a cm&sup3;.</strong></p>
+  <p>Formula:</p>
+  <p>\[ x = \mu + z \cdot \sigma \]</p>
+  <p>\[ x = 20{,}8 + 0{,}84 \cdot 4{,}5 \]</p>
+  <p>Pieza por pieza:</p>
+  <ul>
+    <li>\(0{,}84 \cdot 4{,}5 = 3{,}78\): cuantos cm&sup3; me alejo de la media (para arriba).</li>
+    <li>\(20{,}8 + 3{,}78 = 24{,}58\).</li>
+  </ul>
+  <p>\[ x = \mathbf{24{,}58 \text{ cm}^3} \]</p>
+
+  <p><strong>Paso 4 &mdash; Escribirlo como intervalo.</strong> El grupo empieza en 24,58 y sigue hacia arriba, sin tope:</p>
+  <p>\[ X &gt; 24{,}58 \text{ cm}^3 \qquad \text{o sea, el intervalo } (24{,}58\,;\ +\infty) \]</p>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta b</span>
+    <p>
+      El 20% de las latas mas diluidas son las que tienen <strong>mas de 24,58 cm&sup3;</strong> de
+      solvente: el intervalo \((24{,}58;\ +\infty)\).
+    </p>
+    <p>Control: es la cola de arriba, asi que el borde tenia que quedar por encima de la media: 24,58 &gt; 20,8. &#10003;</p>
+  </div>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Leer bien "diluida"</span>
+    <p>
+      Si se toma "mas diluida" como "menos solvente", se busca 0,20 directo, sale \(z = -0{,}84\) y el
+      intervalo seria \(X &lt; 20{,}8 - 3{,}78 = 17{,}02\). Es el mismo calculo con la cola cambiada:
+      por eso, antes de ir a la tabla, conviene escribir en una linea cual cola se esta pidiendo y por
+      que.
+    </p>
+  </div>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Resumen de respuestas</span>
+    <p>a) \(p = 0{,}3388\) por lata; \(P(Y = 4) = 0{,}2312\) &nbsp;&middot;&nbsp; b) mas de 24,58 cm&sup3;</p>
+  </div>
+</div>

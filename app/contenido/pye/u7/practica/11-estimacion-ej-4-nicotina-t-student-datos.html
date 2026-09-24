@@ -1,0 +1,149 @@
+<div class="ej" data-examen="variante" data-examen-ref="Final 10/12 · ej. 4d · Final 26/11 · ej. 3c" data-examen-nota="En el final del 10/12 también son 10 datos sueltos (longitudes de piezas), pero dicen que la población es normal con σ = 0,5 mm CONOCIDO: ahí no va t, va z = 1,96 con σ (aunque n sea 10), y s solo sirve para describir. En el del 26/11 son 15 datos sin σ: igual que acá, media, s y t con n − 1 grados de libertad, al 95 %.">
+  <span class="tag">Estimacion &middot; Ejercicio 4 &middot; IC con \(t\) de Student (datos sueltos)</span>
+  <h2>Contenido medio de nicotina</h2>
+  <div class="enunciado">
+    <p>
+      Una muestra aleatoria de 10 cigarrillos de cierta marca mostro los siguientes contenidos de
+      nicotina (en miligramos): 2,1; 1,9; 2,2; 2,1; 2,4; 2,0; 1,8; 1,9; 2,1; 2,0. Calcule un
+      intervalo del 99% de confianza para el contenido medio de nicotina de esta marca de
+      cigarrillos.
+    </p>
+  </div>
+
+  <span class="paso">Que metodo y por que</span>
+  <p>
+    Se quiere \(\mu\), el contenido medio de nicotina de <strong>todos</strong> los cigarrillos de
+    la marca. Se estima con un <strong>intervalo de confianza</strong>: la media de la muestra
+    \(\bar{x}\) mas y menos un margen \(E\) (el error de estimacion).
+  </p>
+  <p><strong>Que caso de la Tabla IC-PH es:</strong></p>
+  <ul>
+    <li>\(n = 10 &lt; 30\): muestra chica.</li>
+    <li>No se da ningun desvio de la poblacion; el desvio hay que sacarlo <strong>de los mismos 10 datos</strong>: \(\sigma\) desconocida, se usa \(s\).</li>
+  </ul>
+  <p>Segunda fila: \(n &lt; 30\), \(\sigma\) desconocida &rarr; <strong>\(t\) de Student con \(s\) y \(\nu = n - 1\)</strong>.</p>
+  <p><strong>Por que \(t\) y no \(z\):</strong></p>
+  <ul>
+    <li>
+      Si se conociera \(\sigma\), \(\frac{\bar{X} - \mu}{\sigma/\sqrt{n}}\) seria una normal estandar
+      \(Z\). Al poner \(s\) en lugar de \(\sigma\) se agrega una segunda fuente de error: \(s\) tambien
+      cambia de muestra en muestra, y con 10 datos puede salir bastante lejos de \(\sigma\).
+    </li>
+    <li>
+      Ese cociente con \(s\) ya no es \(Z\) sino una <strong>\(t\) de Student</strong>: una campana
+      parecida, centrada en 0, pero con <strong>colas mas pesadas</strong>. Por eso sus valores de
+      tabla son mas grandes que los de \(z\), y el intervalo sale mas ancho: es el "precio" por no
+      conocer \(\sigma\).
+    </li>
+    <li>
+      <strong>Grados de libertad \(\nu = n - 1\):</strong> dicen cual de todas las \(t\) usar. Son
+      \(n - 1\) porque, al calcular \(s\), las desviaciones \(x - \bar{x}\) tienen que sumar 0: una vez
+      conocidas \(n - 1\) de ellas, la ultima queda obligada. Solo \(n - 1\) datos "aportan
+      informacion libre" sobre la dispersion. Cuantos mas grados de libertad, mas se parece la \(t\)
+      a la normal.
+    </li>
+    <li>
+      La \(t\) exige que la poblacion sea <strong>normal</strong>. El enunciado no lo dice; se supone
+      (el contenido de nicotina es una medicion de un proceso de fabricacion).
+    </li>
+  </ul>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Intervalo para \(\mu\) con \(n &lt; 30\) y \(\sigma\) desconocida</span>
+    <p>\[ \bar{x} \pm t_{(\alpha/2;\,n-1)}\,\frac{s}{\sqrt{n}} \qquad E = t_{(\alpha/2;\,n-1)}\,\frac{s}{\sqrt{n}} \]</p>
+    <p>\[ \bar{x} = \frac{\sum x}{n} \qquad s = \sqrt{\frac{\sum (x - \bar{x})^{2}}{n - 1}} \]</p>
+  </div>
+
+  <span class="paso">Desarme del enunciado</span>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Traduccion</th><th>Cuenta</th><th>A donde va</th></tr>
+      <tr><td>"muestra aleatoria de 10 cigarrillos"</td><td>muestra chica</td><td>\(\nu = 10 - 1 = 9\)</td><td>\(n = 10\)</td></tr>
+      <tr><td>los 10 valores de nicotina</td><td>de ahi salen la media y el desvio de la muestra</td><td>ver Paso 1</td><td>\(\bar{x}\), \(s\)</td></tr>
+      <tr><td>(no dan desvio de la poblacion)</td><td>\(\sigma\) desconocida</td><td>&mdash;</td><td>se usa \(t\)</td></tr>
+      <tr><td>"99% de confianza"</td><td>afuera 1&nbsp;%, repartido en dos colas</td><td>\(\alpha = 0{,}01\); \(\alpha/2 = 0{,}005\)</td><td>\(t_{(0{,}005;\,9)}\)</td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Paso 1 &mdash; Media y desvio de la muestra</span>
+  <p>Formula de la media:</p>
+  <p>\[ \bar{x} = \frac{\sum x}{n} \]</p>
+  <p>\[ \bar{x} = \frac{2{,}1 + 1{,}9 + 2{,}2 + 2{,}1 + 2{,}4 + 2{,}0 + 1{,}8 + 1{,}9 + 2{,}1 + 2{,}0}{10} = \frac{20{,}5}{10} = 2{,}05 \text{ mg} \]</p>
+  <p>Para el desvio se arma la tabla: cuanto se aleja cada dato de la media, y ese alejamiento al cuadrado (para que los negativos no resten).</p>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th>\(x\)</th><th>\(x - \bar{x}\)</th><th>\((x - \bar{x})^{2}\)</th></tr>
+      <tr><td>2,1</td><td>0,05</td><td>0,0025</td></tr>
+      <tr><td>1,9</td><td>&minus;0,15</td><td>0,0225</td></tr>
+      <tr><td>2,2</td><td>0,15</td><td>0,0225</td></tr>
+      <tr><td>2,1</td><td>0,05</td><td>0,0025</td></tr>
+      <tr><td>2,4</td><td>0,35</td><td>0,1225</td></tr>
+      <tr><td>2,0</td><td>&minus;0,05</td><td>0,0025</td></tr>
+      <tr><td>1,8</td><td>&minus;0,25</td><td>0,0625</td></tr>
+      <tr><td>1,9</td><td>&minus;0,15</td><td>0,0225</td></tr>
+      <tr><td>2,1</td><td>0,05</td><td>0,0025</td></tr>
+      <tr><td>2,0</td><td>&minus;0,05</td><td>0,0025</td></tr>
+      <tr><th>Suma</th><th>0 (control)</th><th>0,2650</th></tr>
+    </table>
+  </div>
+  <p>Formula del desvio muestral (se divide por \(n - 1\), no por \(n\)):</p>
+  <p>\[ s = \sqrt{\frac{\sum (x - \bar{x})^{2}}{n - 1}} \]</p>
+  <p>\[ s = \sqrt{\frac{0{,}2650}{10 - 1}} = \sqrt{\frac{0{,}2650}{9}} = \sqrt{0{,}029444} = 0{,}1716 \text{ mg} \]</p>
+
+  <div class="caja caja-calc">
+    <span class="caja-tit">En la calculadora</span>
+    <p>
+      Modo estadistico de una variable (Casio: <code>MODE</code> &rarr; <code>STAT</code> &rarr;
+      <code>1-VAR</code>; en los modelos viejos <code>MODE</code> &rarr; <code>SD</code>). Se carga
+      cada dato con <code>=</code> (o <code>M+</code> en los viejos). Despues, en el menu de
+      resultados (<code>SHIFT</code> <code>1</code> &rarr; <code>Var</code>, o <code>SHIFT</code>
+      <code>2</code> en los viejos) se leen:
+    </p>
+    <ul>
+      <li>\(\bar{x}\) &rarr; 2,05</li>
+      <li><strong>\(s_x\)</strong> (en los viejos <strong>\(x\sigma_{n-1}\)</strong>) &rarr; 0,1716. Este es el que va.</li>
+    </ul>
+    <p>
+      <strong>No usar \(\sigma_x\) (o \(x\sigma_n\))</strong>: divide por \(n\) y da 0,1628. Es el desvio
+      "de la poblacion" si esos 10 fueran todo; aca son una muestra, se divide por \(n - 1\).
+    </p>
+  </div>
+
+  <span class="paso">Paso 2 &mdash; Sacar \(t\) de la tabla A.4</span>
+  <p>
+    La tabla A.4 tiene en las <strong>filas</strong> los grados de libertad \(\nu\) y en las
+    <strong>columnas</strong> el area que queda a la <strong>derecha</strong> de \(t\). Para el
+    intervalo se necesita el \(t\) que deja \(\alpha/2\) en la cola derecha (y, por simetria, otro
+    \(\alpha/2\) a la izquierda de \(-t\)):
+  </p>
+  <ul>
+    <li>fila \(\nu = n - 1 = 9\)</li>
+    <li>columna \(\alpha/2 = 0{,}005\) (esta en la mitad derecha de la tabla)</li>
+  </ul>
+  <p>\[ t_{(0{,}005;\,9)} = 3{,}250 \]</p>
+  <p>Para comparar: con \(z\) seria 2,58. La \(t\) es mas grande porque con 10 datos hay mas incertidumbre.</p>
+
+  <span class="paso">Paso 3 &mdash; Error estandar y error de estimacion</span>
+  <p>Formula:</p>
+  <p>\[ E = t_{(\alpha/2;\,n-1)}\,\frac{s}{\sqrt{n}} \]</p>
+  <ul>
+    <li>\(\sqrt{n} = \sqrt{10} = 3{,}1623\)</li>
+    <li>\(\dfrac{s}{\sqrt{n}} = \dfrac{0{,}1716}{3{,}1623} = 0{,}05426\) mg (error estandar estimado)</li>
+  </ul>
+  <p>\[ E = 3{,}250 \times 0{,}05426 = 0{,}1764 \text{ mg} \]</p>
+
+  <span class="paso">Paso 4 &mdash; Armar el intervalo</span>
+  <p>Formula:</p>
+  <p>\[ \bar{x} - E &lt; \mu &lt; \bar{x} + E \]</p>
+  <p>\[ 2{,}05 - 0{,}1764 &lt; \mu &lt; 2{,}05 + 0{,}1764 \]</p>
+  <p>\[ \mathbf{1{,}8736 &lt; \mu &lt; 2{,}2264} \]</p>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>
+      \(IC_{99\%}(\mu) = [\,1{,}87\ ;\ 2{,}23\,]\) mg. Con 99&nbsp;% de confianza, el contenido medio
+      real de nicotina de todos los cigarrillos de esta marca esta entre 1,87 y 2,23 mg. (Si se
+      repitiera el muestreo de 10 cigarrillos muchas veces, el 99&nbsp;% de los intervalos armados asi
+      contendria a la verdadera media.)
+    </p>
+  </div>
+</div>

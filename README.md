@@ -11,7 +11,7 @@ fórmulas (MathJax) y las tipografías. Tus datos no salen de tu máquina.
 ## Qué tiene hasta ahora
 
 * **Apuntes por materia y unidad**, con pestañas de **Teoría** y **Práctica**.
-  Con contenido, por ahora, solo Probabilidad y Estadística (unidades 4, 5 y 6); el resto de las
+  Con contenido, por ahora, solo Probabilidad y Estadística (unidades 4 a 7); el resto de las
   materias de tercer año ya están en el menú como "pronto".
 * **Evaluación**: **parciales y finales** de la cátedra transcriptos, en dos listas. Algunos traen
   cada ejercicio con resultados y explicación detallada desplegables; otros están solo transcriptos,
@@ -106,6 +106,10 @@ archivo. Son material de la facultad, subido acá solo para estudiar.
 `0.x.y-alpha` mientras esté en desarrollo. La `1.0.0` queda reservada para cuando esté terminado.
 La versión actual se lee al pie del menú lateral.
 
+* **0.10.0-alpha** — Unidad 7 (distribuciones muestrales, TLC, intervalos de confianza y tamaño
+  de muestra) con teoría, práctica resuelta, banco de autoevaluación y la Tabla IC-PH en el visor;
+  teoría de la U6 y práctica de la U6 rehechas con el formato de la U5 (desarme del enunciado y
+  cada paso explicado), con toda la guía de la U6 resuelta.
 * **0.9.0-alpha** — autoevaluación de la 2da etapa en tres maneras: normal, guiada e interactiva
   con ejercicios de parcial completos desglosados por nivel (se pueden saltear); navegación libre
   en el modo normal; `NewCampus.exe` avisa qué falta instalar; teoría de la U6 reorganizada con

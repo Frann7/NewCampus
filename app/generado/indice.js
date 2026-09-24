@@ -134,9 +134,7 @@ window.Apuntes.registrarIndice({
       ],
       "material": {
         "u4": [
-          "formulas-u4",
-          "resumen",
-          "tablas"
+          "formulas-u4"
         ],
         "u5": [
           "resumen",
@@ -211,5 +209,5 @@ window.Apuntes.registrarIndice({
       "unidades": []
     }
   ],
-  "construido": "2026-09-24 20:13:26"
+  "construido": "2026-09-24 20:17:49"
 });

@@ -76,6 +76,9 @@ window.Apuntes.registrarIndice({
       "u7": "preguntas/pye-u7.js"
     }
   },
+  "rutas": {
+    "pye": "panes/pye-ruta.js"
+  },
   "materias": [
     {
       "clave": "pye",
@@ -192,5 +195,5 @@ window.Apuntes.registrarIndice({
       "unidades": []
     }
   ],
-  "construido": "2026-09-23 22:39:24"
+  "construido": "2026-09-24 19:31:39"
 });

@@ -20,6 +20,8 @@ De donde lo saca:
   contenido/<materia>/evaluacion/finales/<id>/              finales transcriptos
   contenido/<materia>/evaluacion/preguntas/<unidad>/*.html  banco de autoevaluacion,
                                                             un archivo por pregunta
+  contenido/<materia>/ruta/*.html                           ruta recomendada de la
+                                                            materia (pestania propia)
 
 Cada apunte es una CARPETA con un archivo por bloque (la intro, cada ejercicio,
 cada seccion de teoria). Se pegan en orden de nombre y se envuelven en el
@@ -289,7 +291,7 @@ def armar_materias(panes):
 def main():
     print("Armando NewCampus\n")
     hubo_problemas = False
-    indice = {"panes": {}, "examenes": {}, "preguntas": {}}
+    indice = {"panes": {}, "examenes": {}, "preguntas": {}, "rutas": {}}
 
     limpiar_generado()
 
@@ -306,6 +308,23 @@ def main():
             hubo_problemas |= informar(vista, "", problemas)
             continue
         indice["panes"][vista] = guardar_pieza(
+            "panes", vista,
+            "window.Apuntes.registrarPane(%s, %s);" % (json.dumps(vista), json.dumps(texto)))
+        hubo_problemas |= informar(vista, texto, problemas)
+
+    # 1.b Ruta recomendada: una por materia, en contenido/<materia>/ruta/.
+    # Es un apunte mas (fragmentos pegados en orden), pero no es de ninguna
+    # unidad: va aparte en el indice para que no aparezca en el menu.
+    for carpeta in sorted(glob.glob(os.path.join(CONTENIDO, "*", "ruta"))):
+        if not os.path.isdir(carpeta):
+            continue
+        materia = os.path.basename(os.path.dirname(carpeta))
+        vista = materia + "/ruta"
+        texto, problemas = armar_apunte(carpeta, vista)
+        if texto is None:
+            hubo_problemas |= informar(vista, "", problemas)
+            continue
+        indice["rutas"][materia] = guardar_pieza(
             "panes", vista,
             "window.Apuntes.registrarPane(%s, %s);" % (json.dumps(vista), json.dumps(texto)))
         hubo_problemas |= informar(vista, texto, problemas)

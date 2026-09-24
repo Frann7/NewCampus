@@ -84,14 +84,19 @@ window.NC = window.NC || {};
   var EVALUACION = "evaluacion";
   // El calendario no depende ni de la materia ni de la unidad: es uno solo.
   var CALENDARIO = "calendario";
+  // La ruta recomendada es una por materia (contenido/<materia>/ruta/).
+  var RUTA = "ruta";
 
   function paneId(s) {
     if (s.tab === CALENDARIO) { return CALENDARIO; }
+    if (s.tab === RUTA) { return s.materia + "/" + RUTA; }
     return s.tab === EVALUACION ? s.materia + "/" + EVALUACION : s.materia + "/" + s.unidad + "/" + s.tab;
   }
 
   // Pestanias que valen para toda la materia y no para una unidad puntual
-  function esGlobal(tab) { return tab === EVALUACION || tab === CALENDARIO; }
+  function esGlobal(tab) { return tab === EVALUACION || tab === CALENDARIO || tab === RUTA; }
+
+  function archivoDeRuta(materia) { return (window.Apuntes.indice.rutas || {})[materia]; }
 
   // La ruta del hash siempre lleva las tres partes, asi se recuerda la unidad.
   function rutaDe(s) { return s.materia + "/" + s.unidad + "/" + s.tab; }
@@ -99,6 +104,7 @@ window.NC = window.NC || {};
   // Lo que EXISTE lo dice el indice; el contenido puede no estar cargado todavia.
   function existePane(s) {
     if (s.tab === CALENDARIO) { return !!(window.NC.cal && window.NC.cal.montar); }
+    if (s.tab === RUTA) { return !!archivoDeRuta(s.materia); }
     var panes = window.Apuntes.indice.panes || {};
     if (s.tab === EVALUACION) {
       var prefijo = s.materia + "/";
@@ -112,6 +118,7 @@ window.NC = window.NC || {};
   function asegurarPane(id, avisar) {
     if (id === CALENDARIO || id.split("/")[1] === EVALUACION) { avisar(true); return; }
     if (window.Apuntes.cache[id]) { avisar(true); return; }
+    if (id.split("/")[1] === RUTA) { window.Apuntes.cargar(archivoDeRuta(id.split("/")[0]), avisar); return; }
     window.Apuntes.cargar((window.Apuntes.indice.panes || {})[id], avisar);
   }
 
@@ -157,6 +164,7 @@ window.NC = window.NC || {};
 
     var pane = document.querySelector('.pane[data-view="' + id + '"]');
     if (pane) { prepararSecciones(pane); }
+    if (pane && partes[1] === RUTA) { prepararRuta(pane, partes[0]); }
     return estaEnPantalla(id);
   }
 
@@ -1282,6 +1290,54 @@ window.NC = window.NC || {};
     return lista.length ? lista : null;
   }
 
+  /* ------------------------------------------------------------
+     RUTA RECOMENDADA
+     Cada paso de la ruta es un <input type="checkbox" data-paso="id"> dentro
+     de un <label class="ruta-paso">. Lo tachado se guarda en este navegador,
+     por materia. Cada parte (.bloque) muestra cuantos pasos lleva, y el
+     .ruta-progreso de arriba, el total.
+     ------------------------------------------------------------ */
+
+  function prepararRuta(pane, materia) {
+    var clave = "newcampus:ruta:" + materia;
+    var hechos = {};
+    try { hechos = JSON.parse(localStorage.getItem(clave) || "{}") || {}; } catch (e) { hechos = {}; }
+    var cajas = $$("input[data-paso]", pane);
+
+    function pintar() {
+      var total = 0;
+      cajas.forEach(function (c) {
+        c.checked = !!hechos[c.getAttribute("data-paso")];
+        var fila = c.closest(".ruta-paso");
+        if (fila) { fila.classList.toggle("is-hecho", c.checked); }
+        if (c.checked) { total++; }
+      });
+      $$(".bloque", pane).forEach(function (b) {
+        var propias = $$("input[data-paso]", b);
+        var cuenta = $(".ruta-cuenta", b);
+        if (!cuenta || !propias.length) { return; }
+        var ok = propias.filter(function (c) { return c.checked; }).length;
+        cuenta.textContent = ok + " de " + propias.length;
+        cuenta.classList.toggle("is-completa", ok === propias.length);
+      });
+      var barra = $(".ruta-progreso", pane);
+      if (barra) {
+        $(".ruta-barra > i", barra).style.width = (cajas.length ? 100 * total / cajas.length : 0) + "%";
+        $(".ruta-total", barra).textContent = total + " de " + cajas.length + " pasos";
+      }
+    }
+
+    cajas.forEach(function (c) {
+      c.addEventListener("change", function () {
+        var id = c.getAttribute("data-paso");
+        if (c.checked) { hechos[id] = true; } else { delete hechos[id]; }
+        try { localStorage.setItem(clave, JSON.stringify(hechos)); } catch (e) {}
+        pintar();
+      });
+    });
+    pintar();
+  }
+
   /* ---------- render ---------- */
 
   function render() {
@@ -1355,6 +1411,7 @@ window.NC = window.NC || {};
     $("#crumb-materia").textContent = nombreMateria ? nombreMateria.textContent : "";
     $("#crumb-unidad").textContent = state.tab === EVALUACION ? "Evaluación"
       : state.tab === CALENDARIO ? "Calendario"
+      : state.tab === RUTA ? "Ruta recomendada"
       : (btnUnidad ? btnUnidad.getAttribute("data-titulo") : "");
 
     actualizarLanzador();

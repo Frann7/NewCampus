@@ -1,0 +1,128 @@
+<article class="preg" data-id="u7-e-inventado-t-api" data-tipo="ejercicio" data-origen="final">
+  <div class="p-enunciado">
+    <p>
+      Un proveedor de una <strong>API de pagos</strong> informa que su tiempo de respuesta medio es
+      de 200 ms. Para controlarlo, se midieron <strong>10 consultas</strong> elegidas al azar, con
+      estos tiempos (en ms):
+    </p>
+    <p>205, 198, 212, 220, 195, 208, 215, 202, 210, 225.</p>
+    <p>Se supone que el tiempo de respuesta es normal. Se pide:</p>
+    <p><strong>a)</strong> Calcule la media y el desvío estándar de la muestra.</p>
+    <p><strong>b)</strong> Construya un intervalo del 95&nbsp;% de confianza para el tiempo medio de respuesta de la API. Interprete.</p>
+    <p><strong>c)</strong> Construya el intervalo del 90&nbsp;% y compárelo con el anterior.</p>
+    <p class="p-fuente">Inventado, estilo del Final 26/11/2025, Ej. 3 (datos sueltos, \(\sigma\) desconocida, \(t\) de Student)</p>
+  </div>
+  <div class="p-explicacion">
+    <p>Con \(n = 10\) datos y \(\sigma\) desconocida: \(t\) con \(v = 9\).</p>
+    <div class="tabla-wrap">
+      <table class="t full">
+        <tr><th>Inciso</th><th>Planteo</th><th>Resultado</th></tr>
+        <tr><td class="lbl">a) Media y desvío</td><td>\(\bar{x} = \frac{2090}{10}\); \(s^{2} = \frac{806}{9}\)</td><td>\(\bar{x} = \mathbf{209}\) ms; \(s = \mathbf{9{,}46}\) ms</td></tr>
+        <tr><td class="lbl">b) IC 95&nbsp;%</td><td>\(t_{(0{,}025;\ 9)} = 2{,}262\); \(e = 2{,}262 \cdot \frac{9{,}46}{\sqrt{10}} = 6{,}77\)</td><td>\([\mathbf{202{,}23}\ ;\ \mathbf{215{,}77}]\) ms: con 95&nbsp;% de confianza, el tiempo medio real de la API está en ese rango</td></tr>
+        <tr><td class="lbl">c) IC 90&nbsp;%</td><td>\(t_{(0{,}05;\ 9)} = 1{,}833\); \(e = 5{,}49\)</td><td>\([\mathbf{203{,}51}\ ;\ \mathbf{214{,}49}]\) ms: más angosto, porque tiene menos confianza</td></tr>
+      </table>
+    </div>
+  </div>
+  <ol class="p-pasos">
+    <li data-inciso="a" data-nivel="principiante" data-respuesta="2090" data-tolerancia="0">
+      <div class="p-consigna"><p>Sumá los 10 tiempos.</p></div>
+      <div class="p-pista"><p>\(205 + 198 + \cdots + 225\).</p></div>
+      <div class="p-explicacion"><p>\(\sum x = 2090\) ms.</p></div>
+    </li>
+    <li data-inciso="a" data-nivel="avanzado" data-respuesta="209" data-tolerancia="0,01">
+      <div class="p-consigna"><p>a) ¿Cuánto vale la media muestral \(\bar{x}\)?</p></div>
+      <div class="p-pista"><p>\(\bar{x} = \frac{\sum x}{n}\).</p></div>
+      <div class="p-explicacion"><p>\(\bar{x} = \frac{2090}{10} = 209\) ms.</p></div>
+    </li>
+    <li data-inciso="a" data-nivel="principiante" data-respuesta="806" data-tolerancia="0,5">
+      <div class="p-consigna"><p>Calculá \(\sum (x_i - \bar{x})^{2}\).</p></div>
+      <div class="p-pista"><p>Los desvíos son \(-4, -11, 3, 11, -14, -1, 6, -7, 1, 16\): elevalos al cuadrado y sumalos.</p></div>
+      <div class="p-explicacion"><p>\(16 + 121 + 9 + 121 + 196 + 1 + 36 + 49 + 1 + 256 = 806\).</p></div>
+    </li>
+    <li data-inciso="a" data-nivel="medio" data-respuesta="89,56" data-tolerancia="0,01">
+      <div class="p-consigna"><p>¿Cuánto vale la varianza muestral \(s^{2}\)?</p></div>
+      <div class="p-pista"><p>\(s^{2} = \frac{\sum (x_i - \bar{x})^{2}}{n - 1}\): se divide por 9.</p></div>
+      <div class="p-explicacion"><p>\(s^{2} = \frac{806}{9} = 89{,}56\) ms².</p></div>
+    </li>
+    <li data-inciso="a" data-nivel="avanzado" data-respuesta="9,46" data-tolerancia="0,01">
+      <div class="p-consigna"><p>a) ¿Cuánto vale el desvío estándar muestral \(s\)?</p></div>
+      <div class="p-pista"><p>La raíz de la varianza muestral. En la calculadora, \(s_x\) (no \(\sigma_x\)).</p></div>
+      <div class="p-explicacion"><p>\(s = \sqrt{89{,}56} = 9{,}46\) ms.</p></div>
+    </li>
+    <li data-inciso="b" data-nivel="medio">
+      <div class="p-consigna"><p>b) ¿Qué caso de intervalo corresponde?</p></div>
+      <ul class="p-opciones">
+        <li>\(z\) con \(s\), porque la población es normal</li>
+        <li>\(t\) con 10 grados de libertad</li>
+        <li data-correcta>\(t\) con \(v = n - 1 = 9\): \(\sigma\) desconocida y \(n &lt; 30\)</li>
+      </ul>
+      <div class="p-pista"><p>El desvío lo calculaste con los datos. ¿Y cuántos grados de libertad tiene la \(t\)?</p></div>
+      <div class="p-explicacion"><p>\(s\) sale de la muestra y \(n = 10 &lt; 30\): \(t\) de Student con \(v = 9\).</p></div>
+    </li>
+    <li data-inciso="b" data-nivel="medio" data-respuesta="2,262" data-tolerancia="0,001">
+      <div class="p-consigna"><p>Buscá en la tabla \(t\) el valor para 95&nbsp;%.</p></div>
+      <div class="p-pista"><p>Fila \(v = 9\), columna \(\alpha/2 = 0{,}025\).</p></div>
+      <div class="p-explicacion"><p>\(t_{(0{,}025;\ 9)} = 2{,}262\).</p></div>
+    </li>
+    <li data-inciso="b" data-nivel="principiante" data-respuesta="2,99" data-tolerancia="0,01">
+      <div class="p-consigna"><p>Calculá el error estándar \(\frac{s}{\sqrt{n}}\).</p></div>
+      <div class="p-pista"><p>\(\frac{9{,}46}{\sqrt{10}}\), con \(\sqrt{10} = 3{,}1623\).</p></div>
+      <div class="p-explicacion"><p>\(\frac{9{,}46}{3{,}1623} = 2{,}99\) ms.</p></div>
+    </li>
+    <li data-inciso="b" data-nivel="medio" data-respuesta="6,77" data-tolerancia="0,02">
+      <div class="p-consigna"><p>¿Cuánto vale el error de estimación \(e\) al 95&nbsp;%?</p></div>
+      <div class="p-pista"><p>\(e = t_{(\alpha/2;\ n-1)} \cdot \frac{s}{\sqrt{n}}\).</p></div>
+      <div class="p-explicacion"><p>\(e = 2{,}262 \cdot 2{,}9926 = 6{,}77\) ms.</p></div>
+    </li>
+    <li data-inciso="b" data-nivel="avanzado" data-respuesta="202,23" data-tolerancia="0,03">
+      <div class="p-consigna"><p>b) ¿Cuánto vale el límite inferior del intervalo del 95&nbsp;%?</p></div>
+      <div class="p-pista"><p>\(\bar{x} - t_{(\alpha/2;\ n-1)} \frac{s}{\sqrt{n}}\), con \(t\) de la fila 9, columna 0,025.</p></div>
+      <div class="p-explicacion"><p>\(209 - 6{,}77 = 202{,}23\) ms.</p></div>
+    </li>
+    <li data-inciso="b" data-nivel="avanzado" data-respuesta="215,77" data-tolerancia="0,03">
+      <div class="p-consigna"><p>b) ¿Cuánto vale el límite superior?</p></div>
+      <div class="p-pista"><p>\(\bar{x} + e\).</p></div>
+      <div class="p-explicacion"><p>\(209 + 6{,}77 = 215{,}77\) ms.</p></div>
+    </li>
+    <li data-inciso="b" data-nivel="medio">
+      <div class="p-consigna"><p>b) ¿Cómo se interpreta \(IC_{95\%} = [202{,}23\ ;\ 215{,}77]\)?</p></div>
+      <ul class="p-opciones">
+        <li data-correcta>Con un 95&nbsp;% de confianza, el tiempo medio real de respuesta de la API está entre 202,23 y 215,77 ms</li>
+        <li>El 95&nbsp;% de las consultas tarda entre 202,23 y 215,77 ms</li>
+        <li>El 95&nbsp;% de las 10 consultas medidas está en ese rango</li>
+      </ul>
+      <div class="p-pista"><p>El intervalo estima el parámetro \(\mu\), no consultas sueltas.</p></div>
+      <div class="p-explicacion"><p>Es un rango para la media de <strong>todas</strong> las consultas. De hecho, 5 de las 10 medidas quedan fuera de él.</p></div>
+    </li>
+    <li data-inciso="c" data-nivel="medio" data-respuesta="1,833" data-tolerancia="0,001">
+      <div class="p-consigna"><p>c) ¿Qué valor de la tabla \(t\) corresponde al 90&nbsp;%?</p></div>
+      <div class="p-pista"><p>\(\alpha = 0{,}10\), así que \(\alpha/2 = 0{,}05\). Fila 9.</p></div>
+      <div class="p-explicacion"><p>\(t_{(0{,}05;\ 9)} = 1{,}833\).</p></div>
+    </li>
+    <li data-inciso="c" data-nivel="principiante" data-respuesta="5,49" data-tolerancia="0,02">
+      <div class="p-consigna"><p>¿Cuánto vale el error de estimación al 90&nbsp;%?</p></div>
+      <div class="p-pista"><p>\(1{,}833 \cdot 2{,}9926\).</p></div>
+      <div class="p-explicacion"><p>\(e = 1{,}833 \cdot 2{,}9926 = 5{,}49\) ms.</p></div>
+    </li>
+    <li data-inciso="c" data-nivel="avanzado" data-respuesta="203,51" data-tolerancia="0,03">
+      <div class="p-consigna"><p>c) ¿Cuánto vale el límite inferior del intervalo del 90&nbsp;%?</p></div>
+      <div class="p-pista"><p>\(\bar{x} - t_{(0{,}05;\ 9)} \frac{s}{\sqrt{n}}\).</p></div>
+      <div class="p-explicacion"><p>\(209 - 5{,}49 = 203{,}51\) ms.</p></div>
+    </li>
+    <li data-inciso="c" data-nivel="avanzado" data-respuesta="214,49" data-tolerancia="0,03">
+      <div class="p-consigna"><p>c) ¿Cuánto vale el límite superior del intervalo del 90&nbsp;%?</p></div>
+      <div class="p-pista"><p>\(\bar{x} + e\).</p></div>
+      <div class="p-explicacion"><p>\(209 + 5{,}49 = 214{,}49\) ms.</p></div>
+    </li>
+    <li data-inciso="c" data-nivel="avanzado">
+      <div class="p-consigna"><p>c) ¿Cómo es el intervalo del 90&nbsp;% comparado con el del 95&nbsp;%?</p></div>
+      <ul class="p-opciones">
+        <li>Más ancho, porque 90&nbsp;% es menos preciso</li>
+        <li data-correcta>Más angosto, porque con menos confianza el valor de tabla es más chico (1,833 contra 2,262)</li>
+        <li>Igual, porque los datos son los mismos</li>
+      </ul>
+      <div class="p-pista"><p>Compará los dos valores de la tabla \(t\).</p></div>
+      <div class="p-explicacion"><p>Menos confianza &rarr; valor de tabla más chico &rarr; error más chico: \([203{,}51\ ;\ 214{,}49]\) está adentro de \([202{,}23\ ;\ 215{,}77]\). Se gana precisión pagando con confianza.</p></div>
+    </li>
+  </ol>
+</article>

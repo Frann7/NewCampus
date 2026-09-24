@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Formulas de la Unidad 4</title>
+<script>
+window.MathJax = {
+  tex: { inlineMath: [["\\(", "\\)"]], displayMath: [["\\[", "\\]"]] },
+  svg: { fontCache: "global" },
+  startup: { pageReady: () => MathJax.startup.defaultPageReady().then(() => { document.body.setAttribute("data-listo", "1"); }) }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-svg.js"></script>
+<style>
+  @page { size: A4; margin: 11mm 13mm 10mm; }
+  * { box-sizing: border-box; }
+  body { font-family: "Segoe UI", Arial, sans-serif; color: #1a1c28; font-size: 11pt; line-height: 1.3; margin: 0; }
+  header { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 2px solid #3d4a9e; padding-bottom: 6px; margin-bottom: 10px; }
+  h1 { font-size: 22pt; margin: 0; color: #3d4a9e; }
+  header p { margin: 0; color: #535871; font-size: 11pt; }
+  .grilla { display: grid; grid-template-columns: 1fr; gap: 8px 16px; }
+  section { border: 1px solid #dcdfeb; border-radius: 8px; padding: 7px 14px 5px; break-inside: avoid; }
+  section.ancha { grid-column: 1 / -1; }
+  h2 { font-size: 12.5pt; margin: 0 0 5px; color: #3d4a9e; }
+  h2 b { display: inline-block; width: 24px; height: 24px; border-radius: 50%; background: #3d4a9e; color: #fff; text-align: center; font-size: 12pt; line-height: 24px; margin-right: 6px; }
+  .f { display: grid; grid-template-columns: 150px 1fr; gap: 4px 10px; align-items: center; margin: 3px 0; }
+  .f .n { font-weight: 600; font-size: 11.5pt; color: #535871; }
+  .f .m { font-size: 12.5pt; }
+  .nota { font-size: 10.5pt; color: #535871; margin: 0 0 6px 160px; }
+  footer { margin-top: 14px; font-size: 9.5pt; color: #868ba0; text-align: center; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Formulas de la Unidad 4</h1>
+  <p>Esperanza, Varianza y Covarianza &middot; hoja de repaso</p>
+</header>
+
+<div class="grilla">
+  <section>
+    <h2><b>A</b>Segun el tipo de variable</h2>
+    <p style="margin:2px 0 2px;font-weight:600">Discreta (te dan una tabla)</p>
+    <div class="f"><span class="n">Esperanza</span><span class="m">\( E(X) = \sum x \cdot f(x) \)</span></div>
+    <div class="f"><span class="n">Varianza (paso 1)</span><span class="m">\( E(X^2) = \sum x^2 \cdot f(x) \)</span></div>
+    <p style="margin:6px 0 2px;font-weight:600">Continua (te dan una funcion y limites)</p>
+    <div class="f"><span class="n">Esperanza</span><span class="m">\( E(X) = \int_a^b x \cdot f(x)\,dx \)</span></div>
+    <div class="f"><span class="n">Varianza (paso 1)</span><span class="m">\( E(X^2) = \int_a^b x^2 \cdot f(x)\,dx \)</span></div>
+  </section>
+
+  <section>
+    <h2><b>B</b>Formulas universales (sirven para ambas)</h2>
+    <div class="f"><span class="n">Varianza (madre)</span><span class="m">\( V(X) = E(X^2) - [E(X)]^2 \)</span></div>
+    <div class="f"><span class="n">Desvio estandar</span><span class="m">\( \sigma = \sqrt{V(X)} \)</span></div>
+
+    <h2 style="margin-top:12px"><b>C</b>Propiedades lineales (los atajos)</h2>
+    <div class="f"><span class="n">Esperanza</span><span class="m">\( E(aX + b) = a \cdot E(X) + b \)</span></div>
+    <p class="nota">Las sumas y los multiplicadores pasan tal cual.</p>
+    <div class="f"><span class="n">Varianza</span><span class="m">\( V(aX + b) = a^2 \cdot V(X) \)</span></div>
+    <p class="nota">Ignora las sumas; el multiplicador sale al cuadrado.</p>
+  </section>
+
+  <section class="ancha">
+    <h2><b>D</b>Variables conjuntas (\(X\) e \(Y\) al mismo tiempo)</h2>
+    <div class="f"><span class="n">Covarianza (madre)</span><span class="m">\( Cov(X,Y) = E(XY) - E(X) \cdot E(Y) \)</span></div>
+    <div class="f"><span class="n">\(E(XY)\) discreta</span><span class="m">\( \sum\sum x \cdot y \cdot f(x,y) \)</span></div>
+    <p class="nota">En cada celda: valor de \(x\) de la fila &times; valor de \(y\) de la columna &times; la probabilidad de la celda, y se suma todo.</p>
+    <div class="f"><span class="n">\(E(XY)\) continua</span><span class="m">\( \int\int x \cdot y \cdot f(x,y)\,dx\,dy \)</span></div>
+    <p class="nota">Doble integral.</p>
+    <div class="f"><span class="n">Correlacion</span><span class="m">\( \rho = \dfrac{Cov(X,Y)}{\sigma_X \cdot \sigma_Y} \)</span></div>
+  </section>
+
+  <section>
+    <h2><b>E</b>Varianza de dos variables</h2>
+    <div class="f"><span class="n">Completa (dependientes)</span><span class="m">\( V(aX + bY) = a^2 V(X) + b^2 V(Y) + 2ab \cdot Cov(X,Y) \)</span></div>
+    <div class="f"><span class="n">Atajo (independientes)</span><span class="m">\( V(aX + bY) = a^2 V(X) + b^2 V(Y) \)</span></div>
+    <p class="nota">Si son independientes, la covarianza vale 0.</p>
+  </section>
+
+  <section>
+    <h2><b>F</b>Trucos algebraicos (sistemas de ecuaciones)</h2>
+    <div class="f"><span class="n">Binomio negativo</span><span class="m">\( E[(X - b)^2] = E(X^2) - 2b\,E(X) + b^2 \)</span></div>
+    <div class="f"><span class="n">Binomio positivo</span><span class="m">\( E[(X + b)^2] = E(X^2) + 2b\,E(X) + b^2 \)</span></div>
+  </section>
+</div>
+
+<footer>Hoja de repaso armada para NewCampus. No es material oficial de la catedra.</footer>
+</body>
+</html>

@@ -108,6 +108,9 @@ unidad alcanza con crear su carpeta, nombrarla ahí y volver a construir.
 
 Los PDFs de la cátedra que usa el visor viven en `app/pdf/<materia>/`, una sola copia por
 archivo. Son material de la facultad, subido acá solo para estudiar.
+La excepción es `formulas-u4.pdf`, una hoja de repaso con las fórmulas de la Unidad 4 que no es
+de la cátedra; se genera desde `app/pdf/pye/fuentes/formulas-u4.html` imprimiéndolo a PDF con
+Chrome (`chrome --headless --print-to-pdf`).
 
 ## Versiones
 

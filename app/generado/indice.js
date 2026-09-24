@@ -108,6 +108,12 @@ window.Apuntes.registrarIndice({
       ],
       "pdf": [
         {
+          "id": "formulas-u4",
+          "sigla": "FOR",
+          "titulo": "Formulas de la Unidad 4 (repaso, no es de la catedra)",
+          "archivo": "pdf/pye/formulas-u4.pdf"
+        },
+        {
           "id": "resumen",
           "sigla": "RES",
           "titulo": "Resumen de distribuciones",
@@ -128,6 +134,7 @@ window.Apuntes.registrarIndice({
       ],
       "material": {
         "u4": [
+          "formulas-u4",
           "resumen",
           "tablas"
         ],
@@ -204,5 +211,5 @@ window.Apuntes.registrarIndice({
       "unidades": []
     }
   ],
-  "construido": "2026-09-24 20:09:47"
+  "construido": "2026-09-24 20:13:26"
 });

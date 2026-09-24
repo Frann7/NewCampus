@@ -2,29 +2,30 @@
   <p class="kicker">La base de toda la unidad</p>
   <h2>1. De contar a medir: la densidad</h2>
 
-  <p>Cuatro partes, cada una usa la anterior:</p>
-  <ol>
-    <li><strong>A.</strong> La densidad \(f(x)\): la curva que reemplaza a la tabla.</li>
-    <li><strong>B.</strong> La probabilidad es el area bajo esa curva.</li>
-    <li><strong>C.</strong> Hallar la constante \(k\) (el primer inciso de casi todo ejercicio).</li>
-    <li><strong>D.</strong> La acumulada \(F(x)\).</li>
-  </ol>
-
-  <hr class="sep">
-
-  <h3>A. La densidad \(f(x)\)</h3>
-
+  <h3>Cuando se usa</h3>
   <p>
-    En la Unidad 5 la variable tomaba valores sueltos (0, 1, 2&hellip;) y cada uno tenia su
-    probabilidad en una tabla. Una variable que se <strong>mide</strong> no tiene valores sueltos:
-    un tiempo puede ser 48 ms, 48,3 ms, 48,31 ms&hellip; No hay tabla que los liste.
-  </p>
-  <p>
-    En lugar de la tabla se usa una <strong>curva</strong>, la <strong>funcion de densidad
-    \(f(x)\)</strong>. Es alta donde caen muchos valores y baja donde caen pocos. Sale de medir
-    muchos datos y agruparlos en tramos: las barras terminan dibujando la curva.
+    Cuando la variable <strong>se mide</strong> en vez de contarse: un tiempo, un peso, una
+    longitud, una ganancia en dolares. Una variable asi se llama <strong>continua</strong>, porque
+    puede tomar <em>cualquier</em> valor dentro de un tramo (48 ms, 48,3 ms, 48,31 ms&hellip;).
   </p>
 
+  <h3>Que cambia respecto de la Unidad 5</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th></th><th>Unidad 5 (se cuenta)</th><th>Unidad 6 (se mide)</th></tr>
+      <tr><td>Valores</td><td>sueltos: 0, 1, 2, 3&hellip;</td><td>cualquiera dentro de un tramo</td></tr>
+      <tr><td>Se describe con</td><td>una tabla o formula \(P(X = x)\)</td><td>una curva \(f(x)\), la <strong>densidad</strong></td></tr>
+      <tr><td>Una probabilidad es</td><td>una barra (o la suma de varias)</td><td><strong>el area bajo la curva</strong> en ese tramo</td></tr>
+      <tr><td>\(P(X = 3)\)</td><td>puede ser mayor que 0</td><td><strong>siempre 0</strong></td></tr>
+      <tr><td>\(&lt;\) y \(\leq\)</td><td>dan distinto</td><td>dan lo mismo</td></tr>
+      <tr><td>Todo junto suma</td><td>1</td><td>1 (el area total)</td></tr>
+    </table>
+  </div>
+
+  <p>
+    De donde sale la curva: si se miden muchos datos y se agrupan en tramos (un histograma, como en
+    la Unidad 2), las barras van dibujando una curva. Esa curva es la densidad.
+  </p>
   <div class="pd-grafico" data-g="u6-histograma">
     <svg viewBox="0 0 620 250" role="img" aria-label="Histograma de tiempos con la curva de densidad por encima">
   <rect class="barra" x="41" y="196.4" width="43" height="3.6"/>
@@ -52,109 +53,78 @@
   <text class="rotulo" x="40" y="60" text-anchor="start">cada barra: cuántos cayeron en ese tramo</text>
   <text class="rotulo" x="310" y="243" text-anchor="middle">tiempo de respuesta (ms)</text>
 </svg>
-    <p class="pd-pie">Tiempos de respuesta agrupados en tramos de 5 ms. La curva es la densidad.</p>
+    <p class="pd-pie">Tiempos de respuesta agrupados en tramos de 5 ms. La curva es la densidad \(f(x)\).</p>
   </div>
-
-  <div class="caja caja-ojo">
-    <span class="caja-tit">La altura no es una probabilidad</span>
-    <p>
-      En el grafico, \(f(50) \approx 0{,}04\), y eso <strong>no</strong> quiere decir que 50 ms tenga
-      un 4&nbsp;% de chance. La altura solo dice donde se amontonan los valores. La probabilidad
-      aparece con un tramo, que es la parte B.
-    </p>
-  </div>
-
-  <hr class="sep">
-
-  <h3>B. La probabilidad es un area</h3>
-
-  <p>
-    La probabilidad de que \(X\) caiga en un tramo es <strong>el area debajo de la curva en ese
-    tramo</strong>. El area bajo una curva se calcula con una integral:
-  </p>
 
   <div class="caja caja-formula">
-    <span class="caja-tit">Probabilidad en una variable continua</span>
+    <span class="caja-tit">Formulas</span>
+    <p>Probabilidad de que \(X\) caiga entre \(a\) y \(b\) (el area bajo la curva):</p>
     <p>\[ P(a &lt; X \leq b) = \int_{a}^{b} f(x)\,dx \]</p>
+    <p>Condiciones para que una \(f(x)\) sea densidad:</p>
+    <p>\[ f(x) \geq 0 \qquad\qquad \int_{-\infty}^{\infty} f(x)\,dx = 1 \]</p>
+    <p>Acumulada (el area a la izquierda de \(x\)):</p>
+    <p>\[ F(x) = P(X \leq x) = \int_{-\infty}^{x} f(t)\,dt \qquad\qquad P(a &lt; X \leq b) = F(b) - F(a) \]</p>
   </div>
+
+  <h4>Que significa cada simbolo</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Simbolo</th><th>Que es</th><th>Ojo</th></tr>
+      <tr><td>\(f(x)\)</td><td>la densidad: la altura de la curva en \(x\)</td><td><strong>no es una probabilidad</strong>: solo dice donde se amontonan los valores</td></tr>
+      <tr><td>\(\int_{a}^{b} \ldots dx\)</td><td>el area bajo la curva entre \(a\) y \(b\)</td><td>el \(dx\) se escribe siempre; indica que la variable es \(x\)</td></tr>
+      <tr><td>\(k\) o \(c\)</td><td>una constante que falta en la formula</td><td>se encuentra con "area total = 1"</td></tr>
+      <tr><td>\(F(x)\)</td><td>la acumulada: cuanta probabilidad hay hasta \(x\)</td><td>va de 0 a 1 y nunca baja</td></tr>
+      <tr><td>\(t\)</td><td>el nombre de la variable adentro de la integral de \(F\)</td><td>es para no confundirla con la \(x\) del borde</td></tr>
+    </table>
+  </div>
+
+  <h4>De donde salen las condiciones</h4>
+  <ul>
+    <li>\(f(x) \geq 0\): la curva no puede ir por debajo del eje, porque daria areas (probabilidades) negativas.</li>
+    <li>Area total 1: la variable tiene que caer en algun lado; entre todos los valores suman el 100&nbsp;%.</li>
+    <li>\(P(X = 3) = 0\): un solo punto es una linea vertical, y una linea no tiene area.</li>
+  </ul>
 
   <div class="caja caja-calc">
     <span class="caja-tit">Lo unico de integrales que hace falta en la unidad</span>
     <ol>
-      <li><strong>Potencia:</strong> \(\int x^{n}\,dx = \dfrac{x^{n+1}}{n+1}\). Un numero suelto: \(\int 4\,dx = 4x\).</li>
+      <li><strong>Potencia:</strong> \(\int x^{n}\,dx = \dfrac{x^{n+1}}{n+1}\). Se suma 1 al exponente y se divide por el exponente nuevo. Ejemplo: \(\int x\,dx = \frac{x^{2}}{2}\). Un numero solo: \(\int 4\,dx = 4x\).</li>
       <li><strong>Los numeros que multiplican salen afuera:</strong> \(\int 3x\,dx = 3 \int x\,dx\).</li>
-      <li><strong>Evaluar (Barrow):</strong> se reemplaza el borde de arriba, se reemplaza el de abajo, y se restan.</li>
+      <li><strong>Evaluar entre dos bordes:</strong> se reemplaza el borde de arriba, despues el de abajo, y se restan (arriba menos abajo).</li>
     </ol>
     <p>\[ \int_{0}^{2} x\,dx = \left[ \frac{x^{2}}{2} \right]_{0}^{2} = \frac{2^{2}}{2} - \frac{0^{2}}{2} = 2 - 0 = 2 \]</p>
   </div>
 
-  <h4>Ejemplo &mdash; tiempo de resolucion de tickets (final 29/07)</h4>
-  <p>
-    El tiempo \(X\), en horas, que tarda un tecnico en resolver un ticket tiene densidad
-    \(f(x) = \frac{4 - x}{8}\) entre 0 y 4. &iquest;Probabilidad de que tarde entre 1 y 3 horas?
-  </p>
-
-  <div class="pd-grafico" data-g="u6-area">
-    <svg viewBox="0 0 620 250" role="img" aria-label="Densidad triangular con el área entre 1 y 3 sombreada: esa área es la probabilidad">
-  <path class="area" d="M 202,200 L 202,90.9 L 204.7,91.8 L 207.4,92.7 L 210.1,93.6 L 212.8,94.5 L 215.5,95.5 L 218.2,96.4 L 220.9,97.3 L 223.6,98.2 L 226.3,99.1 L 229,100 L 231.7,100.9 L 234.4,101.8 L 237.1,102.7 L 239.8,103.6 L 242.5,104.5 L 245.2,105.5 L 247.9,106.4 L 250.6,107.3 L 253.3,108.2 L 256,109.1 L 258.7,110 L 261.4,110.9 L 264.1,111.8 L 266.8,112.7 L 269.5,113.6 L 272.2,114.5 L 274.9,115.5 L 277.6,116.4 L 280.3,117.3 L 283,118.2 L 285.7,119.1 L 288.4,120 L 291.1,120.9 L 293.8,121.8 L 296.5,122.7 L 299.2,123.6 L 301.9,124.5 L 304.6,125.5 L 307.3,126.4 L 310,127.3 L 312.7,128.2 L 315.4,129.1 L 318.1,130 L 320.8,130.9 L 323.5,131.8 L 326.2,132.7 L 328.9,133.6 L 331.6,134.5 L 334.3,135.5 L 337,136.4 L 339.7,137.3 L 342.4,138.2 L 345.1,139.1 L 347.8,140 L 350.5,140.9 L 353.2,141.8 L 355.9,142.7 L 358.6,143.6 L 361.3,144.5 L 364,145.5 L 366.7,146.4 L 369.4,147.3 L 372.1,148.2 L 374.8,149.1 L 377.5,150 L 380.2,150.9 L 382.9,151.8 L 385.6,152.7 L 388.3,153.6 L 391,154.5 L 393.7,155.5 L 396.4,156.4 L 399.1,157.3 L 401.8,158.2 L 404.5,159.1 L 407.2,160 L 409.9,160.9 L 412.6,161.8 L 415.3,162.7 L 418,163.6 L 418,200 Z"/>
-  <path class="campana" d="M 94,54.5 L 310,127.3 L 526,200"/>
-  <line class="campana" x1="40" y1="200" x2="94" y2="200"/>
-  <line class="campana" x1="94" y1="200" x2="94" y2="54.5"/>
-  <line class="eje" x1="34" y1="200" x2="586" y2="200"/>
-  <line class="corte" x1="202" y1="90.9" x2="202" y2="200"/>
-  <line class="corte" x1="418" y1="163.6" x2="418" y2="200"/>
-  <text class="rotulo" x="94" y="222" text-anchor="middle">0</text>
-  <text class="rotulo" x="202" y="222" text-anchor="middle">1</text>
-  <text class="rotulo" x="310" y="222" text-anchor="middle">2</text>
-  <text class="rotulo" x="418" y="222" text-anchor="middle">3</text>
-  <text class="rotulo" x="526" y="222" text-anchor="middle">4</text>
-  <text class="valor" x="310" y="179.6" text-anchor="middle">P(1 &lt; X ≤ 3) = área = 0,50</text>
-  <text class="rotulo" x="104.8" y="48.7" text-anchor="start">f(x) = (4 − x) / 8</text>
-  <text class="rotulo" x="472" y="95.3" text-anchor="middle">el área total bajo f vale 1</text>
-</svg>
-    <p class="pd-pie">La probabilidad pedida es el area pintada, entre 1 y 3.</p>
-  </div>
-
-  <p>\[ P(a &lt; X \leq b) = \int_{a}^{b} f(x)\,dx \]</p>
-  <p>\[ P(1 &lt; X \leq 3) = \int_{1}^{3} \frac{4 - x}{8}\,dx = \frac{1}{8}\left[ 4x - \frac{x^{2}}{2} \right]_{1}^{3} = \frac{1}{8}\left( 7{,}5 - 3{,}5 \right) = \mathbf{0{,}50} \]</p>
-
-  <h4>Tres consecuencias que se preguntan directo</h4>
-  <ol>
-    <li>
-      <strong>Un valor exacto tiene probabilidad 0.</strong> Un punto es una linea, y una linea no
-      tiene area: \(P(X = 2) = 0\). En el parcial 2023 preguntaron la probabilidad de ganar
-      <em>exactamente</em> 1000 dolares: era 0.
-    </li>
-    <li>
-      <strong>Da lo mismo \(&lt;\) que \(\leq\).</strong> El borde no suma area:
-      \(P(X &lt; 3) = P(X \leq 3)\). (En la Unidad 5 no valia.)
-    </li>
-    <li><strong>El area total vale 1</strong>: la variable tiene que caer en algun lado.</li>
-  </ol>
-
   <hr class="sep">
 
-  <h3>C. Hallar la constante \(k\)</h3>
+  <h3>Ejemplo 1 &mdash; Hallar \(k\) (estilo parcial 2023 y finales)</h3>
 
-  <p>
-    Te dan la densidad con una letra suelta (\(k\) o \(c\)) y piden su valor. Sale de la
-    consecuencia 3: <strong>el area total tiene que dar 1</strong>.
-  </p>
-
-  <div class="caja caja-formula">
-    <span class="caja-tit">Las dos condiciones de una densidad</span>
-    <ol>
-      <li><strong>Nunca negativa:</strong> \(f(x) \geq 0\) en todo su tramo.</li>
-      <li><strong>Area total 1:</strong> \(\displaystyle \int_{-\infty}^{\infty} f(x)\,dx = 1\).</li>
-    </ol>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>Sea \(X\) una variable aleatoria continua con funcion</p>
+    <p>\[ f(x) = \begin{cases} k\,x, &amp; 0 \leq x \leq 2 \\ 0, &amp; \text{en otro caso} \end{cases} \]</p>
     <p>
-      La 2 <strong>da el valor</strong> de \(k\). La 1 <strong>justifica</strong> que sirve. Cuando
-      el enunciado dice "justificar verificando las condiciones", se escriben las dos.
+      a) Hallar \(k\) para que \(f\) sea una funcion de densidad. Justificar verificando las
+      condiciones. b) Hallar \(F(x)\). c) Calcular \(P(X \leq 1)\) y \(P(1 &lt; X \leq 2)\).
     </p>
   </div>
 
-  <h4>Ejemplo &mdash; \(f(x) = kx\) entre 0 y 2</h4>
-  <p>\[ f(x) = \begin{cases} k\,x, &amp; 0 \leq x \leq 2 \\ 0, &amp; \text{en otro caso} \end{cases} \]</p>
+  <h4>Por que se resuelve asi</h4>
+  <ul>
+    <li>\(X\) es <strong>continua</strong> y viene dada por una formula \(f(x)\): es una densidad.</li>
+    <li>La \(k\) es desconocida. Lo unico que sabemos de toda densidad es que su area total es 1: de ahi sale \(k\).</li>
+  </ul>
+
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Traduccion</th><th>A donde va</th></tr>
+      <tr><td>"\(k\,x\) para \(0 \leq x \leq 2\)"</td><td>la curva es una recta, y solo existe entre 0 y 2</td><td>se integra de 0 a 2</td></tr>
+      <tr><td>"0 en otro caso"</td><td>fuera de \([0, 2]\) no hay area</td><td>esos tramos no suman nada</td></tr>
+      <tr><td>"para que sea densidad"</td><td>tiene que cumplir las dos condiciones</td><td>area total \(= 1\) y \(f \geq 0\)</td></tr>
+      <tr><td>"justificar verificando las condiciones"</td><td>hay que escribir las dos, no solo la cuenta</td><td>paso 3</td></tr>
+    </table>
+  </div>
 
   <div class="pd-grafico" data-g="u6-hallar-k">
     <svg viewBox="0 0 620 250" role="img" aria-label="La densidad kx en el tramo de 0 a 2 forma un triángulo; su área tiene que ser 1">
@@ -170,46 +140,55 @@
   <text class="valor" x="335.3" y="168" text-anchor="middle">área = base × altura / 2</text>
   <text class="rotulo" x="335.3" y="188" text-anchor="middle">= 2 × 2k / 2 = 2k = 1</text>
 </svg>
-    <p class="pd-pie">Una recta que sale del 0: forma un triangulo de base 2 y altura \(2k\).</p>
+    <p class="pd-pie">La curva es una recta que sale del 0: debajo queda un triangulo de base 2 y altura \(2k\).</p>
   </div>
 
-  <p><strong>Condicion 2.</strong> Fuera de \([0, 2]\) vale 0, asi que se integra solo entre 0 y 2:</p>
-  <p>\[ \int_{0}^{2} k\,x\,dx = k \left[ \frac{x^{2}}{2} \right]_{0}^{2} = k \cdot 2 = 1 \;\Longrightarrow\; k = \mathbf{\tfrac{1}{2}} \]</p>
+  <h4>Inciso a &mdash; Hallar \(k\)</h4>
+
+  <p><strong>Paso 1 &mdash; Plantear que el area total vale 1.</strong> Es la condicion que tiene la \(k\) adentro. Como fuera de \([0, 2]\) la densidad vale 0, alcanza con integrar de 0 a 2:</p>
+  <p>\[ \int_{-\infty}^{\infty} f(x)\,dx = 1 \qquad\Longrightarrow\qquad \int_{0}^{2} k\,x\,dx = 1 \]</p>
+
+  <p><strong>Paso 2 &mdash; Resolver la integral.</strong> Pieza por pieza:</p>
+  <ul>
+    <li>La \(k\) es un numero (aunque no sepamos cual): sale afuera. Queda \(k \int_{0}^{2} x\,dx\).</li>
+    <li>Regla de la potencia: \(\int x\,dx = \frac{x^{2}}{2}\).</li>
+    <li>Evaluar de 0 a 2: \(\frac{2^{2}}{2} - \frac{0^{2}}{2} = \frac{4}{2} - 0 = 2\).</li>
+  </ul>
+  <p>\[ k \int_{0}^{2} x\,dx = k \left[ \frac{x^{2}}{2} \right]_{0}^{2} = k \cdot 2 \]</p>
+
+  <p><strong>Paso 3 &mdash; Igualar a 1 y despejar.</strong></p>
+  <p>\[ 2k = 1 \qquad\Longrightarrow\qquad k = \frac{1}{2} \]</p>
+  <p>Control con el dibujo: el area del triangulo es base &times; altura / 2 \(= 2 \cdot 2k / 2 = 2k\). Lo mismo.</p>
+
+  <p><strong>Paso 4 &mdash; Verificar la otra condicion (\(f \geq 0\)).</strong> Entre 0 y 2, \(x\) es positiva y \(k = \tfrac12\) tambien, asi que \(f(x) = \tfrac12 x \geq 0\). Afuera vale 0. Se cumple.</p>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta a</span>
+    <p>\(k = \tfrac12\). Con ese valor \(f(x) \geq 0\) en todo su dominio y el area total es 1: es una densidad.</p>
+  </div>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Si \(k\) te da negativa</span>
+    <p>Hay un error, casi siempre de signo al restar el borde de abajo. Una densidad nunca queda por debajo del eje.</p>
+  </div>
+
+  <h4>Inciso b &mdash; Hallar \(F(x)\)</h4>
   <p>
-    <strong>Condicion 1.</strong> Entre 0 y 2, \(x \geq 0\) y \(k = \tfrac12 &gt; 0\): \(f(x) \geq 0\).
-    Afuera vale 0. Se cumplen las dos.
+    <strong>Que es lo que piden:</strong> una formula que diga, para cualquier \(x\), cuanta area
+    hay a su izquierda. Se escribe <strong>por tramos</strong>, porque antes de 0, entre 0 y 2, y
+    despues de 2 la respuesta es distinta.
   </p>
-  <p>Si \(k\) te da negativa, hay un error de signo: una densidad nunca queda por debajo del eje.</p>
 
-  <div class="caja caja-ejemplo">
-    <span class="caja-tit">Si la \(k\) viene en una tabla (final 25/02)</span>
-    <p>Misma idea con una suma: las probabilidades de la tabla suman 1.</p>
-    <p>\[ 0{,}10 + 0{,}20 + k + 0{,}30 = 1 \;\Longrightarrow\; k = 0{,}40 \]</p>
-    <p>Justificacion: todos los valores, incluida \(k\), son positivos.</p>
-  </div>
+  <p><strong>Paso 1 &mdash; Antes del 0.</strong> A la izquierda de un \(x\) negativo no hay curva: todavia no se junto area. \(F(x) = 0\).</p>
 
-  <hr class="sep">
+  <p><strong>Paso 2 &mdash; Entre 0 y 2.</strong> Se junta el area desde 0 hasta \(x\). Adentro de la integral la variable se llama \(t\), porque la \(x\) ya se usa como borde:</p>
+  <p>\[ F(x) = \int_{0}^{x} \tfrac12\,t\,dt = \tfrac12 \left[ \frac{t^{2}}{2} \right]_{0}^{x} = \tfrac12 \cdot \frac{x^{2}}{2} = \frac{x^{2}}{4} \]</p>
 
-  <h3>D. La acumulada \(F(x)\)</h3>
+  <p><strong>Paso 3 &mdash; Despues del 2.</strong> Ya se junto toda el area: \(F(x) = 1\).</p>
 
-  <p>\(F(x)\) es <strong>el area a la izquierda de \(x\)</strong>: cuanta probabilidad se junto hasta ese valor.</p>
-
-  <div class="caja caja-formula">
-    <span class="caja-tit">Funcion de distribucion acumulada</span>
-    <p>\[ F(x) = P(X \leq x) = \int_{-\infty}^{x} f(t)\,dt \]</p>
-    <p>La \(t\) es solo el nombre de la variable que se integra, para no confundirla con la \(x\) del borde.</p>
-  </div>
-
-  <p>Se escribe <strong>por tramos</strong>, cubriendo toda la recta:</p>
-  <ol>
-    <li><strong>Antes del tramo de la variable:</strong> no se junto nada, \(F(x) = 0\).</li>
-    <li><strong>Dentro:</strong> la integral desde el comienzo hasta \(x\).</li>
-    <li><strong>Despues:</strong> ya se junto todo, \(F(x) = 1\).</li>
-  </ol>
-
-  <h4>Ejemplo &mdash; la \(F(x)\) de \(f(x) = \tfrac12 x\) (la de la parte C)</h4>
-  <p>\[ F(x) = \int_{0}^{x} \tfrac12\,t\,dt = \tfrac12 \left[ \frac{t^{2}}{2} \right]_{0}^{x} = \frac{x^{2}}{4} \]</p>
+  <p><strong>Paso 4 &mdash; Escribir los tres tramos juntos.</strong></p>
   <p>\[ F(x) = \begin{cases} 0, &amp; x &lt; 0 \\ \dfrac{x^{2}}{4}, &amp; 0 \leq x \leq 2 \\ 1, &amp; x &gt; 2 \end{cases} \]</p>
+  <p>Control: en el borde de arriba tiene que dar 1. \(F(2) = \frac{2^{2}}{4} = \frac{4}{4} = 1\). Bien.</p>
 
   <div class="pd-grafico" data-g="u6-f-y-F">
     <svg viewBox="0 0 620 250" role="img" aria-label="A la izquierda la densidad con el área hasta 1 sombreada; a la derecha la acumulada, que en 1 vale ese mismo 0,25">
@@ -236,35 +215,134 @@
   <text class="valor" x="333.6" y="160.7" text-anchor="start">F(1) = 0,25</text>
   <text class="rotulo" x="586.4" y="58.7" text-anchor="end">1</text>
 </svg>
-    <p class="pd-pie">El area pintada hasta 1 es la altura de \(F\) en 1: \(F(1) = \tfrac14\). \(F\) sube de 0 a 1 y nunca baja.</p>
+    <p class="pd-pie">Arriba la densidad, abajo la acumulada. El area pintada hasta 1 es la altura de \(F\) en 1: \(F(1) = \tfrac14\).</p>
   </div>
 
-  <div class="caja caja-formula">
-    <span class="caja-tit">Para que sirve: probabilidades sin integrar de nuevo</span>
-    <p>\[ P(a &lt; X \leq b) = F(b) - F(a) \]</p>
+  <h4>Inciso c &mdash; Probabilidades con \(F\)</h4>
+  <p><strong>\(P(X \leq 1)\):</strong> es el area a la izquierda de 1, que es justo lo que da \(F\):</p>
+  <p>\[ P(X \leq x) = F(x) \]</p>
+  <p>\[ P(X \leq 1) = F(1) = \frac{1^{2}}{4} = 0{,}25 \]</p>
+  <p><strong>\(P(1 &lt; X \leq 2)\):</strong> es un tramo. Se toma todo lo juntado hasta 2 y se le resta lo que ya estaba juntado hasta 1:</p>
+  <p>\[ P(a &lt; X \leq b) = F(b) - F(a) \]</p>
+  <p>\[ P(1 &lt; X \leq 2) = F(2) - F(1) = 1 - 0{,}25 = 0{,}75 \]</p>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta c</span>
+    <p>\(P(X \leq 1) = 0{,}25\) y \(P(1 &lt; X \leq 2) = 0{,}75\). Suman 1: entre las dos cubren todo el dominio.</p>
   </div>
-  <p>\[ P(X \leq 1) = F(1) = \frac{1^{2}}{4} = \mathbf{0{,}25} \qquad P(1 &lt; X \leq 2) = F(2) - F(1) = 1 - 0{,}25 = \mathbf{0{,}75} \]</p>
-  <p>Control: en el final del tramo \(F\) tiene que dar 1. Aca \(F(2) = \tfrac44 = 1\).</p>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; Tiempo de resolucion de tickets (final 29/07)</h3>
 
   <div class="caja caja-ejemplo">
-    <span class="caja-tit">La \(F(x)\) de una tabla es una escalera</span>
-    <p>Con la tabla de la parte C, se va sumando de izquierda a derecha:</p>
-    <div class="tabla-wrap">
-      <table class="t">
-        <tr><th>\(x\)</th><td>0</td><td>1</td><td>2</td><td>3</td></tr>
-        <tr><th>\(f(x)\)</th><td>0,10</td><td>0,20</td><td>0,40</td><td>0,30</td></tr>
-        <tr><th>\(F(x)\)</th><td>0,10</td><td>0,30</td><td>0,70</td><td>1</td></tr>
-      </table>
-    </div>
-    <p>\[ F(x) = \begin{cases} 0, &amp; x &lt; 0 \\ 0{,}10, &amp; 0 \leq x &lt; 1 \\ 0{,}30, &amp; 1 \leq x &lt; 2 \\ 0{,}70, &amp; 2 \leq x &lt; 3 \\ 1, &amp; x \geq 3 \end{cases} \]</p>
+    <span class="caja-tit">Enunciado</span>
     <p>
-      Queda plana entre valor y valor y salta en cada uno. Y aca el borde <strong>si</strong>
-      importa: \(P(X \geq 2) = 1 - F(1) = 0{,}70\).
+      El tiempo \(X\), en horas, que tarda un tecnico en resolver un ticket tiene densidad
+      \(f(x) = \frac{4 - x}{8}\) para \(0 \leq x \leq 4\) (y 0 en otro caso).
+      a) &iquest;Probabilidad de que tarde entre 1 y 3 horas? b) &iquest;Probabilidad de que tarde
+      exactamente 2 horas?
     </p>
   </div>
 
-  <p>
-    Por ultimo, como en la Unidad 5, cada modelo de esta unidad trae sus formulas de \(E(X)\) y
-    \(V(X)\) ya hechas: no hay que integrar para sacarlas.
-  </p>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Traduccion</th><th>A donde va</th></tr>
+      <tr><td>"tiene densidad \(\frac{4-x}{8}\)"</td><td>la curva ya esta completa (no hay \(k\))</td><td>se integra directo</td></tr>
+      <tr><td>"entre 1 y 3 horas"</td><td>el area entre esos dos bordes</td><td>\(a = 1\), \(b = 3\)</td></tr>
+      <tr><td>"exactamente 2 horas"</td><td>un solo valor</td><td>\(P(X = 2)\)</td></tr>
+    </table>
+  </div>
+
+  <div class="pd-grafico" data-g="u6-area">
+    <svg viewBox="0 0 620 250" role="img" aria-label="Densidad triangular con el área entre 1 y 3 sombreada: esa área es la probabilidad">
+  <path class="area" d="M 202,200 L 202,90.9 L 204.7,91.8 L 207.4,92.7 L 210.1,93.6 L 212.8,94.5 L 215.5,95.5 L 218.2,96.4 L 220.9,97.3 L 223.6,98.2 L 226.3,99.1 L 229,100 L 231.7,100.9 L 234.4,101.8 L 237.1,102.7 L 239.8,103.6 L 242.5,104.5 L 245.2,105.5 L 247.9,106.4 L 250.6,107.3 L 253.3,108.2 L 256,109.1 L 258.7,110 L 261.4,110.9 L 264.1,111.8 L 266.8,112.7 L 269.5,113.6 L 272.2,114.5 L 274.9,115.5 L 277.6,116.4 L 280.3,117.3 L 283,118.2 L 285.7,119.1 L 288.4,120 L 291.1,120.9 L 293.8,121.8 L 296.5,122.7 L 299.2,123.6 L 301.9,124.5 L 304.6,125.5 L 307.3,126.4 L 310,127.3 L 312.7,128.2 L 315.4,129.1 L 318.1,130 L 320.8,130.9 L 323.5,131.8 L 326.2,132.7 L 328.9,133.6 L 331.6,134.5 L 334.3,135.5 L 337,136.4 L 339.7,137.3 L 342.4,138.2 L 345.1,139.1 L 347.8,140 L 350.5,140.9 L 353.2,141.8 L 355.9,142.7 L 358.6,143.6 L 361.3,144.5 L 364,145.5 L 366.7,146.4 L 369.4,147.3 L 372.1,148.2 L 374.8,149.1 L 377.5,150 L 380.2,150.9 L 382.9,151.8 L 385.6,152.7 L 388.3,153.6 L 391,154.5 L 393.7,155.5 L 396.4,156.4 L 399.1,157.3 L 401.8,158.2 L 404.5,159.1 L 407.2,160 L 409.9,160.9 L 412.6,161.8 L 415.3,162.7 L 418,163.6 L 418,200 Z"/>
+  <path class="campana" d="M 94,54.5 L 310,127.3 L 526,200"/>
+  <line class="campana" x1="40" y1="200" x2="94" y2="200"/>
+  <line class="campana" x1="94" y1="200" x2="94" y2="54.5"/>
+  <line class="eje" x1="34" y1="200" x2="586" y2="200"/>
+  <line class="corte" x1="202" y1="90.9" x2="202" y2="200"/>
+  <line class="corte" x1="418" y1="163.6" x2="418" y2="200"/>
+  <text class="rotulo" x="94" y="222" text-anchor="middle">0</text>
+  <text class="rotulo" x="202" y="222" text-anchor="middle">1</text>
+  <text class="rotulo" x="310" y="222" text-anchor="middle">2</text>
+  <text class="rotulo" x="418" y="222" text-anchor="middle">3</text>
+  <text class="rotulo" x="526" y="222" text-anchor="middle">4</text>
+  <text class="valor" x="310" y="179.6" text-anchor="middle">P(1 &lt; X ≤ 3) = área = 0,50</text>
+  <text class="rotulo" x="104.8" y="48.7" text-anchor="start">f(x) = (4 − x) / 8</text>
+  <text class="rotulo" x="472" y="95.3" text-anchor="middle">el área total bajo f vale 1</text>
+</svg>
+    <p class="pd-pie">La probabilidad del inciso a es el area pintada, entre 1 y 3.</p>
+  </div>
+
+  <h4>Inciso a &mdash; Entre 1 y 3 horas</h4>
+  <p><strong>Paso 1 &mdash; Plantear el area</strong> con la formula de probabilidad:</p>
+  <p>\[ P(a &lt; X \leq b) = \int_{a}^{b} f(x)\,dx \]</p>
+  <p>\[ P(1 &lt; X \leq 3) = \int_{1}^{3} \frac{4 - x}{8}\,dx \]</p>
+  <p><strong>Paso 2 &mdash; Integrar.</strong> Pieza por pieza:</p>
+  <ul>
+    <li>El \(\frac18\) es un numero que multiplica: sale afuera. Queda \(\frac18 \int_{1}^{3} (4 - x)\,dx\).</li>
+    <li>\(\int 4\,dx = 4x\) y \(\int x\,dx = \frac{x^{2}}{2}\). Entonces \(\int (4 - x)\,dx = 4x - \frac{x^{2}}{2}\).</li>
+  </ul>
+  <p><strong>Paso 3 &mdash; Evaluar entre 1 y 3</strong> (arriba menos abajo):</p>
+  <ul>
+    <li>En 3: \(4 \cdot 3 - \frac{3^{2}}{2} = 12 - 4{,}5 = 7{,}5\).</li>
+    <li>En 1: \(4 \cdot 1 - \frac{1^{2}}{2} = 4 - 0{,}5 = 3{,}5\).</li>
+  </ul>
+  <p>\[ P(1 &lt; X \leq 3) = \frac{1}{8}\left( 7{,}5 - 3{,}5 \right) = \frac{4}{8} = 0{,}50 \]</p>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta a</span>
+    <p>50&nbsp;%: la mitad de los tickets se resuelve en un tiempo de entre 1 y 3 horas.</p>
+  </div>
+
+  <h4>Inciso b &mdash; Exactamente 2 horas</h4>
+  <p>Un valor exacto es un punto, y un punto no tiene area. No hace falta ninguna cuenta:</p>
+  <p>\[ P(X = 2) = 0 \]</p>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta b</span>
+    <p>0. En una variable continua, cualquier valor exacto tiene probabilidad 0. (Asi lo tomaron en el parcial 2023: "ganar exactamente 1000 dolares".)</p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 3 &mdash; Si la variable viene en una tabla (final 25/02)</h3>
+
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>Una variable discreta tiene esta distribucion. a) Hallar \(k\). b) Hallar \(F(x)\). c) Calcular \(P(X \geq 2)\).</p>
+    <div class="tabla-wrap">
+      <table class="t">
+        <tr><th>\(x\)</th><td>0</td><td>1</td><td>2</td><td>3</td></tr>
+        <tr><th>\(f(x)\)</th><td>0,10</td><td>0,20</td><td>\(k\)</td><td>0,30</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <p>Es la misma idea que el ejemplo 1, pero la variable <strong>se cuenta</strong>: en lugar de un area hay barras, y en lugar de integrar se suma.</p>
+
+  <h4>Inciso a &mdash; Hallar \(k\)</h4>
+  <p><strong>Paso 1 &mdash; Todas las probabilidades suman 1.</strong></p>
+  <p>\[ 0{,}10 + 0{,}20 + k + 0{,}30 = 1 \]</p>
+  <p><strong>Paso 2 &mdash; Despejar.</strong> \(0{,}60 + k = 1\), entonces \(k = 1 - 0{,}60 = 0{,}40\).</p>
+  <p><strong>Paso 3 &mdash; Justificar.</strong> Todos los valores, incluida \(k = 0{,}40\), son positivos, y suman 1.</p>
+
+  <h4>Inciso b &mdash; Hallar \(F(x)\)</h4>
+  <p>\(F(x)\) es lo acumulado hasta \(x\): se va sumando de izquierda a derecha.</p>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th>\(x\)</th><td>0</td><td>1</td><td>2</td><td>3</td></tr>
+      <tr><th>\(f(x)\)</th><td>0,10</td><td>0,20</td><td>0,40</td><td>0,30</td></tr>
+      <tr><th>\(F(x)\)</th><td>0,10</td><td>0,10 + 0,20 = 0,30</td><td>0,30 + 0,40 = 0,70</td><td>0,70 + 0,30 = 1</td></tr>
+    </table>
+  </div>
+  <p>Por tramos, entre valor y valor \(F\) se queda quieta (forma de escalera):</p>
+  <p>\[ F(x) = \begin{cases} 0, &amp; x &lt; 0 \\ 0{,}10, &amp; 0 \leq x &lt; 1 \\ 0{,}30, &amp; 1 \leq x &lt; 2 \\ 0{,}70, &amp; 2 \leq x &lt; 3 \\ 1, &amp; x \geq 3 \end{cases} \]</p>
+
+  <h4>Inciso c &mdash; \(P(X \geq 2)\)</h4>
+  <p>"Mayor o igual que 2" incluye al 2 (en la discreta el borde <strong>si</strong> importa). Es todo menos lo que esta antes del 2, o sea menos \(F(1)\):</p>
+  <p>\[ P(X \geq 2) = 1 - F(1) = 1 - 0{,}30 = 0{,}70 \]</p>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>a) \(k = 0{,}40\). b) La escalera de arriba. c) \(P(X \geq 2) = 0{,}70\).</p>
+  </div>
 </div>

@@ -9,56 +9,125 @@
 
   <h3>Cuando se usa</h3>
   <p>
-    Para el <strong>tiempo hasta que ocurren varios eventos</strong>: hasta la tercera falla, hasta
-    la segunda llamada. (Si es hasta el <em>primero</em>, es la Exponencial de la seccion 7.)
+    Para el <strong>tiempo que pasa hasta que ocurren varios eventos</strong>: hasta la tercera
+    falla de una maquina, hasta que llegan dos solicitudes. Si es hasta el <em>primer</em> evento,
+    es la Exponencial (seccion 7), que es un caso particular de esta.
   </p>
 
-  <h3>Primero, la funcion \(\Gamma\)</h3>
-  <p>La formula de la distribucion usa \(\Gamma(\alpha)\), que es un factorial generalizado:</p>
+  <h3>Primero, la funcion \(\Gamma\) (gamma)</h3>
+  <p>La formula de la distribucion tiene adentro \(\Gamma(\alpha)\). Es una especie de factorial que tambien sirve para numeros con coma:</p>
   <div class="caja caja-formula">
     <span class="caja-tit">Funcion Gamma</span>
     <p>\[ \Gamma(\alpha) = \int_{0}^{\infty} x^{\alpha - 1} e^{-x}\, dx, \qquad \alpha &gt; 0 \]</p>
-    <p>\[ \Gamma(n) = (n-1)! \quad \text{si } n \text{ es entero} \qquad \Gamma(1) = 1 \qquad \Gamma(\tfrac{1}{2}) = \sqrt{\pi} \]</p>
+    <p>\[ \Gamma(1) = 1 \qquad \Gamma(\alpha) = (\alpha - 1)\,\Gamma(\alpha - 1) \qquad \Gamma(n) = (n-1)! \ \text{ si } n \text{ es entero} \qquad \Gamma(\tfrac{1}{2}) = \sqrt{\pi} \]</p>
   </div>
-  <p>Lo que se usa: si \(\alpha\) es entero, \(\Gamma(\alpha)\) es el factorial de \(\alpha - 1\). Ejemplo: \(\Gamma(4) = 3! = 6\).</p>
+  <p>
+    Lo que se usa: <strong>si \(\alpha\) es entero, \(\Gamma(\alpha)\) es el factorial de
+    \(\alpha - 1\)</strong>. Ejemplos: \(\Gamma(4) = 3! = 3 \cdot 2 \cdot 1 = 6\) y
+    \(\Gamma(3) = 2! = 2\).
+  </p>
 
-  <h3>La distribucion</h3>
+  <h3>La distribucion Gamma</h3>
   <div class="caja caja-formula">
     <span class="caja-tit">Formulas</span>
     <p>\[ f(x) = \frac{1}{\beta^{\alpha}\,\Gamma(\alpha)}\; x^{\alpha - 1}\, e^{-x/\beta}, \qquad x &gt; 0 \]</p>
     <p>\[ E(X) = \alpha \cdot \beta \qquad\qquad V(X) = \alpha \cdot \beta^{2} \]</p>
-    <p>\(\alpha\) = cuantos eventos se esperan. \(\beta\) = tiempo medio entre eventos.</p>
+  </div>
+
+  <h4>Que significa cada letra</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Simbolo</th><th>Nombre</th><th>Que representa</th><th>Como lo reconoces</th></tr>
+      <tr><td>\(\alpha\)</td><td>forma</td><td><strong>cuantos eventos</strong> hay que esperar</td><td>"la tercera falla" &rarr; 3</td></tr>
+      <tr><td>\(\beta\)</td><td>escala</td><td>el <strong>tiempo medio entre eventos</strong></td><td>"falla cada 4 horas" &rarr; 4. Si dan una tasa ("5 por minuto"), \(\beta = 1/5\)</td></tr>
+    </table>
+  </div>
+  <p><strong>De donde sale \(E(X) = \alpha\beta\):</strong> si cada evento tarda \(\beta\) en promedio, \(\alpha\) eventos tardan \(\alpha\) veces eso.</p>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; Tiempo hasta la tercera falla</h3>
+
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>
+      Una impresora industrial falla en promedio <strong>cada 4 horas</strong>. &iquest;Cuanto tiempo se
+      espera que pase hasta la <strong>tercera</strong> falla, y con que desvio?
+    </p>
+  </div>
+
+  <h4>Por que este modelo</h4>
+  <ul>
+    <li>La variable es un <strong>tiempo</strong> (continua).</li>
+    <li>No es hasta la primera falla (eso seria Exponencial) sino hasta la <strong>tercera</strong>: se acumulan varios eventos &rarr; <strong>Gamma</strong>.</li>
+  </ul>
+
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Traduccion</th><th>A donde va</th></tr>
+      <tr><td>"falla en promedio cada 4 horas"</td><td>tiempo medio entre fallas (es un tiempo, va directo)</td><td>\(\beta = 4\)</td></tr>
+      <tr><td>"la tercera falla"</td><td>cuantos eventos se esperan</td><td>\(\alpha = 3\)</td></tr>
+      <tr><td>"cuanto se espera", "con que desvio"</td><td>esperanza y raiz de la varianza</td><td>\(E(X)\) y \(\sigma\)</td></tr>
+    </table>
+  </div>
+
+  <h4>Resolucion</h4>
+  <p><strong>Paso 1 &mdash; Esperanza.</strong> Formula:</p>
+  <p>\[ E(X) = \alpha \cdot \beta \]</p>
+  <p>\[ E(X) = 3 \cdot 4 = 12 \text{ horas} \]</p>
+  <p><strong>Paso 2 &mdash; Varianza.</strong> Formula (ojo: la \(\beta\) va al cuadrado):</p>
+  <p>\[ V(X) = \alpha \cdot \beta^{2} \]</p>
+  <p>\[ V(X) = 3 \cdot 4^{2} = 3 \cdot 16 = 48 \]</p>
+  <p><strong>Paso 3 &mdash; Desvio:</strong> la raiz de la varianza, para volver a horas.</p>
+  <p>\[ \sigma = \sqrt{48} = 6{,}93 \text{ horas} \]</p>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>Se esperan <strong>12 horas</strong> hasta la tercera falla, con un desvio de 6,93 horas.</p>
+    <p>Control: tres fallas de 4 horas cada una son 12 horas.</p>
   </div>
 
   <hr class="sep">
 
-  <h3>Ejemplo 1 &mdash; Hasta la tercera falla</h3>
+  <h3>Ejemplo 2 &mdash; Dos solicitudes en un minuto (Ejemplo 6 de la catedra)</h3>
+
   <div class="caja caja-ejemplo">
     <span class="caja-tit">Enunciado</span>
-    <p>Una impresora falla en promedio <strong>cada 4 horas</strong>. &iquest;Cuanto se espera hasta la <strong>tercera</strong> falla, y con que desvio?</p>
-  </div>
-  <p><strong>Datos:</strong> tiempo hasta 3 eventos &rarr; Gamma con \(\alpha = 3\), \(\beta = 4\).</p>
-  <p>\[ E(X) = \alpha \cdot \beta = 3 \cdot 4 = 12 \text{ horas} \]</p>
-  <p>\[ V(X) = \alpha \cdot \beta^{2} = 3 \cdot 16 = 48 \qquad \sigma = \sqrt{48} = 6{,}93 \text{ horas} \]</p>
-  <div class="caja caja-resp">
-    <span class="caja-tit">Respuesta</span>
-    <p>12 horas en promedio (tres fallas de 4 horas cada una), con un desvio de 6,93 horas.</p>
+    <p>
+      Las solicitudes que llegan a una central de atencion son de <strong>5 por minuto</strong> en
+      promedio. &iquest;Cual es la probabilidad de que <strong>antes de transcurrido un minuto</strong>
+      hayan llegado <strong>dos</strong> solicitudes?
+    </p>
   </div>
 
-  <h3>Ejemplo 2 &mdash; Dos solicitudes en un minuto (Ejemplo 6 de la catedra)</h3>
-  <div class="caja caja-ejemplo">
-    <span class="caja-tit">Enunciado</span>
-    <p>Llegan en promedio <strong>5 solicitudes por minuto</strong>. &iquest;Probabilidad de que en <strong>menos de un minuto</strong> ya hayan llegado <strong>dos</strong>?</p>
+  <h4>Por que este modelo</h4>
+  <ul>
+    <li>Se pregunta por el <strong>tiempo</strong> hasta que se juntan dos eventos, no por cuantos eventos hay (eso seria Poisson).</li>
+    <li>Son <strong>dos</strong> eventos, no uno: no es Exponencial. Es Gamma.</li>
+  </ul>
+
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Traduccion</th><th>Cuenta</th><th>A donde va</th></tr>
+      <tr><td>"5 por minuto en promedio"</td><td>es una <strong>tasa</strong>, no un tiempo</td><td>\(\beta = 1 / 5 = 0{,}2\)</td><td>\(\beta = 0{,}2\) min</td></tr>
+      <tr><td>"dos solicitudes"</td><td>eventos a juntar</td><td>&mdash;</td><td>\(\alpha = 2\)</td></tr>
+      <tr><td>"antes de transcurrido un minuto"</td><td>que el tiempo sea menor que 1</td><td>&mdash;</td><td>\(P(X &lt; 1)\)</td></tr>
+    </table>
   </div>
-  <p>
-    <strong>Datos:</strong> tiempo hasta 2 eventos &rarr; Gamma con \(\alpha = 2\). Dan una tasa (5
-    por minuto), y \(\beta\) es un tiempo, asi que se invierte: \(\beta = \frac{1}{5} = 0{,}2\) min.
-    Se pide \(P(X &lt; 1)\).
-  </p>
-  <p>Se integra la densidad entre 0 y 1 (por partes); la catedra llega a:</p>
-  <p>\[ P(X &lt; 1) = 1 - 6e^{-5} = 1 - 6 \cdot 0{,}006738 = 0{,}9596 \]</p>
+  <p><strong>Por que se invierte la tasa:</strong> si llegan 5 por minuto, entre una y otra pasa en promedio \(\frac15\) de minuto. \(\beta\) es ese tiempo.</p>
+
+  <h4>Resolucion</h4>
+  <p><strong>Paso 1 &mdash; Plantear el area</strong> bajo la densidad Gamma entre 0 y 1 (seccion 1):</p>
+  <p>\[ P(X &lt; 1) = \int_{0}^{1} \frac{1}{0{,}2^{2}\,\Gamma(2)}\; x\, e^{-x/0{,}2}\, dx \]</p>
+  <p><strong>Paso 2 &mdash; Resolver.</strong> Esa integral se hace por partes; la catedra llega a:</p>
+  <p>\[ P(X &lt; 1) = 1 - 6e^{-5} \]</p>
+  <p><strong>Paso 3 &mdash; Calcular.</strong> Con la calculadora, \(e^{-5} = 0{,}006738\):</p>
+  <p>\[ 1 - 6 \cdot 0{,}006738 = 1 - 0{,}040428 = 0{,}9596 \]</p>
+
   <div class="caja caja-resp">
     <span class="caja-tit">Respuesta</span>
-    <p>95,96&nbsp;%. Tiene sentido: si llegan 5 por minuto, que lleguen 2 en un minuto es casi seguro.</p>
+    <p>95,96&nbsp;%. Tiene sentido: si llegan 5 por minuto, que en un minuto lleguen al menos 2 es casi seguro.</p>
   </div>
 </div>

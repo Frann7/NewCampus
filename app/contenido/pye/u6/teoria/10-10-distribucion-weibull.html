@@ -7,47 +7,108 @@
     <p>Leela despues de tener firmes las secciones 1 a 5. Es parte del programa y puede caer.</p>
   </div>
 
+  <h3>Cuando se usa</h3>
   <p>
-    Se usa para <strong>fallas de sistemas electricos</strong> y para la <strong>velocidad del
-    viento</strong>. Tiene dos parametros: \(k\) (forma) y \(c\) (escala).
+    Para <strong>fallas de sistemas electricos</strong> y, sobre todo, para la <strong>velocidad
+    del viento</strong>. Tiene dos parametros, lo que la deja ajustarse bien a datos reales. En los
+    ejercicios el enunciado la nombra.
   </p>
 
   <div class="caja caja-formula">
     <span class="caja-tit">Formulas</span>
     <p>\[ f(v) = \frac{k}{c}\left(\frac{v}{c}\right)^{k-1} e^{-\left(\frac{v}{c}\right)^{k}}, \qquad v &gt; 0 \]</p>
-    <p>La que se usa para calcular:</p>
+    <p>Las que se usan para calcular probabilidades:</p>
     <p>\[ P(V &gt; v) = e^{-\left(\frac{v}{c}\right)^{k}} \qquad\qquad P(V \leq v) = 1 - e^{-\left(\frac{v}{c}\right)^{k}} \]</p>
-    <p>\[ \mu = c \cdot \Gamma\!\left(1 + \tfrac{1}{k}\right) \qquad \sigma^{2} = c^{2} \cdot \Gamma\!\left(1 + \tfrac{2}{k}\right) - \mu^{2} \]</p>
+    <p>Media y varianza:</p>
+    <p>\[ \mu = c \cdot \Gamma\!\left(1 + \tfrac{1}{k}\right) \qquad\qquad \sigma^{2} = c^{2} \cdot \Gamma\!\left(1 + \tfrac{2}{k}\right) - \mu^{2} \]</p>
+  </div>
+
+  <h4>Que significa cada letra</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Simbolo</th><th>Nombre</th><th>Que es</th></tr>
+      <tr><td>\(v\)</td><td>&mdash;</td><td>el valor del que se pregunta (una velocidad, un tiempo)</td></tr>
+      <tr><td>\(k\)</td><td>forma</td><td>dice que forma tiene la curva. Con \(k = 1\) es la Exponencial</td></tr>
+      <tr><td>\(c\)</td><td>escala</td><td>que tan estirada esta la curva</td></tr>
+    </table>
+  </div>
+  <p>
+    <strong>Si te dan la media y el desvio en vez de \(k\) y \(c\):</strong> no se pueden despejar
+    a mano; se sacan con software (la catedra usa StatGraphics). (En el libro de Walpole se escribe
+    distinto: \(\alpha = \frac{1}{c^{k}}\) y \(\beta = k\).)
+  </p>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; Viento en Parana AERO (Ejemplo 8 de la catedra)</h3>
+
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
     <p>
-      Si te dan \(\mu\) y \(\sigma\), \(k\) y \(c\) no se despejan a mano: se sacan con software
-      (la catedra usa StatGraphics). Con \(k = 1\) queda la Exponencial con \(\beta = c\).
-      (En el Walpole: \(\alpha = \frac{1}{c^{k}}\), \(\beta = k\).)
+      En Parana AERO (estacion 87374), en un ano normal la velocidad media del viento es
+      <strong>\(\mu = 3{,}04\) m/s</strong> con <strong>\(\sigma = 1{,}81\) m/s</strong>.
+      Calcule los parametros de Weibull y la probabilidad de que la velocidad <strong>exceda los
+      8 m/s</strong> (28,8 km/h) en un dia cualquiera.
     </p>
+  </div>
+
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Traduccion</th><th>A donde va</th></tr>
+      <tr><td>"media 3,04", "desvio 1,81"</td><td>con esto se estiman \(k\) y \(c\) (con software)</td><td>paso 1</td></tr>
+      <tr><td>"exceda los 8 m/s"</td><td>mas de 8</td><td>\(P(V &gt; 8)\)</td></tr>
+    </table>
+  </div>
+
+  <h4>Paso 1 &mdash; Los parametros</h4>
+  <p>Se estiman por iteraciones con software. La catedra obtiene:</p>
+  <p>\[ k = 1{,}72947 \qquad\qquad c = 3{,}41095 \]</p>
+  <h4>Paso 2 &mdash; La probabilidad</h4>
+  <p>Formula:</p>
+  <p>\[ P(V &gt; v) = e^{-\left(\frac{v}{c}\right)^{k}} \]</p>
+  <p>Pieza por pieza:</p>
+  <ul>
+    <li>\(\dfrac{v}{c} = \dfrac{8}{3{,}41095} = 2{,}3454\)</li>
+    <li>Elevado a \(k\): \((2{,}3454)^{1{,}72947} = 4{,}369\)</li>
+    <li>\(e^{-4{,}369} = 0{,}0126\)</li>
+  </ul>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>1,26&nbsp;% de probabilidad de que un dia el viento supere los 8 m/s (la catedra da 0,0126775).</p>
   </div>
 
   <hr class="sep">
 
-  <h3>Ejemplo 1 &mdash; Viento en Parana (Ejemplo 8 de la catedra)</h3>
-  <div class="caja caja-ejemplo">
-    <span class="caja-tit">Enunciado</span>
-    <p>En Parana AERO el viento tiene media <strong>3,04 m/s</strong> y desvio <strong>1,81 m/s</strong>. &iquest;Probabilidad de que <strong>supere 8 m/s</strong> un dia cualquiera?</p>
-  </div>
-  <p><strong>Paso 1.</strong> Con software, la catedra obtiene \(k = 1{,}72947\) y \(c = 3{,}41095\).</p>
-  <p><strong>Paso 2.</strong></p>
-  <p>\[ P(V &gt; v) = e^{-\left(\frac{v}{c}\right)^{k}} \]</p>
-  <p>\[ \frac{8}{3{,}41095} = 2{,}3454 \qquad (2{,}3454)^{1{,}72947} = 4{,}369 \qquad P(V &gt; 8) = e^{-4{,}369} = 0{,}0126 \]</p>
-  <div class="caja caja-resp"><span class="caja-tit">Respuesta</span><p>1,26&nbsp;% (catedra: 0,0126775).</p></div>
+  <h3>Ejemplo 2 &mdash; Vida util de un rodamiento</h3>
 
-  <h3>Ejemplo 2 &mdash; Vida de un rodamiento</h3>
   <div class="caja caja-ejemplo">
     <span class="caja-tit">Enunciado</span>
-    <p>La vida de un rodamiento, en miles de horas, es Weibull con <strong>\(k = 2\)</strong> y <strong>\(c = 5\)</strong>. a) &iquest;Que dure mas de 6? b) &iquest;Que falle antes de 3?</p>
+    <p>
+      La vida util de un rodamiento, en miles de horas, sigue una Weibull con
+      <strong>\(k = 2\)</strong> y <strong>\(c = 5\)</strong>. a) &iquest;Probabilidad de que dure
+      <strong>mas de 6</strong> mil horas? b) &iquest;Probabilidad de que falle <strong>antes de las 3</strong>
+      mil horas?
+    </p>
   </div>
-  <p><strong>a)</strong></p>
+
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Traduccion</th><th>A donde va</th></tr>
+      <tr><td>"\(k = 2\)", "\(c = 5\)"</td><td>los parametros ya vienen dados</td><td>directo a la formula</td></tr>
+      <tr><td>"en miles de horas"</td><td>6 mil horas se escribe 6</td><td>\(v = 6\), \(v = 3\)</td></tr>
+      <tr><td>"dure mas de 6"</td><td>sobrevivir</td><td>\(P(V &gt; 6)\)</td></tr>
+      <tr><td>"falle antes de las 3"</td><td>lo contrario de sobrevivir</td><td>\(P(V \leq 3)\)</td></tr>
+    </table>
+  </div>
+
+  <h4>Inciso a &mdash; Mas de 6 mil horas</h4>
   <p>\[ P(V &gt; v) = e^{-\left(\frac{v}{c}\right)^{k}} \]</p>
-  <p>\[ P(V &gt; 6) = e^{-(6/5)^{2}} = e^{-1{,}44} = 0{,}2369 \]</p>
-  <p><strong>b)</strong></p>
+  <p>\[ P(V &gt; 6) = e^{-\left(\frac{6}{5}\right)^{2}} = e^{-(1{,}2)^{2}} = e^{-1{,}44} = 0{,}2369 \]</p>
+  <h4>Inciso b &mdash; Antes de las 3 mil horas</h4>
+  <p>Fallar antes es 1 menos sobrevivir:</p>
   <p>\[ P(V \leq v) = 1 - e^{-\left(\frac{v}{c}\right)^{k}} \]</p>
-  <p>\[ P(V \leq 3) = 1 - e^{-(3/5)^{2}} = 1 - e^{-0{,}36} = 1 - 0{,}6977 = 0{,}3023 \]</p>
+  <p>\[ P(V \leq 3) = 1 - e^{-\left(\frac{3}{5}\right)^{2}} = 1 - e^{-0{,}36} = 1 - 0{,}6977 = 0{,}3023 \]</p>
   <div class="caja caja-resp"><span class="caja-tit">Respuesta</span><p>a) 23,69&nbsp;%. b) 30,23&nbsp;%.</p></div>
 </div>

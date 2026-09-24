@@ -9,70 +9,149 @@
 
   <h3>Cuando se usa</h3>
   <p>
-    Para el <strong>tiempo hasta el primer evento</strong>, o el tiempo de vida de algo: cuanto
-    dura un componente, cuanto tarda en llegar la proxima llamada. Es la Gamma con \(\alpha = 1\).
+    Para el <strong>tiempo hasta el primer evento</strong>, o el <strong>tiempo de vida</strong> de
+    algo: cuanto dura un componente hasta fallar, cuanto tarda en llegar la proxima llamada. Es la
+    Gamma de la seccion 6 con \(\alpha = 1\) (un solo evento).
   </p>
 
   <div class="caja caja-formula">
     <span class="caja-tit">Formulas</span>
     <p>\[ f(x) = \frac{1}{\beta}\, e^{-x/\beta}, \qquad x &gt; 0 \qquad\qquad E(X) = \beta \qquad V(X) = \beta^{2} \]</p>
-    <p>Las que se usan para calcular (no hace falta tabla, solo la tecla \(e^{x}\)):</p>
+    <p>Las que se usan para calcular probabilidades (no hace falta tabla, solo la tecla \(e^{x}\)):</p>
     <p>\[ P(X &gt; x) = e^{-x/\beta} \qquad\qquad P(X \leq x) = 1 - e^{-x/\beta} \]</p>
-    <p>Salen de integrar la densidad de 0 a \(x\): \(\int_{0}^{x} \frac{1}{\beta} e^{-t/\beta}\,dt = 1 - e^{-x/\beta}\).</p>
+  </div>
+
+  <h4>Que significa cada letra</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Simbolo</th><th>Que es</th><th>Como lo reconoces</th></tr>
+      <tr><td>\(\beta\)</td><td>el <strong>tiempo medio</strong> hasta el evento</td><td>"tiempo medio de falla de 5 anos", "vida media de 3 segundos"</td></tr>
+      <tr><td>\(\lambda\)</td><td>la <strong>tasa</strong>: cuantos eventos por unidad de tiempo</td><td>"tasa de falla de 0,02 por hora", "llegan 5 por minuto". Se pasa a \(\beta\) invirtiendo: \(\beta = 1/\lambda\)</td></tr>
+      <tr><td>\(x\)</td><td>el tiempo del que se pregunta</td><td>"al cabo de 8 anos", "antes de las 20 horas"</td></tr>
+    </table>
   </div>
 
   <div class="caja caja-ojo">
-    <span class="caja-tit">\(\beta\) es un tiempo; si te dan una tasa, se invierte</span>
-    <div class="tabla-wrap">
-      <table class="t full">
-        <tr><th>El enunciado dice</th><th>Es</th><th>\(\beta\)</th></tr>
-        <tr><td>"tiempo medio de falla de 5 anos"</td><td>un tiempo</td><td>\(5\)</td></tr>
-        <tr><td>"tasa de falla de 0,01 por hora"</td><td>una tasa \(\lambda\)</td><td>\(1/0{,}01 = 100\)</td></tr>
-        <tr><td>"llegan 5 por minuto"</td><td>una tasa \(\lambda\)</td><td>\(1/5 = 0{,}2\)</td></tr>
-      </table>
-    </div>
+    <span class="caja-tit">La pregunta de control: &iquest;me dieron un tiempo o una tasa?</span>
+    <p>
+      Si el numero esta en <strong>unidades de tiempo</strong> (anos, horas), es \(\beta\) directo.
+      Si esta en <strong>"cosas por unidad de tiempo"</strong> (por hora, por minuto), es una tasa y
+      hay que darla vuelta: 0,01 por hora &rarr; \(\beta = 1/0{,}01 = 100\) horas.
+    </p>
   </div>
 
-  <p>
-    <strong>Relacion con Poisson:</strong> Poisson cuenta <em>cuantos</em> eventos hay en un tiempo;
-    la Exponencial mide <em>cuanto tiempo</em> pasa hasta el primero. Que pase un tiempo \(t\) sin
-    eventos es Poisson con 0 eventos: \(P(X = 0) = e^{-\lambda t}\), que es la \(P(T &gt; t)\) de la
-    Exponencial con \(\beta = \frac{1}{\lambda}\).
-  </p>
+  <h4>De donde salen las formulas</h4>
+  <ul>
+    <li>
+      <strong>\(P(X \leq x) = 1 - e^{-x/\beta}\):</strong> es el area bajo la densidad de 0 a \(x\)
+      (seccion 1): \(\int_{0}^{x} \frac{1}{\beta} e^{-t/\beta}\,dt = 1 - e^{-x/\beta}\).
+    </li>
+    <li><strong>\(P(X &gt; x) = e^{-x/\beta}\):</strong> el total (1) menos lo anterior. "Sobrevivir mas alla de \(x\)".</li>
+    <li>
+      <strong>Relacion con Poisson:</strong> Poisson cuenta <em>cuantos</em> eventos hay en un
+      tiempo; la Exponencial mide <em>cuanto tiempo</em> pasa hasta el primero. Que pase un tiempo
+      \(t\) sin eventos es Poisson con 0 eventos: \(e^{-\lambda t}\), la misma formula con
+      \(\beta = 1/\lambda\).
+    </li>
+  </ul>
 
   <hr class="sep">
 
   <h3>Ejemplo 1 &mdash; Sistemas que siguen funcionando (Ejemplo 5 de la catedra)</h3>
+
   <div class="caja caja-ejemplo">
     <span class="caja-tit">Enunciado</span>
-    <p>Un sistema tiene un <strong>tiempo medio de falla de 5 anos</strong>. Se instalan <strong>5</strong>. &iquest;Probabilidad de que a los <strong>8 anos</strong> sigan funcionando <strong>al menos dos</strong>?</p>
-  </div>
-  <p>Son dos modelos encadenados: la duracion de <em>un</em> sistema es Exponencial; cuantos de los 5 aguantan es Binomial.</p>
-  <p><strong>Paso 1 &mdash; Que un sistema dure mas de 8 anos</strong> (\(\beta = 5\), es un tiempo):</p>
-  <p>\[ P(X &gt; x) = e^{-x/\beta} \]</p>
-  <p>\[ P(T &gt; 8) = e^{-8/5} = e^{-1{,}6} = 0{,}2019 \]</p>
-  <p><strong>Paso 2 &mdash; Binomial</strong> con \(n = 5\) y \(p = 0{,}2019\):</p>
-  <p>\[ P(X \geq 2) = 1 - P(X = 0) - P(X = 1) \]</p>
-  <p>\[ P(X = 0) = \binom{5}{0}(0{,}2019)^{0}(0{,}7981)^{5} = 0{,}3238 \qquad P(X = 1) = \binom{5}{1}(0{,}2019)^{1}(0{,}7981)^{4} = 0{,}4096 \]</p>
-  <p>\[ P(X \geq 2) = 1 - 0{,}3238 - 0{,}4096 = 0{,}2666 \]</p>
-  <div class="caja caja-resp">
-    <span class="caja-tit">Respuesta</span>
-    <p>26,66&nbsp;%. (La catedra redondea \(p \approx 0{,}20\) y llega a 0,2627: la diferencia es el redondeo.)</p>
+    <p>
+      Un sistema tiene un <strong>tiempo medio de falla de 5 anos</strong>. Se instalan
+      <strong>5</strong> de estos sistemas. &iquest;Cual es la probabilidad de que al cabo de
+      <strong>8 anos</strong> sigan funcionando <strong>al menos dos</strong> de ellos?
+    </p>
   </div>
 
-  <h3>Ejemplo 2 &mdash; Te dan la tasa</h3>
+  <h4>Por que hay dos modelos</h4>
+  <ul>
+    <li>
+      La <strong>duracion de un sistema</strong> es un tiempo de vida &rarr;
+      <strong>Exponencial</strong>. Con ella se saca la probabilidad de que <em>un</em> sistema aguante 8 anos.
+    </li>
+    <li>
+      <strong>Cuantos de los 5</strong> aguantan es un conteo con \(n\) fijo, cada uno aguanta o no,
+      con la misma probabilidad &rarr; <strong>Binomial</strong> (Unidad 5).
+    </li>
+  </ul>
+
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Traduccion</th><th>A donde va</th></tr>
+      <tr><td>"tiempo medio de falla de 5 anos"</td><td>es un tiempo: \(\beta\) directo</td><td>\(\beta = 5\) (Exponencial)</td></tr>
+      <tr><td>"al cabo de 8 anos sigan funcionando"</td><td>que la duracion supere los 8 anos</td><td>\(P(T &gt; 8)\)</td></tr>
+      <tr><td>"se instalan 5"</td><td>cantidad de pruebas</td><td>\(n = 5\) (Binomial)</td></tr>
+      <tr><td>"al menos dos"</td><td>2 o mas: el 2 entra</td><td>\(P(X \geq 2)\)</td></tr>
+    </table>
+  </div>
+
+  <h4>Paso 1 &mdash; Exponencial: que UN sistema dure mas de 8 anos</h4>
+  <p>"Sigue funcionando" es sobrevivir, la formula de \(P(X &gt; x)\):</p>
+  <p>\[ P(X &gt; x) = e^{-x/\beta} \]</p>
+  <p>\[ P(T &gt; 8) = e^{-8/5} = e^{-1{,}6} = 0{,}2019 \]</p>
+  <p>Este numero es la probabilidad de exito de cada sistema: pasa a ser la <strong>\(p\) de la Binomial</strong>.</p>
+
+  <h4>Paso 2 &mdash; Binomial con \(n = 5\) y \(p = 0{,}2019\)</h4>
+  <p>"Al menos 2" son 2, 3, 4 o 5: cuatro cuentas. Lo contrario (0 o 1) son solo dos, asi que conviene el complemento:</p>
+  <p>\[ P(X \geq 2) = 1 - P(X = 0) - P(X = 1) \]</p>
+  <p>Formula binomial:</p>
+  <p>\[ P(X = x) = \binom{n}{x}\, p^{x}\, (1-p)^{\,n-x} \]</p>
+  <p>\[ P(X = 0) = \binom{5}{0}(0{,}2019)^{0}(0{,}7981)^{5} = 1 \cdot 1 \cdot 0{,}3238 = 0{,}3238 \]</p>
+  <p>\[ P(X = 1) = \binom{5}{1}(0{,}2019)^{1}(0{,}7981)^{4} = 5 \cdot 0{,}2019 \cdot 0{,}4057 = 0{,}4096 \]</p>
+
+  <h4>Paso 3 &mdash; Restar de 1</h4>
+  <p>\[ P(X \geq 2) = 1 - 0{,}3238 - 0{,}4096 = 0{,}2666 \]</p>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>26,66&nbsp;% de probabilidad de que al menos 2 de los 5 sistemas sigan funcionando a los 8 anos.</p>
+    <p>(La catedra redondea \(p \approx 0{,}20\) y llega a 0,2627: la diferencia es solo el redondeo.)</p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; Cuando te dan la tasa</h3>
+
   <div class="caja caja-ejemplo">
     <span class="caja-tit">Enunciado</span>
-    <p>Un componente tiene una <strong>tasa de falla de 0,02 por hora</strong> (exponencial). a) &iquest;Tiempo medio hasta la falla? b) &iquest;Probabilidad de que dure <strong>100 horas o mas</strong>? c) &iquest;De que falle <strong>antes de las 20 horas</strong>?</p>
+    <p>
+      Un componente electronico tiene una <strong>tasa de falla constante de 0,02 por hora</strong>
+      (distribucion exponencial). a) &iquest;Cual es el tiempo medio hasta la falla? b) &iquest;Probabilidad
+      de que pasen <strong>100 horas o mas</strong> antes de que falle? c) &iquest;Probabilidad de que
+      falle <strong>antes de las 20 horas</strong>?
+    </p>
   </div>
-  <p><strong>Datos:</strong> es una tasa, se invierte: \(\beta = \frac{1}{0{,}02} = 50\) horas.</p>
-  <p><strong>a)</strong> \(E(X) = \beta = 50\) horas (2 fallas cada 100 horas = una cada 50).</p>
-  <p><strong>b)</strong></p>
+
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Traduccion</th><th>Cuenta</th><th>A donde va</th></tr>
+      <tr><td>"tasa de falla de <strong>0,02 por hora</strong>"</td><td>es una tasa ("por hora"): hay que invertirla</td><td>\(\beta = \dfrac{1}{0{,}02} = 50\)</td><td>\(\beta = 50\) horas</td></tr>
+      <tr><td>"100 horas o mas"</td><td>sobrevivir mas alla de 100</td><td>&mdash;</td><td>\(P(X \geq 100)\)</td></tr>
+      <tr><td>"antes de las 20 horas"</td><td>fallar antes de 20</td><td>&mdash;</td><td>\(P(X &lt; 20)\)</td></tr>
+    </table>
+  </div>
+
+  <h4>Inciso a &mdash; Tiempo medio</h4>
+  <p>\[ E(X) = \beta = 50 \text{ horas} \]</p>
+  <p>Control: 0,02 fallas por hora son 2 fallas cada 100 horas, o sea una cada 50.</p>
+
+  <h4>Inciso b &mdash; 100 horas o mas</h4>
+  <p>Es sobrevivir, la formula de \(P(X &gt; x)\) (en continuas, \(\geq\) y \(&gt;\) dan lo mismo):</p>
   <p>\[ P(X &gt; x) = e^{-x/\beta} \]</p>
   <p>\[ P(X &gt; 100) = e^{-100/50} = e^{-2} = 0{,}1353 \]</p>
-  <p><strong>c)</strong></p>
+
+  <h4>Inciso c &mdash; Antes de las 20 horas</h4>
+  <p>Es fallar antes, la acumulada:</p>
   <p>\[ P(X \leq x) = 1 - e^{-x/\beta} \]</p>
   <p>\[ P(X &lt; 20) = 1 - e^{-20/50} = 1 - e^{-0{,}4} = 1 - 0{,}6703 = 0{,}3297 \]</p>
+
   <div class="caja caja-resp">
     <span class="caja-tit">Respuesta</span>
     <p>a) 50 horas. b) 13,53&nbsp;%. c) 32,97&nbsp;%.</p>

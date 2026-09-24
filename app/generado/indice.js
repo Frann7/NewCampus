@@ -127,6 +127,10 @@ window.Apuntes.registrarIndice({
         }
       ],
       "material": {
+        "u4": [
+          "resumen",
+          "tablas"
+        ],
         "u5": [
           "resumen",
           "tablas"
@@ -140,6 +144,11 @@ window.Apuntes.registrarIndice({
           "icph"
         ],
         "evaluacion": [
+          "resumen",
+          "tablas",
+          "icph"
+        ],
+        "ruta": [
           "resumen",
           "tablas",
           "icph"
@@ -195,5 +204,5 @@ window.Apuntes.registrarIndice({
       "unidades": []
     }
   ],
-  "construido": "2026-09-24 19:54:15"
+  "construido": "2026-09-24 20:09:47"
 });

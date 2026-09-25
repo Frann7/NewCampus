@@ -41,6 +41,15 @@
       </ul>
       <div class="p-pista"><p>El enunciado dice &ldquo;sin repetir&rdquo;.</p></div>
       <div class="p-explicacion"><p>Sin reposición: cada archivo que sale cambia la composición de lo que queda.</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> saber si el script puede elegir el mismo archivo más de una vez (con reposición) o no (sin reposición). Eso decide qué modelo usar.</p>
+        <ol>
+          <li><strong>Buscar la frase.</strong> El enunciado dice que el script &ldquo;elige 5 archivos al azar, sin repetir&rdquo;.</li>
+          <li><strong>Traducir.</strong> &ldquo;Sin repetir&rdquo; quiere decir que un archivo que ya salió no vuelve al grupo: es un muestreo <strong>sin reposición</strong>.</li>
+          <li><strong>Descartar las tentadoras.</strong> &ldquo;Con reposición&rdquo; contradice &ldquo;sin repetir&rdquo;. &ldquo;No se puede saber&rdquo; está mal porque el enunciado lo dice explícitamente.</li>
+        </ol>
+        <p><strong>Qué significa:</strong> cada archivo elegido cambia lo que queda para las siguientes elecciones. Eso va a importar para elegir el modelo.</p>
+      </div>
     </li>
     <li data-inciso="a" data-nivel="principiante" data-respuesta="0,2727">
       <div class="p-consigna"><p>Si el primer archivo elegido tiene errores críticos, ¿cuál es la probabilidad de que el segundo también los tenga?</p></div>
@@ -50,6 +59,16 @@
           Quedan 3 con errores entre 11: \(3/11 = 0{,}2727\). El primero los tenía con \(4/12 = 0{,}3333\):
           la probabilidad <strong>cambió</strong>, así que no es Binomial.
         </p>
+      </div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> ver cómo cambia la probabilidad de sacar un archivo con errores después de que ya salió uno con errores. Sirve para ver si la probabilidad es constante o no.</p>
+        <ol>
+          <li><strong>Los datos.</strong> Hay &ldquo;12 archivos de log&rdquo; y &ldquo;4 registran errores críticos&rdquo;.</li>
+          <li><strong>Primera elección.</strong> La probabilidad de que el primero tenga errores es casos favorables sobre casos posibles: \(\frac{4}{12} = 0{,}3333\).</li>
+          <li><strong>Qué queda.</strong> Si el primero tenía errores y no se repone (&ldquo;sin repetir&rdquo;), quedan \(12 - 1 = 11\) archivos, de los cuales \(4 - 1 = 3\) tienen errores.</li>
+          <li><strong>Segunda elección.</strong> \(P(\text{2.º con errores} \mid \text{1.º con errores}) = \frac{3}{11} = 0{,}2727\).</li>
+        </ol>
+        <p><strong>Qué significa:</strong> la probabilidad pasó de 0,3333 a 0,2727: <strong>no es constante</strong>. Por eso no se puede usar la Binomial, que la necesita fija.</p>
       </div>
     </li>
     <li data-inciso="a" data-nivel="medio">
@@ -62,21 +81,54 @@
       </ul>
       <div class="p-pista"><p>Binomial pide \(p\) constante. Recién viste que acá pasa de \(4/12\) a \(3/11\).</p></div>
       <div class="p-explicacion"><p>Hipergeométrica: el enunciado da un total concreto (12 archivos, 4 con errores) y se elige sin reposición.</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> elegir el modelo de probabilidad para \(X\), la &ldquo;cantidad de archivos elegidos que registran errores críticos&rdquo;.</p>
+        <ol>
+          <li><strong>Población finita en dos grupos.</strong> Hay un total concreto: 12 archivos, divididos en 4 con errores críticos y \(12 - 4 = 8\) sin errores.</li>
+          <li><strong>Muestra sin reposición.</strong> Se eligen 5 &ldquo;sin repetir&rdquo;, así que la probabilidad cambia en cada elección (por ejemplo, de \(\frac{4}{12}\) a \(\frac{3}{11}\) si el primero tenía errores).</li>
+          <li><strong>Conclusión.</strong> Población finita en dos grupos + muestra sin reposición + se cuentan los de un grupo: es el modelo <strong>Hipergeométrico</strong>.</li>
+          <li><strong>Descartar las tentadoras.</strong> Binomial con \(p = 4/12\) necesita \(p\) constante, y acá cambia. Poisson cuenta ocurrencias en un intervalo de tiempo o espacio, no elecciones de una lista. Binomial con \(n = 12\) confunde la población con las pruebas.</li>
+        </ol>
+        <p><strong>Qué significa:</strong> \(X\) es Hipergeométrica.</p>
+      </div>
     </li>
     <li data-inciso="a" data-nivel="principiante" data-respuesta="12">
       <div class="p-consigna"><p>\(N\) es el tamaño de la población. ¿Cuánto vale?</p></div>
       <div class="p-pista"><p>¿Cuántos archivos hay en total?</p></div>
       <div class="p-explicacion"><p>\(N = 12\) archivos de log.</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> el valor de \(N\), el tamaño de la población, es decir, cuántos elementos hay en total antes de elegir.</p>
+        <ol>
+          <li><strong>Sacarlo del enunciado.</strong> &ldquo;Un servidor guarda los 12 archivos de log del día&rdquo;: de ahí se eligen, así que \(N = 12\).</li>
+        </ol>
+        <p><strong>Qué significa:</strong> el total del que sale la muestra son 12 archivos.</p>
+      </div>
     </li>
     <li data-inciso="a" data-nivel="principiante" data-respuesta="4">
       <div class="p-consigna"><p>\(k\) es la cantidad de &ldquo;éxitos&rdquo; en la población (lo que cuenta \(X\)). ¿Cuánto vale?</p></div>
       <div class="p-pista"><p>\(X\) cuenta archivos con errores críticos.</p></div>
       <div class="p-explicacion"><p>\(k = 4\) archivos con errores críticos (y \(N - k = 8\) sin ellos).</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> el valor de \(k\), cuántos &ldquo;éxitos&rdquo; hay en la población. &ldquo;Éxito&rdquo; es lo que cuenta \(X\).</p>
+        <ol>
+          <li><strong>Qué es éxito.</strong> \(X\) es la &ldquo;cantidad de archivos elegidos que registran errores críticos&rdquo;, así que éxito = archivo con errores críticos.</li>
+          <li><strong>Cuántos hay.</strong> &ldquo;De los cuales 4 registran errores críticos&rdquo;: \(k = 4\).</li>
+          <li><strong>El otro grupo.</strong> Los que no tienen errores son \(N - k = 12 - 4 = 8\).</li>
+        </ol>
+        <p><strong>Qué significa:</strong> de los 12 archivos, 4 tienen errores y 8 no.</p>
+      </div>
     </li>
     <li data-inciso="a" data-nivel="principiante" data-respuesta="5">
       <div class="p-consigna"><p>\(n\) es el tamaño de la muestra. ¿Cuánto vale?</p></div>
       <div class="p-pista"><p>¿Cuántos archivos elige el script?</p></div>
       <div class="p-explicacion"><p>\(n = 5\) archivos elegidos.</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> el valor de \(n\), el tamaño de la muestra, es decir, cuántos archivos se eligen.</p>
+        <ol>
+          <li><strong>Sacarlo del enunciado.</strong> &ldquo;Un script de auditoría elige 5 archivos al azar&rdquo;: \(n = 5\).</li>
+        </ol>
+        <p><strong>Qué significa:</strong> se revisan 5 de los 12 archivos. Ojo con no confundir \(n = 5\) (la muestra) con \(N = 12\) (el total).</p>
+      </div>
     </li>
     <li data-inciso="a" data-nivel="avanzado">
       <div class="p-consigna"><p>¿Qué distribución sigue \(X\), con sus parámetros?</p></div>
@@ -93,16 +145,43 @@
           \(P(X = x) = \dfrac{\binom{4}{x}\binom{8}{5-x}}{\binom{12}{5}}\).
         </p>
       </div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> nombrar la distribución de \(X\) (&ldquo;cantidad de archivos elegidos que registran errores críticos&rdquo;) con sus tres parámetros.</p>
+        <ol>
+          <li><strong>El modelo.</strong> Hay una población finita dividida en dos grupos (con y sin errores) y se elige &ldquo;sin repetir&rdquo;: la probabilidad cambia en cada elección (\(\frac{4}{12}\), después \(\frac{3}{11}\)...), así que no es Binomial sino <strong>Hipergeométrica</strong>.</li>
+          <li><strong>Los parámetros.</strong> \(N\) = tamaño de la población = 12 (&ldquo;los 12 archivos de log&rdquo;). \(k\) = éxitos en la población = 4 (&ldquo;4 registran errores críticos&rdquo;). \(n\) = tamaño de la muestra = 5 (&ldquo;elige 5 archivos&rdquo;).</li>
+          <li><strong>La fórmula general.</strong> \(P(X = x) = \dfrac{\binom{k}{x}\binom{N-k}{n-x}}{\binom{N}{n}}\): arriba, las formas de elegir \(x\) éxitos de los \(k\) y los \(n - x\) restantes de los \(N - k\) fracasos; abajo, todas las formas de elegir \(n\) de \(N\).</li>
+          <li><strong>Con los números.</strong> \(P(X = x) = \dfrac{\binom{4}{x}\binom{8}{5-x}}{\binom{12}{5}}\).</li>
+        </ol>
+        <p><strong>Qué significa:</strong> \(X \sim H(N = 12,\ k = 4,\ n = 5)\). Las opciones con \(k\) y \(n\) cambiados, o con \(N = 5\), mezclan los papeles de los números. La Binomial no va porque no hay reposición.</p>
+      </div>
     </li>
     <li data-inciso="a" data-nivel="medio" data-respuesta="0">
       <div class="p-consigna"><p>¿Cuál es el <strong>menor</strong> valor que puede tomar \(X\)?</p></div>
       <div class="p-pista"><p>Mínimo: \(\max(0,\ n - (N-k))\). ¿Pueden ser los 5 elegidos archivos sin errores?</p></div>
       <div class="p-explicacion"><p>\(\max(0,\ 5 - 8) = 0\). Hay 8 archivos sin errores, así que los 5 elegidos pueden ser todos limpios.</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> el valor más chico que puede tomar \(X\), la cantidad de archivos con errores entre los 5 elegidos.</p>
+        <ol>
+          <li><strong>La idea.</strong> \(X\) puede valer 0 solo si alcanza con archivos sin errores para llenar toda la muestra. Si no alcanzan, a la fuerza entra alguno con errores.</li>
+          <li><strong>La fórmula.</strong> Mínimo \(= \max(0,\ n - (N - k))\), con \(n = 5\) elegidos, \(N = 12\) archivos y \(k = 4\) con errores, así que \(N - k = 8\) sin errores.</li>
+          <li><strong>La cuenta.</strong> \(\max(0,\ 5 - 8) = \max(0,\ -3) = 0\).</li>
+        </ol>
+        <p><strong>Qué significa:</strong> como hay 8 archivos limpios y se eligen solo 5, los 5 pueden ser todos limpios: \(X\) puede valer 0.</p>
+      </div>
     </li>
     <li data-inciso="a" data-nivel="medio" data-respuesta="4">
       <div class="p-consigna"><p>¿Cuál es el <strong>mayor</strong> valor que puede tomar \(X\)?</p></div>
       <div class="p-pista"><p>Máximo: \(\min(k,\ n)\). Se eligen 5, pero ¿cuántos con errores hay?</p></div>
       <div class="p-explicacion"><p>\(\min(4,\ 5) = 4\). No puede haber 5 archivos con errores si solo hay 4.</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> el valor más grande que puede tomar \(X\), la cantidad de archivos con errores entre los 5 elegidos.</p>
+        <ol>
+          <li><strong>La idea.</strong> No puede haber más archivos con errores que los que se eligen (\(n = 5\)), ni más que los que existen (\(k = 4\), &ldquo;4 registran errores críticos&rdquo;).</li>
+          <li><strong>La fórmula.</strong> Máximo \(= \min(k,\ n) = \min(4,\ 5) = 4\).</li>
+        </ol>
+        <p><strong>Qué significa:</strong> aunque se elijan 5, a lo sumo 4 tienen errores, porque solo hay 4 así.</p>
+      </div>
     </li>
     <li data-inciso="a" data-nivel="avanzado">
       <div class="p-consigna"><p>¿Para qué valores de \(X\) es válida la distribución?</p></div>
@@ -114,6 +193,16 @@
       </ul>
       <div class="p-pista"><p>\(\max(0,\ n-(N-k)) \leq x \leq \min(k,\ n)\).</p></div>
       <div class="p-explicacion"><p>De \(\max(0,\ 5-8) = 0\) a \(\min(4,\ 5) = 4\). El recorrido se corta arriba: no hay 5 archivos con errores.</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> la lista de valores que puede tomar \(X\) (el recorrido), para decir dónde vale la fórmula.</p>
+        <ol>
+          <li><strong>Los parámetros.</strong> \(N = 12\) archivos, \(k = 4\) con errores (así que \(N - k = 8\) sin errores) y \(n = 5\) elegidos.</li>
+          <li><strong>El mínimo.</strong> \(\max(0,\ n - (N - k)) = \max(0,\ 5 - 8) = 0\): hay 8 archivos limpios, alcanzan para llenar los 5 lugares, así que puede no salir ninguno con errores.</li>
+          <li><strong>El máximo.</strong> \(\min(k,\ n) = \min(4,\ 5) = 4\): solo hay 4 archivos con errores.</li>
+          <li><strong>El recorrido.</strong> Todos los enteros entre el mínimo y el máximo: \(x = 0, 1, 2, 3, 4\).</li>
+        </ol>
+        <p><strong>Qué significa:</strong> la fórmula vale para \(x = 0, 1, 2, 3, 4\). Incluir el 5 es el error típico: se eligen 5, pero no hay 5 con errores. Sacar el 0 también está mal, y \(0, \ldots, 12\) confunde con la población.</p>
+      </div>
     </li>
 
     <!-- ===== Inciso b: exactamente 2 ===== -->
@@ -127,26 +216,70 @@
       </ul>
       <div class="p-pista"><p>&ldquo;Exactamente&rdquo; es un valor puntual.</p></div>
       <div class="p-explicacion"><p>\(P(X = 2)\).</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> traducir &ldquo;exactamente 2 de los archivos elegidos registren errores críticos&rdquo; a una probabilidad con \(X\).</p>
+        <ol>
+          <li><strong>Traducir.</strong> \(X\) cuenta archivos con errores entre los elegidos. &ldquo;Exactamente 2&rdquo; es un solo valor, ni más ni menos: \(P(X = 2)\).</li>
+          <li><strong>Descartar las tentadoras.</strong> \(P(X \leq 2)\) sería &ldquo;a lo sumo 2&rdquo; y \(P(X \geq 2)\) &ldquo;al menos 2&rdquo;.</li>
+        </ol>
+        <p><strong>Qué significa:</strong> se pide la probabilidad de un valor puntual, \(P(X = 2)\).</p>
+      </div>
     </li>
     <li data-inciso="b" data-nivel="principiante" data-respuesta="6">
       <div class="p-consigna"><p>Calculá \(\binom{4}{2}\): formas de elegir 2 de los 4 archivos con errores.</p></div>
       <div class="p-pista"><p>\(\frac{4 \cdot 3}{2 \cdot 1}\).</p></div>
       <div class="p-explicacion"><p>\(\binom{4}{2} = 6\).</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> de cuántas maneras se pueden elegir 2 archivos entre los 4 que tienen errores.</p>
+        <ol>
+          <li><strong>Qué es el combinatorio.</strong> \(\binom{a}{b} = \frac{a!}{b!\,(a-b)!}\) cuenta de cuántas formas se eligen \(b\) cosas de \(a\), sin importar el orden. Acá \(a = 4\) (los &ldquo;4 [que] registran errores críticos&rdquo;) y \(b = 2\) (los 2 con errores que se piden).</li>
+          <li><strong>La cuenta.</strong> \(\binom{4}{2} = \frac{4!}{2!\,2!} = \frac{4 \cdot 3}{2 \cdot 1} = \frac{12}{2} = 6\).</li>
+        </ol>
+        <p><strong>Qué significa:</strong> hay 6 parejas distintas de archivos con errores que pueden salir.</p>
+      </div>
     </li>
     <li data-inciso="b" data-nivel="principiante" data-respuesta="56">
       <div class="p-consigna"><p>Si 2 de los 5 tienen errores, los otros 3 salen de los 8 sin errores. Calculá \(\binom{8}{3}\).</p></div>
       <div class="p-pista"><p>\(\frac{8 \cdot 7 \cdot 6}{3 \cdot 2 \cdot 1}\).</p></div>
       <div class="p-explicacion"><p>\(\binom{8}{3} = 56\).</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> de cuántas maneras se completan los otros lugares de la muestra con archivos sin errores.</p>
+        <ol>
+          <li><strong>Cuántos lugares quedan.</strong> Se eligen \(n = 5\) y 2 ya son con errores, así que quedan \(5 - 2 = 3\) lugares.</li>
+          <li><strong>De dónde salen.</strong> De los archivos sin errores: \(N - k = 12 - 4 = 8\).</li>
+          <li><strong>La cuenta.</strong> \(\binom{8}{3} = \frac{8 \cdot 7 \cdot 6}{3 \cdot 2 \cdot 1} = \frac{336}{6} = 56\).</li>
+        </ol>
+        <p><strong>Qué significa:</strong> hay 56 formas de elegir los 3 archivos limpios que acompañan a los 2 con errores.</p>
+      </div>
     </li>
     <li data-inciso="b" data-nivel="medio" data-respuesta="792">
       <div class="p-consigna"><p>Calculá el denominador \(\binom{12}{5}\): todas las formas de elegir 5 archivos de 12.</p></div>
       <div class="p-pista"><p>En la calculadora: 12 nCr 5.</p></div>
       <div class="p-explicacion"><p>\(\binom{12}{5} = 792\). Es el mismo denominador para todos los valores de \(x\).</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> el denominador de la fórmula: cuántas muestras distintas de 5 archivos se pueden armar con los 12. Son los casos posibles.</p>
+        <ol>
+          <li><strong>Los datos.</strong> \(N = 12\) (&ldquo;12 archivos de log&rdquo;) y \(n = 5\) (&ldquo;elige 5 archivos&rdquo;).</li>
+          <li><strong>La fórmula.</strong> \(\binom{N}{n} = \frac{N!}{n!\,(N-n)!}\). Con los números: \(\binom{12}{5} = \frac{12 \cdot 11 \cdot 10 \cdot 9 \cdot 8}{5 \cdot 4 \cdot 3 \cdot 2 \cdot 1}\).</li>
+          <li><strong>La cuenta.</strong> Arriba da \(95\,040\) y abajo \(120\): \(\frac{95\,040}{120} = 792\). En la calculadora: 12 nCr 5.</li>
+        </ol>
+        <p><strong>Qué significa:</strong> hay 792 muestras posibles de 5 archivos. Es el mismo denominador para cualquier valor de \(x\).</p>
+      </div>
     </li>
     <li data-inciso="b" data-nivel="avanzado" data-respuesta="0,4242">
       <div class="p-consigna"><p>Calculá \(P(X = 2)\).</p></div>
       <div class="p-pista"><p>\(\dfrac{\binom{4}{2}\binom{8}{3}}{\binom{12}{5}} = \dfrac{6 \cdot 56}{792}\).</p></div>
       <div class="p-explicacion"><p>\(P(X = 2) = \frac{6 \cdot 56}{792} = \frac{336}{792} = 0{,}4242\).</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> la probabilidad de que, de los 5 archivos elegidos, exactamente 2 registren errores críticos: \(P(X = 2)\).</p>
+        <ol>
+          <li><strong>El modelo.</strong> \(X\) es Hipergeométrica (se elige &ldquo;sin repetir&rdquo; de un total conocido) con \(N = 12\) archivos, \(k = 4\) con errores (quedan \(N - k = 8\) sin errores) y \(n = 5\) elegidos.</li>
+          <li><strong>La fórmula general.</strong> \(P(X = x) = \dfrac{\binom{k}{x}\binom{N-k}{n-x}}{\binom{N}{n}}\): casos favorables (elegir \(x\) con errores y \(n - x\) sin errores) sobre casos posibles. Con \(x = 2\): \(P(X = 2) = \dfrac{\binom{4}{2}\binom{8}{3}}{\binom{12}{5}}\).</li>
+          <li><strong>Los combinatorios.</strong> \(\binom{4}{2} = \frac{4 \cdot 3}{2} = 6\) (elegir 2 de los 4 con errores). \(\binom{8}{3} = \frac{8 \cdot 7 \cdot 6}{6} = 56\) (los otros \(5 - 2 = 3\), de los 8 limpios). \(\binom{12}{5} = 792\) (todas las muestras de 5).</li>
+          <li><strong>La cuenta.</strong> \(P(X = 2) = \frac{6 \cdot 56}{792} = \frac{336}{792} = 0{,}4242\).</li>
+        </ol>
+        <p><strong>Qué significa:</strong> hay un 42,42&nbsp;% de chances de que justo 2 de los 5 archivos revisados tengan errores críticos. Control: da entre 0 y 1.</p>
+      </div>
     </li>
 
     <!-- ===== Inciso c: al menos 2 por complemento ===== -->
@@ -165,6 +298,15 @@
         </p>
       </div>
       <div class="p-explicacion"><p>\(P(X \geq 2) = 1 - P(X \leq 1) = 1 - P(X = 0) - P(X = 1)\).</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> escribir &ldquo;al menos 2 de los archivos elegidos registren errores críticos&rdquo; de la forma más corta de calcular.</p>
+        <ol>
+          <li><strong>Traducir &ldquo;al menos 2&rdquo;.</strong> Es 2 o más. Como \(X\) solo llega hasta 4 (hay solo 4 archivos con errores), entran \(x = 2, 3, 4\).</li>
+          <li><strong>Complemento.</strong> Las probabilidades de todo el recorrido (\(x = 0, 1, 2, 3, 4\)) suman 1. Lo contrario de &ldquo;2 o más&rdquo; es &ldquo;0 o 1&rdquo;. Entonces \(P(X \geq 2) = 1 - P(X = 0) - P(X = 1)\).</li>
+          <li><strong>Descartar las tentadoras.</strong> La suma que incluye \(P(X = 5)\) usa un valor imposible. Restar también \(P(X = 2)\) saca un valor que sí entra. \(1 - P(X = 2)\) es &ldquo;distinto de 2&rdquo;.</li>
+        </ol>
+        <p><strong>Qué significa:</strong> hay que calcular \(P(X = 0)\) y \(P(X = 1)\) y restarlos de 1.</p>
+      </div>
     </li>
     <li data-inciso="c" data-nivel="principiante">
       <div class="p-consigna"><p>¿Por qué acá conviene el complemento?</p></div>
@@ -176,26 +318,74 @@
       </ul>
       <div class="p-pista"><p>La hipergeométrica no tiene tabla acumulada: contá cuántas cuentas pide cada camino.</p></div>
       <div class="p-explicacion"><p>El complemento pide \(P(0)\) y \(P(1)\); el directo, \(P(2)\), \(P(3)\) y \(P(4)\). Gana el más corto.</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> entender por qué para &ldquo;al menos 2&rdquo; conviene restar de 1 en lugar de sumar directamente.</p>
+        <ol>
+          <li><strong>Camino directo.</strong> \(P(X \geq 2) = P(X = 2) + P(X = 3) + P(X = 4)\): 3 cuentas con la fórmula (el recorrido llega hasta 4, porque hay solo 4 archivos con errores).</li>
+          <li><strong>Complemento.</strong> \(P(X \geq 2) = 1 - P(X = 0) - P(X = 1)\): 2 cuentas.</li>
+          <li><strong>Por qué importa contar.</strong> La Hipergeométrica no tiene tabla acumulada: cada término se calcula a mano con combinatorios. Gana el camino con menos términos.</li>
+          <li><strong>Descartar las tentadoras.</strong> &ldquo;Siempre hay que usarlo&rdquo; es falso: se usa solo cuando es más corto. &ldquo;Está en la tabla&rdquo; es falso: no hay tabla para la Hipergeométrica. &ldquo;Infinitos términos&rdquo; es falso: el recorrido es finito.</li>
+        </ol>
+        <p><strong>Qué significa:</strong> se elige el complemento porque ahorra una cuenta.</p>
+      </div>
     </li>
     <li data-inciso="c" data-nivel="principiante" data-respuesta="56">
       <div class="p-consigna"><p>Casos favorables de \(X = 0\): calculá \(\binom{4}{0}\binom{8}{5}\).</p></div>
       <div class="p-pista"><p>\(\binom{4}{0} = 1\) (ninguno con errores) y los 5 salen de los 8 sin errores.</p></div>
       <div class="p-explicacion"><p>\(\binom{4}{0}\binom{8}{5} = 1 \cdot 56 = 56\).</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> los casos favorables de \(X = 0\): de cuántas formas se eligen 5 archivos sin que ninguno tenga errores.</p>
+        <ol>
+          <li><strong>Del grupo con errores.</strong> Se eligen 0 de los 4 con errores: \(\binom{4}{0} = 1\) (una sola forma: no elegir ninguno).</li>
+          <li><strong>Del grupo sin errores.</strong> Los 5 salen de los \(12 - 4 = 8\) sin errores: \(\binom{8}{5} = \frac{8 \cdot 7 \cdot 6 \cdot 5 \cdot 4}{5 \cdot 4 \cdot 3 \cdot 2 \cdot 1} = \frac{6720}{120} = 56\).</li>
+          <li><strong>El producto.</strong> \(\binom{4}{0}\binom{8}{5} = 1 \cdot 56 = 56\).</li>
+        </ol>
+        <p><strong>Qué significa:</strong> hay 56 muestras de 5 archivos todos limpios.</p>
+      </div>
     </li>
     <li data-inciso="c" data-nivel="medio" data-respuesta="0,0707">
       <div class="p-consigna"><p>Calculá \(P(X = 0)\).</p></div>
       <div class="p-pista"><p>\(\dfrac{\binom{4}{0}\binom{8}{5}}{\binom{12}{5}}\).</p></div>
       <div class="p-explicacion"><p>\(P(X = 0) = \frac{56}{792} = 0{,}0707\).</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> la probabilidad de que ninguno de los 5 archivos elegidos tenga errores críticos, \(P(X = 0)\).</p>
+        <ol>
+          <li><strong>La fórmula.</strong> Hipergeométrica: \(P(X = x) = \dfrac{\binom{k}{x}\binom{N-k}{n-x}}{\binom{N}{n}}\), con \(N = 12\) archivos, \(k = 4\) con errores, \(N - k = 8\) sin errores y \(n = 5\) elegidos. Con \(x = 0\): \(P(X = 0) = \dfrac{\binom{4}{0}\binom{8}{5}}{\binom{12}{5}}\).</li>
+          <li><strong>Arriba.</strong> \(\binom{4}{0} = 1\) y \(\binom{8}{5} = 56\): hay \(1 \cdot 56 = 56\) casos favorables.</li>
+          <li><strong>Abajo.</strong> \(\binom{12}{5} = 792\) muestras posibles.</li>
+          <li><strong>La cuenta.</strong> \(P(X = 0) = \frac{56}{792} = 0{,}0707\).</li>
+        </ol>
+        <p><strong>Qué significa:</strong> hay un 7,07&nbsp;% de chances de que el script no encuentre ningún archivo con errores.</p>
+      </div>
     </li>
     <li data-inciso="c" data-nivel="principiante" data-respuesta="280">
       <div class="p-consigna"><p>Casos favorables de \(X = 1\): calculá \(\binom{4}{1}\binom{8}{4}\).</p></div>
       <div class="p-pista"><p>1 de los 4 con errores y 4 de los 8 sin errores. \(\binom{8}{4} = 70\).</p></div>
       <div class="p-explicacion"><p>\(\binom{4}{1}\binom{8}{4} = 4 \cdot 70 = 280\).</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> los casos favorables de \(X = 1\): de cuántas formas se eligen 5 archivos con exactamente 1 con errores.</p>
+        <ol>
+          <li><strong>Del grupo con errores.</strong> Se elige 1 de los 4: \(\binom{4}{1} = 4\).</li>
+          <li><strong>Del grupo sin errores.</strong> Los otros \(5 - 1 = 4\) salen de los 8 limpios: \(\binom{8}{4} = \frac{8 \cdot 7 \cdot 6 \cdot 5}{4 \cdot 3 \cdot 2 \cdot 1} = \frac{1680}{24} = 70\).</li>
+          <li><strong>El producto.</strong> Cada elección de un grupo se combina con cada elección del otro: \(4 \cdot 70 = 280\).</li>
+        </ol>
+        <p><strong>Qué significa:</strong> hay 280 muestras con exactamente 1 archivo con errores.</p>
+      </div>
     </li>
     <li data-inciso="c" data-nivel="medio" data-respuesta="0,3535">
       <div class="p-consigna"><p>Calculá \(P(X = 1)\).</p></div>
       <div class="p-pista"><p>\(\dfrac{\binom{4}{1}\binom{8}{4}}{\binom{12}{5}}\).</p></div>
       <div class="p-explicacion"><p>\(P(X = 1) = \frac{280}{792} = 0{,}3535\).</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> la probabilidad de que exactamente 1 de los 5 archivos elegidos tenga errores críticos, \(P(X = 1)\).</p>
+        <ol>
+          <li><strong>La fórmula.</strong> Hipergeométrica con \(N = 12\), \(k = 4\), \(n = 5\) (y \(N - k = 8\) limpios): \(P(X = 1) = \dfrac{\binom{4}{1}\binom{8}{4}}{\binom{12}{5}}\).</li>
+          <li><strong>Arriba.</strong> \(\binom{4}{1} = 4\) (el archivo con errores) y \(\binom{8}{4} = 70\) (los otros 4, limpios): \(4 \cdot 70 = 280\).</li>
+          <li><strong>Abajo.</strong> \(\binom{12}{5} = 792\).</li>
+          <li><strong>La cuenta.</strong> \(P(X = 1) = \frac{280}{792} = 0{,}3535\).</li>
+        </ol>
+        <p><strong>Qué significa:</strong> hay un 35,35&nbsp;% de chances de que salga justo un archivo con errores.</p>
+      </div>
     </li>
     <li data-inciso="c" data-nivel="avanzado" data-respuesta="0,5758">
       <div class="p-consigna"><p>Calculá \(P(X \geq 2)\).</p></div>
@@ -204,6 +394,18 @@
         <p>
           \(P(X \geq 2) = 1 - \frac{56}{792} - \frac{280}{792} = \frac{456}{792} = 0{,}5758\).
         </p>
+      </div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> la probabilidad de que al menos 2 de los 5 archivos elegidos registren errores críticos, \(P(X \geq 2)\).</p>
+        <ol>
+          <li><strong>El modelo.</strong> \(X\) es Hipergeométrica: se eligen \(n = 5\) archivos &ldquo;sin repetir&rdquo; de \(N = 12\), de los cuales \(k = 4\) tienen errores y \(N - k = 8\) no. Su fórmula es \(P(X = x) = \dfrac{\binom{k}{x}\binom{N-k}{n-x}}{\binom{N}{n}}\), válida para \(x = 0, 1, 2, 3, 4\).</li>
+          <li><strong>Traducir y usar el complemento.</strong> &ldquo;Al menos 2&rdquo; es \(x = 2, 3, 4\) (3 términos). Lo contrario es \(x = 0, 1\) (2 términos), y como todo suma 1: \(P(X \geq 2) = 1 - P(X = 0) - P(X = 1)\).</li>
+          <li><strong>El denominador.</strong> \(\binom{12}{5} = 792\) muestras posibles.</li>
+          <li><strong>\(P(X = 0)\).</strong> \(\dfrac{\binom{4}{0}\binom{8}{5}}{792} = \frac{1 \cdot 56}{792} = 0{,}0707\).</li>
+          <li><strong>\(P(X = 1)\).</strong> \(\dfrac{\binom{4}{1}\binom{8}{4}}{792} = \frac{4 \cdot 70}{792} = \frac{280}{792} = 0{,}3535\).</li>
+          <li><strong>La cuenta.</strong> \(P(X \geq 2) = 1 - \frac{56}{792} - \frac{280}{792} = \frac{792 - 336}{792} = \frac{456}{792} = 0{,}5758\).</li>
+        </ol>
+        <p><strong>Qué significa:</strong> hay un 57,58&nbsp;% de chances de que el script encuentre 2 o más archivos con errores. Control: es mayor que \(P(X = 2) = 0{,}4242\), como debe ser, porque además incluye \(x = 3\) y \(x = 4\).</p>
       </div>
     </li>
   </ol>

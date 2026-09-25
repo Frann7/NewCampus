@@ -43,6 +43,16 @@
       </ul>
       <div class="p-pista"><p>Se eligen 6 piezas <em>distintas</em> para armar un producto. ¿Puede la misma pieza usarse dos veces?</p></div>
       <div class="p-explicacion"><p>Sin reposición: las 6 piezas son distintas, así que cada una que sale cambia lo que queda en el lote.</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> saber si las 6 piezas se eligen con reposición (una pieza puede salir dos veces) o sin reposición (no puede). Eso decide el modelo.</p>
+        <ol>
+          <li><strong>Buscar la frase.</strong> &ldquo;De las 10 piezas se eligen 6 al azar para utilizarse en el armado de un producto&rdquo;.</li>
+          <li><strong>Razonarlo.</strong> Una pieza que se usa en el armado no puede usarse dos veces: las 6 son piezas distintas. Una vez elegida, la pieza sale del lote.</li>
+          <li><strong>Conclusión.</strong> Es un muestreo <strong>sin reposición</strong>.</li>
+          <li><strong>Descartar las tentadoras.</strong> &ldquo;Con reposición&rdquo; implicaría poder usar la misma pieza dos veces. &ldquo;De lotes distintos&rdquo; no es lo que dice el enunciado: las 10 piezas se juntan en un solo lote.</li>
+        </ol>
+        <p><strong>Qué significa:</strong> cada pieza elegida cambia la composición de lo que queda.</p>
+      </div>
     </li>
     <li data-inciso="a" data-nivel="principiante" data-respuesta="0,4444">
       <div class="p-consigna"><p>Si la primera pieza elegida fue de A, ¿cuál es la probabilidad de que la segunda también sea de A?</p></div>
@@ -53,6 +63,16 @@
           la probabilidad <strong>cambió</strong> de una extracción a otra. Por eso no es binomial
           (que pide \(p\) constante).
         </p>
+      </div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> ver cómo cambia la probabilidad de sacar una pieza de A después de que ya salió una de A. Sirve para saber si la probabilidad es constante.</p>
+        <ol>
+          <li><strong>Los datos.</strong> Se junta &ldquo;un lote de 5 piezas de cada uno de los proveedores&rdquo;: 5 de A y 5 de B, 10 en total.</li>
+          <li><strong>Primera elección.</strong> La probabilidad de que la primera sea de A es casos favorables sobre casos posibles: \(\frac{5}{10} = 0{,}5\).</li>
+          <li><strong>Qué queda.</strong> Si salió una de A y no vuelve (sin reposición), quedan \(10 - 1 = 9\) piezas, de las cuales \(5 - 1 = 4\) son de A.</li>
+          <li><strong>Segunda elección.</strong> \(P(\text{2.ª de A} \mid \text{1.ª de A}) = \frac{4}{9} = 0{,}4444\).</li>
+        </ol>
+        <p><strong>Qué significa:</strong> la probabilidad pasó de 0,5 a 0,4444: <strong>no es constante</strong>. Por eso no sirve la Binomial.</p>
       </div>
     </li>
     <li data-inciso="a" data-nivel="medio">
@@ -70,21 +90,54 @@
           se saca sin reposición. Una binomial \(Bi(6;\ 0{,}5)\) daría números parecidos pero distintos.
         </p>
       </div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> elegir el modelo para \(X\), la &ldquo;cantidad de piezas elegidas [...] que son aportadas por el proveedor A&rdquo;.</p>
+        <ol>
+          <li><strong>Población finita en dos grupos.</strong> Hay un total concreto de 10 piezas: 5 de A y 5 de B.</li>
+          <li><strong>Muestra sin reposición.</strong> Se eligen 6 piezas distintas, así que la probabilidad de sacar una de A cambia en cada elección (por ejemplo, de \(\frac{5}{10}\) a \(\frac{4}{9}\)).</li>
+          <li><strong>Conclusión.</strong> Población finita en dos grupos + muestra sin reposición + se cuentan las de un grupo: modelo <strong>Hipergeométrico</strong>.</li>
+          <li><strong>Descartar las tentadoras.</strong> Las dos Binomiales fallan porque la Binomial exige \(p\) constante, y acá cambia. Que haya 5 y 5 da \(p = 0{,}5\) solo en la primera elección. Poisson cuenta ocurrencias en un intervalo de tiempo o espacio, no elecciones de un lote.</li>
+        </ol>
+        <p><strong>Qué significa:</strong> \(X\) es Hipergeométrica.</p>
+      </div>
     </li>
     <li data-inciso="a" data-nivel="principiante" data-respuesta="10">
       <div class="p-consigna"><p>\(N\) es el tamaño de la población. ¿Cuánto vale?</p></div>
       <div class="p-pista"><p>El lote se arma con 5 piezas de A y 5 de B, juntas.</p></div>
       <div class="p-explicacion"><p>\(N = 5 + 5 = 10\) piezas.</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> el valor de \(N\), el tamaño de la población: cuántas piezas hay en total antes de elegir.</p>
+        <ol>
+          <li><strong>Sacarlo del enunciado.</strong> Se extrae &ldquo;un lote de 5 piezas de cada uno de los proveedores y las junta&rdquo;: \(N = 5 + 5 = 10\). El enunciado lo confirma: &ldquo;de las 10 piezas&rdquo;.</li>
+        </ol>
+        <p><strong>Qué significa:</strong> la población son las 10 piezas juntas.</p>
+      </div>
     </li>
     <li data-inciso="a" data-nivel="principiante" data-respuesta="5">
       <div class="p-consigna"><p>\(k\) es la cantidad de &ldquo;éxitos&rdquo; en la población (lo que cuenta \(X\)). ¿Cuánto vale?</p></div>
       <div class="p-pista"><p>\(X\) cuenta piezas del proveedor A. ¿Cuántas de A hay en el lote?</p></div>
       <div class="p-explicacion"><p>\(k = 5\) piezas de A.</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> el valor de \(k\), cuántos &ldquo;éxitos&rdquo; hay en la población. Éxito es lo que cuenta \(X\).</p>
+        <ol>
+          <li><strong>Qué es éxito.</strong> \(X\) cuenta las piezas &ldquo;aportadas por el proveedor A&rdquo;: éxito = pieza de A.</li>
+          <li><strong>Cuántas hay.</strong> &ldquo;5 piezas de cada uno de los proveedores&rdquo;: de A hay \(k = 5\).</li>
+          <li><strong>El otro grupo.</strong> De B hay \(N - k = 10 - 5 = 5\).</li>
+        </ol>
+        <p><strong>Qué significa:</strong> de las 10 piezas, 5 son de A y 5 de B.</p>
+      </div>
     </li>
     <li data-inciso="a" data-nivel="principiante" data-respuesta="6">
       <div class="p-consigna"><p>\(n\) es el tamaño de la muestra. ¿Cuánto vale?</p></div>
       <div class="p-pista"><p>¿Cuántas piezas se eligen para el armado?</p></div>
       <div class="p-explicacion"><p>\(n = 6\) piezas elegidas.</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> el valor de \(n\), el tamaño de la muestra: cuántas piezas se eligen.</p>
+        <ol>
+          <li><strong>Sacarlo del enunciado.</strong> &ldquo;Se eligen 6 al azar para utilizarse en el armado&rdquo;: \(n = 6\).</li>
+        </ol>
+        <p><strong>Qué significa:</strong> se eligen 6 de las 10 piezas. Ojo: \(n = 6\) es la muestra y \(N = 10\) la población.</p>
+      </div>
     </li>
     <li data-inciso="a" data-nivel="avanzado">
       <div class="p-consigna"><p>¿Qué distribución sigue \(X\), con sus parámetros?</p></div>
@@ -101,13 +154,23 @@
           sin reposición, la probabilidad de sacar una de A cambia en cada extracción.
         </p>
       </div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> nombrar la distribución de \(X\) (&ldquo;cantidad de piezas elegidas [...] aportadas por el proveedor A&rdquo;) con sus parámetros.</p>
+        <ol>
+          <li><strong>El modelo.</strong> Hay un lote concreto de 10 piezas en dos grupos (A y B) y se eligen 6 piezas distintas, sin reposición. La probabilidad de sacar una de A cambia en cada elección (\(\frac{5}{10}\), después \(\frac{4}{9}\) si salió una de A), así que no es Binomial: es <strong>Hipergeométrica</strong>.</li>
+          <li><strong>\(N\), la población.</strong> &ldquo;5 piezas de cada uno&rdquo;, juntas: \(N = 10\).</li>
+          <li><strong>\(k\), los éxitos en la población.</strong> \(X\) cuenta piezas de A, y de A hay \(k = 5\).</li>
+          <li><strong>\(n\), la muestra.</strong> &ldquo;Se eligen 6 al azar&rdquo;: \(n = 6\).</li>
+        </ol>
+        <p><strong>Qué significa:</strong> \(X \sim H(N = 10,\ k = 5,\ n = 6)\). Las opciones con \(k = 6,\ n = 5\) o con \(N = 6\) mezclan los papeles de los números. \(Bi(6;\ 0{,}5)\) supondría reposición.</p>
+      </div>
     </li>
     <li data-inciso="a" data-nivel="avanzado">
       <div class="p-consigna"><p>¿Cuál es la fórmula de \(P(X = x)\)?</p></div>
       <ul class="p-opciones">
         <li data-correcta>\(\dfrac{\binom{5}{x}\binom{5}{6-x}}{\binom{10}{6}}\)</li>
         <li>\(\dfrac{\binom{5}{x}\binom{5}{6-x}}{\binom{10}{5}}\)</li>
-        <li>\(\dfrac{\binom{6}{x}\binom{4}{5-x}}{\binom{10}{5}}\)</li>
+        <li>\(\dfrac{\binom{6}{x}\binom{4}{6-x}}{\binom{10}{6}}\)</li>
         <li>\(\binom{6}{x}(0{,}5)^{x}(0{,}5)^{6-x}\)</li>
       </ul>
       <div class="p-pista">
@@ -121,6 +184,16 @@
           \(\binom{5}{x}\): formas de elegir \(x\) piezas de las 5 de A. \(\binom{5}{6-x}\): formas de
           completar las 6 con piezas de B. \(\binom{10}{6}\): todas las formas de elegir 6 piezas de 10.
         </p>
+      </div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> la fórmula de la probabilidad de que salgan exactamente \(x\) piezas de A entre las 6 elegidas.</p>
+        <ol>
+          <li><strong>El modelo y sus parámetros.</strong> Hipergeométrica con \(N = 10\) piezas (5 de A y 5 de B juntas), \(k = 5\) de A (lo que cuenta \(X\)) y \(n = 6\) elegidas.</li>
+          <li><strong>La fórmula general.</strong> \(P(X = x) = \dfrac{\binom{k}{x}\binom{N-k}{n-x}}{\binom{N}{n}}\). Es casos favorables sobre casos posibles: arriba, elegir \(x\) de los \(k\) éxitos y los \(n - x\) restantes de los \(N - k\) fracasos; abajo, todas las formas de elegir \(n\) de \(N\).</li>
+          <li><strong>Con los números.</strong> \(\binom{k}{x} = \binom{5}{x}\) (piezas de A). \(\binom{N-k}{n-x} = \binom{10-5}{6-x} = \binom{5}{6-x}\) (piezas de B que completan las 6). \(\binom{N}{n} = \binom{10}{6}\) (todas las formas de elegir 6 de 10). Queda \(P(X = x) = \dfrac{\binom{5}{x}\binom{5}{6-x}}{\binom{10}{6}}\).</li>
+          <li><strong>Las otras opciones.</strong> La segunda pone \(\binom{10}{5}\) abajo: la muestra es de 6, no de 5. La cuarta es una Binomial, que supone reposición. La tercera, \(\frac{\binom{6}{x}\binom{4}{6-x}}{\binom{10}{6}}\), usa \(k = 6\): confunde las 6 piezas <em>elegidas</em> con las 5 piezas de A (los éxitos). Por ejemplo, para \(x = 4\) daría \(\frac{15 \cdot 6}{210} = 0{,}4286\) en vez de \(\frac{5 \cdot 10}{210} = 0{,}2381\).</li>
+        </ol>
+        <p><strong>Qué significa:</strong> con esta fórmula se calcula cualquier \(P(X = x)\) del ejercicio; el denominador \(\binom{10}{6}\) es siempre el mismo.</p>
       </div>
     </li>
     <li data-inciso="a" data-nivel="medio" data-respuesta="1">
@@ -137,11 +210,28 @@
           solo 5. Siempre entra al menos una de A.
         </p>
       </div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> el valor más chico posible de \(X\), la cantidad de piezas de A entre las 6 elegidas.</p>
+        <ol>
+          <li><strong>La idea.</strong> \(X\) vale 0 solo si las 6 piezas pueden ser todas de B. Si de B no hay suficientes, a la fuerza entra alguna de A.</li>
+          <li><strong>La fórmula.</strong> Mínimo \(= \max(0,\ n - (N - k))\), con \(n = 6\) elegidas, \(N = 10\) piezas y \(k = 5\) de A, así que \(N - k = 5\) de B.</li>
+          <li><strong>La cuenta.</strong> \(\max(0,\ 6 - 5) = \max(0,\ 1) = 1\).</li>
+        </ol>
+        <p><strong>Qué significa:</strong> como de B hay solo 5 y se eligen 6, siempre entra al menos una pieza de A: \(X\) no puede valer 0.</p>
+      </div>
     </li>
     <li data-inciso="a" data-nivel="medio" data-respuesta="5">
       <div class="p-consigna"><p>¿Cuál es el <strong>mayor</strong> valor que puede tomar \(X\)?</p></div>
       <div class="p-pista"><p>Máximo: \(\min(k,\ n)\). Se eligen 6, pero ¿cuántas de A hay?</p></div>
       <div class="p-explicacion"><p>\(\min(5,\ 6) = 5\). No puede haber 6 piezas de A si solo hay 5.</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> el valor más grande posible de \(X\), la cantidad de piezas de A entre las 6 elegidas.</p>
+        <ol>
+          <li><strong>La idea.</strong> No puede haber más piezas de A que las elegidas (\(n = 6\)) ni más que las que existen (\(k = 5\), &ldquo;5 piezas de cada uno&rdquo;).</li>
+          <li><strong>La fórmula.</strong> Máximo \(= \min(k,\ n) = \min(5,\ 6) = 5\).</li>
+        </ol>
+        <p><strong>Qué significa:</strong> aunque se elijan 6, a lo sumo 5 son de A.</p>
+      </div>
     </li>
     <li data-inciso="a" data-nivel="avanzado">
       <div class="p-consigna"><p>¿Para qué valores de \(X\) es válida la fórmula?</p></div>
@@ -158,6 +248,16 @@
           (de A hay solo 5). Es la parte del inciso que casi todos se olvidan.
         </p>
       </div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> la lista de valores que puede tomar \(X\) (el recorrido), donde vale la fórmula.</p>
+        <ol>
+          <li><strong>Los parámetros.</strong> \(N = 10\) piezas, \(k = 5\) de A, \(N - k = 5\) de B, \(n = 6\) elegidas.</li>
+          <li><strong>El mínimo.</strong> \(\max(0,\ n - (N - k)) = \max(0,\ 6 - 5) = 1\). Para que \(X = 0\) las 6 tendrían que ser de B, pero de B hay solo 5.</li>
+          <li><strong>El máximo.</strong> \(\min(k,\ n) = \min(5,\ 6) = 5\). No hay 6 piezas de A.</li>
+          <li><strong>El recorrido.</strong> Los enteros del mínimo al máximo: \(x = 1, 2, 3, 4, 5\).</li>
+        </ol>
+        <p><strong>Qué significa:</strong> la fórmula vale para \(x = 1, 2, 3, 4, 5\). Las otras opciones meten el 0 (imposible: faltan piezas de B) o el 6 (imposible: faltan piezas de A).</p>
+      </div>
     </li>
 
     <!-- ===== Inciso b: exactamente 4 ===== -->
@@ -171,31 +271,81 @@
       </ul>
       <div class="p-pista"><p>&ldquo;Sólo 4&rdquo; quiere decir 4, ni más ni menos.</p></div>
       <div class="p-explicacion"><p>Es un valor puntual: \(P(X = 4)\), exactamente 4.</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> traducir &ldquo;en las seis piezas elegidas, sólo 4 sean del proveedor A&rdquo; a una probabilidad con \(X\).</p>
+        <ol>
+          <li><strong>Traducir.</strong> \(X\) cuenta piezas de A. &ldquo;Sólo 4&rdquo; quiere decir exactamente 4, ni más ni menos: \(P(X = 4)\).</li>
+          <li><strong>Descartar las tentadoras.</strong> \(P(X \leq 4)\) es &ldquo;a lo sumo 4&rdquo;, \(P(X \geq 4)\) es &ldquo;al menos 4&rdquo; y \(P(X &lt; 4)\) es &ldquo;menos de 4&rdquo;.</li>
+        </ol>
+        <p><strong>Qué significa:</strong> se pide un valor puntual, \(P(X = 4)\).</p>
+      </div>
     </li>
     <li data-inciso="b" data-nivel="principiante" data-respuesta="2">
       <div class="p-consigna"><p>Si 4 de las 6 piezas son de A, ¿cuántas son de B?</p></div>
       <div class="p-pista"><p>Las 6 elegidas se reparten entre A y B.</p></div>
       <div class="p-explicacion"><p>\(6 - 4 = 2\) de B. Es el \(n - x\) del segundo combinatorio.</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> cuántas de las 6 piezas elegidas son de B si 4 son de A.</p>
+        <ol>
+          <li><strong>La cuenta.</strong> Las \(n = 6\) piezas elegidas se reparten entre A y B. Si \(x = 4\) son de A, las de B son \(n - x = 6 - 4 = 2\).</li>
+        </ol>
+        <p><strong>Qué significa:</strong> ese 2 es el que va abajo en el segundo combinatorio de la fórmula, \(\binom{5}{2}\).</p>
+      </div>
     </li>
     <li data-inciso="b" data-nivel="principiante" data-respuesta="5">
       <div class="p-consigna"><p>Calculá \(\binom{5}{4}\): formas de elegir 4 de las 5 piezas de A.</p></div>
       <div class="p-pista"><p>En la calculadora: 5 nCr 4. O pensalo al revés: elegir 4 de 5 es elegir cuál 1 queda afuera.</p></div>
       <div class="p-explicacion"><p>\(\binom{5}{4} = 5\).</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> de cuántas maneras se eligen 4 piezas entre las 5 de A.</p>
+        <ol>
+          <li><strong>El combinatorio.</strong> \(\binom{a}{b} = \frac{a!}{b!\,(a-b)!}\) cuenta de cuántas formas se eligen \(b\) cosas de \(a\), sin importar el orden. Acá \(a = 5\) (las piezas de A) y \(b = 4\) (las de A que se piden).</li>
+          <li><strong>La cuenta.</strong> \(\binom{5}{4} = \frac{5!}{4!\,1!} = \frac{5 \cdot 4!}{4!} = 5\). Otra forma de verlo: elegir 4 de 5 es lo mismo que elegir cuál de las 5 queda afuera, y hay 5 opciones.</li>
+        </ol>
+        <p><strong>Qué significa:</strong> hay 5 formas de elegir qué 4 piezas de A entran.</p>
+      </div>
     </li>
     <li data-inciso="b" data-nivel="principiante" data-respuesta="10">
       <div class="p-consigna"><p>Calculá \(\binom{5}{2}\): formas de elegir 2 de las 5 piezas de B.</p></div>
       <div class="p-pista"><p>\(\frac{5 \cdot 4}{2 \cdot 1}\).</p></div>
       <div class="p-explicacion"><p>\(\binom{5}{2} = \frac{5 \cdot 4}{2} = 10\).</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> de cuántas maneras se eligen las 2 piezas de B que completan la muestra.</p>
+        <ol>
+          <li><strong>Los datos.</strong> De B hay \(N - k = 10 - 5 = 5\) piezas, y hacen falta \(n - x = 6 - 4 = 2\).</li>
+          <li><strong>La cuenta.</strong> \(\binom{5}{2} = \frac{5!}{2!\,3!} = \frac{5 \cdot 4}{2 \cdot 1} = \frac{20}{2} = 10\).</li>
+        </ol>
+        <p><strong>Qué significa:</strong> hay 10 parejas posibles de piezas de B.</p>
+      </div>
     </li>
     <li data-inciso="b" data-nivel="medio" data-respuesta="210">
       <div class="p-consigna"><p>Calculá el denominador \(\binom{10}{6}\): todas las formas de elegir 6 piezas de 10.</p></div>
       <div class="p-pista"><p>En la calculadora: 10 nCr 6. Da lo mismo que \(\binom{10}{4} = \frac{10 \cdot 9 \cdot 8 \cdot 7}{4 \cdot 3 \cdot 2 \cdot 1}\).</p></div>
       <div class="p-explicacion"><p>\(\binom{10}{6} = 210\). Es el mismo denominador para todos los valores de \(x\).</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> el denominador de la fórmula: cuántos grupos distintos de 6 piezas se pueden formar con las 10. Son los casos posibles.</p>
+        <ol>
+          <li><strong>Los datos.</strong> \(N = 10\) (&ldquo;de las 10 piezas&rdquo;) y \(n = 6\) (&ldquo;se eligen 6 al azar&rdquo;).</li>
+          <li><strong>La fórmula.</strong> \(\binom{10}{6} = \frac{10!}{6!\,4!}\). Elegir las 6 que entran es lo mismo que elegir las 4 que quedan afuera, así que \(\binom{10}{6} = \binom{10}{4} = \frac{10 \cdot 9 \cdot 8 \cdot 7}{4 \cdot 3 \cdot 2 \cdot 1}\).</li>
+          <li><strong>La cuenta.</strong> \(\frac{5040}{24} = 210\). En la calculadora: 10 nCr 6.</li>
+        </ol>
+        <p><strong>Qué significa:</strong> hay 210 grupos posibles de 6 piezas. Es el mismo denominador para cualquier \(x\).</p>
+      </div>
     </li>
     <li data-inciso="b" data-nivel="avanzado" data-respuesta="0,2381">
       <div class="p-consigna"><p>Calculá \(P(X = 4)\).</p></div>
       <div class="p-pista"><p>\(\dfrac{\binom{5}{4}\binom{5}{2}}{\binom{10}{6}} = \dfrac{5 \cdot 10}{210}\).</p></div>
       <div class="p-explicacion"><p>\(P(X = 4) = \frac{5 \cdot 10}{210} = \frac{50}{210} = 0{,}2381\).</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> la probabilidad de que, de las 6 piezas elegidas, exactamente 4 sean del proveedor A: \(P(X = 4)\).</p>
+        <ol>
+          <li><strong>El modelo.</strong> \(X\) es Hipergeométrica (se eligen piezas distintas de un lote concreto, sin reposición) con \(N = 10\) piezas (&ldquo;5 piezas de cada uno&rdquo; juntas), \(k = 5\) de A (y \(N - k = 5\) de B) y \(n = 6\) elegidas.</li>
+          <li><strong>La fórmula general.</strong> \(P(X = x) = \dfrac{\binom{k}{x}\binom{N-k}{n-x}}{\binom{N}{n}}\): casos favorables (\(x\) de A y \(n - x\) de B) sobre casos posibles. Con \(x = 4\) quedan \(6 - 4 = 2\) de B: \(P(X = 4) = \dfrac{\binom{5}{4}\binom{5}{2}}{\binom{10}{6}}\).</li>
+          <li><strong>Los combinatorios.</strong> \(\binom{5}{4} = 5\) (elegir 4 de las 5 de A). \(\binom{5}{2} = \frac{5 \cdot 4}{2} = 10\) (elegir 2 de las 5 de B). \(\binom{10}{6} = 210\) (todas las formas de elegir 6 de 10).</li>
+          <li><strong>La cuenta.</strong> \(P(X = 4) = \frac{5 \cdot 10}{210} = \frac{50}{210} = 0{,}2381\).</li>
+        </ol>
+        <p><strong>Qué significa:</strong> hay un 23,81&nbsp;% de chances de que justo 4 de las 6 piezas sean de A. Control: da entre 0 y 1.</p>
+      </div>
     </li>
 
     <!-- ===== Inciso c: al menos 4 ===== -->
@@ -209,6 +359,15 @@
       </ul>
       <div class="p-pista"><p>&ldquo;Al menos 4&rdquo; es 4 o más. Pero acordate del recorrido del inciso a.</p></div>
       <div class="p-explicacion"><p>\(P(X \geq 4) = P(X = 4) + P(X = 5)\). El recorrido se corta en 5: no hay 6 piezas de A.</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> la lista de valores de \(X\) que cumplen &ldquo;al menos 4 [piezas] sean del proveedor A&rdquo;.</p>
+        <ol>
+          <li><strong>Traducir.</strong> &ldquo;Al menos 4&rdquo; es 4 o más.</li>
+          <li><strong>Cortar con el recorrido.</strong> \(X\) solo puede valer \(1, 2, 3, 4, 5\): el máximo es \(\min(k,\ n) = \min(5,\ 6) = 5\), porque de A hay solo 5 piezas. Entonces entran solo \(x = 4\) y \(x = 5\).</li>
+          <li><strong>Descartar las tentadoras.</strong> El 6 no entra (no hay 6 piezas de A). &ldquo;Sin tope&rdquo; es de Poisson, no de un lote finito. \(1, 2, 3, 4\) sería &ldquo;a lo sumo 4&rdquo;.</li>
+        </ol>
+        <p><strong>Qué significa:</strong> \(P(X \geq 4) = P(X = 4) + P(X = 5)\).</p>
+      </div>
     </li>
     <li data-inciso="c" data-nivel="principiante">
       <div class="p-consigna"><p>¿Conviene calcularlo directo o por el complemento \(1 - P(X \leq 3)\)?</p></div>
@@ -230,21 +389,62 @@
           acumulada: todo se calcula a mano. Antes de arrancar, elegí el camino más corto.
         </p>
       </div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> decidir si &ldquo;al menos 4&rdquo; conviene calcularlo sumando directo o restando de 1.</p>
+        <ol>
+          <li><strong>Camino directo.</strong> \(P(X \geq 4) = P(X = 4) + P(X = 5)\): 2 términos (el recorrido termina en 5).</li>
+          <li><strong>Complemento.</strong> Como todo el recorrido suma 1, \(P(X \geq 4) = 1 - P(X \leq 3) = 1 - [P(X = 1) + P(X = 2) + P(X = 3)]\): 3 términos (el recorrido empieza en 1).</li>
+          <li><strong>Elegir.</strong> La Hipergeométrica no tiene tabla acumulada: cada término se calcula a mano. Gana el directo, con 2 términos.</li>
+          <li><strong>Descartar las tentadoras.</strong> &ldquo;Con al menos siempre se usa el complemento&rdquo; es falso: se usa solo si es más corto. No hay tabla acumulada para la Hipergeométrica.</li>
+        </ol>
+        <p><strong>Qué significa:</strong> se calcula directo: \(P(X = 4) + P(X = 5)\).</p>
+      </div>
     </li>
     <li data-inciso="c" data-nivel="principiante" data-respuesta="5">
       <div class="p-consigna"><p>Casos favorables de \(X = 5\): calculá \(\binom{5}{5}\binom{5}{1}\).</p></div>
       <div class="p-pista"><p>5 de las 5 de A (una sola forma) y 1 de las 5 de B.</p></div>
       <div class="p-explicacion"><p>\(\binom{5}{5}\binom{5}{1} = 1 \cdot 5 = 5\).</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> los casos favorables de \(X = 5\): de cuántas formas se eligen 6 piezas con 5 de A.</p>
+        <ol>
+          <li><strong>Del grupo A.</strong> Se eligen las 5 de las 5: \(\binom{5}{5} = 1\) (una sola forma, todas).</li>
+          <li><strong>Del grupo B.</strong> Falta \(6 - 5 = 1\) pieza, de las 5 de B: \(\binom{5}{1} = 5\).</li>
+          <li><strong>El producto.</strong> \(\binom{5}{5}\binom{5}{1} = 1 \cdot 5 = 5\).</li>
+        </ol>
+        <p><strong>Qué significa:</strong> hay 5 grupos de 6 piezas que tienen todas las de A (cambia solo cuál de B las acompaña).</p>
+      </div>
     </li>
     <li data-inciso="c" data-nivel="medio" data-respuesta="0,0238">
       <div class="p-consigna"><p>Calculá \(P(X = 5)\).</p></div>
       <div class="p-pista"><p>\(\dfrac{\binom{5}{5}\binom{5}{1}}{\binom{10}{6}}\), con el mismo denominador 210.</p></div>
       <div class="p-explicacion"><p>\(P(X = 5) = \frac{1 \cdot 5}{210} = 0{,}0238\).</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> la probabilidad de que 5 de las 6 piezas elegidas sean de A, \(P(X = 5)\).</p>
+        <ol>
+          <li><strong>La fórmula.</strong> Hipergeométrica con \(N = 10\), \(k = 5\) de A, \(N - k = 5\) de B, \(n = 6\): \(P(X = 5) = \dfrac{\binom{5}{5}\binom{5}{1}}{\binom{10}{6}}\).</li>
+          <li><strong>Arriba.</strong> \(\binom{5}{5} = 1\) (las 5 de A) y \(\binom{5}{1} = 5\) (la \(6 - 5 = 1\) restante, de B): \(1 \cdot 5 = 5\).</li>
+          <li><strong>Abajo.</strong> \(\binom{10}{6} = 210\).</li>
+          <li><strong>La cuenta.</strong> \(P(X = 5) = \frac{5}{210} = 0{,}0238\).</li>
+        </ol>
+        <p><strong>Qué significa:</strong> hay apenas un 2,38&nbsp;% de chances de que entren las 5 piezas de A.</p>
+      </div>
     </li>
     <li data-inciso="c" data-nivel="avanzado" data-respuesta="0,2619">
       <div class="p-consigna"><p>Calculá \(P(X \geq 4)\).</p></div>
       <div class="p-pista"><p>\(P(X = 4) + P(X = 5) = 0{,}2381 + 0{,}0238\).</p></div>
       <div class="p-explicacion"><p>\(P(X \geq 4) = \frac{50}{210} + \frac{5}{210} = \frac{55}{210} = 0{,}2619\).</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> la probabilidad de que, de las 6 piezas elegidas, al menos 4 sean del proveedor A: \(P(X \geq 4)\).</p>
+        <ol>
+          <li><strong>El modelo.</strong> \(X\) es Hipergeométrica con \(N = 10\) piezas (5 de A y 5 de B juntas), \(k = 5\) de A y \(n = 6\) elegidas sin reposición. Fórmula: \(P(X = x) = \dfrac{\binom{5}{x}\binom{5}{6-x}}{\binom{10}{6}}\), válida para \(x = 1, \ldots, 5\) (no hay más de 5 piezas de A).</li>
+          <li><strong>Qué valores entran.</strong> &ldquo;Al menos 4&rdquo; es 4 o más, y el recorrido llega hasta 5: \(x = 4, 5\). Son 2 términos (el complemento tendría 3: \(x = 1, 2, 3\)), así que se calcula directo.</li>
+          <li><strong>El denominador.</strong> \(\binom{10}{6} = 210\) formas de elegir 6 de 10.</li>
+          <li><strong>\(P(X = 4)\).</strong> 4 de A y \(6 - 4 = 2\) de B: \(\frac{\binom{5}{4}\binom{5}{2}}{210} = \frac{5 \cdot 10}{210} = \frac{50}{210} = 0{,}2381\).</li>
+          <li><strong>\(P(X = 5)\).</strong> 5 de A y 1 de B: \(\frac{\binom{5}{5}\binom{5}{1}}{210} = \frac{1 \cdot 5}{210} = 0{,}0238\).</li>
+          <li><strong>La suma.</strong> \(P(X \geq 4) = \frac{50}{210} + \frac{5}{210} = \frac{55}{210} = 0{,}2619\).</li>
+        </ol>
+        <p><strong>Qué significa:</strong> hay un 26,19&nbsp;% de chances de que 4 o más de las 6 piezas sean de A. Control: es apenas mayor que \(P(X = 4)\), porque \(X = 5\) aporta muy poco.</p>
+      </div>
     </li>
   </ol>
 </article>

@@ -25,7 +25,10 @@ fórmulas (MathJax) y las tipografías. Tus datos no salen de tu máquina.
   * **Interactivo:** un **ejercicio de parcial completo** (reales de los exámenes mezclados con
     inventados de la misma forma) que se va desglosando en partes: en avanzado se pide el
     resultado de cada inciso; en principiante, cada cuenta chica. Se puede saltear un ejercicio
-    entero.
+    entero. Cada paso tiene, además de la **pista**, un botón **Resolver**: muestra la resolución
+    de ese paso explicada (qué se pide, cada cuenta con su porqué y qué significa el resultado) y
+    pasa al siguiente. No gasta vidas, pero el ejercicio ya no cuenta como "sin errores" y el
+    informe dice qué pasos resolvió el campus. Las autoevaluaciones ya creadas lo tienen también.
 
   En Normal hay además una **navegación libre** opcional: casillas para saltar a cualquier
   pregunta, saltear y volver, y terminar cuando quieras. Todas las preguntas
@@ -146,6 +149,8 @@ Chrome (`chrome --headless --print-to-pdf`).
 `0.x.y-alpha` mientras esté en desarrollo. La `1.0.0` queda reservada para cuando esté terminado.
 La versión actual se lee al pie del menú lateral.
 
+* **0.14.0-alpha** — botón Resolver en cada paso del modo interactivo (y de las guiadas), con
+  una resolución detallada escrita para cada paso de los ejercicios de las U4 a U7.
 * **0.13.0-alpha** — mantener apretada una unidad del menú abre una copia de solo esa unidad
   (Teoría y Práctica) en otra ventana.
 * **0.12.0-alpha** — guía de la tabla de la normal en la teoría de la U6 (sección 11: dónde está

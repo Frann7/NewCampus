@@ -43,7 +43,8 @@
       tolerancia: li.getAttribute("data-tolerancia"),
       opciones: leerOpciones(li),
       pista: html(hijo(li, "p-pista")),
-      explicacion: html(hijo(li, "p-explicacion"))
+      explicacion: html(hijo(li, "p-explicacion")),
+      resolucion: html(hijo(li, "p-resolucion"))   // lo que muestra el boton Resolver
     };
   }
 

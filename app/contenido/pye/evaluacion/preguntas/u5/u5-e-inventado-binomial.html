@@ -36,6 +36,15 @@
       </ul>
       <div class="p-pista"><p>&ldquo;Se eligen al azar 12 correos&rdquo;.</p></div>
       <div class="p-explicacion"><p>Cada correo elegido es una prueba y son exactamente 12: \(n = 12\), fijo.</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> encontrar qué es una &ldquo;prueba&rdquo; en este problema y cuántas se hacen. Una prueba es cada repetición del experimento, y la Binomial necesita que la cantidad esté fija de antemano.</p>
+        <ol>
+          <li><strong>Buscar qué se repite.</strong> El enunciado dice &ldquo;se eligen al azar 12 correos recibidos&rdquo;. Lo que se repite es mirar un correo y fijarse si es spam. Cada correo elegido es una prueba.</li>
+          <li><strong>Contarlas.</strong> Se eligen 12 correos, ni uno más ni uno menos. Ese número se llama \(n\) (cantidad de pruebas): \(n = 12\), y está fijo antes de empezar.</li>
+          <li><strong>Descartar las tentadoras.</strong> &ldquo;Cada correo spam&rdquo; no sirve: la cantidad de spam es justamente lo que varía (es el resultado, no las pruebas). &ldquo;Son 25&rdquo; confunde el porcentaje con la cantidad de pruebas: el 25&nbsp;% es la probabilidad de éxito.</li>
+        </ol>
+        <p><strong>Qué significa:</strong> se cumple la primera condición: hay 12 pruebas, un número fijo.</p>
+      </div>
     </li>
     <li data-inciso="a" data-nivel="principiante">
       <div class="p-consigna"><p>Condición 2, dicotómica: ¿qué resultados puede tener cada prueba?</p></div>
@@ -47,6 +56,15 @@
       </ul>
       <div class="p-pista"><p>Dicotómica = solo dos resultados posibles en cada prueba.</p></div>
       <div class="p-explicacion"><p>Spam (&ldquo;éxito&rdquo;) o no spam (&ldquo;fracaso&rdquo;).</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> ver cuántos resultados posibles tiene cada prueba. &ldquo;Dicotómica&rdquo; quiere decir que hay solo dos.</p>
+        <ol>
+          <li><strong>Mirar una prueba.</strong> Cada prueba es un correo elegido. Lo único que se anota de ese correo es si es spam o no.</li>
+          <li><strong>Nombrar los dos resultados.</strong> Al resultado que cuenta la variable (&ldquo;número de correos spam&rdquo;) se lo llama &ldquo;éxito&rdquo;: el correo es spam. El otro es &ldquo;fracaso&rdquo;: el correo no es spam.</li>
+          <li><strong>Descartar las tentadoras.</strong> &ldquo;Sospechoso&rdquo; no aparece en el enunciado: el filtro clasifica en spam o no spam. &ldquo;Doce&rdquo; confunde la cantidad de pruebas con los resultados de una sola prueba.</li>
+        </ol>
+        <p><strong>Qué significa:</strong> se cumple la segunda condición: cada prueba tiene dos resultados, spam o no spam.</p>
+      </div>
     </li>
     <li data-inciso="a" data-nivel="principiante">
       <div class="p-consigna"><p>Condición 3, probabilidad constante: ¿se cumple?</p></div>
@@ -63,6 +81,15 @@
           eligieran sin reposición, sería Hipergeométrica.
         </p>
       </div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> ver si la probabilidad de &ldquo;éxito&rdquo; (que el correo sea spam) es la misma en todas las pruebas.</p>
+        <ol>
+          <li><strong>Buscar el dato.</strong> El enunciado dice que &ldquo;el 25&nbsp;% de los correos que llegan a su servidor son spam&rdquo;. Es un porcentaje general, que vale para cualquier correo que se elija.</li>
+          <li><strong>Ver si cambia de un correo a otro.</strong> No hay un lote cerrado de correos con una cantidad fija de spam, así que elegir un spam no &ldquo;gasta&rdquo; spam del total. Cada correo tiene la misma probabilidad \(p = 0{,}25\).</li>
+          <li><strong>Descartar las tentadoras.</strong> &ldquo;Sin reposición de un total conocido&rdquo; sería el caso Hipergeométrico, pero el enunciado no da ningún total. &ldquo;Sí, y vale 0,75&rdquo; está mal: 0,75 es la probabilidad de no ser spam, y el éxito es ser spam.</li>
+        </ol>
+        <p><strong>Qué significa:</strong> se cumple la tercera condición: \(p = 0{,}25\) en cada una de las 12 pruebas.</p>
+      </div>
     </li>
     <li data-inciso="a" data-nivel="principiante">
       <div class="p-consigna"><p>Condición 4, independencia: ¿se cumple?</p></div>
@@ -74,16 +101,40 @@
       </ul>
       <div class="p-pista"><p>Independencia: el resultado de una prueba no afecta a las demás.</p></div>
       <div class="p-explicacion"><p>Sí: se supone que cada correo es spam o no sin importar los otros.</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> ver si las pruebas son independientes, es decir, si el resultado de un correo no cambia la probabilidad de los otros.</p>
+        <ol>
+          <li><strong>Pensar un caso.</strong> Si el primer correo elegido es spam, ¿cambia la chance de que el segundo lo sea? No: sigue siendo el 25&nbsp;%, porque es un porcentaje general del servidor y los correos se eligen al azar.</li>
+          <li><strong>Descartar las tentadoras.</strong> Que lleguen al mismo servidor o pasen por el mismo filtro no hace que un correo influya en otro. Eso es un lugar en común, no una dependencia entre resultados.</li>
+        </ol>
+        <p><strong>Qué significa:</strong> se cumple la cuarta condición. Con las cuatro condiciones juntas, el experimento es un proceso de Bernoulli y \(X\) es Binomial.</p>
+      </div>
     </li>
     <li data-inciso="a" data-nivel="principiante" data-respuesta="12">
       <div class="p-consigna"><p>¿Cuánto vale \(n\)?</p></div>
       <div class="p-pista"><p>Cantidad de pruebas.</p></div>
       <div class="p-explicacion"><p>\(n = 12\) correos.</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> el valor de \(n\), el primer parámetro de la Binomial. \(n\) es la cantidad de pruebas.</p>
+        <ol>
+          <li><strong>Sacarlo del enunciado.</strong> &ldquo;Se eligen al azar 12 correos&rdquo;: cada correo es una prueba, así que \(n = 12\).</li>
+        </ol>
+        <p><strong>Qué significa:</strong> \(X\) puede valer desde 0 (ningún spam) hasta 12 (todos spam).</p>
+      </div>
     </li>
     <li data-inciso="a" data-nivel="principiante" data-respuesta="0,25">
       <div class="p-consigna"><p>¿Cuánto vale \(p\)? (en decimal)</p></div>
       <div class="p-pista"><p>El 25&nbsp;% pasado a decimal.</p></div>
       <div class="p-explicacion"><p>\(p = 25/100 = 0{,}25\), y la probabilidad de que un correo no sea spam es \(1 - p = 0{,}75\).</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> el valor de \(p\), el segundo parámetro de la Binomial. \(p\) es la probabilidad de &ldquo;éxito&rdquo; en cada prueba, y acá éxito es que el correo sea spam.</p>
+        <ol>
+          <li><strong>Buscar el dato.</strong> El enunciado dice &ldquo;el 25&nbsp;% de los correos [...] son spam&rdquo;.</li>
+          <li><strong>Pasar el porcentaje a decimal.</strong> Un porcentaje se divide por 100: \(p = \frac{25}{100} = 0{,}25\).</li>
+          <li><strong>El complemento.</strong> La probabilidad de fracaso (no spam) es \(1 - p = 1 - 0{,}25 = 0{,}75\). Se usa en todas las cuentas que siguen.</li>
+        </ol>
+        <p><strong>Qué significa:</strong> cada correo elegido tiene 1 chance en 4 de ser spam. Control: \(p\) está entre 0 y 1.</p>
+      </div>
     </li>
     <li data-inciso="a" data-nivel="medio">
       <div class="p-consigna"><p>¿Qué cuenta \(X\)?</p></div>
@@ -95,6 +146,15 @@
       </ul>
       <div class="p-pista"><p>Releé la definición de la variable en el enunciado.</p></div>
       <div class="p-explicacion"><p>\(X\) = número de correos <strong>spam</strong>. &ldquo;Éxito&rdquo; es lo que cuenta \(X\), aunque no sea algo bueno.</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> decir qué cuenta la variable \(X\), para saber qué es &ldquo;éxito&rdquo; y qué valor de \(p\) le corresponde.</p>
+        <ol>
+          <li><strong>Leer la definición.</strong> El enunciado define la variable como &ldquo;número de correos spam entre los 12 elegidos&rdquo;. Así que \(X\) cuenta correos spam.</li>
+          <li><strong>Definir el éxito.</strong> En la Binomial, &ldquo;éxito&rdquo; es siempre lo que cuenta \(X\), aunque sea algo malo como el spam. Entonces éxito = spam, con \(p = 0{,}25\) (el &ldquo;25&nbsp;%&rdquo; del enunciado).</li>
+          <li><strong>Descartar la tentadora.</strong> Contar los correos que no son spam, con \(p = 0{,}75\), sería otra variable (\(12 - X\)). No es la que define el enunciado.</li>
+        </ol>
+        <p><strong>Qué significa:</strong> \(X\) = cantidad de spam entre 12 correos, con probabilidad de éxito \(0{,}25\).</p>
+      </div>
     </li>
     <li data-inciso="a" data-nivel="avanzado">
       <div class="p-consigna"><p>Identificá la distribución de \(X\) y su justificación.</p></div>
@@ -111,6 +171,17 @@
           \(P(X = x) = \binom{12}{x}(0{,}25)^{x}(0{,}75)^{12-x}\), \(x = 0, 1, \ldots, 12\).
         </p>
       </div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> decir qué distribución tiene \(X\) (&ldquo;número de correos spam entre los 12 elegidos&rdquo;) y justificarlo, mostrando que se cumplen las condiciones del modelo.</p>
+        <ol>
+          <li><strong>Número fijo de pruebas.</strong> Cada correo elegido es una prueba. &ldquo;Se eligen al azar 12 correos&rdquo;, así que hay \(n = 12\) pruebas, un número fijo.</li>
+          <li><strong>Dicotómicas.</strong> Cada correo tiene dos resultados: spam (&ldquo;éxito&rdquo;, porque es lo que cuenta \(X\)) o no spam (&ldquo;fracaso&rdquo;).</li>
+          <li><strong>Probabilidad constante.</strong> &ldquo;El 25&nbsp;% de los correos [...] son spam&rdquo; es un porcentaje general: cada correo tiene \(p = 25/100 = 0{,}25\) de ser spam. No hay un lote cerrado del que se saquen sin reposición, así que \(p\) no cambia.</li>
+          <li><strong>Independencia.</strong> Que un correo sea spam no cambia la probabilidad de que otro lo sea.</li>
+          <li><strong>Conclusión y fórmula.</strong> Con las cuatro condiciones, \(X\) es Binomial \(Bi(n;\ p)\), cuya fórmula general es \(P(X = x) = \binom{n}{x} p^{x} (1-p)^{n-x}\): \(\binom{n}{x}\) cuenta de cuántas formas se pueden ubicar los \(x\) éxitos entre las \(n\) pruebas, \(p^{x}\) es la probabilidad de los \(x\) éxitos y \((1-p)^{n-x}\) la de los fracasos. Con los datos: \(P(X = x) = \binom{12}{x}(0{,}25)^{x}(0{,}75)^{12-x}\), para \(x = 0, 1, \ldots, 12\).</li>
+        </ol>
+        <p><strong>Qué significa:</strong> \(X \sim Bi(12;\ 0{,}25)\). Poisson no va porque no hay una tasa por unidad de tiempo sino 12 pruebas contadas. Hipergeométrica no va porque no hay un total conocido de correos con una cantidad fija de spam. \(Bi(12;\ 0{,}75)\) contaría los correos que no son spam, que no es la variable del enunciado.</p>
+      </div>
     </li>
 
     <!-- ===== Inciso b.I: ninguno ===== -->
@@ -124,16 +195,46 @@
       </ul>
       <div class="p-pista"><p>\(X\) cuenta correos spam. Si ninguno es spam, ¿cuánto vale \(X\)?</p></div>
       <div class="p-explicacion"><p>\(P(X = 0)\). Ojo: \(P(X = 12)\) sería &ldquo;todos son spam&rdquo;.</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> traducir la frase &ldquo;ninguno de los 12 correos sea spam&rdquo; a una probabilidad con \(X\).</p>
+        <ol>
+          <li><strong>Recordar qué cuenta \(X\).</strong> \(X\) es el &ldquo;número de correos spam entre los 12 elegidos&rdquo;.</li>
+          <li><strong>Traducir.</strong> Si ninguno es spam, la cantidad de spam es cero: \(X = 0\). La probabilidad pedida es \(P(X = 0)\).</li>
+          <li><strong>Descartar las tentadoras.</strong> \(P(X = 12)\) sería &ldquo;los 12 son spam&rdquo;, lo opuesto. \(1 - P(X = 0)\) es &ldquo;al menos uno es spam&rdquo;. \(P(X \leq 12)\) incluye todos los valores posibles y da 1.</li>
+        </ol>
+        <p><strong>Qué significa:</strong> hay que calcular \(P(X = 0)\), la probabilidad de que los 12 correos sean todos legítimos.</p>
+      </div>
     </li>
     <li data-inciso="b" data-nivel="principiante" data-respuesta="1">
       <div class="p-consigna"><p>(b.I) Calculá \(\binom{12}{0} \cdot (0{,}25)^{0}\).</p></div>
       <div class="p-pista"><p>Hay una sola forma de elegir 0 de 12. Y todo número elevado a la 0 da 1.</p></div>
       <div class="p-explicacion"><p>\(\binom{12}{0} = 1\) y \((0{,}25)^{0} = 1\). Queda \(P(X = 0) = (0{,}75)^{12}\).</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> calcular las dos primeras partes de la fórmula binomial cuando \(x = 0\) (ningún correo spam).</p>
+        <ol>
+          <li><strong>La fórmula general.</strong> \(P(X = x) = \binom{n}{x} p^{x}(1-p)^{n-x}\), con \(n = 12\) correos elegidos, \(p = 0{,}25\) (el 25&nbsp;% de spam) y \(x\) la cantidad de spam que se pide. Acá \(x = 0\).</li>
+          <li><strong>El combinatorio.</strong> \(\binom{n}{x}\) cuenta de cuántas maneras se pueden elegir cuáles \(x\) correos son spam. \(\binom{12}{0} = 1\): hay una sola manera de elegir ninguno.</li>
+          <li><strong>La potencia.</strong> \(p^{x} = (0{,}25)^{0} = 1\), porque todo número (distinto de cero) elevado a la 0 da 1.</li>
+          <li><strong>El producto.</strong> \(\binom{12}{0} \cdot (0{,}25)^{0} = 1 \cdot 1 = 1\).</li>
+        </ol>
+        <p><strong>Qué significa:</strong> estas dos partes no cambian nada, así que \(P(X = 0) = (0{,}75)^{12}\): solo queda la probabilidad de que los 12 correos sean no spam.</p>
+      </div>
     </li>
     <li data-inciso="b" data-nivel="avanzado" data-respuesta="0,0317">
       <div class="p-consigna"><p>(b.I) Calculá \(P(X = 0)\).</p></div>
       <div class="p-pista"><p>\(P(X = 0) = \binom{12}{0}(0{,}25)^{0}(0{,}75)^{12} = (0{,}75)^{12}\).</p></div>
       <div class="p-explicacion"><p>\(P(X = 0) = (0{,}75)^{12} = 0{,}0317\). También sale de la tabla: \(n = 12\), \(p = 0{,}25\), \(r = 0\).</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> la probabilidad de que ninguno de los 12 correos elegidos sea spam, es decir \(P(X = 0)\), donde \(X\) es el &ldquo;número de correos spam entre los 12 elegidos&rdquo;.</p>
+        <ol>
+          <li><strong>El modelo.</strong> \(X\) es Binomial: 12 pruebas (los correos), cada una spam o no, con \(p = 0{,}25\) constante (&ldquo;el 25&nbsp;% [...] son spam&rdquo;) e independientes. \(n = 12\) y \(p = 0{,}25\); el fracaso tiene probabilidad \(1 - p = 0{,}75\).</li>
+          <li><strong>Traducir.</strong> &ldquo;Ninguno sea spam&rdquo; quiere decir que la cantidad de spam es 0: se pide \(P(X = 0)\).</li>
+          <li><strong>La fórmula general.</strong> \(P(X = x) = \binom{n}{x} p^{x}(1-p)^{n-x}\): el combinatorio cuenta las formas de ubicar los \(x\) éxitos, \(p^{x}\) es la probabilidad de los éxitos y \((1-p)^{n-x}\) la de los fracasos.</li>
+          <li><strong>Con los números.</strong> \(P(X = 0) = \binom{12}{0}(0{,}25)^{0}(0{,}75)^{12}\). Como \(\binom{12}{0} = 1\) (una sola forma de elegir ninguno) y \((0{,}25)^{0} = 1\), queda \(P(X = 0) = (0{,}75)^{12}\).</li>
+          <li><strong>La cuenta.</strong> \((0{,}75)^{12} = 0{,}03168 \approx 0{,}0317\). También se lee en la tabla acumulada binomial: bloque \(n = 12\), columna \(p = 0{,}25\), fila \(r = 0\), porque \(P(X \leq 0) = P(X = 0)\).</li>
+        </ol>
+        <p><strong>Qué significa:</strong> hay un 3,17&nbsp;% de chances de que ninguno de los 12 correos sea spam. Es chico, lógico: con 25&nbsp;% de spam, lo esperable es que aparezca alguno.</p>
+      </div>
     </li>
 
     <!-- ===== Inciso b.II: al menos 4 ===== -->
@@ -157,16 +258,47 @@
           \(P(X \geq 4) = 1 - P(X \leq 3)\), y \(P(X \leq 3)\) sale de la tabla acumulada.
         </p>
       </div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> escribir &ldquo;al menos 4 de los 12 correos sean spam&rdquo; de una forma que se pueda calcular con la tabla.</p>
+        <ol>
+          <li><strong>Traducir &ldquo;al menos 4&rdquo;.</strong> Quiere decir 4 o más: entran \(x = 4, 5, 6, \ldots, 12\). Es \(P(X \geq 4)\).</li>
+          <li><strong>Por qué no directo.</strong> Sumar uno por uno serían 9 términos. Además, la tabla acumulada da \(P(X \leq r)\) (hasta un valor), no &ldquo;desde&rdquo; un valor.</li>
+          <li><strong>Usar el complemento.</strong> Todas las probabilidades de \(X\) suman 1. Lo contrario de &ldquo;4 o más&rdquo; es &ldquo;3 o menos&rdquo; (\(x = 0, 1, 2, 3\)). Entonces \(P(X \geq 4) = 1 - P(X \leq 3)\).</li>
+          <li><strong>Descartar la tentadora.</strong> \(1 - P(X \leq 4)\) resta también el 4, y el 4 sí entra en &ldquo;al menos 4&rdquo;. Eso daría \(P(X \geq 5)\).</li>
+        </ol>
+        <p><strong>Qué significa:</strong> alcanza con buscar \(P(X \leq 3)\) en la tabla y restarlo de 1.</p>
+      </div>
     </li>
     <li data-inciso="b" data-nivel="medio" data-respuesta="0,6488">
       <div class="p-consigna"><p>(b.II) Buscá \(P(X \leq 3)\) en la tabla acumulada binomial.</p></div>
       <div class="p-pista"><p>La tabla da \(P(X \leq r)\). Bloque \(n = 12\), columna \(p = 0{,}25\), fila \(r = 3\).</p></div>
       <div class="p-explicacion"><p>\(P(X \leq 3) = 0{,}6488\).</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> leer en la tabla acumulada binomial la probabilidad de que haya 3 correos spam o menos, \(P(X \leq 3)\).</p>
+        <ol>
+          <li><strong>Qué da la tabla.</strong> La tabla acumulada binomial (Tabla A.1) da siempre \(P(X \leq r)\): la probabilidad de que \(X\) valga \(r\) o menos. Se entra con \(n\) (cantidad de pruebas), \(p\) (probabilidad de éxito) y \(r\).</li>
+          <li><strong>Los parámetros.</strong> \(n = 12\) (&ldquo;se eligen al azar 12 correos&rdquo;) y \(p = 0{,}25\) (&ldquo;el 25&nbsp;% [...] son spam&rdquo;). Se busca el bloque \(n = 12\) y la columna \(p = 0{,}25\).</li>
+          <li><strong>La fila.</strong> Se quiere \(P(X \leq 3)\), así que la fila es \(r = 3\). Ese número suma \(P(X=0) + P(X=1) + P(X=2) + P(X=3)\).</li>
+          <li><strong>El valor.</strong> En esa celda está \(0{,}6488\).</li>
+        </ol>
+        <p><strong>Qué significa:</strong> hay un 64,88&nbsp;% de chances de que, de los 12 correos, 3 o menos sean spam.</p>
+      </div>
     </li>
     <li data-inciso="b" data-nivel="avanzado" data-respuesta="0,3512">
       <div class="p-consigna"><p>(b.II) Calculá \(P(X \geq 4)\).</p></div>
       <div class="p-pista"><p>\(1 - P(X \leq 3)\), con la tabla \(n = 12\), \(p = 0{,}25\).</p></div>
       <div class="p-explicacion"><p>\(P(X \geq 4) = 1 - 0{,}6488 = 0{,}3512\).</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> la probabilidad de que al menos 4 de los 12 correos elegidos sean spam, donde \(X\) es el &ldquo;número de correos spam entre los 12 elegidos&rdquo;.</p>
+        <ol>
+          <li><strong>El modelo.</strong> \(X\) es Binomial con \(n = 12\) (los 12 correos elegidos) y \(p = 0{,}25\) (&ldquo;el 25&nbsp;% [...] son spam&rdquo;).</li>
+          <li><strong>Traducir &ldquo;al menos 4&rdquo;.</strong> Es 4 o más: \(x = 4, 5, \ldots, 12\). Se pide \(P(X \geq 4)\).</li>
+          <li><strong>Complemento.</strong> Como las probabilidades suman 1 y lo contrario de &ldquo;4 o más&rdquo; es &ldquo;3 o menos&rdquo;: \(P(X \geq 4) = 1 - P(X \leq 3)\). Así se usa la tabla, que da \(P(X \leq r)\).</li>
+          <li><strong>La tabla.</strong> Tabla acumulada binomial, bloque \(n = 12\), columna \(p = 0{,}25\), fila \(r = 3\) (el último valor que NO entra): \(P(X \leq 3) = 0{,}6488\).</li>
+          <li><strong>La cuenta.</strong> \(P(X \geq 4) = 1 - 0{,}6488 = 0{,}3512\).</li>
+        </ol>
+        <p><strong>Qué significa:</strong> hay un 35,12&nbsp;% de chances de encontrar 4 o más correos spam entre los 12. Tiene sentido: el promedio es 3, así que superarlo pasa bastante seguido pero menos de la mitad de las veces.</p>
+      </div>
     </li>
 
     <!-- ===== Inciso b.III: exactamente 2 ===== -->
@@ -174,21 +306,58 @@
       <div class="p-consigna"><p>(b.III) Calculá \(\binom{12}{2}\).</p></div>
       <div class="p-pista"><p>En la calculadora: 12 nCr 2. A mano: \(\frac{12 \cdot 11}{2 \cdot 1}\).</p></div>
       <div class="p-explicacion"><p>\(\binom{12}{2} = 66\): las formas de elegir cuáles 2 de los 12 correos son spam.</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> calcular el combinatorio \(\binom{12}{2}\), que es la primera parte de la fórmula binomial para &ldquo;exactamente 2 spam&rdquo;.</p>
+        <ol>
+          <li><strong>Qué es.</strong> \(\binom{n}{x}\) cuenta de cuántas maneras se pueden elegir \(x\) cosas entre \(n\), sin importar el orden. Acá: de cuántas maneras se eligen cuáles 2 de los 12 correos son los spam. \(n = 12\) (los correos elegidos) y \(x = 2\) (&ldquo;exactamente 2&rdquo;).</li>
+          <li><strong>La fórmula.</strong> \(\binom{n}{x} = \frac{n!}{x!\,(n-x)!}\). Con los números: \(\binom{12}{2} = \frac{12!}{2!\,10!} = \frac{12 \cdot 11}{2 \cdot 1}\), porque el \(10!\) se simplifica.</li>
+          <li><strong>La cuenta.</strong> \(\frac{132}{2} = 66\). En la calculadora: 12 nCr 2.</li>
+        </ol>
+        <p><strong>Qué significa:</strong> hay 66 formas distintas de que justo 2 de los 12 correos sean spam (el 1.º y el 2.º, el 1.º y el 3.º, etc.).</p>
+      </div>
     </li>
     <li data-inciso="b" data-nivel="principiante" data-respuesta="0,0625">
       <div class="p-consigna"><p>(b.III) Calculá \(p^{x} = (0{,}25)^{2}\).</p></div>
       <div class="p-pista"><p>\(0{,}25 \times 0{,}25\).</p></div>
       <div class="p-explicacion"><p>\((0{,}25)^{2} = 0{,}0625\).</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> calcular \(p^{x}\), la probabilidad de que los 2 correos elegidos como spam lo sean.</p>
+        <ol>
+          <li><strong>De dónde sale.</strong> \(p = 0{,}25\) es la probabilidad de que un correo sea spam (&ldquo;el 25&nbsp;%&rdquo;), y \(x = 2\) es la cantidad de spam que se pide. Como las pruebas son independientes, las probabilidades se multiplican.</li>
+          <li><strong>La cuenta.</strong> \((0{,}25)^{2} = 0{,}25 \times 0{,}25 = 0{,}0625\).</li>
+        </ol>
+        <p><strong>Qué significa:</strong> la probabilidad de que dos correos determinados sean los dos spam es 0,0625.</p>
+      </div>
     </li>
     <li data-inciso="b" data-nivel="medio" data-respuesta="0,0563">
       <div class="p-consigna"><p>(b.III) Calculá \((1-p)^{n-x} = (0{,}75)^{10}\).</p></div>
       <div class="p-pista"><p>Los que no son spam son \(12 - 2 = 10\), cada uno con probabilidad 0,75.</p></div>
       <div class="p-explicacion"><p>\((0{,}75)^{10} = 0{,}05631 \approx 0{,}0563\). Guardá los 5 decimales para el paso siguiente: es un número chico y redondear pronto mueve el resultado.</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> calcular \((1-p)^{n-x}\), la probabilidad de que los otros correos no sean spam.</p>
+        <ol>
+          <li><strong>Cuántos no son spam.</strong> De los \(n = 12\) correos, \(x = 2\) son spam, así que los que no son spam son \(n - x = 12 - 2 = 10\).</li>
+          <li><strong>Probabilidad de cada uno.</strong> Un correo no es spam con probabilidad \(1 - p = 1 - 0{,}25 = 0{,}75\).</li>
+          <li><strong>La cuenta.</strong> Por independencia se multiplica 10 veces: \((0{,}75)^{10} = 0{,}05631 \approx 0{,}0563\). Conviene guardar los 5 decimales para el paso siguiente.</li>
+        </ol>
+        <p><strong>Qué significa:</strong> la probabilidad de que 10 correos determinados sean todos legítimos es 0,0563. Es chica porque son muchas condiciones juntas.</p>
+      </div>
     </li>
     <li data-inciso="b" data-nivel="avanzado" data-respuesta="0,2323">
       <div class="p-consigna"><p>(b.III) Calculá \(P(X = 2)\).</p></div>
       <div class="p-pista"><p>\(P(X = 2) = \binom{12}{2}(0{,}25)^{2}(0{,}75)^{10}\): fórmula directa, es un valor puntual.</p></div>
       <div class="p-explicacion"><p>\(P(X = 2) = 66 \times 0{,}0625 \times 0{,}05631 = 0{,}2323\). Coincide con la tabla: \(F(2) - F(1) = 0{,}3907 - 0{,}1584\).</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> la probabilidad de que exactamente 2 de los 12 correos sean spam, \(P(X = 2)\), donde \(X\) es el &ldquo;número de correos spam entre los 12 elegidos&rdquo;.</p>
+        <ol>
+          <li><strong>El modelo.</strong> \(X\) es Binomial con \(n = 12\) (&ldquo;12 correos&rdquo;) y \(p = 0{,}25\) (&ldquo;el 25&nbsp;% [...] son spam&rdquo;). Es un valor puntual, así que se usa la fórmula directa.</li>
+          <li><strong>La fórmula general.</strong> \(P(X = x) = \binom{n}{x} p^{x}(1-p)^{n-x}\): \(\binom{n}{x}\) cuenta las formas de elegir cuáles son los \(x\) éxitos, \(p^{x}\) es la probabilidad de esos éxitos y \((1-p)^{n-x}\) la de los \(n - x\) fracasos. Con los números: \(P(X = 2) = \binom{12}{2}(0{,}25)^{2}(0{,}75)^{10}\).</li>
+          <li><strong>Cada parte.</strong> \(\binom{12}{2} = \frac{12 \cdot 11}{2} = 66\). \((0{,}25)^{2} = 0{,}0625\). \((0{,}75)^{10} = 0{,}05631\) (son \(12 - 2 = 10\) correos no spam).</li>
+          <li><strong>La cuenta.</strong> \(66 \times 0{,}0625 \times 0{,}05631 = 4{,}125 \times 0{,}05631 = 0{,}2323\).</li>
+          <li><strong>Control con la tabla.</strong> La tabla da acumuladas, así que un valor puntual es la resta de dos filas seguidas: \(P(X = 2) = P(X \leq 2) - P(X \leq 1) = 0{,}3907 - 0{,}1584 = 0{,}2323\) (bloque \(n = 12\), columna \(p = 0{,}25\)).</li>
+        </ol>
+        <p><strong>Qué significa:</strong> hay un 23,23&nbsp;% de chances de que justo 2 de los 12 correos sean spam.</p>
+      </div>
     </li>
 
     <!-- ===== Inciso c: esperanza y desvio ===== -->
@@ -196,16 +365,43 @@
       <div class="p-consigna"><p>Calculá la esperanza \(E(X)\).</p></div>
       <div class="p-pista"><p>En la Binomial, \(E(X) = n \cdot p\).</p></div>
       <div class="p-explicacion"><p>\(E(X) = 12 \times 0{,}25 = 3\) correos spam cada 12.</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> la esperanza \(E(X)\), o sea, cuántos correos spam hay en promedio entre 12 elegidos si se repitiera el experimento muchas veces.</p>
+        <ol>
+          <li><strong>El modelo.</strong> \(X\) (&ldquo;número de correos spam entre los 12&rdquo;) es Binomial con \(n = 12\) correos y \(p = 0{,}25\) (&ldquo;el 25&nbsp;%&rdquo;).</li>
+          <li><strong>La fórmula.</strong> En la Binomial, \(E(X) = n \cdot p\): cantidad de pruebas por la probabilidad de éxito en cada una.</li>
+          <li><strong>La cuenta.</strong> \(E(X) = 12 \times 0{,}25 = 3\).</li>
+        </ol>
+        <p><strong>Qué significa:</strong> en promedio, 3 de cada 12 correos son spam. Es lógico: el 25&nbsp;% de 12 es 3.</p>
+      </div>
     </li>
     <li data-inciso="c" data-nivel="medio" data-respuesta="2,25">
       <div class="p-consigna"><p>Calculá la varianza \(V(X)\).</p></div>
       <div class="p-pista"><p>En la Binomial, \(V(X) = n \cdot p \cdot (1-p)\).</p></div>
       <div class="p-explicacion"><p>\(V(X) = 12 \times 0{,}25 \times 0{,}75 = 2{,}25\).</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> la varianza \(V(X)\), que mide cuánto se dispersa la cantidad de spam alrededor del promedio.</p>
+        <ol>
+          <li><strong>La fórmula.</strong> En la Binomial, \(V(X) = n \cdot p \cdot (1-p)\), con \(n = 12\) correos, \(p = 0{,}25\) de ser spam y \(1 - p = 0{,}75\) de no serlo.</li>
+          <li><strong>Con los números.</strong> \(V(X) = 12 \times 0{,}25 \times 0{,}75\).</li>
+          <li><strong>La cuenta.</strong> \(12 \times 0{,}25 = 3\) y \(3 \times 0{,}75 = 2{,}25\).</li>
+        </ol>
+        <p><strong>Qué significa:</strong> \(V(X) = 2{,}25\) (en correos al cuadrado, por eso cuesta interpretarla directo). Para tener la dispersión en correos se saca la raíz.</p>
+      </div>
     </li>
     <li data-inciso="c" data-nivel="avanzado" data-respuesta="1,5">
       <div class="p-consigna"><p>Calculá el desvío estándar \(\sigma\).</p></div>
       <div class="p-pista"><p>\(\sigma = \sqrt{V(X)}\).</p></div>
       <div class="p-explicacion"><p>\(\sigma = \sqrt{2{,}25} = 1{,}5\) correos. El desvío no es la varianza: falta la raíz.</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> el desvío estándar \(\sigma\), que dice cuánto se aleja típicamente la cantidad de spam de su promedio, medido en correos.</p>
+        <ol>
+          <li><strong>El modelo.</strong> \(X\) es Binomial con \(n = 12\) (&ldquo;12 correos&rdquo;) y \(p = 0{,}25\) (&ldquo;el 25&nbsp;%&rdquo;).</li>
+          <li><strong>Primero la varianza.</strong> En la Binomial, \(V(X) = n \cdot p \cdot (1-p)\). Con los números: \(V(X) = 12 \times 0{,}25 \times 0{,}75 = 2{,}25\).</li>
+          <li><strong>El desvío.</strong> Es la raíz de la varianza: \(\sigma = \sqrt{V(X)} = \sqrt{2{,}25} = 1{,}5\).</li>
+        </ol>
+        <p><strong>Qué significa:</strong> la cantidad de spam suele alejarse unos 1,5 correos del promedio de 3. Ojo: la varianza (2,25) no es el desvío; falta la raíz.</p>
+      </div>
     </li>
   </ol>
 </article>

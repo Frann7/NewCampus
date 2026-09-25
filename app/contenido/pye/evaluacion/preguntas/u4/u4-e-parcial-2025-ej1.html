@@ -50,21 +50,59 @@
       </ul>
       <div class="p-pista"><p>La marginal de \(X\) junta todo lo que tiene el mismo \(x\), sin importar \(y\).</p></div>
       <div class="p-explicacion"><p>\(g(x) = \sum_{y} f(x,y)\): se suma cada fila. Todos los denominadores son 70, así que se suman los numeradores y se divide al final.</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> saber cómo se saca, a partir de la tabla conjunta, la función de probabilidad de \(X\) sola. Esa función se llama <em>marginal</em> de \(X\) y se escribe \(g(x)\): da \(P(X = x)\) sin importar cuánto valga \(Y\).</p>
+        <ol>
+          <li><strong>Qué es cada casilla.</strong> En la tabla del enunciado cada casilla es \(f(x,y) = P(X = x,\ Y = y)\): la probabilidad de que salgan <em>a la vez</em> \(x\) archivos del sistema y \(y\) de bases de datos. Las filas son los valores de \(X\) (\(0, 1, 2, 3\)) y las columnas los de \(Y\) (\(0, 1, 2\)).</li>
+          <li><strong>Por qué se suma la fila.</strong> El evento \(X = x\) ocurre junto con \(Y = 0\), o con \(Y = 1\), o con \(Y = 2\). Son casos que no se pisan, así que sus probabilidades se suman. Esos casos son justamente las casillas de la fila \(x\): \[ g(x) = \sum_{y} f(x,y) \]</li>
+          <li><strong>Por qué no las otras.</strong> Sumar una columna junta todos los casos con el mismo \(y\): eso da la marginal de \(Y\), no la de \(X\). La diagonal mezcla valores de \(x\) distintos. Y fijar \(y = 0\) en la fórmula da una sola casilla, no todo lo que tiene ese \(x\).</li>
+        </ol>
+        <p><strong>Qué significa:</strong> la marginal de \(X\) sale de sumar cada fila. Como todas las casillas tienen denominador 70, alcanza con sumar los numeradores y dividir por 70 al final.</p>
+      </div>
     </li>
     <li data-inciso="a" data-nivel="principiante" data-respuesta="0,0714" data-tolerancia="0,001">
       <div class="p-consigna"><p>¿Cuánto vale \(g(0)\)? (Podés contestar como fracción.)</p></div>
       <div class="p-pista"><p>Fila \(x = 0\): numeradores \(0 + 2 + 3\).</p></div>
       <div class="p-explicacion"><p>\(g(0) = \frac{0 + 2 + 3}{70} = \frac{5}{70} \approx 0{,}0714\).</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> la probabilidad de que en la muestra de 4 archivos no haya <em>ningún</em> archivo del sistema operativo, o sea \(g(0) = P(X = 0)\), la marginal de \(X\) en \(x = 0\).</p>
+        <ol>
+          <li><strong>Qué fila se mira.</strong> La marginal de \(X\) se obtiene sumando la fila de ese valor de \(x\): \(g(x) = \sum_{y} f(x,y)\), donde \(f(x,y)\) es cada casilla de la tabla. Acá se mira la fila \(x = 0\) (la primera).</li>
+          <li><strong>Los datos.</strong> En la fila \(x = 0\) del enunciado están \(0\) (columna \(y = 0\)), \(\frac{2}{70}\) (columna \(y = 1\)) y \(\frac{3}{70}\) (columna \(y = 2\)).</li>
+          <li><strong>La cuenta.</strong> \[ g(0) = f(0,0) + f(0,1) + f(0,2) = \frac{0 + 2 + 3}{70} = \frac{5}{70} \approx 0{,}0714 \]</li>
+        </ol>
+        <p><strong>Qué significa:</strong> hay alrededor de un 7 % de chances de que la auditoría no toque ningún archivo crítico. Es chico porque 3 de los 8 archivos son del sistema y se sacan 4.</p>
+      </div>
     </li>
     <li data-inciso="a" data-nivel="principiante" data-respuesta="0,4286" data-tolerancia="0,001">
       <div class="p-consigna"><p>¿Cuánto vale \(g(1)\)?</p></div>
       <div class="p-pista"><p>Fila \(x = 1\): numeradores \(3 + 18 + 9\).</p></div>
       <div class="p-explicacion"><p>\(g(1) = \frac{30}{70} \approx 0{,}4286\). Por simetría \(g(2) = \frac{9+18+3}{70} = \frac{30}{70}\) y \(g(3) = \frac{3+2+0}{70} = \frac{5}{70}\).</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> la probabilidad de que en la muestra haya exactamente 1 archivo del sistema operativo: \(g(1) = P(X = 1)\).</p>
+        <ol>
+          <li><strong>Qué fila se mira.</strong> La marginal de \(X\), \(g(x)\), se obtiene sumando todas las casillas \(f(x,y)\) de la fila de ese \(x\), porque \(X = 1\) puede darse con \(Y = 0\), \(1\) o \(2\): \(g(x) = \sum_{y} f(x,y)\). Se mira la fila \(x = 1\).</li>
+          <li><strong>Los datos.</strong> Fila \(x = 1\) del enunciado: \(\frac{3}{70}\), \(\frac{18}{70}\) y \(\frac{9}{70}\).</li>
+          <li><strong>La cuenta.</strong> \[ g(1) = \frac{3 + 18 + 9}{70} = \frac{30}{70} \approx 0{,}4286 \]</li>
+          <li><strong>Las otras dos, igual.</strong> Fila \(x = 2\): \(g(2) = \frac{9 + 18 + 3}{70} = \frac{30}{70}\). Fila \(x = 3\): \(g(3) = \frac{3 + 2 + 0}{70} = \frac{5}{70}\).</li>
+        </ol>
+        <p><strong>Qué significa:</strong> 1 archivo del sistema sale en el 43 % de las muestras. Control: \(5 + 30 + 30 + 5 = 70\), así que la marginal suma \(\frac{70}{70} = 1\), como tiene que pasar.</p>
+      </div>
     </li>
     <li data-inciso="a" data-nivel="principiante" data-respuesta="0,5714" data-tolerancia="0,001">
       <div class="p-consigna"><p>Para \(Y\) se suma cada columna: \(h(y) = \sum_{x} f(x,y)\). ¿Cuánto vale \(h(1)\)?</p></div>
       <div class="p-pista"><p>Columna \(y = 1\): numeradores \(2 + 18 + 18 + 2\).</p></div>
       <div class="p-explicacion"><p>\(h(1) = \frac{40}{70} \approx 0{,}5714\). Las otras dos: \(h(0) = \frac{0+3+9+3}{70} = \frac{15}{70}\) y \(h(2) = \frac{3+9+3+0}{70} = \frac{15}{70}\).</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> la probabilidad de que en la muestra haya exactamente 1 archivo de bases de datos: \(h(1) = P(Y = 1)\), donde \(h(y)\) es la marginal de \(Y\).</p>
+        <ol>
+          <li><strong>Qué columna se mira.</strong> Para \(Y\) se hace lo mismo que para \(X\) pero con las columnas: \(Y = 1\) ocurre con \(X = 0, 1, 2\) o \(3\), y esas son las casillas de la columna \(y = 1\). \[ h(y) = \sum_{x} f(x,y) \]</li>
+          <li><strong>Los datos.</strong> Columna \(y = 1\) del enunciado (la del medio): \(\frac{2}{70}\), \(\frac{18}{70}\), \(\frac{18}{70}\) y \(\frac{2}{70}\).</li>
+          <li><strong>La cuenta.</strong> \[ h(1) = \frac{2 + 18 + 18 + 2}{70} = \frac{40}{70} \approx 0{,}5714 \]</li>
+          <li><strong>Las otras dos.</strong> Columna \(y = 0\): \(h(0) = \frac{0 + 3 + 9 + 3}{70} = \frac{15}{70}\). Columna \(y = 2\): \(h(2) = \frac{3 + 9 + 3 + 0}{70} = \frac{15}{70}\).</li>
+        </ol>
+        <p><strong>Qué significa:</strong> en el 57 % de las muestras entra exactamente uno de los 2 archivos de bases de datos. Control: \(15 + 40 + 15 = 70\).</p>
+      </div>
     </li>
     <li data-inciso="a" data-nivel="avanzado">
       <div class="p-consigna"><p>¿Cuáles son las dos marginales?</p></div>
@@ -78,41 +116,118 @@
       <div class="p-explicacion">
         <p>Filas: \(5, 30, 30, 5\). Columnas: \(15, 40, 15\). Todo sobre 70, y cada lista suma 70. La segunda opción tiene las marginales cruzadas.</p>
       </div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> las dos funciones de probabilidad marginales: \(g(x) = P(X = x)\), la de los archivos del sistema, y \(h(y) = P(Y = y)\), la de los archivos de bases de datos, cada una por separado.</p>
+        <ol>
+          <li><strong>Idea.</strong> Cada casilla de la tabla es \(f(x,y) = P(X = x,\ Y = y)\). Para tener la probabilidad de un valor de \(X\) sin importar \(Y\), se suman todas las casillas con ese \(x\) (su fila). Para \(Y\), todas las de ese \(y\) (su columna): \[ g(x) = \sum_{y} f(x,y) \qquad h(y) = \sum_{x} f(x,y) \] Todo está sobre 70, así que se suman los numeradores.</li>
+          <li><strong>Marginal de \(X\) (filas).</strong> \(x = 0\): \(0 + 2 + 3 = 5\). \(x = 1\): \(3 + 18 + 9 = 30\). \(x = 2\): \(9 + 18 + 3 = 30\). \(x = 3\): \(3 + 2 + 0 = 5\). Queda \(g(x) = \frac{5}{70}, \frac{30}{70}, \frac{30}{70}, \frac{5}{70}\).</li>
+          <li><strong>Marginal de \(Y\) (columnas).</strong> \(y = 0\): \(0 + 3 + 9 + 3 = 15\). \(y = 1\): \(2 + 18 + 18 + 2 = 40\). \(y = 2\): \(3 + 9 + 3 + 0 = 15\). Queda \(h(y) = \frac{15}{70}, \frac{40}{70}, \frac{15}{70}\).</li>
+          <li><strong>Las opciones que no.</strong> La segunda tiene las marginales cruzadas (a \(X\) le tocan 4 valores, no 3). La tercera tiene bien \(g\) pero \(h\) mal sumada. La cuarta supone que todos los valores son igual de probables, y la tabla muestra que no.</li>
+        </ol>
+        <p><strong>Qué significa:</strong> lo más probable es sacar 1 o 2 archivos del sistema y 1 de bases de datos. Control: cada marginal suma \(\frac{70}{70} = 1\).</p>
+      </div>
     </li>
     <li data-inciso="b" data-nivel="principiante" data-respuesta="105">
       <div class="p-consigna"><p>\(E(X) = \sum x \cdot g(x)\). Trabajando con numeradores, ¿cuánto da \(0\cdot 5 + 1\cdot 30 + 2\cdot 30 + 3\cdot 5\)?</p></div>
       <div class="p-pista"><p>\(0 + 30 + 60 + 15\).</p></div>
       <div class="p-explicacion"><p>\(105\). Después se divide por 70.</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> la parte de arriba (el numerador) de la esperanza de \(X\). La esperanza \(E(X)\) es el valor promedio de \(X\) si se repitiera la auditoría muchas veces.</p>
+        <ol>
+          <li><strong>La fórmula.</strong> Para una variable discreta, la esperanza es cada valor por su probabilidad, todo sumado: \[ E(X) = \sum_{x} x \cdot g(x) \] donde \(g(x)\) es la marginal de \(X\) (la suma de cada fila de la tabla: \(\frac{5}{70}, \frac{30}{70}, \frac{30}{70}, \frac{5}{70}\) para \(x = 0, 1, 2, 3\)).</li>
+          <li><strong>Por qué con numeradores.</strong> Como todas las probabilidades tienen denominador 70, se puede sumar \(x \cdot \text{numerador}\) y dividir por 70 una sola vez al final.</li>
+          <li><strong>La cuenta.</strong> \[ 0 \cdot 5 + 1 \cdot 30 + 2 \cdot 30 + 3 \cdot 5 = 0 + 30 + 60 + 15 = 105 \]</li>
+        </ol>
+        <p><strong>Qué significa:</strong> 105 todavía no es la esperanza: falta dividir por 70, y da \(E(X) = 1{,}5\).</p>
+      </div>
     </li>
     <li data-inciso="b" data-nivel="avanzado" data-respuesta="1,5">
       <div class="p-consigna"><p>¿Cuánto vale \(E(X)\)?</p></div>
       <div class="p-pista"><p>\(E(X) = \sum x \cdot g(x)\), con la marginal de \(X\).</p></div>
       <div class="p-explicacion"><p>\(E(X) = \frac{0 + 30 + 60 + 15}{70} = \frac{105}{70} = 1{,}5\) archivos del sistema.</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> \(E(X)\), la esperanza de \(X\): cuántos archivos del sistema operativo salen en promedio en una muestra de 4.</p>
+        <ol>
+          <li><strong>La marginal de \(X\).</strong> Primero hace falta \(g(x) = P(X = x)\), que se obtiene sumando cada fila de la tabla (cada fila junta los casos con ese \(x\), sea cual sea \(y\)). Numeradores: fila 0: \(0 + 2 + 3 = 5\); fila 1: \(3 + 18 + 9 = 30\); fila 2: \(9 + 18 + 3 = 30\); fila 3: \(3 + 2 + 0 = 5\). Todo sobre 70.</li>
+          <li><strong>La fórmula.</strong> La esperanza de una variable discreta es la suma de cada valor por su probabilidad: \[ E(X) = \sum_{x} x \cdot g(x) \]</li>
+          <li><strong>Con los números.</strong> \[ E(X) = 0 \cdot \tfrac{5}{70} + 1 \cdot \tfrac{30}{70} + 2 \cdot \tfrac{30}{70} + 3 \cdot \tfrac{5}{70} = \frac{0 + 30 + 60 + 15}{70} = \frac{105}{70} = 1{,}5 \]</li>
+        </ol>
+        <p><strong>Qué significa:</strong> en promedio salen 1,5 archivos del sistema por muestra. Control: 3 de los 8 archivos son del sistema, y \(4 \cdot \frac{3}{8} = 1{,}5\). Además tiene que quedar entre 0 y 3, y queda.</p>
+      </div>
     </li>
     <li data-inciso="b" data-nivel="avanzado" data-respuesta="1">
       <div class="p-consigna"><p>¿Cuánto vale \(E(Y)\)?</p></div>
       <div class="p-pista"><p>\(E(Y) = \sum y \cdot h(y)\), con numeradores \(15, 40, 15\).</p></div>
       <div class="p-explicacion"><p>\(E(Y) = \frac{0 \cdot 15 + 1 \cdot 40 + 2 \cdot 15}{70} = \frac{70}{70} = 1\).</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> \(E(Y)\), la esperanza de \(Y\): cuántos archivos de bases de datos salen en promedio en una muestra de 4.</p>
+        <ol>
+          <li><strong>La marginal de \(Y\).</strong> \(h(y) = P(Y = y)\) se obtiene sumando cada columna de la tabla (cada columna junta los casos con ese \(y\)). Numeradores: columna 0: \(0 + 3 + 9 + 3 = 15\); columna 1: \(2 + 18 + 18 + 2 = 40\); columna 2: \(3 + 9 + 3 + 0 = 15\). Todo sobre 70.</li>
+          <li><strong>La fórmula.</strong> Cada valor por su probabilidad, todo sumado: \[ E(Y) = \sum_{y} y \cdot h(y) \]</li>
+          <li><strong>Con los números.</strong> \[ E(Y) = \frac{0 \cdot 15 + 1 \cdot 40 + 2 \cdot 15}{70} = \frac{0 + 40 + 30}{70} = \frac{70}{70} = 1 \]</li>
+        </ol>
+        <p><strong>Qué significa:</strong> en promedio sale 1 archivo de bases de datos por muestra. Control: 2 de los 8 archivos son de bases, y \(4 \cdot \frac{2}{8} = 1\).</p>
+      </div>
     </li>
     <li data-inciso="b" data-nivel="medio" data-respuesta="2,7857" data-tolerancia="0,001">
       <div class="p-consigna"><p>¿Cuánto vale \(E(X^{2}) = \sum x^{2} \cdot g(x)\)?</p></div>
       <div class="p-pista"><p>Los valores al cuadrado son \(0, 1, 4, 9\); multiplicalos por \(5, 30, 30, 5\).</p></div>
       <div class="p-explicacion"><p>\(E(X^{2}) = \frac{0 + 30 + 120 + 45}{70} = \frac{195}{70} \approx 2{,}7857\).</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> \(E(X^{2})\), el promedio de los <em>cuadrados</em> de \(X\). No es un dato interesante por sí mismo: se necesita para calcular la varianza.</p>
+        <ol>
+          <li><strong>La marginal de \(X\).</strong> Se usa \(g(x) = P(X = x)\), la suma de cada fila de la tabla: \(\frac{5}{70}, \frac{30}{70}, \frac{30}{70}, \frac{5}{70}\) para \(x = 0, 1, 2, 3\) (fila 0: \(0 + 2 + 3\); fila 1: \(3 + 18 + 9\); fila 2: \(9 + 18 + 3\); fila 3: \(3 + 2 + 0\)).</li>
+          <li><strong>La fórmula.</strong> Es como la esperanza, pero cada valor se eleva al cuadrado antes de multiplicarlo por su probabilidad (la probabilidad no se eleva): \[ E(X^{2}) = \sum_{x} x^{2} \cdot g(x) \]</li>
+          <li><strong>Los cuadrados.</strong> \(0^{2} = 0\), \(1^{2} = 1\), \(2^{2} = 4\), \(3^{2} = 9\).</li>
+          <li><strong>La cuenta.</strong> \[ E(X^{2}) = \frac{0 \cdot 5 + 1 \cdot 30 + 4 \cdot 30 + 9 \cdot 5}{70} = \frac{0 + 30 + 120 + 45}{70} = \frac{195}{70} \approx 2{,}7857 \]</li>
+        </ol>
+        <p><strong>Qué significa:</strong> es el promedio de \(X^{2}\). Control: tiene que ser mayor o igual que \([E(X)]^{2} = 1{,}5^{2} = 2{,}25\), y lo es.</p>
+      </div>
     </li>
     <li data-inciso="b" data-nivel="avanzado" data-respuesta="0,5357" data-tolerancia="0,001">
       <div class="p-consigna"><p>¿Cuánto vale \(V(X)\)?</p></div>
       <div class="p-pista"><p>\(V(X) = E(X^{2}) - [E(X)]^{2}\).</p></div>
       <div class="p-explicacion"><p>\(V(X) = 2{,}7857 - 1{,}5^{2} = 2{,}7857 - 2{,}25 = 0{,}5357\).</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> \(V(X)\), la varianza de \(X\): cuánto se dispersa la cantidad de archivos del sistema alrededor de su promedio.</p>
+        <ol>
+          <li><strong>La marginal de \(X\).</strong> Se suma cada fila de la tabla: \(g(x) = \frac{5}{70}, \frac{30}{70}, \frac{30}{70}, \frac{5}{70}\) para \(x = 0, 1, 2, 3\).</li>
+          <li><strong>La esperanza.</strong> \(E(X) = \sum x \cdot g(x) = \frac{0 \cdot 5 + 1 \cdot 30 + 2 \cdot 30 + 3 \cdot 5}{70} = \frac{105}{70} = 1{,}5\).</li>
+          <li><strong>El promedio de los cuadrados.</strong> \(E(X^{2}) = \sum x^{2} \cdot g(x) = \frac{0 \cdot 5 + 1 \cdot 30 + 4 \cdot 30 + 9 \cdot 5}{70} = \frac{195}{70} \approx 2{,}7857\).</li>
+          <li><strong>La fórmula de la varianza.</strong> La forma práctica es el promedio de los cuadrados menos el cuadrado del promedio: \[ V(X) = E(X^{2}) - [E(X)]^{2} \]</li>
+          <li><strong>Con los números.</strong> \[ V(X) = 2{,}7857 - 1{,}5^{2} = 2{,}7857 - 2{,}25 = 0{,}5357 \]</li>
+        </ol>
+        <p><strong>Qué significa:</strong> la varianza está en "archivos al cuadrado"; su raíz, el desvío \(\sigma \approx 0{,}73\), dice que \(X\) suele alejarse menos de 1 archivo de 1,5. Control: una varianza nunca es negativa.</p>
+      </div>
     </li>
     <li data-inciso="b" data-nivel="medio" data-respuesta="1,4286" data-tolerancia="0,001">
       <div class="p-consigna"><p>¿Cuánto vale \(E(Y^{2}) = \sum y^{2} \cdot h(y)\)?</p></div>
       <div class="p-pista"><p>\(\frac{0 \cdot 15 + 1 \cdot 40 + 4 \cdot 15}{70}\).</p></div>
       <div class="p-explicacion"><p>\(E(Y^{2}) = \frac{40 + 60}{70} = \frac{100}{70} \approx 1{,}4286\).</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> \(E(Y^{2})\), el promedio de los cuadrados de \(Y\), que hace falta para la varianza de \(Y\).</p>
+        <ol>
+          <li><strong>La marginal de \(Y\).</strong> \(h(y) = P(Y = y)\) sale de sumar cada columna de la tabla: columna 0: \(0 + 3 + 9 + 3 = 15\); columna 1: \(2 + 18 + 18 + 2 = 40\); columna 2: \(3 + 9 + 3 + 0 = 15\). Todo sobre 70.</li>
+          <li><strong>La fórmula.</strong> Cada valor al cuadrado por su probabilidad: \[ E(Y^{2}) = \sum_{y} y^{2} \cdot h(y) \]</li>
+          <li><strong>La cuenta.</strong> Los cuadrados son \(0, 1, 4\): \[ E(Y^{2}) = \frac{0 \cdot 15 + 1 \cdot 40 + 4 \cdot 15}{70} = \frac{40 + 60}{70} = \frac{100}{70} \approx 1{,}4286 \]</li>
+        </ol>
+        <p><strong>Qué significa:</strong> es el promedio de \(Y^{2}\). Control: es mayor que \([E(Y)]^{2} = 1\), como tiene que ser.</p>
+      </div>
     </li>
     <li data-inciso="b" data-nivel="avanzado" data-respuesta="0,4286" data-tolerancia="0,001">
       <div class="p-consigna"><p>¿Cuánto vale \(V(Y)\)?</p></div>
       <div class="p-pista"><p>\(V(Y) = E(Y^{2}) - [E(Y)]^{2}\).</p></div>
       <div class="p-explicacion"><p>\(V(Y) = 1{,}4286 - 1^{2} = 0{,}4286\).</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> \(V(Y)\), la varianza de \(Y\): cuánto se dispersa la cantidad de archivos de bases de datos alrededor de su promedio.</p>
+        <ol>
+          <li><strong>La marginal de \(Y\).</strong> Se suma cada columna de la tabla: \(h(y) = \frac{15}{70}, \frac{40}{70}, \frac{15}{70}\) para \(y = 0, 1, 2\).</li>
+          <li><strong>La esperanza.</strong> \(E(Y) = \sum y \cdot h(y) = \frac{0 \cdot 15 + 1 \cdot 40 + 2 \cdot 15}{70} = \frac{70}{70} = 1\).</li>
+          <li><strong>El promedio de los cuadrados.</strong> \(E(Y^{2}) = \sum y^{2} \cdot h(y) = \frac{0 \cdot 15 + 1 \cdot 40 + 4 \cdot 15}{70} = \frac{100}{70} \approx 1{,}4286\).</li>
+          <li><strong>La fórmula y la cuenta.</strong> \[ V(Y) = E(Y^{2}) - [E(Y)]^{2} = 1{,}4286 - 1^{2} = 0{,}4286 \]</li>
+        </ol>
+        <p><strong>Qué significa:</strong> \(Y\) varía un poco menos que \(X\) (0,43 contra 0,54): tiene solo 3 valores posibles y casi siempre vale 1. Control: no es negativa.</p>
+      </div>
     </li>
     <li data-inciso="c" data-nivel="principiante">
       <div class="p-consigna"><p>La demostración arranca de la definición de varianza. ¿Cuál es?</p></div>
@@ -124,6 +239,15 @@
       </ul>
       <div class="p-pista"><p>No se puede partir de lo que se quiere demostrar. La varianza es el promedio de los apartamientos al cuadrado.</p></div>
       <div class="p-explicacion"><p>Definición: \(V(X) = E[(X-\mu)^{2}]\), con \(\mu = E(X)\), que es un número fijo.</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> elegir desde dónde arranca la demostración de \(V(X) = E(X^{2}) - \mu^{2}\). Hay que partir de la <em>definición</em> de varianza, que es lo que se sabe de entrada.</p>
+        <ol>
+          <li><strong>La definición.</strong> La varianza es el promedio de los apartamientos al cuadrado respecto de la media: \[ V(X) = E\big[(X - \mu)^{2}\big] \] donde \(\mu = E(X)\) es la esperanza de \(X\). Ojo: \(\mu\) es un número fijo, no una variable.</li>
+          <li><strong>Por qué no \(E(X^{2}) - \mu^{2}\).</strong> Es justo lo que hay que demostrar. Partir de ahí es dar por cierto lo que se quiere probar.</li>
+          <li><strong>Por qué no las otras.</strong> \([E(X)]^{2}\) es la media al cuadrado, no mide dispersión. Y \(E(X - \mu)\) siempre da 0 (los apartamientos positivos y negativos se cancelan); por eso se elevan al cuadrado.</li>
+        </ol>
+        <p><strong>Qué significa:</strong> la demostración consiste en transformar \(E[(X - \mu)^{2}]\) con álgebra hasta llegar a \(E(X^{2}) - \mu^{2}\).</p>
+      </div>
     </li>
     <li data-inciso="c" data-nivel="medio">
       <div class="p-consigna"><p>¿Cómo queda al desarrollar el cuadrado adentro de la esperanza?</p></div>
@@ -135,6 +259,16 @@
       </ul>
       <div class="p-pista"><p>Cuadrado de un binomio: \((a - b)^{2} = a^{2} - 2ab + b^{2}\).</p></div>
       <div class="p-explicacion"><p>\((X - \mu)^{2} = X^{2} - 2\mu X + \mu^{2}\).</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> en la definición de varianza, \(V(X) = E[(X - \mu)^{2}]\) (con \(\mu = E(X)\), un número fijo), desarrollar el cuadrado que está adentro de la esperanza.</p>
+        <ol>
+          <li><strong>Por qué se desarrolla.</strong> Así aparecen términos sueltos (\(X^{2}\), \(X\), constantes) a los que se les puede calcular la esperanza por separado.</li>
+          <li><strong>El cuadrado de un binomio.</strong> En general \((a - b)^{2} = a^{2} - 2ab + b^{2}\). Con \(a = X\) y \(b = \mu\): \[ (X - \mu)^{2} = X^{2} - 2\mu X + \mu^{2} \]</li>
+          <li><strong>Queda.</strong> \(V(X) = E\big[X^{2} - 2\mu X + \mu^{2}\big]\).</li>
+          <li><strong>Las opciones que no.</strong> \(E[X^{2} - \mu^{2}]\) y \(E[X^{2} + \mu^{2}]\) se olvidan del doble producto. \(E[X^{2} - 2X + \mu^{2}]\) pone \(2X\) en lugar de \(2\mu X\): el doble producto lleva los dos términos, \(X\) y \(\mu\).</li>
+        </ol>
+        <p><strong>Qué significa:</strong> todavía no se simplificó nada; solo se reescribió el cuadrado para poder repartir la esperanza.</p>
+      </div>
     </li>
     <li data-inciso="c" data-nivel="medio">
       <div class="p-consigna"><p>¿Qué queda al repartir la esperanza?</p></div>
@@ -146,6 +280,15 @@
       </ul>
       <div class="p-pista"><p>La esperanza se reparte en las sumas; las constantes (\(2\mu\)) salen afuera; la esperanza de una constante es la constante.</p></div>
       <div class="p-explicacion"><p>Por linealidad: \(E(X^{2}) - 2\mu\,E(X) + E(\mu^{2})\), y \(E(\mu^{2}) = \mu^{2}\) porque es constante.</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> en \(E[X^{2} - 2\mu X + \mu^{2}]\) (que viene de desarrollar \(V(X) = E[(X - \mu)^{2}]\), con \(\mu = E(X)\) fijo), repartir la esperanza entre los términos.</p>
+        <ol>
+          <li><strong>Las propiedades que se usan.</strong> La esperanza es lineal: la esperanza de una suma es la suma de las esperanzas, \(E(A + B) = E(A) + E(B)\); una constante multiplicando sale afuera, \(E(cX) = c\,E(X)\); y la esperanza de una constante es la misma constante, \(E(c) = c\).</li>
+          <li><strong>Aplicadas término a término.</strong> \(E(X^{2})\) queda igual. En \(-2\mu X\), el \(-2\mu\) es constante y sale: \(-2\mu\,E(X)\). Y \(\mu^{2}\) es constante: \(E(\mu^{2}) = \mu^{2}\). \[ E\big[X^{2} - 2\mu X + \mu^{2}\big] = E(X^{2}) - 2\mu\,E(X) + \mu^{2} \]</li>
+          <li><strong>Las opciones que no.</strong> Multiplicar las esperanzas entre sí está mal: la esperanza se reparte en las sumas, no se convierte en producto. \(-2\mu^{2}E(X)\) saca un \(\mu\) de más. Y \(E(\mu)^{2}E(X)\) le agrega una \(E(X)\) a una constante que no la lleva.</li>
+        </ol>
+        <p><strong>Qué significa:</strong> quedó una expresión con \(E(X^{2})\), \(E(X)\) y \(\mu\); falta un último paso para simplificarla.</p>
+      </div>
     </li>
     <li data-inciso="c" data-nivel="avanzado">
       <div class="p-consigna"><p>En \(E(X^{2}) - 2\mu\,E(X) + \mu^{2}\), ¿qué paso cierra la demostración?</p></div>
@@ -161,6 +304,16 @@
         <p>\[ V(X) = E(X^{2}) - \mu^{2} \qquad \blacksquare \]</p>
         <p>Con los números: \(2{,}7857 - 2{,}25 = 0{,}5357\), lo mismo que da la definición \(E[(X-1{,}5)^{2}] = \frac{37{,}5}{70}\).</p>
       </div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> terminar la demostración de \(V(X) = E(X^{2}) - \mu^{2}\), donde \(V(X)\) es la varianza y \(\mu = E(X)\) la esperanza de \(X\).</p>
+        <ol>
+          <li><strong>El camino hasta acá.</strong> Se parte de la definición \(V(X) = E[(X - \mu)^{2}]\). Se desarrolla el cuadrado con \((a - b)^{2} = a^{2} - 2ab + b^{2}\): \(E[X^{2} - 2\mu X + \mu^{2}]\). Se reparte la esperanza (la de una suma es la suma de las esperanzas; las constantes salen afuera; \(E(\text{constante}) = \text{constante}\)): \(E(X^{2}) - 2\mu\,E(X) + \mu^{2}\).</li>
+          <li><strong>El paso que cierra.</strong> \(E(X)\) es exactamente \(\mu\), por definición de \(\mu\). Reemplazando: \[ E(X^{2}) - 2\mu \cdot \mu + \mu^{2} = E(X^{2}) - 2\mu^{2} + \mu^{2} = E(X^{2}) - \mu^{2} \qquad \blacksquare \]</li>
+          <li><strong>Las opciones que no.</strong> \(E(X)\) no es 0 (eso sería \(E(X - \mu)\)). \(E(X^{2})\) no es \([E(X)]^{2}\): justamente su diferencia es la varianza. Y \(2\mu\) con \(\mu^{2}\) no se "simplifican": están sumados, no multiplicados.</li>
+          <li><strong>Control con este ejercicio.</strong> \(E(X^{2}) - \mu^{2} = 2{,}7857 - 1{,}5^{2} = 0{,}5357\). Con la definición: \(\frac{5 \cdot 2{,}25 + 30 \cdot 0{,}25 + 30 \cdot 0{,}25 + 5 \cdot 2{,}25}{70} = \frac{37{,}5}{70} = 0{,}5357\). Da lo mismo.</li>
+        </ol>
+        <p><strong>Qué significa:</strong> las dos fórmulas de la varianza son equivalentes; la de \(E(X^{2}) - \mu^{2}\) se usa porque tiene menos cuentas.</p>
+      </div>
     </li>
     <li data-inciso="d" data-nivel="principiante">
       <div class="p-consigna"><p>Para negar la independencia alcanza una celda con \(f(x,y) \neq g(x)\,h(y)\). ¿Cuál es la más cómoda?</p></div>
@@ -172,11 +325,29 @@
       </ul>
       <div class="p-pista"><p>Si una celda vale 0 pero su fila y su columna tienen probabilidad, el producto no es 0.</p></div>
       <div class="p-explicacion"><p>\(f(0,0) = 0\): sacar 4 archivos sin ninguno del sistema ni de bases es imposible (de usuario hay solo 3). Pero \(g(0)\) y \(h(0)\) son positivas.</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> elegir la casilla más cómoda para mostrar que \(X\) e \(Y\) <em>no</em> son independientes. Son independientes si en <em>todas</em> las casillas \(f(x,y) = g(x)\,h(y)\) (la conjunta es igual al producto de las marginales); para negarlo alcanza con que falle en una.</p>
+        <ol>
+          <li><strong>La casilla \((0,0)\).</strong> Fila \(x = 0\), columna \(y = 0\) de la tabla: \(f(0,0) = 0\). Es imposible sacar 4 archivos sin ninguno del sistema ni de bases de datos, porque de usuario hay solo 3.</li>
+          <li><strong>Por qué el producto no da 0.</strong> \(g(0)\) es la suma de la fila 0 (\(\frac{5}{70}\)) y \(h(0)\) la de la columna 0 (\(\frac{15}{70}\)). Las dos son positivas, así que su producto también. Sin hacer cuentas ya se ve que \(0 \neq g(0)\,h(0)\).</li>
+          <li><strong>Las opciones que no.</strong> Que \((1,1)\) sea la más grande no dice nada. La diagonal no tiene nada especial. Y no hace falta revisar las 12: revisar todas sirve para <em>probar</em> independencia, no para negarla.</li>
+        </ol>
+        <p><strong>Qué significa:</strong> una casilla con 0 en la conjunta, en una fila y una columna que no son 0, alcanza para decir que no hay independencia.</p>
+      </div>
     </li>
     <li data-inciso="d" data-nivel="medio" data-respuesta="0,0153" data-tolerancia="0,0005">
       <div class="p-consigna"><p>¿Cuánto vale \(g(0) \cdot h(0)\)?</p></div>
       <div class="p-pista"><p>\(\frac{5}{70} \cdot \frac{15}{70}\).</p></div>
       <div class="p-explicacion"><p>\(\frac{75}{4900} \approx 0{,}0153\).</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> el producto \(g(0) \cdot h(0)\) de las marginales en \(x = 0\), \(y = 0\). Es lo que valdría \(f(0,0)\) <em>si</em> \(X\) e \(Y\) fueran independientes.</p>
+        <ol>
+          <li><strong>\(g(0)\), marginal de \(X\).</strong> Es \(P(X = 0)\): se suma la fila \(x = 0\) de la tabla, \(\frac{0 + 2 + 3}{70} = \frac{5}{70}\).</li>
+          <li><strong>\(h(0)\), marginal de \(Y\).</strong> Es \(P(Y = 0)\): se suma la columna \(y = 0\), \(\frac{0 + 3 + 9 + 3}{70} = \frac{15}{70}\).</li>
+          <li><strong>El producto.</strong> \[ g(0) \cdot h(0) = \frac{5}{70} \cdot \frac{15}{70} = \frac{75}{4900} \approx 0{,}0153 \]</li>
+        </ol>
+        <p><strong>Qué significa:</strong> si fueran independientes, \(f(0,0)\) tendría que valer 0,0153. En la tabla vale 0, así que no lo son.</p>
+      </div>
     </li>
     <li data-inciso="d" data-nivel="avanzado">
       <div class="p-consigna"><p>¿Son independientes \(X\) e \(Y\)?</p></div>
@@ -188,21 +359,61 @@
       </ul>
       <div class="p-pista"><p>Independencia es \(f(x,y) = g(x)\,h(y)\) en todas las celdas. Probá con \((0,0)\).</p></div>
       <div class="p-explicacion"><p>Falla en \((0,0)\), así que <strong>no son independientes</strong>: las dos variables se pelean los mismos 4 lugares de la muestra.</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> decidir si \(X\) e \(Y\) son independientes. Dos variables discretas son independientes si en todas las casillas \(f(x,y) = g(x)\,h(y)\): la conjunta \(f\) es el producto de las marginales \(g\) (de \(X\)) y \(h\) (de \(Y\)). Si falla en una sola casilla, no lo son.</p>
+        <ol>
+          <li><strong>Qué casilla se prueba.</strong> La \((0,0)\): fila \(x = 0\), columna \(y = 0\). En la tabla vale \(f(0,0) = 0\), porque sacar 4 archivos sin ninguno del sistema ni de bases es imposible (de usuario hay solo 3).</li>
+          <li><strong>Las marginales.</strong> \(g(0)\) = suma de la fila 0 = \(\frac{0 + 2 + 3}{70} = \frac{5}{70}\). \(h(0)\) = suma de la columna 0 = \(\frac{0 + 3 + 9 + 3}{70} = \frac{15}{70}\).</li>
+          <li><strong>La comparación.</strong> \[ g(0)\,h(0) = \frac{5}{70} \cdot \frac{15}{70} = \frac{75}{4900} \approx 0{,}0153 \neq 0 = f(0,0) \]</li>
+          <li><strong>Las opciones que no.</strong> Que las marginales sumen 1 pasa siempre, no prueba nada. Una tabla simétrica puede ser dependiente. Y la covarianza no hace falta: con una casilla que falla ya se sabe.</li>
+        </ol>
+        <p><strong>Qué significa:</strong> <strong>no son independientes</strong>. Tiene sentido: las dos variables se reparten los mismos 4 lugares de la muestra, así que lo que saca una le quita lugar a la otra.</p>
+      </div>
     </li>
     <li data-inciso="d" data-nivel="principiante" data-respuesta="90">
       <div class="p-consigna"><p>\(E(XY) = \sum_x \sum_y x \cdot y \cdot f(x,y)\), en la tabla grande. Con numeradores, ¿cuánto suman los aportes \(x \cdot y \cdot \text{numerador}\)?</p></div>
       <div class="p-pista"><p>La fila \(x = 0\) y la columna \(y = 0\) aportan 0. Quedan: \(1\cdot1\cdot18\), \(1\cdot2\cdot9\), \(2\cdot1\cdot18\), \(2\cdot2\cdot3\), \(3\cdot1\cdot2\), \(3\cdot2\cdot0\).</p></div>
       <div class="p-explicacion"><p>\(18 + 18 + 36 + 12 + 6 + 0 = 90\).</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> el numerador de \(E(XY)\), la esperanza del producto \(X \cdot Y\). Hace falta para la covarianza.</p>
+        <ol>
+          <li><strong>La fórmula.</strong> Se recorre la tabla conjunta entera: cada casilla \(f(x,y)\) se multiplica por el \(x\) de su fila y el \(y\) de su columna, y se suma todo: \[ E(XY) = \sum_{x} \sum_{y} x \cdot y \cdot f(x,y) \] Se usa la tabla grande, no las marginales.</li>
+          <li><strong>Las que aportan 0.</strong> Toda la fila \(x = 0\) y toda la columna \(y = 0\) dan 0, porque uno de los factores es 0.</li>
+          <li><strong>El resto, con numeradores.</strong> Fila 1: \(1 \cdot 1 \cdot 18 = 18\) y \(1 \cdot 2 \cdot 9 = 18\). Fila 2: \(2 \cdot 1 \cdot 18 = 36\) y \(2 \cdot 2 \cdot 3 = 12\). Fila 3: \(3 \cdot 1 \cdot 2 = 6\) y \(3 \cdot 2 \cdot 0 = 0\).</li>
+          <li><strong>La suma.</strong> \[ 18 + 18 + 36 + 12 + 6 + 0 = 90 \]</li>
+        </ol>
+        <p><strong>Qué significa:</strong> falta dividir por 70: \(E(XY) = \frac{90}{70} \approx 1{,}2857\).</p>
+      </div>
     </li>
     <li data-inciso="d" data-nivel="medio" data-respuesta="1,2857" data-tolerancia="0,001">
       <div class="p-consigna"><p>¿Cuánto vale \(E(XY)\)?</p></div>
       <div class="p-pista"><p>\(E(XY) = \sum_x \sum_y x\,y\,f(x,y)\): cada celda por su \(x\) y su \(y\). Se usa la tabla grande, no las marginales.</p></div>
       <div class="p-explicacion"><p>\(E(XY) = \frac{90}{70} \approx 1{,}2857\).</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> \(E(XY)\), el promedio del producto \(X \cdot Y\). Es el ingrediente nuevo que necesita la covarianza.</p>
+        <ol>
+          <li><strong>La fórmula.</strong> Cada casilla \(f(x,y)\) de la tabla conjunta, multiplicada por el \(x\) de su fila y el \(y\) de su columna, todo sumado: \[ E(XY) = \sum_{x} \sum_{y} x \cdot y \cdot f(x,y) \] Ojo: no es \(E(X) \cdot E(Y)\); eso solo vale con independencia.</li>
+          <li><strong>Las casillas que aportan.</strong> La fila \(x = 0\) y la columna \(y = 0\) dan 0. Quedan, con numeradores: \(1 \cdot 1 \cdot 18 = 18\), \(1 \cdot 2 \cdot 9 = 18\), \(2 \cdot 1 \cdot 18 = 36\), \(2 \cdot 2 \cdot 3 = 12\), \(3 \cdot 1 \cdot 2 = 6\), \(3 \cdot 2 \cdot 0 = 0\).</li>
+          <li><strong>La cuenta.</strong> \[ E(XY) = \frac{18 + 18 + 36 + 12 + 6 + 0}{70} = \frac{90}{70} \approx 1{,}2857 \]</li>
+        </ol>
+        <p><strong>Qué significa:</strong> es el promedio del producto. Comparado con \(E(X)\,E(Y) = 1{,}5 \cdot 1 = 1{,}5\), es menor: eso anticipa una covarianza negativa.</p>
+      </div>
     </li>
     <li data-inciso="d" data-nivel="avanzado" data-respuesta="-0,2143" data-tolerancia="0,001">
       <div class="p-consigna"><p>¿Cuánto vale \(Cov(X,Y)\)?</p></div>
       <div class="p-pista"><p>\(Cov(X,Y) = E(XY) - E(X)\,E(Y)\).</p></div>
       <div class="p-explicacion"><p>\(Cov(X,Y) = 1{,}2857 - 1{,}5 \cdot 1 = -0{,}2143 = -\frac{3}{14}\). Negativa: cuantos más archivos del sistema entran en la muestra, menos lugar queda para los de bases de datos.</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> la covarianza \(Cov(X,Y)\), que mide si \(X\) e \(Y\) tienden a moverse juntas (positiva) o en sentidos opuestos (negativa).</p>
+        <ol>
+          <li><strong>La fórmula.</strong> \[ Cov(X,Y) = E(XY) - E(X)\,E(Y) \] donde \(E(XY)\) es el promedio del producto y \(E(X)\), \(E(Y)\) los promedios de cada una.</li>
+          <li><strong>\(E(X)\).</strong> Con la marginal de \(X\) (suma de cada fila: \(5, 30, 30, 5\) sobre 70): \(E(X) = \frac{0 \cdot 5 + 1 \cdot 30 + 2 \cdot 30 + 3 \cdot 5}{70} = \frac{105}{70} = 1{,}5\).</li>
+          <li><strong>\(E(Y)\).</strong> Con la marginal de \(Y\) (suma de cada columna: \(15, 40, 15\) sobre 70): \(E(Y) = \frac{0 \cdot 15 + 1 \cdot 40 + 2 \cdot 15}{70} = 1\).</li>
+          <li><strong>\(E(XY)\).</strong> Cada casilla por su \(x\) y su \(y\) (la fila 0 y la columna 0 dan 0): \(\frac{1\cdot1\cdot18 + 1\cdot2\cdot9 + 2\cdot1\cdot18 + 2\cdot2\cdot3 + 3\cdot1\cdot2 + 3\cdot2\cdot0}{70} = \frac{90}{70} \approx 1{,}2857\).</li>
+          <li><strong>La covarianza.</strong> \[ Cov(X,Y) = 1{,}2857 - 1{,}5 \cdot 1 = -0{,}2143 = -\tfrac{3}{14} \]</li>
+        </ol>
+        <p><strong>Qué significa:</strong> es negativa: cuantos más archivos del sistema entran en la muestra, menos lugar queda para los de bases de datos. Es coherente con que no sean independientes.</p>
+      </div>
     </li>
     <li data-inciso="e" data-nivel="principiante">
       <div class="p-consigna"><p>\(X\) e \(Y\) no son independientes. ¿Qué propiedad da \(E(X + Y)\)?</p></div>
@@ -214,11 +425,29 @@
       </ul>
       <div class="p-pista"><p>La covarianza aparece en la varianza de una suma, no en la esperanza.</p></div>
       <div class="p-explicacion"><p>La esperanza se reparte en las sumas sean o no independientes.</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> la propiedad que permite calcular \(E(X + Y)\), la esperanza de la suma, sabiendo que \(X\) e \(Y\) no son independientes.</p>
+        <ol>
+          <li><strong>La propiedad.</strong> La esperanza de una suma es siempre la suma de las esperanzas: \[ E(X + Y) = E(X) + E(Y) \] Vale sean o no independientes; no pide ninguna condición.</li>
+          <li><strong>Las opciones que no.</strong> El término \(2\,Cov(X,Y)\) aparece en la <em>varianza</em> de una suma, \(V(X + Y) = V(X) + V(Y) + 2\,Cov(X,Y)\), no en la esperanza. \(E(X)\,E(Y)\) es otra cosa (y solo sería \(E(XY)\) con independencia). Y sí se puede calcular: la falta de independencia no molesta acá.</li>
+        </ol>
+        <p><strong>Qué significa:</strong> para \(E(Z)\) alcanza con sumar las dos esperanzas.</p>
+      </div>
     </li>
     <li data-inciso="e" data-nivel="avanzado" data-respuesta="2,5">
       <div class="p-consigna"><p>¿Cuánto vale \(E(Z)\)?</p></div>
       <div class="p-pista"><p>\(E(X + Y) = E(X) + E(Y)\), siempre.</p></div>
       <div class="p-explicacion"><p>\(E(Z) = 1{,}5 + 1 = 2{,}5\) archivos.</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> \(E(Z)\), con \(Z = X + Y\): cuántos archivos, entre los del sistema y los de bases de datos, salen en promedio en una muestra de 4.</p>
+        <ol>
+          <li><strong>La propiedad.</strong> La esperanza de una suma es la suma de las esperanzas, siempre (aunque \(X\) e \(Y\) no sean independientes, como pasa acá): \[ E(Z) = E(X + Y) = E(X) + E(Y) \]</li>
+          <li><strong>\(E(X)\).</strong> La marginal de \(X\) sale de sumar cada fila de la tabla: \(5, 30, 30, 5\) sobre 70. Entonces \(E(X) = \sum x\,g(x) = \frac{0 \cdot 5 + 1 \cdot 30 + 2 \cdot 30 + 3 \cdot 5}{70} = \frac{105}{70} = 1{,}5\).</li>
+          <li><strong>\(E(Y)\).</strong> La marginal de \(Y\) sale de sumar cada columna: \(15, 40, 15\) sobre 70. Entonces \(E(Y) = \sum y\,h(y) = \frac{0 \cdot 15 + 1 \cdot 40 + 2 \cdot 15}{70} = 1\).</li>
+          <li><strong>La suma.</strong> \[ E(Z) = 1{,}5 + 1 = 2{,}5 \]</li>
+        </ol>
+        <p><strong>Qué significa:</strong> en promedio 2,5 de los 4 archivos auditados son del sistema o de bases de datos. Control: esos son 5 de los 8 archivos, y \(4 \cdot \frac{5}{8} = 2{,}5\).</p>
+      </div>
     </li>
   </ol>
 </article>

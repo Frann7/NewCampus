@@ -104,9 +104,10 @@
               : h("b", {}, paso.respuesta);
             var como = !ep || !ep.ok
               ? (ep && ep.fallos ? "No lo resolviste (" + plural(ep.fallos, "fallo", "fallos") + ")" : "No llegaste a este paso")
+              : ep.resuelto ? "Lo resolvió el campus (botón Resolver)" + (ep.fallos ? ", después de " + plural(ep.fallos, "fallo", "fallos") : "")
               : (ep.fallos ? "Bien con " + plural(ep.fallos, "fallo", "fallos") : "Bien al primer intento");
             if (ep && ep.pistas) { como += " · usaste la pista"; }
-            return h("li", { class: ep && ep.ok && !ep.fallos ? "bien" : "mal" }, [
+            return h("li", { class: ep && ep.ok && !ep.fallos && !ep.resuelto ? "bien" : "mal" }, [
               paso.inciso ? h("span", { class: "ex-paso-cab" }, "Inciso " + paso.inciso + ")") : null,
               h("div", { html: paso.consigna }),
               h("div", { class: "inf-paso-dato" }, ["Respuesta: ", respuesta, h("small", {}, " — " + como)])

@@ -52,6 +52,15 @@
         <p>\[ f(x,y) \geq 0 \qquad\text{y}\qquad \sum_{x}\sum_{y} f(x,y) = 1 \]</p>
         <p>Es \(\geq\) y no \(&gt;\): una combinación imposible puede valer 0. La última opción es la condición de <em>independencia</em>, no la de conjunta.</p>
       </div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> las condiciones que tiene que cumplir una tabla como la del enunciado para ser una función de probabilidad conjunta. \(f(x,y) = P(X = x,\ Y = y)\) es la probabilidad de que se quemen <em>a la vez</em> \(x\) focos en la primera hilera y \(y\) en la segunda.</p>
+        <ol>
+          <li><strong>Primera condición: nada negativo.</strong> Cada casilla es una probabilidad, y una probabilidad no puede ser negativa: \(f(x,y) \geq 0\) para todo par \((x,y)\). Es \(\geq\) y no \(\gt\): una combinación imposible puede valer 0.</li>
+          <li><strong>Segunda condición: todo suma 1.</strong> Los pares \((x,y)\) cubren todo lo que puede pasar, así que la suma de <em>todas</em> las casillas tiene que dar 1. Como hay dos variables, la suma es doble (sobre filas y columnas): \[ \sum_{x}\sum_{y} f(x,y) = 1 \]</li>
+          <li><strong>Las opciones que no.</strong> Que <em>cada fila</em> (o cada columna) sume 1 es falso: es la tabla <em>entera</em> la que suma 1; una fila sola suma \(P(X = x)\). Pedir \(\gt 0\) deja afuera casillas que valen 0. Y \(f(x,y) = g(x)\,h(y)\) es la condición de <em>independencia</em>, no la de ser conjunta.</li>
+        </ol>
+        <p><strong>Qué significa:</strong> son las mismas dos condiciones que para una sola variable (no negativa y total 1), pero con suma doble. En esta tabla se cumplen: todas las casillas son positivas y suman 1.</p>
+      </div>
     </li>
     <li data-inciso="b" data-nivel="principiante">
       <div class="p-consigna"><p>¿Cómo se obtiene la marginal de \(X\), \(g(x)\), a partir de la tabla?</p></div>
@@ -63,56 +72,156 @@
       </ul>
       <div class="p-pista"><p>La marginal de \(X\) &ldquo;se olvida&rdquo; de \(Y\): junta todo lo que tiene el mismo \(x\).</p></div>
       <div class="p-explicacion"><p>\(g(x) = \sum_{y} f(x,y)\): las filas están rotuladas con \(x\), así que se suma cada fila entera.</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> saber cómo se saca de la tabla la <em>marginal</em> de \(X\), \(g(x) = P(X = x)\): la probabilidad de que se quemen \(x\) focos en la primera hilera, sin importar qué pase en la segunda.</p>
+        <ol>
+          <li><strong>Cómo está armada la tabla.</strong> Las filas son los valores de \(X\) (\(x = 0, 1, 2, 3\)) y las columnas los de \(Y\) (\(y = 0, \dots, 4\)). Cada casilla es \(f(x,y)\), la probabilidad de ese par.</li>
+          <li><strong>Por qué se suma la fila.</strong> \(X = x\) puede darse con \(Y = 0\), o \(1\), o \(2\), o \(3\), o \(4\). Son casos que no se pisan, así que se suman, y son exactamente las casillas de la fila \(x\): \[ g(x) = \sum_{y} f(x,y) \]</li>
+          <li><strong>Las opciones que no.</strong> Sumar cada columna da la marginal de \(Y\). La diagonal es el evento \(X = Y\), otra cosa. Y multiplicar las casillas no tiene sentido: los casos son excluyentes, se suman.</li>
+        </ol>
+        <p><strong>Qué significa:</strong> \(g(x)\) es la suma de la fila \(x\). Por eso se llama "marginal": en una tabla escrita a mano, esas sumas se anotan en el margen derecho.</p>
+      </div>
     </li>
     <li data-inciso="b" data-nivel="avanzado" data-respuesta="0,23">
       <div class="p-consigna"><p>¿Cuánto vale \(g(0) = P(X = 0)\)?</p></div>
       <div class="p-pista"><p>Sumá las cinco celdas de la fila \(x = 0\).</p></div>
       <div class="p-explicacion"><p>\(g(0) = 0{,}08 + 0{,}07 + 0{,}06 + 0{,}01 + 0{,}01 = 0{,}23\).</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> \(g(0) = P(X = 0)\), la probabilidad de que en 2 años no se queme ningún foco de la primera hilera, pase lo que pase en la segunda. \(g\) es la marginal de \(X\).</p>
+        <ol>
+          <li><strong>Qué se suma.</strong> La marginal de \(X\) junta todos los casos con el mismo \(x\): \(g(x) = \sum_{y} f(x,y)\), donde \(f(x,y)\) es cada casilla de la tabla. O sea, se suma la fila entera.</li>
+          <li><strong>Qué fila.</strong> La fila \(x = 0\) (la primera): \(0{,}08\) (\(y = 0\)), \(0{,}07\) (\(y = 1\)), \(0{,}06\) (\(y = 2\)), \(0{,}01\) (\(y = 3\)) y \(0{,}01\) (\(y = 4\)).</li>
+          <li><strong>La cuenta.</strong> \[ g(0) = 0{,}08 + 0{,}07 + 0{,}06 + 0{,}01 + 0{,}01 = 0{,}23 \]</li>
+        </ol>
+        <p><strong>Qué significa:</strong> hay un 23 % de probabilidad de que la primera hilera llegue a los 2 años sin focos quemados. Control: da entre 0 y 1.</p>
+      </div>
     </li>
     <li data-inciso="b" data-nivel="principiante" data-respuesta="0,35">
       <div class="p-consigna"><p>¿Cuánto vale \(g(1)\)?</p></div>
       <div class="p-pista"><p>Fila \(x = 1\).</p></div>
       <div class="p-explicacion"><p>\(g(1) = 0{,}06 + 0{,}10 + 0{,}12 + 0{,}05 + 0{,}02 = 0{,}35\).</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> \(g(1) = P(X = 1)\): la probabilidad de que se queme exactamente 1 foco de la primera hilera.</p>
+        <ol>
+          <li><strong>Qué se suma.</strong> La marginal de \(X\) es la suma de la fila: \(g(x) = \sum_{y} f(x,y)\), porque \(X = 1\) puede venir con cualquier valor de \(Y\).</li>
+          <li><strong>Los datos.</strong> Fila \(x = 1\) de la tabla: \(0{,}06;\ 0{,}10;\ 0{,}12;\ 0{,}05;\ 0{,}02\).</li>
+          <li><strong>La cuenta.</strong> \[ g(1) = 0{,}06 + 0{,}10 + 0{,}12 + 0{,}05 + 0{,}02 = 0{,}35 \]</li>
+        </ol>
+        <p><strong>Qué significa:</strong> en el 35 % de los casos se quema exactamente 1 foco de la primera hilera; es el valor más probable de \(X\).</p>
+      </div>
     </li>
     <li data-inciso="b" data-nivel="principiante" data-respuesta="0,27">
       <div class="p-consigna"><p>¿Cuánto vale \(g(2)\)?</p></div>
       <div class="p-pista"><p>Fila \(x = 2\).</p></div>
       <div class="p-explicacion"><p>\(g(2) = 0{,}05 + 0{,}06 + 0{,}09 + 0{,}04 + 0{,}03 = 0{,}27\).</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> \(g(2) = P(X = 2)\): la probabilidad de que se quemen exactamente 2 focos de la primera hilera.</p>
+        <ol>
+          <li><strong>Qué se suma.</strong> La marginal de \(X\), \(g(x) = \sum_{y} f(x,y)\): la fila entera de ese \(x\).</li>
+          <li><strong>Los datos.</strong> Fila \(x = 2\): \(0{,}05;\ 0{,}06;\ 0{,}09;\ 0{,}04;\ 0{,}03\).</li>
+          <li><strong>La cuenta.</strong> \[ g(2) = 0{,}05 + 0{,}06 + 0{,}09 + 0{,}04 + 0{,}03 = 0{,}27 \]</li>
+        </ol>
+        <p><strong>Qué significa:</strong> 27 % de probabilidad de que se quemen 2 de los 3 focos de la primera hilera.</p>
+      </div>
     </li>
     <li data-inciso="b" data-nivel="principiante" data-respuesta="0,15">
       <div class="p-consigna"><p>¿Cuánto vale \(g(3)\)?</p></div>
       <div class="p-pista"><p>Fila \(x = 3\).</p></div>
       <div class="p-explicacion"><p>\(g(3) = 0{,}02 + 0{,}03 + 0{,}03 + 0{,}03 + 0{,}04 = 0{,}15\).</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> \(g(3) = P(X = 3)\): la probabilidad de que se quemen los 3 focos de la primera hilera.</p>
+        <ol>
+          <li><strong>Qué se suma.</strong> La marginal de \(X\), \(g(x) = \sum_{y} f(x,y)\): la fila entera.</li>
+          <li><strong>Los datos.</strong> Fila \(x = 3\) (la última): \(0{,}02;\ 0{,}03;\ 0{,}03;\ 0{,}03;\ 0{,}04\).</li>
+          <li><strong>La cuenta.</strong> \[ g(3) = 0{,}02 + 0{,}03 + 0{,}03 + 0{,}03 + 0{,}04 = 0{,}15 \]</li>
+        </ol>
+        <p><strong>Qué significa:</strong> 15 % de probabilidad de que se queme toda la primera hilera en 2 años.</p>
+      </div>
     </li>
     <li data-inciso="b" data-nivel="principiante" data-respuesta="1">
       <div class="p-consigna"><p>Control: ¿cuánto da \(g(0) + g(1) + g(2) + g(3)\)?</p></div>
       <div class="p-pista"><p>Una marginal es una distribución de una variable: tiene que sumar lo mismo que toda la tabla.</p></div>
       <div class="p-explicacion"><p>\(0{,}23 + 0{,}35 + 0{,}27 + 0{,}15 = 1\). De paso queda probada la segunda condición del inciso a: la tabla entera suma 1.</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> sumar los cuatro valores de la marginal de \(X\), \(g(x) = P(X = x)\), para controlar que estén bien.</p>
+        <ol>
+          <li><strong>Por qué tiene que dar 1.</strong> \(X\) siempre toma alguno de los valores \(0, 1, 2, 3\), así que sus probabilidades suman 1. Además, sumar las cuatro filas es sumar la tabla entera.</li>
+          <li><strong>Los valores.</strong> Cada \(g(x)\) es la suma de su fila: \(g(0) = 0{,}08 + 0{,}07 + 0{,}06 + 0{,}01 + 0{,}01 = 0{,}23\); \(g(1) = 0{,}06 + 0{,}10 + 0{,}12 + 0{,}05 + 0{,}02 = 0{,}35\); \(g(2) = 0{,}05 + 0{,}06 + 0{,}09 + 0{,}04 + 0{,}03 = 0{,}27\); \(g(3) = 0{,}02 + 0{,}03 + 0{,}03 + 0{,}03 + 0{,}04 = 0{,}15\).</li>
+          <li><strong>La suma.</strong> \[ 0{,}23 + 0{,}35 + 0{,}27 + 0{,}15 = 1 \]</li>
+        </ol>
+        <p><strong>Qué significa:</strong> la marginal está bien calculada, y de paso queda probada la segunda condición de función conjunta: la tabla entera suma 1.</p>
+      </div>
     </li>
     <li data-inciso="b" data-nivel="avanzado" data-respuesta="0,21">
       <div class="p-consigna"><p>Ahora la marginal de \(Y\). ¿Cuánto vale \(h(0) = P(Y = 0)\)?</p></div>
       <div class="p-pista"><p>Para \(Y\) se suma cada <strong>columna</strong>: \(h(y) = \sum_{x} f(x,y)\).</p></div>
       <div class="p-explicacion"><p>\(h(0) = 0{,}08 + 0{,}06 + 0{,}05 + 0{,}02 = 0{,}21\).</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> \(h(0) = P(Y = 0)\), donde \(h\) es la marginal de \(Y\): la probabilidad de que no se queme ningún foco de la segunda hilera, pase lo que pase en la primera.</p>
+        <ol>
+          <li><strong>Qué se suma.</strong> Para \(Y\) se hace lo mismo que para \(X\) pero con las columnas: \(Y = 0\) puede darse con \(X = 0, 1, 2\) o \(3\), y esas son las casillas de la columna \(y = 0\). \[ h(y) = \sum_{x} f(x,y) \]</li>
+          <li><strong>Los datos.</strong> Columna \(y = 0\) (la primera): \(0{,}08\) (\(x = 0\)), \(0{,}06\) (\(x = 1\)), \(0{,}05\) (\(x = 2\)), \(0{,}02\) (\(x = 3\)).</li>
+          <li><strong>La cuenta.</strong> \[ h(0) = 0{,}08 + 0{,}06 + 0{,}05 + 0{,}02 = 0{,}21 \]</li>
+        </ol>
+        <p><strong>Qué significa:</strong> 21 % de probabilidad de que los 4 focos de la segunda hilera duren los 2 años.</p>
+      </div>
     </li>
     <li data-inciso="b" data-nivel="medio" data-respuesta="0,26">
       <div class="p-consigna"><p>¿Cuánto vale \(h(1)\)?</p></div>
       <div class="p-pista"><p>Columna \(y = 1\), cuatro celdas.</p></div>
       <div class="p-explicacion"><p>\(h(1) = 0{,}07 + 0{,}10 + 0{,}06 + 0{,}03 = 0{,}26\).</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> \(h(1) = P(Y = 1)\): la probabilidad de que se queme exactamente 1 foco de la segunda hilera.</p>
+        <ol>
+          <li><strong>Qué se suma.</strong> La marginal de \(Y\) es la suma de cada columna, \(h(y) = \sum_{x} f(x,y)\), porque \(Y = 1\) puede venir con cualquier valor de \(X\).</li>
+          <li><strong>Los datos.</strong> Columna \(y = 1\): \(0{,}07;\ 0{,}10;\ 0{,}06;\ 0{,}03\) (filas \(x = 0\) a \(3\)).</li>
+          <li><strong>La cuenta.</strong> \[ h(1) = 0{,}07 + 0{,}10 + 0{,}06 + 0{,}03 = 0{,}26 \]</li>
+        </ol>
+        <p><strong>Qué significa:</strong> 26 % de probabilidad de que se queme justo 1 de los 4 focos de la segunda hilera.</p>
+      </div>
     </li>
     <li data-inciso="b" data-nivel="medio" data-respuesta="0,30">
       <div class="p-consigna"><p>¿Cuánto vale \(h(2)\)?</p></div>
       <div class="p-pista"><p>Columna \(y = 2\).</p></div>
       <div class="p-explicacion"><p>\(h(2) = 0{,}06 + 0{,}12 + 0{,}09 + 0{,}03 = 0{,}30\).</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> \(h(2) = P(Y = 2)\): la probabilidad de que se quemen exactamente 2 focos de la segunda hilera.</p>
+        <ol>
+          <li><strong>Qué se suma.</strong> La marginal de \(Y\), \(h(y) = \sum_{x} f(x,y)\): la columna entera de ese \(y\).</li>
+          <li><strong>Los datos.</strong> Columna \(y = 2\): \(0{,}06;\ 0{,}12;\ 0{,}09;\ 0{,}03\).</li>
+          <li><strong>La cuenta.</strong> \[ h(2) = 0{,}06 + 0{,}12 + 0{,}09 + 0{,}03 = 0{,}30 \]</li>
+        </ol>
+        <p><strong>Qué significa:</strong> 30 % de probabilidad; es el valor más probable de \(Y\).</p>
+      </div>
     </li>
     <li data-inciso="b" data-nivel="principiante" data-respuesta="0,13">
       <div class="p-consigna"><p>¿Cuánto vale \(h(3)\)?</p></div>
       <div class="p-pista"><p>Columna \(y = 3\).</p></div>
       <div class="p-explicacion"><p>\(h(3) = 0{,}01 + 0{,}05 + 0{,}04 + 0{,}03 = 0{,}13\).</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> \(h(3) = P(Y = 3)\): la probabilidad de que se quemen exactamente 3 focos de la segunda hilera.</p>
+        <ol>
+          <li><strong>Qué se suma.</strong> La marginal de \(Y\), \(h(y) = \sum_{x} f(x,y)\): la columna entera.</li>
+          <li><strong>Los datos.</strong> Columna \(y = 3\): \(0{,}01;\ 0{,}05;\ 0{,}04;\ 0{,}03\).</li>
+          <li><strong>La cuenta.</strong> \[ h(3) = 0{,}01 + 0{,}05 + 0{,}04 + 0{,}03 = 0{,}13 \]</li>
+        </ol>
+        <p><strong>Qué significa:</strong> 13 % de probabilidad de que se quemen 3 de los 4 focos de la segunda hilera.</p>
+      </div>
     </li>
     <li data-inciso="b" data-nivel="principiante" data-respuesta="0,10">
       <div class="p-consigna"><p>¿Cuánto vale \(h(4)\)?</p></div>
       <div class="p-pista"><p>Columna \(y = 4\). Control: las cinco \(h\) tienen que sumar 1.</p></div>
       <div class="p-explicacion"><p>\(h(4) = 0{,}01 + 0{,}02 + 0{,}03 + 0{,}04 = 0{,}10\). Y \(0{,}21 + 0{,}26 + 0{,}30 + 0{,}13 + 0{,}10 = 1\).</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> \(h(4) = P(Y = 4)\): la probabilidad de que se quemen los 4 focos de la segunda hilera.</p>
+        <ol>
+          <li><strong>Qué se suma.</strong> La marginal de \(Y\), \(h(y) = \sum_{x} f(x,y)\): la columna entera.</li>
+          <li><strong>Los datos.</strong> Columna \(y = 4\) (la última): \(0{,}01;\ 0{,}02;\ 0{,}03;\ 0{,}04\).</li>
+          <li><strong>La cuenta.</strong> \[ h(4) = 0{,}01 + 0{,}02 + 0{,}03 + 0{,}04 = 0{,}10 \]</li>
+          <li><strong>Control.</strong> Las otras columnas dan \(h(0) = 0{,}21\), \(h(1) = 0{,}26\), \(h(2) = 0{,}30\), \(h(3) = 0{,}13\). Todas juntas: \(0{,}21 + 0{,}26 + 0{,}30 + 0{,}13 + 0{,}10 = 1\).</li>
+        </ol>
+        <p><strong>Qué significa:</strong> 10 % de probabilidad de que se queme toda la segunda hilera. La marginal de \(Y\) suma 1, como tiene que pasar.</p>
+      </div>
     </li>
     <li data-inciso="c" data-nivel="principiante">
       <div class="p-consigna"><p>¿Qué hay que mostrar para decir que \(X\) e \(Y\) <strong>no</strong> son independientes?</p></div>
@@ -124,11 +233,29 @@
       </ul>
       <div class="p-pista"><p>Independencia exige \(f(x,y) = g(x)\,h(y)\) para <strong>todos</strong> los pares. ¿Qué alcanza para romper un &ldquo;para todos&rdquo;?</p></div>
       <div class="p-explicacion"><p>La condición es \(f(x,y) = g(x)\,h(y)\) en todos los pares. Para afirmarla hay que revisar los 20; para negarla alcanza un contraejemplo.</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> qué alcanza para afirmar que \(X\) e \(Y\) <em>no</em> son independientes.</p>
+        <ol>
+          <li><strong>La definición.</strong> Dos variables discretas son independientes si, para <strong>todos</strong> los pares, la conjunta es el producto de las marginales: \[ f(x,y) = g(x)\,h(y) \] donde \(f(x,y)\) es la casilla de la tabla, \(g(x)\) la suma de su fila y \(h(y)\) la suma de su columna.</li>
+          <li><strong>Cómo se niega un "para todos".</strong> Basta un contraejemplo: un solo par donde \(f(x,y) \neq g(x)\,h(y)\). Para <em>afirmar</em> la independencia sí habría que revisar los 20 pares.</li>
+          <li><strong>Las opciones que no.</strong> No hace falta que falle en los 20. Que las marginales sean distintas no dice nada (dos variables independientes pueden tener marginales distintas). Y una casilla en 0 no alcanza sola: hay que compararla con el producto.</li>
+        </ol>
+        <p><strong>Qué significa:</strong> se busca una casilla que no cumpla \(f(x,y) = g(x)\,h(y)\); con una sola, se concluye que no son independientes.</p>
+      </div>
     </li>
     <li data-inciso="c" data-nivel="medio" data-respuesta="0,0483">
       <div class="p-consigna"><p>Probá con la primera celda. ¿Cuánto vale \(g(0)\cdot h(0)\)?</p></div>
       <div class="p-pista"><p>\(g(0) = 0{,}23\) y \(h(0) = 0{,}21\).</p></div>
       <div class="p-explicacion"><p>\(0{,}23 \times 0{,}21 = 0{,}0483\).</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> el producto \(g(0)\cdot h(0)\) de las dos marginales en la primera casilla. Es lo que valdría \(f(0,0)\) <em>si</em> \(X\) e \(Y\) fueran independientes.</p>
+        <ol>
+          <li><strong>\(g(0) = P(X = 0)\).</strong> Marginal de \(X\): suma de la fila \(x = 0\), \(0{,}08 + 0{,}07 + 0{,}06 + 0{,}01 + 0{,}01 = 0{,}23\).</li>
+          <li><strong>\(h(0) = P(Y = 0)\).</strong> Marginal de \(Y\): suma de la columna \(y = 0\), \(0{,}08 + 0{,}06 + 0{,}05 + 0{,}02 = 0{,}21\).</li>
+          <li><strong>El producto.</strong> \[ g(0)\cdot h(0) = 0{,}23 \times 0{,}21 = 0{,}0483 \]</li>
+        </ol>
+        <p><strong>Qué significa:</strong> con independencia, la probabilidad de que no se queme ningún foco en ninguna hilera sería 0,0483. La tabla dice \(f(0,0) = 0{,}08\): no coinciden.</p>
+      </div>
     </li>
     <li data-inciso="c" data-nivel="avanzado">
       <div class="p-consigna"><p>¿Son independientes \(X\) e \(Y\)?</p></div>
@@ -142,6 +269,16 @@
       <div class="p-explicacion">
         <p>\(f(0,0) = 0{,}08 \neq 0{,}0483 = g(0)\,h(0)\). Ya falla en un par, así que no se cumple \(f(x,y) = g(x)\,h(y)\) para todos: <strong>no son independientes</strong>.</p>
       </div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> decidir si \(X\) e \(Y\) son independientes. Lo son si en todas las casillas \(f(x,y) = g(x)\,h(y)\): la conjunta \(f\) es el producto de la marginal de \(X\) (\(g\), suma de cada fila) y la de \(Y\) (\(h\), suma de cada columna). Si falla en una sola casilla, no lo son.</p>
+        <ol>
+          <li><strong>Qué casilla se prueba.</strong> La \((0,0)\): fila \(x = 0\), columna \(y = 0\). En la tabla, \(f(0,0) = 0{,}08\).</li>
+          <li><strong>Las marginales.</strong> \(g(0)\) = suma de la fila 0 = \(0{,}08 + 0{,}07 + 0{,}06 + 0{,}01 + 0{,}01 = 0{,}23\). \(h(0)\) = suma de la columna 0 = \(0{,}08 + 0{,}06 + 0{,}05 + 0{,}02 = 0{,}21\).</li>
+          <li><strong>La comparación.</strong> \[ g(0)\,h(0) = 0{,}23 \times 0{,}21 = 0{,}0483 \neq 0{,}08 = f(0,0) \]</li>
+          <li><strong>Las opciones que no.</strong> Que las casillas sean positivas o que las marginales sumen 1 no prueba independencia (lo segundo pasa siempre). Y que \(X\) llegue a 3 e \(Y\) a 4 solo habla de los valores posibles, no de si se influyen.</li>
+        </ol>
+        <p><strong>Qué significa:</strong> <strong>no son independientes</strong>. Que no se queme ningún foco en las dos hileras pasa más seguido (0,08) de lo que daría el azar independiente (0,0483), como si las dos hileras compartieran condiciones (por ejemplo, la misma instalación eléctrica).</p>
+      </div>
     </li>
     <li data-inciso="d" data-nivel="medio">
       <div class="p-consigna"><p>&ldquo;A lo sumo 2 focos en la segunda hilera&rdquo;: ¿qué hay que sumar?</p></div>
@@ -153,11 +290,29 @@
       </ul>
       <div class="p-pista"><p>La segunda hilera es \(Y\), y &ldquo;a lo sumo 2&rdquo; incluye al 2.</p></div>
       <div class="p-explicacion"><p>Solo habla de \(Y\), así que se usa su marginal: \(P(Y \leq 2) = h(0) + h(1) + h(2)\).</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> traducir "a lo sumo 2 focos en la segunda hilera" a una suma de probabilidades.</p>
+        <ol>
+          <li><strong>Qué variable.</strong> La segunda hilera es \(Y\). La frase no dice nada de la primera hilera, así que se usa la marginal de \(Y\), \(h(y) = P(Y = y)\), que ya junta todos los valores de \(X\).</li>
+          <li><strong>Qué valores.</strong> "A lo sumo 2" quiere decir 2 o menos: \(Y \leq 2\), o sea \(Y = 0\), \(1\) o \(2\). Incluye al 2. \[ P(Y \leq 2) = h(0) + h(1) + h(2) \]</li>
+          <li><strong>Las opciones que no.</strong> \(h(0) + h(1)\) deja afuera el 2 (eso sería "menos de 2"). \(g(0) + g(1) + g(2)\) usa la primera hilera. \(h(2) + h(3) + h(4)\) es "al menos 2".</li>
+        </ol>
+        <p><strong>Qué significa:</strong> hay que sumar las tres primeras columnas de la tabla (o, lo que es lo mismo, sus marginales).</p>
+      </div>
     </li>
     <li data-inciso="d" data-nivel="avanzado" data-respuesta="0,77">
       <div class="p-consigna"><p>¿Cuánto vale \(P(Y \leq 2)\)?</p></div>
       <div class="p-pista"><p>Usá la marginal \(h(y)\): los valores de \(y = 0\), \(1\) y \(2\).</p></div>
       <div class="p-explicacion"><p>\(P(Y \leq 2) = 0{,}21 + 0{,}26 + 0{,}30 = 0{,}77\).</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> \(P(Y \leq 2)\): la probabilidad de que en 2 años se quemen a lo sumo 2 focos (0, 1 o 2) de la segunda hilera.</p>
+        <ol>
+          <li><strong>Qué variable y qué valores.</strong> La segunda hilera es \(Y\). "A lo sumo 2" incluye al 2: \(Y = 0, 1, 2\). Como no importa la primera hilera, se usa la marginal de \(Y\): \[ P(Y \leq 2) = h(0) + h(1) + h(2) \] con \(h(y) = \sum_{x} f(x,y)\), la suma de la columna \(y\).</li>
+          <li><strong>Las tres columnas.</strong> \(h(0) = 0{,}08 + 0{,}06 + 0{,}05 + 0{,}02 = 0{,}21\). \(h(1) = 0{,}07 + 0{,}10 + 0{,}06 + 0{,}03 = 0{,}26\). \(h(2) = 0{,}06 + 0{,}12 + 0{,}09 + 0{,}03 = 0{,}30\).</li>
+          <li><strong>La suma.</strong> \[ P(Y \leq 2) = 0{,}21 + 0{,}26 + 0{,}30 = 0{,}77 \]</li>
+        </ol>
+        <p><strong>Qué significa:</strong> hay un 77 % de probabilidad de que se quemen 2 focos o menos en la segunda hilera. Control: el complemento, \(h(3) + h(4) = 0{,}13 + 0{,}10 = 0{,}23\), suma 1 con este resultado.</p>
+      </div>
     </li>
     <li data-inciso="e" data-nivel="principiante">
       <div class="p-consigna"><p>¿Qué celdas forman el evento \(X = Y\)?</p></div>
@@ -169,11 +324,30 @@
       </ul>
       <div class="p-pista"><p>Número de fila igual a número de columna. ¿Existe la fila \(x = 4\)?</p></div>
       <div class="p-explicacion"><p>Es la diagonal. No hay \((4,4)\): la primera hilera tiene solo 3 focos.</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> qué casillas de la tabla forman el evento \(X = Y\): se quema la misma cantidad de focos en las dos hileras.</p>
+        <ol>
+          <li><strong>La idea.</strong> \(X = Y\) pasa cuando el número de fila (\(x\)) es igual al número de columna (\(y\)). Esas casillas forman la diagonal de la tabla.</li>
+          <li><strong>Cuáles son.</strong> \(X\) solo llega a 3 (la primera hilera tiene 3 focos), así que los pares posibles son \((0,0),\ (1,1),\ (2,2),\ (3,3)\).</li>
+          <li><strong>Las opciones que no.</strong> \((4,4)\) no existe: no hay fila \(x = 4\). La fila 0 con la columna 0 es "alguna de las dos vale 0", no "son iguales". Y \(x \leq y\) incluye casos distintos, como \((0,3)\).</li>
+        </ol>
+        <p><strong>Qué significa:</strong> \(P(X = Y)\) se calcula sumando esas cuatro casillas de la diagonal.</p>
+      </div>
     </li>
     <li data-inciso="e" data-nivel="avanzado" data-respuesta="0,30">
       <div class="p-consigna"><p>¿Cuánto vale \(P(X = Y)\)?</p></div>
       <div class="p-pista"><p>Sumá la diagonal de la tabla.</p></div>
       <div class="p-explicacion"><p>\(P(X = Y) = f(0,0) + f(1,1) + f(2,2) + f(3,3) = 0{,}08 + 0{,}10 + 0{,}09 + 0{,}03 = 0{,}30\).</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> \(P(X = Y)\), la probabilidad de que se queme la misma cantidad de focos en las dos hileras.</p>
+        <ol>
+          <li><strong>Qué casillas.</strong> \(X = Y\) ocurre cuando la fila y la columna tienen el mismo número. Como \(X\) va de 0 a 3, son \((0,0)\), \((1,1)\), \((2,2)\) y \((3,3)\): la diagonal. No hay \((4,4)\) porque la primera hilera tiene solo 3 focos.</li>
+          <li><strong>Por qué se suman.</strong> Son casos que no pueden pasar a la vez, así que la probabilidad de que ocurra alguno es la suma: \[ P(X = Y) = f(0,0) + f(1,1) + f(2,2) + f(3,3) \] donde \(f(x,y)\) es la casilla de la fila \(x\) y la columna \(y\).</li>
+          <li><strong>Los datos.</strong> Fila 0, columna 0: \(0{,}08\). Fila 1, columna 1: \(0{,}10\). Fila 2, columna 2: \(0{,}09\). Fila 3, columna 3: \(0{,}03\).</li>
+          <li><strong>La cuenta.</strong> \[ P(X = Y) = 0{,}08 + 0{,}10 + 0{,}09 + 0{,}03 = 0{,}30 \]</li>
+        </ol>
+        <p><strong>Qué significa:</strong> hay un 30 % de probabilidad de que en 2 años se queme la misma cantidad de focos en las dos hileras (0 y 0, 1 y 1, 2 y 2, o 3 y 3).</p>
+      </div>
     </li>
     <li data-inciso="e" data-nivel="avanzado">
       <div class="p-consigna"><p>¿Qué representa ese 0,30 en el problema?</p></div>
@@ -185,6 +359,15 @@
       </ul>
       <div class="p-pista"><p>\(X = Y\) no dice cuántos: dice que en las dos hileras son los mismos.</p></div>
       <div class="p-explicacion"><p>Hay un 30&nbsp;% de probabilidad de que se queme exactamente la misma cantidad en las dos hileras, sea 0, 1, 2 o 3. La interpretación da puntos aparte del número.</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> interpretar en palabras el valor \(P(X = Y) = 0{,}30\).</p>
+        <ol>
+          <li><strong>De dónde sale el 0,30.</strong> Es la suma de la diagonal de la tabla, las casillas donde \(x = y\): \(f(0,0) + f(1,1) + f(2,2) + f(3,3) = 0{,}08 + 0{,}10 + 0{,}09 + 0{,}03 = 0{,}30\).</li>
+          <li><strong>Qué dice \(X = Y\).</strong> \(X\) cuenta los focos quemados en la primera hilera y \(Y\) en la segunda, en los mismos 2 años. \(X = Y\) no fija cuántos: dice que en las dos hileras se quemó la misma cantidad, sea 0, 1, 2 o 3.</li>
+          <li><strong>Las opciones que no.</strong> "Ningún foco quemado" es solo la casilla \((0,0) = 0{,}08\). "Todos quemados" sería \(X = 3\) e \(Y = 4\), la casilla \(0{,}04\). Y no es una proporción de focos: es una probabilidad de un evento.</li>
+        </ol>
+        <p><strong>Qué significa:</strong> en el 30 % de los casos, al cabo de 2 años, las dos hileras tienen la misma cantidad de focos quemados. En el examen, esta interpretación suma puntos aparte del número.</p>
+      </div>
     </li>
   </ol>
 </article>

@@ -35,6 +35,15 @@
       </ul>
       <div class="p-pista"><p>Número fijo de pruebas independientes, cada una con falla o sin falla, con la misma probabilidad.</p></div>
       <div class="p-explicacion"><p>\(X \sim Bi(400;\ 0{,}10)\). La Normal entra como aproximación.</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> reconocer qué modelo de probabilidad tiene \(X\), la cantidad de notebooks con falla de disco entre las 400.</p>
+        <ol>
+          <li><strong>Cómo es el experimento.</strong> El enunciado dice que ingresan \(n = 400\) notebooks, &ldquo;que se comportan de forma independiente&rdquo;, y que el 10&nbsp;% tiene falla de disco. Cada notebook es una prueba con dos resultados posibles (con falla o sin falla), y la probabilidad de falla es siempre la misma, \(p = 0{,}10\).</li>
+          <li><strong>El modelo.</strong> Contar los éxitos (acá, las fallas) en un número fijo de pruebas independientes con la misma probabilidad es exactamente la binomial: \[ X \sim Bi(n;\ p) = Bi(400;\ 0{,}10) \]</li>
+          <li><strong>Por qué no las otras.</strong> La Normal no es el modelo de origen: \(X\) cuenta notebooks (0, 1, 2&hellip;), es discreta; la Normal va a entrar solo como aproximación. Y \(\mu = 0{,}10\) confunde la probabilidad con la media. Poisson con \(\lambda = 400\) confunde la cantidad de pruebas con la media.</li>
+        </ol>
+        <p><strong>Qué significa:</strong> \(X\) es binomial con \(n = 400\) y \(p = 0{,}10\). Todo lo que sigue es cómo calcular probabilidades de esa binomial.</p>
+      </div>
     </li>
     <li data-inciso="a" data-nivel="principiante">
       <div class="p-consigna"><p>¿Por qué no se calcula directo con la tabla binomial de la cátedra?</p></div>
@@ -45,16 +54,43 @@
       </ul>
       <div class="p-pista"><p>Acordate hasta qué \(n\) llegan las tablas de la Unidad 5.</p></div>
       <div class="p-explicacion"><p>La tabla llega hasta \(n = 20\). Con \(n = 400\) hay que aproximar.</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> entender por qué no se resuelve directo con la tabla binomial.</p>
+        <ol>
+          <li><strong>El límite de la tabla.</strong> La tabla binomial de la cátedra llega hasta \(n = 20\). Acá \(n = 400\) (&ldquo;ingresan \(n = 400\) notebooks&rdquo;): no está en la tabla.</li>
+          <li><strong>La alternativa a mano.</strong> Sin tabla, habría que sumar la fórmula binomial término por término: para &ldquo;al menos 48&rdquo;, cientos de términos con números enormes. Es inviable.</li>
+          <li><strong>Por qué no las otras.</strong> La binomial sí sirve para porcentajes: \(p = 0{,}10\) es justamente un porcentaje. Y que \(p\) sea menor que 0,5 no impide usar la tabla; el problema es el \(n\).</li>
+        </ol>
+        <p><strong>Qué significa:</strong> con \(n = 400\) hay que aproximar la binomial por otra distribución más fácil de calcular: la Normal.</p>
+      </div>
     </li>
     <li data-inciso="a" data-nivel="avanzado" data-respuesta="40">
       <div class="p-consigna"><p>a) Calculá \(\mu = np\), la media de la Normal que aproxima.</p></div>
       <div class="p-pista"><p>\(400 \cdot 0{,}10\).</p></div>
       <div class="p-explicacion"><p>\(\mu = np = 40\). Y como \(np = 40 \geq 5\), ya se cumple una de las condiciones.</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> la media \(\mu\) de la Normal que aproxima a la binomial, que es la misma media de la binomial.</p>
+        <ol>
+          <li><strong>El modelo.</strong> \(X\) = cantidad de notebooks con falla entre las 400 es binomial: 400 pruebas independientes (&ldquo;\(n = 400\) notebooks, que se comportan de forma independiente&rdquo;), cada una con probabilidad de falla \(p = 0{,}10\) (&ldquo;el 10&nbsp;% tiene falla de disco&rdquo;).</li>
+          <li><strong>La fórmula.</strong> La media de una binomial es \[ \mu = n\,p \] donde \(n\) es la cantidad de pruebas y \(p\) la probabilidad de éxito en cada una. La Normal que la aproxima se arma con esa misma media.</li>
+          <li><strong>La cuenta.</strong> \[ \mu = 400 \cdot 0{,}10 = 40 \]</li>
+        </ol>
+        <p><strong>Qué significa:</strong> en promedio, 40 de las 400 notebooks tienen falla de disco; la campana que aproxima va centrada en 40. Además \(np = 40 \geq 5\), que es una de las condiciones para poder aproximar.</p>
+      </div>
     </li>
     <li data-inciso="a" data-nivel="medio" data-respuesta="360">
       <div class="p-consigna"><p>Calculá \(n(1-p)\) para la otra condición.</p></div>
       <div class="p-pista"><p>\(1 - p = 0{,}90\); multiplicalo por 400.</p></div>
       <div class="p-explicacion"><p>\(n(1-p) = 400 \cdot 0{,}90 = 360 \geq 5\) &#10003;.</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> calcular \(n(1-p)\), la cantidad esperada de notebooks <em>sin</em> falla, que es otra de las condiciones para aproximar por la Normal.</p>
+        <ol>
+          <li><strong>Los datos.</strong> \(n = 400\) notebooks y \(p = 0{,}10\), la probabilidad de falla (el 10&nbsp;% del enunciado). Entonces la probabilidad de no tener falla es \(1 - p = 1 - 0{,}10 = 0{,}90\).</li>
+          <li><strong>La cuenta.</strong> \[ n(1-p) = 400 \cdot 0{,}90 = 360 \]</li>
+          <li><strong>La condición.</strong> La cátedra pide \(n(1-p) \geq 5\). Como \(360 \geq 5\), se cumple.</li>
+        </ol>
+        <p><strong>Qué significa:</strong> se esperan unas 360 notebooks sin falla. Que \(np\) y \(n(1-p)\) sean los dos grandes quiere decir que la binomial no queda aplastada contra una punta (0 o 400), y por eso se parece a una campana.</p>
+      </div>
     </li>
     <li data-inciso="a" data-nivel="principiante">
       <div class="p-consigna"><p>La cátedra pide además que \(n\) sea grande. ¿Se cumple?</p></div>
@@ -65,6 +101,15 @@
       </ul>
       <div class="p-pista"><p>La condición de la cátedra es \(n \geq 30\).</p></div>
       <div class="p-explicacion"><p>\(n = 400 \geq 30\) &#10003;. Que \(p\) no sea 0,5 no molesta: lo que importa es que \(np\) y \(n(1-p)\) queden lejos de las puntas, y lo están.</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> verificar la condición de que \(n\) sea grande.</p>
+        <ol>
+          <li><strong>La condición.</strong> Para aproximar la binomial por la Normal, la cátedra pide \(n \geq 30\).</li>
+          <li><strong>Con el dato.</strong> El enunciado dice \(n = 400\): \(400 \geq 30\), se cumple.</li>
+          <li><strong>Por qué no las otras.</strong> No hace falta que \(p\) sea cercano a 0,5: lo que se controla es que \(np\) y \(n(1-p)\) sean al menos 5, y acá valen 40 y 360. Y \(\sigma\) no interviene en esta condición.</li>
+        </ol>
+        <p><strong>Qué significa:</strong> con 400 pruebas, la binomial tiene tantos valores posibles que su forma se parece mucho a una campana.</p>
+      </div>
     </li>
     <li data-inciso="a" data-nivel="avanzado">
       <div class="p-consigna"><p>a) ¿Cuál es la justificación correcta para aproximar por la Normal?</p></div>
@@ -76,16 +121,44 @@
       </ul>
       <div class="p-pista"><p>Hay que mostrar las condiciones con números, no solo nombrarlas.</p></div>
       <div class="p-explicacion"><p>Las tres condiciones se cumplen. Poisson se usa cuando \(p\) es chico <em>y</em> \(np &lt; 5\); acá \(np = 40\), así que no corresponde.</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> la justificación completa de por qué la cantidad de notebooks con falla se puede aproximar por una Normal.</p>
+        <ol>
+          <li><strong>El modelo de origen.</strong> \(X\) cuenta fallas en 400 notebooks independientes, cada una con \(p = 0{,}10\): \(X \sim Bi(400;\ 0{,}10)\). La tabla binomial llega hasta \(n = 20\), así que hay que aproximar.</li>
+          <li><strong>Las tres condiciones, con números.</strong> \(n = 400 \geq 30\). \(np = 400 \cdot 0{,}10 = 40 \geq 5\). \(n(1-p) = 400 \cdot 0{,}90 = 360 \geq 5\). Se cumplen todas.</li>
+          <li><strong>El ajuste.</strong> La binomial es discreta (toma valores enteros) y la Normal es continua. Al pasar de una a otra se aplica la corrección por continuidad: cada entero se reemplaza por un intervalo de medio punto para cada lado.</li>
+          <li><strong>Por qué no las otras.</strong> No toda binomial es normal: hay que verificar las condiciones. \(p = 0{,}10\) lejos de 0,5 no impide nada, porque \(np\) y \(n(1-p)\) son grandes. Poisson se usa cuando \(p\) es chico <em>y</em> \(np &lt; 5\); acá \(np = 40\).</li>
+        </ol>
+        <p><strong>Qué significa:</strong> la Normal es una buena aproximación de esta binomial, con corrección por continuidad. En el examen hay que escribir las tres condiciones con sus números.</p>
+      </div>
     </li>
     <li data-inciso="a" data-nivel="principiante" data-respuesta="36">
       <div class="p-consigna"><p>Calculá la varianza \(\sigma^{2} = np(1-p)\).</p></div>
       <div class="p-pista"><p>\(40 \cdot 0{,}90\).</p></div>
       <div class="p-explicacion"><p>\(\sigma^{2} = 40 \cdot 0{,}90 = 36\).</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> la varianza de la binomial, que va a ser la varianza de la Normal que aproxima.</p>
+        <ol>
+          <li><strong>La fórmula.</strong> La varianza de una binomial es \[ \sigma^{2} = n\,p\,(1-p) \] con \(n\) la cantidad de pruebas, \(p\) la probabilidad de éxito y \(1 - p\) la de fracaso.</li>
+          <li><strong>Los datos.</strong> \(n = 400\) y \(p = 0{,}10\), del enunciado; \(1 - p = 0{,}90\). Además \(np = 400 \cdot 0{,}10 = 40\).</li>
+          <li><strong>La cuenta.</strong> \[ \sigma^{2} = 40 \cdot 0{,}90 = 36 \]</li>
+        </ol>
+        <p><strong>Qué significa:</strong> la varianza es 36 (en notebooks al cuadrado). Para estandarizar no sirve la varianza sino su raíz, el desvío.</p>
+      </div>
     </li>
     <li data-inciso="a" data-nivel="avanzado" data-respuesta="6">
       <div class="p-consigna"><p>a) Calculá \(\sigma = \sqrt{np(1-p)}\), el desvío de la Normal que aproxima.</p></div>
       <div class="p-pista"><p>Raíz de \(400 \cdot 0{,}10 \cdot 0{,}90\).</p></div>
       <div class="p-explicacion"><p>\(\sigma = \sqrt{36} = 6\).</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> el desvío \(\sigma\) de la Normal que aproxima a la binomial.</p>
+        <ol>
+          <li><strong>El modelo.</strong> \(X \sim Bi(400;\ 0{,}10)\): \(n = 400\) notebooks independientes, con probabilidad de falla \(p = 0{,}10\) (el 10&nbsp;% del enunciado).</li>
+          <li><strong>La fórmula.</strong> El desvío de la binomial es la raíz de su varianza: \[ \sigma = \sqrt{n\,p\,(1-p)} \] La Normal que aproxima usa ese mismo desvío.</li>
+          <li><strong>La cuenta.</strong> Primero la varianza: \(np(1-p) = 400 \cdot 0{,}10 \cdot 0{,}90 = 40 \cdot 0{,}90 = 36\). Después la raíz: \[ \sigma = \sqrt{36} = 6 \]</li>
+        </ol>
+        <p><strong>Qué significa:</strong> la cantidad de notebooks con falla suele alejarse unas 6 del promedio (40). La Normal que aproxima es la de \(\mu = 40\) y \(\sigma = 6\).</p>
+      </div>
     </li>
     <li data-inciso="b" data-nivel="principiante">
       <div class="p-consigna"><p>b) &ldquo;Al menos 48&rdquo;: ¿qué valores enteros de \(X\) entran?</p></div>
@@ -96,11 +169,29 @@
       </ul>
       <div class="p-pista"><p>&ldquo;Al menos&rdquo; es \(\geq\).</p></div>
       <div class="p-explicacion"><p>\(X \geq 48\): del 48 para arriba, con el 48 incluido.</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> traducir &ldquo;al menos 48&rdquo; a los valores enteros de \(X\) que entran.</p>
+        <ol>
+          <li><strong>Qué significa &ldquo;al menos&rdquo;.</strong> &ldquo;Al menos 48&rdquo; es &ldquo;48 o más&rdquo;: \(X \geq 48\). El 48 cuenta.</li>
+          <li><strong>Los valores.</strong> \(X\) cuenta notebooks, así que toma valores enteros de 0 a 400. Los que cumplen \(X \geq 48\) son 48, 49, &hellip;, 400.</li>
+          <li><strong>Por qué no las otras.</strong> 0 a 48 es &ldquo;a lo sumo 48&rdquo;, lo contrario. 49 en adelante es &ldquo;más de 48&rdquo;, que deja afuera al 48.</li>
+        </ol>
+        <p><strong>Qué significa:</strong> se busca \(P(X \geq 48)\), con el 48 incluido. En una binomial eso importa, porque el 48 tiene probabilidad propia.</p>
+      </div>
     </li>
     <li data-inciso="b" data-nivel="avanzado" data-respuesta="47,5">
       <div class="p-consigna"><p>b) Con la corrección por continuidad, ¿qué borde se usa en la Normal para \(P(X \geq 48)\)?</p></div>
       <div class="p-pista"><p>La barra del 48 va de 47,5 a 48,5. Corré el borde medio punto hacia afuera del grupo que querés conservar.</p></div>
       <div class="p-explicacion"><p>Para que el 48 entre entero: \(P(X \geq 48) \approx P(Y &gt; 47{,}5)\). Si cortaras en 48,5 perderías la barra del 48.</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> el borde que se usa en la Normal para calcular \(P(X \geq 48)\) aplicando la corrección por continuidad.</p>
+        <ol>
+          <li><strong>Por qué hace falta.</strong> \(X \sim Bi(400;\ 0{,}10)\) es discreta: solo toma enteros. La Normal que la aproxima es continua. Para pasar de una a otra, cada entero \(k\) se piensa como una barra que ocupa de \(k - 0{,}5\) a \(k + 0{,}5\). Eso es la corrección por continuidad.</li>
+          <li><strong>Qué valores entran.</strong> &ldquo;Al menos 48&rdquo; es \(X \geq 48\): 48, 49, 50&hellip; El 48 entra.</li>
+          <li><strong>El borde.</strong> La barra del 48 va de 47,5 a 48,5. Para que el 48 entre entero, el borde se pone al principio de su barra, medio punto por debajo: \[ P(X \geq 48) \approx P(Y &gt; 47{,}5) \] donde \(Y\) es la Normal que aproxima.</li>
+        </ol>
+        <p><strong>Qué significa:</strong> el borde es 47,5. Si se cortara en 48,5 se perdería la barra del 48; si se cortara en 48 se perdería media barra.</p>
+      </div>
     </li>
     <li data-inciso="b" data-nivel="medio">
       <div class="p-consigna"><p>\(P(Y &gt; 47{,}5)\): ¿qué área se busca?</p></div>
@@ -111,26 +202,72 @@
       </ul>
       <div class="p-pista"><p>&ldquo;Mayor que&rdquo; es la cola de arriba.</p></div>
       <div class="p-explicacion"><p>Cola derecha: \(1 - F(z)\).</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> qué área de la Normal corresponde a \(P(Y &gt; 47{,}5)\).</p>
+        <ol>
+          <li><strong>Ubicarlo.</strong> \(Y\) es la Normal que aproxima a la binomial. &ldquo;Mayor que 47,5&rdquo; son los valores a la derecha de 47,5: la cola derecha.</li>
+          <li><strong>Con la tabla.</strong> La tabla da \(F(z) = P(Z &lt; z)\), el área a la izquierda. El área total es 1, así que la derecha es 1 menos la izquierda: \[ P(Y &gt; 47{,}5) = 1 - F(z) \]</li>
+          <li><strong>Por qué no las otras.</strong> \(F(z)\) solo sería la izquierda, lo contrario. \(F(z_2) - F(z_1)\) necesita dos bordes, y acá hay uno.</li>
+        </ol>
+        <p><strong>Qué significa:</strong> se busca \(F(z)\) en la tabla y se le resta a 1.</p>
+      </div>
     </li>
     <li data-inciso="b" data-nivel="principiante" data-respuesta="7,5">
       <div class="p-consigna"><p>Calculá \(x - \mu\) con el borde corregido.</p></div>
       <div class="p-pista"><p>\(47{,}5 - 40\).</p></div>
       <div class="p-explicacion"><p>\(47{,}5 - 40 = 7{,}5\).</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> cuánto se aleja el borde corregido, 47,5, de la media.</p>
+        <ol>
+          <li><strong>Los datos.</strong> El borde es \(x = 47{,}5\): &ldquo;al menos 48&rdquo; con la corrección por continuidad (la barra del 48 empieza en 47,5). La media de la Normal que aproxima es la de la binomial: \(\mu = np = 400 \cdot 0{,}10 = 40\).</li>
+          <li><strong>La cuenta.</strong> \[ x - \mu = 47{,}5 - 40 = 7{,}5 \]</li>
+        </ol>
+        <p><strong>Qué significa:</strong> el borde está 7,5 notebooks por encima de la media. Es el numerador del \(z\).</p>
+      </div>
     </li>
     <li data-inciso="b" data-nivel="medio" data-respuesta="1,25" data-tolerancia="0,01">
       <div class="p-consigna"><p>Estandarizá: ¿cuánto vale \(z\)?</p></div>
       <div class="p-pista"><p>\(z = \frac{47{,}5 - 40}{6}\).</p></div>
       <div class="p-explicacion"><p>\(z = \frac{7{,}5}{6} = 1{,}25\).</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> el \(z\) del borde corregido 47,5.</p>
+        <ol>
+          <li><strong>Por qué estandarizar.</strong> La tabla es de la normal estándar \(Z\) (media 0, desvío 1). El borde se pasa a \(z\): cuántos desvíos lo separan de la media.</li>
+          <li><strong>Los datos.</strong> Borde \(x = 47{,}5\) (&ldquo;al menos 48&rdquo; corregido por continuidad). Media \(\mu = np = 400 \cdot 0{,}10 = 40\). Desvío \(\sigma = \sqrt{np(1-p)} = \sqrt{40 \cdot 0{,}90} = \sqrt{36} = 6\).</li>
+          <li><strong>La fórmula.</strong> \[ z = \frac{x - \mu}{\sigma} \] La distancia es \(47{,}5 - 40 = 7{,}5\); dividida por el desvío: \[ z = \frac{47{,}5 - 40}{6} = \frac{7{,}5}{6} = 1{,}25 \]</li>
+        </ol>
+        <p><strong>Qué significa:</strong> el borde está 1,25 desvíos por encima de la media.</p>
+      </div>
     </li>
     <li data-inciso="b" data-nivel="medio" data-respuesta="0,8944" data-tolerancia="0,0005">
       <div class="p-consigna"><p>Buscá en la tabla \(F(1{,}25)\).</p></div>
       <div class="p-pista"><p>Fila 1,2 y columna 0,05.</p></div>
       <div class="p-explicacion"><p>\(F(1{,}25) = 0{,}8944\).</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> leer en la tabla \(F(1{,}25)\), el área a la izquierda de \(z = 1{,}25\).</p>
+        <ol>
+          <li><strong>Qué da la tabla.</strong> La Tabla A.3 da \(F(z) = P(Z &lt; z)\), el área a la izquierda de \(z\) en la normal estándar.</li>
+          <li><strong>Elegir la página.</strong> \(1{,}25\) es positivo: página de los positivos.</li>
+          <li><strong>Partir el \(z\).</strong> \(1{,}25 = 1{,}2 + 0{,}05\): fila 1,2, columna .05.</li>
+          <li><strong>Leer el cruce.</strong> \[ F(1{,}25) = 0{,}8944 \]</li>
+        </ol>
+        <p><strong>Qué significa:</strong> el 89,44&nbsp;% del área está a la izquierda del borde 47,5. Control: \(z\) positivo, más de 0,5. Como se pide la derecha, después se hace \(1 - 0{,}8944\).</p>
+      </div>
     </li>
     <li data-inciso="b" data-nivel="avanzado" data-respuesta="0,1056" data-tolerancia="0,0005">
       <div class="p-consigna"><p>b) ¿Cuánto vale \(P(X \geq 48)\), la probabilidad de que al menos 48 notebooks tengan falla de disco?</p></div>
       <div class="p-pista"><p>Borde 47,5, \(z = \frac{47{,}5 - \mu}{\sigma}\) y cola derecha.</p></div>
       <div class="p-explicacion"><p>\(P(X \geq 48) \approx P(Y &gt; 47{,}5) = 1 - F(1{,}25) = 1 - 0{,}8944 = 0{,}1056\).</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> la probabilidad de que al menos 48 notebooks tengan falla de disco: \(P(X \geq 48)\).</p>
+        <ol>
+          <li><strong>El modelo y la aproximación.</strong> \(X \sim Bi(400;\ 0{,}10)\): 400 notebooks independientes, cada una con falla con \(p = 0{,}10\). La tabla binomial no llega a \(n = 400\); como \(n \geq 30\), \(np = 40 \geq 5\) y \(n(1-p) = 360 \geq 5\), se aproxima por una Normal \(Y\) con \[ \mu = np = 400 \cdot 0{,}10 = 40 \qquad \sigma = \sqrt{np(1-p)} = \sqrt{40 \cdot 0{,}90} = \sqrt{36} = 6 \]</li>
+          <li><strong>Corrección por continuidad.</strong> &ldquo;Al menos 48&rdquo; es \(X \geq 48\), con el 48 incluido. Cada entero ocupa medio punto para cada lado; la barra del 48 empieza en 47,5: \[ P(X \geq 48) \approx P(Y &gt; 47{,}5) \]</li>
+          <li><strong>Estandarizar.</strong> Con \(z = \frac{x - \mu}{\sigma}\): \[ z = \frac{47{,}5 - 40}{6} = \frac{7{,}5}{6} = 1{,}25 \]</li>
+          <li><strong>Buscar y dar vuelta.</strong> La tabla da \(F(z) = P(Z &lt; z)\), el área a la izquierda. \(1{,}25\): página de los positivos, fila 1,2, columna .05 &rarr; 0,8944. Como se pide la derecha: \[ P(Y &gt; 47{,}5) = 1 - F(1{,}25) = 1 - 0{,}8944 = 0{,}1056 \]</li>
+        </ol>
+        <p><strong>Qué significa:</strong> hay alrededor de un 10,56&nbsp;% de probabilidad de que 48 o más notebooks tengan falla de disco. Control: 48 está por encima del promedio (40), así que la probabilidad es chica.</p>
+      </div>
     </li>
     <li data-inciso="c" data-nivel="principiante">
       <div class="p-consigna"><p>c) &ldquo;Entre 33 y 44, ambos inclusive&rdquo;: ¿qué valores enteros entran?</p></div>
@@ -141,16 +278,42 @@
       </ul>
       <div class="p-pista"><p>&ldquo;Ambos inclusive&rdquo; quiere decir que el 33 y el 44 cuentan.</p></div>
       <div class="p-explicacion"><p>\(33 \leq X \leq 44\): entran las barras del 33 y del 44 completas.</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> traducir &ldquo;entre 33 y 44, ambos inclusive&rdquo; a los valores enteros de \(X\) que entran.</p>
+        <ol>
+          <li><strong>Qué significa &ldquo;ambos inclusive&rdquo;.</strong> Que los dos extremos, 33 y 44, cuentan: \(33 \leq X \leq 44\).</li>
+          <li><strong>Los valores.</strong> Los enteros 33, 34, &hellip;, 44.</li>
+          <li><strong>Por qué no las otras.</strong> 34 a 43 deja afuera los dos extremos (sería &ldquo;estrictamente entre&rdquo;). 33 a 43 deja afuera al 44, que el enunciado incluye.</li>
+        </ol>
+        <p><strong>Qué significa:</strong> entran las barras del 33 y del 44 completas; eso va a decidir hacia dónde se corren los bordes en la corrección por continuidad.</p>
+      </div>
     </li>
     <li data-inciso="c" data-nivel="medio" data-respuesta="32,5">
       <div class="p-consigna"><p>¿Cuál es el borde <strong>inferior</strong> corregido?</p></div>
       <div class="p-pista"><p>El 33 entra: el borde va medio punto por debajo.</p></div>
       <div class="p-explicacion"><p>La barra del 33 empieza en 32,5.</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> el borde inferior corregido por continuidad para \(P(33 \leq X \leq 44)\).</p>
+        <ol>
+          <li><strong>Por qué se corrige.</strong> \(X\), la cantidad de notebooks con falla, es binomial y solo toma enteros; se aproxima con una Normal, que es continua. Cada entero \(k\) se piensa como una barra de \(k - 0{,}5\) a \(k + 0{,}5\).</li>
+          <li><strong>El borde de abajo.</strong> &ldquo;Ambos inclusive&rdquo;: el 33 entra. Su barra va de 32,5 a 33,5. Para que entre entera, el borde se pone medio punto por debajo del 33: \[ 33 - 0{,}5 = 32{,}5 \]</li>
+        </ol>
+        <p><strong>Qué significa:</strong> el tramo en la Normal empieza en 32,5; si empezara en 33 se perdería media barra del 33.</p>
+      </div>
     </li>
     <li data-inciso="c" data-nivel="medio" data-respuesta="44,5">
       <div class="p-consigna"><p>¿Y el borde <strong>superior</strong> corregido?</p></div>
       <div class="p-pista"><p>El 44 entra: el borde va medio punto por arriba.</p></div>
       <div class="p-explicacion"><p>La barra del 44 termina en 44,5. Queda \(P(33 \leq X \leq 44) \approx P(32{,}5 &lt; Y &lt; 44{,}5)\): los dos bordes se corren hacia afuera.</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> el borde superior corregido por continuidad para \(P(33 \leq X \leq 44)\).</p>
+        <ol>
+          <li><strong>Por qué se corrige.</strong> \(X\) es binomial (enteros) y se aproxima con una Normal (continua). Cada entero \(k\) ocupa de \(k - 0{,}5\) a \(k + 0{,}5\).</li>
+          <li><strong>El borde de arriba.</strong> &ldquo;Ambos inclusive&rdquo;: el 44 entra. Su barra va de 43,5 a 44,5. Para que entre entera, el borde va medio punto por arriba: \[ 44 + 0{,}5 = 44{,}5 \]</li>
+          <li><strong>Los dos bordes juntos.</strong> Con el de abajo (33 entra, borde 32,5): \[ P(33 \leq X \leq 44) \approx P(32{,}5 &lt; Y &lt; 44{,}5) \] Los dos bordes se corren hacia afuera, porque los dos extremos entran.</li>
+        </ol>
+        <p><strong>Qué significa:</strong> el tramo en la Normal termina en 44,5, así la barra del 44 queda completa adentro.</p>
+      </div>
     </li>
     <li data-inciso="c" data-nivel="principiante">
       <div class="p-consigna"><p>\(P(32{,}5 &lt; Y &lt; 44{,}5)\): ¿cómo se calcula con la tabla?</p></div>
@@ -161,31 +324,88 @@
       </ul>
       <div class="p-pista"><p>Tramo del medio: el área hasta el mayor menos la que sobra abajo.</p></div>
       <div class="p-explicacion"><p>Entre dos valores: \(F(z_2) - F(z_1)\).</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> elegir la cuenta para el área entre 32,5 y 44,5 en la Normal.</p>
+        <ol>
+          <li><strong>Qué área es.</strong> \(P(32{,}5 &lt; Y &lt; 44{,}5)\) es un tramo con dos bordes.</li>
+          <li><strong>Con la tabla.</strong> La tabla da \(F(z) = P(Z &lt; z)\), el área a la izquierda. Todo lo que está a la izquierda de 44,5 (su \(z_2\)) menos lo que está a la izquierda de 32,5 (su \(z_1\)): \[ P(32{,}5 &lt; Y &lt; 44{,}5) = F(z_2) - F(z_1) \]</li>
+          <li><strong>Por qué no las otras.</strong> \(1 - F(z_2)\) es solo la cola de arriba. \(F(z_1) - F(z_2)\) es la chica menos la grande: da negativo.</li>
+        </ol>
+        <p><strong>Qué significa:</strong> hay que calcular un \(z\) para cada borde y restar sus áreas, la mayor menos la menor.</p>
+      </div>
     </li>
     <li data-inciso="c" data-nivel="medio" data-respuesta="-1,25" data-tolerancia="0,01">
       <div class="p-consigna"><p>¿Cuánto vale \(z_1\), el de 32,5?</p></div>
       <div class="p-pista"><p>\(z_1 = \frac{32{,}5 - 40}{6}\).</p></div>
       <div class="p-explicacion"><p>\(z_1 = \frac{-7{,}5}{6} = -1{,}25\).</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> el \(z\) del borde inferior corregido, 32,5.</p>
+        <ol>
+          <li><strong>De dónde sale el 32,5.</strong> &ldquo;Entre 33 y 44, ambos inclusive&rdquo;: el 33 entra, y con la corrección por continuidad su barra empieza en \(33 - 0{,}5 = 32{,}5\).</li>
+          <li><strong>Media y desvío.</strong> La Normal que aproxima a \(X \sim Bi(400;\ 0{,}10)\) tiene \(\mu = np = 400 \cdot 0{,}10 = 40\) y \(\sigma = \sqrt{np(1-p)} = \sqrt{40 \cdot 0{,}90} = \sqrt{36} = 6\).</li>
+          <li><strong>Estandarizar.</strong> La tabla es de la normal estándar \(Z\) (media 0, desvío 1): \[ z = \frac{x - \mu}{\sigma} \qquad z_1 = \frac{32{,}5 - 40}{6} = \frac{-7{,}5}{6} = -1{,}25 \]</li>
+        </ol>
+        <p><strong>Qué significa:</strong> el borde 32,5 está 1,25 desvíos por debajo de la media. Negativo, porque está abajo de 40.</p>
+      </div>
     </li>
     <li data-inciso="c" data-nivel="medio" data-respuesta="0,75" data-tolerancia="0,01">
       <div class="p-consigna"><p>¿Cuánto vale \(z_2\), el de 44,5?</p></div>
       <div class="p-pista"><p>\(z_2 = \frac{44{,}5 - 40}{6}\).</p></div>
       <div class="p-explicacion"><p>\(z_2 = \frac{4{,}5}{6} = 0{,}75\).</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> el \(z\) del borde superior corregido, 44,5.</p>
+        <ol>
+          <li><strong>De dónde sale el 44,5.</strong> El 44 entra (&ldquo;ambos inclusive&rdquo;), y con la corrección por continuidad su barra termina en \(44 + 0{,}5 = 44{,}5\).</li>
+          <li><strong>Media y desvío.</strong> La Normal que aproxima a \(X \sim Bi(400;\ 0{,}10)\) tiene \(\mu = np = 40\) y \(\sigma = \sqrt{np(1-p)} = \sqrt{36} = 6\).</li>
+          <li><strong>Estandarizar.</strong> \[ z = \frac{x - \mu}{\sigma} \qquad z_2 = \frac{44{,}5 - 40}{6} = \frac{4{,}5}{6} = 0{,}75 \]</li>
+        </ol>
+        <p><strong>Qué significa:</strong> el borde 44,5 está 0,75 desvíos por encima de la media.</p>
+      </div>
     </li>
     <li data-inciso="c" data-nivel="principiante" data-respuesta="0,1056" data-tolerancia="0,0005">
       <div class="p-consigna"><p>¿Cuánto vale \(F(-1{,}25)\)? Podés sacarlo por simetría con lo del inciso b.</p></div>
       <div class="p-pista"><p>\(F(-1{,}25) = 1 - F(1{,}25)\).</p></div>
       <div class="p-explicacion"><p>\(F(-1{,}25) = 1 - 0{,}8944 = 0{,}1056\).</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> \(F(-1{,}25)\), el área a la izquierda de \(z_1 = -1{,}25\), el del borde 32,5.</p>
+        <ol>
+          <li><strong>Por simetría.</strong> La campana es simétrica respecto de 0: la cola a la izquierda de \(-1{,}25\) es igual a la cola a la derecha de \(+1{,}25\), que es \(1 - F(1{,}25)\). En la tabla, \(F(1{,}25)\) está en la página de los positivos, fila 1,2, columna .05: 0,8944. \[ F(-1{,}25) = 1 - 0{,}8944 = 0{,}1056 \]</li>
+          <li><strong>O directo en la tabla.</strong> Página de los negativos; sin el signo, \(1{,}25 = 1{,}2 + 0{,}05\): fila \(-1{,}2\), columna .05 &rarr; 0,1056.</li>
+        </ol>
+        <p><strong>Qué significa:</strong> el 10,56&nbsp;% del área está por debajo del borde 32,5. Es el mismo número que dio la cola de arriba del inciso b, por la simetría.</p>
+      </div>
     </li>
     <li data-inciso="c" data-nivel="medio" data-respuesta="0,7734" data-tolerancia="0,0005">
       <div class="p-consigna"><p>Buscá en la tabla \(F(0{,}75)\).</p></div>
       <div class="p-pista"><p>Fila 0,7 y columna 0,05.</p></div>
       <div class="p-explicacion"><p>\(F(0{,}75) = 0{,}7734\).</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> leer en la tabla \(F(0{,}75)\), el área a la izquierda de \(z_2 = 0{,}75\).</p>
+        <ol>
+          <li><strong>Qué da la tabla.</strong> La Tabla A.3 da \(F(z) = P(Z &lt; z)\), el área a la izquierda de \(z\).</li>
+          <li><strong>Elegir la página.</strong> \(0{,}75\) es positivo: página de los positivos.</li>
+          <li><strong>Partir el \(z\).</strong> \(0{,}75 = 0{,}7 + 0{,}05\): fila 0,7, columna .05.</li>
+          <li><strong>Leer el cruce.</strong> \[ F(0{,}75) = 0{,}7734 \]</li>
+        </ol>
+        <p><strong>Qué significa:</strong> el 77,34&nbsp;% del área está por debajo del borde 44,5. Control: \(z\) positivo, más de 0,5.</p>
+      </div>
     </li>
     <li data-inciso="c" data-nivel="avanzado" data-respuesta="0,6678" data-tolerancia="0,0005">
       <div class="p-consigna"><p>c) ¿Cuánto vale \(P(33 \leq X \leq 44)\), la probabilidad de que entre 33 y 44 notebooks (ambos inclusive) tengan falla de disco?</p></div>
       <div class="p-pista"><p>Bordes corregidos 32,5 y 44,5, un \(z\) para cada uno y \(F(z_2) - F(z_1)\).</p></div>
       <div class="p-explicacion"><p>\(P(33 \leq X \leq 44) \approx F(0{,}75) - F(-1{,}25) = 0{,}7734 - 0{,}1056 = 0{,}6678\).</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> la probabilidad de que entre 33 y 44 notebooks, ambos inclusive, tengan falla de disco: \(P(33 \leq X \leq 44)\).</p>
+        <ol>
+          <li><strong>El modelo y la aproximación.</strong> \(X \sim Bi(400;\ 0{,}10)\) (400 notebooks independientes, 10&nbsp;% de falla). Se aproxima por una Normal \(Y\) porque \(n \geq 30\), \(np = 40 \geq 5\) y \(n(1-p) = 360 \geq 5\), con \[ \mu = np = 40 \qquad \sigma = \sqrt{np(1-p)} = \sqrt{400 \cdot 0{,}10 \cdot 0{,}90} = \sqrt{36} = 6 \]</li>
+          <li><strong>Corrección por continuidad.</strong> Cada entero ocupa medio punto para cada lado. &ldquo;Ambos inclusive&rdquo;: el 33 y el 44 entran enteros, así que los bordes se corren hacia afuera: \[ P(33 \leq X \leq 44) \approx P(32{,}5 &lt; Y &lt; 44{,}5) \]</li>
+          <li><strong>Qué área es.</strong> Un tramo con dos bordes; la tabla da áreas a la izquierda, \(F(z) = P(Z &lt; z)\), así que se calcula \(F(z_2) - F(z_1)\).</li>
+          <li><strong>Estandarizar.</strong> Con \(z = \frac{x - \mu}{\sigma}\): \[ z_1 = \frac{32{,}5 - 40}{6} = -1{,}25 \qquad z_2 = \frac{44{,}5 - 40}{6} = 0{,}75 \]</li>
+          <li><strong>Buscar en la tabla.</strong> \(F(0{,}75)\): página de los positivos, fila 0,7, columna .05 &rarr; 0,7734. \(F(-1{,}25)\): página de los negativos, fila \(-1{,}2\), columna .05 &rarr; 0,1056.</li>
+          <li><strong>Restar.</strong> \[ P(33 \leq X \leq 44) \approx 0{,}7734 - 0{,}1056 = 0{,}6678 \]</li>
+        </ol>
+        <p><strong>Qué significa:</strong> hay alrededor de un 66,78&nbsp;% de probabilidad de que la cantidad de notebooks con falla esté entre 33 y 44. Control: el tramo contiene al promedio (40), así que agarra la parte alta de la campana y da más de la mitad.</p>
+      </div>
     </li>
   </ol>
 </article>

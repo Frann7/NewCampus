@@ -39,6 +39,15 @@
           5&hellip; mensajes). Es la marca de Poisson.
         </p>
       </div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> encontrar en el enunciado la pista que dice qué modelo de probabilidad usar.</p>
+        <ol>
+          <li><strong>Buscar el dato clave.</strong> El enunciado dice que el servidor &ldquo;recibe en promedio 0,2 mensajes por minuto&rdquo;. Es un promedio por unidad de tiempo (una tasa).</li>
+          <li><strong>Ver si hay tope.</strong> No hay una cantidad fija de intentos: en un minuto pueden llegar 0, 1, 2, 5 mensajes... sin un máximo. Lo que se cuenta son ocurrencias en un intervalo de tiempo.</li>
+          <li><strong>Descartar las tentadoras.</strong> &ldquo;Cantidad fija de mensajes, cada uno llega o no&rdquo; describe la Binomial, pero el enunciado no da ningún número de intentos. &ldquo;Población finita&rdquo; es la Hipergeométrica, y acá no se elige nada de un lote. No se habla de mensajes con error.</li>
+        </ol>
+        <p><strong>Qué significa:</strong> &ldquo;en promedio tanto por unidad de tiempo&rdquo;, sin tope, es la marca del modelo de Poisson.</p>
+      </div>
     </li>
     <li data-inciso="a" data-nivel="avanzado">
       <div class="p-consigna"><p>¿Qué modelo sigue \(X\) = número de mensajes que llegan en un intervalo?</p></div>
@@ -56,6 +65,16 @@
           el que preguntan. El producto \(\lambda t\) es el promedio en ese intervalo.
         </p>
       </div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> el modelo de probabilidad de \(X\), el número de mensajes que llegan al servidor en un intervalo de tiempo.</p>
+        <ol>
+          <li><strong>El dato.</strong> &ldquo;Recibe en promedio 0,2 mensajes por minuto&rdquo;: es una tasa (promedio por unidad de tiempo), y la cantidad de mensajes no tiene tope.</li>
+          <li><strong>El modelo.</strong> Contar ocurrencias en un intervalo de tiempo, conociendo solo el promedio, es el modelo de <strong>Poisson</strong>.</li>
+          <li><strong>La fórmula.</strong> \(P(X = x) = \dfrac{e^{-\lambda t}\,(\lambda t)^{x}}{x!}\), con \(x = 0, 1, 2, \ldots\). \(\lambda\) es la tasa por unidad: acá \(\lambda = 0{,}2\) mensajes por minuto. \(t\) es cuántos minutos dura el intervalo de la pregunta. \(\lambda t\) es el promedio de mensajes en ese intervalo.</li>
+          <li><strong>Descartar las tentadoras.</strong> Binomial necesita un número fijo de pruebas \(n\), y no lo hay. Hipergeométrica necesita una población finita de la que se elige, y tampoco. No hace falta armar una tabla: el modelo ya da la fórmula.</li>
+        </ol>
+        <p><strong>Qué significa:</strong> \(X\) es Poisson, y en cada inciso hay que calcular el \(\lambda t\) de su intervalo.</p>
+      </div>
     </li>
 
     <!-- ===== Inciso a: exactamente 1 en un minuto ===== -->
@@ -63,16 +82,42 @@
       <div class="p-consigna"><p>¿Cuánto vale \(\lambda t\) para un minuto?</p></div>
       <div class="p-pista"><p>El intervalo coincide con la unidad de la tasa: \(t = 1\).</p></div>
       <div class="p-explicacion"><p>\(\lambda t = 0{,}2 \cdot 1 = 0{,}2\) mensajes esperados en un minuto.</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> el promedio de mensajes en un minuto, \(\lambda t\), que es el parámetro de Poisson para el inciso a).</p>
+        <ol>
+          <li><strong>Los datos.</strong> \(\lambda = 0{,}2\) mensajes por minuto (&ldquo;recibe en promedio 0,2 mensajes por minuto&rdquo;). El inciso pregunta por &ldquo;un minuto&rdquo;: \(t = 1\).</li>
+          <li><strong>La cuenta.</strong> \(\lambda t = 0{,}2 \cdot 1 = 0{,}2\).</li>
+        </ol>
+        <p><strong>Qué significa:</strong> en un minuto se esperan 0,2 mensajes (uno cada 5 minutos, en promedio). Como el intervalo es la unidad de la tasa, no hay que reescalar.</p>
+      </div>
     </li>
     <li data-inciso="a" data-nivel="principiante" data-respuesta="0,8187">
       <div class="p-consigna"><p>Calculá \(e^{-\lambda t} = e^{-0{,}2}\).</p></div>
       <div class="p-pista"><p>En la calculadora: SHIFT + ln (\(e^{x}\)), (&minus;) 0,2, =.</p></div>
       <div class="p-explicacion"><p>\(e^{-0{,}2} = 0{,}8187\).</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> calcular \(e^{-\lambda t}\), la primera parte de la fórmula de Poisson, para un minuto.</p>
+        <ol>
+          <li><strong>De dónde sale.</strong> En \(P(X = x) = \dfrac{e^{-\lambda t}\,(\lambda t)^{x}}{x!}\), \(e \approx 2{,}718\) es la constante de Euler y \(\lambda t\) el promedio en el intervalo. En un minuto, \(\lambda t = 0{,}2 \cdot 1 = 0{,}2\) (&ldquo;0,2 mensajes por minuto&rdquo;).</li>
+          <li><strong>La cuenta.</strong> \(e^{-0{,}2} = 0{,}8187\). En la calculadora: SHIFT + ln (que es \(e^{x}\)), después \(-0{,}2\).</li>
+        </ol>
+        <p><strong>Qué significa:</strong> 0,8187 es justo \(P(X = 0)\): la probabilidad de que en un minuto no llegue ningún mensaje.</p>
+      </div>
     </li>
     <li data-inciso="a" data-nivel="principiante" data-respuesta="0,2">
       <div class="p-consigna"><p>Calculá \(\dfrac{(\lambda t)^{x}}{x!}\) con \(x = 1\).</p></div>
       <div class="p-pista"><p>\((0{,}2)^{1} = 0{,}2\) y \(1! = 1\).</p></div>
       <div class="p-explicacion"><p>\(\dfrac{(0{,}2)^{1}}{1!} = 0{,}2\).</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> calcular la segunda parte de la fórmula de Poisson, \(\dfrac{(\lambda t)^{x}}{x!}\), para un mensaje (\(x = 1\)) en un minuto.</p>
+        <ol>
+          <li><strong>Los datos.</strong> \(\lambda t = 0{,}2\) (0,2 mensajes por minuto, durante 1 minuto) y \(x = 1\) (&ldquo;exactamente un mensaje&rdquo;).</li>
+          <li><strong>La potencia.</strong> \((0{,}2)^{1} = 0{,}2\): elevar a la 1 deja el número igual.</li>
+          <li><strong>El factorial.</strong> \(1! = 1\).</li>
+          <li><strong>El cociente.</strong> \(\dfrac{0{,}2}{1} = 0{,}2\).</li>
+        </ol>
+        <p><strong>Qué significa:</strong> esta parte vale 0,2; solo falta multiplicarla por \(e^{-0{,}2}\).</p>
+      </div>
     </li>
     <li data-inciso="a" data-nivel="avanzado" data-respuesta="0,1637">
       <div class="p-consigna"><p>Calculá \(P(X = 1)\) en un minuto.</p></div>
@@ -83,6 +128,16 @@
           en una cuenta.
         </p>
       </div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> la probabilidad de que el servidor reciba exactamente un mensaje en un minuto, \(P(X = 1)\), donde \(X\) es la cantidad de mensajes en ese minuto.</p>
+        <ol>
+          <li><strong>El modelo.</strong> Hay un promedio por unidad de tiempo (&ldquo;0,2 mensajes por minuto&rdquo;) y el conteo no tiene tope: \(X\) es Poisson.</li>
+          <li><strong>El parámetro.</strong> \(\lambda = 0{,}2\) mensajes por minuto y el intervalo es \(t = 1\) minuto: \(\lambda t = 0{,}2\), el promedio en el intervalo.</li>
+          <li><strong>La fórmula general.</strong> \(P(X = x) = \dfrac{e^{-\lambda t}\,(\lambda t)^{x}}{x!}\), donde \(x\) es la cantidad de mensajes que se pregunta. Con \(x = 1\): \(P(X = 1) = \dfrac{e^{-0{,}2}\,(0{,}2)^{1}}{1!}\).</li>
+          <li><strong>Las cuentas.</strong> \(e^{-0{,}2} = 0{,}8187\), \((0{,}2)^{1} = 0{,}2\) y \(1! = 1\). Entonces \(P(X = 1) = 0{,}8187 \cdot 0{,}2 = 0{,}1637\).</li>
+        </ol>
+        <p><strong>Qué significa:</strong> en un 16,37&nbsp;% de los minutos llega exactamente un mensaje. Es un valor puntual, así que la fórmula directa es lo más rápido.</p>
+      </div>
     </li>
 
     <!-- ===== Inciso b: al menos 10 en una hora ===== -->
@@ -90,6 +145,14 @@
       <div class="p-consigna"><p>La tasa viene por minuto y la pregunta es por una hora. ¿Cuánto vale \(t\) (en minutos)?</p></div>
       <div class="p-pista"><p>¿Cuántos minutos tiene una hora?</p></div>
       <div class="p-explicacion"><p>\(t = 60\) minutos. \(t\) siempre va en la misma unidad que la tasa.</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> el valor de \(t\) para una hora, medido en la misma unidad que la tasa.</p>
+        <ol>
+          <li><strong>La unidad de la tasa.</strong> &ldquo;0,2 mensajes por minuto&rdquo;: la unidad es el minuto.</li>
+          <li><strong>Pasar la hora a minutos.</strong> El inciso pregunta &ldquo;en una hora&rdquo;, y una hora tiene 60 minutos: \(t = 60\).</li>
+        </ol>
+        <p><strong>Qué significa:</strong> el intervalo abarca 60 unidades de la tasa, así que el promedio se va a multiplicar por 60.</p>
+      </div>
     </li>
     <li data-inciso="b" data-nivel="avanzado" data-respuesta="12">
       <div class="p-consigna"><p>Reescalá: ¿cuánto vale \(\lambda t\) para una hora?</p></div>
@@ -99,6 +162,15 @@
           \(\lambda t = 0{,}2 \cdot 60 = 12\) mensajes esperados en una hora. Si usás 0,2 en este inciso, el
           resultado da casi 0: es el error que busca el ejercicio.
         </p>
+      </div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> el promedio de mensajes en una hora, \(\lambda t\), que es el parámetro de Poisson para los incisos b) y c).</p>
+        <ol>
+          <li><strong>La tasa.</strong> \(\lambda = 0{,}2\) mensajes por minuto (&ldquo;recibe en promedio 0,2 mensajes por minuto&rdquo;).</li>
+          <li><strong>El intervalo.</strong> &ldquo;En una hora&rdquo;. \(t\) tiene que ir en la misma unidad que la tasa (minutos): \(t = 60\).</li>
+          <li><strong>Reescalar.</strong> \(\lambda t = 0{,}2 \cdot 60 = 12\).</li>
+        </ol>
+        <p><strong>Qué significa:</strong> en una hora se esperan 12 mensajes. Si se usara 0,2 (el promedio de un minuto), la probabilidad de 10 o más daría casi 0: es el error que busca el ejercicio.</p>
       </div>
     </li>
     <li data-inciso="b" data-nivel="principiante">
@@ -115,6 +187,15 @@
           \(F(r) = P(X \leq r)\), que se busca en la columna \(\lambda t\) y la fila \(r\). Todo lo demás
           (&ldquo;al menos&rdquo;, &ldquo;entre&rdquo;) se arma a partir de eso.
         </p>
+      </div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> saber qué número da la tabla acumulada de Poisson (Tabla A.2), para usarla bien.</p>
+        <ol>
+          <li><strong>Cómo se entra.</strong> Con la columna \(\lambda t\) (el promedio en el intervalo) y la fila \(r\).</li>
+          <li><strong>Qué da.</strong> \(F(r) = P(X \leq r)\): la probabilidad de \(r\) o menos ocurrencias, es decir \(P(X=0) + P(X=1) + \cdots + P(X=r)\). Por eso se llama &ldquo;acumulada&rdquo;.</li>
+          <li><strong>Descartar las tentadoras.</strong> Un valor puntual \(P(X = r)\) sería la resta \(F(r) - F(r-1)\). &ldquo;\(r\) o más&rdquo; sería \(1 - F(r-1)\). &ldquo;Menos de \(r\)&rdquo; sería \(F(r-1)\).</li>
+        </ol>
+        <p><strong>Qué significa:</strong> la tabla da siempre &ldquo;hasta \(r\), inclusive&rdquo;. &ldquo;Al menos&rdquo; y &ldquo;entre&rdquo; se arman restando.</p>
       </div>
     </li>
     <li data-inciso="b" data-nivel="medio">
@@ -137,11 +218,29 @@
           \(P(X \geq 10) = 1 - P(X \leq 9)\). Restar \(P(X \leq 10)\) se comería el propio 10.
         </p>
       </div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> escribir &ldquo;al menos diez mensajes&rdquo; con la tabla acumulada, que solo da \(P(X \leq r)\).</p>
+        <ol>
+          <li><strong>Traducir.</strong> &ldquo;Al menos 10&rdquo; es 10 o más: \(x = 10, 11, 12, \ldots\), sin tope.</li>
+          <li><strong>Complemento.</strong> Las probabilidades suman 1. Lo contrario de &ldquo;10 o más&rdquo; es &ldquo;9 o menos&rdquo; (\(x = 0, \ldots, 9\)). Entonces \(P(X \geq 10) = 1 - P(X \leq 9)\).</li>
+          <li><strong>Descartar las tentadoras.</strong> \(1 - P(X \leq 10)\) resta también el 10, que sí entra: daría &ldquo;más de 10&rdquo;. \(P(X \leq 10)\) y \(P(X \leq 9)\) son &ldquo;a lo sumo&rdquo;, lo opuesto.</li>
+        </ol>
+        <p><strong>Qué significa:</strong> hay que buscar la fila 9 (el último valor que queda afuera) y restarla de 1.</p>
+      </div>
     </li>
     <li data-inciso="b" data-nivel="medio" data-respuesta="0,2424">
       <div class="p-consigna"><p>Buscá \(P(X \leq 9)\) en la tabla acumulada con \(\lambda t = 12\).</p></div>
       <div class="p-pista"><p>Columna \(\lambda t = 12\), fila \(r = 9\).</p></div>
       <div class="p-explicacion"><p>\(P(X \leq 9) = 0{,}2424\).</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> leer en la tabla acumulada de Poisson la probabilidad de 9 mensajes o menos en una hora.</p>
+        <ol>
+          <li><strong>La columna.</strong> \(\lambda t\) es el promedio en una hora: \(0{,}2\) mensajes por minuto por 60 minutos, \(\lambda t = 12\).</li>
+          <li><strong>La fila.</strong> Se quiere \(P(X \leq 9)\), así que la fila es \(r = 9\).</li>
+          <li><strong>El valor.</strong> Columna \(\lambda t = 12\), fila \(r = 9\): \(0{,}2424\).</li>
+        </ol>
+        <p><strong>Qué significa:</strong> en un 24,24&nbsp;% de las horas llegan 9 mensajes o menos.</p>
+      </div>
     </li>
     <li data-inciso="b" data-nivel="avanzado" data-respuesta="0,7576">
       <div class="p-consigna"><p>Calculá \(P(X \geq 10)\) en una hora.</p></div>
@@ -151,6 +250,17 @@
           \(P(X \geq 10) = 1 - 0{,}2424 = 0{,}7576\). Tiene sentido: se esperan 12 por hora, así que 10 o
           más es lo más probable.
         </p>
+      </div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> la probabilidad de que lleguen al menos diez mensajes en una hora, donde \(X\) es la cantidad de mensajes en esa hora.</p>
+        <ol>
+          <li><strong>El modelo.</strong> \(X\) es Poisson: se da un promedio por unidad de tiempo (&ldquo;0,2 mensajes por minuto&rdquo;) y el conteo no tiene tope.</li>
+          <li><strong>Reescalar.</strong> La tasa es por minuto y la pregunta por una hora: \(t = 60\) minutos. El promedio en la hora es \(\lambda t = 0{,}2 \cdot 60 = 12\) mensajes.</li>
+          <li><strong>Traducir y usar el complemento.</strong> &ldquo;Al menos 10&rdquo; es \(x = 10, 11, \ldots\) sin tope. Lo contrario es &ldquo;9 o menos&rdquo;: \(P(X \geq 10) = 1 - P(X \leq 9)\).</li>
+          <li><strong>La tabla.</strong> La tabla acumulada de Poisson da \(P(X \leq r)\). Columna \(\lambda t = 12\), fila \(r = 9\): \(P(X \leq 9) = 0{,}2424\).</li>
+          <li><strong>La cuenta.</strong> \(P(X \geq 10) = 1 - 0{,}2424 = 0{,}7576\).</li>
+        </ol>
+        <p><strong>Qué significa:</strong> en un 75,76&nbsp;% de las horas llegan 10 mensajes o más. Tiene sentido: se esperan 12 por hora.</p>
       </div>
     </li>
 
@@ -165,6 +275,15 @@
       </ul>
       <div class="p-pista"><p>\(\lambda t\) depende solo del intervalo por el que preguntan.</p></div>
       <div class="p-explicacion"><p>Mismo intervalo que el inciso b (una hora): \(\lambda t = 12\).</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> elegir el \(\lambda t\) correcto para el inciso c).</p>
+        <ol>
+          <li><strong>El intervalo.</strong> El inciso c) pregunta &ldquo;en una hora&rdquo;, igual que el b).</li>
+          <li><strong>La cuenta.</strong> Con \(\lambda = 0{,}2\) mensajes por minuto y \(t = 60\) minutos: \(\lambda t = 0{,}2 \cdot 60 = 12\).</li>
+          <li><strong>Descartar las tentadoras.</strong> 0,2 es el promedio de un minuto, no de una hora. 7 es un valor de \(x\) (la cantidad de mensajes), no el promedio. 60 es \(t\), no \(\lambda t\): falta multiplicar por la tasa.</li>
+        </ol>
+        <p><strong>Qué significa:</strong> se sigue usando la columna \(\lambda t = 12\) de la tabla.</p>
+      </div>
     </li>
     <li data-inciso="c" data-nivel="medio">
       <div class="p-consigna"><p>&ldquo;Entre 7 y 12, ambos incluidos&rdquo;, ¿cómo se escribe con la tabla acumulada?</p></div>
@@ -186,21 +305,61 @@
           restar \(P(X \leq 7)\) lo sacaría.
         </p>
       </div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> escribir &ldquo;entre siete y doce mensajes, ambos extremos incluidos&rdquo; con la tabla acumulada, que da \(P(X \leq r)\).</p>
+        <ol>
+          <li><strong>Los valores que entran.</strong> &ldquo;Ambos extremos incluidos&rdquo;: \(x = 7, 8, 9, 10, 11, 12\).</li>
+          <li><strong>Armarlo.</strong> \(P(X \leq 12)\) suma de 0 a 12. Le sobran \(x = 0, \ldots, 6\), que son \(P(X \leq 6)\). Entonces \(P(7 \leq X \leq 12) = P(X \leq 12) - P(X \leq 6)\).</li>
+          <li><strong>La regla general.</strong> \(P(a \leq X \leq b) = F(b) - F(a-1)\): se resta la fila de uno menos que el extremo de abajo, así el 7 queda adentro.</li>
+          <li><strong>Descartar las tentadoras.</strong> Restar \(P(X \leq 7)\) saca el 7. \(P(X \leq 11) - P(X \leq 7)\) saca el 7 y el 12. Sumar en lugar de restar no tiene sentido: contaría dos veces los valores bajos.</li>
+        </ol>
+        <p><strong>Qué significa:</strong> hay que leer las filas 12 y 6 de la tabla y restarlas.</p>
+      </div>
     </li>
     <li data-inciso="c" data-nivel="medio" data-respuesta="0,5760">
       <div class="p-consigna"><p>Buscá \(P(X \leq 12)\) en la tabla con \(\lambda t = 12\).</p></div>
       <div class="p-pista"><p>Columna \(\lambda t = 12\), fila \(r = 12\).</p></div>
       <div class="p-explicacion"><p>\(P(X \leq 12) = 0{,}5760\). Ronda 0,5 porque 12 es la media.</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> leer en la tabla acumulada de Poisson la probabilidad de 12 mensajes o menos en una hora.</p>
+        <ol>
+          <li><strong>La columna.</strong> \(\lambda t = 0{,}2 \cdot 60 = 12\) (0,2 mensajes por minuto durante los 60 minutos de una hora).</li>
+          <li><strong>La fila.</strong> \(r = 12\), el extremo de arriba de &ldquo;entre siete y doce&rdquo;.</li>
+          <li><strong>El valor.</strong> Columna \(\lambda t = 12\), fila \(r = 12\): \(0{,}5760\).</li>
+        </ol>
+        <p><strong>Qué significa:</strong> en un 57,6&nbsp;% de las horas llegan 12 mensajes o menos. Control: ronda 0,5 porque 12 es justo el promedio.</p>
+      </div>
     </li>
     <li data-inciso="c" data-nivel="medio" data-respuesta="0,0458">
       <div class="p-consigna"><p>Buscá \(P(X \leq 6)\) en la tabla con \(\lambda t = 12\).</p></div>
       <div class="p-pista"><p>Columna \(\lambda t = 12\), fila \(r = 6\).</p></div>
       <div class="p-explicacion"><p>\(P(X \leq 6) = 0{,}0458\).</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> leer en la tabla acumulada de Poisson la probabilidad de 6 mensajes o menos en una hora. Es lo que se resta para dejar el 7 adentro.</p>
+        <ol>
+          <li><strong>La columna.</strong> \(\lambda t = 0{,}2 \cdot 60 = 12\).</li>
+          <li><strong>La fila.</strong> \(r = 6\): el último valor que queda afuera de &ldquo;entre siete y doce&rdquo;.</li>
+          <li><strong>El valor.</strong> Columna \(\lambda t = 12\), fila \(r = 6\): \(0{,}0458\).</li>
+        </ol>
+        <p><strong>Qué significa:</strong> solo en un 4,58&nbsp;% de las horas llegan 6 mensajes o menos, lógico si se esperan 12.</p>
+      </div>
     </li>
     <li data-inciso="c" data-nivel="avanzado" data-respuesta="0,5302">
       <div class="p-consigna"><p>Calculá \(P(7 \leq X \leq 12)\) en una hora.</p></div>
       <div class="p-pista"><p>\(P(X \leq 12) - P(X \leq 6)\), con \(\lambda t = 12\).</p></div>
       <div class="p-explicacion"><p>\(P(7 \leq X \leq 12) = 0{,}5760 - 0{,}0458 = 0{,}5302\).</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> la probabilidad de que en una hora el servidor reciba entre 7 y 12 mensajes, ambos incluidos, donde \(X\) es la cantidad de mensajes en esa hora.</p>
+        <ol>
+          <li><strong>El modelo.</strong> \(X\) es Poisson: hay un promedio por unidad de tiempo (&ldquo;0,2 mensajes por minuto&rdquo;) y el conteo no tiene tope.</li>
+          <li><strong>Reescalar.</strong> El intervalo es una hora, \(t = 60\) minutos: \(\lambda t = 0{,}2 \cdot 60 = 12\) mensajes esperados.</li>
+          <li><strong>Traducir.</strong> &ldquo;Entre siete y doce, ambos extremos incluidos&rdquo; es \(x = 7, 8, \ldots, 12\): \(P(7 \leq X \leq 12)\).</li>
+          <li><strong>Con la tabla acumulada.</strong> La tabla da \(P(X \leq r)\). A lo que llega hasta 12 se le saca lo que está por debajo del 7: \(P(7 \leq X \leq 12) = P(X \leq 12) - P(X \leq 6)\).</li>
+          <li><strong>Leer la tabla.</strong> Columna \(\lambda t = 12\): fila \(r = 12\) da \(0{,}5760\), fila \(r = 6\) da \(0{,}0458\).</li>
+          <li><strong>La cuenta.</strong> \(0{,}5760 - 0{,}0458 = 0{,}5302\).</li>
+        </ol>
+        <p><strong>Qué significa:</strong> en un 53,02&nbsp;% de las horas llegan entre 7 y 12 mensajes.</p>
+      </div>
     </li>
   </ol>
 </article>

@@ -42,11 +42,30 @@
       </ul>
       <div class="p-pista"><p>La esperanza se reparte en las sumas sin pedir nada.</p></div>
       <div class="p-explicacion"><p>La esperanza es lineal: \(E(X + Y) = E(X) + E(Y)\), sean o no independientes.</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> elegir la regla correcta para calcular la esperanza (el promedio a la larga) de una suma de dos variables, \(X + Y\), cuando esas variables están relacionadas entre sí (su covarianza no es 0).</p>
+        <ol>
+          <li><strong>Qué es cada cosa.</strong> \(E(X)\) es la esperanza de \(X\): el valor promedio que toma \(X\) si repetís el experimento muchísimas veces. \(Cov(X,Y)\) es la covarianza: mide si \(X\) e \(Y\) tienden a moverse juntas.</li>
+          <li><strong>La propiedad que se usa.</strong> La esperanza es <em>lineal</em>: el promedio de una suma es la suma de los promedios. En general: \[ E(X + Y) = E(X) + E(Y). \] Esta regla vale <strong>siempre</strong>, sean \(X\) e \(Y\) independientes o no. No pide ninguna condición.</li>
+          <li><strong>Por qué no aparece la covarianza.</strong> Si sumás dos columnas de números y sacás el promedio, da lo mismo que promediar cada columna y sumar. Que los números de las dos columnas estén relacionados no cambia esa cuenta.</li>
+          <li><strong>Las opciones tentadoras.</strong> \(E(X) + E(Y) + 2\,Cov(X,Y)\) mezcla la regla de la <em>varianza</em> de una suma (ahí sí aparece la covarianza) con la de la esperanza. \(E(X)\,E(Y)\) es un producto, no una suma. Y "no se puede" es falso: la independencia no hace falta para la esperanza de una suma.</li>
+        </ol>
+        <p><strong>Qué significa:</strong> para el promedio de un total, alcanza con sumar los promedios de las partes, aunque las partes estén relacionadas. La covarianza solo entra en juego cuando se calcula una varianza.</p>
+      </div>
     </li>
     <li data-inciso="a" data-nivel="avanzado" data-respuesta="50">
       <div class="p-consigna"><p>¿Cuánto vale \(E(T)\)?</p></div>
       <div class="p-pista"><p>\(E(X + Y) = E(X) + E(Y)\).</p></div>
       <div class="p-explicacion"><p>\(E(T) = 20 + 30 = 50\) ms.</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> la esperanza de \(T = X + Y\), es decir, el tiempo total promedio que usa un pedido (CPU más entrada/salida), en milisegundos.</p>
+        <ol>
+          <li><strong>Los datos.</strong> El enunciado dice "\(E(X) = 20\)" (tiempo promedio de CPU) y "\(E(Y) = 30\)" (tiempo promedio de entrada/salida). \(E(\cdot)\) es la esperanza: el valor promedio a la larga.</li>
+          <li><strong>La propiedad.</strong> La esperanza de una suma es la suma de las esperanzas, sean las variables independientes o no (acá no lo son, porque \(Cov(X,Y) = 6\), pero no importa): \[ E(T) = E(X + Y) = E(X) + E(Y). \]</li>
+          <li><strong>Con los números.</strong> \[ E(T) = 20 + 30 = 50. \]</li>
+        </ol>
+        <p><strong>Qué significa:</strong> en promedio, un pedido tarda \(50\) ms en total. La covarianza no se usa acá: solo aparece en la varianza de la suma.</p>
+      </div>
     </li>
     <li data-inciso="a" data-nivel="medio">
       <div class="p-consigna"><p>¿Qué fórmula da \(V(X + Y)\)?</p></div>
@@ -58,16 +77,44 @@
       </ul>
       <div class="p-pista"><p>El término de la covarianza solo desaparece si \(Cov(X,Y) = 0\). ¿Con qué coeficiente aparece?</p></div>
       <div class="p-explicacion"><p>\(V(X + Y) = V(X) + V(Y) + 2\,Cov(X,Y)\). Si fueran independientes, la covarianza sería 0 y quedaría la suma de varianzas.</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> la fórmula de la varianza de una suma, \(V(X + Y)\). La varianza \(V\) mide cuánto se dispersa una variable alrededor de su promedio.</p>
+        <ol>
+          <li><strong>La fórmula general.</strong> \[ V(X + Y) = V(X) + V(Y) + 2\,Cov(X,Y), \] donde \(V(X)\) y \(V(Y)\) son las varianzas de cada variable y \(Cov(X,Y)\) es la covarianza, que mide si \(X\) e \(Y\) tienden a moverse juntas.</li>
+          <li><strong>De dónde sale el 2.</strong> La varianza es un promedio de desvíos <em>al cuadrado</em>. Al elevar al cuadrado una suma, \((a + b)^{2} = a^{2} + b^{2} + 2ab\), aparece un término cruzado doble. Ese término cruzado, promediado, es \(2\,Cov(X,Y)\).</li>
+          <li><strong>Por qué importa la covarianza.</strong> Si \(X\) e \(Y\) tienden a ser grandes juntas (covarianza positiva), la suma se va más lejos de su promedio y la varianza crece. Si fueran independientes, la covarianza valdría 0 y quedaría solo \(V(X) + V(Y)\).</li>
+          <li><strong>Las opciones tentadoras.</strong> "\(V(X) + V(Y)\), siempre" olvida la covarianza: solo vale si \(Cov = 0\). "\(+\,Cov(X,Y)\)" olvida el 2 del término cruzado. "\(-\,2\,Cov(X,Y)\)" es la fórmula de \(V(X - Y)\), no de la suma.</li>
+        </ol>
+        <p><strong>Qué significa:</strong> en la varianza de una suma, la relación entre las variables cuenta, y cuenta doble.</p>
+      </div>
     </li>
     <li data-inciso="a" data-nivel="principiante" data-respuesta="12">
       <div class="p-consigna"><p>¿Cuánto vale \(2\,Cov(X,Y)\)?</p></div>
       <div class="p-pista"><p>\(2 \cdot 6\).</p></div>
       <div class="p-explicacion"><p>\(12\).</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> el valor de \(2\,Cov(X,Y)\), el término que agrega la covarianza en la varianza de una suma.</p>
+        <ol>
+          <li><strong>El dato.</strong> \(Cov(X,Y)\) es la covarianza entre el tiempo de CPU y el de entrada/salida. El enunciado dice "\(Cov(X, Y) = 6\)".</li>
+          <li><strong>La cuenta.</strong> \[ 2\,Cov(X,Y) = 2 \cdot 6 = 12. \]</li>
+        </ol>
+        <p><strong>Qué significa:</strong> por estar relacionadas positivamente, la suma \(X + Y\) tiene \(12\) ms\(^{2}\) más de varianza que si fueran independientes.</p>
+      </div>
     </li>
     <li data-inciso="a" data-nivel="avanzado" data-respuesta="37">
       <div class="p-consigna"><p>¿Cuánto vale \(V(T)\)?</p></div>
       <div class="p-pista"><p>\(V(X + Y) = V(X) + V(Y) + 2\,Cov(X,Y)\).</p></div>
       <div class="p-explicacion"><p>\(V(T) = 9 + 16 + 12 = 37\) ms\(^{2}\). Sin la covarianza daría 25.</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> la varianza de \(T = X + Y\), el tiempo total de un pedido. La varianza \(V\) mide cuánto se aleja el tiempo total de su promedio; está en ms\(^{2}\).</p>
+        <ol>
+          <li><strong>Los datos.</strong> Del enunciado: "\(V(X) = 9\)", "\(V(Y) = 16\)" y "\(Cov(X, Y) = 6\)". \(Cov(X,Y)\) es la covarianza: mide si los dos tiempos tienden a subir juntos.</li>
+          <li><strong>La fórmula general.</strong> Como \(X\) e \(Y\) no son independientes (su covarianza no es 0), hay que incluir el término de covarianza: \[ V(X + Y) = V(X) + V(Y) + 2\,Cov(X,Y). \] El 2 sale del término cruzado al elevar al cuadrado una suma.</li>
+          <li><strong>El término de la covarianza.</strong> \(2\,Cov(X,Y) = 2 \cdot 6 = 12\).</li>
+          <li><strong>Con los números.</strong> \[ V(T) = 9 + 16 + 12 = 37. \]</li>
+        </ol>
+        <p><strong>Qué significa:</strong> \(V(T) = 37\) ms\(^{2}\). Si te olvidás de la covarianza, da \(25\): la relación positiva entre CPU y entrada/salida hace que el total varíe más. Control: una varianza nunca es negativa.</p>
+      </div>
     </li>
     <li data-inciso="b" data-nivel="principiante">
       <div class="p-consigna"><p>¿Qué propiedad da \(E(aX + bY + c)\)?</p></div>
@@ -79,31 +126,92 @@
       </ul>
       <div class="p-pista"><p>Linealidad: los coeficientes salen tal cual y la constante se suma.</p></div>
       <div class="p-explicacion"><p>\(E(aX + bY + c) = a\,E(X) + b\,E(Y) + c\). En la esperanza la constante no desaparece y no hay término de covarianza.</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> la regla para la esperanza de una combinación lineal \(aX + bY + c\), donde \(a\), \(b\) y \(c\) son números fijos (constantes).</p>
+        <ol>
+          <li><strong>La propiedad.</strong> La esperanza \(E\) (el promedio a la larga) es <em>lineal</em>: los números que multiplican salen afuera tal cual, las sumas se reparten y la constante se suma: \[ E(aX + bY + c) = a\,E(X) + b\,E(Y) + c. \]</li>
+          <li><strong>Por qué la constante queda.</strong> Si a cada valor le sumás \(c\), el promedio también sube \(c\). Por eso \(c\) no desaparece.</li>
+          <li><strong>Las opciones tentadoras.</strong> Sin el \(+\,c\) sería olvidar que sumar una constante corre el promedio (es la varianza la que ignora a \(c\)). Con \(a^{2}\) y \(b^{2}\) es la regla de la varianza, no de la esperanza. Y el término \(2ab\,Cov(X,Y)\) también es de la varianza: en la esperanza no hay covarianza.</li>
+        </ol>
+        <p><strong>Qué significa:</strong> para el promedio de una combinación lineal, se reemplaza cada variable por su promedio y se hace la misma cuenta.</p>
+      </div>
     </li>
     <li data-inciso="b" data-nivel="avanzado" data-respuesta="140">
       <div class="p-consigna"><p>¿Cuánto vale \(E(C)\)?</p></div>
       <div class="p-pista"><p>\(E(2X + 3Y + 10) = 2\,E(X) + 3\,E(Y) + 10\).</p></div>
       <div class="p-explicacion"><p>\(E(C) = 2 \cdot 20 + 3 \cdot 30 + 10 = 40 + 90 + 10 = 140\) centavos.</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> la esperanza del costo \(C = 2X + 3Y + 10\), es decir, cuánto cuesta un pedido en promedio, en centavos.</p>
+        <ol>
+          <li><strong>Los datos.</strong> Del enunciado: "\(E(X) = 20\)" y "\(E(Y) = 30\)", los tiempos promedio de CPU y de entrada/salida. En la fórmula del costo, \(a = 2\) multiplica a \(X\), \(b = 3\) multiplica a \(Y\) y \(c = 10\) es un costo fijo.</li>
+          <li><strong>La propiedad.</strong> La esperanza es lineal (vale siempre, haya o no relación entre \(X\) e \(Y\)): \[ E(aX + bY + c) = a\,E(X) + b\,E(Y) + c. \]</li>
+          <li><strong>Con los números.</strong> \[ E(C) = 2 \cdot 20 + 3 \cdot 30 + 10. \]</li>
+          <li><strong>La cuenta.</strong> \(40 + 90 + 10 = 140\).</li>
+        </ol>
+        <p><strong>Qué significa:</strong> un pedido cuesta, en promedio, \(140\) centavos. La covarianza no interviene: solo aparece al calcular la varianza.</p>
+      </div>
     </li>
     <li data-inciso="b" data-nivel="principiante" data-respuesta="36">
       <div class="p-consigna"><p>\(V(aX + bY + c) = a^{2}V(X) + b^{2}V(Y) + 2ab\,Cov(X,Y)\). ¿Cuánto aporta \(a^{2}V(X)\)?</p></div>
       <div class="p-pista"><p>\(a = 2\), y va al cuadrado.</p></div>
       <div class="p-explicacion"><p>\(2^{2} \cdot 9 = 36\). La constante 10 no aparece: correr la variable no la ensancha.</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> el primer término de la varianza del costo \(C = 2X + 3Y + 10\): cuánto aporta \(a^{2}V(X)\).</p>
+        <ol>
+          <li><strong>La fórmula general.</strong> \[ V(aX + bY + c) = a^{2}V(X) + b^{2}V(Y) + 2ab\,Cov(X,Y), \] donde \(V\) es la varianza (cuánto se dispersa la variable) y \(Cov\) la covarianza. El término que se pide es \(a^{2}V(X)\).</li>
+          <li><strong>Los datos.</strong> En \(C = 2X + 3Y + 10\), el número que multiplica a \(X\) es \(a = 2\). El enunciado dice "\(V(X) = 9\)".</li>
+          <li><strong>Por qué al cuadrado.</strong> La varianza está en unidades al cuadrado: si multiplicás \(X\) por 2, sus desvíos se duplican y los desvíos al cuadrado se multiplican por \(2^{2} = 4\).</li>
+          <li><strong>La cuenta.</strong> \[ a^{2}V(X) = 2^{2} \cdot 9 = 4 \cdot 9 = 36. \]</li>
+        </ol>
+        <p><strong>Qué significa:</strong> la parte de CPU aporta \(36\) a la varianza del costo. La constante \(10\) no aparece en la fórmula: sumar un monto fijo corre todos los costos por igual, pero no los hace más dispersos.</p>
+      </div>
     </li>
     <li data-inciso="b" data-nivel="medio" data-respuesta="144">
       <div class="p-consigna"><p>¿Cuánto aporta \(b^{2}V(Y)\)?</p></div>
       <div class="p-pista"><p>\(b = 3\), al cuadrado.</p></div>
       <div class="p-explicacion"><p>\(3^{2} \cdot 16 = 144\).</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> el segundo término de la varianza del costo \(C = 2X + 3Y + 10\): cuánto aporta \(b^{2}V(Y)\).</p>
+        <ol>
+          <li><strong>La fórmula general.</strong> \[ V(aX + bY + c) = a^{2}V(X) + b^{2}V(Y) + 2ab\,Cov(X,Y), \] donde \(V\) es la varianza y \(Cov\) la covarianza. Acá se pide \(b^{2}V(Y)\).</li>
+          <li><strong>Los datos.</strong> En \(C = 2X + 3Y + 10\), el número que multiplica a \(Y\) es \(b = 3\). El enunciado dice "\(V(Y) = 16\)".</li>
+          <li><strong>Por qué al cuadrado.</strong> Multiplicar \(Y\) por 3 triplica sus desvíos, y la varianza (promedio de desvíos al cuadrado) queda multiplicada por \(3^{2} = 9\).</li>
+          <li><strong>La cuenta.</strong> \[ b^{2}V(Y) = 3^{2} \cdot 16 = 9 \cdot 16 = 144. \]</li>
+        </ol>
+        <p><strong>Qué significa:</strong> la parte de entrada/salida aporta \(144\) a la varianza del costo; es la que más pesa, porque \(Y\) tiene más varianza y un coeficiente más grande.</p>
+      </div>
     </li>
     <li data-inciso="b" data-nivel="medio" data-respuesta="72">
       <div class="p-consigna"><p>¿Cuánto aporta \(2ab\,Cov(X,Y)\)?</p></div>
       <div class="p-pista"><p>\(2 \cdot 2 \cdot 3 \cdot 6\).</p></div>
       <div class="p-explicacion"><p>\(72\). Es positivo porque la covarianza es positiva y los dos coeficientes también.</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> el término de la covarianza en la varianza del costo \(C = 2X + 3Y + 10\): cuánto aporta \(2ab\,Cov(X,Y)\).</p>
+        <ol>
+          <li><strong>La fórmula general.</strong> \[ V(aX + bY + c) = a^{2}V(X) + b^{2}V(Y) + 2ab\,Cov(X,Y). \] \(Cov(X,Y)\) es la covarianza: mide si \(X\) e \(Y\) tienden a moverse juntas. El término \(2ab\,Cov(X,Y)\) es el término cruzado que aparece al elevar al cuadrado una suma.</li>
+          <li><strong>Los datos.</strong> \(a = 2\) (multiplica a \(X\)), \(b = 3\) (multiplica a \(Y\)) y el enunciado dice "\(Cov(X, Y) = 6\)".</li>
+          <li><strong>Con los números.</strong> \[ 2ab\,Cov(X,Y) = 2 \cdot 2 \cdot 3 \cdot 6. \]</li>
+          <li><strong>La cuenta.</strong> \(2 \cdot 2 = 4\); \(4 \cdot 3 = 12\); \(12 \cdot 6 = 72\).</li>
+        </ol>
+        <p><strong>Qué significa:</strong> la relación entre CPU y entrada/salida suma \(72\) a la varianza del costo. Es positivo porque la covarianza es positiva y \(a\) y \(b\) también: cuando un tiempo sube, el otro tiende a subir, y el costo se dispersa más.</p>
+      </div>
     </li>
     <li data-inciso="b" data-nivel="avanzado" data-respuesta="252">
       <div class="p-consigna"><p>¿Cuánto vale \(V(C)\)?</p></div>
       <div class="p-pista"><p>\(V(aX + bY + c) = a^{2}V(X) + b^{2}V(Y) + 2ab\,Cov(X,Y)\), con \(a = 2\), \(b = 3\).</p></div>
       <div class="p-explicacion"><p>\(V(C) = 36 + 144 + 72 = 252\).</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> la varianza del costo \(C = 2X + 3Y + 10\), es decir, cuánto se dispersa el costo de un pedido alrededor de su promedio (en centavos\(^{2}\)).</p>
+        <ol>
+          <li><strong>Los datos.</strong> Del enunciado: "\(V(X) = 9\)", "\(V(Y) = 16\)" y "\(Cov(X, Y) = 6\)". En el costo, \(a = 2\) multiplica a \(X\), \(b = 3\) multiplica a \(Y\) y \(c = 10\) es una constante. \(V\) es la varianza y \(Cov\) la covarianza (mide si \(X\) e \(Y\) se mueven juntas).</li>
+          <li><strong>La fórmula general.</strong> \[ V(aX + bY + c) = a^{2}V(X) + b^{2}V(Y) + 2ab\,Cov(X,Y). \] Los coeficientes van al cuadrado porque la varianza está en unidades al cuadrado; la constante \(c\) no aparece porque correr todos los valores no los dispersa; y como \(X\) e \(Y\) están relacionadas, hay término de covarianza.</li>
+          <li><strong>Término de \(X\).</strong> \(a^{2}V(X) = 2^{2} \cdot 9 = 4 \cdot 9 = 36\).</li>
+          <li><strong>Término de \(Y\).</strong> \(b^{2}V(Y) = 3^{2} \cdot 16 = 9 \cdot 16 = 144\).</li>
+          <li><strong>Término de la covarianza.</strong> \(2ab\,Cov(X,Y) = 2 \cdot 2 \cdot 3 \cdot 6 = 72\).</li>
+          <li><strong>La suma.</strong> \[ V(C) = 36 + 144 + 72 = 252. \]</li>
+        </ol>
+        <p><strong>Qué significa:</strong> \(V(C) = 252\) centavos\(^{2}\), o sea un desvío de \(\sqrt{252} \approx 15{,}9\) centavos alrededor del promedio. Control: tiene que ser positiva, y es más grande que \(36 + 144 = 180\) porque la covarianza es positiva.</p>
+      </div>
     </li>
     <li data-inciso="c" data-nivel="principiante">
       <div class="p-consigna"><p>¿Cuál es la fórmula del coeficiente de correlación?</p></div>
@@ -115,16 +223,44 @@
       </ul>
       <div class="p-pista"><p>Se divide la covarianza por los dos <strong>desvíos</strong>, para que el resultado no dependa de las unidades.</p></div>
       <div class="p-explicacion"><p>\(\rho = \frac{Cov(X,Y)}{\sigma_X\sigma_Y}\), y siempre cae entre \(-1\) y \(1\). Usar las varianzas en vez de los desvíos es el error típico.</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> la fórmula del coeficiente de correlación \(\rho\) (se lee "ro"), un número que mide qué tan fuerte es la relación <em>lineal</em> entre \(X\) e \(Y\).</p>
+        <ol>
+          <li><strong>La fórmula.</strong> \[ \rho = \frac{Cov(X,Y)}{\sigma_X\,\sigma_Y}, \] donde \(Cov(X,Y)\) es la covarianza y \(\sigma_X = \sqrt{V(X)}\), \(\sigma_Y = \sqrt{V(Y)}\) son los desvíos estándar (la raíz de la varianza).</li>
+          <li><strong>Por qué se divide por los desvíos.</strong> La covarianza depende de las unidades: si medís en segundos en vez de milisegundos, cambia. Dividiendo por los dos desvíos, que están en las mismas unidades que \(X\) e \(Y\), las unidades se cancelan y \(\rho\) queda siempre entre \(-1\) y \(1\).</li>
+          <li><strong>Las opciones tentadoras.</strong> Dividir por \(V(X)\,V(Y)\) (las varianzas) es el error típico: las unidades no se cancelan y el resultado no queda entre \(-1\) y \(1\). Multiplicar por los desvíos va al revés. Y \(\frac{E(XY)}{E(X)\,E(Y)}\) no es ninguna medida de correlación.</li>
+        </ol>
+        <p><strong>Qué significa:</strong> \(\rho\) es la covarianza "normalizada": \(1\) o \(-1\) es una relación lineal perfecta y \(0\) es ausencia de relación lineal.</p>
+      </div>
     </li>
     <li data-inciso="c" data-nivel="principiante" data-respuesta="12">
       <div class="p-consigna"><p>¿Cuánto vale \(\sigma_X \cdot \sigma_Y\)?</p></div>
       <div class="p-pista"><p>\(\sqrt{9}\cdot\sqrt{16}\).</p></div>
       <div class="p-explicacion"><p>\(3 \cdot 4 = 12\).</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> el producto de los dos desvíos estándar, \(\sigma_X \cdot \sigma_Y\), que es el denominador del coeficiente de correlación.</p>
+        <ol>
+          <li><strong>Qué es el desvío.</strong> El desvío estándar \(\sigma\) es la raíz cuadrada de la varianza: \(\sigma_X = \sqrt{V(X)}\) y \(\sigma_Y = \sqrt{V(Y)}\). Está en las mismas unidades que la variable (ms), no al cuadrado.</li>
+          <li><strong>Los datos.</strong> El enunciado dice "\(V(X) = 9\)" y "\(V(Y) = 16\)". Entonces \(\sigma_X = \sqrt{9} = 3\) y \(\sigma_Y = \sqrt{16} = 4\).</li>
+          <li><strong>La cuenta.</strong> \[ \sigma_X \cdot \sigma_Y = 3 \cdot 4 = 12. \]</li>
+        </ol>
+        <p><strong>Qué significa:</strong> el producto de desvíos es \(12\). Ojo: no es \(9 \cdot 16 = 144\); se usan las raíces, no las varianzas.</p>
+      </div>
     </li>
     <li data-inciso="c" data-nivel="avanzado" data-respuesta="0,5">
       <div class="p-consigna"><p>¿Cuánto vale \(\rho\)?</p></div>
       <div class="p-pista"><p>\(\rho = \frac{Cov(X,Y)}{\sigma_X\,\sigma_Y}\), con los desvíos (raíces de las varianzas).</p></div>
       <div class="p-explicacion"><p>\(\rho = \frac{6}{3 \cdot 4} = 0{,}5\).</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> el coeficiente de correlación \(\rho\) entre el tiempo de CPU \(X\) y el de entrada/salida \(Y\): un número entre \(-1\) y \(1\) que mide qué tan fuerte es la relación lineal entre los dos.</p>
+        <ol>
+          <li><strong>La fórmula general.</strong> \[ \rho = \frac{Cov(X,Y)}{\sigma_X\,\sigma_Y}, \] donde \(Cov(X,Y)\) es la covarianza (si las variables se mueven juntas) y \(\sigma_X\), \(\sigma_Y\) son los desvíos estándar, es decir, las raíces de las varianzas. Se divide por los desvíos para que el resultado no dependa de las unidades.</li>
+          <li><strong>Los datos.</strong> Del enunciado: "\(Cov(X, Y) = 6\)", "\(V(X) = 9\)" y "\(V(Y) = 16\)".</li>
+          <li><strong>Los desvíos.</strong> \(\sigma_X = \sqrt{9} = 3\) y \(\sigma_Y = \sqrt{16} = 4\), así que \(\sigma_X\,\sigma_Y = 3 \cdot 4 = 12\).</li>
+          <li><strong>Con los números.</strong> \[ \rho = \frac{6}{3 \cdot 4} = \frac{6}{12} = 0{,}5. \]</li>
+        </ol>
+        <p><strong>Qué significa:</strong> \(\rho = 0{,}5\): relación lineal positiva moderada, los pedidos con más CPU tienden a tener más entrada/salida. Control: está entre \(-1\) y \(1\). Si hubieras dividido por las varianzas, daría \(6/144\), un valor sin sentido.</p>
+      </div>
     </li>
     <li data-inciso="c" data-nivel="medio">
       <div class="p-consigna"><p>¿Cómo se interpreta \(\rho = 0{,}5\)?</p></div>
@@ -136,6 +272,16 @@
       </ul>
       <div class="p-pista"><p>\(\rho\) va de \(-1\) a \(1\); entre \(0{,}3\) y \(0{,}7\) se lee como moderada.</p></div>
       <div class="p-explicacion"><p>Positiva y moderada. \(\rho\) mide la fuerza de la relación lineal; no dice que una variable cause la otra ni qué proporción explica.</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> interpretar \(\rho = 0{,}5\), el coeficiente de correlación entre el tiempo de CPU \(X\) y el de entrada/salida \(Y\).</p>
+        <ol>
+          <li><strong>De dónde sale el \(0{,}5\).</strong> \(\rho = \frac{Cov(X,Y)}{\sigma_X\,\sigma_Y}\), con los datos del enunciado "\(Cov(X, Y) = 6\)", \(\sigma_X = \sqrt{9} = 3\) y \(\sigma_Y = \sqrt{16} = 4\): \(\rho = \frac{6}{12} = 0{,}5\).</li>
+          <li><strong>Cómo se lee \(\rho\).</strong> Va de \(-1\) a \(1\). El <em>signo</em> dice la dirección: positivo, cuando una variable sube la otra tiende a subir. El <em>tamaño</em> dice la fuerza de la relación lineal: cerca de \(\pm 1\) es fuerte, cerca de 0 es débil. Entre \(0{,}3\) y \(0{,}7\) se lee como moderada.</li>
+          <li><strong>Aplicado acá.</strong> \(0{,}5\) es positivo y moderado: los pedidos con más tiempo de CPU tienden a tener más tiempo de entrada/salida, aunque no siempre.</li>
+          <li><strong>Las opciones tentadoras.</strong> "Relación lineal perfecta" pediría \(\rho = 1\). "No hay relación porque \(\rho \lt 1\)" confunde: sin relación lineal sería \(\rho = 0\). "La mitad del tiempo de E/S se debe a la CPU" lee \(\rho\) como una proporción o una causa, y \(\rho\) no dice ninguna de las dos cosas.</li>
+        </ol>
+        <p><strong>Qué significa:</strong> hay una tendencia a que los dos tiempos suban juntos, de fuerza media. \(\rho\) no indica que una variable cause la otra.</p>
+      </div>
     </li>
     <li data-inciso="d" data-nivel="avanzado">
       <div class="p-consigna"><p>d.1) \(V(X - Y) = V(X) - V(Y)\).</p></div>
@@ -147,11 +293,32 @@
       </ul>
       <div class="p-pista"><p>Es \(aX + bY\) con \(a = 1\), \(b = -1\). ¿Qué pasa con \(b^{2}\)?</p></div>
       <div class="p-explicacion"><p>Con \(b = -1\): \(b^{2}V(Y) = V(Y)\), que suma, y \(2ab\,Cov = -2\,Cov\). Las varianzas nunca se restan: una varianza negativa no existe.</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> decidir si es cierto que \(V(X - Y) = V(X) - V(Y)\), y si es falso, dar la fórmula correcta. \(V\) es la varianza: cuánto se dispersa una variable alrededor de su promedio.</p>
+        <ol>
+          <li><strong>La regla general.</strong> Para una combinación lineal: \[ V(aX + bY) = a^{2}V(X) + b^{2}V(Y) + 2ab\,Cov(X,Y), \] donde \(Cov(X,Y)\) es la covarianza (si \(X\) e \(Y\) se mueven juntas).</li>
+          <li><strong>Escribir la resta como combinación.</strong> \(X - Y = 1 \cdot X + (-1) \cdot Y\), o sea \(a = 1\) y \(b = -1\).</li>
+          <li><strong>Reemplazar.</strong> \(a^{2} = 1\), \(b^{2} = (-1)^{2} = 1\) y \(2ab = 2 \cdot 1 \cdot (-1) = -2\). Entonces: \[ V(X - Y) = V(X) + V(Y) - 2\,Cov(X,Y). \] El signo menos de \(b\) desaparece al elevarlo al cuadrado: la varianza de \(Y\) <strong>suma</strong>. Solo el término de la covarianza cambia de signo.</li>
+          <li><strong>Con los datos del problema.</strong> \(9 + 16 - 2 \cdot 6 = 13\). Con la afirmación del enunciado daría \(9 - 16 = -7\), y una varianza negativa no existe.</li>
+          <li><strong>Las opciones tentadoras.</strong> "Verdadero, si son independientes" tampoco sirve: con \(Cov = 0\) queda \(V(X) + V(Y)\), que sigue siendo una suma. "\(V(X) - V(Y) - 2\,Cov\)" mantiene el error de restar las varianzas.</li>
+        </ol>
+        <p><strong>Qué significa:</strong> la afirmación es <strong>falsa</strong>. Restar variables también agrega dispersión: las varianzas nunca se restan.</p>
+      </div>
     </li>
     <li data-inciso="d" data-nivel="medio" data-respuesta="13">
       <div class="p-consigna"><p>Con los datos del problema, ¿cuánto vale \(V(X - Y)\)?</p></div>
       <div class="p-pista"><p>\(V(X) + V(Y) - 2\,Cov(X,Y)\).</p></div>
       <div class="p-explicacion"><p>\(9 + 16 - 12 = 13\). Con la afirmación falsa daría \(9 - 16 = -7\), imposible.</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> la varianza de la diferencia \(X - Y\) (tiempo de CPU menos tiempo de entrada/salida), con los datos del enunciado. \(V\) es la varianza: cuánto se dispersa una variable alrededor de su promedio.</p>
+        <ol>
+          <li><strong>La regla general.</strong> \(V(aX + bY) = a^{2}V(X) + b^{2}V(Y) + 2ab\,Cov(X,Y)\), donde \(Cov(X,Y)\) es la covarianza.</li>
+          <li><strong>Aplicada a la resta.</strong> \(X - Y\) es \(a = 1\), \(b = -1\). Como \(b^{2} = 1\) y \(2ab = -2\): \[ V(X - Y) = V(X) + V(Y) - 2\,Cov(X,Y). \]</li>
+          <li><strong>Los datos.</strong> Del enunciado: "\(V(X) = 9\)", "\(V(Y) = 16\)" y "\(Cov(X, Y) = 6\)", así que \(2\,Cov(X,Y) = 12\).</li>
+          <li><strong>La cuenta.</strong> \[ V(X - Y) = 9 + 16 - 12 = 13. \]</li>
+        </ol>
+        <p><strong>Qué significa:</strong> \(V(X - Y) = 13\) ms\(^{2}\). Es menor que \(V(X + Y) = 37\) porque, como \(X\) e \(Y\) tienden a subir juntas, en la resta sus variaciones se compensan en parte. Control: con la fórmula falsa \(V(X) - V(Y)\) daría \(-7\), imposible para una varianza.</p>
+      </div>
     </li>
     <li data-inciso="d" data-nivel="avanzado">
       <div class="p-consigna"><p>d.2) \(V(aX + b) = a^{2}V(X)\).</p></div>
@@ -163,6 +330,16 @@
       </ul>
       <div class="p-pista"><p>Sumar \(b\) corre la distribución pero no la ensancha; multiplicar por \(a\) sí, y la varianza está en unidades al cuadrado.</p></div>
       <div class="p-explicacion"><p>Verdadero. Ejemplo: \(V(2X + 5) = 4 \cdot 9 = 36\). Es la esperanza la que conserva la constante: \(E(aX + b) = a\,E(X) + b\).</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> decidir si es cierto que \(V(aX + b) = a^{2}V(X)\), donde \(a\) y \(b\) son números fijos y \(V\) es la varianza (cuánto se dispersa la variable).</p>
+        <ol>
+          <li><strong>Qué hace sumar \(b\).</strong> Sumar una constante corre todos los valores la misma cantidad. El promedio también se corre \(b\), así que la distancia de cada valor a su promedio no cambia: la varianza no cambia. Por eso \(b\) no aparece.</li>
+          <li><strong>Qué hace multiplicar por \(a\).</strong> Multiplicar por \(a\) multiplica cada distancia al promedio por \(a\). Como la varianza es un promedio de distancias <em>al cuadrado</em>, queda multiplicada por \(a^{2}\).</li>
+          <li><strong>La fórmula.</strong> \[ V(aX + b) = a^{2}V(X). \] Ejemplo con los datos del enunciado (\(V(X) = 9\)): \(V(2X + 5) = 2^{2} \cdot 9 = 36\).</li>
+          <li><strong>Las opciones tentadoras.</strong> "\(a^{2}V(X) + b\)" y "\(a\,V(X) + b\)" confunden con la esperanza, que sí conserva la constante: \(E(aX + b) = a\,E(X) + b\). "\(a\,V(X)\)" olvida el cuadrado; con \(a\) negativo daría una varianza negativa, imposible.</li>
+        </ol>
+        <p><strong>Qué significa:</strong> la afirmación es <strong>verdadera</strong>. Correr una variable no la dispersa; estirarla sí, y al cuadrado.</p>
+      </div>
     </li>
     <li data-inciso="d" data-nivel="avanzado">
       <div class="p-consigna"><p>d.3) Si \(Cov(X, Y) = 0\), entonces \(X\) e \(Y\) son independientes.</p></div>
@@ -174,6 +351,16 @@
       </ul>
       <div class="p-pista"><p>La covarianza solo mide relación <strong>lineal</strong>. ¿Puede haber otro tipo de relación?</p></div>
       <div class="p-explicacion"><p>Independientes \(\Rightarrow\) \(Cov = 0\), siempre. Al revés no: puede haber una relación no lineal con covarianza 0. La independencia se prueba con \(f(x,y) = g(x)\,h(y)\).</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> decidir si es cierto que covarianza 0 implica independencia. \(Cov(X,Y)\) es la covarianza: mide si \(X\) e \(Y\) tienden a moverse juntas <em>en línea recta</em>. Dos variables son independientes si saber el valor de una no cambia en nada las probabilidades de la otra.</p>
+        <ol>
+          <li><strong>La dirección que sí vale.</strong> Si \(X\) e \(Y\) son independientes, entonces \(Cov(X,Y) = 0\), siempre. Independientes \(\Rightarrow\) covarianza 0.</li>
+          <li><strong>La dirección que no vale.</strong> La covarianza solo detecta relaciones <em>lineales</em>. Puede haber una relación de otro tipo (por ejemplo, \(Y = X^{2}\) con \(X\) tomando \(-1\), \(0\) y \(1\) con igual probabilidad) donde la covarianza da 0 y, sin embargo, \(Y\) depende totalmente de \(X\).</li>
+          <li><strong>Cómo se prueba la independencia.</strong> Hay que verificar que la función conjunta sea el producto de las marginales en todos los puntos: \[ f(x,y) = g(x)\,h(y), \] donde \(f\) es la probabilidad conjunta y \(g\), \(h\) son las marginales de \(X\) y de \(Y\).</li>
+          <li><strong>Las opciones tentadoras.</strong> "Covarianza 0 es la definición de independencia" es falso: la definición es la del producto. "Verdadero si \(\rho = 0\)" es lo mismo con otro nombre: \(\rho = 0\) es covarianza 0. "Si son independientes la covarianza es 1" está mal: es 0.</li>
+        </ol>
+        <p><strong>Qué significa:</strong> la afirmación es <strong>falsa</strong>. Covarianza 0 dice "no hay relación lineal", no "no hay relación".</p>
+      </div>
     </li>
   </ol>
 </article>

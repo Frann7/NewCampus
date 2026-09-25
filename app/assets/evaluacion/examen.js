@@ -7,7 +7,10 @@
                 ejercicio en todos sus pasos.
    INTERACTIVO: un ejercicio de parcial completo, desglosado en pasos por
                 inciso segun el nivel, con pistas y vidas. Se puede saltear
-                entero.
+                entero. Cada paso tiene ademas "Resolver": muestra la
+                resolucion paso a paso y pasa al siguiente (no gasta vidas,
+                pero el ejercicio ya no cuenta como sin errores). Los intentos
+                guardados antes de este boton no tienen "resueltos": cuenta 0.
    En normal, la navegacion libre agrega casillas para ir a cualquier pregunta
    y deja terminar cuando se quiera.
    Cada respuesta se guarda al instante, asi se puede salir y continuar.
@@ -457,12 +460,15 @@
             h("div", { class: "ex-paso-consigna", html: paso.consigna })
           ]);
           lista.appendChild(li);
-          if (k < r.paso) { pasoHecho(li, paso, ep); } else { actual = li; pasoActual(li, paso, ep, k, r); }
+          if (k < r.paso) { pasoHecho(li, paso, ep, k === r.paso - 1); } else { actual = li; pasoActual(li, paso, ep, k, r); }
         });
 
         if (r.paso >= pasos.length) {
+          var detalle = [];
+          if (r.fallos) { detalle.push(r.fallos + (r.fallos === 1 ? " fallo" : " fallos")); }
+          if (r.resueltos) { detalle.push(r.resueltos + (r.resueltos === 1 ? " paso resuelto" : " pasos resueltos")); }
           tarjeta.appendChild(cartel(r.ok ? "caja-resp" : "caja-formula",
-            r.ok ? "¡Ejercicio completo sin errores!" : "¡Ejercicio completo! (con " + r.fallos + (r.fallos === 1 ? " fallo)" : " fallos)"), p.explicacion));
+            r.ok ? "¡Ejercicio completo sin errores!" : "¡Ejercicio completo! (con " + detalle.join(" y ") + ")", p.explicacion));
           tarjeta.appendChild(h("div", { class: "ex-acciones" }, botonSiguiente()));
         } else if (c.modo === "interactivo") {
           tarjeta.appendChild(h("div", { class: "ex-acciones" }, botonSaltear(r)));
@@ -470,14 +476,48 @@
         return actual;
       }
 
-      function pasoHecho(li, paso, ep) {
-        var textoRespuesta = paso.opciones
+      function respuestaDe(paso) {
+        return paso.opciones
           ? h("span", { html: paso.opciones.textos[paso.opciones.correcta] })
           : h("b", {}, paso.respuesta);
+      }
+
+      // Lo que muestra "Resolver". Si el paso no trae su resolucion escrita,
+      // se arma con lo que tiene: que se pide, como se piensa y la cuenta.
+      function resolucionDe(paso) {
+        var cuerpo = h("div", { class: "ex-resolucion-cuerpo" });
+        if (paso.resolucion) {
+          cuerpo.appendChild(h("div", { html: paso.resolucion }));
+        } else {
+          cuerpo.appendChild(h("p", {}, [h("strong", {}, "Qué se pide: "), h("span", { html: paso.consigna })]));
+          if (paso.pista) { cuerpo.appendChild(h("p", {}, [h("strong", {}, "Cómo se piensa: "), h("span", { html: paso.pista })])); }
+          if (paso.explicacion) { cuerpo.appendChild(h("p", {}, [h("strong", {}, "La cuenta: "), h("span", { html: paso.explicacion })])); }
+        }
+        cuerpo.appendChild(h("p", { class: "ex-resolucion-resp" }, [h("strong", {}, "Respuesta: "), respuestaDe(paso)]));
+        return cuerpo;
+      }
+
+      // ultimo: el paso que se acaba de hacer. Si fue con el boton Resolver, su
+      // resolucion se ve abierta; las de antes quedan plegadas.
+      function pasoHecho(li, paso, ep, ultimo) {
+        if (ep.resuelto) {
+          li.classList.add("es-resuelto");
+          li.appendChild(h("div", { class: "ex-paso-resultado" },
+            ["Resuelto: ", respuestaDe(paso), ep.fallos ? h("small", {}, " · " + ep.fallos + (ep.fallos === 1 ? " fallo" : " fallos")) : null]));
+          var det = h("details", { class: "ex-resolucion" }, [
+            h("summary", {}, "Resolución paso a paso"),
+            resolucionDe(paso)
+          ]);
+          if (ultimo) { det.open = true; liResuelto = li; }
+          li.appendChild(det);
+          return;
+        }
         li.appendChild(h("div", { class: "ex-paso-resultado" },
-          ["✓ ", textoRespuesta, ep.fallos ? h("small", {}, " · " + ep.fallos + (ep.fallos === 1 ? " fallo" : " fallos")) : null]));
+          ["✓ ", respuestaDe(paso), ep.fallos ? h("small", {}, " · " + ep.fallos + (ep.fallos === 1 ? " fallo" : " fallos")) : null]));
         if (paso.explicacion) { li.appendChild(h("div", { class: "ex-paso-explicacion", html: paso.explicacion })); }
       }
+
+      var liResuelto = null;   // el paso recien resuelto con el boton, para llevar la vista ahi
 
       function pasoActual(li, paso, ep, k, r) {
         var zonaPista = h("div");
@@ -490,12 +530,20 @@
           var pasos = B.pasosDelNivel(B.obtener(materia, r.id), E.nivelDe(c));
           if (r.paso >= pasos.length) {
             r.hecho = true;
-            r.ok = r.fallos === 0;
+            r.ok = r.fallos === 0 && !r.resueltos;
           }
           guardar();
           pintarBarra();
           pintar(true);
         }
+
+        // Boton "Resolver": el campus hace el paso, muestra como y sigue.
+        var botonResolver = h("button", { class: "ex-resolver", type: "button",
+          title: "Ver la resolución de este paso, explicada, y pasar al siguiente", onclick: function () {
+            ep.resuelto = true;
+            r.resueltos = (r.resueltos || 0) + 1;
+            resolver();
+          } }, "📖 Resolver");
 
         // devuelve false si era la ultima vida
         function fallo() {
@@ -541,7 +589,7 @@
           ]);
         }
 
-        if (lampara) { li.appendChild(h("div", { class: "ex-herramientas" }, lampara)); }
+        li.appendChild(h("div", { class: "ex-herramientas" }, [lampara, botonResolver]));
         li.appendChild(zonaPista);
         li.appendChild(respuesta);
         li.appendChild(devolucion);
@@ -555,6 +603,7 @@
         var r = it.preguntas[it.actual];
         var p = B.obtener(materia, r.id);
         E.vaciar(zona);
+        liResuelto = null;
 
         if (!p) {
           r.hecho = true; r.ok = false;
@@ -589,7 +638,13 @@
         if (nav) { tarjeta.appendChild(nav); }
 
         E.tipografiar(zona);
-        if (mismaPregunta && actual) {
+        if (mismaPregunta && liResuelto) {
+          // recien resuelto con el boton: primero se lee la resolucion
+          // debajo de la barra fija de la autoevaluacion (vidas, ejercicio N de M)
+          var barra = document.querySelector(".ex-barra");
+          var tapa = barra ? barra.getBoundingClientRect().bottom : 90;
+          window.scrollBy(0, liResuelto.getBoundingClientRect().top - tapa - 12);
+        } else if (mismaPregunta && actual) {
           actual.scrollIntoView({ block: "center" });
           var entrada = actual.querySelector(".ex-entrada");
           if (entrada) { entrada.focus({ preventScroll: true }); }

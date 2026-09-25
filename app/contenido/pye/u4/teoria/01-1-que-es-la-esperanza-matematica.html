@@ -2,140 +2,110 @@
   <p class="kicker">Punto de partida</p>
   <h2>1. Que es la Esperanza Matematica</h2>
 
+  <h3>Cuando se usa</h3>
   <p>
-    En la Unidad 2 vos calculabas el promedio de una muestra: sumabas todos los datos que
-    ya habian ocurrido y dividias por la cantidad. Eso mira <strong>al pasado</strong>.
+    Cuando piden "el valor esperado", "la ganancia esperada", "el promedio", "cuanto se espera que
+    dure", o directamente \(E(X)\) o \(\mu\). Es el <strong>promedio a largo plazo</strong>: si el
+    experimento se repitiera muchisimas veces, alrededor de que valor quedarian los resultados.
   </p>
-
   <p>
-    La pregunta de esta unidad es otra: <em>si el experimento se repitiera muchisimas veces
-    en el futuro, alrededor de que valor se acomodarian los resultados?</em> Ese numero se
-    llama <strong>Esperanza Matematica</strong> o <strong>Valor Esperado</strong>, y se escribe
-    \(E(X)\) o directamente \(\mu\) (la letra griega "mu").
-  </p>
-
-  <p>
-    La definicion de la catedra es exactamente esa: <em>"es el valor promedio de la variable
-    en estudio expresado en terminos de probabilidad de ocurrencia para el futuro"</em>.
-  </p>
-
-  <h3>De donde sale la formula</h3>
-
-  <p>
-    Cuando en Estadistica Descriptiva teniamos datos agrupados, el promedio se calculaba
-    pesando cada valor por la frecuencia con la que aparecia:
-  </p>
-
-  <p>\[ \bar{x} \;=\; \sum_{i=1}^{k} x_i \cdot f_{r_i} \]</p>
-
-  <p>
-    donde \(f_{r_i}\) era la <strong>frecuencia relativa</strong> (cuantas veces aparecio ese valor
-    sobre el total). Ahora reemplazamos esa frecuencia relativa observada por la
-    <strong>probabilidad teorica</strong> \(f(x)\), y el promedio muestral se convierte en Esperanza.
-    La formula es la misma, cambia el ingrediente:
+    La definicion de la catedra: <em>"es el valor promedio de la variable en estudio expresado en
+    terminos de probabilidad de ocurrencia para el futuro"</em>.
   </p>
 
   <div class="caja caja-formula">
-    <span class="caja-tit">Formula general</span>
-    <p><strong>Variable discreta (te dan una tabla):</strong></p>
-    <p>\[ E(X) \;=\; \sum_{x} x \cdot f(x) \]</p>
-    <p><strong>Variable continua (te dan una funcion de densidad):</strong></p>
-    <p>\[ E(X) \;=\; \int_{-\infty}^{+\infty} x \cdot f(x)\, dx \]</p>
-    <p style="margin-top:10px">
-      Traduccion literal: <em>"cada valor posible, multiplicado por la chance que tiene de salir,
-      y todo eso junto"</em>. En discretas "juntar" es sumar; en continuas "juntar" es integrar,
-      porque hay infinitos valores pegados uno al lado del otro.
-    </p>
+    <span class="caja-tit">Formulas</span>
+    <p><strong>Variable discreta</strong> (te dan una tabla):</p>
+    <p>\[ E(X) = \sum_{x} x \cdot f(x) \]</p>
+    <p><strong>Variable continua</strong> (te dan una funcion de densidad):</p>
+    <p>\[ E(X) = \int_{-\infty}^{+\infty} x \cdot f(x)\, dx \]</p>
   </div>
 
-  <div class="caja caja-ojo">
-    <span class="caja-tit">Por que en continuas se integra y no se suma</span>
-    <p>
-      En una variable continua (tiempo, peso, dinero con decimales) la probabilidad de que salga
-      <em>exactamente</em> un valor puntual es cero: no existe la probabilidad de esperar exactamente
-      2,0000000 minutos. Por eso no hay una tabla con valores sueltos que sumar. La probabilidad
-      vive en <strong>tramos</strong>, y sumar infinitos tramos infinitamente finos es, literalmente,
-      la definicion de integral.
-    </p>
+  <h4>Que significa cada letra</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Simbolo</th><th>Que es</th><th>De donde sale</th></tr>
+      <tr><td>\(X\)</td><td>la variable aleatoria: lo que se mide o se cuenta</td><td>el enunciado ("la ganancia", "la duracion")</td></tr>
+      <tr><td>\(x\)</td><td>cada valor que puede tomar \(X\)</td><td>la fila de arriba de la tabla</td></tr>
+      <tr><td>\(f(x)\)</td><td>la probabilidad de ese valor (o la densidad, si es continua)</td><td>la fila de abajo de la tabla, o la funcion dada</td></tr>
+      <tr><td>\(\sum\)</td><td>sumar para todos los valores</td><td>&mdash;</td></tr>
+      <tr><td>\(E(X)\) o \(\mu\)</td><td>la Esperanza: el promedio a largo plazo</td><td>el resultado</td></tr>
+    </table>
   </div>
+
+  <h4>De donde sale</h4>
+  <p>
+    En la Unidad 2, el promedio de datos agrupados pesaba cada valor por su frecuencia relativa:
+    \(\bar{x} = \sum x_i \cdot f_{r_i}\). La Esperanza es lo mismo, pero con la
+    <strong>probabilidad</strong> \(f(x)\) en lugar de la frecuencia observada: cada valor pesa
+    segun la chance que tiene de salir.
+  </p>
+  <p>
+    En una continua se integra en vez de sumar, porque hay infinitos valores pegados (48 ms, 48,3 ms,
+    48,31 ms&hellip;) y un valor suelto tiene probabilidad 0: la probabilidad esta en los tramos, y
+    "sumar" infinitos tramos finitos es integrar.
+  </p>
 
   <hr class="sep">
 
-  <h3>Ejemplo 1 &mdash; El apostador de las 3 monedas (caso discreto, de la catedra)</h3>
+  <h3>Ejemplo 1 &mdash; El apostador de las 3 monedas (de la catedra)</h3>
 
   <div class="caja caja-ejemplo">
     <span class="caja-tit">Enunciado</span>
     <p>
       Un apostador lanza <strong>3 monedas</strong>. Si salen <strong>3 caras o 3 cruces gana $5</strong>.
-      Si salen <strong>1 o 2 caras pierde $3</strong>. Cual es la ganancia esperada del apostador?
+      Si salen <strong>1 o 2 caras pierde $3</strong>. &iquest;Cual es la ganancia esperada del apostador?
     </p>
   </div>
 
-  <h4>Por que este es un caso discreto</h4>
+  <h4>Por que se resuelve asi</h4>
   <ul>
+    <li>Preguntan la ganancia <strong>esperada</strong>: es \(E(X)\).</li>
+    <li>La ganancia solo puede ser +5 o &minus;3: valores sueltos &rarr; discreta &rarr; se <strong>suma</strong>.</li>
     <li>
-      El resultado del juego solo puede ser <strong>+5 o &minus;3</strong>. No hay valores
-      intermedios: no podes ganar $4,27.
+      Ojo: \(X\) no es "cantidad de caras", es <strong>el dinero</strong>, porque preguntan por la
+      ganancia. Las caras solo sirven para calcular las probabilidades.
     </li>
-    <li>Valores sueltos y contables &rarr; variable discreta &rarr; se <strong>suma</strong>, no se integra.</li>
   </ul>
 
   <h4>Desarme del enunciado</h4>
   <div class="tabla-wrap">
     <table class="t full">
-      <tr><th>Frase</th><th>Traduccion</th><th>A donde va</th></tr>
-      <tr><td>"lanza 3 monedas"</td><td>el espacio muestral tiene \(2^3 = 8\) resultados</td><td>base para las probabilidades</td></tr>
-      <tr><td>"gana $5"</td><td>un valor posible de la variable</td><td>\(x_1 = +5\)</td></tr>
-      <tr><td>"pierde $3"</td><td>otro valor posible, en NEGATIVO</td><td>\(x_2 = -3\)</td></tr>
-      <tr><td>"si salen 3 caras o 3 cruces"</td><td>2 de los 8 resultados</td><td>\(f(5) = 2/8\)</td></tr>
-      <tr><td>"si salen 1 o 2 caras"</td><td>los 6 restantes</td><td>\(f(-3) = 6/8\)</td></tr>
+      <tr><th>Frase</th><th>Traduccion</th><th>Cuenta</th><th>A donde va</th></tr>
+      <tr><td>"lanza 3 monedas"</td><td>cada moneda tiene 2 resultados</td><td>\(2 \cdot 2 \cdot 2 = 8\) resultados</td><td>total de casos</td></tr>
+      <tr><td>"gana $5"</td><td>un valor de \(X\)</td><td>&mdash;</td><td>\(x = +5\)</td></tr>
+      <tr><td>"pierde $3"</td><td>otro valor de \(X\), <strong>negativo</strong> porque es perdida</td><td>&mdash;</td><td>\(x = -3\)</td></tr>
+      <tr><td>"3 caras o 3 cruces"</td><td>CCC y SSS: 2 casos de 8</td><td>\(2/8 = 1/4\)</td><td>\(f(5) = 1/4\)</td></tr>
+      <tr><td>"1 o 2 caras"</td><td>los otros 6 casos</td><td>\(6/8 = 3/4\)</td><td>\(f(-3) = 3/4\)</td></tr>
     </table>
   </div>
 
-  <div class="caja caja-ojo">
-    <span class="caja-tit">Cual es la variable aleatoria aca</span>
-    <p>
-      No es "cantidad de caras". Es <strong>el dinero</strong>. Lo que te piden es la ganancia
-      esperada, asi que \(X\) tiene que estar en pesos. Las caras son solo el mecanismo para
-      calcular las probabilidades.
-    </p>
-  </div>
-
-  <h4>Paso 1 &mdash; Armar el espacio muestral</h4>
-  <p>Con 3 monedas hay \(2^3 = 8\) resultados, todos con probabilidad \(1/8\):</p>
-  <p style="font-family:JetBrains Mono,monospace;font-size:14px">
-    CCC &nbsp; CCS &nbsp; CSC &nbsp; CSS &nbsp; SCC &nbsp; SCS &nbsp; SSC &nbsp; SSS
-  </p>
-
-  <h4>Paso 2 &mdash; Agrupar por evento</h4>
-  <ul>
-    <li>Gana: \(E_1 = \{CCC,\ SSS\}\) &rarr; \(P(E_1) = \tfrac{1}{8} + \tfrac{1}{8} = \tfrac{2}{8} = \tfrac{1}{4}\)</li>
-    <li>Pierde: los 6 restantes &rarr; \(P(E_2) = \tfrac{6}{8} = \tfrac{3}{4}\)</li>
-  </ul>
+  <h4>Paso 1 &mdash; Armar la tabla de \(X\)</h4>
+  <p>Los 8 resultados posibles son CCC, CCS, CSC, CSS, SCC, SCS, SSC y SSS, todos igual de probables. Gana en 2 (CCC y SSS) y pierde en los otros 6:</p>
   <div class="tabla-wrap">
     <table class="t">
       <tr><th class="lbl">\(x\) (dinero)</th><td>+5</td><td>&minus;3</td></tr>
       <tr><th class="lbl">\(f(x)\)</th><td>1/4</td><td>3/4</td></tr>
     </table>
   </div>
+  <p>Control: \(\tfrac14 + \tfrac34 = 1\).</p>
 
-  <h4>Paso 3 &mdash; Aplicar la formula</h4>
-  <p>Formula:</p>
+  <h4>Paso 2 &mdash; Aplicar la formula</h4>
+  <p>Cada valor por su probabilidad, y se suma:</p>
   <p>\[ E(X) = \sum x \cdot f(x) \]</p>
-  <p>\[ E(X) = (5)\left(\tfrac{1}{4}\right) + (-3)\left(\tfrac{3}{4}\right) = 1{,}25 - 2{,}25 = -1 \]</p>
+  <p>\[ E(X) = (5)\left(\tfrac{1}{4}\right) + (-3)\left(\tfrac{3}{4}\right) \]</p>
+  <p>Pieza por pieza: \(5 \cdot \tfrac14 = 1{,}25\) y \(-3 \cdot \tfrac34 = -2{,}25\).</p>
+  <p>\[ E(X) = 1{,}25 - 2{,}25 = -1 \]</p>
 
   <div class="caja caja-resp">
     <span class="caja-tit">Respuesta</span>
-    <p>\(E(X) = -\$1\). En cada jugada el apostador espera <strong>perder</strong> un peso.</p>
-    <p>
-      Ojo con la interpretacion: el apostador nunca pierde exactamente $1 en una jugada
-      (o gana 5 o pierde 3). El \(-1\) es el promedio a la larga, despues de miles de jugadas.
-    </p>
+    <p>\(E(X) = -\$1\): a la larga, el apostador pierde en promedio un peso por jugada.</p>
+    <p>En ninguna jugada pierde exactamente $1 (o gana 5 o pierde 3): el \(-1\) es el promedio despues de muchisimas jugadas.</p>
   </div>
 
   <hr class="sep">
 
-  <h3>Ejemplo 2 &mdash; Duracion de un dispositivo (caso continuo, de la catedra)</h3>
+  <h3>Ejemplo 2 &mdash; Duracion de un dispositivo (continua, de la catedra)</h3>
 
   <div class="caja caja-ejemplo">
     <span class="caja-tit">Enunciado</span>
@@ -146,63 +116,44 @@
     </p>
   </div>
 
-  <h4>Por que este es un caso continuo</h4>
+  <h4>Por que se resuelve asi</h4>
   <ul>
-    <li>
-      La duracion se <strong>mide</strong>: puede ser 137,4 horas o 200,003 horas. Hay infinitos
-      valores posibles.
-    </li>
-    <li>
-      Ademas te dan una <strong>funcion</strong> \(f(x)\) en vez de una tabla. Eso es la firma de
-      una variable continua &rarr; se <strong>integra</strong>.
-    </li>
+    <li>La duracion se mide (137,4 h, 200,003 h&hellip;) y te dan una <strong>funcion</strong>, no una tabla: continua &rarr; se <strong>integra</strong>.</li>
   </ul>
 
   <h4>Desarme del enunciado</h4>
   <div class="tabla-wrap">
     <table class="t full">
       <tr><th>Frase</th><th>Traduccion</th><th>A donde va</th></tr>
-      <tr><td>"\(f(x) = 20000/x^{3}\)"</td><td>la densidad de probabilidad</td><td>reemplaza \(f(x)\) en la integral</td></tr>
-      <tr><td>"para \(x &gt; 100\)"</td><td>el dispositivo dura al menos 100 h</td><td>limite inferior de la integral: 100</td></tr>
-      <tr><td>"0 en cualquier otro caso"</td><td>no hay tope superior</td><td>limite superior: \(\infty\)</td></tr>
+      <tr><td>"\(f(x) = 20000/x^{3}\)"</td><td>la densidad</td><td>va en lugar de \(f(x)\) en la integral</td></tr>
+      <tr><td>"para \(x &gt; 100\)"</td><td>dura al menos 100 horas</td><td>borde de abajo: 100</td></tr>
+      <tr><td>"0 en cualquier otro caso"</td><td>no hay tope</td><td>borde de arriba: \(\infty\)</td></tr>
     </table>
   </div>
+  <p>La formula general integra de \(-\infty\) a \(+\infty\), pero donde la densidad vale 0 no se suma nada: se integra solo donde la funcion existe, de 100 a \(\infty\).</p>
 
-  <div class="caja caja-ojo">
-    <span class="caja-tit">Los limites de integracion salen del enunciado</span>
-    <p>
-      La formula general dice \(\int_{-\infty}^{+\infty}\), pero en la practica
-      <strong>solo se integra donde la funcion existe</strong>. Fuera de ese rango vale cero y no
-      aporta area. Aca, de 100 a infinito.
-    </p>
-  </div>
-
-  <h4>Resolucion</h4>
-  <p>Formula:</p>
+  <h4>Paso 1 &mdash; Plantear la integral</h4>
   <p>\[ E(X) = \int_{a}^{b} x \cdot f(x)\, dx \]</p>
   <p>\[ E(X) = \int_{100}^{\infty} x \cdot \frac{20000}{x^{3}}\, dx \]</p>
-  <p>
-    Primero simplificamos: la \(x\) de afuera se come una \(x\) del denominador y el exponente baja
-    de 3 a 2.
-  </p>
-  <p>\[ = \int_{100}^{\infty} \frac{20000}{x^{2}}\, dx \]</p>
-  <p>
-    Ahora escribimos \(\frac{1}{x^2}\) como \(x^{-2}\) para poder usar la regla de la potencia
-    \(\left(\int x^{n} dx = \frac{x^{n+1}}{n+1}\right)\):
-  </p>
-  <p>\[ = 20000 \int_{100}^{\infty} x^{-2}\, dx = 20000 \left[ \frac{x^{-1}}{-1} \right]_{100}^{\infty} = 20000 \left[ -\frac{1}{x} \right]_{100}^{\infty} \]</p>
-  <p>
-    Evaluamos: cuando \(x\) tiende a infinito, \(\frac{1}{x}\) tiende a 0. Cuando \(x = 100\),
-    da \(\frac{1}{100}\).
-  </p>
-  <p>\[ = 20000 \left( 0 - \left(-\frac{1}{100}\right) \right) = 20000 \times \frac{1}{100} = 200 \]</p>
+
+  <h4>Paso 2 &mdash; Simplificar</h4>
+  <p>La \(x\) que multiplica se cancela con una de las tres de abajo: \(\frac{x}{x^{3}} = \frac{1}{x^{2}}\). Y \(\frac{1}{x^{2}}\) se escribe \(x^{-2}\) para poder usar la regla de la potencia:</p>
+  <p>\[ E(X) = 20000 \int_{100}^{\infty} x^{-2}\, dx \]</p>
+
+  <h4>Paso 3 &mdash; Integrar</h4>
+  <p>Regla de la potencia: se suma 1 al exponente y se divide por el nuevo. \(\int x^{-2}\,dx = \frac{x^{-1}}{-1} = -\frac{1}{x}\):</p>
+  <p>\[ E(X) = 20000 \left[ -\frac{1}{x} \right]_{100}^{\infty} \]</p>
+
+  <h4>Paso 4 &mdash; Evaluar (arriba menos abajo)</h4>
+  <ul>
+    <li>Arriba, \(x \to \infty\): \(-\frac{1}{x} \to 0\).</li>
+    <li>Abajo, \(x = 100\): \(-\frac{1}{100}\).</li>
+  </ul>
+  <p>\[ E(X) = 20000 \left( 0 - \left(-\frac{1}{100}\right) \right) = 20000 \cdot \frac{1}{100} = 200 \]</p>
 
   <div class="caja caja-resp">
     <span class="caja-tit">Respuesta</span>
-    <p>\(E(X) = 200\) horas de duracion esperada.</p>
-    <p>
-      Control de sentido comun: el dispositivo dura como minimo 100 horas, asi que el promedio
-      <strong>tenia que dar mayor que 100</strong>. &#10003;
-    </p>
+    <p>\(E(X) = 200\) horas: se espera que el dispositivo dure 200 horas en promedio.</p>
+    <p>Control: dura como minimo 100 horas, asi que el promedio tenia que dar mas de 100.</p>
   </div>
 </div>

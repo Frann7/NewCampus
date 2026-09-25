@@ -2,25 +2,38 @@
   <p class="kicker">Segundo concepto</p>
   <h2>2. Esperanza de una funcion de X</h2>
 
+  <h3>Cuando se usa</h3>
   <p>
-    A veces no te piden el promedio de \(X\), sino el promedio de <em>algo hecho con</em> \(X\).
-    Por ejemplo: si \(X\) es el lado de un cuadrado, el area es \(X^2\), y el area promedio es
-    \(E(X^2)\).
+    Cuando no piden el promedio de \(X\) sino el de <strong>algo calculado con \(X\)</strong>: \(X^{2}\),
+    \((X-1)^{2}\), \(2X + 1\). El caso que mas se usa es \(E(X^{2})\), porque es el primer paso de
+    la Varianza (seccion 3).
   </p>
 
   <div class="caja caja-formula">
-    <span class="caja-tit">Formula general</span>
-    <p>\[ E[g(X)] \;=\; \sum_{x} g(x) \cdot f(x) \qquad \text{(discreta)} \]</p>
-    <p>\[ E[g(X)] \;=\; \int_{-\infty}^{+\infty} g(x) \cdot f(x)\, dx \qquad \text{(continua)} \]</p>
-    <p style="margin-top:10px">
-      La probabilidad \(f(x)\) <strong>no se toca nunca</strong>. Lo unico que se transforma es el
-      valor \(x\), que pasa por la maquinita \(g\).
-    </p>
+    <span class="caja-tit">Formulas</span>
+    <p>\[ E[g(X)] = \sum_{x} g(x) \cdot f(x) \qquad \text{(discreta)} \]</p>
+    <p>\[ E[g(X)] = \int_{-\infty}^{+\infty} g(x) \cdot f(x)\, dx \qquad \text{(continua)} \]</p>
   </div>
+
+  <h4>Que significa cada letra</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Simbolo</th><th>Que es</th><th>Ejemplo</th></tr>
+      <tr><td>\(g(x)\)</td><td>la cuenta que se le hace a cada valor de \(x\)</td><td>\(g(x) = x^{2}\): el 3 pasa a ser 9</td></tr>
+      <tr><td>\(f(x)\)</td><td>la probabilidad de cada valor: <strong>no cambia</strong></td><td>si \(f(3) = 0{,}2\), sigue siendo 0,2</td></tr>
+    </table>
+  </div>
+
+  <h4>De donde sale</h4>
+  <p>
+    Es la misma formula de la Esperanza, pero promediando los valores ya transformados. Si \(X\)
+    vale 3 con probabilidad 0,2, entonces \(X^{2}\) vale 9 con esa misma probabilidad: lo que cambia
+    es el valor, no la chance.
+  </p>
 
   <hr class="sep">
 
-  <h3>Ejemplo 1 &mdash; Calcular \(E(X^{2})\)</h3>
+  <h3>Ejemplo 1 &mdash; Calcular \(E(X)\) y \(E(X^{2})\)</h3>
 
   <div class="caja caja-ejemplo">
     <span class="caja-tit">Enunciado</span>
@@ -33,34 +46,44 @@
     </div>
   </div>
 
-  <h4>Resolucion</h4>
-  <p>Formula:</p>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Traduccion</th><th>A donde va</th></tr>
+      <tr><td>la tabla</td><td>variable discreta: se suma</td><td>\(x = 1, 2, 3\) y sus \(f(x)\)</td></tr>
+      <tr><td>"\(E(X)\)"</td><td>promedio de los valores</td><td>\(\sum x \cdot f(x)\)</td></tr>
+      <tr><td>"\(E(X^{2})\)"</td><td>promedio de los valores <strong>al cuadrado</strong></td><td>\(g(x) = x^{2}\)</td></tr>
+    </table>
+  </div>
+
+  <h4>Paso 1 &mdash; \(E(X)\)</h4>
+  <p>Cada valor por su probabilidad:</p>
   <p>\[ E(X) = \sum x \cdot f(x) \]</p>
   <p>\[ E(X) = (1)(0{,}5) + (2)(0{,}3) + (3)(0{,}2) = 0{,}5 + 0{,}6 + 0{,}6 = 1{,}7 \]</p>
 
-  <p>Formula, ahora con \(g(x) = x^{2}\):</p>
-  <p>\[ E[g(X)] = \sum g(x) \cdot f(x) \;\Longrightarrow\; E(X^{2}) = \sum x^{2} \cdot f(x) \]</p>
-  <p>
-    Elevamos al cuadrado <strong>solo los valores de \(x\)</strong>, las probabilidades quedan
-    intactas:
-  </p>
-  <p>\[ E(X^{2}) = (1^{2})(0{,}5) + (2^{2})(0{,}3) + (3^{2})(0{,}2) \]</p>
+  <h4>Paso 2 &mdash; \(E(X^{2})\)</h4>
+  <p>Ahora \(g(x) = x^{2}\): se eleva al cuadrado <strong>solo el valor</strong>, la probabilidad queda igual.</p>
+  <p>\[ E(X^{2}) = \sum x^{2} \cdot f(x) \]</p>
+  <p>Pieza por pieza: \(1^{2} = 1\), \(2^{2} = 4\), \(3^{2} = 9\).</p>
   <p>\[ E(X^{2}) = (1)(0{,}5) + (4)(0{,}3) + (9)(0{,}2) = 0{,}5 + 1{,}2 + 1{,}8 = 3{,}5 \]</p>
 
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>\(E(X) = 1{,}7\) y \(E(X^{2}) = 3{,}5\).</p>
+  </div>
+
   <div class="caja caja-ojo">
-    <span class="caja-tit">Lo mas importante de este ejemplo</span>
+    <span class="caja-tit">\(E(X^{2})\) no es \([E(X)]^{2}\)</span>
     <p>
-      \(E(X^{2}) = 3{,}5\) &nbsp;pero&nbsp; \([E(X)]^{2} = (1{,}7)^{2} = 2{,}89\).
-    </p>
-    <p>
-      <strong>No son lo mismo</strong>, y de esa diferencia sale justamente la Varianza que vemos
-      en el punto siguiente.
+      \(E(X^{2}) = 3{,}5\), pero \([E(X)]^{2} = (1{,}7)^{2} = 2{,}89\). En el primero se eleva
+      <strong>cada valor</strong> y despues se promedia; en el segundo se promedia y despues se eleva
+      <strong>el resultado</strong>. La diferencia entre los dos es justamente la Varianza (seccion 3).
     </p>
   </div>
 
   <hr class="sep">
 
-  <h3>Ejemplo 2 &mdash; Una funcion mas complicada, por dos caminos</h3>
+  <h3>Ejemplo 2 &mdash; \(E[(X-1)^{2}]\), por dos caminos</h3>
 
   <div class="caja caja-ejemplo">
     <span class="caja-tit">Enunciado</span>
@@ -73,39 +96,39 @@
     </div>
   </div>
 
-  <h4>Camino 1 &mdash; Transformando la tabla</h4>
-  <p>Pasamos cada \(x\) por la maquinita \(g(x) = (x-1)^{2}\):</p>
+  <p><strong>Que piden:</strong> el promedio de \((X-1)^{2}\). Aca \(g(x) = (x-1)^{2}\).</p>
+
+  <h4>Camino 1 &mdash; Transformar la tabla</h4>
+  <p><strong>Paso 1.</strong> Se pasa cada valor por \(g\):</p>
   <ul>
-    <li>\(x = 1 \Rightarrow (1-1)^{2} = 0^{2} = 0\)</li>
-    <li>\(x = 2 \Rightarrow (2-1)^{2} = 1^{2} = 1\)</li>
-    <li>\(x = 3 \Rightarrow (3-1)^{2} = 2^{2} = 4\)</li>
+    <li>\(x = 1\): \((1-1)^{2} = 0\)</li>
+    <li>\(x = 2\): \((2-1)^{2} = 1\)</li>
+    <li>\(x = 3\): \((3-1)^{2} = 4\)</li>
   </ul>
-  <p>La tabla nueva conserva las mismas probabilidades:</p>
+  <p><strong>Paso 2.</strong> Las probabilidades quedan igual:</p>
   <div class="tabla-wrap">
     <table class="t">
       <tr><th class="lbl">\(g(x)\)</th><td>0</td><td>1</td><td>4</td></tr>
       <tr><th class="lbl">\(f(x)\)</th><td>0,2</td><td>0,5</td><td>0,3</td></tr>
     </table>
   </div>
-  <p>\[ E[g(X)] = (0)(0{,}2) + (1)(0{,}5) + (4)(0{,}3) = 0 + 0{,}5 + 1{,}2 = 1{,}7 \]</p>
+  <p><strong>Paso 3.</strong> Se promedia como siempre:</p>
+  <p>\[ E[g(X)] = \sum g(x) \cdot f(x) \]</p>
+  <p>\[ E[(X-1)^{2}] = (0)(0{,}2) + (1)(0{,}5) + (4)(0{,}3) = 0 + 0{,}5 + 1{,}2 = 1{,}7 \]</p>
 
-  <h4>Camino 2 &mdash; Con algebra</h4>
-  <p>Desarrollamos el binomio antes de tomar esperanza:</p>
+  <h4>Camino 2 &mdash; Con las propiedades</h4>
+  <p><strong>Paso 1 &mdash; Desarrollar el cuadrado</strong> (cuadrado de un binomio):</p>
   <p>\[ (X-1)^{2} = X^{2} - 2X + 1 \]</p>
-  <p>La Esperanza se reparte en las sumas y saca las constantes:</p>
+  <p><strong>Paso 2 &mdash; Repartir la Esperanza.</strong> La esperanza de una suma es la suma de las esperanzas, y los numeros que multiplican salen afuera (seccion 4):</p>
   <p>\[ E[(X-1)^{2}] = E(X^{2}) - 2\,E(X) + 1 \]</p>
-  <p>Necesitamos los dos ingredientes de la tabla original:</p>
+  <p><strong>Paso 3 &mdash; Sacar los dos ingredientes</strong> de la tabla:</p>
   <p>\[ E(X) = (1)(0{,}2) + (2)(0{,}5) + (3)(0{,}3) = 0{,}2 + 1{,}0 + 0{,}9 = 2{,}1 \]</p>
   <p>\[ E(X^{2}) = (1)(0{,}2) + (4)(0{,}5) + (9)(0{,}3) = 0{,}2 + 2{,}0 + 2{,}7 = 4{,}9 \]</p>
-  <p>Reemplazamos:</p>
+  <p><strong>Paso 4 &mdash; Reemplazar:</strong></p>
   <p>\[ E[(X-1)^{2}] = 4{,}9 - 2(2{,}1) + 1 = 4{,}9 - 4{,}2 + 1 = 1{,}7 \]</p>
 
   <div class="caja caja-resp">
     <span class="caja-tit">Respuesta</span>
-    <p>Los dos caminos dan <strong>1,7</strong>.</p>
-    <p>
-      Guardate el camino 2: es exactamente la tecnica que se usa en el
-      <strong>Ejercicio 16</strong> de la practica, donde no hay tabla y hay que despejar.
-    </p>
+    <p>Los dos caminos dan <strong>1,7</strong>. El camino 2 es el que se usa cuando no hay tabla (seccion 10 y Ejercicio 16 de la practica).</p>
   </div>
 </div>

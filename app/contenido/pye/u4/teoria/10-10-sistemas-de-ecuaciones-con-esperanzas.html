@@ -2,24 +2,41 @@
   <p class="kicker">Herramienta algebraica</p>
   <h2>10. Sistemas de ecuaciones con esperanzas</h2>
 
+  <h3>Cuando se usa</h3>
   <p>
-    Hay un tipo de ejercicio donde te dan datos como \(E[(X-1)^2] = 10\) y te piden \(\mu\) y \(\sigma^2\).
-    No hay tabla ni funcion: la tecnica es <strong>desarrollar el binomio y repartir la Esperanza</strong>
-    para que aparezcan las dos incognitas que sirven, \(E(X)\) y \(E(X^{2})\).
+    Cuando no hay tabla ni funcion, y te dan datos como \(E[(X-1)^{2}] = 10\) y
+    \(E[(X-2)^{2}] = 6\) para que encuentres \(\mu\) y \(\sigma^{2}\). Es el Ejercicio 16 de la guia.
   </p>
 
   <div class="caja caja-formula">
-    <span class="caja-tit">Desarrollos</span>
-    <p>\[ E\big[(X - b)^{2}\big] \;=\; E(X^{2}) - 2b\,E(X) + b^{2} \]</p>
-    <p>\[ E\big[(X + b)^{2}\big] \;=\; E(X^{2}) + 2b\,E(X) + b^{2} \]</p>
+    <span class="caja-tit">Formulas</span>
+    <p>\[ E\big[(X - b)^{2}\big] = E(X^{2}) - 2b\,E(X) + b^{2} \]</p>
+    <p>\[ E\big[(X + b)^{2}\big] = E(X^{2}) + 2b\,E(X) + b^{2} \]</p>
   </div>
 
-  <h4>El procedimiento, en cuatro pasos</h4>
+  <h4>Que significa cada letra</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Simbolo</th><th>Que es</th></tr>
+      <tr><td>\(b\)</td><td>el numero que esta dentro del parentesis: en \((X - 1)^{2}\), \(b = 1\)</td></tr>
+      <tr><td>\(E(X)\) y \(E(X^{2})\)</td><td>las dos <strong>incognitas</strong>: con ellas sale todo</td></tr>
+    </table>
+  </div>
+
+  <h4>De donde sale</h4>
+  <p>
+    Es el camino 2 de la seccion 2: se desarrolla el cuadrado, \((X - b)^{2} = X^{2} - 2bX + b^{2}\),
+    y se reparte la Esperanza con las propiedades de la seccion 4. Cada dato se convierte en una
+    ecuacion con dos incognitas, \(E(X)\) y \(E(X^{2})\). Con dos datos hay un sistema de dos
+    ecuaciones.
+  </p>
+
+  <h3>La receta</h3>
   <ol>
-    <li>Desarrollar cada dato hasta dejarlo en funcion de \(E(X)\) y \(E(X^{2})\).</li>
-    <li>Restar las dos ecuaciones para que se cancele \(E(X^{2})\) y despejar \(E(X)\).</li>
-    <li>Volver a cualquiera de las dos ecuaciones y recuperar \(E(X^{2})\).</li>
-    <li>Aplicar \(V(X) = E(X^{2}) - [E(X)]^{2}\).</li>
+    <li>Desarrollar cada dato y dejarlo en funcion de \(E(X)\) y \(E(X^{2})\).</li>
+    <li>Restar las dos ecuaciones: \(E(X^{2})\) se cancela y queda \(E(X)\).</li>
+    <li>Volver a una ecuacion y despejar \(E(X^{2})\).</li>
+    <li>\(V(X) = E(X^{2}) - [E(X)]^{2}\).</li>
   </ol>
 
   <hr class="sep">
@@ -31,19 +48,31 @@
     <p>Si \(E[(X-1)^{2}] = 10\) y \(E[(X-2)^{2}] = 6\), encuentre \(\mu\) y \(\sigma^{2}\).</p>
   </div>
 
-  <p><strong>Paso 1 &mdash; Desarrollar.</strong> Con \(b = 1\):</p>
-  <p>\[ E(X^{2}) - 2(1)E(X) + 1^{2} = 10 \;\Longrightarrow\; E(X^{2}) - 2E(X) = 9 \qquad (1) \]</p>
-  <p>Con \(b = 2\):</p>
-  <p>\[ E(X^{2}) - 2(2)E(X) + 2^{2} = 6 \;\Longrightarrow\; E(X^{2}) - 4E(X) = 2 \qquad (2) \]</p>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Dato</th><th>Traduccion</th><th>A donde va</th></tr>
+      <tr><td>\(E[(X-1)^{2}] = 10\)</td><td>formula con \(b = 1\)</td><td>ecuacion (1)</td></tr>
+      <tr><td>\(E[(X-2)^{2}] = 6\)</td><td>formula con \(b = 2\)</td><td>ecuacion (2)</td></tr>
+      <tr><td>"\(\mu\) y \(\sigma^{2}\)"</td><td>\(E(X)\) y \(V(X)\)</td><td>pasos 2 y 4</td></tr>
+    </table>
+  </div>
 
-  <p><strong>Paso 2 &mdash; Restar (1) menos (2).</strong> El \(E(X^{2})\) se cancela:</p>
-  <p>\[ -2E(X) + 4E(X) = 9 - 2 \;\Longrightarrow\; 2E(X) = 7 \;\Longrightarrow\; E(X) = 3{,}5 \]</p>
+  <h4>Paso 1 &mdash; Desarrollar cada dato</h4>
+  <p>\[ E\big[(X - b)^{2}\big] = E(X^{2}) - 2b\,E(X) + b^{2} \]</p>
+  <p>Con \(b = 1\): \(E(X^{2}) - 2E(X) + 1 = 10\). Se pasa el 1 restando: \(E(X^{2}) - 2E(X) = 9 \quad (1)\)</p>
+  <p>Con \(b = 2\): \(E(X^{2}) - 4E(X) + 4 = 6\). Se pasa el 4 restando: \(E(X^{2}) - 4E(X) = 2 \quad (2)\)</p>
 
-  <p><strong>Paso 3 &mdash; Recuperar \(E(X^{2})\)</strong> desde (1):</p>
-  <p>\[ E(X^{2}) = 9 + 2(3{,}5) = 16 \]</p>
+  <h4>Paso 2 &mdash; Restar (1) menos (2)</h4>
+  <p>\(E(X^{2}) - E(X^{2}) = 0\): desaparece. Queda:</p>
+  <p>\[ -2E(X) - (-4E(X)) = 9 - 2 \;\Longrightarrow\; 2E(X) = 7 \;\Longrightarrow\; E(X) = 3{,}5 \]</p>
 
-  <p><strong>Paso 4 &mdash; Varianza.</strong></p>
-  <p>\[ V(X) = 16 - (3{,}5)^{2} = 16 - 12{,}25 = 3{,}75 \]</p>
+  <h4>Paso 3 &mdash; Recuperar \(E(X^{2})\) desde (1)</h4>
+  <p>\[ E(X^{2}) = 9 + 2E(X) = 9 + 2 \cdot 3{,}5 = 16 \]</p>
+
+  <h4>Paso 4 &mdash; Varianza</h4>
+  <p>\[ V(X) = E(X^{2}) - [E(X)]^{2} = 16 - (3{,}5)^{2} = 16 - 12{,}25 = 3{,}75 \]</p>
+
   <div class="caja caja-resp">
     <span class="caja-tit">Respuesta</span>
     <p>\(\mu = 3{,}5\) y \(\sigma^{2} = 3{,}75\).</p>
@@ -51,46 +80,33 @@
 
   <hr class="sep">
 
-  <h3>Ejemplo 2 &mdash; Otro sistema, para fijar el metodo</h3>
+  <h3>Ejemplo 2 &mdash; Otro sistema</h3>
 
   <div class="caja caja-ejemplo">
     <span class="caja-tit">Enunciado</span>
     <p>Si \(E[(X-3)^{2}] = 4\) y \(E[(X-5)^{2}] = 8\), encuentre \(\mu\) y \(\sigma\).</p>
   </div>
 
-  <p><strong>Paso 1 &mdash; Desarrollar.</strong> Con \(b = 3\):</p>
-  <p>\[ E(X^{2}) - 6E(X) + 9 = 4 \;\Longrightarrow\; E(X^{2}) - 6E(X) = -5 \qquad (1) \]</p>
-  <p>Con \(b = 5\):</p>
-  <p>\[ E(X^{2}) - 10E(X) + 25 = 8 \;\Longrightarrow\; E(X^{2}) - 10E(X) = -17 \qquad (2) \]</p>
+  <h4>Paso 1 &mdash; Desarrollar cada dato</h4>
+  <p>Con \(b = 3\): \(E(X^{2}) - 6E(X) + 9 = 4\), o sea \(E(X^{2}) - 6E(X) = -5 \quad (1)\)</p>
+  <p>Con \(b = 5\): \(E(X^{2}) - 10E(X) + 25 = 8\), o sea \(E(X^{2}) - 10E(X) = -17 \quad (2)\)</p>
 
-  <p><strong>Paso 2 &mdash; Restar (1) menos (2).</strong></p>
+  <h4>Paso 2 &mdash; Restar (1) menos (2)</h4>
   <p>\[ -6E(X) + 10E(X) = -5 - (-17) \]</p>
+  <p>Ojo con el doble signo: \(-5 - (-17) = -5 + 17 = 12\).</p>
   <p>\[ 4E(X) = 12 \;\Longrightarrow\; E(X) = 3 \]</p>
-  <div class="caja caja-ojo">
-    <span class="caja-tit">Ojo con el doble signo</span>
-    <p>
-      Del lado derecho quedo \(-5 - (-17)\). Menos por menos da mas, asi que es \(-5 + 17 = 12\).
-      Es el paso donde mas se equivoca la gente.
-    </p>
-  </div>
 
-  <p><strong>Paso 3 &mdash; Recuperar \(E(X^{2})\)</strong> desde (1):</p>
-  <p>\[ E(X^{2}) = -5 + 6(3) = -5 + 18 = 13 \]</p>
+  <h4>Paso 3 &mdash; Recuperar \(E(X^{2})\) desde (1)</h4>
+  <p>\[ E(X^{2}) = -5 + 6 \cdot 3 = 13 \]</p>
 
-  <p><strong>Paso 4 &mdash; Varianza y desvio.</strong></p>
-  <p>\[ V(X) = 13 - (3)^{2} = 13 - 9 = 4 \qquad\Longrightarrow\qquad \sigma = \sqrt{4} = 2 \]</p>
+  <h4>Paso 4 &mdash; Varianza y desvio</h4>
+  <p>\[ V(X) = 13 - 3^{2} = 4 \qquad \sigma = \sqrt{4} = 2 \]</p>
+
+  <h4>Control</h4>
+  <p>Se reemplaza en el segundo dato: \(E(X^{2}) - 10E(X) + 25 = 13 - 30 + 25 = 8\). Coincide.</p>
 
   <div class="caja caja-resp">
     <span class="caja-tit">Respuesta</span>
     <p>\(\mu = 3\) y \(\sigma = 2\).</p>
-  </div>
-
-  <div class="caja caja-ojo">
-    <span class="caja-tit">Verificacion</span>
-    <p>
-      Metemos los resultados en la segunda condicion:
-      \(E(X^{2}) - 10E(X) + 25 = 13 - 30 + 25 = 8\) &#10003;. Coincide con el dato, asi que
-      esta bien resuelto.
-    </p>
   </div>
 </div>

@@ -1,124 +1,121 @@
 <div class="bloque" data-examen="igual" data-examen-ref="Parcial 2025 · ej. 1e · Parcial 2023 · ej. 2e · Final 10/12 · ej. 2d" data-examen-nota="La Esperanza de una suma está en los dos parciales: E(Z) con Z = X + Y en 2025, y E(X + Y) = E(X) + E(Y) como verdadero o falso en 2023. La Varianza con covarianza distinta de cero solo la tomaron en el final 10/12.">
   <p class="kicker">Combinaciones lineales</p>
-  <h2>9. Varianza y Esperanza de una combinacion de dos variables</h2>
+  <h2>9. Esperanza y Varianza de una combinacion de dos variables</h2>
 
+  <h3>Cuando se usa</h3>
   <p>
-    Si armas una nueva variable \(Z = aX + bY + c\), la Esperanza es facil, pero la Varianza
-    <strong>no</strong> es simplemente la suma de las varianzas: hay que contemplar si las
-    variables se mueven juntas.
+    Cuando arman una variable nueva con dos: "la produccion total \(Z = X + Y\)", "la diferencia
+    \(X - Y\)", "\(Z = -2X + 4Y - 3\)". Es la seccion 4, pero con dos variables.
   </p>
 
   <div class="caja caja-formula">
     <span class="caja-tit">Formulas</span>
     <p>Esperanza (vale siempre, sean o no independientes):</p>
-    <p>\[ E(aX + bY + c) \;=\; a\,E(X) + b\,E(Y) + c \]</p>
-    <p>Varianza, formula completa:</p>
-    <p>\[ V(aX + bY + c) \;=\; a^{2}V(X) \;+\; b^{2}V(Y) \;+\; 2ab \cdot Cov(X,Y) \]</p>
-    <p>Si son <strong>independientes</strong> (\(Cov = 0\)) el ultimo termino se borra:</p>
-    <p>\[ V(aX + bY + c) \;=\; a^{2}V(X) \;+\; b^{2}V(Y) \]</p>
+    <p>\[ E(aX + bY + c) = a\,E(X) + b\,E(Y) + c \]</p>
+    <p>Varianza, completa:</p>
+    <p>\[ V(aX + bY + c) = a^{2}\,V(X) + b^{2}\,V(Y) + 2ab \cdot Cov(X,Y) \]</p>
+    <p>Si son independientes (\(Cov = 0\)):</p>
+    <p>\[ V(aX + bY + c) = a^{2}\,V(X) + b^{2}\,V(Y) \]</p>
   </div>
 
-  <div class="caja caja-ojo">
-    <span class="caja-tit">Detalles que hacen perder puntos</span>
-    <ul>
-      <li>La constante \(c\) desaparece de la varianza (ya lo vimos: sumar no dispersa).</li>
-      <li>
-        En el termino \(2ab \cdot Cov\), el producto \(ab\) <strong>conserva su signo</strong>: ahi
-        los coeficientes NO se elevan al cuadrado. Si \(Z = -2X + 4Y\), entonces
-        \(2ab = 2(-2)(4) = -16\): el termino <strong>resta</strong>.
-      </li>
-      <li>
-        Para una <strong>resta</strong> \(Z = X - Y\): \(a=1,\ b=-1\), entonces
-        \(V(X-Y) = V(X) + V(Y) - 2Cov(X,Y)\). Notá que las varianzas se <strong>suman</strong>
-        aunque las variables se resten.
-      </li>
-    </ul>
+  <h4>Que significa cada letra</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Simbolo</th><th>Que es</th><th>Ejemplo con \(Z = -2X + 4Y - 3\)</th></tr>
+      <tr><td>\(a\)</td><td>el numero que multiplica a \(X\), con su signo</td><td>\(a = -2\)</td></tr>
+      <tr><td>\(b\)</td><td>el que multiplica a \(Y\), con su signo</td><td>\(b = 4\)</td></tr>
+      <tr><td>\(c\)</td><td>el numero suelto</td><td>\(c = -3\) (no aparece en la varianza)</td></tr>
+      <tr><td>\(2ab \cdot Cov\)</td><td>la parte de la varianza que sale de que las variables se muevan juntas</td><td>\(2(-2)(4) = -16\): <strong>conserva el signo</strong></td></tr>
+    </table>
   </div>
+
+  <h4>De donde sale</h4>
+  <ul>
+    <li>La Esperanza se reparte en las sumas siempre: el promedio de un total es la suma de los promedios.</li>
+    <li>
+      En la varianza, \(a^{2}\) y \(b^{2}\) salen como en la seccion 4. El termino con la covarianza
+      aparece porque, si \(X\) e \(Y\) suben juntas, la suma se dispersa mas (covarianza positiva
+      suma); si se compensan, se dispersa menos (negativa resta). Si son independientes, vale 0.
+    </li>
+    <li>Para una resta \(X - Y\) (\(a = 1\), \(b = -1\)): \(V(X - Y) = V(X) + V(Y) - 2\,Cov(X,Y)\). Las varianzas se <strong>suman</strong> aunque las variables se resten.</li>
+  </ul>
 
   <hr class="sep">
 
-  <h3>Ejemplo 1 &mdash; Con variables independientes</h3>
+  <h3>Ejemplo 1 &mdash; Dos maquinas independientes</h3>
 
   <div class="caja caja-ejemplo">
     <span class="caja-tit">Enunciado</span>
     <p>
-      Dos maquinas producen piezas de forma independiente. \(X\) es la produccion de la maquina A
-      con \(E(X) = 40\) y \(V(X) = 9\); \(Y\) es la de la maquina B con \(E(Y) = 25\) y
-      \(V(Y) = 4\). La produccion total es \(Z = X + Y\).
-      Calcule \(E(Z)\) y \(V(Z)\).
+      Dos maquinas producen piezas de forma independiente. \(X\), la produccion de la maquina A, tiene
+      \(E(X) = 40\) y \(V(X) = 9\); \(Y\), la de la B, tiene \(E(Y) = 25\) y \(V(Y) = 4\). La
+      produccion total es \(Z = X + Y\). Calcule \(E(Z)\) y el desvio de \(Z\).
     </p>
   </div>
 
-  <h4>Desarme</h4>
-  <p>Comparando \(Z = X + Y\) con \(Z = aX + bY + c\): &nbsp; \(a = 1\), \(b = 1\), \(c = 0\).</p>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Traduccion</th><th>A donde va</th></tr>
+      <tr><td>"\(Z = X + Y\)"</td><td>forma \(aX + bY + c\)</td><td>\(a = 1\), \(b = 1\), \(c = 0\)</td></tr>
+      <tr><td>"de forma independiente"</td><td>\(Cov(X,Y) = 0\)</td><td>se usa la varianza sin el termino de covarianza</td></tr>
+    </table>
+  </div>
 
-  <p>Formula:</p>
+  <h4>Paso 1 &mdash; Esperanza</h4>
   <p>\[ E(aX + bY + c) = a\,E(X) + b\,E(Y) + c \]</p>
-  <p>\[ E(Z) = 40 + 25 = 65 \text{ piezas} \]</p>
+  <p>\[ E(Z) = 1 \cdot 40 + 1 \cdot 25 + 0 = 65 \text{ piezas} \]</p>
 
-  <p>Formula (independientes, sin termino de covarianza):</p>
-  <p>\[ V(aX + bY) = a^{2}V(X) + b^{2}V(Y) \]</p>
-  <p>\[ V(Z) = (1)^{2}(9) + (1)^{2}(4) = 9 + 4 = 13 \]</p>
+  <h4>Paso 2 &mdash; Varianza (independientes)</h4>
+  <p>\[ V(aX + bY) = a^{2}\,V(X) + b^{2}\,V(Y) \]</p>
+  <p>\[ V(Z) = 1^{2} \cdot 9 + 1^{2} \cdot 4 = 13 \]</p>
+
+  <h4>Paso 3 &mdash; Desvio</h4>
   <p>\[ \sigma_Z = \sqrt{13} = 3{,}61 \]</p>
 
   <div class="caja caja-resp">
     <span class="caja-tit">Respuesta</span>
-    <p>\(E(Z) = 65\) piezas con desvio de 3,61 piezas.</p>
+    <p>La produccion total esperada es de <strong>65 piezas</strong>, con un desvio de <strong>3,61 piezas</strong>.</p>
   </div>
 
   <hr class="sep">
 
-  <h3>Ejemplo 2 &mdash; El inciso e del parcial 2025</h3>
+  <h3>Ejemplo 2 &mdash; El inciso e del Parcial 2025</h3>
 
   <div class="caja caja-ejemplo">
     <span class="caja-tit">Enunciado</span>
-    <p>
-      Si \(Z = X + Y\) es el total de archivos del sistema operativo y de bases de datos
-      seleccionados, encuentre \(E(Z)\).
-    </p>
+    <p>Si \(Z = X + Y\) es el total de archivos del sistema operativo y de bases de datos seleccionados, encuentre \(E(Z)\).</p>
   </div>
 
-  <h4>Resolucion</h4>
-  <p>Formula:</p>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Traduccion</th><th>A donde va</th></tr>
+      <tr><td>"\(Z = X + Y\)"</td><td>\(a = 1\), \(b = 1\)</td><td>\(E(Z) = E(X) + E(Y)\)</td></tr>
+      <tr><td>\(E(X)\), \(E(Y)\)</td><td>ya calculadas en la seccion 6</td><td>1,5 y 1</td></tr>
+    </table>
+  </div>
+
+  <h4>Paso 1 &mdash; Esperanza de la suma</h4>
   <p>\[ E(X + Y) = E(X) + E(Y) \]</p>
-  <p>Con los valores que ya calculamos:</p>
-  <p>\[ E(Z) = 1{,}5 + 1{,}0 = 2{,}5 \text{ archivos} \]</p>
+  <p>\[ E(Z) = 1{,}5 + 1 = 2{,}5 \text{ archivos} \]</p>
+  <p>
+    Vale aunque \(X\) e \(Y\) <strong>no</strong> sean independientes (seccion 8): la Esperanza se
+    reparte en las sumas siempre. La independencia solo importa para la varianza.
+  </p>
 
-  <div class="caja caja-ojo">
-    <span class="caja-tit">Por que esta propiedad vale aunque NO sean independientes</span>
-    <p>
-      Ya demostramos que \(X\) e \(Y\) <strong>no</strong> son independientes. Y sin embargo
-      \(E(X+Y) = E(X) + E(Y)\) sigue siendo valida: <strong>la Esperanza se reparte en las sumas
-      siempre</strong>, pase lo que pase.
-    </p>
-    <p>
-      La independencia recien hace falta para la <em>Varianza</em>, no para la Esperanza.
-      Es una distincion que se pregunta seguido.
-    </p>
+  <h4>Control por otro camino</h4>
+  <p>\(Z\) cuenta los archivos "del sistema o de bases de datos": hay 5 de esos entre 8, y se eligen 4. Es una hipergeometrica (Unidad 5) con \(N = 8\), \(k = 5\), \(n = 4\):</p>
+  <p>\[ E(Z) = \frac{n \cdot k}{N} = \frac{4 \cdot 5}{8} = 2{,}5 \]</p>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta e</span>
+    <p>\(E(Z) = 2{,}5\): en promedio salen 2,5 archivos entre los del sistema operativo y los de bases de datos.</p>
   </div>
 
-  <h4>Verificacion por otro camino</h4>
-  <p>
-    \(Z\) cuenta los archivos que son "de sistema operativo o de bases de datos". Entre los 8
-    archivos hay \(3 + 2 = 5\) de esas categorias, y se eligen 4. Es una hipergeometrica con
-    \(N=8\), \(k=5\), \(n=4\):
-  </p>
-  <p>\[ E(Z) = \frac{n \cdot k}{N} = \frac{4 \times 5}{8} = 2{,}5 \]</p>
-  <p>Coincide. &#10003;</p>
-
-  <h4>Extra: si tambien pidieran \(V(Z)\)</h4>
-  <p>
-    Aca si hace falta la covarianza, porque las variables <strong>no</strong> son independientes:
-  </p>
-  <p>Formula:</p>
+  <h4>Si ademas pidieran \(V(Z)\)</h4>
+  <p>Aca si hace falta la covarianza, porque no son independientes. Con \(a = b = 1\):</p>
   <p>\[ V(X + Y) = V(X) + V(Y) + 2\,Cov(X,Y) \]</p>
   <p>\[ V(Z) = 0{,}5357 + 0{,}4286 + 2(-0{,}2143) = 0{,}9643 - 0{,}4286 = 0{,}5357 \]</p>
-  <div class="caja caja-ojo">
-    <span class="caja-tit">Mira lo que paso</span>
-    <p>
-      Si te hubieras olvidado del termino de covarianza, habrias puesto \(V(Z) = 0{,}9643\):
-      casi el doble del valor correcto. La covarianza negativa <strong>achica</strong> la varianza
-      de la suma, porque cuando una variable sube la otra tiende a bajar y se compensan.
-    </p>
-  </div>
+  <p>Sin el termino de covarianza hubiera dado 0,9643, casi el doble: la covarianza negativa achica la varianza de la suma, porque cuando una sube la otra tiende a bajar.</p>
 </div>

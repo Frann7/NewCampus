@@ -2,49 +2,53 @@
   <p class="kicker">La relacion entre dos variables</p>
   <h2>6. Covarianza</h2>
 
-  <p>La Covarianza responde: <em>cuando \(X\) sube, que hace \(Y\)?</em></p>
-
+  <h3>Cuando se usa</h3>
+  <p>
+    Cuando hay dos variables (tabla conjunta) y piden la covarianza, o si "se mueven juntas". Responde:
+    <em>cuando \(X\) sube, &iquest;que hace \(Y\)?</em>
+  </p>
   <ul>
-    <li><strong>Covarianza positiva:</strong> se mueven juntas. Sube una, sube la otra.</li>
-    <li><strong>Covarianza negativa:</strong> se mueven al reves. Sube una, baja la otra.</li>
-    <li><strong>Covarianza cero:</strong> no hay relacion lineal entre ellas.</li>
+    <li><strong>Positiva:</strong> se mueven juntas; sube una, sube la otra.</li>
+    <li><strong>Negativa:</strong> al reves; sube una, baja la otra.</li>
+    <li><strong>Cero:</strong> no hay relacion lineal.</li>
   </ul>
 
   <div class="caja caja-formula">
     <span class="caja-tit">Formulas</span>
-    <p>Definicion formal:</p>
-    <p>\[ Cov(X,Y) \;=\; \sigma_{XY} \;=\; E\big[(X - \mu_X)(Y - \mu_Y)\big] \]</p>
-    <p>Version de calculo (la que se usa siempre):</p>
-    <p>\[ Cov(X,Y) \;=\; E(XY) \;-\; E(X) \cdot E(Y) \]</p>
-    <p>Y el ingrediente que hay que fabricar:</p>
-    <p>\[ E(XY) \;=\; \sum_{x}\sum_{y} x \cdot y \cdot f(x,y) \qquad \text{(discreta)} \]</p>
-    <p>\[ E(XY) \;=\; \int\!\!\int x \cdot y \cdot f(x,y)\, dx\, dy \qquad \text{(continua)} \]</p>
+    <p>Definicion:</p>
+    <p>\[ Cov(X,Y) = E\big[(X - \mu_X)(Y - \mu_Y)\big] \]</p>
+    <p>La que se usa para calcular:</p>
+    <p>\[ Cov(X,Y) = E(XY) - E(X) \cdot E(Y) \]</p>
+    <p>El ingrediente nuevo, \(E(XY)\):</p>
+    <p>\[ E(XY) = \sum_{x}\sum_{y} x \cdot y \cdot f(x,y) \quad \text{(discreta)} \qquad E(XY) = \int\!\!\int x \cdot y \cdot f(x,y)\, dx\, dy \quad \text{(continua)} \]</p>
   </div>
 
+  <h4>Que significa cada letra</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Simbolo</th><th>Que es</th><th>De donde sale</th></tr>
+      <tr><td>\(E(X)\), \(E(Y)\)</td><td>las esperanzas de cada variable</td><td>de las <strong>marginales</strong> (seccion 5)</td></tr>
+      <tr><td>\(E(XY)\)</td><td>el promedio del producto \(X \cdot Y\)</td><td>de la <strong>tabla grande</strong>, celda por celda</td></tr>
+      <tr><td>\(x \cdot y \cdot f(x,y)\)</td><td>lo que aporta cada celda: su valor de \(x\), por su valor de \(y\), por la probabilidad de adentro</td><td>&mdash;</td></tr>
+    </table>
+  </div>
+
+  <h4>De donde sale</h4>
   <p>
-    Fijate el paralelismo con la Varianza: \(V(X) = E(X^2) - [E(X)]^2\) es el caso particular
-    de la Covarianza cuando \(Y\) es la propia \(X\). Es la misma idea.
+    En la definicion, \((X - \mu_X)(Y - \mu_Y)\) es positivo cuando las dos estan del mismo lado de su
+    promedio (las dos arriba o las dos abajo), y negativo cuando estan de lados opuestos. El promedio
+    de eso dice cual de las dos cosas pasa mas. La formula de calculo sale de desarrollar ese
+    producto, igual que la demostracion de la varianza (seccion 3). De hecho, \(V(X)\) es
+    \(Cov(X, X)\).
   </p>
 
-  <h4>El procedimiento para \(E(XY)\), celda por celda</h4>
-  <p>
-    Volves a la <strong>tabla grande</strong> (no a las marginales) y en cada casillero multiplicas
-    <strong>tres numeros</strong>:
-  </p>
+  <h4>Como se calcula \(E(XY)\), celda por celda</h4>
   <ol>
-    <li>el valor de \(x\) que le corresponde a esa posicion,</li>
-    <li>el valor de \(y\) que le corresponde,</li>
-    <li>la probabilidad que hay adentro del casillero.</li>
+    <li>Se vuelve a la <strong>tabla grande</strong>, no a las marginales.</li>
+    <li>En cada celda se multiplican tres numeros: el \(x\) de su fila, el \(y\) de su columna y la probabilidad de adentro.</li>
+    <li>Se suman todos los resultados.</li>
   </ol>
-  <p>Despues sumas todos los resultados.</p>
-
-  <div class="caja caja-ojo">
-    <span class="caja-tit">Atajo que ahorra minutos</span>
-    <p>
-      Toda fila con \(x = 0\) y toda columna con \(y = 0\) aporta cero (porque multiplicas por
-      cero). Ni las calcules: tachalas de entrada.
-    </p>
-  </div>
+  <p><strong>Atajo:</strong> toda celda con \(x = 0\) o \(y = 0\) aporta 0 (se multiplica por cero). Se pueden saltear.</p>
 
   <hr class="sep">
 
@@ -52,7 +56,7 @@
 
   <div class="caja caja-ejemplo">
     <span class="caja-tit">Enunciado</span>
-    <p>Calcule la covarianza de la tabla del Ejemplo 1 del punto anterior:</p>
+    <p>Calcule la covarianza de esta tabla (la del Ejemplo 1 de la seccion 5):</p>
     <div class="tabla-wrap">
       <table class="t">
         <tr><th>\(f(x,y)\)</th><th>\(y=0\)</th><th>\(y=1\)</th></tr>
@@ -62,108 +66,110 @@
     </div>
   </div>
 
-  <h4>Paso 1 &mdash; Esperanzas marginales</h4>
-  <p>Con las marginales que ya sacamos, \(f(x) = 0{,}50;\ 0{,}50\) y \(f(y) = 0{,}30;\ 0{,}70\):</p>
-  <p>\[ E(X) = (0)(0{,}50) + (1)(0{,}50) = 0{,}50 \]</p>
-  <p>\[ E(Y) = (0)(0{,}30) + (1)(0{,}70) = 0{,}70 \]</p>
+  <h4>Por que se resuelve asi</h4>
+  <p>La formula pide tres ingredientes: \(E(X)\) y \(E(Y)\) (de las marginales) y \(E(XY)\) (de la tabla grande). Se sacan en ese orden y se reemplaza.</p>
+
+  <h4>Paso 1 &mdash; \(E(X)\) y \(E(Y)\) con las marginales</h4>
+  <p>De la seccion 5: \(f(x) = 0{,}50;\ 0{,}50\) y \(f(y) = 0{,}30;\ 0{,}70\).</p>
+  <p>\[ E(X) = \sum x \cdot f(x) = (0)(0{,}50) + (1)(0{,}50) = 0{,}50 \]</p>
+  <p>\[ E(Y) = \sum y \cdot f(y) = (0)(0{,}30) + (1)(0{,}70) = 0{,}70 \]</p>
 
   <h4>Paso 2 &mdash; \(E(XY)\) celda por celda</h4>
-  <p>Formula:</p>
   <p>\[ E(XY) = \sum\sum x \cdot y \cdot f(x,y) \]</p>
   <div class="tabla-wrap">
     <table class="t full">
-      <tr><th>Celda</th><th>Cuenta</th><th>Aporte</th></tr>
-      <tr><td>\(x=0,\ y=0\)</td><td>\(0 \times 0 \times 0{,}20\)</td><td>0</td></tr>
-      <tr><td>\(x=0,\ y=1\)</td><td>\(0 \times 1 \times 0{,}30\)</td><td>0</td></tr>
-      <tr><td>\(x=1,\ y=0\)</td><td>\(1 \times 0 \times 0{,}10\)</td><td>0</td></tr>
-      <tr><td>\(x=1,\ y=1\)</td><td>\(1 \times 1 \times 0{,}40\)</td><td>0,40</td></tr>
+      <tr><th>Celda</th><th>\(x \cdot y \cdot f(x,y)\)</th><th>Aporte</th></tr>
+      <tr><td>\(x=0,\ y=0\)</td><td>\(0 \cdot 0 \cdot 0{,}20\)</td><td>0</td></tr>
+      <tr><td>\(x=0,\ y=1\)</td><td>\(0 \cdot 1 \cdot 0{,}30\)</td><td>0</td></tr>
+      <tr><td>\(x=1,\ y=0\)</td><td>\(1 \cdot 0 \cdot 0{,}10\)</td><td>0</td></tr>
+      <tr><td>\(x=1,\ y=1\)</td><td>\(1 \cdot 1 \cdot 0{,}40\)</td><td>0,40</td></tr>
     </table>
   </div>
   <p>\[ E(XY) = 0{,}40 \]</p>
-  <p>Como ves, solo sobrevivio la celda donde ni \(x\) ni \(y\) valen cero.</p>
+  <p>Solo aporta la celda donde ni \(x\) ni \(y\) valen 0.</p>
 
   <h4>Paso 3 &mdash; Covarianza</h4>
-  <p>Formula:</p>
   <p>\[ Cov(X,Y) = E(XY) - E(X) \cdot E(Y) \]</p>
-  <p>\[ Cov(X,Y) = 0{,}40 - (0{,}50)(0{,}70) = 0{,}40 - 0{,}35 = 0{,}05 \]</p>
+  <p>Primero el producto de las esperanzas: \(0{,}50 \cdot 0{,}70 = 0{,}35\).</p>
+  <p>\[ Cov(X,Y) = 0{,}40 - 0{,}35 = 0{,}05 \]</p>
+
   <div class="caja caja-resp">
     <span class="caja-tit">Respuesta</span>
-    <p>\(Cov(X,Y) = 0{,}05\), positiva: las dos variables tienden a subir juntas.</p>
+    <p>\(Cov(X,Y) = 0{,}05\): positiva, las dos variables tienden a subir juntas.</p>
   </div>
 
   <hr class="sep">
 
-  <h3>Ejemplo 2 &mdash; Covarianza del parcial 2025</h3>
+  <h3>Ejemplo 2 &mdash; Covarianza del Parcial 2025 (incisos b, c y d)</h3>
 
   <div class="caja caja-ejemplo">
     <span class="caja-tit">Enunciado</span>
     <p>
-      Siguiendo con la tabla de los archivos del servidor, encuentre \(E(X)\), \(E(Y)\),
+      Con la tabla de los archivos del servidor (seccion 5, Ejemplo 2), encuentre \(E(X)\), \(E(Y)\),
       \(V(X)\), \(V(Y)\) y \(Cov(X,Y)\).
     </p>
   </div>
 
-  <h4>Paso 1 &mdash; Esperanzas, con las marginales</h4>
-  <p>Formula:</p>
-  <p>\[ E(X) = \sum x \cdot f(x) \]</p>
-  <p>Trabajamos con los numeradores y dividimos por 70 al final:</p>
-  <p>\[ E(X) = \frac{(0)(5) + (1)(30) + (2)(30) + (3)(5)}{70} = \frac{0 + 30 + 60 + 15}{70} = \frac{105}{70} = 1{,}5 \]</p>
-  <p>\[ E(Y) = \frac{(0)(15) + (1)(40) + (2)(15)}{70} = \frac{0 + 40 + 30}{70} = \frac{70}{70} = 1{,}0 \]</p>
-
-  <h4>Paso 2 &mdash; Varianzas</h4>
-  <p>Formula:</p>
-  <p>\[ E(X^{2}) = \sum x^{2} \cdot f(x) \]</p>
-  <p>\[ E(X^{2}) = \frac{(0)(5) + (1)(30) + (4)(30) + (9)(5)}{70} = \frac{0 + 30 + 120 + 45}{70} = \frac{195}{70} = 2{,}7857 \]</p>
-  <p>Formula:</p>
-  <p>\[ V(X) = E(X^{2}) - \big[E(X)\big]^{2} \]</p>
-  <p>\[ V(X) = 2{,}7857 - (1{,}5)^{2} = 2{,}7857 - 2{,}25 = 0{,}5357 \]</p>
-
-  <p>Lo mismo para \(Y\):</p>
-  <p>\[ E(Y^{2}) = \frac{(0)(15) + (1)(40) + (4)(15)}{70} = \frac{40 + 60}{70} = \frac{100}{70} = 1{,}4286 \]</p>
-  <p>\[ V(Y) = 1{,}4286 - (1{,}0)^{2} = 0{,}4286 \]</p>
-
-  <div class="caja caja-ojo">
-    <span class="caja-tit">Esto es literalmente el inciso c del parcial</span>
-    <p>
-      El parcial pedia <em>"demuestre la propiedad \(V(X) = E(X^{2}) - \mu^{2}\)"</em>. Lo que
-      acabamos de hacer es exactamente eso: calcular \(E(X^2)\), restarle \(\mu^2\), y mostrar que
-      coincide con la definicion.
-    </p>
-  </div>
-
-  <h4>Paso 3 &mdash; \(E(XY)\), celda por celda</h4>
-  <p>Formula:</p>
-  <p>\[ E(XY) = \sum\sum x \cdot y \cdot f(x,y) \]</p>
-  <p>
-    Tachamos la fila \(x=0\) y la columna \(y=0\), que aportan cero. Quedan seis celdas
-    (y una de ellas vale 0 en la tabla):
-  </p>
+  <h4>Desarme del enunciado</h4>
   <div class="tabla-wrap">
     <table class="t full">
-      <tr><th>Celda</th><th>Cuenta (numeradores)</th><th>Aporte</th></tr>
-      <tr><td>\(x=1,\ y=1\)</td><td>\(1 \times 1 \times 18\)</td><td>18</td></tr>
-      <tr><td>\(x=1,\ y=2\)</td><td>\(1 \times 2 \times 9\)</td><td>18</td></tr>
-      <tr><td>\(x=2,\ y=1\)</td><td>\(2 \times 1 \times 18\)</td><td>36</td></tr>
-      <tr><td>\(x=2,\ y=2\)</td><td>\(2 \times 2 \times 3\)</td><td>12</td></tr>
-      <tr><td>\(x=3,\ y=1\)</td><td>\(3 \times 1 \times 2\)</td><td>6</td></tr>
-      <tr><td>\(x=3,\ y=2\)</td><td>\(3 \times 2 \times 0\)</td><td>0</td></tr>
-      <tr><th class="lbl" colspan="2">Suma de numeradores</th><th>90</th></tr>
+      <tr><th>Piden</th><th>Sale de</th><th>Formula</th></tr>
+      <tr><td>\(E(X)\), \(V(X)\)</td><td>la marginal de \(X\): 5, 30, 30, 5 (sobre 70)</td><td>\(\sum x\,g(x)\) y \(E(X^{2}) - \mu^{2}\)</td></tr>
+      <tr><td>\(E(Y)\), \(V(Y)\)</td><td>la marginal de \(Y\): 15, 40, 15 (sobre 70)</td><td>\(\sum y\,h(y)\) y \(E(Y^{2}) - \mu^{2}\)</td></tr>
+      <tr><td>\(Cov(X,Y)\)</td><td>la tabla grande, para \(E(XY)\)</td><td>\(E(XY) - E(X)E(Y)\)</td></tr>
+    </table>
+  </div>
+
+  <h4>Paso 1 &mdash; Esperanzas</h4>
+  <p>Con los numeradores de las marginales y dividiendo por 70 al final:</p>
+  <p>\[ E(X) = \sum x \cdot g(x) = \frac{(0)(5) + (1)(30) + (2)(30) + (3)(5)}{70} = \frac{0 + 30 + 60 + 15}{70} = \frac{105}{70} = 1{,}5 \]</p>
+  <p>\[ E(Y) = \sum y \cdot h(y) = \frac{(0)(15) + (1)(40) + (2)(15)}{70} = \frac{0 + 40 + 30}{70} = \frac{70}{70} = 1 \]</p>
+  <p>En promedio salen 1,5 archivos del sistema operativo y 1 de bases de datos.</p>
+
+  <h4>Paso 2 &mdash; Varianzas</h4>
+  <p>Primero \(E(X^{2})\): cada valor al cuadrado (\(0, 1, 4, 9\)) por su probabilidad.</p>
+  <p>\[ E(X^{2}) = \sum x^{2} \cdot g(x) = \frac{(0)(5) + (1)(30) + (4)(30) + (9)(5)}{70} = \frac{195}{70} = 2{,}7857 \]</p>
+  <p>\[ V(X) = E(X^{2}) - [E(X)]^{2} = 2{,}7857 - (1{,}5)^{2} = 2{,}7857 - 2{,}25 = 0{,}5357 \]</p>
+  <p>Lo mismo para \(Y\) (cuadrados \(0, 1, 4\)):</p>
+  <p>\[ E(Y^{2}) = \sum y^{2} \cdot h(y) = \frac{(0)(15) + (1)(40) + (4)(15)}{70} = \frac{100}{70} = 1{,}4286 \]</p>
+  <p>\[ V(Y) = E(Y^{2}) - [E(Y)]^{2} = 1{,}4286 - 1^{2} = 0{,}4286 \]</p>
+
+  <h4>Paso 3 &mdash; \(E(XY)\), celda por celda</h4>
+  <p>\[ E(XY) = \sum\sum x \cdot y \cdot f(x,y) \]</p>
+  <p>La fila \(x = 0\) y la columna \(y = 0\) aportan 0. Quedan seis celdas (en numeradores):</p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Celda</th><th>\(x \cdot y \cdot\) numerador</th><th>Aporte</th></tr>
+      <tr><td>\(x=1,\ y=1\)</td><td>\(1 \cdot 1 \cdot 18\)</td><td>18</td></tr>
+      <tr><td>\(x=1,\ y=2\)</td><td>\(1 \cdot 2 \cdot 9\)</td><td>18</td></tr>
+      <tr><td>\(x=2,\ y=1\)</td><td>\(2 \cdot 1 \cdot 18\)</td><td>36</td></tr>
+      <tr><td>\(x=2,\ y=2\)</td><td>\(2 \cdot 2 \cdot 3\)</td><td>12</td></tr>
+      <tr><td>\(x=3,\ y=1\)</td><td>\(3 \cdot 1 \cdot 2\)</td><td>6</td></tr>
+      <tr><td>\(x=3,\ y=2\)</td><td>\(3 \cdot 2 \cdot 0\)</td><td>0</td></tr>
+      <tr><th class="lbl" colspan="2">Suma</th><th>90</th></tr>
     </table>
   </div>
   <p>\[ E(XY) = \frac{90}{70} = 1{,}2857 \]</p>
 
   <h4>Paso 4 &mdash; Covarianza</h4>
-  <p>Formula:</p>
   <p>\[ Cov(X,Y) = E(XY) - E(X) \cdot E(Y) \]</p>
-  <p>\[ Cov(X,Y) = 1{,}2857 - (1{,}5)(1{,}0) = 1{,}2857 - 1{,}5 = -0{,}2143 \]</p>
+  <p>\[ Cov(X,Y) = 1{,}2857 - (1{,}5)(1) = -0{,}2143 \]</p>
 
   <div class="caja caja-resp">
     <span class="caja-tit">Respuesta</span>
-    <p>\(Cov(X,Y) = -0{,}2143\) (que en fraccion es \(-\tfrac{3}{14}\)).</p>
+    <p>\(E(X) = 1{,}5\), \(E(Y) = 1\), \(V(X) = 0{,}5357\), \(V(Y) = 0{,}4286\) y \(Cov(X,Y) = -0{,}2143\) \(\left(= -\tfrac{3}{14}\right)\).</p>
     <p>
-      <strong>Es negativa, y tiene todo el sentido del mundo:</strong> como se eligen solo 4
-      archivos en total, cuantos mas sean del sistema operativo, menos lugar queda para los de
-      bases de datos. Se estorban entre si.
+      Es negativa y tiene sentido: se eligen solo 4 archivos, asi que cuantos mas sean del sistema
+      operativo, menos lugar queda para los de bases de datos.
+    </p>
+  </div>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">El inciso c del parcial pide la demostracion, no esta cuenta</span>
+    <p>
+      El parcial 2025 pedia "demuestre la propiedad \(V(X) = E(X^{2}) - \mu^{2}\)". Calcular con
+      numeros no es demostrar: hay que escribir el desarrollo general de la seccion 3, paso a paso y
+      con la propiedad que se usa en cada igualdad.
     </p>
   </div>
 </div>

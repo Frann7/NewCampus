@@ -29,6 +29,9 @@ fórmulas (MathJax) y las tipografías. Tus datos no salen de tu máquina.
     de ese paso explicada (qué se pide, cada cuenta con su porqué y qué significa el resultado) y
     pasa al siguiente. No gasta vidas, pero el ejercicio ya no cuenta como "sin errores" y el
     informe dice qué pasos resolvió el campus. Las autoevaluaciones ya creadas lo tienen también.
+    El **enunciado queda siempre a la vista**: en pantallas anchas va en una columna fija al
+    costado de los pasos, y los pasos ya hechos se achican a un renglón (consigna y respuesta)
+    que se despliega para ver su explicación.
 
   En Normal hay además una **navegación libre** opcional: casillas para saltar a cualquier
   pregunta, saltear y volver, y terminar cuando quieras. Todas las preguntas
@@ -149,6 +152,8 @@ Chrome (`chrome --headless --print-to-pdf`).
 `0.x.y-alpha` mientras esté en desarrollo. La `1.0.0` queda reservada para cuando esté terminado.
 La versión actual se lee al pie del menú lateral.
 
+* **0.15.0-alpha** — en el interactivo, el enunciado queda fijo en una columna al costado y los
+  pasos hechos se pliegan a un renglón.
 * **0.14.0-alpha** — botón Resolver en cada paso del modo interactivo (y de las guiadas), con
   una resolución detallada escrita para cada paso de los ejercicios de las U4 a U7.
 * **0.13.0-alpha** — mantener apretada una unidad del menú abre una copia de solo esa unidad

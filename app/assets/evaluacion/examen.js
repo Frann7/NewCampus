@@ -443,10 +443,20 @@
 
       /* ---------- INTERACTIVO: ejercicio de practica paso a paso ---------- */
 
+      /* El enunciado va en su propia columna, que queda fija al costado mientras
+         se avanza: los pasos se van acumulando y el enunciado no se pierde de
+         vista. En pantallas angostas va arriba, como antes (evaluacion.css). */
       function pintarPasos(tarjeta, p, r, pasos) {
-        tarjeta.appendChild(h("div", { class: "ex-enunciado ex-enunciado-fijo", html: p.enunciado }));
+        var col = h("div", { class: "ex-pasos-col" });
+        tarjeta.appendChild(h("div", { class: "ex-con-enunciado" }, [
+          h("aside", { class: "ex-enunciado-lado" }, [
+            h("div", { class: "ex-enunciado-tit" }, "Enunciado"),
+            h("div", { class: "ex-enunciado ex-enunciado-fijo", html: p.enunciado })
+          ]),
+          col
+        ]));
         var lista = h("ol", { class: "ex-pasos" });
-        tarjeta.appendChild(lista);
+        col.appendChild(lista);
         var actual = null;
 
         pasos.forEach(function (paso, k) {
@@ -454,24 +464,31 @@
           var ep = r.pasos[k] = r.pasos[k] || { ok: null, fallos: 0, pistas: 0, dada: null, orden: null, descartadas: [] };
           var nuevoInciso = paso.inciso && (k === 0 || pasos[k - 1].inciso !== paso.inciso);
           if (nuevoInciso) { lista.appendChild(h("li", { class: "ex-inciso" }, "Inciso " + paso.inciso + ")")); }
-          var li = h("li", { class: "ex-paso" + (k < r.paso ? " es-bien" : " es-actual") }, [
-            h("div", { class: "ex-paso-cab" }, (paso.inciso ? "Inciso " + paso.inciso + ") · " : "") +
-              "Paso " + (k + 1) + " de " + pasos.length),
-            h("div", { class: "ex-paso-consigna", html: paso.consigna })
-          ]);
+          var cab = (paso.inciso ? "Inciso " + paso.inciso + ") · " : "") + "Paso " + (k + 1) + " de " + pasos.length;
+          var li;
+          if (k < r.paso) {
+            li = h("li", { class: "ex-paso es-bien" });
+            pasoHecho(li, paso, ep, cab, k === r.paso - 1);
+          } else {
+            li = h("li", { class: "ex-paso es-actual" }, [
+              h("div", { class: "ex-paso-cab" }, cab),
+              h("div", { class: "ex-paso-consigna", html: paso.consigna })
+            ]);
+            actual = li;
+            pasoActual(li, paso, ep, k, r);
+          }
           lista.appendChild(li);
-          if (k < r.paso) { pasoHecho(li, paso, ep, k === r.paso - 1); } else { actual = li; pasoActual(li, paso, ep, k, r); }
         });
 
         if (r.paso >= pasos.length) {
           var detalle = [];
           if (r.fallos) { detalle.push(r.fallos + (r.fallos === 1 ? " fallo" : " fallos")); }
           if (r.resueltos) { detalle.push(r.resueltos + (r.resueltos === 1 ? " paso resuelto" : " pasos resueltos")); }
-          tarjeta.appendChild(cartel(r.ok ? "caja-resp" : "caja-formula",
+          col.appendChild(cartel(r.ok ? "caja-resp" : "caja-formula",
             r.ok ? "¡Ejercicio completo sin errores!" : "¡Ejercicio completo! (con " + detalle.join(" y ") + ")", p.explicacion));
-          tarjeta.appendChild(h("div", { class: "ex-acciones" }, botonSiguiente()));
+          col.appendChild(h("div", { class: "ex-acciones" }, botonSiguiente()));
         } else if (c.modo === "interactivo") {
-          tarjeta.appendChild(h("div", { class: "ex-acciones" }, botonSaltear(r)));
+          col.appendChild(h("div", { class: "ex-acciones" }, botonSaltear(r)));
         }
         return actual;
       }
@@ -497,24 +514,26 @@
         return cuerpo;
       }
 
-      // ultimo: el paso que se acaba de hacer. Si fue con el boton Resolver, su
-      // resolucion se ve abierta; las de antes quedan plegadas.
-      function pasoHecho(li, paso, ep, ultimo) {
-        if (ep.resuelto) {
-          li.classList.add("es-resuelto");
-          li.appendChild(h("div", { class: "ex-paso-resultado" },
-            ["Resuelto: ", respuestaDe(paso), ep.fallos ? h("small", {}, " · " + ep.fallos + (ep.fallos === 1 ? " fallo" : " fallos")) : null]));
-          var det = h("details", { class: "ex-resolucion" }, [
-            h("summary", {}, "Resolución paso a paso"),
-            resolucionDe(paso)
-          ]);
-          if (ultimo) { det.open = true; liResuelto = li; }
-          li.appendChild(det);
-          return;
-        }
-        li.appendChild(h("div", { class: "ex-paso-resultado" },
-          ["✓ ", respuestaDe(paso), ep.fallos ? h("small", {}, " · " + ep.fallos + (ep.fallos === 1 ? " fallo" : " fallos")) : null]));
-        if (paso.explicacion) { li.appendChild(h("div", { class: "ex-paso-explicacion", html: paso.explicacion })); }
+      // Un paso ya hecho es un renglon compacto (consigna y respuesta) que se
+      // despliega para ver la explicacion, o la resolucion si lo hizo el boton
+      // Resolver. ultimo: el paso que se acaba de hacer, que queda abierto.
+      function pasoHecho(li, paso, ep, cab, ultimo) {
+        if (ep.resuelto) { li.classList.add("es-resuelto"); }
+        var cuerpo = ep.resuelto
+          ? h("div", { class: "ex-resolucion" }, [h("div", { class: "ex-resolucion-tit" }, "Resolución paso a paso"), resolucionDe(paso)])
+          : (paso.explicacion ? h("div", { class: "ex-paso-explicacion", html: paso.explicacion }) : null);
+        var det = h("details", { class: "ex-paso-log" }, [
+          h("summary", {}, [
+            h("div", { class: "ex-paso-cab" }, [cab, cuerpo
+              ? h("span", { class: "ex-paso-ver", "data-que": ep.resuelto ? "la resolución" : "la explicación" }) : null]),
+            h("div", { class: "ex-paso-consigna", html: paso.consigna }),
+            h("div", { class: "ex-paso-resultado" }, [ep.resuelto ? "Resuelto: " : "✓ ", respuestaDe(paso),
+              ep.fallos ? h("small", {}, " · " + ep.fallos + (ep.fallos === 1 ? " fallo" : " fallos")) : null])
+          ]),
+          cuerpo
+        ]);
+        if (ultimo) { det.open = true; if (ep.resuelto) { liResuelto = li; } }
+        li.appendChild(det);
       }
 
       var liResuelto = null;   // el paso recien resuelto con el boton, para llevar la vista ahi
@@ -638,6 +657,11 @@
         if (nav) { tarjeta.appendChild(nav); }
 
         E.tipografiar(zona);
+        var barraFija = document.querySelector(".ex-barra");
+        if (barraFija) {
+          tarjeta.style.setProperty("--ex-tope",
+            ((parseFloat(window.getComputedStyle(barraFija).top) || 0) + barraFija.offsetHeight + 14) + "px");
+        }
         if (mismaPregunta && liResuelto) {
           // recien resuelto con el boton: primero se lee la resolucion
           // debajo de la barra fija de la autoevaluacion (vidas, ejercicio N de M)

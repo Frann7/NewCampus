@@ -634,7 +634,7 @@
 .ex-paso.es-resuelto .ex-paso-resultado{color:var(--dato);}
 .ex-resolucion{margin:8px 0 2px;border:1px solid var(--line);border-left:3px solid var(--dato);
   border-radius:8px;background:var(--surface-2);}
-.ex-resolucion > summary{cursor:pointer;padding:8px 12px;font-size:13.5px;font-weight:700;color:var(--dato);}
+.ex-resolucion-tit{padding:8px 14px 0;font-size:13.5px;font-weight:700;color:var(--dato);}
 .ex-resolucion-cuerpo{padding:0 14px 10px;font-size:14.5px;}
 .ex-resolucion-cuerpo p{margin:6px 0;}
 .ex-resolucion-cuerpo ol{margin:6px 0;padding-left:22px;}
@@ -660,6 +660,42 @@
 .cu-casilla.is-actual{outline:2px solid var(--dato);outline-offset:1px;}
 
 .ex-pasos{list-style:none;padding:0;margin:0 0 14px;display:flex;flex-direction:column;gap:12px;}
+
+/* Interactivo: el enunciado en una columna fija al costado de los pasos.
+   La tarjeta mide su propio ancho: con lugar para las dos columnas, el
+   enunciado queda pegado debajo de la barra mientras se baja por los pasos;
+   si no entra, va arriba de los pasos como siempre. */
+.ex-tarjeta{container-type:inline-size;}
+.ex-enunciado-tit{display:none;}
+@container (min-width:840px){
+  .ex-con-enunciado{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);gap:22px;align-items:start;}
+  .ex-enunciado-lado{
+    position:sticky;top:var(--ex-tope,220px);
+    max-height:calc(100vh - var(--ex-tope,220px) - 16px);overflow:auto;
+    border-radius:10px;
+  }
+  .ex-enunciado-lado .ex-enunciado{margin:0;}
+  /* aire abajo: sin esto, al llegar al final la columna de pasos se termina
+     y empuja al enunciado hacia arriba, debajo de la barra */
+  .ex-pasos-col{padding-bottom:45vh;}
+  /* y los margenes de la pagina de abajo (unos 220px) caen sobre ese aire
+     en blanco, asi el enunciado no sube ni en el fondo de la pagina */
+  .ex-con-enunciado{margin-bottom:-220px;}
+  .ex-enunciado-tit{display:block;font-size:11.5px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;
+    color:var(--ink-faint);margin:0 0 6px;}
+}
+/* con el enunciado al costado hace falta mas ancho que el de lectura normal */
+.content:has(.ex-con-enunciado){max-width:1440px;}
+
+/* Paso ya hecho: un renglon que se despliega */
+.ex-paso-log > summary{list-style:none;cursor:pointer;}
+.ex-paso-log > summary::-webkit-details-marker{display:none;}
+.ex-paso-log .ex-paso-consigna{font-size:14.5px;color:var(--ink-soft);}
+.ex-paso-log .ex-paso-consigna p{margin:0 0 2px;}
+.ex-paso-ver{float:right;text-transform:none;letter-spacing:0;font-weight:600;color:var(--dato);}
+.ex-paso-ver::after{content:"Ver " attr(data-que) " \25B8";}
+.ex-paso-log[open] .ex-paso-ver::after{content:"Ocultar \25BE";}
+.ex-paso-log > .ex-paso-explicacion, .ex-paso-log > .ex-resolucion{margin-top:8px;}
 .ex-paso{
   border:1px solid var(--line);
   border-left:3px solid var(--line);

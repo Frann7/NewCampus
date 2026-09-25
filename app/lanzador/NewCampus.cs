@@ -11,6 +11,15 @@
 //   GET  /api/estado       quien es y que numero de corrida (para el contador de tiempo)
 //   POST /api/ping         latido de la pagina abierta
 //   POST /api/adios        la pestania se esta cerrando (apaga mas rapido)
+//   GET  /api/datos        lo que guardo el usuario (calendario, autoevaluaciones...)
+//   POST /api/datos        guardarlo
+//
+// Datos del usuario:
+//   Se guardan en %LOCALAPPDATA%\NewCampus\datos.json, FUERA del repositorio:
+//   un git pull o una actualizacion nunca los tocan, y no dependen del
+//   navegador ni del puerto. Antes de reemplazarlo se deja la version anterior
+//   en datos.anterior.json. La pagina los copia al navegador al abrir y los
+//   manda de vuelta cada vez que cambian (assets/datos.js).
 //
 // Requisitos:
 //   Al arrancar revisa lo que el campus necesita y, si falta algo, lo dice en
@@ -26,6 +35,8 @@
 //   - Escucha en "localhost" y ademas rechaza todo pedido que no venga de esta
 //     misma PC: no se puede entrar desde otra computadora de la red.
 //   - Nunca sirve archivos fuera de app\ (se valida la ruta final).
+//   - /api/datos exige el encabezado X-NewCampus y, si viene, el mismo origen:
+//     otra pagina web abierta en el navegador no puede leer ni pisar los datos.
 //   - No toca el registro de Windows. Si una version anterior dejo la clave
 //     "newcampus", la borra al arrancar.
 //
@@ -211,6 +222,10 @@ static class NewCampus
                 adios = DateTime.UtcNow;
                 Json(res, 200, "{\"ok\":true}");
             }
+            else if (ruta == "/api/datos")
+            {
+                Datos(req, res);
+            }
             else if (req.HttpMethod == "GET" || req.HttpMethod == "HEAD")
             {
                 Archivo(req, res, ruta);
@@ -267,6 +282,79 @@ static class NewCampus
             case ".txt":  return "text/plain; charset=utf-8";
             default:      return "application/octet-stream";
         }
+    }
+
+    /* ---------------- datos del usuario ----------------
+       Un solo archivo JSON por PC, fuera de la carpeta del repositorio. */
+
+    const int MAX_DATOS = 10 * 1024 * 1024;   // 10 MB: de sobra para texto
+    static readonly object candadoDatos = new object();
+
+    static string CarpetaDatos()
+    {
+        return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "NewCampus");
+    }
+
+    static void Datos(HttpListenerRequest req, HttpListenerResponse res)
+    {
+        // Solo la propia pagina: se exige un encabezado que otra pagina web no
+        // puede mandar sin permiso, y si viene el origen tiene que ser este.
+        string origenPedido = req.Headers["Origin"];
+        if (req.Headers["X-NewCampus"] != "1" || (origenPedido != null && origenPedido != origen))
+        {
+            res.StatusCode = 403;
+            return;
+        }
+
+        string archivo = Path.Combine(CarpetaDatos(), "datos.json");
+
+        if (req.HttpMethod == "GET")
+        {
+            string contenido = null;
+            lock (candadoDatos)
+            {
+                if (File.Exists(archivo)) { contenido = File.ReadAllText(archivo, Encoding.UTF8); }
+            }
+            if (contenido == null || contenido.Trim().Length == 0)
+            {
+                Json(res, 200, "{\"app\":\"NewCampus\",\"existe\":false}");
+            }
+            else
+            {
+                Json(res, 200, "{\"app\":\"NewCampus\",\"existe\":true,\"contenido\":" + contenido + "}");
+            }
+            return;
+        }
+
+        if (req.HttpMethod != "POST") { res.StatusCode = 405; return; }
+        if (req.ContentLength64 > MAX_DATOS) { res.StatusCode = 413; return; }
+
+        string cuerpo;
+        using (var lector = new StreamReader(req.InputStream, Encoding.UTF8)) { cuerpo = lector.ReadToEnd(); }
+        cuerpo = cuerpo.Trim();
+        // lo minimo para no guardar basura: un objeto JSON y de un tamanio razonable
+        if (cuerpo.Length == 0 || cuerpo.Length > MAX_DATOS || cuerpo[0] != '{' || cuerpo[cuerpo.Length - 1] != '}')
+        {
+            res.StatusCode = 400;
+            return;
+        }
+
+        lock (candadoDatos)
+        {
+            Directory.CreateDirectory(CarpetaDatos());
+            // se escribe aparte y se reemplaza de una vez; la version anterior queda de respaldo
+            string temporal = archivo + ".tmp";
+            File.WriteAllText(temporal, cuerpo, new UTF8Encoding(false));
+            if (File.Exists(archivo))
+            {
+                File.Replace(temporal, archivo, Path.Combine(CarpetaDatos(), "datos.anterior.json"));
+            }
+            else
+            {
+                File.Move(temporal, archivo);
+            }
+        }
+        Json(res, 200, "{\"ok\":true}");
     }
 
     static void Json(HttpListenerResponse res, int estado, string cuerpo)

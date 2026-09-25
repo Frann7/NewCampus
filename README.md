@@ -74,8 +74,30 @@ fórmulas (MathJax) y las tipografías. Tus datos no salen de tu máquina.
 * Modo claro / oscuro, y arriba a la derecha tres medidores juntos y separados entre sí: la hora de
   Argentina, el tiempo que llevás en la página y el cronómetro.
 
-Lo que cargás vos —autoevaluaciones, fechas del calendario, recordatorios— se guarda en el
-navegador de esa máquina, no en ningún servidor.
+## Tus datos (no se pierden al actualizar)
+
+Lo que cargás vos —fechas del calendario, autoevaluaciones y sus informes, la ruta tachada, el
+menú plegado— **no está en la carpeta del repositorio**. `NewCampus.exe` lo guarda en un archivo
+de tu computadora:
+
+```
+%LOCALAPPDATA%\NewCampus\datos.json      (por ejemplo C:\Users\<vos>\AppData\Local\NewCampus)
+```
+
+Por eso:
+
+* **`git pull` o bajar una versión nueva no toca tus datos.** Cada persona tiene su propio archivo
+  en su propia PC, y nunca se sube a GitHub.
+* No dependen del navegador ni del puerto: si cambiás de navegador, borrás sus datos o el campus
+  abre en otro puerto, al abrirlo con `NewCampus.exe` vuelve a cargar todo desde ese archivo.
+* Cada vez que se guarda, la versión anterior queda en `datos.anterior.json`, al lado, por si hace
+  falta volver atrás.
+* Para llevarte tus datos a otra PC, copiá `datos.json` a la misma carpeta de la otra.
+* La primera vez que abrís una versión con este archivo, se crea solo con lo que ya tenías en el
+  navegador.
+
+Si abrís el campus sin `NewCampus.exe` (otro servidor, o doble clic en `index.html`), los datos
+quedan solo en el navegador.
 
 ## Qué necesitás para correrlo
 
@@ -122,6 +144,9 @@ Chrome (`chrome --headless --print-to-pdf`).
 `0.x.y-alpha` mientras esté en desarrollo. La `1.0.0` queda reservada para cuando esté terminado.
 La versión actual se lee al pie del menú lateral.
 
+* **0.11.0-alpha** — los datos del usuario se guardan en un archivo de la PC, fuera del
+  repositorio (no se pierden al actualizar ni al cambiar de navegador o de puerto); menú de
+  materias plegable y animaciones.
 * **0.10.0-alpha** — pestaña Ruta recomendada; Unidad 7 (distribuciones muestrales, TLC, intervalos de confianza y tamaño
   de muestra) con teoría, práctica resuelta, banco de autoevaluación y la Tabla IC-PH en el visor;
   teoría de la U6 y práctica de la U6 rehechas con el formato de la U5 (desarme del enunciado y

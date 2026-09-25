@@ -12,7 +12,8 @@
                 pero el ejercicio ya no cuenta como sin errores). Los intentos
                 guardados antes de este boton no tienen "resueltos": cuenta 0.
    En normal, la navegacion libre agrega casillas para ir a cualquier pregunta
-   y deja terminar cuando se quiera.
+   y deja terminar cuando se quiera. En el interactivo y el guiado se pueden
+   volver a mirar los ejercicios ya hechos (solo lectura) y volver al actual.
    Cada respuesta se guarda al instante, asi se puede salir y continuar.
    Con contador, salir pregunta: terminar, mantener el contador o cancelar.
    ============================================================ */
@@ -71,6 +72,11 @@
 
       function guardar() { E.almacen.guardar(ae); }
       var libre = c.modo === "normal" && !!c.navLibre;
+      // Interactivo y guiado: ver un ejercicio ya hecho sin salir del actual.
+      // No se guarda ni cambia nada: es solo lo que se muestra. (En el normal
+      // "como en el parcial" no, porque mostraria la correccion antes del final.)
+      var puedeRevisar = !libre && E.guiado(c);
+      var revisar = null;   // indice del ejercicio ya hecho que se esta mirando
       function pendientes() { return it.preguntas.filter(function (r) { return !r.hecho && !r.salteado; }); }
       // con navegacion libre "la ultima" es cuando no queda ninguna otra por hacer
       function esLaUltima() {
@@ -121,8 +127,10 @@
 
       function pintarBarra() {
         var hechas = it.preguntas.filter(function (r) { return r.hecho || r.salteado; }).length;
-        progresoTxt.textContent = (c.modo === "interactivo" ? "Ejercicio " : "Pregunta ") +
-          (it.actual + 1) + " de " + it.preguntas.length;
+        var cual = c.modo === "interactivo" ? "Ejercicio " : "Pregunta ";
+        progresoTxt.textContent = revisar !== null
+          ? "Revisando " + cual.toLowerCase() + (revisar + 1) + " · en curso: " + (it.actual + 1) + " de " + it.preguntas.length
+          : cual + (it.actual + 1) + " de " + it.preguntas.length;
         if (casillas) {
           Array.prototype.forEach.call(casillas.children, function (b, i) {
             b.classList.toggle("es-respondida", it.preguntas[i].hecho);
@@ -268,8 +276,49 @@
       /* ---------- piezas comunes ---------- */
 
       function botonSiguiente() {
+        if (revisar !== null) {
+          return h("button", { class: "ev-btn ev-btn-primario", type: "button", onclick: volverAlActual },
+            c.modo === "interactivo" ? "Volver al ejercicio en curso →" : "Volver a la pregunta en curso →");
+        }
         return h("button", { class: "ev-btn ev-btn-primario", type: "button", onclick: siguiente },
           esLaUltima() ? "Terminar y ver informe" : "Siguiente pregunta →");
+      }
+
+      /* ---------- revisar lo ya hecho ---------- */
+
+      function verEjercicio(i) {
+        revisar = i >= 0 && i < it.actual ? i : null;
+        pintar();
+        window.scrollTo(0, 0);
+      }
+      function volverAlActual() { verEjercicio(it.actual); }
+
+      // Arriba de la tarjeta: ir al anterior; y mientras se revisa, moverse
+      // entre los ya hechos o volver al que esta en curso.
+      function navRevision(idx) {
+        if (!puedeRevisar) { return null; }
+        var cual = c.modo === "interactivo" ? "ejercicio" : "pregunta";
+        if (revisar === null) {
+          if (it.actual === 0) { return null; }
+          return h("div", { class: "ex-revision" }, [
+            h("button", { class: "ev-btn", type: "button", onclick: function () { verEjercicio(it.actual - 1); } },
+              "← Ver " + (cual === "ejercicio" ? "el ejercicio anterior" : "la pregunta anterior"))
+          ]);
+        }
+        return h("div", { class: "ex-revision es-revisando" }, [
+          h("span", { class: "ex-revision-txt" },
+            "Estás revisando " + (cual === "ejercicio" ? "el ejercicio " : "la pregunta ") + (idx + 1) +
+            ", ya hecho. No cambia nada: " + (cual === "ejercicio" ? "tu ejercicio en curso es el " : "tu pregunta en curso es la ") +
+            (it.actual + 1) + "."),
+          h("span", { class: "ex-nav-espacio" }),
+          h("button", { class: "ev-btn", type: "button", disabled: idx === 0 ? true : null,
+            onclick: function () { verEjercicio(idx - 1); } }, "← Anterior"),
+          idx + 1 < it.actual
+            ? h("button", { class: "ev-btn", type: "button", onclick: function () { verEjercicio(idx + 1); } }, "Siguiente →")
+            : null,
+          h("button", { class: "ev-btn ev-btn-primario", type: "button", onclick: volverAlActual },
+            "Volver " + (cual === "ejercicio" ? "al ejercicio en curso" : "a la pregunta en curso"))
+        ]);
       }
 
       function cartel(clase, titulo, cuerpoHtml) {
@@ -629,11 +678,15 @@
 
       function pintar(mismaPregunta) {
         if (it.actual >= it.preguntas.length) { terminar("completa"); return; }
+        if (revisar !== null && revisar >= it.actual) { revisar = null; }
         pintarBarra();
-        var r = it.preguntas[it.actual];
+        var idx = revisar !== null ? revisar : it.actual;
+        var r = it.preguntas[idx];
         var p = B.obtener(materia, r.id);
         E.vaciar(zona);
         liResuelto = null;
+        var navRev = navRevision(idx);
+        if (navRev) { zona.appendChild(navRev); }
 
         if (!p) {
           r.hecho = true; r.ok = false;
@@ -652,7 +705,7 @@
           E.chipOrigen(p)
         ];
         if (pasos.length && c.modo === "interactivo") { etiquetas.push(h("span", { class: "ev-chip" }, "Nivel " + E.NIVELES[c.nivel].toLowerCase())); }
-        var tarjeta = h("div", { class: "ex-tarjeta" }, h("div", { class: "ex-etiquetas" }, etiquetas));
+        var tarjeta = h("div", { class: "ex-tarjeta" + (revisar !== null ? " es-revision" : "") }, h("div", { class: "ex-etiquetas" }, etiquetas));
         zona.appendChild(tarjeta);
 
         var actual = null;

@@ -1330,6 +1330,21 @@ window.NC = window.NC || {};
 
     var donde = esGlobal(state.tab) ? state.tab : state.unidad;
     var pedidos = ficha.material[donde] || [];
+
+    // Con una autoevaluacion en pantalla, el material de SUS unidades (sin
+    // repetir) en vez del de la pestania Evaluacion. La marca la pone
+    // evaluacion.js y vale mientras esa pantalla siga siendo la misma.
+    var ae = window.NC.materialAutoeval;
+    if (state.tab === EVALUACION && ae && ae.materia === state.materia &&
+        document.body.contains(ae.cont) && ae.cont.dataset.pantalla === ae.pantalla) {
+      pedidos = [];
+      ae.unidades.forEach(function (u) {
+        (ficha.material[u] || []).forEach(function (id) {
+          if (pedidos.indexOf(id) === -1) { pedidos.push(id); }
+        });
+      });
+    }
+
     var lista = pedidos.map(function (id) {
       return ficha.pdf.filter(function (d) { return d.id === id; })[0];
     }).filter(Boolean);
@@ -1553,6 +1568,9 @@ window.NC = window.NC || {};
 
   // Ruta de una unidad del menu: en la pestania que se esta viendo si es
   // Teoria o Practica; desde Evaluacion, Calendario o la Ruta, su teoria.
+  // evaluacion.js la llama al entrar y salir de una autoevaluacion
+  window.NC.actualizarLanzador = function () { actualizarLanzador(); };
+
   window.NC.rutaDeUnidad = function (materia, unidad) {
     return rutaDe({ materia: materia, unidad: unidad, tab: esGlobal(state.tab) ? "teoria" : state.tab });
   };

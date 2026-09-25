@@ -42,6 +42,11 @@ window.NC.eval = window.NC.eval || {};
   // una autoevaluacion sabe que ya no esta en pantalla y se detiene.
   E.vaciar = function (el) {
     el.dataset.pantalla = String((parseInt(el.dataset.pantalla, 10) || 0) + 1);
+    // se va la autoevaluacion de la pantalla: el material de catedra vuelve al de Evaluacion
+    var ae = window.NC && window.NC.materialAutoeval;
+    if (ae && ae.cont === el && window.NC.actualizarLanzador) {
+      window.setTimeout(window.NC.actualizarLanzador, 0);
+    }
     if (window.MathJax && window.MathJax.typesetClear) {
       try { window.MathJax.typesetClear([el]); } catch (e) {}
     }

@@ -57,6 +57,13 @@
       lanzar: function (ae, reiniciar) {
         if (E.etapaDe(ae.config) === "1") { E.cuestionario.lanzar(cont, materia, ae, reiniciar, acciones); }
         else { E.examen.lanzar(cont, materia, ae, reiniciar, acciones); }
+        // Mientras se hace, el material de catedra es el de sus unidades.
+        // Deja de valer solo cuando esta pantalla se reemplaza (E.vaciar).
+        if (ae.intento && ae.intento.estado === "en-curso") {
+          window.NC.materialAutoeval = { materia: materia, cont: cont, pantalla: cont.dataset.pantalla,
+                                         unidades: (ae.config && ae.config.unidades) || [] };
+          if (window.NC.actualizarLanzador) { window.NC.actualizarLanzador(); }
+        }
       },
       informe: function (ae, aviso) {
         if (E.etapaDe(ae.config) === "1") { E.cuestionario.informe(cont, materia, ae, acciones, aviso); }

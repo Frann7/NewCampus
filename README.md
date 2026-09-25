@@ -67,7 +67,9 @@ fórmulas (MathJax) y las tipografías. Tus datos no salen de tu máquina.
   entrás a una unidad y ves la lista de lo que hay en vez de un muro de texto.
 * **Índice lateral** de la sección que estás leyendo, con seguimiento del scroll: el texto te lleva
   al título y la flechita de al lado pliega o despliega esa sección, igual que desde la página.
-* **Visor de PDFs** de cátedra en ventanas movibles.
+* **Visor de PDFs** de cátedra en ventanas movibles. Mientras hacés una autoevaluación, abajo a
+  la derecha aparece el material de las unidades que entran en ella (por ejemplo, la hoja de
+  fórmulas de la U4 o la Tabla IC-PH de la U7); al salir vuelve el de Evaluación.
 * **Ventanas duplicadas**: manteniendo apretada una pestaña sale una copia de ese apartado en
   otra ventana, para leer dos partes a la vez. Manteniendo apretada una **unidad del menú** sale
   una copia de solo esa unidad, con sus pestañas Teoría y Práctica: sirve, por ejemplo, para
@@ -154,6 +156,7 @@ Chrome (`chrome --headless --print-to-pdf`).
 `0.x.y-alpha` mientras esté en desarrollo. La `1.0.0` queda reservada para cuando esté terminado.
 La versión actual se lee al pie del menú lateral.
 
+* **0.17.0-alpha** — en una autoevaluación, el material de cátedra es el de sus unidades.
 * **0.16.0-alpha** — respuesta final en palabras al terminar cada inciso del interactivo
   (y en el informe).
 * **0.15.0-alpha** — en el interactivo, el enunciado queda fijo en una columna al costado y los

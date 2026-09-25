@@ -56,7 +56,7 @@
 
   <div class="caja caja-ejemplo">
     <span class="caja-tit">Enunciado</span>
-    <p>Calcule la covarianza de esta tabla (la del Ejemplo 1 de la seccion 5):</p>
+    <p>Calcule la covarianza de esta tabla:</p>
     <div class="tabla-wrap">
       <table class="t">
         <tr><th>\(f(x,y)\)</th><th>\(y=0\)</th><th>\(y=1\)</th></tr>
@@ -70,7 +70,12 @@
   <p>La formula pide tres ingredientes: \(E(X)\) y \(E(Y)\) (de las marginales) y \(E(XY)\) (de la tabla grande). Se sacan en ese orden y se reemplaza.</p>
 
   <h4>Paso 1 &mdash; \(E(X)\) y \(E(Y)\) con las marginales</h4>
-  <p>De la seccion 5: \(f(x) = 0{,}50;\ 0{,}50\) y \(f(y) = 0{,}30;\ 0{,}70\).</p>
+  <p>Primero las marginales. Las filas son \(X\): se suma cada fila. Las columnas son \(Y\): se suma cada columna.</p>
+  <ul>
+    <li>\(f(x=0) = 0{,}20 + 0{,}30 = 0{,}50\) y \(f(x=1) = 0{,}10 + 0{,}40 = 0{,}50\)</li>
+    <li>\(f(y=0) = 0{,}20 + 0{,}10 = 0{,}30\) y \(f(y=1) = 0{,}30 + 0{,}40 = 0{,}70\)</li>
+  </ul>
+  <p>Con cada marginal, la esperanza de siempre:</p>
   <p>\[ E(X) = \sum x \cdot f(x) = (0)(0{,}50) + (1)(0{,}50) = 0{,}50 \]</p>
   <p>\[ E(Y) = \sum y \cdot f(y) = (0)(0{,}30) + (1)(0{,}70) = 0{,}70 \]</p>
 
@@ -105,9 +110,20 @@
   <div class="caja caja-ejemplo">
     <span class="caja-tit">Enunciado</span>
     <p>
-      Con la tabla de los archivos del servidor (seccion 5, Ejemplo 2), encuentre \(E(X)\), \(E(Y)\),
-      \(V(X)\), \(V(Y)\) y \(Cov(X,Y)\).
+      En un servidor hay 8 archivos: 3 del sistema operativo, 2 de bases de datos y 3 de usuario. Se
+      eligen 4 al azar. \(X\) = archivos del sistema operativo elegidos, \(Y\) = archivos de bases
+      de datos elegidos. La conjunta es:
     </p>
+    <div class="tabla-wrap">
+      <table class="t">
+        <tr><th>\(X\) \ \(Y\)</th><th>\(y=0\)</th><th>\(y=1\)</th><th>\(y=2\)</th></tr>
+        <tr><th class="lbl">\(x=0\)</th><td>0</td><td>2/70</td><td>3/70</td></tr>
+        <tr><th class="lbl">\(x=1\)</th><td>3/70</td><td>18/70</td><td>9/70</td></tr>
+        <tr><th class="lbl">\(x=2\)</th><td>9/70</td><td>18/70</td><td>3/70</td></tr>
+        <tr><th class="lbl">\(x=3\)</th><td>3/70</td><td>2/70</td><td>0</td></tr>
+      </table>
+    </div>
+    <p>Encuentre \(E(X)\), \(E(Y)\), \(V(X)\), \(V(Y)\) y \(Cov(X,Y)\).</p>
   </div>
 
   <h4>Desarme del enunciado</h4>
@@ -120,13 +136,32 @@
     </table>
   </div>
 
-  <h4>Paso 1 &mdash; Esperanzas</h4>
+  <h4>Paso 1 &mdash; Las marginales</h4>
+  <p>Todo esta sobre 70: se trabaja con los numeradores y se divide por 70 al final. Las filas son \(X\) (se suman filas) y las columnas son \(Y\) (se suman columnas).</p>
+  <ul>
+    <li>\(g(x)\): \(x=0\): \(0+2+3 = 5\); \(x=1\): \(3+18+9 = 30\); \(x=2\): \(9+18+3 = 30\); \(x=3\): \(3+2+0 = 5\).</li>
+    <li>\(h(y)\): \(y=0\): \(0+3+9+3 = 15\); \(y=1\): \(2+18+18+2 = 40\); \(y=2\): \(3+9+3+0 = 15\).</li>
+  </ul>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th class="lbl">\(x\)</th><td>0</td><td>1</td><td>2</td><td>3</td></tr>
+      <tr><th class="lbl">\(g(x)\)</th><td>5/70</td><td>30/70</td><td>30/70</td><td>5/70</td></tr>
+    </table>
+  </div>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th class="lbl">\(y\)</th><td>0</td><td>1</td><td>2</td></tr>
+      <tr><th class="lbl">\(h(y)\)</th><td>15/70</td><td>40/70</td><td>15/70</td></tr>
+    </table>
+  </div>
+
+  <h4>Paso 2 &mdash; Esperanzas</h4>
   <p>Con los numeradores de las marginales y dividiendo por 70 al final:</p>
   <p>\[ E(X) = \sum x \cdot g(x) = \frac{(0)(5) + (1)(30) + (2)(30) + (3)(5)}{70} = \frac{0 + 30 + 60 + 15}{70} = \frac{105}{70} = 1{,}5 \]</p>
   <p>\[ E(Y) = \sum y \cdot h(y) = \frac{(0)(15) + (1)(40) + (2)(15)}{70} = \frac{0 + 40 + 30}{70} = \frac{70}{70} = 1 \]</p>
   <p>En promedio salen 1,5 archivos del sistema operativo y 1 de bases de datos.</p>
 
-  <h4>Paso 2 &mdash; Varianzas</h4>
+  <h4>Paso 3 &mdash; Varianzas</h4>
   <p>Primero \(E(X^{2})\): cada valor al cuadrado (\(0, 1, 4, 9\)) por su probabilidad.</p>
   <p>\[ E(X^{2}) = \sum x^{2} \cdot g(x) = \frac{(0)(5) + (1)(30) + (4)(30) + (9)(5)}{70} = \frac{195}{70} = 2{,}7857 \]</p>
   <p>\[ V(X) = E(X^{2}) - [E(X)]^{2} = 2{,}7857 - (1{,}5)^{2} = 2{,}7857 - 2{,}25 = 0{,}5357 \]</p>
@@ -134,7 +169,7 @@
   <p>\[ E(Y^{2}) = \sum y^{2} \cdot h(y) = \frac{(0)(15) + (1)(40) + (4)(15)}{70} = \frac{100}{70} = 1{,}4286 \]</p>
   <p>\[ V(Y) = E(Y^{2}) - [E(Y)]^{2} = 1{,}4286 - 1^{2} = 0{,}4286 \]</p>
 
-  <h4>Paso 3 &mdash; \(E(XY)\), celda por celda</h4>
+  <h4>Paso 4 &mdash; \(E(XY)\), celda por celda</h4>
   <p>\[ E(XY) = \sum\sum x \cdot y \cdot f(x,y) \]</p>
   <p>La fila \(x = 0\) y la columna \(y = 0\) aportan 0. Quedan seis celdas (en numeradores):</p>
   <div class="tabla-wrap">
@@ -151,7 +186,7 @@
   </div>
   <p>\[ E(XY) = \frac{90}{70} = 1{,}2857 \]</p>
 
-  <h4>Paso 4 &mdash; Covarianza</h4>
+  <h4>Paso 5 &mdash; Covarianza</h4>
   <p>\[ Cov(X,Y) = E(XY) - E(X) \cdot E(Y) \]</p>
   <p>\[ Cov(X,Y) = 1{,}2857 - (1{,}5)(1) = -0{,}2143 \]</p>
 

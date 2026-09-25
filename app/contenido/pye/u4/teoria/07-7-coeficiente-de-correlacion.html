@@ -43,21 +43,41 @@
 
   <div class="caja caja-ejemplo">
     <span class="caja-tit">Enunciado</span>
-    <p>Con la tabla del Ejemplo 1 de la seccion 5, calcule \(\rho\). Ya se sabe que \(Cov(X,Y) = 0{,}05\), \(E(X) = 0{,}50\) y \(E(Y) = 0{,}70\).</p>
+    <p>Calcule el coeficiente de correlacion \(\rho\) de esta tabla:</p>
+    <div class="tabla-wrap">
+      <table class="t">
+        <tr><th>\(f(x,y)\)</th><th>\(y=0\)</th><th>\(y=1\)</th></tr>
+        <tr><th class="lbl">\(x=0\)</th><td>0,20</td><td>0,30</td></tr>
+        <tr><th class="lbl">\(x=1\)</th><td>0,10</td><td>0,40</td></tr>
+      </table>
+    </div>
   </div>
 
   <h4>Por que se resuelve asi</h4>
-  <p>La covarianza ya esta; faltan los dos desvios, y para eso primero las varianzas.</p>
+  <p>La formula pide la covarianza y los dos desvios. Para eso: marginales, esperanzas, varianzas y \(E(XY)\), en ese orden.</p>
 
-  <h4>Paso 1 &mdash; Varianzas</h4>
-  <p>Con las marginales \(f(x) = 0{,}50;\ 0{,}50\) y \(f(y) = 0{,}30;\ 0{,}70\):</p>
-  <p>\[ E(X^{2}) = (0)(0{,}50) + (1)(0{,}50) = 0{,}50 \qquad V(X) = 0{,}50 - (0{,}50)^{2} = 0{,}25 \]</p>
-  <p>\[ E(Y^{2}) = (0)(0{,}30) + (1)(0{,}70) = 0{,}70 \qquad V(Y) = 0{,}70 - (0{,}70)^{2} = 0{,}21 \]</p>
+  <h4>Paso 1 &mdash; Marginales</h4>
+  <p>Filas para \(X\), columnas para \(Y\):</p>
+  <ul>
+    <li>\(f(x=0) = 0{,}20 + 0{,}30 = 0{,}50\) y \(f(x=1) = 0{,}10 + 0{,}40 = 0{,}50\)</li>
+    <li>\(f(y=0) = 0{,}20 + 0{,}10 = 0{,}30\) y \(f(y=1) = 0{,}30 + 0{,}40 = 0{,}70\)</li>
+  </ul>
 
-  <h4>Paso 2 &mdash; Desvios (la raiz)</h4>
+  <h4>Paso 2 &mdash; Esperanzas y varianzas</h4>
+  <p>\[ E(X) = (0)(0{,}50) + (1)(0{,}50) = 0{,}50 \qquad E(X^{2}) = (0)(0{,}50) + (1)(0{,}50) = 0{,}50 \]</p>
+  <p>\[ V(X) = E(X^{2}) - [E(X)]^{2} = 0{,}50 - 0{,}25 = 0{,}25 \]</p>
+  <p>\[ E(Y) = (0)(0{,}30) + (1)(0{,}70) = 0{,}70 \qquad E(Y^{2}) = (0)(0{,}30) + (1)(0{,}70) = 0{,}70 \]</p>
+  <p>\[ V(Y) = E(Y^{2}) - [E(Y)]^{2} = 0{,}70 - 0{,}49 = 0{,}21 \]</p>
+  <p>(Como los valores son 0 y 1, al elevarlos al cuadrado no cambian: por eso \(E(X^{2}) = E(X)\).)</p>
+
+  <h4>Paso 3 &mdash; Covarianza</h4>
+  <p>\(E(XY)\): solo aporta la celda \((1, 1)\), porque en las demas se multiplica por 0: \(1 \cdot 1 \cdot 0{,}40 = 0{,}40\).</p>
+  <p>\[ Cov(X,Y) = E(XY) - E(X) \cdot E(Y) = 0{,}40 - (0{,}50)(0{,}70) = 0{,}40 - 0{,}35 = 0{,}05 \]</p>
+
+  <h4>Paso 4 &mdash; Desvios (la raiz)</h4>
   <p>\[ \sigma_X = \sqrt{0{,}25} = 0{,}50 \qquad \sigma_Y = \sqrt{0{,}21} = 0{,}4583 \]</p>
 
-  <h4>Paso 3 &mdash; Correlacion</h4>
+  <h4>Paso 5 &mdash; Correlacion</h4>
   <p>\[ \rho = \frac{Cov(X,Y)}{\sigma_X \cdot \sigma_Y} \]</p>
   <p>\[ \rho = \frac{0{,}05}{(0{,}50)(0{,}4583)} = \frac{0{,}05}{0{,}2291} = 0{,}218 \]</p>
   <div class="caja caja-resp">
@@ -71,7 +91,21 @@
 
   <div class="caja caja-ejemplo">
     <span class="caja-tit">Enunciado</span>
-    <p>Con los archivos del servidor, calcule \(\rho\). De la seccion 6: \(Cov(X,Y) = -0{,}2143\), \(V(X) = 0{,}5357\) y \(V(Y) = 0{,}4286\).</p>
+    <p>
+      En el ejercicio de los archivos del servidor (8 archivos, se eligen 4; \(X\) = del sistema
+      operativo, \(Y\) = de bases de datos) se obtuvo:
+    </p>
+    <p>\[ Cov(X,Y) = -0{,}2143 \qquad V(X) = 0{,}5357 \qquad V(Y) = 0{,}4286 \]</p>
+    <p>Calcule el coeficiente de correlacion e interpretelo.</p>
+  </div>
+
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Dato</th><th>Traduccion</th><th>A donde va</th></tr>
+      <tr><td>\(Cov(X,Y) = -0{,}2143\)</td><td>el numerador de \(\rho\)</td><td>arriba</td></tr>
+      <tr><td>\(V(X)\), \(V(Y)\)</td><td>son varianzas: hay que sacarles la raiz</td><td>abajo, como \(\sigma_X\) y \(\sigma_Y\)</td></tr>
+    </table>
   </div>
 
   <h4>Paso 1 &mdash; Desvios</h4>

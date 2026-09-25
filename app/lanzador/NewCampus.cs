@@ -21,6 +21,19 @@
 //   en datos.anterior.json. La pagina los copia al navegador al abrir y los
 //   manda de vuelta cada vez que cambian (assets/datos.js).
 //
+// Actualizaciones:
+//   Si la carpeta es un repositorio de git (se bajo con git clone) y hay
+//   internet, al abrir se fija si hay commits nuevos en GitHub. Si los hay,
+//   pregunta con un cartel que lista los cambios; con "Si" hace git pull y,
+//   si la actualizacion trae un NewCampus.exe nuevo, abre ese y se cierra.
+//   Windows no deja reemplazar un .exe mientras corre, pero si renombrarlo:
+//   antes del pull este .exe se renombra a NewCampus.exe.viejo y deja una
+//   copia igual con su nombre, asi git lo reemplaza sin trabas. Si el pull
+//   falla, todo vuelve a como estaba. El .viejo lo borra la version nueva.
+//   No pregunta si ya hay un NewCampus abierto ni si no hay nada nuevo
+//   (el que programa y sube los cambios nunca va a estar atrasado).
+//   Los datos del usuario no estan en el repositorio: no se tocan.
+//
 // Requisitos:
 //   Al arrancar revisa lo que el campus necesita y, si falta algo, lo dice en
 //   un solo cartel con lo que hay que instalar: un navegador predeterminado,
@@ -92,6 +105,7 @@ static class NewCampus
         }
 
         BorrarRegistroViejo();
+        BorrarExeViejo();
         bool abrirNavegador = Array.IndexOf(args, "--sin-navegador") < 0;   // solo para pruebas
 
         // Internet se prueba en paralelo: si hay conexion tarda un instante,
@@ -108,6 +122,14 @@ static class NewCampus
             var falta = Faltantes(hayInternet, null, BuscarPython() != null);
             File.WriteAllText(diagnostico, falta.Count == 0 ? "OK" : string.Join(Environment.NewLine + Environment.NewLine, falta.ToArray()));
             return 0;
+        }
+
+        // Actualizaciones: antes de levantar nada, y solo si no hay otro
+        // NewCampus abierto (ese es el que manda).
+        if (Array.IndexOf(args, "--sin-actualizar") < 0 && BuscarAbierto() == null)
+        {
+            pruebaInternet.Join(5000);
+            if (hayInternet && Actualizar(args)) { return 0; }   // se abrio la version nueva
         }
 
         // Sin los apuntes generados no hay nada que mostrar. Si esta Python,
@@ -156,12 +178,170 @@ static class NewCampus
             using (icono = CrearIcono())
             using (new System.Threading.Timer(_ => Vigilar(), null, 2000, 2000))
             {
+                string actualizado = null;
+                foreach (string a in args) { if (a.StartsWith("--actualizado=")) { actualizado = a.Substring(14); } }
+                if (actualizado != null) { avisoActualizado = actualizado; }
+                if (avisoActualizado != null)
+                {
+                    icono.ShowBalloonTip(6000, TITULO, "NewCampus se actualiz\u00f3: " + avisoActualizado + ".", ToolTipIcon.Info);
+                }
                 Application.Run();
                 icono.Visible = false;
             }
             servidor.Close();
         }
         return 0;
+    }
+
+    /* ---------------- actualizaciones ----------------
+       Se pregunta a GitHub (git fetch) si hay commits nuevos. Todo git corre
+       sin ventana, sin pedir nada por consola y con tiempo maximo. */
+
+    static string avisoActualizado;   // para el globito del icono al terminar
+
+    static bool Actualizar(string[] args)
+    {
+        string raiz = Path.GetFullPath(AppDomain.CurrentDomain.BaseDirectory).TrimEnd('\\');
+        if (!Directory.Exists(Path.Combine(raiz, ".git"))) { return false; }   // bajado sin git
+        int c;
+        if (Git(raiz, "--version", 5000, out c) == null || c != 0) { return false; }   // git no instalado
+
+        Git(raiz, "fetch --quiet", 20000, out c);
+        if (c != 0) { return false; }
+        string cuenta = Git(raiz, "rev-list --count HEAD..@{u}", 5000, out c);
+        int nuevas;
+        if (c != 0 || !int.TryParse((cuenta ?? "").Trim(), out nuevas) || nuevas <= 0) { return false; }
+
+        string lista = Git(raiz, "-c i18n.logOutputEncoding=UTF-8 log -n 8 \"--format=- %s\" HEAD..@{u}", 5000, out c) ?? "";
+        string texto = (nuevas == 1 ? "Hay 1 actualizaci\u00f3n nueva" : "Hay " + nuevas + " actualizaciones nuevas") +
+                       " de NewCampus:\n\n" + lista.Trim() +
+                       (nuevas > 8 ? "\n(y " + (nuevas - 8) + " m\u00e1s)" : "") +
+                       "\n\n\u00bfQuer\u00e9s actualizar ahora? Tus datos (calendario, autoevaluaciones, la ruta...) no se tocan.";
+        bool sinPreguntar = Array.IndexOf(args, "--actualizar-sin-preguntar") >= 0;   // solo para pruebas
+        if (!sinPreguntar &&
+            MessageBox.Show(texto, TITULO + " - actualizaci\u00f3n", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
+        {
+            return false;
+        }
+
+        // Si la actualizacion trae un NewCampus.exe nuevo, este (que esta
+        // corriendo) se corre de lugar y deja una copia igual con su nombre.
+        string exe = Application.ExecutablePath;
+        string viejo = exe + ".viejo";
+        string cambiaExe = Git(raiz, "diff --name-only HEAD @{u} -- \"" + Path.GetFileName(exe) + "\"", 5000, out c);
+        bool tocaExe = c == 0 && !string.IsNullOrEmpty((cambiaExe ?? "").Trim());
+        bool movido = false;
+        if (tocaExe)
+        {
+            try
+            {
+                if (File.Exists(viejo)) { File.Delete(viejo); }
+                File.Move(exe, viejo);
+                movido = true;
+                File.Copy(viejo, exe);
+            }
+            catch
+            {
+                if (movido && !File.Exists(exe)) { try { File.Move(viejo, exe); } catch { } }
+                Aviso("No se pudo preparar la actualizaci\u00f3n (no se pudo mover NewCampus.exe). " +
+                      "Se abre la versi\u00f3n que ten\u00e9s.", MessageBoxIcon.Warning);
+                return false;
+            }
+        }
+
+        string salida = Git(raiz, "pull --ff-only --quiet", 90000, out c);
+        if (c != 0)
+        {
+            if (movido) { try { File.Delete(exe); File.Move(viejo, exe); } catch { } }
+            string detalle = (salida ?? "no respondi\u00f3 a tiempo").Trim();
+            if (detalle.Length > 600) { detalle = detalle.Substring(0, 600) + "..."; }
+            Aviso("No se pudo actualizar NewCampus. Se abre la versi\u00f3n que ten\u00e9s.\n\n" +
+                  "Lo m\u00e1s com\u00fan: hay archivos del campus cambiados a mano en esta carpeta. " +
+                  "Lo que dijo git:\n\n" + detalle, MessageBoxIcon.Warning);
+            return false;
+        }
+
+        string resumen = nuevas == 1 ? "1 cambio nuevo" : nuevas + " cambios nuevos";
+        if (!tocaExe)
+        {
+            // el .exe es el mismo: se sigue abriendo este, ya con los apuntes nuevos
+            avisoActualizado = resumen;
+            return false;
+        }
+
+        // Abrir la version nueva (con los mismos argumentos) y cerrar esta.
+        var nuevos = new List<string>();
+        foreach (string a in args)
+        {
+            if (a != "--actualizar-sin-preguntar" && !a.StartsWith("--actualizado=")) { nuevos.Add(Comillas(a)); }
+        }
+        nuevos.Add("--sin-actualizar");
+        nuevos.Add(Comillas("--actualizado=" + resumen));
+        try
+        {
+            Process.Start(new ProcessStartInfo(exe, string.Join(" ", nuevos.ToArray()))
+            {
+                UseShellExecute = false, WorkingDirectory = raiz
+            });
+            return true;
+        }
+        catch
+        {
+            Aviso("NewCampus se actualiz\u00f3, pero no se pudo abrir la versi\u00f3n nueva. Abrilo de nuevo con doble clic.",
+                  MessageBoxIcon.Warning);
+            return true;
+        }
+    }
+
+    static string Comillas(string a) { return a.IndexOf(' ') >= 0 ? "\"" + a + "\"" : a; }
+
+    // Corre git sin ventana. Devuelve lo que escribio (salida y errores), o
+    // null si no se pudo correr o no termino a tiempo.
+    static string Git(string carpeta, string argumentos, int espera, out int codigo)
+    {
+        codigo = -1;
+        try
+        {
+            var inicio = new ProcessStartInfo("git", argumentos)
+            {
+                UseShellExecute = false, CreateNoWindow = true, WorkingDirectory = carpeta,
+                RedirectStandardOutput = true, RedirectStandardError = true,
+                StandardOutputEncoding = Encoding.UTF8, StandardErrorEncoding = Encoding.UTF8
+            };
+            // nunca pedir usuario, clave ni confirmaciones por consola
+            inicio.EnvironmentVariables["GIT_TERMINAL_PROMPT"] = "0";
+            inicio.EnvironmentVariables["GCM_INTERACTIVE"] = "never";
+            var texto = new StringBuilder();
+            using (var p = new Process { StartInfo = inicio })
+            {
+                p.OutputDataReceived += (s, e) => { if (e.Data != null) { lock (texto) { texto.AppendLine(e.Data); } } };
+                p.ErrorDataReceived += (s, e) => { if (e.Data != null) { lock (texto) { texto.AppendLine(e.Data); } } };
+                p.Start();
+                p.BeginOutputReadLine();
+                p.BeginErrorReadLine();
+                if (!p.WaitForExit(espera)) { try { p.Kill(); } catch { } return null; }
+                p.WaitForExit();
+                codigo = p.ExitCode;
+            }
+            lock (texto) { return texto.ToString(); }
+        }
+        catch { return null; }
+    }
+
+    // El .exe anterior a una actualizacion queda como NewCampus.exe.viejo.
+    // Se borra al arrancar; puede tardar un momento en soltarse, asi que se
+    // reintenta un rato en segundo plano.
+    static void BorrarExeViejo()
+    {
+        string viejo = Application.ExecutablePath + ".viejo";
+        if (!File.Exists(viejo)) { return; }
+        new Thread(() =>
+        {
+            for (int i = 0; i < 20 && File.Exists(viejo); i++)
+            {
+                try { File.Delete(viejo); } catch { Thread.Sleep(500); }
+            }
+        }) { IsBackground = true }.Start();
     }
 
     /* ---------------- servidor ---------------- */

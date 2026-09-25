@@ -113,11 +113,28 @@ Por eso:
 Si abrís el campus sin `NewCampus.exe` (otro servidor, o doble clic en `index.html`), los datos
 quedan solo en el navegador.
 
+## Actualizaciones
+
+Si bajaste el campus con `git clone`, **`NewCampus.exe` se fija solo si hay cambios nuevos** cada
+vez que lo abrís (con internet y si no había otro NewCampus abierto). Si los hay, sale un cartel
+con la lista de lo nuevo: "¿Querés actualizar ahora?".
+
+* **Sí:** hace `git pull` y, si la actualización trae un `NewCampus.exe` nuevo, abre ese y se cierra
+  el viejo. Al abrir, un globito junto al reloj dice cuántos cambios se bajaron.
+* **No:** abre la versión que tenés; la próxima vez vuelve a preguntar.
+* Tus datos no se tocan: están fuera del repositorio (ver arriba).
+* Si algo falla (por ejemplo, cambiaste a mano un archivo que la actualización también cambia),
+  no se toca nada: se abre la versión que tenías y el cartel dice lo que pasó.
+
+Hace falta tener [Git](https://git-scm.com/download/win) instalado. Si bajaste el campus como
+ZIP, no se puede actualizar solo: bajalo de nuevo o clonalo con git.
+
 ## Qué necesitás para correrlo
 
 | Para | Necesitás |
 | :--- | :--- |
 | Usarlo | Windows con .NET Framework 4 (ya viene instalado), un navegador predeterminado y conexión a internet para las fórmulas |
+| Actualizarse solo | Git, y haber bajado el campus con `git clone` |
 | Editar los apuntes | Python 3 (para `app/construir.py`) |
 | Recompilar el ejecutable | `csc.exe` del .NET Framework 4 (el comando está arriba de `app/lanzador/NewCampus.cs`) |
 
@@ -158,6 +175,8 @@ Chrome (`chrome --headless --print-to-pdf`).
 `0.x.y-alpha` mientras esté en desarrollo. La `1.0.0` queda reservada para cuando esté terminado.
 La versión actual se lee al pie del menú lateral.
 
+* **0.19.0-alpha** — `NewCampus.exe` avisa cuando hay actualizaciones y se actualiza solo
+  (git pull y, si hace falta, reinicio con el `.exe` nuevo).
 * **0.18.0-alpha** — en el interactivo (y el guiado) se pueden revisar los ejercicios ya hechos.
 * **0.17.0-alpha** — en una autoevaluación, el material de cátedra es el de sus unidades.
 * **0.16.0-alpha** — respuesta final en palabras al terminar cada inciso del interactivo

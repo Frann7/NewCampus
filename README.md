@@ -144,6 +144,9 @@ Chrome (`chrome --headless --print-to-pdf`).
 `0.x.y-alpha` mientras esté en desarrollo. La `1.0.0` queda reservada para cuando esté terminado.
 La versión actual se lee al pie del menú lateral.
 
+* **0.12.0-alpha** — guía de la tabla de la normal en la teoría de la U6 (sección 11: dónde está
+  cada cosa en el PDF, cómo se busca al derecho y al revés, errores típicos), y cada búsqueda en la
+  tabla de la U6 muestra el pedazo de la tabla con la fila, la columna y el cruce marcados.
 * **0.11.0-alpha** — los datos del usuario se guardan en un archivo de la PC, fuera del
   repositorio (no se pierden al actualizar ni al cambiar de navegador o de puerto); menú de
   materias plegable y animaciones.

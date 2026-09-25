@@ -64,6 +64,17 @@
     });
   }
 
+  // Ejercicio completo: la respuesta final en palabras de cada inciso
+  // (<div class="p-rta" data-inciso="b">), por letra.
+  function leerRtas(a) {
+    var rtas = {};
+    Array.prototype.forEach.call(a.querySelectorAll(":scope > .p-rta"), function (el) {
+      var letra = el.getAttribute("data-inciso");
+      if (letra) { rtas[letra] = el.innerHTML.trim(); }
+    });
+    return rtas;
+  }
+
   function cargar(materia) {
     if (cache[materia]) { return cache[materia]; }
     var fuentes = (window.Apuntes.preguntas || {})[materia] || {};
@@ -92,7 +103,8 @@
           opciones: leerOpciones(a),
           pista: html(hijo(a, "p-pista")),
           explicacion: html(hijo(a, "p-explicacion")),
-          pasos: pasos ? Array.prototype.map.call(pasos.querySelectorAll(":scope > li"), leerPaso) : []
+          pasos: pasos ? Array.prototype.map.call(pasos.querySelectorAll(":scope > li"), leerPaso) : [],
+          rtas: leerRtas(a)
         };
         if (!p.id || porId[p.id]) { return; }
         lista.push(p);

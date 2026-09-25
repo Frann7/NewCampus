@@ -107,10 +107,13 @@
               : ep.resuelto ? "Lo resolvió el campus (botón Resolver)" + (ep.fallos ? ", después de " + plural(ep.fallos, "fallo", "fallos") : "")
               : (ep.fallos ? "Bien con " + plural(ep.fallos, "fallo", "fallos") : "Bien al primer intento");
             if (ep && ep.pistas) { como += " · usaste la pista"; }
+            var finInciso = paso.inciso && (k === pasos.length - 1 || pasos[k + 1].inciso !== paso.inciso);
+            var rta = finInciso && preg.rtas && preg.rtas[paso.inciso];
             return h("li", { class: ep && ep.ok && !ep.fallos && !ep.resuelto ? "bien" : "mal" }, [
               paso.inciso ? h("span", { class: "ex-paso-cab" }, "Inciso " + paso.inciso + ")") : null,
               h("div", { html: paso.consigna }),
-              h("div", { class: "inf-paso-dato" }, ["Respuesta: ", respuesta, h("small", {}, " — " + como)])
+              h("div", { class: "inf-paso-dato" }, ["Respuesta: ", respuesta, h("small", {}, " — " + como)]),
+              rta ? h("div", { class: "ex-rta inf-rta" }, [h("span", { class: "ex-rta-tit" }, "Rta. inciso " + paso.inciso + ")"), h("div", { html: rta })]) : null
             ]);
           })));
         } else {

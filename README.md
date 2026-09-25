@@ -31,7 +31,9 @@ fórmulas (MathJax) y las tipografías. Tus datos no salen de tu máquina.
     informe dice qué pasos resolvió el campus. Las autoevaluaciones ya creadas lo tienen también.
     El **enunciado queda siempre a la vista**: en pantallas anchas va en una columna fija al
     costado de los pasos, y los pasos ya hechos se achican a un renglón (consigna y respuesta)
-    que se despliega para ver su explicación.
+    que se despliega para ver su explicación. Al terminar cada inciso aparece su **Rta.**: la
+    respuesta final en palabras, como se escribe en el parcial ("la probabilidad de que ... es
+    0,7769, o sea un 77,69 %"). También figura en el informe.
 
   En Normal hay además una **navegación libre** opcional: casillas para saltar a cualquier
   pregunta, saltear y volver, y terminar cuando quieras. Todas las preguntas
@@ -152,6 +154,8 @@ Chrome (`chrome --headless --print-to-pdf`).
 `0.x.y-alpha` mientras esté en desarrollo. La `1.0.0` queda reservada para cuando esté terminado.
 La versión actual se lee al pie del menú lateral.
 
+* **0.16.0-alpha** — respuesta final en palabras al terminar cada inciso del interactivo
+  (y en el informe).
 * **0.15.0-alpha** — en el interactivo, el enunciado queda fijo en una columna al costado y los
   pasos hechos se pliegan a un renglón.
 * **0.14.0-alpha** — botón Resolver en cada paso del modo interactivo (y de las guiadas), con

@@ -478,6 +478,13 @@
             pasoActual(li, paso, ep, k, r);
           }
           lista.appendChild(li);
+          // termino el inciso (su ultimo paso en este nivel): la respuesta final en palabras
+          if (k < r.paso && finDeInciso(pasos, k) && p.rtas && p.rtas[paso.inciso]) {
+            lista.appendChild(h("li", { class: "ex-rta" }, [
+              h("span", { class: "ex-rta-tit" }, "Rta. inciso " + paso.inciso + ")"),
+              h("div", { html: p.rtas[paso.inciso] })
+            ]));
+          }
         });
 
         if (r.paso >= pasos.length) {
@@ -491,6 +498,10 @@
           col.appendChild(h("div", { class: "ex-acciones" }, botonSaltear(r)));
         }
         return actual;
+      }
+
+      function finDeInciso(pasos, k) {
+        return !!pasos[k].inciso && (k === pasos.length - 1 || pasos[k + 1].inciso !== pasos[k].inciso);
       }
 
       function respuestaDe(paso) {

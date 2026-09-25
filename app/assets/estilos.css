@@ -1328,3 +1328,79 @@ body.pdf-gesto{user-select:none;}
 .ruta-tipo.t-practica{background:var(--practica-bg);color:var(--practica);}
 .ruta-tipo.t-parcial{background:var(--warn-bg);color:var(--warn);}
 .ruta-tipo.t-autoeval{background:var(--accent-bg);color:var(--accent);}
+
+/* ---------- Menu de materias plegable ----------
+   El boton va a la izquierda de las migas. Plegado = la columna del menu
+   desaparece al instante (sin transicion: es un estado). */
+
+.menu-btn{
+  display:inline-grid;
+  place-items:center;
+  width:28px;
+  height:28px;
+  margin-right:4px;
+  padding:0;
+  border:1px solid var(--line);
+  border-radius:8px;
+  background:var(--surface);
+  color:var(--ink-soft);
+  cursor:pointer;
+}
+.menu-btn:hover{background:var(--surface-2);color:var(--ink);}
+.menu-btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
+html.menu-plegado .menu-btn{background:var(--accent-bg);color:var(--accent);border-color:transparent;}
+html.es-panel .menu-btn{display:none;}
+
+html.menu-plegado .app{grid-template-columns:minmax(0,1fr);}
+html.menu-plegado .sidebar{display:none;}
+
+/* ---------- Movimiento ----------
+   Adorno al estilo de bencho.dev: entradas que suben unos pixeles, botones que
+   se achican al apretarlos y vuelven con rebote, un "pop" al confirmar algo.
+   Todo con transform, nunca con opacidad ni tamanios de layout: si en algun
+   entorno una animacion no corre o queda congelada, lo que se ve sigue en su
+   lugar (a lo sumo corrido unos pixeles). Y con "reducir movimiento" no hay nada. */
+
+:root{
+  --ease-salida:cubic-bezier(.22,1,.36,1);
+  --ease-rebote:cubic-bezier(.28,1.4,.36,1);
+}
+
+@keyframes nc-sube{ from{transform:translateY(8px);} to{transform:none;} }
+@keyframes nc-desde-izq{ from{transform:translateX(-12px);} to{transform:none;} }
+@keyframes nc-pop{ 0%{transform:scale(.98);} 40%{transform:scale(1.02);} 100%{transform:none;} }
+@keyframes nc-sacudir{ 0%,100%{transform:none;} 20%{transform:translateX(-4px);} 50%{transform:translateX(4px);} 80%{transform:translateX(-2px);} }
+
+@media (prefers-reduced-motion: no-preference){
+  /* entradas: cada apartado, cada seccion que se abre y el menu al volver */
+  .pane.is-active{animation:nc-sube .45s var(--ease-salida);}
+  .es-seccion.is-open > .seccion-cuerpo{animation:nc-sube .35s var(--ease-salida);}
+  .sidebar{animation:nc-desde-izq .35s var(--ease-salida);}
+
+  /* botones: se achican al apretar y vuelven con rebote */
+  .tab, .menu-btn, .ruta-ir, .ev-btn, .pane-control, .pane-filtro-btn, .pdf-item,
+  .materia-btn, .unidades button, .ex-op{
+    transition:transform .22s var(--ease-rebote), background-color .16s ease, color .16s ease, border-color .16s ease;
+  }
+  .tab:active, .menu-btn:active, .ruta-ir:active, .ev-btn:active, .pane-control:active,
+  .pane-filtro-btn:active, .pdf-item:active, .materia-btn:active, .unidades button:active,
+  .ex-op:active:not(:disabled){
+    transform:scale(.96);
+  }
+  .tab.is-active{animation:nc-pop .32s var(--ease-rebote);}
+
+  /* tarjetas y pasos: se levantan un poco al pasar el mouse */
+  .ev-tarjeta, .ruta-item{transition:transform .26s var(--ease-salida), box-shadow .26s ease, background-color .16s ease;}
+  .ev-tarjeta:hover, .ruta-item:hover{transform:translateY(-2px);box-shadow:var(--shadow);}
+  .ruta-item.is-recien{animation:nc-pop .4s var(--ease-rebote);}
+
+  /* indice lateral y PDFs */
+  .toc a{transition:transform .18s var(--ease-salida), color .16s ease;}
+  .toc a:hover{transform:translateX(3px);}
+  .pdf-item{transition:transform .26s var(--ease-rebote), background-color .16s ease;}
+  .pdf-item:hover{transform:translateY(-2px);}
+
+  /* autoevaluacion: la correcta hace pop, la incorrecta tiembla */
+  .ex-op.es-correcta{animation:nc-pop .4s var(--ease-rebote);}
+  .ex-op.es-incorrecta{animation:nc-sacudir .32s ease;}
+}

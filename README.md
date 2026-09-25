@@ -66,6 +66,11 @@ fórmulas (MathJax) y las tipografías. Tus datos no salen de tu máquina.
   quieras (o elegís uno de los sugeridos), la cuenta regresiva aparece en ese mismo lugar, y cuando
   llega a cero sale un cartel para cortar, repetir el mismo tiempo o poner otro. Pensado para
   trabajar de a tandas: 30 minutos de estudio, 5 de descanso.
+* **Menú de materias plegable**: el botón de arriba a la izquierda (o Ctrl+B) lo esconde para
+  dejar toda la pantalla a los apuntes, y se recuerda entre visitas.
+* **Animaciones suaves**: los apartados y las secciones entran subiendo unos píxeles, los botones
+  rebotan al apretarlos y las tarjetas se levantan al pasar el mouse. Son solo de movimiento (nada
+  depende de que corran) y se apagan si el sistema pide reducir el movimiento.
 * Modo claro / oscuro, y arriba a la derecha tres medidores juntos y separados entre sí: la hora de
   Argentina, el tiempo que llevás en la página y el cronómetro.
 

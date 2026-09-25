@@ -28,13 +28,17 @@ window.MathJax = {
 };
 </script>
 <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script>
+// El menu de materias plegado se aplica antes de dibujar, asi no parpadea.
+try { if (localStorage.getItem("apuntes:menu") === "plegado") { document.documentElement.classList.add("menu-plegado"); } } catch (e) {}
+</script>
 </head>
 <body>
 
 <div class="app">
 
   <!-- ==================== BARRA LATERAL ==================== -->
-  <aside class="sidebar">
+  <aside class="sidebar" id="menu-materias">
     <div class="brand">
       <img class="brand-mark" src="assets/logo.svg" alt="">
       <div class="brand-name">NewCampus</div>
@@ -54,6 +58,9 @@ window.MathJax = {
 
     <div class="topbar">
       <div class="crumbs">
+        <button class="menu-btn" id="menu-btn" type="button" aria-controls="menu-materias">
+          <svg viewBox="0 0 20 20" width="16" height="16" aria-hidden="true"><rect x="2.5" y="3.5" width="15" height="13" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.6"/><line x1="7.5" y1="3.5" x2="7.5" y2="16.5" stroke="currentColor" stroke-width="1.6"/></svg>
+        </button>
         <span id="crumb-materia"></span>
         <span>&rsaquo;</span>
         <b id="crumb-unidad"></b>

@@ -220,6 +220,41 @@ window.NC = window.NC || {};
     }
   }
 
+  /* ---------- menu de materias plegable ----------
+     El boton de la izquierda de la barra (o Ctrl+B) esconde el menu para dejar
+     mas lugar a los apuntes. Se recuerda entre visitas; el <head> ya aplica la
+     clase antes de dibujar para que no parpadee. Se aplica al instante, sin
+     transicion: plegado o desplegado es un estado. */
+
+  var MENU_KEY = "apuntes:menu";
+
+  function initMenu() {
+    var btn = $("#menu-btn");
+    if (!btn) { return; }
+    function pintar() {
+      var plegado = document.documentElement.classList.contains("menu-plegado");
+      btn.setAttribute("aria-expanded", String(!plegado));
+      var txt = plegado ? "Mostrar el menu de materias (Ctrl+B)" : "Plegar el menu de materias (Ctrl+B)";
+      btn.setAttribute("aria-label", txt);
+      btn.title = txt;
+    }
+    function alternar() {
+      var plegado = document.documentElement.classList.toggle("menu-plegado");
+      try { localStorage.setItem(MENU_KEY, plegado ? "plegado" : "abierto"); } catch (e) {}
+      pintar();
+    }
+    btn.addEventListener("click", alternar);
+    document.addEventListener("keydown", function (ev) {
+      if ((ev.ctrlKey || ev.metaKey) && !ev.shiftKey && !ev.altKey && (ev.key === "b" || ev.key === "B")) {
+        var t = ev.target;
+        if (t && (t.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName))) { return; }
+        ev.preventDefault();
+        alternar();
+      }
+    });
+    pintar();
+  }
+
   /* ---------- indice desplegable de la seccion abierta ---------- */
 
   var TOC_KEY = "apuntes:indice";
@@ -1347,6 +1382,14 @@ window.NC = window.NC || {};
       c.addEventListener("change", function () {
         var id = c.getAttribute("data-paso");
         if (c.checked) { hechos[id] = true; } else { delete hechos[id]; }
+        // un "pop" de adorno solo al tacharlo recien (no al cargar la pagina)
+        var fila = c.closest(".ruta-item");
+        if (fila && c.checked) {
+          fila.classList.remove("is-recien");
+          void fila.offsetWidth;
+          fila.classList.add("is-recien");
+          window.setTimeout(function () { fila.classList.remove("is-recien"); }, 600);
+        }
         try { localStorage.setItem(clave, JSON.stringify(hechos)); } catch (e) {}
         pintar();
       });
@@ -1672,6 +1715,7 @@ window.NC = window.NC || {};
   document.addEventListener("DOMContentLoaded", function () {
     construirMenu();          // antes que nada: el resto lee el menu del documento
     initTema();
+    initMenu();
     initTOC();
     initEventos();
     initReloj();

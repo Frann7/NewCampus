@@ -1384,41 +1384,70 @@ html.menu-plegado .sidebar{display:none;}
   --ease-rebote:cubic-bezier(.28,1.4,.36,1);
 }
 
-@keyframes nc-sube{ from{transform:translateY(8px);} to{transform:none;} }
-@keyframes nc-desde-izq{ from{transform:translateX(-12px);} to{transform:none;} }
-@keyframes nc-pop{ 0%{transform:scale(.98);} 40%{transform:scale(1.02);} 100%{transform:none;} }
-@keyframes nc-sacudir{ 0%,100%{transform:none;} 20%{transform:translateX(-4px);} 50%{transform:translateX(4px);} 80%{transform:translateX(-2px);} }
+@keyframes nc-sube{ from{transform:translateY(18px) scale(.985);} to{transform:none;} }
+@keyframes nc-desde-izq{ from{transform:translateX(-24px);} to{transform:none;} }
+@keyframes nc-pop{ 0%{transform:scale(.96);} 45%{transform:scale(1.04);} 100%{transform:none;} }
+@keyframes nc-sacudir{ 0%,100%{transform:none;} 20%{transform:translateX(-6px);} 45%{transform:translateX(6px);} 70%{transform:translateX(-3px);} }
 
 @media (prefers-reduced-motion: no-preference){
-  /* entradas: cada apartado, cada seccion que se abre y el menu al volver */
-  .pane.is-active{animation:nc-sube .45s var(--ease-salida);}
-  .es-seccion.is-open > .seccion-cuerpo{animation:nc-sube .35s var(--ease-salida);}
-  .sidebar{animation:nc-desde-izq .35s var(--ease-salida);}
+  /* entradas escalonadas: al abrir un apartado, sus bloques suben uno detras del
+     otro. "backwards" deja cada bloque en su punto de partida mientras espera. */
+  .pane.is-active > *{animation:nc-sube .6s var(--ease-salida) backwards;}
+  .pane.is-active > :nth-child(2){animation-delay:.05s;}
+  .pane.is-active > :nth-child(3){animation-delay:.1s;}
+  .pane.is-active > :nth-child(4){animation-delay:.15s;}
+  .pane.is-active > :nth-child(5){animation-delay:.2s;}
+  .pane.is-active > :nth-child(6){animation-delay:.25s;}
+  .pane.is-active > :nth-child(7){animation-delay:.3s;}
+  .pane.is-active > :nth-child(8){animation-delay:.35s;}
+  .pane.is-active > :nth-child(n+9){animation-delay:.4s;}
+
+  /* una seccion que se abre, y los pasos de la ruta adentro, tambien en cascada */
+  .es-seccion.is-open > .seccion-cuerpo{animation:nc-sube .45s var(--ease-salida);}
+  .es-seccion.is-open .ruta-item{animation:nc-sube .5s var(--ease-salida) backwards;}
+  .es-seccion.is-open .ruta-pasos > li:nth-child(2){animation-delay:.05s;}
+  .es-seccion.is-open .ruta-pasos > li:nth-child(3){animation-delay:.1s;}
+  .es-seccion.is-open .ruta-pasos > li:nth-child(4){animation-delay:.15s;}
+  .es-seccion.is-open .ruta-pasos > li:nth-child(5){animation-delay:.2s;}
+  .es-seccion.is-open .ruta-pasos > li:nth-child(n+6){animation-delay:.25s;}
+
+  /* el menu entra desde la izquierda, con sus materias escalonadas */
+  .sidebar{animation:nc-desde-izq .5s var(--ease-salida);}
+  .sidebar .materia{animation:nc-desde-izq .55s var(--ease-salida) backwards;}
+  .sidebar .materia:nth-child(2){animation-delay:.04s;}
+  .sidebar .materia:nth-child(3){animation-delay:.08s;}
+  .sidebar .materia:nth-child(4){animation-delay:.12s;}
+  .sidebar .materia:nth-child(5){animation-delay:.16s;}
+  .sidebar .materia:nth-child(n+6){animation-delay:.2s;}
 
   /* botones: se achican al apretar y vuelven con rebote */
   .tab, .menu-btn, .ruta-ir, .ev-btn, .pane-control, .pane-filtro-btn, .pdf-item,
   .materia-btn, .unidades button, .ex-op{
-    transition:transform .22s var(--ease-rebote), background-color .16s ease, color .16s ease, border-color .16s ease;
+    transition:transform .3s var(--ease-rebote), background-color .16s ease, color .16s ease, border-color .16s ease;
   }
   .tab:active, .menu-btn:active, .ruta-ir:active, .ev-btn:active, .pane-control:active,
   .pane-filtro-btn:active, .pdf-item:active, .materia-btn:active, .unidades button:active,
   .ex-op:active:not(:disabled){
-    transform:scale(.96);
+    transform:scale(.93);
   }
-  .tab.is-active{animation:nc-pop .32s var(--ease-rebote);}
+  .menu-btn:hover{transform:scale(1.12);}
+  .tab.is-active{animation:nc-pop .4s var(--ease-rebote);}
 
-  /* tarjetas y pasos: se levantan un poco al pasar el mouse */
-  .ev-tarjeta, .ruta-item{transition:transform .26s var(--ease-salida), box-shadow .26s ease, background-color .16s ease;}
-  .ev-tarjeta:hover, .ruta-item:hover{transform:translateY(-2px);box-shadow:var(--shadow);}
-  .ruta-item.is-recien{animation:nc-pop .4s var(--ease-rebote);}
+  /* la flecha de los botones de la ruta avanza al pasar el mouse */
+  .ruta-ir::after{display:inline-block;transition:transform .3s var(--ease-rebote);}
+  .ruta-ir:hover::after{transform:translateX(4px);}
+
+  /* tarjetas y pasos: se levantan al pasar el mouse */
+  .ev-tarjeta, .ruta-item{transition:transform .32s var(--ease-salida), box-shadow .32s ease, background-color .16s ease;}
+  .ev-tarjeta:hover, .ruta-item:hover{transform:translateY(-4px);box-shadow:var(--shadow);}
+  .ruta-item.is-recien, .es-seccion.is-open .ruta-pasos > li.ruta-item.is-recien{animation:nc-pop .45s var(--ease-rebote);animation-delay:0s;}
 
   /* PDFs */
-  .pdf-item{transition:transform .26s var(--ease-rebote), background-color .16s ease;}
-  .pdf-item:hover{transform:translateY(-2px);}
+  .pdf-item:hover{transform:translateY(-3px);}
 
   /* autoevaluacion: la correcta hace pop, la incorrecta tiembla */
-  .ex-op.es-correcta{animation:nc-pop .4s var(--ease-rebote);}
-  .ex-op.es-incorrecta{animation:nc-sacudir .32s ease;}
+  .ex-op.es-correcta{animation:nc-pop .45s var(--ease-rebote);}
+  .ex-op.es-incorrecta{animation:nc-sacudir .4s ease;}
 }
 
 /* pantallas angostas: el menu va arriba de todo y no se pliega */

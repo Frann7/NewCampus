@@ -75,6 +75,13 @@ window.NC = window.NC || {};
   window.NC.esPanel = PANEL;
   if (PANEL) { document.documentElement.classList.add("es-panel"); }
 
+  // La copia de una UNIDAD (manteniendo apretada la unidad en el menu) lleva
+  // ademas ?unidad=1: muestra las pestanias Teoria y Practica de esa unidad
+  // para pasar de una a otra, y nada mas.
+  var PANEL_UNIDAD = PANEL && /[?&]unidad=1(?:&|$)/.test(window.location.search);
+  window.NC.esPanelUnidad = PANEL_UNIDAD;
+  if (PANEL_UNIDAD) { document.documentElement.classList.add("panel-unidad"); }
+
   /* ---------- utilidades ---------- */
 
   function $(sel, ctx) { return (ctx || document).querySelector(sel); }
@@ -1542,6 +1549,12 @@ window.NC = window.NC || {};
   // La usa ventanas.js para saber que abrir en la copia.
   window.NC.rutaActual = function (tab) {
     return rutaDe(tab ? Object.assign({}, state, { tab: tab }) : state);
+  };
+
+  // Ruta de una unidad del menu: en la pestania que se esta viendo si es
+  // Teoria o Practica; desde Evaluacion, Calendario o la Ruta, su teoria.
+  window.NC.rutaDeUnidad = function (materia, unidad) {
+    return rutaDe({ materia: materia, unidad: unidad, tab: esGlobal(state.tab) ? "teoria" : state.tab });
   };
 
   /* ---------- eventos ---------- */

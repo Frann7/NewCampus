@@ -5,7 +5,8 @@
    se saca una COPIA de ese apartado en una ventana aparte, para poder
    leer dos partes del mismo apunte al mismo tiempo. Lo mismo con los
    botones de la ruta recomendada: la copia abre ese mismo destino
-   (NC.ventanas.sostener).
+   (NC.ventanas.sostener). Y con las unidades del menu de materias: la
+   copia es solo esa unidad, con sus pestanias Teoria y Practica.
 
    La copia es la misma index.html abierta como:
 
@@ -72,14 +73,19 @@ window.NC = window.NC || {};
       var activo = $(".tab.is-active");         // app.js ya pinto la navegacion
       var unidad = $("#crumb-unidad");
       var nombre = activo ? (activo.dataset.nombre || activo.textContent.trim()) : "Copia";
-      txt.textContent = nombre;
-      if (activo) { chip.setAttribute("data-tab", activo.getAttribute("data-tab")); }
       var donde = unidad && unidad.textContent !== nombre ? unidad.textContent : "";
+      // la copia de una unidad se nombra por la unidad: las pestanias se ven abajo
+      txt.textContent = window.NC.esPanelUnidad && donde ? donde.split(" — ")[0] : nombre;
+      if (activo) { chip.setAttribute("data-tab", activo.getAttribute("data-tab")); }
       document.title = nombre + (donde ? " - " + donde : "") + " | NewCampus";
     }
 
     rotular();
     window.addEventListener("hashchange", rotular);
+    // cambiar de pestania no dispara hashchange (app.js usa replaceState)
+    $$(".tab").forEach(function (t) {
+      t.addEventListener("click", function () { window.setTimeout(rotular, 0); });
+    });
 
     // Se cierra sola cuando se cierra la ventana principal. Recargar la
     // principal no la afecta: la referencia sigue siendo la misma ventana.
@@ -129,6 +135,15 @@ window.NC = window.NC || {};
   function urlDeTab(tab) {
     var ruta = window.NC.rutaActual ? window.NC.rutaActual(tab) : null;
     return ruta ? "index.html?panel=1#" + ruta : null;
+  }
+
+  // La copia de una unidad del menu: solo esa unidad, con Teoria y Practica.
+  function urlDeUnidad(b) {
+    var materia = b.closest(".materia");
+    var ruta = materia && window.NC.rutaDeUnidad
+      ? window.NC.rutaDeUnidad(materia.getAttribute("data-materia"), b.getAttribute("data-unidad"))
+      : null;
+    return ruta ? "index.html?panel=1&unidad=1#" + ruta : null;
   }
 
   // Abre la ventana. Devuelve null si el navegador la bloqueo.
@@ -247,6 +262,11 @@ window.NC = window.NC || {};
     var tabs = $$(".tab");
     if (!tabs.length) { return; }
     tabs.forEach(prepararPestania);
+
+    $$(".unidades button").forEach(function (b) {
+      prepararSostener(b, function () { return urlDeUnidad(b); },
+        "Clic para abrirla acá. Mantené apretado para abrir solo esta unidad en otra ventana.");
+    });
 
     // El clic que viene despues de sacar una copia no tiene que cambiar de
     // pestania. Va en captura sobre el documento para adelantarse al oyente

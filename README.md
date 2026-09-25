@@ -61,7 +61,9 @@ fórmulas (MathJax) y las tipografías. Tus datos no salen de tu máquina.
   al título y la flechita de al lado pliega o despliega esa sección, igual que desde la página.
 * **Visor de PDFs** de cátedra en ventanas movibles.
 * **Ventanas duplicadas**: manteniendo apretada una pestaña sale una copia de ese apartado en
-  otra ventana, para leer dos partes a la vez.
+  otra ventana, para leer dos partes a la vez. Manteniendo apretada una **unidad del menú** sale
+  una copia de solo esa unidad, con sus pestañas Teoría y Práctica: sirve, por ejemplo, para
+  consultar otra unidad en medio de una autoevaluación sin salir de ella.
 * **Cronómetro de estudio**: en la barra de arriba, al lado del reloj. Le ponés los minutos que
   quieras (o elegís uno de los sugeridos), la cuenta regresiva aparece en ese mismo lugar, y cuando
   llega a cero sale un cartel para cortar, repetir el mismo tiempo o poner otro. Pensado para
@@ -144,6 +146,8 @@ Chrome (`chrome --headless --print-to-pdf`).
 `0.x.y-alpha` mientras esté en desarrollo. La `1.0.0` queda reservada para cuando esté terminado.
 La versión actual se lee al pie del menú lateral.
 
+* **0.13.0-alpha** — mantener apretada una unidad del menú abre una copia de solo esa unidad
+  (Teoría y Práctica) en otra ventana.
 * **0.12.0-alpha** — guía de la tabla de la normal en la teoría de la U6 (sección 11: dónde está
   cada cosa en el PDF, cómo se busca al derecho y al revés, errores típicos), y cada búsqueda en la
   tabla de la U6 muestra el pedazo de la tabla con la fila, la columna y el cruce marcados.

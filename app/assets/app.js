@@ -234,6 +234,9 @@ window.NC = window.NC || {};
     function pintar() {
       var plegado = document.documentElement.classList.contains("menu-plegado");
       btn.setAttribute("aria-expanded", String(!plegado));
+      // la flecha cambia de caracter (no se rota por CSS): < para plegar, > para abrir
+      var glifo = $(".menu-btn-glifo", btn);
+      if (glifo) { glifo.textContent = plegado ? "›" : "‹"; }
       var txt = plegado ? "Mostrar el menu de materias (Ctrl+B)" : "Plegar el menu de materias (Ctrl+B)";
       btn.setAttribute("aria-label", txt);
       btn.title = txt;

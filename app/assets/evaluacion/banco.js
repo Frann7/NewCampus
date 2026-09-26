@@ -110,6 +110,7 @@
           opciones: leerOpciones(a),
           pista: html(hijo(a, "p-pista")),
           explicacion: html(hijo(a, "p-explicacion")),
+          datos: html(hijo(a, "p-datos")),   // cuadro de datos del ejercicio (niveles con ayuda)
           pasos: pasos ? Array.prototype.map.call(pasos.querySelectorAll(":scope > li"), leerPaso) : [],
           rtas: leerRtas(a)
         };

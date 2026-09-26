@@ -31,6 +31,8 @@ fórmulas (MathJax) y las tipografías. Tus datos no salen de tu máquina.
     pasa al siguiente. Las respuestas de los pasos se muestran como se anotan en la hoja
     ("z = 0,84", "P(X ≥ 1) = 1 − P(X = 0) = 0,7769"), no como números sueltos. No gasta vidas, pero el ejercicio ya no cuenta como "sin errores" y el
     informe dice qué pasos resolvió el campus. Las autoevaluaciones ya creadas lo tienen también.
+    En principiante y medio, debajo del enunciado aparecen los **datos del ejercicio**: la variable
+    en palabras y cada dato (media, varianza, desvío, n, p...) con la frase de donde sale.
     El **enunciado queda siempre a la vista**: en pantallas anchas va en una columna fija al
     costado de los pasos, y los pasos ya hechos se achican a un renglón (consigna y respuesta)
     que se despliega para ver su explicación; los que resolviste vos tienen además
@@ -186,6 +188,8 @@ Chrome (`chrome --headless --print-to-pdf`).
 `0.x.y-alpha` mientras esté en desarrollo. La `1.0.0` queda reservada para cuando esté terminado.
 La versión actual se lee al pie del menú lateral.
 
+* **0.26.0-alpha** — cuadro de datos del ejercicio en el interactivo (principiante y medio); la ruta
+  suma el parcial 2025 entero en el interactivo.
 * **0.25.0-alpha** — en el interactivo se puede hacer un parcial entero (2025 o 2023) en su orden;
   "Solo tal cual del parcial" queda solo para el interactivo.
 * **0.24.0-alpha** — centrar el contenido pasa a ser opcional (botón arriba); por defecto va al

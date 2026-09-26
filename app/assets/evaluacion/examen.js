@@ -590,7 +590,12 @@
         tarjeta.appendChild(h("div", { class: "ex-con-enunciado" }, [
           h("aside", { class: "ex-enunciado-lado" }, [
             h("div", { class: "ex-enunciado-tit" }, "Enunciado"),
-            h("div", { class: "ex-enunciado ex-enunciado-fijo", html: p.enunciado })
+            h("div", { class: "ex-enunciado ex-enunciado-fijo", html: p.enunciado }),
+            // principiante y medio: la variable y cada dato, con de donde sale
+            p.datos && E.nivelDe(c) !== "avanzado"
+              ? h("div", { class: "ex-datos" }, [h("div", { class: "ex-datos-tit" }, "Datos del ejercicio"),
+                                                 h("div", { html: p.datos })])
+              : null
           ]),
           col
         ]));

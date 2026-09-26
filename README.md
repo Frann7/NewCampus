@@ -24,8 +24,9 @@ fórmulas (MathJax) y las tipografías. Tus datos no salen de tu máquina.
   * **Normal, fáciles y guiadas:** las mismas, más fáciles: con pistas y la práctica en todos sus pasos; si te equivocás, volvés a intentar (sin vidas ni nivel, que son del interactivo).
   * **Interactivo:** un **ejercicio de parcial completo** (reales de los exámenes mezclados con
     inventados de la misma forma) que se va desglosando en partes: en avanzado se pide el
-    resultado de cada inciso; en principiante, cada cuenta chica. Se puede saltear un ejercicio
-    entero. Cada paso tiene, además de la **pista**, un botón **Resolver**: muestra la resolución
+    resultado de cada inciso; en principiante, cada cuenta chica. **Saltear** un ejercicio lo deja
+    para después: antes de terminar se puede retomar donde quedó (al final aparece la lista de los
+    salteados), y solo figura como salteado en el informe si se termina sin completarlo. Cada paso tiene, además de la **pista**, un botón **Resolver**: muestra la resolución
     de ese paso explicada (qué se pide, cada cuenta con su porqué y qué significa el resultado) y
     pasa al siguiente. No gasta vidas, pero el ejercicio ya no cuenta como "sin errores" y el
     informe dice qué pasos resolvió el campus. Las autoevaluaciones ya creadas lo tienen también.
@@ -175,6 +176,8 @@ Chrome (`chrome --headless --print-to-pdf`).
 `0.x.y-alpha` mientras esté en desarrollo. La `1.0.0` queda reservada para cuando esté terminado.
 La versión actual se lee al pie del menú lateral.
 
+* **0.20.0-alpha** — saltear un ejercicio del interactivo lo deja para después: se retoma donde
+  quedó antes de terminar.
 * **0.19.0-alpha** — `NewCampus.exe` avisa cuando hay actualizaciones y se actualiza solo
   (git pull y, si hace falta, reinicio con el `.exe` nuevo).
 * **0.18.0-alpha** — en el interactivo (y el guiado) se pueden revisar los ejercicios ya hechos.

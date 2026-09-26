@@ -6,8 +6,10 @@
                 equivocas volves a intentar (sin vidas). En practica pide el
                 ejercicio en todos sus pasos.
    INTERACTIVO: un ejercicio de parcial completo, desglosado en pasos por
-                inciso segun el nivel, con pistas y vidas. Se puede saltear
-                entero. Cada paso tiene ademas "Resolver": muestra la
+                inciso segun el nivel, con pistas y vidas. Saltear un
+                ejercicio lo deja para despues: se retoma donde quedo antes
+                de terminar, y solo figura como salteado si se termina la
+                autoevaluacion sin completarlo. Cada paso tiene ademas "Resolver": muestra la
                 resolucion paso a paso y pasa al siguiente (no gasta vidas,
                 pero el ejercicio ya no cuenta como sin errores). Los intentos
                 guardados antes de este boton no tienen "resueltos": cuenta 0.
@@ -81,7 +83,26 @@
       // con navegacion libre "la ultima" es cuando no queda ninguna otra por hacer
       function esLaUltima() {
         if (libre) { return pendientes().filter(function (r) { return r !== it.preguntas[it.actual]; }).length === 0; }
+        if (conSaltear) { return otrasSinHacer().length === 0 && salteadas().length === 0; }
         return it.actual >= it.preguntas.length - 1;
+      }
+
+      // Interactivo: saltear es "dejar para despues".
+      var conSaltear = c.modo === "interactivo";
+      function otrasSinHacer() {
+        return it.preguntas.filter(function (r, i) { return i !== it.actual && !r.hecho && !r.salteado; });
+      }
+      // indices de los salteados que todavia se pueden retomar (sin el actual)
+      function salteadas() {
+        var s = [];
+        it.preguntas.forEach(function (r, i) { if (i !== it.actual && r.salteado && !r.hecho) { s.push(i); } });
+        return s;
+      }
+      // Volver a un salteado: deja de estarlo y sigue donde quedo.
+      function retomar(i) {
+        it.preguntas[i].salteado = false;
+        revisar = null;
+        irA(i);
       }
 
       /* ---------- barra superior ---------- */
@@ -209,6 +230,21 @@
       }
 
       function siguiente() {
+        if (conSaltear) {
+          // la proxima sin hacer (dando la vuelta); si no queda ninguna, la
+          // pantalla de los salteados (un salteado en curso, con la lista)
+          var total = it.preguntas.length;
+          for (var m = 1; m <= total; m++) {
+            var q = (it.actual + m) % total;
+            if (!it.preguntas[q].hecho && !it.preguntas[q].salteado) { irA(q); return; }
+          }
+          var quedan = salteadas();
+          if (quedan.length) { irA(quedan[0]); return; }
+          // se salteo el ultimo que quedaba: se muestra, para retomarlo o terminar
+          if (it.preguntas[it.actual].salteado && !it.preguntas[it.actual].hecho) { irA(it.actual); return; }
+          terminar("completa");
+          return;
+        }
         if (esLaUltima()) { terminar("completa"); return; }
         if (libre) {
           // la proxima sin hacer, dando la vuelta si hace falta
@@ -260,7 +296,8 @@
         return h("button", { class: "ev-btn ex-saltear", type: "button", onclick: function () {
           cerrarDialogo = E.dialogo({
             titulo: "¿Saltear este ejercicio?",
-            texto: "Se saltea completo, con todos sus incisos. En el informe figura como salteado y no suma ni resta.",
+            texto: "Lo dejás para después: antes de terminar la autoevaluación podés volver y seguir donde lo dejaste. " +
+                   "Si terminás sin completarlo, en el informe figura como salteado y no suma ni resta.",
             botones: [
               { texto: "Seguir con el ejercicio" },
               { texto: "Saltear el ejercicio", clase: "ev-btn-primario", accion: function () {
@@ -280,14 +317,59 @@
           return h("button", { class: "ev-btn ev-btn-primario", type: "button", onclick: volverAlActual },
             c.modo === "interactivo" ? "Volver al ejercicio en curso →" : "Volver a la pregunta en curso →");
         }
-        return h("button", { class: "ev-btn ev-btn-primario", type: "button", onclick: siguiente },
-          esLaUltima() ? "Terminar y ver informe" : "Siguiente pregunta →");
+        var texto = esLaUltima() ? "Terminar y ver informe"
+          : conSaltear && !otrasSinHacer().length ? "Ver los salteados →" : "Siguiente pregunta →";
+        return h("button", { class: "ev-btn ev-btn-primario", type: "button", onclick: siguiente }, texto);
+      }
+
+      // Un salteado en pantalla: retomarlo, o seguir. Si ya no queda nada sin
+      // hacer, la lista de los salteados que faltan y la opcion de terminar.
+      function pintarSalteado(tarjeta, p, r, idx) {
+        tarjeta.appendChild(h("div", { class: "ex-enunciado", html: p.enunciado }));
+        var donde = r.paso ? " Ibas por el paso " + (r.paso + 1) + ": seguís desde ahí." : "";
+        tarjeta.appendChild(cartel("caja-ojo", "Lo salteaste",
+          "<p>Lo dejaste para después." + donde + " Si terminás la autoevaluación sin completarlo, en el informe figura como salteado.</p>"));
+        var acciones = h("div", { class: "ex-acciones" });
+        acciones.appendChild(h("button", { class: "ev-btn ev-btn-primario", type: "button",
+          onclick: function () { retomar(idx); } }, "Retomar este ejercicio"));
+        if (revisar !== null) { acciones.appendChild(botonSiguiente()); }
+        else if (otrasSinHacer().length) { acciones.appendChild(botonSiguiente()); }
+        tarjeta.appendChild(acciones);
+
+        // no queda nada sin hacer: lo que falta son salteados
+        if (revisar === null && !otrasSinHacer().length) {
+          var otros = salteadas();
+          var caja = h("div", { class: "caja caja-formula ex-salteados" }, [
+            h("span", { class: "caja-tit" }, "Terminaste los demás ejercicios"),
+            h("p", {}, otros.length
+              ? "Además de este, te quedan salteados:"
+              : "Este es el único que te queda. Retomalo, o terminá: va a figurar como salteado.")
+          ]);
+          if (otros.length) {
+            caja.appendChild(h("div", { class: "ex-salteados-lista" }, otros.map(function (i) {
+              return h("button", { class: "ev-btn", type: "button", onclick: function () { retomar(i); } },
+                "Retomar el ejercicio " + (i + 1));
+            })));
+          }
+          caja.appendChild(h("div", { class: "ex-acciones" },
+            h("button", { class: "ev-btn", type: "button", onclick: function () { terminar("completa"); } },
+              "Terminar y ver informe (los salteados quedan como salteados)")));
+          tarjeta.appendChild(caja);
+        }
       }
 
       /* ---------- revisar lo ya hecho ---------- */
 
+      // los que se pueden mirar: hechos o salteados, menos el que esta en curso
+      function vistos() {
+        var v = [];
+        it.preguntas.forEach(function (r, i) { if (i !== it.actual && (r.hecho || r.salteado)) { v.push(i); } });
+        return v;
+      }
+      function sePuedeVer(i) { return vistos().indexOf(i) !== -1; }
+
       function verEjercicio(i) {
-        revisar = i >= 0 && i < it.actual ? i : null;
+        revisar = sePuedeVer(i) ? i : null;
         pintar();
         window.scrollTo(0, 0);
       }
@@ -298,23 +380,31 @@
       function navRevision(idx) {
         if (!puedeRevisar) { return null; }
         var cual = c.modo === "interactivo" ? "ejercicio" : "pregunta";
+        var v = vistos();
         if (revisar === null) {
-          if (it.actual === 0) { return null; }
+          if (!v.length) { return null; }
+          // el mas cercano para atras (o el primero, si todos quedan adelante)
+          var atras = v.filter(function (i) { return i < it.actual; });
+          var ir = atras.length ? atras[atras.length - 1] : v[0];
+          var haySalteados = conSaltear && salteadas().length;
           return h("div", { class: "ex-revision" }, [
-            h("button", { class: "ev-btn", type: "button", onclick: function () { verEjercicio(it.actual - 1); } },
-              "← Ver " + (cual === "ejercicio" ? "el ejercicio anterior" : "la pregunta anterior"))
+            h("button", { class: "ev-btn", type: "button", onclick: function () { verEjercicio(ir); } },
+              "← Ver " + (cual === "ejercicio" ? "los ejercicios anteriores" : "las preguntas anteriores") +
+              (haySalteados ? " (y los salteados)" : ""))
           ]);
         }
+        var pos = v.indexOf(idx);
+        var salteado = it.preguntas[idx].salteado;
         return h("div", { class: "ex-revision es-revisando" }, [
           h("span", { class: "ex-revision-txt" },
             "Estás revisando " + (cual === "ejercicio" ? "el ejercicio " : "la pregunta ") + (idx + 1) +
-            ", ya hecho. No cambia nada: " + (cual === "ejercicio" ? "tu ejercicio en curso es el " : "tu pregunta en curso es la ") +
-            (it.actual + 1) + "."),
+            (salteado ? ", que salteaste" : ", ya hecho") + ". " +
+            (cual === "ejercicio" ? "Tu ejercicio en curso es el " : "Tu pregunta en curso es la ") + (it.actual + 1) + "."),
           h("span", { class: "ex-nav-espacio" }),
-          h("button", { class: "ev-btn", type: "button", disabled: idx === 0 ? true : null,
-            onclick: function () { verEjercicio(idx - 1); } }, "← Anterior"),
-          idx + 1 < it.actual
-            ? h("button", { class: "ev-btn", type: "button", onclick: function () { verEjercicio(idx + 1); } }, "Siguiente →")
+          h("button", { class: "ev-btn", type: "button", disabled: pos <= 0 ? true : null,
+            onclick: function () { verEjercicio(v[pos - 1]); } }, "← Anterior"),
+          pos < v.length - 1
+            ? h("button", { class: "ev-btn", type: "button", onclick: function () { verEjercicio(v[pos + 1]); } }, "Siguiente →")
             : null,
           h("button", { class: "ev-btn ev-btn-primario", type: "button", onclick: volverAlActual },
             "Volver " + (cual === "ejercicio" ? "al ejercicio en curso" : "a la pregunta en curso"))
@@ -678,7 +768,7 @@
 
       function pintar(mismaPregunta) {
         if (it.actual >= it.preguntas.length) { terminar("completa"); return; }
-        if (revisar !== null && revisar >= it.actual) { revisar = null; }
+        if (revisar !== null && !sePuedeVer(revisar)) { revisar = null; }
         pintarBarra();
         var idx = revisar !== null ? revisar : it.actual;
         var r = it.preguntas[idx];
@@ -709,11 +799,7 @@
         zona.appendChild(tarjeta);
 
         var actual = null;
-        if (r.salteado) {
-          tarjeta.appendChild(h("div", { class: "ex-enunciado", html: p.enunciado }));
-          tarjeta.appendChild(cartel("caja-ojo", "Lo salteaste", "<p>Este ejercicio quedó salteado y no se puede retomar en este intento.</p>"));
-          tarjeta.appendChild(h("div", { class: "ex-acciones" }, botonSiguiente()));
-        }
+        if (r.salteado) { pintarSalteado(tarjeta, p, r, idx); }
         else if (!E.guiado(c)) { pintarNormal(tarjeta, p, r); }
         else if (pasos.length) { actual = pintarPasos(tarjeta, p, r, pasos); }
         else { pintarOpcionesInteractivas(tarjeta, p, r); }

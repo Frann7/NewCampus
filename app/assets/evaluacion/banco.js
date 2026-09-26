@@ -44,7 +44,8 @@
       opciones: leerOpciones(li),
       pista: html(hijo(li, "p-pista")),
       explicacion: html(hijo(li, "p-explicacion")),
-      resolucion: html(hijo(li, "p-resolucion"))   // lo que muestra el boton Resolver
+      resolucion: html(hijo(li, "p-resolucion")),  // lo que muestra el boton Resolver
+      anotar: html(hijo(li, "p-anotar"))           // la respuesta como se escribe en la hoja: "z = 0,84"
     };
   }
 

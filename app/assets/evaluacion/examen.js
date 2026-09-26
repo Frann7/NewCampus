@@ -646,6 +646,7 @@
       function respuestaDe(paso) {
         return paso.opciones
           ? h("span", { html: paso.opciones.textos[paso.opciones.correcta] })
+          : paso.anotar ? h("b", { class: "ex-anotar", html: paso.anotar })   // "z = 0,84", no el numero suelto
           : h("b", {}, paso.respuesta);
       }
 

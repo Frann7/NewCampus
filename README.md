@@ -28,7 +28,8 @@ fórmulas (MathJax) y las tipografías. Tus datos no salen de tu máquina.
     para después: antes de terminar se puede retomar donde quedó (al final aparece la lista de los
     salteados), y solo figura como salteado en el informe si se termina sin completarlo. Cada paso tiene, además de la **pista**, un botón **Resolver**: muestra la resolución
     de ese paso explicada (qué se pide, cada cuenta con su porqué y qué significa el resultado) y
-    pasa al siguiente. No gasta vidas, pero el ejercicio ya no cuenta como "sin errores" y el
+    pasa al siguiente. Las respuestas de los pasos se muestran como se anotan en la hoja
+    ("z = 0,84", "P(X ≥ 1) = 1 − P(X = 0) = 0,7769"), no como números sueltos. No gasta vidas, pero el ejercicio ya no cuenta como "sin errores" y el
     informe dice qué pasos resolvió el campus. Las autoevaluaciones ya creadas lo tienen también.
     El **enunciado queda siempre a la vista**: en pantallas anchas va en una columna fija al
     costado de los pasos, y los pasos ya hechos se achican a un renglón (consigna y respuesta)
@@ -180,6 +181,7 @@ Chrome (`chrome --headless --print-to-pdf`).
 `0.x.y-alpha` mientras esté en desarrollo. La `1.0.0` queda reservada para cuando esté terminado.
 La versión actual se lee al pie del menú lateral.
 
+* **0.23.0-alpha** — respuestas de los pasos escritas como se anotan en la hoja (503 pasos).
 * **0.22.0-alpha** — "Ver resolución" en los pasos ya hechos del interactivo.
 * **0.21.0-alpha** — casilla "Solo tal cual del parcial" al armar una autoevaluación.
 * **0.20.0-alpha** — saltear un ejercicio del interactivo lo deja para después: se retoma donde

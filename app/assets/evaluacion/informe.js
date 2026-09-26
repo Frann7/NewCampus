@@ -101,6 +101,7 @@
             var ep = r.pasos[k];
             var respuesta = paso.opciones
               ? h("span", { html: paso.opciones.textos[paso.opciones.correcta] })
+              : paso.anotar ? h("b", { html: paso.anotar })
               : h("b", {}, paso.respuesta);
             var como = !ep || !ep.ok
               ? (ep && ep.fallos ? "No lo resolviste (" + plural(ep.fallos, "fallo", "fallos") + ")" : "No llegaste a este paso")

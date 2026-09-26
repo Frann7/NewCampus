@@ -86,6 +86,9 @@ fórmulas (MathJax) y las tipografías. Tus datos no salen de tu máquina.
   quieras (o elegís uno de los sugeridos), la cuenta regresiva aparece en ese mismo lugar, y cuando
   llega a cero sale un cartel para cortar, repetir el mismo tiempo o poner otro. Pensado para
   trabajar de a tandas: 30 minutos de estudio, 5 de descanso.
+* **Contenido al costado o centrado**: por defecto los apuntes van pegados al menú. El botón
+  chico ⇤ ⇥ de arriba, al lado del modo claro/oscuro, los centra cuando sobra lugar (pantalla
+  ancha o menú plegado); se recuerda.
 * **Menú de materias plegable**: la manija redonda en el borde del menú (o Ctrl+B) lo esconde para
   dejar toda la pantalla a los apuntes, y se recuerda entre visitas.
 * **Animaciones suaves**: los apartados y las secciones entran subiendo unos píxeles, los botones
@@ -181,6 +184,8 @@ Chrome (`chrome --headless --print-to-pdf`).
 `0.x.y-alpha` mientras esté en desarrollo. La `1.0.0` queda reservada para cuando esté terminado.
 La versión actual se lee al pie del menú lateral.
 
+* **0.24.0-alpha** — centrar el contenido pasa a ser opcional (botón arriba); por defecto va al
+  costado.
 * **0.23.0-alpha** — respuestas de los pasos escritas como se anotan en la hoja (503 pasos).
 * **0.22.0-alpha** — "Ver resolución" en los pasos ya hechos del interactivo.
 * **0.21.0-alpha** — casilla "Solo tal cual del parcial" al armar una autoevaluación.

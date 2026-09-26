@@ -265,6 +265,30 @@ window.NC = window.NC || {};
     pintar();
   }
 
+  /* ---------- contenido centrado (opcional) ----------
+     Por defecto el contenido va al costado, pegado al menu. El boton chico de
+     arriba lo centra cuando sobra lugar. Se recuerda; el <head> aplica la clase
+     antes de dibujar. */
+
+  var CENTRADO_KEY = "apuntes:centrado";
+
+  function initCentrado() {
+    var btn = $("#centrar-btn");
+    if (!btn) { return; }
+    function pintar() {
+      var si = document.documentElement.classList.contains("contenido-centrado");
+      btn.setAttribute("aria-pressed", String(si));
+      btn.title = si ? "Contenido centrado. Tocá para ponerlo al costado, como antes."
+                     : "Centrar el contenido en la pantalla";
+    }
+    btn.addEventListener("click", function () {
+      var si = document.documentElement.classList.toggle("contenido-centrado");
+      try { localStorage.setItem(CENTRADO_KEY, si ? "si" : "no"); } catch (e) {}
+      pintar();
+    });
+    pintar();
+  }
+
   /* ---------- indice desplegable de la seccion abierta ---------- */
 
   var TOC_KEY = "apuntes:indice";
@@ -1750,6 +1774,7 @@ window.NC = window.NC || {};
     construirMenu();          // antes que nada: el resto lee el menu del documento
     initTema();
     initMenu();
+    initCentrado();
     initTOC();
     initEventos();
     initReloj();

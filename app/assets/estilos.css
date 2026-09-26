@@ -321,6 +321,10 @@ body{
   text-decoration:none;
 }
 .theme-btn:hover{background:var(--surface-2);color:var(--ink);}
+/* centrar o no el contenido: chico, al lado del tema */
+.centrar-btn{padding:6px 10px;}
+html.contenido-centrado .centrar-btn{color:var(--accent);border-color:var(--accent);}
+html.es-panel .centrar-btn{display:none;}
 
 .topbar-acciones{display:flex;align-items:center;flex-wrap:wrap;gap:14px;margin-bottom:8px;}
 
@@ -441,17 +445,22 @@ body{
 .crono-btn-primario{background:var(--accent);border-color:var(--accent);color:#fff;}
 .crono-btn-rojo{background:var(--practica);border-color:var(--practica);color:#fff;}
 
-/* Las columnas tienen un ancho maximo y, si sobra lugar (pantalla ancha o menu
-   plegado), el conjunto queda centrado en vez de pegado a la izquierda. */
 .content-wrap{
   display:grid;
-  grid-template-columns:minmax(0,1080px);
-  justify-content:center;
+  grid-template-columns:minmax(0,1fr);
   gap:0 32px;
   align-items:start;
   padding:26px 34px 90px;
   max-width:1420px;
   width:100%;
+}
+
+/* Opcional (boton "Centrar" de arriba): las columnas con su ancho maximo y, si
+   sobra lugar (pantalla ancha o menu plegado), el conjunto centrado en vez de
+   pegado a la izquierda. Por defecto no. */
+html.contenido-centrado .content-wrap{
+  grid-template-columns:minmax(0,1080px);
+  justify-content:center;
   margin-inline:auto;
 }
 
@@ -1026,9 +1035,11 @@ html.es-panel .content-wrap{padding:22px 24px 80px;}
 @media (min-width:1280px){
   /* El panel esta antes del contenido en el HTML, asi que en pantallas anchas
      lo mandamos explicitamente a la segunda columna, misma fila. */
-  .content-wrap{grid-template-columns:minmax(0,1080px) 252px;}
-  /* sin indice (el calendario, la evaluacion) una sola columna, centrada */
-  .content-wrap.sin-indice{grid-template-columns:minmax(0,1080px);}
+  .content-wrap{grid-template-columns:minmax(0,1fr) 252px;}
+  /* sin indice (el calendario) el contenido se queda con todo el ancho */
+  .content-wrap.sin-indice{grid-template-columns:minmax(0,1fr);}
+  html.contenido-centrado .content-wrap{grid-template-columns:minmax(0,1080px) 252px;}
+  html.contenido-centrado .content-wrap.sin-indice{grid-template-columns:minmax(0,1080px);}
   .content{grid-column:1;grid-row:1;}
   .toc-panel{
     grid-column:2;

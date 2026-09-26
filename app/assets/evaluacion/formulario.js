@@ -105,16 +105,17 @@
 
     '<fieldset class="ae-paso" data-tras-etapa>' +
     '  <legend><span class="ae-num"></span>Contenido</legend>' + BLOQUEADO +
-    '  <div class="ae-campo">' +
-    '    <span class="ae-etq">Unidades</span>' +
-    '    <div class="ae-caja-unidades" data-unidades></div>' +
-    '  </div>' +
     '  <div class="ae-campo" data-etapa="2" data-modo="interactivo">' +
     '    <label class="ae-check"><input type="checkbox" name="soloParcial"><span>Solo tal cual del parcial</span></label>' +
     '    <p class="ae-ayuda">Solo ejercicios que están exactamente como vinieron en un parcial: sin los inventados parecidos ni los de finales.</p>' +
     '    <div class="ae-linea" data-elegir-parcial hidden><span>¿Qué parcial?</span>' +
     '      <select class="ae-input ae-select" name="parcial"><option value="">Todos, mezclados</option></select></div>' +
     '    <p class="ae-ayuda" data-ayuda-parcial hidden></p>' +
+    '  </div>' +
+    '  <div class="ae-campo">' +
+    '    <span class="ae-etq">Unidades</span>' +
+    '    <div class="ae-caja-unidades" data-unidades></div>' +
+    '    <p class="ae-ayuda" data-unidades-fijas hidden>Las pone el parcial elegido.</p>' +
     '  </div>' +
     '  <p class="ae-ayuda" data-modo="interactivo" data-etapa="2" data-disp-ejercicios></p>' +
     '  <fieldset class="ae-campo" data-bloque="tipos" data-etapa="2" data-modo="normal">' +
@@ -136,7 +137,7 @@
     '  </fieldset>' +
     '  <fieldset class="ae-campo" data-bloque="ejercicios" data-etapa="2" data-modo="interactivo">' +
     '    <label class="ae-cant">Ejercicios <input class="ae-input ae-corto" type="number" name="cantEjercicios" min="1"> <small data-de="ejercicio"></small></label>' +
-    '    <p class="ae-ayuda">Se mezclan ejercicios reales de los parciales y finales con otros inventados con la misma forma. Si uno no lo querés hacer, lo podés saltear entero.</p>' +
+    '    <p class="ae-ayuda" data-ayuda-ejercicios></p>' +
     '    <p class="ae-motivo">Elegí al menos una unidad para habilitar esto.</p>' +
     '  </fieldset>' +
     '  <fieldset class="ae-campo" data-bloque="cantidad" data-etapa="2" data-modo="normal">' +
@@ -355,12 +356,23 @@
         if (disp.ejercicio > 0 && entero(campo("cantEjercicios").value) > disp.ejercicio) {
           campo("cantEjercicios").value = disp.ejercicio;
         }
-        form.querySelector('[data-de="ejercicio"]').textContent = "de " + disp.ejercicio;
-        form.querySelector("[data-disp-ejercicios]").textContent = hayUnidadI
+        form.querySelector('[data-de="ejercicio"]').textContent = entero_
+          ? "(el parcial entero)" : "de " + disp.ejercicio;
+        form.querySelector("[data-unidades-fijas]").hidden = !entero_;
+        form.querySelector("[data-disp-ejercicios]").textContent = entero_
+          ? ""
+          : hayUnidadI
           ? (v.soloParcial ? "Ejercicios completos tal cual del parcial en esas unidades: "
                            : "Ejercicios completos disponibles en esas unidades: ") + disp.ejercicio + "." +
             (v.soloParcial && !disp.ejercicio ? " En esas unidades no hay ejercicios de parcial: sacá la casilla o sumá otra unidad." : "")
           : "Elegí las unidades y se cuentan los ejercicios disponibles.";
+        form.querySelector("[data-disp-ejercicios]").hidden = !!entero_;
+        form.querySelector("[data-ayuda-ejercicios]").textContent = (entero_
+          ? "Son los ejercicios del " + entero_.nombre + ", en el orden del examen."
+          : v.soloParcial
+          ? "Ejercicios de los parciales, tal cual, mezclados."
+          : "Se mezclan ejercicios reales de los parciales y finales con otros inventados con la misma forma.") +
+          " Si uno no lo querés hacer ahora, lo salteás y lo retomás antes de terminar.";
 
         // unidades -> tipos
         var hayUnidad = v.unidades.length > 0;

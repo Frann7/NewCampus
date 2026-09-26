@@ -344,6 +344,7 @@ window.NC.eval = window.NC.eval || {};
     partes.push(c.unidades.map(function (u) { return E.numeroDeUnidad(materia, u); }).join(", "));
     if (E.etapaDe(c) === "2" && E.conVidas(c)) { partes.push(c.fallos + (c.fallos === 1 ? " vida" : " vidas")); }
     if (E.etapaDe(c) === "2" && c.modo === "normal" && c.navLibre) { partes.push("navegación libre"); }
+    if (E.etapaDe(c) === "2" && c.soloParcial) { partes.push("solo tal cual del parcial"); }
     partes.push(c.conTiempo ? c.minutos + " min" : "Sin límite");
     return partes;
   };

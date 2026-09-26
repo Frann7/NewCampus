@@ -38,6 +38,9 @@ fórmulas (MathJax) y las tipografías. Tus datos no salen de tu máquina.
     se vuelven a mirar los ejercicios ya hechos, tal como quedaron (sin poder cambiarlos), y un
     botón vuelve al que está en curso.
 
+  En la 2da etapa, la casilla **"Solo tal cual del parcial"** deja solo los ejercicios y preguntas
+  que están exactamente como vinieron en un parcial (sin los inventados parecidos ni los de finales).
+
   En Normal hay además una **navegación libre** opcional: casillas para saltar a cualquier
   pregunta, saltear y volver, y terminar cuando quieras. Todas las preguntas
   salen de los exámenes: cada una dice de qué parcial o final viene, con ★ o ◈, y al sortear salen
@@ -176,6 +179,7 @@ Chrome (`chrome --headless --print-to-pdf`).
 `0.x.y-alpha` mientras esté en desarrollo. La `1.0.0` queda reservada para cuando esté terminado.
 La versión actual se lee al pie del menú lateral.
 
+* **0.21.0-alpha** — casilla "Solo tal cual del parcial" al armar una autoevaluación.
 * **0.20.0-alpha** — saltear un ejercicio del interactivo lo deja para después: se retoma donde
   quedó antes de terminar.
 * **0.19.0-alpha** — `NewCampus.exe` avisa cuando hay actualizaciones y se actualiza solo

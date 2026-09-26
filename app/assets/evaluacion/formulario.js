@@ -27,7 +27,7 @@
     nivel: "medio", fallos: 3, verRespuesta: true,
     unidades: [], teoria: false, practica: false,
     reparto: "separado", cantTeoria: 5, cantPractica: 3, cantMezcla: 8,
-    orden: "aleatorio", conTiempo: false, minutos: 30
+    orden: "aleatorio", conTiempo: false, minutos: 30, soloParcial: false
   };
 
   var AYUDA_NIVEL = {
@@ -108,6 +108,10 @@
     '  <div class="ae-campo">' +
     '    <span class="ae-etq">Unidades</span>' +
     '    <div class="ae-caja-unidades" data-unidades></div>' +
+    '  </div>' +
+    '  <div class="ae-campo" data-etapa="2">' +
+    '    <label class="ae-check"><input type="checkbox" name="soloParcial"><span>Solo tal cual del parcial</span></label>' +
+    '    <p class="ae-ayuda">Solo ejercicios y preguntas que están exactamente como vinieron en un parcial: sin los inventados parecidos ni los de finales.</p>' +
     '  </div>' +
     '  <p class="ae-ayuda" data-modo="interactivo" data-etapa="2" data-disp-ejercicios></p>' +
     '  <fieldset class="ae-campo" data-bloque="tipos" data-etapa="2" data-modo="normal">' +
@@ -242,6 +246,7 @@
       campo("verRespuesta").checked = c.verRespuesta;
       form.querySelector('[name="tiempo"][value="' + (c.conTiempo ? "contador" : "libre") + '"]').checked = true;
       campo("minutos").value = c.minutos;
+      campo("soloParcial").checked = !!c.soloParcial;
 
       function leer() {
         var marcado = function (sel) { var el = form.querySelector(sel + ":checked"); return el ? el.value : null; };
@@ -265,13 +270,14 @@
           cantMezcla: entero(campo("cantMezcla").value),
           orden: campo("orden").value,
           conTiempo: marcado('[name="tiempo"]') === "contador",
-          minutos: entero(campo("minutos").value)
+          minutos: entero(campo("minutos").value),
+          soloParcial: campo("soloParcial").checked
         };
       }
 
       function sincronizar() {
         var v = leer();
-        var disp = E.banco.disponibles(materia, v.unidades);
+        var disp = E.banco.disponibles(materia, v.unidades, v.etapa !== "1" && v.soloParcial);
 
         // etapa -> todo lo demas. Lo de la otra etapa se esconde.
         Array.prototype.forEach.call(form.querySelectorAll("[data-tras-etapa]"), function (f) {
@@ -316,7 +322,9 @@
         }
         form.querySelector('[data-de="ejercicio"]').textContent = "de " + disp.ejercicio;
         form.querySelector("[data-disp-ejercicios]").textContent = hayUnidadI
-          ? "Ejercicios completos disponibles en esas unidades: " + disp.ejercicio + "."
+          ? (v.soloParcial ? "Ejercicios completos tal cual del parcial en esas unidades: "
+                           : "Ejercicios completos disponibles en esas unidades: ") + disp.ejercicio + "." +
+            (v.soloParcial && !disp.ejercicio ? " En esas unidades no hay ejercicios de parcial: sacá la casilla o sumá otra unidad." : "")
           : "Elegí las unidades y se cuentan los ejercicios disponibles.";
 
         // unidades -> tipos
@@ -369,7 +377,8 @@
 
       function validar(v, nombre) {
         var errores = [];
-        var disp = E.banco.disponibles(materia, v.unidades);
+        var disp = E.banco.disponibles(materia, v.unidades, v.etapa !== "1" && v.soloParcial);
+        var deParcial = v.soloParcial ? " tal cual del parcial" : "";
         if (!v.etapa) { return ["Elegí la etapa del parcial que querés simular."]; }
         if (!nombre) { errores.push("Poné un nombre: es obligatorio."); }
         if (v.etapa === "1") {
@@ -386,7 +395,7 @@
         }
         if (v.modo === "interactivo") {
           if (!v.unidades.length) { errores.push("Elegí al menos una unidad."); }
-          else if (!disp.ejercicio) { errores.push("No hay ejercicios completos en las unidades elegidas."); }
+          else if (!disp.ejercicio) { errores.push("No hay ejercicios completos" + deParcial + " en las unidades elegidas."); }
           else if (v.cantEjercicios < 1 || v.cantEjercicios > disp.ejercicio) {
             errores.push("La cantidad de ejercicios tiene que ir de 1 a " + disp.ejercicio + ".");
           }
@@ -397,7 +406,7 @@
         else if (!v.teoria && !v.practica) { errores.push("Marcá Teoría, Práctica o ambas."); }
         else {
           var revisar = function (cant, max, que) {
-            if (max === 0) { errores.push("No hay preguntas de " + que + " en las unidades elegidas."); }
+            if (max === 0) { errores.push("No hay preguntas de " + que + deParcial + " en las unidades elegidas."); }
             else if (cant < 1 || cant > max) { errores.push("La cantidad de " + que + " tiene que ir de 1 a " + max + "."); }
           };
           if (v.teoria && v.practica && v.reparto === "mezcla") { revisar(v.cantMezcla, disp.teoria + disp.practica, "la mezcla"); }
@@ -426,7 +435,7 @@
           return;
         }
 
-        if (v.etapa === "1") { v.modo = "normal"; v.teoria = false; v.practica = false; v.verRespuesta = false; }
+        if (v.etapa === "1") { v.modo = "normal"; v.teoria = false; v.practica = false; v.verRespuesta = false; v.soloParcial = false; }
         if (v.modo === "interactivo") { v.teoria = false; v.practica = false; v.navLibre = false; }
         v.v = 2;   // esquema de modos nuevo (ver E.guiado en nucleo.js)
         var nueva = { id: "ae-" + Date.now().toString(36), materia: materia, creada: Date.now(),

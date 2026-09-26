@@ -97,6 +97,10 @@
           huecos: etapa === "1" ? leerHuecos(a) : [],
           origen: a.getAttribute("data-origen") === "final" ? "final" : "parcial",
           fuente: fuente ? fuente.textContent.trim() : "",
+          // tal cual de un parcial: la fuente es el parcial mismo ("Segundo
+          // Parcial 2025, Ej. 2"), no "Inventado, estilo del...", un final ni
+          // "Tema del..." (las adaptadas al cuestionario de la 1ra etapa)
+          delParcial: /^(Primer|Segundo|Tercer)?\s*Parcial\b/i.test(fuente ? fuente.textContent.trim() : ""),
           unidad: unidad,
           enunciado: html(hijo(a, "p-enunciado")),
           pregunta: html(hijo(a, "p-pregunta")),
@@ -153,9 +157,11 @@
 
   function etapaDe(c) { return c.etapa === "1" ? "1" : "2"; }
 
+  // c.soloParcial (2da etapa): solo lo que esta tal cual en un parcial
   function delPool(materia, c) {
     return cargar(materia).lista.filter(function (p) {
-      return p.etapa === etapaDe(c) && c.unidades.indexOf(p.unidad) !== -1;
+      return p.etapa === etapaDe(c) && c.unidades.indexOf(p.unidad) !== -1 &&
+        (!c.soloParcial || etapaDe(c) === "1" || p.delParcial);
     });
   }
 
@@ -199,11 +205,13 @@
     obtener: function (materia, id) { return cargar(materia).porId[id] || null; },
 
     // Cuantas preguntas hay en esas unidades: las de 2da etapa por tipo, y las de 1ra.
-    disponibles: function (materia, unidades) {
+    // soloParcial: en la 2da etapa, contar solo las que estan tal cual en un parcial.
+    disponibles: function (materia, unidades, soloParcial) {
       var r = { teoria: 0, practica: 0, ejercicio: 0, cuestionario: 0 };
       cargar(materia).lista.forEach(function (p) {
         if (unidades.indexOf(p.unidad) === -1) { return; }
-        if (p.etapa === "1") { r.cuestionario++; } else { r[p.tipo]++; }
+        if (p.etapa === "1") { r.cuestionario++; }
+        else if (!soloParcial || p.delParcial) { r[p.tipo]++; }
       });
       return r;
     },

@@ -672,15 +672,33 @@
         var cuerpo = ep.resuelto
           ? h("div", { class: "ex-resolucion" }, [h("div", { class: "ex-resolucion-tit" }, "Resolución paso a paso"), resolucionDe(paso)])
           : (paso.explicacion ? h("div", { class: "ex-paso-explicacion", html: paso.explicacion }) : null);
+        // Resuelto por uno mismo: igual se puede leer la resolucion completa, como
+        // si se hubiera tocado Resolver (sin marcarlo como resuelto por el campus).
+        var zonaRes = null, verRes = null;
+        if (!ep.resuelto) {
+          zonaRes = h("div", { class: "ex-resolucion", hidden: true },
+            h("div", { class: "ex-resolucion-tit" }, "Resolución paso a paso"));
+          verRes = h("button", { class: "ex-paso-verres", type: "button",
+            title: "Ver cómo se resuelve este paso, explicado", onclick: function (ev) {
+              ev.preventDefault();      // es un boton dentro del renglon: que no lo pliegue
+              ev.stopPropagation();
+              if (!zonaRes.dataset.lleno) { zonaRes.appendChild(resolucionDe(paso)); zonaRes.dataset.lleno = "1"; }
+              zonaRes.hidden = !zonaRes.hidden;
+              if (!zonaRes.hidden) { det.open = true; E.tipografiar(zonaRes); }
+              verRes.textContent = zonaRes.hidden ? "📖 Ver resolución" : "Ocultar resolución";
+            } }, "📖 Ver resolución");
+        }
         var det = h("details", { class: "ex-paso-log" }, [
           h("summary", {}, [
             h("div", { class: "ex-paso-cab" }, [cab, cuerpo
-              ? h("span", { class: "ex-paso-ver", "data-que": ep.resuelto ? "la resolución" : "la explicación" }) : null]),
+              ? h("span", { class: "ex-paso-ver", "data-que": ep.resuelto ? "la resolución" : "la explicación" }) : null,
+              verRes]),
             h("div", { class: "ex-paso-consigna", html: paso.consigna }),
             h("div", { class: "ex-paso-resultado" }, [ep.resuelto ? "Resuelto: " : "✓ ", respuestaDe(paso),
               ep.fallos ? h("small", {}, " · " + ep.fallos + (ep.fallos === 1 ? " fallo" : " fallos")) : null])
           ]),
-          cuerpo
+          cuerpo,
+          zonaRes
         ]);
         if (ultimo) { det.open = true; if (ep.resuelto) { liResuelto = li; } }
         li.appendChild(det);

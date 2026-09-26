@@ -32,7 +32,8 @@ fórmulas (MathJax) y las tipografías. Tus datos no salen de tu máquina.
     informe dice qué pasos resolvió el campus. Las autoevaluaciones ya creadas lo tienen también.
     El **enunciado queda siempre a la vista**: en pantallas anchas va en una columna fija al
     costado de los pasos, y los pasos ya hechos se achican a un renglón (consigna y respuesta)
-    que se despliega para ver su explicación. Al terminar cada inciso aparece su **Rta.**: la
+    que se despliega para ver su explicación; los que resolviste vos tienen además
+    "📖 Ver resolución", la misma explicación completa que da Resolver (sin que cuente como resuelto por el campus). Al terminar cada inciso aparece su **Rta.**: la
     respuesta final en palabras, como se escribe en el parcial ("la probabilidad de que ... es
     0,7769, o sea un 77,69 %"). También figura en el informe. Con "← Ver el ejercicio anterior"
     se vuelven a mirar los ejercicios ya hechos, tal como quedaron (sin poder cambiarlos), y un
@@ -179,6 +180,7 @@ Chrome (`chrome --headless --print-to-pdf`).
 `0.x.y-alpha` mientras esté en desarrollo. La `1.0.0` queda reservada para cuando esté terminado.
 La versión actual se lee al pie del menú lateral.
 
+* **0.22.0-alpha** — "Ver resolución" en los pasos ya hechos del interactivo.
 * **0.21.0-alpha** — casilla "Solo tal cual del parcial" al armar una autoevaluación.
 * **0.20.0-alpha** — saltear un ejercicio del interactivo lo deja para después: se retoma donde
   quedó antes de terminar.

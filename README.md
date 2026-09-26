@@ -40,8 +40,10 @@ fórmulas (MathJax) y las tipografías. Tus datos no salen de tu máquina.
     se vuelven a mirar los ejercicios ya hechos, tal como quedaron (sin poder cambiarlos), y un
     botón vuelve al que está en curso.
 
-  En la 2da etapa, la casilla **"Solo tal cual del parcial"** deja solo los ejercicios y preguntas
-  que están exactamente como vinieron en un parcial (sin los inventados parecidos ni los de finales).
+  En el interactivo, la casilla **"Solo tal cual del parcial"** deja solo los ejercicios que están
+  exactamente como vinieron en un parcial (sin los inventados parecidos ni los de finales), y deja
+  elegir **qué parcial**: todos mezclados, o uno entero (2025 o 2023) en el orden del examen, cada
+  ejercicio desglosado en pasos. Con un parcial elegido, las unidades y la cantidad se ponen solas.
 
   En Normal hay además una **navegación libre** opcional: casillas para saltar a cualquier
   pregunta, saltear y volver, y terminar cuando quieras. Todas las preguntas
@@ -184,6 +186,8 @@ Chrome (`chrome --headless --print-to-pdf`).
 `0.x.y-alpha` mientras esté en desarrollo. La `1.0.0` queda reservada para cuando esté terminado.
 La versión actual se lee al pie del menú lateral.
 
+* **0.25.0-alpha** — en el interactivo se puede hacer un parcial entero (2025 o 2023) en su orden;
+  "Solo tal cual del parcial" queda solo para el interactivo.
 * **0.24.0-alpha** — centrar el contenido pasa a ser opcional (botón arriba); por defecto va al
   costado.
 * **0.23.0-alpha** — respuestas de los pasos escritas como se anotan en la hoja (503 pasos).

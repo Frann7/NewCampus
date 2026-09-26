@@ -27,7 +27,7 @@
     nivel: "medio", fallos: 3, verRespuesta: true,
     unidades: [], teoria: false, practica: false,
     reparto: "separado", cantTeoria: 5, cantPractica: 3, cantMezcla: 8,
-    orden: "aleatorio", conTiempo: false, minutos: 30, soloParcial: false
+    orden: "aleatorio", conTiempo: false, minutos: 30, soloParcial: false, parcial: ""
   };
 
   var AYUDA_NIVEL = {
@@ -109,9 +109,12 @@
     '    <span class="ae-etq">Unidades</span>' +
     '    <div class="ae-caja-unidades" data-unidades></div>' +
     '  </div>' +
-    '  <div class="ae-campo" data-etapa="2">' +
+    '  <div class="ae-campo" data-etapa="2" data-modo="interactivo">' +
     '    <label class="ae-check"><input type="checkbox" name="soloParcial"><span>Solo tal cual del parcial</span></label>' +
-    '    <p class="ae-ayuda">Solo ejercicios y preguntas que están exactamente como vinieron en un parcial: sin los inventados parecidos ni los de finales.</p>' +
+    '    <p class="ae-ayuda">Solo ejercicios que están exactamente como vinieron en un parcial: sin los inventados parecidos ni los de finales.</p>' +
+    '    <div class="ae-linea" data-elegir-parcial hidden><span>¿Qué parcial?</span>' +
+    '      <select class="ae-input ae-select" name="parcial"><option value="">Todos, mezclados</option></select></div>' +
+    '    <p class="ae-ayuda" data-ayuda-parcial hidden></p>' +
     '  </div>' +
     '  <p class="ae-ayuda" data-modo="interactivo" data-etapa="2" data-disp-ejercicios></p>' +
     '  <fieldset class="ae-campo" data-bloque="tipos" data-etapa="2" data-modo="normal">' +
@@ -247,6 +250,17 @@
       form.querySelector('[name="tiempo"][value="' + (c.conTiempo ? "contador" : "libre") + '"]').checked = true;
       campo("minutos").value = c.minutos;
       campo("soloParcial").checked = !!c.soloParcial;
+      // los parciales enteros que hay en el banco, para elegir uno
+      var parciales = E.banco.parciales(materia);
+      parciales.forEach(function (x) {
+        campo("parcial").appendChild(h("option", { value: x.nombre },
+          x.nombre + " completo (" + x.ejercicios + (x.ejercicios === 1 ? " ejercicio)" : " ejercicios)")));
+      });
+      campo("parcial").value = c.parcial && parciales.some(function (x) { return x.nombre === c.parcial; }) ? c.parcial : "";
+      function parcialElegido(v) {
+        if (v.modo !== "interactivo" || !v.soloParcial || !v.parcial) { return null; }
+        return parciales.filter(function (x) { return x.nombre === v.parcial; })[0] || null;
+      }
 
       function leer() {
         var marcado = function (sel) { var el = form.querySelector(sel + ":checked"); return el ? el.value : null; };
@@ -271,12 +285,33 @@
           orden: campo("orden").value,
           conTiempo: marcado('[name="tiempo"]') === "contador",
           minutos: entero(campo("minutos").value),
-          soloParcial: campo("soloParcial").checked
+          soloParcial: campo("soloParcial").checked,
+          parcial: campo("parcial").value
         };
       }
 
       function sincronizar() {
         var v = leer();
+
+        // Un parcial entero: sus unidades y su cantidad de ejercicios quedan fijas.
+        var entero_ = parcialElegido(v);
+        form.querySelector("[data-elegir-parcial]").hidden = !(v.modo === "interactivo" && v.soloParcial);
+        form.querySelectorAll('[name="unidad"]').forEach(function (i) {
+          if (entero_) { i.checked = entero_.unidades.indexOf(i.value) !== -1; }
+          i.disabled = !!entero_;
+        });
+        campo("cantEjercicios").disabled = !!entero_;
+        if (entero_) { campo("cantEjercicios").value = entero_.ids.length; }
+        var ayudaParcial = form.querySelector("[data-ayuda-parcial]");
+        ayudaParcial.hidden = !entero_;
+        ayudaParcial.textContent = entero_
+          ? "Se hace el " + entero_.nombre + " entero y en el orden del examen, cada ejercicio desglosado en pasos: " +
+            entero_.ejercicios + " ejercicios, de " + entero_.unidades.map(function (u) { return E.numeroDeUnidad(materia, u); }).join(", ") +
+            (entero_.partidos.length ? " (el " + entero_.partidos.join(" y el ") + " va en dos partes, a y b, porque son de unidades distintas)" : "") +
+            ". Las unidades y la cantidad se ponen solas."
+          : "";
+        v = leer();
+
         var disp = E.banco.disponibles(materia, v.unidades, v.etapa !== "1" && v.soloParcial);
 
         // etapa -> todo lo demas. Lo de la otra etapa se esconde.
@@ -396,7 +431,7 @@
         if (v.modo === "interactivo") {
           if (!v.unidades.length) { errores.push("Elegí al menos una unidad."); }
           else if (!disp.ejercicio) { errores.push("No hay ejercicios completos" + deParcial + " en las unidades elegidas."); }
-          else if (v.cantEjercicios < 1 || v.cantEjercicios > disp.ejercicio) {
+          else if (!parcialElegido(v) && (v.cantEjercicios < 1 || v.cantEjercicios > disp.ejercicio)) {
             errores.push("La cantidad de ejercicios tiene que ir de 1 a " + disp.ejercicio + ".");
           }
           if (v.conTiempo && (v.minutos < 1 || v.minutos > MAX_MINUTOS)) { errores.push("El contador va de 1 a 240 minutos (4 horas)."); }
@@ -437,6 +472,11 @@
 
         if (v.etapa === "1") { v.modo = "normal"; v.teoria = false; v.practica = false; v.verRespuesta = false; v.soloParcial = false; }
         if (v.modo === "interactivo") { v.teoria = false; v.practica = false; v.navLibre = false; }
+        // "tal cual del parcial" y el parcial entero son del interactivo
+        if (v.modo !== "interactivo") { v.soloParcial = false; }
+        if (!v.soloParcial) { v.parcial = ""; }
+        var pe = parcialElegido(v);
+        if (pe) { v.cantEjercicios = pe.ids.length; v.unidades = pe.unidades.slice(); }
         v.v = 2;   // esquema de modos nuevo (ver E.guiado en nucleo.js)
         var nueva = { id: "ae-" + Date.now().toString(36), materia: materia, creada: Date.now(),
                       nombre: nombre, config: v, historial: [], intento: null };

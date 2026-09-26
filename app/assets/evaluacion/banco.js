@@ -102,6 +102,8 @@
           // Parcial 2025, Ej. 2"), no "Inventado, estilo del...", un final ni
           // "Tema del..." (las adaptadas al cuestionario de la 1ra etapa)
           delParcial: /^(Primer|Segundo|Tercer)?\s*Parcial\b/i.test(fuente ? fuente.textContent.trim() : ""),
+          // de que parcial es y en que lugar va ("Segundo Parcial 2023, Ejercicio 6 a")
+          parcial: null, ordenParcial: 0,
           unidad: unidad,
           enunciado: html(hijo(a, "p-enunciado")),
           pregunta: html(hijo(a, "p-pregunta")),
@@ -111,6 +113,11 @@
           pasos: pasos ? Array.prototype.map.call(pasos.querySelectorAll(":scope > li"), leerPaso) : [],
           rtas: leerRtas(a)
         };
+        var m = /^((?:Primer|Segundo|Tercer)?\s*Parcial\s+\d{4})\s*,\s*Ej(?:ercicio|\.)?\s*(\d+)\s*([a-z])?/i.exec(p.fuente);
+        if (m) {
+          p.parcial = m[1];
+          p.ordenParcial = parseInt(m[2], 10) * 10 + (m[3] ? m[3].toLowerCase().charCodeAt(0) - 96 : 0);
+        }
         if (!p.id || porId[p.id]) { return; }
         lista.push(p);
         porId[p.id] = p;
@@ -217,11 +224,41 @@
       return r;
     },
 
+    // Los parciales que estan enteros en el interactivo: nombre, ids en el
+    // orden del examen y unidades. El mas nuevo primero.
+    parciales: function (materia) {
+      var por = {};
+      cargar(materia).lista.forEach(function (p) {
+        if (p.etapa !== "2" || p.tipo !== "ejercicio" || !p.parcial) { return; }
+        (por[p.parcial] = por[p.parcial] || []).push(p);
+      });
+      return Object.keys(por).map(function (nombre) {
+        var ps = por[nombre].sort(function (a, b) { return a.ordenParcial - b.ordenParcial; });
+        var unidades = [];
+        ps.forEach(function (p) { if (unidades.indexOf(p.unidad) === -1) { unidades.push(p.unidad); } });
+        // un ejercicio del examen puede venir en dos partes (el 6 a y el 6 b, de unidades distintas)
+        var numeros = [], partidos = [];
+        ps.forEach(function (p) {
+          var n = Math.floor(p.ordenParcial / 10);
+          if (numeros.indexOf(n) === -1) { numeros.push(n); }
+          else if (partidos.indexOf(n) === -1) { partidos.push(n); }
+        });
+        return { nombre: nombre, ids: ps.map(function (p) { return p.id; }), unidades: unidades.sort(),
+                 ejercicios: numeros.length, partidos: partidos,
+                 anio: parseInt((/\d{4}/.exec(nombre) || ["0"])[0], 10) };
+      }).sort(function (a, b) { return b.anio - a.anio; });
+    },
+
     // Devuelve la lista ordenada de ids para un intento nuevo.
     seleccionar: function (materia, c) {
       var pool = delPool(materia, c);
       if (etapaDe(c) === "1") {
         return mezclarPorOrigen(pool).slice(0, c.cantCuestionario).map(function (p) { return p.id; });
+      }
+      if (c.modo === "interactivo" && c.soloParcial && c.parcial) {
+        // un parcial entero, en el orden del examen
+        var elegido = E.banco.parciales(materia).filter(function (x) { return x.nombre === c.parcial; })[0];
+        return elegido ? elegido.ids.slice() : [];
       }
       if (c.modo === "interactivo") {
         // reales e inventados mezclados, con ventaja para lo de parciales

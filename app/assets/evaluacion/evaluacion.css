@@ -681,19 +681,25 @@
   .ex-con-enunciado{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);gap:22px;align-items:start;}
   .ex-enunciado-lado{
     position:sticky;top:var(--ex-tope,220px);
-    max-height:calc(100vh - var(--ex-tope,220px) - 16px);overflow:auto;
+    max-height:calc(100vh - var(--ex-tope,220px) - 48px);overflow:auto;
     border-radius:10px;
   }
   .ex-enunciado-lado .ex-enunciado{margin:0;}
   /* aire abajo: sin esto, al llegar al final la columna de pasos se termina
      y empuja al enunciado hacia arriba, debajo de la barra */
   .ex-pasos-col{padding-bottom:45vh;}
-  /* y los margenes de la pagina de abajo (unos 220px) caen sobre ese aire
-     en blanco, asi el enunciado no sube ni en el fondo de la pagina */
-  .ex-con-enunciado{margin-bottom:-220px;}
+
   .ex-enunciado-tit{display:block;font-size:11.5px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;
     color:var(--ink-faint);margin:0 0 6px;}
 }
+/* Abajo de la tarjeta casi no queda pagina: si quedaran los margenes normales
+   (unos 200px), al llegar al fondo el enunciado fijo se subiria debajo de la
+   barra. El aire para el material de catedra lo pone la columna de pasos.
+   (Va fuera del @container: esas reglas solo alcanzan a lo de adentro de la tarjeta.) */
+.ev:has(.ex-con-enunciado){padding-bottom:0;}
+.content-wrap:has(.ex-con-enunciado){padding-bottom:16px;}
+.ex-pasos-col{padding-bottom:120px;}
+
 /* con el enunciado al costado hace falta mas ancho que el de lectura normal */
 .content:has(.ex-con-enunciado){max-width:1440px;}
 html.contenido-centrado .content-wrap:has(.ex-con-enunciado),
@@ -704,9 +710,17 @@ html.contenido-centrado .content-wrap.sin-indice:has(.ex-con-enunciado){grid-tem
   padding:10px 14px;font-size:14px;background:var(--surface);}
 .ex-datos-tit{font-size:11.5px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--dato);margin-bottom:4px;}
 .ex-datos p{margin:4px 0;}
-.ex-datos .tabla-wrap{margin:6px 0 0;}
-.ex-datos table.t{font-size:13.5px;}
-.ex-datos table.t th, .ex-datos table.t td{padding:5px 8px;}
+/* la tabla de datos en renglones: dato y valor, y abajo (chico) de donde sale;
+   en una columna angosta tres columnas quedan apretadas */
+.ex-datos .tabla-wrap{margin:6px 0 0;overflow:visible;}
+.ex-datos table.t, .ex-datos table.t tbody{display:block;border:0;background:none;font-size:14px;}
+.ex-datos table.t tr:has(th){display:none;}
+.ex-datos table.t tr{display:grid;grid-template-columns:minmax(92px,max-content) minmax(0,1fr);column-gap:12px;
+  padding:7px 0;border-top:1px solid var(--line);}
+.ex-datos table.t td{display:block;border:0;padding:0;white-space:normal;text-align:left;}
+.ex-datos table.t td:nth-child(1){font-weight:600;color:var(--ink-soft);}
+.ex-datos table.t td:nth-child(2){font-weight:600;}
+.ex-datos table.t td:nth-child(3){grid-column:1 / -1;font-size:12.5px;color:var(--ink-faint);margin-top:2px;}
 
 /* La respuesta final de un inciso, en palabras, apenas se termina */
 .ex-rta{

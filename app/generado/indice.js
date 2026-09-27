@@ -209,5 +209,5 @@ window.Apuntes.registrarIndice({
       "unidades": []
     }
   ],
-  "construido": "2026-09-26 21:44:28"
+  "construido": "2026-09-26 22:06:07"
 });

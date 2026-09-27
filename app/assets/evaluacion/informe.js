@@ -100,7 +100,8 @@
           item.appendChild(h("ol", { class: "inf-pasos" }, pasos.map(function (paso, k) {
             var ep = r.pasos[k];
             var respuesta = paso.opciones
-              ? h("span", { html: paso.opciones.textos[paso.opciones.correcta] })
+              ? h("span", {}, [h("span", { html: paso.opciones.textos[paso.opciones.correcta] }),
+                  paso.anotar ? h("span", { class: "ex-en-hoja" }, ["En la hoja: ", h("b", { html: paso.anotar })]) : null])
               : paso.anotar ? h("b", { html: paso.anotar })
               : h("b", {}, paso.respuesta);
             var como = !ep || !ep.ok

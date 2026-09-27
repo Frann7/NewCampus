@@ -29,7 +29,8 @@ fórmulas (MathJax) y las tipografías. Tus datos no salen de tu máquina.
     salteados), y solo figura como salteado en el informe si se termina sin completarlo. Cada paso tiene, además de la **pista**, un botón **Resolver**: muestra la resolución
     de ese paso explicada (qué se pide, cada cuenta con su porqué y qué significa el resultado) y
     pasa al siguiente. Las respuestas de los pasos se muestran como se anotan en la hoja
-    ("z = 0,84", "P(X ≥ 1) = 1 − P(X = 0) = 0,7769"), no como números sueltos. No gasta vidas, pero el ejercicio ya no cuenta como "sin errores" y el
+    ("z = 0,84", "P(X ≥ 1) = 1 − P(X = 0) = 0,7769"), no como números sueltos; en los pasos de
+    opciones que se escriben con fórmulas, debajo de la opción dice "En la hoja: P(X > 90) = 1 − P(X ≤ 90) = 1 − F(z)". No gasta vidas, pero el ejercicio ya no cuenta como "sin errores" y el
     informe dice qué pasos resolvió el campus. Las autoevaluaciones ya creadas lo tienen también.
     En principiante y medio, debajo del enunciado aparecen los **datos del ejercicio**: la variable
     en palabras y cada dato (media, varianza, desvío, n, p...) con la frase de donde sale.
@@ -188,6 +189,7 @@ Chrome (`chrome --headless --print-to-pdf`).
 `0.x.y-alpha` mientras esté en desarrollo. La `1.0.0` queda reservada para cuando esté terminado.
 La versión actual se lee al pie del menú lateral.
 
+* **0.27.0-alpha** — "En la hoja" en los pasos de opciones que se anotan con fórmulas (153 pasos).
 * **0.26.0-alpha** — cuadro de datos del ejercicio en el interactivo (principiante y medio); la ruta
   suma el parcial 2025 entero en el interactivo.
 * **0.25.0-alpha** — en el interactivo se puede hacer un parcial entero (2025 o 2023) en su orden;

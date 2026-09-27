@@ -649,9 +649,14 @@
       }
 
       function respuestaDe(paso) {
-        return paso.opciones
-          ? h("span", { html: paso.opciones.textos[paso.opciones.correcta] })
-          : paso.anotar ? h("b", { class: "ex-anotar", html: paso.anotar })   // "z = 0,84", no el numero suelto
+        if (paso.opciones) {
+          // la opcion correcta y, si se anota con formulas, debajo como va en la hoja
+          return h("span", {}, [
+            h("span", { html: paso.opciones.textos[paso.opciones.correcta] }),
+            paso.anotar ? h("span", { class: "ex-en-hoja" }, ["En la hoja: ", h("b", { html: paso.anotar })]) : null
+          ]);
+        }
+        return paso.anotar ? h("b", { class: "ex-anotar", html: paso.anotar })   // "z = 0,84", no el numero suelto
           : h("b", {}, paso.respuesta);
       }
 

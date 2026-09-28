@@ -22,7 +22,7 @@
   "use strict";
 
   var POR_DEFECTO = {
-    etapa: null, cantCuestionario: 8,
+    etapa: null, cantCuestionario: 10, formato1: "hoja", urgente1: false,
     modo: "normal", estilo: "parcial", navLibre: false, cantEjercicios: 2,
     nivel: "medio", fallos: 3, verRespuesta: true,
     unidades: [], teoria: false, practica: false,
@@ -45,13 +45,21 @@
     '  <p class="ae-ayuda ae-ayuda-arriba">El parcial tiene dos instancias y se preparan distinto. Elegí cuál querés simular: el resto del formulario se acomoda a esa etapa.</p>' +
     '  <div class="ae-modos">' +
     '    <label class="ae-modo"><input type="radio" name="etapa" value="1">' +
-    '      <span class="ae-modo-tit">Primera etapa · virtual</span>' +
-    '      <span class="ae-modo-desc">El cuestionario del Aula Virtual: respuesta corta y rápida. Opción única, varias correctas, verdadero o falso y completar con coma y 2 decimales. Se corrige al entregar, sobre 100 puntos.</span></label>' +
+    '      <span class="ae-modo-tit">Primera etapa · respuesta corta</span>' +
+    '      <span class="ae-modo-desc">Ahora es en hoja: 10 preguntas de opción múltiple o verdadero o falso, más de teoría que de cuentas, y puede haber varias correctas. También está el formato del Aula Virtual. Se corrige al entregar, sobre 100 puntos.</span></label>' +
     '    <label class="ae-modo"><input type="radio" name="etapa" value="2">' +
     '      <span class="ae-modo-tit">Segunda etapa · escrito</span>' +
     '      <span class="ae-modo-desc">Problemas y teoría a desarrollar, como el escrito. Se puede hacer en modo normal o interactivo, paso a paso.</span></label>' +
     '  </div>' +
     '  <div class="ae-sub" data-etapa="1" hidden>' +
+    '    <div class="ae-campo">' +
+    '      <span class="ae-etq">Formato</span>' +
+    '      <div class="ae-segmentos">' +
+    '        <label><input type="radio" name="formato1" value="hoja"><span>En hoja</span></label>' +
+    '        <label><input type="radio" name="formato1" value="virtual"><span>Virtual</span></label>' +
+    '      </div>' +
+    '      <p class="ae-ayuda" data-ayuda-formato1></p>' +
+    '    </div>' +
     '    <p class="ae-ayuda ae-ayuda-arriba">Según el reglamento de la cátedra, la nota de esta instancia decide qué sigue: <b>de 30 a 59</b> seguís en condiciones de regularizar; <b>con 60 o más</b> pasás a la 2da instancia escrita. En la nota del parcial pesa un 40&nbsp;%.</p>' +
     '  </div>' +
     '</fieldset>' +
@@ -117,6 +125,10 @@
     '    <label class="ae-check"><input type="checkbox" name="fundamentales"><span>Ejercicios fundamentales (plan de urgencia)</span></label>' +
     '    <p class="ae-ayuda">4 o 5 ejercicios por unidad, con la forma del Parcial 2025, que cubren las variantes que pueden tomar. Salen todos los de las unidades que elijas, en el orden en que conviene estudiarlos.</p>' +
     '  </div>' +
+    '  <div class="ae-campo" data-etapa="1">' +
+    '    <label class="ae-check"><input type="checkbox" name="urgente1"><span>Modo urgente: solo las preguntas fundamentales</span></label>' +
+    '    <p class="ae-ayuda">Las de teoría que más probablemente tomen (demostraciones, propiedades, condiciones de cada modelo, características de la normal, la t) y alguna cuenta rápida. Salen todas las de las unidades que elijas, de la más probable a la menos.</p>' +
+    '  </div>' +
     '  <div class="ae-campo">' +
     '    <span class="ae-etq">Unidades</span>' +
     '    <div class="ae-caja-unidades" data-unidades></div>' +
@@ -137,7 +149,7 @@
     '  <legend><span class="ae-num"></span>Cantidad</legend>' + BLOQUEADO +
     '  <fieldset class="ae-campo" data-bloque="cuestionario" data-etapa="1">' +
     '    <label class="ae-cant">Preguntas <input class="ae-input ae-corto" type="number" name="cantCuestionario" min="1"> <small data-de="cuestionario"></small></label>' +
-    '    <p class="ae-ayuda">El cuestionario real trae 8 preguntas de 12 o 14 puntos. Acá cada pregunta vale lo mismo y la nota se lleva a 100.</p>' +
+    '    <p class="ae-ayuda" data-ayuda-cuestionario></p>' +
     '    <p class="ae-motivo">Elegí al menos una unidad para habilitar esto.</p>' +
     '  </fieldset>' +
     '  <fieldset class="ae-campo" data-bloque="ejercicios" data-etapa="2" data-modo="interactivo">' +
@@ -238,6 +250,8 @@
       campo("nombre").value = (inicial && inicial.nombre) || "";
       if (c.etapa) { form.querySelector('[name="etapa"][value="' + c.etapa + '"]').checked = true; }
       campo("cantCuestionario").value = c.cantCuestionario;
+      form.querySelector('[name="formato1"][value="' + (c.formato1 === "virtual" ? "virtual" : "hoja") + '"]').checked = true;
+      campo("urgente1").checked = !!c.urgente1;
       form.querySelector('[name="modo"][value="' + c.modo + '"]').checked = true;
       form.querySelector('[name="estilo"][value="' + c.estilo + '"]').checked = true;
       campo("navLibre").checked = c.navLibre;
@@ -274,6 +288,8 @@
         return {
           etapa: marcado('[name="etapa"]'),
           cantCuestionario: entero(campo("cantCuestionario").value),
+          formato1: marcado('[name="formato1"]') || "hoja",
+          urgente1: campo("urgente1").checked,
           modo: marcado('[name="modo"]'),
           estilo: marcado('[name="estilo"]'),
           navLibre: campo("navLibre").checked,
@@ -324,7 +340,8 @@
           : "";
         v = leer();
 
-        var disp = E.banco.disponibles(materia, v.unidades, v.etapa !== "1" && v.soloParcial, v.etapa !== "1" && fund);
+        var disp = E.banco.disponibles(materia, v.unidades, v.etapa !== "1" && v.soloParcial, v.etapa !== "1" && fund,
+          { hoja: v.formato1 === "hoja", urgente: v.urgente1 });
 
         // etapa -> todo lo demas. Lo de la otra etapa se esconde.
         Array.prototype.forEach.call(form.querySelectorAll("[data-tras-etapa]"), function (f) {
@@ -353,7 +370,18 @@
         if (disp.cuestionario > 0 && entero(campo("cantCuestionario").value) > disp.cuestionario) {
           campo("cantCuestionario").value = disp.cuestionario;
         }
-        form.querySelector('[data-de="cuestionario"]').textContent = "de " + disp.cuestionario;
+        // modo urgente: salen todas las urgentes de esas unidades
+        campo("cantCuestionario").disabled = v.urgente1;
+        if (v.urgente1) { campo("cantCuestionario").value = disp.cuestionario; v.cantCuestionario = disp.cuestionario; }
+        form.querySelector('[data-de="cuestionario"]').textContent = v.urgente1
+          ? "(todas las urgentes)" : "de " + disp.cuestionario;
+        form.querySelector("[data-ayuda-formato1]").textContent = v.formato1 === "virtual"
+          ? "Como el Cuestionario del Aula Virtual: opción única, varias correctas, verdadero o falso y completar con coma y 2 decimales."
+          : "Como ahora en la hoja: opción múltiple (puede haber varias correctas) y verdadero o falso. Sin completar.";
+        form.querySelector("[data-ayuda-cuestionario]").textContent = (v.urgente1
+          ? "Salen todas las urgentes de las unidades elegidas: " + disp.cuestionario + "."
+          : v.formato1 === "virtual" ? "El cuestionario virtual traía 8 preguntas de 12 o 14 puntos."
+          : "En hoja son 10 preguntas.") + " Acá cada pregunta vale lo mismo y la nota se lleva a 100.";
 
         form.querySelector("[data-ayuda-nivel]").textContent = AYUDA_NIVEL[v.nivel];
         form.querySelector("[data-ayuda-estilo]").textContent = v.estilo === "guiado"
@@ -446,14 +474,15 @@
       function validar(v, nombre) {
         var errores = [];
         var fund = v.etapa !== "1" && v.modo === "interactivo" && v.fundamentales;
-        var disp = E.banco.disponibles(materia, v.unidades, v.etapa !== "1" && v.soloParcial, fund);
+        var disp = E.banco.disponibles(materia, v.unidades, v.etapa !== "1" && v.soloParcial, fund,
+          { hoja: v.formato1 === "hoja", urgente: v.urgente1 });
         var deParcial = v.soloParcial ? " tal cual del parcial" : fund ? " fundamentales" : "";
         if (!v.etapa) { return ["Elegí la etapa del parcial que querés simular."]; }
         if (!nombre) { errores.push("Poné un nombre: es obligatorio."); }
         if (v.etapa === "1") {
           if (!v.unidades.length) { errores.push("Elegí al menos una unidad."); }
           else if (!disp.cuestionario) { errores.push("No hay preguntas de 1ra etapa en las unidades elegidas."); }
-          else if (v.cantCuestionario < 1 || v.cantCuestionario > disp.cuestionario) {
+          else if (!v.urgente1 && (v.cantCuestionario < 1 || v.cantCuestionario > disp.cuestionario)) {
             errores.push("La cantidad de preguntas tiene que ir de 1 a " + disp.cuestionario + ".");
           }
           if (v.conTiempo && (v.minutos < 1 || v.minutos > MAX_MINUTOS)) { errores.push("El contador va de 1 a 240 minutos (4 horas)."); }
@@ -488,6 +517,10 @@
         return errores;
       }
 
+      function disp1(v) {
+        return E.banco.disponibles(materia, v.unidades, false, false, { hoja: v.formato1 === "hoja", urgente: v.urgente1 }).cuestionario;
+      }
+
       function guardar(lanzar) {
         var v = leer();
         var nombre = campo("nombre").value.trim();
@@ -504,10 +537,15 @@
           return;
         }
 
-        if (v.etapa === "1") { v.modo = "normal"; v.teoria = false; v.practica = false; v.verRespuesta = false; v.soloParcial = false; }
+        if (v.etapa === "1") {
+          v.modo = "normal"; v.teoria = false; v.practica = false; v.verRespuesta = false; v.soloParcial = false;
+          // en la 1ra etapa "fundamentales" es el modo urgente
+          v.fundamentales = v.urgente1;
+          if (v.urgente1) { v.cantCuestionario = disp1(v); }
+        } else { v.urgente1 = false; v.formato1 = "hoja"; }
         if (v.modo === "interactivo") { v.teoria = false; v.practica = false; v.navLibre = false; }
         // "tal cual del parcial" y el parcial entero son del interactivo
-        if (v.modo !== "interactivo") { v.soloParcial = false; v.fundamentales = false; }
+        if (v.etapa !== "1" && v.modo !== "interactivo") { v.soloParcial = false; v.fundamentales = false; }
         if (!v.soloParcial) { v.parcial = ""; }
         if (v.soloParcial) { v.fundamentales = false; }
         if (v.fundamentales) { v.cantEjercicios = E.banco.disponibles(materia, v.unidades, false, true).ejercicio; }

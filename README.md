@@ -55,11 +55,19 @@ fórmulas (MathJax) y las tipografías. Tus datos no salen de tu máquina.
   elegidas, en cada unidad del más probable al menos probable (lo que más se repite en los
   parciales 2025 y 2023, sobre todo el 2025, en los finales y en las guías va primero). No va junto con "Solo tal cual del parcial".
 
-  El **cuestionario de la 1ra etapa** imita al del Aula Virtual: teoría, planteos, traducir
-  frases, verdadero o falso y cuentas de un paso, sacadas de toda la teoría y la práctica, no
-  copias chicas de los ejercicios del parcial. Las preguntas viejas que se parecían demasiado
-  quedan retiradas (`data-retirada`): no salen en intentos nuevos, pero los intentos guardados
-  las siguen mostrando.
+  La **1ra etapa** tiene dos formatos. **En hoja** (el de ahora, por defecto): 10 preguntas de
+  opción múltiple (puede haber varias correctas) y verdadero o falso, sin completar. **Virtual**:
+  como el Cuestionario del Aula Virtual, con completar. Las preguntas imitan esa instancia:
+  teoría, planteos, verdadero o falso y cuentas de un paso, no copias chicas de los ejercicios
+  del parcial. Las viejas que se parecían demasiado quedan retiradas (`data-retirada`): no salen
+  en intentos nuevos, pero los intentos guardados las siguen mostrando. La casilla **"Modo
+  urgente"** deja solo las preguntas fundamentales de teoría (demostraciones de esperanza,
+  varianza y covarianza, independencia, correlación, condiciones de cada modelo, la normal, la
+  t), todas las de las unidades elegidas, de la más probable a la menos.
+
+  En los fundamentales del interactivo, el cuadro de datos termina con el **planteo en la hoja**:
+  la variable, si es discreta o continua y el modelo con la notación de la cátedra
+  (X ~ N(μ, σ), con el desvío).
 
   En Normal hay además una **navegación libre** opcional: casillas para saltar a cualquier
   pregunta, saltear y volver, y terminar cuando quieras. Todas las preguntas
@@ -202,6 +210,8 @@ Chrome (`chrome --headless --print-to-pdf`).
 `0.x.y-alpha` mientras esté en desarrollo. La `1.0.0` queda reservada para cuando esté terminado.
 La versión actual se lee al pie del menú lateral.
 
+* **0.29.0-alpha** — 1ra etapa en hoja (sin completar) y modo urgente con las preguntas de
+  teoría más probables; planteo en la hoja en los fundamentales.
 * **0.28.0-alpha** — ejercicios fundamentales (plan de urgencia) en el interactivo, con la t de
   Student; cuestionario de la 1ra etapa rehecho al estilo del Aula Virtual.
 * **0.27.0-alpha** — "En la hoja" en los pasos de opciones que se anotan con fórmulas (153 pasos).

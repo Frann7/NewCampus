@@ -171,12 +171,15 @@
   function etapaDe(c) { return c.etapa === "1" ? "1" : "2"; }
 
   // c.soloParcial (2da etapa): solo lo que esta tal cual en un parcial
-  // c.fundamentales (interactivo): solo los ejercicios fundamentales
+  // c.fundamentales: solo los ejercicios fundamentales (interactivo) o las
+  // preguntas urgentes (1ra etapa)
   function delPool(materia, c) {
     return cargar(materia).lista.filter(function (p) {
       return !p.retirada && p.etapa === etapaDe(c) && c.unidades.indexOf(p.unidad) !== -1 &&
         (!c.soloParcial || etapaDe(c) === "1" || p.delParcial) &&
-        (!c.fundamentales || etapaDe(c) === "1" || p.fundamental > 0);
+        (!c.fundamentales || p.fundamental > 0) &&
+        // 1ra etapa en hoja: solo opciones y V/F, nada de completar
+        (etapaDe(c) !== "1" || c.formato1 !== "hoja" || p.formato !== "completar");
     });
   }
 
@@ -222,11 +225,16 @@
     // Cuantas preguntas hay en esas unidades: las de 2da etapa por tipo, y las de 1ra.
     // soloParcial: en la 2da etapa, contar solo las que estan tal cual en un parcial.
     // fundamentales: los ejercicios, contar solo los fundamentales.
-    disponibles: function (materia, unidades, soloParcial, fundamentales) {
+    // op1 (1ra etapa): { hoja, urgente } -> sin completar / solo las urgentes.
+    disponibles: function (materia, unidades, soloParcial, fundamentales, op1) {
       var r = { teoria: 0, practica: 0, ejercicio: 0, cuestionario: 0 };
+      op1 = op1 || {};
       cargar(materia).lista.forEach(function (p) {
         if (p.retirada || unidades.indexOf(p.unidad) === -1) { return; }
-        if (p.etapa === "1") { r.cuestionario++; }
+        if (p.etapa === "1") {
+          if ((op1.hoja && p.formato === "completar") || (op1.urgente && !p.fundamental)) { return; }
+          r.cuestionario++;
+        }
         else if (fundamentales && p.tipo === "ejercicio" && !p.fundamental) { return; }
         else if (!soloParcial || p.delParcial) { r[p.tipo]++; }
       });
@@ -261,6 +269,12 @@
     // Devuelve la lista ordenada de ids para un intento nuevo.
     seleccionar: function (materia, c) {
       var pool = delPool(materia, c);
+      if (etapaDe(c) === "1" && c.fundamentales) {
+        // modo urgente: todas las urgentes, por unidad y de la mas probable a la menos
+        return pool.slice().sort(function (a, b) {
+          return a.unidad < b.unidad ? -1 : a.unidad > b.unidad ? 1 : a.fundamental - b.fundamental;
+        }).map(function (p) { return p.id; });
+      }
       if (etapaDe(c) === "1") {
         return mezclarPorOrigen(pool).slice(0, c.cantCuestionario).map(function (p) { return p.id; });
       }

@@ -347,6 +347,9 @@ window.NC.eval = window.NC.eval || {};
     if (E.etapaDe(c) === "2" && c.soloParcial) {
       partes.push(c.parcial ? c.parcial + " entero, en orden" : "solo tal cual del parcial");
     }
+    if (E.etapaDe(c) === "2" && c.modo === "interactivo" && c.fundamentales) {
+      partes.push("ejercicios fundamentales, en orden de estudio");
+    }
     partes.push(c.conTiempo ? c.minutos + " min" : "Sin límite");
     return partes;
   };

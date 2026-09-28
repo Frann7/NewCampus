@@ -1,0 +1,492 @@
+<article class="preg" data-id="u5-e-fundamental-02-binomial-frases" data-tipo="ejercicio" data-origen="parcial" data-fundamental="02">
+  <div class="p-enunciado">
+    <p>
+      En un equipo de desarrollo se sabe que el 30&nbsp;% de los <em>commits</em> que se suben al
+      repositorio hacen fallar algún test automático. Se revisan 20 <em>commits</em> elegidos al azar, y
+      se considera la variable aleatoria &ldquo;número de <em>commits</em> que hacen fallar algún test,
+      entre los 20 revisados&rdquo;. Se pide:
+    </p>
+    <p><strong>a)</strong> Identificar la distribución de la variable y sus parámetros. Justificar.</p>
+    <p><strong>b)</strong> Calcular la probabilidad de que:</p>
+    <p>&emsp;<strong>I.</strong> a lo sumo 5 <em>commits</em> hagan fallar algún test.</p>
+    <p>&emsp;<strong>II.</strong> menos de 5 <em>commits</em> hagan fallar algún test.</p>
+    <p>&emsp;<strong>III.</strong> más de 8 <em>commits</em> hagan fallar algún test.</p>
+    <p>&emsp;<strong>IV.</strong> al menos un <em>commit</em> haga fallar algún test.</p>
+    <p>&emsp;<strong>V.</strong> entre 4 y 8 <em>commits</em>, ambos inclusive, hagan fallar algún test.</p>
+    <p>&emsp;<strong>VI.</strong> más de 4 pero menos de 8 <em>commits</em> hagan fallar algún test.</p>
+    <p><strong>c)</strong> Calcular la esperanza y la varianza de la variable.</p>
+    <p class="p-fuente">Fundamental · basado en la Guía de Distribuciones discretas, Ej. 1 (a lo sumo, menos de, más de, al menos, entre), y en la Guía integradora del 2do parcial, Ej. 7b</p>
+  </div>
+  <div class="p-explicacion">
+    <table class="t full">
+      <tr><th>Inciso</th><th>Traducción</th><th>Resultado</th></tr>
+      <tr><td class="lbl">a) Modelo</td><td colspan="2">\(X \sim Bi(n = 20;\ p = 0{,}30)\): 20 pruebas fijas, dicotómicas, \(p\) constante, independientes</td></tr>
+      <tr><td class="lbl">b.I) A lo sumo 5</td><td>\(P(X \leq 5)\)</td><td>\(\mathbf{0{,}4164}\)</td></tr>
+      <tr><td class="lbl">b.II) Menos de 5</td><td>\(P(X \leq 4)\)</td><td>\(\mathbf{0{,}2375}\)</td></tr>
+      <tr><td class="lbl">b.III) Más de 8</td><td>\(1 - P(X \leq 8)\)</td><td>\(1 - 0{,}8867 = \mathbf{0{,}1133}\)</td></tr>
+      <tr><td class="lbl">b.IV) Al menos uno</td><td>\(1 - P(X = 0)\)</td><td>\(1 - 0{,}0008 = \mathbf{0{,}9992}\)</td></tr>
+      <tr><td class="lbl">b.V) Entre 4 y 8 inclusive</td><td>\(P(X \leq 8) - P(X \leq 3)\)</td><td>\(0{,}8867 - 0{,}1071 = \mathbf{0{,}7796}\)</td></tr>
+      <tr><td class="lbl">b.VI) Más de 4 y menos de 8</td><td>\(P(X \leq 7) - P(X \leq 4)\)</td><td>\(0{,}7723 - 0{,}2375 = \mathbf{0{,}5348}\)</td></tr>
+      <tr><td class="lbl">c) Esperanza y varianza</td><td colspan="2">\(E(X) = \mathbf{6}\) <em>commits</em> &nbsp;&middot;&nbsp; \(V(X) = \mathbf{4{,}2}\)</td></tr>
+    </table>
+  </div>
+  <div class="p-rta" data-inciso="a"><p>La cantidad de <em>commits</em> que hacen fallar algún test es Binomial, \(X \sim Bi(n = 20;\ p = 0{,}30)\): son 20 pruebas fijas (cada <em>commit</em>), dicotómicas (hace fallar un test o no), con \(p = 0{,}30\) constante e independientes.</p></div>
+  <div class="p-rta" data-inciso="b"><p>A lo sumo 5: \(P(X \leq 5) = 0{,}4164\). Menos de 5: \(P(X \leq 4) = 0{,}2375\). Más de 8: \(1 - P(X \leq 8) = 0{,}1133\). Al menos uno: \(1 - P(X = 0) = 0{,}9992\). Entre 4 y 8 inclusive: \(P(X \leq 8) - P(X \leq 3) = 0{,}7796\). Más de 4 y menos de 8: \(P(X \leq 7) - P(X \leq 4) = 0{,}5348\).</p></div>
+  <div class="p-rta" data-inciso="c"><p>En promedio, 6 de cada 20 <em>commits</em> hacen fallar algún test: \(E(X) = 6\). La varianza es \(V(X) = 4{,}2\) (<em>commits</em> al cuadrado).</p></div>
+  <div class="p-datos">
+    <p><strong>Variable:</strong> \(X\) = número de <em>commits</em> que hacen fallar algún test, entre los 20 revisados.</p>
+    <div class="tabla-wrap">
+      <table class="t full">
+        <tr><th>Dato</th><th>Valor</th><th>De dónde sale</th></tr>
+        <tr><td>Cantidad de pruebas</td><td>\(n = 20\)</td><td>&ldquo;se revisan 20 <em>commits</em> elegidos al azar&rdquo;</td></tr>
+        <tr><td>Probabilidad de éxito (hacer fallar un test)</td><td>\(p = 0{,}30\)</td><td>&ldquo;el 30&nbsp;% de los <em>commits</em> [...] hacen fallar algún test&rdquo;</td></tr>
+        <tr><td>Probabilidad de fracaso</td><td>\(q = 1 - p = 0{,}70\)</td><td>lo que falta para llegar a 1</td></tr>
+        <tr><td>Tabla que se usa</td><td>Acumulada binomial, bloque \(n = 20\), columna \(p = 0{,}30\)</td><td>da siempre \(P(X \leq r)\)</td></tr>
+      </table>
+    </div>
+  </div>
+  <ol class="p-pasos">
+
+    <!-- ===== Inciso a: modelo ===== -->
+    <li data-inciso="a" data-nivel="principiante" data-respuesta="20">
+      <div class="p-consigna"><p>La Binomial \(Bi(n;\ p)\) necesita un número fijo de pruebas. Cada <em>commit</em> revisado es una prueba: ¿cuánto vale \(n\)?</p></div>
+      <div class="p-anotar">\(n = 20\) <em>commits</em></div>
+      <div class="p-pista"><p>&ldquo;Se revisan 20 <em>commits</em>&rdquo;.</p></div>
+      <div class="p-explicacion"><p>\(n = 20\), fijo de antemano.</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> la cantidad de pruebas \(n\).</p>
+        <ol>
+          <li><strong>Qué es una prueba.</strong> De cada <em>commit</em> se mira si hace fallar algún test o no: cada <em>commit</em> es una prueba.</li>
+          <li><strong>Cuántas.</strong> &ldquo;Se revisan 20 <em>commits</em>&rdquo;: \(n = 20\).</li>
+        </ol>
+        <p><strong>Qué significa:</strong> \(X\) puede valer de 0 a 20.</p>
+      </div>
+    </li>
+    <li data-inciso="a" data-nivel="principiante" data-respuesta="0,30">
+      <div class="p-consigna"><p>El otro parámetro de \(Bi(n;\ p)\) es \(p\), la probabilidad de éxito (que un <em>commit</em> haga fallar un test). ¿Cuánto vale, en decimal?</p></div>
+      <div class="p-anotar">\(p = 0{,}30\); \(q = 1 - p = 0{,}70\)</div>
+      <div class="p-pista"><p>30&nbsp;% dividido 100.</p></div>
+      <div class="p-explicacion"><p>\(p = 30/100 = 0{,}30\), y \(q = 0{,}70\).</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> la probabilidad de éxito \(p\). Éxito es lo que cuenta \(X\): que el <em>commit</em> haga fallar algún test.</p>
+        <ol>
+          <li><strong>El dato.</strong> &ldquo;El 30&nbsp;% de los <em>commits</em> [...] hacen fallar algún test&rdquo;: \(p = 30/100 = 0{,}30\).</li>
+          <li><strong>El fracaso.</strong> \(q = 1 - p = 0{,}70\).</li>
+        </ol>
+        <p><strong>Qué significa:</strong> cada <em>commit</em> tiene un 30&nbsp;% de chances de romper algún test.</p>
+      </div>
+    </li>
+    <li data-inciso="a" data-nivel="avanzado">
+      <div class="p-consigna"><p>Identificá la distribución de \(X\) y su justificación.</p></div>
+      <div class="p-anotar">\(X \sim Bi(n = 20;\ p = 0{,}30)\); \(P(X = x) = \binom{20}{x}\,0{,}30^{x}\,0{,}70^{20-x}\), \(x = 0, \ldots, 20\)</div>
+      <ul class="p-opciones">
+        <li data-correcta>\(Bi(20;\ 0{,}30)\): 20 pruebas fijas, dicotómicas, con \(p = 0{,}30\) constante e independientes</li>
+        <li>Poisson con \(\lambda = 0{,}30\): los fallos de tests son eventos</li>
+        <li>Hipergeométrica: se eligen 20 <em>commits</em> sin reposición de un total conocido con una cantidad conocida de fallados</li>
+        <li>\(Bi(20;\ 0{,}70)\): la mayoría de los <em>commits</em> pasa los tests</li>
+      </ul>
+      <div class="p-pista"><p>Revisá las cuatro condiciones del proceso de Bernoulli. ¿Hay un total de <em>commits</em> conocido con una cantidad conocida de fallados?</p></div>
+      <div class="p-explicacion"><p>Binomial \(Bi(20;\ 0{,}30)\): el 30&nbsp;% es una proporción general, no hay un lote cerrado. Tiene tope (20), así que no es Poisson.</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> la distribución de \(X\) (&ldquo;número de <em>commits</em> que hacen fallar algún test, entre los 20 revisados&rdquo;) con su justificación.</p>
+        <ol>
+          <li><strong>Número fijo de pruebas.</strong> 20 <em>commits</em>: \(n = 20\).</li>
+          <li><strong>Dicotómicas.</strong> Cada <em>commit</em> hace fallar algún test (éxito) o no (fracaso).</li>
+          <li><strong>Probabilidad constante.</strong> El 30&nbsp;% vale para cualquier <em>commit</em>: \(p = 0{,}30\).</li>
+          <li><strong>Independencia.</strong> Que un <em>commit</em> rompa un test no cambia la probabilidad de los otros.</li>
+          <li><strong>La fórmula en general.</strong> \(P(X = x) = \binom{n}{x}p^{x}q^{n-x}\), con \(n\) pruebas, \(x\) éxitos, \(p\) probabilidad de éxito y \(q = 1 - p\). Con los datos: \(P(X = x) = \binom{20}{x}(0{,}30)^{x}(0{,}70)^{20-x}\).</li>
+        </ol>
+        <p><strong>Qué significa:</strong> \(X \sim Bi(20;\ 0{,}30)\). No es Hipergeométrica porque no hay un total de <em>commits</em> con una cantidad conocida de fallados; no es Poisson porque hay tope; \(Bi(20;\ 0{,}70)\) contaría los que pasan.</p>
+      </div>
+    </li>
+    <li data-inciso="a" data-nivel="medio">
+      <div class="p-consigna"><p>Casi todos los incisos piden rangos de valores, y se resuelven con la tabla acumulada binomial (Tabla A.1). ¿Qué da esa tabla?</p></div>
+      <div class="p-anotar">Tabla A.1: \(P(X \leq r)\), bloque \(n = 20\), columna \(p = 0{,}30\)</div>
+      <ul class="p-opciones">
+        <li data-correcta>\(P(X \leq r)\): la probabilidad de \(r\) o menos</li>
+        <li>\(P(X = r)\): la probabilidad de exactamente \(r\)</li>
+        <li>\(P(X \geq r)\): la probabilidad de \(r\) o más</li>
+        <li>\(P(X &lt; r)\): la probabilidad de menos de \(r\)</li>
+      </ul>
+      <div class="p-pista"><p>Se llama &ldquo;Sumas de probabilidad binomial&rdquo;: suma desde \(x = 0\) hasta \(r\).</p></div>
+      <div class="p-explicacion"><p>La tabla acumulada da \(P(X \leq r) = \sum_{x=0}^{r} P(X = x)\): del 0 hasta \(r\), <strong>incluido</strong>. Todo inciso hay que llevarlo a esa forma.</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> saber qué número da la tabla, para después traducir cada frase a algo que se pueda leer en ella.</p>
+        <ol>
+          <li><strong>Qué suma.</strong> La Tabla A.1 (&ldquo;Sumas de probabilidad binomial&rdquo;) da \(\sum_{x=0}^{r} b(x;\ n,\ p) = P(X \leq r)\): todo desde 0 hasta \(r\), incluido \(r\).</li>
+          <li><strong>Cómo se entra.</strong> Bloque \(n = 20\), columna \(p = 0{,}30\), fila \(r\).</li>
+          <li><strong>Las tres reglas que salen de ahí.</strong> &ldquo;Hasta \(r\)&rdquo; se lee directo. &ldquo;Desde \(r\) para arriba&rdquo; es \(1 - P(X \leq r - 1)\). &ldquo;Entre \(a\) y \(b\) inclusive&rdquo; es \(P(X \leq b) - P(X \leq a - 1)\).</li>
+        </ol>
+        <p><strong>Qué significa:</strong> cada frase del inciso b se traduce a una o dos lecturas de la tabla.</p>
+      </div>
+    </li>
+
+    <!-- ===== b.I: a lo sumo 5 ===== -->
+    <li data-inciso="b" data-nivel="medio">
+      <div class="p-consigna"><p>(b.I) &ldquo;A lo sumo 5&rdquo;, ¿cómo se escribe?</p></div>
+      <div class="p-anotar">&ldquo;A lo sumo 5&rdquo; \(= P(X \leq 5)\)</div>
+      <ul class="p-opciones">
+        <li data-correcta>\(P(X \leq 5)\)</li>
+        <li>\(P(X &lt; 5)\)</li>
+        <li>\(P(X \geq 5)\)</li>
+        <li>\(P(X = 5)\)</li>
+      </ul>
+      <div class="p-pista"><p>&ldquo;A lo sumo&rdquo; = &ldquo;como máximo&rdquo; = &ldquo;no más de&rdquo;. ¿El 5 entra?</p></div>
+      <div class="p-explicacion"><p>A lo sumo 5 = 5 o menos, con el 5 incluido: \(P(X \leq 5)\).</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> traducir &ldquo;a lo sumo 5&rdquo;.</p>
+        <ol>
+          <li><strong>El significado.</strong> &ldquo;A lo sumo 5&rdquo; quiere decir que 5 es el techo: puede ser 0, 1, 2, 3, 4 o 5. El 5 <strong>entra</strong>.</li>
+          <li><strong>Escribirlo.</strong> \(P(X \leq 5)\). Sinónimos: &ldquo;como máximo 5&rdquo;, &ldquo;no más de 5&rdquo;.</li>
+          <li><strong>Descartar las tentadoras.</strong> \(P(X &lt; 5)\) deja afuera el 5 (sería &ldquo;menos de 5&rdquo;). \(P(X \geq 5)\) es &ldquo;al menos 5&rdquo;. \(P(X = 5)\) es &ldquo;exactamente 5&rdquo;.</li>
+        </ol>
+        <p><strong>Qué significa:</strong> es justo lo que da la tabla: una sola lectura.</p>
+      </div>
+    </li>
+    <li data-inciso="b" data-nivel="avanzado" data-respuesta="0,4164" data-tolerancia="0,0002">
+      <div class="p-consigna"><p>(b.I) Calculá la probabilidad de que a lo sumo 5 <em>commits</em> hagan fallar algún test.</p></div>
+      <div class="p-anotar">\(P(X \leq 5) = 0{,}4164\) (tabla: \(n = 20\), \(p = 0{,}30\), \(r = 5\))</div>
+      <div class="p-pista"><p>Tabla acumulada, bloque \(n = 20\), columna \(p = 0{,}30\), fila \(r = 5\).</p></div>
+      <div class="p-explicacion"><p>\(P(X \leq 5) = 0{,}4164\): es la suma \(P(0) + P(1) + \ldots + P(5)\) ya hecha en la tabla.</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> la probabilidad de que 5 o menos de los 20 <em>commits</em> rompan algún test.</p>
+        <ol>
+          <li><strong>El modelo.</strong> \(X \sim Bi(20;\ 0{,}30)\).</li>
+          <li><strong>Traducir.</strong> &ldquo;A lo sumo 5&rdquo; = \(P(X \leq 5)\).</li>
+          <li><strong>La tabla.</strong> Da \(P(X \leq r)\). Bloque \(n = 20\), columna \(p = 0{,}30\), fila \(r = 5\): 0,4164.</li>
+        </ol>
+        <p><strong>Qué significa:</strong> en un 41,64&nbsp;% de las revisiones de 20 <em>commits</em>, 5 o menos rompen algún test. Sin tabla habría que sumar 6 términos con la fórmula.</p>
+      </div>
+    </li>
+
+    <!-- ===== b.II: menos de 5 ===== -->
+    <li data-inciso="b" data-nivel="medio">
+      <div class="p-consigna"><p>(b.II) &ldquo;Menos de 5&rdquo;, ¿cómo se escribe para leerlo en la tabla?</p></div>
+      <div class="p-anotar">&ldquo;Menos de 5&rdquo; \(= P(X &lt; 5) = P(X \leq 4)\)</div>
+      <ul class="p-opciones">
+        <li data-correcta>\(P(X \leq 4)\)</li>
+        <li>\(P(X \leq 5)\)</li>
+        <li>\(1 - P(X \leq 5)\)</li>
+        <li>\(1 - P(X \leq 4)\)</li>
+      </ul>
+      <div class="p-pista"><p>&ldquo;Menos de 5&rdquo;: ¿el 5 entra? En una variable que solo toma enteros, ¿cuál es el último que entra?</p></div>
+      <div class="p-explicacion"><p>Menos de 5 no incluye al 5: \(x = 0, 1, 2, 3, 4\). Como \(X\) toma solo enteros, \(P(X &lt; 5) = P(X \leq 4)\).</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> traducir &ldquo;menos de 5&rdquo; a la forma \(P(X \leq r)\) de la tabla.</p>
+        <ol>
+          <li><strong>El significado.</strong> &ldquo;Menos de 5&rdquo; es estrictamente menor: el 5 <strong>no entra</strong>. \(P(X &lt; 5)\).</li>
+          <li><strong>Pasar a \(\leq\).</strong> \(X\) es discreta: solo toma enteros. El entero más grande que es menor que 5 es 4. Entonces \(P(X &lt; 5) = P(X \leq 4)\).</li>
+          <li><strong>Descartar las tentadoras.</strong> \(P(X \leq 5)\) mete el 5 (es &ldquo;a lo sumo 5&rdquo;, el inciso anterior). \(1 - P(X \leq 5)\) es &ldquo;más de 5&rdquo; y \(1 - P(X \leq 4)\) es &ldquo;al menos 5&rdquo;.</li>
+        </ol>
+        <p><strong>Qué significa:</strong> en variables discretas, \(&lt;\) y \(\leq\) <strong>no</strong> son lo mismo: la diferencia es justo \(P(X = 5)\).</p>
+      </div>
+    </li>
+    <li data-inciso="b" data-nivel="principiante" data-respuesta="4">
+      <div class="p-consigna"><p>(b.II) Para leer \(P(X &lt; 5)\) en la tabla hace falta la fila \(r\): el valor más grande de \(X\) que todavía es &ldquo;menos de 5&rdquo;. ¿Cuál es?</p></div>
+      <div class="p-anotar">Menos de 5: \(x = 0, 1, 2, 3, 4\) \(\Rightarrow r = 4\)</div>
+      <div class="p-pista"><p>El 5 no entra. \(X\) solo toma enteros.</p></div>
+      <div class="p-explicacion"><p>\(r = 4\).</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> la fila de la tabla para &ldquo;menos de 5&rdquo;.</p>
+        <ol>
+          <li><strong>Listar.</strong> Los valores menores que 5 que puede tomar \(X\) son 0, 1, 2, 3 y 4.</li>
+          <li><strong>El último.</strong> El más grande es 4: fila \(r = 4\).</li>
+        </ol>
+        <p><strong>Qué significa:</strong> &ldquo;menos de 5&rdquo; se lee en la fila 4.</p>
+      </div>
+    </li>
+    <li data-inciso="b" data-nivel="avanzado" data-respuesta="0,2375" data-tolerancia="0,0002">
+      <div class="p-consigna"><p>(b.II) Calculá la probabilidad de que menos de 5 <em>commits</em> hagan fallar algún test.</p></div>
+      <div class="p-anotar">\(P(X &lt; 5) = P(X \leq 4) = 0{,}2375\)</div>
+      <div class="p-pista"><p>Tabla \(n = 20\), \(p = 0{,}30\), fila \(r = 4\).</p></div>
+      <div class="p-explicacion"><p>\(P(X &lt; 5) = P(X \leq 4) = 0{,}2375\).</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> la probabilidad de que 4 o menos <em>commits</em> rompan algún test.</p>
+        <ol>
+          <li><strong>Traducir.</strong> &ldquo;Menos de 5&rdquo; no incluye el 5: \(P(X &lt; 5) = P(X \leq 4)\).</li>
+          <li><strong>La tabla.</strong> Bloque \(n = 20\), columna \(p = 0{,}30\), fila \(r = 4\): 0,2375.</li>
+          <li><strong>Control.</strong> Es menor que &ldquo;a lo sumo 5&rdquo; (0,4164). La diferencia, \(0{,}4164 - 0{,}2375 = 0{,}1789\), es \(P(X = 5)\).</li>
+        </ol>
+        <p><strong>Qué significa:</strong> en un 23,75&nbsp;% de las revisiones rompen algún test menos de 5 <em>commits</em>.</p>
+      </div>
+    </li>
+
+    <!-- ===== b.III: mas de 8 ===== -->
+    <li data-inciso="b" data-nivel="medio">
+      <div class="p-consigna"><p>(b.III) &ldquo;Más de 8&rdquo;, ¿cómo se escribe para usar la tabla?</p></div>
+      <div class="p-anotar">\(P(X &gt; 8) = 1 - P(X \leq 8)\)</div>
+      <ul class="p-opciones">
+        <li data-correcta>\(1 - P(X \leq 8)\)</li>
+        <li>\(1 - P(X \leq 9)\)</li>
+        <li>\(1 - P(X \leq 7)\)</li>
+        <li>\(P(X \leq 8)\)</li>
+      </ul>
+      <div class="p-pista"><p>&ldquo;Más de 8&rdquo; no incluye el 8. La tabla solo suma para abajo: usá el complemento.</p></div>
+      <div class="p-explicacion"><p>Más de 8 = 9, 10, ..., 20. Lo contrario es &ldquo;8 o menos&rdquo;: \(P(X &gt; 8) = 1 - P(X \leq 8)\).</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> traducir &ldquo;más de 8&rdquo; a algo que se lea en la tabla.</p>
+        <ol>
+          <li><strong>El significado.</strong> &ldquo;Más de 8&rdquo; es estrictamente mayor: el 8 <strong>no entra</strong>. Son \(x = 9, 10, \ldots, 20\).</li>
+          <li><strong>Complemento.</strong> La tabla solo da &ldquo;para abajo&rdquo;. Como todo suma 1, \(P(X &gt; 8) = 1 - P(\text{lo contrario})\), y lo contrario es \(x = 0, \ldots, 8\): \(P(X &gt; 8) = 1 - P(X \leq 8)\).</li>
+          <li><strong>Descartar las tentadoras.</strong> \(1 - P(X \leq 9)\) deja afuera el 9, que sí entra (sería &ldquo;más de 9&rdquo;). \(1 - P(X \leq 7)\) mete el 8 (sería &ldquo;al menos 8&rdquo;). \(P(X \leq 8)\) es lo contrario de lo pedido.</li>
+        </ol>
+        <p><strong>Qué significa:</strong> regla rápida: &ldquo;más de \(k\)&rdquo; \(= 1 - P(X \leq k)\); &ldquo;al menos \(k\)&rdquo; \(= 1 - P(X \leq k - 1)\).</p>
+      </div>
+    </li>
+    <li data-inciso="b" data-nivel="medio" data-respuesta="0,8867" data-tolerancia="0,0002">
+      <div class="p-consigna"><p>(b.III) Para \(P(X &gt; 8) = 1 - P(X \leq 8)\), buscá \(P(X \leq 8)\) en la tabla acumulada, bloque \(n = 20\), columna \(p = 0{,}30\).</p></div>
+      <div class="p-anotar">\(P(X \leq 8) = 0{,}8867\)</div>
+      <div class="p-pista"><p>Fila \(r = 8\).</p></div>
+      <div class="p-explicacion"><p>\(P(X \leq 8) = 0{,}8867\).</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> la probabilidad de que 8 o menos <em>commits</em> rompan algún test, lo que se resta de 1.</p>
+        <ol>
+          <li><strong>Entrar a la tabla.</strong> Bloque \(n = 20\), columna \(p = 0{,}30\), fila \(r = 8\).</li>
+          <li><strong>El valor.</strong> \(P(X \leq 8) = 0{,}8867\).</li>
+        </ol>
+        <p><strong>Qué significa:</strong> en un 88,67&nbsp;% de las revisiones rompen tests 8 <em>commits</em> o menos.</p>
+      </div>
+    </li>
+    <li data-inciso="b" data-nivel="avanzado" data-respuesta="0,1133" data-tolerancia="0,0002">
+      <div class="p-consigna"><p>(b.III) Calculá la probabilidad de que más de 8 <em>commits</em> hagan fallar algún test.</p></div>
+      <div class="p-anotar">\(P(X &gt; 8) = 1 - P(X \leq 8) = 1 - 0{,}8867 = 0{,}1133\)</div>
+      <div class="p-pista"><p>\(1 - P(X \leq 8)\), con la fila \(r = 8\) de la tabla.</p></div>
+      <div class="p-explicacion"><p>\(P(X &gt; 8) = 1 - 0{,}8867 = 0{,}1133\).</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> la probabilidad de que 9 o más <em>commits</em> rompan algún test.</p>
+        <ol>
+          <li><strong>Traducir.</strong> &ldquo;Más de 8&rdquo; = \(x = 9, \ldots, 20\) = \(P(X &gt; 8)\).</li>
+          <li><strong>Complemento.</strong> \(P(X &gt; 8) = 1 - P(X \leq 8)\).</li>
+          <li><strong>La tabla.</strong> \(n = 20\), \(p = 0{,}30\), \(r = 8\): \(P(X \leq 8) = 0{,}8867\).</li>
+          <li><strong>La cuenta.</strong> \(1 - 0{,}8867 = 0{,}1133\).</li>
+        </ol>
+        <p><strong>Qué significa:</strong> en un 11,33&nbsp;% de las revisiones rompen tests más de 8 de los 20 <em>commits</em>. Es poco: el promedio es 6.</p>
+      </div>
+    </li>
+
+    <!-- ===== b.IV: al menos uno ===== -->
+    <li data-inciso="b" data-nivel="medio">
+      <div class="p-consigna"><p>(b.IV) &ldquo;Al menos uno&rdquo;, ¿cuál es la forma más corta de calcularlo?</p></div>
+      <div class="p-anotar">\(P(X \geq 1) = 1 - P(X = 0)\)</div>
+      <ul class="p-opciones">
+        <li data-correcta>\(1 - P(X = 0)\)</li>
+        <li>\(P(X = 1)\)</li>
+        <li>\(1 - P(X = 1)\)</li>
+        <li>\(P(X \leq 1)\)</li>
+      </ul>
+      <div class="p-pista"><p>Lo contrario de &ldquo;al menos uno&rdquo; es &ldquo;ninguno&rdquo;.</p></div>
+      <div class="p-explicacion"><p>Lo único que queda afuera de &ldquo;1 o más&rdquo; es el 0: \(P(X \geq 1) = 1 - P(X = 0)\).</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> escribir &ldquo;al menos un <em>commit</em> haga fallar algún test&rdquo; de forma corta.</p>
+        <ol>
+          <li><strong>Traducir.</strong> &ldquo;Al menos 1&rdquo; es 1 o más: \(x = 1, \ldots, 20\), \(P(X \geq 1)\). Directo serían 20 términos.</li>
+          <li><strong>Complemento.</strong> Lo contrario de &ldquo;al menos uno&rdquo; es &ldquo;ninguno&rdquo; (\(x = 0\)): \(P(X \geq 1) = 1 - P(X = 0)\). Un solo término.</li>
+          <li><strong>Descartar las tentadoras.</strong> \(P(X = 1)\) es &ldquo;exactamente uno&rdquo;. \(1 - P(X = 1)\) resta lo que no hay que restar. \(P(X \leq 1)\) es &ldquo;a lo sumo uno&rdquo;.</li>
+        </ol>
+        <p><strong>Qué significa:</strong> &ldquo;al menos uno&rdquo; siempre se resuelve como \(1 - P(\text{ninguno})\).</p>
+      </div>
+    </li>
+    <li data-inciso="b" data-nivel="principiante" data-respuesta="0,0008" data-tolerancia="0,0001">
+      <div class="p-consigna"><p>(b.IV) Para \(1 - P(X = 0)\): con \(P(X = x) = \binom{n}{x}p^{x}q^{n-x}\) queda \(P(X = 0) = \binom{20}{0}(0{,}30)^{0}(0{,}70)^{20} = (0{,}70)^{20}\), porque los dos primeros factores valen 1. ¿Cuánto vale \((0{,}70)^{20}\)? (4 decimales)</p></div>
+      <div class="p-anotar">\(P(X = 0) = \binom{20}{0}\,0{,}30^{0}\,0{,}70^{20} = 1 \cdot 1 \cdot 0{,}70^{20} = 0{,}0008\)</div>
+      <div class="p-pista"><p>En la calculadora: 0.7 ^ 20. Da un número muy chico: redondealo a 4 decimales.</p></div>
+      <div class="p-explicacion"><p>\((0{,}70)^{20} = 0{,}000798 \approx 0{,}0008\). Control: la tabla da \(P(X \leq 0) = 0{,}0008\).</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> la probabilidad de que ninguno de los 20 <em>commits</em> rompa un test.</p>
+        <ol>
+          <li><strong>La fórmula.</strong> \(P(X = x) = \binom{n}{x}p^{x}q^{n-x}\) con \(n = 20\), \(p = 0{,}30\), \(q = 0{,}70\), \(x = 0\).</li>
+          <li><strong>Los factores fáciles.</strong> \(\binom{20}{0} = 1\) (una sola forma de elegir ninguno) y \((0{,}30)^{0} = 1\).</li>
+          <li><strong>La potencia.</strong> Los 20 pasan los tests: \((0{,}70)^{20} = 0{,}000798 \approx 0{,}0008\).</li>
+        </ol>
+        <p><strong>Qué significa:</strong> es casi imposible que ninguno de los 20 rompa un test.</p>
+      </div>
+    </li>
+    <li data-inciso="b" data-nivel="avanzado" data-respuesta="0,9992" data-tolerancia="0,0001">
+      <div class="p-consigna"><p>(b.IV) Calculá la probabilidad de que al menos un <em>commit</em> haga fallar algún test.</p></div>
+      <div class="p-anotar">\(P(X \geq 1) = 1 - P(X = 0) = 1 - 0{,}70^{20} = 1 - 0{,}0008 = 0{,}9992\)</div>
+      <div class="p-pista"><p>\(1 - P(X = 0)\), con \(P(X = 0) = (0{,}70)^{20}\).</p></div>
+      <div class="p-explicacion"><p>\(P(X \geq 1) = 1 - 0{,}0008 = 0{,}9992\).</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> la probabilidad de que 1 o más <em>commits</em> rompan algún test.</p>
+        <ol>
+          <li><strong>Complemento.</strong> \(P(X \geq 1) = 1 - P(X = 0)\).</li>
+          <li><strong>El término.</strong> \(P(X = 0) = \binom{20}{0}(0{,}30)^{0}(0{,}70)^{20} = 0{,}0008\).</li>
+          <li><strong>La cuenta.</strong> \(1 - 0{,}0008 = 0{,}9992\).</li>
+        </ol>
+        <p><strong>Qué significa:</strong> prácticamente siempre (99,92&nbsp;%) al menos uno de los 20 <em>commits</em> rompe algún test.</p>
+      </div>
+    </li>
+
+    <!-- ===== b.V: entre 4 y 8 inclusive ===== -->
+    <li data-inciso="b" data-nivel="medio">
+      <div class="p-consigna"><p>(b.V) &ldquo;Entre 4 y 8, ambos inclusive&rdquo;, ¿cómo se escribe con la tabla acumulada?</p></div>
+      <div class="p-anotar">\(P(4 \leq X \leq 8) = P(X \leq 8) - P(X \leq 3)\)</div>
+      <ul class="p-opciones">
+        <li data-correcta>\(P(X \leq 8) - P(X \leq 3)\)</li>
+        <li>\(P(X \leq 8) - P(X \leq 4)\)</li>
+        <li>\(P(X \leq 7) - P(X \leq 4)\)</li>
+        <li>\(P(X \leq 8) + P(X \leq 3)\)</li>
+      </ul>
+      <div class="p-pista"><p>Al &ldquo;hasta 8&rdquo; se le saca lo que queda por debajo del 4. ¿El 4 se saca o se queda?</p></div>
+      <div class="p-explicacion"><p>Se quieren 4, 5, 6, 7 y 8. A \(P(X \leq 8)\) se le resta lo de abajo, \(x = 0, 1, 2, 3\): \(P(X \leq 8) - P(X \leq 3)\).</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> escribir un tramo del medio con la tabla, que solo da &ldquo;hasta \(r\)&rdquo;.</p>
+        <ol>
+          <li><strong>Los valores.</strong> &ldquo;Entre 4 y 8, ambos inclusive&rdquo;: \(x = 4, 5, 6, 7, 8\). \(P(4 \leq X \leq 8)\).</li>
+          <li><strong>La idea.</strong> \(P(X \leq 8)\) tiene del 0 al 8. Sobra lo de abajo del 4: del 0 al 3, que es \(P(X \leq 3)\). Regla: \(P(a \leq X \leq b) = P(X \leq b) - P(X \leq a - 1)\).</li>
+          <li><strong>Descartar las tentadoras.</strong> \(- P(X \leq 4)\) saca también el 4, que entra (sería &ldquo;más de 4 y hasta 8&rdquo;). \(P(X \leq 7) - P(X \leq 4)\) es el tramo 5 a 7 (el inciso siguiente). Sumar no tiene sentido: la tabla ya acumula.</li>
+        </ol>
+        <p><strong>Qué significa:</strong> hacen falta dos lecturas: la fila 8 y la fila 3.</p>
+      </div>
+    </li>
+    <li data-inciso="b" data-nivel="principiante" data-respuesta="3">
+      <div class="p-consigna"><p>(b.V) En \(P(4 \leq X \leq 8) = P(X \leq 8) - P(X \leq a - 1)\), ¿qué fila \(a - 1\) se resta?</p></div>
+      <div class="p-anotar">\(a = 4 \Rightarrow a - 1 = 3\)</div>
+      <div class="p-pista"><p>El 4 entra, así que se resta hasta el anterior.</p></div>
+      <div class="p-explicacion"><p>\(a - 1 = 4 - 1 = 3\).</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> la fila que se resta.</p>
+        <ol>
+          <li><strong>El borde de abajo.</strong> \(a = 4\) y está incluido: no hay que sacarlo.</li>
+          <li><strong>Lo que se saca.</strong> Todo lo que está por debajo del 4: 0, 1, 2, 3. Fila \(r = 3\).</li>
+        </ol>
+        <p><strong>Qué significa:</strong> se resta \(P(X \leq 3)\).</p>
+      </div>
+    </li>
+    <li data-inciso="b" data-nivel="medio" data-respuesta="0,1071" data-tolerancia="0,0002">
+      <div class="p-consigna"><p>(b.V) Para \(P(4 \leq X \leq 8) = P(X \leq 8) - P(X \leq 3)\), buscá \(P(X \leq 3)\) en la tabla (\(n = 20\), \(p = 0{,}30\)).</p></div>
+      <div class="p-anotar">\(P(X \leq 3) = 0{,}1071\)</div>
+      <div class="p-pista"><p>Fila \(r = 3\).</p></div>
+      <div class="p-explicacion"><p>\(P(X \leq 3) = 0{,}1071\).</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> la parte que se resta: la probabilidad de 3 o menos.</p>
+        <ol>
+          <li><strong>Entrar a la tabla.</strong> Bloque \(n = 20\), columna \(p = 0{,}30\), fila \(r = 3\).</li>
+          <li><strong>El valor.</strong> \(P(X \leq 3) = 0{,}1071\).</li>
+        </ol>
+        <p><strong>Qué significa:</strong> en un 10,71&nbsp;% de las revisiones rompen tests 3 <em>commits</em> o menos.</p>
+      </div>
+    </li>
+    <li data-inciso="b" data-nivel="avanzado" data-respuesta="0,7796" data-tolerancia="0,0002">
+      <div class="p-consigna"><p>(b.V) Calculá la probabilidad de que entre 4 y 8 <em>commits</em>, ambos inclusive, hagan fallar algún test.</p></div>
+      <div class="p-anotar">\(P(4 \leq X \leq 8) = P(X \leq 8) - P(X \leq 3) = 0{,}8867 - 0{,}1071 = 0{,}7796\)</div>
+      <div class="p-pista"><p>\(P(X \leq 8)\) ya lo leíste en b.III.</p></div>
+      <div class="p-explicacion"><p>\(P(4 \leq X \leq 8) = 0{,}8867 - 0{,}1071 = 0{,}7796\).</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> la probabilidad de que la cantidad de <em>commits</em> que rompen tests sea 4, 5, 6, 7 u 8.</p>
+        <ol>
+          <li><strong>Traducir.</strong> Ambos bordes entran: \(P(4 \leq X \leq 8)\).</li>
+          <li><strong>Con la tabla.</strong> \(P(X \leq 8) - P(X \leq 3)\).</li>
+          <li><strong>Las lecturas.</strong> \(P(X \leq 8) = 0{,}8867\) y \(P(X \leq 3) = 0{,}1071\) (bloque \(n = 20\), columna \(p = 0{,}30\)).</li>
+          <li><strong>La cuenta.</strong> \(0{,}8867 - 0{,}1071 = 0{,}7796\).</li>
+        </ol>
+        <p><strong>Qué significa:</strong> en un 77,96&nbsp;% de las revisiones rompen tests entre 4 y 8 <em>commits</em>: el tramo alrededor del promedio (6) concentra casi todo.</p>
+      </div>
+    </li>
+
+    <!-- ===== b.VI: mas de 4 pero menos de 8 ===== -->
+    <li data-inciso="b" data-nivel="principiante">
+      <div class="p-consigna"><p>(b.VI) &ldquo;Más de 4 pero menos de 8&rdquo;: ¿qué valores de \(X\) entran?</p></div>
+      <div class="p-anotar">\(4 &lt; X &lt; 8\): \(x = 5, 6, 7\)</div>
+      <ul class="p-opciones">
+        <li data-correcta>5, 6 y 7</li>
+        <li>4, 5, 6, 7 y 8</li>
+        <li>4, 5, 6 y 7</li>
+        <li>5, 6, 7 y 8</li>
+      </ul>
+      <div class="p-pista"><p>&ldquo;Más de&rdquo; y &ldquo;menos de&rdquo; dejan afuera el borde.</p></div>
+      <div class="p-explicacion"><p>Ni el 4 ni el 8 entran: quedan 5, 6 y 7.</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> listar los valores que cumplen las dos condiciones.</p>
+        <ol>
+          <li><strong>&ldquo;Más de 4&rdquo;.</strong> Estrictamente mayor: el 4 no entra. Arranca en 5.</li>
+          <li><strong>&ldquo;Menos de 8&rdquo;.</strong> Estrictamente menor: el 8 no entra. Termina en 7.</li>
+          <li><strong>Descartar las tentadoras.</strong> Las otras meten algún borde: eso sería &ldquo;inclusive&rdquo;, &ldquo;al menos 4&rdquo; o &ldquo;hasta 8&rdquo;.</li>
+        </ol>
+        <p><strong>Qué significa:</strong> \(P(4 &lt; X &lt; 8) = P(5 \leq X \leq 7)\).</p>
+      </div>
+    </li>
+    <li data-inciso="b" data-nivel="medio">
+      <div class="p-consigna"><p>(b.VI) ¿Cómo se escribe \(P(4 &lt; X &lt; 8)\) con la tabla acumulada?</p></div>
+      <div class="p-anotar">\(P(4 &lt; X &lt; 8) = P(5 \leq X \leq 7) = P(X \leq 7) - P(X \leq 4)\)</div>
+      <ul class="p-opciones">
+        <li data-correcta>\(P(X \leq 7) - P(X \leq 4)\)</li>
+        <li>\(P(X \leq 8) - P(X \leq 4)\)</li>
+        <li>\(P(X \leq 7) - P(X \leq 5)\)</li>
+        <li>\(P(X \leq 8) - P(X \leq 3)\)</li>
+      </ul>
+      <div class="p-pista"><p>Techo: el último que entra (7). Se resta hasta el anterior al primero que entra (5).</p></div>
+      <div class="p-explicacion"><p>\(P(5 \leq X \leq 7) = P(X \leq 7) - P(X \leq 4)\).</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> pasar el tramo 5 a 7 a dos lecturas de la tabla.</p>
+        <ol>
+          <li><strong>La regla.</strong> \(P(a \leq X \leq b) = P(X \leq b) - P(X \leq a - 1)\), con \(a = 5\) y \(b = 7\).</li>
+          <li><strong>Con los números.</strong> \(P(X \leq 7) - P(X \leq 4)\).</li>
+          <li><strong>Descartar las tentadoras.</strong> \(P(X \leq 8) - P(X \leq 4)\) mete el 8. \(P(X \leq 7) - P(X \leq 5)\) saca el 5, que entra. \(P(X \leq 8) - P(X \leq 3)\) es el inciso anterior (con los bordes incluidos).</li>
+        </ol>
+        <p><strong>Qué significa:</strong> hacen falta la fila 7 y la fila 4. La fila 4 ya la leíste en b.II.</p>
+      </div>
+    </li>
+    <li data-inciso="b" data-nivel="medio" data-respuesta="0,7723" data-tolerancia="0,0002">
+      <div class="p-consigna"><p>(b.VI) Para \(P(X \leq 7) - P(X \leq 4)\), buscá \(P(X \leq 7)\) en la tabla (\(n = 20\), \(p = 0{,}30\)).</p></div>
+      <div class="p-anotar">\(P(X \leq 7) = 0{,}7723\)</div>
+      <div class="p-pista"><p>Fila \(r = 7\).</p></div>
+      <div class="p-explicacion"><p>\(P(X \leq 7) = 0{,}7723\).</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> el techo del tramo: la probabilidad de 7 o menos.</p>
+        <ol>
+          <li><strong>Entrar a la tabla.</strong> Bloque \(n = 20\), columna \(p = 0{,}30\), fila \(r = 7\).</li>
+          <li><strong>El valor.</strong> \(P(X \leq 7) = 0{,}7723\).</li>
+        </ol>
+        <p><strong>Qué significa:</strong> en un 77,23&nbsp;% de las revisiones rompen tests 7 <em>commits</em> o menos.</p>
+      </div>
+    </li>
+    <li data-inciso="b" data-nivel="avanzado" data-respuesta="0,5348" data-tolerancia="0,0002">
+      <div class="p-consigna"><p>(b.VI) Calculá la probabilidad de que más de 4 pero menos de 8 <em>commits</em> hagan fallar algún test.</p></div>
+      <div class="p-anotar">\(P(4 &lt; X &lt; 8) = P(X \leq 7) - P(X \leq 4) = 0{,}7723 - 0{,}2375 = 0{,}5348\)</div>
+      <div class="p-pista"><p>\(P(X \leq 4) = 0{,}2375\) (b.II).</p></div>
+      <div class="p-explicacion"><p>\(0{,}7723 - 0{,}2375 = 0{,}5348\). Control: \(P(5) + P(6) + P(7) = 0{,}1789 + 0{,}1916 + 0{,}1643 = 0{,}5348\).</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> la probabilidad de que rompan tests 5, 6 o 7 <em>commits</em>.</p>
+        <ol>
+          <li><strong>Traducir.</strong> Ningún borde entra: \(P(4 &lt; X &lt; 8) = P(5 \leq X \leq 7)\).</li>
+          <li><strong>Con la tabla.</strong> \(P(X \leq 7) - P(X \leq 4)\).</li>
+          <li><strong>Las lecturas.</strong> \(P(X \leq 7) = 0{,}7723\) y \(P(X \leq 4) = 0{,}2375\).</li>
+          <li><strong>La cuenta.</strong> \(0{,}7723 - 0{,}2375 = 0{,}5348\).</li>
+          <li><strong>Control con la fórmula.</strong> \(P(5) + P(6) + P(7) = 0{,}1789 + 0{,}1916 + 0{,}1643 = 0{,}5348\).</li>
+        </ol>
+        <p><strong>Qué significa:</strong> en un 53,48&nbsp;% de las revisiones rompen tests 5, 6 o 7 <em>commits</em>. Es menos que el inciso anterior (0,7796) porque se sacaron los bordes 4 y 8.</p>
+      </div>
+    </li>
+
+    <!-- ===== c: esperanza y varianza ===== -->
+    <li data-inciso="c" data-nivel="avanzado" data-respuesta="6">
+      <div class="p-consigna"><p>Calculá la esperanza \(E(X)\).</p></div>
+      <div class="p-anotar">\(E(X) = n \cdot p = 20 \cdot 0{,}30 = 6\) <em>commits</em></div>
+      <div class="p-pista"><p>En la Binomial, \(E(X) = n \cdot p\).</p></div>
+      <div class="p-explicacion"><p>\(E(X) = 20 \times 0{,}30 = 6\).</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> cuántos <em>commits</em> de cada 20 rompen algún test, en promedio.</p>
+        <ol>
+          <li><strong>La fórmula.</strong> Binomial: \(E(X) = n \cdot p\), con \(n = 20\) pruebas y \(p = 0{,}30\).</li>
+          <li><strong>La cuenta.</strong> \(20 \times 0{,}30 = 6\).</li>
+        </ol>
+        <p><strong>Qué significa:</strong> se esperan 6 <em>commits</em> que rompan algún test de cada 20: el 30&nbsp;% de 20.</p>
+      </div>
+    </li>
+    <li data-inciso="c" data-nivel="avanzado" data-respuesta="4,2">
+      <div class="p-consigna"><p>Calculá la varianza \(V(X)\).</p></div>
+      <div class="p-anotar">\(V(X) = n \cdot p \cdot q = 20 \cdot 0{,}30 \cdot 0{,}70 = 4{,}2\)</div>
+      <div class="p-pista"><p>En la Binomial, \(V(X) = n \cdot p \cdot q\), con \(q = 1 - p\).</p></div>
+      <div class="p-explicacion"><p>\(V(X) = 20 \times 0{,}30 \times 0{,}70 = 4{,}2\). (Si pidieran el desvío: \(\sqrt{4{,}2} = 2{,}0494\).)</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> la varianza de la cantidad de <em>commits</em> que rompen tests.</p>
+        <ol>
+          <li><strong>La fórmula.</strong> Binomial: \(V(X) = n \cdot p \cdot q\), con \(n = 20\), \(p = 0{,}30\), \(q = 0{,}70\).</li>
+          <li><strong>La cuenta.</strong> \(20 \times 0{,}30 = 6\), y \(6 \times 0{,}70 = 4{,}2\).</li>
+        </ol>
+        <p><strong>Qué significa:</strong> \(V(X) = 4{,}2\) <em>commits</em> al cuadrado; el desvío sería \(\sqrt{4{,}2} \approx 2{,}05\) <em>commits</em>.</p>
+      </div>
+    </li>
+  </ol>
+</article>

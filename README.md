@@ -48,6 +48,18 @@ fórmulas (MathJax) y las tipografías. Tus datos no salen de tu máquina.
   elegir **qué parcial**: todos mezclados, o uno entero (2025 o 2023) en el orden del examen, cada
   ejercicio desglosado en pasos. Con un parcial elegido, las unidades y la cantidad se ponen solas.
 
+  La casilla **"Ejercicios fundamentales (plan de urgencia)"** deja solo 4 o 5 ejercicios por
+  unidad, hechos con la forma del Parcial 2025, que cubren las variantes que pueden tomar (en la
+  binomial: exactamente, al menos, a lo sumo, menos de, ninguno...; en la U4, la versión que suma
+  y la que integra; en la U7, intervalos con z y con t de Student). Salen todos los de las unidades
+  elegidas, en orden de estudio. No va junto con "Solo tal cual del parcial".
+
+  El **cuestionario de la 1ra etapa** imita al del Aula Virtual: teoría, planteos, traducir
+  frases, verdadero o falso y cuentas de un paso, sacadas de toda la teoría y la práctica, no
+  copias chicas de los ejercicios del parcial. Las preguntas viejas que se parecían demasiado
+  quedan retiradas (`data-retirada`): no salen en intentos nuevos, pero los intentos guardados
+  las siguen mostrando.
+
   En Normal hay además una **navegación libre** opcional: casillas para saltar a cualquier
   pregunta, saltear y volver, y terminar cuando quieras. Todas las preguntas
   salen de los exámenes: cada una dice de qué parcial o final viene, con ★ o ◈, y al sortear salen
@@ -189,6 +201,8 @@ Chrome (`chrome --headless --print-to-pdf`).
 `0.x.y-alpha` mientras esté en desarrollo. La `1.0.0` queda reservada para cuando esté terminado.
 La versión actual se lee al pie del menú lateral.
 
+* **0.28.0-alpha** — ejercicios fundamentales (plan de urgencia) en el interactivo, con la t de
+  Student; cuestionario de la 1ra etapa rehecho al estilo del Aula Virtual.
 * **0.27.0-alpha** — "En la hoja" en los pasos de opciones que se anotan con fórmulas (153 pasos).
 * **0.26.0-alpha** — cuadro de datos del ejercicio en el interactivo (principiante y medio); la ruta
   suma el parcial 2025 entero en el interactivo.

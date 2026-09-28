@@ -104,6 +104,10 @@
           delParcial: /^(Primer|Segundo|Tercer)?\s*Parcial\b/i.test(fuente ? fuente.textContent.trim() : ""),
           // de que parcial es y en que lugar va ("Segundo Parcial 2023, Ejercicio 6 a")
           parcial: null, ordenParcial: 0,
+          // ejercicio fundamental (plan de urgencia): su numero es el orden de estudio
+          fundamental: parseInt(a.getAttribute("data-fundamental"), 10) || 0,
+          // retirada: ya no sale en intentos nuevos, pero sigue para los guardados
+          retirada: a.hasAttribute("data-retirada"),
           unidad: unidad,
           enunciado: html(hijo(a, "p-enunciado")),
           pregunta: html(hijo(a, "p-pregunta")),
@@ -167,10 +171,12 @@
   function etapaDe(c) { return c.etapa === "1" ? "1" : "2"; }
 
   // c.soloParcial (2da etapa): solo lo que esta tal cual en un parcial
+  // c.fundamentales (interactivo): solo los ejercicios fundamentales
   function delPool(materia, c) {
     return cargar(materia).lista.filter(function (p) {
-      return p.etapa === etapaDe(c) && c.unidades.indexOf(p.unidad) !== -1 &&
-        (!c.soloParcial || etapaDe(c) === "1" || p.delParcial);
+      return !p.retirada && p.etapa === etapaDe(c) && c.unidades.indexOf(p.unidad) !== -1 &&
+        (!c.soloParcial || etapaDe(c) === "1" || p.delParcial) &&
+        (!c.fundamentales || etapaDe(c) === "1" || p.fundamental > 0);
     });
   }
 
@@ -215,11 +221,13 @@
 
     // Cuantas preguntas hay en esas unidades: las de 2da etapa por tipo, y las de 1ra.
     // soloParcial: en la 2da etapa, contar solo las que estan tal cual en un parcial.
-    disponibles: function (materia, unidades, soloParcial) {
+    // fundamentales: los ejercicios, contar solo los fundamentales.
+    disponibles: function (materia, unidades, soloParcial, fundamentales) {
       var r = { teoria: 0, practica: 0, ejercicio: 0, cuestionario: 0 };
       cargar(materia).lista.forEach(function (p) {
-        if (unidades.indexOf(p.unidad) === -1) { return; }
+        if (p.retirada || unidades.indexOf(p.unidad) === -1) { return; }
         if (p.etapa === "1") { r.cuestionario++; }
+        else if (fundamentales && p.tipo === "ejercicio" && !p.fundamental) { return; }
         else if (!soloParcial || p.delParcial) { r[p.tipo]++; }
       });
       return r;
@@ -260,6 +268,12 @@
         // un parcial entero, en el orden del examen
         var elegido = E.banco.parciales(materia).filter(function (x) { return x.nombre === c.parcial; })[0];
         return elegido ? elegido.ids.slice() : [];
+      }
+      if (c.modo === "interactivo" && c.fundamentales) {
+        // los fundamentales de esas unidades, todos, por unidad y en orden de estudio
+        return pool.filter(function (p) { return p.tipo === "ejercicio"; })
+          .sort(function (a, b) { return a.unidad < b.unidad ? -1 : a.unidad > b.unidad ? 1 : a.fundamental - b.fundamental; })
+          .map(function (p) { return p.id; });
       }
       if (c.modo === "interactivo") {
         // reales e inventados mezclados, con ventaja para lo de parciales

@@ -1,0 +1,429 @@
+<article class="preg" data-id="u4-e-fundamental-03-independencia" data-tipo="ejercicio" data-origen="parcial" data-fundamental="03">
+  <div class="p-enunciado">
+    <p>
+      Una empresa tiene dos servidores en centros de datos distintos, uno en <strong>Paraná</strong>
+      y otro en <strong>Santa Fe</strong>. Sean \(X\) = &ldquo;cantidad de caídas del servidor de
+      Paraná en una semana&rdquo; e \(Y\) = &ldquo;cantidad de caídas del servidor de Santa Fe en
+      la misma semana&rdquo;. La función de probabilidad conjunta de \((X, Y)\) es:
+    </p>
+    <div class="tabla-wrap">
+      <table class="t">
+        <tr><th>\(X \backslash Y\)</th><th>0</th><th>1</th></tr>
+        <tr><th>0</th><td>0,30</td><td>0,20</td></tr>
+        <tr><th>1</th><td>0,18</td><td>0,12</td></tr>
+        <tr><th>2</th><td>0,12</td><td>0,08</td></tr>
+      </table>
+    </div>
+    <p>
+      Además, en un servicio con autoescalado se registra cada hora \(U\) = &ldquo;cambio en la
+      cantidad de réplicas&rdquo; (\(-1\) si se apaga una, \(0\) si queda igual, \(+1\) si se agrega
+      una) y \(W\) = &ldquo;1 si el autoescalado actuó en esa hora, 0 si no&rdquo;. Su distribución
+      conjunta es:
+    </p>
+    <div class="tabla-wrap">
+      <table class="t">
+        <tr><th>\(U \backslash W\)</th><th>0</th><th>1</th></tr>
+        <tr><th>\(-1\)</th><td>0</td><td>0,25</td></tr>
+        <tr><th>0</th><td>0,50</td><td>0</td></tr>
+        <tr><th>1</th><td>0</td><td>0,25</td></tr>
+      </table>
+    </div>
+    <ol type="a">
+      <li>Encuentre las distribuciones marginales de \(X\) y de \(Y\).</li>
+      <li>¿Son \(X\) e \(Y\) independientes? Justifique utilizando probabilidades.</li>
+      <li>Calcule \(E(X)\), \(E(Y)\), \(E(XY)\) y \(Cov(X, Y)\). ¿Qué relación hay entre \(E(XY)\) y \(E(X)\,E(Y)\)?</li>
+      <li>Encuentre la varianza del total semanal de caídas, \(T = X + Y\).</li>
+      <li>Para \((U, W)\): calcule \(Cov(U, W)\). ¿Son \(U\) y \(W\) independientes? ¿Qué muestra este caso?</li>
+    </ol>
+    <p class="p-fuente">Fundamental · basado en el Segundo Parcial 2023, Ejercicio 1 c, el Segundo Parcial 2025, Ejercicio 1 d y la Guía integradora para el segundo parcial, Ejercicio 2 f y h</p>
+  </div>
+  <div class="p-explicacion">
+    <div class="tabla-wrap">
+      <table class="t full">
+        <tr><th>Inciso</th><th>Resultado</th></tr>
+        <tr><td class="lbl">a) Marginales</td><td>\(g(x) = 0{,}5;\ 0{,}3;\ 0{,}2\) &middot; \(h(y) = 0{,}6;\ 0{,}4\)</td></tr>
+        <tr><td class="lbl">b) Independencia</td><td><strong>Sí</strong>: \(f(x,y) = g(x)\,h(y)\) en las 6 casillas</td></tr>
+        <tr><td class="lbl">c) Esperanzas y covarianza</td><td>\(E(X) = 0{,}7\) &middot; \(E(Y) = 0{,}4\) &middot; \(E(XY) = 0{,}28 = E(X)\,E(Y)\) &middot; \(Cov(X,Y) = 0\)</td></tr>
+        <tr><td class="lbl">d) \(V(T)\)</td><td>\(V(X) + V(Y) = 0{,}61 + 0{,}24 = 0{,}85\)</td></tr>
+        <tr><td class="lbl">e) \((U, W)\)</td><td>\(Cov(U,W) = 0\) pero <strong>no</strong> son independientes (\(f(0,1) = 0 \neq 0{,}25\)): covarianza 0 no implica independencia</td></tr>
+      </table>
+    </div>
+  </div>
+  <div class="p-rta" data-inciso="a"><p>La marginal de \(X\) es \(g(0) = 0{,}5\), \(g(1) = 0{,}3\), \(g(2) = 0{,}2\), y la de \(Y\) es \(h(0) = 0{,}6\), \(h(1) = 0{,}4\).</p></div>
+  <div class="p-rta" data-inciso="b"><p>Sí son independientes: en las 6 casillas la conjunta es igual al producto de las marginales, \(f(x,y) = g(x)\,h(y)\) (por ejemplo \(f(1,1) = 0{,}12 = 0{,}3 \cdot 0{,}4\)).</p></div>
+  <div class="p-rta" data-inciso="c"><p>\(E(X) = 0{,}7\) y \(E(Y) = 0{,}4\) caídas por semana; \(E(XY) = 0{,}28\), que es exactamente \(E(X)\,E(Y) = 0{,}7 \cdot 0{,}4\), como pasa con variables independientes, así que \(Cov(X,Y) = 0\).</p></div>
+  <div class="p-rta" data-inciso="d"><p>Como \(Cov(X,Y) = 0\), \(V(T) = V(X) + V(Y) = 0{,}61 + 0{,}24 = 0{,}85\).</p></div>
+  <div class="p-rta" data-inciso="e"><p>\(Cov(U,W) = E(UW) - E(U)\,E(W) = 0 - 0 \cdot 0{,}5 = 0\), pero \(U\) y \(W\) no son independientes porque \(f(0,1) = 0 \neq P(U=0)\,P(W=1) = 0{,}25\). Muestra que una covarianza nula no implica independencia: la covarianza solo mide relación lineal, y acá \(W = U^{2}\).</p></div>
+  <div class="p-datos">
+    <p><strong>Variable:</strong> \(X\) = cantidad de caídas semanales del servidor de Paraná.</p>
+    <p><strong>Variable:</strong> \(Y\) = cantidad de caídas semanales del servidor de Santa Fe.</p>
+    <p><strong>Variable del inciso d:</strong> \(T = X + Y\) = total de caídas en la semana.</p>
+    <p><strong>Variables del inciso e:</strong> \(U\) = cambio en la cantidad de réplicas (\(-1, 0, 1\)); \(W\) = 1 si actuó el autoescalado, 0 si no.</p>
+    <div class="tabla-wrap">
+      <table class="t full">
+        <tr><th>Dato</th><th>Valor</th><th>De dónde sale</th></tr>
+        <tr><td>Tabla conjunta de \((X,Y)\)</td><td>la primera del enunciado</td><td>\(x = 0, 1, 2\) (filas), \(y = 0, 1\) (columnas)</td></tr>
+        <tr><td>Tabla conjunta de \((U,W)\)</td><td>la segunda del enunciado</td><td>\(u = -1, 0, 1\) (filas), \(w = 0, 1\) (columnas)</td></tr>
+        <tr><td>Relación entre \(U\) y \(W\)</td><td>\(W = 1\) cuando \(U \neq 0\)</td><td>&ldquo;1 si el autoescalado actuó en esa hora&rdquo;</td></tr>
+      </table>
+    </div>
+  </div>
+  <ol class="p-pasos">
+    <li data-inciso="a" data-nivel="principiante" data-respuesta="0,5" data-tolerancia="0,001">
+      <div class="p-consigna"><p>La marginal de \(X\) suma cada fila: \(g(x) = \sum_{y} f(x,y)\). ¿Cuánto vale \(g(0)\)?</p></div>
+      <div class="p-anotar">\(g(0) = 0{,}30 + 0{,}20 = 0{,}5\)</div>
+      <div class="p-pista"><p>Fila \(x = 0\): \(0{,}30 + 0{,}20\).</p></div>
+      <div class="p-explicacion"><p>\(g(0) = 0{,}5\). Las otras filas: \(g(1) = 0{,}18 + 0{,}12 = 0{,}3\) y \(g(2) = 0{,}12 + 0{,}08 = 0{,}2\).</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> \(g(0) = P(X = 0)\), la probabilidad de que el servidor de Paraná no se caiga en la semana.</p>
+        <ol>
+          <li><strong>La fórmula.</strong> \(X = 0\) puede darse con \(Y = 0\) o con \(Y = 1\); son casos que no se pisan y se suman: \(g(x) = \sum_{y} f(x,y)\), la suma de la fila.</li>
+          <li><strong>La cuenta.</strong> \[ g(0) = f(0,0) + f(0,1) = 0{,}30 + 0{,}20 = 0{,}5 \]</li>
+          <li><strong>Las otras filas.</strong> \(g(1) = 0{,}18 + 0{,}12 = 0{,}3\); \(g(2) = 0{,}12 + 0{,}08 = 0{,}2\).</li>
+        </ol>
+        <p><strong>Qué significa:</strong> la mitad de las semanas el servidor de Paraná no se cae. Control: \(0{,}5 + 0{,}3 + 0{,}2 = 1\).</p>
+      </div>
+    </li>
+    <li data-inciso="a" data-nivel="principiante" data-respuesta="0,6" data-tolerancia="0,001">
+      <div class="p-consigna"><p>La marginal de \(Y\) suma cada columna: \(h(y) = \sum_{x} f(x,y)\). ¿Cuánto vale \(h(0)\)?</p></div>
+      <div class="p-anotar">\(h(0) = 0{,}30 + 0{,}18 + 0{,}12 = 0{,}6\)</div>
+      <div class="p-pista"><p>Columna \(y = 0\): \(0{,}30 + 0{,}18 + 0{,}12\).</p></div>
+      <div class="p-explicacion"><p>\(h(0) = 0{,}6\) y \(h(1) = 0{,}20 + 0{,}12 + 0{,}08 = 0{,}4\).</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> \(h(0) = P(Y = 0)\), la probabilidad de que el de Santa Fe no se caiga.</p>
+        <ol>
+          <li><strong>La fórmula.</strong> \(h(y) = \sum_{x} f(x,y)\): se suma la columna de ese \(y\).</li>
+          <li><strong>La cuenta.</strong> \[ h(0) = 0{,}30 + 0{,}18 + 0{,}12 = 0{,}6 \]</li>
+          <li><strong>La otra.</strong> \(h(1) = 0{,}20 + 0{,}12 + 0{,}08 = 0{,}4\).</li>
+        </ol>
+        <p><strong>Qué significa:</strong> el 60 % de las semanas el de Santa Fe no se cae. Control: \(0{,}6 + 0{,}4 = 1\).</p>
+      </div>
+    </li>
+    <li data-inciso="a" data-nivel="avanzado">
+      <div class="p-consigna"><p>¿Cuáles son las marginales de \(X\) y de \(Y\)?</p></div>
+      <div class="p-anotar">\(g(x) = 0{,}5;\ 0{,}3;\ 0{,}2\ (x = 0, 1, 2); \quad h(y) = 0{,}6;\ 0{,}4\ (y = 0, 1)\)</div>
+      <ul class="p-opciones">
+        <li data-correcta>\(g(x)\): \(0{,}5;\ 0{,}3;\ 0{,}2\) &middot; \(h(y)\): \(0{,}6;\ 0{,}4\)</li>
+        <li>\(g(x)\): \(0{,}6;\ 0{,}4\) &middot; \(h(y)\): \(0{,}5;\ 0{,}3;\ 0{,}2\)</li>
+        <li>\(g(x)\): \(0{,}30;\ 0{,}18;\ 0{,}12\) &middot; \(h(y)\): \(0{,}30;\ 0{,}20\)</li>
+        <li>\(g(x)\): \(\frac{1}{3}\) cada una &middot; \(h(y)\): \(\frac{1}{2}\) cada una</li>
+      </ul>
+      <div class="p-pista"><p>Filas para \(X\), columnas para \(Y\).</p></div>
+      <div class="p-explicacion"><p>Filas: \(0{,}5;\ 0{,}3;\ 0{,}2\). Columnas: \(0{,}6;\ 0{,}4\). Cada marginal suma 1.</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> las dos marginales, \(g(x) = P(X = x)\) y \(h(y) = P(Y = y)\).</p>
+        <ol>
+          <li><strong>Las fórmulas.</strong> \(g(x) = \sum_{y} f(x,y)\) (filas) y \(h(y) = \sum_{x} f(x,y)\) (columnas).</li>
+          <li><strong>Filas.</strong> \(0{,}30 + 0{,}20 = 0{,}5\); \(0{,}18 + 0{,}12 = 0{,}3\); \(0{,}12 + 0{,}08 = 0{,}2\).</li>
+          <li><strong>Columnas.</strong> \(0{,}30 + 0{,}18 + 0{,}12 = 0{,}6\); \(0{,}20 + 0{,}12 + 0{,}08 = 0{,}4\).</li>
+          <li><strong>Las opciones que no.</strong> La segunda cruza las marginales. La tercera toma solo la primera columna y la primera fila, sin sumar. La cuarta supone valores igual de probables.</li>
+        </ol>
+        <p><strong>Qué significa:</strong> ya están las dos tablitas; con ellas se prueba la independencia.</p>
+      </div>
+    </li>
+    <li data-inciso="b" data-nivel="principiante">
+      <div class="p-consigna"><p>Para <em>probar</em> que \(X\) e \(Y\) son independientes con la tabla, ¿qué hay que verificar?</p></div>
+      <div class="p-anotar">Independientes \(\iff f(x,y) = g(x)\,h(y)\) en las 6 casillas</div>
+      <ul class="p-opciones">
+        <li data-correcta>Que \(f(x,y) = g(x)\,h(y)\) en <strong>todas</strong> las casillas (acá, las 6)</li>
+        <li>Que \(f(x,y) = g(x)\,h(y)\) en una casilla cualquiera</li>
+        <li>Que \(Cov(X,Y) = 0\)</li>
+        <li>Que las marginales sumen 1</li>
+      </ul>
+      <div class="p-pista"><p>Para negar alcanza una casilla que falle; para afirmar, no puede fallar ninguna.</p></div>
+      <div class="p-explicacion"><p>La definición pide la igualdad para todo par \((x,y)\). Una sola casilla que cumpla no prueba nada; una sola que falle alcanza para negarla.</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> qué tarea hace falta para <em>afirmar</em> la independencia.</p>
+        <ol>
+          <li><strong>La definición.</strong> \(X\) e \(Y\) son independientes si la conjunta se factoriza como producto de las marginales para <em>todos</em> los pares: \[ f(x,y) = g(x)\,h(y) \quad \forall (x,y) \]</li>
+          <li><strong>Probar vs. refutar.</strong> Para probar hay que revisar todas las casillas (acá \(3 \times 2 = 6\)). Para refutar alcanza una sola que falle.</li>
+          <li><strong>Las opciones que no.</strong> Una casilla que cumple puede ser casualidad. \(Cov = 0\) no alcanza: la independencia implica covarianza 0, pero no al revés (se ve en el inciso e). Y las marginales suman 1 siempre.</li>
+        </ol>
+        <p><strong>Qué significa:</strong> hay que multiplicar marginal por marginal en las 6 casillas y comparar con la tabla.</p>
+      </div>
+    </li>
+    <li data-inciso="b" data-nivel="principiante" data-respuesta="0,12" data-tolerancia="0,001">
+      <div class="p-consigna"><p>Hay independencia si \(f(x,y) = g(x)\,h(y)\) en todas las casillas. Probá en la casilla \((1,1)\): ¿cuánto vale \(g(1) \cdot h(1)\)?</p></div>
+      <div class="p-anotar">\(g(1)\,h(1) = 0{,}3 \cdot 0{,}4 = 0{,}12 = f(1,1)\) (coincide)</div>
+      <div class="p-pista"><p>\(g(1) = 0{,}3\) (fila 1) y \(h(1) = 0{,}4\) (columna 1).</p></div>
+      <div class="p-explicacion"><p>\(0{,}3 \cdot 0{,}4 = 0{,}12\), igual a \(f(1,1) = 0{,}12\). Esta casilla cumple.</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> el producto de las marginales en \((1,1)\), para compararlo con la casilla de la tabla.</p>
+        <ol>
+          <li><strong>Las marginales.</strong> \(g(1) = 0{,}18 + 0{,}12 = 0{,}3\) (fila \(x = 1\)); \(h(1) = 0{,}20 + 0{,}12 + 0{,}08 = 0{,}4\) (columna \(y = 1\)).</li>
+          <li><strong>El producto.</strong> \[ g(1)\,h(1) = 0{,}3 \cdot 0{,}4 = 0{,}12 \]</li>
+          <li><strong>La comparación.</strong> En la tabla, \(f(1,1) = 0{,}12\). Coinciden.</li>
+        </ol>
+        <p><strong>Qué significa:</strong> una casilla que cumple todavía no prueba nada: hay que seguir con las demás.</p>
+      </div>
+    </li>
+    <li data-inciso="b" data-nivel="medio" data-respuesta="0,12" data-tolerancia="0,001">
+      <div class="p-consigna"><p>Hay independencia si \(f(x,y) = g(x)\,h(y)\) en todas las casillas. En la casilla \((2,0)\), ¿cuánto vale \(g(2) \cdot h(0)\)?</p></div>
+      <div class="p-anotar">\(g(2)\,h(0) = 0{,}2 \cdot 0{,}6 = 0{,}12 = f(2,0)\) (coincide)</div>
+      <div class="p-pista"><p>\(g(2) = 0{,}2\) y \(h(0) = 0{,}6\).</p></div>
+      <div class="p-explicacion"><p>\(0{,}2 \cdot 0{,}6 = 0{,}12 = f(2,0)\). Las 6 casillas: \(0{,}5 \cdot 0{,}6 = 0{,}30\); \(0{,}5 \cdot 0{,}4 = 0{,}20\); \(0{,}3 \cdot 0{,}6 = 0{,}18\); \(0{,}3 \cdot 0{,}4 = 0{,}12\); \(0{,}2 \cdot 0{,}6 = 0{,}12\); \(0{,}2 \cdot 0{,}4 = 0{,}08\). Todas coinciden.</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> otra casilla de la verificación, la \((2,0)\).</p>
+        <ol>
+          <li><strong>El producto.</strong> \(g(2) = 0{,}12 + 0{,}08 = 0{,}2\) y \(h(0) = 0{,}6\): \(g(2)\,h(0) = 0{,}12\). En la tabla \(f(2,0) = 0{,}12\).</li>
+          <li><strong>La tabla de productos completa.</strong>
+            <div class="tabla-wrap">
+              <table class="t">
+                <tr><th>\(g(x)\,h(y)\)</th><th>\(y = 0\) (\(0{,}6\))</th><th>\(y = 1\) (\(0{,}4\))</th></tr>
+                <tr><th>\(x = 0\) (\(0{,}5\))</th><td>0,30</td><td>0,20</td></tr>
+                <tr><th>\(x = 1\) (\(0{,}3\))</th><td>0,18</td><td>0,12</td></tr>
+                <tr><th>\(x = 2\) (\(0{,}2\))</th><td>0,12</td><td>0,08</td></tr>
+              </table>
+            </div>
+          Es exactamente la tabla del enunciado.</li>
+        </ol>
+        <p><strong>Qué significa:</strong> la igualdad vale en las 6 casillas. En la hoja conviene escribir esta tabla de productos al lado de la conjunta.</p>
+      </div>
+    </li>
+    <li data-inciso="b" data-nivel="avanzado">
+      <div class="p-consigna"><p>¿Son independientes \(X\) e \(Y\)?</p></div>
+      <div class="p-anotar">\(f(x,y) = g(x)\,h(y)\) en las 6 casillas \(\Rightarrow\) son independientes</div>
+      <ul class="p-opciones">
+        <li data-correcta>Sí: \(f(x,y) = g(x)\,h(y)\) en las 6 casillas</li>
+        <li>Sí: porque \(f(1,1) = g(1)\,h(1)\)</li>
+        <li>No: porque \(f(0,0) = 0{,}30\) es distinta de \(f(0,1) = 0{,}20\)</li>
+        <li>No se puede saber sin la covarianza</li>
+      </ul>
+      <div class="p-pista"><p>Multiplicá \(g(x)\,h(y)\) en cada casilla y compará con la tabla.</p></div>
+      <div class="p-explicacion"><p>Los 6 productos \(g(x)\,h(y)\) reproducen la tabla: <strong>son independientes</strong>. Tiene sentido: son servidores en centros de datos distintos.</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> decidir y justificar con probabilidades.</p>
+        <ol>
+          <li><strong>El criterio.</strong> Independientes si \(f(x,y) = g(x)\,h(y)\) para todos los pares, con \(g = 0{,}5;\ 0{,}3;\ 0{,}2\) y \(h = 0{,}6;\ 0{,}4\).</li>
+          <li><strong>Las 6 verificaciones.</strong> \(0{,}5 \cdot 0{,}6 = 0{,}30\) (coincide), \(0{,}5 \cdot 0{,}4 = 0{,}20\) (coincide), \(0{,}3 \cdot 0{,}6 = 0{,}18\) (coincide), \(0{,}3 \cdot 0{,}4 = 0{,}12\) (coincide), \(0{,}2 \cdot 0{,}6 = 0{,}12\) (coincide), \(0{,}2 \cdot 0{,}4 = 0{,}08\) (coincide).</li>
+          <li><strong>Las opciones que no.</strong> Una casilla sola no alcanza para afirmar. Comparar casillas entre sí no es el criterio. Y la covarianza no decide la independencia.</li>
+        </ol>
+        <p><strong>Qué significa:</strong> <strong>son independientes</strong>: saber cuántas veces se cayó el de Paraná no cambia las chances del de Santa Fe.</p>
+      </div>
+    </li>
+    <li data-inciso="c" data-nivel="avanzado" data-respuesta="0,7" data-tolerancia="0,001">
+      <div class="p-consigna"><p>¿Cuánto vale \(E(X)\)?</p></div>
+      <div class="p-anotar">\(E(X) = \sum x\,g(x) = 0 \cdot 0{,}5 + 1 \cdot 0{,}3 + 2 \cdot 0{,}2 = 0{,}7\) caídas</div>
+      <div class="p-pista"><p>\(E(X) = \sum x \cdot g(x)\), con \(g = 0{,}5;\ 0{,}3;\ 0{,}2\).</p></div>
+      <div class="p-explicacion"><p>\(E(X) = 0 + 0{,}3 + 0{,}4 = 0{,}7\) caídas por semana.</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> la cantidad promedio de caídas semanales del servidor de Paraná.</p>
+        <ol>
+          <li><strong>La fórmula.</strong> \(E(X) = \sum_{x} x \cdot g(x)\), con la marginal de \(X\).</li>
+          <li><strong>La cuenta.</strong> \[ E(X) = 0 \cdot 0{,}5 + 1 \cdot 0{,}3 + 2 \cdot 0{,}2 = 0{,}7 \]</li>
+        </ol>
+        <p><strong>Qué significa:</strong> en promedio se cae 0,7 veces por semana.</p>
+      </div>
+    </li>
+    <li data-inciso="c" data-nivel="avanzado" data-respuesta="0,4" data-tolerancia="0,001">
+      <div class="p-consigna"><p>¿Cuánto vale \(E(Y)\)?</p></div>
+      <div class="p-anotar">\(E(Y) = \sum y\,h(y) = 0 \cdot 0{,}6 + 1 \cdot 0{,}4 = 0{,}4\) caídas</div>
+      <div class="p-pista"><p>\(E(Y) = \sum y \cdot h(y)\), con \(h = 0{,}6;\ 0{,}4\).</p></div>
+      <div class="p-explicacion"><p>\(E(Y) = 0{,}4\) caídas por semana.</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> la cantidad promedio de caídas semanales del de Santa Fe.</p>
+        <ol>
+          <li><strong>La fórmula.</strong> \(E(Y) = \sum_{y} y \cdot h(y)\).</li>
+          <li><strong>La cuenta.</strong> \[ E(Y) = 0 \cdot 0{,}6 + 1 \cdot 0{,}4 = 0{,}4 \]</li>
+        </ol>
+        <p><strong>Qué significa:</strong> el de Santa Fe se cae menos: 0,4 veces por semana en promedio.</p>
+      </div>
+    </li>
+    <li data-inciso="c" data-nivel="medio" data-respuesta="0,28" data-tolerancia="0,001">
+      <div class="p-consigna"><p>Para \(Cov(X,Y) = E(XY) - E(X)\,E(Y)\) hace falta \(E(XY) = \sum_x \sum_y x \cdot y \cdot f(x,y)\), con la tabla conjunta. ¿Cuánto vale \(E(XY)\)?</p></div>
+      <div class="p-anotar">\(E(XY) = 1 \cdot 1 \cdot 0{,}12 + 2 \cdot 1 \cdot 0{,}08 = 0{,}28\)</div>
+      <div class="p-pista"><p>Solo aportan las casillas con \(x \neq 0\) e \(y \neq 0\): \((1,1)\) y \((2,1)\).</p></div>
+      <div class="p-explicacion"><p>\(E(XY) = 0{,}12 + 0{,}16 = 0{,}28\).</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> el promedio del producto \(X \cdot Y\), calculado con la tabla (sin usar todavía la independencia).</p>
+        <ol>
+          <li><strong>La fórmula.</strong> \[ E(XY) = \sum_{x}\sum_{y} x \cdot y \cdot f(x,y) \]</li>
+          <li><strong>Las que aportan.</strong> Con \(x = 0\) o \(y = 0\) el producto es 0. Quedan \((1,1)\): \(1 \cdot 1 \cdot 0{,}12 = 0{,}12\) y \((2,1)\): \(2 \cdot 1 \cdot 0{,}08 = 0{,}16\).</li>
+          <li><strong>La suma.</strong> \(E(XY) = 0{,}12 + 0{,}16 = 0{,}28\).</li>
+        </ol>
+        <p><strong>Qué significa:</strong> fijate que \(E(X)\,E(Y) = 0{,}7 \cdot 0{,}4 = 0{,}28\): da lo mismo.</p>
+      </div>
+    </li>
+    <li data-inciso="c" data-nivel="avanzado" data-respuesta="0" data-tolerancia="0,001">
+      <div class="p-consigna"><p>¿Cuánto vale \(Cov(X,Y)\)?</p></div>
+      <div class="p-anotar">\(Cov(X,Y) = E(XY) - E(X)\,E(Y) = 0{,}28 - 0{,}7 \cdot 0{,}4 = 0\)</div>
+      <div class="p-pista"><p>\(Cov(X,Y) = E(XY) - E(X)\,E(Y)\).</p></div>
+      <div class="p-explicacion"><p>\(Cov = 0{,}28 - 0{,}28 = 0\).</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> la covarianza entre las caídas de los dos servidores.</p>
+        <ol>
+          <li><strong>La fórmula.</strong> \(Cov(X,Y) = E(XY) - E(X)\,E(Y)\).</li>
+          <li><strong>Los ingredientes.</strong> \(E(XY) = 0{,}28\) (tabla), \(E(X) = 0{,}7\), \(E(Y) = 0{,}4\) (marginales).</li>
+          <li><strong>La cuenta.</strong> \[ Cov(X,Y) = 0{,}28 - 0{,}7 \cdot 0{,}4 = 0{,}28 - 0{,}28 = 0 \]</li>
+        </ol>
+        <p><strong>Qué significa:</strong> no hay relación lineal entre las caídas. Es lo esperable: si son independientes, la covarianza es 0.</p>
+      </div>
+    </li>
+    <li data-inciso="c" data-nivel="medio">
+      <div class="p-consigna"><p>En este ejercicio \(E(XY) = 0{,}28\) es igual a \(E(X)\,E(Y) = 0{,}7 \cdot 0{,}4\). ¿Por qué pasa?</p></div>
+      <div class="p-anotar">Independientes \(\Rightarrow E(XY) = E(X)\,E(Y) \Rightarrow Cov(X,Y) = 0\)</div>
+      <ul class="p-opciones">
+        <li data-correcta>Porque \(X\) e \(Y\) son independientes: con \(f(x,y) = g(x)\,h(y)\), la doble suma se separa en \(\sum x\,g(x) \cdot \sum y\,h(y)\)</li>
+        <li>Porque \(E(XY) = E(X)\,E(Y)\) vale siempre</li>
+        <li>Por casualidad: no tiene que ver con la independencia</li>
+        <li>Porque \(Y\) solo toma los valores 0 y 1</li>
+      </ul>
+      <div class="p-pista"><p>Reemplazá \(f(x,y)\) por \(g(x)\,h(y)\) en \(\sum\sum x\,y\,f(x,y)\).</p></div>
+      <div class="p-explicacion"><p>Con independencia, \(\sum_x\sum_y x\,y\,g(x)\,h(y) = \sum_x x\,g(x) \cdot \sum_y y\,h(y) = E(X)\,E(Y)\). Por eso la covarianza da 0.</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> explicar la igualdad \(E(XY) = E(X)\,E(Y)\) que salió en las cuentas.</p>
+        <ol>
+          <li><strong>La demostración de la teoría.</strong> Si son independientes, \(f(x,y) = g(x)\,h(y)\). Entonces \[ E(XY) = \sum_{x}\sum_{y} x\,y\,g(x)\,h(y) = \Big(\sum_{x} x\,g(x)\Big)\Big(\sum_{y} y\,h(y)\Big) = E(X)\,E(Y) \] (en el caso continuo es igual, con integrales).</li>
+          <li><strong>La consecuencia.</strong> \(Cov(X,Y) = E(XY) - E(X)\,E(Y) = 0\).</li>
+          <li><strong>Las opciones que no.</strong> No vale siempre: en el Parcial 2025 o en el ejercicio de los tickets, \(E(XY) \neq E(X)\,E(Y)\). No es casualidad: sale de la factorización. Y que \(Y\) sea 0 o 1 no tiene nada que ver.</li>
+        </ol>
+        <p><strong>Qué significa:</strong> independencia \(\Rightarrow\) covarianza 0. La vuelta no vale, y el inciso e lo muestra.</p>
+      </div>
+    </li>
+    <li data-inciso="d" data-nivel="principiante">
+      <div class="p-consigna"><p>¿Qué fórmula da \(V(T) = V(X + Y)\) en este caso?</p></div>
+      <div class="p-anotar">\(V(X + Y) = V(X) + V(Y) + 2\,Cov(X,Y) = V(X) + V(Y)\) (porque \(Cov = 0\))</div>
+      <ul class="p-opciones">
+        <li data-correcta>\(V(X + Y) = V(X) + V(Y)\), porque \(Cov(X,Y) = 0\)</li>
+        <li>\(V(X + Y) = V(X) + V(Y) + 2\,E(X)\,E(Y)\)</li>
+        <li>\(V(X + Y) = [V(X) + V(Y)]^{2}\)</li>
+        <li>\(V(X + Y) = V(X)\,V(Y)\)</li>
+      </ul>
+      <div class="p-pista"><p>En general \(V(X + Y) = V(X) + V(Y) + 2\,Cov(X,Y)\). ¿Cuánto vale acá la covarianza?</p></div>
+      <div class="p-explicacion"><p>La fórmula general tiene \(2\,Cov(X,Y)\); con independencia ese término es 0.</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> la fórmula de la varianza de la suma, sabiendo que son independientes.</p>
+        <ol>
+          <li><strong>La fórmula general.</strong> \(V(aX + bY + c) = a^{2}V(X) + b^{2}V(Y) + 2ab\,Cov(X,Y)\). Con \(a = b = 1\), \(c = 0\): \(V(X + Y) = V(X) + V(Y) + 2\,Cov(X,Y)\).</li>
+          <li><strong>Con \(Cov = 0\).</strong> El último término se va: \(V(X + Y) = V(X) + V(Y)\).</li>
+          <li><strong>Las opciones que no.</strong> El término cruzado es la covarianza, no \(E(X)\,E(Y)\). Las varianzas se suman, no se elevan ni se multiplican.</li>
+        </ol>
+        <p><strong>Qué significa:</strong> hacen falta \(V(X)\) y \(V(Y)\).</p>
+      </div>
+    </li>
+    <li data-inciso="d" data-nivel="principiante" data-respuesta="1,1" data-tolerancia="0,001">
+      <div class="p-consigna"><p>Para \(V(X) = E(X^{2}) - [E(X)]^{2}\) hace falta \(E(X^{2}) = \sum x^{2}\,g(x)\), con \(g = 0{,}5;\ 0{,}3;\ 0{,}2\). ¿Cuánto vale \(E(X^{2})\)?</p></div>
+      <div class="p-anotar">\(E(X^{2}) = 0 \cdot 0{,}5 + 1 \cdot 0{,}3 + 4 \cdot 0{,}2 = 1{,}1\)</div>
+      <div class="p-pista"><p>Los cuadrados son \(0, 1, 4\).</p></div>
+      <div class="p-explicacion"><p>\(E(X^{2}) = 0 + 0{,}3 + 0{,}8 = 1{,}1\).</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> el promedio de los cuadrados de \(X\).</p>
+        <ol>
+          <li><strong>La fórmula.</strong> \(E(X^{2}) = \sum_{x} x^{2} \cdot g(x)\): el valor al cuadrado, la probabilidad no.</li>
+          <li><strong>La cuenta.</strong> \[ E(X^{2}) = 0^{2} \cdot 0{,}5 + 1^{2} \cdot 0{,}3 + 2^{2} \cdot 0{,}2 = 0 + 0{,}3 + 0{,}8 = 1{,}1 \]</li>
+        </ol>
+        <p><strong>Qué significa:</strong> control: \(1{,}1 \geq 0{,}7^{2} = 0{,}49\).</p>
+      </div>
+    </li>
+    <li data-inciso="d" data-nivel="medio" data-respuesta="0,61" data-tolerancia="0,001">
+      <div class="p-consigna"><p>Para \(V(T) = V(X) + V(Y)\), ¿cuánto vale \(V(X) = E(X^{2}) - [E(X)]^{2}\)?</p></div>
+      <div class="p-anotar">\(V(X) = 1{,}1 - 0{,}7^{2} = 1{,}1 - 0{,}49 = 0{,}61\)</div>
+      <div class="p-pista"><p>\(E(X^{2}) = 1{,}1\) y \(E(X) = 0{,}7\).</p></div>
+      <div class="p-explicacion"><p>\(V(X) = 1{,}1 - 0{,}49 = 0{,}61\).</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> la varianza de las caídas de Paraná.</p>
+        <ol>
+          <li><strong>Los ingredientes.</strong> \(E(X) = 0{,}7\) y \(E(X^{2}) = 0 \cdot 0{,}5 + 1 \cdot 0{,}3 + 4 \cdot 0{,}2 = 1{,}1\).</li>
+          <li><strong>La fórmula y la cuenta.</strong> \[ V(X) = E(X^{2}) - [E(X)]^{2} = 1{,}1 - 0{,}49 = 0{,}61 \]</li>
+        </ol>
+        <p><strong>Qué significa:</strong> el desvío es \(\sqrt{0{,}61} \approx 0{,}78\) caídas.</p>
+      </div>
+    </li>
+    <li data-inciso="d" data-nivel="medio" data-respuesta="0,24" data-tolerancia="0,001">
+      <div class="p-consigna"><p>Para \(V(T) = V(X) + V(Y)\), ¿cuánto vale \(V(Y) = E(Y^{2}) - [E(Y)]^{2}\)?</p></div>
+      <div class="p-anotar">\(E(Y^{2}) = 0 \cdot 0{,}6 + 1 \cdot 0{,}4 = 0{,}4\); \(V(Y) = 0{,}4 - 0{,}4^{2} = 0{,}24\)</div>
+      <div class="p-pista"><p>Como \(Y\) vale 0 o 1, \(Y^{2} = Y\) y \(E(Y^{2}) = 0{,}4\).</p></div>
+      <div class="p-explicacion"><p>\(V(Y) = 0{,}4 - 0{,}16 = 0{,}24\).</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> la varianza de las caídas de Santa Fe.</p>
+        <ol>
+          <li><strong>\(E(Y^{2})\).</strong> \(0^{2} \cdot 0{,}6 + 1^{2} \cdot 0{,}4 = 0{,}4\).</li>
+          <li><strong>La fórmula y la cuenta.</strong> \[ V(Y) = E(Y^{2}) - [E(Y)]^{2} = 0{,}4 - 0{,}4^{2} = 0{,}24 \]</li>
+        </ol>
+        <p><strong>Qué significa:</strong> control: no es negativa.</p>
+      </div>
+    </li>
+    <li data-inciso="d" data-nivel="avanzado" data-respuesta="0,85" data-tolerancia="0,001">
+      <div class="p-consigna"><p>¿Cuánto vale \(V(T)\), la varianza del total semanal de caídas?</p></div>
+      <div class="p-anotar">\(V(T) = V(X) + V(Y) + 2\,Cov(X,Y) = 0{,}61 + 0{,}24 + 0 = 0{,}85\)</div>
+      <div class="p-pista"><p>\(V(X + Y) = V(X) + V(Y) + 2\,Cov(X,Y)\), y acá \(Cov = 0\).</p></div>
+      <div class="p-explicacion"><p>\(V(T) = 0{,}61 + 0{,}24 = 0{,}85\).</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> la dispersión del total de caídas de los dos servidores.</p>
+        <ol>
+          <li><strong>La fórmula.</strong> \(V(X + Y) = V(X) + V(Y) + 2\,Cov(X,Y)\); con \(Cov = 0\) (inciso c) queda \(V(X) + V(Y)\).</li>
+          <li><strong>\(V(X)\).</strong> \(E(X^{2}) - [E(X)]^{2} = 1{,}1 - 0{,}49 = 0{,}61\).</li>
+          <li><strong>\(V(Y)\).</strong> \(E(Y^{2}) - [E(Y)]^{2} = 0{,}4 - 0{,}16 = 0{,}24\).</li>
+          <li><strong>La suma.</strong> \[ V(T) = 0{,}61 + 0{,}24 = 0{,}85 \]</li>
+        </ol>
+        <p><strong>Qué significa:</strong> con independencia las varianzas se suman directamente. El promedio del total es \(E(T) = 0{,}7 + 0{,}4 = 1{,}1\) caídas, con desvío \(\sqrt{0{,}85} \approx 0{,}92\).</p>
+      </div>
+    </li>
+    <li data-inciso="e" data-nivel="medio" data-respuesta="0" data-tolerancia="0,001">
+      <div class="p-consigna"><p>Para \(Cov(U,W) = E(UW) - E(U)\,E(W)\) hace falta \(E(U) = \sum u\,P(U = u)\). Las filas de la segunda tabla suman \(0{,}25;\ 0{,}50;\ 0{,}25\). ¿Cuánto vale \(E(U)\)?</p></div>
+      <div class="p-anotar">\(E(U) = -1 \cdot 0{,}25 + 0 \cdot 0{,}5 + 1 \cdot 0{,}25 = 0\)</div>
+      <div class="p-pista"><p>\(-0{,}25 + 0 + 0{,}25\).</p></div>
+      <div class="p-explicacion"><p>\(E(U) = 0\): subir y bajar una réplica son igual de probables.</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> el cambio promedio en la cantidad de réplicas.</p>
+        <ol>
+          <li><strong>La marginal de \(U\).</strong> Suma de filas de la segunda tabla: \(P(U = -1) = 0 + 0{,}25 = 0{,}25\); \(P(U = 0) = 0{,}50 + 0 = 0{,}5\); \(P(U = 1) = 0{,}25\).</li>
+          <li><strong>La fórmula y la cuenta.</strong> \[ E(U) = \sum u\,P(U = u) = -1 \cdot 0{,}25 + 0 \cdot 0{,}5 + 1 \cdot 0{,}25 = 0 \]</li>
+        </ol>
+        <p><strong>Qué significa:</strong> en promedio la cantidad de réplicas no cambia. La marginal de \(W\) (suma de columnas) es \(P(W = 0) = 0{,}5\), \(P(W = 1) = 0{,}5\), así que \(E(W) = 0{,}5\).</p>
+      </div>
+    </li>
+    <li data-inciso="e" data-nivel="avanzado" data-respuesta="0" data-tolerancia="0,001">
+      <div class="p-consigna"><p>¿Cuánto vale \(Cov(U,W)\)?</p></div>
+      <div class="p-anotar">\(E(UW) = (-1)(1)(0{,}25) + (1)(1)(0{,}25) = 0\); \(Cov(U,W) = 0 - 0 \cdot 0{,}5 = 0\)</div>
+      <div class="p-pista"><p>\(E(UW) = \sum\sum u\,w\,f(u,w)\): solo aportan \((-1, 1)\) y \((1, 1)\).</p></div>
+      <div class="p-explicacion"><p>\(E(UW) = -0{,}25 + 0{,}25 = 0\) y \(E(U)\,E(W) = 0 \cdot 0{,}5 = 0\): \(Cov(U,W) = 0\).</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> la covarianza de la segunda tabla.</p>
+        <ol>
+          <li><strong>La fórmula.</strong> \(Cov(U,W) = E(UW) - E(U)\,E(W)\).</li>
+          <li><strong>\(E(UW)\).</strong> Con \(w = 0\) o \(u = 0\) el producto es 0. Quedan \((-1)(1)(0{,}25) = -0{,}25\) y \((1)(1)(0{,}25) = 0{,}25\): \(E(UW) = 0\).</li>
+          <li><strong>\(E(U)\) y \(E(W)\).</strong> \(E(U) = 0\); \(E(W) = 0 \cdot 0{,}5 + 1 \cdot 0{,}5 = 0{,}5\).</li>
+          <li><strong>La cuenta.</strong> \[ Cov(U,W) = 0 - 0 \cdot 0{,}5 = 0 \]</li>
+        </ol>
+        <p><strong>Qué significa:</strong> no hay relación <em>lineal</em>. Pero ojo: todavía no se sabe si son independientes.</p>
+      </div>
+    </li>
+    <li data-inciso="e" data-nivel="medio" data-respuesta="0,25" data-tolerancia="0,001">
+      <div class="p-consigna"><p>Con independencia sería \(f(u,w) = P(U = u)\,P(W = w)\) en todas las casillas. En la casilla \((0, 1)\), que vale 0, ¿cuánto vale el producto \(P(U = 0) \cdot P(W = 1)\)?</p></div>
+      <div class="p-anotar">\(P(U=0)\,P(W=1) = 0{,}5 \cdot 0{,}5 = 0{,}25 \neq 0 = f(0,1)\)</div>
+      <div class="p-pista"><p>\(P(U = 0) = 0{,}5\) (fila del 0) y \(P(W = 1) = 0{,}5\) (columna del 1).</p></div>
+      <div class="p-explicacion"><p>\(0{,}5 \cdot 0{,}5 = 0{,}25\), pero \(f(0,1) = 0\).</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> probar la independencia en una casilla con 0.</p>
+        <ol>
+          <li><strong>La casilla.</strong> \(f(0,1) = 0\): si la cantidad de réplicas no cambió, el autoescalado no actuó. Es imposible \(U = 0\) con \(W = 1\).</li>
+          <li><strong>El producto.</strong> \(P(U = 0) = 0{,}5\), \(P(W = 1) = 0{,}25 + 0 + 0{,}25 = 0{,}5\): \[ P(U = 0)\,P(W = 1) = 0{,}25 \neq 0 \]</li>
+        </ol>
+        <p><strong>Qué significa:</strong> falla en una casilla: no son independientes.</p>
+      </div>
+    </li>
+    <li data-inciso="e" data-nivel="avanzado">
+      <div class="p-consigna"><p>\(Cov(U,W) = 0\). ¿Son \(U\) y \(W\) independientes, y qué muestra este caso?</p></div>
+      <div class="p-anotar">\(Cov(U,W) = 0\) pero \(f(0,1) = 0 \neq 0{,}25 \Rightarrow\) no son independientes: \(Cov = 0 \not\Rightarrow\) independencia</div>
+      <ul class="p-opciones">
+        <li data-correcta>No son independientes (\(f(0,1) = 0 \neq 0{,}25\)): covarianza 0 no implica independencia</li>
+        <li>Sí: la covarianza es 0, y eso prueba la independencia</li>
+        <li>Sí: \(E(UW) = E(U)\,E(W)\)</li>
+        <li>No: porque la covarianza tendría que ser negativa</li>
+      </ul>
+      <div class="p-pista"><p>Independencia \(\Rightarrow\) \(Cov = 0\). ¿Vale la vuelta? Mirá la casilla \((0,1)\).</p></div>
+      <div class="p-explicacion"><p>\(W\) depende totalmente de \(U\) (\(W = U^{2}\)), pero no de forma lineal, y la covarianza solo detecta relaciones lineales. Por eso da 0 sin que haya independencia.</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> decidir la independencia de \((U, W)\) y sacar la conclusión teórica.</p>
+        <ol>
+          <li><strong>La covarianza.</strong> \(Cov(U,W) = E(UW) - E(U)\,E(W) = 0 - 0 \cdot 0{,}5 = 0\).</li>
+          <li><strong>La independencia.</strong> En \((0,1)\): \(f(0,1) = 0\) y \(P(U=0)\,P(W=1) = 0{,}25\). Falla en una casilla: <strong>no</strong> son independientes.</li>
+          <li><strong>Por qué pasa.</strong> \(W = 1\) exactamente cuando \(U = -1\) o \(U = 1\): es \(W = U^{2}\). Hay dependencia total, pero no lineal (cuando \(U\) sube de \(-1\) a \(0\), \(W\) baja; de \(0\) a \(1\), sube). La covarianza mide solo la relación lineal, y los dos efectos se cancelan.</li>
+          <li><strong>Las opciones que no.</strong> Covarianza 0, o \(E(UW) = E(U)\,E(W)\), es lo mismo dicho de dos formas, y ninguna alcanza para afirmar independencia. Y no hay nada que obligue a una covarianza negativa.</li>
+        </ol>
+        <p><strong>Qué significa:</strong> independencia \(\Rightarrow Cov = 0\), pero \(Cov = 0 \not\Rightarrow\) independencia. Para <em>probar</em> independencia se usa siempre \(f(x,y) = g(x)\,h(y)\), como en el inciso b.</p>
+      </div>
+    </li>
+  </ol>
+</article>

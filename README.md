@@ -52,7 +52,8 @@ fórmulas (MathJax) y las tipografías. Tus datos no salen de tu máquina.
   unidad, hechos con la forma del Parcial 2025, que cubren las variantes que pueden tomar (en la
   binomial: exactamente, al menos, a lo sumo, menos de, ninguno...; en la U4, la versión que suma
   y la que integra; en la U7, intervalos con z y con t de Student). Salen todos los de las unidades
-  elegidas, en orden de estudio. No va junto con "Solo tal cual del parcial".
+  elegidas, en cada unidad del más probable al menos probable (lo que más se repite en los
+  parciales 2025 y 2023, sobre todo el 2025, en los finales y en las guías va primero). No va junto con "Solo tal cual del parcial".
 
   El **cuestionario de la 1ra etapa** imita al del Aula Virtual: teoría, planteos, traducir
   frases, verdadero o falso y cuentas de un paso, sacadas de toda la teoría y la práctica, no

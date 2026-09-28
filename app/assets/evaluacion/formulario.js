@@ -389,7 +389,7 @@
         form.querySelector("[data-ayuda-ejercicios]").textContent = (entero_
           ? "Son los ejercicios del " + entero_.nombre + ", en el orden del examen."
           : fund
-          ? "Salen todos, unidad por unidad y en orden de estudio: primero el más parecido al Parcial 2025 y después sus variantes."
+          ? "Salen todos, unidad por unidad y del más probable al menos probable: primero lo que más se repite en los parciales 2025 y 2023, los finales y las guías."
           : v.soloParcial
           ? "Ejercicios de los parciales, tal cual, mezclados."
           : "Se mezclan ejercicios reales de los parciales y finales con otros inventados con la misma forma.") +

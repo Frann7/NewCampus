@@ -173,11 +173,11 @@
       ]));
 
       function pintarBarra() {
-        var hechas = it.preguntas.filter(respondida).length;
+        var hechas = it.preguntas.filter(function (r) { return respondida(r) || r.resuelta; }).length;
         progresoTxt.textContent = "Respondidas " + hechas + " de " + it.preguntas.length;
         relleno.style.width = Math.round(100 * hechas / it.preguntas.length) + "%";
         Array.prototype.forEach.call(casillas.children, function (b, i) {
-          b.classList.toggle("es-respondida", respondida(it.preguntas[i]));
+          b.classList.toggle("es-respondida", respondida(it.preguntas[i]) || !!it.preguntas[i].resuelta);
         });
       }
 
@@ -221,7 +221,7 @@
       }
 
       function entregar() {
-        var faltan = it.preguntas.filter(function (r) { return !respondida(r); }).length;
+        var faltan = it.preguntas.filter(function (r) { return !respondida(r) && !r.resuelta; }).length;
         cerrarDialogo = E.dialogo({
           titulo: "¿Enviar todo y terminar?",
           texto: (faltan ? "Te quedan " + faltan + (faltan === 1 ? " pregunta sin responder, que vale 0. " : " preguntas sin responder, que valen 0. ") : "Respondiste todas. ") +
@@ -313,6 +313,23 @@
         mostrarCorreccion(cuerpo, p, r);
       }
 
+      // Resolver: muestra la respuesta y la explicacion sin contestar. La
+      // pregunta queda fija y vale 0 (como sin responder).
+      function marcarResuelta(tarjeta) {
+        tarjeta.querySelector(".cu-info-estado").textContent = "Resuelta con el botón (no suma)";
+        tarjeta.classList.add("cu-revision", "inf-sin-responder");
+      }
+
+      function resolver(tarjeta, cuerpo, p, r) {
+        r.resuelta = true;
+        r.comprobada = true;
+        r.respuesta = null;
+        guardar();
+        pintarBarra();
+        marcarResuelta(tarjeta);
+        mostrarCorreccion(cuerpo, p, r);
+      }
+
       it.preguntas.forEach(function (r, i) {
         var p = B.obtener(materia, r.id);
         casillas.appendChild(h("button", { class: "cu-casilla", type: "button", title: "Ir a la pregunta " + (i + 1),
@@ -331,6 +348,11 @@
           cuerpo.appendChild(h("p", {}, "Esta pregunta ya no está en el banco: se la cuenta como sin responder."));
           return;
         }
+        if (r.resuelta) {
+          marcarResuelta(tarjeta);
+          mostrarCorreccion(cuerpo, p, r);
+          return;
+        }
         if (corregirYa && r.comprobada) {
           var fr0 = B.corregirCuestionario(p, r.respuesta).fraccion;
           tarjeta.querySelector(".cu-info-estado").textContent = estadoDe(fr0);
@@ -346,14 +368,19 @@
           cuerpo.appendChild(h("p", { class: "cu-consigna" }, CONSIGNA[p.formato] || CONSIGNA.opcion));
           cuerpo.appendChild(opciones(p, r));
         }
+        var fila = h("div", { class: "cu-comprobar-fila" });
+        fila.appendChild(h("button", { class: "ev-btn cu-resolver", type: "button",
+          title: "Ver la respuesta correcta y la explicación. La pregunta queda en 0.",
+          onclick: function () { resolver(tarjeta, cuerpo, p, r); } }, "📖 Resolver"));
         if (corregirYa) {
           var btn = h("button", { class: "ev-btn ev-btn-primario cu-comprobar", type: "button",
             onclick: function () {
               if (!respondida(r)) { btn.textContent = "Elegí una respuesta primero"; return; }
               comprobar(tarjeta, cuerpo, p, r);
             } }, "Comprobar");
-          cuerpo.appendChild(h("div", { class: "cu-comprobar-fila" }, btn));
+          fila.appendChild(btn);
         }
+        cuerpo.appendChild(fila);
       });
 
       zona.appendChild(h("div", { class: "ex-acciones cu-entregar" }, [
@@ -424,7 +451,7 @@
       it.preguntas.forEach(function (r, i) {
         var preg = B.obtener(materia, r.id);
         var fr = r.fraccion || 0;
-        var estado = !r.hecho ? "Sin responder" : fr >= 1 ? "Correcta" : fr > 0 ? "Parcialmente correcta" : "Incorrecta";
+        var estado = r.resuelta ? "Resuelta con el botón (no suma)" : !r.hecho ? "Sin responder" : fr >= 1 ? "Correcta" : fr > 0 ? "Parcialmente correcta" : "Incorrecta";
         var clase = !r.hecho ? "sin-responder" : fr >= 1 ? "bien" : fr > 0 ? "parcial" : "mal";
 
         var tarjeta = h("section", { class: "cu-preg cu-revision inf-" + clase });

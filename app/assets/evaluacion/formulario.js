@@ -22,7 +22,7 @@
   "use strict";
 
   var POR_DEFECTO = {
-    etapa: null, cantCuestionario: 10, formato1: "hoja", urgente1: false,
+    etapa: null, cantCuestionario: 10, formato1: "hoja", urgente1: false, corregirYa: false,
     modo: "normal", estilo: "parcial", navLibre: false, cantEjercicios: 2,
     nivel: "medio", fallos: 3, verRespuesta: true,
     unidades: [], teoria: false, practica: false,
@@ -184,7 +184,10 @@
 
     '<fieldset class="ae-paso" data-tras-etapa>' +
     '  <legend><span class="ae-num"></span>Corrección y tiempo</legend>' + BLOQUEADO +
-    '  <p class="ae-ayuda ae-ayuda-arriba" data-etapa="1">Como en el Aula Virtual: contestás todo, entregás, y recién ahí ves la corrección de cada pregunta.</p>' +
+    '  <div class="ae-campo" data-etapa="1">' +
+    '    <label class="ae-check"><input type="checkbox" name="corregirYa"><span>Corregir cada pregunta al responderla</span></label>' +
+    '    <p class="ae-ayuda" data-ayuda-corregirya></p>' +
+    '  </div>' +
     '  <fieldset class="ae-campo" data-bloque="correccion" data-etapa="2">' +
     '    <label class="ae-check"><input type="checkbox" name="verRespuesta"><span>Mostrar la respuesta correcta después de cada pregunta</span></label>' +
     '    <p class="ae-ayuda">Desactivado: respondés de corrido y en el informe final ves cuáles hiciste bien y qué elegiste.</p>' +
@@ -252,6 +255,7 @@
       campo("cantCuestionario").value = c.cantCuestionario;
       form.querySelector('[name="formato1"][value="' + (c.formato1 === "virtual" ? "virtual" : "hoja") + '"]').checked = true;
       campo("urgente1").checked = !!c.urgente1;
+      campo("corregirYa").checked = !!c.corregirYa;
       form.querySelector('[name="modo"][value="' + c.modo + '"]').checked = true;
       form.querySelector('[name="estilo"][value="' + c.estilo + '"]').checked = true;
       campo("navLibre").checked = c.navLibre;
@@ -290,6 +294,7 @@
           cantCuestionario: entero(campo("cantCuestionario").value),
           formato1: marcado('[name="formato1"]') || "hoja",
           urgente1: campo("urgente1").checked,
+          corregirYa: campo("corregirYa").checked,
           modo: marcado('[name="modo"]'),
           estilo: marcado('[name="estilo"]'),
           navLibre: campo("navLibre").checked,
@@ -375,6 +380,9 @@
         if (v.urgente1) { campo("cantCuestionario").value = disp.cuestionario; v.cantCuestionario = disp.cuestionario; }
         form.querySelector('[data-de="cuestionario"]').textContent = v.urgente1
           ? "(todas las urgentes)" : "de " + disp.cuestionario;
+        form.querySelector("[data-ayuda-corregirya]").textContent = v.corregirYa
+          ? "Cada pregunta tiene un botón Comprobar: te dice si está bien, cuál es la correcta y por qué. Una vez comprobada ya no se cambia."
+          : "Como en el examen: contestás todo, entregás, y recién ahí ves la corrección de cada pregunta.";
         form.querySelector("[data-ayuda-formato1]").textContent = v.formato1 === "virtual"
           ? "Como el Cuestionario del Aula Virtual: opción única, varias correctas, verdadero o falso y completar con coma y 2 decimales."
           : "Como ahora en la hoja: opción múltiple (puede haber varias correctas) y verdadero o falso. Sin completar.";
@@ -542,7 +550,7 @@
           // en la 1ra etapa "fundamentales" es el modo urgente
           v.fundamentales = v.urgente1;
           if (v.urgente1) { v.cantCuestionario = disp1(v); }
-        } else { v.urgente1 = false; v.formato1 = "hoja"; }
+        } else { v.urgente1 = false; v.formato1 = "hoja"; v.corregirYa = false; }
         if (v.modo === "interactivo") { v.teoria = false; v.practica = false; v.navLibre = false; }
         // "tal cual del parcial" y el parcial entero son del interactivo
         if (v.etapa !== "1" && v.modo !== "interactivo") { v.soloParcial = false; v.fundamentales = false; }

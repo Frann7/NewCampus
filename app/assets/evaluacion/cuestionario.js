@@ -66,6 +66,59 @@
     ]);
   }
 
+  /* La correccion de una pregunta: las opciones con la correcta marcada (o los
+     huecos con su correccion) y la explicacion. La usan la revision final y
+     "corregir al responder". */
+  function correccion(preg, r) {
+    var h = E.h, B = E.banco, nodos = [];
+    if (preg.formato === "completar") {
+      var revision = B.corregirCuestionario(preg, r.respuesta);
+      nodos.push(enunciadoConHuecos(preg, function (k, hueco) {
+        var dado = (r.respuesta || [])[k];
+        var vacio = dado === undefined || dado === null || String(dado).trim() === "";
+        var mostrado = vacio ? "—" : hueco.tipo === "lista" ? hueco.opciones[parseInt(dado, 10)] : dado;
+        var bien = revision.huecos[k].ok;
+        var correcta = hueco.tipo === "lista" ? hueco.opciones[hueco.correcta] : hueco.respuesta;
+        return h("span", { class: "cu-hueco-rev " + (bien ? "es-correcta" : "es-incorrecta") }, [
+          h("span", { class: "cu-hueco-dado" }, mostrado),
+          h("span", { class: "cu-marca" }, bien ? " ✓" : " ✗"),
+          bien ? null : h("small", { class: "cu-hueco-correcta" },
+            revision.huecos[k].motivo === "formato"
+              ? " el valor está bien, pero va con coma y " + hueco.decimales + " decimales: " + correcta
+              : " correcta: " + correcta)
+        ]);
+      }));
+    } else {
+      nodos.push(h("div", { class: "ex-enunciado", html: preg.enunciado }));
+      var marcadas = preg.formato === "multiple" ? (r.respuesta || []) : (respondida(r) ? [r.respuesta] : []);
+      var orden = r.orden || preg.opciones.textos.map(function (_, k) { return k; });
+      nodos.push(h("div", { class: "inf-opciones" }, orden.map(function (orig, k) {
+        var esCorrecta = preg.opciones.correctas.indexOf(orig) !== -1;
+        var laMarcaste = marcadas.indexOf(orig) !== -1;
+        return h("div", { class: "inf-op" + (esCorrecta ? " es-correcta" : "") + (laMarcaste && !esCorrecta ? " es-incorrecta" : "") }, [
+          h("span", { class: "cu-letra" }, E.LETRAS[k].toLowerCase() + "."),
+          h("span", { class: "ex-op-txt", html: preg.opciones.textos[orig] }),
+          esCorrecta ? h("small", {}, "Correcta") : null,
+          laMarcaste ? h("small", {}, esCorrecta ? "✓ La marcaste" : "✗ La marcaste") : null
+        ]);
+      })));
+      if (preg.formato === "multiple") {
+        nodos.push(h("p", { class: "inf-meta" },
+          "Varias correctas: cada correcta marcada suma 1/" + preg.opciones.correctas.length +
+          " del puntaje y cada incorrecta marcada resta lo mismo."));
+      }
+    }
+    if (preg.explicacion) {
+      nodos.push(h("div", { class: "caja caja-formula" }, [
+        h("span", { class: "caja-tit" }, "Explicación"),
+        h("div", { html: preg.explicacion })
+      ]));
+    }
+    return nodos;
+  }
+
+  function estadoDe(fr) { return fr >= 1 ? "Correcta" : fr > 0 ? "Parcialmente correcta" : "Incorrecta"; }
+
   function etiquetas(materia, p) {
     return E.h("div", { class: "ex-etiquetas" }, [
       E.h("span", { class: "ev-chip" }, E.numeroDeUnidad(materia, p.unidad)),
@@ -108,7 +161,7 @@
       cont.appendChild(h("div", { class: "ex-barra" }, [
         h("div", { class: "ex-barra-info" }, [
           h("span", { class: "ex-nombre" }, ae.nombre),
-          h("span", { class: "ev-chip ev-chip-etapa" }, "1ra etapa · Cuestionario"),
+          h("span", { class: "ev-chip ev-chip-etapa" }, "1ra etapa · " + (it.config.formato1 === "hoja" ? "En hoja" : "Cuestionario")),
           progresoTxt
         ]),
         h("div", { class: "ex-barra-acciones" }, [
@@ -239,6 +292,27 @@
         });
       }
 
+      // "Corregir al responder": cada pregunta tiene su Comprobar, y una vez
+      // comprobada queda fija y muestra la correcta con su explicacion.
+      var corregirYa = !!it.config.corregirYa;
+
+      function mostrarCorreccion(cuerpo, p, r) {
+        E.vaciar(cuerpo);
+        cuerpo.appendChild(etiquetas(materia, p));
+        correccion(p, r).forEach(function (n) { cuerpo.appendChild(n); });
+        E.tipografiar(cuerpo);
+      }
+
+      function comprobar(tarjeta, cuerpo, p, r) {
+        if (!respondida(r)) { return; }
+        r.comprobada = true;
+        var fr = B.corregirCuestionario(p, r.respuesta).fraccion;
+        guardar();
+        tarjeta.querySelector(".cu-info-estado").textContent = estadoDe(fr);
+        tarjeta.classList.add("cu-revision", "inf-" + (fr >= 1 ? "bien" : fr > 0 ? "parcial" : "mal"));
+        mostrarCorreccion(cuerpo, p, r);
+      }
+
       it.preguntas.forEach(function (r, i) {
         var p = B.obtener(materia, r.id);
         casillas.appendChild(h("button", { class: "cu-casilla", type: "button", title: "Ir a la pregunta " + (i + 1),
@@ -257,6 +331,13 @@
           cuerpo.appendChild(h("p", {}, "Esta pregunta ya no está en el banco: se la cuenta como sin responder."));
           return;
         }
+        if (corregirYa && r.comprobada) {
+          var fr0 = B.corregirCuestionario(p, r.respuesta).fraccion;
+          tarjeta.querySelector(".cu-info-estado").textContent = estadoDe(fr0);
+          tarjeta.classList.add("cu-revision", "inf-" + (fr0 >= 1 ? "bien" : fr0 > 0 ? "parcial" : "mal"));
+          mostrarCorreccion(cuerpo, p, r);
+          return;
+        }
         cuerpo.appendChild(etiquetas(materia, p));
         if (p.formato === "completar") {
           cuerpo.appendChild(completar(p, r));
@@ -265,10 +346,20 @@
           cuerpo.appendChild(h("p", { class: "cu-consigna" }, CONSIGNA[p.formato] || CONSIGNA.opcion));
           cuerpo.appendChild(opciones(p, r));
         }
+        if (corregirYa) {
+          var btn = h("button", { class: "ev-btn ev-btn-primario cu-comprobar", type: "button",
+            onclick: function () {
+              if (!respondida(r)) { btn.textContent = "Elegí una respuesta primero"; return; }
+              comprobar(tarjeta, cuerpo, p, r);
+            } }, "Comprobar");
+          cuerpo.appendChild(h("div", { class: "cu-comprobar-fila" }, btn));
+        }
       });
 
       zona.appendChild(h("div", { class: "ex-acciones cu-entregar" }, [
-        h("p", { class: "ae-ayuda" }, "Podés ir y volver entre preguntas. Nada se corrige hasta que entregás."),
+        h("p", { class: "ae-ayuda" }, corregirYa
+          ? "Cada pregunta se corrige al tocar Comprobar, y ahí queda fija. Al terminar ves la nota y la revisión completa."
+          : "Podés ir y volver entre preguntas. Nada se corrige hasta que entregás."),
         h("button", { class: "ev-btn ev-btn-primario", type: "button", onclick: entregar }, "Terminar intento…")
       ]));
 
@@ -345,50 +436,7 @@
         if (!preg) { cuerpo.appendChild(h("p", {}, "Esta pregunta ya no está en el banco.")); return; }
         cuerpo.appendChild(etiquetas(materia, preg));
 
-        if (preg.formato === "completar") {
-          var revision = B.corregirCuestionario(preg, r.respuesta);
-          cuerpo.appendChild(enunciadoConHuecos(preg, function (k, hueco) {
-            var dado = (r.respuesta || [])[k];
-            var vacio = dado === undefined || dado === null || String(dado).trim() === "";
-            var mostrado = vacio ? "—" : hueco.tipo === "lista" ? hueco.opciones[parseInt(dado, 10)] : dado;
-            var bien = revision.huecos[k].ok;
-            var correcta = hueco.tipo === "lista" ? hueco.opciones[hueco.correcta] : hueco.respuesta;
-            return h("span", { class: "cu-hueco-rev " + (bien ? "es-correcta" : "es-incorrecta") }, [
-              h("span", { class: "cu-hueco-dado" }, mostrado),
-              h("span", { class: "cu-marca" }, bien ? " ✓" : " ✗"),
-              bien ? null : h("small", { class: "cu-hueco-correcta" },
-                revision.huecos[k].motivo === "formato"
-                  ? " el valor está bien, pero va con coma y " + hueco.decimales + " decimales: " + correcta
-                  : " correcta: " + correcta)
-            ]);
-          }));
-        } else {
-          cuerpo.appendChild(h("div", { class: "ex-enunciado", html: preg.enunciado }));
-          var marcadas = preg.formato === "multiple" ? (r.respuesta || []) : (r.hecho ? [r.respuesta] : []);
-          var orden = r.orden || preg.opciones.textos.map(function (_, k) { return k; });
-          cuerpo.appendChild(h("div", { class: "inf-opciones" }, orden.map(function (orig, k) {
-            var esCorrecta = preg.opciones.correctas.indexOf(orig) !== -1;
-            var laMarcaste = marcadas.indexOf(orig) !== -1;
-            return h("div", { class: "inf-op" + (esCorrecta ? " es-correcta" : "") + (laMarcaste && !esCorrecta ? " es-incorrecta" : "") }, [
-              h("span", { class: "cu-letra" }, E.LETRAS[k].toLowerCase() + "."),
-              h("span", { class: "ex-op-txt", html: preg.opciones.textos[orig] }),
-              esCorrecta ? h("small", {}, "Correcta") : null,
-              laMarcaste ? h("small", {}, esCorrecta ? "✓ La marcaste" : "✗ La marcaste") : null
-            ]);
-          })));
-          if (preg.formato === "multiple") {
-            cuerpo.appendChild(h("p", { class: "inf-meta" },
-              "Varias correctas: cada correcta marcada suma 1/" + preg.opciones.correctas.length +
-              " del puntaje y cada incorrecta marcada resta lo mismo."));
-          }
-        }
-
-        if (preg.explicacion) {
-          cuerpo.appendChild(h("div", { class: "caja caja-formula" }, [
-            h("span", { class: "caja-tit" }, "Explicación"),
-            h("div", { html: preg.explicacion })
-          ]));
-        }
+        correccion(preg, r).forEach(function (n) { cuerpo.appendChild(n); });
       });
 
       E.pantallaNueva(cont);

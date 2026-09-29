@@ -63,7 +63,9 @@ fórmulas (MathJax) y las tipografías. Tus datos no salen de tu máquina.
   en intentos nuevos, pero los intentos guardados las siguen mostrando. La casilla **"Modo
   urgente"** deja solo las preguntas fundamentales de teoría (demostraciones de esperanza,
   varianza y covarianza, independencia, correlación, condiciones de cada modelo, la normal, la
-  t), todas las de las unidades elegidas, de la más probable a la menos.
+  t), todas las de las unidades elegidas, de la más probable a la menos. Con **"Corregir cada pregunta
+  al responderla"**, cada pregunta tiene un botón Comprobar: dice si está bien, marca la correcta y
+  muestra la explicación, y la pregunta queda fija; al terminar sale la nota como siempre.
 
   En los fundamentales del interactivo, el cuadro de datos termina con el **planteo en la hoja**:
   la variable, si es discreta o continua y el modelo con la notación de la cátedra
@@ -210,6 +212,7 @@ Chrome (`chrome --headless --print-to-pdf`).
 `0.x.y-alpha` mientras esté en desarrollo. La `1.0.0` queda reservada para cuando esté terminado.
 La versión actual se lee al pie del menú lateral.
 
+* **0.30.0-alpha** — 1ra etapa: opción de corregir cada pregunta al responderla.
 * **0.29.0-alpha** — 1ra etapa en hoja (sin completar) y modo urgente con las preguntas de
   teoría más probables; planteo en la hoja en los fundamentales.
 * **0.28.0-alpha** — ejercicios fundamentales (plan de urgencia) en el interactivo, con la t de

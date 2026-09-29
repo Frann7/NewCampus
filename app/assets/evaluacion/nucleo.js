@@ -331,7 +331,7 @@ window.NC.eval = window.NC.eval || {};
     var cant = 0;
     if (E.etapaDe(c) === "1") {
       partes.push("1ra etapa · " + (c.formato1 === "hoja" ? "En hoja" : "Cuestionario virtual") +
-        (c.urgente1 ? " · modo urgente" : ""));
+        (c.urgente1 ? " · modo urgente" : "") + (c.corregirYa ? " · corrección al responder" : ""));
       cant = c.cantCuestionario;
     } else {
       partes.push("2da etapa · " + E.nombreModo(c));

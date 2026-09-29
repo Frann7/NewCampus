@@ -15,20 +15,39 @@
     <li>\(\bar{x} \pm z_{\alpha/2} \frac{s}{\sqrt{n}}\), porque la población es normal</li>
   </ul>
   <div class="p-explicacion">
+    <p>
+      <strong>La idea.</strong> Para estimar \(\mu\) se estandariza la media de la muestra. Si se
+      conoce \(\sigma\), \(Z = \dfrac{\bar{X} - \mu}{\sigma/\sqrt{n}}\) es \(N(0,1)\). Si
+      \(\sigma\) no se conoce, se lo reemplaza por el desvío de la muestra:
+      \(T = \dfrac{\bar{X} - \mu}{s/\sqrt{n}}\). Acá \(\bar{X}\) es la media de la muestra, \(\mu\) la
+      media de la población (lo que se quiere estimar), \(s\) el desvío calculado con los datos y
+      \(n\) el tamaño de la muestra. Como \(s\) cambia de muestra en muestra, \(T\) varía más que
+      \(Z\): esa variable tiene distribución <strong>\(t\) de Student</strong>.
+    </p>
     <p>La tabla de la cátedra tiene tres casos:</p>
     <div class="tabla-wrap">
       <table class="t full">
         <tr><th>Caso</th><th>Intervalo</th></tr>
         <tr><td>\(\sigma\) conocida</td><td>\(\bar{x} \pm z_{\alpha/2}\, \sigma/\sqrt{n}\)</td></tr>
-        <tr><td>\(\sigma\) desconocida y \(n &lt; 30\) (población normal)</td><td>\(\bar{x} \pm t_{(\alpha/2;\ n-1)}\, s/\sqrt{n}\)</td></tr>
+        <tr><td>\(\sigma\) desconocida y \(n &lt; 30\) (población normal)</td><td>\(\bar{x} \pm t_{(\alpha/2;\ \nu)}\, s/\sqrt{n}\), \(\nu = n - 1\)</td></tr>
         <tr><td>\(\sigma\) desconocida y \(n \geq 30\)</td><td>\(\bar{x} \pm z_{\alpha/2}\, s/\sqrt{n}\)</td></tr>
       </table>
     </div>
     <p>
-      Acá el desvío sale de los datos (es \(s\), no \(\sigma\)) y \(n = 15 &lt; 30\): caso
-      \(t\) de Student, con \(v = n - 1 = 14\) grados de libertad. Que la población sea normal es
-      lo que <strong>permite</strong> usar la \(t\) con una muestra chica; no alcanza para usar
-      \(z\) con \(s\), que requiere \(n \geq 30\).
+      Acá el desvío sale de los datos (es \(s\)) y \(n = 15 &lt; 30\): caso \(t\) con
+      \(\nu = 15 - 1 = 14\) grados de libertad (se pierde uno porque la muestra se usó para calcular
+      \(\bar{x}\)). Al 95&nbsp;%, fila 14 y columna 0,025 dan \(t = 2{,}145\).
+    </p>
+    <p>Opción por opción:</p>
+    <ul>
+      <li>La de <strong>\(t\) con 14 grados de libertad</strong>: correcta.</li>
+      <li>La de <strong>\(z\) con \(\sigma\)</strong>: no se conoce \(\sigma\), no hay con qué hacer la cuenta.</li>
+      <li>La de <strong>\(t\) con 15 grados de libertad</strong>: fórmula bien, pero \(\nu = n\) en lugar de \(n - 1\).</li>
+      <li>La de <strong>\(z\) con \(s\) "porque la población es normal"</strong>: que la población sea normal es lo que <strong>permite</strong> usar la \(t\) con muestra chica; \(z\) con \(s\) pide \(n \geq 30\).</li>
+    </ul>
+    <p>
+      <strong>Para la hoja:</strong> \(\sigma\) conocido &rarr; \(z\); \(\sigma\) desconocido y
+      \(n\) chico &rarr; \(t\) con \(\nu = n - 1\).
     </p>
   </div>
 </article>

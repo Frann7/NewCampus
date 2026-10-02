@@ -16,10 +16,13 @@ entera. Medido en la sesión del 9/9 al 2/10: cada prompt arrancaba con ~400 mil
 conversación vieja y costaba ~5,5 millones; con una sesión por tarea, el mismo prompt cuesta
 ~0,6 millones. Por eso:
 
-- **Una tarea = una sesión nueva** (`/clear` o chat nuevo). Una tarea es algo que se termina con
-  un commit: una funcionalidad, una unidad, una tanda de preguntas, un arreglo.
-- Si en medio de una sesión Fran pide algo **sin relación** con lo que se está haciendo, se
-  le recuerda en una línea que conviene abrir una sesión nueva (no se le niega).
+- **Una tarea grande = una sesión nueva** (`/clear` o chat nuevo): una funcionalidad, una unidad,
+  una tanda de preguntas.
+- Si en medio de una sesión Fran pide algo **chico y sin relación** (un bug, un ajuste), no se le
+  pide abrir otro chat: se larga un **agente en segundo plano** (en su worktree, con
+  instrucciones cortas, que commitee y pushee él) y se sigue con lo que se estaba haciendo. El
+  agente arranca sin la conversación encima, así que sale barato. Solo si el pedido es grande
+  se sugiere, en una línea, una sesión nueva.
 - **Al cerrar cada tarea**, lo que quede pendiente o se haya decidido y no esté en el código se
   anota en "Pendientes e ideas" (de acá o del `CLAUDE.md` de la materia). Es lo único que la
   próxima sesión sabe de esta.

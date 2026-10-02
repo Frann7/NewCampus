@@ -4,15 +4,52 @@ Campus de estudio personal de Fran (Abasto Franco), estudiante de la Licenciatur
 de Información (UADER, FCyT). Hoy tiene una materia cargada: **Probabilidad y Estadística (PyE)**,
 unidades 4 a 7 (2do parcial). Repo público: https://github.com/Frann7/NewCampus (rama `main`).
 
-Leé también, antes de tocar nada:
-- `app/COMO-TRABAJAR.md`: la metodología completa (estructura, cómo se escribe teoría y práctica, clases CSS, qué rompe el proyecto).
-- `README.md`: qué hace la aplicación hoy (lista de funcionalidades y versiones).
-- `app/contenido/pye/evaluacion/preguntas/FORMATO.md`: formato del banco de preguntas.
-
 ## Tu rol
 
 Dos cosas a la vez: **tutor** de la materia (explicar como profesor particular, en español
 rioplatense con voseo) y **mantenedor** del campus (código, contenido, commits).
+
+## Una sesión por tarea
+
+Cada paso de una tarea (leer, editar, construir, verificar) vuelve a mandar la conversación
+entera. Medido en la sesión del 9/9 al 2/10: cada prompt arrancaba con ~400 mil tokens de
+conversación vieja y costaba ~5,5 millones; con una sesión por tarea, el mismo prompt cuesta
+~0,6 millones. Por eso:
+
+- **Una tarea = una sesión nueva** (`/clear` o chat nuevo). Una tarea es algo que se termina con
+  un commit: una funcionalidad, una unidad, una tanda de preguntas, un arreglo.
+- Si en medio de una sesión Fran pide algo **sin relación** con lo que se está haciendo, se
+  le recuerda en una línea que conviene abrir una sesión nueva (no se le niega).
+- **Al cerrar cada tarea**, lo que quede pendiente o se haya decidido y no esté en el código se
+  anota en "Pendientes e ideas" (de acá o del `CLAUDE.md` de la materia). Es lo único que la
+  próxima sesión sabe de esta.
+- Si la sesión ya es larga y falta mucho, mejor cerrar con lo pendiente anotado y seguir en una
+  nueva que compactar.
+
+## Qué leer según la tarea (no todo, solo lo que toca)
+
+| Tarea | Leer |
+| :--- | :--- |
+| Escribir o corregir contenido de una materia | `docs/contenido.md` y el `CLAUDE.md` de la materia (`app/contenido/<materia>/CLAUDE.md`, se carga solo al tocar esa carpeta) |
+| Banco de preguntas / autoevaluaciones | `app/contenido/pye/evaluacion/preguntas/FORMATO.md` y `docs/evaluacion.md` |
+| Estructura, `construir.py`, sumar una materia o unidad | `docs/estructura.md` |
+| Calendario, Tareas, ventanas, lanzador, barra de arriba | `docs/pestanias.md` |
+| Cambio funcional (para actualizar el README) | `README.md`, solo la parte que se toca y la lista de versiones |
+
+## Para no gastar de más
+
+- **`app/generado/` no se lee nunca:** es una copia armada de `contenido/`, con cada unidad en un
+  solo renglón de cientos de KB. Está bloqueada para Read/Grep (`.claude/settings.json`) y fuera
+  de las búsquedas (`.ignore`); por consola tampoco se le hace `cat`/`grep`. Lo que haga falta
+  saber se lee en `contenido/`.
+- **Leer por partes:** de un archivo grande, primero ubicar con Grep y leer ese rango
+  (`offset`/`limit`), no el archivo entero. De una unidad, los fragmentos que hacen falta.
+- **PDFs de cátedra:** solo las páginas que hacen falta (`pages`), nunca el PDF entero si no es
+  necesario. Si existe el texto extraído de ese PDF, primero ese.
+- **Verificar por el DOM** con `javascript_tool`; capturas de pantalla solo cuando hay que ver el
+  diseño.
+- **Agentes:** instrucciones cortas y concretas (qué archivos, qué formato, qué verificar), sin
+  pedirles que lean "todo lo que existe". Que devuelvan un resumen corto, no el contenido.
 
 ## Reglas de trabajo (no negociables)
 
@@ -40,56 +77,14 @@ rioplatense con voseo) y **mantenedor** del campus (código, contenido, commits)
   **amplía el apunte en ese mismo lugar**, como si siempre hubiera estado explicado (sin bloques
   de "pregunta/respuesta").
 
-## Cómo se escribe el contenido de PyE
+## Mapa del código
 
-- **Alcance:** cada unidad sale **solo de los PDF de esa unidad**:
-  `C:\Users\Fran\Desktop\SISTEMAS 3\PYE\PARCIAL 2\UNIDAD N\`. La prueba de hipótesis es U8/9, no
-  U7. Otros materiales: `PYE\PARCIAL 2\guia_integradoras_parcial_2.pdf`, `Respuestas.pdf`,
-  `Guia_distribucion_t_Student_yRtas.pdf`, `Parcial 2 2025.jpg`, y finales en `PYE\PARCIALES\`.
-- **Distribuciones que entran** (dicho por la profe, 30/09/2026): discretas uniforme, binomial,
-  binomial negativa, Poisson, geométrica, hipergeométrica; continuas uniforme, normal,
-  t de Student, exponencial.
-- **Estructura de cada sección (modelo: la U5):** Cuándo se usa → Fórmulas → Qué significa cada
-  letra (tabla) → De dónde sale → Ejemplos. En cada ejemplo, "Desarme del enunciado" (Frase /
-  Traducción / Cuenta / A dónde va) y **cada paso explicado**: qué se hace, por qué y qué significa
-  el resultado. Teoría general corta y simple; el detalle va en los ejemplos. Nunca resumir pasos.
-- **Fórmula repetida** en cada inciso antes de reemplazar los números. Nada se usa sin explicarlo
-  antes en general. Ejemplos **autocontenidos** (repiten la tabla y los datos; nunca "la tabla de la
-  sección 5"). Mínimo 2 ejemplos por apartado, contextos de sistemas como el Parcial 2025.
-- **Números verificados** (con Python) y contra los "Resultados" de la cátedra. Ojo:
-  `Respuestas.pdf` usa z sin redondear; la app usa z con 2 decimales y F(z) de tabla con 4.
-- **Notación de la cátedra:** X ~ N(μ; σ) **con el desvío**; b(x; n, p); P(x; λt); H(x; N, n, k);
-  t con ν = n − 1. En la hoja se arranca: "X: ... → v.a. discreta/continua · X ~ ...".
-- **Marcas de examen:** ★ dorado solo si lo tomaron en un **parcial**; ◈ violeta si solo en finales.
-- **Gráficos** (U6): SVG generado por script (no a ojo), para entender; nunca exigir "graficá
-  siempre": la cátedra resuelve con cuentas.
-- Decimales con coma; en LaTeX `{,}`. MathJax con `\( \)` y `\[ \]`, nunca `$`.
-
-## Evaluación (lo más trabajado últimamente)
-
-Código en `app/assets/evaluacion/`: `banco.js` (lee el banco y sortea), `formulario.js`,
-`examen.js` (2da etapa: normal, guiado, interactivo), `cuestionario.js` (1ra etapa),
-`informe.js`, `nucleo.js` (helpers, resumen de la config), `evaluacion.css`.
-
-- **1ra instancia** (preguntas `uN-c-*`, `data-etapa="1"`): ahora es **en hoja**: 10 preguntas de
-  opción múltiple (puede haber varias correctas) o V/F, sin completar. Formato "virtual" (Aula
-  Virtual, con completar) sigue disponible. Opciones: **modo urgente** (las `uN-c-urgente-*` con
-  `data-fundamental`, de la más probable a la menos), **corregir al responder** (botón Comprobar)
-  y **📖 Resolver** en cada pregunta (muestra respuesta y explicación; vale 0).
-- **2da instancia, interactivo** (ejercicios `uN-e-*`): pasos por nivel (`data-nivel`:
-  principiante ⊃ medio ⊃ avanzado), cada paso con `p-consigna`, `p-pista`, `p-explicacion`,
-  `p-resolucion`, `p-anotar` ("En la hoja"); por artículo `p-datos` (cuadro de datos, con
-  "Planteo en la hoja" en los fundamentales) y `p-rta[data-inciso]`. Botón Resolver, Saltear =
-  posponer, revisar ejercicios anteriores, enunciado siempre visible (columna fija).
-  Casillas: "Solo tal cual del parcial" (+ elegir Parcial 2025/2023 entero en orden) y
-  **"Ejercicios fundamentales"** (`uN-e-fundamental-*`, `data-fundamental` = orden de
-  probabilidad; el número del archivo no es el orden).
-- **Consignas de pasos:** cada cuenta parcial dice de qué fórmula es y qué parte calcula, con los
-  números ("Para estandarizar el 90 se usa z = (x − μ)/σ. Primero el numerador..."). Los pasos
-  `medio` se entienden solos (no empiezan con "Ahora..."). La consigna no muestra su resultado.
-- Contenido grande del banco se suele escribir con **agentes en paralelo** (uno por unidad), cada
-  uno con instrucciones de formato, fuentes, verificación con Python y `construir.py`; después se
-  verifica todo junto en el navegador y se hace un solo commit.
+- `app/index.html` (esqueleto), `app/assets/app.js` (navegación, índice, secciones plegables,
+  visor de PDF, reloj), `ventanas.js`, `cronometro.js`, `datos.js`, `estilos.css`.
+- `app/assets/evaluacion/`: `banco.js` (lee el banco y sortea), `formulario.js`, `examen.js`
+  (2da etapa), `cuestionario.js` (1ra etapa), `informe.js`, `nucleo.js`, `evaluacion.css`.
+- `app/assets/calendario/` y `app/assets/tareas/`: una pestaña cada uno.
+- `app/construir.py`: arma `app/generado/` desde `app/contenido/` (y `materias.json`).
 
 ## Lanzador y datos
 
@@ -98,7 +93,8 @@ Código en `app/assets/evaluacion/`: `banco.js` (lee el banco y sortea), `formul
   solo sin latidos, y **se autoactualiza**: si hay commits nuevos en GitHub ofrece `git pull` y
   reinicio (Windows deja renombrar el exe en uso: se renombra a `.viejo`).
 - `assets/datos.js` sincroniza las claves `newcampus:` y `apuntes:` de localStorage con
-  `%LOCALAPPDATA%\NewCampus\datos.json` vía `/api/datos`.
+  `%LOCALAPPDATA%\NewCampus\datos.json` vía `/api/datos`. Son los datos de Fran: no se tocan
+  sin pedírselo.
 
 ## Verificar en el navegador
 
@@ -106,16 +102,16 @@ Código en `app/assets/evaluacion/`: `banco.js` (lee el banco y sortea), `formul
   Ahí `/api/datos` da 501/404: es normal, no es un error del campus.
 - El navegador cachea los JS: antes de recargar, `fetch(url, {cache: 'reload'})` de cada archivo
   cambiado (assets y `generado/preguntas/pye-uN.js`) y después `location.reload()`.
-- Las capturas de pantalla salen negras: se verifica por el DOM con `javascript_tool`
-  (`NC.eval` = módulos de evaluación; `NC.eval.banco.seleccionar(...)`, `E.formulario.mostrar`,
-  `E.examen.lanzar`, `E.cuestionario.lanzar`).
+- Se verifica por el DOM con `javascript_tool` (`NC.eval` = módulos de evaluación;
+  `NC.eval.banco.seleccionar(...)`, `E.formulario.mostrar`, `E.examen.lanzar`,
+  `E.cuestionario.lanzar`). Las capturas a veces salen negras.
 
 ## Pendientes e ideas
 
-- Sumar preguntas urgentes de **exponencial** a la 1ra instancia (la profe confirmó que entra).
-- Ofrecido: que el paso de "a lo sumo 2" del fundamental de Poisson enseñe a usar la tabla
-  acumulada directo.
+- **Optimización de tokens, Fase 2:** pasar los PDFs de cátedra a texto **una sola vez** y
+  guardarlos en una carpeta fija (no en el scratchpad, que se pierde), con qué hay en cada página;
+  el PDF queda como respaldo para tablas, fórmulas y gráficos. Hacerlo antes de cargar la primera
+  materia nueva. La Fase 3 (formato de autoría compacto) quedó descartada por ahora: ahorra ~10 %
+  y tiene riesgo.
 - Ideas a futuro (después de los parciales): publicar en Vercel (estático) + Supabase (login y
   datos en la nube), versión para celular. Sin migrar a C#.
-- Datos raros señalados en el banco: `u4-e-final-2025-12-10-ej2` (Cov/V inconsistentes con la
-  densidad), `u7-e-final-2026-07-29-ej2` (μ = 355 dado y estimado a la vez).

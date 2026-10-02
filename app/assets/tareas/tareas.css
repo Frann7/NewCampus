@@ -115,6 +115,43 @@
 }
 .tr-col[data-col="hecho"] .tr-texto{color:var(--ink-soft);}
 
+/* tarea de una materia: su tono (--h, el mismo que en el calendario, lo pone
+   tareas.js) en el borde izquierdo, el fondo y la etiqueta */
+.tr-tarea.con-materia, .tr-materia.con-materia{
+  --mat:hsl(var(--h) 48% 40%);
+  --mat-bg:hsl(var(--h) 62% 95%);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]) .tr-tarea.con-materia,
+  :root:not([data-theme="light"]) .tr-materia.con-materia{
+    --mat:hsl(var(--h) 72% 76%);
+    --mat-bg:hsl(var(--h) 30% 19%);
+  }
+}
+:root[data-theme="dark"] .tr-tarea.con-materia,
+:root[data-theme="dark"] .tr-materia.con-materia{
+  --mat:hsl(var(--h) 72% 76%);
+  --mat-bg:hsl(var(--h) 30% 19%);
+}
+.tr-tarea.con-materia{
+  background:var(--mat-bg);
+  border-color:transparent;
+  border-left:4px solid var(--mat);
+  padding-left:10px;
+}
+.tr-chip{
+  display:inline-block;
+  margin:0 0 4px;
+  padding:1px 8px;
+  border-radius:999px;
+  font-size:11px;
+  font-weight:700;
+  letter-spacing:.04em;
+  color:var(--mat);
+  border:1px solid var(--mat);
+  line-height:1.5;
+}
+
 /* los botones de cada tarea: siempre en su lugar, apenas marcados hasta
    pasar el mouse (asi en pantallas tactiles tambien se ven) */
 .tr-acciones{
@@ -193,7 +230,29 @@
 }
 .tr-area:focus{outline:2px solid var(--col);outline-offset:0;border-color:transparent;}
 .tr-campo-pie{display:flex;align-items:center;justify-content:flex-end;gap:6px;}
-.tr-resta{margin-right:auto;font-size:12px;color:var(--ink-faint);font-variant-numeric:tabular-nums;}
+.tr-campo-pie > .ev-btn{flex:none;}
+
+/* la materia, entre Cancelar y Agregar */
+.tr-materia{
+  flex:0 1 auto;
+  min-width:0;
+  width:100%;
+  max-width:190px;
+  padding:4px 8px;
+  border:1px solid var(--line);
+  border-radius:9px;
+  background:var(--surface);
+  color:var(--ink-soft);
+  font:inherit;
+  font-size:12.5px;
+  font-weight:600;
+  cursor:pointer;
+}
+.tr-materia.con-materia{border-color:var(--mat);color:var(--mat);background:var(--mat-bg);}
+.tr-materia:focus-visible{outline:2px solid var(--accent);outline-offset:1px;}
+.tr-materia option{color:var(--ink);background:var(--surface);}
+.tr-resta{margin-right:auto;font-size:12px;color:var(--ink-faint);font-variant-numeric:tabular-nums;white-space:nowrap;}
+.tr-resta:empty{display:none;}
 .tr-ok{background:var(--col);border-color:var(--col);color:var(--surface);}
 .tr-ok:hover:not(:disabled){background:var(--col);color:var(--surface);filter:brightness(1.1);}
 

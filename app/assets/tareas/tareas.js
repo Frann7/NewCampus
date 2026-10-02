@@ -10,12 +10,17 @@
    se pasa de columna con las flechas o arrastrandola; arrastrando
    tambien se reordena dentro de la misma columna.
 
+   Una tarea puede ser de una materia (se elige al agregarla o editarla)
+   y toma su color, el mismo que en el calendario. Sin materia, es una
+   tarea general.
+
    Tope de MAXIMO tareas por columna y de MAX_TEXTO caracteres por
    tarea, para que el tablero no crezca sin fin: con la columna llena
    no se agrega ni se mueve nada a ella.
 
    Se guarda en el navegador (localStorage "newcampus:tareas"):
-     { v: 1, columnas: { pendiente: [{ id, texto, creado }], proceso: [...], hecho: [...] } }
+     { v: 1, columnas: { pendiente: [{ id, texto, materia, creado }], proceso: [...], hecho: [...] } }
+   (materia es la clave del menu, "pye"; no esta si la tarea es general)
    ============================================================ */
 
 window.NC = window.NC || {};
@@ -54,11 +59,13 @@ window.NC = window.NC || {};
       lista.forEach(function (t) {
         if (!t || typeof t.texto !== "string" || !t.texto.trim()) { return; }
         if (c[col.id].length >= MAXIMO) { return; }
-        c[col.id].push({
+        var tarea = {
           id: typeof t.id === "string" ? t.id : nuevoId(),
           texto: t.texto.slice(0, MAX_TEXTO),
           creado: typeof t.creado === "number" ? t.creado : Date.now()
-        });
+        };
+        if (typeof t.materia === "string" && t.materia) { tarea.materia = t.materia; }
+        c[col.id].push(tarea);
       });
     });
     return c;
@@ -91,20 +98,37 @@ window.NC = window.NC || {};
 
   /* ---------- acciones ---------- */
 
-  function agregar(colId, texto) {
+  function agregar(colId, texto, materia) {
     texto = limpiar(texto);
     if (!texto || llena(colId)) { return false; }
-    columnas[colId].push({ id: nuevoId(), texto: texto, creado: Date.now() });
+    var tarea = { id: nuevoId(), texto: texto, creado: Date.now() };
+    if (materia) { tarea.materia = materia; }
+    columnas[colId].push(tarea);
     guardar();
     return true;
   }
 
-  function editar(id, texto) {
+  function editar(id, texto, materia) {
     texto = limpiar(texto);
     var u = ubicar(id);
     if (!u || !texto) { return; }
-    columnas[u.col][u.i].texto = texto;
+    var tarea = columnas[u.col][u.i];
+    tarea.texto = texto;
+    if (materia) { tarea.materia = materia; } else { delete tarea.materia; }
     guardar();
+  }
+
+  /* ---------- materias ----------
+     Salen del menu lateral, igual que en el calendario (calendario/eventos.js),
+     con el mismo tono de color para cada una. */
+
+  function materias() {
+    return window.NC.calEventos ? window.NC.calEventos.materias() : [];
+  }
+
+  function materiaDe(clave) {
+    if (!clave || !window.NC.calEventos) { return null; }
+    return window.NC.calEventos.materia(clave);
   }
 
   function borrar(id) {
@@ -240,15 +264,23 @@ window.NC = window.NC || {};
 
     if (editando === t.id) {
       li.classList.add("is-editando");
-      li.appendChild(campoTexto(t.texto, "Guardar", function (texto) {
+      li.appendChild(campoTexto(t.texto, t.materia || "", "Guardar", function (texto, materia) {
         editando = null;
-        if (texto) { editar(t.id, texto); }
+        if (texto) { editar(t.id, texto, materia); }
         dibujar();
       }, function () { editando = null; dibujar(); }));
       return li;
     }
 
     li.draggable = true;
+    var mat = materiaDe(t.materia);
+    if (mat) {
+      li.classList.add("con-materia");
+      li.style.setProperty("--h", mat.tono);
+      var chip = el("span", "tr-chip", mat.corto);
+      chip.title = mat.nombre;
+      li.appendChild(chip);
+    }
     var texto = el("p", "tr-texto", t.texto);
     texto.addEventListener("dblclick", function () { empezarEdicion(t.id); });
     li.appendChild(texto);
@@ -296,20 +328,25 @@ window.NC = window.NC || {};
     dibujar();
   }
 
+  // La materia elegida queda puesta para la siguiente tarea que se cargue
+  // seguida; al cerrar el formulario vuelve a "Sin materia".
+  var materiaAlta = "";
+
   function formAlta(colId) {
     var caja = el("div", "tr-alta");
-    caja.appendChild(campoTexto("", "Agregar", function (texto) {
-      if (texto) { agregar(colId, texto); }
+    caja.appendChild(campoTexto("", materiaAlta, "Agregar", function (texto, materia) {
+      materiaAlta = materia;
+      if (texto) { agregar(colId, texto, materia); }
       // queda abierto para cargar otra seguida, salvo que se haya llenado
-      if (llena(colId) || !texto) { agregando = null; }
+      if (llena(colId) || !texto) { agregando = null; materiaAlta = ""; }
       dibujar();
-    }, function () { agregando = null; dibujar(); }));
+    }, function () { agregando = null; materiaAlta = ""; dibujar(); }));
     return caja;
   }
 
-  // Un textarea con Guardar/Agregar y Cancelar. Enter confirma, Shift+Enter
-  // baja de renglon y Escape cancela.
-  function campoTexto(inicial, rotulo, aceptar, cancelar) {
+  // Un textarea con Cancelar, la materia y Guardar/Agregar. Enter confirma,
+  // Shift+Enter baja de renglon y Escape cancela. aceptar(texto, materia).
+  function campoTexto(inicial, materia, rotulo, aceptar, cancelar) {
     var caja = el("div", "tr-campo");
     var area = el("textarea", "tr-area");
     area.value = inicial;
@@ -322,7 +359,32 @@ window.NC = window.NC || {};
     var resta = el("span", "tr-resta");
     pie.appendChild(resta);
     pie.appendChild(boton("ev-btn ev-btn-chico", "Cancelar", "", cancelar));
-    var ok = boton("ev-btn ev-btn-chico tr-ok", rotulo, "", function () { aceptar(limpiar(area.value)); });
+
+    var elegir = el("select", "tr-materia");
+    elegir.title = "Materia de la tarea";
+    elegir.setAttribute("aria-label", "Materia de la tarea");
+    var ninguna = el("option", "", "Sin materia");
+    ninguna.value = "";
+    elegir.appendChild(ninguna);
+    var hayElegida = false;
+    materias().forEach(function (m) {
+      var o = el("option", "", m.nombre);
+      o.value = m.clave;
+      if (m.clave === materia) { hayElegida = true; }
+      elegir.appendChild(o);
+    });
+    elegir.value = hayElegida ? materia : "";
+    function pintarMateria() {
+      var m = materiaDe(elegir.value);
+      elegir.classList.toggle("con-materia", !!m);
+      if (m) { elegir.style.setProperty("--h", m.tono); } else { elegir.style.removeProperty("--h"); }
+    }
+    elegir.addEventListener("change", function () { pintarMateria(); area.focus(); });
+    pintarMateria();
+    pie.appendChild(elegir);
+
+    function confirmar() { aceptar(limpiar(area.value), elegir.value); }
+    var ok = boton("ev-btn ev-btn-chico tr-ok", rotulo, "", confirmar);
     pie.appendChild(ok);
     caja.appendChild(pie);
 
@@ -337,7 +399,7 @@ window.NC = window.NC || {};
     area.addEventListener("keydown", function (ev) {
       if (ev.key === "Enter" && !ev.shiftKey) {
         ev.preventDefault();
-        if (limpiar(area.value)) { aceptar(limpiar(area.value)); }
+        if (limpiar(area.value)) { confirmar(); }
       } else if (ev.key === "Escape") {
         ev.preventDefault();
         cancelar();

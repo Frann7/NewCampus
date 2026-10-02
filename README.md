@@ -86,7 +86,9 @@ fórmulas (MathJax) y las tipografías. Tus datos no salen de tu máquina.
 * **Tareas**: un tablero con tres columnas, **Pendientes**, **En proceso** y **Hecho**, en su
   propia pestaña antes del Calendario (uno solo para todo el campus). Cada tarea es un cuadrito:
   se agrega al pie de su columna, se edita con el lápiz (o doble clic), se borra con la ✕ y se pasa
-  de columna con las flechas o arrastrándola; arrastrando también se reordena. Entran hasta **25
+  de columna con las flechas o arrastrándola; arrastrando también se reordena. Al agregarla o
+  editarla, entre Cancelar y Agregar se elige si es de una **materia**: toma su color (el mismo
+  que en el calendario) y lleva su nombre; si se deja en "Sin materia" es una tarea general. Entran hasta **25
   tareas por columna** (con la columna llena no se agrega ni se mueve nada a ella) y hasta 300
   caracteres por tarea.
 * **Calendario**: un mes a pantalla completa con flechas para navegar, o el año entero.
@@ -212,6 +214,7 @@ Chrome (`chrome --headless --print-to-pdf`).
 `0.x.y-alpha` mientras esté en desarrollo. La `1.0.0` queda reservada para cuando esté terminado.
 La versión actual se lee al pie del menú lateral.
 
+* **0.33.0-alpha** — las tareas pueden ser de una materia, con su color.
 * **0.32.0-alpha** — pestaña Tareas (pendientes, en proceso y hecho); se saca la Ruta
   recomendada.
 * **0.31.0-alpha** — 1ra etapa: botón Resolver en cada pregunta.

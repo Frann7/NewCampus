@@ -196,7 +196,9 @@ filtro va en `newcampus:agenda`.)
 
 **Pestaña Tareas** (una sola, como el Calendario): `assets/tareas/`. Un tablero de tres columnas
 (Pendientes, En proceso, Hecho) con tareas de texto que se agregan, editan, borran y se pasan de
-columna con las flechas o arrastrándolas. Tope de 25 tareas por columna (`MAXIMO`) y 300
+columna con las flechas o arrastrándolas. Cada tarea puede llevar una materia (`materia`, la clave
+del menú) y toma el tono de esa materia que usa el calendario (`NC.calEventos`); sin materia es
+general. Tope de 25 tareas por columna (`MAXIMO`) y 300
 caracteres por tarea (`MAX_TEXTO`). Se guardan en `newcampus:tareas`.
 
 **Ventanas duplicadas** (`assets/ventanas.js`): manteniendo apretada una pestaña 0,8 s sale una **copia**

@@ -45,7 +45,8 @@ conversación vieja y costaba ~5,5 millones; con una sesión por tarea, el mismo
 - **Leer por partes:** de un archivo grande, primero ubicar con Grep y leer ese rango
   (`offset`/`limit`), no el archivo entero. De una unidad, los fragmentos que hacen falta.
 - **PDFs de cátedra:** solo las páginas que hacen falta (`pages`), nunca el PDF entero si no es
-  necesario. Si existe el texto extraído de ese PDF, primero ese.
+  necesario. Si existe el texto extraído de ese PDF (`fuentes/<materia>/`), primero ese. Read no
+  abre PDFs en esta PC (falta pdftoppm): `python fuentes/pagina.py "<PDF>" N` pasa la página a PNG.
 - **Verificar por el DOM** con `javascript_tool`; capturas de pantalla solo cuando hay que ver el
   diseño.
 - **Agentes:** instrucciones cortas y concretas (qué archivos, qué formato, qué verificar), sin
@@ -108,10 +109,7 @@ conversación vieja y costaba ~5,5 millones; con una sesión por tarea, el mismo
 
 ## Pendientes e ideas
 
-- **Optimización de tokens, Fase 2:** pasar los PDFs de cátedra a texto **una sola vez** y
-  guardarlos en una carpeta fija (no en el scratchpad, que se pierde), con qué hay en cada página;
-  el PDF queda como respaldo para tablas, fórmulas y gráficos. Hacerlo antes de cargar la primera
-  materia nueva. La Fase 3 (formato de autoría compacto) quedó descartada por ahora: ahorra ~10 %
-  y tiene riesgo.
+- **Optimización de tokens:** la Fase 2 (PDFs a texto en `fuentes/`) está hecha. La Fase 3
+  (formato de autoría compacto) quedó descartada por ahora: ahorra ~10 % y tiene riesgo.
 - Ideas a futuro (después de los parciales): publicar en Vercel (estático) + Supabase (login y
   datos en la nube), versión para celular. Sin migrar a C#.

@@ -117,6 +117,25 @@ Usá estas y no inventes otras, así el diseño se mantiene consistente:
 El índice lateral se arma solo con los `<h2>` y `<h3>` del pane, y les pone adelante el número
 de ejercicio leyéndolo del `.tag`.
 
+## Fuentes de cátedra en texto
+
+Los PDFs de cátedra se pasan a texto **una sola vez por materia**, antes de escribir su primer
+contenido, y quedan en `fuentes/<materia>/` (en el repo):
+
+1. `python fuentes/extraer.py fuentes/<materia> "<carpeta de PDFs>"` (desde la raíz del repo; pypdf,
+   sin leer los PDFs con el modelo). Arma un `.md` por PDF con `<!-- página N -->` antes de cada
+   página, y extrae una sola vez las copias exactas. Si se vuelve a correr, el índice escrito no se
+   pierde.
+2. Arriba de cada `.md`, completar la tabla "página → qué hay" y marcar **⚠ ver el PDF** en las
+   páginas donde el texto no alcanza (tablas, fórmulas rotas, gráficos, escaneos). Para eso se
+   miran solo las páginas dudosas, no el PDF entero: `python fuentes/pagina.py "<PDF>" 3 7` las
+   pasa a PNG y se abren con Read (en esta PC Read no abre PDFs: falta pdftoppm).
+3. Un `fuentes/<materia>/INDICE.md`: qué archivo es de qué unidad o examen.
+
+Después, al escribir: **primero el texto extraído** (ubicar con el índice o con Grep la página y
+leer solo ese rango); el PDF, solo en las páginas marcadas ⚠ o si algo no cierra. El PDF nunca
+se borra: el texto es un atajo para leer menos, no un reemplazo.
+
 ## Antes de escribir
 
 1. Leer **solo las fuentes de esa unidad** (el texto extraído si existe; el PDF, en las páginas que hagan falta).

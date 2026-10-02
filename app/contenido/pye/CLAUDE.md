@@ -10,6 +10,11 @@ solo lo propio de PyE. Si se toca el banco de preguntas: `evaluacion/preguntas/F
   `C:\Users\Fran\Desktop\SISTEMAS 3\PYE\PARCIAL 2\UNIDAD N\`. La prueba de hipótesis es U8/9, no
   U7. Otros materiales: `PYE\PARCIAL 2\guia_integradoras_parcial_2.pdf`, `Respuestas.pdf`,
   `Guia_distribucion_t_Student_yRtas.pdf`, `Parcial 2 2025.jpg`, y finales en `PYE\PARCIALES\`.
+- **Texto extraído:** cada PDF está en texto en `fuentes/pye/` (raíz del repo), con la misma ruta
+  que en `SISTEMAS 3\PYE\` y `.md` en vez de `.pdf`; `fuentes/pye/INDICE.md` dice qué es cada uno.
+  **Primero el texto extraído** (con la tabla de arriba de cada `.md` o Grep, se lee solo el rango
+  de `<!-- página N -->` que hace falta); **el PDF solo en las páginas marcadas ⚠ o si algo no
+  cierra**. Las imágenes (`Parcial 2 2025.jpg` y las de PARCIAL 1) no tienen texto: se miran.
 - **Distribuciones que entran** (dicho por la profe, 30/09/2026): discretas uniforme, binomial,
   binomial negativa, Poisson, geométrica, hipergeométrica; continuas uniforme, normal,
   t de Student, exponencial.

@@ -118,6 +118,8 @@ El contenido de cada unidad llega en su propia pieza cuando la abrís (con un `<
    `nombre` de cada unidad. El orden de la lista es el del menú, y define el color en el calendario.
 3. Si tiene PDFs de cátedra: copiarlos **una sola vez** a `pdf/<materia>/`, listarlos en el `pdf` de
    esa materia y decir en `material` a qué unidades se les muestran (`evaluacion` es la pestaña).
+   Antes de escribir contenido, pasar sus PDFs a texto en `fuentes/<materia>/` (ver
+   `docs/contenido.md`, "Fuentes de cátedra en texto").
 4. Correr `python construir.py`.
 
 Una materia **sin apuntes todavía** aparece como "pronto" sola, sin hacer nada: alcanza con que esté

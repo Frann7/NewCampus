@@ -214,6 +214,8 @@ Chrome (`chrome --headless --print-to-pdf`).
 `0.x.y-alpha` mientras esté en desarrollo. La `1.0.0` queda reservada para cuando esté terminado.
 La versión actual se lee al pie del menú lateral.
 
+* **0.33.1-alpha** — tareas: arrastrar una hasta abajo de su columna la deja última (quedaba
+  anteúltima) y la copia que sigue al mouse ya no sale atenuada.
 * **0.33.0-alpha** — las tareas pueden ser de una materia, con su color.
 * **0.32.0-alpha** — pestaña Tareas (pendientes, en proceso y hecho); se saca la Ruta
   recomendada.

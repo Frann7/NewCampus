@@ -139,15 +139,18 @@ window.NC = window.NC || {};
   }
 
   // Mueve la tarea a la columna destino, en la posicion pos (al final si no
-  // se dice). Dentro de la misma columna solo la reordena.
+  // se dice). Dentro de la misma columna solo la reordena: ahi pos se conto
+  // con la tarea todavia en su lugar, asi que si estaba arriba se corre uno
+  // ANTES de recortarlo al largo de la lista (al reves, soltarla al final
+  // la dejaba anteultima).
   function mover(id, destino, pos) {
     var u = ubicar(id);
     if (!u) { return false; }
     if (u.col !== destino && llena(destino)) { avisarLlena(destino); return false; }
     var tarea = columnas[u.col].splice(u.i, 1)[0];
     var lista = columnas[destino];
+    if (typeof pos === "number" && u.col === destino && u.i < pos) { pos--; }
     if (typeof pos !== "number" || pos > lista.length) { pos = lista.length; }
-    if (u.col === destino && u.i < pos) { pos--; }
     lista.splice(pos, 0, tarea);
     guardar();
     return true;
@@ -308,7 +311,11 @@ window.NC = window.NC || {};
 
     li.addEventListener("dragstart", function (ev) {
       arrastre = { id: t.id, col: colId };
-      li.classList.add("is-arrastrada");
+      // La copia que sigue al mouse el navegador la saca de la tarjeta
+      // DESPUES de este evento: atenuarla aca la atenuaba tambien a ella.
+      window.setTimeout(function () {
+        if (arrastre && arrastre.id === t.id) { li.classList.add("is-arrastrada"); }
+      }, 0);
       try {
         ev.dataTransfer.effectAllowed = "move";
         ev.dataTransfer.setData("text/plain", t.id);

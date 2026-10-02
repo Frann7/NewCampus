@@ -76,9 +76,6 @@ window.Apuntes.registrarIndice({
       "u7": "preguntas/pye-u7.js"
     }
   },
-  "rutas": {
-    "pye": "panes/pye-ruta.js"
-  },
   "materias": [
     {
       "clave": "pye",
@@ -152,11 +149,6 @@ window.Apuntes.registrarIndice({
           "resumen",
           "tablas",
           "icph"
-        ],
-        "ruta": [
-          "resumen",
-          "tablas",
-          "icph"
         ]
       }
     },
@@ -209,5 +201,5 @@ window.Apuntes.registrarIndice({
       "unidades": []
     }
   ],
-  "construido": "2026-09-29 21:59:35"
+  "construido": "2026-10-01 22:34:01"
 });

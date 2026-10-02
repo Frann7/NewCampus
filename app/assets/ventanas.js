@@ -3,10 +3,9 @@
    ------------------------------------------------------------
    Manteniendo apretada una pestania (Teoria / Practica / Evaluacion)
    se saca una COPIA de ese apartado en una ventana aparte, para poder
-   leer dos partes del mismo apunte al mismo tiempo. Lo mismo con los
-   botones de la ruta recomendada: la copia abre ese mismo destino
-   (NC.ventanas.sostener). Y con las unidades del menu de materias: la
-   copia es solo esa unidad, con sus pestanias Teoria y Practica.
+   leer dos partes del mismo apunte al mismo tiempo. Lo mismo con las
+   unidades del menu de materias: la copia es solo esa unidad, con sus
+   pestanias Teoria y Practica.
 
    La copia es la misma index.html abierta como:
 
@@ -298,10 +297,6 @@ window.NC = window.NC || {};
   window.NC.ventanas = {
     maximo: MAXIMO,
     duplicar: function (tab) { return pedirCopia(urlDeTab(tab), true); },
-    sostener: function (boton, obtenerUrl) {
-      if (window.NC.esPanel) { return; }      // una copia no saca copias
-      prepararSostener(boton, obtenerUrl, "Clic para ir. Mantené apretado para abrirlo en otra ventana.");
-    },
     abiertas: function () { return vivas().length; }
   };
 })();

@@ -1,7 +1,7 @@
 /* ============================================================
    NEWCAMPUS - datos del usuario en un archivo de la PC
    ------------------------------------------------------------
-   El calendario, las autoevaluaciones, la ruta tachada, el menu plegado...
+   El calendario, las autoevaluaciones, las tareas, el menu plegado...
    se guardan en el navegador (localStorage). Solo en el navegador se perderian
    al cambiar de navegador, al borrar sus datos o si NewCampus.exe abre en otro
    puerto (para el navegador cada puerto es un sitio distinto).

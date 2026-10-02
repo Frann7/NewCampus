@@ -1,0 +1,208 @@
+/* ============================================================
+   NEWCAMPUS - tareas
+   Tablero de tres columnas (Pendientes, En proceso, Hecho) con
+   tareas que se agregan, editan, borran y se pasan de columna.
+   ============================================================ */
+
+.tr{
+  display:flex;
+  flex-direction:column;
+  gap:18px;
+}
+
+/* ---------- barra de arriba ---------- */
+
+.tr-barra{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  flex-wrap:wrap;
+}
+.tr-titulo{
+  font-size:34px;
+  font-weight:700;
+  letter-spacing:-.02em;
+  line-height:1.1;
+  color:var(--ink);
+  padding:2px 8px;
+}
+
+/* ---------- tablero ---------- */
+
+.tr-tablero{
+  display:grid;
+  grid-template-columns:repeat(3, minmax(0, 1fr));
+  gap:16px;
+  align-items:start;
+}
+
+/* cada columna con su color: pendiente ambar, en proceso azul, hecho verde */
+.tr-col{
+  --col:var(--warn);
+  --col-bg:var(--warn-bg);
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-top:4px solid var(--col);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  padding:14px 12px 12px;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  min-width:0;
+}
+.tr-col[data-col="proceso"]{--col:var(--dato);--col-bg:var(--dato-bg);}
+.tr-col[data-col="hecho"]{--col:var(--ok);--col-bg:var(--ok-bg);}
+
+.tr-col.is-encima{border-color:var(--col);border-top-color:var(--col);background:var(--col-bg);}
+.tr-col.is-rechaza{border-color:#d64545;border-top-color:#d64545;}
+
+.tr-col-cab{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  padding:0 4px;
+}
+.tr-col-nombre{
+  font-size:13px;
+  font-weight:700;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  color:var(--col);
+}
+.tr-cuenta{
+  padding:2px 9px;
+  border-radius:999px;
+  font-size:12px;
+  font-weight:600;
+  background:var(--surface-2);
+  color:var(--ink-soft);
+  font-variant-numeric:tabular-nums;
+  white-space:nowrap;
+}
+.tr-cuenta.is-llena{background:var(--warn-bg);color:var(--warn);}
+
+/* ---------- tareas ---------- */
+
+.tr-lista{
+  list-style:none;
+  margin:0;
+  padding:0;
+  display:grid;
+  gap:8px;
+  min-height:8px;
+}
+
+.tr-tarea{
+  position:relative;
+  background:var(--surface-2);
+  border:1px solid var(--line-soft);
+  border-radius:10px;
+  padding:10px 12px 8px;
+  cursor:grab;
+}
+.tr-tarea:hover{border-color:var(--line);}
+.tr-tarea.is-arrastrada{opacity:.4;}
+.tr-tarea.is-editando{cursor:default;background:var(--surface);border-color:var(--col);}
+
+.tr-texto{
+  margin:0;
+  font-size:14.5px;
+  line-height:1.5;
+  white-space:pre-wrap;
+  overflow-wrap:anywhere;
+}
+.tr-col[data-col="hecho"] .tr-texto{color:var(--ink-soft);}
+
+/* los botones de cada tarea: siempre en su lugar, apenas marcados hasta
+   pasar el mouse (asi en pantallas tactiles tambien se ven) */
+.tr-acciones{
+  display:flex;
+  justify-content:flex-end;
+  gap:2px;
+  margin-top:6px;
+  opacity:.45;
+}
+.tr-tarea:hover .tr-acciones, .tr-tarea:focus-within .tr-acciones{opacity:1;}
+
+.tr-btn{
+  background:none;
+  border:1px solid transparent;
+  border-radius:7px;
+  width:28px;
+  height:26px;
+  padding:0;
+  font:inherit;
+  font-size:14px;
+  line-height:1;
+  color:var(--ink-soft);
+  cursor:pointer;
+}
+.tr-btn:hover{background:var(--surface);border-color:var(--line);color:var(--ink);}
+.tr-btn:focus-visible{outline:2px solid var(--accent);outline-offset:1px;}
+.tr-btn-borrar:hover{color:#d64545;}
+
+/* donde va a caer la tarea que se arrastra */
+.tr-hueco{
+  height:4px;
+  border-radius:999px;
+  background:var(--col);
+}
+
+/* ---------- alta y edicion ---------- */
+
+.tr-agregar{
+  background:none;
+  border:1px dashed var(--line);
+  border-radius:10px;
+  padding:8px 12px;
+  font:inherit;
+  font-size:14px;
+  font-weight:600;
+  color:var(--ink-faint);
+  cursor:pointer;
+  text-align:left;
+}
+.tr-agregar:hover{border-color:var(--col);color:var(--col);background:var(--col-bg);}
+
+.tr-llena{
+  margin:0;
+  padding:8px 12px;
+  border-radius:10px;
+  background:var(--warn-bg);
+  color:var(--warn);
+  font-size:13px;
+  font-weight:600;
+}
+
+.tr-campo{display:flex;flex-direction:column;gap:8px;}
+.tr-area{
+  width:100%;
+  min-height:58px;
+  resize:none;
+  overflow:hidden;
+  border:1px solid var(--line);
+  border-radius:8px;
+  background:var(--surface);
+  color:var(--ink);
+  font:inherit;
+  font-size:14.5px;
+  line-height:1.5;
+  padding:8px 10px;
+}
+.tr-area:focus{outline:2px solid var(--col);outline-offset:0;border-color:transparent;}
+.tr-campo-pie{display:flex;align-items:center;justify-content:flex-end;gap:6px;}
+.tr-resta{margin-right:auto;font-size:12px;color:var(--ink-faint);font-variant-numeric:tabular-nums;}
+.tr-ok{background:var(--col);border-color:var(--col);color:var(--surface);}
+.tr-ok:hover:not(:disabled){background:var(--col);color:var(--surface);filter:brightness(1.1);}
+
+@media (prefers-reduced-motion: no-preference){
+  .tr-tarea{transition:transform .32s var(--ease-salida, ease), box-shadow .32s ease;}
+  .tr-tarea:not(.is-editando):hover{transform:translateY(-2px);box-shadow:var(--shadow);}
+}
+
+/* pantallas angostas: una columna abajo de la otra */
+@media (max-width:900px){
+  .tr-tablero{grid-template-columns:minmax(0, 1fr);}
+}

@@ -217,23 +217,15 @@
 
   E.formulario = {
     /* acciones: { volver(aviso), lanzar(ae, reiniciar) } */
-    /* inicial (opcional, lo manda la ruta recomendada): { nombre, config }.
-       El formulario aparece completo y solo falta guardar. */
-    mostrar: function (cont, materia, acciones, inicial) {
+    mostrar: function (cont, materia, acciones) {
       var h = E.h;
-      var c = Object.assign({}, POR_DEFECTO, (inicial && inicial.config) || {});
+      var c = Object.assign({}, POR_DEFECTO);
 
       E.vaciar(cont);
       cont.appendChild(h("button", { class: "ev-volver", type: "button", onclick: function () { acciones.volver(); } }, "← Evaluación"));
       cont.appendChild(h("p", { class: "kicker ev-kicker" }, "Autoevaluación"));
       cont.appendChild(h("h1", { class: "ev-h1" }, "Nueva autoevaluación"));
 
-      if (inicial) {
-        cont.appendChild(h("div", { class: "caja caja-ojo" }, [
-          h("span", { class: "caja-tit" }, "Armada por la ruta recomendada"),
-          h("p", {}, "Ya esta todo elegido. Revisalo si queres y toca Guardar, o Guardar y comenzar.")
-        ]));
-      }
       var form = h("form", { class: "ae-form", novalidate: true, html: PLANTILLA });
       cont.appendChild(form);
 
@@ -250,7 +242,7 @@
       });
 
       // Cargar valores
-      campo("nombre").value = (inicial && inicial.nombre) || "";
+      campo("nombre").value = "";
       if (c.etapa) { form.querySelector('[name="etapa"][value="' + c.etapa + '"]').checked = true; }
       campo("cantCuestionario").value = c.cantCuestionario;
       form.querySelector('[name="formato1"][value="' + (c.formato1 === "virtual" ? "virtual" : "hoja") + '"]').checked = true;

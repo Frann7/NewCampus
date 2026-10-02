@@ -91,19 +91,17 @@ window.NC = window.NC || {};
   var EVALUACION = "evaluacion";
   // El calendario no depende ni de la materia ni de la unidad: es uno solo.
   var CALENDARIO = "calendario";
-  // La ruta recomendada es una por materia (contenido/<materia>/ruta/).
-  var RUTA = "ruta";
+  // Las tareas tampoco: un solo tablero para todo el campus.
+  var TAREAS = "tareas";
 
   function paneId(s) {
     if (s.tab === CALENDARIO) { return CALENDARIO; }
-    if (s.tab === RUTA) { return s.materia + "/" + RUTA; }
+    if (s.tab === TAREAS) { return TAREAS; }
     return s.tab === EVALUACION ? s.materia + "/" + EVALUACION : s.materia + "/" + s.unidad + "/" + s.tab;
   }
 
   // Pestanias que valen para toda la materia y no para una unidad puntual
-  function esGlobal(tab) { return tab === EVALUACION || tab === CALENDARIO || tab === RUTA; }
-
-  function archivoDeRuta(materia) { return (window.Apuntes.indice.rutas || {})[materia]; }
+  function esGlobal(tab) { return tab === EVALUACION || tab === CALENDARIO || tab === TAREAS; }
 
   // La ruta del hash siempre lleva las tres partes, asi se recuerda la unidad.
   function rutaDe(s) { return s.materia + "/" + s.unidad + "/" + s.tab; }
@@ -111,7 +109,7 @@ window.NC = window.NC || {};
   // Lo que EXISTE lo dice el indice; el contenido puede no estar cargado todavia.
   function existePane(s) {
     if (s.tab === CALENDARIO) { return !!(window.NC.cal && window.NC.cal.montar); }
-    if (s.tab === RUTA) { return !!archivoDeRuta(s.materia); }
+    if (s.tab === TAREAS) { return !!(window.NC.tareas && window.NC.tareas.montar); }
     var panes = window.Apuntes.indice.panes || {};
     if (s.tab === EVALUACION) {
       var prefijo = s.materia + "/";
@@ -120,12 +118,11 @@ window.NC = window.NC || {};
     return Object.prototype.hasOwnProperty.call(panes, paneId(s));
   }
 
-  // Trae la pieza de la unidad si todavia no esta. Evaluacion y Calendario no
-  // tienen pieza propia: se arman con JS.
+  // Trae la pieza de la unidad si todavia no esta. Evaluacion, Calendario y
+  // Tareas no tienen pieza propia: se arman con JS.
   function asegurarPane(id, avisar) {
-    if (id === CALENDARIO || id.split("/")[1] === EVALUACION) { avisar(true); return; }
+    if (id === CALENDARIO || id === TAREAS || id.split("/")[1] === EVALUACION) { avisar(true); return; }
     if (window.Apuntes.cache[id]) { avisar(true); return; }
-    if (id.split("/")[1] === RUTA) { window.Apuntes.cargar(archivoDeRuta(id.split("/")[0]), avisar); return; }
     window.Apuntes.cargar((window.Apuntes.indice.panes || {})[id], avisar);
   }
 
@@ -152,6 +149,17 @@ window.NC = window.NC || {};
       return true;
     }
 
+    if (id === TAREAS) {
+      if (estaEnPantalla(id)) { return true; }
+      if (!window.NC.tareas || !window.NC.tareas.montar) { return false; }
+      var tablero = document.createElement("section");
+      tablero.className = "pane";
+      tablero.setAttribute("data-view", id);
+      $("#contenido").appendChild(tablero);
+      window.NC.tareas.montar(tablero);    // assets/tareas/tareas.js
+      return true;
+    }
+
     if (partes[1] === EVALUACION) {
       if (estaEnPantalla(id)) { return true; }
       if (!window.NC.eval || !window.NC.eval.montar) { return false; }
@@ -171,7 +179,6 @@ window.NC = window.NC || {};
 
     var pane = document.querySelector('.pane[data-view="' + id + '"]');
     if (pane) { prepararSecciones(pane); }
-    if (pane && partes[1] === RUTA) { prepararRuta(pane, partes[0]); }
     return estaEnPantalla(id);
   }
 
@@ -1375,117 +1382,6 @@ window.NC = window.NC || {};
     return lista.length ? lista : null;
   }
 
-  /* ------------------------------------------------------------
-     RUTA RECOMENDADA
-     Cada paso de la ruta es un <input type="checkbox" data-paso="id"> dentro
-     de un <label class="ruta-paso">. Lo tachado se guarda en este navegador,
-     por materia. Cada parte (.bloque) muestra cuantos pasos lleva, y el
-     .ruta-progreso de arriba, el total.
-     ------------------------------------------------------------ */
-
-  function prepararRuta(pane, materia) {
-    var clave = "newcampus:ruta:" + materia;
-    var hechos = {};
-    try { hechos = JSON.parse(localStorage.getItem(clave) || "{}") || {}; } catch (e) { hechos = {}; }
-    var cajas = $$("input[data-paso]", pane);
-
-    function pintar() {
-      var total = 0;
-      cajas.forEach(function (c) {
-        c.checked = !!hechos[c.getAttribute("data-paso")];
-        var fila = c.closest(".ruta-item") || c.closest(".ruta-paso");
-        if (fila) { fila.classList.toggle("is-hecho", c.checked); }
-        if (c.checked) { total++; }
-      });
-      $$(".bloque", pane).forEach(function (b) {
-        var propias = $$("input[data-paso]", b);
-        var cuenta = $(".ruta-cuenta", b);
-        if (!cuenta || !propias.length) { return; }
-        var ok = propias.filter(function (c) { return c.checked; }).length;
-        cuenta.textContent = ok + " de " + propias.length;
-        cuenta.classList.toggle("is-completa", ok === propias.length);
-      });
-      var barra = $(".ruta-progreso", pane);
-      if (barra) {
-        $(".ruta-barra > i", barra).style.width = (cajas.length ? 100 * total / cajas.length : 0) + "%";
-        $(".ruta-total", barra).textContent = total + " de " + cajas.length + " pasos";
-      }
-    }
-
-    $$(".ruta-ir", pane).forEach(function (b) {
-      b.addEventListener("click", function () { seguirRuta(b.dataset, materia); });
-      // mantenerlo apretado abre el mismo destino en otra ventana (ventanas.js);
-      // la copia lee el destino de ?ir= al arrancar
-      if (window.NC.ventanas && window.NC.ventanas.sostener) {
-        window.NC.ventanas.sostener(b, function () {
-          var d = Object.assign({}, b.dataset);
-          delete d.sostenible;                 // la marca de ventanas.js, no es parte del destino
-          var s = { materia: materia, unidad: d.unidad || state.unidad, tab: d.tab };
-          return "index.html?panel=1&ir=" + encodeURIComponent(JSON.stringify(d)) +
-                 "#" + rutaDe(s);
-        });
-      }
-    });
-
-    cajas.forEach(function (c) {
-      c.addEventListener("change", function () {
-        var id = c.getAttribute("data-paso");
-        if (c.checked) { hechos[id] = true; } else { delete hechos[id]; }
-        // un "pop" de adorno solo al tacharlo recien (no al cargar la pagina)
-        var fila = c.closest(".ruta-item");
-        if (fila && c.checked) {
-          fila.classList.remove("is-recien");
-          void fila.offsetWidth;
-          fila.classList.add("is-recien");
-          window.setTimeout(function () { fila.classList.remove("is-recien"); }, 600);
-        }
-        try { localStorage.setItem(clave, JSON.stringify(hechos)); } catch (e) {}
-        pintar();
-      });
-    });
-    pintar();
-  }
-
-  /* Un boton de la ruta lleva a donde dice su data-*:
-       data-tab + data-unidad + data-seccion="5"     la seccion 5 de la teoria
-       data-tab + data-unidad + data-ejercicio="..." el ejercicio cuya etiqueta dice eso
-       data-tab="evaluacion" + data-examen (+ data-ejercicio)   un parcial, en ese ejercicio
-       data-tab="evaluacion" + data-autoeval (JSON) + data-nombre
-                                                     el formulario ya completo */
-  function seguirRuta(d, materia) {
-    var s = { materia: materia, unidad: d.unidad || state.unidad, tab: d.tab };
-    var id = paneId(s);
-    if (d.tab === EVALUACION) {
-      destino = { id: id, hacer: function () {
-        window.NC.eval.pedir(materia, function (api) {
-          if (d.examen) { api.verExamen(d.examen, d.ejercicio); }
-          else if (d.autoeval) { api.nueva({ nombre: d.nombre || "", config: JSON.parse(d.autoeval) }); }
-        });
-      } };
-    } else {
-      destino = { id: id, hacer: function (pane) { irAlBloque(pane, d); } };
-    }
-    ir(s);
-  }
-
-  function escaparRegex(t) { return t.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"); }
-
-  // Busca la seccion (por su numero) o el ejercicio (por su etiqueta), la
-  // despliega y la deja arriba de todo.
-  function irAlBloque(pane, d) {
-    var patron = d.seccion
-      ? new RegExp("^\\s*" + escaparRegex(d.seccion) + "\\.")
-      : new RegExp(escaparRegex(d.ejercicio || "") + "(?!\\d)");
-    var bloque = $$(".bloque, .ej", pane).filter(function (b) {
-      var h2 = $("h2", b), tag = $(".tag", b);
-      var texto = d.seccion ? (h2 ? h2.textContent : "") : (tag ? tag.textContent : "");
-      return patron.test(texto.replace(/\s+/g, " "));
-    })[0];
-    if (!bloque) { return; }
-    if (bloque.classList.contains("es-seccion")) { abrirSeccion(bloque, true); }
-    irAlTitulo($("h2", bloque) || bloque);
-  }
-
   /* ---------- render ---------- */
 
   function render() {
@@ -1513,9 +1409,6 @@ window.NC = window.NC || {};
   }
 
   var pedido = 0;
-  // Que hacer cuando termine de mostrarse un apartado: { id, hacer(pane) }.
-  // Lo usan los botones de la ruta recomendada (ver seguirRuta).
-  var destino = null;
 
   function mostrarPane(id) {
     limpiarAvisos();
@@ -1533,9 +1426,6 @@ window.NC = window.NC || {};
     construirTOC(activo);
     tipografiar(activo);
     window.scrollTo(0, 0);
-
-    // lo que pidio un boton de la ruta para cuando se abriera este apartado
-    if (destino && destino.id === id) { var d = destino; destino = null; d.hacer(activo); }
   }
 
   function pintarNavegacion(id) {
@@ -1565,7 +1455,7 @@ window.NC = window.NC || {};
     $("#crumb-materia").textContent = nombreMateria ? nombreMateria.textContent : "";
     $("#crumb-unidad").textContent = state.tab === EVALUACION ? "Evaluación"
       : state.tab === CALENDARIO ? "Calendario"
-      : state.tab === RUTA ? "Ruta recomendada"
+      : state.tab === TAREAS ? "Tareas"
       : (btnUnidad ? btnUnidad.getAttribute("data-titulo") : "");
 
     actualizarLanzador();
@@ -1591,7 +1481,7 @@ window.NC = window.NC || {};
   };
 
   // Ruta de una unidad del menu: en la pestania que se esta viendo si es
-  // Teoria o Practica; desde Evaluacion, Calendario o la Ruta, su teoria.
+  // Teoria o Practica; desde Evaluacion, Calendario o Tareas, su teoria.
   // evaluacion.js la llama al entrar y salir de una autoevaluacion
   window.NC.actualizarLanzador = function () { actualizarLanzador(); };
 
@@ -1781,10 +1671,6 @@ window.NC = window.NC || {};
     initLatido();
     state = rutaInicial();
     render();
-    // una copia sacada desde un boton de la ruta trae su destino en ?ir=
-    var destinoCopia = null;
-    try { destinoCopia = JSON.parse(new URLSearchParams(window.location.search).get("ir") || "null"); } catch (e) {}
-    if (destinoCopia) { seguirRuta(destinoCopia, state.materia); }
     // recordatorio de parciales y trabajos practicos (solo la ventana principal)
     if (!PANEL && window.NC.calAgenda) { window.NC.calAgenda.recordatorio(); }
   });

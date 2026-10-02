@@ -27,6 +27,7 @@ NewCampus/
     │   ├── calendario/   ← pestaña Calendario: fechas (fijas) · eventos (del usuario)
     │   │                    · detalle (ficha del día) · agenda (próximas fechas y
     │   │                    recordatorios) · calendario (las dos vistas)
+    │   ├── tareas/       ← pestaña Tareas: el tablero (tareas.js + .css)
     │   └── evaluacion/   ← pestaña Evaluación, un archivo por responsabilidad:
     │                        nucleo · banco · formulario · examen · informe · evaluacion (+ .css)
     ├── contenido/        ← LOS APUNTES SE EDITAN ACÁ
@@ -192,6 +193,11 @@ delante, ordenados de la más próxima a la más lejana, unos segundos cada uno 
 corta la tanda y tocar una fecha lleva a ese día.
 (`newcampus:avisos` guarda las materias APAGADAS, así una materia nueva avisa sin tocar nada; el
 filtro va en `newcampus:agenda`.)
+
+**Pestaña Tareas** (una sola, como el Calendario): `assets/tareas/`. Un tablero de tres columnas
+(Pendientes, En proceso, Hecho) con tareas de texto que se agregan, editan, borran y se pasan de
+columna con las flechas o arrastrándolas. Tope de 25 tareas por columna (`MAXIMO`) y 300
+caracteres por tarea (`MAX_TEXTO`). Se guardan en `newcampus:tareas`.
 
 **Ventanas duplicadas** (`assets/ventanas.js`): manteniendo apretada una pestaña 0,8 s sale una **copia**
 de ese apartado en otra ventana (`index.html?panel=1#<materia>/<unidad>/<pestaña>`). La copia no

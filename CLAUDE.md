@@ -1,8 +1,9 @@
 # NewCampus — cómo trabajar en este proyecto
 
 Campus de estudio personal de Fran (Abasto Franco), estudiante de la Licenciatura en Sistemas
-de Información (UADER, FCyT). Hoy tiene una materia cargada: **Probabilidad y Estadística (PyE)**,
-unidades 4 a 7 (2do parcial). Repo público: https://github.com/Frann7/NewCampus (rama `main`).
+de Información (UADER, FCyT). Hoy tiene dos materias cargadas: **Probabilidad y Estadística (PyE)**,
+unidades 4 a 7 (2do parcial), y **Programación Avanzada (PA)**, clases 1 a 6 (cada materia tiene
+su `CLAUDE.md` en `app/contenido/<materia>/`). Repo público: https://github.com/Frann7/NewCampus (rama `main`).
 
 ## Tu rol
 
@@ -112,8 +113,6 @@ conversación vieja y costaba ~5,5 millones; con una sesión por tarea, el mismo
 
 ## Pendientes e ideas
 
-- **Sumar Programación Avanzada:** el plan, por fases, está en `docs/plan-pa.md` (leerlo antes
-  de arrancar cualquier fase y tachar la que se termina).
 
 - **Optimización de tokens:** la Fase 2 (PDFs a texto en `fuentes/`) está hecha. La Fase 3
   (formato de autoría compacto) quedó descartada por ahora: ahorra ~10 % y tiene riesgo.

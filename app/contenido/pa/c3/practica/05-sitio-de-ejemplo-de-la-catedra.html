@@ -1,0 +1,319 @@
+<div class="ej">
+  <span class="tag">Sitio de ejemplo &middot; site.zip</span>
+  <h2>El sitio de ejemplo de la cátedra</h2>
+  <div class="enunciado">
+    <p>
+      Junto con la guía, la cátedra da <code>site.zip</code>: un "Sistema Recursos Humanos" chico,
+      con una página de inicio, un formulario de personas y un listado. No es un ejercicio: es
+      código de ejemplo para ver formularios, <code>$_GET</code> y <code>$_POST</code> funcionando
+      dentro de un sitio con varias páginas.
+    </p>
+  </div>
+
+  <span class="paso">Paso 1 &mdash; Qué hay en el zip</span>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Archivo</th><th>Qué es</th></tr>
+      <tr><td><code>inicio.php</code></td><td>La página de inicio: tres botones (Inicio, Formulario de Personas, Listado de Personas)</td></tr>
+      <tr><td><code>formPersonas.php</code></td><td>El formulario: nombre, apellido, fecha de nacimiento y ciudad</td></tr>
+      <tr><td><code>php/procesoFormulario.php</code></td><td>El script que recibe el formulario (el <code>action</code>)</td></tr>
+      <tr><td><code>listadoPersonas.php</code></td><td>Una tabla de personas</td></tr>
+      <tr><td><code>php/datosTabla.php</code></td><td>Arma, con PHP, filas de esa tabla a partir de un arreglo</td></tr>
+      <tr><td><code>includes/head.php</code></td><td>El <code>head</code> de todas las páginas, y la apertura del <code>body</code></td></tr>
+      <tr><td><code>includes/menu.php</code></td><td>El menú de arriba, igual en todas las páginas</td></tr>
+      <tr><td><code>includes/footer.php</code></td><td>El cierre de todas las páginas</td></tr>
+      <tr><td><code>imgs/desarrollo-web.svg</code>, <code>imgs/favicon.ico</code></td><td>El logo del menú y el ícono de la pestaña</td></tr>
+    </table>
+  </div>
+
+  <div class="caja caja-calc">
+    <span class="caja-tit">Cómo probarlo</span>
+    <p>
+      Por las rutas que empiezan con <code>/</code> (ver el Paso 4), el sitio funciona solo si su
+      carpeta es la raíz del servidor. Lo más simple es el servidor que trae PHP: abrí una consola
+      en la carpeta <code>site</code> y escribí
+    </p>
+<pre class="codigo"><code>C:\xampp\php\php.exe -S localhost:8000</code></pre>
+    <p>
+      Después, en el navegador, <code>http://localhost:8000/inicio.php</code>. Así se probó todo
+      lo que sigue.
+    </p>
+  </div>
+
+  <span class="paso">Paso 2 &mdash; Cómo se arma cada página: los includes</span>
+  <p>
+    Las tres páginas visibles usan <code>require_once</code> (sección 10 de la teoría) para no
+    repetir el encabezado, el menú y el pie. <code>inicio.php</code>:
+  </p>
+<pre class="codigo"><code>&lt;!DOCTYPE html&gt;
+&lt;html lang="es"&gt;
+&lt;?php require_once 'includes/head.php';?&gt;
+&lt;?php require_once 'includes/menu.php'; ?&gt;
+    &lt;br&gt;
+
+        &lt;h4 class="text-center"&gt;Sistema Recursos Humanos&lt;/h4&gt;
+        &lt;div class="row justify-content-lg-center"&gt;
+            &lt;div class="col col-lg-auto"&gt;
+                &lt;a href="inicio.php" type="button" class="btn btn-info"&gt;Inicio&lt;/a&gt;
+            &lt;/div&gt;
+            &lt;div class="col col-lg-auto"&gt;
+                &lt;a href="formPersonas.php" type="button" class="btn btn-info"&gt;Formulario de Personas&lt;/a&gt;
+            &lt;/div&gt;
+            &lt;div class="col col-lg-auto"&gt;
+                &lt;a href="listadoPersonas.php" type="button" class="btn btn-info"&gt;Listado de Personas&lt;/a&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+
+&lt;?php require_once 'includes/footer.php'; ?&gt;</code></pre>
+
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th></tr>
+      <tr><td>1 y 2</td><td>Abre el documento</td></tr>
+      <tr><td>3</td><td>Pega <code>includes/head.php</code>: el <code>&lt;head&gt;</code> completo (charset, título "Programación Avanzada", el ícono de la pestaña y la hoja de estilos de Bootstrap) y, además, abre <code>&lt;body class="bg-light"&gt;</code> y <code>&lt;div class="container"&gt;</code></td></tr>
+      <tr><td>4</td><td>Pega <code>includes/menu.php</code>: una barra (<code>&lt;nav&gt;</code>) con el logo y una lista de tres enlaces</td></tr>
+      <tr><td>5 a 18</td><td>Lo propio de esta página: un título y tres enlaces con aspecto de botón</td></tr>
+      <tr><td>20</td><td>Pega <code>includes/footer.php</code>: el JavaScript de Bootstrap, <code>&lt;/body&gt;</code> y <code>&lt;/html&gt;</code></td></tr>
+    </table>
+  </div>
+  <p>
+    El resultado es un documento con la estructura de la sección 2: el <code>head</code> sale del
+    primer include, el <code>body</code> se abre ahí mismo y se cierra en el último. Verificado: el
+    HTML que llega al navegador empieza con <code>&lt;!DOCTYPE html&gt;</code>, sigue con el
+    <code>&lt;head&gt;</code> de <code>head.php</code> y la barra de <code>menu.php</code>, y
+    termina con <code>&lt;/body&gt;&lt;/html&gt;</code> de <code>footer.php</code>.
+  </p>
+  <p>
+    <strong>Bootstrap</strong> es una hoja de estilos CSS ya hecha, que <code>head.php</code> carga
+    desde internet con un <code>&lt;link&gt;</code>. Las clases como <code>btn btn-info</code>,
+    <code>form-control</code>, <code>table</code> o <code>text-center</code> son suyas: le dan el
+    aspecto (botones celestes, campos prolijos, texto centrado). No cambian qué datos viajan ni
+    cómo; se pueden ignorar para entender el código. Sin internet, el sitio funciona igual pero
+    sin estilos.
+  </p>
+
+  <span class="paso">Paso 3 &mdash; El formulario: formPersonas.php</span>
+  <p>La parte del formulario, sin los <code>&lt;div&gt;</code> de diseño ni los mensajes de validación:</p>
+<pre class="codigo"><code>&lt;form method="GET" action="/php/procesoFormulario.php"&gt;
+  &lt;label for="nombre"&gt;Nombre&lt;/label&gt;
+  &lt;input type="text" class="form-control" id="nombre" name="nombre" value="" required&gt;
+
+  &lt;label for="apellido"&gt;Apellido&lt;/label&gt;
+  &lt;input type="text" class="form-control" id="apellido" name="apellido" value="" required&gt;
+
+  &lt;label for="validationCustom03"&gt;Fecha de Nacimiento&lt;/label&gt;
+  &lt;input type="date" class="form-control" id="fechaNacimiento" name="fechaNacimiento" required&gt;
+
+  &lt;label for="validationCustom04"&gt;Ciudad&lt;/label&gt;
+  &lt;select class="custom-select" id="ciudad" name="ciudad" required&gt;
+    &lt;option selected disabled value=""&gt;Seleccione...&lt;/option&gt;
+    &lt;option value="Paraná"&gt;Paraná&lt;/option&gt;
+    &lt;option value="Paraná"&gt;Oro Verde&lt;/option&gt;
+    &lt;option value="Paraná"&gt;Diamante&lt;/option&gt;
+  &lt;/select&gt;
+
+  &lt;button class="btn btn-primary" type="submit"&gt;Enviar datos&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Control</th><th>Tipo (teoría, sección 4)</th><th><code>name</code></th><th>Qué viaja</th></tr>
+      <tr><td>Nombre</td><td><code>input type="text"</code>, obligatorio (<code>required</code>)</td><td><code>nombre</code></td><td>lo que se escribió</td></tr>
+      <tr><td>Apellido</td><td><code>input type="text"</code>, obligatorio</td><td><code>apellido</code></td><td>lo que se escribió</td></tr>
+      <tr><td>Fecha de Nacimiento</td><td><code>input type="date"</code>, obligatorio</td><td><code>fechaNacimiento</code></td><td>la fecha como <code>año-mes-día</code></td></tr>
+      <tr><td>Ciudad</td><td><code>select</code>, obligatorio. La primera opción está <code>disabled</code> (no se puede elegir) y <code>selected</code> (es la que se ve al principio)</td><td><code>ciudad</code></td><td>el <code>value</code> de la opción elegida</td></tr>
+      <tr><td>Enviar datos</td><td><code>button type="submit"</code></td><td>no tiene</td><td>nada</td></tr>
+    </table>
+  </div>
+  <p>
+    El formulario va por <strong>GET</strong> (<code>method="GET"</code>; en mayúsculas o
+    minúsculas da lo mismo) al script <code>/php/procesoFormulario.php</code>. Si alguien carga
+    <em>Ana</em>, <em>Paz</em>, el 9/5/2001 y Paraná, el navegador pide:
+  </p>
+<pre class="salida">/php/procesoFormulario.php?nombre=Ana&amp;apellido=Paz&amp;fechaNacimiento=2001-05-09&amp;ciudad=Paran%C3%A1</pre>
+
+  <span class="paso">Paso 4 &mdash; El script que recibe: php/procesoFormulario.php</span>
+  <p>
+    Tiene <strong>tres bloques</strong>, y solo el primero está activo. Los otros dos están
+    encerrados entre <code>/*</code> y <code>*/</code>: son comentarios (Clase 1), PHP no los
+    ejecuta.
+  </p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Bloque</th><th>Líneas</th><th>Qué hace</th><th>¿Activo?</th></tr>
+      <tr><td>1</td><td>5 a 17</td><td>Si llegó por POST, lee <code>correo</code>, <code>fecha_nacimiento</code>, <code>opciones</code> y <code>comentarios</code> de <code>$_POST</code> y los muestra</td><td>Sí</td></tr>
+      <tr><td>2 (<code>// METODO GET</code>)</td><td>19 a 37</td><td>Si llegó por GET, lee los cuatro campos de <code>formPersonas.php</code> de <code>$_GET</code> y los muestra</td><td>No, comentado</td></tr>
+      <tr><td>3 (<code>// METODO POST</code>)</td><td>39 en adelante</td><td>Lo mismo que el bloque 2, leyendo de <code>$_POST</code></td><td>No, comentado</td></tr>
+    </table>
+  </div>
+
+  <h4>Qué pasa tal como viene</h4>
+  <p>
+    El formulario manda por GET, así que <code>$_SERVER["REQUEST_METHOD"]</code> vale
+    <code>"GET"</code> y el <code>if</code> del bloque 1 (que pregunta por <code>"POST"</code>) da
+    falso. Los otros dos bloques son comentarios. Resultado: <strong>la página sale en
+    blanco</strong>. Verificado: con la URL del Paso 3, el servidor responde bien (código 200) pero
+    con 0 bytes.
+  </p>
+  <p>
+    Y aunque llegara por POST, el bloque 1 busca campos que este formulario no tiene
+    (<code>correo</code>, <code>opciones</code>...): parece ser de otro formulario. Verificado
+    mandándole por POST los datos de <code>formPersonas.php</code>: cuatro <em>Undefined array
+    key</em> y los rótulos con los valores vacíos.
+  </p>
+
+  <h4>Cómo hacerlo andar: activar el bloque GET</h4>
+  <p>
+    Se borran el <code>/*</code> de la línea 19 y el <code>*/</code> de la línea 37 (y conviene
+    comentar el bloque 1). El bloque queda así:
+  </p>
+<pre class="codigo"><code>// METODO GET
+print_r($_SERVER["REQUEST_METHOD"]);
+echo "&lt;hr&gt;";
+
+if ( $_SERVER["REQUEST_METHOD"] == "GET")
+{
+    $nombre = $_GET['nombre'];
+    $apellido = $_GET['apellido'];
+    $fechaNacimiento = $_GET['fechaNacimiento'];
+    $ciudad = $_GET['ciudad'];
+
+    echo "&lt;h2&gt;Datos recibidos:&lt;/h2&gt;";
+    echo "Nombre: " . htmlspecialchars($nombre) . "&lt;br&gt;";
+    echo "Apellido: " . htmlspecialchars($apellido) . "&lt;br&gt;";
+    echo "Fecha de Nacimiento: " . htmlspecialchars($fechaNacimiento) . "&lt;br&gt;";
+    echo "Ciudad: " . htmlspecialchars($ciudad) . "&lt;br&gt;";
+}</code></pre>
+
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Cómo quedan las variables</th></tr>
+      <tr><td>(antes)</td><td>PHP arma <code>$_GET</code> con la URL del Paso 3, decodificando <code>Paran%C3%A1</code></td><td><code>$_GET = ['nombre' =&gt; 'Ana', 'apellido' =&gt; 'Paz', 'fechaNacimiento' =&gt; '2001-05-09', 'ciudad' =&gt; 'Paraná']</code></td></tr>
+      <tr><td>2</td><td>Imprime el método, para ver por dónde llegó (es un string, <code>print_r</code> lo imprime tal cual)</td><td>imprime <code>GET</code></td></tr>
+      <tr><td>3</td><td>Imprime una línea horizontal (<code>&lt;hr&gt;</code>)</td><td>&mdash;</td></tr>
+      <tr><td>5</td><td>¿Llegó por GET? Sí: entra</td><td>&mdash;</td></tr>
+      <tr><td>7 a 10</td><td>Guarda los cuatro datos en variables</td><td><code>$nombre = "Ana"</code>, <code>$apellido = "Paz"</code>, <code>$fechaNacimiento = "2001-05-09"</code>, <code>$ciudad = "Paraná"</code></td></tr>
+      <tr><td>12</td><td>Imprime el título</td><td>&mdash;</td></tr>
+      <tr><td>13 a 16</td><td>Imprime cada rótulo, el dato pasado por <code>htmlspecialchars()</code> y un salto de línea <code>&lt;br&gt;</code></td><td>&mdash;</td></tr>
+    </table>
+  </div>
+
+  <h4>Qué imprime</h4>
+<pre class="salida">GET&lt;hr&gt;&lt;h2&gt;Datos recibidos:&lt;/h2&gt;Nombre: Ana&lt;br&gt;Apellido: Paz&lt;br&gt;Fecha de Nacimiento: 2001-05-09&lt;br&gt;Ciudad: Paraná&lt;br&gt;</pre>
+  <p>
+    Todo en un renglón, porque ningún <code>echo</code> imprime un salto de línea de verdad
+    (verificado con el servidor de PHP). En el navegador se ve: <em>GET</em>, una línea
+    horizontal, el título <strong>Datos recibidos:</strong> y debajo los cuatro datos, uno por
+    renglón gracias a los <code>&lt;br&gt;</code>.
+  </p>
+  <p>
+    La otra forma de hacerlo andar es la del ejercicio 4 al revés: cambiar el formulario a
+    <code>method="POST"</code> y activar el bloque 3, que lee de <code>$_POST</code>.
+  </p>
+
+  <span class="paso">Paso 5 &mdash; El listado: listadoPersonas.php y php/datosTabla.php</span>
+  <p>
+    <code>listadoPersonas.php</code> es una tabla HTML (<code>&lt;table class="table"&gt;</code>)
+    con columnas #, Documento, Nombre y Apellido. Antes de la tabla hace
+    <code>require_once 'php/datosTabla.php';</code>, y adentro del <code>&lt;tbody&gt;</code>
+    tiene dos filas escritas a mano y, después, <code>&lt;?php echo $filasTabla; ?&gt;</code>.
+    Esa variable la arma <code>datosTabla.php</code>:
+  </p>
+<pre class="codigo"><code>&lt;?php
+    $vPersonas = array(
+        array(
+            'id'=&gt;3,
+            'documento' =&gt; '22333444',
+            'nombre' =&gt; 'Toto',
+            'apellido' =&gt; 'Toto'
+        ),
+        array(
+            'id'=&gt;4,
+            'documento' =&gt; '23232332',
+            'nombre' =&gt; 'Tata',
+            'apellido' =&gt; 'Tata'
+        )
+    );
+
+    $filasTabla="";
+    foreach ( $vPersonas as $cadaPersona ) {
+        $filasTabla .= "&lt;tr&gt;";
+            $filasTabla .= "&lt;th scope='row'&gt;" . $cadaPersona['id'] . "&lt;/th&gt;";
+            $filasTabla .= "&lt;td&gt;" . $cadaPersona['documento'] . "&lt;/td&gt;";
+            $filasTabla .= "&lt;td&gt;" . $cadaPersona['nombre'] . "&lt;/td&gt;";
+            $filasTabla .= "&lt;td&gt;" . $cadaPersona['apellido'] . "&lt;/td&gt;";
+        $filasTabla .= "&lt;/tr&gt;";
+    }
+?&gt;</code></pre>
+
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Cómo quedan las variables</th></tr>
+      <tr><td>2 a 15</td><td>Un arreglo de arreglos (Clase 2): cada elemento es una persona, como arreglo asociativo con <code>id</code>, <code>documento</code>, <code>nombre</code> y <code>apellido</code></td><td><code>$vPersonas</code> tiene 2 personas: la de id 3 (Toto) y la de id 4 (Tata)</td></tr>
+      <tr><td>17</td><td>Arranca el string vacío</td><td><code>$filasTabla = ""</code></td></tr>
+      <tr><td>18</td><td><code>foreach</code> (Clase 2) recorre el arreglo: en cada vuelta, <code>$cadaPersona</code> es una persona</td><td>1ra vuelta: <code>$cadaPersona</code> = Toto</td></tr>
+      <tr><td>19 a 24</td><td><code>.=</code> agrega texto al final del string. Arma una fila: <code>&lt;tr&gt;</code>, el id en un <code>&lt;th&gt;</code>, documento, nombre y apellido en <code>&lt;td&gt;</code>, y <code>&lt;/tr&gt;</code></td><td><code>$filasTabla</code> = la fila de Toto</td></tr>
+      <tr><td>18 a 24</td><td>2da vuelta, con la otra persona</td><td><code>$filasTabla</code> = fila de Toto + fila de Tata</td></tr>
+      <tr><td>28</td><td>Fin. No imprime nada: deja <code>$filasTabla</code> lista para que la imprima <code>listadoPersonas.php</code></td><td>&mdash;</td></tr>
+    </table>
+  </div>
+
+  <h4>Qué imprime el echo de listadoPersonas.php</h4>
+<pre class="salida">&lt;tr&gt;&lt;th scope='row'&gt;3&lt;/th&gt;&lt;td&gt;22333444&lt;/td&gt;&lt;td&gt;Toto&lt;/td&gt;&lt;td&gt;Toto&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;th scope='row'&gt;4&lt;/th&gt;&lt;td&gt;23232332&lt;/td&gt;&lt;td&gt;Tata&lt;/td&gt;&lt;td&gt;Tata&lt;/td&gt;&lt;/tr&gt;</pre>
+  <p>
+    Verificado pidiendo <code>listadoPersonas.php</code> al servidor de PHP. En el navegador, la
+    tabla muestra <strong>cuatro filas</strong>: las dos escritas a mano (1, Exeuiel Aramburu y 2,
+    Federico Bonnet) y las dos que armó PHP (3, Toto Toto y 4, Tata Tata). Es la idea que se
+    completa en la Clase 6: en lugar de un arreglo fijo, las personas van a venir de una base de
+    datos.
+  </p>
+
+  <span class="paso">Paso 6 &mdash; El viaje completo de los datos</span>
+  <ol>
+    <li><code>inicio.php</code> &rarr; botón "Formulario de Personas" &rarr; el navegador pide <code>formPersonas.php</code> (un GET común, por un enlace).</li>
+    <li>El usuario completa los cuatro campos; <code>required</code> no deja enviar si falta alguno.</li>
+    <li>"Enviar datos" &rarr; el navegador pide <code>/php/procesoFormulario.php?nombre=...&amp;apellido=...&amp;fechaNacimiento=...&amp;ciudad=...</code>.</li>
+    <li>PHP arma <code>$_GET</code> con esos cuatro pares; <code>$_SERVER["REQUEST_METHOD"]</code> vale <code>"GET"</code>.</li>
+    <li>El script imprime lo recibido (con el bloque GET activado) y eso es lo que ve el usuario.</li>
+  </ol>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Cosas del zip que conviene saber</span>
+    <ul>
+      <li>
+        <strong>Todas las ciudades valen "Paraná".</strong> Las tres <code>&lt;option&gt;</code>
+        tienen <code>value="Paraná"</code>, y lo que viaja es el <code>value</code>, no el texto
+        que se ve. Si el usuario elige Oro Verde o Diamante, al script le llega
+        <code>Paraná</code> igual. Lo correcto sería <code>value="Oro Verde"</code> y
+        <code>value="Diamante"</code>.
+      </li>
+      <li>
+        <strong>Rutas que empiezan con <code>/</code>.</strong> <code>action="/php/procesoFormulario.php"</code>
+        y el ícono <code>/imgs/favicon.ico</code> se cuentan desde la raíz del servidor (sección 7).
+        Si copiás la carpeta a <code>C:\xampp\htdocs\site\</code> y abrís
+        <code>http://localhost/site/inicio.php</code>, al enviar el formulario el navegador va a
+        <code>http://localhost/php/procesoFormulario.php</code>, fuera de <code>site</code>, y da
+        404. Por eso se prueba con el sitio como raíz, o se saca la barra inicial:
+        <code>action="php/procesoFormulario.php"</code>.
+      </li>
+      <li>
+        <strong>Dos <code>&lt;label&gt;</code> no apuntan a su control.</strong> El de la fecha
+        dice <code>for="validationCustom03"</code> y el campo tiene <code>id="fechaNacimiento"</code>
+        (lo mismo con la ciudad). Se ven bien, pero hacer clic en el rótulo no pone el cursor en
+        el campo. No afecta a los datos.
+      </li>
+    </ul>
+  </div>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">En resumen</span>
+    <p>
+      El zip muestra lo de la clase en un sitio real: páginas armadas con includes, un formulario
+      GET con varios tipos de control, un script que lee de <code>$_GET</code> (o de
+      <code>$_POST</code>, según el bloque que se active) y lo muestra con
+      <code>htmlspecialchars()</code>, y una tabla armada desde un arreglo. Tal como viene, el
+      procesamiento no coincide con el formulario: hay que activar el bloque GET para verlo
+      andar.
+    </p>
+  </div>
+</div>

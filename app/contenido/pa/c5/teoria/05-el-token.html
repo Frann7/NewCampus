@@ -1,0 +1,242 @@
+<div class="bloque">
+  <p class="kicker">Asegurar formularios</p>
+  <h2>5. El token: un código secreto en el formulario y en la sesión</h2>
+
+  <h3>Para qué sirve</h3>
+  <p>
+    Un <strong>token</strong> es un código al azar que identifica a <strong>una</strong> entrega del
+    formulario. La idea es guardarlo en dos lados y comparar:
+  </p>
+  <ol>
+    <li>Cuando alguien abre el formulario, PHP inventa un código y lo guarda en <code>$_SESSION['token']</code>.</li>
+    <li>El mismo código va escondido dentro del formulario, en un campo oculto.</li>
+    <li>Al enviar, el código viaja con los demás datos y llega en <code>$_POST['token']</code>.</li>
+    <li><code>procesoFormulario.php</code> compara los dos. Si coinciden, los datos vienen de ese formulario; si no, se descartan.</li>
+  </ol>
+  <p>
+    El ataque de la sección 4 no pasa: cURL nunca abrió el formulario, así que no conoce el código,
+    y como no trae la cookie de sesión, del lado del servidor <code>$_SESSION['token']</code> ni
+    siquiera existe.
+  </p>
+  <p>
+    Lo nuevo de HTML es el <strong>campo oculto</strong>: <code>&lt;input type="hidden"&gt;</code> es
+    un campo que no se dibuja en la página pero se envía con el formulario como cualquier otro.
+  </p>
+
+  <h3>Sintaxis</h3>
+  <div class="caja caja-formula">
+    <span class="caja-tit"><code>form.php</code> (el formulario)</span>
+<pre class="codigo"><code>&lt;?php
+session_start();
+$token = rand(5, 1500);
+$_SESSION['token'] = $token;
+?&gt;
+&lt;form action="procesoFormulario.php" method="post"&gt;
+    &lt;input type="hidden" name="token" value="&lt;?php echo $token ?&gt;"&gt;
+    &lt;input type="text" name="nombre"&gt;
+    &lt;input type="text" name="apellido"&gt;
+    &lt;input type="submit" value="Enviar el formulario"&gt;
+&lt;/form&gt;</code></pre>
+  </div>
+  <div class="caja caja-formula">
+    <span class="caja-tit"><code>procesoFormulario.php</code> (el que recibe)</span>
+<pre class="codigo"><code>&lt;?php
+session_start();
+if ($_POST['token'] == $_SESSION['token']) {
+    // proceso los datos del formulario
+} else {
+    // descarto todos los datos
+}
+?&gt;</code></pre>
+  </div>
+
+  <h3>Qué es cada parte</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Parte</th><th>Qué hace</th></tr>
+      <tr><td class="lbl"><code>rand(5, 1500)</code></td><td>Devuelve un número entero al azar entre 5 y 1500, los dos incluidos.</td></tr>
+      <tr><td class="lbl"><code>$_SESSION['token'] = $token;</code></td><td>Guarda el código en el servidor, en la sesión de ese navegador.</td></tr>
+      <tr><td class="lbl"><code>type="hidden"</code></td><td>Campo oculto: no se ve, pero se envía.</td></tr>
+      <tr><td class="lbl"><code>value="&lt;?php echo $token ?&gt;"</code></td><td>PHP escribe el código adentro del HTML antes de mandarlo. El navegador recibe, por ejemplo, <code>value="629"</code>.</td></tr>
+      <tr><td class="lbl"><code>name="token"</code></td><td>Con este nombre llega a <code>$_POST['token']</code>.</td></tr>
+      <tr><td class="lbl"><code>$_POST['token'] == $_SESSION['token']</code></td><td>Compara lo que mandó el formulario con lo que quedó guardado.</td></tr>
+    </table>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; El token de la cátedra, funcionando</h3>
+
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>
+      Con los dos archivos de la sintaxis: ¿qué HTML recibe el navegador al abrir
+      <code>form.php</code>? ¿Qué pasa si se envía el formulario? ¿Y si alguien manda
+      <code>token=7</code> desde otro lado? Para que se vea, <code>procesoFormulario.php</code>
+      imprime <code>Proceso los datos del formulario.</code> o <code>Descarto todos los datos.</code>
+    </p>
+  </div>
+
+  <h4>Qué hace cada línea de <code>form.php</code></h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Cómo quedan las variables</th></tr>
+      <tr><td><code>session_start();</code></td><td>Abre la sesión del navegador.</td><td>&mdash;</td></tr>
+      <tr><td><code>$token = rand(5, 1500);</code></td><td>Sortea el código. En la prueba salió 629.</td><td><code>$token = 629</code></td></tr>
+      <tr><td><code>$_SESSION['token'] = $token;</code></td><td>Lo guarda en la sesión.</td><td><code>$_SESSION['token'] = 629</code></td></tr>
+      <tr><td><code>value="&lt;?php echo $token ?&gt;"</code></td><td>Escribe el 629 en el campo oculto.</td><td>&mdash;</td></tr>
+    </table>
+  </div>
+  <p>El navegador recibe (y es lo que se ve con "Ver código fuente"):</p>
+<pre class="salida">&lt;form action="procesoFormulario.php" method="post"&gt;
+    &lt;input type="hidden" name="token" value="629"&gt;
+    &lt;input type="text" name="nombre"&gt;
+    &lt;input type="text" name="apellido"&gt;
+    &lt;input type="submit" value="Enviar el formulario"&gt;
+&lt;/form&gt;</pre>
+
+  <h4>Qué hace cada línea de <code>procesoFormulario.php</code></h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Caso</th><th>Qué llega</th><th>Comparación</th><th>Qué imprime</th></tr>
+      <tr><td>La persona envía el formulario</td><td><code>$_POST['token'] = "629"</code> y la cookie de sesión, así que <code>$_SESSION['token'] = 629</code></td><td><code>"629" == 629</code> &rarr; true</td><td><code>Proceso los datos del formulario.</code></td></tr>
+      <tr><td>Un programa manda <code>token=7</code></td><td><code>$_POST['token'] = "7"</code></td><td><code>"7" == 629</code> &rarr; false</td><td><code>Descarto todos los datos.</code></td></tr>
+    </table>
+  </div>
+
+  <h4>Qué imprime y por qué</h4>
+<pre class="salida">Proceso los datos del formulario.</pre>
+  <p>para el envío legítimo, y</p>
+<pre class="salida">Descarto todos los datos.</pre>
+  <p>
+    para el falso. El programa tendría que adivinar el número exacto que sorteó la sesión de
+    <strong>ese</strong> navegador. (En tu prueba el número va a ser otro: es al azar.)
+  </p>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Por qué <code>==</code> y no <code>===</code></span>
+    <p>
+      Todo lo que llega de un formulario es <strong>texto</strong> (<code>"629"</code>), pero
+      <code>rand</code> devuelve un <strong>entero</strong> (<code>629</code>) y así queda en la sesión.
+      <code>==</code> compara el valor y da <code>true</code>; <code>===</code> (Clase 1) exige
+      además el mismo tipo y da <code>false</code>: se probó y con <code>===</code> hasta el envío
+      legítimo se descarta.
+    </p>
+  </div>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">El agujero de la comparación del PDF: un envío sin token pasa</span>
+    <p>
+      Si un programa manda el POST <strong>sin el campo <code>token</code></strong> (y sin cookie),
+      <code>$_POST['token']</code> no existe y <code>$_SESSION['token']</code> tampoco: los dos valen
+      <code>null</code> (con un Warning cada uno) y <code>null == null</code> da <code>true</code>.
+      Con <code>token=</code> vacío pasa lo mismo, porque <code>"" == null</code> también da
+      <code>true</code>. Se probó: en los dos casos imprimió <code>Proceso los datos del
+      formulario.</code>
+    </p>
+    <p>La solución es preguntar primero que los dos tengan algo, con <code>empty</code> (sección 3):</p>
+<pre class="codigo"><code>if (!empty($_POST['token']) &amp;&amp; !empty($_SESSION['token'])
+    &amp;&amp; $_POST['token'] == $_SESSION['token']) {
+    // proceso los datos del formulario
+} else {
+    // descarto todos los datos
+}</code></pre>
+    <p>
+      Así se probó con los cuatro casos: sin token, token vacío y token equivocado se descartan;
+      solo el envío desde el formulario se procesa. El <code>procesoForm.php</code> de los ejemplos
+      de la cátedra ya pregunta <code>!empty($_POST['token'])</code> antes de comparar.
+    </p>
+  </div>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Erratas del PDF</span>
+    <p>
+      El PDF escribe <code>$token; = rand(5, 1500);</code>. El <code>;</code> termina la instrucción
+      después de <code>$token</code>, y el <code>=</code> queda suelto: PHP da <code>Parse error:
+      syntax error, unexpected token "="</code>. Va sin ese punto y coma. También usa comillas
+      tipográficas (<code>type=”hidden”</code>), que van rectas.
+    </p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; Un token de letras y números (formato del parcial)</h3>
+  <p>
+    El ejemplo <code>formToken.php</code> de la cátedra no usa <code>rand(5, 1500)</code>: arma un
+    código de 20 caracteres eligiendo letras y números de una cadena. Para entender cómo, primero
+    una versión sin azar.
+  </p>
+
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>¿Cuál es la salida del siguiente script PHP?</p>
+  </div>
+
+<pre class="codigo"><code>&lt;?php
+$a = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+$token = "";
+for ($i = 0; $i &lt; 3; $i++) {
+    $token .= $a[$i * 20];
+}
+echo strlen($a) . ' ' . $token;
+?&gt;</code></pre>
+
+  <h4>Qué hace cada línea</h4>
+  <p>
+    Dos cosas de la Clase 2 que se usan acá: <code>$a[n]</code> da el carácter de la posición
+    <code>n</code> de una cadena (la primera es la 0), y <code>.=</code> pega un texto al final de
+    una variable. En <code>$a</code>: posiciones 0 a 9 los dígitos, 10 a 35 las minúsculas
+    (<code>a</code> es la 10, <code>k</code> la 20) y 36 a 61 las mayúsculas (<code>A</code> es la
+    36, <code>E</code> la 40).
+  </p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Cómo quedan las variables</th></tr>
+      <tr><td><code>$a = "0123...XYZ";</code></td><td>10 dígitos + 26 minúsculas + 26 mayúsculas.</td><td><code>$a</code> tiene 62 caracteres</td></tr>
+      <tr><td><code>$token = "";</code></td><td>Empieza vacío para ir pegándole caracteres.</td><td><code>$token = ""</code></td></tr>
+      <tr><td>vuelta <code>$i = 0</code></td><td><code>$a[0 * 20]</code> = <code>$a[0]</code> = <code>0</code></td><td><code>$token = "0"</code></td></tr>
+      <tr><td>vuelta <code>$i = 1</code></td><td><code>$a[20]</code> = <code>k</code></td><td><code>$token = "0k"</code></td></tr>
+      <tr><td>vuelta <code>$i = 2</code></td><td><code>$a[40]</code> = <code>E</code></td><td><code>$token = "0kE"</code></td></tr>
+      <tr><td><code>$i = 3</code></td><td><code>3 &lt; 3</code> es falso: termina el <code>for</code>.</td><td>&mdash;</td></tr>
+      <tr><td><code>echo strlen($a) . ' ' . $token;</code></td><td><code>strlen</code> (Clase 2) da el largo de la cadena.</td><td>imprime <code>62 0kE</code></td></tr>
+    </table>
+  </div>
+
+  <h4>Qué imprime y por qué</h4>
+<pre class="salida">62 0kE</pre>
+  <p>
+    <code>formToken.php</code> hace lo mismo pero en cada vuelta elige la posición con
+    <code>rand(0, 61)</code> (cualquiera de las 62) y da <strong>20 vueltas</strong>
+    (<code>$length = 20</code>): sale un código como <code>jbC6lszckXPiToFxyQEr</code>. Por qué
+    61 y no 62: las posiciones van de 0 a 61; <code>$a[62]</code> no existe.
+  </p>
+
+  <h3>Errores y trampas</h3>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Lo que el token no resuelve</span>
+    <ul>
+      <li>
+        <strong>Oculto no quiere decir secreto.</strong> El campo <code>hidden</code> está en el
+        HTML: cualquiera lo ve con "Ver código fuente". Lo secreto es que el valor correcto está en
+        la sesión de <strong>ese</strong> navegador.
+      </li>
+      <li>
+        <strong>Un programa que primero abre el formulario lo pasa.</strong> La cátedra lo avisa:
+        hay robots (<em>bots</em>) que leen el formulario, token incluido, y lo envían. Se probó:
+        abriendo <code>formToken.php</code> guardando la cookie, copiando el token del HTML y
+        mandándolo por POST, <code>procesoForm.php</code> respondió <code>LOS DATOS PROVIENEN DE
+        NUESTRO FORMULARIO CON TOKEN.</code> Para eso está el captcha (sección 6).
+      </li>
+      <li>
+        <strong>El token se puede reusar.</strong> Nadie lo borra después de usarlo: el mismo
+        envío repetido se aceptó dos veces seguidas. Recién cambia cuando se vuelve a abrir el
+        formulario.
+      </li>
+      <li>
+        <strong>Dos pestañas, un solo token.</strong> Cada vez que se abre el formulario se pisa
+        <code>$_SESSION['token']</code>. Si abrís el formulario en dos pestañas, la primera queda
+        con un código viejo y se descarta.
+      </li>
+    </ul>
+  </div>
+</div>

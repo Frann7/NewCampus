@@ -1,0 +1,198 @@
+<div class="bloque">
+  <p class="kicker">Sección 8 &middot; diapositivas 17 y 18</p>
+  <h2>8. Consumir una API con fetch</h2>
+
+  <h3>Para qué sirve</h3>
+  <p>
+    <strong>Consumir</strong> una API es pedirle datos y usarlos. En JavaScript se hace con la
+    función <code>fetch</code> ("ir a buscar"): pide una URL por HTTP, <strong>sin recargar la
+    página</strong>, y cuando llega la respuesta ejecuta el código que le digas. Así una página
+    puede, por ejemplo, llenar una lista de provincias con los datos oficiales.
+  </p>
+
+  <h3>Sintaxis (diapositiva 17)</h3>
+<pre class="codigo"><code>fetch(url)
+    .then(response =&gt; response.json())
+    .then(data =&gt; console.log(data))
+    .catch(error =&gt; console.error("Error:", error));</code></pre>
+
+  <h3>Qué es cada parte</h3>
+  <p>
+    Un pedido por internet tarda. Si JavaScript se quedara esperando, la página se congelaría.
+    Por eso <code>fetch</code> <strong>no devuelve los datos</strong>: devuelve una
+    <strong>promesa</strong>, un objeto que dice "la respuesta va a llegar más adelante". El código
+    sigue de largo, y cuando la respuesta llega se ejecutan, en orden, las funciones de los
+    <code>.then</code>.
+  </p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Pieza</th><th>Qué hace</th></tr>
+      <tr><td class="lbl"><code>fetch(url)</code></td><td>Hace el pedido (por defecto, un GET: "dame esto"). Devuelve una promesa</td></tr>
+      <tr><td class="lbl"><code>.then(response =&gt; response.json())</code></td><td>Cuando llega la respuesta, recibe un objeto <strong>Response</strong> (todavía no son los datos). <code>response.json()</code> lee el cuerpo y lo convierte de texto JSON a objeto. Como leerlo también tarda, devuelve otra promesa</td></tr>
+      <tr><td class="lbl"><code>.then(data =&gt; ...)</code></td><td>Recibe lo que devolvió el <code>then</code> anterior, ya convertido: el objeto con los datos. Acá se usan</td></tr>
+      <tr><td class="lbl"><code>.catch(error =&gt; ...)</code></td><td>Se ejecuta si algo de la cadena falló (no hay conexión, el servidor no existe, el JSON vino roto)</td></tr>
+      <tr><td class="lbl"><code>console.error</code></td><td>Como <code>console.log</code>, pero lo marca en rojo como error</td></tr>
+    </table>
+  </div>
+
+  <h4>Lo que trae el objeto Response</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Propiedad o método</th><th>Qué da</th></tr>
+      <tr><td class="lbl"><code>response.ok</code></td><td><code>true</code> si la petición fue exitosa (código entre 200 y 299), <code>false</code> si no</td></tr>
+      <tr><td class="lbl"><code>response.status</code></td><td>El código HTTP: 200, 404, 500...</td></tr>
+      <tr><td class="lbl"><code>response.json()</code></td><td>El cuerpo convertido de JSON a objeto</td></tr>
+      <tr><td class="lbl"><code>response.text()</code></td><td>El cuerpo como texto crudo, sin convertir</td></tr>
+      <tr><td class="lbl"><code>response.blob()</code></td><td>El cuerpo como archivo binario (una imagen, un PDF)</td></tr>
+    </table>
+  </div>
+
+  <div class="caja caja-formula">
+    <span class="caja-tit">APIs gratuitas para practicar (diapositiva 18)</span>
+    <ul>
+      <li><code>https://jsonplaceholder.typicode.com/</code> &mdash; datos de prueba (usuarios, publicaciones)</li>
+      <li><code>https://pokeapi.co/</code> &mdash; datos de Pokémon</li>
+      <li><code>https://www.freepublicapis.com/</code> &mdash; un catálogo de APIs públicas</li>
+      <li><code>https://datosgobar.github.io/georef-ar-api/</code> &mdash; Georef, la API del gobierno con provincias, departamentos y municipios (la usa la práctica, ejemplo 8)</li>
+    </ul>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; Pedir un usuario</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>¿Qué muestra la consola?</p>
+  </div>
+<pre class="codigo"><code>fetch("https://jsonplaceholder.typicode.com/users/1")
+    .then(response =&gt; {
+        console.log(response.status, response.ok);
+        return response.json();
+    })
+    .then(data =&gt; {
+        console.log(data.name);
+        console.log(data.address.city);
+    })
+    .catch(error =&gt; console.error("Error:", error));</code></pre>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Cómo quedan las variables</th></tr>
+      <tr><td><code>fetch("...users/1")</code></td><td>Pide el usuario número 1 a la API de prueba</td><td>&mdash;</td></tr>
+      <tr><td>1er <code>then</code></td><td>Llega la respuesta. Imprime su código y si salió bien. Como esta flecha tiene llaves, hace falta <code>return</code> para pasarle algo al siguiente <code>then</code></td><td><code>response.status = 200</code>, <code>response.ok = true</code></td></tr>
+      <tr><td><code>return response.json();</code></td><td>Convierte el cuerpo a objeto y se lo pasa al siguiente <code>then</code></td><td>&mdash;</td></tr>
+      <tr><td>2do <code>then</code></td><td>Recibe el objeto. Lee <code>name</code> y, dentro de <code>address</code>, <code>city</code></td><td><code>data</code> = objeto con <code>id</code>, <code>name</code>, <code>username</code>, <code>email</code>, <code>address</code>, <code>phone</code>, <code>website</code>, <code>company</code></td></tr>
+      <tr><td><code>.catch</code></td><td>No se ejecuta: no hubo error</td><td>&mdash;</td></tr>
+    </table>
+  </div>
+  <p>Qué muestra (verificado con Node.js contra la API real; son datos de prueba fijos):</p>
+<pre class="salida">200 true
+Leanne Graham
+Gwenborough</pre>
+  <p>
+    <strong>Por qué:</strong> la respuesta es un JSON con objetos adentro de objetos;
+    <code>data.address.city</code> encadena dos puntos para entrar dos niveles, como
+    <code>datos.habilidades[0]</code> en la sección 7.
+  </p>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; ¿En qué orden se imprime?</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>¿En qué orden aparecen los tres mensajes?</p>
+  </div>
+<pre class="codigo"><code>console.log("1");
+fetch("https://jsonplaceholder.typicode.com/users/1")
+    .then(response =&gt; response.json())
+    .then(data =&gt; console.log("3"));
+console.log("2");</code></pre>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Momento</th><th>Qué pasa</th><th>Consola</th></tr>
+      <tr><td><code>console.log("1");</code></td><td>Se ejecuta enseguida</td><td>1</td></tr>
+      <tr><td><code>fetch(...)</code></td><td>Lanza el pedido y <strong>registra</strong> los <code>then</code> para cuando llegue. No espera</td><td>1</td></tr>
+      <tr><td><code>console.log("2");</code></td><td>Se ejecuta enseguida, mientras el pedido todavía viaja</td><td>1, 2</td></tr>
+      <tr><td>(llega la respuesta)</td><td>Recién ahora corren los <code>then</code></td><td>1, 2, 3</td></tr>
+    </table>
+  </div>
+  <p>Qué muestra (verificado con Node.js):</p>
+<pre class="salida">1
+2
+3</pre>
+  <p>
+    <strong>Por qué:</strong> lo de adentro de un <code>then</code> no corre en el orden en que
+    está escrito, sino cuando llega la respuesta. Es la trampa típica: el "3" está escrito antes
+    que el "2" y sale después.
+  </p>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 3 &mdash; Un 404 no va al catch</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>El usuario 999 no existe. ¿Qué muestra la consola? ¿Se ejecuta el <code>catch</code>?</p>
+  </div>
+<pre class="codigo"><code>fetch("https://jsonplaceholder.typicode.com/users/999")
+    .then(response =&gt; {
+        console.log(response.status, response.ok);
+        return response.json();
+    })
+    .then(data =&gt; console.log(JSON.stringify(data)))
+    .catch(error =&gt; console.log("catch:", error.message));</code></pre>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Cómo quedan las variables</th></tr>
+      <tr><td><code>fetch(".../users/999")</code></td><td>Pide un usuario inexistente. El servidor <strong>contesta</strong>, con un 404</td><td>&mdash;</td></tr>
+      <tr><td>1er <code>then</code></td><td>Se ejecuta igual: hubo respuesta</td><td><code>status = 404</code>, <code>ok = false</code></td></tr>
+      <tr><td>2do <code>then</code></td><td>Esta API contesta el 404 con un objeto vacío</td><td><code>data = {}</code></td></tr>
+      <tr><td><code>.catch</code></td><td>No se ejecuta</td><td>&mdash;</td></tr>
+    </table>
+  </div>
+  <p>Qué muestra (verificado con Node.js contra la API real):</p>
+<pre class="salida">404 false
+{}</pre>
+  <p>
+    <strong>Por qué:</strong> para <code>fetch</code>, un 404 o un 500 <strong>no son errores</strong>:
+    el servidor respondió. El <code>catch</code> solo atrapa cuando no hubo respuesta (sin
+    conexión, dominio que no existe) o cuando algo falla adentro de un <code>then</code>. Para
+    distinguir un 404 hay que mirar <code>response.ok</code>. Los ejemplos de la cátedra no lo
+    miran: si la API contestara un error, el código intentaría usar datos que no están.
+  </p>
+
+  <hr class="sep">
+
+  <h3>Errores y trampas</h3>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Usar los datos afuera del then</span>
+    <p>
+      <code>let datos; fetch(url).then(r =&gt; r.json()).then(d =&gt; { datos = d; }); console.log(datos);</code>
+      muestra <code>undefined</code>: el <code>console.log</code> corre antes de que llegue la
+      respuesta (ejemplo 2). Todo lo que use los datos va <strong>adentro</strong> del último
+      <code>then</code>, o en un método que se llame desde ahí.
+    </p>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Llaves sin return</span>
+    <p>
+      <code>.then(response =&gt; response.json())</code> devuelve solo, porque es una flecha sin
+      llaves. Si le ponés llaves, <code>.then(response =&gt; { response.json(); })</code>, no
+      devuelve nada y el siguiente <code>then</code> recibe <code>undefined</code>. Con llaves, hace
+      falta <code>return</code> (ejemplo 1).
+    </p>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">response no son los datos</span>
+    <p>
+      <code>.then(response =&gt; console.log(response.nombre))</code> da <code>undefined</code>: el
+      objeto Response no tiene las claves del JSON. Primero <code>response.json()</code>, y los
+      datos llegan en el <code>then</code> siguiente.
+    </p>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Una API externa puede cambiar</span>
+    <p>
+      Los datos y hasta el formato de la respuesta los decide quien mantiene la API. Si cambia o
+      se cae, la página deja de andar sin que hayas tocado tu código.
+    </p>
+  </div>
+</div>

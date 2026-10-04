@@ -1,0 +1,172 @@
+<div class="bloque">
+  <p class="kicker">Sección 4 &middot; lo que hacen los ejemplos de la cátedra</p>
+  <h2>4. Modificar y crear elementos</h2>
+
+  <h3>Para qué sirve</h3>
+  <p>
+    Una vez que tenés el elemento (sección 3), le cambiás lo que quieras a través de sus
+    <strong>propiedades</strong>: el texto, el valor de un campo, el color, las clases de CSS. Y
+    también podés <strong>crear elementos nuevos</strong> y colgarlos del árbol. Cada cambio se ve
+    en la pantalla al instante, sin recargar.
+  </p>
+
+  <h3>Sintaxis</h3>
+<pre class="codigo"><code>const titulo = document.getElementById('titulo');
+
+titulo.textContent = "Nuevo título";           // cambia el texto
+titulo.innerHTML = "Título &lt;em&gt;nuevo&lt;/em&gt;";    // cambia el contenido, interpretando etiquetas
+titulo.style.color = "red";                     // estilo en línea (CSS)
+titulo.style.backgroundColor = "green";         // background-color se escribe en camelCase
+titulo.classList.add('is-invalid');             // agrega una clase de CSS
+titulo.classList.remove('is-valid');            // saca una clase de CSS
+
+campo.value = '';                               // vacía un campo
+campo.focus();                                  // pone el cursor en el campo
+
+const p = document.createElement('p');          // crea un &lt;p&gt; suelto (todavía no se ve)
+p.textContent = "Párrafo nuevo";
+document.getElementById('parrafos').appendChild(p);   // lo cuelga adentro de #parrafos: ahora se ve</code></pre>
+
+  <h3>Qué es cada parte</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Pieza</th><th>Qué hace</th><th>Detalle</th></tr>
+      <tr><td class="lbl"><code>.textContent</code></td><td>Lee o reemplaza el <strong>texto</strong> de adentro</td><td>Si le das etiquetas, las muestra como texto: no las interpreta</td></tr>
+      <tr><td class="lbl"><code>.innerText</code></td><td>Casi lo mismo que <code>textContent</code>: texto, sin interpretar etiquetas</td><td>Respeta los saltos de línea al mostrarlos (lo usa la práctica, ejemplo 6)</td></tr>
+      <tr><td class="lbl"><code>.innerHTML</code></td><td>Lee o reemplaza el <strong>HTML</strong> de adentro</td><td>Interpreta las etiquetas: <code>"&lt;em&gt;hola&lt;/em&gt;"</code> se ve en cursiva. Asignarle <code>''</code> vacía el elemento</td></tr>
+      <tr><td class="lbl"><code>.value</code></td><td>Lee o cambia lo escrito en un campo</td><td>Siempre texto</td></tr>
+      <tr><td class="lbl"><code>.style.propiedad</code></td><td>Pone un estilo de CSS solo en ese elemento</td><td>Los nombres con guion pasan a <strong>camelCase</strong>: <code>background-color</code> &rarr; <code>backgroundColor</code>, <code>font-size</code> &rarr; <code>fontSize</code>, <code>border-color</code> &rarr; <code>borderColor</code>. El valor va como texto, con unidad: <code>"34px"</code></td></tr>
+      <tr><td class="lbl"><code>window.getComputedStyle(el).fontSize</code></td><td>Lee el tamaño de letra que el elemento <strong>tiene de verdad</strong>, venga de donde venga</td><td>Devuelve texto con unidad: <code>"32px"</code>. <code>el.style.fontSize</code> en cambio solo ve lo que se puso con JavaScript, y al principio está vacío</td></tr>
+      <tr><td class="lbl"><code>.classList.add('x')</code> / <code>.remove('x')</code></td><td>Agrega o saca una clase de CSS sin tocar las demás</td><td>Bootstrap pinta el borde verde con <code>is-valid</code> y rojo con <code>is-invalid</code></td></tr>
+      <tr><td class="lbl"><code>.focus()</code></td><td>Lleva el cursor a ese campo</td><td>&mdash;</td></tr>
+      <tr><td class="lbl"><code>document.createElement('p')</code></td><td>Crea un elemento nuevo, <strong>suelto</strong>: existe pero no está en el árbol</td><td>Se le cargan propiedades (<code>textContent</code>, <code>src</code>, <code>value</code>...) antes de colgarlo</td></tr>
+      <tr><td class="lbl"><code>padre.appendChild(hijo)</code></td><td>Cuelga el elemento como <strong>último hijo</strong> de <code>padre</code></td><td>Recién ahí aparece en la pantalla</td></tr>
+    </table>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; textContent contra innerHTML</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>La página tiene <code>&lt;h1 id="titulo"&gt;&lt;/h1&gt;</code>. ¿Qué se ve en el título después de cada línea?</p>
+  </div>
+<pre class="codigo"><code>const t = document.getElementById('titulo');
+t.innerHTML = "Hola &lt;em&gt;mundo&lt;/em&gt;";
+t.textContent = "Hola &lt;em&gt;mundo&lt;/em&gt;";
+t.innerHTML = '';</code></pre>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Qué se ve en el título</th></tr>
+      <tr><td><code>const t = ...('titulo');</code></td><td>Agarra el <code>&lt;h1&gt;</code> vacío</td><td>(nada)</td></tr>
+      <tr><td><code>t.innerHTML = "Hola &lt;em&gt;mundo&lt;/em&gt;";</code></td><td>Interpreta el <code>&lt;em&gt;</code> como etiqueta: crea un nodo <code>em</code> hijo del <code>h1</code></td><td>Hola <em>mundo</em> (con "mundo" en cursiva)</td></tr>
+      <tr><td><code>t.textContent = "Hola &lt;em&gt;mundo&lt;/em&gt;";</code></td><td>Reemplaza todo por texto; los <code>&lt;</code> y <code>&gt;</code> son caracteres comunes</td><td><code>Hola &lt;em&gt;mundo&lt;/em&gt;</code>, literal</td></tr>
+      <tr><td><code>t.innerHTML = '';</code></td><td>Reemplaza el contenido por nada</td><td>(vacío otra vez)</td></tr>
+    </table>
+  </div>
+  <p>
+    <strong>Por qué:</strong> <code>innerHTML</code> pasa el texto por el mismo lector de HTML
+    que la página (sección 1) y arma nodos; <code>textContent</code> no lee nada, solo pone texto.
+    Por eso, para mostrar algo que escribió el usuario, la cátedra usa <code>textContent</code>.
+  </p>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; ¿Qué tamaño queda? (estilo calculado)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>
+      Un <code>&lt;h1&gt;</code> sin estilos propios mide 32px en un navegador con la configuración
+      de fábrica (letra base de 16px; el <code>h1</code> es el doble). Este código corre
+      <strong>tres veces</strong> seguidas. ¿Qué tamaño queda?
+    </p>
+  </div>
+<pre class="codigo"><code>let currentSize = window.getComputedStyle(titulo).fontSize;
+titulo.style.fontSize = (parseFloat(currentSize) + 2) + "px";</code></pre>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Vez</th><th>Qué hace</th><th>Cómo quedan las variables</th></tr>
+      <tr><td>1ra</td><td>Lee el tamaño real: <code>"32px"</code>. <code>parseFloat</code> da 32; más 2, 34; con <code>"px"</code> pegado, <code>"34px"</code></td><td><code>currentSize = "32px"</code>; letra = 34px</td></tr>
+      <tr><td>2da</td><td>Ahora el tamaño real es el que se puso recién</td><td><code>currentSize = "34px"</code>; letra = 36px</td></tr>
+      <tr><td>3ra</td><td>Igual</td><td><code>currentSize = "36px"</code>; letra = 38px</td></tr>
+    </table>
+  </div>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>
+      <strong>38px</strong> (32 + 2 + 2 + 2). Con otra letra base en el navegador el punto de
+      partida cambia, pero cada vez suma 2.
+    </p>
+  </div>
+  <p>
+    <strong>Por qué los paréntesis:</strong> <code>(parseFloat(currentSize) + 2) + "px"</code>
+    hace primero la suma de números y después pega el texto. Sin
+    <code>parseFloat</code> quedaría <code>"32px" + 2</code>, que concatena: <code>"32px2"</code>,
+    un valor que el CSS no entiende y descarta (la letra no cambia).
+  </p>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 3 &mdash; ¿Cuántos quedan? (crear y colgar)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>La página tiene <code>&lt;ul id="lista"&gt;&lt;li&gt;A&lt;/li&gt;&lt;/ul&gt;</code>. Después de correr esto, ¿cuántos <code>&lt;li&gt;</code> tiene la lista y en qué orden?</p>
+  </div>
+<pre class="codigo"><code>const lista = document.getElementById('lista');
+const letras = ['B', 'C'];
+letras.forEach(letra =&gt; {
+    const li = document.createElement('li');
+    li.textContent = letra;
+    lista.appendChild(li);
+});
+const suelto = document.createElement('li');
+suelto.textContent = 'D';</code></pre>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Cómo queda la lista</th></tr>
+      <tr><td><code>const lista = ...('lista');</code></td><td>Agarra el <code>&lt;ul&gt;</code></td><td>A</td></tr>
+      <tr><td><code>const letras = ['B', 'C'];</code></td><td>Array con dos textos</td><td>A</td></tr>
+      <tr><td><code>forEach</code>, 1ra vuelta</td><td>Crea un <code>li</code>, le pone "B" y lo cuelga al final</td><td>A, B</td></tr>
+      <tr><td><code>forEach</code>, 2da vuelta</td><td>Crea otro <code>li</code> (uno nuevo por vuelta), "C", al final</td><td>A, B, C</td></tr>
+      <tr><td><code>const suelto = createElement('li');</code></td><td>Crea un <code>li</code>...</td><td>A, B, C</td></tr>
+      <tr><td><code>suelto.textContent = 'D';</code></td><td>...y le pone texto, pero <strong>nunca se cuelga</strong> con <code>appendChild</code></td><td>A, B, C</td></tr>
+    </table>
+  </div>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p><strong>3</strong> elementos: A, B, C. La "D" existe en memoria pero no está en el árbol, así que no se ve.</p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Errores y trampas</h3>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Crear no es mostrar</span>
+    <p>
+      <code>createElement</code> solo fabrica el elemento. Sin <code>appendChild</code> no aparece
+      (ejemplo 3).
+    </p>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Nombres de CSS con guion</span>
+    <p>
+      <code>titulo.style.background-color = "green"</code> es un error: JavaScript lo lee como
+      <code>titulo.style.background</code> <em>menos</em> <code>color</code>. Se escribe
+      <code>backgroundColor</code>.
+    </p>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">innerHTML con datos del usuario</span>
+    <p>
+      Si mostrás con <code>innerHTML</code> algo que escribió el usuario y escribió etiquetas, el
+      navegador las ejecuta como HTML. Para mostrar datos, <code>textContent</code>.
+    </p>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Los cambios no viajan al servidor</span>
+    <p>
+      Vaciar un campo con <code>campo.value = ''</code> o pintarlo de rojo cambia el DOM de esta
+      pantalla y nada más. PHP no se entera hasta que se envía el formulario.
+    </p>
+  </div>
+</div>

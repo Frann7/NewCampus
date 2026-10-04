@@ -51,6 +51,8 @@ window.NC = window.NC || {};
         nombre: nombre,
         corto: m.getAttribute("data-corto") || nombre.slice(0, 6),
         tono: (TONO_BASE + i * PASO_TONO) % 360,
+        // "Unidades" en PyE, "Clases" en PA (lo pone app.js al armar el menu)
+        terminos: m.getAttribute("data-terminos") || "Unidades",
         unidades: $$(".unidades button", m).map(function (b) {
           return {
             clave: b.getAttribute("data-unidad"),

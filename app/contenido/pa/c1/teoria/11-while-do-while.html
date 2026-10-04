@@ -1,0 +1,179 @@
+<div class="bloque" data-examen="igual" data-examen-ref="Parcial PHP · preg. 18" data-examen-nota="Textual: “Cual es la salida del siguiente script PHP”, con un while ($i &lt; 10) que hace echo $i pero nunca incrementa $i. Opciones: bucle infinito, 0 a 9, 0 a 10, 0 a 4.">
+  <p class="kicker">Estructuras de control · iterativas</p>
+  <h2>11. while y do...while</h2>
+
+  <h3>Para qué sirve</h3>
+  <p>
+    Las estructuras <strong>iterativas</strong> (o bucles, o ciclos) ejecutan una o más líneas de
+    código <strong>varias veces</strong>. Cada repetición se llama <em>vuelta</em> o
+    <em>iteración</em>. Las de PHP son <code>while</code>, <code>do...while</code>, <code>for</code> y
+    <code>foreach</code> (esta última se ve con los arrays, en la clase 2).
+  </p>
+  <p>
+    <code>while</code> y <code>do...while</code> repiten <strong>mientras la condición sea
+    verdadera</strong>. La única diferencia es <strong>cuándo</strong> se pregunta.
+  </p>
+
+  <h3>Sintaxis</h3>
+  <pre class="codigo"><code>while (condición) {
+    sentencia_1;
+    sentencia_2;
+}
+
+do {
+    sentencia_1;
+    sentencia_2;
+} while (condición);</code></pre>
+
+  <h3>Qué es cada parte</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Parte</th><th>Qué es</th></tr>
+      <tr><td><code>while (condición) { }</code></td><td>Pregunta <strong>antes</strong> de cada vuelta. Si la condición es falsa desde el principio, <strong>no ejecuta ni una vez</strong>.</td></tr>
+      <tr><td><code>do { } while (condición);</code></td><td>Ejecuta la vuelta y pregunta <strong>al final</strong>. Por eso <strong>siempre se ejecuta al menos una vez</strong>. Lleva <code>;</code> después del paréntesis.</td></tr>
+      <tr><td>la condición</td><td>Igual que en el <code>if</code>. Mientras dé <code>true</code>, sigue; cuando da <code>false</code>, sale.</td></tr>
+      <tr><td>el incremento</td><td>Alguna línea de adentro <strong>tiene que cambiar</strong> la variable de la condición (por ejemplo <code>$i++;</code>). Si no, la condición nunca se vuelve falsa: <strong>bucle infinito</strong>.</td></tr>
+    </table>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; Contar del 1 al 3 con while</h3>
+
+  <pre class="codigo"><code>&lt;?php
+$i = 1;
+while ($i &lt;= 3) {
+    echo $i . " ";
+    $i++;
+}
+echo "Fin: " . $i;
+?&gt;</code></pre>
+
+  <h4>Qué hace cada línea, vuelta por vuelta</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Momento</th><th>Qué hace</th><th><code>$i</code></th><th>Salida acumulada</th></tr>
+      <tr><td><code>$i = 1;</code></td><td>Valor inicial.</td><td>1</td><td></td></tr>
+      <tr><td>Pregunta</td><td>¿1 &lt;= 3? Sí: entra.</td><td>1</td><td></td></tr>
+      <tr><td>Vuelta 1</td><td><code>echo</code> muestra 1 y un espacio; <code>$i++</code> lo sube.</td><td>2</td><td><code>1 </code></td></tr>
+      <tr><td>Pregunta</td><td>¿2 &lt;= 3? Sí.</td><td>2</td><td><code>1 </code></td></tr>
+      <tr><td>Vuelta 2</td><td>Muestra 2; sube.</td><td>3</td><td><code>1 2 </code></td></tr>
+      <tr><td>Pregunta</td><td>¿3 &lt;= 3? Sí.</td><td>3</td><td><code>1 2 </code></td></tr>
+      <tr><td>Vuelta 3</td><td>Muestra 3; sube.</td><td>4</td><td><code>1 2 3 </code></td></tr>
+      <tr><td>Pregunta</td><td>¿4 &lt;= 3? <strong>No</strong>: sale del while.</td><td>4</td><td><code>1 2 3 </code></td></tr>
+      <tr><td><code>echo "Fin: " . $i;</code></td><td>Ya fuera del bucle.</td><td>4</td><td><code>1 2 3 Fin: 4</code></td></tr>
+    </table>
+  </div>
+
+  <h4>Qué imprime y por qué</h4>
+  <pre class="salida">1 2 3 Fin: 4</pre>
+  <p>Al salir, <code>$i</code> vale <strong>4</strong>, no 3: el bucle termina justamente porque <code>$i</code> pasó el límite.</p>
+
+  <p>
+    El ejemplo del apunte es igual, con <code>$i</code> de 0 a 9 y <code>echo "Esta es la línea ".$i;</code>.
+    Como no imprime ni un espacio ni un <code>&lt;br&gt;</code>, sale todo pegado:
+    <code>Esta es la línea 0Esta es la línea 1Esta es la línea 2</code>... hasta la 9.
+  </p>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; Con formato del Parcial PHP: while contra do...while</h3>
+
+  <pre class="codigo"><code>&lt;?php
+$i = 10;
+while ($i &lt; 10) {
+    echo "while ";
+    $i++;
+}
+do {
+    echo "do-while ";
+    $i++;
+} while ($i &lt; 10);
+echo $i;
+?&gt;</code></pre>
+
+  <h4>Qué hace cada línea</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th><code>$i</code></th><th>Salida acumulada</th></tr>
+      <tr><td><code>$i = 10;</code></td><td>Valor inicial.</td><td>10</td><td></td></tr>
+      <tr><td><code>while ($i &lt; 10)</code></td><td>Pregunta <strong>antes</strong>: ¿10 &lt; 10? No. No entra nunca.</td><td>10</td><td></td></tr>
+      <tr><td><code>do { ... }</code></td><td>Entra <strong>sin preguntar</strong>: muestra y suma.</td><td>11</td><td><code>do-while </code></td></tr>
+      <tr><td><code>} while ($i &lt; 10);</code></td><td>Recién ahora pregunta: ¿11 &lt; 10? No. Sale.</td><td>11</td><td><code>do-while </code></td></tr>
+      <tr><td><code>echo $i;</code></td><td>Muestra el valor final.</td><td>11</td><td><code>do-while 11</code></td></tr>
+    </table>
+  </div>
+
+  <h4>Qué imprime y por qué</h4>
+  <pre class="salida">do-while 11</pre>
+  <p>Con la misma condición falsa, el <code>while</code> no hizo nada y el <code>do...while</code> hizo una vuelta.</p>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 3 &mdash; Con formato del Parcial PHP (preg. 18)</h3>
+
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>¿Cuál es la salida del siguiente script PHP?</p>
+    <p>a. Bucle infinito &nbsp; b. 0 1 2 3 4 5 6 7 8 9 &nbsp; c. 0 1 2 3 4 5 6 7 8 9 10 &nbsp; d. 0 1 2 3 4</p>
+  </div>
+
+  <pre class="codigo"><code>&lt;?php
+$i = 0;
+while ($i &lt; 10) {
+                echo $i;
+}
+?&gt;</code></pre>
+
+  <h4>Qué hace cada línea</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Momento</th><th>Qué hace</th><th><code>$i</code></th></tr>
+      <tr><td><code>$i = 0;</code></td><td>Valor inicial.</td><td>0</td></tr>
+      <tr><td>Pregunta</td><td>¿0 &lt; 10? Sí.</td><td>0</td></tr>
+      <tr><td>Vuelta 1</td><td>Muestra 0. <strong>No hay ninguna línea que cambie <code>$i</code></strong>.</td><td>0</td></tr>
+      <tr><td>Pregunta</td><td>¿0 &lt; 10? Sí, otra vez.</td><td>0</td></tr>
+      <tr><td>Vuelta 2, 3, 4...</td><td>Lo mismo, para siempre.</td><td>0</td></tr>
+    </table>
+  </div>
+
+  <h4>Qué imprime y por qué</h4>
+  <pre class="salida">00000000000000000000000000000000000000000000000000000000000...</pre>
+  <p>
+    <code>$i</code> se queda en 0, la condición es verdadera siempre y el bucle no termina:
+    imprime ceros pegados sin fin. En el navegador lo corta el límite de tiempo de PHP
+    (<code>max_execution_time</code>; en el XAMPP de esta PC son 120 segundos) con un
+    <code>Fatal error: Maximum execution time ... exceeded</code>. Las opciones b, c y d serían
+    las salidas <em>si</em> hubiera un <code>$i++</code>, y ni así: no hay espacios entre los números.
+  </p>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p><strong>a. Bucle infinito.</strong></p>
+  </div>
+
+  <h3>Errores y trampas</h3>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">"Hasta que" o "mientras"</span>
+    <p>
+      El apunte dice que estos bucles ejecutan "hasta que la condición se evalúe como verdadera".
+      Es al revés: repiten <strong>mientras</strong> la condición sea verdadera, y salen cuando se
+      vuelve falsa.
+    </p>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">do...while con paréntesis</span>
+    <p>
+      El apunte escribe <code>}while{condicion}</code>, con llaves. Así da
+      <code>Parse error: syntax error, unexpected token "{", expecting "("</code>. La condición va
+      entre <strong>paréntesis</strong> y con punto y coma: <code>} while ($i &lt; 10);</code>.
+    </p>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Contar las vueltas en el borde</span>
+    <p>
+      <code>$i &lt; 10</code> empezando en 0 da 10 vueltas (0 a 9); <code>$i &lt;= 10</code> da 11
+      (0 a 10). Siempre probá a mano la primera y la última vuelta.
+    </p>
+  </div>
+</div>

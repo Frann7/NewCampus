@@ -1,0 +1,175 @@
+<div class="ej">
+  <span class="tag">Ejercicio 3 &middot; $_POST</span>
+  <h2>Mostrar los datos recibidos: procesoForm.php</h2>
+  <div class="enunciado">
+    <p>
+      Escriba el código HTML y PHP necesario para mostrar los datos recibidos del formulario del
+      punto 2. Guarde el script con el nombre <em>procesoForm.php</em> y asegúrese de ser el mismo
+      nombre declarado en el campo "action" declarado en el formulario. Utilice para recuperar
+      los datos el arreglo <em>$_POST</em> de PHP.
+    </p>
+    <p>
+      La captura muestra el título "Datos enviados desde el Formulario de Contacto", los cuatro
+      rótulos con lo que se cargó (<em>federico</em>, <em>consulta</em>,
+      <em>federico@gugler.com.ar</em>, <em>Este es el comentario</em>) y el enlace "Volver".
+    </p>
+  </div>
+
+  <span class="paso">Paso 1 &mdash; Qué piden</span>
+  <ul>
+    <li>
+      El nombre del archivo tiene que coincidir con el <code>action</code> del ejercicio 2:
+      <code>procesoForm.php</code>, en la misma carpeta (ruta relativa, sección 7).
+    </li>
+    <li>
+      Como el formulario usa <code>method="post"</code>, los datos están en
+      <strong><code>$_POST</code></strong> (sección 8). Las claves son los <code>name</code> del
+      formulario: <code>nombre</code>, <code>asunto</code>, <code>correo</code>,
+      <code>comentario</code>.
+    </li>
+    <li>
+      "Código HTML y PHP": la página es HTML, y PHP solo pone los datos en su lugar. Es el
+      funcionamiento de la Clase 1: lo que está fuera de <code>&lt;?php ?&gt;</code> sale tal
+      cual y lo de adentro se ejecuta.
+    </li>
+    <li>
+      Lo que muestra lo escribió el usuario, así que se pasa por <code>htmlspecialchars()</code>
+      (sección 10) antes de imprimirlo.
+    </li>
+  </ul>
+
+  <span class="paso">Paso 2 &mdash; El código</span>
+<pre class="codigo"><code>&lt;!DOCTYPE html&gt;
+&lt;html lang="es"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;title&gt;Datos enviados&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;h1&gt;Programación Avanzada&lt;/h1&gt;
+  &lt;h2&gt;Taller de PHP&lt;/h2&gt;
+
+  &lt;h3&gt;Datos enviados desde el Formulario de Contacto&lt;/h3&gt;
+
+  &lt;?php
+    $nombre     = $_POST['nombre'];
+    $asunto     = $_POST['asunto'];
+    $correo     = $_POST['correo'];
+    $comentario = $_POST['comentario'];
+  ?&gt;
+
+  &lt;table&gt;
+    &lt;tr&gt;&lt;td&gt;Nombre:&lt;/td&gt;&lt;td&gt;&lt;?php echo htmlspecialchars($nombre); ?&gt;&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;td&gt;Asunto:&lt;/td&gt;&lt;td&gt;&lt;?php echo htmlspecialchars($asunto); ?&gt;&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;td&gt;Correo:&lt;/td&gt;&lt;td&gt;&lt;?php echo htmlspecialchars($correo); ?&gt;&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;td&gt;Comentario:&lt;/td&gt;&lt;td&gt;&lt;?php echo htmlspecialchars($comentario); ?&gt;&lt;/td&gt;&lt;/tr&gt;
+  &lt;/table&gt;
+
+  &lt;p&gt;&lt;a href="index.php"&gt;Volver&lt;/a&gt;&lt;/p&gt;
+
+  &lt;p&gt;Facultad de Ciencia y Tecnología&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+
+  <span class="paso">Paso 3 &mdash; Qué hace cada línea</span>
+  <p>
+    Con los datos de la captura. Antes de la primera línea, PHP ya armó <code>$_POST</code> con el
+    cuerpo de la solicitud (y decodificó el <code>%40</code> y los <code>+</code>):
+    <code>$_POST = ['nombre' =&gt; 'federico', 'asunto' =&gt; 'consulta', 'correo' =&gt;
+    'federico@gugler.com.ar', 'comentario' =&gt; 'Este es el comentario']</code>.
+  </p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Líneas</th><th>Qué hace</th><th>Cómo quedan las variables</th></tr>
+      <tr><td>1 a 11</td><td>HTML fuera de <code>&lt;?php ?&gt;</code>: sale tal cual (estructura, encabezado y título)</td><td>&mdash;</td></tr>
+      <tr><td>13</td><td>Abre un bloque de PHP</td><td>&mdash;</td></tr>
+      <tr><td>14</td><td>Lee de <code>$_POST</code> la clave <code>nombre</code> (el <code>name</code> del primer cuadro)</td><td><code>$nombre = "federico"</code></td></tr>
+      <tr><td>15</td><td>Lee <code>asunto</code></td><td><code>$asunto = "consulta"</code></td></tr>
+      <tr><td>16</td><td>Lee <code>correo</code></td><td><code>$correo = "federico@gugler.com.ar"</code></td></tr>
+      <tr><td>17</td><td>Lee <code>comentario</code> (el <code>textarea</code>)</td><td><code>$comentario = "Este es el comentario"</code></td></tr>
+      <tr><td>18</td><td>Cierra el bloque. No imprimió nada: solo guardó</td><td>&mdash;</td></tr>
+      <tr><td>20</td><td>HTML: abre la tabla</td><td>&mdash;</td></tr>
+      <tr><td>21</td><td>HTML del rótulo y, en la segunda celda, un mini bloque PHP que imprime <code>$nombre</code> pasado por <code>htmlspecialchars()</code> (no tiene caracteres especiales, sale igual)</td><td>imprime <code>federico</code></td></tr>
+      <tr><td>22 a 24</td><td>Lo mismo con asunto, correo y comentario</td><td>imprimen <code>consulta</code>, <code>federico@gugler.com.ar</code>, <code>Este es el comentario</code></td></tr>
+      <tr><td>25</td><td>Cierra la tabla</td><td>&mdash;</td></tr>
+      <tr><td>27</td><td>El enlace Volver, a <code>index.php</code></td><td>&mdash;</td></tr>
+      <tr><td>29 a 31</td><td>Pie y cierre del documento</td><td>&mdash;</td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Paso 4 &mdash; Qué imprime</span>
+  <p>El HTML que PHP le manda al navegador (verificado mandando esos cuatro datos por POST al servidor de PHP de XAMPP):</p>
+<pre class="salida">&lt;!DOCTYPE html&gt;
+&lt;html lang="es"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;title&gt;Datos enviados&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;h1&gt;Programación Avanzada&lt;/h1&gt;
+  &lt;h2&gt;Taller de PHP&lt;/h2&gt;
+
+  &lt;h3&gt;Datos enviados desde el Formulario de Contacto&lt;/h3&gt;
+
+
+  &lt;table&gt;
+    &lt;tr&gt;&lt;td&gt;Nombre:&lt;/td&gt;&lt;td&gt;federico&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;td&gt;Asunto:&lt;/td&gt;&lt;td&gt;consulta&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;td&gt;Correo:&lt;/td&gt;&lt;td&gt;federico@gugler.com.ar&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;td&gt;Comentario:&lt;/td&gt;&lt;td&gt;Este es el comentario&lt;/td&gt;&lt;/tr&gt;
+  &lt;/table&gt;
+
+  &lt;p&gt;&lt;a href="index.php"&gt;Volver&lt;/a&gt;&lt;/p&gt;
+
+  &lt;p&gt;Facultad de Ciencia y Tecnología&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+  <p>
+    Fijate que las etiquetas <code>&lt;?php ... ?&gt;</code> <strong>desaparecieron</strong>: el
+    navegador nunca ve el código PHP, solo lo que imprimió. Donde estaba el bloque de las líneas
+    13 a 18 quedó un renglón en blanco, porque no imprimía nada.
+  </p>
+
+  <h4>Qué se ve en el navegador</h4>
+  <p>
+    El encabezado, el título "Datos enviados desde el Formulario de Contacto", la tabla con
+    <em>Nombre: federico</em>, <em>Asunto: consulta</em>, <em>Correo: federico@gugler.com.ar</em>,
+    <em>Comentario: Este es el comentario</em>, y el enlace Volver. Es la captura de la guía.
+  </p>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Si abrís procesoForm.php directamente</span>
+    <p>
+      Escribiendo <code>http://localhost/clase3/procesoForm.php</code> en la barra, sin pasar por
+      el formulario, la solicitud es un GET sin datos: <code>$_POST</code> está vacío. Verificado:
+      PHP muestra cuatro avisos, uno por línea 14 a 17, del tipo
+    </p>
+<pre class="salida">Warning: Undefined array key "nombre" in ...\procesoForm.php on line 14</pre>
+    <p>
+      y la tabla sale con las celdas vacías. No es un error del código: el script espera que lo
+      llame el formulario. Si se quisiera evitar, se pregunta antes con
+      <code>if ($_SERVER["REQUEST_METHOD"] == "POST")</code> (sección 10), como hace el sitio de
+      ejemplo de la cátedra.
+    </p>
+  </div>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Por qué htmlspecialchars</span>
+    <p>
+      Con estos datos, la salida es la misma con o sin <code>htmlspecialchars()</code>. La
+      diferencia aparece si alguien escribe etiquetas en el comentario: sin la función, un
+      <code>&lt;b&gt;</code> pondría el texto en negrita y un <code>&lt;script&gt;</code> se
+      ejecutaría en la página (sección 10). El ejercicio no lo pide; el sitio de ejemplo de la
+      cátedra lo usa en cada dato que muestra.
+    </p>
+  </div>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Resultado</span>
+    <p>
+      <code>procesoForm.php</code> recupera los cuatro datos de <code>$_POST</code> y los muestra
+      en una tabla, igual que la captura de la guía. La cátedra no publicó una resolución para
+      comparar.
+    </p>
+  </div>
+</div>

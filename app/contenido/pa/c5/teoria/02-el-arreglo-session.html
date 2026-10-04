@@ -1,0 +1,281 @@
+<div class="bloque" data-examen="igual" data-examen-ref="Parcial PHP · preg. 7" data-examen-nota="En el parcial hay que emparejar tres definiciones: el array asociativo con las variables de sesión es $_SESSION; el de los parámetros de la URL, $_GET; y el de lo enviado por el método HTTP POST, $_POST.">
+  <p class="kicker">Sesiones</p>
+  <h2>2. <code>$_SESSION</code>: guardar datos y leerlos desde otro script</h2>
+
+  <h3>Para qué sirve</h3>
+  <p>
+    Además de identificar al navegador, <code>session_start()</code> deja listo un arreglo llamado
+    <code>$_SESSION</code>. Lo que guardes ahí <strong>se conserva entre una página y otra</strong>:
+    lo guardás en un script y lo leés en cualquier otro, mientras sea el mismo navegador y la
+    sesión siga viva.
+  </p>
+  <p>
+    Es un <strong>array asociativo</strong> (Clase 2): un arreglo donde cada valor se busca por una
+    <strong>clave de texto</strong> en vez de por un número de posición. En
+    <code>$_SESSION['nombre']</code>, la clave es <code>'nombre'</code>.
+  </p>
+
+  <h3>Sintaxis</h3>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Guardar y leer</span>
+<pre class="codigo"><code>session_start();                    // siempre primero
+$_SESSION['clave'] = valor;         // guardar (o pisar, si la clave ya existía)
+echo $_SESSION['clave'];            // leer, en este script o en otro</code></pre>
+  </div>
+
+  <h3>Qué es cada parte</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Parte</th><th>Qué es</th></tr>
+      <tr><td class="lbl"><code>$_SESSION</code></td><td>El arreglo de la sesión. Lo crea <code>session_start()</code> y se llena con lo que había guardado en el archivo del servidor.</td></tr>
+      <tr><td class="lbl"><code>'clave'</code></td><td>El nombre del dato, entre comillas. Lo elegís vos (<code>'usuario'</code>, <code>'token'</code>...).</td></tr>
+      <tr><td class="lbl"><code>valor</code></td><td>Lo que se guarda: un texto, un número o incluso un arreglo entero.</td></tr>
+      <tr><td class="lbl">Cuándo se graba</td><td>Al terminar el script, PHP escribe todo <code>$_SESSION</code> en el archivo <code>sess_&lt;id&gt;</code>. En el próximo <code>session_start()</code> lo vuelve a leer.</td></tr>
+    </table>
+  </div>
+
+  <h3><code>$_SESSION</code> al lado de <code>$_GET</code> y <code>$_POST</code></h3>
+  <p>
+    Los tres son <strong>arrays asociativos que PHP llena solo</strong> (se los llama
+    <em>superglobales</em>: existen en cualquier parte del script). La diferencia es
+    <strong>de dónde salen los datos</strong>:
+  </p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Arreglo</th><th>De dónde salen los datos</th><th>Quién los escribe</th></tr>
+      <tr><td class="lbl"><code>$_GET</code></td><td>De los parámetros de la URL: <code>pagina.php?color=rojo</code></td><td>El navegador, en cada pedido (Clase 3)</td></tr>
+      <tr><td class="lbl"><code>$_POST</code></td><td>De un formulario enviado con <code>method="post"</code></td><td>El navegador, en cada pedido (Clase 3)</td></tr>
+      <tr><td class="lbl"><code>$_SESSION</code></td><td>Del archivo de sesión que está en el servidor</td><td><strong>Tu script</strong>; el navegador solo manda el id</td></tr>
+    </table>
+  </div>
+  <p>
+    Esa última columna es la clave de la clase: lo que hay en <code>$_GET</code> y <code>$_POST</code>
+    lo puede escribir cualquiera que mande un pedido; lo que hay en <code>$_SESSION</code> solo lo
+    escribe tu código, y el navegador nunca lo ve. Por eso, en las secciones 5 y 6, el código
+    secreto se guarda en la sesión.
+  </p>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; Guardar en <code>index.php</code> y leer en <code>home.php</code> (el de la cátedra)</h3>
+
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>
+      Desde un navegador se abre primero <code>index.php</code> y después <code>home.php</code>.
+      ¿Qué muestra <code>home.php</code>?
+    </p>
+  </div>
+
+  <p><code>index.php</code>:</p>
+<pre class="codigo"><code>&lt;?php
+session_start();                    // creamos la sesión
+$_SESSION['nombre'] = 'Federico';   // guardamos el nombre
+$_SESSION['apellido'] = 'Bonnet';   // guardamos el apellido
+?&gt;</code></pre>
+
+  <p><code>home.php</code>:</p>
+<pre class="codigo"><code>&lt;?php
+session_start();                    // recuperamos la sesión del script anterior
+echo $_SESSION['nombre'];           // mostramos lo que guardó index.php
+echo $_SESSION['apellido'];
+?&gt;</code></pre>
+
+  <h4>Qué hace cada línea</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Archivo y línea</th><th>Qué hace</th><th>Cómo queda <code>$_SESSION</code></th></tr>
+      <tr><td><code>index.php</code>: <code>session_start();</code></td><td>Primera visita: crea la sesión y manda la cookie <code>PHPSESSID</code>.</td><td><code>[]</code> (vacío)</td></tr>
+      <tr><td><code>$_SESSION['nombre'] = 'Federico';</code></td><td>Guarda <code>'Federico'</code> con la clave <code>'nombre'</code>.</td><td><code>['nombre' =&gt; 'Federico']</code></td></tr>
+      <tr><td><code>$_SESSION['apellido'] = 'Bonnet';</code></td><td>Guarda <code>'Bonnet'</code> con la clave <code>'apellido'</code>. Al terminar el script, todo se graba en el archivo.</td><td><code>['nombre' =&gt; 'Federico', 'apellido' =&gt; 'Bonnet']</code></td></tr>
+      <tr><td><code>home.php</code>: <code>session_start();</code></td><td>El navegador mandó la cookie: PHP abre el mismo archivo y llena <code>$_SESSION</code> con lo guardado.</td><td><code>['nombre' =&gt; 'Federico', 'apellido' =&gt; 'Bonnet']</code></td></tr>
+      <tr><td><code>echo $_SESSION['nombre'];</code></td><td>Imprime <code>Federico</code>.</td><td>sin cambios</td></tr>
+      <tr><td><code>echo $_SESSION['apellido'];</code></td><td>Imprime <code>Bonnet</code>, pegado a lo anterior.</td><td>sin cambios</td></tr>
+    </table>
+  </div>
+
+  <h4>Qué imprime y por qué</h4>
+<pre class="salida">FedericoBonnet</pre>
+  <ul>
+    <li><code>home.php</code> nunca asignó esos valores: los <strong>recuperó</strong> de la sesión.</li>
+    <li>
+      Sale todo junto porque ningún <code>echo</code> agrega un espacio. Para separarlo:
+      <code>echo $_SESSION['nombre'] . ' ' . $_SESSION['apellido'];</code>
+    </li>
+    <li>
+      Así quedó el archivo de sesión en el servidor (se abrió en la prueba):
+      <code>nombre|s:8:"Federico";apellido|s:6:"Bonnet";</code>. Es <code>$_SESSION</code>
+      escrito como texto: cada clave, su tipo (<code>s</code> = <em>string</em>, texto), su largo y su valor.
+    </li>
+    <li>
+      Si <code>home.php</code> lo abre <strong>otro navegador</strong>, que nunca pasó por
+      <code>index.php</code>, su sesión está vacía y <code>$_SESSION['nombre']</code> no existe.
+      Cada navegador tiene sus datos.
+    </li>
+  </ul>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Errata del PDF</span>
+    <p>
+      En el PDF dice <code>$_SESSION['nombre] = 'Federico';</code>, con la comilla de la clave sin
+      cerrar. Así no corre: PHP da <code>Parse error: syntax error, unexpected identifier
+      "Federico", expecting "]"</code>. La clave va entre dos comillas: <code>['nombre']</code>.
+    </p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; ¿Cuál es la salida? (un arreglo dentro de la sesión)</h3>
+
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>¿Cuál es la salida del siguiente script PHP?</p>
+  </div>
+
+<pre class="codigo"><code>&lt;?php
+session_start();
+$_SESSION['usuario'] = 'fedebonnet';
+$_SESSION['datos'] = array('apellido' =&gt; 'Bonnet', 'area' =&gt; 'Recursos Humanos');
+echo count($_SESSION) . ' ';
+echo $_SESSION['datos']['area'];
+?&gt;</code></pre>
+
+  <h4>Qué hace cada línea</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Cómo queda <code>$_SESSION</code></th></tr>
+      <tr><td><code>session_start();</code></td><td>Abre la sesión (suponemos que es nueva, vacía).</td><td><code>[]</code></td></tr>
+      <tr><td><code>$_SESSION['usuario'] = 'fedebonnet';</code></td><td>Guarda un texto.</td><td>1 elemento: <code>'usuario'</code></td></tr>
+      <tr><td><code>$_SESSION['datos'] = array(...);</code></td><td>Guarda <strong>un arreglo entero</strong> en una sola clave. Adentro tiene dos datos, pero para <code>$_SESSION</code> es un solo elemento.</td><td>2 elementos: <code>'usuario'</code> y <code>'datos'</code></td></tr>
+      <tr><td><code>echo count($_SESSION) . ' ';</code></td><td><code>count()</code> (Clase 2) cuenta los elementos del arreglo: son 2. Imprime <code>2</code> y un espacio.</td><td>sin cambios</td></tr>
+      <tr><td><code>echo $_SESSION['datos']['area'];</code></td><td>Dos claves seguidas: <code>['datos']</code> da el arreglo de adentro y <code>['area']</code> busca en él. Imprime <code>Recursos Humanos</code>.</td><td>sin cambios</td></tr>
+    </table>
+  </div>
+
+  <h4>Qué imprime y por qué</h4>
+<pre class="salida">2 Recursos Humanos</pre>
+  <p>
+    La trampa es el <code>2</code>: <code>count()</code> cuenta las claves de primer nivel
+    (<code>'usuario'</code> y <code>'datos'</code>), no los datos que hay adentro del arreglo
+    guardado.
+  </p>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 3 &mdash; ¿Cuál es la salida? (recorrer la sesión con <code>foreach</code>)</h3>
+
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>¿Cuál es la salida del siguiente script PHP, si la sesión empieza vacía?</p>
+  </div>
+
+<pre class="codigo"><code>&lt;?php
+session_start();
+$_SESSION['usuario'] = 'fedebonnet';
+$_SESSION['area'] = 'RRHH';
+$_SESSION['usuario'] = 'fran';
+foreach ($_SESSION as $clave =&gt; $valor) {
+    echo $clave . '=' . $valor . ' ';
+}
+?&gt;</code></pre>
+
+  <h4>Qué hace cada línea</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Cómo queda <code>$_SESSION</code></th></tr>
+      <tr><td><code>$_SESSION['usuario'] = 'fedebonnet';</code></td><td>Crea la clave <code>'usuario'</code>.</td><td><code>['usuario' =&gt; 'fedebonnet']</code></td></tr>
+      <tr><td><code>$_SESSION['area'] = 'RRHH';</code></td><td>Crea la clave <code>'area'</code>, después de la anterior.</td><td><code>['usuario' =&gt; 'fedebonnet', 'area' =&gt; 'RRHH']</code></td></tr>
+      <tr><td><code>$_SESSION['usuario'] = 'fran';</code></td><td>La clave ya existía: <strong>pisa</strong> el valor, no agrega otra. La clave conserva su lugar (primera).</td><td><code>['usuario' =&gt; 'fran', 'area' =&gt; 'RRHH']</code></td></tr>
+      <tr><td><code>foreach (... as $clave =&gt; $valor)</code></td><td>Recorre el arreglo en orden (Clase 2). Vuelta 1: <code>$clave = 'usuario'</code>, <code>$valor = 'fran'</code>. Vuelta 2: <code>$clave = 'area'</code>, <code>$valor = 'RRHH'</code>.</td><td>sin cambios</td></tr>
+      <tr><td><code>echo $clave . '=' . $valor . ' ';</code></td><td>En cada vuelta imprime <code>clave=valor</code> y un espacio.</td><td>sin cambios</td></tr>
+    </table>
+  </div>
+
+  <h4>Qué imprime y por qué</h4>
+<pre class="salida">usuario=fran area=RRHH </pre>
+  <p>
+    <code>fedebonnet</code> no aparece porque la tercera línea lo pisó. Esto mismo hacen
+    <code>pagina1.php</code> y <code>pagina2.php</code> de la cátedra para mostrar la sesión en una
+    tabla (están explicados en la pestaña Práctica).
+  </p>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 4 &mdash; Emparejar las definiciones (formato del parcial)</h3>
+
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado (Parcial PHP, pregunta 7)</span>
+    <p>Indique la correcta opción para cada definición:</p>
+    <ul>
+      <li>Es un array asociativo que contiene variables de sesión disponibles para el script actual.</li>
+      <li>Es un array asociativo de variables pasado al script actual vía parámetros URL.</li>
+      <li>Es un array asociativo de variables pasadas al script actual a través del método HTTP POST.</li>
+    </ul>
+    <p>Opciones: <code>$_SESSION</code>, <code>$_GET</code>, <code>$_POST</code>.</p>
+  </div>
+
+  <h4>Cómo se resuelve</h4>
+  <p>Se busca en cada definición la palabra que dice <strong>de dónde salen</strong> los datos:</p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase de la definición</th><th>Qué significa</th><th>Respuesta</th></tr>
+      <tr><td>"variables de <strong>sesión</strong>"</td><td>los datos guardados en la sesión del servidor</td><td><code>$_SESSION</code></td></tr>
+      <tr><td>"vía <strong>parámetros URL</strong>"</td><td>lo que va después del <code>?</code> en la dirección</td><td><code>$_GET</code></td></tr>
+      <tr><td>"método HTTP <strong>POST</strong>"</td><td>lo que manda un formulario con <code>method="post"</code></td><td><code>$_POST</code></td></tr>
+    </table>
+  </div>
+
+  <h4>Los tres en un mismo script</h4>
+  <p>
+    Para verlo funcionando: el formulario manda <code>nombre=Ana</code> por POST a
+    <code>tres.php?color=rojo</code>.
+  </p>
+<pre class="codigo"><code>&lt;?php
+session_start();
+$_SESSION['usuario'] = 'fedebonnet';
+echo $_GET['color'] . ' / ' . $_POST['nombre'] . ' / ' . $_SESSION['usuario'];
+?&gt;</code></pre>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Expresión</th><th>De dónde sale</th><th>Valor</th></tr>
+      <tr><td><code>$_GET['color']</code></td><td>la URL: <code>?color=rojo</code></td><td><code>rojo</code></td></tr>
+      <tr><td><code>$_POST['nombre']</code></td><td>el cuerpo del pedido POST</td><td><code>Ana</code></td></tr>
+      <tr><td><code>$_SESSION['usuario']</code></td><td>la sesión, que acaba de escribir el propio script</td><td><code>fedebonnet</code></td></tr>
+    </table>
+  </div>
+<pre class="salida">rojo / Ana / fedebonnet</pre>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>
+      Variables de sesión &rarr; <code>$_SESSION</code>. Parámetros URL &rarr; <code>$_GET</code>.
+      Método HTTP POST &rarr; <code>$_POST</code>.
+    </p>
+  </div>
+
+  <h3>Errores y trampas</h3>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Lo que más se confunde</span>
+    <ul>
+      <li>
+        <strong><code>$_REQUEST</code> no trae la sesión.</strong> <code>$_REQUEST</code> junta lo
+        de <code>$_GET</code>, <code>$_POST</code> y las cookies (Clase 3), nunca
+        <code>$_SESSION</code>. En el script de arriba, <code>print_r($_REQUEST)</code> muestra
+        <code>color</code> y <code>nombre</code>, pero no <code>usuario</code>.
+      </li>
+      <li>
+        <strong>Un arreglo no se imprime con <code>echo</code>.</strong>
+        <code>echo $_SESSION['datos'];</code> imprime la palabra <code>Array</code> y un
+        <code>Warning: Array to string conversion</code>. Para verlo entero, <code>print_r()</code>
+        (es lo que usan <code>pagina1.php</code> y <code>pagina2.php</code>).
+      </li>
+      <li>
+        <strong>Asignar a una clave que ya existe la pisa</strong>; no se acumulan dos valores.
+      </li>
+      <li>
+        <strong>Leer una clave que no existe</strong> da <code>Warning: Undefined array key</code>.
+        Para preguntar antes si está, se usan <code>isset()</code> o <code>empty()</code> (sección 3).
+      </li>
+    </ul>
+  </div>
+</div>

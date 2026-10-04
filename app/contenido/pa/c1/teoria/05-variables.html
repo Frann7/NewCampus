@@ -1,0 +1,182 @@
+<div class="bloque" data-examen="igual" data-examen-ref="Parcial PHP · preg. 19" data-examen-nota="Textual: “¿Cuál de los siguientes es un nombre de variable NO válido en PHP?”, con $variable10, $miVariable, $_10 y $10_variable.">
+  <p class="kicker">Datos</p>
+  <h2>5. Variables</h2>
+
+  <h3>Para qué sirve</h3>
+  <p>
+    Una variable es un <strong>contenedor donde se guarda un dato por un rato</strong>, para usarlo
+    después. Puede guardar cualquiera de los tipos de la sección 4, y lo que tiene adentro puede
+    cambiar mientras corre el programa.
+  </p>
+
+  <h3>Sintaxis</h3>
+  <pre class="codigo"><code>$nombre = valor;</code></pre>
+
+  <h3>Qué es cada parte</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Parte</th><th>Qué es</th></tr>
+      <tr><td><code>$</code></td><td>Toda variable empieza con el signo pesos. Es lo que le dice a PHP "esto es una variable".</td></tr>
+      <tr><td><code>nombre</code></td><td>El identificador. Puede tener <strong>letras</strong> (a-z, A-Z), <strong>números</strong> y <strong>guion bajo</strong> <code>_</code>. Tiene que <strong>empezar con una letra o con <code>_</code>, nunca con un número</strong>.</td></tr>
+      <tr><td><code>=</code></td><td>Asignación: guarda el valor de la derecha en la variable de la izquierda.</td></tr>
+      <tr><td><code>valor</code></td><td>El dato a guardar: <code>5</code>, <code>'rojo'</code>, <code>true</code>...</td></tr>
+    </table>
+  </div>
+
+  <h4>Tres reglas más</h4>
+  <ul>
+    <li>
+      <strong>No se declara el tipo.</strong> En PHP las variables no se "tipan" antes de usarlas:
+      se crean en el momento en que se les asigna un valor, y el tipo sale del valor.
+    </li>
+    <li>
+      <strong>Distingue mayúsculas de minúsculas.</strong> <code>$nombre</code> y <code>$Nombre</code>
+      son dos variables distintas.
+    </li>
+    <li>
+      <strong>Ámbito.</strong> Cada variable vale en una parte del programa: una variable
+      <em>global</em> vale en todo el script; una <em>local</em>, solo dentro de la función donde se
+      creó (las funciones se ven más adelante).
+    </li>
+  </ul>
+
+  <h4>Qué nombres valen</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Nombre</th><th>¿Válido?</th><th>Por qué</th></tr>
+      <tr><td><code>$valor</code></td><td>Sí</td><td>Empieza con letra.</td></tr>
+      <tr><td><code>$_valor</code></td><td>Sí</td><td>Empieza con guion bajo.</td></tr>
+      <tr><td><code>$_10</code></td><td>Sí</td><td>Empieza con guion bajo; después puede haber números.</td></tr>
+      <tr><td><code>$variable10</code></td><td>Sí</td><td>Los números pueden ir, mientras no sean lo primero.</td></tr>
+      <tr><td><code>$miVariable</code></td><td>Sí</td><td>Mezclar mayúsculas y minúsculas está permitido.</td></tr>
+      <tr><td><code>$1valor</code></td><td><strong>No</strong></td><td>Empieza con un número.</td></tr>
+      <tr><td><code>$mi-variable</code></td><td><strong>No</strong></td><td>El guion medio no es un carácter permitido (PHP lo lee como una resta).</td></tr>
+    </table>
+  </div>
+
+  <h4>Variables predefinidas (superglobales)</h4>
+  <p>
+    PHP trae variables especiales ya creadas, que sirven para recuperar datos que vienen de
+    afuera del script (lo que mandó un formulario, datos del servidor, la sesión del usuario):
+  </p>
+  <p><code>$GLOBALS</code> · <code>$_SERVER</code> · <code>$_GET</code> · <code>$_POST</code> · <code>$_COOKIE</code> · <code>$_FILES</code> · <code>$_ENV</code> · <code>$_REQUEST</code> · <code>$_SESSION</code></p>
+  <p>Se usan en las clases de formularios y de sesiones.</p>
+
+  <h4>Variables variables</h4>
+  <p>
+    Una <strong>variable variable</strong> es una variable cuyo <strong>nombre sale del valor de
+    otra</strong>. Se escribe con dos <code>$</code>: si <code>$saludar</code> vale
+    <code>"saludo_es"</code>, entonces <code>$$saludar</code> es la variable <code>$saludo_es</code>.
+  </p>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; Crear y usar variables (el de la presentación)</h3>
+  <p>El punto <code>.</code> pega dos textos uno detrás del otro (se llama <em>concatenar</em>; sección 8).</p>
+
+  <pre class="codigo"><code>&lt;?php
+$color = 'rojo';
+$numero = 5;
+echo 'Mi color favorito es el:  '.$color;
+echo 'Mi número favorito es el: '.$numero;
+?&gt;</code></pre>
+
+  <h4>Qué hace cada línea</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Cómo quedan las variables</th></tr>
+      <tr><td><code>$color = 'rojo';</code></td><td>Crea <code>$color</code> con un string. No hizo falta decir "es texto".</td><td><code>$color = 'rojo'</code></td></tr>
+      <tr><td><code>$numero = 5;</code></td><td>Crea <code>$numero</code> con un entero.</td><td><code>$color = 'rojo'</code>, <code>$numero = 5</code></td></tr>
+      <tr><td><code>echo '...el:  '.$color;</code></td><td>Pega el texto con el valor de <code>$color</code> y lo muestra.</td><td>sin cambios</td></tr>
+      <tr><td><code>echo '...el: '.$numero;</code></td><td>Pega el texto con el 5 y lo muestra.</td><td>sin cambios</td></tr>
+    </table>
+  </div>
+
+  <h4>Qué imprime y por qué</h4>
+  <pre class="salida">Mi color favorito es el:  rojoMi número favorito es el: 5</pre>
+  <p>
+    Las dos frases salen <strong>pegadas</strong>: ningún <code>echo</code> imprimió un
+    <code>&lt;br&gt;</code> ni un espacio entre "rojo" y "Mi". PHP muestra exactamente lo que se le
+    pide, ni un carácter más.
+  </p>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; Con formato del Parcial PHP (preg. 19)</h3>
+
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>¿Cuál de los siguientes es un nombre de variable NO válido en PHP?</p>
+    <p>a. <code>$variable10</code> &nbsp; b. <code>$miVariable</code> &nbsp; c. <code>$_10</code> &nbsp; d. <code>$10_variable</code></p>
+  </div>
+
+  <h4>Cómo se resuelve</h4>
+  <p>Se mira solo el <strong>primer carácter después del <code>$</code></strong>: tiene que ser letra o <code>_</code>.</p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Opción</th><th>Primer carácter</th><th>¿Válido?</th></tr>
+      <tr><td>a. <code>$variable10</code></td><td><code>v</code> (letra)</td><td>Sí</td></tr>
+      <tr><td>b. <code>$miVariable</code></td><td><code>m</code> (letra)</td><td>Sí</td></tr>
+      <tr><td>c. <code>$_10</code></td><td><code>_</code> (guion bajo)</td><td>Sí, aunque después vengan solo números</td></tr>
+      <tr><td>d. <code>$10_variable</code></td><td><code>1</code> (número)</td><td><strong>No</strong></td></tr>
+    </table>
+  </div>
+  <p>Si se intenta usar, PHP ni siquiera ejecuta el script:</p>
+  <pre class="codigo"><code>&lt;?php
+$10_variable = "hola";
+?&gt;</code></pre>
+  <pre class="salida">Parse error: syntax error, unexpected integer "10", expecting variable or "{" or "$" in ... on line 2</pre>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p><strong>d.</strong> <code>$10_variable</code>: empieza con un número.</p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 3 &mdash; Variables variables (el de la cátedra)</h3>
+
+  <pre class="codigo"><code>&lt;?php
+$idioma = "es";
+$saludo_es = "Hola!!!";
+$saludo_en = "Hello!!!";
+$saludar = "saludo_" . $idioma;
+print $$saludar;
+?&gt;</code></pre>
+
+  <h4>Qué hace cada línea</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Cómo quedan las variables</th></tr>
+      <tr><td><code>$idioma = "es";</code></td><td>Elige el idioma.</td><td><code>$idioma = "es"</code></td></tr>
+      <tr><td><code>$saludo_es = "Hola!!!";</code></td><td>El saludo en español.</td><td><code>$saludo_es = "Hola!!!"</code></td></tr>
+      <tr><td><code>$saludo_en = "Hello!!!";</code></td><td>El saludo en inglés.</td><td><code>$saludo_en = "Hello!!!"</code></td></tr>
+      <tr><td><code>$saludar = "saludo_" . $idioma;</code></td><td>Pega <code>"saludo_"</code> con <code>"es"</code>.</td><td><code>$saludar = "saludo_es"</code></td></tr>
+      <tr><td><code>print $$saludar;</code></td><td>Primero se reemplaza el <code>$saludar</code> de adentro por su valor: queda <code>$saludo_es</code>. Después se muestra esa variable.</td><td>sin cambios</td></tr>
+    </table>
+  </div>
+
+  <h4>Qué imprime y por qué</h4>
+  <pre class="salida">Hola!!!</pre>
+  <p>
+    Si la primera línea fuera <code>$idioma = "en";</code>, <code>$saludar</code> valdría
+    <code>"saludo_en"</code>, <code>$$saludar</code> sería <code>$saludo_en</code> y saldría
+    <code>Hello!!!</code>. El mismo <code>print</code> muestra una variable u otra según un dato.
+  </p>
+
+  <h3>Errores y trampas</h3>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Una mayúscula es otra variable</span>
+    <pre class="codigo"><code>&lt;?php
+$nombre = "Fran";
+echo "Hola " . $Nombre;
+?&gt;</code></pre>
+    <p><code>$Nombre</code> nunca se creó (la que existe es <code>$nombre</code>). PHP avisa y la toma como vacía:</p>
+    <pre class="salida">Warning: Undefined variable $Nombre in ... on line 3
+Hola </pre>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">$_COOKIES no existe</span>
+    <p>El apunte la escribe <code>$_COOKIES</code>, pero el nombre real es <code>$_COOKIE</code>, sin S.</p>
+  </div>
+</div>

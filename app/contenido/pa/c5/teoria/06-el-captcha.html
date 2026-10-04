@@ -1,0 +1,209 @@
+<div class="bloque">
+  <p class="kicker">Asegurar formularios</p>
+  <h2>6. El captcha: el código dibujado en una imagen</h2>
+
+  <h3>Para qué sirve</h3>
+  <p>
+    El token de la sección 5 está escrito en el HTML, y un programa que lee el HTML lo encuentra.
+    El <strong>captcha</strong> cambia una sola cosa: el código <strong>no se escribe</strong> en
+    la página, <strong>se dibuja en una imagen</strong>, y se le pide a la persona que lo tipee en
+    un campo. Leer texto de una imagen es mucho más difícil para un programa que para una persona.
+  </p>
+  <p>Los pasos son los mismos del token:</p>
+  <ol>
+    <li>PHP inventa un código al azar y lo guarda en la sesión.</li>
+    <li>Con ese código dibuja una imagen, que se muestra en el formulario.</li>
+    <li>La persona lee la imagen y escribe el código en un campo de texto.</li>
+    <li>El script que recibe compara lo escrito con lo guardado en la sesión.</li>
+  </ol>
+
+  <h4>Una imagen hecha por PHP</h4>
+  <p>
+    En el formulario de la cátedra (<code>formCaptcha.php</code>) la imagen es
+    <code>&lt;img src="includes/rdnimg.php"&gt;</code>: el <code>src</code> no es un archivo
+    <code>.png</code> sino <strong>un script PHP</strong>. Funciona porque el navegador, al ver un
+    <code>&lt;img&gt;</code>, hace <strong>otro pedido aparte</strong> a esa dirección, y
+    <code>rdnimg.php</code> le contesta con una imagen en vez de con HTML. El orden real es:
+  </p>
+  <ol>
+    <li>El navegador pide <code>formCaptcha.php</code> y recibe el HTML del formulario.</li>
+    <li>Ve el <code>&lt;img&gt;</code> y pide <code>includes/rdnimg.php</code> (con la misma cookie de sesión).</li>
+    <li><code>rdnimg.php</code> sortea el código, lo guarda en <code>$_SESSION['rand_code']</code> y devuelve la imagen.</li>
+  </ol>
+  <p>
+    En el PDF de teoría el ejemplo pone <code>&lt;img src="imgRnd.png"&gt;</code>: es una
+    simplificación. Una imagen <code>.png</code> fija no puede mostrar un código distinto cada vez;
+    tiene que ser un script que la dibuje, como <code>rdnimg.php</code>.
+  </p>
+
+  <h3>Sintaxis</h3>
+  <div class="caja caja-formula">
+    <span class="caja-tit">El campo en el formulario</span>
+<pre class="codigo"><code>&lt;img src="includes/rdnimg.php"&gt;
+&lt;input type="text" name="rand_code" value=""&gt;</code></pre>
+  </div>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Dibujar la imagen (las funciones de <code>rdnimg.php</code>)</span>
+<pre class="codigo"><code>header('Content-Type: image/png');                 // "lo que sigue es una imagen PNG"
+$im = imagecreatetruecolor(120, 30);               // lienzo de 120 x 30 píxeles
+$color_texto = imagecolorallocate($im, 233, 14, 91); // un color (rojo, verde, azul)
+imagestring($im, 10, 5, 5, $str, $color_texto);    // escribe $str en el lienzo
+imagepng($im);                                     // manda la imagen al navegador
+imagedestroy($im);                                 // libera la memoria</code></pre>
+  </div>
+
+  <h3>Qué es cada parte</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Parte</th><th>Qué hace</th></tr>
+      <tr><td class="lbl"><code>header('Content-Type: image/png')</code></td><td>Avisa en la cabecera de la respuesta que no viene HTML sino una imagen PNG. Como toda cabecera, tiene que ir antes de cualquier salida.</td></tr>
+      <tr><td class="lbl"><code>imagecreatetruecolor(ancho, alto)</code></td><td>Crea una imagen en memoria, toda negra, del tamaño pedido.</td></tr>
+      <tr><td class="lbl"><code>imagecolorallocate($im, r, g, b)</code></td><td>Define un color por sus componentes rojo, verde y azul (de 0 a 255). 233, 14, 91 es un rosa fuerte.</td></tr>
+      <tr><td class="lbl"><code>imagestring($im, fuente, x, y, texto, color)</code></td><td>Escribe el texto con una de las letras que trae PHP (de la 1, la más chica, a la 5). <code>x</code> e <code>y</code> son los píxeles desde la esquina de arriba a la izquierda.</td></tr>
+      <tr><td class="lbl"><code>imagepng($im)</code></td><td>Convierte la imagen a PNG y la manda como respuesta.</td></tr>
+      <tr><td class="lbl"><code>imagedestroy($im)</code></td><td>Borra la imagen de la memoria del servidor.</td></tr>
+      <tr><td class="lbl"><code>name="rand_code"</code></td><td>El campo donde la persona escribe el código; llega en <code>$_POST['rand_code']</code>.</td></tr>
+    </table>
+  </div>
+  <p>
+    Estas funciones son de <strong>GD</strong>, una extensión de PHP para dibujar imágenes (una
+    <em>extensión</em> es un paquete de funciones que se activa en el <code>php.ini</code>).
+  </p>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; <code>rdnimg.php</code>, el script de la cátedra</h3>
+
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>¿Qué hace este script y qué se ve en el formulario?</p>
+  </div>
+
+<pre class="codigo"><code>&lt;?php
+session_start();
+
+if (!empty($_SESSION['rand_code'])) {
+    unset($_SESSION['rand_code']);
+}
+
+if (empty($_SESSION['rand_code'])) {
+    $str = "";
+    $a = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    for ($i = 0; $i &lt;= 3; $i++) {
+        $str .= $a[rand(0, 61)];
+    }
+    $_SESSION['rand_code'] = $str;
+}
+header('Content-Type: image/png');
+$im = imagecreatetruecolor(120, 30);
+$color_texto = imagecolorallocate($im, 233, 14, 91);
+imagestring($im, 10, 5, 5, $str, $color_texto);
+imagepng($im);
+imagedestroy($im);
+?&gt;</code></pre>
+
+  <h4>Qué hace cada línea</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Cómo quedan las variables</th></tr>
+      <tr><td><code>session_start();</code></td><td>Reanuda la sesión del navegador (el mismo que pidió el formulario).</td><td>&mdash;</td></tr>
+      <tr><td><code>if (!empty(...)) { unset(...); }</code></td><td>Si había un código viejo, lo borra (sección 3).</td><td><code>$_SESSION['rand_code']</code> no existe</td></tr>
+      <tr><td><code>if (empty($_SESSION['rand_code']))</code></td><td>Siempre da <code>true</code>, porque la línea anterior lo acaba de borrar.</td><td>&mdash;</td></tr>
+      <tr><td><code>$str = "";</code> y <code>$a = "0123...";</code></td><td>El código vacío y los 62 caracteres posibles (sección 5).</td><td><code>$str = ""</code></td></tr>
+      <tr><td><code>for ($i = 0; $i &lt;= 3; $i++)</code></td><td><code>$i</code> vale 0, 1, 2 y 3: <strong>4 vueltas</strong>.</td><td>&mdash;</td></tr>
+      <tr><td><code>$str .= $a[rand(0, 61)];</code></td><td>En cada vuelta pega un carácter al azar.</td><td>en la prueba: <code>"B"</code>, <code>"B4"</code>, <code>"B4Y"</code>, <code>"B4Y5"</code></td></tr>
+      <tr><td><code>$_SESSION['rand_code'] = $str;</code></td><td>Guarda el código en la sesión.</td><td><code>$_SESSION['rand_code'] = "B4Y5"</code></td></tr>
+      <tr><td><code>header(...)</code></td><td>Avisa que viene un PNG.</td><td>&mdash;</td></tr>
+      <tr><td><code>imagecreatetruecolor(120, 30)</code></td><td>Lienzo negro de 120 &times; 30.</td><td><code>$im</code> = la imagen</td></tr>
+      <tr><td><code>imagecolorallocate($im, 233, 14, 91)</code></td><td>El color rosa.</td><td><code>$color_texto</code></td></tr>
+      <tr><td><code>imagestring($im, 10, 5, 5, $str, ...)</code></td><td>Escribe <code>B4Y5</code> a 5 píxeles del borde. La fuente 10 no existe: PHP usa la más grande, la 5 (se comprobó que miden lo mismo: 9 píxeles de ancho por letra).</td><td>&mdash;</td></tr>
+      <tr><td><code>imagepng($im); imagedestroy($im);</code></td><td>Manda la imagen y libera la memoria.</td><td>&mdash;</td></tr>
+    </table>
+  </div>
+
+  <h4>Qué se ve y por qué</h4>
+  <p>
+    Un rectángulo negro de 120 &times; 30 píxeles con cuatro caracteres rosas arriba a la izquierda
+    (en la prueba, <code>B4Y5</code>). Al mismo tiempo, en el servidor, la sesión quedó así (se abrió
+    el archivo): <code>rand_code|s:4:"B4Y5";</code>. La persona escribe <code>B4Y5</code> en el
+    campo, y <code>procesoForm.php</code> compara <code>$_POST['rand_code']</code> con
+    <code>$_SESSION['rand_code']</code>.
+  </p>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; ¿Qué responde <code>procesoForm.php</code>? (formato del parcial)</h3>
+
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>
+      La imagen mostró <code>B4Y5</code>, así que <code>$_SESSION['rand_code']</code> vale
+      <code>"B4Y5"</code>. ¿Qué imprime este fragmento de <code>procesoForm.php</code> si la persona
+      escribe <code>B4Y5</code>? ¿Y si escribe <code>b4y5</code>?
+    </p>
+  </div>
+
+<pre class="codigo"><code>&lt;?php
+session_start();
+if (!empty($_POST['rand_code'])) {
+    if ($_POST['rand_code'] == $_SESSION['rand_code']) {
+        echo "LOS DATOS PROVIENEN DE NUESTRO FORMULARIO CON CAPTCHA.";
+    } else {
+        echo "LOS DATOS PROVIENEN DE OTRO ORIGEN.";
+    }
+}
+?&gt;</code></pre>
+
+  <h4>Qué hace cada línea</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Con <code>B4Y5</code></th><th>Con <code>b4y5</code></th></tr>
+      <tr><td><code>!empty($_POST['rand_code'])</code></td><td>Hay algo: entra.</td><td>Hay algo: entra.</td></tr>
+      <tr><td><code>$_POST['rand_code'] == $_SESSION['rand_code']</code></td><td><code>"B4Y5" == "B4Y5"</code> &rarr; true</td><td><code>"b4y5" == "B4Y5"</code> &rarr; false: las mayúsculas y las minúsculas son caracteres distintos</td></tr>
+      <tr><td><code>echo ...</code></td><td>el mensaje de "CON CAPTCHA"</td><td>el mensaje de "OTRO ORIGEN"</td></tr>
+    </table>
+  </div>
+
+  <h4>Qué imprime y por qué</h4>
+  <p>Con <code>B4Y5</code>:</p>
+<pre class="salida">LOS DATOS PROVIENEN DE NUESTRO FORMULARIO CON CAPTCHA.</pre>
+  <p>Con <code>b4y5</code>:</p>
+<pre class="salida">LOS DATOS PROVIENEN DE OTRO ORIGEN.</pre>
+  <p>
+    La comparación con <code>==</code> entre textos distingue mayúsculas de minúsculas. La persona
+    tiene que copiar el código exacto.
+  </p>
+
+  <h3>Errores y trampas</h3>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Lo que más se confunde</span>
+    <ul>
+      <li>
+        <strong>En este XAMPP, GD viene apagada.</strong> En <code>C:\xampp\php\php.ini</code> la
+        línea es <code>;extension=gd</code> (el <code>;</code> la desactiva). Así,
+        <code>rdnimg.php</code> corta con <code>Fatal error: Call to undefined function
+        imagecreatetruecolor()</code> y en el formulario se ve una imagen rota. Hay que sacarle el
+        <code>;</code> y reiniciar Apache desde el panel de XAMPP.
+      </li>
+      <li>
+        <strong>¿Cuántos caracteres?</strong> <code>for ($i = 0; $i &lt;= 3; $i++)</code> da
+        <strong>4</strong> vueltas (0, 1, 2, 3), no 3. Con <code>&lt;</code> serían 3.
+      </li>
+      <li>
+        <strong>Cada vez que se pide la imagen, cambia el código.</strong> Si la imagen se recarga,
+        el código anterior deja de servir.
+      </li>
+      <li>
+        <strong>El código lo crea la imagen, no el formulario.</strong> <code>formCaptcha.php</code>
+        además arma un <code>$_SESSION['token']</code> de 6 caracteres que <strong>no se usa</strong>
+        en ningún lado: el que se compara es <code>rand_code</code>, que crea
+        <code>rdnimg.php</code>.
+      </li>
+      <li>
+        <strong>No hay que imprimir nada antes de <code>header()</code></strong> en
+        <code>rdnimg.php</code>: un espacio o una línea en blanco antes del <code>&lt;?php</code> se
+        mezcla con los bytes de la imagen y la rompe.
+      </li>
+    </ul>
+  </div>
+</div>

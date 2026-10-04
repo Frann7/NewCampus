@@ -1,0 +1,249 @@
+<div class="bloque" data-examen="igual" data-examen-ref="Parcial PHP · preg. 7" data-examen-nota="Emparejar cada definición con su arreglo: $_SESSION (variables de sesión, Clase 5), $_GET (variables pasadas por parámetros URL) y $_POST (variables pasadas por el método HTTP POST).">
+  <p class="kicker">Administración de datos desde PHP</p>
+  <h2>8. Recibir los datos: $_GET y $_POST</h2>
+
+  <h3>Para qué sirve</h3>
+  <p>
+    Lo primero que tiene que hacer el script del <code>action</code> es <strong>recuperar</strong>
+    los datos que mandó el formulario. Para eso PHP crea solo, antes de ejecutar el script,
+    unos <strong>arreglos</strong> con los datos recibidos:
+  </p>
+  <ul>
+    <li><strong><code>$_GET</code>:</strong> los pares que llegaron <strong>en la URL</strong> (formulario con <code>method="get"</code>, o un enlace con <code>?</code>).</li>
+    <li><strong><code>$_POST</code>:</strong> los pares que llegaron <strong>en el cuerpo de una solicitud POST</strong> (formulario con <code>method="post"</code>).</li>
+    <li><strong><code>$_REQUEST</code>:</strong> los dos juntos (sección 9).</li>
+  </ul>
+  <p>
+    Son <strong>arreglos asociativos</strong> (Clase 2): cada elemento tiene una
+    <strong>clave</strong> de texto y un <strong>valor</strong>. Acá la clave es el
+    <code>name</code> del control y el valor es lo que cargó el usuario. Se los llama
+    <strong>superglobales</strong>: los arma PHP, empiezan con <code>$_</code> y se pueden usar
+    en cualquier parte del script sin declararlos.
+  </p>
+
+  <div class="caja caja-formula">
+    <span class="caja-tit">La regla de la cátedra</span>
+    <p>Si en el formulario definiste <code>method="get"</code>, los datos se recuperan desde <code>$_GET</code>.</p>
+    <p>Si en el formulario definiste <code>method="post"</code>, los datos se recuperan desde <code>$_POST</code>.</p>
+  </div>
+
+  <h3>Sintaxis</h3>
+<pre class="codigo"><code>$variable = $_GET['nombreDelControl'];
+$variable = $_POST['nombreDelControl'];</code></pre>
+
+  <h3>Qué es cada parte</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Parte</th><th>Qué es</th></tr>
+      <tr><td><code>$_GET</code> / <code>$_POST</code></td><td>El arreglo que armó PHP. Cuál usar depende del <code>method</code> del formulario</td></tr>
+      <tr><td><code>['nombreDelControl']</code></td><td>La clave: tiene que ser <strong>exactamente</strong> el <code>name</code> del control, con las mismas mayúsculas</td></tr>
+      <tr><td>El valor</td><td>Siempre un <strong>string</strong> (cadena de texto), aunque el usuario haya escrito un número: <code>"25"</code>, no <code>25</code></td></tr>
+    </table>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; El script de la cátedra, por GET</h3>
+
+  <p>
+    El formulario de la sección 5 (<code>method="get"</code>, campos <code>nombre</code> y
+    <code>apellido</code>) se envía con <em>Federico</em> y <em>Bonnet</em>. Se pide
+    <code>procesoFormulario.php?nombre=Federico&amp;apellido=Bonnet</code>, y este es el script:
+  </p>
+
+<pre class="codigo"><code>&lt;?php
+print_r ( $_GET );
+echo ( $_GET[ 'nombre' ] );
+echo ( $_GET[ 'apellido' ] );
+?&gt;</code></pre>
+
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Cómo quedan los datos</th></tr>
+      <tr><td>(antes)</td><td>PHP lee la URL y arma <code>$_GET</code> solo</td><td><code>$_GET = ['nombre' =&gt; 'Federico', 'apellido' =&gt; 'Bonnet']</code></td></tr>
+      <tr><td>2</td><td><code>print_r()</code> (Clase 2) imprime el arreglo entero, con sus claves y valores. Sirve para <strong>ver qué llegó</strong></td><td>&mdash;</td></tr>
+      <tr><td>3</td><td>Imprime el valor de la clave <code>nombre</code></td><td>imprime <code>Federico</code></td></tr>
+      <tr><td>4</td><td>Imprime el valor de la clave <code>apellido</code>, pegado al anterior (no hay espacio entre los <code>echo</code>)</td><td>imprime <code>Bonnet</code></td></tr>
+    </table>
+  </div>
+
+  <h4>Qué imprime</h4>
+<pre class="salida">Array
+(
+    [nombre] =&gt; Federico
+    [apellido] =&gt; Bonnet
+)
+FedericoBonnet</pre>
+
+  <p>
+    Verificado con <code>C:\xampp\php\php.exe</code> levantado como servidor y pidiendo esa URL.
+    Pero en el <strong>navegador</strong> se ve todo en un renglón, porque HTML junta los saltos
+    de línea en un espacio (sección 1):
+  </p>
+<pre class="salida">Array ( [nombre] =&gt; Federico [apellido] =&gt; Bonnet ) FedericoBonnet</pre>
+  <p>
+    Para verlo ordenado: clic derecho &rarr; "Ver código fuente", o encerrar el
+    <code>print_r</code> entre <code>echo "&lt;pre&gt;";</code> y <code>echo "&lt;/pre&gt;";</code>
+    (<code>&lt;pre&gt;</code> es la etiqueta HTML que respeta los saltos de línea).
+  </p>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; El mismo script, por POST</h3>
+
+  <p>Ahora el formulario es el de la sección 6 (<code>method="post"</code>), con los mismos datos. El script cambia solo el arreglo:</p>
+
+<pre class="codigo"><code>&lt;?php
+print_r ( $_POST );
+echo ( $_POST[ 'nombre' ] );
+echo ( $_POST[ 'apellido' ] );
+?&gt;</code></pre>
+
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Cómo quedan los datos</th></tr>
+      <tr><td>(antes)</td><td>PHP lee el <strong>cuerpo</strong> de la solicitud y arma <code>$_POST</code>; como la URL no tiene <code>?</code>, <code>$_GET</code> queda vacío</td><td><code>$_POST = ['nombre' =&gt; 'Federico', 'apellido' =&gt; 'Bonnet']</code></td></tr>
+      <tr><td>2</td><td>Imprime todo <code>$_POST</code></td><td>&mdash;</td></tr>
+      <tr><td>3 y 4</td><td>Imprimen los dos valores, pegados</td><td><code>Federico</code>, <code>Bonnet</code></td></tr>
+    </table>
+  </div>
+
+<pre class="salida">Array
+(
+    [nombre] =&gt; Federico
+    [apellido] =&gt; Bonnet
+)
+FedericoBonnet</pre>
+  <p>
+    La salida es <strong>idéntica</strong> a la del ejemplo 1 (verificado). Lo único que cambió es
+    por dónde viajaron los datos y, por eso, en qué arreglo los dejó PHP.
+  </p>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 3 &mdash; ¿Qué valores quedan en $_GET y $_POST? (formato parcial)</h3>
+
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>
+      a) Se pide <code>registro.php?nombre=Ana+Mar%C3%ADa&amp;apellido=Paz</code> (la URL de la
+      sección 5). ¿Qué muestra <code>print_r($_GET)</code>?<br>
+      b) El formulario de ingreso de la sección 4 (usuario, clave de tipo
+      <code>password</code> y un <code>hidden</code>) se envía por POST con <em>fran</em> y
+      <em>secreta123</em>. ¿Qué muestra <code>print_r($_POST)</code>?
+    </p>
+  </div>
+
+  <h4>a) La URL codificada</h4>
+  <p>
+    PHP <strong>decodifica</strong> solo: el <code>+</code> vuelve a ser un espacio y
+    <code>%C3%AD</code> vuelve a ser <code>í</code>.
+  </p>
+<pre class="salida">Array
+(
+    [nombre] =&gt; Ana María
+    [apellido] =&gt; Paz
+)</pre>
+
+  <h4>b) password y hidden</h4>
+<pre class="salida">Array
+(
+    [usuario] =&gt; fran
+    [clave] =&gt; secreta123
+    [origen] =&gt; inicio
+)</pre>
+  <p>
+    La clave llega <strong>legible</strong> (el <code>password</code> solo la tapaba en
+    pantalla), y el <code>hidden</code> llega con el valor que le puso el programador. El botón
+    no aparece porque no tiene <code>name</code>. Las dos salidas, verificadas mandando esos
+    datos al servidor de PHP.
+  </p>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 4 &mdash; La pregunta 7 del parcial</h3>
+
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado (Parcial PHP, preg. 7)</span>
+    <p>Indique la correcta opción para cada definición (opciones: <code>$_SESSION</code>, <code>$_GET</code>, <code>$_POST</code>):</p>
+    <ol>
+      <li>Es un array asociativo que contiene variables de sesión disponibles para el script actual.</li>
+      <li>Es un array asociativo de variables pasado al script actual vía parámetros URL.</li>
+      <li>Es un array asociativo de variables pasadas al script actual a través del método HTTP POST.</li>
+    </ol>
+  </div>
+
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Definición</th><th>La pista</th><th>Arreglo</th></tr>
+      <tr><td>1. "variables de sesión"</td><td>La palabra <em>sesión</em>. No viene de un formulario: lo guarda el propio servidor entre página y página (Clase 5)</td><td><code>$_SESSION</code></td></tr>
+      <tr><td>2. "vía parámetros URL"</td><td>Los datos en la URL son los de GET (sección 5)</td><td><code>$_GET</code></td></tr>
+      <tr><td>3. "a través del método HTTP POST"</td><td>Lo dice con todas las letras</td><td><code>$_POST</code></td></tr>
+    </table>
+  </div>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>1 &rarr; <code>$_SESSION</code>; 2 &rarr; <code>$_GET</code>; 3 &rarr; <code>$_POST</code>.</p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 5 &mdash; ¿Cuál es la salida? (formato parcial)</h3>
+
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>
+      Un formulario con <code>method="post"</code> manda <code>nombre=Federico</code> a este
+      script, <code>soloGet.php</code>. ¿Qué se ve?
+    </p>
+<pre class="codigo"><code>&lt;?php
+echo $_GET['nombre'];
+?&gt;</code></pre>
+  </div>
+
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Cómo quedan los datos</th></tr>
+      <tr><td>(antes)</td><td>Los datos llegaron en el cuerpo, por POST</td><td><code>$_POST = ['nombre' =&gt; 'Federico']</code>, <code>$_GET = []</code> (vacío)</td></tr>
+      <tr><td>2</td><td>Busca la clave <code>nombre</code> en <code>$_GET</code>, que está vacío</td><td>la clave no existe</td></tr>
+    </table>
+  </div>
+
+  <h4>Qué imprime</h4>
+<pre class="salida">Warning: Undefined array key "nombre" in ...\soloGet.php on line 2</pre>
+  <p>
+    Verificado con el PHP de XAMPP (8.2). <strong>No imprime <code>Federico</code></strong>: el
+    dato está en <code>$_POST</code>, no en <code>$_GET</code>. PHP avisa con un
+    <em>Warning</em> (advertencia) que la clave no existe y sigue; el <code>echo</code> no muestra
+    nada. En el navegador el aviso aparece en negrita, con la ruta completa del archivo.
+  </p>
+
+  <hr class="sep">
+
+  <h3>Errores y trampas</h3>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Lo que suele salir mal</span>
+    <ul>
+      <li>
+        <strong>Leer del arreglo equivocado</strong> (ejemplo 5): el método del formulario y el
+        arreglo del script tienen que coincidir.
+      </li>
+      <li>
+        <strong>La clave no coincide con el <code>name</code>.</strong> <code>$_POST['Nombre']</code>
+        no encuentra <code>name="nombre"</code>: las claves distinguen mayúsculas. Da el mismo
+        <em>Undefined array key</em>.
+      </li>
+      <li>
+        <strong>Abrir el script directamente</strong> (escribiendo su dirección en la barra, sin
+        pasar por el formulario): los arreglos llegan vacíos y aparece un <em>Undefined array
+        key</em> por cada dato. Para preguntar antes si la clave existe está <code>isset()</code>,
+        de la Clase 2: <code>if (isset($_POST['nombre'])) { ... }</code>.
+      </li>
+      <li>
+        <strong><code>$_SESSION</code> no viene del formulario.</strong> Es la opción que se mezcla
+        en la pregunta 7; se ve en la Clase 5.
+      </li>
+    </ul>
+  </div>
+</div>

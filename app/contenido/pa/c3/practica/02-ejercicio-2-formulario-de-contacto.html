@@ -1,0 +1,165 @@
+<div class="ej">
+  <span class="tag">Ejercicio 2 &middot; Formulario por POST</span>
+  <h2>El formulario: formContacto.php</h2>
+  <div class="enunciado">
+    <p>
+      Escriba el código HTML necesario para desarrollar el formulario presentado. Guarde el
+      archivo con el nombre <em>formContacto.php</em> y dicho formulario deberá enviar los datos
+      por el método <em>post</em>. El enlace "volver" nos deberá llevar nuevamente al archivo
+      <em>index.html</em>. Al presionar el botón "Enviar", los datos del formulario deberán ser
+      enviados a un script php de nombre <em>procesoForm.php</em>.
+    </p>
+    <p>
+      La captura muestra el título "Formulario de Contacto"; los rótulos Nombre, Asunto y Correo,
+      cada uno con un cuadro de una línea; "Cometario" (sic) con un cuadro grande de varias
+      líneas; los botones "Restablecer" y "Enviar"; y el enlace "Volver".
+    </p>
+  </div>
+
+  <span class="paso">Paso 1 &mdash; Qué control va en cada lugar</span>
+  <p>Cada pedazo de la captura se traduce a un control de la sección 4 de la teoría:</p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>En la captura</th><th>Qué es</th><th>Control</th><th><code>name</code></th></tr>
+      <tr><td>Nombre: y un cuadro chico</td><td>una línea de texto</td><td><code>&lt;input type="text"&gt;</code></td><td><code>nombre</code></td></tr>
+      <tr><td>Asunto: y un cuadro chico</td><td>una línea de texto</td><td><code>&lt;input type="text"&gt;</code></td><td><code>asunto</code></td></tr>
+      <tr><td>Correo: y un cuadro chico</td><td>una línea de texto</td><td><code>&lt;input type="text"&gt;</code></td><td><code>correo</code></td></tr>
+      <tr><td>Cometario: y un cuadro grande</td><td>texto de varias líneas</td><td><code>&lt;textarea&gt;</code></td><td><code>comentario</code></td></tr>
+      <tr><td>botón Restablecer</td><td>borra lo cargado</td><td><code>&lt;input type="reset"&gt;</code></td><td>no lleva</td></tr>
+      <tr><td>botón Enviar</td><td>envía el formulario</td><td><code>&lt;input type="submit"&gt;</code></td><td>no lleva</td></tr>
+      <tr><td>Volver</td><td>un enlace, fuera del formulario</td><td><code>&lt;a href="..."&gt;</code></td><td>&mdash;</td></tr>
+    </table>
+  </div>
+  <p>Y del enunciado salen los dos atributos del <code>&lt;form&gt;</code>:</p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase del enunciado</th><th>Qué significa</th><th>A dónde va</th></tr>
+      <tr><td>"deberá enviar los datos por el método post"</td><td>los datos viajan en el cuerpo (sección 6)</td><td><code>method="post"</code></td></tr>
+      <tr><td>"enviados a un script php de nombre procesoForm.php"</td><td>el script que los recibe (sección 7)</td><td><code>action="procesoForm.php"</code></td></tr>
+    </table>
+  </div>
+  <p>
+    Para que los rótulos queden en una columna y los cuadros en otra, como en la captura, se usa
+    una tabla (<code>&lt;table&gt;</code>, una fila <code>&lt;tr&gt;</code> por campo y dos celdas
+    <code>&lt;td&gt;</code> por fila).
+  </p>
+
+  <span class="paso">Paso 2 &mdash; El código</span>
+<pre class="codigo"><code>&lt;!DOCTYPE html&gt;
+&lt;html lang="es"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;title&gt;Formulario de Contacto&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;h1&gt;Programación Avanzada&lt;/h1&gt;
+  &lt;h2&gt;Taller de PHP&lt;/h2&gt;
+
+  &lt;h3&gt;Formulario de Contacto&lt;/h3&gt;
+
+  &lt;form action="procesoForm.php" method="post"&gt;
+    &lt;table&gt;
+      &lt;tr&gt;
+        &lt;td&gt;Nombre:&lt;/td&gt;
+        &lt;td&gt;&lt;input type="text" name="nombre"&gt;&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td&gt;Asunto:&lt;/td&gt;
+        &lt;td&gt;&lt;input type="text" name="asunto"&gt;&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td&gt;Correo:&lt;/td&gt;
+        &lt;td&gt;&lt;input type="text" name="correo"&gt;&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td&gt;Comentario:&lt;/td&gt;
+        &lt;td&gt;&lt;textarea name="comentario" rows="8" cols="30"&gt;&lt;/textarea&gt;&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td&gt;&lt;input type="reset" value="Restablecer"&gt;&lt;/td&gt;
+        &lt;td&gt;&lt;input type="submit" value="Enviar"&gt;&lt;/td&gt;
+      &lt;/tr&gt;
+    &lt;/table&gt;
+  &lt;/form&gt;
+
+  &lt;p&gt;&lt;a href="index.php"&gt;Volver&lt;/a&gt;&lt;/p&gt;
+
+  &lt;p&gt;Facultad de Ciencia y Tecnología&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+
+  <span class="paso">Paso 3 &mdash; Qué hace cada línea</span>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Líneas</th><th>Qué hace</th></tr>
+      <tr><td>1 a 6</td><td>Estructura y <code>head</code>, como en el ejercicio 1, con otro título de pestaña</td></tr>
+      <tr><td>8 y 9</td><td>El encabezado del sitio, igual que en <code>index.php</code></td></tr>
+      <tr><td>11</td><td>El título "Formulario de Contacto"</td></tr>
+      <tr><td>13</td><td>Abre el formulario: al enviar, los datos van a <code>procesoForm.php</code> por POST</td></tr>
+      <tr><td>14</td><td>Abre la tabla que acomoda rótulos y controles</td></tr>
+      <tr><td>15 a 18</td><td>Fila 1: el rótulo "Nombre:" en una celda y, en la otra, un cuadro de texto que va a viajar como <code>nombre</code></td></tr>
+      <tr><td>19 a 22</td><td>Fila 2: "Asunto:" y su cuadro, <code>asunto</code></td></tr>
+      <tr><td>23 a 26</td><td>Fila 3: "Correo:" y su cuadro, <code>correo</code></td></tr>
+      <tr><td>27 a 30</td><td>Fila 4: "Comentario:" y un <code>textarea</code> de 8 renglones por 30 caracteres, <code>comentario</code>. Lleva cierre <code>&lt;/textarea&gt;</code>; como no hay nada entre las etiquetas, arranca vacío</td></tr>
+      <tr><td>31 a 34</td><td>Fila 5: el botón Restablecer a la izquierda y el botón Enviar a la derecha. Ninguno tiene <code>name</code>, así que no mandan datos propios</td></tr>
+      <tr><td>35 y 36</td><td>Cierran la tabla y el formulario</td></tr>
+      <tr><td>38</td><td>El enlace Volver, a <code>index.php</code>. Está <strong>fuera</strong> del formulario: es un enlace común, no envía nada</td></tr>
+      <tr><td>40</td><td>El pie</td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Paso 4 &mdash; Qué se ve y qué pasa al usarlo</span>
+  <ul>
+    <li>Se ven los cuatro rótulos en una columna, sus cuadros en otra y abajo los dos botones; más abajo, el enlace Volver.</li>
+    <li><strong>Restablecer</strong> deja los cuatro cuadros vacíos. No va al servidor.</li>
+    <li>
+      <strong>Enviar</strong>, con los datos de la captura del ejercicio 3 (<em>federico</em>,
+      <em>consulta</em>, <em>federico@gugler.com.ar</em>, <em>Este es el comentario</em>), manda a
+      <code>procesoForm.php</code> una solicitud POST con este cuerpo:
+    </li>
+  </ul>
+<pre class="salida">nombre=federico&amp;asunto=consulta&amp;correo=federico%40gugler.com.ar&amp;comentario=Este+es+el+comentario</pre>
+  <p>
+    Cuatro pares, en el orden de los controles, codificados como en la sección 5 (el
+    <code>@</code> como <code>%40</code>, los espacios como <code>+</code>). La barra del navegador
+    queda en <code>.../procesoForm.php</code>, sin datos. Hasta que exista el ejercicio 3, el
+    envío termina en un 404.
+  </p>
+  <p>Comprobado: servido con el PHP de XAMPP, el archivo llega al navegador sin ningún cambio (no tiene PHP adentro).</p>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">index.html o index.php</span>
+    <p>
+      El enunciado dice que "volver" lleva a <em>index.html</em>, pero el ejercicio 1 pidió
+      llamar a la página de inicio <em>index.php</em>. Un enlace a <code>index.html</code> daría
+      404, porque ese archivo no existe. El enlace tiene que apuntar al archivo que realmente
+      hiciste: <code>index.php</code>.
+    </p>
+  </div>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Otras cosas para mirar</span>
+    <ul>
+      <li>
+        <strong>El <code>name</code> del comentario.</strong> La captura dice "Cometario"; el
+        rótulo se puede corregir, pero lo que importa es que el <code>name</code> sea
+        exactamente el que después lea <code>procesoForm.php</code>. Acá es <code>comentario</code>
+        en los dos archivos.
+      </li>
+      <li>
+        <strong>El correo con <code>type="email"</code>.</strong> Con <code>type="text"</code> se
+        acepta cualquier cosa. Con <code>type="email"</code> (sección 4) el navegador no deja
+        enviar si falta la <code>@</code>. Las dos versiones cumplen el ejercicio.
+      </li>
+    </ul>
+  </div>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Resultado</span>
+    <p>
+      El formulario de contacto, que envía <code>nombre</code>, <code>asunto</code>,
+      <code>correo</code> y <code>comentario</code> por POST a <code>procesoForm.php</code>. La
+      cátedra no publicó una resolución para comparar.
+    </p>
+  </div>
+</div>

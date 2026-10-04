@@ -1,0 +1,161 @@
+<div class="bloque">
+  <p class="kicker">Validar los datos</p>
+  <h2>7. Validar los datos: <code>ctype_digit</code>, <code>ctype_alpha</code> y <code>ctype_alnum</code></h2>
+
+  <h3>Para qué sirve</h3>
+  <p>
+    El token y el captcha dicen <strong>de dónde</strong> vienen los datos. Falta revisar
+    <strong>qué</strong> vienen: que en "edad" haya un número, que en "nombre" haya letras. La guía
+    pide hacerlo con tres funciones que miran <strong>todos los caracteres</strong> de un texto y
+    devuelven <code>true</code> solo si todos son del tipo pedido. Así se evita guardar en la base
+    datos que no corresponden (o que podrían dañarla).
+  </p>
+
+  <h3>Sintaxis</h3>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Las tres funciones</span>
+<pre class="codigo"><code>ctype_digit($texto)   // true si son todos dígitos (0 a 9)
+ctype_alpha($texto)   // true si son todas letras (a-z, A-Z)
+ctype_alnum($texto)   // true si son todas letras o dígitos</code></pre>
+  </div>
+
+  <h3>Qué es cada parte</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Función</th><th>Acepta</th><th>Rechaza</th></tr>
+      <tr><td class="lbl"><code>ctype_digit</code></td><td><code>0123456789</code></td><td>signo <code>-</code>, punto o coma decimal, espacios, letras</td></tr>
+      <tr><td class="lbl"><code>ctype_alpha</code></td><td>letras de la <code>a</code> a la <code>z</code>, mayúsculas y minúsculas</td><td>espacios, dígitos, <strong>tildes y la ñ</strong>, símbolos</td></tr>
+      <tr><td class="lbl"><code>ctype_alnum</code></td><td>lo de las dos anteriores juntas</td><td>espacios, tildes, ñ, símbolos (<code>@</code>, <code>.</code>, <code>?</code>...)</td></tr>
+    </table>
+  </div>
+  <p>
+    El nombre viene de <em>character type</em> (tipo de carácter); <em>digit</em> es dígito,
+    <em>alpha</em> es alfabético y <em>alnum</em> es alfanumérico. Las tres dan
+    <code>false</code> con el texto vacío <code>""</code>.
+  </p>
+
+  <h4>Lo que devuelven, probado valor por valor</h4>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th>Texto</th><th><code>ctype_digit</code></th><th><code>ctype_alpha</code></th><th><code>ctype_alnum</code></th></tr>
+      <tr><td><code>'123'</code></td><td>true</td><td>false</td><td>true</td></tr>
+      <tr><td><code>'12.5'</code></td><td>false</td><td>false</td><td>false</td></tr>
+      <tr><td><code>'-5'</code></td><td>false</td><td>false</td><td>false</td></tr>
+      <tr><td><code>' 12'</code> (con espacio)</td><td>false</td><td>false</td><td>false</td></tr>
+      <tr><td><code>''</code></td><td>false</td><td>false</td><td>false</td></tr>
+      <tr><td><code>'Juan'</code></td><td>false</td><td>true</td><td>true</td></tr>
+      <tr><td><code>'Juan Perez'</code></td><td>false</td><td>false</td><td>false</td></tr>
+      <tr><td><code>'José'</code></td><td>false</td><td>false</td><td>false</td></tr>
+      <tr><td><code>'Muñoz'</code></td><td>false</td><td>false</td><td>false</td></tr>
+      <tr><td><code>'abc123'</code></td><td>false</td><td>false</td><td>true</td></tr>
+      <tr><td><code>'a@b.com'</code></td><td>false</td><td>false</td><td>false</td></tr>
+    </table>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; Validar una edad</h3>
+
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>
+      Un formulario manda la edad en <code>$_POST['edad']</code>. ¿Qué imprime este script si
+      llega <code>"25"</code>? ¿Y si llega <code>"25 años"</code>?
+    </p>
+  </div>
+
+<pre class="codigo"><code>&lt;?php
+$edad = $_POST['edad'];
+if (ctype_digit($edad)) {
+    echo 'Edad válida: ' . $edad;
+} else {
+    echo 'La edad tiene que ser un número.';
+}
+?&gt;</code></pre>
+
+  <h4>Qué hace cada línea</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Con <code>"25"</code></th><th>Con <code>"25 años"</code></th></tr>
+      <tr><td><code>$edad = $_POST['edad'];</code></td><td><code>$edad = "25"</code></td><td><code>$edad = "25 años"</code></td></tr>
+      <tr><td><code>if (ctype_digit($edad))</code></td><td>'2' y '5' son dígitos &rarr; true</td><td>el espacio y las letras no lo son &rarr; false</td></tr>
+      <tr><td><code>echo</code></td><td>rama del <code>if</code></td><td>rama del <code>else</code></td></tr>
+    </table>
+  </div>
+
+  <h4>Qué imprime y por qué</h4>
+  <p>Con <code>"25"</code>:</p>
+<pre class="salida">Edad válida: 25</pre>
+  <p>Con <code>"25 años"</code>:</p>
+<pre class="salida">La edad tiene que ser un número.</pre>
+  <p>Basta un solo carácter que no sea dígito para que dé <code>false</code>.</p>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; ¿Qué valores devuelve? (formato del parcial)</h3>
+
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>¿Cuál es la salida del siguiente script PHP?</p>
+  </div>
+
+<pre class="codigo"><code>&lt;?php
+var_dump(ctype_alpha('Juan Perez'));
+var_dump(ctype_alpha(str_replace(' ', '', 'Juan Perez')));
+var_dump(ctype_alnum('abc123'));
+var_dump(ctype_digit('12.5'));
+?&gt;</code></pre>
+
+  <h4>Qué hace cada línea</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Resultado</th></tr>
+      <tr><td><code>ctype_alpha('Juan Perez')</code></td><td>El espacio no es una letra.</td><td><code>bool(false)</code></td></tr>
+      <tr><td><code>ctype_alpha(str_replace(' ', '', 'Juan Perez'))</code></td><td><code>str_replace</code> (Clase 2) cambia cada espacio por nada: queda <code>'JuanPerez'</code>, todo letras.</td><td><code>bool(true)</code></td></tr>
+      <tr><td><code>ctype_alnum('abc123')</code></td><td>Letras y dígitos: todos válidos.</td><td><code>bool(true)</code></td></tr>
+      <tr><td><code>ctype_digit('12.5')</code></td><td>El punto no es un dígito.</td><td><code>bool(false)</code></td></tr>
+    </table>
+  </div>
+
+  <h4>Qué imprime y por qué</h4>
+<pre class="salida">bool(false)
+bool(true)
+bool(true)
+bool(false)</pre>
+  <p>
+    La segunda línea es el truco para validar un nombre con espacios: se sacan los espacios
+    <strong>solo para la prueba</strong>, y se guarda el nombre original.
+  </p>
+
+  <h3>Errores y trampas</h3>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Lo que más se confunde</span>
+    <ul>
+      <li>
+        <strong>Tildes y ñ no son letras para <code>ctype_alpha</code>.</strong>
+        <code>'José'</code> y <code>'Muñoz'</code> dan <code>false</code>. Es una limitación real:
+        un formulario que valida el nombre así rechaza a José Muñoz.
+      </li>
+      <li>
+        <strong>Un campo vacío no pasa ninguna.</strong> <code>ctype_digit('')</code> da
+        <code>false</code>, así que la validación ya rechaza los campos en blanco.
+      </li>
+      <li>
+        <strong>Números negativos y con decimales no pasan <code>ctype_digit</code></strong>: el
+        <code>-</code> y el <code>.</code> no son dígitos.
+      </li>
+      <li>
+        <strong>Siempre con texto.</strong> Lo que llega de un formulario ya es texto, así que no hay
+        problema. Pero si le pasás un número entero sin comillas la respuesta sorprende:
+        <code>ctype_digit(5)</code> da <code>false</code> y <code>ctype_digit(53)</code> da
+        <code>true</code>, porque con enteros chicos PHP mira el carácter de ese código (el 53 es
+        el carácter <code>'5'</code>). Desde PHP 8.1 además avisa que está en desuso.
+      </li>
+      <li>
+        <strong>Un correo no se valida con una sola <code>ctype_</code>:</strong> tiene
+        <code>@</code> y <code>.</code>. En el ejercicio 2 de la práctica se resuelve sacando esos
+        símbolos con <code>str_replace</code> y buscando la <code>@</code> con <code>strpos</code>.
+      </li>
+    </ul>
+  </div>
+</div>

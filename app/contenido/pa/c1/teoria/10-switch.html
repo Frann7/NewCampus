@@ -1,0 +1,133 @@
+<div class="bloque">
+  <p class="kicker">Estructuras de control · condicionales</p>
+  <h2>10. switch</h2>
+
+  <h3>Para qué sirve</h3>
+  <p>
+    Para comparar <strong>una misma variable contra muchos valores posibles</strong> y hacer algo
+    distinto según cuál coincida. Hace lo mismo que una cadena de
+    <code>if / else if / else if...</code> preguntando siempre <code>$variable == ...</code>, pero se
+    lee mucho más fácil.
+  </p>
+
+  <h3>Sintaxis</h3>
+  <pre class="codigo"><code>switch ($variable) {
+    case valor1:
+        // acción si $variable == valor1
+        break;
+    case valor2:
+        // acción si $variable == valor2
+        break;
+    default:
+        // acción si no coincidió ninguno
+        break;
+}</code></pre>
+
+  <h3>Qué es cada parte</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Parte</th><th>Qué es</th></tr>
+      <tr><td><code>switch ($variable)</code></td><td>El valor a comparar. Se evalúa <strong>una sola vez</strong>.</td></tr>
+      <tr><td><code>case valor:</code></td><td>Un valor posible, terminado en <strong>dos puntos</strong>. Si coincide, se empiezan a ejecutar las acciones de abajo. Puede ir entre paréntesis: <code>case (1):</code>.</td></tr>
+      <tr><td><code>break;</code></td><td><strong>Corta</strong> el switch. Sin él, PHP sigue ejecutando las acciones de los <code>case</code> de abajo aunque no coincidan (ejemplo 2).</td></tr>
+      <tr><td><code>default:</code></td><td>Opcional. Lo que se hace si ningún <code>case</code> coincidió. Es como el <code>else</code> final.</td></tr>
+    </table>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; Qué valor tiene $a (el de la cátedra)</h3>
+
+  <pre class="codigo"><code>&lt;?php
+$a = 3;
+switch ($a){
+case (1):
+print ("El valor es 1");
+break;
+case (2):
+print ("El valor es 2");
+break;
+case (3):
+print ("El valor es 3");
+break;
+default :
+print ("No es ninguno de los valores.");
+}
+?&gt;</code></pre>
+
+  <h4>Qué hace cada línea</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Cómo quedan las variables</th></tr>
+      <tr><td><code>$a = 3;</code></td><td>Valor a buscar.</td><td><code>$a = 3</code></td></tr>
+      <tr><td><code>switch ($a)</code></td><td>Va a comparar el 3 contra cada <code>case</code>, de arriba hacia abajo.</td><td>sin cambios</td></tr>
+      <tr><td><code>case (1):</code></td><td>¿3 == 1? No. Saltea.</td><td>sin cambios</td></tr>
+      <tr><td><code>case (2):</code></td><td>¿3 == 2? No. Saltea.</td><td>sin cambios</td></tr>
+      <tr><td><code>case (3):</code></td><td>¿3 == 3? <strong>Sí</strong>. Empieza a ejecutar desde acá.</td><td>sin cambios</td></tr>
+      <tr><td><code>print ("El valor es 3");</code></td><td>Lo muestra.</td><td>sin cambios</td></tr>
+      <tr><td><code>break;</code></td><td>Sale del switch. El <code>default</code> no se ejecuta.</td><td>sin cambios</td></tr>
+    </table>
+  </div>
+
+  <h4>Qué imprime y por qué</h4>
+  <pre class="salida">El valor es 3</pre>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Dos detalles del código del apunte</span>
+    <ul>
+      <li>En el apunte, al <code>print</code> del <code>default</code> le falta el <code>;</code>. Como después viene una <code>}</code> y no un <code>?&gt;</code>, es error: <code>Parse error: syntax error, unexpected token "}"</code>. Arriba está agregado.</li>
+      <li>El "Resultado: El valor es 3" que el apunte escribe antes del <code>?&gt;</code> es una aclaración para el lector, no parte del código.</li>
+    </ul>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; Con formato del Parcial PHP: ¿cuál es la salida? (case sin break)</h3>
+
+  <pre class="codigo"><code>&lt;?php
+$a = 2;
+switch ($a) {
+    case 1:
+        echo "uno ";
+    case 2:
+        echo "dos ";
+    case 3:
+        echo "tres ";
+        break;
+    default:
+        echo "otro ";
+}
+?&gt;</code></pre>
+
+  <h4>Qué hace cada línea</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Salida acumulada</th></tr>
+      <tr><td><code>$a = 2;</code></td><td>Valor a buscar.</td><td></td></tr>
+      <tr><td><code>case 1:</code></td><td>¿2 == 1? No. Saltea su <code>echo</code>.</td><td></td></tr>
+      <tr><td><code>case 2:</code></td><td>¿2 == 2? Sí: empieza a ejecutar.</td><td></td></tr>
+      <tr><td><code>echo "dos ";</code></td><td>Muestra.</td><td><code>dos </code></td></tr>
+      <tr><td><code>case 3:</code></td><td><strong>No hubo <code>break</code></strong>: PHP ya no compara, sigue de largo hacia abajo.</td><td><code>dos </code></td></tr>
+      <tr><td><code>echo "tres ";</code></td><td>Se ejecuta aunque <code>$a</code> no sea 3.</td><td><code>dos tres </code></td></tr>
+      <tr><td><code>break;</code></td><td>Ahora sí, sale.</td><td><code>dos tres </code></td></tr>
+    </table>
+  </div>
+
+  <h4>Qué imprime y por qué</h4>
+  <pre class="salida">dos tres </pre>
+  <p>
+    Una vez que un <code>case</code> coincide, PHP ejecuta todo lo de abajo <strong>hasta el primer
+    <code>break</code></strong> (o el final del switch). Con <code>$a = 9</code> no coincidiría
+    ningún <code>case</code> y saldría <code>otro </code>.
+  </p>
+  <p>
+    Este "seguir de largo" también se usa a propósito, para que varios valores hagan lo mismo:
+    <code>case 1: case 2: echo "Verano"; break;</code> muestra "Verano" tanto para 1 como para 2.
+  </p>
+
+  <h3>Errores y trampas</h3>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Olvidarse el break</span>
+    <p>Es el error típico del switch: se ejecutan acciones de más (ejemplo 2). Cada <code>case</code> termina con <code>break;</code>, salvo que se quiera agrupar a propósito.</p>
+  </div>
+</div>

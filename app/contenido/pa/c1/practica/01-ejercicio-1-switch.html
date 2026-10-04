@@ -1,0 +1,103 @@
+<div class="ej">
+  <span class="tag">Ejercicio 1 &middot; switch</span>
+  <h2>Día de la semana con switch</h2>
+  <div class="enunciado">
+    <p>
+      Realice un nuevo script PHP que permita determinar el día de la semana utilizando la
+      estructura switch para tal fin, deberá declarar e inicializar una variable de tipo entera para
+      guardar el número de día de la semana que comienza con el día Domingo y termina con el día
+      Sábado (Domingo = 0, Lunes = 1, Martes = 2, etc.). Deberá ir mostrando los resultados de cada
+      operación en pantalla y también deberá documentar cada operación.
+    </p>
+  </div>
+
+  <span class="paso">Paso 1 &mdash; Qué pide</span>
+  <ul>
+    <li>Una variable <strong>entera</strong> con el número de día, de 0 (Domingo) a 6 (Sábado).</li>
+    <li>Un <code>switch</code> que, según ese número, muestre el nombre del día.</li>
+    <li>"Documentar cada operación" = <strong>comentarios</strong> en el código (<code>//</code>) explicando qué hace cada parte.</li>
+    <li>"Mostrar los resultados en pantalla" = <code>echo</code> del dato y del resultado.</li>
+  </ul>
+
+  <span class="paso">Paso 2 &mdash; El código</span>
+  <pre class="codigo"><code>&lt;?php
+// Guardamos el número de día: 0 = Domingo, 1 = Lunes, ..., 6 = Sábado
+$dia = 3;
+
+// Mostramos el dato con el que trabajamos
+echo "Número de día: " . $dia . "&lt;br&gt;";
+
+// switch compara $dia contra cada case y ejecuta el que coincide
+switch ($dia) {
+    case 0:
+        echo "El día es Domingo";
+        break;
+    case 1:
+        echo "El día es Lunes";
+        break;
+    case 2:
+        echo "El día es Martes";
+        break;
+    case 3:
+        echo "El día es Miércoles";
+        break;
+    case 4:
+        echo "El día es Jueves";
+        break;
+    case 5:
+        echo "El día es Viernes";
+        break;
+    case 6:
+        echo "El día es Sábado";
+        break;
+    default:
+        // Cualquier número fuera de 0..6 cae acá
+        echo "Número de día incorrecto";
+}
+?&gt;</code></pre>
+
+  <span class="paso">Paso 3 &mdash; Qué hace cada línea</span>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Cómo quedan las variables</th></tr>
+      <tr><td><code>// ...</code></td><td>Comentarios: PHP no los ejecuta, son la documentación que pide el enunciado.</td><td>&mdash;</td></tr>
+      <tr><td><code>$dia = 3;</code></td><td>Declara e inicializa la variable entera.</td><td><code>$dia = 3</code></td></tr>
+      <tr><td><code>echo "Número de día: " . $dia . "&lt;br&gt;";</code></td><td>Muestra el dato y baja de renglón.</td><td>sin cambios</td></tr>
+      <tr><td><code>switch ($dia)</code></td><td>Compara el 3 contra cada <code>case</code>, de arriba hacia abajo.</td><td>sin cambios</td></tr>
+      <tr><td><code>case 0:</code> a <code>case 2:</code></td><td>No coinciden: se saltean.</td><td>sin cambios</td></tr>
+      <tr><td><code>case 3:</code></td><td>Coincide: muestra "El día es Miércoles".</td><td>sin cambios</td></tr>
+      <tr><td><code>break;</code></td><td>Sale del switch: no se ejecuta ningún otro <code>case</code> ni el <code>default</code>.</td><td>sin cambios</td></tr>
+      <tr><td><code>default:</code></td><td>Solo se usaría si <code>$dia</code> no fuera ninguno de 0 a 6.</td><td>&mdash;</td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Paso 4 &mdash; Qué imprime y por qué</span>
+  <pre class="salida">Número de día: 3
+El día es Miércoles</pre>
+  <p>Cambiando el valor de la primera línea:</p>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th><code>$dia</code></th><th>Segunda línea de la salida</th></tr>
+      <tr><td>0</td><td>El día es Domingo</td></tr>
+      <tr><td>3</td><td>El día es Miércoles</td></tr>
+      <tr><td>9</td><td>Número de día incorrecto (cae en el <code>default</code>)</td></tr>
+    </table>
+  </div>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">La resolución de la cátedra resuelve otro ejercicio</span>
+    <p>
+      En <em>PA_Clase_11_resuelta</em>, el ejercicio 1 usa <code>$mes = 4;</code> y un switch de 12
+      casos que muestra <strong>la estación del año según el mes</strong> (1 y 2: Verano; 3: Verano u
+      Otoño; 4 y 5: Otoño; ... ; 12: Primavera o Verano; <code>default</code>: "Número de mes
+      incorrecto."). Con <code>$mes = 4</code> muestra <code>Estamos en Otoño</code> (comprobado).
+    </p>
+    <p>
+      La estructura es la misma (variable entera + switch + <code>break</code> en cada caso +
+      <code>default</code>), pero no es lo que pide el enunciado. Por eso arriba está resuelto el
+      día de la semana. Además, en la de la cátedra los casos repetidos se podrían agrupar
+      (<code>case 1: case 2: echo "Estamos en Verano"; break;</code>), como se explica en la teoría
+      del switch.
+    </p>
+  </div>
+</div>

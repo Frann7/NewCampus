@@ -8,6 +8,8 @@
      completar  huecos numericos (coma y 2 decimales) y desplegables
    No hay modo interactivo, ni pistas, ni vidas. La nota es sobre 100 y el
    informe dice que significa segun el reglamento (30 / 60).
+   Tambien corre aca la evaluacion SIMPLE (config.tipo "simple", la de PA):
+   todas las preguntas del banco en su orden, sin el reglamento de PyE.
    Cada respuesta se guarda al instante, asi se puede salir y continuar.
    ============================================================ */
 
@@ -119,9 +121,11 @@
 
   function estadoDe(fr) { return fr >= 1 ? "Correcta" : fr > 0 ? "Parcialmente correcta" : "Incorrecta"; }
 
+  // El chip de unidad solo si la carpeta del banco es una unidad del menu
+  // (la de PA es preguntas/parcial-php/, que no es una clase).
   function etiquetas(materia, p) {
     return E.h("div", { class: "ex-etiquetas" }, [
-      E.h("span", { class: "ev-chip" }, E.numeroDeUnidad(materia, p.unidad)),
+      E.esUnidad(materia, p.unidad) ? E.h("span", { class: "ev-chip" }, E.numeroDeUnidad(materia, p.unidad)) : null,
       E.chipOrigen(p)
     ]);
   }
@@ -161,7 +165,8 @@
       cont.appendChild(h("div", { class: "ex-barra" }, [
         h("div", { class: "ex-barra-info" }, [
           h("span", { class: "ex-nombre" }, ae.nombre),
-          h("span", { class: "ev-chip ev-chip-etapa" }, "1ra etapa · " + (it.config.formato1 === "hoja" ? "En hoja" : "Cuestionario")),
+          h("span", { class: "ev-chip ev-chip-etapa" }, E.esSimple(it.config) ? "Cuestionario"
+            : "1ra etapa · " + (it.config.formato1 === "hoja" ? "En hoja" : "Cuestionario")),
           progresoTxt
         ]),
         h("div", { class: "ex-barra-acciones" }, [
@@ -403,7 +408,8 @@
       var p = E.puntaje(it);
       var nota = p.nota || 0;
       var puntos = puntosDe(it);
-      var condicion = E.condicionPrimeraEtapa(nota);
+      // el reglamento 30 / 60 es de la 1ra etapa de PyE; la simple no lo tiene
+      var condicion = E.esSimple(it.config) ? null : E.condicionPrimeraEtapa(nota);
 
       E.vaciar(cont);
       cont.appendChild(h("button", { class: "ev-volver", type: "button", onclick: function () { acciones.volver(); } }, "← Evaluación"));
@@ -415,13 +421,13 @@
         " · Incorrectas: " + p.incorrectas + (p.sinResponder ? " · Sin responder: " + p.sinResponder : "");
 
       cont.appendChild(h("div", { class: "inf-resultado" }, [
-        h("div", { class: "inf-nota cu-nota", "data-condicion": condicion.clave }, [
+        h("div", { class: "inf-nota cu-nota", "data-condicion": condicion && condicion.clave }, [
           h("span", { class: "inf-nota-num" }, E.nota(nota)),
           h("span", { class: "inf-nota-pct" }, "sobre 100")
         ]),
         h("div", { class: "inf-datos" }, [
           h("span", { class: "ev-chip", "data-estado": "terminada" }, "Terminada · " + (E.MOTIVOS[it.motivo] || "")),
-          h("p", { class: "cu-condicion", "data-condicion": condicion.clave }, condicion.texto),
+          condicion ? h("p", { class: "cu-condicion", "data-condicion": condicion.clave }, condicion.texto) : null,
           h("p", {}, E.resumenConfig(materia, it.config).join(" · ")),
           h("p", {}, detalle),
           h("p", {}, "Duración: " + E.duracion(it.fin - it.inicio) + " · " + E.fecha(it.fin))

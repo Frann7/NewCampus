@@ -1,0 +1,238 @@
+<div class="bloque" data-examen="igual" data-examen-ref="Parcial PHP · preg. 9 y 13" data-examen-nota="Preg. 9: la salida de un for de 0 a 9 que hace continue cuando $i &gt; 3 &amp;&amp; $i &lt; 6. Preg. 13, verdadero o falso: “la sentencia break acepta un argumento numérico opcional el cual indica de cuántas estructuras anidadas encerradas se debe salir (ej: break 2)”.">
+  <p class="kicker">Estructuras de control · iterativas</p>
+  <h2>13. break y continue</h2>
+
+  <h3>Para qué sirve</h3>
+  <p>
+    Un bucle normalmente da todas sus vueltas hasta que la condición se vuelve falsa. A veces hace
+    falta <strong>cortarlo antes</strong> (<code>break</code>) o <strong>saltear una vuelta y seguir
+    con la próxima</strong> (<code>continue</code>). Casi siempre van dentro de un <code>if</code>
+    que decide cuándo hacerlo.
+  </p>
+
+  <h3>Sintaxis</h3>
+  <pre class="codigo"><code>break;      // sale del bucle en el que está
+break 2;    // sale de 2 estructuras anidadas (la suya y la de afuera)
+continue;   // termina esta vuelta y pasa a la siguiente</code></pre>
+
+  <h3>Qué es cada parte</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Sentencia</th><th>Qué hace</th><th>Qué pasa después</th></tr>
+      <tr><td><code>break;</code></td><td>Termina el bucle <strong>entero</strong> en ese momento.</td><td>Sigue con lo que está <strong>después</strong> del bucle.</td></tr>
+      <tr><td><code>break N;</code></td><td>Un número opcional que dice <strong>de cuántas estructuras anidadas</strong> salir. <code>break 1;</code> es lo mismo que <code>break;</code>.</td><td>Sigue después de la estructura número N, contando desde adentro.</td></tr>
+      <tr><td><code>continue;</code></td><td>Saltea <strong>lo que queda de esta vuelta</strong>.</td><td>En un <code>for</code>, hace el incremento y vuelve a preguntar la condición: el bucle sigue.</td></tr>
+    </table>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; Con formato del Parcial PHP (preg. 9): continue</h3>
+
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>¿Cuál es la salida del siguiente script PHP?</p>
+    <p>a. 0 1 2 3 4 &nbsp; b. 0 1 2 3 4 5 6 7 8 9 &nbsp; c. 0 1 2 3 6 7 8 9 &nbsp; d. 0 1 2 3 &nbsp; e. 0 1 2 7 8 9</p>
+  </div>
+
+  <pre class="codigo"><code>&lt;?php
+  for ($i = 0; $i &lt; 10; $i++) {
+    if ($i &gt; 3 &amp;&amp; $i &lt; 6) {
+                            continue;
+                          }
+        echo $i." ";
+}
+?&gt;</code></pre>
+
+  <h4>Qué hace cada línea, vuelta por vuelta</h4>
+  <p>La condición del <code>if</code> es "mayor que 3 <strong>y</strong> menor que 6": solo la cumplen el <strong>4 y el 5</strong>.</p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th><code>$i</code></th><th><code>$i &gt; 3 &amp;&amp; $i &lt; 6</code></th><th>Qué pasa</th><th>Salida acumulada</th></tr>
+      <tr><td>0</td><td>false &amp;&amp; true = false</td><td>Muestra</td><td><code>0 </code></td></tr>
+      <tr><td>1</td><td>false</td><td>Muestra</td><td><code>0 1 </code></td></tr>
+      <tr><td>2</td><td>false</td><td>Muestra</td><td><code>0 1 2 </code></td></tr>
+      <tr><td>3</td><td>false (3 no es mayor que 3)</td><td>Muestra</td><td><code>0 1 2 3 </code></td></tr>
+      <tr><td>4</td><td>true &amp;&amp; true = <strong>true</strong></td><td><code>continue</code>: saltea el echo</td><td><code>0 1 2 3 </code></td></tr>
+      <tr><td>5</td><td><strong>true</strong></td><td><code>continue</code></td><td><code>0 1 2 3 </code></td></tr>
+      <tr><td>6</td><td>true &amp;&amp; false = false (6 no es menor que 6)</td><td>Muestra</td><td><code>0 1 2 3 6 </code></td></tr>
+      <tr><td>7, 8, 9</td><td>false</td><td>Muestra</td><td><code>0 1 2 3 6 7 8 9 </code></td></tr>
+      <tr><td>10</td><td>&mdash;</td><td>¿10 &lt; 10? No: termina el for</td><td></td></tr>
+    </table>
+  </div>
+
+  <h4>Qué imprime y por qué</h4>
+  <pre class="salida">0 1 2 3 6 7 8 9 </pre>
+  <p>
+    El <code>continue</code> no cortó el bucle (eso sería <code>break</code>, y saldría
+    <code>0 1 2 3</code>): solo saltó el 4 y el 5. Es exactamente el ejemplo del apunte, que dice
+    que la salida son "los números entre 0 y 3 y entre 6 y 9".
+  </p>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p><strong>c. 0 1 2 3 6 7 8 9</strong></p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; break simple</h3>
+
+  <pre class="codigo"><code>&lt;?php
+for ($i = 1; $i &lt;= 10; $i++) {
+    if ($i == 3) {
+        break;
+    }
+    echo $i . " ";
+}
+echo "&lt;br&gt;";
+echo $i;
+?&gt;</code></pre>
+
+  <h4>Qué hace cada línea</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th><code>$i</code></th><th>¿<code>$i == 3</code>?</th><th>Qué pasa</th><th>Salida acumulada</th></tr>
+      <tr><td>1</td><td>No</td><td>Muestra</td><td><code>1 </code></td></tr>
+      <tr><td>2</td><td>No</td><td>Muestra</td><td><code>1 2 </code></td></tr>
+      <tr><td>3</td><td><strong>Sí</strong></td><td><code>break</code>: sale del for <strong>sin</strong> mostrar el 3 y <strong>sin</strong> hacer el <code>$i++</code></td><td><code>1 2 </code></td></tr>
+      <tr><td>3</td><td>&mdash;</td><td>Ya fuera: salto de línea y <code>echo $i</code></td><td><code>1 2 </code> / <code>3</code></td></tr>
+    </table>
+  </div>
+
+  <h4>Qué imprime y por qué</h4>
+  <pre class="salida">1 2
+3</pre>
+  <p>Los números del 4 al 10 nunca se recorren. <code>$i</code> queda en 3, el valor con el que se cortó.</p>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 3 &mdash; Con formato del Parcial PHP (preg. 13): break 2</h3>
+
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>La siguiente afirmación es correcta: en el lenguaje PHP la sentencia <code>break</code> acepta un argumento numérico opcional el cual indica de cuántas estructuras anidadas encerradas se debe salir (ej: <code>break 2</code>). ¿Verdadero o falso?</p>
+  </div>
+
+  <p>Para verlo, dos <code>for</code> anidados, idénticos salvo por el <code>break</code>. Primero con <code>break</code> solo:</p>
+  <pre class="codigo"><code>&lt;?php
+for ($i = 1; $i &lt;= 3; $i++) {
+    for ($j = 1; $j &lt;= 3; $j++) {
+        if ($j == 2) {
+            break;
+        }
+        echo $i . "-" . $j . " ";
+    }
+}
+?&gt;</code></pre>
+  <pre class="salida">1-1 2-1 3-1 </pre>
+  <p>Y con <code>break 2</code>:</p>
+  <pre class="codigo"><code>&lt;?php
+for ($i = 1; $i &lt;= 3; $i++) {
+    for ($j = 1; $j &lt;= 3; $j++) {
+        if ($j == 2) {
+            break 2;
+        }
+        echo $i . "-" . $j . " ";
+    }
+}
+?&gt;</code></pre>
+  <pre class="salida">1-1 </pre>
+
+  <h4>Qué pasó en cada uno</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Momento</th><th>Con <code>break</code></th><th>Con <code>break 2</code></th></tr>
+      <tr><td><code>$i</code> = 1, <code>$j</code> = 1</td><td>Muestra <code>1-1</code></td><td>Muestra <code>1-1</code></td></tr>
+      <tr><td><code>$i</code> = 1, <code>$j</code> = 2</td><td>Sale <strong>solo del for de adentro</strong>. El de afuera sigue: <code>$i</code> pasa a 2</td><td>Sale de los <strong>dos</strong> for. Se terminó todo</td></tr>
+      <tr><td><code>$i</code> = 2</td><td><code>$j</code> vuelve a empezar en 1: muestra <code>2-1</code>, y en <code>$j</code> = 2 sale otra vez</td><td>&mdash;</td></tr>
+      <tr><td><code>$i</code> = 3</td><td>Muestra <code>3-1</code> y sale del de adentro; el de afuera termina</td><td>&mdash;</td></tr>
+    </table>
+  </div>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p><strong>Verdadero.</strong> El número que sigue a <code>break</code> es opcional e indica de cuántas estructuras anidadas salir.</p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 4 &mdash; El break 2 del apunte</h3>
+
+  <p>El apunte muestra este código, sin ningún <code>echo</code>:</p>
+  <pre class="codigo"><code>&lt;?php
+for ($i = 0; $i &lt; 10; $i++) {
+    for ($j = 0; $j &lt; 3; $j++) {
+        if (($j + $i) % 5 == 0) {
+            break 2;
+        }
+    }
+}
+?&gt;</code></pre>
+  <p>
+    La condición <code>($j + $i) % 5 == 0</code> pregunta si la suma es múltiplo de 5 (el módulo,
+    sección 8). En la <strong>primera</strong> vuelta, <code>$i</code> = 0 y <code>$j</code> = 0:
+    \(0 + 0 = 0\) y <code>0 % 5</code> es 0. ¡Se cumple enseguida! El <code>break 2</code> corta
+    los dos bucles antes de que hagan nada.
+  </p>
+  <p>Para que se vea el efecto, el mismo código arrancando <code>$i</code> en 1 y mostrando cada par:</p>
+  <pre class="codigo"><code>&lt;?php
+for ($i = 1; $i &lt; 10; $i++) {
+    for ($j = 0; $j &lt; 3; $j++) {
+        if (($j + $i) % 5 == 0) {
+            break 2;
+        }
+        echo $i . "-" . $j . " ";
+    }
+}
+echo "&lt;br&gt;";
+echo "Salió con i=" . $i . " y j=" . $j;
+?&gt;</code></pre>
+
+  <h4>Qué hace cada línea</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th><code>$i</code></th><th><code>$j</code></th><th><code>$j + $i</code></th><th>¿Múltiplo de 5?</th><th>Qué pasa</th></tr>
+      <tr><td>1</td><td>0, 1, 2</td><td>1, 2, 3</td><td>No</td><td>Muestra <code>1-0 1-1 1-2</code></td></tr>
+      <tr><td>2</td><td>0, 1, 2</td><td>2, 3, 4</td><td>No</td><td>Muestra <code>2-0 2-1 2-2</code></td></tr>
+      <tr><td>3</td><td>0, 1</td><td>3, 4</td><td>No</td><td>Muestra <code>3-0 3-1</code></td></tr>
+      <tr><td>3</td><td>2</td><td>5</td><td><strong>Sí</strong></td><td><code>break 2</code>: sale de los dos for</td></tr>
+    </table>
+  </div>
+
+  <h4>Qué imprime y por qué</h4>
+  <pre class="salida">1-0 1-1 1-2 2-0 2-1 2-2 3-0 3-1
+Salió con i=3 y j=2</pre>
+  <p>
+    Con un <code>break</code> solo, en cambio, saldría únicamente del for de <code>$j</code> y
+    <code>$i</code> seguiría con 4, 5... El comentario del apunte ("sale de este ciclo y se saltea el
+    siguiente en 1") quiere decir eso: sale del ciclo de adentro y también del de afuera.
+  </p>
+
+  <h3>Errores y trampas</h3>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">break 2 con un solo bucle</span>
+    <p>Si no hay tantas estructuras para salir, PHP no ejecuta el script:</p>
+    <pre class="codigo"><code>&lt;?php
+for ($i = 1; $i &lt;= 3; $i++) {
+    if ($i == 2) {
+        break 2;
+    }
+    echo $i;
+}
+?&gt;</code></pre>
+    <pre class="salida">Fatal error: Cannot 'break' 2 levels in ... on line 4</pre>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">El switch también cuenta como estructura</span>
+    <p>
+      Un <code>break</code> dentro de un <code>switch</code> sale <strong>del switch</strong>, no del
+      bucle que lo rodea. Para cortar el bucle desde adentro de un switch hace falta
+      <code>break 2</code>.
+    </p>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">break o continue</span>
+    <p><code>break</code> = "no sigo más". <code>continue</code> = "esta no, la próxima sí". En el parcial ponen las dos salidas como opciones (ejemplo 1: la d es lo que daría con <code>break</code>).</p>
+  </div>
+</div>

@@ -1,0 +1,143 @@
+<div class="bloque">
+  <p class="kicker">Sección 4 &middot; Teoría, páginas 2 y 3</p>
+  <h2>4. Hacer una consulta</h2>
+
+  <h3>Para qué sirve</h3>
+  <p>
+    Con la conexión abierta, una <strong>consulta</strong> (en inglés, <em>query</em>) es mandarle
+    al SGBD una instrucción SQL para que la ejecute. La cátedra lo describe en tres pasos:
+    escribir la instrucción SQL, enviársela al gestor, y obtener el resultado por la misma
+    conexión.
+  </p>
+
+  <h3>Lo mínimo de SQL para leer datos</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Instrucción</th><th>Qué pide</th></tr>
+      <tr><td><code>SELECT * FROM personas</code></td><td>Todas las columnas (<code>*</code>) de todas las filas de la tabla <code>personas</code></td></tr>
+      <tr><td><code>SELECT apellido, nombres FROM personas</code></td><td>Solo esas dos columnas</td></tr>
+      <tr><td><code>... WHERE apellido = 'Bonnet'</code></td><td>Solo las filas que cumplen la condición. El texto va entre comillas simples; los números, sin comillas</td></tr>
+      <tr><td><code>... WHERE documento &gt; 20000000</code></td><td>Comparaciones como en PHP: <code>=</code> (uno solo), <code>&lt;&gt;</code> (distinto), <code>&gt;</code>, <code>&lt;</code></td></tr>
+      <tr><td><code>... ORDER BY apellido</code></td><td>Ordena las filas por esa columna</td></tr>
+    </table>
+  </div>
+  <p>Las instrucciones que modifican datos (<code>INSERT</code>, <code>UPDATE</code>, <code>DELETE</code>) están en la sección 6.</p>
+
+  <h3>Sintaxis</h3>
+<pre class="codigo"><code>$sql = 'SELECT * FROM personas';
+
+if ($resultado = $mysqli-&gt;query($sql))
+{
+    // acá se usa $resultado
+}</code></pre>
+  <p>En estilo procedural: <code>$resultado = mysqli_query($conexion, $sql);</code></p>
+
+  <h3>Qué es cada parte</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Parte</th><th>Qué es</th></tr>
+      <tr><td><code>$sql</code></td><td>Un string común de PHP con la instrucción SQL. Para PHP es solo texto: quien lo entiende es la base</td></tr>
+      <tr><td><code>$mysqli-&gt;query($sql)</code></td><td>Manda ese texto por la conexión y espera la respuesta</td></tr>
+      <tr><td><code>$resultado</code></td><td>Lo que devolvió la base (tabla de abajo)</td></tr>
+      <tr><td><code>if ($resultado = ...)</code></td><td>Un <strong>solo</strong> <code>=</code>: no compara, <strong>asigna</strong>. Primero guarda en <code>$resultado</code> lo que devolvió <code>query()</code>, y después el <code>if</code> mira si eso cuenta como verdadero. Si la consulta falló, devolvió <code>false</code> y no entra</td></tr>
+      <tr><td><code>$resultado-&gt;num_rows</code></td><td>Cuántas filas trajo la consulta (una propiedad, sin paréntesis)</td></tr>
+    </table>
+  </div>
+
+  <h4>Qué devuelve <code>query()</code></h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Si la consulta es&hellip;</th><th>Devuelve</th></tr>
+      <tr><td>un <code>SELECT</code> que anduvo</td><td>un objeto de la clase <strong><code>mysqli_result</code></strong>, aunque no haya encontrado ninguna fila (en ese caso, con <code>num_rows</code> = 0)</td></tr>
+      <tr><td>un <code>INSERT</code>, <code>UPDATE</code> o <code>DELETE</code> que anduvo</td><td><code>true</code></td></tr>
+      <tr><td>cualquiera que falló</td><td><code>false</code> en el PHP viejo; en PHP 8.1 o más, una excepción (sección 7)</td></tr>
+    </table>
+  </div>
+
+  <div class="caja caja-formula">
+    <span class="caja-tit">$resultado no tiene los datos</span>
+    <p>
+      La cátedra lo remarca: <code>$resultado</code> <strong>no tiene almacenados los datos</strong>,
+      es un <strong>apuntador</strong> al socket desde donde se van a leer. Para tener las filas
+      en algo que PHP pueda usar (un arreglo), hay que sacarlas una por una: eso es la sección 5.
+    </p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; Cuántas personas hay</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>
+      Con la tabla de ejemplo de la sección 2 (García, Bonnet y Aramburu), ¿qué imprime este
+      script?
+    </p>
+  </div>
+<pre class="codigo"><code>&lt;?php
+$mysqli = new mysqli('127.0.0.1', 'root', '', 'Personal');
+
+$sql = 'SELECT * FROM personas';
+
+if ($resultado = $mysqli-&gt;query($sql))
+{
+    echo "Filas encontradas: " . $resultado-&gt;num_rows;
+}
+
+$mysqli-&gt;close();
+?&gt;</code></pre>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Cómo quedan las variables</th></tr>
+      <tr><td>2</td><td>Abre la conexión (sección 3)</td><td><code>$mysqli</code> = la conexión</td></tr>
+      <tr><td>4</td><td>Guarda el texto de la instrucción</td><td><code>$sql</code> = <code>'SELECT * FROM personas'</code></td></tr>
+      <tr><td>6</td><td>Manda la consulta, guarda la respuesta y pregunta si anduvo</td><td><code>$resultado</code> = un <code>mysqli_result</code> &rarr; entra</td></tr>
+      <tr><td>8</td><td>Imprime cuántas filas trajo</td><td><code>num_rows</code> = 3</td></tr>
+      <tr><td>11</td><td>Cierra la conexión (sección 7)</td><td></td></tr>
+    </table>
+  </div>
+  <p><strong>Qué imprime</strong>, con la tabla de ejemplo:</p>
+<pre class="salida">Filas encontradas: 3</pre>
+  <p>Porque la tabla tiene tres filas y el <code>SELECT</code> no tiene <code>WHERE</code>: las trae todas.</p>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; ¿Cuál es la salida? (formato del parcial)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>Con la misma tabla de ejemplo y la conexión ya abierta en <code>$mysqli</code>, ¿cuál es la salida?</p>
+  </div>
+<pre class="codigo"><code>&lt;?php
+$sql = "SELECT * FROM personas WHERE apellido = 'Bonnet'";
+$resultado = $mysqli-&gt;query($sql);
+echo $resultado-&gt;num_rows . " - ";
+
+$sql = "SELECT * FROM personas WHERE documento &gt; 20000000";
+$resultado = $mysqli-&gt;query($sql);
+echo $resultado-&gt;num_rows;
+?&gt;</code></pre>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Cómo quedan las variables</th></tr>
+      <tr><td>2</td><td>Arma un SELECT que filtra por apellido. El string de PHP va entre comillas dobles para poder poner las simples de SQL adentro</td><td><code>$sql</code> = la instrucción</td></tr>
+      <tr><td>3</td><td>Manda la consulta</td><td><code>$resultado</code> = un <code>mysqli_result</code> con las filas de apellido Bonnet</td></tr>
+      <tr><td>4</td><td>Imprime cuántas son y un separador</td><td><code>num_rows</code> = 1 (solo Bonnet Federico)</td></tr>
+      <tr><td>6</td><td>Pisa <code>$sql</code> con otro SELECT: documentos mayores a 20 millones</td><td><code>$sql</code> = la nueva instrucción</td></tr>
+      <tr><td>7</td><td>Manda la consulta y pisa <code>$resultado</code></td><td>trae García (22333444) y Aramburu (44555666); Bonnet (11222333) no cumple</td></tr>
+      <tr><td>8</td><td>Imprime cuántas son</td><td><code>num_rows</code> = 2</td></tr>
+    </table>
+  </div>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta (con la tabla de ejemplo)</span>
+<pre class="salida">1 - 2</pre>
+  </div>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Errores y trampas</span>
+    <ul>
+      <li><strong><code>echo $resultado;</code> no muestra las filas</strong>: da error, porque es un objeto, no un texto. Las filas se sacan con <code>fetch</code> (sección 5).</li>
+      <li><strong>En SQL la igualdad es un solo <code>=</code></strong>, al revés que en PHP. Y en PHP, el <code>=</code> dentro del <code>if</code> de la cátedra es a propósito: asigna y después evalúa.</li>
+      <li><strong>Comillas anidadas:</strong> si el SQL lleva texto entre comillas simples, el string de PHP va entre dobles (o al revés). Mezclarlas iguales corta el string antes de tiempo.</li>
+      <li>El espacio que tiene la cátedra al principio (<code>' SELECT * FROM personas'</code>) no molesta: SQL ignora los espacios de más.</li>
+    </ul>
+  </div>
+</div>

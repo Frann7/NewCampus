@@ -1,0 +1,259 @@
+<div class="bloque" data-examen="igual" data-examen-ref="Parcial PHP · preg. 14" data-examen-nota="“Indique con qué estructuras de control se pueden recorrer arreglos en PHP (seleccione dos respuestas)”: foreach y for.">
+  <p class="kicker">Arreglos</p>
+  <h2>6. Recorrer arreglos: for, while y foreach</h2>
+
+  <h3>Para qué sirve</h3>
+  <p>
+    <strong>Recorrer</strong> un arreglo es pasar por cada uno de sus elementos, de a uno, para
+    hacer algo con él (mostrarlo, sumarlo, compararlo). Es, según la cátedra, una de las
+    operaciones que más se hacen con arreglos. Hay dos caminos:
+  </p>
+  <ul>
+    <li>
+      <strong><code>for</code> o <code>while</code></strong> (los bucles de la Clase 1) con un
+      contador que va 0, 1, 2&hellip; y se usa como clave. Sirve <strong>solo</strong> si las
+      claves son números seguidos desde 0.
+    </li>
+    <li>
+      <strong><code>foreach</code></strong> ("para cada"): una estructura hecha para arreglos.
+      Pasa por <strong>todos</strong> los elementos, en orden, sean cuales sean sus claves.
+      Ejecuta el bloque <strong>una vez por cada clave</strong> que tenga el arreglo.
+    </li>
+  </ul>
+
+  <h3>Sintaxis</h3>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Con for (claves 0, 1, 2&hellip;)</span>
+<pre class="codigo"><code>for ($i = 0; $i &lt; count($arreglo); $i++) {
+    // usar $arreglo[$i]
+}</code></pre>
+  </div>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Con foreach (cualquier clave)</span>
+<pre class="codigo"><code>foreach ($arreglo as $valor) {
+    // usar $valor
+}
+
+foreach ($arreglo as $clave =&gt; $valor) {
+    // usar $clave y $valor
+}</code></pre>
+  </div>
+
+  <h3>Qué es cada parte</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Parte</th><th>Qué es</th></tr>
+      <tr><td><code>$i = 0</code></td><td>(for) El contador arranca en 0, que es la primera clave automática</td></tr>
+      <tr><td><code>$i &lt; count($arreglo)</code></td><td>(for) Sigue mientras el contador sea <strong>menor</strong> que la cantidad de elementos: con 3 elementos, <code>$i</code> toma 0, 1 y 2</td></tr>
+      <tr><td><code>$i++</code></td><td>(for) Al terminar cada vuelta, suma 1 al contador</td></tr>
+      <tr><td><code>foreach ($arreglo as ...)</code></td><td>Recorre <code>$arreglo</code> desde el primer elemento hasta el último</td></tr>
+      <tr><td><code>$valor</code></td><td>Variable que elegís vos. En cada vuelta, PHP le copia el valor del elemento que toca</td></tr>
+      <tr><td><code>$clave =&gt; $valor</code></td><td>Forma con dos variables: en cada vuelta, <code>$clave</code> recibe la clave y <code>$valor</code> el valor</td></tr>
+    </table>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; for con un arreglo indexado</h3>
+<pre class="codigo"><code>&lt;?php
+$colores = array('rojo', 'azul', 'verde');
+for ($i = 0; $i &lt; count($colores); $i++) {
+    echo $colores[$i] . '&lt;br&gt;';
+}
+?&gt;</code></pre>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Paso</th><th>Qué hace</th><th>Cómo quedan las variables</th></tr>
+      <tr><td><code>$colores = array(...);</code></td><td>Tres colores, claves 0, 1, 2</td><td><code>count($colores)</code> = 3</td></tr>
+      <tr><td>Vuelta 1</td><td><code>0 &lt; 3</code> es verdadero: imprime <code>$colores[0]</code></td><td><code>$i</code> = 0 &rarr; sale <code>rojo</code></td></tr>
+      <tr><td>Vuelta 2</td><td><code>1 &lt; 3</code>: imprime <code>$colores[1]</code></td><td><code>$i</code> = 1 &rarr; sale <code>azul</code></td></tr>
+      <tr><td>Vuelta 3</td><td><code>2 &lt; 3</code>: imprime <code>$colores[2]</code></td><td><code>$i</code> = 2 &rarr; sale <code>verde</code></td></tr>
+      <tr><td>Fin</td><td><code>3 &lt; 3</code> es falso: el <code>for</code> termina</td><td><code>$i</code> = 3</td></tr>
+    </table>
+  </div>
+<pre class="salida">rojo
+azul
+verde</pre>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; El mismo recorrido con while</h3>
+<pre class="codigo"><code>&lt;?php
+$colores = array('rojo', 'azul', 'verde');
+$i = 0;
+while ($i &lt; count($colores)) {
+    echo 'Color ' . $i . ': ' . $colores[$i] . '&lt;br&gt;';
+    $i++;
+}
+?&gt;</code></pre>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Paso</th><th>Qué hace</th><th>Cómo quedan las variables</th></tr>
+      <tr><td><code>$i = 0;</code></td><td>Con <code>while</code> el contador se inicializa <strong>antes</strong>, a mano</td><td><code>$i</code> = 0</td></tr>
+      <tr><td>Vueltas 1 a 3</td><td>Imprime la clave y el valor, y suma 1 al final de cada vuelta</td><td><code>$i</code> = 0, 1, 2</td></tr>
+      <tr><td>Fin</td><td><code>3 &lt; 3</code> es falso</td><td><code>$i</code> = 3</td></tr>
+    </table>
+  </div>
+<pre class="salida">Color 0: rojo
+Color 1: azul
+Color 2: verde</pre>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 3 &mdash; foreach con claves mezcladas (teoría de la cátedra)</h3>
+  <p>
+    Con <code>array('a' =&gt; 10, 10 =&gt; 20, 'c' =&gt; 30)</code> un <code>for</code> de 0 a 2
+    no sirve: las claves son <code>'a'</code>, <code>10</code> y <code>'c'</code>, y ninguna es 0,
+    1 ni 2. Para eso está <code>foreach</code>.
+  </p>
+<pre class="codigo"><code>&lt;?php
+$arreglo = array('a' =&gt; 10, 10 =&gt; 20, 'c' =&gt; 30);
+foreach ($arreglo as $elemento) {
+    echo $elemento . '-';
+}
+?&gt;</code></pre>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Vuelta</th><th>Qué hace</th><th>Cómo quedan las variables</th></tr>
+      <tr><td>1</td><td>Toma el primer elemento (clave <code>'a'</code>)</td><td><code>$elemento</code> = 10 &rarr; sale <code>10-</code></td></tr>
+      <tr><td>2</td><td>El segundo (clave 10)</td><td><code>$elemento</code> = 20 &rarr; sale <code>20-</code></td></tr>
+      <tr><td>3</td><td>El tercero (clave <code>'c'</code>)</td><td><code>$elemento</code> = 30 &rarr; sale <code>30-</code></td></tr>
+      <tr><td>Fin</td><td>No quedan elementos</td><td>&mdash;</td></tr>
+    </table>
+  </div>
+<pre class="salida">10-20-30-</pre>
+  <p>
+    <strong>Por qué así:</strong> todo sale pegado porque no hay ningún salto de línea, y al final
+    queda un guion de más porque se imprime después de <strong>cada</strong> valor, también del
+    último. (La cátedra lo anota como <em>10 &ndash; 20 - 30</em>, con espacios: la salida real no
+    los tiene.)
+  </p>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 4 &mdash; foreach con clave y valor</h3>
+<pre class="codigo"><code>&lt;?php
+$auto = array('color' =&gt; 'rojo', 'marca' =&gt; 'Chevrolet', 'año' =&gt; '1969');
+foreach ($auto as $clave =&gt; $valor) {
+    echo $clave . ' =&gt; ' . $valor . '&lt;br&gt;';
+}
+?&gt;</code></pre>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Vuelta</th><th>Qué hace</th><th>Cómo quedan las variables</th></tr>
+      <tr><td>1</td><td>Primer elemento</td><td><code>$clave</code> = 'color', <code>$valor</code> = 'rojo'</td></tr>
+      <tr><td>2</td><td>Segundo</td><td><code>$clave</code> = 'marca', <code>$valor</code> = 'Chevrolet'</td></tr>
+      <tr><td>3</td><td>Tercero</td><td><code>$clave</code> = 'año', <code>$valor</code> = '1969'</td></tr>
+    </table>
+  </div>
+<pre class="salida">color =&gt; rojo
+marca =&gt; Chevrolet
+año =&gt; 1969</pre>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Diferencias con la diapositiva</span>
+    <p>
+      La presentación escribe la clave <code>'marcar'</code> (con <em>r</em>) y hace
+      <code>echo $clave.'=&gt;'; echo $valor;</code>, sin ningún salto de línea. Así, todo sale
+      pegado en una línea: <code>color=&gt;rojomarcar=&gt;Chevroletaño=&gt;1969</code>. La salida
+      que dibuja la diapositiva (una línea por dato, con mayúsculas) no es la que da ese código.
+    </p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 5 &mdash; foreach dentro de foreach (arreglo multidimensional)</h3>
+<pre class="codigo"><code>&lt;?php
+$autos[] = array('color' =&gt; 'negro', 'marca' =&gt; 'Chevrolet', 'modelo' =&gt; 'Camaro', 'año' =&gt; '1969');
+$autos[] = array('color' =&gt; 'rojo', 'marca' =&gt; 'Ford', 'año' =&gt; '1969');
+foreach ($autos as $unAuto) {
+    foreach ($unAuto as $atributo) {
+        echo $atributo . ' ';
+    }
+    echo '&lt;br&gt;';
+}
+?&gt;</code></pre>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Paso</th><th>Qué hace</th><th>Cómo quedan las variables</th></tr>
+      <tr><td><code>$autos[] = array(...);</code> (dos veces)</td><td><code>$autos</code> no existía: el <code>[]</code> lo crea como arreglo y guarda un auto en la clave 0 y otro en la 1</td><td>0 =&gt; (negro, Chevrolet, Camaro, 1969) &middot; 1 =&gt; (rojo, Ford, 1969)</td></tr>
+      <tr><td>Vuelta de afuera 1</td><td><code>$unAuto</code> es el primer auto; el <code>foreach</code> de adentro imprime sus 4 valores con un espacio, y después el <code>&lt;br&gt;</code></td><td>sale <code>negro Chevrolet Camaro 1969</code></td></tr>
+      <tr><td>Vuelta de afuera 2</td><td><code>$unAuto</code> es el segundo auto: 3 valores</td><td>sale <code>rojo Ford 1969</code></td></tr>
+    </table>
+  </div>
+<pre class="salida">negro Chevrolet Camaro 1969
+rojo Ford 1969</pre>
+  <p>
+    El <code>foreach</code> de afuera recorre las <strong>filas</strong> (cada auto), y el de
+    adentro las <strong>columnas</strong> de esa fila (cada dato del auto).
+  </p>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 6 &mdash; La pregunta del parcial</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado (Parcial PHP, pregunta 14)</span>
+    <p>
+      Indique con qué estructuras de control se pueden recorrer arreglos en PHP (seleccione dos
+      respuestas): a. else if &middot; b. if &middot; c. switch &middot; d. var_dump &middot;
+      e. foreach &middot; f. for &middot; g. r_array &middot; h. trim
+    </p>
+  </div>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Opción</th><th>Qué es</th><th>¿Recorre?</th></tr>
+      <tr><td>a, b, c</td><td><code>else if</code>, <code>if</code> y <code>switch</code> son estructuras de <strong>decisión</strong>: eligen un camino una vez, no repiten</td><td>No</td></tr>
+      <tr><td>d. <code>var_dump</code></td><td>Una <strong>función</strong> que muestra una variable (sección 3), no una estructura de control</td><td>No</td></tr>
+      <tr><td>e. <code>foreach</code></td><td>Estructura de repetición hecha para arreglos (ejemplos 3 a 5)</td><td><strong>Sí</strong></td></tr>
+      <tr><td>f. <code>for</code></td><td>Estructura de repetición con contador (ejemplo 1)</td><td><strong>Sí</strong></td></tr>
+      <tr><td>g. <code>r_array</code></td><td>No existe en PHP (parece una mezcla de <code>print_r</code> e <code>is_array</code>)</td><td>No</td></tr>
+      <tr><td>h. <code>trim</code></td><td>Función que saca espacios de un texto (sección 15)</td><td>No</td></tr>
+    </table>
+  </div>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta: e. foreach y f. for</span>
+    <p><code>while</code> también recorre arreglos (ejemplo 2), pero no estaba entre las opciones.</p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Errores y trampas</h3>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">El for de la presentación tiene las partes cambiadas</span>
+    <p>
+      La diapositiva escribe <code>for ($i=0; $i++; $i&lt; count($colores))</code> y
+      <code>echo $colores[i];</code>. En el lugar de la <strong>condición</strong> quedó
+      <code>$i++</code>: en la primera vuelta vale 0 (el <code>++</code> suma después de usar el
+      valor), y 0 es falso, así que el <code>for</code> <strong>no entra nunca y no imprime
+      nada</strong>. Además, <code>[i]</code> sin <code>$</code> no es la variable. Lo correcto es
+      el ejemplo 1.
+    </p>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">El while de la teoría no inicializa el contador</span>
+    <p>
+      El apunte hace <code>while ($i&lt;=count($a))</code> sin poner antes <code>$i = 0;</code>, y
+      con <code>&lt;=</code>. PHP avisa <code>Undefined variable $i</code> en la primera vuelta, y
+      con <code>&lt;=</code> da una vuelta de más: pide la clave 7 de un arreglo de 7 elementos
+      (claves 0 a 6) y avisa <code>Undefined array key 7</code>. Hay que inicializar en 0 y usar
+      <code>&lt;</code>. (Ese arreglo, además, repite <code>'Domingo'</code> y no tiene
+      <code>'Viernes'</code>.)
+    </p>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">echo dentro de otro echo</span>
+    <p>
+      El apunte escribe <code>echo $key.'--&gt;'.echo $valor;</code>. Eso es un error de sintaxis
+      (<code>Parse error</code>): <code>echo</code> no se puede usar en medio de una expresión. Se
+      escribe <code>echo $key . '--&gt;' . $valor;</code>, que muestra <code>a--&gt;10</code>,
+      <code>10--&gt;20</code>, <code>c--&gt;30</code>.
+    </p>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Cambiar $valor no cambia el arreglo</span>
+    <p>
+      En <code>foreach ($num as $n) { $n = $n * 2; }</code>, <code>$n</code> es una
+      <strong>copia</strong> de cada valor: al terminar, <code>$num</code> sigue igual. Para
+      modificar el arreglo hay que escribir en <code>$num[$clave]</code>.
+    </p>
+  </div>
+</div>

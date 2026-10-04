@@ -61,6 +61,9 @@ NL = chr(10)
 
 
 def revisar_formulas(texto):
+    # MathJax no mira adentro de <pre> ni <code> (ver index.html): el codigo
+    # (PHP de PA, por ejemplo) no cuenta como formula.
+    texto = re.sub(r"<(pre|code)\b[^>]*>.*?</\1>", "", texto, flags=re.S | re.I)
     problemas = []
     for abre, cierra, etiqueta in (("\\(", "\\)", "en linea"), ("\\[", "\\]", "en bloque")):
         a, c = texto.count(abre), texto.count(cierra)
@@ -71,8 +74,17 @@ def revisar_formulas(texto):
 
 def sangrar(trozo):
     """Los fragmentos se escriben al margen; adentro del <section> van a dos
-    espacios, como estaba el HTML antes de partirlo."""
-    return NL.join(("  " + l) if l.strip() else l for l in trozo.split(NL))
+    espacios, como estaba el HTML antes de partirlo. Lo que está adentro de un
+    <pre> (código) no se toca: ahí los espacios se ven."""
+    lineas, en_pre = [], False
+    for l in trozo.split(NL):
+        lineas.append(("  " + l) if l.strip() and not en_pre else l)
+        abre, cierra = l.rfind("<pre"), l.rfind("</pre>")
+        if abre > cierra:
+            en_pre = True
+        elif cierra > abre:
+            en_pre = False
+    return NL.join(lineas)
 
 
 def armar_apunte(carpeta, vista):
@@ -278,6 +290,8 @@ def armar_materias(panes):
             ficha["pdf"] = m["pdf"]
         if m.get("material"):
             ficha["material"] = m["material"]
+        if m.get("evaluacion"):
+            ficha["evaluacion"] = m["evaluacion"]
         salida.append(ficha)
 
     for clave in sorted(set(con_contenido) - listadas):

@@ -1,0 +1,196 @@
+<div class="bloque">
+  <p class="kicker">Sección 3 &middot; diapositivas 9 a 12</p>
+  <h2>3. El DOM: seleccionar elementos</h2>
+
+  <h3>Para qué sirve</h3>
+  <p>
+    El DOM es la representación de la interfaz con un conjunto estándar de objetos. A través de
+    él, JavaScript puede <strong>leer y modificar el contenido, la estructura y el estilo</strong>
+    de la página. Pero antes de modificar algo hay que <strong>agarrarlo</strong>: conseguir, desde
+    JavaScript, el objeto que representa a esa etiqueta. Eso es <em>seleccionar</em>.
+  </p>
+  <p>
+    Todo arranca en <code>document</code>: un objeto que el navegador crea solo y que representa
+    la página entera (la raíz del árbol de la sección 1).
+  </p>
+
+  <h3>Sintaxis</h3>
+<pre class="codigo"><code>// UN elemento, por su id
+const campo = document.getElementById('nombre');
+
+// TODOS los elementos de una etiqueta (colección)
+const inputs = document.getElementsByTagName('input');
+
+// la colección pasada a array, para poder recorrerla con forEach
+const arrayDeNodos = Array.from(inputs);
+arrayDeNodos.forEach(cadaInput =&gt; { console.log(cadaInput); });
+
+// TODOS los que cumplen un selector de CSS (ya trae forEach)
+const parrafos = document.querySelectorAll('p');</code></pre>
+
+  <h3>Qué es cada parte</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Pieza</th><th>Qué devuelve</th><th>Detalle</th></tr>
+      <tr><td class="lbl"><code>document.getElementById('x')</code></td><td><strong>Un</strong> elemento: el que tiene <code>id="x"</code></td><td>Si no hay ninguno, devuelve <code>null</code>. Si hay dos con el mismo id (no debería), devuelve el primero</td></tr>
+      <tr><td class="lbl"><code>document.getElementsByTagName('p')</code></td><td>Una <strong>colección de objetos HTML</strong> (<em>HTMLCollection</em>) con todos los <code>&lt;p&gt;</code>, en el orden en que aparecen</td><td>Tiene <code>.length</code> y se accede con <code>[0]</code>, <code>[1]</code>..., pero <strong>no tiene <code>forEach</code></strong>. Es "viva": si después se agrega un <code>&lt;p&gt;</code> a la página, aparece sola en la colección</td></tr>
+      <tr><td class="lbl"><code>Array.from(coleccion)</code></td><td>Un <strong>array</strong> con los mismos elementos</td><td>Es una copia fija: lo que se agregue después a la página no aparece. A cambio, tiene <code>forEach</code>, <code>push</code> y todo lo de un array</td></tr>
+      <tr><td class="lbl"><code>document.querySelectorAll('p')</code></td><td>Una lista (<em>NodeList</em>) con todos los que cumplen el selector de CSS (<code>'p'</code>, <code>'#id'</code>, <code>'.clase'</code>)</td><td>Ya tiene <code>forEach</code>. Es fija, como el array</td></tr>
+      <tr><td class="lbl"><code>elemento.value</code></td><td>Lo que tiene escrito un campo (<code>input</code>, <code>select</code>, <code>textarea</code>)</td><td>Siempre es un <strong>texto</strong>, aunque el campo sea de números</td></tr>
+    </table>
+  </div>
+
+  <div class="caja caja-formula">
+    <span class="caja-tit">Cuál usar</span>
+    <ul>
+      <li>¿Necesitás <strong>un</strong> elemento puntual (un botón, un campo)? &rarr; <code>getElementById</code>. Por eso en los ejemplos todo lo importante tiene <code>id</code>.</li>
+      <li>¿Necesitás <strong>varios</strong> para hacerles lo mismo (todos los párrafos)? &rarr; <code>getElementsByTagName</code> + <code>Array.from</code>, o <code>querySelectorAll</code>.</li>
+    </ul>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; Leer un campo por su id (diapositiva 11)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>Con este HTML en la página, ¿qué muestra la consola?</p>
+  </div>
+<pre class="codigo"><code>&lt;input type="text" id="nombre" name="nombre" value="Fede"&gt;</code></pre>
+<pre class="codigo"><code>let nombre = document.getElementById('nombre');
+console.log(nombre.value);</code></pre>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Cómo quedan las variables</th></tr>
+      <tr><td><code>let nombre = document.getElementById('nombre');</code></td><td>Busca en el DOM el elemento con <code>id="nombre"</code> y guarda <strong>el objeto</strong> (no el texto)</td><td><code>nombre</code> = el objeto del <code>&lt;input&gt;</code></td></tr>
+      <tr><td><code>console.log(nombre.value);</code></td><td>Lee la propiedad <code>value</code> del objeto: lo que tiene escrito el campo</td><td>&rarr; <code>"Fede"</code></td></tr>
+    </table>
+  </div>
+<pre class="salida">Fede</pre>
+  <p>
+    <strong>Por qué:</strong> el atributo <code>value="Fede"</code> es lo que el campo trae escrito
+    al cargar la página. Si el usuario borra y escribe "Ana" antes de que corra este código,
+    <code>nombre.value</code> da <code>"Ana"</code>: lee lo que hay <em>en ese momento</em>.
+  </p>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">La variable guarda el elemento, no el texto</span>
+    <p>
+      <code>console.log(nombre)</code> (sin <code>.value</code>) no muestra "Fede": muestra el
+      elemento entero, <code>&lt;input type="text" id="nombre" ...&gt;</code>. Para el contenido
+      hace falta la propiedad.
+    </p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; Varios elementos y un id repetido (diapositiva 12)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>
+      Con estos tres campos: a) ¿cuántos elementos recorre el <code>forEach</code>?;
+      b) ¿cuál devuelve <code>getElementById('nombre')</code>?
+    </p>
+  </div>
+<pre class="codigo"><code>&lt;input type="text" id="nombre" name="nombre" value="Fede"&gt;
+&lt;input type="text" id="correo" name="nombre" value="Fede"&gt;
+&lt;input type="text" id="nombre" name="nombre" value="Fede"&gt;</code></pre>
+<pre class="codigo"><code>const inputs = document.getElementsByTagName('input');
+const arrayDeNodos = Array.from(inputs);
+arrayDeNodos.forEach(cadaInput =&gt; { console.log(cadaInput); });</code></pre>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Cómo quedan las variables</th></tr>
+      <tr><td><code>const inputs = document.getElementsByTagName('input');</code></td><td>Junta todos los <code>&lt;input&gt;</code> de la página, en orden. Busca por <strong>etiqueta</strong>: el id no importa</td><td><code>inputs</code> = colección de 3 elementos</td></tr>
+      <tr><td><code>const arrayDeNodos = Array.from(inputs);</code></td><td>Copia la colección a un array</td><td><code>arrayDeNodos</code> = array de 3 elementos</td></tr>
+      <tr><td><code>arrayDeNodos.forEach(...)</code></td><td>Por cada elemento, lo escribe en la consola</td><td>3 vueltas: <code>cadaInput</code> vale el 1ro, el 2do y el 3ro</td></tr>
+    </table>
+  </div>
+  <p>
+    <strong>a)</strong> Recorre <strong>3</strong>: los tres son <code>&lt;input&gt;</code>. La
+    consola muestra cada elemento entero, uno por línea.
+  </p>
+  <p>
+    <strong>b)</strong> El primero. En la diapositiva el tercer <code>id="nombre"</code> está
+    subrayado a propósito: <strong>un id tiene que ser único en toda la página</strong>. Si se
+    repite, <code>getElementById</code> devuelve solo el primero que aparece y el otro queda
+    inalcanzable por id.
+  </p>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>a) 3 elementos. b) El primer <code>&lt;input&gt;</code>; el tercero no se puede seleccionar por id.</p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 3 &mdash; ¿Qué muestra? (colección y posiciones)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>La página tiene <code>&lt;p&gt;Uno&lt;/p&gt;&lt;p&gt;Dos&lt;/p&gt;&lt;p&gt;Tres&lt;/p&gt;</code>. ¿Cuál es la salida?</p>
+  </div>
+<pre class="codigo"><code>const ps = document.getElementsByTagName('p');
+console.log(ps.length);
+console.log(ps[1].textContent);
+Array.from(ps).forEach((p, i) =&gt; { console.log(i, p.textContent); });</code></pre>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Resultado</th></tr>
+      <tr><td><code>const ps = ...('p');</code></td><td>Colección con los tres párrafos: posición 0 "Uno", 1 "Dos", 2 "Tres"</td><td>&mdash;</td></tr>
+      <tr><td><code>ps.length</code></td><td>Cuántos hay</td><td><code>3</code></td></tr>
+      <tr><td><code>ps[1].textContent</code></td><td>El texto del de la posición 1, que es el <strong>segundo</strong> (se cuenta desde 0). <code>textContent</code> es el texto que tiene adentro (sección 4)</td><td><code>Dos</code></td></tr>
+      <tr><td><code>Array.from(ps).forEach(...)</code></td><td>Recorre los tres mostrando posición y texto</td><td><code>0 Uno</code>, <code>1 Dos</code>, <code>2 Tres</code></td></tr>
+    </table>
+  </div>
+<pre class="salida">3
+Dos
+0 Uno
+1 Dos
+2 Tres</pre>
+  <p>
+    <strong>Por qué:</strong> las colecciones, igual que los arrays, empiezan en la posición 0.
+    El <code>Array.from</code> hace falta porque la colección sola no tiene <code>forEach</code>.
+  </p>
+
+  <hr class="sep">
+
+  <h3>Errores y trampas</h3>
+  <div class="caja caja-ojo">
+    <span class="caja-tit"><code>forEach</code> sobre la colección</span>
+    <p>
+      <code>document.getElementsByTagName('p').forEach(...)</code> da
+      <code>TypeError: ... .forEach is not a function</code>. La colección no es un array: primero
+      <code>Array.from</code>. (Con <code>querySelectorAll</code> sí se puede.)
+    </p>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Elements, en plural</span>
+    <p>
+      <code>getElementById</code> va en singular (devuelve uno);
+      <code>getElementsByTagName</code> va en plural (devuelve varios). Si escribís
+      <code>getElementByTagName</code>, la función no existe y da error.
+    </p>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">El id va sin <code>#</code></span>
+    <p>
+      <code>getElementById('nombre')</code>, no <code>getElementById('#nombre')</code>: este último
+      busca un id que literalmente empieza con <code>#</code> y devuelve <code>null</code>. El
+      <code>#</code> va solo en los selectores de CSS (<code>querySelectorAll('#nombre')</code>).
+    </p>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Las comillas de las diapositivas</span>
+    <p>
+      En las diapositivas 11 y 12 las comillas salieron "tipográficas" (<code>”</code>,
+      <code>‘</code>), por el editor de la presentación. Si copiás ese código tal cual, no anda:
+      en el código van comillas rectas (<code>"</code> o <code>'</code>).
+    </p>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Seleccionar antes de que exista</span>
+    <p>
+      Si el script corre antes de que el navegador haya leído el elemento,
+      <code>getElementById</code> devuelve <code>null</code> y lo que sigue falla. Por eso los
+      <code>&lt;script&gt;</code> van al final del <code>&lt;body&gt;</code> y la cátedra arranca
+      todo cuando la página terminó de cargar (sección 5).
+    </p>
+  </div>
+</div>

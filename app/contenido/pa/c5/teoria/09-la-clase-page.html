@@ -1,0 +1,221 @@
+<div class="bloque">
+  <p class="kicker">Armar páginas por partes</p>
+  <h2>9. La clase <code>Page</code>: armar la página con un objeto</h2>
+
+  <h3>Para qué sirve</h3>
+  <p>
+    El ejemplo <code>objeto</code> de la cátedra resuelve lo mismo que la sección 8 (encabezado,
+    menú y pie escritos una sola vez) de otra forma: con una <strong>clase</strong>. Para leerlo
+    hacen falta cinco ideas nuevas, que se explican acá desde cero.
+  </p>
+  <ul>
+    <li>
+      Una <strong>clase</strong> es un <strong>molde</strong>: describe qué datos guarda una cosa y
+      qué sabe hacer. No hace nada por sí sola.
+    </li>
+    <li>
+      Un <strong>objeto</strong> es una cosa hecha con ese molde. Con un mismo molde se pueden hacer
+      muchos objetos, cada uno con sus propios datos. Se crea con <code>new</code>.
+    </li>
+    <li>
+      Las <strong>propiedades</strong> son las variables que tiene adentro cada objeto.
+    </li>
+    <li>
+      Los <strong>métodos</strong> son las funciones que tiene adentro la clase: lo que el objeto
+      sabe hacer.
+    </li>
+    <li>
+      <code>private</code> y <code>public</code> dicen quién puede usar cada propiedad o método:
+      <code>private</code>, solo el código de adentro de la clase; <code>public</code>, cualquiera.
+    </li>
+  </ul>
+
+  <h3>Sintaxis</h3>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Definir una clase y usarla</span>
+<pre class="codigo"><code>class Nombre
+{
+    private $propiedad;                  // una variable del objeto
+
+    public function __construct($dato)   // corre sola al hacer new
+    {
+        $this-&gt;propiedad = $dato;
+    }
+
+    public function metodo()             // algo que el objeto sabe hacer
+    {
+        return $this-&gt;propiedad;
+    }
+}
+
+$objeto = new Nombre('valor');           // crea un objeto con el molde
+echo $objeto-&gt;metodo();                  // le pide que haga algo</code></pre>
+  </div>
+
+  <h3>Qué es cada parte</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Parte</th><th>Qué es</th></tr>
+      <tr><td class="lbl"><code>class Nombre { ... }</code></td><td>Define el molde. Por costumbre el nombre arranca con mayúscula (<code>Page</code>).</td></tr>
+      <tr><td class="lbl"><code>private $propiedad;</code></td><td>Declara una propiedad. Cada objeto tiene la suya. Por ser <code>private</code>, desde afuera no se puede leer ni cambiar.</td></tr>
+      <tr><td class="lbl"><code>public function metodo()</code></td><td>Un método: una función que pertenece a la clase.</td></tr>
+      <tr><td class="lbl"><code>__construct</code></td><td>El <strong>constructor</strong>: un método con ese nombre exacto (dos guiones bajos) que PHP ejecuta solo en el momento del <code>new</code>. Sirve para dejar el objeto listo.</td></tr>
+      <tr><td class="lbl"><code>$this</code></td><td>Adentro de la clase, "este objeto", el que está ejecutando el método.</td></tr>
+      <tr><td class="lbl"><code>-&gt;</code></td><td>Entra a una propiedad o a un método de un objeto: <code>$this-&gt;propiedad</code>, <code>$objeto-&gt;metodo()</code>. La propiedad se escribe sin <code>$</code> después de la flecha.</td></tr>
+      <tr><td class="lbl"><code>new Nombre('valor')</code></td><td>Crea un objeto y le pasa <code>'valor'</code> al constructor.</td></tr>
+      <tr><td class="lbl"><code>return</code></td><td>Lo que devuelve el método a quien lo llamó.</td></tr>
+    </table>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; Una clase mínima</h3>
+
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>¿Cuál es la salida del siguiente script PHP?</p>
+  </div>
+
+<pre class="codigo"><code>&lt;?php
+class Saludo
+{
+    private $nombre;
+
+    public function __construct($nombre)
+    {
+        $this-&gt;nombre = $nombre;
+    }
+
+    public function getTexto()
+    {
+        return 'Hola, ' . $this-&gt;nombre;
+    }
+}
+
+$s = new Saludo('Fran');
+$t = new Saludo('Ana');
+echo $t-&gt;getTexto() . ' / ' . $s-&gt;getTexto();
+?&gt;</code></pre>
+
+  <h4>Qué hace cada línea</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Cómo quedan los objetos</th></tr>
+      <tr><td><code>class Saludo { ... }</code></td><td>Solo define el molde; todavía no corre nada.</td><td>no hay objetos</td></tr>
+      <tr><td><code>$s = new Saludo('Fran');</code></td><td>Crea un objeto y corre el constructor con <code>$nombre = 'Fran'</code>; el constructor lo guarda en la propiedad del objeto.</td><td><code>$s</code>: nombre = <code>'Fran'</code></td></tr>
+      <tr><td><code>$t = new Saludo('Ana');</code></td><td>Otro objeto, con su propia propiedad.</td><td><code>$s</code>: <code>'Fran'</code> · <code>$t</code>: <code>'Ana'</code></td></tr>
+      <tr><td><code>$t-&gt;getTexto()</code></td><td>Corre <code>getTexto</code> con <code>$this</code> = <code>$t</code>: devuelve <code>'Hola, Ana'</code>.</td><td>sin cambios</td></tr>
+      <tr><td><code>$s-&gt;getTexto()</code></td><td>Ahora <code>$this</code> = <code>$s</code>: devuelve <code>'Hola, Fran'</code>.</td><td>sin cambios</td></tr>
+      <tr><td><code>echo ... . ' / ' . ...;</code></td><td>Pega los dos textos con una barra en el medio.</td><td>&mdash;</td></tr>
+    </table>
+  </div>
+
+  <h4>Qué imprime y por qué</h4>
+<pre class="salida">Hola, Ana / Hola, Fran</pre>
+  <p>
+    El mismo método da resultados distintos porque cada objeto tiene su propio
+    <code>nombre</code>, y <code>$this</code> apunta al objeto que se usó delante de la flecha.
+  </p>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; Una <code>Page</code> en chiquito (formato del parcial)</h3>
+  <p>
+    Esta clase hace lo mismo que la <code>Page</code> de la cátedra, con menos HTML: guarda las
+    partes por separado, <code>setPagina()</code> las une y <code>getHtmlPage()</code> devuelve el
+    resultado.
+  </p>
+
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>¿Cuál es la salida del siguiente script PHP?</p>
+  </div>
+
+<pre class="codigo"><code>&lt;?php
+class Pagina
+{
+    private $header;
+    private $body;
+    private $pagina;
+
+    public function __construct($body)
+    {
+        $this-&gt;header = '&lt;h1&gt;Mi sitio&lt;/h1&gt;';
+        $this-&gt;body = $body;
+    }
+
+    public function setPagina()
+    {
+        $this-&gt;pagina = $this-&gt;header;
+        $this-&gt;pagina .= $this-&gt;body;
+    }
+
+    public function getHtmlPage()
+    {
+        return $this-&gt;pagina;
+    }
+}
+
+$p = new Pagina('&lt;p&gt;Inicio&lt;/p&gt;');
+echo '[' . $p-&gt;getHtmlPage() . ']';
+$p-&gt;setPagina();
+echo '[' . $p-&gt;getHtmlPage() . ']';
+?&gt;</code></pre>
+
+  <h4>Qué hace cada línea</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Cómo quedan las propiedades de <code>$p</code></th></tr>
+      <tr><td><code>$p = new Pagina('&lt;p&gt;Inicio&lt;/p&gt;');</code></td><td>Corre el constructor: carga el encabezado fijo y el cuerpo recibido. <code>pagina</code> no se toca.</td><td>header = <code>&lt;h1&gt;Mi sitio&lt;/h1&gt;</code> · body = <code>&lt;p&gt;Inicio&lt;/p&gt;</code> · pagina = <code>null</code> (sin valor)</td></tr>
+      <tr><td><code>echo '[' . $p-&gt;getHtmlPage() . ']';</code></td><td>Devuelve <code>pagina</code>, que todavía es <code>null</code>; pegado a un texto, <code>null</code> no agrega nada.</td><td>imprime <code>[]</code></td></tr>
+      <tr><td><code>$p-&gt;setPagina();</code></td><td>Primero <code>=</code>: pagina pasa a ser el header. Después <code>.=</code>: le pega el body al final.</td><td>pagina = <code>&lt;h1&gt;Mi sitio&lt;/h1&gt;&lt;p&gt;Inicio&lt;/p&gt;</code></td></tr>
+      <tr><td><code>echo '[' . $p-&gt;getHtmlPage() . ']';</code></td><td>Ahora sí hay página armada.</td><td>imprime <code>[&lt;h1&gt;Mi sitio&lt;/h1&gt;&lt;p&gt;Inicio&lt;/p&gt;]</code></td></tr>
+    </table>
+  </div>
+
+  <h4>Qué imprime y por qué</h4>
+<pre class="salida">[][&lt;h1&gt;Mi sitio&lt;/h1&gt;&lt;p&gt;Inicio&lt;/p&gt;]</pre>
+  <p>
+    Es el texto que recibe el navegador (en pantalla se vería <code>[]</code>, el título grande y el
+    párrafo). Los primeros corchetes salen vacíos porque <code>getHtmlPage()</code> se llamó
+    <strong>antes</strong> de <code>setPagina()</code>. Por eso, en el <code>indice.php</code> de la
+    cátedra, el orden es: <code>new Page($body)</code>, <code>setPagina()</code> y recién ahí
+    <code>echo $pagina-&gt;getHtmlPage()</code>.
+  </p>
+
+  <h3>Cómo es la <code>Page</code> de la cátedra</h3>
+  <p>
+    Igual que la del ejemplo 2, con más partes: las propiedades privadas <code>$header</code>,
+    <code>$menu</code>, <code>$body</code>, <code>$footer</code> y <code>$Pagina</code>; un
+    constructor que llama a cuatro métodos privados (<code>setHeader</code>, <code>setMenu</code>,
+    <code>setBody</code>, <code>setFooter</code>), cada uno cargando un pedazo de HTML; y los dos
+    públicos <code>setPagina()</code> y <code>getHtmlPage()</code>. Está explicada línea por línea en
+    la pestaña Práctica.
+  </p>
+
+  <h3>Errores y trampas</h3>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Lo que más se confunde</span>
+    <ul>
+      <li>
+        <strong>Lo <code>private</code> no se toca desde afuera.</strong> Se probó:
+        <code>echo $p-&gt;body;</code> da <code>Fatal error: Uncaught Error: Cannot access private
+        property Pagina::$body</code>, y llamar desde afuera a un método privado de la
+        <code>Page</code> de la cátedra (<code>setHeader()</code>) da <code>Call to private method
+        Page::setHeader() from global scope</code>.
+      </li>
+      <li>
+        <strong>Sin <code>$</code> después de la flecha:</strong> <code>$this-&gt;body</code>, no
+        <code>$this-&gt;$body</code> (esto último significa otra cosa).
+      </li>
+      <li>
+        <strong>Llamar dos veces a <code>setPagina()</code> no duplica la página</strong>, porque la
+        primera línea usa <code>=</code> y vuelve a empezar; se probó y queda igual. Si las dos
+        fueran <code>.=</code>, sí se duplicaría.
+      </li>
+      <li>
+        <strong>Definir la clase no imprime nada.</strong> Todo empieza con el <code>new</code>.
+      </li>
+    </ul>
+  </div>
+</div>

@@ -1,0 +1,153 @@
+<div class="bloque" data-examen="igual" data-examen-ref="Parcial PHP · preg. 1" data-examen-nota="Textual: “El nombre del aplicativo XAMPP es un acrónimo que significa:”, y hay que emparejar cada letra (X, A, M, P, P) con su significado.">
+  <p class="kicker">El entorno</p>
+  <h2>2. XAMPP: qué es y cómo se instala</h2>
+
+  <h3>Para qué sirve</h3>
+  <p>
+    Para programar en PHP hace falta un servidor web que lo ejecute (sección 1). XAMPP instala
+    <strong>todo lo necesario en tu propia PC</strong>, en un solo paso: el servidor web, PHP y una
+    base de datos. Así podés probar tu aplicación <strong>sin internet</strong>, en un
+    <em>servidor local</em>, al que se entra con la dirección <code>http://localhost/</code>
+    ("localhost" = esta misma computadora).
+  </p>
+
+  <h3>Qué significa cada letra</h3>
+  <div class="caja caja-formula">
+    <span class="caja-tit">XAMPP = X + Apache + MySQL + PHP + Perl</span>
+  </div>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Letra</th><th>Qué es</th><th>Para qué está</th></tr>
+      <tr><td class="lbl">X</td><td>Cualquier sistema operativo</td><td>Indica que funciona en diferentes sistemas operativos (hay versión para Windows, Linux, Mac OS X y Solaris). No es una herramienta: es "la incógnita".</td></tr>
+      <tr><td class="lbl">A</td><td>Apache</td><td>El <strong>servidor web</strong>: recibe los pedidos del navegador y responde.</td></tr>
+      <tr><td class="lbl">M</td><td>MySQL / MariaDB</td><td>La <strong>base de datos</strong>. Las versiones nuevas de XAMPP traen MariaDB, que es un derivado de MySQL.</td></tr>
+      <tr><td class="lbl">P</td><td>PHP</td><td>El <strong>lenguaje de programación</strong> que vamos a usar.</td></tr>
+      <tr><td class="lbl">P</td><td>Perl</td><td>Otro <strong>lenguaje de programación</strong>, que viene incluido.</td></tr>
+    </table>
+  </div>
+  <p>
+    Además trae otras herramientas, por ejemplo <strong>phpMyAdmin</strong> (para manejar la base
+    de datos desde el navegador). Es gratuito: la compilación de XAMPP se publica bajo la licencia
+    GNU GPL, y cada programa que incluye tiene su propia licencia.
+  </p>
+
+  <h3>La instalación, en pasos</h3>
+  <ol>
+    <li>Descargar el instalador del sitio oficial: <code>https://www.apachefriends.org</code>.</li>
+    <li>Ejecutarlo y avanzar con <em>OK</em> / <em>Next</em> en la bienvenida.</li>
+    <li><strong>Carpeta de instalación:</strong> por defecto <code>C:\xampp</code>. Conviene dejarla así.</li>
+    <li><strong>Componentes:</strong> marcar al menos <strong>Apache</strong> y <strong>MySQL</strong>.</li>
+    <li><em>Install</em> y, al terminar, <em>Finish</em>.</li>
+    <li>
+      Abrir el <strong>Panel de control de XAMPP</strong> (el ícono naranja junto al reloj de
+      Windows) y apretar <em>Start</em> en Apache y en MySQL.
+    </li>
+    <li>
+      Verificar que los dos estén corriendo: cada uno tiene que mostrar un <strong>PID</strong>
+      (número de proceso, cambia en cada inicio) y sus <strong>puertos</strong>: Apache
+      <strong>80 y 443</strong>, MySQL <strong>3306</strong> (los de por defecto).
+    </li>
+    <li>
+      Probar el servidor: en el navegador, entrar a <code>http://localhost/</code>. Tiene que
+      aparecer la página de bienvenida de XAMPP.
+    </li>
+  </ol>
+
+  <h3>Dónde van tus archivos: htdocs</h3>
+  <p>
+    La carpeta <strong><code>C:\xampp\htdocs</code></strong> es el <strong>directorio
+    público</strong>: lo que pongas ahí es lo que Apache sirve. La regla para pasar de archivo a
+    dirección es reemplazar <code>C:\xampp\htdocs</code> por <code>http://localhost</code>:
+  </p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Archivo en el disco</th><th>Dirección en el navegador</th></tr>
+      <tr><td><code>C:\xampp\htdocs\index.php</code></td><td><code>http://localhost/index.php</code></td></tr>
+      <tr><td><code>C:\xampp\htdocs\prueba\hola.php</code></td><td><code>http://localhost/prueba/hola.php</code></td></tr>
+    </table>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; El primer script</h3>
+
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>Crear la carpeta <code>prueba</code> dentro de <code>htdocs</code>, guardar ahí <code>hola.php</code> con este código y abrirlo en el navegador.</p>
+  </div>
+
+  <pre class="codigo"><code>&lt;?php
+echo "Hola desde XAMPP";
+?&gt;</code></pre>
+
+  <h4>Qué hace cada línea</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th></tr>
+      <tr><td><code>&lt;?php</code></td><td>Abre el código PHP.</td></tr>
+      <tr><td><code>echo "Hola desde XAMPP";</code></td><td>Escribe ese texto en la respuesta.</td></tr>
+      <tr><td><code>?&gt;</code></td><td>Cierra el código PHP.</td></tr>
+    </table>
+  </div>
+
+  <h4>Qué se ve y por qué</h4>
+  <p>Con Apache encendido, en <code>http://localhost/prueba/hola.php</code>:</p>
+  <pre class="salida">Hola desde XAMPP</pre>
+  <p>
+    Apache encontró el archivo en <code>htdocs\prueba</code>, se lo pasó a PHP, PHP ejecutó el
+    <code>echo</code> y Apache le devolvió al navegador solo el texto.
+  </p>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; Con formato del Parcial PHP (preg. 1)</h3>
+
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>El nombre del aplicativo XAMPP es un acrónimo que significa: (emparejar cada letra con su significado)</p>
+  </div>
+
+  <h4>Cómo se resuelve</h4>
+  <p>Se lee la palabra letra por letra y se piensa qué hace falta para una aplicación web:</p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Letra</th><th>Opción correcta</th><th>Cómo acordarse</th></tr>
+      <tr><td class="lbl">X</td><td>Significa que funciona en diferentes sistemas operativos</td><td>La X de "cualquiera", como una incógnita</td></tr>
+      <tr><td class="lbl">A</td><td>Servidor Web Apache</td><td>Lo que atiende al navegador</td></tr>
+      <tr><td class="lbl">M</td><td>Base de datos MySQL/MariaDB</td><td>Las dos empiezan con M</td></tr>
+      <tr><td class="lbl">P</td><td>Lenguaje de programación PHP</td><td>El de la materia</td></tr>
+      <tr><td class="lbl">P</td><td>Lenguaje de programación Perl</td><td>La segunda P es el otro lenguaje</td></tr>
+    </table>
+  </div>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>X: varios sistemas operativos · A: Apache · M: MySQL/MariaDB · P: PHP · P: Perl.</p>
+  </div>
+
+  <h3>Errores y trampas</h3>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">La X no es "Windows"</span>
+    <p>
+      Hay versiones para cada sistema operativo justamente porque la X es "cualquiera". Tampoco hay
+      que confundir las dos P: una es PHP y la otra es <strong>Perl</strong> (no "Python").
+    </p>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Dos errores de tipeo de la guía</span>
+    <p>
+      En los pasos finales la guía dice <code>C:\wamp\</code> y <code>http://localhost/wampp</code>.
+      Son restos de otra guía (WAMP es un programa parecido). Con XAMPP, la carpeta es
+      <code>C:\xampp</code> y la página de bienvenida queda en <code>http://localhost/dashboard/</code>,
+      como se ve en la captura de la misma guía.
+    </p>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Si la página no carga</span>
+    <p>
+      Lo primero es mirar el panel: Apache tiene que estar en verde, con PID y puertos. Si está
+      apagado, <code>http://localhost/</code> no responde. Y el archivo tiene que estar
+      <strong>dentro de htdocs</strong>: fuera de esa carpeta Apache no lo encuentra.
+    </p>
+  </div>
+</div>

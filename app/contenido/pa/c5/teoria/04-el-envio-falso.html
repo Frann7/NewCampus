@@ -1,0 +1,201 @@
+<div class="bloque">
+  <p class="kicker">Asegurar formularios</p>
+  <h2>4. El problema: un programa que se hace pasar por tu formulario</h2>
+
+  <h3>Para qué sirve entender esto</h3>
+  <p>
+    Cuando un formulario se envía, el script del <code>action</code> recibe los datos en
+    <code>$_GET</code>, <code>$_POST</code> o <code>$_REQUEST</code> (Clase 3). Uno da por hecho que
+    esos datos vienen <strong>de su formulario</strong>. La cátedra pregunta: ¿es siempre así?
+  </p>
+  <p>
+    <strong>No.</strong> Lo que le llega al servidor es solo un <strong>pedido</strong> (en inglés,
+    <em>request</em>): "mandame <code>procesoFormulario.php</code> con estos campos por POST". El
+    servidor no puede ver si detrás hubo una persona que tocó "Enviar" en tu página o un programa
+    que armó el mismo pedido. Y un programa lo puede repetir miles de veces por minuto.
+  </p>
+
+  <h4>El formulario y el script de la cátedra</h4>
+  <p>El formulario manda nombre y apellido por POST:</p>
+<pre class="codigo"><code>&lt;form action="http://ejemplo.com/procesoFormulario.php" method="post"&gt;
+    &lt;input type="text" name="nombre"&gt;
+    &lt;input type="text" name="apellido"&gt;
+    &lt;input type="submit" value="Enviar el formulario"&gt;
+&lt;/form&gt;</code></pre>
+  <p>
+    Y <code>procesoFormulario.php</code> los toma de <code>$_POST</code> y los inserta en la tabla
+    <code>personas</code> de una base de datos (las dos últimas líneas son de la Clase 6; acá
+    alcanza con saber que <strong>guardan un registro</strong> cada vez que el script corre):
+  </p>
+<pre class="codigo"><code>&lt;?php
+$nombre = $_POST['nombre'];
+$apellido = $_POST['apellido'];
+$sql = "INSERT INTO personas VALUES (null, '$nombre', '$apellido')";
+$mysqli = new mysqli("localhost", "root", "toto", "basedatos");
+$mysqli-&gt;query($sql);
+?&gt;</code></pre>
+
+  <h3>Sintaxis del ataque: las funciones de cURL</h3>
+  <p>
+    <strong>cURL</strong> es una herramienta que trae PHP para <strong>mandar pedidos a otra página
+    desde un script</strong>, como si fuera un navegador. El ataque de la cátedra la usa así:
+  </p>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Mandar un POST desde PHP</span>
+<pre class="codigo"><code>$campos_string = http_build_query($fields);        // arma "campo=valor&amp;campo=valor"
+$ch = curl_init();                                  // prepara un pedido nuevo
+curl_setopt($ch, CURLOPT_URL, $url);                // a qué dirección
+curl_setopt($ch, CURLOPT_POST, true);               // por el método POST
+curl_setopt($ch, CURLOPT_POSTFIELDS, $campos_string); // con estos campos
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);     // la respuesta, devolvémela
+$result = curl_exec($ch);                           // lo manda
+curl_close($ch);                                    // lo cierra</code></pre>
+  </div>
+
+  <h3>Qué es cada parte</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Parte</th><th>Qué hace</th></tr>
+      <tr><td class="lbl"><code>http_build_query($arreglo)</code></td><td>Convierte un array asociativo en el texto que manda un formulario: <code>clave=valor</code> unidos con <code>&amp;</code>. Los espacios y símbolos los codifica (<code>+</code>, <code>%26</code>...).</td></tr>
+      <tr><td class="lbl"><code>curl_init()</code></td><td>Crea un pedido vacío y lo devuelve; se guarda en <code>$ch</code> (de <em>cURL handle</em>, "el manejador").</td></tr>
+      <tr><td class="lbl"><code>curl_setopt($ch, OPCIÓN, valor)</code></td><td>Configura una opción del pedido. Una llamada por opción.</td></tr>
+      <tr><td class="lbl"><code>CURLOPT_URL</code></td><td>La dirección del script que va a recibir el pedido.</td></tr>
+      <tr><td class="lbl"><code>CURLOPT_POST</code></td><td>Con <code>true</code>, el pedido va por POST (llena <code>$_POST</code> del otro lado).</td></tr>
+      <tr><td class="lbl"><code>CURLOPT_POSTFIELDS</code></td><td>Los campos que se mandan, como los armó <code>http_build_query</code>.</td></tr>
+      <tr><td class="lbl"><code>CURLOPT_RETURNTRANSFER</code></td><td>Con <code>true</code>, <code>curl_exec</code> devuelve lo que contestó el servidor en vez de imprimirlo.</td></tr>
+      <tr><td class="lbl"><code>curl_exec($ch)</code></td><td>Manda el pedido. Devuelve la respuesta (lo que el otro script imprimió).</td></tr>
+      <tr><td class="lbl"><code>curl_close($ch)</code></td><td>Libera el pedido.</td></tr>
+    </table>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; Qué arma <code>http_build_query</code></h3>
+
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>¿Cuál es la salida del siguiente script PHP?</p>
+  </div>
+
+<pre class="codigo"><code>&lt;?php
+$fields = ['nombre' =&gt; 'Federico', 'apellido' =&gt; 'Bonnet'];
+echo http_build_query($fields);
+echo '&lt;br&gt;';
+echo http_build_query(['usuario' =&gt; 'Juan Perez', 'clave' =&gt; 'a&amp;b']);
+?&gt;</code></pre>
+
+  <h4>Qué hace cada línea</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Cómo quedan las variables</th></tr>
+      <tr><td><code>$fields = [...]</code></td><td>Array asociativo con dos campos. Los corchetes <code>[ ]</code> son otra forma de escribir <code>array( )</code>.</td><td><code>$fields</code>: <code>nombre =&gt; Federico</code>, <code>apellido =&gt; Bonnet</code></td></tr>
+      <tr><td><code>echo http_build_query($fields);</code></td><td>Une cada clave con su valor por <code>=</code> y los pares por <code>&amp;</code>.</td><td>imprime <code>nombre=Federico&amp;apellido=Bonnet</code></td></tr>
+      <tr><td><code>echo '&lt;br&gt;';</code></td><td>Salto de línea en el navegador.</td><td>&mdash;</td></tr>
+      <tr><td><code>echo http_build_query([...]);</code></td><td>El espacio de <code>Juan Perez</code> se codifica como <code>+</code> y el <code>&amp;</code> de <code>a&amp;b</code> como <code>%26</code>, para que no se confunda con el separador.</td><td>imprime <code>usuario=Juan+Perez&amp;clave=a%26b</code></td></tr>
+    </table>
+  </div>
+
+  <h4>Qué imprime y por qué</h4>
+  <p>En el navegador (el <code>&lt;br&gt;</code> es el salto de línea):</p>
+<pre class="salida">nombre=Federico&amp;apellido=Bonnet
+usuario=Juan+Perez&amp;clave=a%26b</pre>
+  <p>
+    Es exactamente el texto que manda el navegador cuando alguien completa el formulario y toca
+    "Enviar". Del otro lado, PHP lo desarma y llena <code>$_POST['nombre']</code>,
+    <code>$_POST['apellido']</code>: no hay forma de distinguirlo.
+  </p>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; El ataque del ejemplo <code>ataqueForm</code> (formato del parcial)</h3>
+
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>
+      <code>procesoForm.php</code> imprime lo que recibe por POST:
+      <code>echo "USUARIO: ".$_POST['usuario']; echo "==&gt;"; echo "CONTRASEÑA: ".$_POST['contrasenia']; echo "&lt;br&gt;";</code>.
+      ¿Qué imprime el siguiente script, y cuántas veces corrió <code>procesoForm.php</code>?
+    </p>
+  </div>
+
+<pre class="codigo"><code>&lt;?php
+$url = "http://localhost/clase5/ataqueForm/procesoForm.php";
+for ($i = 1; $i &lt;= 10; $i++) {
+    $usuario = 'Federico';
+    $contrasenia = 'Bonnet';
+    $fields = ['usuario' =&gt; $usuario, 'contrasenia' =&gt; $contrasenia];
+    $campos_string = http_build_query($fields);
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $campos_string);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $result = curl_exec($ch);
+    print_r($result);
+    curl_close($ch);
+}
+?&gt;</code></pre>
+
+  <h4>Qué hace cada línea (una vuelta del <code>for</code>)</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Cómo quedan las variables</th></tr>
+      <tr><td><code>$url = "..."</code></td><td>La dirección del script víctima.</td><td><code>$url</code> = la dirección</td></tr>
+      <tr><td><code>for ($i = 1; $i &lt;= 10; $i++)</code></td><td>Repite el bloque con <code>$i</code> = 1, 2, ..., 10: <strong>10 vueltas</strong>.</td><td><code>$i</code> = 1 en la primera</td></tr>
+      <tr><td><code>$usuario</code>, <code>$contrasenia</code></td><td>Los datos falsos.</td><td><code>'Federico'</code>, <code>'Bonnet'</code></td></tr>
+      <tr><td><code>$fields = [...]</code></td><td>Arma los campos con los <strong>mismos nombres</strong> que los <code>name</code> del formulario.</td><td><code>usuario =&gt; Federico</code>, <code>contrasenia =&gt; Bonnet</code></td></tr>
+      <tr><td><code>http_build_query($fields)</code></td><td>Los pasa a texto de formulario.</td><td><code>$campos_string</code> = <code>usuario=Federico&amp;contrasenia=Bonnet</code></td></tr>
+      <tr><td><code>curl_init()</code> y los cuatro <code>curl_setopt</code></td><td>Prepara un POST a <code>$url</code> con esos campos, pidiendo que devuelva la respuesta.</td><td><code>$ch</code> = el pedido listo</td></tr>
+      <tr><td><code>$result = curl_exec($ch);</code></td><td>Lo manda. <code>procesoForm.php</code> corre, ve un <code>$_POST</code> normal e imprime los datos; eso vuelve como respuesta.</td><td><code>$result</code> = <code>USUARIO: Federico==&gt;CONTRASEÑA: Bonnet&lt;br&gt;</code></td></tr>
+      <tr><td><code>print_r($result);</code></td><td>Muestra la respuesta (es un texto, así que <code>print_r</code> la imprime tal cual).</td><td>&mdash;</td></tr>
+      <tr><td><code>curl_close($ch);</code></td><td>Cierra el pedido; vuelve al <code>for</code>.</td><td>&mdash;</td></tr>
+    </table>
+  </div>
+
+  <h4>Qué imprime y por qué</h4>
+  <p>
+    Se corrió contra una copia del ejemplo de la cátedra. Diez veces la misma respuesta (así se ve
+    en el navegador: cada <code>&lt;br&gt;</code> es un salto de línea):
+  </p>
+<pre class="salida">USUARIO: Federico==&gt;CONTRASEÑA: Bonnet
+USUARIO: Federico==&gt;CONTRASEÑA: Bonnet
+USUARIO: Federico==&gt;CONTRASEÑA: Bonnet
+USUARIO: Federico==&gt;CONTRASEÑA: Bonnet
+USUARIO: Federico==&gt;CONTRASEÑA: Bonnet
+USUARIO: Federico==&gt;CONTRASEÑA: Bonnet
+USUARIO: Federico==&gt;CONTRASEÑA: Bonnet
+USUARIO: Federico==&gt;CONTRASEÑA: Bonnet
+USUARIO: Federico==&gt;CONTRASEÑA: Bonnet
+USUARIO: Federico==&gt;CONTRASEÑA: Bonnet</pre>
+  <p>
+    <code>procesoForm.php</code> corrió <strong>10 veces</strong> y las diez creyó que alguien había
+    completado el formulario. Si en vez de imprimir guardara en la base, serían 10 registros
+    falsos. El ejemplo del PDF hace lo mismo con el <code>for</code> hasta
+    <code>1000000000000</code> (un billón): un billón de registros.
+  </p>
+  <p>
+    Conclusión de la cátedra: <code>procesoForm.php</code> tiene que poder <strong>reconocer
+    solamente los datos que provengan de nuestro formulario</strong> y descartar los demás. Las
+    dos formas que da la clase son el token (sección 5) y el captcha (sección 6).
+  </p>
+
+  <h3>Errores y trampas</h3>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Lo que más se confunde</span>
+    <ul>
+      <li>
+        <strong>Lo que pone el HTML no protege nada.</strong> El <code>required</code> del campo
+        usuario, un <code>maxlength</code> o una validación en JavaScript los respeta el navegador;
+        cURL ni siquiera abre la página del formulario. El control tiene que estar en el script
+        PHP que recibe.
+      </li>
+      <li>
+        <strong>Erratas del PDF.</strong> El formulario usa comillas tipográficas
+        (<code>method=”post”</code>): el navegador no las reconoce y el formulario termina
+        mandando por GET. Van comillas rectas, <code>"post"</code>. Y la consulta dice
+        <code>'apellido'</code> sin el <code>$</code>: se probó y guarda la palabra
+        <code>apellido</code> en vez del apellido (<code>... VALUES (null,'Ana','apellido')</code>).
+      </li>
+    </ul>
+  </div>
+</div>

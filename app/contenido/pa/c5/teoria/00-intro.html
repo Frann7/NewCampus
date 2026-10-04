@@ -1,0 +1,58 @@
+<h1>Clase 5 &mdash; Sesiones y Seguridad</h1>
+
+<p class="pane-intro">
+  Basado en la teoría de la Clase 5 (<em>Sesiones en PHP</em> y <em>Asegurando formularios</em>),
+  en la guía práctica y en los ejemplos de código de la cátedra (<code>sessiones</code>,
+  <code>ataqueForm</code>, <code>formularios</code> y <code>objeto</code>).
+  Hasta ahora cada script PHP arrancaba de cero: no se acordaba de nada de la página anterior.
+  Acá aparece la <strong>sesión</strong>, que le da memoria al sitio, y con ella dos formas de
+  comprobar que los datos que llegan vienen de <strong>tu</strong> formulario y no de un programa
+  que se hace pasar por él.
+</p>
+
+<div class="bloque" data-abierta>
+  <p class="kicker">Antes de leer</p>
+  <h2>Cómo leer esta clase</h2>
+
+  <p>
+    Del Parcial PHP, esta clase aportó <strong>una pregunta</strong>: la 7, que pide emparejar
+    definiciones con <code>$_SESSION</code>, <code>$_GET</code> y <code>$_POST</code>. La parte de
+    <code>$_SESSION</code> está en la sección 2 (<code>$_GET</code> y <code>$_POST</code> son de la
+    Clase 3, pero la sección 2 los vuelve a comparar para que la pregunta salga entera).
+    Lo demás no apareció en el parcial, pero es lo que pide la guía práctica.
+  </p>
+
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Sección</th><th>Qué tiene</th><th>Para el parcial</th></tr>
+      <tr><td class="lbl">1. Qué es una sesión</td><td>La cookie, el id y el archivo del servidor; <code>session_start()</code> y <code>session_id()</code></td><td>La base para entender la 2</td></tr>
+      <tr><td class="lbl">2. <code>$_SESSION</code></td><td>Guardar datos y leerlos desde otro script; diferencia con <code>$_GET</code> y <code>$_POST</code></td><td>&#9733; Parcial PHP, pregunta 7</td></tr>
+      <tr><td class="lbl">3. <code>empty</code>, <code>isset</code> y <code>unset</code></td><td>Preguntar si hay algo en la sesión, borrar un dato y cerrar la sesión</td><td>Se usan en todos los ejemplos de la cátedra</td></tr>
+      <tr><td class="lbl">4. El envío falso</td><td>Cómo un programa manda datos a tu formulario sin pasar por él (cURL)</td><td>El problema que resuelven la 5 y la 6</td></tr>
+      <tr><td class="lbl">5. El token</td><td>Un código secreto en el formulario y en la sesión</td><td>Para la práctica</td></tr>
+      <tr><td class="lbl">6. El captcha</td><td>El código dibujado en una imagen</td><td>Ejercicio 1 de la guía</td></tr>
+      <tr><td class="lbl">7. Validar los datos</td><td><code>ctype_digit</code>, <code>ctype_alpha</code>, <code>ctype_alnum</code></td><td>Ejercicio 2 de la guía</td></tr>
+      <tr><td class="lbl">8. <code>require</code> y <code>require_once</code></td><td>Escribir el encabezado y el pie una vez y traerlos a cada página</td><td>Para leer los ejemplos y hacer el ejercicio 3</td></tr>
+      <tr><td class="lbl">9. La clase <code>Page</code></td><td>Clases y objetos desde cero, y la <code>Page</code> del ejemplo <code>objeto</code></td><td>Para leer ese ejemplo</td></tr>
+    </table>
+  </div>
+
+  <h3>En qué orden</h3>
+  <ol>
+    <li><strong>Secciones 1 y 2</strong> primero: son lo único que tomó el parcial.</li>
+    <li><strong>Sección 3</strong>: tres funciones cortas que aparecen en todos los ejemplos.</li>
+    <li><strong>Secciones 4, 5 y 6</strong> juntas: son una sola historia (el ataque y sus dos defensas).</li>
+    <li><strong>Secciones 7, 8 y 9</strong> antes de la práctica: la guía y los ejemplos las usan.</li>
+    <li>Después, la pestaña <strong>Práctica</strong>: primero los ejemplos de código de la cátedra y al final los tres ejercicios de la guía.</li>
+  </ol>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">El código del PDF de teoría tiene erratas</span>
+    <p>
+      Varios fragmentos del PDF no corren tal cual: comillas sin cerrar
+      (<code>$_SESSION['nombre]</code>), un punto y coma de más (<code>$token; = rand(5, 1500);</code>)
+      y comillas "tipográficas" (<code>”post”</code>) que PHP y HTML no reconocen. En este apunte el
+      código está corregido y probado, y en cada sección se marca dónde estaba el error.
+    </p>
+  </div>
+</div>

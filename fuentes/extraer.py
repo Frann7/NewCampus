@@ -11,6 +11,10 @@ cada página. Las copias exactas (mismo contenido) se extraen una sola vez.
 Si el .md ya existe, se conserva todo lo que está arriba de la página 1 (el
 título y el índice "página → qué hay", que se escribe a mano) y solo se
 regenera el texto. El PDF sigue siendo la fuente: esto es un atajo.
+
+`<destino>/excluir.txt` (si existe): un nombre de PDF por renglón que no se
+extrae nunca, p. ej. listas de alumnos u otros datos de personas: el repo es
+público.
 """
 import hashlib
 import os
@@ -63,11 +67,16 @@ def encabezado_nuevo(nombre, fuente, paginas):
 def main():
     destino, origenes = sys.argv[1], sys.argv[2:]
     vistos = {}
+    excluir = set()
+    lista = os.path.join(destino, "excluir.txt")
+    if os.path.exists(lista):
+        with open(lista, encoding="utf-8") as f:
+            excluir = {r.strip().lower() for r in f if r.strip() and not r.startswith("#")}
     for origen in origenes:
         origen, _, sub = origen.partition("=")
         for carpeta, _, archivos in os.walk(origen):
             for archivo in sorted(archivos):
-                if not archivo.lower().endswith(".pdf"):
+                if not archivo.lower().endswith(".pdf") or archivo.lower() in excluir:
                     continue
                 ruta = os.path.join(carpeta, archivo)
                 rel = os.path.relpath(ruta, origen)

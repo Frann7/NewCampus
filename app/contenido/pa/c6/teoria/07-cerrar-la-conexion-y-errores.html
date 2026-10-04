@@ -1,0 +1,118 @@
+<div class="bloque">
+  <p class="kicker">Sección 7 &middot; Teoría, página 4, y guía práctica</p>
+  <h2>7. Cerrar la conexión y los errores</h2>
+
+  <h3>Para qué sirve</h3>
+  <p>
+    Según la cátedra, una vez que se accedió a los datos y se trabajó con ellos <strong>hay que
+    cerrar la conexión</strong>, para que se liberen los datos de la memoria y se borren los
+    apuntadores creados. Y mientras la conexión está abierta, cualquier consulta puede fallar
+    (una tabla mal escrita, un SQL con un error): la guía trae funciones para saber qué pasó.
+  </p>
+
+  <h3>Sintaxis</h3>
+<pre class="codigo"><code>$mysqli = new mysqli('Host', 'usuarioDB', 'contraseñaDB', 'BasedeDatos');
+
+// conjunto de acciones
+
+$mysqli-&gt;close();</code></pre>
+  <p>En estilo procedural: <code>mysqli_close($conexion);</code></p>
+
+  <h3>Qué es cada parte: las herramientas para los errores</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Objetos</th><th>Procedural</th><th>Qué da</th><th>Para qué error</th></tr>
+      <tr><td><code>$mysqli-&gt;connect_errno</code></td><td><code>mysqli_connect_errno()</code></td><td>El número del error al conectar (0 si no hubo)</td><td>De conexión (sección 3)</td></tr>
+      <tr><td><code>$mysqli-&gt;connect_error</code></td><td><code>mysqli_connect_error()</code></td><td>La descripción en texto del último error de conexión</td><td>De conexión</td></tr>
+      <tr><td><code>$mysqli-&gt;errno</code></td><td><code>mysqli_errno($conexion)</code></td><td>El número del error de <strong>la última función</strong> que se usó con esa conexión (0 si anduvo)</td><td>De consulta</td></tr>
+      <tr><td><code>$mysqli-&gt;error</code></td><td><code>mysqli_error($conexion)</code></td><td>La descripción en texto de ese error (vacía si anduvo)</td><td>De consulta</td></tr>
+      <tr><td colspan="2"><code>try</code> / <code>catch (mysqli_sql_exception $e)</code></td><td><code>$e-&gt;getCode()</code> y <code>$e-&gt;getMessage()</code>: lo mismo, cuando mysqli lanza excepciones (PHP 8.1 o más, sección 3)</td><td>De los dos</td></tr>
+    </table>
+  </div>
+  <p>
+    Las de conexión no necesitan la conexión como parámetro (justamente, puede no haberla). Las
+    de consulta sí: hay que decirles <strong>de qué conexión</strong> es el último error.
+  </p>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; El orden completo de un script</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>Listar apellido y nombres de la tabla de ejemplo, de principio a fin, cerrando la conexión.</p>
+  </div>
+<pre class="codigo"><code>&lt;?php
+$mysqli = new mysqli('127.0.0.1', 'root', '', 'Personal');
+
+$resultado = $mysqli-&gt;query('SELECT * FROM personas');
+
+while ($persona = $resultado-&gt;fetch_assoc()) {
+    echo $persona['apellido'] . ", " . $persona['nombres'] . "&lt;br&gt;";
+}
+
+$mysqli-&gt;close();
+?&gt;</code></pre>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Cómo quedan las variables</th></tr>
+      <tr><td>2</td><td>1. Conectar</td><td><code>$mysqli</code> = la conexión</td></tr>
+      <tr><td>4</td><td>2. Consultar</td><td><code>$resultado</code> = apuntador a 3 filas</td></tr>
+      <tr><td>6-8</td><td>3. Recorrer: una vuelta por fila, imprimiendo dos columnas</td><td><code>$persona</code> = García, Bonnet, Aramburu, y al final <code>null</code></td></tr>
+      <tr><td>10</td><td>4. Cerrar: libera la memoria y los apuntadores</td><td><code>$mysqli</code> ya no sirve para consultar</td></tr>
+    </table>
+  </div>
+  <p><strong>Qué imprime</strong>, con la tabla de ejemplo (verificado armando esas filas):</p>
+<pre class="salida">García, Gabriel&lt;br&gt;Bonnet, Federico&lt;br&gt;Aramburu, Exequiel&lt;br&gt;</pre>
+  <p>En pantalla, un nombre por renglón. El <code>close()</code> va <strong>al final</strong>, cuando ya no se usa más la base.</p>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; ¿Qué muestra si la tabla está mal escrita?</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>
+      La tabla se llama <code>personas</code>, pero el SQL dice <code>persona</code>. Con el
+      comportamiento viejo de mysqli (el de la cátedra), ¿qué imprime?
+    </p>
+  </div>
+<pre class="codigo"><code>&lt;?php
+mysqli_report(MYSQLI_REPORT_OFF);
+$mysqli = new mysqli('127.0.0.1', 'root', '', 'Personal');
+
+$resultado = $mysqli-&gt;query('SELECT * FROM persona');
+
+if (!$resultado) {
+    echo "Error " . $mysqli-&gt;errno . ": " . $mysqli-&gt;error;
+}
+
+$mysqli-&gt;close();
+?&gt;</code></pre>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Cómo quedan las variables</th></tr>
+      <tr><td>2</td><td>Apaga las excepciones: los errores quedan guardados en vez de cortar el script</td><td></td></tr>
+      <tr><td>3</td><td>Conecta (bien: la base existe)</td><td><code>connect_errno</code> = 0</td></tr>
+      <tr><td>5</td><td>La consulta falla: no existe la tabla <code>persona</code></td><td><code>$resultado</code> = <code>false</code></td></tr>
+      <tr><td>7</td><td><code>!false</code> es verdadero: entra</td><td></td></tr>
+      <tr><td>8</td><td>Muestra el número y el texto del error de <strong>la última función</strong>, que fue el <code>query()</code></td><td><code>errno</code> = 1146</td></tr>
+      <tr><td>11</td><td>Cierra igual: la conexión sí estaba abierta</td><td></td></tr>
+    </table>
+  </div>
+  <p><strong>Qué imprime.</strong> Este necesita la base para correr; el mensaje es el que arma MariaDB para una tabla que no existe:</p>
+<pre class="salida">Error 1146: Table 'personal.persona' doesn't exist</pre>
+  <p>
+    El texto lo escribe el servidor (en inglés, y con el nombre de la base en minúsculas en
+    Windows). Con el comportamiento de fábrica de PHP 8.2, sin la línea 2, el mismo error
+    aparece como <em>Fatal error: Uncaught mysqli_sql_exception</em> en la línea 5, salvo que la
+    consulta esté adentro de un <code>try</code> / <code>catch</code> como el de la sección 3.
+  </p>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Errores y trampas</span>
+    <ul>
+      <li><strong><code>errno</code> es de la última función.</strong> Si después del <code>query()</code> fallido hacés otra cosa con la conexión que anda bien, el error anterior se pierde: hay que mirarlo enseguida.</li>
+      <li><strong>Después de <code>close()</code> la conexión no se puede usar.</strong> Cualquier <code>query()</code> posterior da error. Si hay que volver a consultar, se abre otra.</li>
+      <li><strong>Mostrar el error en pantalla sirve para practicar</strong>; en un sitio real se le muestra al usuario un mensaje genérico, porque el texto del error cuenta cómo son las tablas.</li>
+    </ul>
+  </div>
+</div>

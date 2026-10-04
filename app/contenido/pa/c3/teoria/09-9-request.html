@@ -1,0 +1,201 @@
+<div class="bloque" data-examen="igual" data-examen-ref="Parcial PHP · preg. 16" data-examen-nota="Verdadero o falso: “$_REQUEST es un array asociativo que por defecto posee el contenido de $_GET, $_POST y $_SESSION”. Es falso: el tercero es $_COOKIE, no $_SESSION.">
+  <p class="kicker">Administración de datos desde PHP</p>
+  <h2>9. $_REQUEST: los datos sin importar el método</h2>
+
+  <h3>Para qué sirve</h3>
+  <p>
+    Ya sea que el formulario se envíe por GET o por POST, PHP arma además un arreglo llamado
+    <strong><code>$_REQUEST</code></strong> con los mismos datos. Sirve para escribir un script
+    que funcione <strong>con los dos métodos</strong> sin tocarlo.
+  </p>
+
+  <div class="caja caja-formula">
+    <span class="caja-tit">Qué contiene $_REQUEST</span>
+    <p>
+      Por defecto, el contenido de <strong><code>$_GET</code></strong>,
+      <strong><code>$_POST</code></strong> y <strong><code>$_COOKIE</code></strong>.
+    </p>
+    <p><strong>No</strong> contiene <code>$_SESSION</code>.</p>
+  </div>
+
+  <ul>
+    <li>
+      Si en el formulario definiste <code>method="get"</code>, los datos también se recuperan con
+      <code>$_REQUEST</code>.
+    </li>
+    <li>
+      Si definiste <code>method="post"</code>, los datos también se recuperan con
+      <code>$_REQUEST</code>.
+    </li>
+    <li>
+      Las <strong>cookies</strong> (<code>$_COOKIE</code>) son datos chiquitos que el navegador
+      guarda y le vuelve a mandar al servidor en cada pedido; se ven en la Clase 5. Como también
+      <strong>llegan con la solicitud</strong>, entran en <code>$_REQUEST</code>.
+    </li>
+    <li>
+      Las variables de <strong>sesión</strong> (<code>$_SESSION</code>) <strong>no llegan</strong>
+      con la solicitud: las guarda el servidor. Por eso no están en <code>$_REQUEST</code>.
+    </li>
+  </ul>
+
+  <h3>Sintaxis</h3>
+<pre class="codigo"><code>$variable = $_REQUEST['nombreDelControl'];</code></pre>
+
+  <h3>Qué es cada parte</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Arreglo</th><th>De dónde salen sus datos</th><th>¿Está en <code>$_REQUEST</code>?</th></tr>
+      <tr><td><code>$_GET</code></td><td>La URL (lo que va después del <code>?</code>)</td><td>Sí</td></tr>
+      <tr><td><code>$_POST</code></td><td>El cuerpo de una solicitud POST</td><td>Sí</td></tr>
+      <tr><td><code>$_COOKIE</code></td><td>Las cookies que manda el navegador</td><td>Sí, por defecto (ver la trampa de XAMPP abajo)</td></tr>
+      <tr><td><code>$_SESSION</code></td><td>El servidor (Clase 5)</td><td><strong>No</strong></td></tr>
+    </table>
+  </div>
+  <p>
+    Si la misma clave llega por GET y por POST, en <code>$_REQUEST</code> queda el valor de
+    <strong>POST</strong>: PHP carga primero los de GET y después los de POST, que pisan a los
+    anteriores.
+  </p>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; Un script para los dos métodos</h3>
+
+<pre class="codigo"><code>&lt;?php
+echo $_REQUEST['nombre'];
+?&gt;</code></pre>
+
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Caso</th><th>Cómo quedan los arreglos</th><th>Qué imprime la línea 2</th></tr>
+      <tr><td>Formulario con <code>method="get"</code> y <em>Federico</em></td><td><code>$_GET = ['nombre' =&gt; 'Federico']</code>, <code>$_POST</code> vacío, <code>$_REQUEST = ['nombre' =&gt; 'Federico']</code></td><td><code>Federico</code></td></tr>
+      <tr><td>Formulario con <code>method="post"</code> y <em>Federico</em></td><td><code>$_GET</code> vacío, <code>$_POST = ['nombre' =&gt; 'Federico']</code>, <code>$_REQUEST = ['nombre' =&gt; 'Federico']</code></td><td><code>Federico</code></td></tr>
+    </table>
+  </div>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Qué imprime</span>
+<pre class="salida">Federico</pre>
+    <p>
+      En los dos casos (verificado mandando el dato por GET y por POST al servidor de PHP). Es la
+      diferencia con el ejemplo 5 de la sección 8: con <code>$_GET</code> el POST fallaba; con
+      <code>$_REQUEST</code>, no.
+    </p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; ¿Qué queda en cada arreglo? (formato parcial)</h3>
+
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>
+      Este formulario manda los datos por POST, pero su <code>action</code> ya trae datos en la
+      URL. El usuario escribe <em>Ana</em> y <em>Bonnet</em>. ¿Qué muestra el script?
+    </p>
+<pre class="codigo"><code>&lt;form action="datos.php?nombre=Federico&amp;origen=url" method="post"&gt;
+&lt;input type="text" name="nombre"&gt;
+&lt;input type="text" name="apellido"&gt;
+&lt;input type="submit" value="Enviar"&gt;
+&lt;/form&gt;</code></pre>
+    <p>Y <code>datos.php</code>:</p>
+<pre class="codigo"><code>&lt;?php
+print_r($_GET);
+print_r($_POST);
+print_r($_REQUEST);
+?&gt;</code></pre>
+  </div>
+
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Cómo quedan los arreglos</th></tr>
+      <tr><td>(antes)</td><td>La URL pedida es <code>datos.php?nombre=Federico&amp;origen=url</code>: PHP arma <code>$_GET</code> con esos dos pares</td><td><code>$_GET = ['nombre' =&gt; 'Federico', 'origen' =&gt; 'url']</code></td></tr>
+      <tr><td>(antes)</td><td>El cuerpo trae lo que escribió el usuario: PHP arma <code>$_POST</code></td><td><code>$_POST = ['nombre' =&gt; 'Ana', 'apellido' =&gt; 'Bonnet']</code></td></tr>
+      <tr><td>(antes)</td><td>PHP arma <code>$_REQUEST</code>: primero copia <code>$_GET</code> (<code>nombre</code>, <code>origen</code>), después <code>$_POST</code>, que <strong>pisa</strong> <code>nombre</code> con <code>Ana</code> y agrega <code>apellido</code></td><td><code>$_REQUEST = ['nombre' =&gt; 'Ana', 'origen' =&gt; 'url', 'apellido' =&gt; 'Bonnet']</code></td></tr>
+      <tr><td>2</td><td>Imprime <code>$_GET</code></td><td>&mdash;</td></tr>
+      <tr><td>3</td><td>Imprime <code>$_POST</code></td><td>&mdash;</td></tr>
+      <tr><td>4</td><td>Imprime <code>$_REQUEST</code></td><td>&mdash;</td></tr>
+    </table>
+  </div>
+
+  <h4>Qué imprime</h4>
+<pre class="salida">Array
+(
+    [nombre] =&gt; Federico
+    [origen] =&gt; url
+)
+Array
+(
+    [nombre] =&gt; Ana
+    [apellido] =&gt; Bonnet
+)
+Array
+(
+    [nombre] =&gt; Ana
+    [origen] =&gt; url
+    [apellido] =&gt; Bonnet
+)</pre>
+  <p>
+    Verificado con el PHP de XAMPP. Tres cosas para mirar: aunque el método sea POST,
+    <code>$_GET</code> <strong>no está vacío</strong> (tiene lo que venía en la URL del
+    <code>action</code>); en <code>$_REQUEST</code>, <code>nombre</code> vale
+    <code>Ana</code> (ganó POST) pero conserva el primer lugar, el que tenía al entrar desde GET;
+    y <code>origen</code> está aunque no lo mandó ningún control.
+  </p>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 3 &mdash; La pregunta 16 del parcial</h3>
+
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado (Parcial PHP, preg. 16)</span>
+    <p>
+      Verdadero o falso: <em>$_REQUEST es un array asociativo que por defecto posee el contenido
+      de $_GET, $_POST y $_SESSION.</em>
+    </p>
+  </div>
+
+  <ul>
+    <li>"array asociativo": <strong>bien</strong>, sus claves son los <code>name</code>.</li>
+    <li>"<code>$_GET</code>, <code>$_POST</code>": <strong>bien</strong>.</li>
+    <li>"<code>$_SESSION</code>": <strong>mal</strong>. El tercero es <code>$_COOKIE</code>. La sesión la guarda el servidor, no llega con la solicitud.</li>
+  </ul>
+  <p>
+    Comprobado: un script que guarda <code>$_SESSION['usuario'] = 'fran'</code> y después hace
+    <code>print_r($_REQUEST)</code> muestra solo lo que llegó del formulario; <code>usuario</code>
+    no aparece.
+  </p>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p><strong>Falso.</strong> Por defecto, <code>$_REQUEST</code> tiene <code>$_GET</code>, <code>$_POST</code> y <code>$_COOKIE</code>.</p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Errores y trampas</h3>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Lo que suele salir mal</span>
+    <ul>
+      <li>
+        <strong>Confundir COOKIE con SESSION.</strong> Es exactamente la trampa de la pregunta 16.
+        Para acordarse: <code>$_REQUEST</code> = lo que llega <em>con el pedido</em> (URL, cuerpo,
+        cookies). La sesión no llega: está en el servidor.
+      </li>
+      <li>
+        <strong>En tu XAMPP las cookies no entran.</strong> El <code>php.ini</code> de XAMPP trae
+        <code>request_order="GP"</code> (solo GET y POST). Comprobado: la misma solicitud con una
+        cookie <code>tema=oscuro</code> da <code>[tema] =&gt; oscuro</code> dentro de
+        <code>$_REQUEST</code> con PHP sin configurar, y no aparece con el <code>php.ini</code> de
+        XAMPP. Para el parcial vale lo que dice la cátedra y el manual de PHP: <strong>por
+        defecto</strong>, GET, POST y COOKIE.
+      </li>
+      <li>
+        <strong>No saber de dónde vino el dato.</strong> Con <code>$_REQUEST</code> un dato puede
+        venir de la URL, del formulario o de una cookie, y si se repite la clave gana POST. Por eso
+        la cátedra lo presenta como alternativa, pero en la práctica pide usar <code>$_POST</code>
+        o <code>$_GET</code> según el método.
+      </li>
+    </ul>
+  </div>
+</div>

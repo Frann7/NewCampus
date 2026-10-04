@@ -1,0 +1,141 @@
+<div class="ej">
+  <span class="tag">Ejercicio 3 &middot; Pantalla de error</span>
+  <h2>Una página que muestre el error y deje volver al formulario</h2>
+  <div class="enunciado">
+    <p>
+      <strong>3) Pantalla de error.</strong> En caso de que alguna de las pruebas de validación no
+      sea pasada, diseñe una página que muestre el error que ha ocurrido y que permita volver al
+      formulario para cargar los datos nuevamente.
+    </p>
+  </div>
+
+  <span class="paso">Paso 1 &mdash; Qué pide</span>
+  <ul>
+    <li>
+      En el ejercicio 2, los errores se mostraban con <code>echo</code> sueltos. Ahora tienen que
+      salir en <strong>una página propia</strong>, <code>error.php</code>.
+    </li>
+    <li>Esa página muestra <strong>qué falló</strong> (los mensajes de <code>$errores</code>).</li>
+    <li>Y tiene un <strong>enlace de vuelta</strong> a <code>formContacto.php</code>.</li>
+  </ul>
+  <p>
+    La forma más simple es la de la teoría, sección 8: <code>procesoForm.php</code> arma
+    <code>$errores</code> y, si hay alguno, hace <code>require 'error.php'</code>. Como el archivo
+    traído ve las variables del que lo trae, <code>error.php</code> puede recorrer
+    <code>$errores</code> directamente.
+  </p>
+
+  <span class="paso">Paso 2 &mdash; <code>error.php</code></span>
+<pre class="codigo"><code>&lt;!DOCTYPE html&gt;
+&lt;html lang="es"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;title&gt;Error en el formulario&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h3&gt;No se pudo enviar el comentario&lt;/h3&gt;
+
+    &lt;ul&gt;
+    &lt;?php
+        foreach ($errores as $error) {
+            echo '&lt;li&gt;' . $error . '&lt;/li&gt;';
+        }
+    ?&gt;
+    &lt;/ul&gt;
+
+    &lt;a href="formContacto.php"&gt;Volver al formulario&lt;/a&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+
+  <h4>Qué hace cada línea</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th></tr>
+      <tr><td><code>&lt;!DOCTYPE html&gt;</code> ... <code>&lt;body&gt;</code></td><td>Una página HTML completa, con su título.</td></tr>
+      <tr><td><code>&lt;h3&gt;No se pudo enviar el comentario&lt;/h3&gt;</code></td><td>Dice qué pasó, en general.</td></tr>
+      <tr><td><code>&lt;ul&gt;</code></td><td>Una lista con viñetas.</td></tr>
+      <tr><td><code>foreach ($errores as $error)</code></td><td>Recorre los mensajes que dejó <code>procesoForm.php</code>.</td></tr>
+      <tr><td><code>echo '&lt;li&gt;' . $error . '&lt;/li&gt;';</code></td><td>Cada mensaje es un ítem de la lista.</td></tr>
+      <tr><td><code>&lt;a href="formContacto.php"&gt;</code></td><td>Vuelve al formulario. Al abrirse, el formulario borra el código viejo y la imagen trae uno nuevo: se puede cargar todo otra vez.</td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Paso 3 &mdash; El cambio en <code>procesoForm.php</code></span>
+  <p>
+    Todo queda igual que en el ejercicio 2 salvo el final. En vez de imprimir los errores, trae la
+    pantalla de error:
+  </p>
+<pre class="codigo"><code>if (count($errores) &gt; 0) {
+    require 'error.php';
+} else {
+    // Acá se guardan los datos en la base de datos (Clase 6)
+    echo 'Gracias, ' . $nombre . ': recibimos tu comentario.';
+}</code></pre>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th></tr>
+      <tr><td><code>if (count($errores) &gt; 0)</code></td><td>Si alguna prueba falló (el captcha o un dato).</td></tr>
+      <tr><td><code>require 'error.php';</code></td><td>Ejecuta <code>error.php</code> en ese punto. Su HTML es lo que recibe el navegador, y su <code>foreach</code> usa el <code>$errores</code> de <code>procesoForm.php</code>.</td></tr>
+      <tr><td><code>else</code></td><td>Sin errores: el mensaje de gracias (y el guardado, en la Clase 6).</td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Paso 4 &mdash; Qué se ve</span>
+  <p>Se probaron los mismos casos del ejercicio 2. Con todos los datos mal, el navegador recibe:</p>
+<pre class="salida">&lt;!DOCTYPE html&gt;
+&lt;html lang="es"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;title&gt;Error en el formulario&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h3&gt;No se pudo enviar el comentario&lt;/h3&gt;
+
+    &lt;ul&gt;
+    &lt;li&gt;El nombre solo puede tener letras.&lt;/li&gt;&lt;li&gt;El asunto solo puede tener letras y números.&lt;/li&gt;&lt;li&gt;El correo no es válido.&lt;/li&gt;&lt;li&gt;El comentario está vacío.&lt;/li&gt;    &lt;/ul&gt;
+
+    &lt;a href="formContacto.php"&gt;Volver al formulario&lt;/a&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+  <p>Y en pantalla:</p>
+<pre class="salida">No se pudo enviar el comentario
+
+  • El nombre solo puede tener letras.
+  • El asunto solo puede tener letras y números.
+  • El correo no es válido.
+  • El comentario está vacío.
+
+Volver al formulario</pre>
+  <ul>
+    <li>Con el captcha equivocado, la lista tiene un solo ítem: <code>El código verificador no coincide con el de la imagen.</code></li>
+    <li>Con todo bien, no aparece la pantalla de error: sale <code>Gracias, Juan Perez: recibimos tu comentario.</code></li>
+  </ul>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Trampas</span>
+    <ul>
+      <li>
+        <strong><code>error.php</code> no se abre solo.</strong> Si alguien entra directo a
+        <code>error.php</code>, no hay <code>$errores</code>: sale <code>Warning: Undefined variable
+        $errores</code> y <code>Warning: foreach() argument must be of type array|object, null
+        given</code> (se probó con la misma estructura en la teoría, sección 8). Es una página para
+        ser traída con <code>require</code>.
+      </li>
+      <li>
+        <strong>Los datos escritos se pierden al volver</strong>: el enlace abre el formulario
+        vacío. La guía pide "cargar los datos nuevamente", así que alcanza; conservarlos llevaría
+        guardarlos en la sesión y escribirlos en los <code>value</code> del formulario.
+      </li>
+    </ul>
+  </div>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Resultado</span>
+    <p>
+      <code>error.php</code> lista los errores de <code>$errores</code> y enlaza a
+      <code>formContacto.php</code>; <code>procesoForm.php</code> la trae con
+      <code>require 'error.php'</code> cuando alguna validación falla. La guía no trae resolución de
+      la cátedra para comparar.
+    </p>
+  </div>
+</div>

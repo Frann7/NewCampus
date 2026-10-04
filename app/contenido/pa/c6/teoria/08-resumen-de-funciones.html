@@ -1,0 +1,141 @@
+<div class="bloque" data-examen="igual" data-examen-ref="Parcial PHP · preg. 4" data-examen-nota="Emparejar mysqli_connect(), mysqli_query() y mysqli_fetch_array() con su definición.">
+  <p class="kicker">Sección 8 &middot; Guía práctica, página 1</p>
+  <h2>8. Resumen: las funciones mysqli de la cátedra</h2>
+
+  <h3>Para qué sirve</h3>
+  <p>
+    La guía práctica abre con un resumen de funciones, escritas en estilo procedural, y el
+    parcial las pregunta con esos nombres. Esta tabla junta cada una con su equivalente en
+    estilo objetos (el de la teoría) y con lo que devuelve.
+  </p>
+
+  <h3>Las funciones de la guía</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Procedural (guía y parcial)</th><th>Objetos (teoría)</th><th>Qué hace, según la guía</th><th>Qué devuelve</th></tr>
+      <tr><td><code>mysqli_connect()</code></td><td><code>new mysqli()</code></td><td>Abre una nueva conexión al servidor MySQL</td><td>La conexión, o <code>false</code> si falla</td></tr>
+      <tr><td><code>mysqli_connect_error()</code></td><td><code>$mysqli-&gt;connect_error</code></td><td>Devuelve una cadena descriptiva del último error de conexión</td><td>Texto, o <code>null</code> si no hubo error</td></tr>
+      <tr><td><code>mysqli_errno()</code></td><td><code>$mysqli-&gt;errno</code></td><td>Devuelve el código de error de la función invocada más reciente</td><td>Número; 0 si no hubo error</td></tr>
+      <tr><td><code>mysqli_query()</code></td><td><code>$mysqli-&gt;query()</code></td><td>Ejecuta una consulta en la base de datos</td><td><code>mysqli_result</code> (SELECT), <code>true</code> (INSERT, UPDATE, DELETE) o <code>false</code></td></tr>
+      <tr><td><code>mysqli_close()</code></td><td><code>$mysqli-&gt;close()</code></td><td>Cierra una conexión previamente abierta</td><td><code>true</code></td></tr>
+      <tr><td><code>mysqli_fetch_array()</code></td><td><code>$resultado-&gt;fetch_array()</code></td><td>Extrae una fila de resultados como array asociativo, numérico, o ambos</td><td>Arreglo, o <code>null</code> si no quedan filas</td></tr>
+    </table>
+  </div>
+  <p>
+    La guía agrupa las cinco primeras como métodos de la clase <code>mysqli</code> (la conexión) y
+    la última como método de la clase <code>mysqli_result</code> (el resultado de un SELECT).
+  </p>
+
+  <h3>Las que usan la teoría y el sitio de ejemplo</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Procedural</th><th>Objetos</th><th>Qué hace</th><th>Sección</th></tr>
+      <tr><td><code>mysqli_fetch_assoc()</code></td><td><code>$resultado-&gt;fetch_assoc()</code></td><td>Extrae una fila como arreglo asociativo</td><td>5</td></tr>
+      <tr><td><code>mysqli_num_rows()</code></td><td><code>$resultado-&gt;num_rows</code></td><td>Cuántas filas trajo el SELECT</td><td>4</td></tr>
+      <tr><td><code>mysqli_set_charset()</code></td><td><code>$mysqli-&gt;set_charset()</code></td><td>Elige la codificación del texto (<code>"utf8"</code>)</td><td>3</td></tr>
+      <tr><td><code>mysqli_prepare()</code></td><td><code>$mysqli-&gt;prepare()</code></td><td>Prepara una instrucción con huecos <code>?</code></td><td>6</td></tr>
+      <tr><td><code>mysqli_stmt_bind_param()</code></td><td><code>$stmt-&gt;bind_param()</code></td><td>Ata una variable a cada hueco</td><td>6</td></tr>
+      <tr><td><code>mysqli_stmt_execute()</code></td><td><code>$stmt-&gt;execute()</code></td><td>Ejecuta la instrucción preparada</td><td>6</td></tr>
+    </table>
+  </div>
+
+  <div class="caja caja-formula">
+    <span class="caja-tit">La regla para pasar de un estilo al otro</span>
+    <p>
+      <code>$objeto-&gt;metodo(x)</code> &nbsp;se escribe&nbsp; <code>mysqli_metodo($objeto, x)</code>.
+      En el procedural, <strong>el primer parámetro es siempre la conexión</strong> (o el resultado,
+      en las de <code>fetch</code>). La única que no lo lleva es <code>mysqli_connect()</code>,
+      porque es la que la crea.
+    </p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; El mismo script en los dos estilos</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>Escribir en estilo procedural el script de la sección 7 que lista apellido y nombres.</p>
+  </div>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Objetos</th><th>Procedural</th></tr>
+      <tr><td><code>$mysqli = new mysqli('127.0.0.1', 'root', '', 'Personal');</code></td><td><code>$conexion = mysqli_connect('127.0.0.1', 'root', '', 'Personal');</code></td></tr>
+      <tr><td><code>$resultado = $mysqli-&gt;query('SELECT * FROM personas');</code></td><td><code>$resultado = mysqli_query($conexion, 'SELECT * FROM personas');</code></td></tr>
+      <tr><td><code>while ($persona = $resultado-&gt;fetch_array())</code></td><td><code>while ($persona = mysqli_fetch_array($resultado))</code></td></tr>
+      <tr><td><code>$mysqli-&gt;close();</code></td><td><code>mysqli_close($conexion);</code></td></tr>
+    </table>
+  </div>
+  <p>El script procedural completo:</p>
+<pre class="codigo"><code>&lt;?php
+$conexion = mysqli_connect('127.0.0.1', 'root', '', 'Personal');
+
+if (!$conexion) {
+    echo "Error: " . mysqli_connect_error();
+    exit;
+}
+
+$resultado = mysqli_query($conexion, 'SELECT * FROM personas');
+
+while ($persona = mysqli_fetch_array($resultado)) {
+    echo $persona['apellido'] . ", " . $persona['nombres'] . "&lt;br&gt;";
+}
+
+mysqli_close($conexion);
+?&gt;</code></pre>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Cómo quedan las variables</th></tr>
+      <tr><td>2</td><td>Abre la conexión</td><td><code>$conexion</code> = la conexión</td></tr>
+      <tr><td>4-7</td><td>Si es <code>false</code>, muestra el error de conexión y corta (en PHP 8.2 haría falta el <code>try</code> de la sección 3 para llegar acá)</td><td></td></tr>
+      <tr><td>9</td><td>Consulta, pasándole la conexión primero</td><td><code>$resultado</code> = apuntador a 3 filas</td></tr>
+      <tr><td>11-13</td><td>Una vuelta por fila. <code>fetch_array</code> trae números y nombres; se usan los nombres</td><td><code>$persona</code> = cada fila, y al final <code>null</code></td></tr>
+      <tr><td>15</td><td>Cierra la conexión</td><td></td></tr>
+    </table>
+  </div>
+  <p><strong>Qué imprime</strong>, con la tabla de ejemplo: exactamente lo mismo que la versión con objetos de la sección 7.</p>
+<pre class="salida">García, Gabriel&lt;br&gt;Bonnet, Federico&lt;br&gt;Aramburu, Exequiel&lt;br&gt;</pre>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; La pregunta 4 del parcial</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado (Parcial PHP, pregunta 4)</span>
+    <p>Seleccione la definición correcta para cada función:</p>
+    <ol>
+      <li>Crea una conexión a un servidor de base de datos MySQL o derivados de ella.</li>
+      <li>Nos permite enviar una consulta sobre la base de datos seleccionada y asociada al identificador de conexión pasado como parámetro.</li>
+      <li>Nos devuelve una matriz que corresponde a la fila recuperada y luego mueve el puntero interno hacia adelante.</li>
+    </ol>
+    <p>Opciones: <code>mysqli_connect()</code>, <code>mysqli_query()</code>, <code>mysqli_fetch_array()</code>.</p>
+  </div>
+
+  <h4>Cómo se reconoce cada una</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase de la definición</th><th>Qué significa</th><th>Función</th></tr>
+      <tr><td>"<strong>Crea una conexión</strong> a un servidor&hellip; MySQL o derivados"</td><td>Abrir el canal con el servidor. "Derivados" es MariaDB</td><td><code>mysqli_connect()</code></td></tr>
+      <tr><td>"enviar una <strong>consulta</strong>"</td><td>Mandar una instrucción SQL. <em>Query</em> es "consulta" en inglés</td><td><code>mysqli_query()</code></td></tr>
+      <tr><td>"&hellip;al <strong>identificador de conexión pasado como parámetro</strong>"</td><td>En el estilo procedural la conexión va como primer parámetro: <code>mysqli_query($conexion, $sql)</code></td><td><code>mysqli_query()</code></td></tr>
+      <tr><td>"devuelve una <strong>matriz</strong> que corresponde a la <strong>fila</strong> recuperada"</td><td>Matriz = arreglo. Devuelve una fila como arreglo</td><td><code>mysqli_fetch_array()</code></td></tr>
+      <tr><td>"mueve el <strong>puntero interno</strong> hacia adelante"</td><td>Después de cada llamada queda apuntando a la fila siguiente (ejemplo 3 de la sección 5)</td><td><code>mysqli_fetch_array()</code></td></tr>
+    </table>
+  </div>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <ol>
+      <li>Crea una conexión&hellip; &rarr; <strong><code>mysqli_connect()</code></strong></li>
+      <li>Enviar una consulta&hellip; &rarr; <strong><code>mysqli_query()</code></strong></li>
+      <li>Devuelve una matriz con la fila&hellip; &rarr; <strong><code>mysqli_fetch_array()</code></strong></li>
+    </ol>
+  </div>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Errores y trampas</span>
+    <ul>
+      <li><strong>La 2 y la 3 se confunden si se lee rápido</strong>: las dos hablan de "datos". La pista es el verbo: <em>enviar</em> una consulta (ida) contra <em>devolver</em> una fila (vuelta).</li>
+      <li><strong>El orden de los parámetros:</strong> <code>mysqli_query($conexion, $sql)</code>, la conexión primero. Al revés no anda.</li>
+      <li>La guía escribe "clase <em>mysqlli</em>", con doble ele: es un error de tipeo. La clase es <code>mysqli</code>.</li>
+    </ul>
+  </div>
+</div>

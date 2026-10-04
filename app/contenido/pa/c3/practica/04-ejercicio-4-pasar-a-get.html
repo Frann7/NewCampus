@@ -1,0 +1,105 @@
+<div class="ej">
+  <span class="tag">Ejercicio 4 &middot; $_GET</span>
+  <h2>El mismo formulario, por GET</h2>
+  <div class="enunciado">
+    <p>
+      Modifique el formulario del punto 2 de manera tal que los datos se envíen por el método
+      GET. Haga también los cambios necesarios en el script php <em>procesoForm.php</em> para que
+      los datos puedan ser mostrados en pantalla.
+    </p>
+  </div>
+
+  <span class="paso">Paso 1 &mdash; Qué hay que cambiar y por qué</span>
+  <p>Son dos archivos, y en los dos se cambia lo mismo: el método.</p>
+  <ul>
+    <li>
+      <strong>En el formulario</strong>, <code>method="post"</code> pasa a
+      <code>method="get"</code>: los datos van a viajar en la URL (sección 5).
+    </li>
+    <li>
+      <strong>En el script</strong>, los datos ya no van a estar en <code>$_POST</code> sino en
+      <strong><code>$_GET</code></strong> (sección 8). Si se deja <code>$_POST</code>, aparecen los
+      cuatro <em>Undefined array key</em> y la tabla sale vacía: es el ejemplo 5 de la sección 8.
+    </li>
+  </ul>
+  <p>Todo lo demás (los <code>name</code>, el <code>action</code>, la tabla, los enlaces) queda igual.</p>
+
+  <span class="paso">Paso 2 &mdash; El cambio en formContacto.php</span>
+  <p>Una sola línea, la 13:</p>
+<pre class="codigo"><code>&lt;form action="procesoForm.php" method="get"&gt;</code></pre>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Antes</th><th>Ahora</th><th>Qué cambia</th></tr>
+      <tr><td>13</td><td><code>method="post"</code></td><td><code>method="get"</code></td><td>Los pares van pegados a la URL en vez de ir en el cuerpo</td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Paso 3 &mdash; El cambio en procesoForm.php</span>
+  <p>Las cuatro líneas que leen los datos (14 a 17); el resto del archivo del ejercicio 3 no se toca:</p>
+<pre class="codigo"><code>  &lt;?php
+    $nombre     = $_GET['nombre'];
+    $asunto     = $_GET['asunto'];
+    $correo     = $_GET['correo'];
+    $comentario = $_GET['comentario'];
+  ?&gt;</code></pre>
+
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Cómo quedan las variables</th></tr>
+      <tr><td>(antes)</td><td>PHP lee la URL y arma <code>$_GET</code>, decodificando <code>%40</code> y <code>+</code></td><td><code>$_GET = ['nombre' =&gt; 'federico', 'asunto' =&gt; 'consulta', 'correo' =&gt; 'federico@gugler.com.ar', 'comentario' =&gt; 'Este es el comentario']</code></td></tr>
+      <tr><td>14</td><td>Lee <code>nombre</code> de <code>$_GET</code></td><td><code>$nombre = "federico"</code></td></tr>
+      <tr><td>15</td><td>Lee <code>asunto</code></td><td><code>$asunto = "consulta"</code></td></tr>
+      <tr><td>16</td><td>Lee <code>correo</code></td><td><code>$correo = "federico@gugler.com.ar"</code></td></tr>
+      <tr><td>17</td><td>Lee <code>comentario</code></td><td><code>$comentario = "Este es el comentario"</code></td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Paso 4 &mdash; Qué se ve</span>
+  <p>Con los mismos datos, al apretar Enviar la barra del navegador ahora muestra:</p>
+<pre class="salida">http://localhost/clase3/procesoForm.php?nombre=federico&amp;asunto=consulta&amp;correo=federico%40gugler.com.ar&amp;comentario=Este+es+el+comentario</pre>
+  <p>
+    Y la página es <strong>exactamente la misma</strong> que en el ejercicio 3. Verificado: el
+    HTML que devuelve la versión GET con esa URL es idéntico, carácter por carácter, al que
+    devuelve la versión POST con el mismo cuerpo.
+  </p>
+
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th></th><th>Ejercicio 3 (POST)</th><th>Ejercicio 4 (GET)</th></tr>
+      <tr><td class="lbl">Barra del navegador</td><td><code>.../procesoForm.php</code></td><td><code>.../procesoForm.php?nombre=federico&amp;...</code></td></tr>
+      <tr><td class="lbl">Dónde están los datos</td><td>En el cuerpo de la solicitud</td><td>En la URL</td></tr>
+      <tr><td class="lbl">Arreglo en PHP</td><td><code>$_POST</code></td><td><code>$_GET</code></td></tr>
+      <tr><td class="lbl">Página que se ve</td><td colspan="2">La misma</td></tr>
+    </table>
+  </div>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Lo que se nota con GET</span>
+    <ul>
+      <li>
+        <strong>El comentario queda en la URL</strong>, a la vista y en el historial. Para un
+        formulario de contacto no es grave, pero un comentario de varios párrafos puede pasar el
+        límite de unos 3000 caracteres (sección 5). Por eso el ejercicio 2 lo hacía con POST.
+      </li>
+      <li>
+        <strong>Se puede probar sin el formulario:</strong> pegando esa URL en la barra se ve el
+        resultado directamente, y cambiando <code>nombre=federico</code> por otro valor cambia lo
+        que se muestra.
+      </li>
+      <li>
+        <strong>Con <code>$_REQUEST</code></strong> (sección 9) el script funcionaría con los dos
+        métodos sin cambiarlo. La guía pide usar <code>$_GET</code>, que deja claro de dónde viene
+        el dato.
+      </li>
+    </ul>
+  </div>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Resultado</span>
+    <p>
+      En <code>formContacto.php</code>, <code>method="get"</code>; en <code>procesoForm.php</code>,
+      <code>$_GET</code> en lugar de <code>$_POST</code>. Los datos viajan en la URL y la página
+      que se ve es la misma del ejercicio 3. La cátedra no publicó una resolución para comparar.
+    </p>
+  </div>
+</div>

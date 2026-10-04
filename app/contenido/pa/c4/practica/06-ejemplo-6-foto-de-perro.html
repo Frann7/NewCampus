@@ -1,0 +1,122 @@
+<div class="ej">
+  <span class="tag">Ejemplo 6 &middot; pgConsultoApi.html</span>
+  <h2>Consumir una API: una foto de perro al azar</h2>
+  <div class="enunciado">
+    <p>
+      Un botón "Consultar Api" que le pide a la API pública <em>Dog CEO</em> la dirección de una
+      foto de perro al azar, y la muestra junto con el JSON que llegó. Clase
+      <code>IndexClass</code> en <code>js/pgConsultoApiClass.js</code>.
+    </p>
+  </div>
+
+  <span class="paso">Paso 1 &mdash; El HTML</span>
+<pre class="codigo"><code>&lt;div style="text-align: center;"&gt;
+    &lt;h2&gt;Ejemplo con Javascript para consumir apis&lt;/h2&gt;
+    &lt;button id="btConsultoApi" class="btn btn-primary"&gt;Consultar Api&lt;/button&gt;
+    &lt;hr /&gt;
+    &lt;div id="divDatos"&gt;&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+  <p>Un botón y un <code>div</code> vacío donde se va a poner el resultado.</p>
+
+  <span class="paso">Paso 2 &mdash; Qué contesta la API</span>
+  <p>
+    La dirección <code>https://dog.ceo/api/breeds/image/random</code> devuelve un JSON con dos
+    claves. Una respuesta real (pedida al escribir esto; cada pedido trae otra foto):
+  </p>
+<pre class="salida">{"message":"https://images.dog.ceo/breeds/spaniel-welsh/n02102177_3916.jpg","status":"success"}</pre>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Clave</th><th>Qué trae</th></tr>
+      <tr><td><code>message</code></td><td>La <strong>dirección de la imagen</strong> (texto). No es la imagen: es dónde está</td></tr>
+      <tr><td><code>status</code></td><td><code>"success"</code> si salió bien</td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Paso 3 &mdash; El JavaScript</span>
+<pre class="codigo"><code>class IndexClass {
+
+    constructor() {
+        this.btConsultoApi = document.getElementById('btConsultoApi');
+    }
+
+    init() {
+        this.addEventListeners();
+    }
+
+    addEventListeners() {
+        this.btConsultoApi.addEventListener('click', () =&gt; {
+
+            const url = "https://dog.ceo/api/breeds/image/random";
+
+            fetch(url)
+                .then(response =&gt; response.json())
+                .then(data =&gt; {
+
+                    const imgElement = document.createElement('img');
+                        imgElement.src = data.message;
+                        imgElement.alt = 'Imagen de perro';
+                        imgElement.style.maxWidth = '300px';
+                        imgElement.style.marginTop = '10px';
+
+                    const divDatos = document.getElementById('divDatos');
+                        divDatos.innerText = JSON.stringify(data, null, 2);
+
+                    const br = document.createElement('br');
+                        divDatos.appendChild(br);
+                        divDatos.appendChild(imgElement);
+                })
+                .catch(error =&gt; {
+                    console.error('Error al consultar la API:', error);
+                });
+        });
+    }
+}
+
+window.addEventListener('load',() =&gt; {
+    new IndexClass().init();
+})</code></pre>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Cómo quedan las variables</th></tr>
+      <tr><td><code>const url = "...";</code></td><td>La dirección de la API, adentro del clic: se pide de nuevo en cada clic</td><td><code>url</code> = la dirección</td></tr>
+      <tr><td><code>fetch(url)</code></td><td>Hace el pedido. El código no espera: sigue, y lo de los <code>then</code> corre cuando llega la respuesta (teoría, sección 8)</td><td>&mdash;</td></tr>
+      <tr><td><code>.then(response =&gt; response.json())</code></td><td>Convierte el cuerpo de JSON a objeto</td><td>&mdash;</td></tr>
+      <tr><td><code>.then(data =&gt; {</code></td><td>Recibe el objeto</td><td><code>data.message</code> = dirección de la foto, <code>data.status = "success"</code></td></tr>
+      <tr><td><code>const imgElement = document.createElement('img');</code></td><td>Crea un <code>&lt;img&gt;</code> suelto</td><td>&mdash;</td></tr>
+      <tr><td><code>imgElement.src = data.message;</code></td><td>Le pone como origen la dirección que mandó la API. Al colgarlo, el navegador hace <strong>otra petición</strong> para bajar la foto</td><td>&mdash;</td></tr>
+      <tr><td><code>imgElement.alt = 'Imagen de perro';</code></td><td>Texto alternativo, por si la imagen no carga</td><td>&mdash;</td></tr>
+      <tr><td><code>style.maxWidth = '300px'</code>, <code>style.marginTop = '10px'</code></td><td>Como mucho 300px de ancho, y un margen arriba</td><td>&mdash;</td></tr>
+      <tr><td><code>divDatos.innerText = JSON.stringify(data, null, 2);</code></td><td>Pasa el objeto otra vez a texto, con un renglón por clave, y lo pone en el <code>div</code>. Asignar <code>innerText</code> <strong>borra todo lo que había</strong>, incluida la foto anterior</td><td>&mdash;</td></tr>
+      <tr><td><code>const br = createElement('br');</code> + <code>appendChild(br)</code></td><td>Un salto de línea debajo del texto</td><td>&mdash;</td></tr>
+      <tr><td><code>divDatos.appendChild(imgElement);</code></td><td>Cuelga la foto: recién ahí se ve</td><td>&mdash;</td></tr>
+      <tr><td><code>.catch(error =&gt; console.error(...))</code></td><td>Si no hubo respuesta (sin internet, por ejemplo), escribe el error en la consola. En la página no se ve nada</td><td>&mdash;</td></tr>
+    </table>
+  </div>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Una sola foto por vez</span>
+    <p>
+      Cada clic trae otra foto y <strong>reemplaza</strong> la anterior, no la acumula: el
+      <code>innerText = ...</code> vacía el <code>div</code> antes de colgar la nueva. Si en vez de
+      asignar se hiciera solo <code>appendChild</code>, las fotos se irían apilando.
+    </p>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Dos peticiones, no una</span>
+    <p>
+      La API devuelve <strong>texto</strong> (la dirección). La foto la baja el navegador después,
+      en otra petición, cuando el <code>&lt;img&gt;</code> entra en la página: lo mismo que pasaba
+      con las etiquetas <code>&lt;img&gt;</code> del HTML (teoría, sección 1).
+    </p>
+  </div>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Qué se ve en la página</span>
+    <p>
+      Al principio, solo el botón. En cada clic aparece abajo el JSON recibido, en varios renglones
+      (<code>{</code>, la línea de <code>"message"</code>, la de <code>"status"</code>,
+      <code>}</code>; la sangría no se nota porque el HTML junta los espacios), y debajo una foto de
+      perro de hasta 300px de ancho. La foto cambia en cada clic.
+    </p>
+  </div>
+</div>

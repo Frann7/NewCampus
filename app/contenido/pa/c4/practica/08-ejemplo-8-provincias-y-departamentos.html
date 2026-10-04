@@ -1,0 +1,207 @@
+<div class="ej">
+  <span class="tag">Ejemplo 8 &middot; pgConsultoApi2.html</span>
+  <h2>Provincias y departamentos con la API Georef</h2>
+  <div class="enunciado">
+    <p>
+      Un formulario con dos listas desplegables (<code>&lt;select&gt;</code>): la de provincias se
+      llena sola al abrir la página, pidiéndoselas a <strong>Georef</strong>, la API del gobierno
+      (diapositiva 18). Al elegir una provincia, la otra lista se llena con sus departamentos.
+      Clase <code>IndexClass</code> en <code>js/pgConsultoApi2Class.js</code>.
+    </p>
+  </div>
+
+  <span class="paso">Paso 1 &mdash; El HTML</span>
+<pre class="codigo"><code>&lt;form id="formulario"&gt;
+   &lt;div class="row" style="width: 50%; margin: auto; padding: 5px;"&gt;
+        &lt;div class="col-md-6"&gt;
+            &lt;input type="text" class="form-control" id="txtNombre" name="nombre" placeholder="Nombre" /&gt;
+        &lt;/div&gt;
+        &lt;div class="col-md-6"&gt;
+            &lt;input type="text" class="form-control" id="txtApellido" name="apellido" placeholder="Apellido" /&gt;
+        &lt;/div&gt;
+        &lt;div class="col-md-6"&gt;
+            &lt;input type="number" class="form-control" id="txtEdad" name="edad" placeholder="Edad" /&gt;
+        &lt;/div&gt;
+        &lt;div class="col-md-6"&gt;
+            &lt;input type="text" class="form-control" id="txtDireccion" name="direccion" placeholder="Dirección" /&gt;
+        &lt;/div&gt;
+
+        &lt;div class="col-md-6"&gt;
+            &lt;select id="provincia" class="form-control"&gt;&lt;/select&gt;
+        &lt;/div&gt;
+        &lt;div class="col-md-6"&gt;
+            &lt;select id="departamento" class="form-control"&gt;&lt;/select&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/form&gt;
+&lt;br /&gt;
+&lt;button type="submit" class="btn btn-primary"&gt;Enviar datos&lt;/button&gt;
+&lt;hr /&gt;
+&lt;div id="divDatos" style="text-align:left"&gt;&lt;/div&gt;</code></pre>
+  <ul>
+    <li>Los dos <code>&lt;select&gt;</code> están <strong>vacíos</strong>: no tienen ningún <code>&lt;option&gt;</code>. Las opciones las crea JavaScript con lo que mande la API.</li>
+    <li>Cada <code>&lt;option&gt;</code> tiene dos cosas: el <code>value</code> (lo que se lee desde el código) y el texto (lo que ve el usuario). Acá el <code>value</code> va a ser el id de la provincia y el texto, su nombre.</li>
+  </ul>
+
+  <span class="paso">Paso 2 &mdash; Qué contestan las dos direcciones</span>
+  <p>Respuestas reales, pedidas al escribir esto (recortadas):</p>
+<pre class="salida">GET https://apis.datos.gob.ar/georef/api/provincias
+{"cantidad":24,"inicio":0,"parametros":{},"provincias":[{"centroide":{"lat":-34.61...,"lon":-58.44...},"id":"02","nombre":"Ciudad Autónoma de Buenos Aires"},{"centroide":{...},"id":"58","nombre":"Neuquén"}, ... ],"total":24}
+
+GET https://apis.datos.gob.ar/georef/api/departamentos?provincia=30
+{"cantidad":10,"departamentos":[{"centroide":{...},"id":"30015","nombre":"Concordia","provincia":{"id":"30","nombre":"Entre Ríos"}}, ... ],"inicio":0,"parametros":{"provincia":["30"]},"total":17}</pre>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Clave</th><th>Qué trae</th></tr>
+      <tr><td><code>provincias</code> / <code>departamentos</code></td><td>Un <strong>array de objetos</strong>, uno por provincia o departamento, cada uno con <code>id</code> y <code>nombre</code> (y su ubicación en <code>centroide</code>, que el ejemplo no usa)</td></tr>
+      <tr><td><code>cantidad</code></td><td>Cuántos vinieron en esta respuesta</td></tr>
+      <tr><td><code>total</code></td><td>Cuántos hay en total</td></tr>
+      <tr><td><code>?provincia=30</code></td><td>Un <strong>parámetro</strong> en la URL, como los de <code>$_GET</code> en PHP: filtra los departamentos de la provincia con id 30 (Entre Ríos)</td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Paso 3 &mdash; El constructor, init() y el evento change</span>
+<pre class="codigo"><code>class IndexClass {
+
+    constructor() {
+        this.datosApi = null;
+        this.formulario = document.getElementById('formulario');
+        this.divDatos = document.getElementById('divDatos');
+        this.selecProvincia = document.getElementById('provincia');
+        this.selecDepartamento = document.getElementById('departamento');
+    }
+
+    init() {
+        this.cargoProvincias();
+        this.addEventListeners();
+    }
+
+    addEventListeners() {
+        this.selecProvincia.addEventListener('change', () =&gt; {
+            const provinciaId = this.selecProvincia.value;
+            this.cargoDepartamentos(provinciaId);
+        });
+    }</code></pre>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th></tr>
+      <tr><td><code>this.datosApi = null;</code>, <code>this.formulario</code>, <code>this.divDatos</code></td><td>Se guardan pero <strong>no se usan</strong> en ningún método: quedaron preparados</td></tr>
+      <tr><td><code>this.selecProvincia</code>, <code>this.selecDepartamento</code></td><td>Los dos <code>&lt;select&gt;</code></td></tr>
+      <tr><td><code>init()</code>: <code>this.cargoProvincias();</code></td><td>A diferencia de los ejemplos 6 y 7, el pedido se hace <strong>al cargar</strong>, sin esperar ningún clic</td></tr>
+      <tr><td><code>addEventListener('change', ...)</code></td><td>Cada vez que el usuario elige otra provincia...</td></tr>
+      <tr><td><code>const provinciaId = this.selecProvincia.value;</code></td><td>...lee el <code>value</code> del <code>select</code>, que es el <code>value</code> de la opción elegida: el id de la provincia (por ejemplo <code>"30"</code>)...</td></tr>
+      <tr><td><code>this.cargoDepartamentos(provinciaId);</code></td><td>...y pide sus departamentos</td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Paso 4 &mdash; cargoProvincias()</span>
+<pre class="codigo"><code>    cargoProvincias() {
+        const url = "https://apis.datos.gob.ar/georef/api/provincias";
+
+        fetch(url)
+            .then(response =&gt; response.json())
+            .then(data =&gt; {
+                this.selecProvincia.innerHTML = '';
+
+                data.provincias.forEach(prov =&gt; {
+                    const option = document.createElement('option');
+                            option.value = prov.id;
+                            option.textContent = prov.nombre;
+                    this.selecProvincia.appendChild(option);
+                });
+            })
+            .catch(error =&gt; {
+                console.error('Error al cargar las provincias:', error);
+            });
+    }</code></pre>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Cómo quedan las variables</th></tr>
+      <tr><td><code>fetch(url)...response.json()</code></td><td>Pide las provincias y convierte la respuesta</td><td><code>data.provincias</code> = array de 24 objetos</td></tr>
+      <tr><td><code>this.selecProvincia.innerHTML = '';</code></td><td>Vacía el <code>select</code></td><td>&mdash;</td></tr>
+      <tr><td><code>data.provincias.forEach(prov =&gt; {</code></td><td>Una vuelta por provincia</td><td>1ra vuelta: <code>prov = {id: "02", nombre: "Ciudad Autónoma de Buenos Aires", ...}</code></td></tr>
+      <tr><td><code>const option = createElement('option');</code></td><td>Crea una opción</td><td>&mdash;</td></tr>
+      <tr><td><code>option.value = prov.id;</code></td><td>Lo que se lee desde el código</td><td><code>value = "02"</code></td></tr>
+      <tr><td><code>option.textContent = prov.nombre;</code></td><td>Lo que ve el usuario</td><td>texto = "Ciudad Autónoma de Buenos Aires"</td></tr>
+      <tr><td><code>this.selecProvincia.appendChild(option);</code></td><td>La agrega a la lista</td><td>24 opciones al terminar</td></tr>
+    </table>
+  </div>
+  <p>
+    Es exactamente el patrón del ejemplo 7 (vaciar, recorrer, crear, colgar), con
+    <code>&lt;option&gt;</code> en vez de <code>&lt;p&gt;</code>. Como no hay ninguna marcada, el
+    <code>select</code> muestra la primera que vino: al escribir esto, "Ciudad Autónoma de Buenos
+    Aires" (la API no las manda en orden alfabético).
+  </p>
+
+  <span class="paso">Paso 5 &mdash; cargoDepartamentos(provinciaId)</span>
+<pre class="codigo"><code>    cargoDepartamentos(provinciaId) {
+        const url = `https://apis.datos.gob.ar/georef/api/departamentos?provincia=${provinciaId}`;
+
+        fetch(url)
+            .then(response =&gt; response.json())
+            .then(data =&gt; {
+                this.selecDepartamento.innerHTML = '';
+                data.departamentos.forEach(dep =&gt; {
+                    const option = document.createElement('option');
+                    option.value = dep.id;
+                    option.textContent = dep.nombre;
+                    this.selecDepartamento.appendChild(option);
+                });
+            })
+            .catch(error =&gt; {
+                console.error('Error al cargar los departamentos:', error);
+            });
+    }
+}
+
+window.addEventListener('load',() =&gt; {
+    new IndexClass().init();
+})</code></pre>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Con Entre Ríos</th></tr>
+      <tr><td><code>const url = `...?provincia=${provinciaId}`;</code></td><td>Arma la dirección con un template literal, metiendo el id recibido</td><td><code>.../departamentos?provincia=30</code></td></tr>
+      <tr><td><code>fetch(url)...</code></td><td>Pide y convierte</td><td><code>data.departamentos</code> = 10 objetos</td></tr>
+      <tr><td><code>this.selecDepartamento.innerHTML = '';</code></td><td>Borra los departamentos de la provincia anterior</td><td>&mdash;</td></tr>
+      <tr><td><code>forEach</code> + <code>option</code></td><td>Una opción por departamento, igual que con las provincias</td><td>Concordia, Federal, Gualeguaychú, Islas del Ibicuy, Victoria, Diamante, Uruguay, Paraná, Colón, Villaguay</td></tr>
+    </table>
+  </div>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Faltan departamentos: la API manda 10 por defecto</span>
+    <p>
+      Entre Ríos tiene 17 departamentos, pero la respuesta trae <code>"cantidad":10</code> y
+      <code>"total":17</code>: Georef devuelve <strong>como mucho 10</strong> si no se le pide otra
+      cosa. En la lista no aparecen, por ejemplo, Nogoyá, Tala ni La Paz. Se arregla agregando a la
+      URL el parámetro <code>max</code>: con
+      <code>departamentos?provincia=30&amp;max=100</code> llegan los 17 (verificado contra la API).
+      Con las provincias no pasa porque la API sí manda las 24.
+    </p>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">La primera provincia no carga sus departamentos</span>
+    <p>
+      Al abrir la página, la lista de provincias muestra la primera, pero la de departamentos está
+      vacía: los departamentos solo se piden en el evento <code>change</code>, y elegir la
+      provincia que ya está elegida no es un cambio. Para ver los de la primera hay que elegir otra
+      y volver.
+    </p>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">El botón "Enviar datos" no hace nada</span>
+    <p>
+      Es <code>type="submit"</code> pero está <strong>afuera</strong> del <code>&lt;form&gt;</code>
+      y ningún código escucha su clic (teoría, sección 5). Además los dos <code>select</code> no
+      tienen <code>name</code>, así que aunque se enviara, no llegarían a PHP.
+    </p>
+  </div>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Qué se ve en la página</span>
+    <p>
+      Los cuatro campos y, debajo, la lista de provincias ya cargada (con la primera elegida) y la
+      de departamentos vacía. Al elegir otra provincia, la segunda lista se llena con hasta 10 de
+      sus departamentos. Cada cambio de provincia reemplaza la lista anterior.
+    </p>
+  </div>
+</div>

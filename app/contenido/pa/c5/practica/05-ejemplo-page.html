@@ -1,0 +1,208 @@
+<div class="ej">
+  <span class="tag">Ejemplo de la cátedra &middot; objeto</span>
+  <h2>La página armada con la clase <code>Page</code></h2>
+  <div class="enunciado">
+    <p>
+      Carpeta <code>objeto</code>: <code>class/Page.php</code> define una clase que guarda el
+      encabezado, el menú y el pie, y <code>indice.php</code> la usa para mostrar la portada del
+      "Sistema Recursos Humanos" pasándole solo el contenido del medio. Las ideas de clase, objeto,
+      <code>private</code>, <code>__construct</code> y <code>$this</code> están en la teoría,
+      sección 9.
+    </p>
+  </div>
+
+  <span class="paso">Archivo 1 &mdash; <code>class/Page.php</code></span>
+<pre class="codigo"><code>&lt;?php
+class Page
+{
+    private $header;
+    private $menu;
+    private $body;
+    private $footer;
+    private $Pagina;
+
+    public function __construct($body)
+    {
+        $this-&gt;setHeader();
+        $this-&gt;setMenu();
+        $this-&gt;setBody($body);
+        $this-&gt;setFooter();
+    }
+
+    private function setHeader()
+    {
+        $this-&gt;header = '&lt;!DOCTYPE html&gt;
+            &lt;html lang="es"&gt;
+            &lt;head&gt;
+                &lt;meta charset="UTF-8"&gt;
+                ...
+                &lt;title&gt;Programación Avanzada&lt;/title&gt;
+                &lt;link rel="stylesheet" href="...bootstrap.min.css" ...&gt;
+            &lt;/head&gt;
+            &lt;body class="bg-light"&gt;
+                &lt;div class="container"&gt;';
+    }
+
+    private function setMenu()
+    {
+        $this-&gt;menu = '&lt;!-- Barra de navegación --&gt;
+            &lt;nav class="navbar navbar-expand-lg navbar-light bg-light"&gt;
+                ... (el mismo menú de includes/head.php: Inicio,
+                     Formulario con Token, Formulario con Captcha) ...
+            &lt;/nav&gt;';
+    }
+
+    private function setFooter()
+    {
+        $this-&gt;footer = '&lt;/div&gt;
+            &lt;script src="...jquery-3.5.1.slim.min.js" ...&gt;&lt;/script&gt;
+            &lt;script src="...popper.min.js" ...&gt;&lt;/script&gt;
+            &lt;script src="...bootstrap.min.js" ...&gt;&lt;/script&gt;
+            &lt;/body&gt;
+            &lt;/html&gt;';
+    }
+
+    private function setBody($body)
+    {
+        $this-&gt;body = $body;
+    }
+
+    public function setPagina()
+    {
+        $this-&gt;Pagina = $this-&gt;header;
+        $this-&gt;Pagina .= $this-&gt;menu;
+        $this-&gt;Pagina .= $this-&gt;body;
+        $this-&gt;Pagina .= $this-&gt;footer;
+    }
+
+    public function getHtmlPage()
+    {
+        return $this-&gt;Pagina;
+    }
+}</code></pre>
+  <p>
+    Los textos de HTML de <code>setHeader</code>, <code>setMenu</code> y <code>setFooter</code> se
+    acortaron con <code>...</code>: son el mismo HTML de <code>includes/head.php</code> y
+    <code>includes/footer.php</code> del ejemplo <code>formularios</code>, metido entre comillas
+    simples. Un texto entre comillas puede ocupar varias líneas.
+  </p>
+
+  <h4>Qué hace cada parte</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Parte</th><th>Qué hace</th></tr>
+      <tr><td><code>private $header; ... private $Pagina;</code></td><td>Cinco propiedades: un pedazo de HTML cada una, y <code>$Pagina</code> para la página entera. Privadas: desde afuera no se tocan.</td></tr>
+      <tr><td><code>public function __construct($body)</code></td><td>Corre solo con el <code>new</code>. Llama a los cuatro <code>set...</code> para cargar las partes. <code>$this-&gt;setHeader()</code> es "llamá al método <code>setHeader</code> de este mismo objeto".</td></tr>
+      <tr><td><code>private function setHeader()</code></td><td>Guarda en <code>$this-&gt;header</code> el principio de la página: <code>&lt;!DOCTYPE&gt;</code>, <code>&lt;head&gt;</code> y la apertura de <code>&lt;body&gt;</code> y del contenedor.</td></tr>
+      <tr><td><code>private function setMenu()</code></td><td>Guarda la barra de navegación.</td></tr>
+      <tr><td><code>private function setFooter()</code></td><td>Guarda el cierre: <code>&lt;/div&gt;</code>, los scripts y <code>&lt;/body&gt;&lt;/html&gt;</code>.</td></tr>
+      <tr><td><code>private function setBody($body)</code></td><td>Guarda el contenido que llegó por el constructor. Es lo único que cambia de una página a otra.</td></tr>
+      <tr><td><code>public function setPagina()</code></td><td>Une las cuatro partes en orden: primero <code>=</code> (empieza con el header) y después <code>.=</code> (le pega menú, cuerpo y pie).</td></tr>
+      <tr><td><code>public function getHtmlPage()</code></td><td>Devuelve la página armada. No la imprime: el que la llama decide qué hacer con ella.</td></tr>
+    </table>
+  </div>
+  <p>
+    Por qué unos son <code>private</code> y otros <code>public</code>: los <code>set...</code> de las
+    partes solo los usa el constructor, adentro de la clase. Desde afuera alcanza con dos cosas:
+    armar (<code>setPagina</code>) y pedir el resultado (<code>getHtmlPage</code>).
+  </p>
+
+  <span class="paso">Archivo 2 &mdash; <code>indice.php</code></span>
+<pre class="codigo"><code>&lt;?php
+require_once 'class/Page.php';
+
+$body = ' &lt;h4 class="text-center"&gt;Sistema Recursos Humanos&lt;/h4&gt;
+    &lt;br /&gt;
+&lt;!-- Opciones de Acceso --&gt;
+&lt;div class="row justify-content-lg-center"&gt;
+  &lt;div class="col col-lg-auto"&gt;
+      &lt;a href="inicio.php" type="button" class="btn btn-info"&gt;Inicio&lt;/a&gt;
+  &lt;/div&gt;
+  &lt;div class="col col-lg-auto"&gt;
+      &lt;a href="formToken.php" type="button" class="btn btn-info"&gt;Formulario con Token&lt;/a&gt;
+  &lt;/div&gt;
+  &lt;div class="col col-lg-auto"&gt;
+      &lt;a href="formCaptcha.php" type="button" class="btn btn-info"&gt;Formulario con Captcha&lt;/a&gt;
+  &lt;/div&gt;
+&lt;/div&gt;';
+
+$pagina = new Page($body);
+$pagina-&gt;setPagina();
+echo $pagina-&gt;getHtmlPage();</code></pre>
+
+  <h4>Qué hace cada línea</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Cómo queda el objeto <code>$pagina</code></th></tr>
+      <tr><td><code>require_once 'class/Page.php';</code></td><td>Trae la definición de la clase (teoría, sección 8). No imprime nada: definir una clase no ejecuta nada.</td><td>no existe todavía</td></tr>
+      <tr><td><code>$body = '...';</code></td><td>Un texto con el HTML del medio: título y tres botones.</td><td>&mdash;</td></tr>
+      <tr><td><code>$pagina = new Page($body);</code></td><td>Crea el objeto. El constructor carga header, menú, body (con <code>$body</code>) y footer.</td><td>las cuatro partes cargadas; <code>Pagina</code> sin valor</td></tr>
+      <tr><td><code>$pagina-&gt;setPagina();</code></td><td>Une las partes.</td><td><code>Pagina</code> = header + menú + body + footer</td></tr>
+      <tr><td><code>echo $pagina-&gt;getHtmlPage();</code></td><td>Pide la página y la imprime.</td><td>sin cambios</td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Qué se ve</span>
+  <p>
+    Se probó en un servidor: <code>indice.php</code> devuelve una página HTML completa (3372 bytes),
+    que empieza así:
+  </p>
+<pre class="salida">&lt;!DOCTYPE html&gt;
+                        &lt;html lang="es"&gt;
+                            &lt;head&gt;
+                                &lt;meta charset="UTF-8"&gt;
+                                ...
+                                &lt;title&gt;Programación Avanzada&lt;/title&gt;
+                                ...
+                               &lt;div class="container"&gt;&lt;!-- Barra de navegación --&gt;
+        &lt;nav class="navbar navbar-expand-lg navbar-light bg-light"&gt;
+        ...</pre>
+  <p>
+    En el navegador se ve igual que <code>inicio.php</code> del ejemplo <code>formularios</code>:
+    la barra con el logo y "Programación Avanzada", el título "Sistema Recursos Humanos" y los tres
+    botones. Los espacios de más al principio de cada renglón vienen de cómo está indentado el texto
+    dentro de <code>Page.php</code>; el navegador los ignora.
+  </p>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Qué muestra el ejemplo</span>
+    <ul>
+      <li>
+        La misma idea que <code>require_once</code> de <code>head.php</code> y
+        <code>footer.php</code>, con una clase: el encabezado, el menú y el pie están escritos una
+        sola vez, y cada página solo arma su <code>$body</code>.
+      </li>
+      <li>
+        No tiene que ver con la seguridad de formularios: es una forma de ordenar el código de las
+        páginas.
+      </li>
+    </ul>
+  </div>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Trampas del ejemplo</span>
+    <ul>
+      <li>
+        <strong>Los botones llevan a páginas que no están en esta carpeta.</strong>
+        <code>inicio.php</code>, <code>formToken.php</code> y <code>formCaptcha.php</code> están en
+        <code>formularios/</code>, no en <code>objeto/</code>: desde <code>indice.php</code> dan
+        error 404 (no encontrado).
+      </li>
+      <li>
+        <strong>Sin <code>setPagina()</code> no sale nada.</strong> Se probó: si se llama a
+        <code>getHtmlPage()</code> antes, devuelve <code>NULL</code> y el <code>echo</code> no
+        imprime nada.
+      </li>
+      <li>
+        <strong>Los métodos privados no se llaman desde afuera.</strong>
+        <code>$pagina-&gt;setHeader();</code> en <code>indice.php</code> da <code>Fatal error:
+        Uncaught Error: Call to private method Page::setHeader() from global scope</code>.
+      </li>
+      <li>
+        <strong>Ojo con las comillas del HTML:</strong> como el HTML va entre comillas simples
+        <code>'...'</code>, adentro se usan dobles (<code>class="btn"</code>). Una comilla simple en
+        el medio del HTML cortaría el texto.
+      </li>
+    </ul>
+  </div>
+</div>

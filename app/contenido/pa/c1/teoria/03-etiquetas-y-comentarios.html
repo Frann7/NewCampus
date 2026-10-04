@@ -1,0 +1,144 @@
+<div class="bloque">
+  <p class="kicker">Sintaxis básica</p>
+  <h2>3. Etiquetas, punto y coma y comentarios</h2>
+
+  <h3>Para qué sirve</h3>
+  <p>
+    PHP nació como un procesador de texto: un archivo <code>.php</code> es, casi siempre, una
+    página HTML con pedazos de código metidos adentro. Las <strong>etiquetas</strong> le dicen a
+    PHP dónde empieza y dónde termina el código. Lo que está <strong>fuera</strong> de las
+    etiquetas se manda tal cual; lo que está <strong>dentro</strong> se ejecuta.
+  </p>
+
+  <h3>Sintaxis</h3>
+  <pre class="codigo"><code>&lt;?php
+    instrucción_1;
+    instrucción_2;  instrucción_3;
+    // comentario de una línea
+    # otro comentario de una línea
+    /* comentario
+       de varias líneas */
+?&gt;</code></pre>
+
+  <h3>Qué es cada parte</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Parte</th><th>Qué es</th></tr>
+      <tr><td><code>&lt;?php</code></td><td>Etiqueta de <strong>apertura</strong>. Es la etiqueta estándar, la recomendada y la que se usa en toda la materia.</td></tr>
+      <tr><td><code>?&gt;</code></td><td>Etiqueta de <strong>cierre</strong>. Después de ella vuelve a ser HTML.</td></tr>
+      <tr><td><code>;</code></td><td><strong>Separa una instrucción de la otra.</strong> Puede haber una instrucción por renglón o varias en el mismo renglón: lo que las separa es el punto y coma, no el salto de línea.</td></tr>
+      <tr><td><code>//</code> y <code>#</code></td><td>Comentario de <strong>una línea</strong>: desde ahí hasta el final del renglón, PHP no lee nada.</td></tr>
+      <tr><td><code>/* ... */</code></td><td>Comentario de <strong>bloque</strong>: todo lo que está entre <code>/*</code> y <code>*/</code> se ignora, aunque ocupe varios renglones.</td></tr>
+    </table>
+  </div>
+
+  <h4>Las dos instrucciones para mostrar: echo y print</h4>
+  <ul>
+    <li><code>echo "texto";</code> escribe el texto en la respuesta (lo que recibe el navegador).</li>
+    <li><code>print "texto";</code> hace lo mismo. La cátedra usa las dos; a veces con paréntesis: <code>print ("texto");</code>, que es igual.</li>
+    <li>El texto va entre comillas: <code>"así"</code> o <code>'así'</code>. Un texto entre comillas se llama <strong>string</strong> (sección 4).</li>
+  </ul>
+
+  <h4>Cómo se ve en el navegador: &lt;br&gt;</h4>
+  <p>
+    Lo que imprime PHP lo lee el navegador como <strong>HTML</strong>. En HTML, un salto de línea
+    del texto no se ve: para bajar de renglón hay que imprimir la etiqueta
+    <code>&lt;br&gt;</code> (también escrita <code>&lt;br/&gt;</code>). Por eso en los ejemplos
+    aparece <code>echo "&lt;br&gt;";</code> entre una salida y otra.
+  </p>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; HTML y PHP en el mismo archivo</h3>
+
+  <pre class="codigo"><code>&lt;p&gt;Antes del PHP&lt;/p&gt;
+&lt;?php
+echo "Primera línea";
+echo "&lt;br&gt;";
+print "Segunda línea";
+?&gt;
+&lt;p&gt;Después del PHP&lt;/p&gt;</code></pre>
+
+  <h4>Qué hace cada línea</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Qué va saliendo</th></tr>
+      <tr><td><code>&lt;p&gt;Antes del PHP&lt;/p&gt;</code></td><td>Está fuera de las etiquetas: se manda tal cual.</td><td>un párrafo "Antes del PHP"</td></tr>
+      <tr><td><code>&lt;?php</code></td><td>Empieza el código.</td><td>&mdash;</td></tr>
+      <tr><td><code>echo "Primera línea";</code></td><td>Escribe el texto.</td><td>Primera línea</td></tr>
+      <tr><td><code>echo "&lt;br&gt;";</code></td><td>Escribe la etiqueta de salto de línea.</td><td>(bajada de renglón)</td></tr>
+      <tr><td><code>print "Segunda línea";</code></td><td>Igual que <code>echo</code>.</td><td>Segunda línea</td></tr>
+      <tr><td><code>?&gt;</code></td><td>Termina el código.</td><td>&mdash;</td></tr>
+      <tr><td><code>&lt;p&gt;Después del PHP&lt;/p&gt;</code></td><td>Otra vez HTML tal cual.</td><td>un párrafo "Después del PHP"</td></tr>
+    </table>
+  </div>
+
+  <h4>Qué se ve y por qué</h4>
+  <pre class="salida">Antes del PHP
+
+Primera línea
+Segunda línea
+
+Después del PHP</pre>
+  <p>
+    Las dos líneas del PHP quedan una debajo de la otra <strong>por el <code>&lt;br&gt;</code></strong>.
+    Sin él, saldría "Primera líneaSegunda línea", todo pegado. Los párrafos <code>&lt;p&gt;</code>
+    dejan un espacio arriba y abajo.
+  </p>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; Con formato del Parcial PHP: ¿cuál es la salida?</h3>
+
+  <pre class="codigo"><code>&lt;?php
+echo "Uno ";  echo "Dos ";  // echo "Tres ";
+# echo "Cuatro ";
+/* echo "Cinco ";
+   echo "Seis "; */
+echo "Siete"
+?&gt;</code></pre>
+
+  <h4>Qué hace cada línea</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Salida acumulada</th></tr>
+      <tr><td><code>echo "Uno ";  echo "Dos ";</code></td><td>Dos instrucciones en el mismo renglón, separadas por <code>;</code>. Se ejecutan las dos.</td><td><code>Uno Dos </code></td></tr>
+      <tr><td><code>// echo "Tres ";</code></td><td>Después de <code>//</code> todo es comentario: <strong>no se ejecuta</strong>.</td><td><code>Uno Dos </code></td></tr>
+      <tr><td><code># echo "Cuatro ";</code></td><td>Comentario de una línea con <code>#</code>: no se ejecuta.</td><td><code>Uno Dos </code></td></tr>
+      <tr><td><code>/* echo "Cinco "; ... */</code></td><td>Comentario de bloque: los dos renglones se ignoran.</td><td><code>Uno Dos </code></td></tr>
+      <tr><td><code>echo "Siete"</code></td><td>No tiene <code>;</code>, pero es la última antes de <code>?&gt;</code>: <strong>el cierre de la etiqueta cuenta como punto y coma</strong>.</td><td><code>Uno Dos Siete</code></td></tr>
+    </table>
+  </div>
+
+  <h4>Qué imprime y por qué</h4>
+  <pre class="salida">Uno Dos Siete</pre>
+  <p>Se ejecutan solo las tres instrucciones que no están comentadas, y no hay error por el <code>;</code> que falta al final.</p>
+
+  <h3>Errores y trampas</h3>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Olvidarse el punto y coma en el medio</span>
+    <p>El cierre <code>?&gt;</code> solo perdona el <code>;</code> de la <strong>última</strong> instrucción. Si falta entre dos instrucciones:</p>
+    <pre class="codigo"><code>&lt;?php
+echo "Hola"
+echo "Chau";
+?&gt;</code></pre>
+    <p>PHP no ejecuta nada y muestra un error de sintaxis que apunta a la línea <strong>siguiente</strong> (donde se dio cuenta):</p>
+    <pre class="salida">Parse error: syntax error, unexpected token "echo", expecting "," or ";" in ... on line 3</pre>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Las comillas de los PDF no sirven para programar</span>
+    <p>
+      En los apuntes de la cátedra el código aparece con comillas tipográficas (<code>“así”</code>).
+      PHP solo entiende las comillas rectas del teclado (<code>"así"</code>). Si copiás y pegás
+      desde el PDF, salta un error como <code>Undefined constant "“Hola”"</code>: hay que
+      reescribir las comillas.
+    </p>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">"Cuatro tipos de etiquetas"</span>
+    <p>
+      El apunte dice que hay cuatro tipos de etiquetas, pero muestra una sola: la estándar,
+      <code>&lt;?php ... ?&gt;</code>. Es la única que se usa en la materia.
+    </p>
+  </div>
+</div>

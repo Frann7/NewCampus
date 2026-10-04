@@ -1,0 +1,86 @@
+<!-- ==================== PREGUNTA 4 ==================== -->
+<section class="parcial-ej">
+  <div class="parcial-ej-cab">
+    <h2>Pregunta 4</h2>
+    <span class="parcial-pts">5 puntos</span>
+    <span class="parcial-tema">Clase 6 &middot; mysqli</span>
+  </div>
+
+  <p>Seleccione la definición correcta para cada función:</p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><td>Crea una conexión a un servidor de base de datos MySQL o derivados de ella.</td><td>Elegir&hellip; &#9662;</td></tr>
+      <tr><td>Nos permite enviar una consulta sobre la base de datos seleccionada y asociada al identificador de conexión pasado como parámetro.</td><td>Elegir&hellip; &#9662;</td></tr>
+      <tr><td>Nos devuelve una matriz que corresponde a la fila recuperada y luego mueve el puntero interno hacia adelante.</td><td>Elegir&hellip; &#9662;</td></tr>
+    </table>
+  </div>
+  <p>Opciones de cada desplegable: <code>mysqli_connect()</code>, <code>mysqli_fetch_array()</code>, <code>mysqli_query()</code>.</p>
+
+  <div class="parcial-extras">
+    <details class="parcial-desp pd-resultados">
+      <summary>
+        <span class="pd-icono">&#10003;</span>
+        <span class="pd-txt"><b>Resultados</b><small>Solo la respuesta</small></span>
+      </summary>
+      <div class="pd-cuerpo">
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Ítem</th><th>Respuesta</th></tr>
+            <tr><td>Crea una conexión a un servidor de base de datos MySQL o derivados de ella.</td><td><code>mysqli_connect()</code></td></tr>
+            <tr><td>Nos permite enviar una consulta sobre la base de datos seleccionada y asociada al identificador de conexión pasado como parámetro.</td><td><code>mysqli_query()</code></td></tr>
+            <tr><td>Nos devuelve una matriz que corresponde a la fila recuperada y luego mueve el puntero interno hacia adelante.</td><td><code>mysqli_fetch_array()</code></td></tr>
+          </table>
+        </div>
+      </div>
+    </details>
+
+    <details class="parcial-desp pd-explicacion">
+      <summary>
+        <span class="pd-icono">&#9998;</span>
+        <span class="pd-txt"><b>Explicación detallada</b><small>Qué evalúa, el concepto desde cero, la traza y las trampas</small></span>
+      </summary>
+      <div class="pd-cuerpo">
+        <h4>Qué evalúa</h4>
+        <p>Las tres funciones básicas de <code>mysqli</code> para trabajar con una base de datos MySQL desde PHP. Es de la <strong>Clase 6</strong>.</p>
+        <h4>El concepto, desde cero</h4>
+        <p>Leer datos de una base siempre lleva los mismos tres pasos, y cada uno tiene su función:</p>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Paso</th><th>Función</th><th>Qué hace</th></tr>
+            <tr><td>1. Conectarse</td><td><code>mysqli_connect(servidor, usuario, clave, base)</code></td><td>Abre la conexión con el servidor de base de datos y devuelve el <strong>identificador de conexión</strong>, que se usa en todo lo demás.</td></tr>
+            <tr><td>2. Consultar</td><td><code>mysqli_query(conexion, sql)</code></td><td>Manda una consulta SQL por esa conexión y devuelve el resultado (todas las filas que salieron).</td></tr>
+            <tr><td>3. Leer las filas</td><td><code>mysqli_fetch_array(resultado)</code></td><td>Devuelve <strong>una</strong> fila del resultado como array (se puede leer por nombre de columna o por número) y avanza el puntero a la siguiente. Cuando no quedan filas devuelve <code>null</code>, que el <code>while</code> toma como falso.</td></tr>
+          </table>
+        </div>
+        <p>Juntas se ven así (un ejemplo típico, con una base <code>campus</code> y una tabla <code>alumnos</code> inventadas):</p>
+        <pre class="codigo"><code>&lt;?php
+$conexion = mysqli_connect("localhost", "root", "", "campus");
+$resultado = mysqli_query($conexion, "SELECT nombre FROM alumnos");
+while ($fila = mysqli_fetch_array($resultado)) {
+    echo $fila['nombre'] . "&lt;br&gt;";
+}
+?&gt;</code></pre>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Línea</th><th>Qué hace</th><th>Cómo quedan las variables</th></tr>
+            <tr><td><code>$conexion = mysqli_connect(...);</code></td><td>Se conecta al MySQL del XAMPP con el usuario <code>root</code> sin clave y elige la base <code>campus</code>.</td><td><code>$conexion</code> = el identificador de conexión</td></tr>
+            <tr><td><code>$resultado = mysqli_query($conexion, "SELECT ...");</code></td><td>Ejecuta la consulta por esa conexión.</td><td><code>$resultado</code> = todas las filas encontradas</td></tr>
+            <tr><td><code>while ($fila = mysqli_fetch_array($resultado))</code></td><td>Cada vuelta saca la fila siguiente y mueve el puntero. Sin filas, devuelve <code>null</code> y el ciclo termina.</td><td><code>$fila</code> = la fila de esta vuelta</td></tr>
+            <tr><td><code>echo $fila['nombre'] . "&lt;br&gt;";</code></td><td>Muestra la columna <code>nombre</code> de esa fila.</td><td>&mdash;</td></tr>
+          </table>
+        </div>
+        <p>La salida depende de lo que haya en la tabla: un nombre por renglón.</p>
+        <h4>Cómo se responde</h4>
+        <ul>
+          <li>&ldquo;Crea una conexión&rdquo; &rarr; <code>mysqli_connect()</code>.</li>
+          <li>&ldquo;Enviar una consulta&hellip; asociada al identificador de conexión&rdquo; &rarr; <code>mysqli_query()</code>.</li>
+          <li>&ldquo;Devuelve una matriz que corresponde a la fila&hellip; mueve el puntero&rdquo; &rarr; <code>mysqli_fetch_array()</code> (<em>fetch</em> = traer).</li>
+        </ul>
+        <div class="caja caja-ojo">
+          <span class="caja-tit">La trampa</span>
+          <p><code>mysqli_query()</code> y <code>mysqli_fetch_array()</code> parecen hacer lo mismo, pero <code>query</code> ejecuta la consulta y trae el resultado entero, mientras que <code>fetch_array</code> saca de ese resultado <strong>una fila por vez</strong>. La pista en el enunciado es &ldquo;fila&rdquo; y &ldquo;puntero&rdquo;.</p>
+        </div>
+      </div>
+    </details>
+  </div>
+</section>

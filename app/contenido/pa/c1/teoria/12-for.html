@@ -1,0 +1,162 @@
+<div class="bloque" data-examen="igual" data-examen-ref="Parcial PHP · preg. 6" data-examen-nota="Textual: “¿Cuál es la salida del siguiente script?”: $i = 5; y después un for ($i = 1; $i &lt;= 5; $i++) que hace echo $i.&quot; &quot;. La trampa es el $i = 5 de antes.">
+  <p class="kicker">Estructuras de control · iterativas</p>
+  <h2>12. for</h2>
+
+  <h3>Para qué sirve</h3>
+  <p>
+    El <code>for</code> es un bucle pensado para cuando hay un <strong>contador</strong>: junta en
+    un solo renglón las tres cosas que en un <code>while</code> quedan desparramadas (el valor
+    inicial, la condición y el incremento). Hace lo mismo, pero se lee más fácil.
+  </p>
+
+  <h3>Sintaxis</h3>
+  <pre class="codigo"><code>for (inicio; condición; incremento) {
+    sentencia_1;
+    sentencia_2;
+}</code></pre>
+
+  <h3>Qué es cada parte</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Parte</th><th>Qué es</th><th>Cuándo se ejecuta</th></tr>
+      <tr><td><code>inicio</code></td><td>Le da el valor de arranque a la variable de control. Ej.: <code>$i = 0</code>.</td><td><strong>Una sola vez</strong>, al principio.</td></tr>
+      <tr><td><code>condición</code></td><td>Lo que tiene que ser verdadero para hacer otra vuelta. Ej.: <code>$i &lt;= 10</code>.</td><td><strong>Antes</strong> de cada vuelta.</td></tr>
+      <tr><td><code>incremento</code></td><td>De cuánto en cuánto cambia la variable. Ej.: <code>$i++</code> (o <code>$i--</code> para bajar).</td><td><strong>Al final</strong> de cada vuelta.</td></tr>
+      <tr><td><code>;</code></td><td>Las tres partes se separan con <strong>punto y coma</strong>.</td><td>&mdash;</td></tr>
+    </table>
+  </div>
+  <p>El orden real es: <strong>inicio &rarr; condición &rarr; vuelta &rarr; incremento &rarr; condición &rarr; vuelta &rarr; incremento &rarr; ...</strong> hasta que la condición da falso.</p>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; Filas del 0 al 10 (el de la cátedra, corregido)</h3>
+
+  <pre class="codigo"><code>&lt;?php
+for ($i=0; $i &lt;=10; $i++){
+print ("Fila ".$i);
+print ("&lt;br&gt;");
+}
+?&gt;</code></pre>
+
+  <h4>Qué hace cada línea</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Momento</th><th>Qué hace</th><th><code>$i</code></th><th>Qué sale</th></tr>
+      <tr><td>Inicio</td><td><code>$i=0</code></td><td>0</td><td></td></tr>
+      <tr><td>Condición</td><td>¿0 &lt;= 10? Sí.</td><td>0</td><td></td></tr>
+      <tr><td>Vuelta</td><td>Muestra "Fila 0" y un salto de línea.</td><td>0</td><td><code>Fila 0</code></td></tr>
+      <tr><td>Incremento</td><td><code>$i++</code></td><td>1</td><td></td></tr>
+      <tr><td>Condición / vuelta / incremento</td><td>Lo mismo con 1, 2, ..., 10.</td><td>1 a 10</td><td><code>Fila 1</code> ... <code>Fila 10</code></td></tr>
+      <tr><td>Condición</td><td>Con <code>$i</code> = 11: ¿11 &lt;= 10? No. Sale.</td><td>11</td><td></td></tr>
+    </table>
+  </div>
+
+  <h4>Qué imprime y por qué</h4>
+  <pre class="salida">Fila 0
+Fila 1
+Fila 2
+Fila 3
+Fila 4
+Fila 5
+Fila 6
+Fila 7
+Fila 8
+Fila 9
+Fila 10</pre>
+  <p>Son <strong>11 filas</strong>, no 10: del 0 al 10 inclusive, por el <code>&lt;=</code>.</p>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">El for del apunte tiene comas</span>
+    <p>
+      El apunte escribe <code>for ($i=0, $i &lt;=10, $i++)</code>. Con comas, PHP no encuentra las
+      tres partes y no ejecuta nada:
+      <code>Parse error: syntax error, unexpected token ")", expecting ";"</code>. Las partes se
+      separan con <strong>punto y coma</strong> (como en la presentación). También le falta cerrar las
+      comillas en <code>print ("&lt;br&gt;);</code>.
+    </p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; Con formato del Parcial PHP (preg. 6)</h3>
+
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>¿Cuál es la salida del siguiente script?</p>
+    <p>a. 4 5 &nbsp; b. 1 2 3 4 5 &nbsp; c. 5 4 3 2 1 &nbsp; d. 5 &nbsp; e. 0 1 2 3 4</p>
+  </div>
+
+  <pre class="codigo"><code>&lt;?php
+$i = 5;
+ for ($i = 1; $i &lt;= 5; $i++)
+{ echo $i." ";}
+ ?&gt;</code></pre>
+
+  <h4>Qué hace cada línea</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Momento</th><th>Qué hace</th><th><code>$i</code></th><th>Salida acumulada</th></tr>
+      <tr><td><code>$i = 5;</code></td><td>Guarda 5.</td><td>5</td><td></td></tr>
+      <tr><td>Inicio del for: <code>$i = 1</code></td><td><strong>Pisa</strong> el 5: el for arranca su contador desde 1, sin importar lo que había.</td><td>1</td><td></td></tr>
+      <tr><td>¿1 &lt;= 5? Sí</td><td>Muestra 1 y un espacio; después <code>$i++</code>.</td><td>2</td><td><code>1 </code></td></tr>
+      <tr><td>¿2 &lt;= 5? Sí</td><td>Muestra 2; sube.</td><td>3</td><td><code>1 2 </code></td></tr>
+      <tr><td>¿3 &lt;= 5? Sí</td><td>Muestra 3; sube.</td><td>4</td><td><code>1 2 3 </code></td></tr>
+      <tr><td>¿4 &lt;= 5? Sí</td><td>Muestra 4; sube.</td><td>5</td><td><code>1 2 3 4 </code></td></tr>
+      <tr><td>¿5 &lt;= 5? Sí</td><td>Muestra 5; sube.</td><td>6</td><td><code>1 2 3 4 5 </code></td></tr>
+      <tr><td>¿6 &lt;= 5? No</td><td>Sale.</td><td>6</td><td><code>1 2 3 4 5 </code></td></tr>
+    </table>
+  </div>
+
+  <h4>Qué imprime y por qué</h4>
+  <pre class="salida">1 2 3 4 5 </pre>
+  <p>
+    El <code>$i = 5;</code> de la primera línea es un <strong>distractor</strong>: el inicio del
+    <code>for</code> le asigna 1 antes de la primera vuelta. Las llaves en otro renglón y los espacios
+    raros no cambian nada. Si después del for se agregara <code>echo $i;</code>, mostraría
+    <strong>6</strong>: el valor con el que falló la condición.
+  </p>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p><strong>b. 1 2 3 4 5</strong></p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 3 &mdash; Contar para atrás</h3>
+
+  <pre class="codigo"><code>&lt;?php
+for ($i = 10; $i &gt;= 1; $i--) {
+    echo $i . " ";
+}
+echo "&lt;br&gt;";
+echo $i;
+?&gt;</code></pre>
+
+  <h4>Qué hace cada línea</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Momento</th><th>Qué hace</th><th><code>$i</code></th></tr>
+      <tr><td>Inicio</td><td><code>$i = 10</code></td><td>10</td></tr>
+      <tr><td>Vueltas</td><td>Mientras <code>$i &gt;= 1</code>: muestra <code>$i</code> y un espacio, y después <code>$i--</code> lo baja.</td><td>10, 9, ..., 1</td></tr>
+      <tr><td>Última condición</td><td>Con <code>$i</code> = 0: ¿0 &gt;= 1? No. Sale.</td><td>0</td></tr>
+      <tr><td><code>echo "&lt;br&gt;"; echo $i;</code></td><td>Baja de renglón y muestra el valor final.</td><td>0</td></tr>
+    </table>
+  </div>
+
+  <h4>Qué imprime y por qué</h4>
+  <pre class="salida">10 9 8 7 6 5 4 3 2 1
+0</pre>
+
+  <h3>Errores y trampas</h3>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Un = en la condición del for</span>
+    <p>
+      El segundo for del apunte es <code>for ($i=10, $i =10, $i--)</code>. Aun cambiando las comas
+      por punto y coma, la condición <code>$i = 10</code> <strong>asigna</strong> 10 en cada vuelta
+      (vale 10, que es verdadero): el <code>$i--</code> nunca llega a notarse y es un
+      <strong>bucle infinito</strong>. Para contar hacia atrás va una comparación, como
+      <code>$i &gt;= 1</code> del ejemplo 3.
+    </p>
+  </div>
+</div>

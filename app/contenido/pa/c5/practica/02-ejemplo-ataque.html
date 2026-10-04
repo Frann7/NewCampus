@@ -1,0 +1,151 @@
+<div class="ej">
+  <span class="tag">Ejemplo de la cátedra &middot; ataqueForm</span>
+  <h2>Un formulario sin protección y el script que lo ataca</h2>
+  <div class="enunciado">
+    <p>
+      Carpeta <code>ataqueForm</code>: <code>formulario.html</code> pide usuario y contraseña y los
+      manda a <code>procesoForm.php</code>, que los muestra. <code>ataque.php</code> manda esos
+      mismos datos diez veces sin pasar por el formulario.
+    </p>
+  </div>
+
+  <span class="paso">Archivo 1 &mdash; <code>formulario.html</code></span>
+<pre class="codigo"><code>&lt;form method="post" action="procesoForm.php"&gt;
+    &lt;div class="form-row"&gt;
+        &lt;div class="col-md-6 mb-3"&gt;
+            &lt;label for="nombre"&gt;Usuario&lt;/label&gt;
+            &lt;input type="text" class="form-control" name="usuario" value="" required&gt;
+        &lt;/div&gt;
+        &lt;div class="col-md-6 mb-3"&gt;
+            &lt;label for="contrasenia"&gt;Contraseña:&lt;/label&gt;
+            &lt;input type="password" class="form-control" name="contrasenia" value=""&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;button class="btn btn-primary" type="submit"&gt;Enviar datos&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+  <p>
+    Es un archivo <code>.html</code> puro (no tiene PHP). Arriba lleva el encabezado con Bootstrap y
+    el título "Sistema Recursos Humanos"; acá va solo el formulario, que es lo que importa.
+  </p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th></tr>
+      <tr><td><code>&lt;form method="post" action="procesoForm.php"&gt;</code></td><td>Al enviar, manda los campos por POST a <code>procesoForm.php</code> (Clase 3).</td></tr>
+      <tr><td><code>name="usuario" ... required</code></td><td>Campo de texto; <code>required</code> hace que el navegador no deje enviar si está vacío.</td></tr>
+      <tr><td><code>type="password" name="contrasenia"</code></td><td>Campo de contraseña: muestra puntitos en vez de letras.</td></tr>
+      <tr><td><code>class="form-row"</code>, <code>col-md-6</code>, <code>btn btn-primary</code>...</td><td>Clases de Bootstrap: solo dan el diseño (dos columnas, botón azul).</td></tr>
+      <tr><td><code>&lt;button type="submit"&gt;</code></td><td>El botón que envía.</td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Archivo 2 &mdash; <code>procesoForm.php</code></span>
+<pre class="codigo"><code>&lt;?php
+if (!empty($_POST)) {
+    echo "USUARIO: " . $_POST['usuario'];
+    echo "==&gt;";
+    echo "CONTRASEÑA: " . $_POST['contrasenia'];
+    echo "&lt;br&gt;";
+}
+?&gt;</code></pre>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th></tr>
+      <tr><td><code>if (!empty($_POST))</code></td><td>Solo hace algo si llegó un POST con datos. Abierto directo desde la barra de direcciones (GET), no muestra nada.</td></tr>
+      <tr><td>los cuatro <code>echo</code></td><td>Muestran lo que llegó, sin preguntar de dónde vino. Acá está el problema: <strong>no hay ningún control</strong>.</td></tr>
+    </table>
+  </div>
+  <p>Enviando el formulario a mano con usuario <code>fran</code> y contraseña <code>1234</code>, responde:</p>
+<pre class="salida">USUARIO: fran==&gt;CONTRASEÑA: 1234</pre>
+
+  <span class="paso">Archivo 3 &mdash; <code>ataque.php</code></span>
+<pre class="codigo"><code>&lt;?php
+$url = "http://localhost/clase5/ataqueForm/procesoForm.php";
+
+for ($i = 1; $i &lt;= 10; $i++) {
+    $usuario = 'Federico';
+    $contrasenia = 'Bonnet';
+
+    $fields = ['usuario' =&gt; $usuario, 'contrasenia' =&gt; $contrasenia];
+
+    $campos_string = http_build_query($fields);
+
+    $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $campos_string);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $result = curl_exec($ch);
+
+    print_r($result);
+
+    curl_close($ch);
+}
+?&gt;</code></pre>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Cómo quedan las variables</th></tr>
+      <tr><td><code>$url = "..."</code></td><td>La dirección de <code>procesoForm.php</code> en el XAMPP (carpeta <code>htdocs\clase5\ataqueForm\</code>).</td><td><code>$url</code></td></tr>
+      <tr><td><code>for ($i = 1; $i &lt;= 10; $i++)</code></td><td>10 vueltas.</td><td><code>$i</code> de 1 a 10</td></tr>
+      <tr><td><code>$usuario</code>, <code>$contrasenia</code></td><td>Los datos que el atacante quiere meter.</td><td><code>'Federico'</code>, <code>'Bonnet'</code></td></tr>
+      <tr><td><code>$fields = [...]</code></td><td>Las claves son <strong>los <code>name</code> del formulario</strong>: así <code>procesoForm.php</code> los encuentra en <code>$_POST</code>.</td><td>array con 2 claves</td></tr>
+      <tr><td><code>http_build_query($fields)</code></td><td>Lo pasa al formato de un formulario (teoría, sección 4).</td><td><code>usuario=Federico&amp;contrasenia=Bonnet</code></td></tr>
+      <tr><td><code>curl_init()</code> y <code>curl_setopt(...)</code></td><td>Arma un POST a <code>$url</code> con esos campos, pidiendo la respuesta como texto.</td><td><code>$ch</code></td></tr>
+      <tr><td><code>$result = curl_exec($ch);</code></td><td>Lo manda: <code>procesoForm.php</code> corre como si alguien hubiera tocado "Enviar datos".</td><td><code>$result</code> = lo que imprimió <code>procesoForm.php</code></td></tr>
+      <tr><td><code>print_r($result);</code></td><td>Muestra esa respuesta.</td><td>&mdash;</td></tr>
+      <tr><td><code>curl_close($ch);</code></td><td>Cierra el pedido.</td><td>&mdash;</td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Qué se ve al abrir <code>ataque.php</code></span>
+  <p>Se probó contra una copia de la carpeta. En el navegador, diez renglones iguales:</p>
+<pre class="salida">USUARIO: Federico==&gt;CONTRASEÑA: Bonnet
+USUARIO: Federico==&gt;CONTRASEÑA: Bonnet
+USUARIO: Federico==&gt;CONTRASEÑA: Bonnet
+USUARIO: Federico==&gt;CONTRASEÑA: Bonnet
+USUARIO: Federico==&gt;CONTRASEÑA: Bonnet
+USUARIO: Federico==&gt;CONTRASEÑA: Bonnet
+USUARIO: Federico==&gt;CONTRASEÑA: Bonnet
+USUARIO: Federico==&gt;CONTRASEÑA: Bonnet
+USUARIO: Federico==&gt;CONTRASEÑA: Bonnet
+USUARIO: Federico==&gt;CONTRASEÑA: Bonnet</pre>
+  <p>
+    Cada renglón es la respuesta de <strong>una</strong> ejecución de <code>procesoForm.php</code>.
+    El formulario nunca se abrió.
+  </p>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Qué problema de seguridad muestra</span>
+    <ul>
+      <li>
+        <code>procesoForm.php</code> no puede distinguir un envío real de uno armado por un
+        programa: los dos le llegan como un POST con <code>usuario</code> y
+        <code>contrasenia</code>.
+      </li>
+      <li>
+        El <code>required</code> del formulario no sirvió de nada: cURL no pasa por el HTML.
+      </li>
+      <li>
+        Si <code>procesoForm.php</code> guardara en una base de datos, serían 10 registros falsos; con
+        un <code>for</code> más largo, millones. O, con un login, alguien podría probar miles de
+        contraseñas por minuto.
+      </li>
+      <li>La defensa está en los dos ejemplos siguientes: el token y el captcha.</li>
+    </ul>
+  </div>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Detalles del ejemplo</span>
+    <ul>
+      <li>
+        En el formulario, <code>&lt;label for="nombre"&gt;</code> no coincide con ningún campo (el
+        <code>for</code> se empareja con un <code>id</code>, y los <code>input</code> no tienen):
+        solo hace que tocar el rótulo no lleve el cursor al campo. No afecta el envío.
+      </li>
+      <li>
+        <code>ataque.php</code> corre en el mismo XAMPP, así que su <code>$url</code> es
+        <code>localhost</code>. Un atacante real pondría la dirección de tu sitio y lo correría desde
+        su máquina.
+      </li>
+    </ul>
+  </div>
+</div>

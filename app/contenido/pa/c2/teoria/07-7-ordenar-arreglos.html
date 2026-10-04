@@ -1,0 +1,276 @@
+<div class="bloque" data-examen="igual" data-examen-ref="Parcial PHP · preg. 10" data-examen-nota="Verdadero o falso: “¿La función sort() nos brinda la posibilidad de ordenar un arreglo que le pasamos como parámetro, modificando al mismo a nivel de claves?” Es la definición textual de la guía práctica: Verdadero.">
+  <p class="kicker">Arreglos</p>
+  <h2>7. Ordenar arreglos: sort, asort, rsort, arsort, ksort y krsort</h2>
+
+  <h3>Para qué sirve</h3>
+  <p>
+    Para poner los elementos de un arreglo en orden (alfabético o numérico). PHP trae varias
+    funciones que se diferencian en <strong>dos preguntas</strong>:
+  </p>
+  <ol>
+    <li><strong>¿Ordena por el valor o por la clave?</strong></li>
+    <li><strong>¿Qué pasa con las claves?</strong> ¿Cada valor se queda con su clave, o se tiran las claves y se numera de nuevo desde 0?</li>
+  </ol>
+
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Función</th><th>Ordena por</th><th>Sentido</th><th>Las claves</th></tr>
+      <tr><td><code>sort()</code></td><td>Valor</td><td>Ascendente (A&rarr;Z, 0&rarr;9)</td><td><strong>Se pierden</strong>: renumera 0, 1, 2&hellip;</td></tr>
+      <tr><td><code>rsort()</code></td><td>Valor</td><td>Descendente (Z&rarr;A, 9&rarr;0)</td><td><strong>Se pierden</strong>: renumera 0, 1, 2&hellip;</td></tr>
+      <tr><td><code>asort()</code></td><td>Valor</td><td>Ascendente</td><td>Se <strong>mantienen</strong>: cada valor sigue con su clave</td></tr>
+      <tr><td><code>arsort()</code></td><td>Valor</td><td>Descendente</td><td>Se mantienen</td></tr>
+      <tr><td><code>ksort()</code></td><td>Clave</td><td>Ascendente</td><td>Se mantienen</td></tr>
+      <tr><td><code>krsort()</code></td><td>Clave</td><td>Descendente</td><td>Se mantienen</td></tr>
+    </table>
+  </div>
+  <p>Cómo acordarse de los nombres:</p>
+  <ul>
+    <li><strong>r</strong> = <em>reverse</em>, al revés (descendente).</li>
+    <li><strong>a</strong> = <em>associative</em>, respeta la asociación clave-valor.</li>
+    <li><strong>k</strong> = <em>key</em>, ordena por la clave.</li>
+  </ul>
+
+  <h3>Sintaxis</h3>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Todas tienen la misma forma</span>
+<pre class="codigo"><code>sort($arreglo);
+sort($arreglo, SORT_STRING);   // con el segundo parámetro opcional</code></pre>
+  </div>
+
+  <h3>Qué es cada parte</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Parte</th><th>Qué es</th></tr>
+      <tr><td><code>$arreglo</code></td><td>El arreglo a ordenar. La función lo <strong>modifica a él mismo</strong>: no hace una copia</td></tr>
+      <tr><td>Lo que devuelve</td><td>Solo <code>true</code> (que todo salió bien). <strong>No</strong> devuelve el arreglo ordenado</td></tr>
+      <tr><td><code>SORT_REGULAR</code></td><td>(opcional, es el que se usa si no ponés nada) Compara sin transformar: los números como números y los textos como textos</td></tr>
+      <tr><td><code>SORT_NUMERIC</code></td><td>Convierte cada elemento a número antes de comparar</td></tr>
+      <tr><td><code>SORT_STRING</code></td><td>Trata todos los elementos como texto, carácter por carácter</td></tr>
+    </table>
+  </div>
+
+  <h3>Qué hace sort() con las claves, con precisión</h3>
+  <p>La cátedra lo explica así:</p>
+  <blockquote>
+    <em>"sort() ordena el arreglo que le pasamos como parámetro, modificando al mismo a nivel de
+    claves. Esto quiere decir que destruirá todas las claves que contenga y generará un nuevo
+    arreglo numerando los elementos a partir del 0."</em>
+  </blockquote>
+  <p>Paso a paso, <code>sort()</code>:</p>
+  <ol>
+    <li>Toma solo los <strong>valores</strong> del arreglo.</li>
+    <li>Los ordena de menor a mayor.</li>
+    <li><strong>Tira todas las claves viejas</strong>, sean números o textos.</li>
+    <li>Les pone claves nuevas <strong>0, 1, 2&hellip;</strong> en el orden nuevo.</li>
+  </ol>
+  <p>
+    Por eso "modificando a nivel de claves" quiere decir que <strong>las claves cambian</strong>:
+    después de <code>sort()</code>, un arreglo asociativo deja de serlo. Si necesitás conservar las
+    claves, se usa <code>asort()</code>.
+  </p>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; sort(), antes y después (teoría de la cátedra)</h3>
+<pre class="codigo"><code>&lt;?php
+$arreglo = array('a' =&gt; 'aab', 'b' =&gt; 'bbb', 'c' =&gt; 'aaa');
+print_r($arreglo);
+sort($arreglo);
+print_r($arreglo);
+?&gt;</code></pre>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Cómo queda <code>$arreglo</code></th></tr>
+      <tr><td><code>$arreglo = array(...);</code></td><td>Arreglo asociativo de 3 textos</td><td>a =&gt; aab &middot; b =&gt; bbb &middot; c =&gt; aaa</td></tr>
+      <tr><td><code>print_r($arreglo);</code></td><td>Muestra el arreglo <strong>antes</strong></td><td>(igual)</td></tr>
+      <tr><td><code>sort($arreglo);</code></td><td>Ordena los valores: <code>aaa</code> &lt; <code>aab</code> (en la tercera letra, <code>a</code> va antes que <code>b</code>) &lt; <code>bbb</code>. Tira las claves <code>a</code>, <code>b</code>, <code>c</code> y numera desde 0</td><td>0 =&gt; aaa &middot; 1 =&gt; aab &middot; 2 =&gt; bbb</td></tr>
+      <tr><td><code>print_r($arreglo);</code></td><td>Muestra el arreglo <strong>después</strong></td><td>(igual)</td></tr>
+    </table>
+  </div>
+<pre class="salida">Array
+(
+    [a] =&gt; aab
+    [b] =&gt; bbb
+    [c] =&gt; aaa
+)
+Array
+(
+    [0] =&gt; aaa
+    [1] =&gt; aab
+    [2] =&gt; bbb
+)</pre>
+  <p>
+    <strong>Qué mirar:</strong> los valores quedaron en orden, y las claves
+    <code>[a] [b] [c]</code> desaparecieron: ahora son <code>[0] [1] [2]</code>. El valor
+    <code>aaa</code>, que estaba en la clave <code>c</code>, ahora está en la 0.
+  </p>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; asort(): el mismo orden, sin perder las claves</h3>
+<pre class="codigo"><code>&lt;?php
+$arreglo = array('a' =&gt; 'aab', 'b' =&gt; 'bbb', 'c' =&gt; 'aaa');
+asort($arreglo);
+print_r($arreglo);
+?&gt;</code></pre>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Cómo queda <code>$arreglo</code></th></tr>
+      <tr><td><code>$arreglo = array(...);</code></td><td>El mismo arreglo</td><td>a =&gt; aab &middot; b =&gt; bbb &middot; c =&gt; aaa</td></tr>
+      <tr><td><code>asort($arreglo);</code></td><td>Ordena por valor, pero <strong>cada valor se lleva su clave</strong></td><td>c =&gt; aaa &middot; a =&gt; aab &middot; b =&gt; bbb</td></tr>
+      <tr><td><code>print_r($arreglo);</code></td><td>Lo muestra</td><td>(igual)</td></tr>
+    </table>
+  </div>
+<pre class="salida">Array
+(
+    [c] =&gt; aaa
+    [a] =&gt; aab
+    [b] =&gt; bbb
+)</pre>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">La salida del apunte de la cátedra está mal</span>
+    <p>
+      El apunte muestra <code>['c'] =&gt; aaa</code>, <code>['b'] =&gt; aab</code>,
+      <code>['a'] =&gt; bbb</code>: con las claves en orden inverso, como si se hubieran
+      separado de sus valores. Justamente <code>asort()</code> <strong>no</strong> separa
+      claves y valores: <code>aab</code> estaba en la clave <code>a</code> y sigue ahí. La salida
+      real es la de arriba (y <code>print_r</code> no pone comillas en las claves).
+    </p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 3 &mdash; Descendente: rsort() y arsort()</h3>
+<pre class="codigo"><code>&lt;?php
+$x = array('a' =&gt; 'aab', 'b' =&gt; 'bbb', 'c' =&gt; 'aaa');
+$y = $x;
+rsort($x);
+arsort($y);
+print_r($x);
+print_r($y);
+?&gt;</code></pre>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Cómo quedan las variables</th></tr>
+      <tr><td><code>$x = array(...);</code></td><td>El arreglo de siempre</td><td><code>$x</code>: a =&gt; aab &middot; b =&gt; bbb &middot; c =&gt; aaa</td></tr>
+      <tr><td><code>$y = $x;</code></td><td>Copia el arreglo en otra variable, para ordenar cada uno distinto</td><td><code>$y</code>: igual a <code>$x</code></td></tr>
+      <tr><td><code>rsort($x);</code></td><td>De mayor a menor, renumerando</td><td><code>$x</code>: 0 =&gt; bbb &middot; 1 =&gt; aab &middot; 2 =&gt; aaa</td></tr>
+      <tr><td><code>arsort($y);</code></td><td>De mayor a menor, conservando claves</td><td><code>$y</code>: b =&gt; bbb &middot; a =&gt; aab &middot; c =&gt; aaa</td></tr>
+    </table>
+  </div>
+<pre class="salida">Array
+(
+    [0] =&gt; bbb
+    [1] =&gt; aab
+    [2] =&gt; aaa
+)
+Array
+(
+    [b] =&gt; bbb
+    [a] =&gt; aab
+    [c] =&gt; aaa
+)</pre>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 4 &mdash; Por clave: ksort() y krsort()</h3>
+<pre class="codigo"><code>&lt;?php
+$arreglo = array('d' =&gt; 'aab', 'c' =&gt; 'bbb', 'a' =&gt; 'aaa');
+ksort($arreglo);
+print_r($arreglo);
+krsort($arreglo);
+print_r($arreglo);
+?&gt;</code></pre>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Cómo queda <code>$arreglo</code></th></tr>
+      <tr><td><code>$arreglo = array(...);</code></td><td>Claves <code>d</code>, <code>c</code>, <code>a</code></td><td>d =&gt; aab &middot; c =&gt; bbb &middot; a =&gt; aaa</td></tr>
+      <tr><td><code>ksort($arreglo);</code></td><td>Ordena por <strong>clave</strong> de la A a la Z; cada clave con su valor</td><td>a =&gt; aaa &middot; c =&gt; bbb &middot; d =&gt; aab</td></tr>
+      <tr><td><code>krsort($arreglo);</code></td><td>Por clave, de la Z a la A</td><td>d =&gt; aab &middot; c =&gt; bbb &middot; a =&gt; aaa</td></tr>
+    </table>
+  </div>
+<pre class="salida">Array
+(
+    [a] =&gt; aaa
+    [c] =&gt; bbb
+    [d] =&gt; aab
+)
+Array
+(
+    [d] =&gt; aab
+    [c] =&gt; bbb
+    [a] =&gt; aaa
+)</pre>
+  <p>
+    Los valores quedaron "desordenados" (<code>aaa</code>, <code>bbb</code>, <code>aab</code>)
+    porque acá lo que se ordena son las claves.
+  </p>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 5 &mdash; El segundo parámetro: números guardados como texto</h3>
+<pre class="codigo"><code>&lt;?php
+$s = array('10', '9', '2', '1');
+$t = $s;
+sort($s);
+sort($t, SORT_STRING);
+foreach ($s as $v) { echo $v . ' '; }
+echo '&lt;br&gt;';
+foreach ($t as $v) { echo $v . ' '; }
+?&gt;</code></pre>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Cómo quedan las variables</th></tr>
+      <tr><td><code>$s = array('10', '9', '2', '1');</code></td><td>Cuatro textos que parecen números</td><td><code>$s</code>: 10, 9, 2, 1</td></tr>
+      <tr><td><code>sort($s);</code></td><td>Modo normal: como los textos son numéricos, PHP los compara como números</td><td><code>$s</code>: 1, 2, 9, 10</td></tr>
+      <tr><td><code>sort($t, SORT_STRING);</code></td><td>Como texto, carácter por carácter: <code>'10'</code> empieza con <code>1</code>, así que va antes que <code>'2'</code></td><td><code>$t</code>: 1, 10, 2, 9</td></tr>
+      <tr><td>Los dos <code>foreach</code></td><td>Muestran cada arreglo en una línea, con un espacio después de cada valor (sección 6)</td><td>&mdash;</td></tr>
+    </table>
+  </div>
+<pre class="salida">1 2 9 10
+1 10 2 9</pre>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 6 &mdash; La pregunta del parcial</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado (Parcial PHP, pregunta 10)</span>
+    <p>
+      Verdadero o falso: <em>"¿La función sort() nos brinda la posibilidad de ordenar un arreglo
+      que le pasamos como parámetro, modificando al mismo a nivel de claves?"</em>
+    </p>
+  </div>
+  <ul>
+    <li>Es, palabra por palabra, la definición de <code>sort()</code> de la guía práctica de la cátedra.</li>
+    <li>Y es lo que se ve en el ejemplo 1: el arreglo que se pasa se modifica él mismo, y sus claves cambian (se tiran y se numera desde 0).</li>
+  </ul>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta: Verdadero</span>
+    <p>
+      La trampa sería leer "a nivel de claves" como "ordena por clave": eso hace
+      <code>ksort()</code>. <code>sort()</code> ordena por valor y <strong>reasigna</strong> las
+      claves.
+    </p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Errores y trampas</h3>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">sort() no devuelve el arreglo</span>
+    <p>
+      <code>$ordenado = sort($q);</code> deja en <code>$ordenado</code> el valor
+      <code>true</code>, no el arreglo. El arreglo ordenado es <code>$q</code> mismo.
+    </p>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Las mayúsculas van antes que todas las minúsculas</span>
+    <p>
+      Los textos se comparan por el código de cada carácter, y todas las mayúsculas
+      (<code>A</code>&ndash;<code>Z</code>) tienen códigos menores que las minúsculas. Por eso
+      <code>sort()</code> de <code>('pera', 'banana', 'Manzana')</code> da
+      <code>Manzana, banana, pera</code>. Lo mismo pasa con la práctica: los días ordenados quedan
+      <code>Domingo, Jueves, Lunes, Martes, Miércoles, Sábado, Viernes</code> (ejercicio 4).
+    </p>
+  </div>
+</div>

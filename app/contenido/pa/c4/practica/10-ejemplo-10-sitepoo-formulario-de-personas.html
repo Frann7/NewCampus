@@ -1,0 +1,361 @@
+<div class="ej">
+  <span class="tag">Ejemplo 10 &middot; sitePoo: formPersonas</span>
+  <h2>Formulario de Personas: validar con una clase y recibir en PHP</h2>
+  <div class="enunciado">
+    <p>
+      La segunda página de <em>sitePoo</em> (ejemplo 9): un formulario con nombre y apellido,
+      correo y documento. Antes de enviarlo, la clase <code>FormPersonas</code> (la de la
+      diapositiva 13) revisa los tres campos y los marca en verde o rojo con mensajes de Bootstrap.
+      Si están bien, los recibe <code>procesoFormulario.php</code> y los muestra en una tabla.
+      Archivos: <code>formPersonas.php</code>, <code>js/formPersonas.js</code> y
+      <code>procesoFormulario.php</code>.
+    </p>
+  </div>
+
+  <span class="paso">Paso 1 &mdash; formPersonas.php: el formulario</span>
+<pre class="codigo"><code>&lt;?php
+
+require_once __DIR__.'\includes\PageClass.php';
+
+$body='&lt;h4 class="text-center"&gt;Formulario de Personas&lt;/h4&gt;&lt;br&gt;
+
+      &lt;div class="d-flex justify-content-center"&gt;
+
+        &lt;form id="formPersonas" method="post" action="procesoFormulario.php" style="min-width:350px;max-width:600px;width:100%"&gt;
+
+            &lt;div class="form-row"&gt;
+                &lt;div class="col-md-6 mb-3"&gt;
+                    &lt;label&gt;Nombre y Apellido&lt;/label&gt;
+                    &lt;input type="text" class="form-control" id="nombreyape" name="nombreyape" placeholder="Nombre y Apellido"&gt;
+                    &lt;div class="valid-feedback"&gt;Buen dato!&lt;/div&gt;
+                    &lt;div class="invalid-feedback"&gt;El campo Nombre no puede estar vacío.&lt;/div&gt;
+                &lt;/div&gt;
+                &lt;div class="col-md-6 mb-3"&gt;
+                    &lt;label&gt;Correo&lt;/label&gt;
+                    &lt;input type="email" class="form-control" id="correo" name="correo" placeholder="algo@ejemplo.com"&gt;
+                    &lt;div class="valid-feedback"&gt;Bien!&lt;/div&gt;
+                    &lt;div class="invalid-feedback"&gt;El campo Correo no puede estar vacío.&lt;/div&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+
+            &lt;div class="form-row"&gt;
+                &lt;div class="col-md-6 mb-3"&gt;
+                    &lt;label&gt;Documento&lt;/label&gt;
+                    &lt;input type="text" class="form-control" id="documento" name="documento" value="" placeholder="Número de Documento"&gt;
+                    &lt;div class="valid-feedback"&gt;Bien!&lt;/div&gt;
+                    &lt;div class="invalid-feedback"&gt;El campo Documento no puede estar vacío.&lt;/div&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+
+            &lt;button class="btn btn-primary" type="submit" value=""&gt;Enviar datos&lt;/button&gt;
+
+        &lt;/form&gt;
+    &lt;/div&gt;';
+
+$oPage=new PageClass();
+  $oPage-&gt;setBody($body);
+echo $oPage-&gt;getHtml();
+
+?&gt;</code></pre>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Pieza</th><th>Qué es</th></tr>
+      <tr><td><code>$body = '...'</code> + <code>PageClass</code></td><td>Igual que <code>index.php</code>: la página solo escribe su contenido; menú, Bootstrap y scripts los pone la clase del ejemplo 9</td></tr>
+      <tr><td><code>&lt;form id="formPersonas" method="post" action="procesoFormulario.php"&gt;</code></td><td>Ahora el formulario ya trae a dónde y cómo enviar, escrito en el HTML (en el ejemplo 5 se lo ponía JavaScript). El <code>id</code> es para que JavaScript lo encuentre</td></tr>
+      <tr><td><code>name="nombreyape"</code>, <code>"correo"</code>, <code>"documento"</code></td><td>Las claves con que llegan a <code>$_POST</code></td></tr>
+      <tr><td><code>type="email"</code></td><td>Campo de correo: el navegador mismo revisa que tenga forma de correo antes de enviar</td></tr>
+      <tr><td><code>&lt;div class="valid-feedback"&gt;</code> / <code>"invalid-feedback"</code></td><td>Mensajes de Bootstrap, <strong>ocultos</strong> al principio. Bootstrap muestra el verde si el campo de al lado tiene la clase <code>is-valid</code>, y el rojo si tiene <code>is-invalid</code>. JavaScript solo pone o saca esas clases</td></tr>
+      <tr><td><code>&lt;button type="submit"&gt;</code> <strong>adentro</strong> del <code>&lt;form&gt;</code></td><td>Su clic dispara el evento <code>submit</code> del formulario, que es lo que escucha la clase (paso 3)</td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Paso 2 &mdash; La expresión regular del correo</span>
+  <p>
+    La validación del correo usa una <strong>expresión regular</strong>: un patrón que describe
+    cómo tiene que ser un texto. Se escribe entre barras, y su método <code>.test(texto)</code>
+    devuelve <code>true</code> si el texto cumple el patrón.
+  </p>
+<pre class="codigo"><code>/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(correo.value.trim())</code></pre>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Trozo</th><th>Qué pide</th><th>En <code>ana.perez@uader.edu.ar</code></th></tr>
+      <tr><td><code>^</code></td><td>Que empiece acá (nada antes)</td><td>&mdash;</td></tr>
+      <tr><td><code>[\w-\.]+</code></td><td>Uno o más (<code>+</code>) caracteres de este grupo (<code>[ ]</code>): letra, número o guion bajo (<code>\w</code>), guion o punto</td><td><code>ana.perez</code></td></tr>
+      <tr><td><code>@</code></td><td>Una arroba</td><td><code>@</code></td></tr>
+      <tr><td><code>([\w-]+\.)+</code></td><td>Uno o más bloques de "letras/números/guiones seguidos de un punto"</td><td><code>uader.</code> y <code>edu.</code></td></tr>
+      <tr><td><code>[\w-]{2,4}</code></td><td>Entre 2 y 4 caracteres al final</td><td><code>ar</code></td></tr>
+      <tr><td><code>$</code></td><td>Que termine acá (nada después)</td><td>&mdash;</td></tr>
+    </table>
+  </div>
+  <p>Probada con Node.js:</p>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th>Texto</th><th><code>.test</code></th><th>Por qué</th></tr>
+      <tr><td><code>ana@mail.com</code></td><td>true</td><td>&mdash;</td></tr>
+      <tr><td><code>ana.perez@uader.edu.ar</code></td><td>true</td><td>&mdash;</td></tr>
+      <tr><td><code>juan_23@gmail.com</code></td><td>true</td><td>&mdash;</td></tr>
+      <tr><td><code>ana@mail</code></td><td>false</td><td>Después de la arroba no hay ningún punto</td></tr>
+      <tr><td><code>a@b.c</code></td><td>false</td><td>El final tiene 1 carácter (pide 2 a 4)</td></tr>
+      <tr><td><code>ana@mail.comercial</code></td><td>false</td><td>El final tiene 9 caracteres</td></tr>
+      <tr><td><code>@mail.com</code></td><td>false</td><td>No hay nada antes de la arroba</td></tr>
+      <tr><td><code>ana perez@mail.com</code></td><td>false</td><td>El espacio no está permitido</td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Paso 3 &mdash; formPersonas.js: la clase</span>
+<pre class="codigo"><code>class FormPersonas {
+
+    constructor() {
+        this.form = document.getElementById('formPersonas');
+    }
+
+    validoInputsIndividual() {
+        let formValido = true;
+        const nombreyape = document.getElementById('nombreyape');
+            if (nombreyape.value.trim() === '') {
+                nombreyape.classList.add('is-invalid');
+                nombreyape.classList.remove('is-valid');
+                formValido = false;
+                //this.cambiarEstiloInput(nombreyape, false);
+            } else {
+                nombreyape.classList.add('is-valid');
+                nombreyape.classList.remove('is-invalid');
+                //this.cambiarEstiloInput(nombreyape, true);
+            }
+
+        const correo = document.getElementById('correo');
+        const correoValido = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(correo.value.trim());
+
+        if (correo.value.trim() === '' || !correoValido) {
+            correo.classList.add('is-invalid');
+            correo.classList.remove('is-valid');
+            formValido = false;
+        } else {
+            correo.classList.add('is-valid');
+            correo.classList.remove('is-invalid');
+        }
+
+        const documento = document.getElementById('documento');
+        if (documento.value.trim() === '') {
+            documento.classList.add('is-invalid');
+            documento.classList.remove('is-valid');
+            formValido = false;
+        } else {
+            documento.classList.add('is-valid');
+            documento.classList.remove('is-invalid');
+        }
+        return formValido;
+    }</code></pre>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Cómo quedan las variables</th></tr>
+      <tr><td><code>constructor()</code></td><td>Solo guarda el formulario. Los campos los busca cada método cuando los necesita</td><td><code>this.form</code> = el <code>&lt;form&gt;</code></td></tr>
+      <tr><td><code>let formValido = true;</code></td><td>Arranca suponiendo que todo está bien</td><td><code>formValido = true</code></td></tr>
+      <tr><td><code>if (nombreyape.value.trim() === '')</code></td><td>Nombre vacío (o solo espacios): le pone <code>is-invalid</code>, le saca <code>is-valid</code> y anota que el formulario no sirve</td><td><code>formValido = false</code></td></tr>
+      <tr><td><code>else</code></td><td>Si tiene algo: al revés, <code>is-valid</code></td><td>sin cambios</td></tr>
+      <tr><td><code>//this.cambiarEstiloInput(...)</code></td><td>Comentado: no se ejecuta. Es la versión corta de las dos líneas de arriba (paso 4)</td><td>&mdash;</td></tr>
+      <tr><td><code>const correoValido = /.../.test(...)</code></td><td>Prueba el correo contra la expresión regular</td><td><code>correoValido</code> = <code>true</code>/<code>false</code></td></tr>
+      <tr><td><code>if (correo.value.trim() === '' || !correoValido)</code></td><td>Mal si está vacío <strong>o</strong> si no cumple el patrón (<code>!</code> es "no")</td><td>Si está mal: <code>formValido = false</code></td></tr>
+      <tr><td>Bloque del documento</td><td>Igual que el nombre</td><td>Si está vacío: <code>formValido = false</code></td></tr>
+      <tr><td><code>return formValido;</code></td><td>Devuelve el resultado</td><td><code>true</code> solo si los tres pasaron</td></tr>
+    </table>
+  </div>
+  <p>
+    La diferencia con el ejemplo 5: allá cada <code>if</code> hacía <code>return false</code> y
+    cortaba en el primer error. Acá ningún <code>if</code> corta; solo anotan en
+    <code>formValido</code>. Por eso <strong>se revisan y se marcan los tres campos a la vez</strong>,
+    y el usuario ve todos los errores juntos.
+  </p>
+
+  <span class="paso">Paso 4 &mdash; validoInputsArray() y cambiarEstiloInput()</span>
+<pre class="codigo"><code>    validoInputsArray(){
+        this.inputs = Array.from(this.form.elements).filter(element =&gt; element.tagName === 'INPUT');
+        let formValido = true;
+        this.inputs.forEach(input =&gt; {
+            let esValido = true;
+            if (input.id === 'correo') {
+                const correoValido = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(input.value.trim());
+                if (input.value.trim() === '' || !correoValido) {
+                    esValido = false;
+                }
+            } else if (input.id === 'nombreyape') {
+                if (input.value.trim() === '' || input.value.trim().length &lt; 3) {
+                    esValido = false;
+                }
+            } else if (input.id === 'documento') {
+                if (input.value.trim() === '' || input.value.trim().length &lt; 6) {
+                    esValido = false;
+                }
+            } else {
+                if (input.value.trim() === '') {
+                    esValido = false;
+                }
+            }
+            this.cambiarEstiloInput(input, esValido);
+            if (!esValido) {
+                formValido = false;
+            }
+        });
+        return formValido;
+    }
+
+    cambiarEstiloInput(elemento, esValido) {
+        if (esValido) {
+            elemento.classList.add('is-valid');
+            elemento.classList.remove('is-invalid');
+        } else {
+            elemento.classList.add('is-invalid');
+            elemento.classList.remove('is-valid');
+        }
+    }</code></pre>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th></tr>
+      <tr><td><code>this.form.elements</code></td><td>Todos los controles del formulario: los tres <code>input</code> y el <code>button</code></td></tr>
+      <tr><td><code>Array.from(...).filter(element =&gt; element.tagName === 'INPUT')</code></td><td><code>filter</code> arma un array nuevo con los que cumplen la condición. <code>tagName</code> es el nombre de la etiqueta en mayúsculas: se queda con los 3 <code>input</code> y descarta el botón</td></tr>
+      <tr><td><code>this.inputs.forEach(input =&gt; {</code></td><td>Una vuelta por campo, con <code>esValido</code> en <code>true</code> al empezar cada una</td></tr>
+      <tr><td><code>if (input.id === 'correo')</code> ... <code>else if</code> ...</td><td>Elige la regla según el <code>id</code>: correo con la expresión regular; nombre con al menos 3 caracteres; documento con al menos 6; cualquier otro, no vacío</td></tr>
+      <tr><td><code>this.cambiarEstiloInput(input, esValido);</code></td><td>Pinta el campo</td></tr>
+      <tr><td><code>if (!esValido) formValido = false;</code></td><td>Un solo campo mal alcanza para que el formulario no sirva</td></tr>
+      <tr><td><code>cambiarEstiloInput(elemento, esValido)</code></td><td>Las dos líneas de <code>classList</code> escritas una sola vez, con el campo y el resultado como parámetros</td></tr>
+    </table>
+  </div>
+  <p>
+    Es otra forma de hacer lo mismo que <code>validoInputsIndividual()</code>, recorriendo los
+    campos en vez de escribir un bloque por campo, y un poco más exigente (largos mínimos).
+    <strong>Pero no se usa</strong>: <code>init()</code> llama a la versión individual. Verificado
+    con Node.js (campos simulados): con <code>"Al"</code>, <code>"al@x.com"</code> y
+    <code>"123"</code>, la individual da <code>true</code> y esta da <code>false</code> (nombre de 2
+    letras y documento de 3 dígitos); con <code>"Ana Paz"</code>, <code>"ana@mail.com"</code> y
+    <code>"30111222"</code>, las dos dan <code>true</code>.
+  </p>
+
+  <span class="paso">Paso 5 &mdash; init() y el arranque</span>
+<pre class="codigo"><code>    init() {
+        this.form.addEventListener('submit', (event) =&gt; {
+            event.preventDefault();
+            if ( this.validoInputsIndividual()==true ) {
+                this.form.submit();
+            }
+        });
+    }
+}
+
+// Inicialización automática si el formulario existe
+window.addEventListener('DOMContentLoaded', () =&gt; {
+    if (document.getElementById('formPersonas')) {
+        new FormPersonas().init();
+    }
+});</code></pre>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th></tr>
+      <tr><td><code>addEventListener('submit', (event) =&gt; {</code></td><td>Escucha el envío del formulario (el botón está adentro)</td></tr>
+      <tr><td><code>event.preventDefault();</code></td><td>Frena el envío automático</td></tr>
+      <tr><td><code>if (this.validoInputsIndividual()==true)</code></td><td>Valida y marca los tres campos</td></tr>
+      <tr><td><code>this.form.submit();</code></td><td>Si todo está bien, envía a mano, sin volver a disparar <code>submit</code> (teoría, sección 5, ejemplo 3)</td></tr>
+      <tr><td><code>DOMContentLoaded</code></td><td>Arranca cuando el DOM está armado (el esquema exacto de la diapositiva 13)</td></tr>
+      <tr><td><code>if (document.getElementById('formPersonas'))</code></td><td>Si no hay formulario, <code>getElementById</code> da <code>null</code>, que en un <code>if</code> cuenta como falso, y no se crea nada. Es lo que evita un error en <code>index.php</code>, que carga este mismo archivo (ejemplo 9) pero no tiene formulario: sin este <code>if</code>, <code>this.form.addEventListener</code> fallaría sobre <code>null</code></td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Paso 6 &mdash; procesoFormulario.php: la tabla</span>
+<pre class="codigo"><code>&lt;?php
+require_once __DIR__.'\includes\PageClass.php';
+
+if (isset($_POST['nombreyape']) &amp;&amp; isset($_POST['correo']) &amp;&amp; isset($_POST['documento'])) {
+
+    $filas="";
+    foreach ( $_POST as $indice =&gt; $valor ) {
+        $filas.='&lt;tr&gt;
+                    &lt;td&gt;'.$indice.'&lt;/td&gt;
+                    &lt;td&gt;'.$valor.'&lt;/td&gt;
+                &lt;/tr&gt;';
+    }
+
+}
+$body='&lt;h4 class="text-center"&gt;Datos Recibidos del Formulario&lt;/h4&gt;
+        &lt;h6 class="text-center"&gt;Se reciben los datos desde el array $_POST&lt;/h6&gt;
+        &lt;table class="table table-striped"&gt;
+            &lt;thead&gt;
+            &lt;tr&gt;
+                &lt;th&gt;Indice&lt;/th&gt;
+                &lt;th&gt;Valor&lt;/th&gt;
+            &lt;/tr&gt;
+            &lt;/thead&gt;
+            &lt;tbody&gt;
+            '.$filas.'
+            &lt;/tbody&gt;
+        &lt;/table&gt;';
+
+$oPage=new PageClass();
+  $oPage-&gt;setBody($body);
+echo $oPage-&gt;getHtml();</code></pre>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Cómo quedan las variables</th></tr>
+      <tr><td><code>if (isset(...) &amp;&amp; isset(...) &amp;&amp; isset(...))</code></td><td>Solo arma filas si llegaron los tres campos</td><td>&mdash;</td></tr>
+      <tr><td><code>$filas="";</code></td><td>Acumulador de texto vacío</td><td><code>$filas = ""</code></td></tr>
+      <tr><td><code>foreach ($_POST as $indice =&gt; $valor)</code></td><td>Una vuelta por campo recibido</td><td>1ra: <code>$indice = 'nombreyape'</code></td></tr>
+      <tr><td><code>$filas.='&lt;tr&gt;&lt;td&gt;'.$indice.'&lt;/td&gt;...';</code></td><td>Comillas simples: las variables se pegan con el punto. Agrega una fila de tabla</td><td>Una fila más por vuelta</td></tr>
+      <tr><td><code>$body='... $_POST ...'.$filas.'...';</code></td><td>Arma el contenido: título, aclaración y la tabla con las filas en el <code>&lt;tbody&gt;</code></td><td>&mdash;</td></tr>
+      <tr><td><code>new PageClass()</code> ... <code>echo</code></td><td>La envuelve con el menú del sitio, como siempre</td><td>&mdash;</td></tr>
+    </table>
+  </div>
+  <p>
+    Con Ana Paz, ana@mail.com y 30111222, el cuerpo de la tabla que imprime es (verificado con
+    <code>php.exe</code>, cargando esos datos en <code>$_POST</code>):
+  </p>
+<pre class="salida">&lt;tbody&gt;
+            &lt;tr&gt;
+                    &lt;td&gt;nombreyape&lt;/td&gt;
+                    &lt;td&gt;Ana Paz&lt;/td&gt;
+                &lt;/tr&gt;&lt;tr&gt;
+                    &lt;td&gt;correo&lt;/td&gt;
+                    &lt;td&gt;ana@mail.com&lt;/td&gt;
+                &lt;/tr&gt;&lt;tr&gt;
+                    &lt;td&gt;documento&lt;/td&gt;
+                    &lt;td&gt;30111222&lt;/td&gt;
+                &lt;/tr&gt;
+            &lt;/tbody&gt;</pre>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">"$_POST" se ve escrito tal cual</span>
+    <p>
+      El subtítulo dice literalmente <em>"Se reciben los datos desde el array $_POST"</em>: está
+      entre <strong>comillas simples</strong>, y en PHP las simples no reemplazan variables. Con
+      comillas dobles, PHP habría intentado meter el array ahí.
+    </p>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Entrar directo a procesoFormulario.php</span>
+    <p>
+      Si se abre la dirección sin enviar el formulario, <code>$_POST</code> está vacío, el
+      <code>if</code> no entra y <code>$filas</code> nunca se crea. Al usarla en <code>$body</code>,
+      PHP 8 avisa <code>Warning: Undefined variable $filas</code> (verificado con
+      <code>php.exe</code>) y la tabla sale sin filas. Se evita creando
+      <code>$filas = "";</code> antes del <code>if</code>.
+    </p>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">El navegador valida antes que JavaScript</span>
+    <p>
+      Como el correo es <code>type="email"</code>, si se escribe algo sin arroba (por ejemplo
+      <code>ana</code>), el propio navegador frena el envío con su cartel y el evento
+      <code>submit</code> ni llega a JavaScript. Con <code>ana@mail</code> el navegador lo acepta
+      (para él es un correo válido), pero la expresión regular no, y lo marca en rojo
+      JavaScript.
+    </p>
+  </div>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Qué se ve</span>
+    <p>
+      En "Formulario de Personas": los tres campos y el botón. Al enviar con errores, la página no
+      cambia: cada campo mal queda con borde rojo y su mensaje ("El campo Correo no puede estar
+      vacío."), y los bien, en verde con "Buen dato!" o "Bien!". Con todo bien, se pasa a "Datos
+      Recibidos del Formulario": una tabla rayada con dos columnas, Indice y Valor, y una fila por
+      campo.
+    </p>
+  </div>
+</div>

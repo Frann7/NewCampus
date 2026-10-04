@@ -1,0 +1,156 @@
+<div class="bloque">
+  <p class="kicker">Strings</p>
+  <h2>12. Comparar strings: ==, ===, strcmp y strcasecmp</h2>
+
+  <h3>Para qué sirve</h3>
+  <p>
+    Saber si dos textos son iguales (una contraseña, un nombre de usuario) es de lo más común. Hay
+    dos caminos:
+  </p>
+  <ul>
+    <li>Los <strong>operadores</strong> <code>==</code> y <code>===</code> de la Clase 1, que dan <code>true</code> o <code>false</code>.</li>
+    <li>Las <strong>funciones</strong> <code>strcmp()</code> y parientes, que además dicen cuál va primero en orden alfabético y permiten ignorar mayúsculas.</li>
+  </ul>
+
+  <h3>Sintaxis</h3>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Operadores y funciones</span>
+<pre class="codigo"><code>$a == $b                    // ¿mismo valor? (puede convertir tipos)
+$a === $b                   // ¿mismo valor y mismo tipo?
+strcmp($a, $b)              // 0 si son idénticas
+strcasecmp($a, $b)          // 0 si son iguales sin mirar mayúsculas
+strncmp($a, $b, n)          // compara solo los primeros n caracteres
+strncasecmp($a, $b, n)      // los primeros n, sin mirar mayúsculas</code></pre>
+  </div>
+
+  <h3>Qué es cada parte</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Función</th><th>¿Distingue mayúsculas?</th><th>Qué devuelve</th></tr>
+      <tr><td><code>strcmp</code> (<em>string compare</em>)</td><td><strong>Sí</strong></td><td rowspan="4"><code>0</code> si son iguales; un número <strong>negativo</strong> si <code>$a</code> va antes que <code>$b</code>; <strong>positivo</strong> si va después. En PHP 8 ese número es <code>-1</code> o <code>1</code></td></tr>
+      <tr><td><code>strcasecmp</code> (<em>case</em> = mayúsculas/minúsculas)</td><td><strong>No</strong></td></tr>
+      <tr><td><code>strncmp</code> (<em>n</em> = cuántos caracteres)</td><td>Sí</td></tr>
+      <tr><td><code>strncasecmp</code></td><td>No</td></tr>
+    </table>
+  </div>
+  <p>
+    Para usarlas en un <code>if</code> se pregunta si el resultado es <code>== 0</code>:
+    <strong>0 quiere decir "iguales"</strong> (al revés de lo que uno esperaría).
+  </p>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; == contra === (teoría de la cátedra)</h3>
+<pre class="codigo"><code>&lt;?php
+$cadena = '123abc';
+var_dump($cadena == 123);
+var_dump($cadena === 123);
+var_dump('123' == 123);
+var_dump('123' === 123);
+?&gt;</code></pre>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Resultado</th></tr>
+      <tr><td><code>$cadena == 123</code></td><td>Compara un string con un número. En PHP 8, si el string <strong>no es un número de punta a punta</strong> (como <code>'123'</code> o <code>'1.5'</code>), el 123 se convierte a texto <code>'123'</code> y se comparan como textos: <code>'123abc'</code> no es <code>'123'</code></td><td><code>bool(false)</code></td></tr>
+      <tr><td><code>$cadena === 123</code></td><td>Exige el mismo tipo: string contra int nunca es idéntico</td><td><code>bool(false)</code></td></tr>
+      <tr><td><code>'123' == 123</code></td><td><code>'123'</code> sí es un número completo: se comparan como números</td><td><code>bool(true)</code></td></tr>
+      <tr><td><code>'123' === 123</code></td><td>Mismo valor, distinto tipo</td><td><code>bool(false)</code></td></tr>
+    </table>
+  </div>
+<pre class="salida">bool(false)
+bool(false)
+bool(true)
+bool(false)</pre>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">La cátedra dice true: era así antes de PHP 8</span>
+    <p>
+      El apunte afirma que <code>'123abc' == 123</code> es <code>true</code>, porque PHP convertía
+      el string a número (<code>123</code>). Eso pasaba hasta PHP 7. Desde PHP 8 (el de XAMPP) da
+      <code>false</code>. La conclusión de la cátedra sigue valiendo: para comparar sin sorpresas,
+      <code>===</code>.
+    </p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; strcmp y strcasecmp</h3>
+<pre class="codigo"><code>&lt;?php
+$cadena = 'Hola a todos';
+var_dump(strcmp($cadena, 'Hola a todos'));
+var_dump(strcmp($cadena, 'HOLA a todos'));
+var_dump(strcasecmp($cadena, 'HOLA a todos'));
+var_dump(strcmp('a', 'b'));
+?&gt;</code></pre>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Resultado</th></tr>
+      <tr><td><code>strcmp($cadena, 'Hola a todos')</code></td><td>Idénticas</td><td><code>int(0)</code></td></tr>
+      <tr><td><code>strcmp($cadena, 'HOLA a todos')</code></td><td>Difieren en la <code>o</code>/<code>O</code> (posición 1). La minúscula tiene código mayor, así que <code>$cadena</code> va "después"</td><td><code>int(1)</code></td></tr>
+      <tr><td><code>strcasecmp($cadena, 'HOLA a todos')</code></td><td>Sin mirar mayúsculas son iguales</td><td><code>int(0)</code></td></tr>
+      <tr><td><code>strcmp('a', 'b')</code></td><td><code>a</code> va antes que <code>b</code></td><td><code>int(-1)</code></td></tr>
+    </table>
+  </div>
+<pre class="salida">int(0)
+int(1)
+int(0)
+int(-1)</pre>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">La cátedra describe las dos funciones al revés</span>
+    <p>
+      El apunte dice que <code>strcmp()</code> <em>no</em> diferencia mayúsculas y
+      <code>strcasecmp()</code> <em>sí</em>. Es al revés, como muestra este ejemplo:
+      <code>strcmp</code> distingue (da 1) y <code>strcasecmp</code> no (da 0). La pista está en el
+      nombre: <em>case</em> es "mayúsculas/minúsculas", y la función que lo lleva es la que
+      <strong>no</strong> les da importancia.
+    </p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 3 &mdash; Solo los primeros n caracteres (formato "¿cuál es la salida?")</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>¿Cuál es la salida del siguiente script?</p>
+  </div>
+<pre class="codigo"><code>&lt;?php
+$cadena = 'Hola a todos';
+if (strncasecmp($cadena, 'HolA  a todos', 3) == 0) {
+    echo 'Iguales en 3 (sin mayúsculas)&lt;br&gt;';
+}
+if (strncmp($cadena, 'HolA a todos', 3) == 0) {
+    echo 'Iguales en 3&lt;br&gt;';
+}
+if (strncmp($cadena, 'HolA a todos', 4) == 0) {
+    echo 'Iguales en 4';
+}
+?&gt;</code></pre>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Condición</th><th>Qué compara</th><th>Resultado</th></tr>
+      <tr><td><code>strncasecmp(..., 3)</code></td><td><code>Hol</code> contra <code>Hol</code>: iguales (lo que viene después no importa)</td><td>0 &rarr; imprime</td></tr>
+      <tr><td><code>strncmp(..., 3)</code></td><td><code>Hol</code> contra <code>Hol</code>: iguales, aun distinguiendo mayúsculas</td><td>0 &rarr; imprime</td></tr>
+      <tr><td><code>strncmp(..., 4)</code></td><td><code>Hola</code> contra <code>HolA</code>: la cuarta letra difiere en mayúscula</td><td>1 &rarr; no imprime</td></tr>
+    </table>
+  </div>
+<pre class="salida">Iguales en 3 (sin mayúsculas)
+Iguales en 3</pre>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">La función se llama strncasecmp</span>
+    <p>
+      El apunte la escribe <code>strcasencmp()</code>, que no existe en PHP (daría
+      <code>Call to undefined function</code>). El nombre correcto es <code>strncasecmp()</code>:
+      <em>str</em> + <em>n</em> + <em>case</em> + <em>cmp</em>.
+    </p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Errores y trampas</h3>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">if (strcmp(...)) entra cuando son distintas</span>
+    <p>
+      Como "iguales" es 0 y 0 es falso, <code>if (strcmp($a, $b))</code> entra justamente cuando
+      <strong>no</strong> son iguales. Siempre se escribe <code>== 0</code>.
+    </p>
+  </div>
+</div>

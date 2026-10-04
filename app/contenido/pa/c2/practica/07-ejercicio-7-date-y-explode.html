@@ -1,0 +1,60 @@
+<div class="ej" data-examen="igual" data-examen-ref="Parcial PHP · preg. 17" data-examen-nota="El parcial pone este mismo script (la resolución de la cátedra, letra por letra) y pregunta cuál es la salida: c. 23/05/2017, es decir, el formato día/mes/año.">
+  <span class="tag">Ejercicio 7 &middot; date y explode</span>
+  <h2>Cambiar el formato de la fecha a dd/mm/yyyy</h2>
+  <div class="enunciado">
+    <p>
+      Escriba un script PHP que utilice la función <code>date('Y-m-d')</code> para obtener la fecha
+      actual y utilizando la función <code>explode()</code> cambie el formato de la fecha a
+      dd/mm/yyyy, muestre la fecha con formato por pantalla.
+    </p>
+  </div>
+
+  <span class="paso">Paso 1 &mdash; Qué pide</span>
+  <ul>
+    <li><code>date('Y-m-d')</code> da la fecha de hoy como texto <strong>año-mes-día</strong>, por ejemplo <code>2026-10-04</code> (teoría, sección 16).</li>
+    <li>Hay que pasarla a <strong>día/mes/año</strong>: <code>04/10/2026</code>.</li>
+    <li>El plan: cortar el texto en cada <code>-</code> con <code>explode()</code>, que da un arreglo con año, mes y día, y volver a pegar los pedazos en otro orden con <code>/</code> en el medio.</li>
+  </ul>
+
+  <span class="paso">Paso 2 &mdash; El código</span>
+<pre class="codigo"><code>&lt;?php
+$fecha = date('Y-m-d');
+$arreglo_fecha = explode("-", $fecha);
+$fecha_nueva = $arreglo_fecha[2]."/".$arreglo_fecha[1]."/".$arreglo_fecha[0];
+echo $fecha_nueva;
+?&gt;</code></pre>
+
+  <span class="paso">Paso 3 &mdash; Qué hace cada línea</span>
+  <p>Siguiéndolo con la fecha del día en que se corrió, el 4 de octubre de 2026:</p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Cómo quedan las variables</th></tr>
+      <tr><td><code>$fecha = date('Y-m-d');</code></td><td><code>Y</code> = año de 4 dígitos, <code>m</code> = mes de 2, <code>d</code> = día de 2; los guiones quedan</td><td><code>$fecha</code> = '2026-10-04'</td></tr>
+      <tr><td><code>$arreglo_fecha = explode("-", $fecha);</code></td><td>Corta en cada guion; los guiones desaparecen</td><td><code>$arreglo_fecha</code>: 0 =&gt; '2026' &middot; 1 =&gt; '10' &middot; 2 =&gt; '04'</td></tr>
+      <tr><td><code>$fecha_nueva = $arreglo_fecha[2]."/"...;</code></td><td>Concatena día (clave 2), <code>/</code>, mes (clave 1), <code>/</code>, año (clave 0)</td><td><code>$fecha_nueva</code> = '04/10/2026'</td></tr>
+      <tr><td><code>echo $fecha_nueva;</code></td><td>La muestra</td><td>&mdash;</td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Paso 4 &mdash; La salida</span>
+  <p>Corrido el 4 de octubre de 2026 con la zona horaria de Argentina:</p>
+<pre class="salida">04/10/2026</pre>
+  <p>Cualquier otro día sale esa fecha, siempre con el formato <strong>dd/mm/yyyy</strong>.</p>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Resolución de la cátedra</span>
+    <p>
+      Es el mismo código. &#10003; Y es, letra por letra, el script de la pregunta 17 del Parcial PHP,
+      que da como respuesta <code>23/05/2017</code> (la fecha del día en que se armó la pregunta).
+    </p>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">De noche, XAMPP puede dar la fecha de mañana</span>
+    <p>
+      El <code>php.ini</code> de XAMPP trae la zona horaria <code>Europe/Berlin</code>. Corrido a
+      las 20 h del 4 de octubre en Argentina, este mismo script dio <code>05/10/2026</code>, porque
+      en Berlín ya era el 5. Para que use la hora de acá, se agrega como primera línea
+      <code>date_default_timezone_set('America/Argentina/Buenos_Aires');</code>.
+    </p>
+  </div>
+</div>

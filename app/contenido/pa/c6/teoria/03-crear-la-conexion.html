@@ -1,0 +1,164 @@
+<div class="bloque">
+  <p class="kicker">Sección 3 &middot; Teoría, páginas 1 y 2</p>
+  <h2>3. Crear la conexión</h2>
+
+  <h3>Para qué sirve</h3>
+  <p>
+    Para hablar con el servidor de datos, primero hay que <strong>abrir una conexión</strong>.
+    Toda la comunicación entre PHP y la base pasa por ella: sin conexión no hay consulta. Y
+    como cada script arranca de cero, la conexión se abre <strong>en cada script</strong> que use
+    la base.
+  </p>
+
+  <h3>Sintaxis</h3>
+  <p>Se crea un objeto de la clase <code>mysqli</code> pasándole cuatro datos, y se revisa si salió bien:</p>
+<pre class="codigo"><code>$mysqli = new mysqli('Host', 'usuarioDB', 'contraseñaDB', 'BasedeDatos');
+
+if ($mysqli-&gt;connect_errno)
+{
+    echo "No se pudo establecer la conexión.";
+    echo "Error número: " . $mysqli-&gt;connect_errno;
+    echo "Error descripción: " . $mysqli-&gt;connect_error;
+    exit;
+}</code></pre>
+  <p>En estilo procedural, lo mismo es <code>mysqli_connect()</code>:</p>
+<pre class="codigo"><code>$conexion = mysqli_connect('Host', 'usuarioDB', 'contraseñaDB', 'BasedeDatos');
+
+if (!$conexion)
+{
+    echo "Error: " . mysqli_connect_error();
+    exit;
+}</code></pre>
+
+  <h3>Qué es cada parte</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Parte</th><th>Qué es</th><th>En XAMPP</th></tr>
+      <tr><td><code>Host</code></td><td>La dirección IP o el nombre del servidor donde está la base. Un <em>fqdn</em> (<em>fully qualified domain name</em>) es el nombre completo de una máquina en internet, como <code>db.miempresa.com</code></td><td><code>'localhost'</code> o <code>'127.0.0.1'</code>: las dos quieren decir "esta misma PC"</td></tr>
+      <tr><td><code>usuarioDB</code></td><td>El usuario <strong>del SGBD</strong> (no el de Windows ni el del sitio)</td><td><code>'root'</code></td></tr>
+      <tr><td><code>contraseñaDB</code></td><td>La contraseña de ese usuario</td><td><code>''</code>: dos comillas sin nada, porque root viene sin contraseña</td></tr>
+      <tr><td><code>BasedeDatos</code></td><td>El nombre de la base a la que se quiere entrar</td><td>la que creaste en phpMyAdmin</td></tr>
+      <tr><td><code>$mysqli</code></td><td>El objeto que queda guardando la conexión. La cátedra dice que "se crea un socket" y que esta variable lo direcciona: por ella se mandan las consultas y se reciben los resultados</td><td></td></tr>
+      <tr><td><code>connect_errno</code></td><td>Una propiedad (un dato del objeto, sin paréntesis) con el <strong>número</strong> del error de conexión. Vale <code>0</code> si conectó bien</td><td></td></tr>
+      <tr><td><code>connect_error</code></td><td>La <strong>descripción</strong> del error, en texto. Vale <code>null</code> si conectó bien</td><td></td></tr>
+      <tr><td><code>exit</code></td><td>Corta el script ahí mismo. Sin conexión no tiene sentido seguir</td><td></td></tr>
+    </table>
+  </div>
+  <p>
+    El <code>if</code> funciona porque <code>0</code> cuenta como falso: si conectó, <code>connect_errno</code>
+    es 0 y no entra; si falló, es un número como 2002 y entra.
+  </p>
+
+  <h3>Un paso más: <code>set_charset</code></h3>
+  <p>
+    El sitio de ejemplo de la cátedra agrega, después de conectar:
+  </p>
+<pre class="codigo"><code>$mysqli-&gt;set_charset("utf8");</code></pre>
+  <p>
+    Le avisa a la base que el texto va y viene en UTF-8. Sin eso, las tildes y las eñes pueden
+    llegar como <code>Garc�a</code>. Se escribe <code>"utf8"</code>, <strong>sin guion</strong>:
+    es el nombre que usa MySQL, no el de HTML.
+  </p>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; Conectarse a la base de la teoría</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>
+      Conectarse a la base <code>Personal</code> del XAMPP de tu PC, con el usuario root, y mostrar
+      un mensaje si la conexión falla.
+    </p>
+  </div>
+<pre class="codigo"><code>&lt;?php
+$mysqli = new mysqli('127.0.0.1', 'root', '', 'Personal');
+
+if ($mysqli-&gt;connect_errno)
+{
+    echo "No se pudo establecer la conexión.";
+    exit;
+}
+
+$mysqli-&gt;set_charset('utf8');
+?&gt;</code></pre>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Cómo quedan las variables</th></tr>
+      <tr><td>2</td><td>Abre la conexión: servidor en esta PC, usuario root, sin contraseña, base Personal</td><td><code>$mysqli</code> = la conexión abierta</td></tr>
+      <tr><td>4</td><td>Pregunta si hubo error de conexión</td><td><code>connect_errno</code> = 0 &rarr; no entra</td></tr>
+      <tr><td>10</td><td>Pide que el texto viaje en UTF-8</td><td></td></tr>
+    </table>
+  </div>
+  <p>
+    <strong>Qué imprime:</strong> nada. Si conecta bien no hay ningún <code>echo</code> que se
+    ejecute: la página queda en blanco, y eso es lo esperado. Este archivo es el que después se
+    incluye en los demás scripts.
+  </p>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; ¿Qué muestra si MySQL está apagado?</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>
+      Con el código del ejemplo 1, alguien se olvida de prender MySQL en el panel de XAMPP y abre
+      la página. ¿Qué se ve? ¿Llega a mostrarse <em>"No se pudo establecer la conexión."</em>?
+    </p>
+  </div>
+  <p>
+    Lo esperable, leyendo el código de la cátedra, sería que entre al <code>if</code>. Pero
+    <strong>no llega</strong>. Lo corrimos con el PHP 8.2 de XAMPP contra un puerto donde no hay
+    ningún servidor (que es lo mismo que tener MySQL apagado), y se ve esto:
+  </p>
+<pre class="salida">Fatal error: Uncaught mysqli_sql_exception: No se puede establecer una conexión ya que el equipo de destino denegó expresamente dicha conexión in C:\xampp\htdocs\conexion.php:2</pre>
+  <p>
+    <strong>Por qué:</strong> desde PHP 8.1, cuando mysqli falla no deja el error guardado en
+    <code>connect_errno</code> para que lo mires después: <strong>lanza una excepción</strong>.
+    Una excepción es un error que corta el script en el acto, salvo que alguien la
+    <strong>atrape</strong>. Como nadie la atrapa, el script muere en la línea 2 y el
+    <code>if</code> nunca se ejecuta. Debajo de esa línea vienen unas líneas de <em>Stack trace</em>
+    que dicen dónde pasó. La ruta del archivo depende de dónde lo tengas, y el texto del error
+    lo pone Windows, en el idioma de la PC.
+  </p>
+
+  <h4>Cómo atraparla: <code>try</code> / <code>catch</code></h4>
+<pre class="codigo"><code>&lt;?php
+try {
+    $mysqli = new mysqli('127.0.0.1', 'root', '', 'Personal');
+} catch (mysqli_sql_exception $e) {
+    echo "No se pudo establecer la conexión.&lt;br&gt;";
+    echo "Error número: " . $e-&gt;getCode() . "&lt;br&gt;";
+    echo "Error descripción: " . $e-&gt;getMessage();
+    exit;
+}
+?&gt;</code></pre>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Cómo quedan las variables</th></tr>
+      <tr><td>2</td><td><code>try</code>: "intentá esto". Si adentro se lanza una excepción, en vez de morir salta al <code>catch</code></td><td></td></tr>
+      <tr><td>3</td><td>Intenta conectar; falla y lanza la excepción</td><td><code>$mysqli</code> no llega a existir</td></tr>
+      <tr><td>4</td><td><code>catch</code> atrapa las excepciones de tipo <code>mysqli_sql_exception</code> y guarda la excepción en <code>$e</code></td><td><code>$e</code> = la excepción</td></tr>
+      <tr><td>5</td><td>Muestra el mensaje propio</td><td></td></tr>
+      <tr><td>6</td><td><code>getCode()</code> devuelve el número del error (lo mismo que <code>connect_errno</code>)</td><td>2002</td></tr>
+      <tr><td>7</td><td><code>getMessage()</code> devuelve la descripción (lo mismo que <code>connect_error</code>)</td><td>el texto del error</td></tr>
+      <tr><td>8</td><td>Corta el script</td><td></td></tr>
+    </table>
+  </div>
+  <p><strong>Qué imprime</strong> (verificado con el mismo servidor apagado):</p>
+<pre class="salida">No se pudo establecer la conexión.&lt;br&gt;Error número: 2002&lt;br&gt;Error descripción: No se puede establecer una conexión ya que el equipo de destino denegó expresamente dicha conexión</pre>
+  <p>
+    En el navegador, cada <code>&lt;br&gt;</code> es un salto de línea: se ven tres renglones.
+    El 2002 es el código de "no hay servidor en esa dirección". Otro muy común es el
+    <strong>1045</strong>, usuario o contraseña incorrectos.
+  </p>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Errores y trampas</span>
+    <ul>
+      <li><strong>El código de la cátedra es de antes de PHP 8.1.</strong> En el XAMPP actual, el <code>if ($mysqli-&gt;connect_errno)</code> no alcanza: o se usa <code>try</code>/<code>catch</code>, o se pone <code>mysqli_report(MYSQLI_REPORT_OFF);</code> antes de conectar, que vuelve al comportamiento viejo: mysqli no lanza nada y deja el error en <code>connect_errno</code> (igual PHP muestra arriba un <em>Warning</em> con el error; lo verificamos).</li>
+      <li><strong>La contraseña vacía se escribe <code>''</code>.</strong> No se puede saltear el parámetro: si falta, el cuarto dato (la base) pasaría a ser la contraseña.</li>
+      <li><strong>Copiar del PDF trae comillas tipográficas</strong> (<code>“ ”</code> o <code>‘ ’</code>). PHP no las reconoce como comillas y da error de sintaxis. Siempre <code>'</code> o <code>"</code> del teclado.</li>
+      <li><strong>Usuario de la base &ne; usuario del sitio.</strong> <code>root</code> es el usuario de MariaDB; nada que ver con quien navega la página.</li>
+    </ul>
+  </div>
+</div>

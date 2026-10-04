@@ -1,0 +1,152 @@
+<div class="bloque">
+  <p class="kicker">Sección 2 &middot; Guía práctica, ejercicio 1, y lo visto en clase</p>
+  <h2>2. phpMyAdmin: crear la base y la tabla</h2>
+
+  <h3>Para qué sirve</h3>
+  <p>
+    Antes de que PHP pueda guardar algo, la base y la tabla tienen que existir.
+    <strong>phpMyAdmin</strong> es el programa con el que se administra MariaDB desde el
+    navegador: crear bases, tablas, cargar filas a mano, crear usuarios, hacer copias de
+    seguridad. Viene con XAMPP y se abre en <code>http://localhost/phpmyadmin</code>, con
+    Apache y MySQL prendidos en el panel de XAMPP (la instalación está en la guía de la Clase 1).
+  </p>
+  <p>
+    La guía de la cátedra pide usarlo en el ejercicio 1. Lo de motores y usuarios no está en el
+    PDF: se vio en la clase práctica y va resumido acá.
+  </p>
+
+  <h3>Sintaxis: los pasos para crear una tabla</h3>
+  <ol>
+    <li>En el panel izquierdo, <strong>Nueva</strong>. Se escribe el nombre de la base y <strong>Crear</strong>.</li>
+    <li>Con la base elegida, se escribe el nombre de la tabla y cuántas columnas va a tener, y <strong>Crear</strong>.</li>
+    <li>Por cada columna se completa una fila del formulario (tabla de abajo).</li>
+    <li><strong>Guardar</strong>. phpMyAdmin arma la instrucción SQL, la ejecuta y la muestra arriba: es lo mismo que si la hubieras escrito en la pestaña <strong>SQL</strong>.</li>
+  </ol>
+
+  <h3>Qué es cada parte del formulario</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Casilla</th><th>Qué se pone</th><th>Ejemplo</th></tr>
+      <tr><td class="lbl">Nombre</td><td>El nombre de la columna. Es el que después aparece como clave del arreglo en PHP, así que conviene minúsculas y sin espacios</td><td><code>apellido</code></td></tr>
+      <tr><td class="lbl">Tipo</td><td><code>INT</code> para enteros (<code>INTEGER</code> es lo mismo); <code>VARCHAR</code> para texto de largo variable</td><td><code>VARCHAR</code></td></tr>
+      <tr><td class="lbl">Longitud</td><td>En <code>VARCHAR</code>, la cantidad máxima de caracteres</td><td><code>100</code></td></tr>
+      <tr><td class="lbl">Nulo</td><td>Tildado: la columna puede quedar vacía (<code>NULL</code>). Sin tildar: <code>NOT NULL</code>, es obligatoria</td><td>sin tildar en la clave</td></tr>
+      <tr><td class="lbl">Índice</td><td><code>PRIMARY</code> la vuelve clave primaria: no se puede repetir y identifica la fila</td><td><code>PRIMARY</code> en el id</td></tr>
+      <tr><td class="lbl">A_I</td><td><em>Auto Increment</em>: el número lo pone la base sola (1, 2, 3&hellip;) cada vez que se agrega una fila. Se usa en la clave primaria numérica, y por eso al insertar no hace falta mandarla</td><td>tildado en el id</td></tr>
+      <tr><td class="lbl">Motor</td><td>Cómo guarda la tabla en el disco: <strong>InnoDB</strong> o <strong>MyISAM</strong> (abajo)</td><td>InnoDB (el de fábrica)</td></tr>
+      <tr><td class="lbl">Cotejamiento</td><td>Qué juego de caracteres usa el texto y cómo se compara. Uno <code>utf8mb4_...</code> acepta tildes, eñes y emojis</td><td><code>utf8mb4_general_ci</code></td></tr>
+    </table>
+  </div>
+
+  <h3>Los dos motores: InnoDB y MyISAM</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th></th><th>MyISAM</th><th>InnoDB</th></tr>
+      <tr><td class="lbl">Cómo guarda</td><td>Archivos por tabla: uno con el formato, otro con los datos y otro con los índices</td><td>Con <strong>bitácoras</strong>: anota cada cambio antes de hacerlo</td></tr>
+      <tr><td class="lbl">Velocidad</td><td>Muy rápido para leer, porque hace menos cosas</td><td>Un poco más lento, por todo lo que controla</td></tr>
+      <tr><td class="lbl">Claves foráneas</td><td>No</td><td>Sí</td></tr>
+      <tr><td class="lbl">Si se corta la luz escribiendo</td><td>La tabla se puede corromper</td><td>Usa la bitácora para volver atrás (<em>rollback</em>) y quedar sana</td></tr>
+      <tr><td class="lbl">Cuándo</td><td>Tablas de solo lectura, donde no importa perder la última escritura</td><td>Casi siempre. Es el que XAMPP pone de fábrica</td></tr>
+    </table>
+  </div>
+  <p>
+    Una <strong>clave foránea</strong> (FK) es una columna que apunta a la clave primaria de otra
+    tabla (por ejemplo, <code>idPersona</code> en una tabla de teléfonos). En phpMyAdmin se arma
+    en dos pasos: a la columna se le pone <strong>Índice</strong> <code>INDEX</code>, y después,
+    en <strong>Vista de relaciones</strong> de esa tabla, se elige la columna y a qué tabla y
+    columna apunta. Solo funciona con InnoDB.
+  </p>
+
+  <h3>Usuarios y permisos</h3>
+  <ul>
+    <li><strong><code>root</code></strong> es el usuario administrador. En XAMPP viene <strong>sin contraseña</strong>: por eso en los ejemplos la contraseña es <code>''</code> (texto vacío).</li>
+    <li>En <strong>Cuentas de usuarios</strong> se crean otros usuarios. Cada uno tiene un <strong>Nombre de host</strong>: desde qué máquina se puede conectar. <code>localhost</code> = solo desde la misma PC donde está la base; <code>%</code> = desde cualquiera.</li>
+    <li>Un usuario nuevo no ve nada hasta que root le da <strong>permisos</strong> sobre cada base. Así trabaja el sitio de ejemplo de la cátedra: usa un usuario propio, no root, con permisos solo sobre su base.</li>
+    <li><strong>Exportar</strong> genera un archivo <code>.sql</code> con todas las instrucciones para recrear la base; <strong>Importar</strong> lo ejecuta en otra PC. Sirve de copia de seguridad y para pasarse la base.</li>
+  </ul>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; La tabla de la teoría de la cátedra</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>
+      Crear la base <code>Personal</code> con la tabla <code>personas</code> que usa la teoría:
+      un id que se numere solo, el documento, el apellido y los nombres.
+    </p>
+  </div>
+  <p>En phpMyAdmin: <strong>Nueva</strong> &rarr; <code>Personal</code> &rarr; Crear; tabla <code>personas</code> con 4 columnas:</p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Nombre</th><th>Tipo</th><th>Longitud</th><th>Nulo</th><th>Índice</th><th>A_I</th></tr>
+      <tr><td><code>idPersona</code></td><td>INT</td><td></td><td>no</td><td>PRIMARY</td><td>sí</td></tr>
+      <tr><td><code>documento</code></td><td>INT</td><td></td><td>no</td><td></td><td></td></tr>
+      <tr><td><code>apellido</code></td><td>VARCHAR</td><td>50</td><td>no</td><td></td><td></td></tr>
+      <tr><td><code>nombres</code></td><td>VARCHAR</td><td>50</td><td>no</td><td></td><td></td></tr>
+    </table>
+  </div>
+  <p>Al guardar, phpMyAdmin ejecuta este SQL (las longitudes 50 son de ejemplo: la cátedra no las da):</p>
+<pre class="codigo"><code>CREATE DATABASE Personal;
+
+CREATE TABLE personas (
+    idPersona INT NOT NULL AUTO_INCREMENT,
+    documento INT NOT NULL,
+    apellido  VARCHAR(50) NOT NULL,
+    nombres   VARCHAR(50) NOT NULL,
+    PRIMARY KEY (idPersona)
+) ENGINE = InnoDB;</code></pre>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th></tr>
+      <tr><td><code>CREATE DATABASE Personal;</code></td><td>Crea la base vacía</td></tr>
+      <tr><td><code>CREATE TABLE personas (</code></td><td>Empieza a definir la tabla; adentro van las columnas separadas por coma</td></tr>
+      <tr><td><code>idPersona INT NOT NULL AUTO_INCREMENT,</code></td><td>Entero, obligatorio, numerado solo (la casilla A_I)</td></tr>
+      <tr><td><code>documento INT NOT NULL,</code></td><td>Entero obligatorio</td></tr>
+      <tr><td><code>apellido VARCHAR(50) NOT NULL,</code></td><td>Texto de hasta 50 caracteres</td></tr>
+      <tr><td><code>PRIMARY KEY (idPersona)</code></td><td>Declara la clave primaria (la casilla Índice = PRIMARY)</td></tr>
+      <tr><td><code>) ENGINE = InnoDB;</code></td><td>Cierra la definición y elige el motor</td></tr>
+    </table>
+  </div>
+  <p>Con <strong>Insertar</strong> se cargan las tres filas de la teoría, y la tabla queda así:</p>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th>idPersona</th><th>documento</th><th>apellido</th><th>nombres</th></tr>
+      <tr><td>1</td><td>22333444</td><td>García</td><td>Gabriel</td></tr>
+      <tr><td>2</td><td>11222333</td><td>Bonnet</td><td>Federico</td></tr>
+      <tr><td>3</td><td>44555666</td><td>Aramburu</td><td>Exequiel</td></tr>
+    </table>
+  </div>
+  <p>
+    Esta es <strong>la tabla de ejemplo</strong> que usan las secciones 3 a 8. El
+    <code>idPersona</code> no se escribió: lo puso la base.
+  </p>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; ¿Qué motor y qué usuario?</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>
+      a) Una tabla <code>telefonos</code> tiene que apuntar a <code>personas</code> con una clave
+      foránea. ¿MyISAM o InnoDB?<br>
+      b) El usuario <code>fede</code>, con host <code>localhost</code> y permisos solo sobre la
+      base <code>rrhh</code>, intenta conectarse a la base <code>Personal</code>. ¿Puede?<br>
+      c) Y desde otra PC de la red, a <code>rrhh</code>, ¿puede?
+    </p>
+  </div>
+  <ol type="a">
+    <li><strong>InnoDB</strong>: MyISAM no tiene claves foráneas.</li>
+    <li><strong>No</strong>: solo tiene permisos sobre <code>rrhh</code>. La base le niega el acceso.</li>
+    <li><strong>No</strong>: el host <code>localhost</code> significa que solo puede entrar desde la misma PC donde corre la base. Para entrar desde otra, el host tendría que ser <code>%</code> o la dirección de esa PC.</li>
+  </ol>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Errores y trampas</span>
+    <ul>
+      <li><strong>MyISAM sí tiene índices</strong> (uno de sus archivos es justamente el de índices). Lo que no tiene son claves foráneas ni la bitácora para volver atrás.</li>
+      <li><strong>En Windows los nombres quedan en minúsculas.</strong> Si creás <code>DB_Comentarios</code>, phpMyAdmin la va a mostrar como <code>db_comentarios</code>. Conectarse con cualquiera de los dos nombres funciona igual en Windows.</li>
+      <li><strong>A_I sin PRIMARY</strong> da error al guardar: la columna autoincremental tiene que ser clave.</li>
+      <li>Root sin contraseña está bien en tu PC de práctica. En un servidor real es lo primero que se cambia.</li>
+    </ul>
+  </div>
+</div>

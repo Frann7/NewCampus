@@ -1,0 +1,167 @@
+<div class="bloque">
+  <p class="kicker">Lo que usa el código de la práctica</p>
+  <h2>10. Tres herramientas del sitio de ejemplo</h2>
+
+  <p>
+    El sitio de ejemplo que la cátedra da con la práctica (<code>site.zip</code>) usa tres cosas
+    que el apunte teórico no explica. Van acá, antes de que aparezcan en la práctica:
+  </p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Herramienta</th><th>Para qué sirve</th></tr>
+      <tr><td><code>$_SERVER["REQUEST_METHOD"]</code></td><td>Saber <strong>por qué método</strong> llegó la solicitud: <code>"GET"</code> o <code>"POST"</code></td></tr>
+      <tr><td><code>htmlspecialchars()</code></td><td><strong>Mostrar sin peligro</strong> un texto que escribió el usuario</td></tr>
+      <tr><td><code>require_once</code></td><td><strong>Armar una página con pedazos</strong> que están en otros archivos</td></tr>
+    </table>
+  </div>
+
+  <h3>$_SERVER["REQUEST_METHOD"]: por qué método llegó</h3>
+  <p>
+    <code>$_SERVER</code> es otro arreglo superglobal: PHP lo llena con datos del servidor y de la
+    solicitud. La clave <code>"REQUEST_METHOD"</code> tiene el método, en mayúsculas:
+    <code>"GET"</code> si se pidió la URL (o se envió un formulario GET), <code>"POST"</code> si
+    se envió un formulario POST.
+  </p>
+<pre class="codigo"><code>if ( $_SERVER["REQUEST_METHOD"] == "POST" ) {
+    ... leer de $_POST ...
+}</code></pre>
+
+  <h4>Ejemplo 1 &mdash; Responder según el método</h4>
+<pre class="codigo"><code>&lt;?php
+if ( $_SERVER["REQUEST_METHOD"] == "POST" ) {
+    echo "Llegó por POST";
+} else {
+    echo "Llegó por GET";
+}
+?&gt;</code></pre>
+
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Caso</th><th>Valor de <code>$_SERVER["REQUEST_METHOD"]</code></th><th>Qué rama ejecuta</th><th>Qué imprime</th></tr>
+      <tr><td>Se escribe la dirección en la barra (o se envía un formulario GET)</td><td><code>"GET"</code></td><td>el <code>else</code></td><td><code>Llegó por GET</code></td></tr>
+      <tr><td>Se envía un formulario con <code>method="post"</code></td><td><code>"POST"</code></td><td>el <code>if</code></td><td><code>Llegó por POST</code></td></tr>
+    </table>
+  </div>
+  <p>
+    Verificado pidiendo el script por GET y por POST al servidor de PHP. Sirve para que el script
+    no intente leer <code>$_POST</code> cuando alguien lo abre directamente desde la barra.
+  </p>
+
+  <hr class="sep">
+
+  <h3>htmlspecialchars(): mostrar lo que escribió el usuario</h3>
+  <p>
+    Si el script devuelve tal cual lo que el usuario escribió, y el usuario escribió etiquetas
+    (<code>&lt;b&gt;</code>, o peor, <code>&lt;script&gt;</code>), el navegador las
+    <strong>ejecuta</strong> como parte de la página. <code>htmlspecialchars()</code> recibe un
+    string y devuelve otro en el que los caracteres especiales de HTML están reemplazados por su
+    <strong>entidad</strong>: un código que el navegador <strong>muestra</strong> como el
+    carácter, pero no interpreta como etiqueta.
+  </p>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th>Carácter</th><th>Se reemplaza por</th></tr>
+      <tr><td><code>&lt;</code></td><td><code>&amp;lt;</code></td></tr>
+      <tr><td><code>&gt;</code></td><td><code>&amp;gt;</code></td></tr>
+      <tr><td><code>&amp;</code></td><td><code>&amp;amp;</code></td></tr>
+      <tr><td><code>"</code></td><td><code>&amp;quot;</code></td></tr>
+    </table>
+  </div>
+
+  <h4>Ejemplo 2 &mdash; ¿Cuál es la salida? (formato parcial)</h4>
+  <p>Un formulario POST manda en el campo <code>comentario</code> el texto <code>&lt;b&gt;Hola&lt;/b&gt; &amp; chau</code>.</p>
+<pre class="codigo"><code>&lt;?php
+$comentario = $_POST['comentario'];
+echo "Sin proteger: " . $comentario . "\n";
+echo "Con htmlspecialchars: " . htmlspecialchars($comentario);
+?&gt;</code></pre>
+
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Cómo quedan las variables</th></tr>
+      <tr><td>2</td><td>Guarda el dato recibido</td><td><code>$comentario = "&lt;b&gt;Hola&lt;/b&gt; &amp; chau"</code></td></tr>
+      <tr><td>3</td><td>Lo imprime tal cual, concatenado (<code>.</code>) con un rótulo y un salto de línea <code>\n</code></td><td>&mdash;</td></tr>
+      <tr><td>4</td><td>Lo imprime pasado por <code>htmlspecialchars()</code></td><td>el string devuelto es <code>&amp;lt;b&amp;gt;Hola&amp;lt;/b&amp;gt; &amp;amp; chau</code></td></tr>
+    </table>
+  </div>
+
+  <h4>Qué imprime (el texto que manda PHP)</h4>
+<pre class="salida">Sin proteger: &lt;b&gt;Hola&lt;/b&gt; &amp; chau
+Con htmlspecialchars: &amp;lt;b&amp;gt;Hola&amp;lt;/b&amp;gt; &amp;amp; chau</pre>
+  <h4>Qué se ve en el navegador</h4>
+  <ul>
+    <li>En el primer renglón, <strong>Hola</strong> sale en negrita: el navegador interpretó el <code>&lt;b&gt;</code> como etiqueta.</li>
+    <li>En el segundo se lee literalmente <code>&lt;b&gt;Hola&lt;/b&gt; &amp; chau</code>, con los signos a la vista: el navegador convirtió cada entidad en su carácter y no interpretó nada.</li>
+  </ul>
+  <p>Salida verificada mandando ese POST al servidor de PHP.</p>
+
+  <hr class="sep">
+
+  <h3>require_once: la página armada con pedazos</h3>
+  <p>
+    En un sitio, todas las páginas comparten el mismo encabezado, menú y pie. En vez de copiarlos
+    en cada archivo, se escriben <strong>una vez</strong> en archivos aparte y se
+    <strong>incluyen</strong>. <code>require_once 'archivo.php';</code> hace exactamente eso:
+    pega el contenido de ese archivo en ese punto, como si estuviera escrito ahí (si tiene HTML,
+    sale el HTML; si tiene PHP, se ejecuta).
+  </p>
+  <ul>
+    <li><strong>require:</strong> si el archivo no existe, es un error <strong>fatal</strong> y el script se corta.</li>
+    <li><strong>_once:</strong> si ese archivo ya se incluyó antes, no lo vuelve a incluir.</li>
+  </ul>
+
+  <h4>Ejemplo 3 &mdash; Una página con encabezado y pie</h4>
+  <p>Dos archivos chicos en la carpeta <code>includes</code>:</p>
+<pre class="codigo"><code>&lt;!-- includes/encabezado.php --&gt;
+&lt;h1&gt;Mi sitio&lt;/h1&gt;
+
+&lt;!-- includes/pie.php --&gt;
+&lt;p&gt;Pie de pagina&lt;/p&gt;</code></pre>
+  <p>Y la página:</p>
+<pre class="codigo"><code>&lt;?php require_once 'includes/encabezado.php'; ?&gt;
+&lt;p&gt;Contenido de esta página&lt;/p&gt;
+&lt;?php require_once 'includes/pie.php'; ?&gt;
+&lt;?php require_once 'includes/pie.php'; ?&gt;</code></pre>
+
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Qué agrega a la salida</th></tr>
+      <tr><td>1</td><td>Incluye el encabezado</td><td><code>&lt;h1&gt;Mi sitio&lt;/h1&gt;</code></td></tr>
+      <tr><td>2</td><td>HTML fuera de <code>&lt;?php ?&gt;</code>: sale tal cual (Clase 1)</td><td><code>&lt;p&gt;Contenido de esta página&lt;/p&gt;</code></td></tr>
+      <tr><td>3</td><td>Incluye el pie</td><td><code>&lt;p&gt;Pie de pagina&lt;/p&gt;</code></td></tr>
+      <tr><td>4</td><td>Pide el pie otra vez, pero ya se incluyó: <code>_once</code> lo saltea</td><td>nada</td></tr>
+    </table>
+  </div>
+
+<pre class="salida">&lt;h1&gt;Mi sitio&lt;/h1&gt;
+&lt;p&gt;Contenido de esta página&lt;/p&gt;
+&lt;p&gt;Pie de pagina&lt;/p&gt;</pre>
+  <p>
+    Verificado con <code>php.exe</code>: el pie sale <strong>una sola vez</strong>. Y si el
+    archivo pedido no existe, PHP muestra <em>"Failed opening required"</em> como error fatal y no
+    ejecuta nada de lo que sigue.
+  </p>
+
+  <hr class="sep">
+
+  <h3>Errores y trampas</h3>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Lo que suele salir mal</span>
+    <ul>
+      <li>
+        <strong><code>"post"</code> en minúsculas.</strong> <code>$_SERVER["REQUEST_METHOD"]</code>
+        siempre viene en mayúsculas; compararlo con <code>"post"</code> da falso aunque el
+        formulario diga <code>method="post"</code>.
+      </li>
+      <li>
+        <strong><code>htmlspecialchars()</code> no cambia la variable.</strong> Devuelve un string
+        nuevo; hay que usar lo que devuelve (en el <code>echo</code> o guardándolo).
+      </li>
+      <li>
+        <strong>Las rutas de <code>require_once</code></strong> se cuentan desde la carpeta del
+        script que se pidió. Si la página está en otra carpeta, <code>'includes/head.php'</code> ya no
+        se encuentra.
+      </li>
+    </ul>
+  </div>
+</div>

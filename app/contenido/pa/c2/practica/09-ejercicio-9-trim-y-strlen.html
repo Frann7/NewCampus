@@ -1,0 +1,80 @@
+<div class="ej">
+  <span class="tag">Ejercicio 9 &middot; trim y strlen</span>
+  <h2>El largo de una cadena antes y después de trim()</h2>
+  <div class="enunciado">
+    <p>
+      Escriba un script PHP que utilice la función <code>trim()</code> para quitar los espacios en
+      blanco de una cadena. La misma se define con el siguiente texto:
+      "&nbsp;&nbsp;&nbsp;Programación Avanzada – Taller de PHP&nbsp;". De la cadena anterior se pide
+      mostrar el largo de la misma por pantalla con la función <code>strlen()</code> antes y después
+      de utilizar la función <code>trim()</code>.
+    </p>
+  </div>
+
+  <span class="paso">Paso 1 &mdash; Qué pide</span>
+  <ul>
+    <li>La cadena del enunciado tiene <strong>3 espacios al principio y 1 al final</strong>. Esos son los que <code>trim()</code> tiene que sacar (teoría, sección 15).</li>
+    <li>Mostrar <code>strlen()</code> de la original y de la recortada (teoría, sección 11). La diferencia tiene que ser 4.</li>
+  </ul>
+
+  <span class="paso">Paso 2 &mdash; El código</span>
+<pre class="codigo"><code>&lt;?php
+$cadena = "   Programación Avanzada – Taller de PHP ";
+echo strlen($cadena);
+echo "&lt;br /&gt;";
+$cadena_nueva = trim($cadena);
+echo strlen($cadena_nueva);
+?&gt;</code></pre>
+
+  <span class="paso">Paso 3 &mdash; Qué hace cada línea</span>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Cómo quedan las variables</th></tr>
+      <tr><td><code>$cadena = "   ... PHP ";</code></td><td>La cadena del enunciado, con sus espacios</td><td>largo 44 (ver la cuenta abajo)</td></tr>
+      <tr><td><code>echo strlen($cadena);</code></td><td>Largo antes</td><td>sale 44</td></tr>
+      <tr><td><code>echo "&lt;br /&gt;";</code></td><td>Salto de línea</td><td>&mdash;</td></tr>
+      <tr><td><code>$cadena_nueva = trim($cadena);</code></td><td>Saca los 3 espacios del principio y el del final; los del medio quedan</td><td><code>$cadena_nueva</code> = 'Programación Avanzada – Taller de PHP'</td></tr>
+      <tr><td><code>echo strlen($cadena_nueva);</code></td><td>Largo después</td><td>sale 40</td></tr>
+    </table>
+  </div>
+
+  <h4>Por qué 40 y no 37</h4>
+  <p>
+    <code>Programación Avanzada – Taller de PHP</code> tiene 37 caracteres a la vista, pero
+    <code>strlen()</code> cuenta <strong>bytes</strong> (teoría, sección 11):
+  </p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Pedazo</th><th>Caracteres</th><th>Bytes</th></tr>
+      <tr><td><code>Programación</code></td><td>12</td><td>13 (la <code>ó</code> ocupa 2)</td></tr>
+      <tr><td><code>Avanzada</code></td><td>8</td><td>8</td></tr>
+      <tr><td><code>–</code> (la raya del enunciado, no un guion común)</td><td>1</td><td>3</td></tr>
+      <tr><td><code>Taller</code>, <code>de</code>, <code>PHP</code></td><td>11</td><td>11</td></tr>
+      <tr><td>Los 5 espacios entre palabras</td><td>5</td><td>5</td></tr>
+      <tr><th class="lbl">Total sin los espacios de los extremos</th><th>37</th><th>40</th></tr>
+      <tr><th class="lbl">Más 3 + 1 espacios de los extremos</th><th>41</th><th>44</th></tr>
+    </table>
+  </div>
+
+  <span class="paso">Paso 4 &mdash; La salida</span>
+<pre class="salida">44
+40</pre>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Resolución de la cátedra</span>
+    <p>
+      La cátedra define <code>$cadena = "Programación Avanzada – Taller de PHP";</code>,
+      <strong>sin</strong> los espacios del enunciado, y separa con <code>"&lt;/br&gt;"</code>. Su
+      salida es:
+    </p>
+<pre class="salida">40
+40</pre>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Diferencia con la cátedra: así trim() no hace nada</span>
+    <ul>
+      <li>Sin espacios en los extremos, <code>trim()</code> no tiene qué sacar, y los dos largos dan 40. El ejercicio no muestra para qué sirve <code>trim()</code>; con la cadena del enunciado, sí (44 &rarr; 40).</li>
+      <li><code>&lt;/br&gt;</code> no es una etiqueta correcta (la barra va al final: <code>&lt;br /&gt;</code>). Los navegadores la toleran y la toman como un salto de línea, por eso igual sale en dos líneas.</li>
+    </ul>
+  </div>
+</div>

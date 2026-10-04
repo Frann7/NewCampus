@@ -1,0 +1,236 @@
+<div class="bloque">
+  <p class="kicker">Sección 2 &middot; diapositiva 8</p>
+  <h2>2. Algo de JavaScript</h2>
+
+  <h3>Para qué sirve</h3>
+  <p>
+    <strong>JavaScript</strong> (JS) es el lenguaje que entiende el navegador. PHP corre en el
+    servidor y lo que le llega al navegador es solo el HTML que PHP imprimió; JavaScript, en
+    cambio, <strong>viaja al navegador y corre ahí</strong>, en la computadora de quien mira la
+    página. Por eso puede reaccionar a un clic o a lo que se escribe en un campo sin volver a
+    pedirle nada al servidor.
+  </p>
+  <p>
+    La diapositiva 8 solo dice <em>"Algo de JavaScript"</em>. Acá va lo mínimo para poder leer
+    los ejemplos de la cátedra, todo lo que usan y nada más.
+  </p>
+
+  <h3>Sintaxis</h3>
+  <p>El código va en un archivo <code>.js</code> que el HTML carga con <code>&lt;script&gt;</code>, normalmente al final del <code>&lt;body&gt;</code>:</p>
+<pre class="codigo"><code>&lt;script src="js/page1Class.js" type="text/javascript"&gt;&lt;/script&gt;</code></pre>
+  <p>Y adentro de ese archivo:</p>
+<pre class="codigo"><code>let nombre = "Fede";              // variable que puede cambiar
+const edad = 20;                  // constante: no se puede reasignar
+let saludo = `Hola ${nombre}`;    // template literal: mete variables en el texto
+console.log(saludo);              // escribe en la consola del navegador (F12)
+alert("Cuidado");                 // muestra un cartel en la página
+
+const sumar = (a, b) =&gt; a + b;    // función flecha
+const notas = [7, 4, 9];          // array
+notas.forEach(nota =&gt; { console.log(nota); });   // recorre el array
+const persona = { nombre: "Juan", edad: 30 };     // objeto</code></pre>
+
+  <h3>Qué es cada parte</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Pieza</th><th>Qué es</th><th>En PHP sería</th></tr>
+      <tr><td class="lbl"><code>let x = 1;</code></td><td>Declara una variable que después puede cambiar. <strong>Sin <code>$</code></strong></td><td><code>$x = 1;</code></td></tr>
+      <tr><td class="lbl"><code>const x = 1;</code></td><td>Declara una constante: si después hacés <code>x = 2</code>, da error</td><td><code>define('X', 1);</code></td></tr>
+      <tr><td class="lbl"><code>"texto"</code> o <code>'texto'</code></td><td>Un <em>string</em> (cadena de texto). Comillas simples y dobles son iguales: ninguna reemplaza variables</td><td><code>'texto'</code></td></tr>
+      <tr><td class="lbl"><code>`Hola ${x}`</code></td><td><em>Template literal</em>: va entre <strong>acentos graves</strong> (la tecla a la derecha de la P) y reemplaza cada <code>${...}</code> por su valor. Adentro de <code>${ }</code> puede ir una cuenta</td><td><code>"Hola $x"</code></td></tr>
+      <tr><td class="lbl"><code>a + b</code></td><td>Si los dos son números, suma. <strong>Si alguno es texto, los une</strong> (concatena)</td><td><code>$a + $b</code> o <code>$a . $b</code></td></tr>
+      <tr><td class="lbl"><code>===</code> / <code>==</code></td><td><code>===</code> compara valor <strong>y tipo</strong>; <code>==</code> convierte antes de comparar. La cátedra usa siempre <code>===</code></td><td>Igual que en PHP</td></tr>
+      <tr><td class="lbl"><code>console.log(x)</code></td><td>Escribe en la consola de las herramientas de desarrollo (F12). No se ve en la página</td><td>Parecido a <code>var_dump</code>, pero oculto</td></tr>
+      <tr><td class="lbl"><code>alert("...")</code></td><td>Cartel con un botón Aceptar. Frena la página hasta que lo cerrás</td><td>&mdash;</td></tr>
+      <tr><td class="lbl"><code>(a, b) =&gt; a + b</code></td><td><strong>Función flecha</strong>: parámetros entre paréntesis, la flecha <code>=&gt;</code> y lo que hace. Si es una sola expresión, la devuelve; si lleva llaves <code>{ }</code>, adentro van instrucciones</td><td><code>fn($a, $b) =&gt; $a + $b</code></td></tr>
+      <tr><td class="lbl"><code>[7, 4, 9]</code></td><td><em>Array</em>: lista ordenada, el primero es la posición 0. <code>.length</code> es cuántos tiene; <code>.push(x)</code> agrega al final</td><td><code>[7, 4, 9]</code>, <code>count()</code>, <code>$v[] = x</code></td></tr>
+      <tr><td class="lbl"><code>v.forEach((x, i) =&gt; {...})</code></td><td>Ejecuta la función una vez por cada elemento: <code>x</code> es el elemento, <code>i</code> su posición (opcional)</td><td><code>foreach ($v as $i =&gt; $x)</code></td></tr>
+      <tr><td class="lbl"><code>{ nombre: "Juan" }</code></td><td><strong>Objeto</strong>: pares clave &rarr; valor. Se lee con punto: <code>persona.nombre</code></td><td>Array asociativo: <code>$p['nombre']</code></td></tr>
+      <tr><td class="lbl"><code>Object.keys(o)</code></td><td>Devuelve un array con las claves del objeto</td><td><code>array_keys()</code></td></tr>
+      <tr><td class="lbl"><code>parseFloat("32px")</code></td><td>Lee el número del principio del texto y descarta el resto: da <code>32</code></td><td><code>floatval()</code></td></tr>
+      <tr><td class="lbl"><code>" Ana ".trim()</code></td><td>Saca los espacios del principio y del final: <code>"Ana"</code></td><td><code>trim()</code></td></tr>
+      <tr><td class="lbl"><code>isNaN(x)</code></td><td>"<em>is Not a Number</em>": <code>true</code> si <code>x</code> no se puede leer como número</td><td><code>!is_numeric()</code></td></tr>
+      <tr><td class="lbl"><code>// ...</code></td><td>Comentario de una línea</td><td>Igual</td></tr>
+    </table>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; Variables y template literals</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>¿Qué muestra la consola?</p>
+  </div>
+<pre class="codigo"><code>let nombre = "Fede";
+const edad = 20;
+nombre = "Ana";
+console.log(`Hola ${nombre}, tenés ${edad + 1} años`);</code></pre>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Cómo quedan las variables</th></tr>
+      <tr><td><code>let nombre = "Fede";</code></td><td>Crea la variable <code>nombre</code> con <code>let</code>, así que se puede cambiar</td><td><code>nombre = "Fede"</code></td></tr>
+      <tr><td><code>const edad = 20;</code></td><td>Crea la constante <code>edad</code></td><td><code>nombre = "Fede"</code>, <code>edad = 20</code></td></tr>
+      <tr><td><code>nombre = "Ana";</code></td><td>Reasigna <code>nombre</code>. Ya no lleva <code>let</code>: la variable existe</td><td><code>nombre = "Ana"</code>, <code>edad = 20</code></td></tr>
+      <tr><td><code>console.log(`...`);</code></td><td>Arma el texto reemplazando <code>${nombre}</code> por <code>Ana</code> y <code>${edad + 1}</code> por el resultado de la cuenta, <code>21</code></td><td>Sin cambios: <code>edad + 1</code> no modifica <code>edad</code></td></tr>
+    </table>
+  </div>
+  <p>Qué muestra (verificado con Node.js, que corre JavaScript fuera del navegador):</p>
+<pre class="salida">Hola Ana, tenés 21 años</pre>
+  <p>
+    <strong>Por qué:</strong> el template literal resuelve cada <code>${...}</code> en el momento
+    de armar el texto, con el valor que la variable tiene <em>en ese momento</em>
+    (<code>"Ana"</code>, no <code>"Fede"</code>). Y la cuenta adentro de <code>${ }</code> se
+    calcula, pero el resultado no se guarda en ninguna variable.
+  </p>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; ¿Qué muestra? (texto contra número)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>¿Cuál es la salida del siguiente código?</p>
+  </div>
+<pre class="codigo"><code>let a = "5";
+let b = 5;
+console.log(a == b);
+console.log(a === b);
+console.log(a + b);
+console.log(parseFloat("32px") + 2 + "px");</code></pre>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Cómo quedan las variables</th></tr>
+      <tr><td><code>let a = "5";</code></td><td>Guarda el <strong>texto</strong> "5" (está entre comillas)</td><td><code>a = "5"</code> (string)</td></tr>
+      <tr><td><code>let b = 5;</code></td><td>Guarda el <strong>número</strong> 5</td><td><code>a = "5"</code>, <code>b = 5</code> (number)</td></tr>
+      <tr><td><code>a == b</code></td><td><code>==</code> convierte el texto "5" en el número 5 y recién compara: 5 es igual a 5</td><td>&rarr; <code>true</code></td></tr>
+      <tr><td><code>a === b</code></td><td><code>===</code> no convierte: uno es texto y el otro número, así que ya son distintos</td><td>&rarr; <code>false</code></td></tr>
+      <tr><td><code>a + b</code></td><td>Como <code>a</code> es texto, el <code>+</code> <strong>une</strong>: "5" pegado a 5</td><td>&rarr; <code>"55"</code></td></tr>
+      <tr><td><code>parseFloat("32px") + 2 + "px"</code></td><td>Se resuelve de izquierda a derecha: <code>parseFloat("32px")</code> da el número 32; <code>32 + 2</code> son dos números, suma: 34; <code>34 + "px"</code> tiene un texto, une: "34px"</td><td>&rarr; <code>"34px"</code></td></tr>
+    </table>
+  </div>
+  <p>Qué muestra (verificado con Node.js):</p>
+<pre class="salida">true
+false
+55
+34px</pre>
+  <p>
+    <strong>Por qué:</strong> el <code>+</code> de JavaScript hace dos trabajos. Mira los dos
+    lados: si hay algún texto, concatena; si son todos números, suma. La última línea es
+    exactamente la cuenta que usan los ejemplos de la cátedra para agrandar la letra
+    (práctica, ejemplo 1).
+  </p>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 3 &mdash; Recorrer un array con forEach</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>¿Qué muestra la consola y qué valor queda en <code>suma</code>?</p>
+  </div>
+<pre class="codigo"><code>const notas = [7, 4, 9];
+let suma = 0;
+notas.forEach((nota, i) =&gt; {
+  console.log(`Nota ${i + 1}: ${nota}`);
+  suma = suma + nota;
+});
+console.log(suma / notas.length);</code></pre>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Cómo quedan las variables</th></tr>
+      <tr><td><code>const notas = [7, 4, 9];</code></td><td>Crea el array. Posiciones: 0 &rarr; 7, 1 &rarr; 4, 2 &rarr; 9</td><td><code>notas = [7, 4, 9]</code></td></tr>
+      <tr><td><code>let suma = 0;</code></td><td>Acumulador en cero</td><td><code>suma = 0</code></td></tr>
+      <tr><td><code>forEach</code>, 1ra vuelta</td><td><code>nota = 7</code>, <code>i = 0</code>. Imprime "Nota 1: 7" (<code>i + 1</code> para que no empiece en 0) y suma</td><td><code>suma = 0 + 7 = 7</code></td></tr>
+      <tr><td><code>forEach</code>, 2da vuelta</td><td><code>nota = 4</code>, <code>i = 1</code>. Imprime "Nota 2: 4"</td><td><code>suma = 7 + 4 = 11</code></td></tr>
+      <tr><td><code>forEach</code>, 3ra vuelta</td><td><code>nota = 9</code>, <code>i = 2</code>. Imprime "Nota 3: 9"</td><td><code>suma = 11 + 9 = 20</code></td></tr>
+      <tr><td><code>console.log(suma / notas.length);</code></td><td><code>notas.length</code> es 3; divide 20 entre 3</td><td>&rarr; <code>6.666666666666667</code></td></tr>
+    </table>
+  </div>
+  <p>Qué muestra (verificado con Node.js):</p>
+<pre class="salida">Nota 1: 7
+Nota 2: 4
+Nota 3: 9
+6.666666666666667</pre>
+  <p>
+    <strong>Por qué:</strong> <code>forEach</code> llama a la función flecha tres veces, una
+    por elemento, pasándole el elemento y su posición. El decimal sale con punto y sin redondear
+    porque <code>console.log</code> muestra el número tal cual.
+  </p>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">¿Por qué <code>notas</code> es const si el array se usa?</span>
+    <p>
+      <code>const</code> impide <strong>reasignar</strong> la variable (<code>notas = [1]</code>
+      daría error), no impide cambiar lo de adentro: <code>notas.push(10)</code> funciona. Por
+      eso la cátedra declara con <code>const</code> los elementos y arrays que después modifica.
+    </p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 4 &mdash; Objetos y sus claves</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>¿Cuál es la salida?</p>
+  </div>
+<pre class="codigo"><code>const persona = { nombre: "Juan", edad: 30, habilidades: ["JS", "SQL"] };
+console.log(persona.nombre);
+console.log(persona.habilidades[1]);
+console.log(Object.keys(persona));
+console.log(persona.edad + "1", persona.edad + 1);</code></pre>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Resultado</th></tr>
+      <tr><td><code>const persona = {...}</code></td><td>Objeto con tres claves; la tercera guarda un array</td><td>&mdash;</td></tr>
+      <tr><td><code>persona.nombre</code></td><td>Lee la clave <code>nombre</code></td><td><code>Juan</code></td></tr>
+      <tr><td><code>persona.habilidades[1]</code></td><td>Primero entra al array, después toma la posición 1 (la segunda)</td><td><code>SQL</code></td></tr>
+      <tr><td><code>Object.keys(persona)</code></td><td>Array con los nombres de las claves, en el orden en que se escribieron</td><td><code>[ 'nombre', 'edad', 'habilidades' ]</code></td></tr>
+      <tr><td><code>persona.edad + "1"</code></td><td>30 más un texto: concatena</td><td><code>301</code></td></tr>
+      <tr><td><code>persona.edad + 1</code></td><td>Dos números: suma</td><td><code>31</code></td></tr>
+    </table>
+  </div>
+  <p>Qué muestra (verificado con Node.js; el navegador muestra el array con otro formato, pero el contenido es el mismo):</p>
+<pre class="salida">Juan
+SQL
+[ 'nombre', 'edad', 'habilidades' ]
+301 31</pre>
+  <p>
+    <strong>Por qué:</strong> el punto entra a una clave del objeto y los corchetes a una posición
+    del array, y se pueden encadenar. Cuando <code>console.log</code> recibe dos valores separados
+    por coma, los muestra en la misma línea separados por un espacio.
+  </p>
+
+  <hr class="sep">
+
+  <h3>Errores y trampas</h3>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Lo que viene de un campo de formulario es texto</span>
+    <p>
+      Aunque el campo sea de edad, lo que se lee de él es un string: <code>"20"</code>, no
+      <code>20</code>. Si hacés <code>edad + 1</code> te da <code>"201"</code>. Hay que pasarlo a
+      número con <code>parseFloat</code> antes de sumar.
+    </p>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit"><code>isNaN("")</code> da <code>false</code></span>
+    <p>
+      El texto vacío se lee como el número 0, así que <code>isNaN("")</code> dice "sí es un número"
+      (verificado: <code>false</code>). Por eso la cátedra, para ver si una edad es válida,
+      pregunta <strong>las dos cosas</strong>: <code>edad === '' || isNaN(edad)</code>
+      (<code>||</code> es "o", como en PHP).
+    </p>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Reasignar una <code>const</code></span>
+    <p>
+      <code>const x = 1; x = 2;</code> corta el programa con
+      <code>TypeError: Assignment to constant variable.</code> Si la variable va a cambiar
+      (un contador, un acumulador), va con <code>let</code>.
+    </p>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Acento grave, no comilla</span>
+    <p>
+      <code>"Hola ${nombre}"</code> con comillas comunes imprime literalmente
+      <code>Hola ${nombre}</code>. El reemplazo solo funciona con <code>`acentos graves`</code>.
+      Al revés que en PHP, donde las comillas dobles sí reemplazan.
+    </p>
+  </div>
+</div>

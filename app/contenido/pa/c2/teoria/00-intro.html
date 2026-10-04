@@ -1,0 +1,79 @@
+<h1>Clase 2 &mdash; Arreglos y Cadenas</h1>
+
+<p class="pane-intro">
+  Basado en la <em>Guía Básica del lenguaje PHP</em> (Clase-2-Teoria), la presentación de la
+  Clase 2 y la guía práctica de la cátedra.
+  Hasta acá cada variable guardaba <strong>un solo dato</strong>. En esta clase aparecen los
+  <strong>arreglos</strong> (muchos datos bajo un mismo nombre, cada uno con su clave) y las
+  <strong>funciones de cadenas</strong> (medir, buscar, cortar, reemplazar y convertir texto).
+</p>
+
+<div class="bloque" data-abierta>
+  <p class="kicker">Antes de leer</p>
+  <h2>Cómo leer esta clase</h2>
+
+  <p>
+    Esta clase puso <strong>7 de las 20 preguntas</strong> del Parcial PHP. Son de dos tipos:
+    <em>"¿cuál es la salida?"</em> (leer un elemento de un arreglo, armar una fecha con
+    <code>explode()</code>) y <em>"emparejá la función con su definición"</em> o
+    <em>"verdadero o falso"</em>. Conviene leer en este orden:
+  </p>
+
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Sección</th><th>Qué tiene</th><th>Para el parcial</th></tr>
+      <tr><td class="lbl">1. Qué es un arreglo</td><td>Claves y valores; crear con <code>array()</code> y con <code>[]</code></td><td>La base de toda la clase</td></tr>
+      <tr><td class="lbl">2. Leer un elemento</td><td><code>echo $arreglo[clave]</code>, indexados y asociativos</td><td>&#9733; preg. 2 (<code>$mineral['negro']</code>) y 8 (<code>$dias_semana[1]</code>)</td></tr>
+      <tr><td class="lbl">3. print_r y var_dump</td><td>Ver el arreglo entero, con o sin tipos</td><td>&#9733; preg. 20: qué muestra <code>var_dump()</code></td></tr>
+      <tr><td class="lbl">4. Multidimensionales</td><td>Arreglos dentro de arreglos: <code>$a[0][1]</code></td><td>Sale en el ejemplo de código de la clase</td></tr>
+      <tr><td class="lbl">5. Operaciones básicas</td><td><code>count</code>, <code>is_array</code>, <code>isset</code>, <code>in_array</code>, <code>unset</code></td><td>Para entender; no se preguntó</td></tr>
+      <tr><td class="lbl">6. Recorrer arreglos</td><td><code>for</code>, <code>while</code> y <code>foreach</code></td><td>&#9733; preg. 14: con qué estructuras se recorren</td></tr>
+      <tr><td class="lbl">7. Ordenar arreglos</td><td><code>sort</code>, <code>asort</code>, <code>rsort</code>, <code>ksort</code>&hellip; y qué pasa con las claves</td><td>&#9733; preg. 10: <code>sort()</code> y las claves (V/F)</td></tr>
+      <tr><td class="lbl">8. Funciones entre arreglos</td><td><code>array_diff</code> y <code>array_intersect</code></td><td>Para entender; no se preguntó</td></tr>
+      <tr><td class="lbl">9. Resumen de arreglos</td><td>Todas las funciones de arreglos en una tabla</td><td>Para repasar</td></tr>
+      <tr><td class="lbl">10. Strings</td><td>Comillas simples y dobles, variables dentro, escapes</td><td>Se usa en todas las salidas</td></tr>
+      <tr><td class="lbl">11. Largo y caracteres</td><td><code>strlen</code> y <code>$cadena[i]</code></td><td>Lo usa la práctica (ej. 9)</td></tr>
+      <tr><td class="lbl">12. Comparar strings</td><td><code>==</code>, <code>===</code>, <code>strcmp</code> y parientes</td><td>Para entender; no se preguntó</td></tr>
+      <tr><td class="lbl">13. Buscar en strings</td><td><code>strpos</code>, <code>strstr</code>, <code>strspn</code>&hellip;</td><td>Para entender; no se preguntó</td></tr>
+      <tr><td class="lbl">14. Reemplazar y extraer</td><td><code>str_replace</code>, <code>substr_replace</code>, <code>substr</code></td><td>&#9733; preg. 3: definición de <code>substr()</code></td></tr>
+      <tr><td class="lbl">15. Mayúsculas y espacios</td><td><code>strtoupper</code>, <code>strtolower</code>, <code>trim</code></td><td>&#9733; preg. 3: definiciones de <code>strtoupper()</code> y <code>strtolower()</code></td></tr>
+      <tr><td class="lbl">16. explode, implode y date</td><td>Cortar un string en un arreglo y al revés; la fecha actual</td><td>&#9733; preg. 3 (definiciones) y 17 (salida de la fecha)</td></tr>
+      <tr><td class="lbl">17. Resumen de strings</td><td>Todas las funciones de cadenas en una tabla</td><td>Para repasar; las 5 de la preg. 3 están marcadas</td></tr>
+    </table>
+  </div>
+
+  <h3>Si tenés poco tiempo</h3>
+  <ol>
+    <li>Secciones <strong>1 y 2</strong>: cómo se arma un arreglo y cómo se lee un elemento (dos preguntas de salida).</li>
+    <li>Sección <strong>16</strong>: la pregunta de la fecha se resuelve siguiendo <code>explode()</code> paso a paso.</li>
+    <li>Secciones <strong>3, 6 y 7</strong>: las tres preguntas de teoría (<code>var_dump</code>, <code>foreach</code>/<code>for</code>, <code>sort</code>).</li>
+    <li>Sección <strong>17</strong>: la tabla de funciones de cadenas, para la pregunta de emparejar.</li>
+  </ol>
+
+  <h3>Cómo están escritos los ejemplos</h3>
+  <ul>
+    <li>
+      Cada ejemplo tiene el <strong>código</strong>, después una tabla con <strong>qué hace cada
+      línea</strong> y cómo quedan las variables, y al final <strong>qué imprime y por qué</strong>.
+    </li>
+    <li>Todas las salidas se comprobaron corriendo el código con el PHP de XAMPP (PHP 8.2).</li>
+    <li>
+      Cuando el código imprime <code>&lt;br&gt;</code>, la salida se muestra <strong>como se ve
+      en el navegador</strong>: cada <code>&lt;br&gt;</code> es un salto de línea (Clase 1), y lo
+      de <code>print_r()</code> y <code>var_dump()</code> queda en una sola línea (sección 3).
+      Cuando no hay <code>&lt;br&gt;</code>, se muestra el texto tal como lo genera PHP, con sus
+      saltos de línea.
+    </li>
+  </ul>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">El material de la cátedra tiene errores de tipeo</span>
+    <p>
+      Los PDF de esta clase traen varios códigos que no corren tal cual (una variable mal
+      escrita, un <code>for</code> con las partes cambiadas, comillas tipográficas
+      <code>“ ”</code> en vez de <code>" "</code>) y algunas salidas que no son las que da PHP 8.
+      Cada vez que pasa, está marcado en una caja como esta, con la salida real.
+      Para el parcial vale lo que hace PHP de verdad.
+    </p>
+  </div>
+</div>

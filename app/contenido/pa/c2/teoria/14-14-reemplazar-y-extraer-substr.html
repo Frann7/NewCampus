@@ -1,0 +1,187 @@
+<div class="bloque" data-examen="igual" data-examen-ref="Parcial PHP · preg. 3" data-examen-nota="Emparejar: “Función que permite obtener una porción de texto de una cadena que se le pasa como parámetro a la misma” → substr().">
+  <p class="kicker">Strings</p>
+  <h2>14. Reemplazar y extraer: str_replace, substr_replace y substr</h2>
+
+  <h3>Para qué sirve</h3>
+  <ul>
+    <li><strong>Reemplazar</strong> un pedazo de texto por otro: <code>str_replace()</code> (distingue mayúsculas), <code>str_ireplace()</code> (no distingue) y <code>substr_replace()</code> (reemplaza por posición).</li>
+    <li>
+      <strong>Extraer</strong> una porción: <code>substr()</code>. Es la de la pregunta 3 del parcial,
+      con la definición de la guía: <em>"permite obtener una porción de texto de una cadena que se
+      le pasa como parámetro"</em>.
+    </li>
+  </ul>
+
+  <h3>Sintaxis</h3>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Las cuatro funciones</span>
+<pre class="codigo"><code>str_replace($buscar, $reemplazo, $cadena)
+str_ireplace($buscar, $reemplazo, $cadena)
+substr_replace($cadena, $reemplazo, $inicio, $largo)
+substr($cadena, $inicio, $largo)</code></pre>
+  </div>
+
+  <h3>Qué es cada parte</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Parte</th><th>Qué es</th></tr>
+      <tr><td><code>$buscar</code>, <code>$reemplazo</code></td><td>(str_replace) Qué texto buscar y por cuál cambiarlo. Reemplaza <strong>todas</strong> las apariciones. Pueden ser arreglos: el elemento 0 de <code>$buscar</code> se cambia por el 0 de <code>$reemplazo</code>, el 1 por el 1&hellip;</td></tr>
+      <tr><td><code>$cadena</code></td><td>El texto original. Ninguna de estas funciones lo modifica: <strong>devuelven</strong> un texto nuevo</td></tr>
+      <tr><td><code>$inicio</code></td><td>Posición donde empieza la porción, contando desde 0. Si es <strong>negativa</strong>, se cuenta desde el final: <code>-4</code> son los últimos 4 caracteres</td></tr>
+      <tr><td><code>$largo</code></td><td><strong>Cuántos</strong> caracteres tomar (no la posición final). Si no se pone, va hasta el final</td></tr>
+    </table>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; str_replace y str_ireplace (teoría de la cátedra)</h3>
+<pre class="codigo"><code>&lt;?php
+$cadena = 'En esta cadena reemplazaremos la cadena "en" por "EN".';
+echo str_replace('en', 'EN', $cadena) . '&lt;br&gt;';
+echo str_ireplace('en', 'EN', $cadena);
+?&gt;</code></pre>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Qué cambia</th></tr>
+      <tr><td><code>str_replace('en', 'EN', $cadena)</code></td><td>Cambia cada <code>en</code> en minúscula: dos dentro de <code>cadena</code> y el <code>"en"</code>. El <code>En</code> del principio tiene mayúscula y no coincide</td><td>3 reemplazos</td></tr>
+      <tr><td><code>str_ireplace('en', 'EN', $cadena)</code></td><td>Sin mirar mayúsculas: también el <code>En</code> del principio</td><td>4 reemplazos</td></tr>
+    </table>
+  </div>
+<pre class="salida">En esta cadENa reemplazaremos la cadENa "EN" por "EN".
+EN esta cadENa reemplazaremos la cadENa "EN" por "EN".</pre>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">En el apunte, el segundo ejemplo usa la función equivocada</span>
+    <p>
+      El texto dice que va a usar <code>str_ireplace()</code>, pero el código vuelve a escribir
+      <code>str_replace()</code>. Con <code>str_replace</code> la salida sería la primera línea, no
+      la segunda.
+    </p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; Varios reemplazos con arreglos (teoría de la cátedra)</h3>
+<pre class="codigo"><code>&lt;?php
+$cadena = "Debe comer frutas, vegetales y beber dos litros de agua cada dias.";
+$buscar = array('frutas', 'vegetales', 'agua');
+$reemplazar = array('milanesas', 'papas fritas', 'fernet');
+echo str_replace($buscar, $reemplazar, $cadena);
+?&gt;</code></pre>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Cómo quedan las variables</th></tr>
+      <tr><td><code>$buscar = array(...);</code></td><td>Lo que se busca</td><td>0 =&gt; frutas &middot; 1 =&gt; vegetales &middot; 2 =&gt; agua</td></tr>
+      <tr><td><code>$reemplazar = array(...);</code></td><td>Por qué se cambia, en el mismo orden</td><td>0 =&gt; milanesas &middot; 1 =&gt; papas fritas &middot; 2 =&gt; fernet</td></tr>
+      <tr><td><code>echo str_replace(...);</code></td><td>frutas &rarr; milanesas, vegetales &rarr; papas fritas, agua &rarr; fernet</td><td>&mdash;</td></tr>
+    </table>
+  </div>
+<pre class="salida">Debe comer milanesas, papas fritas y beber dos litros de fernet cada dias.</pre>
+  <p>
+    (El apunte anota como resultado <em>"Usted debe comer &hellip; de cerveza todos los días"</em>:
+    ese texto no sale de este código. Solo cambian las tres palabras buscadas.)
+  </p>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 3 &mdash; substr: extraer una porción</h3>
+<pre class="codigo"><code>&lt;?php
+$cadena = '123456abcdefgh';
+echo substr($cadena, 0, 6) . '&lt;br&gt;';
+echo substr($cadena, 6, 7) . '&lt;br&gt;';
+echo substr($cadena, 6) . '&lt;br&gt;';
+echo substr($cadena, -3) . '&lt;br&gt;';
+echo substr($cadena, 7, 8);
+?&gt;</code></pre>
+  <p>Las posiciones de <code>'123456abcdefgh'</code>:</p>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th>Posición</th><td>0</td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td><td>8</td><td>9</td><td>10</td><td>11</td><td>12</td><td>13</td></tr>
+      <tr><th>Carácter</th><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>a</td><td>b</td><td>c</td><td>d</td><td>e</td><td>f</td><td>g</td><td>h</td></tr>
+    </table>
+  </div>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Imprime</th></tr>
+      <tr><td><code>substr($cadena, 0, 6)</code></td><td>Desde la posición 0, 6 caracteres</td><td><code>123456</code></td></tr>
+      <tr><td><code>substr($cadena, 6, 7)</code></td><td>Desde la 6 (la <code>a</code>), 7 caracteres</td><td><code>abcdefg</code></td></tr>
+      <tr><td><code>substr($cadena, 6)</code></td><td>Desde la 6 hasta el final</td><td><code>abcdefgh</code></td></tr>
+      <tr><td><code>substr($cadena, -3)</code></td><td>Los últimos 3</td><td><code>fgh</code></td></tr>
+      <tr><td><code>substr($cadena, 7, 8)</code></td><td>Desde la 7 (la <code>b</code>), 8 caracteres; solo quedan 7, y devuelve los que hay</td><td><code>bcdefgh</code></td></tr>
+    </table>
+  </div>
+<pre class="salida">123456
+abcdefg
+abcdefgh
+fgh
+bcdefgh</pre>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">La cátedra anota "abcdefg" para substr($cadena, 7, 8)</span>
+    <p>
+      La posición 7 es la <code>b</code> (la <code>a</code> es la 6), así que da
+      <code>bcdefgh</code>. Para obtener <code>abcdefg</code> se escribe
+      <code>substr($cadena, 6, 7)</code>, como en la segunda línea.
+    </p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 4 &mdash; substr_replace: reemplazar por posición</h3>
+<pre class="codigo"><code>&lt;?php
+echo substr_replace("Hola Martín", "Gonzalo", 5) . '&lt;br&gt;';
+echo substr_replace("Hola Martín", "Gonzalo", 6) . '&lt;br&gt;';
+echo substr_replace("Comer tomates hace muy bien!!!!", "milanesas", 6, 7) . '&lt;br&gt;';
+echo substr_replace("Comer tomates hace muy bien!!!!", "milanesas", 6, 14);
+?&gt;</code></pre>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Imprime</th></tr>
+      <tr><td><code>(..., 5)</code></td><td>Desde la posición 5 (la <code>M</code>; <code>Hola </code> ocupa 0 a 4) hasta el final se cambia por <code>Gonzalo</code></td><td><code>Hola Gonzalo</code></td></tr>
+      <tr><td><code>(..., 6)</code></td><td>Desde la 6 (la <code>a</code> de Martín): la <code>M</code> queda</td><td><code>Hola MGonzalo</code></td></tr>
+      <tr><td><code>(..., 6, 7)</code></td><td>Desde la 6, <strong>7 caracteres</strong> (<code>tomates</code>) se cambian por <code>milanesas</code></td><td><code>Comer milanesas hace muy bien!!!!</code></td></tr>
+      <tr><td><code>(..., 6, 14)</code></td><td>Desde la 6, 14 caracteres: <code>tomates hace m</code></td><td><code>Comer milanesasuy bien!!!!</code></td></tr>
+    </table>
+  </div>
+<pre class="salida">Hola Gonzalo
+Hola MGonzalo
+Comer milanesas hace muy bien!!!!
+Comer milanesasuy bien!!!!</pre>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">El cuarto número es un largo, no una posición final</span>
+    <p>
+      La cátedra usa <code>substr_replace("Hola Martín", "Gonzalo", 6)</code> y
+      <code>(..., "milanesas", 6, 14)</code>, y dice que el último número es <em>"la posición
+      final"</em>. Es la <strong>cantidad</strong> de caracteres, igual que en <code>substr</code>.
+      Con esos números los resultados son los de las líneas 2 y 4, que no son los que se
+      buscaban; los correctos son 5 y <code>6, 7</code>.
+    </p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 5 &mdash; La pregunta del parcial</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado (Parcial PHP, pregunta 3, una de las cinco definiciones)</span>
+    <p><em>"Función que permite obtener una porción de texto de una cadena que se le pasa como parámetro a la misma."</em></p>
+  </div>
+  <ul>
+    <li>"Obtener una porción" = extraer un pedazo, sin cambiar nada: es lo que hace <code>substr()</code> (ejemplo 3).</li>
+    <li>No es <code>str_replace</code> ni <code>substr_replace</code>: esas <strong>reemplazan</strong>.</li>
+  </ul>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta: substr()</span>
+    <p>Las otras cuatro definiciones de la pregunta están en las secciones 15 y 16.</p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Errores y trampas</h3>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Las posiciones cuentan bytes</span>
+    <p>
+      Igual que <code>strlen()</code> (sección 11), <code>substr()</code> cuenta bytes: en
+      <code>'Programación'</code> la <code>ó</code> ocupa 2, así que la palabra entera son 13
+      bytes y <code>substr('Programación', 0, 12)</code> da <code>Programació</code>, sin la
+      <code>n</code>. Es la diferencia del ejercicio 10 de la práctica.
+    </p>
+  </div>
+</div>

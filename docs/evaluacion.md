@@ -4,6 +4,15 @@
 
 **Pestaña Evaluación** (una por materia, no depende de la unidad):
 
+* **Qué evaluación tiene cada materia:** la clave `evaluacion` de `contenido/materias.json`. Sin
+  ella, la de PyE (todo lo de abajo). `{"tipo": "simple", "minutos": 40}` (PA) es la **simple**:
+  lista de parciales (finales solo si hay) y Autoevaluaciones como en PyE, pero el formulario es
+  solo nombre (opcional) y minutos. Corre en `cuestionario.js` (`config.tipo = "simple"`,
+  `etapa = "1"`, formato virtual): **todas** las preguntas del banco de la materia, ordenadas por
+  id, reloj de cuenta regresiva, nota sobre 100 y revisión con explicación; sin la condición
+  30/60 ni nada de etapas. El banco de PA está en `preguntas/parcial-php/` (no es una clase, así
+  que sus preguntas no llevan chip de unidad). `E.configMateria`, `E.esSimple` en `nucleo.js`.
+
 * **Parciales y finales:** cada examen es una carpeta con `meta.json` (titulo, fecha, detalle,
   temas: lo que muestra la tarjeta sin abrir el examen) y un archivo por ejercicio. El
   `<article class="parcial">` lo arma `construir.py`, que también le pone el `data-tipo` según la

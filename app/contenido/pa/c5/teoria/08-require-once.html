@@ -1,0 +1,146 @@
+<div class="bloque">
+  <p class="kicker">Armar páginas por partes</p>
+  <h2>8. <code>require</code> y <code>require_once</code>: pegar un archivo dentro de otro</h2>
+
+  <h3>Para qué sirve</h3>
+  <p>
+    En los ejemplos de la cátedra todas las páginas tienen el mismo encabezado, el mismo menú y el
+    mismo pie. Copiar ese HTML en cada archivo es un problema: si cambia el menú, hay que cambiarlo
+    en todos. En la carpeta <code>formularios</code> la cátedra lo escribe <strong>una sola
+    vez</strong>, en <code>includes/head.php</code> y <code>includes/footer.php</code>, y cada página
+    los trae con <code>require_once</code>.
+  </p>
+
+  <h3>Sintaxis</h3>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Traer otro archivo</span>
+<pre class="codigo"><code>require 'ruta/archivo.php';        // lo pega cada vez que aparece
+require_once 'ruta/archivo.php';   // lo pega solo la primera vez</code></pre>
+  </div>
+
+  <h3>Qué es cada parte</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Parte</th><th>Qué hace</th></tr>
+      <tr><td class="lbl"><code>require</code></td><td>Ejecuta el otro archivo <strong>en ese punto</strong>, como si su contenido estuviera escrito ahí. Si el archivo tiene HTML, el HTML sale ahí; si tiene PHP, se ejecuta ahí.</td></tr>
+      <tr><td class="lbl"><code>require_once</code></td><td>Lo mismo, pero si ese archivo ya se trajo antes en el mismo pedido, no lo vuelve a traer.</td></tr>
+      <tr><td class="lbl"><code>'ruta/archivo.php'</code></td><td>La ruta, relativa a la carpeta del script que se abrió (<code>'includes/head.php'</code>).</td></tr>
+      <tr><td class="lbl">Las variables</td><td>Son compartidas: el archivo traído ve las variables que ya existían, y las que él crea siguen existiendo después.</td></tr>
+      <tr><td class="lbl">Si el archivo no existe</td><td><code>Fatal error</code>: el script se corta ahí ("require" = requerido).</td></tr>
+    </table>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; <code>require</code> contra <code>require_once</code></h3>
+
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>
+      <code>includes/cabecera.php</code> tiene una sola línea de HTML:
+      <code>&lt;h1&gt;Mi sitio&lt;/h1&gt;</code>. ¿Qué devuelve cada uno de estos dos scripts?
+    </p>
+  </div>
+
+  <p><code>a.php</code>:</p>
+<pre class="codigo"><code>&lt;?php
+require_once 'includes/cabecera.php';
+require_once 'includes/cabecera.php';
+echo '&lt;p&gt;Contenido&lt;/p&gt;';
+?&gt;</code></pre>
+  <p><code>b.php</code>:</p>
+<pre class="codigo"><code>&lt;?php
+require 'includes/cabecera.php';
+require 'includes/cabecera.php';
+echo '&lt;p&gt;Contenido&lt;/p&gt;';
+?&gt;</code></pre>
+
+  <h4>Qué hace cada línea</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>En <code>a.php</code></th><th>En <code>b.php</code></th></tr>
+      <tr><td>primer <code>require...</code></td><td>Trae la cabecera: sale <code>&lt;h1&gt;Mi sitio&lt;/h1&gt;</code>.</td><td>Igual.</td></tr>
+      <tr><td>segundo <code>require...</code></td><td><code>require_once</code> ve que ya la trajo: <strong>no hace nada</strong>.</td><td><code>require</code> la trae otra vez: sale de nuevo.</td></tr>
+      <tr><td><code>echo '&lt;p&gt;Contenido&lt;/p&gt;';</code></td><td>Sale el párrafo.</td><td>Igual.</td></tr>
+    </table>
+  </div>
+
+  <h4>Qué devuelve y por qué</h4>
+  <p><code>a.php</code>:</p>
+<pre class="salida">&lt;h1&gt;Mi sitio&lt;/h1&gt;
+&lt;p&gt;Contenido&lt;/p&gt;</pre>
+  <p><code>b.php</code>:</p>
+<pre class="salida">&lt;h1&gt;Mi sitio&lt;/h1&gt;
+&lt;h1&gt;Mi sitio&lt;/h1&gt;
+&lt;p&gt;Contenido&lt;/p&gt;</pre>
+  <p>
+    Para un encabezado o una clase, que tienen que estar una sola vez, conviene
+    <code>require_once</code>: por eso lo usan los ejemplos de la cátedra.
+  </p>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; ¿Cuál es la salida? (las variables se comparten)</h3>
+
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>
+      <code>includes/lista.php</code> recorre un arreglo <code>$errores</code> que no crea él.
+      ¿Qué imprime <code>v.php</code>? ¿Y si se abre <code>includes/lista.php</code> solo?
+    </p>
+  </div>
+
+  <p><code>includes/lista.php</code>:</p>
+<pre class="codigo"><code>&lt;?php
+foreach ($errores as $error) {
+    echo $error;
+}
+?&gt;</code></pre>
+  <p><code>v.php</code>:</p>
+<pre class="codigo"><code>&lt;?php
+$errores = array('Falta el nombre.');
+require 'includes/lista.php';
+?&gt;</code></pre>
+
+  <h4>Qué hace cada línea</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Cómo quedan las variables</th></tr>
+      <tr><td><code>$errores = array('Falta el nombre.');</code></td><td>Crea el arreglo con un mensaje.</td><td><code>$errores = ['Falta el nombre.']</code></td></tr>
+      <tr><td><code>require 'includes/lista.php';</code></td><td>Ejecuta <code>lista.php</code> ahí mismo, así que el <code>foreach</code> ve el <code>$errores</code> de <code>v.php</code>.</td><td>&mdash;</td></tr>
+      <tr><td><code>foreach ... echo $error;</code></td><td>Una vuelta: imprime el mensaje.</td><td><code>$error = 'Falta el nombre.'</code></td></tr>
+    </table>
+  </div>
+
+  <h4>Qué imprime y por qué</h4>
+<pre class="salida">Falta el nombre.</pre>
+  <p>
+    Abierto solo, <code>includes/lista.php</code> no tiene ningún <code>$errores</code>: se probó y da
+    <code>Warning: Undefined variable $errores</code> y <code>Warning: foreach() argument must be of type
+    array|object, null given</code>. El
+    archivo traído depende de lo que preparó el que lo trae. Así se arma la pantalla de error del
+    ejercicio 3 de la práctica.
+  </p>
+
+  <h3>Errores y trampas</h3>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Lo que más se confunde</span>
+    <ul>
+      <li>
+        <strong>La ruta se busca primero desde la carpeta del script que se abrió</strong> en el
+        navegador. <code>formCaptcha.php</code> trae <code>'includes/head.php'</code> porque está un
+        nivel arriba de <code>includes/</code>.
+      </li>
+      <li>
+        <strong>Si falta el archivo, se corta todo.</strong> Se probó con un archivo inexistente:
+        <code>Warning: require_once(...): Failed to open stream</code> y después <code>Fatal error:
+        Uncaught Error: Failed opening required</code>; lo que seguía no se ejecutó.
+      </li>
+      <li>
+        <strong><code>session_start()</code> va antes del <code>require_once</code> del
+        encabezado</strong>, porque el encabezado ya manda HTML (sección 1). Así lo hacen
+        <code>formToken.php</code> y <code>formCaptcha.php</code>.
+      </li>
+    </ul>
+  </div>
+</div>

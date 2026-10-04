@@ -1,0 +1,159 @@
+<div class="ej">
+  <span class="tag">Ejemplo 4 &middot; pForm2.html</span>
+  <h2>Validar los campos de un formulario</h2>
+  <div class="enunciado">
+    <p>
+      El mismo formulario del ejemplo 3 (sin el nombre precargado), con un solo botón:
+      "Valido Datos". Avisa con un cartel qué campo falta, y además el nombre y la edad se pintan
+      de rojo o verde apenas el usuario sale de ellos. Clase <code>IndexClass</code> en
+      <code>js/pForm2Class.js</code>.
+    </p>
+  </div>
+
+  <p>
+    <strong>Validar</strong> es revisar que los datos estén bien (completos, con el formato
+    correcto) <strong>antes</strong> de usarlos. Hacerlo en JavaScript tiene una ventaja: el
+    usuario se entera al instante, sin esperar una respuesta del servidor.
+  </p>
+
+  <span class="paso">Paso 1 &mdash; El constructor y los eventos</span>
+<pre class="codigo"><code>class IndexClass {
+
+    constructor(){
+        this.txtNombre = document.getElementById('txtNombre');
+        this.txtApellido = document.getElementById('txtApellido');
+        this.txtEdad = document.getElementById('txtEdad');
+        this.txtDireccion = document.getElementById('txtDireccion');
+        this.btValidoDatos = document.getElementById('btValidoDatos');
+    }
+
+    init() {
+        this.addEventListeners();
+    }
+
+    addEventListeners() {
+        this.btValidoDatos.addEventListener('click', () =&gt; {
+            this.validoDatos();
+        });
+
+        this.txtNombre.addEventListener('blur', () =&gt; {
+            if (this.txtNombre.value.trim() === '') {
+                this.txtNombre.style.borderColor = 'red';
+            } else {
+                this.txtNombre.style.borderColor = 'green';
+            }
+        });
+
+        this.txtEdad.addEventListener('blur', () =&gt; {
+            this.validoEdad();
+        });
+    }</code></pre>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Escuchador</th><th>Cuándo corre</th><th>Qué hace</th></tr>
+      <tr><td><code>click</code> en el botón</td><td>Al apretar "Valido Datos"</td><td>Llama al método <code>validoDatos()</code> (paso 2). Va envuelto en una flecha para que se ejecute en el clic y no al cargar</td></tr>
+      <tr><td><code>blur</code> en el nombre</td><td>Al salir del campo nombre</td><td>Si, sin los espacios de los costados, está vacío: borde rojo. Si no: verde (teoría, sección 5, ejemplo 2)</td></tr>
+      <tr><td><code>blur</code> en la edad</td><td>Al salir del campo edad</td><td>Llama a <code>validoEdad()</code> (paso 3)</td></tr>
+    </table>
+  </div>
+  <p>
+    Fijate que el código del nombre está escrito <strong>adentro</strong> del escuchador, y el de
+    la edad está en un método aparte. Hacen lo mismo; el método aparte es más ordenado y se puede
+    reutilizar.
+  </p>
+
+  <span class="paso">Paso 2 &mdash; validoDatos(): el primero que falte</span>
+<pre class="codigo"><code>    validoDatos() {
+        let nombre = this.txtNombre.value;
+        let apellido = this.txtApellido.value;
+        let edad = this.txtEdad.value;
+        let direccion = this.txtDireccion.value;
+
+        if (nombre === '') {
+            alert('El nombre es obligatorio');
+            this.txtNombre.focus();
+            return;
+        }
+
+        if (apellido === '') {
+            alert('El apellido es obligatorio');
+            this.txtApellido.style.borderColor = 'red';
+            this.txtApellido.focus();
+            return;
+        }
+
+        if (edad === '') {
+            alert('La edad es obligatoria');
+            this.txtEdad.style.borderColor = 'red';
+            this.txtEdad.focus();
+            return;
+        }
+
+        if (direccion === '') {
+            alert('La dirección es obligatoria');
+            this.txtDireccion.style.borderColor = 'red';
+            this.txtDireccion.focus();
+            return;
+        }
+    }</code></pre>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th></tr>
+      <tr><td><code>let nombre = this.txtNombre.value;</code> (y las otras tres)</td><td>Copia lo escrito en cada campo a una variable local, para escribir menos en los <code>if</code></td></tr>
+      <tr><td><code>if (nombre === '')</code></td><td>Pregunta si el nombre está vacío</td></tr>
+      <tr><td><code>alert('...')</code></td><td>Muestra el cartel. El código se frena hasta que el usuario aprieta Aceptar</td></tr>
+      <tr><td><code>this.txtApellido.style.borderColor = 'red';</code></td><td>Pinta el borde del campo que falta (el nombre <strong>no</strong> tiene esta línea)</td></tr>
+      <tr><td><code>this.txtApellido.focus();</code></td><td>Lleva el cursor a ese campo, para que el usuario lo complete</td></tr>
+      <tr><td><code>return;</code></td><td><strong>Sale del método</strong> en ese momento. Los <code>if</code> de abajo ya no se revisan: se avisa de a un error por vez</td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Paso 3 &mdash; validoEdad()</span>
+<pre class="codigo"><code>    validoEdad() {
+        let edad = this.txtEdad.value;
+
+        if (edad === '' || isNaN(edad) ) {
+            this.txtEdad.style.borderColor = 'red';
+        } else {
+            this.txtEdad.style.borderColor = 'green';
+        }
+    }
+}</code></pre>
+  <p>
+    Rojo si está vacía <strong>o</strong> si no es un número; verde si no. Hacen falta las dos
+    condiciones porque <code>isNaN('')</code> da <code>false</code> (teoría, sección 2). Verificado
+    con Node.js: <code>''</code> &rarr; rojo; <code>'20'</code>, <code>'-3'</code> y
+    <code>'2.5'</code> &rarr; verde. Una edad negativa o con decimales pasa: la validación solo
+    mira que sea número.
+  </p>
+
+  <span class="paso">Paso 4 &mdash; ¿Qué pasa? (recorrido de un usuario)</span>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Qué hace el usuario</th><th>Qué pasa</th></tr>
+      <tr><td>Aprieta Valido Datos con todo vacío</td><td>Cartel "El nombre es obligatorio" y el cursor va al nombre. El borde del nombre <strong>no cambia</strong> (ese <code>if</code> no lo pinta)</td></tr>
+      <tr><td>Escribe "Ana" y sale del campo con Tab</td><td>El <code>blur</code> pinta el nombre de verde</td></tr>
+      <tr><td>Aprieta Valido Datos</td><td>El nombre pasa. Cartel "El apellido es obligatorio", borde del apellido rojo, cursor ahí</td></tr>
+      <tr><td>Escribe "Paz" y aprieta Valido Datos</td><td>Cartel "La edad es obligatoria", edad en rojo. <strong>El apellido sigue rojo</strong>: nadie le saca el color, porque el apellido no tiene <code>blur</code></td></tr>
+      <tr><td>Completa la edad y la dirección y aprieta Valido Datos</td><td><strong>No pasa nada</strong>: ningún <code>if</code> se cumple, el método termina sin mensaje</td></tr>
+    </table>
+  </div>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Lo que este ejemplo deja a medias</span>
+    <ul>
+      <li><strong>Espacios:</strong> el <code>blur</code> del nombre usa <code>trim()</code> pero <code>validoDatos()</code> no. Con tres espacios en el nombre, el borde se pone rojo pero el botón lo deja pasar.</li>
+      <li><strong>Cuando todo está bien, no hace nada.</strong> El ejemplo 5 completa justamente eso: si todo está bien, envía el formulario a PHP.</li>
+      <li><strong>El campo de edad es <code>type="number"</code>:</strong> el navegador no deja escribir letras sueltas, así que el <code>isNaN</code> casi nunca llega a decidir; queda como protección.</li>
+    </ul>
+  </div>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Qué se ve en la página</span>
+    <p>
+      Cuatro campos y un botón. Cada clic en el botón avisa con un cartel el primer campo vacío
+      (en el orden nombre, apellido, edad, dirección) y lleva el cursor ahí. Salir del nombre o de
+      la edad los pinta de verde o rojo.
+    </p>
+  </div>
+</div>

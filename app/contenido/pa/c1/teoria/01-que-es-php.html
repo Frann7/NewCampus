@@ -1,0 +1,127 @@
+<div class="bloque" data-examen="igual" data-examen-ref="Parcial PHP · preg. 15" data-examen-nota="Textual: “Indique la definición más correcta para PHP”, con cuatro opciones que combinan compilado/interpretado y cliente/servidor.">
+  <p class="kicker">Introducción</p>
+  <h2>1. Qué es PHP</h2>
+
+  <h3>Para qué sirve</h3>
+  <p>
+    PHP es un <strong>lenguaje de programación para hacer páginas web</strong>. Lo que lo distingue
+    es <em>dónde</em> corre: no en tu navegador, sino en el <strong>servidor</strong> (la
+    computadora que tiene guardada la página). El servidor ejecuta el código PHP, arma el HTML
+    resultante y le manda <strong>solo ese resultado</strong> al navegador.
+  </p>
+
+  <h3>La definición de la cátedra, desarmada</h3>
+  <div class="caja caja-formula">
+    <span class="caja-tit">PHP en una frase</span>
+    <p>PHP es un lenguaje de programación <strong>interpretado</strong> que se ejecuta <strong>del lado del servidor</strong>.</p>
+  </div>
+
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Parte</th><th>Qué significa</th></tr>
+      <tr><td class="lbl">Interpretado</td><td>El código se lee y se ejecuta <strong>instrucción por instrucción cada vez que se corre</strong>, por un programa llamado <em>intérprete</em>. No hay un paso previo de "compilar" que lo convierta en un ejecutable (como un <code>.exe</code>). Escribís el archivo <code>.php</code> y ya se puede ejecutar.</td></tr>
+      <tr><td class="lbl">Del lado del servidor</td><td>Lo ejecuta el <strong>servidor web</strong> antes de responder. El navegador nunca ve el código PHP, solo lo que ese código imprimió.</td></tr>
+      <tr><td class="lbl">El nombre</td><td><strong>PHP: Hypertext Preprocessor</strong> ("preprocesador de hipertexto"). Es un <em>acrónimo recursivo</em>: la primera P del nombre es otra vez "PHP". "Preprocesador" porque procesa la página <em>antes</em> de mandarla.</td></tr>
+      <tr><td class="lbl">Origen</td><td>Lo creó Rasmus Lerdorf en 1994.</td></tr>
+      <tr><td class="lbl">Se incrusta en HTML</td><td>Un mismo archivo puede tener HTML común y, en el medio, pedacitos de PHP (sección 3).</td></tr>
+      <tr><td class="lbl">Sintaxis</td><td>Deriva sobre todo de C, con influencia de Perl y, desde que tiene orientación a objetos, de Java.</td></tr>
+      <tr><td class="lbl">Licencia</td><td>Código abierto: licencia PHP v3.01, de tipo BSD (sin el "copyleft" de la GPL). Es software libre según la Free Software Foundation, pero no es compatible con la GPL por la restricción sobre el uso del nombre "PHP".</td></tr>
+    </table>
+  </div>
+
+  <h3>Lado cliente y lado servidor</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th></th><th>Lado cliente</th><th>Lado servidor</th></tr>
+      <tr><td class="lbl">Quién lo ejecuta</td><td>El navegador (Chrome, Firefox...)</td><td>El servidor web, antes de responder</td></tr>
+      <tr><td class="lbl">Para qué</td><td>Mostrar la página y reaccionar a lo que hace el usuario</td><td>Hacer operaciones (cuentas, consultas a una base de datos) y armar la respuesta</td></tr>
+      <tr><td class="lbl">Ejemplos</td><td>HTML (maquetar y presentar), JavaScript (acciones en el navegador)</td><td><strong>PHP</strong>, ASP, JSP, .net</td></tr>
+      <tr><td class="lbl">¿El usuario ve el código?</td><td>Sí (con "ver código fuente")</td><td>No: solo ve el resultado</td></tr>
+    </table>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; Qué le llega al navegador</h3>
+
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>Un archivo <code>pagina.php</code> tiene HTML y un pedacito de PHP. ¿Qué recibe el navegador cuando lo pide?</p>
+  </div>
+
+  <pre class="codigo"><code>&lt;h1&gt;Mi primera página&lt;/h1&gt;
+&lt;p&gt;Hoy es un buen día.&lt;/p&gt;
+&lt;?php
+echo "&lt;p&gt;Este párrafo lo escribió PHP.&lt;/p&gt;";
+?&gt;
+&lt;p&gt;Fin.&lt;/p&gt;</code></pre>
+
+  <h4>Qué hace cada línea</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th></tr>
+      <tr><td><code>&lt;h1&gt;...&lt;/h1&gt;</code> y <code>&lt;p&gt;...&lt;/p&gt;</code></td><td>Es HTML común, está <strong>fuera</strong> de las etiquetas de PHP: el servidor lo manda tal cual.</td></tr>
+      <tr><td><code>&lt;?php</code></td><td>Desde acá empieza el código PHP: el servidor lo ejecuta en vez de mandarlo.</td></tr>
+      <tr><td><code>echo "...";</code></td><td><code>echo</code> <strong>escribe un texto en la respuesta</strong>, en ese mismo lugar de la página. Acá escribe un párrafo HTML.</td></tr>
+      <tr><td><code>?&gt;</code></td><td>Termina el código PHP. Lo que sigue vuelve a ser HTML que se manda tal cual.</td></tr>
+    </table>
+  </div>
+
+  <h4>Qué recibe el navegador y por qué</h4>
+  <pre class="salida">&lt;h1&gt;Mi primera página&lt;/h1&gt;
+&lt;p&gt;Hoy es un buen día.&lt;/p&gt;
+&lt;p&gt;Este párrafo lo escribió PHP.&lt;/p&gt;&lt;p&gt;Fin.&lt;/p&gt;</pre>
+  <ul>
+    <li>El bloque <code>&lt;?php ... ?&gt;</code> <strong>desapareció</strong>: en su lugar quedó lo que imprimió el <code>echo</code>.</li>
+    <li>Si el usuario hace "ver código fuente", ve esto, no el PHP. Eso es "ejecutarse del lado del servidor".</li>
+    <li>El último párrafo quedó pegado al anterior porque PHP se "come" el salto de línea que va justo después de <code>?&gt;</code>. En la página no se nota: el navegador muestra los dos párrafos uno debajo del otro igual.</li>
+  </ul>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; Con formato del Parcial PHP (preg. 15)</h3>
+
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>Indique la definición más correcta para PHP (PHP HyperText PreProcessor).</p>
+    <p>
+      a. PHP es un lenguaje de programación compilado que se ejecuta del lado del cliente.<br>
+      b. PHP es un lenguaje de programación interpretado que se ejecuta del lado del cliente.<br>
+      c. PHP es un lenguaje de programación interpretado que se ejecuta del lado del servidor.<br>
+      d. PHP es un lenguaje de programación compilado que se ejecuta del lado del servidor.
+    </p>
+  </div>
+
+  <h4>Cómo se resuelve</h4>
+  <p>Las cuatro opciones combinan dos preguntas. Se contesta cada una por separado:</p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Pregunta</th><th>Respuesta</th><th>Descarta</th></tr>
+      <tr><td>¿Compilado o interpretado?</td><td><strong>Interpretado</strong>: el archivo <code>.php</code> se ejecuta tal como está, sin generar un ejecutable antes.</td><td>a y d</td></tr>
+      <tr><td>¿Cliente o servidor?</td><td><strong>Servidor</strong>: el navegador recibe solo el resultado (ejemplo 1).</td><td>a y b</td></tr>
+    </table>
+  </div>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p><strong>c.</strong> PHP es un lenguaje de programación interpretado que se ejecuta del lado del servidor.</p>
+  </div>
+
+  <h3>Errores y trampas</h3>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">No confundir con JavaScript</span>
+    <p>
+      JavaScript también se usa en páginas web, pero corre <strong>en el navegador</strong> (lado
+      cliente). PHP corre <strong>en el servidor</strong>. Si una opción dice "PHP ... del lado del
+      cliente", está mal.
+    </p>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Abrir el .php con doble clic no lo ejecuta</span>
+    <p>
+      Como PHP necesita un servidor que lo interprete, un archivo <code>.php</code> abierto
+      directamente desde la carpeta no corre: hay que pedirlo a un servidor web. Para eso se
+      instala XAMPP (sección 2).
+    </p>
+  </div>
+</div>

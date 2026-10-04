@@ -1,0 +1,78 @@
+<div class="ej">
+  <span class="tag">Ejercicio 3 &middot; do...while</span>
+  <h2>El doble de cada número del 1 al 100, con do...while</h2>
+  <div class="enunciado">
+    <p>
+      Escriba un nuevo script PHP que realice la misma tarea del punto anterior pero que utilice la
+      sentencia do .. while para recorrer los mismos. Deberá ir mostrando los resultados de cada
+      operación en pantalla y también deberá documentar cada operación.
+    </p>
+  </div>
+
+  <span class="paso">Paso 1 &mdash; Qué cambia respecto del ejercicio 2</span>
+  <ul>
+    <li>La tarea es la misma: recorrer del 1 al 100 y mostrar el doble de cada uno.</li>
+    <li>La diferencia es <strong>dónde va la condición</strong>: en <code>do...while</code> se pregunta <strong>al final</strong> de cada vuelta, así que la primera vuelta se hace sin preguntar.</li>
+    <li>La sintaxis termina con <code>} while (condición);</code>, con paréntesis y <strong>punto y coma</strong>.</li>
+  </ul>
+
+  <span class="paso">Paso 2 &mdash; El código</span>
+  <pre class="codigo"><code>&lt;?php
+// Contador: arranca en el primer número a recorrer
+$c = 1;
+
+// do: primero ejecuta el bloque, después pregunta
+do {
+    // Mostramos la operación: el número y su doble
+    echo "El doble de " . $c . " es " . ($c * 2) . "&lt;br&gt;";
+    // Pasamos al número siguiente
+    $c++;
+} while ($c &lt;= 100); // ¿Seguimos? Solo si $c no pasó de 100
+?&gt;</code></pre>
+
+  <span class="paso">Paso 3 &mdash; Qué hace cada línea, vuelta por vuelta</span>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Momento</th><th>Qué hace</th><th><code>$c</code></th><th>Qué sale</th></tr>
+      <tr><td><code>$c = 1;</code></td><td>Valor inicial.</td><td>1</td><td></td></tr>
+      <tr><td><code>do {</code></td><td>Entra <strong>sin preguntar</strong>.</td><td>1</td><td></td></tr>
+      <tr><td><code>echo ...</code></td><td>Muestra el número y \(1 \times 2\).</td><td>1</td><td>El doble de 1 es 2</td></tr>
+      <tr><td><code>$c++;</code></td><td>Suma 1.</td><td>2</td><td></td></tr>
+      <tr><td><code>} while ($c &lt;= 100);</code></td><td>Recién ahora pregunta: ¿2 &lt;= 100? Sí: vuelve al <code>do</code>.</td><td>2</td><td></td></tr>
+      <tr><td>Vueltas 2 a 99</td><td>Muestra, suma, pregunta.</td><td>3 a 100</td><td>El doble de 2 es 4 ... El doble de 99 es 198</td></tr>
+      <tr><td>Vuelta 100</td><td>Muestra el 100 y suma. Pregunta: ¿101 &lt;= 100? No: termina.</td><td>101</td><td>El doble de 100 es 200</td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Paso 4 &mdash; Qué imprime y por qué</span>
+  <p>Exactamente lo mismo que el ejercicio 2 (100 renglones; acá el principio y el final):</p>
+  <pre class="salida">El doble de 1 es 2
+El doble de 2 es 4
+El doble de 3 es 6
+⋮
+El doble de 98 es 196
+El doble de 99 es 198
+El doble de 100 es 200</pre>
+
+  <span class="paso">Paso 5 &mdash; Cuándo se nota la diferencia</span>
+  <p>
+    Acá los dos bucles dan igual porque la condición es verdadera desde el principio. Si el
+    contador arrancara en 150 (<code>$c = 150;</code>), la condición sería falsa de entrada:
+  </p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Versión</th><th>Qué hace</th><th>Salida</th></tr>
+      <tr><td><code>while</code> (ejercicio 2)</td><td>Pregunta primero: ¿150 &lt;= 100? No. No entra.</td><td>(nada)</td></tr>
+      <tr><td><code>do...while</code> (este)</td><td>Hace una vuelta y después pregunta.</td><td>El doble de 150 es 300</td></tr>
+    </table>
+  </div>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Comparación con la cátedra</span>
+    <p>
+      Misma estructura que la de la cátedra (<code>$c = 1;</code>, <code>do { ... $c++; } while ($c &lt;= 100);</code>).
+      La cátedra muestra solo el doble (<code>echo ($c*2)."&lt;br/&gt;";</code>: 2, 4, ..., 200);
+      acá además se muestra el número original. Las dos son correctas.
+    </p>
+  </div>
+</div>

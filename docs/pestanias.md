@@ -3,7 +3,14 @@
 > Las rutas de este documento son relativas a `app/` (salvo que digan otra cosa).
 
 
-**Pestaña Calendario** (una sola, no depende de la materia ni de la unidad): `assets/calendario/`.
+**Tareas y Calendario van en el menú lateral**, como dos entradas fijas arriba de "MATERIAS"
+(`.nav-fija` en `index.html`), con rutas propias `#tareas` y `#calendario`; la fila de pestañas de
+una materia es solo Teoría · Práctica · Evaluación. Las rutas viejas (`#pye/u7/tareas`) se
+reescriben a las nuevas (`leerRuta` en `app.js`). Mientras se ven, las migas no muestran materia y
+la fila de pestañas queda oculta (`html.vista-campus`); la última materia y unidad siguen en el
+state, así que tocar una unidad vuelve a su teoría.
+
+**Calendario** (uno solo, no depende de la materia ni de la unidad): `assets/calendario/`.
 Vista **Mes** (el mes ocupando la pantalla, flechas a los costados, el día de hoy marcado) y vista
 **Año** (los doce meses; al hacer clic en uno se entra a su vista Mes). La semana empieza el lunes y
 "hoy" se calcula en UTC-3, igual que el reloj. La vista y el mes quedan guardados en el navegador.
@@ -14,7 +21,8 @@ En cada día se ven dos cosas:
   `assets/calendario/fechas.js`, que tiene el formato explicado arriba de todo. Van marcadas con una
   franja de color a la izquierda del día.
 * **Parciales y trabajos prácticos** que anota el usuario con el botón **+ Fecha** o tocando un día.
-  Se elige materia (de las del menú lateral, estén disponibles o no), unidades si la materia tiene,
+  Se elige materia (de las del menú lateral, estén disponibles o no), unidades si la materia tiene
+  (el rótulo usa el término de la materia: "Clases" en PA, sacado del `num` de materias.json),
   el día y una descripción opcional; después se pueden editar y eliminar. Cada materia tiene su color,
   sacado de su lugar en el menú (`--h`, el tono; el nombre corto sale de `data-corto`).
 
@@ -39,7 +47,7 @@ corta la tanda y tocar una fecha lleva a ese día.
 (`newcampus:avisos` guarda las materias APAGADAS, así una materia nueva avisa sin tocar nada; el
 filtro va en `newcampus:agenda`.)
 
-**Pestaña Tareas** (una sola, como el Calendario): `assets/tareas/`. Un tablero de tres columnas
+**Tareas** (una sola, como el Calendario): `assets/tareas/`. Un tablero de tres columnas
 (Pendientes, En proceso, Hecho) con tareas de texto que se agregan, editan, borran y se pasan de
 columna con las flechas o arrastrándolas. Cada tarea puede llevar una materia (`materia`, la clave
 del menú) y toma el tono de esa materia que usa el calendario (`NC.calEventos`); sin materia es
@@ -47,7 +55,8 @@ general. Tope de 25 tareas por columna (`MAXIMO`) y 300
 caracteres por tarea (`MAX_TEXTO`). Se guardan en `newcampus:tareas`.
 
 **Ventanas duplicadas** (`assets/ventanas.js`): manteniendo apretada una pestaña 0,8 s sale una **copia**
-de ese apartado en otra ventana (`index.html?panel=1#<materia>/<unidad>/<pestaña>`). La copia no
+de ese apartado en otra ventana (`index.html?panel=1#<materia>/<unidad>/<pestaña>`). Lo mismo con
+Tareas y Calendario del menú lateral (`index.html?panel=1#tareas`). La copia no
 tiene menú de materias ni pestañas, pero sí su índice y su material; la ventana original no se mueve.
 Máximo 4 copias a la vez. Las copias **no laten** al servidor (no cuentan tiempo ni pisan el último
 apartado abierto) y se cierran solas cuando se cierra la ventana principal.

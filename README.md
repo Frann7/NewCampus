@@ -11,8 +11,10 @@ fórmulas (MathJax) y las tipografías. Tus datos no salen de tu máquina.
 ## Qué tiene hasta ahora
 
 * **Apuntes por materia y unidad**, con pestañas de **Teoría** y **Práctica**.
-  Con contenido, por ahora, solo Probabilidad y Estadística (unidades 4 a 7); el resto de las
-  materias de tercer año ya están en el menú como "pronto".
+  Con contenido, por ahora, Probabilidad y Estadística (unidades 4 a 7) y Programación Avanzada,
+  que va por **clases** (1 a 6: PHP, arreglos y cadenas, HTML y formularios, JavaScript y API REST,
+  sesiones, mysqli), con el código de cada ejemplo, qué hace cada línea y qué imprime; el resto
+  de las materias de tercer año ya están en el menú como "pronto".
 * **Evaluación**: **parciales y finales** de la cátedra transcriptos, en dos listas. Algunos traen
   cada ejercicio con resultados y explicación detallada desplegables; otros están solo transcriptos,
   para usarlos como práctica. Y **autoevaluaciones** que armás vos, con su informe final. Primero
@@ -81,17 +83,22 @@ fórmulas (MathJax) y las tipografías. Tus datos no salen de tu máquina.
   con ★ (tal cual como lo tomaron en un parcial) o ◈ (el mismo tema con un cambio, o algo que
   solo tomaron en finales), diciendo en qué examen apareció y qué cambia. La marca se ve en la tarjeta y en el índice lateral, y una barra de filtro
   deja a la vista solo lo marcado, para estudiar primero lo que ya tomaron.
+* **Evaluación de Programación Avanzada**, más simple que la de PyE: el **Parcial PHP**
+  transcripto, con la respuesta y la explicación de cada pregunta, y autoevaluaciones que son
+  ese parcial entero como en el Aula Virtual (las 20 preguntas en orden, con cuenta regresiva de
+  40 minutos que se puede cambiar, nota sobre 100 y la revisión explicada). Sin etapas, modos ni
+  elección de clases.
 * **Índice lateral con subíndices**: en la práctica, cada ejercicio abierto lista debajo sus
   pasos e incisos, y tocar uno lleva directo a ese inciso.
-* **Tareas**: un tablero con tres columnas, **Pendientes**, **En proceso** y **Hecho**, en su
-  propia pestaña antes del Calendario (uno solo para todo el campus). Cada tarea es un cuadrito:
+* **Tareas**: un tablero con tres columnas, **Pendientes**, **En proceso** y **Hecho**, en el
+  menú lateral arriba de las materias, junto al Calendario (uno solo para todo el campus). Cada tarea es un cuadrito:
   se agrega al pie de su columna, se edita con el lápiz (o doble clic), se borra con la ✕ y se pasa
   de columna con las flechas o arrastrándola; arrastrando también se reordena. Al agregarla o
   editarla, entre Cancelar y Agregar se elige si es de una **materia**: toma su color (el mismo
   que en el calendario) y lleva su nombre; si se deja en "Sin materia" es una tarea general. Entran hasta **25
   tareas por columna** (con la columna llena no se agrega ni se mueve nada a ella) y hasta 300
   caracteres por tarea.
-* **Calendario**: un mes a pantalla completa con flechas para navegar, o el año entero.
+* **Calendario** (en el menú lateral): un mes a pantalla completa con flechas para navegar, o el año entero.
   Se le anotan **parciales y trabajos prácticos** (materia, unidades que entran, día y una
   descripción); el día con parcial se pinta entero del color de la materia, y si ese día cae más de
   una, la casilla se parte en franjas. Al abrir un día, la ficha dice **cuánto falta** para ese día.
@@ -214,6 +221,8 @@ Chrome (`chrome --headless --print-to-pdf`).
 `0.x.y-alpha` mientras esté en desarrollo. La `1.0.0` queda reservada para cuando esté terminado.
 La versión actual se lee al pie del menú lateral.
 
+* **0.34.0-alpha** — Programación Avanzada: teoría y práctica de las 6 clases, el Parcial PHP
+  resuelto y su autoevaluación. Tareas y Calendario pasan al menú lateral.
 * **0.33.1-alpha** — tareas: arrastrar una hasta abajo de su columna la deja última (quedaba
   anteúltima) y la copia que sigue al mouse ya no sale atenuada.
 * **0.33.0-alpha** — las tareas pueden ser de una materia, con su color.

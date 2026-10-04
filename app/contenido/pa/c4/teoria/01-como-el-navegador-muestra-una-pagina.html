@@ -1,0 +1,187 @@
+<div class="bloque">
+  <p class="kicker">Sección 1 &middot; diapositivas 1 a 7</p>
+  <h2>1. Cómo el navegador muestra una página</h2>
+
+  <h3>Para qué sirve</h3>
+  <p>
+    Todo lo que hace JavaScript en esta clase es <strong>tocar el DOM</strong>: leer lo que
+    escribiste en un campo, cambiar un título, agregar un párrafo. Para entender qué es el DOM
+    hay que ver primero qué hace el navegador desde que escribís una dirección hasta que ves la
+    página pintada.
+  </p>
+
+  <h3>Sintaxis: las etiquetas que hacen pedir más archivos</h3>
+  <p>
+    El navegador primero pide <strong>el archivo índice</strong> del sitio (<code>index.html</code>,
+    <code>index.php</code>, etc.), que trae el código HTML. Mientras lo lee, ciertas etiquetas le
+    avisan que <strong>tiene que pedir otro archivo</strong> al servidor. Cada una es una
+    <strong>petición nueva</strong> (en inglés, <em>request</em>):
+  </p>
+<pre class="codigo"><code>&lt;link href="/css/styles.css" rel="stylesheet"&gt;   &lt;!-- pide una hoja de estilos --&gt;
+&lt;img src="imgs/logo.png"&gt;                          &lt;!-- pide una imagen --&gt;
+&lt;script src="js/pagina.js"&gt;&lt;/script&gt;             &lt;!-- pide un archivo de JavaScript --&gt;</code></pre>
+  <p>
+    Recién cuando terminó de pedir todo lo necesario, empieza el <strong>renderizado</strong>:
+    convertir ese texto en algo que se ve en la pantalla.
+  </p>
+
+  <h3>Qué es cada parte: los cinco pasos del renderizado</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Paso</th><th>Qué entra</th><th>Qué hace</th><th>Qué sale</th></tr>
+      <tr><td class="lbl">1. Construcción del DOM</td><td>El HTML (texto, con el encabezado <code>Content-Type: text/html; charset=UTF-8</code>)</td><td>Por cada etiqueta crea un objeto de JavaScript llamado <strong>Node</strong> (nodo) y los acomoda en forma de árbol: cada etiqueta es hija de la que la contiene</td><td>El <strong>DOM</strong></td></tr>
+      <tr><td class="lbl">2. Construcción del CSSOM</td><td>Todos los CSS</td><td>Arma otro árbol, donde cada nodo tiene la información de estilo que le corresponde a un elemento del DOM</td><td>El <strong>CSSOM</strong> (modelo de objetos CSS)</td></tr>
+      <tr><td class="lbl">3. Árbol de renderizado</td><td>DOM + CSSOM</td><td>Recorre el DOM desde la raíz, se queda solo con los nodos <strong>visibles</strong> y a cada uno le aplica su regla de CSS</td><td>El <strong>árbol de renderizado</strong> (<em>render tree</em>)</td></tr>
+      <tr><td class="lbl">4. Fase de diseño</td><td>El árbol de renderizado</td><td>Calcula la <strong>posición y el tamaño exactos</strong> de cada nodo respecto de la ventana. También se llama <strong>reflujo</strong> (<em>layout</em>)</td><td>Un modelo de cajas con posiciones y tamaños</td></tr>
+      <tr><td class="lbl">5. Fase de pintura</td><td>Nodos visibles, su estilo y su geometría</td><td>Convierte todo eso en <strong>píxeles</strong> reales en la pantalla</td><td>La página que ves</td></tr>
+    </table>
+  </div>
+
+  <p>El diagrama de la diapositiva 7 lo resume así:</p>
+<pre class="codigo"><code>HTML --&gt; [HTML parser] --DOM----.
+                                 +--&gt; [Style] --Render Tree--&gt; [Layout] --Layout Tree--&gt; [Painting] --&gt; Display
+CSS  --&gt; [CSS parser]  --CSSOM--'</code></pre>
+  <p>
+    <em>Parser</em> es el programa que lee un texto y lo convierte en una estructura
+    (acá, en un árbol).
+  </p>
+
+  <div class="caja caja-formula">
+    <span class="caja-tit">Qué es el DOM, en una línea</span>
+    <p>
+      El <strong>DOM</strong> (<em>Document Object Model</em>, modelo de objetos del documento) es la
+      página convertida en un <strong>árbol de objetos</strong> que el navegador le presta a
+      JavaScript para que pueda leerla y modificarla. No es el archivo HTML: es lo que el
+      navegador armó <em>a partir</em> del archivo.
+    </p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; ¿Cuántas peticiones hace el navegador?</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>El navegador entra a un sitio cuyo <code>index.html</code> es este. ¿Cuántas peticiones al servidor hace en total, antes de empezar a renderizar?</p>
+  </div>
+<pre class="codigo"><code>&lt;!DOCTYPE html&gt;
+&lt;html lang="es"&gt;
+&lt;head&gt;
+    &lt;title&gt;Mi sitio&lt;/title&gt;
+    &lt;link href="css/styles.css" rel="stylesheet"&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;Hola&lt;/h1&gt;
+    &lt;img src="imgs/logo.png"&gt;
+    &lt;img src="imgs/foto.jpg"&gt;
+    &lt;script src="js/pagina.js"&gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Peticiones hasta acá</th></tr>
+      <tr><td>(escribir la dirección)</td><td>Pide el archivo índice, <code>index.html</code></td><td>1</td></tr>
+      <tr><td><code>&lt;title&gt;</code>, <code>&lt;h1&gt;</code></td><td>Son texto que ya vino adentro del HTML: no piden nada</td><td>1</td></tr>
+      <tr><td><code>&lt;link href="css/styles.css"&gt;</code></td><td>Pide la hoja de estilos</td><td>2</td></tr>
+      <tr><td><code>&lt;img src="imgs/logo.png"&gt;</code></td><td>Pide la primera imagen</td><td>3</td></tr>
+      <tr><td><code>&lt;img src="imgs/foto.jpg"&gt;</code></td><td>Pide la segunda imagen</td><td>4</td></tr>
+      <tr><td><code>&lt;script src="js/pagina.js"&gt;</code></td><td>Pide el archivo de JavaScript</td><td>5</td></tr>
+    </table>
+  </div>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>
+      <strong>5 peticiones</strong>: el índice más una por cada <code>link</code>, <code>img</code>
+      y <code>script</code> con archivo externo. Las etiquetas que solo tienen texto no piden nada.
+    </p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; Armar el árbol del DOM (diapositiva 10)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>
+      Para este HTML: a) dibujar el árbol del DOM; b) ¿quién es el padre de <code>&lt;a&gt;</code>?;
+      c) ¿cuántos hijos tiene <code>&lt;body&gt;</code>?
+    </p>
+  </div>
+<pre class="codigo"><code>&lt;html&gt;
+  &lt;head&gt;
+    &lt;title&gt;Ejemplo&lt;/title&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;meta name="viewport" content="width=device-width"&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;h1&gt;Título&lt;/h1&gt;
+    &lt;p&gt;Un párrafo con un &lt;a href="#"&gt;enlace&lt;/a&gt;&lt;/p&gt;
+    &lt;ul&gt;
+      &lt;li&gt;Uno&lt;/li&gt;
+      &lt;li&gt;Dos&lt;/li&gt;
+      &lt;li&gt;Tres&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</code></pre>
+
+  <span class="paso">a) El árbol</span>
+  <p>
+    La regla es una sola: <strong>cada etiqueta es hija de la etiqueta que la contiene</strong>.
+    <code>&lt;html&gt;</code> es la raíz, porque contiene a todas:
+  </p>
+<pre class="codigo"><code>html
+├── head
+│   ├── title
+│   ├── meta
+│   └── meta
+└── body
+    ├── h1
+    ├── p
+    │   └── a
+    └── ul
+        ├── li
+        ├── li
+        └── li</code></pre>
+  <p>Es exactamente el árbol de la diapositiva 10.</p>
+
+  <span class="paso">b) El padre de &lt;a&gt;</span>
+  <p>El enlace está escrito <strong>adentro</strong> del <code>&lt;p&gt;</code>, así que su padre es <code>&lt;p&gt;</code> (no <code>&lt;body&gt;</code>).</p>
+
+  <span class="paso">c) Los hijos de &lt;body&gt;</span>
+  <p>
+    Solo cuentan los que están <strong>directamente</strong> adentro: <code>h1</code>,
+    <code>p</code> y <code>ul</code>. Son <strong>3</strong>. El <code>a</code> y los tres
+    <code>li</code> son nietos: están adentro de un hijo.
+  </p>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>b) <code>&lt;p&gt;</code>. c) 3 hijos: <code>h1</code>, <code>p</code> y <code>ul</code>.</p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Errores y trampas</h3>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">El DOM no es el archivo</span>
+    <p>
+      Cuando JavaScript cambia un título, cambia el <strong>DOM</strong>, no el archivo
+      <code>.html</code> del servidor. Si recargás la página, el navegador vuelve a pedir el
+      archivo original y el cambio desaparece.
+    </p>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Cambiar el DOM cuesta</span>
+    <p>
+      Cada cambio puede obligar al navegador a repetir los pasos 4 y 5 (recalcular posiciones y
+      volver a pintar). Por eso la diapositiva 9 avisa que actualizar el DOM es costoso:
+      <strong>cuantos más cambios, más lenta la página</strong>.
+    </p>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">CSSOM no es CSS</span>
+    <p>
+      El CSS es el archivo de texto; el CSSOM es el árbol que el navegador arma leyéndolo, igual
+      que el DOM es el árbol que arma leyendo el HTML.
+    </p>
+  </div>
+</div>

@@ -1,0 +1,47 @@
+<div class="bloque">
+  <p class="kicker">Arreglos</p>
+  <h2>9. Resumen: funciones de arreglos</h2>
+
+  <p>
+    Todas las funciones y construcciones de arreglos de la clase, en una tabla. La columna
+    "Ejemplo" usa <code>$a = array('x' =&gt; 'b', 'y' =&gt; 'a')</code> salvo que diga otra cosa.
+    El detalle de cada una está en su sección.
+  </p>
+
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Función</th><th>Qué hace</th><th>Ejemplo</th><th>Resultado</th><th>Sección</th></tr>
+      <tr><td><code>array()</code> / <code>[]</code></td><td>Crea un arreglo</td><td><code>array('rojo', 'azul')</code></td><td>0 =&gt; rojo &middot; 1 =&gt; azul</td><td>1</td></tr>
+      <tr><td><code>$a[] = v</code></td><td>Agrega <code>v</code> al final, con la clave entera siguiente</td><td><code>$c = array(); $c[] = 5;</code></td><td>0 =&gt; 5</td><td>1</td></tr>
+      <tr><td><code>$a[clave]</code></td><td>Lee (o escribe) el valor de esa clave</td><td><code>echo $a['y'];</code></td><td><code>a</code></td><td>2</td></tr>
+      <tr><td><code>print_r()</code></td><td>Muestra claves y valores</td><td><code>print_r($a);</code></td><td><code>Array ( [x] =&gt; b [y] =&gt; a )</code></td><td>3</td></tr>
+      <tr><td><code>var_dump()</code></td><td>Muestra estructura, tipo y valor de cada elemento</td><td><code>var_dump($a);</code></td><td><code>array(2) { ["x"]=&gt; string(1) "b" ... }</code></td><td>3</td></tr>
+      <tr><td><code>count()</code></td><td>Cantidad de elementos</td><td><code>count($a)</code></td><td><code>2</code></td><td>5</td></tr>
+      <tr><td><code>is_array()</code></td><td>¿Es un arreglo?</td><td><code>is_array($a)</code></td><td><code>true</code></td><td>5</td></tr>
+      <tr><td><code>array_key_exists()</code></td><td>¿Existe la clave? (aunque valga NULL)</td><td><code>array_key_exists('x', $a)</code></td><td><code>true</code></td><td>5</td></tr>
+      <tr><td><code>isset()</code></td><td>¿Existe la clave y no es NULL?</td><td><code>isset($a['z'])</code></td><td><code>false</code></td><td>5</td></tr>
+      <tr><td><code>in_array()</code></td><td>¿Está el valor?</td><td><code>in_array('a', $a)</code></td><td><code>true</code></td><td>5</td></tr>
+      <tr><td><code>unset()</code></td><td>Borra un elemento (no renumera)</td><td><code>unset($a['x']);</code></td><td>y =&gt; a</td><td>5</td></tr>
+      <tr><td><code>for</code> / <code>while</code></td><td>Recorren con un contador (solo claves 0, 1, 2&hellip;)</td><td><code>for ($i = 0; $i &lt; count($v); $i++)</code></td><td>&mdash;</td><td>6</td></tr>
+      <tr><td><code>foreach</code></td><td>Recorre todos los elementos, con cualquier clave</td><td><code>foreach ($a as $k =&gt; $v)</code></td><td>x/b, después y/a</td><td>6</td></tr>
+      <tr><td><code>sort()</code></td><td>Ordena por valor, ascendente; <strong>tira las claves y numera desde 0</strong></td><td><code>sort($a);</code></td><td>0 =&gt; a &middot; 1 =&gt; b</td><td>7</td></tr>
+      <tr><td><code>rsort()</code></td><td>Como <code>sort()</code>, descendente</td><td><code>rsort($a);</code></td><td>0 =&gt; b &middot; 1 =&gt; a</td><td>7</td></tr>
+      <tr><td><code>asort()</code></td><td>Ordena por valor, ascendente; conserva las claves</td><td><code>asort($a);</code></td><td>y =&gt; a &middot; x =&gt; b</td><td>7</td></tr>
+      <tr><td><code>arsort()</code></td><td>Como <code>asort()</code>, descendente</td><td><code>arsort($a);</code></td><td>x =&gt; b &middot; y =&gt; a</td><td>7</td></tr>
+      <tr><td><code>ksort()</code></td><td>Ordena por clave, ascendente</td><td><code>ksort($a);</code></td><td>x =&gt; b &middot; y =&gt; a</td><td>7</td></tr>
+      <tr><td><code>krsort()</code></td><td>Ordena por clave, descendente</td><td><code>krsort($a);</code></td><td>y =&gt; a &middot; x =&gt; b</td><td>7</td></tr>
+      <tr><td><code>array_diff()</code></td><td>Valores del 1º que no están en el 2º (con sus claves)</td><td><code>array_diff([1,2,3], [1,3,6])</code></td><td>1 =&gt; 2</td><td>8</td></tr>
+      <tr><td><code>array_intersect()</code></td><td>Valores del 1º que también están en el 2º (con sus claves)</td><td><code>array_intersect([1,2,3], [1,3,6])</code></td><td>0 =&gt; 1 &middot; 2 =&gt; 3</td><td>8</td></tr>
+    </table>
+  </div>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Lo que preguntó el parcial, en una línea cada uno</span>
+    <ul>
+      <li><code>$arreglo[clave]</code> muestra el <strong>valor</strong> de esa clave; las claves automáticas empiezan en 0 (preg. 2 y 8).</li>
+      <li><code>var_dump()</code> muestra estructura, tipo y valor: Verdadero (preg. 20).</li>
+      <li>Los arreglos se recorren con <code>foreach</code> y <code>for</code> (preg. 14).</li>
+      <li><code>sort()</code> ordena el arreglo que recibe, modificándolo a nivel de claves: Verdadero (preg. 10).</li>
+    </ul>
+  </div>
+</div>

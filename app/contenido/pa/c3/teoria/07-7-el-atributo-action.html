@@ -1,0 +1,127 @@
+<div class="bloque">
+  <p class="kicker">Atributos del formulario</p>
+  <h2>7. El atributo action: a qué script van los datos</h2>
+
+  <h3>Para qué sirve</h3>
+  <p>
+    <code>action</code> dice <strong>el nombre del script que va a procesar los datos</strong> del
+    formulario. Ese script (un archivo <code>.php</code>) es el encargado de recibirlos, y ahí se
+    programan todas las instrucciones para hacer algo con ellos: mostrarlos, guardarlos,
+    validarlos.
+  </p>
+
+  <h3>Sintaxis</h3>
+<pre class="codigo"><code>&lt;form action="ruta/del/script.php" method="get|post"&gt;</code></pre>
+
+  <h3>Qué es cada forma de escribir la ruta</h3>
+  <p>
+    La ruta se escribe igual que el <code>href</code> de un enlace. Lo que cambia es
+    <strong>desde dónde</strong> se cuenta:
+  </p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Cómo se escribe</th><th>Qué significa</th></tr>
+      <tr><td><code>action="procesoForm.php"</code></td><td><strong>Relativa</strong>: un archivo en la <strong>misma carpeta</strong> que la página del formulario</td></tr>
+      <tr><td><code>action="php/procesoForm.php"</code></td><td><strong>Relativa</strong>: dentro de la subcarpeta <code>php</code> de la carpeta de la página</td></tr>
+      <tr><td><code>action="/php/procesoForm.php"</code></td><td><strong>Absoluta</strong> (empieza con <code>/</code>): se cuenta desde la <strong>raíz del servidor</strong> (<code>http://localhost/</code>), no desde la carpeta de la página</td></tr>
+      <tr><td>sin <code>action</code></td><td>Los datos se mandan a la <strong>misma página</strong> que muestra el formulario</td></tr>
+    </table>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; El ejemplo de la cátedra</h3>
+
+<pre class="codigo"><code>&lt;form action="procesoFormulario.php" method="get"&gt;
+Nombre: &lt;input type="text" name="nombre"&gt;
+Apellido: &lt;input type="text" name="apellido"&gt;
+&lt;input type="submit" value="Enviar el formulario"&gt;
+&lt;/form&gt;</code></pre>
+
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th></tr>
+      <tr><td>1</td><td><code>action="procesoFormulario.php"</code>: los datos van a ese script, que está en la misma carpeta que el formulario. <code>method="get"</code>: van en la URL</td></tr>
+      <tr><td>2 y 3</td><td>Los dos cuadros de texto, <code>nombre</code> y <code>apellido</code></td></tr>
+      <tr><td>4</td><td>El botón de enviar</td></tr>
+    </table>
+  </div>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Qué pasa al enviar</span>
+    <p>
+      El navegador pide <code>procesoFormulario.php?nombre=Federico&amp;apellido=Bonnet</code>.
+      El servidor ejecuta <code>procesoFormulario.php</code>, y lo que ese script imprima es la
+      página que se ve a continuación. Si el script no existe, se ve un error
+      <strong>404 Not Found</strong>.
+    </p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; ¿A qué dirección van los datos? (formato parcial)</h3>
+
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>
+      El formulario está en <code>http://localhost/site/formPersonas.php</code>. ¿A qué dirección
+      se mandan los datos con cada <code>action</code>?
+    </p>
+    <ol type="a">
+      <li><code>action="procesoForm.php"</code></li>
+      <li><code>action="php/procesoFormulario.php"</code></li>
+      <li><code>action="/php/procesoFormulario.php"</code></li>
+    </ol>
+  </div>
+
+  <p>
+    La carpeta de la página es <code>http://localhost/site/</code> (la dirección sin el nombre del
+    archivo). Las rutas relativas se pegan a esa carpeta; la absoluta, a
+    <code>http://localhost/</code>.
+  </p>
+
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>action</th><th>Tipo</th><th>Se pega a</th><th>Dirección final</th></tr>
+      <tr><td>a. <code>procesoForm.php</code></td><td>relativa</td><td><code>http://localhost/site/</code></td><td><code>http://localhost/site/procesoForm.php</code></td></tr>
+      <tr><td>b. <code>php/procesoFormulario.php</code></td><td>relativa</td><td><code>http://localhost/site/</code></td><td><code>http://localhost/site/php/procesoFormulario.php</code></td></tr>
+      <tr><td>c. <code>/php/procesoFormulario.php</code></td><td>absoluta</td><td><code>http://localhost/</code></td><td><code>http://localhost/php/procesoFormulario.php</code></td></tr>
+    </table>
+  </div>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>
+      a) <code>http://localhost/site/procesoForm.php</code>;
+      b) <code>http://localhost/site/php/procesoFormulario.php</code>;
+      c) <code>http://localhost/php/procesoFormulario.php</code>, que <strong>se sale</strong> de
+      la carpeta <code>site</code>. El caso c es justo el del sitio de la práctica de la cátedra
+      (ver "El sitio de ejemplo" en Práctica).
+    </p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Errores y trampas</h3>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Lo que suele salir mal</span>
+    <ul>
+      <li>
+        <strong>El nombre no coincide.</strong> Si el archivo se llama <code>procesoForm.php</code>
+        y el <code>action</code> dice <code>procesoFormulario.php</code>, al enviar aparece un 404.
+        Por eso el ejercicio 3 pide "asegurarse de que sea el mismo nombre declarado en el campo
+        action".
+      </li>
+      <li>
+        <strong>Mayúsculas.</strong> En Windows (XAMPP) <code>ProcesoForm.php</code> y
+        <code>procesoForm.php</code> son el mismo archivo; en un servidor Linux no. Conviene
+        escribir el nombre exactamente igual.
+      </li>
+      <li>
+        <strong>La barra inicial.</strong> <code>/php/x.php</code> y <code>php/x.php</code> no son
+        lo mismo: la primera arranca desde la raíz del servidor. Funciona solo si el sitio está
+        en la raíz (<code>htdocs</code> directamente), no en una subcarpeta.
+      </li>
+    </ul>
+  </div>
+</div>

@@ -1,0 +1,156 @@
+<div class="ej">
+  <span class="tag">Ejemplo 2 &middot; page2.html</span>
+  <h2>Cambiar varios párrafos y agregar nuevos</h2>
+  <div class="enunciado">
+    <p>
+      Como el ejemplo 1, pero los botones actúan sobre <strong>todos</strong> los párrafos a la
+      vez, y hay uno más: "Nuevo Párrafo", que agrega un párrafo a la lista. La clase se llama
+      <code>PaginaClass</code> (<code>js/page2Class.js</code>).
+    </p>
+  </div>
+
+  <span class="paso">Paso 1 &mdash; El HTML</span>
+<pre class="codigo"><code>&lt;div id="parrafos"&gt;
+    &lt;p&gt;Parrafo 1&lt;/p&gt;
+    &lt;p&gt;Parrafo 2&lt;/p&gt;
+    &lt;p&gt;Parrafo 3&lt;/p&gt;
+    &lt;p&gt;Parrafo 4&lt;/p&gt;
+&lt;/div&gt;
+&lt;hr /&gt;
+&lt;button id="btCambioTexto"&gt;Cambiar Texto&lt;/button&gt;
+&lt;button id="btCambioColor"&gt;Cambiar Color&lt;/button&gt;
+&lt;button id="btCambioFondo"&gt;Cambiar Fondo&lt;/button&gt;
+&lt;button id="btAumentoTamaño"&gt;+&lt;/button&gt;&lt;button id="btDisminuirTamaño"&gt;-&lt;/button&gt;
+&lt;button id="btNuevoParrafo"&gt;Nuevo Párrafo&lt;/button&gt;</code></pre>
+  <p>
+    Los párrafos <strong>no tienen id</strong>: se van a seleccionar todos juntos por su etiqueta.
+    El que sí tiene id es el <code>div</code> que los contiene, porque ahí se van a colgar los
+    nuevos.
+  </p>
+
+  <span class="paso">Paso 2 &mdash; El constructor: tres formas de seleccionar los párrafos</span>
+<pre class="codigo"><code>class PaginaClass {
+
+    constructor(){
+        this.parrafos = document.getElementsByTagName('p');
+        this.vParrafos = Array.from(document.getElementsByTagName('p'));
+        this.vParrafos1 = document.querySelectorAll('p');
+
+        this.btCambioTexto = document.getElementById('btCambioTexto');
+        this.btCambioColor = document.getElementById('btCambioColor');
+        this.btCambioFondo = document.getElementById('btCambioFondo');
+        this.btAumentoTamaño = document.getElementById('btAumentoTamaño');
+        this.btDisminuirTamaño = document.getElementById('btDisminuirTamaño');
+        this.btNuevoParrafo = document.getElementById('btNuevoParrafo');
+    }
+
+    init() {
+        this.addEventListeners();
+    }</code></pre>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué guarda</th><th>¿Se usa?</th></tr>
+      <tr><td><code>this.parrafos = getElementsByTagName('p')</code></td><td>La <strong>colección</strong> de los 4 párrafos (viva, sin <code>forEach</code>)</td><td>No</td></tr>
+      <tr><td><code>this.vParrafos = Array.from(...)</code></td><td>Un <strong>array</strong> con los 4 párrafos (copia fija, con <code>forEach</code> y <code>push</code>)</td><td><strong>Sí</strong>: es la que usan todos los botones</td></tr>
+      <tr><td><code>this.vParrafos1 = querySelectorAll('p')</code></td><td>Una <strong>NodeList</strong> con los 4 (fija, con <code>forEach</code>)</td><td>No</td></tr>
+      <tr><td><code>this.btCambioTexto = ...</code> y los otros cinco</td><td>Un botón cada una</td><td>Sí</td></tr>
+    </table>
+  </div>
+  <p>
+    Las tres primeras líneas son las tres formas de la teoría (sección 3) puestas una al lado de
+    la otra para compararlas; el código solo usa la del medio. <code>init()</code> no pone texto
+    inicial: los párrafos ya vienen escritos en el HTML.
+  </p>
+
+  <span class="paso">Paso 3 &mdash; Los botones que recorren los párrafos</span>
+<pre class="codigo"><code>    addEventListeners() {
+        this.btCambioTexto.addEventListener('click', () =&gt; {
+            this.vParrafos.forEach((parrafo, index) =&gt; {
+                parrafo.textContent = `Parrafo ${index + 1} modificado`;
+            });
+        });
+
+        this.btCambioColor.addEventListener('click', () =&gt; {
+            this.vParrafos.forEach(parrafo =&gt; {
+                parrafo.style.color = "red";
+            });
+        });
+
+        this.btCambioFondo.addEventListener('click', () =&gt; {
+            this.vParrafos.forEach(parrafo =&gt; {
+                parrafo.style.backgroundColor = "#f0f0f0";
+            });
+        });
+
+        this.btAumentoTamaño.addEventListener('click', () =&gt; {
+            this.vParrafos.forEach(parrafo =&gt; {
+                let currentSize = window.getComputedStyle(parrafo).fontSize;
+                parrafo.style.fontSize = (parseFloat(currentSize) + 2) + "px";
+            });
+        });
+
+        this.btDisminuirTamaño.addEventListener('click', () =&gt; {
+            this.vParrafos.forEach(parrafo =&gt; {
+                let currentSize = window.getComputedStyle(parrafo).fontSize;
+                parrafo.style.fontSize = (parseFloat(currentSize) - 2) + "px";
+            });
+        });</code></pre>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Botón</th><th>Qué hace</th><th>Qué se ve</th></tr>
+      <tr><td>Cambiar Texto</td><td>Recorre el array con su posición (<code>index</code>, desde 0) y a cada párrafo le escribe su número (<code>index + 1</code>) seguido de "modificado"</td><td>"Parrafo 1 modificado" ... "Parrafo 4 modificado"</td></tr>
+      <tr><td>Cambiar Color</td><td>A cada uno, letra roja</td><td>Los 4 en rojo</td></tr>
+      <tr><td>Cambiar Fondo</td><td>A cada uno, fondo <code>#f0f0f0</code> (un gris muy claro, en notación hexadecimal de CSS)</td><td>Los 4 con franja gris</td></tr>
+      <tr><td>+ / -</td><td>A cada uno, la cuenta de tamaño del ejemplo 1</td><td>Todos crecen o se achican 2px por clic</td></tr>
+    </table>
+  </div>
+  <p>
+    La diferencia con el ejemplo 1 es que, como son varios, cada botón tiene un
+    <code>forEach</code> adentro: <strong>una flecha adentro de otra flecha</strong>. La de afuera
+    se ejecuta en cada clic; la de adentro, una vez por párrafo.
+  </p>
+
+  <span class="paso">Paso 4 &mdash; Nuevo Párrafo</span>
+<pre class="codigo"><code>        this.btNuevoParrafo.addEventListener('click', () =&gt; {
+            const nuevoParrafo = document.createElement('p');
+            nuevoParrafo.textContent = `Parrafo ${this.vParrafos.length + 1}`;
+            document.getElementById('parrafos').appendChild(nuevoParrafo);
+            this.vParrafos.push(nuevoParrafo);
+        });
+    }
+}</code></pre>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Cómo queda (1er clic)</th></tr>
+      <tr><td><code>const nuevoParrafo = createElement('p');</code></td><td>Crea un <code>&lt;p&gt;</code> suelto</td><td>Existe, no se ve</td></tr>
+      <tr><td><code>nuevoParrafo.textContent = `Parrafo ${this.vParrafos.length + 1}`;</code></td><td>El array tiene 4: le pone "Parrafo 5"</td><td><code>vParrafos.length = 4</code></td></tr>
+      <tr><td><code>getElementById('parrafos').appendChild(nuevoParrafo);</code></td><td>Lo cuelga al final del <code>div</code></td><td>Se ve "Parrafo 5" debajo del 4</td></tr>
+      <tr><td><code>this.vParrafos.push(nuevoParrafo);</code></td><td>Lo agrega <strong>también al array</strong></td><td><code>vParrafos.length = 5</code></td></tr>
+    </table>
+  </div>
+  <p>
+    Un segundo clic agrega "Parrafo 6", porque el array ya tiene 5 (verificado con Node.js
+    reproduciendo la cuenta del array).
+  </p>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Por qué hace falta el push</span>
+    <p>
+      <code>vParrafos</code> es una <strong>copia fija</strong> hecha con <code>Array.from</code>
+      en el constructor: el párrafo nuevo está en la página, pero no en el array. Sin el
+      <code>push</code>, los botones de color y tamaño (que recorren el array) no lo tocarían, y
+      el siguiente "Nuevo Párrafo" volvería a decir "Parrafo 5". Con la colección viva
+      (<code>this.parrafos</code>) el párrafo nuevo habría aparecido solo, pero esa colección no
+      tiene <code>forEach</code>.
+    </p>
+  </div>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Qué se ve en la página</span>
+    <p>
+      Cuatro párrafos y seis botones. Si se agrega un párrafo y después se aprieta "Cambiar
+      Texto", quedan "Parrafo 1 modificado" ... "Parrafo 5 modificado": el nuevo también, porque
+      está en el array.
+    </p>
+  </div>
+</div>

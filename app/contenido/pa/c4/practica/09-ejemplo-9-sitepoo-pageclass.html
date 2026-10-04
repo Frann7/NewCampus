@@ -1,0 +1,225 @@
+<div class="ej">
+  <span class="tag">Ejemplo 9 &middot; sitePoo: PageClass.php</span>
+  <h2>Un sitio armado con una clase de PHP</h2>
+  <div class="enunciado">
+    <p>
+      <em>sitePoo</em> ("sitio con POO", programación orientada a objetos) es un sitio chico de dos
+      páginas: Inicio y un Formulario de Personas. Todas las páginas comparten el mismo
+      encabezado, menú y pie, y en vez de copiarlos en cada archivo, los arma <strong>una clase de
+      PHP</strong>, <code>PageClass</code>. Cada página solo escribe su contenido propio. Este
+      ejemplo explica esa clase; el 10, el formulario y su validación.
+    </p>
+  </div>
+
+  <span class="paso">Paso 1 &mdash; Los archivos</span>
+<pre class="codigo"><code>sitePoo/
+├── index.php                 página de Inicio
+├── formPersonas.php          página del formulario (ejemplo 10)
+├── procesoFormulario.php     recibe el formulario (ejemplo 10)
+├── includes/
+│   └── PageClass.php         la clase que arma el HTML común
+├── js/
+│   └── formPersonas.js       la validación (ejemplo 10)
+└── imgs/
+    └── desarrollo-web.svg    el logo del menú</code></pre>
+
+  <span class="paso">Paso 2 &mdash; Cómo se escribe una clase en PHP</span>
+  <p>Es la misma idea que en JavaScript (teoría, sección 6), con la sintaxis de PHP:</p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>PHP</th><th>Qué es</th><th>En JavaScript</th></tr>
+      <tr><td class="lbl"><code>class PageClass { }</code></td><td>Declara la clase</td><td><code>class PageClass { }</code></td></tr>
+      <tr><td class="lbl"><code>private $header;</code></td><td>Una propiedad que <strong>solo</strong> pueden usar los métodos de la clase. Desde afuera, <code>$oPage-&gt;header</code> da error</td><td>(en los ejemplos, todas son públicas)</td></tr>
+      <tr><td class="lbl"><code>function __construct()</code></td><td>El constructor: corre solo al hacer <code>new</code></td><td><code>constructor()</code></td></tr>
+      <tr><td class="lbl"><code>private function setHeader()</code></td><td>Un método que solo se puede llamar desde adentro de la clase</td><td>&mdash;</td></tr>
+      <tr><td class="lbl"><code>public function setBody($body)</code></td><td>Un método que se puede llamar desde afuera</td><td>un método común</td></tr>
+      <tr><td class="lbl"><code>$this-&gt;header</code></td><td>Propiedad del objeto (flecha <code>-&gt;</code> y sin <code>$</code> antes del nombre)</td><td><code>this.header</code></td></tr>
+      <tr><td class="lbl"><code>$a .= 'texto';</code></td><td>Concatena al final: <code>$a = $a . 'texto';</code></td><td><code>a += 'texto';</code></td></tr>
+      <tr><td class="lbl"><code>$oPage = new PageClass();</code></td><td>Crea el objeto</td><td><code>new PageClass()</code></td></tr>
+      <tr><td class="lbl"><code>$oPage-&gt;getHtml()</code></td><td>Llama a un método</td><td><code>oPage.getHtml()</code></td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Paso 3 &mdash; PageClass.php</span>
+<pre class="codigo"><code>&lt;?php
+
+class PageClass
+{
+    private $header;
+    private $navbar;
+    private $body;
+    private $js;
+    private $footer;
+
+    function __construct()
+    {
+       $this-&gt;setHeader();
+       $this-&gt;setNavBar();
+       $this-&gt;setJs();
+       $this-&gt;setFooter();
+    }
+
+    private function setHeader()
+    {
+        $this-&gt;header='&lt;!DOCTYPE html&gt;
+                &lt;html lang="es"&gt;
+                 &lt;head&gt;
+                    &lt;meta charset="UTF-8"&gt;
+                    &lt;meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"&gt;
+                    &lt;title&gt;Programación Avanzada&lt;/title&gt;
+                    &lt;link rel="icon" href="/imgs/favicon.ico" type="image/x-icon"&gt;
+                    &lt;link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" ...&gt;
+                &lt;/head&gt;
+                &lt;body class="bg-light"&gt;
+                    &lt;div class="container"&gt;';
+    }
+
+    private function setNavBar()
+    {
+        $this-&gt;navbar='&lt;nav class="navbar navbar-expand-lg navbar-light bg-light"&gt;
+                    &lt;div class="container-fluid"&gt;
+                        &lt;a class="navbar-brand" href="index.php"&gt;
+                            &lt;img src="imgs/desarrollo-web.svg" width="30" height="30" class="d-inline-block align-top"&gt;
+                            Programación Avanzada
+                        &lt;/a&gt;
+                        &lt;button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" ...&gt;
+                            &lt;span class="navbar-toggler-icon"&gt;&lt;/span&gt;
+                        &lt;/button&gt;
+                        &lt;div class="collapse navbar-collapse" id="navbarSupportedContent"&gt;
+                            &lt;ul class="navbar-nav me-auto mb-2 mb-lg-0"&gt;
+                                &lt;li class="nav-item"&gt;
+                                    &lt;a class="nav-link active" aria-current="page" href="index.php"&gt;Inicio&lt;/a&gt;
+                                &lt;/li&gt;
+                                &lt;li class="nav-item"&gt;
+                                    &lt;a class="nav-link" aria-current="page" href="formPersonas.php"&gt;Formulario de Personas&lt;/a&gt;
+                                &lt;/li&gt;
+                            &lt;/ul&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                &lt;/nav&gt;';
+    }
+
+    public function setBody($body)
+    {
+        $this-&gt;body=$body;
+        $this-&gt;body.='&lt;/div&gt;';
+    }
+
+    private function setJs()
+    {
+        $this-&gt;js='&lt;script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" ...&gt;&lt;/script&gt;
+                   &lt;script src="js/formPersonas.js"&gt;&lt;/script&gt;';
+    }
+
+    private function setFooter()
+    {
+        $this-&gt;footer='&lt;/body&gt;&lt;/html&gt;';
+    }
+
+    public function getHtml()
+    {
+        $Pagina=$this-&gt;header;
+        $Pagina.=$this-&gt;navbar;
+        $Pagina.=$this-&gt;body;
+        $Pagina.=$this-&gt;js;
+        $Pagina.=$this-&gt;footer;
+        return $Pagina;
+    }
+}</code></pre>
+  <p>(Los <code>...</code> son los atributos <code>integrity</code>/<code>crossorigin</code> de Bootstrap y los <code>aria-*</code> del botón, que no cambian nada de lo que se explica.)</p>
+
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Método</th><th>Qué hace</th><th>Qué guarda</th></tr>
+      <tr><td><code>__construct()</code></td><td>Al crear el objeto, llama a los cuatro <code>set...</code> privados. <strong>No</strong> llama a <code>setBody</code>: el contenido lo pone cada página</td><td>&mdash;</td></tr>
+      <tr><td><code>setHeader()</code></td><td>Arma el principio del documento: <code>&lt;head&gt;</code> con Bootstrap, apertura del <code>&lt;body&gt;</code> y de un <code>&lt;div class="container"&gt;</code></td><td><code>$this-&gt;header</code> = un string largo. Va entre comillas simples, que en PHP pueden ocupar varias líneas</td></tr>
+      <tr><td><code>setNavBar()</code></td><td>Arma el menú de arriba: logo, "Programación Avanzada" y dos enlaces (Inicio y Formulario de Personas)</td><td><code>$this-&gt;navbar</code></td></tr>
+      <tr><td><code>setBody($body)</code></td><td><strong>Público</strong>: lo llama cada página con su contenido. Le agrega al final <code>&lt;/div&gt;</code>, que cierra el <code>container</code> abierto en el header</td><td><code>$this-&gt;body</code> = contenido + <code>&lt;/div&gt;</code></td></tr>
+      <tr><td><code>setJs()</code></td><td>Los dos <code>&lt;script&gt;</code>: el JavaScript de Bootstrap y <code>js/formPersonas.js</code></td><td><code>$this-&gt;js</code></td></tr>
+      <tr><td><code>setFooter()</code></td><td>Cierra <code>&lt;/body&gt;&lt;/html&gt;</code></td><td><code>$this-&gt;footer</code></td></tr>
+      <tr><td><code>getHtml()</code></td><td><strong>Público</strong>: pega las cinco partes en orden y devuelve la página entera como un solo string</td><td>Devuelve header + navbar + body + js + footer</td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Paso 4 &mdash; index.php: cómo la usa una página</span>
+<pre class="codigo"><code>&lt;?php
+
+require_once __DIR__.'\includes\PageClass.php';
+
+$body='&lt;h4 class="text-center"&gt;Página de Inicio&lt;/h4&gt;';
+
+    $oPage=new PageClass();
+
+      $oPage-&gt;setBody($body);
+
+    echo $oPage-&gt;getHtml();
+
+?&gt;</code></pre>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Cómo quedan las variables</th></tr>
+      <tr><td><code>require_once __DIR__.'\includes\PageClass.php';</code></td><td>Trae el archivo de la clase. <code>__DIR__</code> es la carpeta donde está <code>index.php</code>; se le pega la ruta relativa. <code>require_once</code> corta con error si no lo encuentra, y no lo trae dos veces</td><td>La clase <code>PageClass</code> ya existe</td></tr>
+      <tr><td><code>$body='&lt;h4 ...&gt;Página de Inicio&lt;/h4&gt;';</code></td><td>El contenido propio de esta página</td><td><code>$body</code> = el <code>h4</code></td></tr>
+      <tr><td><code>$oPage=new PageClass();</code></td><td>Crea el objeto: el constructor arma header, navbar, js y footer</td><td><code>$oPage</code> con 4 de sus 5 partes</td></tr>
+      <tr><td><code>$oPage-&gt;setBody($body);</code></td><td>Le carga el contenido (más el <code>&lt;/div&gt;</code>)</td><td>Las 5 partes completas</td></tr>
+      <tr><td><code>echo $oPage-&gt;getHtml();</code></td><td>Imprime la página entera: eso es lo que le llega al navegador</td><td>&mdash;</td></tr>
+    </table>
+  </div>
+  <p>Lo que imprime <code>index.php</code> (verificado con <code>php.exe</code>; se juntaron los espacios de sangría y se recortó el medio):</p>
+<pre class="salida">&lt;!DOCTYPE html&gt;
+ &lt;html lang="es"&gt;
+ &lt;head&gt;
+ ...
+ &lt;title&gt;Programación Avanzada&lt;/title&gt;
+ ...
+ &lt;/head&gt;
+ &lt;body class="bg-light"&gt;
+ &lt;div class="container"&gt;&lt;nav class="navbar navbar-expand-lg navbar-light bg-light"&gt;
+ ...
+ &lt;/nav&gt;&lt;h4 class="text-center"&gt;Página de Inicio&lt;/h4&gt;&lt;/div&gt;&lt;script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" ...&gt;&lt;/script&gt;
+ &lt;script src="js/formPersonas.js"&gt;&lt;/script&gt;&lt;/body&gt;&lt;/html&gt;</pre>
+  <p>
+    <strong>Por qué así:</strong> las partes quedan pegadas una tras otra sin salto de línea entre
+    ellas (<code>&lt;/nav&gt;&lt;h4</code>, <code>&lt;/h4&gt;&lt;/div&gt;&lt;script</code>) porque
+    <code>getHtml()</code> las concatena tal cual. El <code>&lt;/div&gt;</code> que agregó
+    <code>setBody</code> cierra el <code>container</code> justo antes de los scripts.
+  </p>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">La ruta con barras invertidas</span>
+    <p>
+      <code>'\includes\PageClass.php'</code> usa <code>\</code>, el separador de Windows: en XAMPP
+      sobre Windows anda (verificado). En un servidor Linux no lo encontraría y
+      <code>require_once</code> cortaría la página. La barra común <code>'/includes/PageClass.php'</code>
+      anda en los dos.
+    </p>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">formPersonas.js se carga en todas las páginas</span>
+    <p>
+      <code>setJs()</code> es el mismo para todas, así que <code>index.php</code> también carga la
+      validación del formulario, aunque no tenga formulario. Por eso el JavaScript, antes de
+      arrancar, pregunta si el formulario existe (ejemplo 10).
+    </p>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">El menú en pantallas chicas</span>
+    <p>
+      En una ventana angosta Bootstrap esconde los enlaces del menú y muestra el botón de tres
+      rayitas. Ese botón apunta a <code>#navbarNav</code> con atributos de Bootstrap 4
+      (<code>data-toggle</code>), pero el menú se llama <code>navbarSupportedContent</code> y la
+      página usa Bootstrap 5 (<code>data-bs-toggle</code>): el botón no abre nada. En una ventana
+      ancha no se nota.
+    </p>
+  </div>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Qué se ve en la página</span>
+    <p>
+      Fondo gris claro; arriba, el menú con el logo (una pantalla con <code>&lt;/&gt;</code>),
+      "Programación Avanzada" y los enlaces Inicio y Formulario de Personas; abajo, centrado,
+      "Página de Inicio". Cualquier página nueva del sitio tendría el mismo menú escribiendo solo su
+      <code>$body</code>.
+    </p>
+  </div>
+</div>

@@ -1,0 +1,70 @@
+<div class="ej">
+  <span class="tag">Ejercicio 10 &middot; substr</span>
+  <h2>De "Programación Avanzada – Taller de PHP" a "Programación PHP"</h2>
+  <div class="enunciado">
+    <p>
+      Escriba un script PHP que permita crear una cadena a partir de otra utilizando la función
+      <code>substr()</code>. La cadena inicial es: "Programación Avanzada – Taller de PHP" y la cadena
+      resultante deberá ser "Programación PHP". Puede utilizar el operador de concatenación.
+    </p>
+  </div>
+
+  <span class="paso">Paso 1 &mdash; Qué pide</span>
+  <ul>
+    <li>Sacar dos porciones con <code>substr()</code> (teoría, sección 14): <code>Programación</code> del principio y <code> PHP</code> (con el espacio de adelante) del final.</li>
+    <li>Pegarlas con el operador <code>.</code>.</li>
+  </ul>
+
+  <h4>Cuánto mide "Programación" para substr()</h4>
+  <p>
+    <code>substr()</code> cuenta <strong>bytes</strong>, no letras (teoría, secciones 11 y 14).
+    <code>Programación</code> tiene 12 letras, pero la <code>ó</code> ocupa 2 bytes:
+  </p>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th>Byte</th><td>0</td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td><td>8</td><td>9</td><td>10 y 11</td><td>12</td></tr>
+      <tr><th>Carácter</th><td>P</td><td>r</td><td>o</td><td>g</td><td>r</td><td>a</td><td>m</td><td>a</td><td>c</td><td>i</td><td>ó</td><td>n</td></tr>
+    </table>
+  </div>
+  <p>Son <strong>13 bytes</strong> (del 0 al 12). Por eso se piden 13, no 12.</p>
+
+  <span class="paso">Paso 2 &mdash; El código</span>
+<pre class="codigo"><code>&lt;?php
+$cadena = "Programación Avanzada – Taller de PHP";
+$primera_subcadena = substr($cadena, 0, 13);
+$segunda_subcadena = substr($cadena, -4);
+echo $primera_subcadena . $segunda_subcadena;
+?&gt;</code></pre>
+
+  <span class="paso">Paso 3 &mdash; Qué hace cada línea</span>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Cómo quedan las variables</th></tr>
+      <tr><td><code>$cadena = "...";</code></td><td>La cadena inicial</td><td>40 bytes</td></tr>
+      <tr><td><code>$primera_subcadena = substr($cadena, 0, 13);</code></td><td>Desde el byte 0, 13 bytes</td><td>'Programación'</td></tr>
+      <tr><td><code>$segunda_subcadena = substr($cadena, -4);</code></td><td>Inicio negativo: los últimos 4 bytes, que son el espacio y <code>PHP</code></td><td>' PHP'</td></tr>
+      <tr><td><code>echo $primera_subcadena . $segunda_subcadena;</code></td><td>Las pega: el espacio que separa las palabras viene en la segunda</td><td>&mdash;</td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Paso 4 &mdash; La salida</span>
+<pre class="salida">Programación PHP</pre>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Resolución de la cátedra</span>
+    <p>
+      La cátedra usa <code>substr($cadena, 0, 12)</code> y <code>substr($cadena, -4)</code>. Su
+      salida es:
+    </p>
+<pre class="salida">Programació PHP</pre>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Diferencia con la cátedra: falta la "n"</span>
+    <p>
+      Con 12, <code>substr</code> toma los bytes 0 a 11: llega hasta la <code>ó</code> (bytes 10 y
+      11) y deja afuera la <code>n</code> (byte 12). El 12 sale de contar letras; contando bytes,
+      que es lo que hace <code>substr</code>, son 13. Con una palabra sin tildes, contar letras
+      alcanzaría.
+    </p>
+  </div>
+</div>

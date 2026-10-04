@@ -1,0 +1,84 @@
+<div class="ej" data-examen="igual" data-examen-ref="Parcial PHP · preg. 10" data-examen-nota="El parcial pregunta (V/F) si sort() ordena el arreglo que recibe “modificando al mismo a nivel de claves”: acá se ve con print_r antes y después.">
+  <span class="tag">Ejercicio 4 &middot; sort</span>
+  <h2>Ordenar los días de forma ascendente</h2>
+  <div class="enunciado">
+    <p>
+      Edite el script del punto 2 y ordene el arreglo de forma ascendente y muestre en pantalla el
+      contenido del mismo. Utilice la función <code>sort()</code>.
+    </p>
+  </div>
+
+  <span class="paso">Paso 1 &mdash; Qué pide</span>
+  <ul>
+    <li><code>sort()</code> ordena por valor, de menor a mayor (para textos, alfabético) y <strong>reasigna las claves desde 0</strong> (teoría, sección 7).</li>
+    <li>Ordena el arreglo <strong>él mismo</strong>: no hace falta guardar el resultado en otra variable.</li>
+    <li>Después hay que volver a mostrarlo. Como la cátedra, se muestra antes y después; acá se agrega además un <code>print_r</code> después del <code>sort</code> para ver las claves nuevas.</li>
+  </ul>
+
+  <span class="paso">Paso 2 &mdash; El código</span>
+<pre class="codigo"><code>&lt;?php
+$dias_semana = array('Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado');
+foreach ($dias_semana as $un_dia) {
+    echo $un_dia . "&lt;br /&gt;";
+}
+print_r($dias_semana);
+echo "&lt;br /&gt;";
+sort($dias_semana);
+foreach ($dias_semana as $un_dia) {
+    echo $un_dia . "&lt;br /&gt;";
+}
+print_r($dias_semana);
+?&gt;</code></pre>
+
+  <span class="paso">Paso 3 &mdash; Qué hace cada línea</span>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Cómo queda <code>$dias_semana</code></th></tr>
+      <tr><td><code>$dias_semana = array(...);</code></td><td>El arreglo en el orden de la semana</td><td>0 Domingo &middot; 1 Lunes &middot; 2 Martes &middot; 3 Miércoles &middot; 4 Jueves &middot; 5 Viernes &middot; 6 Sábado</td></tr>
+      <tr><td>Primer <code>foreach</code></td><td>Muestra los días <strong>antes</strong> de ordenar</td><td>(igual)</td></tr>
+      <tr><td><code>print_r($dias_semana);</code></td><td>Muestra claves y valores antes</td><td>(igual)</td></tr>
+      <tr><td><code>echo "&lt;br /&gt;";</code></td><td>Baja de línea, para que lo que sigue no quede pegado al <code>print_r</code></td><td>(igual)</td></tr>
+      <tr><td><code>sort($dias_semana);</code></td><td>Ordena alfabéticamente y numera de nuevo desde 0</td><td>0 Domingo &middot; 1 Jueves &middot; 2 Lunes &middot; 3 Martes &middot; 4 Miércoles &middot; 5 Sábado &middot; 6 Viernes</td></tr>
+      <tr><td>Segundo <code>foreach</code></td><td>Muestra los días <strong>después</strong> de ordenar</td><td>(igual)</td></tr>
+      <tr><td><code>print_r($dias_semana);</code></td><td>Claves y valores después</td><td>(igual)</td></tr>
+    </table>
+  </div>
+
+  <h4>Por qué queda ese orden</h4>
+  <ul>
+    <li>Todos empiezan con mayúscula, así que se ordenan por letras como en el diccionario: D, J, L, M, M, S, V.</li>
+    <li><code>Martes</code> y <code>Miércoles</code> empatan en la M; decide la segunda letra: <code>a</code> va antes que <code>i</code>.</li>
+  </ul>
+
+  <span class="paso">Paso 4 &mdash; La salida</span>
+<pre class="salida">Domingo
+Lunes
+Martes
+Miércoles
+Jueves
+Viernes
+Sábado
+Array ( [0] =&gt; Domingo [1] =&gt; Lunes [2] =&gt; Martes [3] =&gt; Miércoles [4] =&gt; Jueves [5] =&gt; Viernes [6] =&gt; Sábado )
+Domingo
+Jueves
+Lunes
+Martes
+Miércoles
+Sábado
+Viernes
+Array ( [0] =&gt; Domingo [1] =&gt; Jueves [2] =&gt; Lunes [3] =&gt; Martes [4] =&gt; Miércoles [5] =&gt; Sábado [6] =&gt; Viernes )</pre>
+
+  <h4>Qué mirar en los dos print_r</h4>
+  <ul>
+    <li>Antes: <code>[1] =&gt; Lunes</code>. Después: <code>[1] =&gt; Jueves</code>. La clave 1 sigue existiendo, pero ahora tiene <strong>otro valor</strong>: <code>sort()</code> no movió cada día con su clave, sino que tiró las claves y numeró de nuevo.</li>
+    <li>Con <code>asort()</code> se vería <code>[0] =&gt; Domingo [4] =&gt; Jueves [1] =&gt; Lunes &hellip;</code>: cada día con su clave original.</li>
+  </ul>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Resolución de la cátedra</span>
+    <p>
+      Es el mismo código, sin el último <code>print_r</code>: la cátedra muestra el resultado solo
+      con el <code>foreach</code>. Los días quedan en el mismo orden. &#10003;
+    </p>
+  </div>
+</div>

@@ -1,0 +1,139 @@
+<div class="ej">
+  <span class="tag">Ejercicio 3 &middot; Alta</span>
+  <h2>Script de alta de comentarios</h2>
+  <div class="enunciado">
+    <p>
+      Realice un script en PHP que permita tomar los datos del formulario y escribir dichos
+      comentarios en la tabla comentarios de la base de datos creada en el punto 1. Recuerde que
+      el nombre del script a crear deberá coincidir con el declarado en el atributo action de la
+      etiqueta form. Para establecer la conexión a la base de datos utilice el archivo de conexión
+      desarrollado en el punto 3 [es el punto 2].
+    </p>
+  </div>
+
+  <span class="paso">Paso 1 &mdash; De dónde vienen los datos</span>
+  <p>
+    Del formulario de contacto de la Clase 3 (<code>formContacto.php</code>), que manda por
+    <code>post</code> a <code>procesoForm.php</code>. En la Clase 3 ese script solo mostraba los
+    datos; ahora los guarda. Lo que importa del formulario son dos cosas: el
+    <code>action</code> (a qué script va) y el <code>name</code> de cada campo (con qué clave llega
+    a <code>$_POST</code>). Conviene que los <code>name</code> sean iguales a las columnas de la
+    tabla, para no confundirse:
+  </p>
+<pre class="codigo"><code>&lt;form method="post" action="procesoForm.php"&gt;
+    &lt;label&gt;Nombre: &lt;input type="text" name="nombre"&gt;&lt;/label&gt;&lt;br&gt;
+    &lt;label&gt;Asunto: &lt;input type="text" name="asunto"&gt;&lt;/label&gt;&lt;br&gt;
+    &lt;label&gt;Correo: &lt;input type="text" name="correo"&gt;&lt;/label&gt;&lt;br&gt;
+    &lt;label&gt;Comentario: &lt;textarea name="comentario"&gt;&lt;/textarea&gt;&lt;/label&gt;&lt;br&gt;
+    &lt;input type="reset" value="Restablecer"&gt;
+    &lt;input type="submit" value="Enviar"&gt;
+&lt;/form&gt;</code></pre>
+
+  <span class="paso">Paso 2 &mdash; Qué tiene que hacer el script</span>
+  <ol>
+    <li>Revisar que llegaron los cuatro datos; si no, cortar.</li>
+    <li>Incluir <code>conexion.php</code> (ejercicio 2): queda la conexión en <code>$mysqli</code>.</li>
+    <li>Guardar los datos con un <code>INSERT</code>. Como vienen de un formulario, con <strong>consulta preparada</strong> (sección 6: así no se puede inyectar SQL).</li>
+    <li>Avisar si se guardó y ofrecer volver.</li>
+    <li>Cerrar la conexión.</li>
+  </ol>
+
+  <span class="paso">Paso 3 &mdash; El código: <code>procesoForm.php</code></span>
+<pre class="codigo"><code>&lt;?php
+if (!isset($_POST['nombre'], $_POST['asunto'], $_POST['correo'], $_POST['comentario'])) {
+    die("No se recibieron datos");
+}
+
+require_once 'conexion.php';
+
+$nombre     = trim($_POST['nombre']);
+$asunto     = trim($_POST['asunto']);
+$correo     = trim($_POST['correo']);
+$comentario = trim($_POST['comentario']);
+
+$sql  = "INSERT INTO comentarios (nombre, asunto, correo, comentario) VALUES (?, ?, ?, ?)";
+$stmt = $mysqli-&gt;prepare($sql);
+$stmt-&gt;bind_param("ssss", $nombre, $asunto, $correo, $comentario);
+
+if ($stmt-&gt;execute()) {
+    $mensaje = "Gracias, tu comentario se guardó con el número " . $mysqli-&gt;insert_id . ".";
+} else {
+    $mensaje = "No se pudo guardar el comentario.";
+}
+
+$stmt-&gt;close();
+$mysqli-&gt;close();
+?&gt;
+&lt;!DOCTYPE html&gt;
+&lt;html lang="es"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;title&gt;Comentario enviado&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;p&gt;&lt;?php echo $mensaje; ?&gt;&lt;/p&gt;
+  &lt;a href="index.php"&gt;Volver al inicio&lt;/a&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+
+  <span class="paso">Paso 4 &mdash; Qué hace cada línea</span>
+  <p>Con el ejemplo de que alguien completó: nombre <code>" Ana "</code> (con espacios), asunto <code>Consulta</code>, correo <code>ana@mail.com</code> y comentario <code>¿Cuándo es el parcial?</code>; la tabla ya tenía 3 comentarios.</p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Cómo quedan las variables</th></tr>
+      <tr><td>2</td><td><code>isset</code> con varios parámetros es verdadero solo si existen <strong>todos</strong>. El <code>!</code> lo da vuelta: entra si falta alguno (por ejemplo, si alguien abrió <code>procesoForm.php</code> escribiendo la dirección, sin pasar por el formulario)</td><td>llegaron los cuatro: no entra</td></tr>
+      <tr><td>3</td><td><code>die</code> muestra el texto y corta el script (como <code>echo</code> + <code>exit</code>)</td><td></td></tr>
+      <tr><td>6</td><td>Trae el archivo de conexión y lo ejecuta acá. <code>_once</code>: si ya se había incluido, no lo repite</td><td><code>$mysqli</code> = la conexión</td></tr>
+      <tr><td>8-11</td><td>Copia cada dato del formulario. <code>trim</code> saca los espacios del principio y del final</td><td><code>$nombre</code> = <code>"Ana"</code>, <code>$asunto</code> = <code>"Consulta"</code>, &hellip;</td></tr>
+      <tr><td>13</td><td>El INSERT con cuatro huecos. <code>id_comentario</code> no va: lo pone la base</td><td><code>$sql</code> = la instrucción</td></tr>
+      <tr><td>14</td><td>Le manda a la base la instrucción con huecos</td><td><code>$stmt</code> = la sentencia</td></tr>
+      <tr><td>15</td><td>Ata las cuatro variables a los huecos. <code>"ssss"</code>: los cuatro son strings</td><td></td></tr>
+      <tr><td>17</td><td>Ejecuta. Si anduvo, devuelve <code>true</code></td><td>la tabla pasa a tener 4 filas</td></tr>
+      <tr><td>18</td><td>Arma el mensaje con el número que le puso la base</td><td><code>insert_id</code> = 4</td></tr>
+      <tr><td>20</td><td>Si <code>execute</code> devolvió <code>false</code>, el mensaje de error</td><td></td></tr>
+      <tr><td>23-24</td><td>Libera la sentencia y cierra la conexión</td><td></td></tr>
+      <tr><td>26 en adelante</td><td>La página que se ve: el mensaje y el link para volver</td><td></td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Paso 5 &mdash; Qué se ve</span>
+  <p>
+    El HTML que genera, verificado corriendo el script con esos datos y la base reemplazada por
+    una de ejemplo que devuelve el id 4:
+  </p>
+<pre class="salida">&lt;!DOCTYPE html&gt;
+&lt;html lang="es"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;title&gt;Comentario enviado&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;p&gt;Gracias, tu comentario se guardó con el número 4.&lt;/p&gt;
+  &lt;a href="index.php"&gt;Volver al inicio&lt;/a&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+  <p>
+    En pantalla: <em>"Gracias, tu comentario se guardó con el número 4."</em> y el link. En
+    phpMyAdmin, la tabla <code>comentarios</code> tiene una fila nueva con
+    <code>id_comentario</code> 4 y <code>Ana</code> sin los espacios. Si se abre el script sin
+    pasar por el formulario, se ve solo <em>"No se recibieron datos"</em> (también verificado).
+  </p>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Errores y trampas</span>
+    <ul>
+      <li><strong>El <code>name</code> manda.</strong> Si el campo se llama <code>name="Nombre"</code>, llega como <code>$_POST['Nombre']</code>, y <code>isset($_POST['nombre'])</code> da falso.</li>
+      <li><strong>Las comillas del <code>INSERT</code>:</strong> con consulta preparada los <code>?</code> van sin comillas. Si armás el SQL pegando las variables, los textos sí llevan comillas simples, y queda abierto a la inyección SQL.</li>
+      <li><strong>Un comentario de más de 250 caracteres</strong> no entra en <code>VARCHAR(250)</code>: la base lo rechaza con error. Se puede limitar en el formulario con <code>maxlength="250"</code> en el <code>textarea</code>.</li>
+    </ul>
+  </div>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Resultado</span>
+    <p>
+      <code>procesoForm.php</code> recibe el formulario por <code>$_POST</code>, guarda una fila en
+      <code>comentarios</code> con un <code>INSERT</code> preparado y muestra con qué número quedó.
+      La guía no tiene hoja de resultados.
+    </p>
+  </div>
+</div>

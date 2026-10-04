@@ -1,0 +1,181 @@
+<div class="ej">
+  <span class="tag">Ejercicio 2 &middot; Validación</span>
+  <h2>Validar primero el captcha y después los datos</h2>
+  <div class="enunciado">
+    <p>
+      <strong>2) Validación del formulario.</strong> Modifique el script que agrega los datos al
+      formulario de manera tal que se valide primero el código verificador y luego, haciendo uso de
+      las funciones ctype_, que valide los datos recibidos desde el form antes de ser guardados en
+      la base de datos.
+    </p>
+  </div>
+
+  <span class="paso">Paso 1 &mdash; Qué pide</span>
+  <ul>
+    <li>
+      "El script que agrega los datos" es <code>procesoForm.php</code>, el <code>action</code> del
+      formulario del ejercicio 1.
+    </li>
+    <li>
+      <strong>Primero el código verificador</strong> (el captcha). Si no coincide, los datos vienen
+      de un origen desconocido y ni se miran.
+    </li>
+    <li>
+      <strong>Después, los datos</strong>, con las funciones <code>ctype_</code> (teoría,
+      sección 7).
+    </li>
+    <li>
+      Recién si todo está bien se guardaría en la base de datos. Guardar es tema de la Clase 6: acá
+      queda marcado con un comentario y se muestra un mensaje.
+    </li>
+  </ul>
+
+  <span class="paso">Paso 2 &mdash; Qué se valida en cada campo</span>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Campo</th><th>Qué tiene que tener</th><th>Cómo se prueba</th></tr>
+      <tr><td>Nombre</td><td>solo letras (puede tener espacios: "Juan Perez")</td><td><code>ctype_alpha</code> después de sacar los espacios con <code>str_replace</code></td></tr>
+      <tr><td>Asunto</td><td>letras y números (con espacios)</td><td><code>ctype_alnum</code> después de sacar los espacios</td></tr>
+      <tr><td>Correo</td><td>una <code>@</code>, y fuera de <code>@ . _ -</code>, solo letras y números</td><td><code>strpos</code> para la <code>@</code> y <code>ctype_alnum</code> después de sacar esos cuatro símbolos</td></tr>
+      <tr><td>Comentario</td><td>algo escrito (es texto libre: lleva comas, puntos, signos)</td><td><code>empty</code>; ninguna <code>ctype_</code> sirve para texto libre</td></tr>
+    </table>
+  </div>
+  <p>
+    Las herramientas de la Clase 2 que se usan: <code>trim($x)</code> saca los espacios del
+    principio y del final; <code>str_replace($buscar, $reemplazo, $texto)</code> reemplaza, y
+    <code>$buscar</code> puede ser un arreglo (reemplaza cada uno); <code>strpos($texto, '@')</code>
+    da la posición de la <code>@</code> o <code>false</code> si no está, y por eso se compara con
+    <code>=== false</code> (una <code>@</code> en la posición 0 daría 0, que con <code>==</code> se
+    confundiría con <code>false</code>).
+  </p>
+
+  <span class="paso">Paso 3 &mdash; <code>procesoForm.php</code></span>
+<pre class="codigo"><code>&lt;?php
+session_start();
+
+$errores = array();
+
+// 1) Primero, el código verificador
+if (empty($_POST['rand_code']) || empty($_SESSION['rand_code'])
+    || $_POST['rand_code'] != $_SESSION['rand_code']) {
+
+    $errores[] = 'El código verificador no coincide con el de la imagen.';
+
+} else {
+
+    // 2) Después, los datos
+    $nombre     = trim($_POST['nombre']);
+    $asunto     = trim($_POST['asunto']);
+    $correo     = trim($_POST['correo']);
+    $comentario = trim($_POST['comentario']);
+
+    if (!ctype_alpha(str_replace(' ', '', $nombre))) {
+        $errores[] = 'El nombre solo puede tener letras.';
+    }
+
+    if (!ctype_alnum(str_replace(' ', '', $asunto))) {
+        $errores[] = 'El asunto solo puede tener letras y números.';
+    }
+
+    $sinSimbolos = str_replace(array('@', '.', '_', '-'), '', $correo);
+    if (strpos($correo, '@') === false || !ctype_alnum($sinSimbolos)) {
+        $errores[] = 'El correo no es válido.';
+    }
+
+    if (empty($comentario)) {
+        $errores[] = 'El comentario está vacío.';
+    }
+}
+
+// El código sirve para un solo envío
+unset($_SESSION['rand_code']);
+
+if (count($errores) &gt; 0) {
+    foreach ($errores as $error) {
+        echo $error . '&lt;br&gt;';
+    }
+} else {
+    // Acá se guardan los datos en la base de datos (Clase 6)
+    echo 'Gracias, ' . $nombre . ': recibimos tu comentario.';
+}
+?&gt;</code></pre>
+
+  <h4>Qué hace cada línea</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Cómo quedan las variables</th></tr>
+      <tr><td><code>session_start();</code></td><td>Reanuda la sesión del navegador que envió, para leer <code>$_SESSION['rand_code']</code>.</td><td>&mdash;</td></tr>
+      <tr><td><code>$errores = array();</code></td><td>Un arreglo vacío donde se van anotando los problemas. Al final, si sigue vacío, está todo bien.</td><td><code>$errores = []</code></td></tr>
+      <tr><td><code>if (empty($_POST['rand_code']) || ...</code></td><td>
+        Tres condiciones unidas con <code>||</code> ("o", Clase 1): alcanza con que una sea verdadera
+        para rechazar.
+        <ol>
+          <li>no escribió código,</li>
+          <li>la sesión no tiene código (nunca se cargó la imagen, o ya se usó),</li>
+          <li>los dos no coinciden.</li>
+        </ol>
+        PHP las mira en orden y <strong>se detiene en la primera verdadera</strong>. Por eso, si la
+        sesión no tiene código, nunca llega a leer <code>$_SESSION['rand_code']</code> en la tercera
+        y no hay Warning. Los dos <code>empty</code> cierran el agujero de comparar
+        <code>null == null</code> (teoría, sección 5).
+      </td><td>&mdash;</td></tr>
+      <tr><td><code>$errores[] = '...';</code></td><td>Los corchetes vacíos agregan un elemento al final del arreglo (Clase 2).</td><td><code>$errores</code> con un mensaje</td></tr>
+      <tr><td><code>else {</code></td><td>Solo si el captcha pasó se miran los datos.</td><td>&mdash;</td></tr>
+      <tr><td><code>$nombre = trim($_POST['nombre']);</code> (y los otros tres)</td><td>Copia cada campo sin espacios en los bordes.</td><td>p. ej. <code>$nombre = "Juan Perez"</code></td></tr>
+      <tr><td><code>!ctype_alpha(str_replace(' ', '', $nombre))</code></td><td>Saca los espacios <strong>solo para la prueba</strong> (<code>"JuanPerez"</code>) y pregunta si son todas letras. El <code>!</code> da vuelta: entra al <code>if</code> si <strong>no</strong> son todas letras. Un nombre vacío también entra, porque <code>ctype_alpha('')</code> es false.</td><td><code>$nombre</code> no cambia</td></tr>
+      <tr><td><code>!ctype_alnum(str_replace(' ', '', $asunto))</code></td><td>Lo mismo con letras o números.</td><td>&mdash;</td></tr>
+      <tr><td><code>$sinSimbolos = str_replace(array('@', '.', '_', '-'), '', $correo);</code></td><td>Saca los cuatro símbolos que un correo puede tener.</td><td><code>"juan.perez@mail.com"</code> &rarr; <code>"juanperezmailcom"</code></td></tr>
+      <tr><td><code>strpos($correo, '@') === false || !ctype_alnum($sinSimbolos)</code></td><td>Error si no hay <code>@</code> o si, sin los símbolos, queda algo que no es letra ni número.</td><td>&mdash;</td></tr>
+      <tr><td><code>if (empty($comentario))</code></td><td>Error si el comentario quedó vacío.</td><td>&mdash;</td></tr>
+      <tr><td><code>unset($_SESSION['rand_code']);</code></td><td>Borra el código, haya salido bien o mal. Así no se puede reusar (el ejemplo de la cátedra no lo hacía). Para otro envío hay que volver a cargar el formulario.</td><td>sin <code>rand_code</code></td></tr>
+      <tr><td><code>if (count($errores) &gt; 0)</code></td><td>¿Se anotó algún problema?</td><td>&mdash;</td></tr>
+      <tr><td><code>foreach (...) echo $error . '&lt;br&gt;';</code></td><td>Muestra cada problema en un renglón. (En el ejercicio 3 esto se cambia por la pantalla de error.)</td><td>&mdash;</td></tr>
+      <tr><td><code>echo 'Gracias, ' . $nombre . ...;</code></td><td>Todo bien: acá iría el guardado en la base.</td><td>&mdash;</td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Paso 4 &mdash; Qué responde en cada caso</span>
+  <p>
+    Se probó en un servidor: en cada caso se abrió el formulario, se pidió la imagen, se leyó el
+    código de la sesión y se mandó el POST.
+  </p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Caso</th><th>Lo que se mandó</th><th>Respuesta</th></tr>
+      <tr><td>1. Código equivocado</td><td><code>rand_code=zzzz</code></td><td><code>El código verificador no coincide con el de la imagen.</code></td></tr>
+      <tr><td>2. Todo bien</td><td>código correcto, <code>Juan Perez</code>, <code>Consulta 2</code>, <code>juan.perez@mail.com</code>, <code>Muy bueno el sitio, gracias!</code></td><td><code>Gracias, Juan Perez: recibimos tu comentario.</code></td></tr>
+      <tr><td>3. El mismo envío otra vez</td><td>el mismo código del caso 2</td><td><code>El código verificador no coincide con el de la imagen.</code> (el código se borró al usarlo)</td></tr>
+      <tr><td>4. Todos los datos mal</td><td>código correcto, <code>Juan2</code>, <code>¿Precio?</code>, <code>juanmail.com</code>, comentario vacío</td><td>los cuatro mensajes, uno por renglón</td></tr>
+      <tr><td>5. Nombre con tilde</td><td>código correcto, <code>José Muñoz</code>, <code>Consulta</code>, <code>jose@mail.com</code>, <code>Hola</code></td><td><code>El nombre solo puede tener letras.</code></td></tr>
+    </table>
+  </div>
+  <p>El caso 4 en el navegador:</p>
+<pre class="salida">El nombre solo puede tener letras.
+El asunto solo puede tener letras y números.
+El correo no es válido.
+El comentario está vacío.</pre>
+  <p>
+    En el caso 1 no aparece ningún error de los datos aunque estuvieran mal: con el captcha
+    equivocado, el <code>else</code> ni se ejecuta. Eso es "validar primero el código verificador".
+  </p>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">El límite de <code>ctype_alpha</code>: el caso 5</span>
+    <p>
+      <code>José Muñoz</code> se rechaza porque para <code>ctype_alpha</code> la <code>é</code> y la
+      <code>ñ</code> no son letras (teoría, sección 7). Es lo que da la herramienta que pide la
+      guía. Si en el formulario se aclara "sin tildes", el mensaje de error tiene que decirlo
+      también, para que la persona entienda por qué se rechazó.
+    </p>
+  </div>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Resultado</span>
+    <p>
+      <code>procesoForm.php</code> rechaza todo si el captcha no coincide; si coincide, valida
+      nombre, asunto y correo con <code>ctype_alpha</code> / <code>ctype_alnum</code> y el comentario
+      con <code>empty</code>, junta los errores en <code>$errores</code> y borra el código para que
+      no se reuse. La guía no trae resolución de la cátedra para comparar.
+    </p>
+  </div>
+</div>

@@ -1,0 +1,86 @@
+<div class="ej">
+  <span class="tag">Ejercicio 6 &middot; Arreglo asociativo</span>
+  <h2>Los datos de una persona en $persona</h2>
+  <div class="enunciado">
+    <p>
+      Realice un nuevo script que defina un arreglo asociativo de nombre <code>$persona</code> y al
+      cual debemos asignar los siguientes valores y mostrarlos en pantalla:
+      Clave: tipo_documento, Valor: DNI &middot; Clave: numero_documento, Valor: 22.122.122 &middot;
+      Clave: apellidos, Valor: Torvalds &middot; Clave: nombres, Valor: Linus &middot;
+      Clave: domicilio, Valor: San Martín 200 &middot; Clave: telefono, Valor: 4333093 &middot;
+      Clave: edad, Valor: 42
+    </p>
+  </div>
+
+  <span class="paso">Paso 1 &mdash; Qué pide</span>
+  <ul>
+    <li>Un arreglo <strong>asociativo</strong>: cada dato con la clave que da el enunciado, escrita como <code>'clave' =&gt; valor</code> (teoría, sección 1).</li>
+    <li>Mostrar los datos: con <code>foreach ($persona as $clave =&gt; $valor)</code> se puede mostrar cada clave al lado de su valor (teoría, sección 6).</li>
+  </ul>
+
+  <span class="paso">Paso 2 &mdash; El código</span>
+<pre class="codigo"><code>&lt;?php
+$persona = array(
+    'tipo_documento'   =&gt; 'DNI',
+    'numero_documento' =&gt; '22.122.122',
+    'apellidos'        =&gt; 'Torvalds',
+    'nombres'          =&gt; 'Linus',
+    'domicilio'        =&gt; 'San Martín 200',
+    'telefono'         =&gt; '4333093',
+    'edad'             =&gt; 42
+);
+foreach ($persona as $clave =&gt; $valor) {
+    echo $clave . ": " . $valor . "&lt;br /&gt;";
+}
+?&gt;</code></pre>
+
+  <span class="paso">Paso 3 &mdash; Qué hace cada línea</span>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Cómo quedan las variables</th></tr>
+      <tr><td><code>$persona = array( ... );</code></td><td>Siete elementos con clave de texto. Los espacios antes de <code>=&gt;</code> son solo para que se lea alineado</td><td>tipo_documento =&gt; DNI &middot; numero_documento =&gt; 22.122.122 &middot; apellidos =&gt; Torvalds &middot; nombres =&gt; Linus &middot; domicilio =&gt; San Martín 200 &middot; telefono =&gt; 4333093 &middot; edad =&gt; 42</td></tr>
+      <tr><td><code>'numero_documento' =&gt; '22.122.122'</code></td><td>Va entre comillas, como texto: escrito como número, <code>22.122.122</code> no es válido en PHP (dos puntos decimales)</td><td>string</td></tr>
+      <tr><td><code>'edad' =&gt; 42</code></td><td>Un número entero, sin comillas</td><td>int</td></tr>
+      <tr><td><code>foreach ($persona as $clave =&gt; $valor) {</code></td><td>Recorre los 7 elementos; en cada vuelta, <code>$clave</code> y <code>$valor</code> toman el par que toca</td><td>Vuelta 1: 'tipo_documento' / 'DNI'; vuelta 2: 'numero_documento' / '22.122.122'; &hellip;</td></tr>
+      <tr><td><code>echo $clave . ": " . $valor . "&lt;br /&gt;";</code></td><td>Imprime la clave, dos puntos, el valor y un salto de línea</td><td>&mdash;</td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Paso 4 &mdash; La salida</span>
+<pre class="salida">tipo_documento: DNI
+numero_documento: 22.122.122
+apellidos: Torvalds
+nombres: Linus
+domicilio: San Martín 200
+telefono: 4333093
+edad: 42</pre>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Resolución de la cátedra</span>
+    <p>
+      La cátedra recorre con <code>foreach ($persona as $dato_persona)</code>, solo los valores, y
+      guarda el documento como <code>'22122122'</code> (sin puntos). Su salida es:
+    </p>
+<pre class="salida">DNI
+22122122
+Torvalds
+Linus
+San Martín 200
+4333093
+42</pre>
+    <p>
+      Las dos resuelven el ejercicio: el enunciado pide mostrar los <em>valores</em>. Mostrar también
+      la clave hace que se entienda qué es cada dato. &#10003;
+    </p>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Si el documento se escribe como número</span>
+    <p>
+      <code>'numero_documento' =&gt; 22.122.122</code> (sin comillas) da
+      <code>Parse error: syntax error, unexpected floating-point number ".122"</code>: PHP lee
+      <code>22.122</code> como un número con decimales y no sabe qué hacer con el <code>.122</code>
+      que sigue. Con puntos tiene que ir como texto; sin puntos (<code>22122122</code>) podría ir
+      como número.
+    </p>
+  </div>
+</div>

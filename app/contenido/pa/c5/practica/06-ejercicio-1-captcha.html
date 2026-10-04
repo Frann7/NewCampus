@@ -1,0 +1,133 @@
+<div class="ej">
+  <span class="tag">Ejercicio 1 &middot; Captcha</span>
+  <h2>Agregar el captcha al formulario de contacto</h2>
+  <div class="enunciado">
+    <p>
+      <strong>1) Aplicación de captcha.</strong> Solicite a la cátedra los script necesarios para
+      incrustar un código verificador al formulario. Modifique el código del mismo para que pueda
+      incluirse la imagen del captcha y un campo de texto que permita ingresar los caracteres.
+    </p>
+  </div>
+
+  <span class="paso">Paso 1 &mdash; Qué pide</span>
+  <ul>
+    <li>
+      <strong>"El formulario"</strong> es el formulario de contacto de la Clase 3
+      (<code>formContacto.php</code>): campos Nombre, Asunto, Correo y Comentario, botones
+      Restablecer y Enviar, y un enlace Volver. Manda por POST a <code>procesoForm.php</code>.
+    </li>
+    <li>
+      <strong>"Los script necesarios"</strong> que da la cátedra son los del ejemplo
+      <code>formularios</code>: el que importa es <code>includes/rdnimg.php</code>, que sortea el
+      código, lo guarda en <code>$_SESSION['rand_code']</code> y lo dibuja (teoría, sección 6).
+    </li>
+    <li>
+      Hay que agregar dos cosas al formulario: la <strong>imagen</strong> y un <strong>campo de
+      texto</strong> para escribir el código. Validarlo es el ejercicio 2.
+    </li>
+  </ul>
+
+  <span class="paso">Paso 2 &mdash; Los archivos</span>
+<pre class="salida">contacto/
+├── formContacto.php      ← el formulario (este ejercicio)
+├── procesoForm.php       ← el que recibe (ejercicios 2 y 3)
+├── error.php             ← la pantalla de error (ejercicio 3)
+└── includes/
+    └── rdnimg.php        ← el de la cátedra, copiado sin cambios</pre>
+  <p>
+    <code>rdnimg.php</code> va en <code>includes/</code> igual que en el ejemplo de la cátedra, así
+    la ruta de la imagen queda <code>includes/rdnimg.php</code>.
+  </p>
+
+  <span class="paso">Paso 3 &mdash; <code>formContacto.php</code> con el captcha</span>
+<pre class="codigo"><code>&lt;?php
+session_start();
+
+if (!empty($_SESSION['rand_code'])) {
+    unset($_SESSION['rand_code']);
+}
+?&gt;
+&lt;!DOCTYPE html&gt;
+&lt;html lang="es"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;title&gt;Formulario de Contacto&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h3&gt;Formulario de Contacto&lt;/h3&gt;
+
+    &lt;form method="post" action="procesoForm.php"&gt;
+        Nombre: &lt;input type="text" name="nombre"&gt;&lt;br&gt;
+        Asunto: &lt;input type="text" name="asunto"&gt;&lt;br&gt;
+        Correo: &lt;input type="text" name="correo"&gt;&lt;br&gt;
+        Comentario: &lt;textarea name="comentario"&gt;&lt;/textarea&gt;&lt;br&gt;
+
+        Código: &lt;img src="includes/rdnimg.php"&gt;
+        &lt;input type="text" name="rand_code"&gt;&lt;br&gt;
+
+        &lt;input type="reset" value="Restablecer"&gt;
+        &lt;input type="submit" value="Enviar"&gt;
+    &lt;/form&gt;
+
+    &lt;a href="index.php"&gt;Volver&lt;/a&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+  <p>
+    Si tu formulario de la Clase 3 tiene otro diseño (tabla, estilos, Bootstrap), no importa: lo
+    que se agrega son el bloque PHP de arriba y las dos líneas de "Código".
+  </p>
+
+  <h4>Qué hace cada línea</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Cómo queda la sesión</th></tr>
+      <tr><td><code>session_start();</code></td><td><strong>Nuevo.</strong> Abre la sesión. Va primero, antes del <code>&lt;!DOCTYPE&gt;</code> (teoría, sección 1).</td><td>&mdash;</td></tr>
+      <tr><td><code>if (!empty($_SESSION['rand_code'])) { unset(...); }</code></td><td><strong>Nuevo.</strong> Borra el código de una visita anterior. Igual que en <code>formCaptcha.php</code>: si la imagen no llegara a cargarse, no queda vivo un código viejo.</td><td>sin <code>rand_code</code></td></tr>
+      <tr><td><code>&lt;form method="post" action="procesoForm.php"&gt;</code></td><td>Como en la Clase 3: manda por POST.</td><td>&mdash;</td></tr>
+      <tr><td><code>name="nombre"</code>, <code>"asunto"</code>, <code>"correo"</code></td><td>Los tres campos de texto; llegan como <code>$_POST['nombre']</code>, etc.</td><td>&mdash;</td></tr>
+      <tr><td><code>&lt;textarea name="comentario"&gt;&lt;/textarea&gt;</code></td><td>Campo de texto de varias líneas para el comentario.</td><td>&mdash;</td></tr>
+      <tr><td><code>&lt;img src="includes/rdnimg.php"&gt;</code></td><td><strong>Nuevo.</strong> La imagen del captcha. Al dibujar la página, el navegador pide <code>rdnimg.php</code> con la misma cookie, y ese script crea el código.</td><td>después de cargar la imagen: <code>rand_code</code> con 4 caracteres</td></tr>
+      <tr><td><code>&lt;input type="text" name="rand_code"&gt;</code></td><td><strong>Nuevo.</strong> Donde la persona escribe el código. Se llama <code>rand_code</code> como en la sesión, para que el ejercicio 2 compare <code>$_POST['rand_code']</code> con <code>$_SESSION['rand_code']</code>.</td><td>&mdash;</td></tr>
+      <tr><td><code>type="reset"</code> / <code>type="submit"</code></td><td>Restablecer borra lo escrito; Enviar manda el formulario.</td><td>&mdash;</td></tr>
+      <tr><td><code>&lt;a href="index.php"&gt;Volver&lt;/a&gt;</code></td><td>El enlace a la portada del sitio de la Clase 3.</td><td>&mdash;</td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Paso 4 &mdash; Qué se ve y cómo se comprobó</span>
+  <p>
+    Los cuatro campos, y debajo la imagen negra con cuatro caracteres rosas al lado de un campo
+    vacío. Se probó en un servidor pidiendo la página y después la imagen, como hace el navegador.
+    El archivo de sesión quedó con el código que dibujó la imagen:
+  </p>
+<pre class="salida">rand_code|s:4:"C0cs";</pre>
+  <p>
+    Cada vez que se recarga la página, el formulario borra el código y la imagen sortea otro.
+  </p>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Para que funcione en tu XAMPP</span>
+    <ul>
+      <li>
+        <strong>Imagen rota:</strong> falta activar GD (<code>;extension=gd</code> &rarr;
+        <code>extension=gd</code> en <code>C:\xampp\php\php.ini</code> y reiniciar Apache).
+      </li>
+      <li>
+        <strong>El formulario tiene que ser <code>.php</code></strong>, no <code>.html</code>: tiene
+        código PHP arriba. Con <code>.html</code>, Apache no lo ejecuta.
+      </li>
+      <li>
+        La ruta de la imagen es relativa al formulario: si <code>rdnimg.php</code> queda en otra
+        carpeta, hay que cambiar el <code>src</code>.
+      </li>
+    </ul>
+  </div>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Resultado</span>
+    <p>
+      <code>formContacto.php</code> con <code>session_start()</code> y el borrado del código viejo
+      arriba, la imagen <code>includes/rdnimg.php</code> y el campo <code>rand_code</code>. La guía
+      no trae resolución de la cátedra para comparar.
+    </p>
+  </div>
+</div>

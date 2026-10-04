@@ -1,0 +1,240 @@
+<div class="bloque" data-examen="igual" data-examen-ref="Parcial PHP · preg. 5 y 12" data-examen-nota="Preg. 5: dada la salida de unos if anidados, elegir los valores de $a, $b y $c (true/false). Preg. 12: si if ($a) con $a = true es correcto y muestra “INGRESA”.">
+  <p class="kicker">Estructuras de control · condicionales</p>
+  <h2>9. if / else</h2>
+
+  <h3>Para qué sirve</h3>
+  <p>
+    Las <strong>estructuras de control</strong> deciden el camino que sigue el programa. Hay dos
+    familias: las <strong>condicionales</strong> (eligen qué ejecutar: <code>if</code> y
+    <code>switch</code>) y las <strong>iterativas</strong> (repiten: <code>while</code>,
+    <code>do...while</code>, <code>for</code>). El <code>if</code> ejecuta un bloque de código
+    <strong>solo si una condición es verdadera</strong>, y con <code>else</code> se dice qué hacer
+    si no lo es.
+  </p>
+
+  <h3>Sintaxis</h3>
+  <pre class="codigo"><code>if (condición) {
+    sentencias si es verdadera;
+} else {
+    sentencias si es falsa;
+}</code></pre>
+  <p>Anidado, para más de dos caminos:</p>
+  <pre class="codigo"><code>if (condición1) {
+    sentencias si condición1 es verdadera;
+} else if (condición2) {
+    sentencias si condición1 es falsa y condición2 verdadera;
+} else {
+    sentencias si las dos son falsas;
+}</code></pre>
+
+  <h3>Qué es cada parte</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Parte</th><th>Qué es</th></tr>
+      <tr><td><code>(condición)</code></td><td>Algo que se evalúa a verdadero o falso: una comparación (<code>$a &lt; 5</code>), una combinación con <code>&amp;&amp;</code>, <code>||</code>, <code>!</code>, o <strong>directamente una variable booleana</strong> (<code>if ($a)</code>). Va siempre entre paréntesis.</td></tr>
+      <tr><td><code>{ ... }</code></td><td>El bloque que se ejecuta. Cada llave que se abre tiene que cerrarse.</td></tr>
+      <tr><td><code>else</code></td><td>Opcional. Lo que se ejecuta si la condición es falsa.</td></tr>
+      <tr><td><code>else if (...)</code></td><td>Otra condición, que <strong>solo se mira si las anteriores fueron falsas</strong>. Se puede escribir también junto: <code>elseif</code>.</td></tr>
+    </table>
+  </div>
+
+  <h4>Si la condición no es un booleano</h4>
+  <p>
+    PHP la convierte. Cuentan como <strong>falso</strong>: <code>false</code>, <code>0</code>,
+    <code>0.0</code>, <code>""</code> (texto vacío), <code>"0"</code>, <code>null</code> y un array
+    vacío. <strong>Todo lo demás es verdadero</strong> (cualquier número distinto de 0, cualquier
+    texto con algo).
+  </p>
+
+  <h4>Cómo se sigue un if a mano</h4>
+  <ol>
+    <li>Reemplazá cada variable de la condición por su valor.</li>
+    <li>Resolvé los <code>!</code> primero, después los paréntesis de adentro hacia afuera.</li>
+    <li>Si da <code>true</code>, entrás al bloque y <strong>salteás todos los else</strong>; si da <code>false</code>, pasás al <code>else if</code> o al <code>else</code>.</li>
+  </ol>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; Comparar con 5 (el de la cátedra, corregido)</h3>
+
+  <pre class="codigo"><code>&lt;?php
+$a = 5;
+if ($a &lt; 5){
+echo "El valor es menor que cinco";
+}else if ($a == 5){
+echo "El valor es igual a cinco.";
+}else{
+echo "El valor es mayor a cinco.";
+}
+?&gt;</code></pre>
+
+  <h4>Qué hace cada línea</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Cómo quedan las variables</th></tr>
+      <tr><td><code>$a = 5;</code></td><td>Valor a analizar.</td><td><code>$a = 5</code></td></tr>
+      <tr><td><code>if ($a &lt; 5)</code></td><td>¿5 &lt; 5? <strong>No</strong> (5 no es menor que 5). Saltea ese bloque.</td><td>sin cambios</td></tr>
+      <tr><td><code>else if ($a == 5)</code></td><td>¿5 == 5? <strong>Sí</strong>. Entra.</td><td>sin cambios</td></tr>
+      <tr><td><code>echo "El valor es igual a cinco.";</code></td><td>Lo muestra.</td><td>sin cambios</td></tr>
+      <tr><td><code>else { ... }</code></td><td>No se mira: ya entró en un bloque anterior.</td><td>sin cambios</td></tr>
+    </table>
+  </div>
+
+  <h4>Qué imprime y por qué</h4>
+  <pre class="salida">El valor es igual a cinco.</pre>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Las dos diferencias con el apunte</span>
+    <ul>
+      <li>El apunte escribe <code>else if ($a = 5)</code>, con <strong>un solo</strong> <code>=</code>. Eso no compara: asigna (ver trampas, abajo).</li>
+      <li>Tiene una llave <code>}</code> de más al final, que hace que PHP no ejecute nada: <code>Parse error: Unmatched '}' in ... on line 10</code>.</li>
+    </ul>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; Con formato del Parcial PHP (preg. 12)</h3>
+
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>¿El siguiente código PHP es correcto y tiene como salida "INGRESA"?</p>
+    <p>
+      a. Sí, es correcto<br>
+      b. No, porque es falso por defecto.<br>
+      c. Emite un error, porque la estructura de control IF no posee condición para evaluar
+    </p>
+  </div>
+
+  <pre class="codigo"><code>&lt;?php
+$a=true;
+if ($a) {
+echo "INGRESA";
+}
+?&gt;</code></pre>
+
+  <h4>Qué hace cada línea</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Cómo quedan las variables</th></tr>
+      <tr><td><code>$a=true;</code></td><td>Guarda verdadero.</td><td><code>$a = true</code></td></tr>
+      <tr><td><code>if ($a)</code></td><td>La condición es la variable sola. <strong>Sí es una condición</strong>: vale <code>true</code>. Escribir <code>if ($a == true)</code> sería lo mismo, pero más largo.</td><td>sin cambios</td></tr>
+      <tr><td><code>echo "INGRESA";</code></td><td>Entra y lo muestra.</td><td>sin cambios</td></tr>
+    </table>
+  </div>
+
+  <h4>Qué imprime y por qué</h4>
+  <pre class="salida">INGRESA</pre>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p><strong>a. Sí, es correcto.</strong> La b es falsa porque <code>$a</code> se asignó <code>true</code>; la c es falsa porque una variable booleana es una condición válida.</p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 3 &mdash; Con formato del Parcial PHP (preg. 5): if anidados</h3>
+
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>¿Cuáles son los valores para las variables <code>$a</code>, <code>$b</code> y <code>$c</code> teniendo en cuenta que el siguiente script tiene como salida la cadena <strong>Hola, Mundo!</strong>?</p>
+    <p>a. False, True, True &nbsp; b. True, True, False &nbsp; c. False, True, False &nbsp; d. False, False, True</p>
+  </div>
+
+  <pre class="codigo"><code>&lt;?php
+$string = "Hola, Mundo!";
+$a = ?;
+$b = ?;
+$c = ?;
+if ($a) {
+    if ($b &amp;&amp; !$c) {
+        echo "Adios mundo cruel!";
+    } else if (!$b &amp;&amp; !$c) {
+        echo "Nada por aquí";
+    }
+} else {
+    if (!$b) {
+        if (!$a &amp;&amp; (!$b &amp;&amp; $c)) {
+            echo "Hola, mundo!";
+        } else {
+            echo "Adios mundo!";
+        }
+    } else {
+        echo "No exactamente";
+    }
+}
+?&gt;</code></pre>
+
+  <h4>Cómo se resuelve: hacia atrás desde la salida</h4>
+  <p>En vez de probar las cuatro opciones a ciegas, se busca <strong>el único <code>echo</code> que imprime "Hola, mundo!"</strong> y se ve qué hace falta para llegar ahí:</p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Para llegar al echo hay que...</th><th>Lo que obliga</th></tr>
+      <tr><td>No entrar al primer <code>if ($a)</code>, sino a su <code>else</code></td><td><code>$a</code> = <strong>false</strong></td></tr>
+      <tr><td>Entrar a <code>if (!$b)</code></td><td><code>!$b</code> verdadero &rarr; <code>$b</code> = <strong>false</strong></td></tr>
+      <tr><td>Entrar a <code>if (!$a &amp;&amp; (!$b &amp;&amp; $c))</code></td><td><code>!$a</code> ya es true y <code>!$b</code> ya es true; falta <code>$c</code> = <strong>true</strong></td></tr>
+    </table>
+  </div>
+
+  <h4>Comprobación con los valores de la opción d</h4>
+  <p>Con <code>$a = false; $b = false; $c = true;</code>, línea por línea:</p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Cómo se evalúa</th><th>Resultado</th></tr>
+      <tr><td><code>$string = "Hola, Mundo!";</code></td><td>Se guarda, pero <strong>nunca se usa</strong>: es un distractor.</td><td>&mdash;</td></tr>
+      <tr><td><code>if ($a)</code></td><td><code>$a</code> es false.</td><td>va al <code>else</code></td></tr>
+      <tr><td><code>if (!$b)</code></td><td><code>!false</code> = true.</td><td>entra</td></tr>
+      <tr><td><code>if (!$a &amp;&amp; (!$b &amp;&amp; $c))</code></td><td><code>!false &amp;&amp; (!false &amp;&amp; true)</code> = <code>true &amp;&amp; (true &amp;&amp; true)</code> = true.</td><td>entra</td></tr>
+      <tr><td><code>echo "Hola, mundo!";</code></td><td>Se muestra.</td><td><code>Hola, mundo!</code></td></tr>
+    </table>
+  </div>
+
+  <h4>Qué imprime cada opción (comprobado corriendo el script)</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Opción</th><th><code>$a, $b, $c</code></th><th>Camino</th><th>Salida</th></tr>
+      <tr><td>a</td><td>false, true, true</td><td><code>else</code> &rarr; <code>!$b</code> es false &rarr; <code>else</code></td><td><code>No exactamente</code></td></tr>
+      <tr><td>b</td><td>true, true, false</td><td><code>if ($a)</code> &rarr; <code>$b &amp;&amp; !$c</code> es true</td><td><code>Adios mundo cruel!</code></td></tr>
+      <tr><td>c</td><td>false, true, false</td><td><code>else</code> &rarr; <code>!$b</code> es false &rarr; <code>else</code></td><td><code>No exactamente</code></td></tr>
+      <tr><td><strong>d</strong></td><td>false, false, true</td><td><code>else</code> &rarr; <code>!$b</code> &rarr; condición completa true</td><td><code>Hola, mundo!</code></td></tr>
+    </table>
+  </div>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p><strong>d. False, False, True.</strong></p>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Mundo con mayúscula</span>
+    <p>
+      El enunciado dice que la salida es "Hola, <strong>M</strong>undo!", pero el <code>echo</code>
+      imprime "Hola, <strong>m</strong>undo!" (con minúscula). La M mayúscula está solo en
+      <code>$string</code>, que no se imprime nunca. Es un descuido del enunciado: igual la única
+      opción que llega a ese mensaje es la d.
+    </p>
+  </div>
+
+  <h3>Errores y trampas</h3>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Un = en la condición: siempre entra</span>
+    <pre class="codigo"><code>&lt;?php
+$a = 7;
+if ($a &lt; 5){
+echo "El valor es menor que cinco";
+}else if ($a = 5){
+echo "El valor es igual a cinco.";
+}else{
+echo "El valor es mayor a cinco.";
+}
+echo "&lt;br&gt;";
+echo $a;
+?&gt;</code></pre>
+    <pre class="salida">El valor es igual a cinco.
+5</pre>
+    <p>
+      Con <code>$a = 7</code> debería decir "mayor a cinco". Pero <code>$a = 5</code>
+      <strong>guarda</strong> 5 en <code>$a</code>, y la condición vale 5, que es distinto de 0:
+      cuenta como verdadero. Resultado: dice "igual a cinco" y encima le cambió el valor a
+      <code>$a</code>. Para comparar, siempre <code>==</code>.
+    </p>
+  </div>
+</div>

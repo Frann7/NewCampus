@@ -1,0 +1,190 @@
+<div class="bloque" data-examen="igual" data-examen-ref="Parcial PHP · preg. 3 y 17" data-examen-nota="Preg. 3: emparejar explode() (“separar una cadena indicándole el carácter separador”) e implode() (“juntar los elementos de un arreglo en una cadena”). Preg. 17: “¿cuál es la salida?” de date('Y-m-d') + explode + concatenar (ejemplo 4).">
+  <p class="kicker">Strings</p>
+  <h2>16. explode, implode y date: de texto a arreglo y de vuelta</h2>
+
+  <h3>Para qué sirve</h3>
+  <p>Son el puente entre strings y arreglos:</p>
+  <ul>
+    <li>
+      <code>explode()</code> ("hacer explotar"): <strong>separa</strong> un texto en pedazos cada vez
+      que encuentra un carácter separador, y devuelve los pedazos en un <strong>arreglo</strong>.
+      <code>'2017-05-23'</code> cortado en cada <code>-</code> da <code>('2017', '05', '23')</code>.
+    </li>
+    <li>
+      <code>implode()</code>: lo contrario. <strong>Junta</strong> los elementos de un arreglo en un
+      solo texto, poniendo un separador entre cada uno.
+    </li>
+  </ul>
+  <p>
+    La práctica y el parcial los usan con <code>date()</code>, que devuelve la fecha actual como
+    texto. Por eso va en esta sección.
+  </p>
+
+  <h3>Sintaxis</h3>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Las tres funciones</span>
+<pre class="codigo"><code>$arreglo = explode($separador, $cadena);
+$cadena  = implode($separador, $arreglo);
+$fecha   = date($formato);</code></pre>
+  </div>
+
+  <h3>Qué es cada parte</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Parte</th><th>Qué es</th></tr>
+      <tr><td><code>$separador</code></td><td>(explode) El texto donde se corta; <strong>desaparece</strong> del resultado. (implode) El texto que se pone <strong>entre</strong> elementos (no antes del primero ni después del último). En los dos va <strong>primero</strong></td></tr>
+      <tr><td>Resultado de <code>explode</code></td><td>Un arreglo indexado con los pedazos, claves 0, 1, 2&hellip; en el orden en que aparecen</td></tr>
+      <tr><td>Resultado de <code>implode</code></td><td>Un string</td></tr>
+      <tr><td><code>$formato</code></td><td>(date) Un texto con letras que se reemplazan por partes de la fecha; lo demás sale tal cual</td></tr>
+    </table>
+  </div>
+
+  <h4>Las letras de date() que usa la cátedra</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Letra</th><th>Se reemplaza por</th><th>Ejemplo (23 de mayo de 2017)</th></tr>
+      <tr><td><code>Y</code></td><td>El año, 4 dígitos</td><td><code>2017</code></td></tr>
+      <tr><td><code>m</code></td><td>El mes, 2 dígitos (con 0 adelante)</td><td><code>05</code></td></tr>
+      <tr><td><code>d</code></td><td>El día, 2 dígitos (con 0 adelante)</td><td><code>23</code></td></tr>
+    </table>
+  </div>
+  <p>
+    Así, <code>date('Y-m-d')</code> da <code>2017-05-23</code> y <code>date('d/m/Y')</code> da
+    <code>23/05/2017</code>: las letras cambian, los guiones y barras quedan.
+  </p>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; explode</h3>
+<pre class="codigo"><code>&lt;?php
+$partes = explode("-", '2017-05-23');
+print_r($partes);
+$colores = explode(", ", 'rojo, azul, verde');
+print_r($colores);
+?&gt;</code></pre>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Cómo quedan las variables</th></tr>
+      <tr><td><code>$partes = explode("-", '2017-05-23');</code></td><td>Corta en cada guion; los guiones no quedan</td><td><code>$partes</code>: 0 =&gt; '2017' &middot; 1 =&gt; '05' &middot; 2 =&gt; '23'</td></tr>
+      <tr><td><code>$colores = explode(", ", ...);</code></td><td>El separador puede ser de más de un carácter: coma <strong>y</strong> espacio</td><td><code>$colores</code>: 0 =&gt; 'rojo' &middot; 1 =&gt; 'azul' &middot; 2 =&gt; 'verde'</td></tr>
+    </table>
+  </div>
+<pre class="salida">Array
+(
+    [0] =&gt; 2017
+    [1] =&gt; 05
+    [2] =&gt; 23
+)
+Array
+(
+    [0] =&gt; rojo
+    [1] =&gt; azul
+    [2] =&gt; verde
+)</pre>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; implode</h3>
+<pre class="codigo"><code>&lt;?php
+$fecha = array("06", "09", "2012");
+echo implode("/", $fecha) . '&lt;br&gt;';
+echo implode(", ", array('rojo', 'azul', 'verde'));
+?&gt;</code></pre>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Imprime</th></tr>
+      <tr><td><code>$fecha = array(...);</code></td><td>Día, mes y año en un arreglo</td><td>&mdash;</td></tr>
+      <tr><td><code>implode("/", $fecha)</code></td><td>Junta los tres con una barra entre cada uno</td><td><code>06/09/2012</code></td></tr>
+      <tr><td><code>implode(", ", array(...))</code></td><td>Junta con coma y espacio</td><td><code>rojo, azul, verde</code></td></tr>
+    </table>
+  </div>
+<pre class="salida">06/09/2012
+rojo, azul, verde</pre>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 3 &mdash; date</h3>
+<pre class="codigo"><code>&lt;?php
+echo date('Y-m-d') . '&lt;br&gt;';
+echo date('d/m/Y');
+?&gt;</code></pre>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th></tr>
+      <tr><td><code>date('Y-m-d')</code></td><td>Año, guion, mes, guion, día</td></tr>
+      <tr><td><code>date('d/m/Y')</code></td><td>Día, barra, mes, barra, año</td></tr>
+    </table>
+  </div>
+  <p>Corrido el 4 de octubre de 2026 (con la zona horaria de Argentina, ver las trampas):</p>
+<pre class="salida">2026-10-04
+04/10/2026</pre>
+  <p>La salida <strong>depende del día en que se ejecuta</strong>: mañana da otra.</p>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 4 &mdash; La pregunta del parcial</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado (Parcial PHP, pregunta 17)</span>
+    <p>
+      ¿Cuál es la salida del siguiente script PHP? a. 2017-05-23 &middot; b. 2017 &middot;
+      c. 23/05/2017 &middot; d. 2017/23/05 &middot; e. 23-05-2017
+    </p>
+  </div>
+<pre class="codigo"><code>&lt;?php
+$fecha = date('Y-m-d');
+$arreglo_fecha = explode("-", $fecha);
+$fecha_nueva = $arreglo_fecha[2]."/".$arreglo_fecha[1]."/".$arreglo_fecha[0];
+echo $fecha_nueva;
+?&gt;</code></pre>
+  <p>Las opciones muestran el 23 de mayo de 2017, así que se sigue el código con esa fecha:</p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Cómo quedan las variables</th></tr>
+      <tr><td><code>$fecha = date('Y-m-d');</code></td><td>La fecha de hoy como texto, año-mes-día</td><td><code>$fecha</code> = '2017-05-23'</td></tr>
+      <tr><td><code>$arreglo_fecha = explode("-", $fecha);</code></td><td>Corta en cada guion</td><td>0 =&gt; '2017' &middot; 1 =&gt; '05' &middot; 2 =&gt; '23'</td></tr>
+      <tr><td><code>$fecha_nueva = $arreglo_fecha[2]."/"...;</code></td><td>Concatena en orden <strong>2, 1, 0</strong> (día, mes, año) con barras en el medio</td><td><code>$fecha_nueva</code> = '23' . '/' . '05' . '/' . '2017' = '23/05/2017'</td></tr>
+      <tr><td><code>echo $fecha_nueva;</code></td><td>La muestra</td><td>&mdash;</td></tr>
+    </table>
+  </div>
+  <p>Con la fecha fija <code>'2017-05-23'</code> en lugar de <code>date('Y-m-d')</code>, PHP imprime:</p>
+<pre class="salida">23/05/2017</pre>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta: c. 23/05/2017</span>
+    <ul>
+      <li>a. es la fecha <strong>antes</strong> de reordenar (lo que da <code>date('Y-m-d')</code> solo).</li>
+      <li>b. sería solo <code>$arreglo_fecha[0]</code>.</li>
+      <li>d. tiene el orden 0, 2, 1.</li>
+      <li>e. tiene el orden bien, pero con guiones: el código pega con <code>"/"</code>.</li>
+    </ul>
+    <p>Lo que se responde es el <strong>formato</strong> día/mes/año: el día exacto depende de cuándo se corra.</p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Errores y trampas</h3>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">date() usa la zona horaria del servidor (en XAMPP, Berlín)</span>
+    <p>
+      El <code>php.ini</code> que trae XAMPP tiene la zona <code>Europe/Berlin</code>, 4 o 5 horas
+      adelante de Argentina según la época del año. A la noche de acá (desde las 19 o 20 h),
+      <code>date()</code> ya da <strong>el día siguiente</strong>. Para que use la hora argentina, antes de llamar a <code>date()</code>:
+    </p>
+<pre class="codigo"><code>date_default_timezone_set('America/Argentina/Buenos_Aires');</code></pre>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">El separador tiene que coincidir exacto</span>
+    <p>
+      <code>explode(",", 'rojo, azul, verde')</code> corta solo en la coma, y los espacios quedan
+      pegados a los pedazos: <code>' azul'</code>, <code>' verde'</code>. Y si el separador no
+      aparece, <code>explode</code> devuelve un arreglo de <strong>un</strong> elemento con el texto
+      entero.
+    </p>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Primero el separador</span>
+    <p>
+      En las dos funciones el separador va primero: <code>explode("-", $fecha)</code>, no
+      <code>explode($fecha, "-")</code>.
+    </p>
+  </div>
+</div>

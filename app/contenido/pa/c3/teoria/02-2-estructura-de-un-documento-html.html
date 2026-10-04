@@ -1,0 +1,146 @@
+<div class="bloque">
+  <p class="kicker">Algo de HTML</p>
+  <h2>2. Estructura de un documento HTML</h2>
+
+  <h3>Para qué sirve</h3>
+  <p>
+    Toda página HTML tiene el mismo esqueleto, con <strong>dos partes</strong>:
+  </p>
+  <ul>
+    <li>
+      <strong><code>head</code> (encabezado):</strong> lo primero que le llega al navegador.
+      Tiene <strong>instrucciones</strong> sobre cómo mostrar la página (el título de la pestaña,
+      la codificación de los caracteres, qué hoja de estilos usar). <strong>No se ve</strong> en
+      la página.
+    </li>
+    <li>
+      <strong><code>body</code> (cuerpo):</strong> el <strong>contenido visible</strong>. Todo lo
+      que tiene que aparecer en la página va acá, por eso es mucho más largo que el
+      <code>head</code>.
+    </li>
+  </ul>
+
+  <h3>Sintaxis</h3>
+<pre class="codigo"><code>&lt;!DOCTYPE html&gt;
+&lt;html lang="es"&gt;
+&lt;head&gt;
+    ... instrucciones para el navegador ...
+&lt;/head&gt;
+&lt;body&gt;
+    ... lo que se ve ...
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+
+  <h3>Qué es cada parte</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Parte</th><th>Qué es</th></tr>
+      <tr><td><code>&lt;!DOCTYPE html&gt;</code></td><td>La primera línea. No es una etiqueta de contenido: le dice al navegador que el documento es HTML5. No se cierra</td></tr>
+      <tr><td><code>&lt;html lang="es"&gt;</code></td><td>El elemento raíz, que envuelve todo. <code>lang="es"</code> dice que el texto está en español (lo usan los lectores de pantalla y los buscadores)</td></tr>
+      <tr><td><code>&lt;head&gt; &lt;/head&gt;</code></td><td>Delimitan el encabezado</td></tr>
+      <tr><td><code>&lt;title&gt;</code></td><td>(dentro del <code>head</code>) El título que aparece en la pestaña del navegador</td></tr>
+      <tr><td><code>&lt;meta charset="UTF-8"&gt;</code></td><td>(dentro del <code>head</code>) La codificación de los caracteres. Con UTF-8 se ven bien los acentos y la ñ</td></tr>
+      <tr><td><code>&lt;meta name="..." content="..."&gt;</code></td><td>(dentro del <code>head</code>) Datos sobre la página: <code>name</code> dice qué dato es (<code>title</code>, <code>description</code>) y <code>content</code>, su valor. Los leen los buscadores</td></tr>
+      <tr><td><code>&lt;link href="..." rel="stylesheet"&gt;</code></td><td>(dentro del <code>head</code>) Conecta un archivo externo. Con <code>rel="stylesheet"</code> es una hoja de estilos CSS</td></tr>
+      <tr><td><code>&lt;body&gt; &lt;/body&gt;</code></td><td>Delimitan el contenido visible</td></tr>
+    </table>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; El <code>head</code> completo de la cátedra</h3>
+
+<pre class="codigo"><code>&lt;!DOCTYPE html&gt;
+&lt;html lang="es"&gt;
+&lt;head&gt;
+&lt;title&gt;Programación Avanzada&lt;/title&gt;
+&lt;meta charset="UTF-8"&gt;
+&lt;meta name="title" content="Título de la WEB"&gt;
+&lt;meta name="description" content="Site Programación Avanzada"&gt;
+&lt;link href="/styles.css" rel="stylesheet" type="text/css"/&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;h1&gt;Práctica de Programación Avanzada&lt;/h1&gt;
+&lt;p&gt;Éste es un ejemplo sencillo de un párrafo.&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th></tr>
+      <tr><td>1</td><td>Declara HTML5</td></tr>
+      <tr><td>2</td><td>Abre el documento, en español</td></tr>
+      <tr><td>3</td><td>Abre el encabezado</td></tr>
+      <tr><td>4</td><td>Título de la pestaña: <em>Programación Avanzada</em></td></tr>
+      <tr><td>5</td><td>Codificación UTF-8, para que "Programación" y "Éste" se vean con sus acentos</td></tr>
+      <tr><td>6</td><td>Dato para buscadores: el título del sitio es "Título de la WEB"</td></tr>
+      <tr><td>7</td><td>Dato para buscadores: la descripción es "Site Programación Avanzada" (es lo que muestra Google debajo del enlace)</td></tr>
+      <tr><td>8</td><td>Carga la hoja de estilos <code>styles.css</code>. La barra final <code>/&gt;</code> es opcional en HTML5: <code>&lt;link ...&gt;</code> y <code>&lt;link ... /&gt;</code> son lo mismo</td></tr>
+      <tr><td>9</td><td>Cierra el encabezado</td></tr>
+      <tr><td>10 a 13</td><td>El cuerpo: un título y un párrafo</td></tr>
+      <tr><td>14</td><td>Cierra el documento</td></tr>
+    </table>
+  </div>
+
+  <h4>Qué se ve</h4>
+  <p>
+    Lo mismo que en el ejemplo de la sección 1: el título y el párrafo. Las líneas 5 a 8
+    <strong>no agregan nada visible</strong>; cambian cómo se muestra (los acentos, los estilos) o
+    sirven a los buscadores. Si <code>styles.css</code> no existe, la página se ve igual, sin
+    estilos, y no aparece ningún error.
+  </p>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; ¿Va en el head o en el body? (formato parcial)</h3>
+
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>
+      Indicá en qué parte del documento va cada elemento y si se ve en la página:
+      <code>&lt;title&gt;</code>, <code>&lt;h1&gt;</code>, <code>&lt;meta charset="UTF-8"&gt;</code>,
+      <code>&lt;form&gt;</code>, <code>&lt;link rel="stylesheet"&gt;</code>, <code>&lt;p&gt;</code>.
+    </p>
+  </div>
+
+  <p>
+    La regla: <strong>si es una instrucción o un dato sobre la página, va en el
+    <code>head</code></strong>; <strong>si es algo que el visitante tiene que ver o usar, va en el
+    <code>body</code></strong>.
+  </p>
+
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Elemento</th><th>Dónde va</th><th>¿Se ve en la página?</th></tr>
+      <tr><td><code>&lt;title&gt;</code></td><td><code>head</code></td><td>No: se ve en la pestaña del navegador</td></tr>
+      <tr><td><code>&lt;h1&gt;</code></td><td><code>body</code></td><td>Sí</td></tr>
+      <tr><td><code>&lt;meta charset="UTF-8"&gt;</code></td><td><code>head</code></td><td>No</td></tr>
+      <tr><td><code>&lt;form&gt;</code></td><td><code>body</code></td><td>Sí: el visitante lo completa</td></tr>
+      <tr><td><code>&lt;link rel="stylesheet"&gt;</code></td><td><code>head</code></td><td>No (se ve su efecto: los estilos)</td></tr>
+      <tr><td><code>&lt;p&gt;</code></td><td><code>body</code></td><td>Sí</td></tr>
+    </table>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Errores y trampas</h3>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Lo que suele salir mal</span>
+    <ul>
+      <li>
+        <strong>Acentos rotos</strong> ("ProgramaciÃ³n"): falta <code>&lt;meta charset="UTF-8"&gt;</code>
+        o el archivo no está guardado en UTF-8.
+      </li>
+      <li>
+        <strong>"Es head"</strong>: en el apunte de la cátedra dice <em>"Es head es la parte..."</em>;
+        es un error de tipeo por <em>"El head"</em>.
+      </li>
+      <li>
+        <strong>Un archivo <code>.php</code> también puede ser solo HTML.</strong> Si no tiene
+        ningún <code>&lt;?php ... ?&gt;</code>, el intérprete manda el texto tal cual (lo viste en la
+        Clase 1: lo que está fuera de las etiquetas de PHP sale sin cambios). Por eso la práctica
+        pide <code>index.php</code> aunque sea una página HTML pura.
+      </li>
+    </ul>
+  </div>
+</div>

@@ -1,0 +1,210 @@
+<div class="bloque" data-examen="igual" data-examen-ref="Parcial PHP · preg. 20" data-examen-nota="Verdadero o falso: “La función var_dump() vuelca información sobre una variable, mostrando su estructura, su tipo y valor.”">
+  <p class="kicker">Arreglos</p>
+  <h2>3. Mostrar el arreglo entero: print_r y var_dump</h2>
+
+  <h3>Para qué sirve</h3>
+  <p>
+    <code>echo</code> muestra <strong>un</strong> valor por vez (sección 2). Para ver
+    <strong>todo</strong> el arreglo de un saque, con sus claves, PHP trae dos funciones pensadas
+    para <strong>depurar</strong> (revisar qué tiene una variable mientras programás):
+  </p>
+  <ul>
+    <li><code>print_r()</code>: muestra cada clave con su valor. Lectura rápida.</li>
+    <li><code>var_dump()</code>: muestra lo mismo y además el <strong>tipo</strong> y el <strong>tamaño</strong> de cada dato.</li>
+  </ul>
+  <p>
+    La cátedra lo resume así: <code>echo</code> sirve para <em>presentar</em> datos en pantalla,
+    <code>print_r()</code> para <em>depurar</em> arreglos.
+  </p>
+
+  <h3>Sintaxis</h3>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Las dos funciones</span>
+<pre class="codigo"><code>print_r($variable);
+var_dump($variable);</code></pre>
+  </div>
+
+  <h3>Qué es cada parte</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Lo que imprime</th><th>print_r</th><th>var_dump</th></tr>
+      <tr><td>Encabezado</td><td><code>Array</code></td><td><code>array(3)</code>: la palabra y entre paréntesis <strong>cuántos elementos</strong> tiene</td></tr>
+      <tr><td>Cada clave</td><td><code>[0]</code>, <code>[a]</code> (sin comillas)</td><td><code>[0]</code>, <code>["a"]</code> (las de texto, con comillas)</td></tr>
+      <tr><td>Cada valor</td><td>El valor solo: <code>rojo</code></td><td>Tipo, tamaño y valor: <code>string(4) "rojo"</code></td></tr>
+      <tr><td>Arreglo dentro de otro</td><td>Otro bloque <code>Array ( ... )</code> con sangría</td><td>Otro bloque <code>array(n) { ... }</code> con sangría</td></tr>
+    </table>
+  </div>
+
+  <h4>Cómo se leen los tipos de var_dump</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Muestra</th><th>Qué quiere decir</th></tr>
+      <tr><td><code>int(10)</code></td><td>Número entero, valor 10</td></tr>
+      <tr><td><code>float(10.5)</code></td><td>Número con decimales, valor 10.5</td></tr>
+      <tr><td><code>string(4) "rojo"</code></td><td>Texto de <strong>4 bytes</strong> (en textos sin tildes, 4 letras), valor <code>rojo</code></td></tr>
+      <tr><td><code>bool(true)</code></td><td>Booleano verdadero</td></tr>
+      <tr><td><code>NULL</code></td><td>Sin valor</td></tr>
+      <tr><td><code>array(3) { ... }</code></td><td>Otro arreglo, de 3 elementos</td></tr>
+    </table>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; El mismo arreglo con las dos funciones</h3>
+<pre class="codigo"><code>&lt;?php
+$colores = array('rojo', 'azul', 'verde');
+print_r($colores);
+var_dump($colores);
+?&gt;</code></pre>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Cómo quedan las variables</th></tr>
+      <tr><td><code>$colores = array(...);</code></td><td>Arreglo indexado de 3 textos</td><td>0 =&gt; rojo &middot; 1 =&gt; azul &middot; 2 =&gt; verde</td></tr>
+      <tr><td><code>print_r($colores);</code></td><td>Imprime cada clave y su valor</td><td>(no cambia nada)</td></tr>
+      <tr><td><code>var_dump($colores);</code></td><td>Imprime cantidad de elementos, y de cada uno tipo, tamaño y valor</td><td>(no cambia nada)</td></tr>
+    </table>
+  </div>
+<pre class="salida">Array
+(
+    [0] =&gt; rojo
+    [1] =&gt; azul
+    [2] =&gt; verde
+)
+array(3) {
+  [0]=&gt;
+  string(4) "rojo"
+  [1]=&gt;
+  string(4) "azul"
+  [2]=&gt;
+  string(5) "verde"
+}</pre>
+  <p><strong>Por qué:</strong></p>
+  <ul>
+    <li><code>print_r</code> abre con <code>Array</code> y lista <code>[clave] =&gt; valor</code>.</li>
+    <li><code>var_dump</code> abre con <code>array(3)</code> porque hay 3 elementos, y debajo de cada clave pone el tipo (<code>string</code>), el largo (<code>rojo</code> tiene 4 letras, <code>verde</code> 5) y el valor entre comillas.</li>
+  </ul>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; Un arreglo dentro de otro (de la teoría de la cátedra)</h3>
+<pre class="codigo"><code>&lt;?php
+$frutas = array('a' =&gt; 'Anana', 'b' =&gt; 'Banana', 'otros' =&gt; array('x', 'y', 'z'));
+print_r($frutas);
+?&gt;</code></pre>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Cómo quedan las variables</th></tr>
+      <tr><td><code>$frutas = array(...);</code></td><td>Arreglo asociativo cuyo tercer valor es <strong>otro arreglo</strong></td><td>a =&gt; Anana &middot; b =&gt; Banana &middot; otros =&gt; (0 =&gt; x &middot; 1 =&gt; y &middot; 2 =&gt; z)</td></tr>
+      <tr><td><code>print_r($frutas);</code></td><td>Imprime todo; el arreglo de adentro va como un bloque con más sangría</td><td>(no cambia nada)</td></tr>
+    </table>
+  </div>
+<pre class="salida">Array
+(
+    [a] =&gt; Anana
+    [b] =&gt; Banana
+    [otros] =&gt; Array
+        (
+            [0] =&gt; x
+            [1] =&gt; y
+            [2] =&gt; z
+        )
+
+)</pre>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Error de tipeo en la cátedra</span>
+    <p>En el apunte, la última línea del arreglo de adentro dice <code>[2] =&gt; &lt;</code>: es <code>[2] =&gt; z</code>.</p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 3 &mdash; Por qué var_dump dice más (formato del parcial)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado (Parcial PHP, pregunta 20)</span>
+    <p>
+      Verdadero o falso: <em>"La función var_dump(), vuelca información sobre una variable,
+      mostrando su estructura, su tipo y valor."</em>
+    </p>
+  </div>
+  <p>Para verlo, un arreglo con un dato de cada tipo, impreso con las dos funciones:</p>
+<pre class="codigo"><code>&lt;?php
+$mezcla = array(10, 'diez', 10.5, true, null, false);
+print_r($mezcla);
+var_dump($mezcla);
+?&gt;</code></pre>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Cómo quedan las variables</th></tr>
+      <tr><td><code>$mezcla = array(...);</code></td><td>Seis valores de tipos distintos, claves 0 a 5</td><td>0 =&gt; 10 &middot; 1 =&gt; 'diez' &middot; 2 =&gt; 10.5 &middot; 3 =&gt; true &middot; 4 =&gt; null &middot; 5 =&gt; false</td></tr>
+      <tr><td><code>print_r($mezcla);</code></td><td>Imprime claves y valores</td><td>(no cambia nada)</td></tr>
+      <tr><td><code>var_dump($mezcla);</code></td><td>Imprime claves, tipos y valores</td><td>(no cambia nada)</td></tr>
+    </table>
+  </div>
+<pre class="salida">Array
+(
+    [0] =&gt; 10
+    [1] =&gt; diez
+    [2] =&gt; 10.5
+    [3] =&gt; 1
+    [4] =&gt;
+    [5] =&gt;
+)
+array(6) {
+  [0]=&gt;
+  int(10)
+  [1]=&gt;
+  string(4) "diez"
+  [2]=&gt;
+  float(10.5)
+  [3]=&gt;
+  bool(true)
+  [4]=&gt;
+  NULL
+  [5]=&gt;
+  bool(false)
+}</pre>
+  <p><strong>Por qué:</strong></p>
+  <ul>
+    <li><code>print_r</code> muestra <code>true</code> como <code>1</code>, y <code>null</code> y <code>false</code> como <strong>nada</strong>: las claves 4 y 5 parecen iguales y no se sabe qué tienen.</li>
+    <li><code>var_dump</code> dice exactamente qué es cada cosa: <code>int</code>, <code>string</code>, <code>float</code>, <code>bool</code>, <code>NULL</code>. Esa es su "estructura, tipo y valor".</li>
+  </ul>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta: Verdadero</span>
+    <p>
+      <code>var_dump()</code> muestra la estructura (cuántos elementos y qué claves), el tipo y el
+      valor de cada dato. Es la diferencia con <code>print_r()</code>, que no muestra tipos.
+    </p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Errores y trampas</h3>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">En el navegador sale todo en una línea</span>
+    <p>
+      El navegador junta los saltos de línea y los espacios del texto (HTML los ignora), así que
+      el <code>print_r</code> del ejemplo 1 se ve
+      <code>Array ( [0] =&gt; rojo [1] =&gt; azul [2] =&gt; verde )</code>.
+      Para verlo con sangría se lo encierra en la etiqueta <code>&lt;pre&gt;</code>, que respeta
+      el texto tal cual:
+    </p>
+<pre class="codigo"><code>echo '&lt;pre&gt;';
+print_r($colores);
+echo '&lt;/pre&gt;';</code></pre>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">string(n) cuenta bytes, no letras</span>
+    <p>
+      <code>var_dump('Miércoles')</code> muestra <code>string(10)</code> aunque la palabra tiene 9
+      letras: la <code>é</code> ocupa 2 bytes. Se explica en la sección 11.
+    </p>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Error de tipeo en la presentación de la cátedra</span>
+    <p>
+      Las diapositivas crean <code>$colores</code> y después llaman a <code>print_r($color)</code> y
+      <code>var_dump($color)</code>. Con ese nombre no muestran el arreglo (avisan
+      <code>Undefined variable $color</code>); la salida que dibujan es la de
+      <code>$colores</code>.
+    </p>
+  </div>
+</div>

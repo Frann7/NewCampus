@@ -1,0 +1,190 @@
+<div class="bloque">
+  <p class="kicker">Strings</p>
+  <h2>13. Buscar dentro de un string: strpos, strstr, strspn y parientes</h2>
+
+  <h3>Para qué sirve</h3>
+  <p>Para saber si un texto contiene a otro, dónde, o para quedarse con un pedazo a partir de una marca:</p>
+  <ul>
+    <li><strong>¿En qué posición está?</strong> &rarr; <code>strpos()</code> (y <code>stripos()</code> sin mirar mayúsculas).</li>
+    <li><strong>Dame el texto desde ahí</strong> &rarr; <code>strstr()</code> (y <code>stristr()</code> sin mirar mayúsculas).</li>
+    <li><strong>¿Cuántos caracteres del principio son "permitidos"?</strong> &rarr; <code>strspn()</code> y <code>strcspn()</code>.</li>
+  </ul>
+  <p>
+    <code>strpos</code> y <code>strstr</code> son <em>case-sensitive</em> (distinguen mayúsculas);
+    las versiones con <strong>i</strong> (<em>insensitive</em>) no.
+  </p>
+
+  <h3>Sintaxis</h3>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Las funciones de búsqueda</span>
+<pre class="codigo"><code>strpos($cadena, $buscar)            // posición (número) o false
+strpos($cadena, $buscar, $desde)    // empezando a buscar en $desde
+stripos($cadena, $buscar)           // igual, sin mirar mayúsculas
+strstr($cadena, $buscar)            // el texto desde $buscar hasta el final, o false
+strstr($cadena, $buscar, true)      // el texto de ANTES de $buscar
+stristr($cadena, $buscar)           // como strstr, sin mirar mayúsculas
+strspn($cadena, $mascara)           // largo del principio hecho solo con caracteres de $mascara
+strcspn($cadena, $mascara)          // largo del principio SIN ningún carácter de $mascara</code></pre>
+  </div>
+
+  <h3>Qué es cada parte</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Parte</th><th>Qué es</th></tr>
+      <tr><td><code>$cadena</code></td><td>El texto donde se busca (el "pajar")</td></tr>
+      <tr><td><code>$buscar</code></td><td>Lo que se busca (la "aguja")</td></tr>
+      <tr><td><code>$desde</code></td><td>(strpos) Posición desde donde empezar a buscar</td></tr>
+      <tr><td><code>true</code></td><td>(strstr) En vez de lo que sigue, devuelve lo que está antes</td></tr>
+      <tr><td><code>$mascara</code></td><td>(strspn, strcspn) Una lista de caracteres sueltos: una "lista blanca" para <code>strspn</code> y una "lista negra" para <code>strcspn</code></td></tr>
+      <tr><td>Dos números más</td><td>(strspn, strcspn) Opcionales: posición de inicio y cuántos caracteres analizar</td></tr>
+    </table>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; strpos y el !== false (teoría de la cátedra)</h3>
+<pre class="codigo"><code>&lt;?php
+$cadena = 'Hola a todos. Dentro de esta cadena realizaremos la búsqueda.';
+var_dump(strpos($cadena, 'realizaremos'));
+var_dump(strpos($cadena, 'Hola'));
+var_dump(strpos($cadena, 'xyz'));
+if (strpos($cadena, 'Hola')) {
+    echo 'if simple: encontrada';
+} else {
+    echo 'if simple: NO encontrada';
+}
+echo "\n";
+if (strpos($cadena, 'Hola') !== false) {
+    echo 'con !== false: encontrada';
+}
+?&gt;</code></pre>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Resultado</th></tr>
+      <tr><td><code>strpos($cadena, 'realizaremos')</code></td><td>La palabra empieza en la posición 36 (contando desde 0)</td><td><code>int(36)</code></td></tr>
+      <tr><td><code>strpos($cadena, 'Hola')</code></td><td>Está al principio: posición <strong>0</strong></td><td><code>int(0)</code></td></tr>
+      <tr><td><code>strpos($cadena, 'xyz')</code></td><td>No está</td><td><code>bool(false)</code></td></tr>
+      <tr><td><code>if (strpos(..., 'Hola'))</code></td><td>Devuelve 0, y el <code>if</code> toma el 0 como falso: va al <code>else</code> aunque la palabra <strong>sí</strong> está</td><td>imprime "NO encontrada"</td></tr>
+      <tr><td><code>echo "\n";</code></td><td>Un salto de línea</td><td>&mdash;</td></tr>
+      <tr><td><code>if (strpos(...) !== false)</code></td><td><code>!==</code> compara valor <strong>y tipo</strong>: 0 (int) no es idéntico a false (bool), así que entra</td><td>imprime "encontrada"</td></tr>
+    </table>
+  </div>
+<pre class="salida">int(36)
+int(0)
+bool(false)
+if simple: NO encontrada
+con !== false: encontrada</pre>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Si no la encuentra devuelve false, no 0</span>
+    <p>
+      El apunte dice que <code>strpos</code> devuelve <em>"el valor 0 (falso) si no es
+      encontrada"</em>. Devuelve <code>false</code>; el 0 es la posición cuando está al principio.
+      Por eso la cátedra (bien) pide comparar con <code>!== false</code>: es la única forma de no
+      confundir "está en la posición 0" con "no está".
+    </p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; Buscar desde una posición, y sin mayúsculas</h3>
+<pre class="codigo"><code>&lt;?php
+$cadena = 'abcdefghijkabcdefghijk';
+echo strpos($cadena, 'abc') . '&lt;br&gt;';
+echo strpos($cadena, 'abc', 1) . '&lt;br&gt;';
+echo stripos('Hola para todos.', 'hola');
+?&gt;</code></pre>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Imprime</th></tr>
+      <tr><td><code>strpos($cadena, 'abc')</code></td><td>Primera aparición: al principio</td><td>0</td></tr>
+      <tr><td><code>strpos($cadena, 'abc', 1)</code></td><td>Empieza a buscar en la posición 1, así que se saltea la primera. La segunda <code>abc</code> empieza después de <code>abcdefghijk</code> (11 letras, posiciones 0 a 10)</td><td>11</td></tr>
+      <tr><td><code>stripos('Hola ...', 'hola')</code></td><td>Sin mirar mayúsculas, <code>hola</code> está al principio</td><td>0</td></tr>
+    </table>
+  </div>
+<pre class="salida">0
+11
+0</pre>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 3 &mdash; strstr: el pedazo desde la marca (formato "¿cuál es la salida?")</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>¿Cuál es la salida del siguiente script?</p>
+  </div>
+<pre class="codigo"><code>&lt;?php
+$email = 'contacto@gugler.com.ar';
+$dominio = strstr($email, '@');
+$cuenta = strstr($email, '@', true);
+echo $dominio . '&lt;br&gt;';
+echo $cuenta . '&lt;br&gt;';
+echo strstr('123456789', '45') . '&lt;br&gt;';
+echo stristr('Hola para todos.', 'PaRa');
+?&gt;</code></pre>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Cómo quedan las variables</th></tr>
+      <tr><td><code>$dominio = strstr($email, '@');</code></td><td>Desde la <code>@</code> (incluida) hasta el final</td><td><code>$dominio</code> = '@gugler.com.ar'</td></tr>
+      <tr><td><code>$cuenta = strstr($email, '@', true);</code></td><td>Con <code>true</code>: lo que está antes de la <code>@</code></td><td><code>$cuenta</code> = 'contacto'</td></tr>
+      <tr><td><code>strstr('123456789', '45')</code></td><td>Desde <code>45</code> hasta el final</td><td>sale <code>456789</code></td></tr>
+      <tr><td><code>stristr('Hola para todos.', 'PaRa')</code></td><td>Sin mirar mayúsculas encuentra <code>para</code>, y devuelve el texto original desde ahí</td><td>sale <code>para todos.</code></td></tr>
+    </table>
+  </div>
+<pre class="salida">@gugler.com.ar
+contacto
+456789
+para todos.</pre>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Errores de tipeo del apunte en este ejemplo</span>
+    <p>
+      El apunte presenta la función como <code>strtr()</code> (que es otra: reemplaza caracteres)
+      cuando el código usa <code>strstr()</code>. Además guarda en <code>$dominio</code> y
+      <code>$cuenta</code> pero hace <code>echo $domain</code> y <code>echo $user</code>, variables
+      que no existen. Arriba está corregido.
+    </p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 4 &mdash; strspn y strcspn: lista blanca y lista negra</h3>
+<pre class="codigo"><code>&lt;?php
+echo strspn('1334455abcdef', '12345') . '&lt;br&gt;';
+echo strcspn('1334455abcdef', 'abc') . '&lt;br&gt;';
+echo strspn('1abc234', 'abc', 1, 4) . '&lt;br&gt;';
+echo strcspn('Hola mundo', ' ');
+?&gt;</code></pre>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Imprime</th></tr>
+      <tr><td><code>strspn('1334455abcdef', '12345')</code></td><td>Cuenta desde el principio mientras los caracteres estén en la máscara: <code>1 3 3 4 4 5 5</code> sí (7), la <code>a</code> no, y ahí corta</td><td>7</td></tr>
+      <tr><td><code>strcspn('1334455abcdef', 'abc')</code></td><td>Cuenta mientras los caracteres <strong>no</strong> estén en la máscara: corta en la <code>a</code></td><td>7</td></tr>
+      <tr><td><code>strspn('1abc234', 'abc', 1, 4)</code></td><td>Mira desde la posición 1, cuatro caracteres: <code>abc2</code>. <code>a b c</code> están en la máscara (3), el <code>2</code> no</td><td>3</td></tr>
+      <tr><td><code>strcspn('Hola mundo', ' ')</code></td><td>Cuántos caracteres hay antes del primer espacio: el largo de la primera palabra</td><td>4</td></tr>
+    </table>
+  </div>
+<pre class="salida">7
+7
+3
+4</pre>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">La cátedra dice 6, pero son 7</span>
+    <p>
+      Para <code>strspn('1334455abcdef', '12345')</code> el apunte anota 6. Los siete primeros
+      caracteres (<code>1334455</code>) son todos de la máscara, así que da <strong>7</strong>.
+      También dice que estas funciones "aceptan dos parámetros": son dos parámetros
+      <strong>más</strong> (inicio y largo), además de la cadena y la máscara.
+    </p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Errores y trampas</h3>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">strpos devuelve un número, strstr devuelve texto</span>
+    <p>
+      <code>strpos('123456789', '45')</code> da <code>3</code> (dónde está);
+      <code>strstr('123456789', '45')</code> da <code>456789</code> (lo que sigue). Las dos dan
+      <code>false</code> si no encuentran nada.
+    </p>
+  </div>
+</div>

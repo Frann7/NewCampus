@@ -1,0 +1,123 @@
+<div class="ej">
+  <span class="tag">Ejemplo 3 &middot; pForm1.html</span>
+  <h2>Mostrar y limpiar los datos de un formulario</h2>
+  <div class="enunciado">
+    <p>
+      Un formulario con cuatro campos (nombre, apellido, edad, dirección) y dos botones:
+      "Mostrar Datos" escribe abajo lo que hay en los campos y "Limpiar Datos" los vacía. Nada se
+      envía a ningún lado: todo pasa en el navegador. Clase <code>IndexClass</code> en
+      <code>js/pForm1Class.js</code>.
+    </p>
+  </div>
+
+  <span class="paso">Paso 1 &mdash; El HTML</span>
+<pre class="codigo"><code>&lt;link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" ...&gt;
+...
+&lt;form&gt;
+   &lt;div class="row" style="width: 50%; margin: auto; padding: 5px;"&gt;
+        &lt;div class="col-md-6"&gt;
+            &lt;input type="text" class="form-control" name="txtNombre" id="txtNombre" placeholder="Nombre" value="Cristhian" /&gt;
+        &lt;/div&gt;
+        &lt;div class="col-md-6"&gt;
+            &lt;input type="text" class="form-control" id="txtApellido" placeholder="Apellido" /&gt;
+        &lt;/div&gt;
+        &lt;div class="col-md-6"&gt;
+            &lt;input type="number" class="form-control" id="txtEdad" placeholder="Edad" /&gt;
+        &lt;/div&gt;
+        &lt;div class="col-md-6"&gt;
+            &lt;input type="text" class="form-control" id="txtDireccion" placeholder="Dirección" /&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/form&gt;
+&lt;br /&gt;
+&lt;button id="btMostrarDatos" class="btn btn-primary"&gt;Mostrar Datos&lt;/button&gt;
+&lt;button id="btLimpiarDatos" class="btn btn-secondary"&gt;Limpiar Datos&lt;/button&gt;
+&lt;hr /&gt;
+&lt;div id="divDatos"&gt;&lt;/div&gt;</code></pre>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Pieza</th><th>Qué es</th></tr>
+      <tr><td><code>&lt;link href="...bootstrap.min.css"&gt;</code></td><td>Carga <strong>Bootstrap</strong>, una hoja de estilos ya hecha. Las clases <code>row</code>, <code>col-md-6</code>, <code>form-control</code>, <code>btn btn-primary</code> son suyas: acomodan los campos de a dos por fila y les dan el aspecto de los campos y botones</td></tr>
+      <tr><td><code>placeholder="Nombre"</code></td><td>Texto gris de ayuda que se ve mientras el campo está vacío. <strong>No es el valor</strong>: <code>value</code> sigue siendo <code>""</code></td></tr>
+      <tr><td><code>value="Cristhian"</code></td><td>El nombre arranca ya escrito</td></tr>
+      <tr><td><code>type="number"</code></td><td>El campo de edad solo acepta números (y muestra flechitas)</td></tr>
+      <tr><td>Los botones, <strong>afuera</strong> del <code>&lt;form&gt;</code></td><td>Así un clic no envía el formulario (teoría, sección 5): solo hace lo que diga JavaScript</td></tr>
+      <tr><td><code>&lt;div id="divDatos"&gt;</code></td><td>Lugar vacío donde se van a escribir los datos</td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Paso 2 &mdash; La clase</span>
+<pre class="codigo"><code>class IndexClass {
+
+    constructor(){
+        this.txtNombre = document.getElementById('txtNombre');
+        this.txtApellido = document.getElementById('txtApellido');
+        this.txtEdad = document.getElementById('txtEdad');
+        this.txtDireccion = document.getElementById('txtDireccion');
+
+        this.btMostrarDatos = document.getElementById('btMostrarDatos');
+        this.btLimpiarDatos = document.getElementById('btLimpiarDatos');
+        this.divDatos = document.getElementById('divDatos');
+    }
+
+    init() {
+        this.addEventListeners();
+    }
+
+    addEventListeners() {
+        this.btMostrarDatos.addEventListener('click', () =&gt; {
+            this.divDatos.textContent = `Nombre: ${this.txtNombre.value}, Apellido: ${this.txtApellido.value}, Edad: ${this.txtEdad.value}, Dirección: ${this.txtDireccion.value}`;
+        });
+
+        this.btLimpiarDatos.addEventListener('click', () =&gt; {
+            this.txtNombre.value = '';
+            this.txtApellido.value = '';
+            this.txtEdad.value = '';
+            this.txtDireccion.value = '';
+            this.divDatos.textContent = '';
+        });
+    }
+}
+
+window.addEventListener('load',() =&gt; {
+    new IndexClass().init();
+})</code></pre>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Parte</th><th>Qué hace</th></tr>
+      <tr><td><code>constructor()</code></td><td>Guarda los 4 campos, los 2 botones y el <code>div</code> de resultados</td></tr>
+      <tr><td><code>init()</code></td><td>Solo llama a <code>addEventListeners()</code></td></tr>
+      <tr><td>Clic en Mostrar Datos</td><td>Arma un template literal con el <code>value</code> de cada campo <strong>en ese momento</strong> y lo pone como texto del <code>div</code></td></tr>
+      <tr><td>Clic en Limpiar Datos</td><td>Asigna <code>''</code> al <code>value</code> de cada campo (los vacía; vuelven a verse los placeholder) y vacía el <code>div</code></td></tr>
+      <tr><td><code>window.addEventListener('load', ...)</code></td><td>Crea el objeto e inicia todo al terminar de cargar</td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Paso 3 &mdash; ¿Qué se ve? (tres casos)</span>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Qué hace el usuario</th><th>Qué aparece en <code>divDatos</code></th><th>Por qué</th></tr>
+      <tr><td>Abre la página y aprieta Mostrar Datos sin escribir nada</td><td><code>Nombre: Cristhian, Apellido: , Edad: , Dirección: </code></td><td>El nombre tiene <code>value="Cristhian"</code>; los otros están vacíos (el placeholder no cuenta)</td></tr>
+      <tr><td>Completa Pérez, 20 y Urquiza 100, y aprieta Mostrar</td><td><code>Nombre: Cristhian, Apellido: Pérez, Edad: 20, Dirección: Urquiza 100</code></td><td>Lee lo escrito en el momento del clic</td></tr>
+      <tr><td>Aprieta Limpiar y después Mostrar</td><td><code>Nombre: , Apellido: , Edad: , Dirección: </code></td><td>Limpiar vació también el nombre: el "Cristhian" del HTML no vuelve solo</td></tr>
+    </table>
+  </div>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">textContent para lo que escribió el usuario</span>
+    <p>
+      El resultado se muestra con <code>textContent</code>, no con <code>innerHTML</code>: si
+      alguien escribe <code>&lt;b&gt;Ana&lt;/b&gt;</code> en el nombre, se ve tal cual, sin
+      interpretarse como HTML (teoría, sección 4).
+    </p>
+  </div>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Qué se ve en la página</span>
+    <p>
+      Los cuatro campos en dos filas, con el nombre ya cargado, y los dos botones. Mostrar Datos
+      escribe una línea con los cuatro valores; Limpiar Datos deja todo vacío. No hay PHP ni
+      envío: los datos nunca salen del navegador.
+    </p>
+  </div>
+</div>

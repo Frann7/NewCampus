@@ -43,6 +43,7 @@
     var h = E.h;
     var cont = h("div", { class: "ev" });
     pane.appendChild(cont);
+    var simple = E.configMateria(materia).tipo === "simple";
     var acciones = {
       volver: function (aviso) { inicio(aviso); },
       abrir: function (id) {
@@ -51,7 +52,12 @@
         if (E.estadoDe(ae).clave === "terminada") { acciones.informe(ae); }
         else { acciones.lanzar(ae, false); }
       },
-      nueva: function () { E.formulario.mostrar(cont, materia, acciones); },
+      // La evaluacion simple (materias.json: "evaluacion": {"tipo": "simple"}) tiene
+      // un formulario minimo; sin esa clave es el de PyE, con etapas.
+      nueva: function () {
+        if (simple) { E.formulario.mostrarSimple(cont, materia, acciones); }
+        else { E.formulario.mostrar(cont, materia, acciones); }
+      },
       // Cada etapa del parcial tiene su pantalla: la 1ra es un cuestionario
       // (cuestionario.js) y la 2da el examen de siempre (examen.js / informe.js).
       lanzar: function (ae, reiniciar) {
@@ -125,11 +131,15 @@
 
       cont.appendChild(h("h1", { class: "ev-h1" }, "Evaluación"));
       cont.appendChild(h("p", { class: "pane-intro" },
-        "Parciales, finales y autoevaluaciones de " + E.nombreMateria(materia) + "."));
+        (simple && !finales.length ? "Parciales y autoevaluaciones de " : "Parciales, finales y autoevaluaciones de ") +
+        E.nombreMateria(materia) + "."));
       if (aviso) { cont.appendChild(h("div", { class: "ae-aviso" }, aviso)); }
 
       cont.appendChild(seccionExamenes("parciales", "📄", "Parciales", "parcial", parciales));
-      cont.appendChild(seccionExamenes("finales", "🎓", "Finales", "final", finales));
+      // en la evaluacion simple, los finales solo si hay alguno cargado
+      if (!simple || finales.length) {
+        cont.appendChild(seccionExamenes("finales", "🎓", "Finales", "final", finales));
+      }
 
       cont.appendChild(seccion("autoevaluacion", "🧠", "Autoevaluación",
         guardadas.length

@@ -1,0 +1,122 @@
+<div class="ej">
+  <span class="tag">Ejemplo 7 &middot; pgConsultoApi1.html</span>
+  <h2>Consumir una API: la lista de razas</h2>
+  <div class="enunciado">
+    <p>
+      Misma API que el ejemplo 6, otra dirección: la que devuelve <strong>todas las razas</strong>.
+      La página muestra un párrafo por raza. Clase <code>IndexClass</code> en
+      <code>js/pgConsultoApi1Class.js</code>.
+    </p>
+  </div>
+
+  <span class="paso">Paso 1 &mdash; El HTML</span>
+<pre class="codigo"><code>&lt;div class="container mt-5"&gt;
+    &lt;h1&gt;Ejemplo de consumo de API con Javascript&lt;/h1&gt;
+    &lt;div style="text-align: center;"&gt;
+        &lt;button id="btConsultoApi" class="btn btn-primary"&gt;Consultar Api&lt;/button&gt;
+        &lt;hr /&gt;
+        &lt;div id="divDatos" style="text-align:left"&gt;&lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+  <p>Igual que el 6. <code>container mt-5</code> son clases de Bootstrap (ancho centrado y margen arriba).</p>
+
+  <span class="paso">Paso 2 &mdash; Qué contesta la API</span>
+  <p><code>https://dog.ceo/api/breeds/list/all</code> devuelve (principio de una respuesta real, pedida al escribir esto):</p>
+<pre class="salida">{"message":{"affenpinscher":[],"african":["wild"],"airedale":[],"akita":[],"appenzeller":[],"australian":["kelpie","shepherd"], ... },"status":"success"}</pre>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Parte</th><th>Qué es</th></tr>
+      <tr><td><code>message</code></td><td>Ahora no es un texto: es un <strong>objeto</strong>. Cada <strong>clave</strong> es una raza</td></tr>
+      <tr><td><code>"african": ["wild"]</code></td><td>El valor de cada raza es un array con sus sub-razas (vacío si no tiene)</td></tr>
+    </table>
+  </div>
+  <p>
+    Las razas no vienen en un array sino como <strong>claves</strong> de un objeto. Por eso hace
+    falta <code>Object.keys</code> (teoría, sección 2) para sacar la lista de nombres.
+  </p>
+
+  <span class="paso">Paso 3 &mdash; El JavaScript</span>
+<pre class="codigo"><code>class IndexClass {
+
+    constructor() {
+        this.divDatos = document.getElementById('divDatos');
+        this.btConsultoApi = document.getElementById('btConsultoApi');
+    }
+
+    init() {
+        this.addEventListeners();
+    }
+
+    addEventListeners() {
+        this.btConsultoApi.addEventListener('click', () =&gt; {
+
+            const url = "https://dog.ceo/api/breeds/list/all";
+
+            fetch(url)
+                .then(response =&gt; response.json())
+                .then(data =&gt; {
+
+                    const datos = Array.from(Object.keys(data.message));
+
+                    this.divDatos.innerHTML = '';
+
+                    datos.forEach(dato =&gt; {
+                        const p = document.createElement('p');
+                        p.textContent = dato;
+                        this.divDatos.appendChild(p);
+                    });
+                })
+                .catch(error =&gt; {
+                    console.error('Error al consultar la API:', error);
+                });
+        });
+    }
+}
+
+window.addEventListener('load',() =&gt; {
+    new IndexClass().init();
+})</code></pre>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Cómo quedan las variables</th></tr>
+      <tr><td><code>fetch(url).then(response =&gt; response.json())</code></td><td>Pide y convierte, como en el ejemplo 6</td><td>&mdash;</td></tr>
+      <tr><td><code>Object.keys(data.message)</code></td><td>Saca las claves del objeto <code>message</code>: los nombres de las razas, en el orden en que vinieron</td><td><code>['affenpinscher', 'african', 'airedale', ...]</code></td></tr>
+      <tr><td><code>Array.from(...)</code></td><td>Lo pasa a array. <strong>No hace falta</strong>: <code>Object.keys</code> ya devuelve un array (verificado con Node.js: <code>Array.isArray</code> da <code>true</code>). No molesta, pero sobra</td><td><code>datos</code> = el mismo array</td></tr>
+      <tr><td><code>this.divDatos.innerHTML = '';</code></td><td>Vacía el <code>div</code>, por si ya tenía la lista de un clic anterior</td><td>&mdash;</td></tr>
+      <tr><td><code>datos.forEach(dato =&gt; {</code></td><td>Una vuelta por raza</td><td>1ra vuelta: <code>dato = 'affenpinscher'</code></td></tr>
+      <tr><td><code>const p = createElement('p'); p.textContent = dato;</code></td><td>Crea un párrafo con el nombre</td><td>&mdash;</td></tr>
+      <tr><td><code>this.divDatos.appendChild(p);</code></td><td>Lo cuelga al final del <code>div</code></td><td>Un párrafo más por vuelta</td></tr>
+    </table>
+  </div>
+  <p>
+    Probado en Node.js con un recorte de la respuesta
+    (<code>{affenpinscher: [], african: ["wild"], airedale: []}</code>):
+    <code>Array.from(Object.keys(...))</code> da <code>[ 'affenpinscher', 'african', 'airedale' ]</code>.
+  </p>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Por qué se vacía antes</span>
+    <p>
+      Sin el <code>innerHTML = ''</code>, cada clic agregaría la lista entera de nuevo debajo de la
+      anterior. Acá se vacía con <code>innerHTML</code>; en el ejemplo 6 el mismo efecto lo daba
+      asignar <code>innerText</code>.
+    </p>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Las sub-razas no aparecen</span>
+    <p>
+      <code>Object.keys</code> solo toma las claves. El <code>"wild"</code> de <code>african</code>
+      o el <code>"kelpie"</code> de <code>australian</code> quedan afuera: para mostrarlos habría que
+      leer también el valor de cada clave.
+    </p>
+  </div>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Qué se ve en la página</span>
+    <p>
+      Al apretar el botón, debajo de la línea aparece una lista larga de párrafos, uno por raza:
+      affenpinscher, african, airedale, akita, appenzeller... (al escribir esto eran 108; la
+      cantidad la decide la API). Apretar otra vez muestra la misma lista, no la duplica.
+    </p>
+  </div>
+</div>

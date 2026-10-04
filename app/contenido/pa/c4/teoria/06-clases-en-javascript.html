@@ -1,0 +1,199 @@
+<div class="bloque">
+  <p class="kicker">Sección 6 &middot; diapositiva 13</p>
+  <h2>6. Clases en JavaScript</h2>
+
+  <h3>Para qué sirve</h3>
+  <p>
+    Una <strong>clase</strong> es un molde: define qué datos (<strong>propiedades</strong>) y qué
+    acciones (<strong>métodos</strong>) va a tener cada objeto que se fabrique con ella. La
+    cátedra arma <strong>todos</strong> sus ejemplos así: una clase por página, que en el
+    constructor agarra los elementos del DOM y en <code>init()</code> engancha los eventos. Todo
+    lo de una pantalla queda junto y ordenado, en vez de suelto por el archivo.
+  </p>
+
+  <h3>Sintaxis (el esquema de la diapositiva 13)</h3>
+<pre class="codigo"><code>class FormPersonas {
+
+    constructor() {
+        // se ejecuta solo, al hacer new: guarda los elementos en propiedades
+        this.form = document.getElementById('formPersonas');
+    }
+
+    init() {
+        // engancha los eventos
+    }
+
+}
+
+window.addEventListener('DOMContentLoaded', () =&gt; {
+    new FormPersonas().init();
+});</code></pre>
+
+  <h3>Qué es cada parte</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Pieza</th><th>Qué es</th><th>En PHP sería</th></tr>
+      <tr><td class="lbl"><code>class FormPersonas { }</code></td><td>Declara la clase. Por costumbre, el nombre empieza con mayúscula</td><td><code>class FormPersonas { }</code></td></tr>
+      <tr><td class="lbl"><code>constructor() { }</code></td><td>Método especial que corre <strong>solo y una vez</strong> cuando se crea el objeto. Puede recibir parámetros</td><td><code>function __construct() { }</code></td></tr>
+      <tr><td class="lbl"><code>init() { }</code></td><td>Un método común. Se escribe sin la palabra <code>function</code> y sin comas entre un método y otro. <code>init</code> no es especial: es un nombre que eligió la cátedra (de "inicializar")</td><td><code>public function init() { }</code></td></tr>
+      <tr><td class="lbl"><code>this.form</code></td><td>Una propiedad del objeto. <code>this</code> es "este objeto". Se crea con solo asignarle algo; no hace falta declararla antes</td><td><code>$this-&gt;form</code></td></tr>
+      <tr><td class="lbl"><code>this.init()</code></td><td>Llamar a otro método del mismo objeto: también con <code>this.</code></td><td><code>$this-&gt;init()</code></td></tr>
+      <tr><td class="lbl"><code>new FormPersonas()</code></td><td>Fabrica un objeto con el molde y ejecuta el constructor</td><td><code>new FormPersonas()</code></td></tr>
+      <tr><td class="lbl"><code>new FormPersonas().init()</code></td><td>Crea el objeto y en la misma línea le llama a <code>init()</code>. El objeto no se guarda en ninguna variable porque no hace falta: los eventos que engancha lo mantienen vivo</td><td><code>(new FormPersonas())-&gt;init()</code></td></tr>
+    </table>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; Un contador como clase</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>¿Qué muestra la consola?</p>
+  </div>
+<pre class="codigo"><code>class Contador {
+  constructor() { this.valor = 0; }
+  sumar() { this.valor = this.valor + 1; }
+  mostrar() { console.log(`Valor: ${this.valor}`); }
+}
+const c = new Contador();
+c.sumar();
+c.sumar();
+c.mostrar();</code></pre>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Cómo quedan las variables</th></tr>
+      <tr><td><code>class Contador { ... }</code></td><td>Solo define el molde. No ejecuta nada</td><td>&mdash;</td></tr>
+      <tr><td><code>const c = new Contador();</code></td><td>Crea el objeto; corre el constructor, que crea la propiedad <code>valor</code></td><td><code>c.valor = 0</code></td></tr>
+      <tr><td><code>c.sumar();</code></td><td>Adentro, <code>this</code> es <code>c</code>: <code>c.valor = 0 + 1</code></td><td><code>c.valor = 1</code></td></tr>
+      <tr><td><code>c.sumar();</code></td><td>Otra vez</td><td><code>c.valor = 2</code></td></tr>
+      <tr><td><code>c.mostrar();</code></td><td>Imprime con un template literal</td><td><code>c.valor = 2</code></td></tr>
+    </table>
+  </div>
+  <p>Qué muestra (verificado con Node.js):</p>
+<pre class="salida">Valor: 2</pre>
+  <p><strong>Por qué:</strong> la propiedad <code>valor</code> vive en el objeto, así que los dos <code>sumar()</code> trabajan sobre el mismo número.</p>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; ¿Cuál es la salida? (dos objetos)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>¿Qué muestra la consola?</p>
+  </div>
+<pre class="codigo"><code>class Persona {
+  constructor(nombre, edad) { this.nombre = nombre; this.edad = edad; }
+  cumplir() { this.edad++; return this.edad; }
+  saludo() { return `Soy ${this.nombre} y tengo ${this.edad}`; }
+}
+const p1 = new Persona("Ana", 20);
+const p2 = new Persona("Luis", 30);
+p1.cumplir();
+p1.cumplir();
+console.log(p1.saludo());
+console.log(p2.saludo());
+console.log(p2.cumplir() + p1.edad);</code></pre>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Cómo quedan las variables</th></tr>
+      <tr><td><code>const p1 = new Persona("Ana", 20);</code></td><td>El constructor recibe los dos datos y los guarda en el objeto</td><td><code>p1</code>: Ana, 20</td></tr>
+      <tr><td><code>const p2 = new Persona("Luis", 30);</code></td><td>Otro objeto, <strong>con sus propias</strong> propiedades</td><td><code>p1</code>: Ana, 20 &middot; <code>p2</code>: Luis, 30</td></tr>
+      <tr><td><code>p1.cumplir();</code></td><td><code>this.edad++</code> suma 1 a la edad de <code>p1</code>. Devuelve 21, pero nadie lo usa</td><td><code>p1</code>: 21</td></tr>
+      <tr><td><code>p1.cumplir();</code></td><td>Otra vez</td><td><code>p1</code>: 22</td></tr>
+      <tr><td><code>console.log(p1.saludo());</code></td><td><code>saludo()</code> devuelve el texto armado</td><td>&rarr; "Soy Ana y tengo 22"</td></tr>
+      <tr><td><code>console.log(p2.saludo());</code></td><td><code>p2</code> no fue tocado</td><td>&rarr; "Soy Luis y tengo 30"</td></tr>
+      <tr><td><code>p2.cumplir() + p1.edad</code></td><td>Primero <code>p2.cumplir()</code>: <code>p2</code> pasa a 31 y devuelve 31. Después suma la edad de <code>p1</code>: 31 + 22</td><td><code>p2</code>: 31 &rarr; 53</td></tr>
+    </table>
+  </div>
+  <p>Qué muestra (verificado con Node.js):</p>
+<pre class="salida">Soy Ana y tengo 22
+Soy Luis y tengo 30
+53</pre>
+  <p>
+    <strong>Por qué:</strong> cada <code>new</code> fabrica un objeto independiente. Cambiar
+    <code>p1</code> no toca a <code>p2</code>. Y en la última línea los dos operandos son números
+    (31 y 22), así que el <code>+</code> suma.
+  </p>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 3 &mdash; El esquema de la cátedra, y por qué usa flechas</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>
+      La página tiene <code>&lt;button id="btSumar"&gt;</code>. Con esta clase, el usuario hace un
+      clic. ¿Qué muestra la consola cada escuchador?
+    </p>
+  </div>
+<pre class="codigo"><code>class Pagina {
+    constructor() {
+        this.boton = document.getElementById('btSumar');
+        this.clics = 0;
+    }
+    init() {
+        this.boton.addEventListener('click', () =&gt; {
+            this.clics++;
+            console.log("flecha:", this.clics);
+        });
+        this.boton.addEventListener('click', function () {
+            console.log("function:", this.id, this.clics);
+        });
+    }
+}
+window.addEventListener('load', () =&gt; { new Pagina().init(); });</code></pre>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Cómo quedan las variables</th></tr>
+      <tr><td><code>window.addEventListener('load', ...)</code></td><td>Espera a que la página cargue</td><td>&mdash;</td></tr>
+      <tr><td><code>new Pagina()</code></td><td>Constructor: guarda el botón y el contador</td><td><code>this.boton</code> = el botón, <code>this.clics = 0</code></td></tr>
+      <tr><td><code>.init()</code></td><td>Registra dos escuchadores de <code>click</code> en el mismo botón (se pueden registrar varios; corren en orden)</td><td>&mdash;</td></tr>
+      <tr><td>Clic &rarr; la flecha</td><td>Una función flecha <strong>no tiene <code>this</code> propio</strong>: usa el de donde fue escrita, que es el objeto <code>Pagina</code></td><td><code>this.clics = 1</code> &rarr; "flecha: 1"</td></tr>
+      <tr><td>Clic &rarr; la <code>function</code></td><td>Una <code>function</code> común llamada por un evento recibe como <code>this</code> <strong>el elemento</strong> que disparó el evento: el botón</td><td><code>this.id</code> = "btSumar"; el botón no tiene <code>clics</code> &rarr; <code>undefined</code></td></tr>
+    </table>
+  </div>
+  <p>Qué muestra (verificado en Node.js con un botón simulado, que llama a cada escuchador como lo hace el navegador):</p>
+<pre class="salida">flecha: 1
+function: btSumar undefined</pre>
+  <p>
+    <strong>Por qué:</strong> adentro de la <code>function</code>, <code>this</code> dejó de ser
+    el objeto <code>Pagina</code>. Por eso <strong>la cátedra escribe todos los escuchadores con
+    flechas</strong>: así <code>this.titulo</code>, <code>this.txtNombre</code> o
+    <code>this.validoDatos()</code> siguen apuntando al objeto. <code>undefined</code> es el valor
+    de JavaScript para "esto no existe / no tiene valor".
+  </p>
+
+  <hr class="sep">
+
+  <h3>Errores y trampas</h3>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Olvidarse el <code>this.</code></span>
+    <p>
+      Adentro de un método, <code>validoDatos()</code> a secas busca una función suelta con ese
+      nombre y falla: <code>ReferenceError: validoDatos is not defined</code>. Lo mismo con una
+      propiedad: <code>titulo</code> en vez de <code>this.titulo</code>. Igual que en PHP con
+      <code>$this-&gt;</code>.
+    </p>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Olvidarse el <code>new</code></span>
+    <p>
+      <code>Persona("Ana", 20)</code> sin <code>new</code> corta con
+      <code>TypeError: Class constructor Persona cannot be invoked without 'new'</code>.
+    </p>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Comas o <code>function</code> entre métodos</span>
+    <p>
+      Dentro de <code>class { }</code> los métodos van uno debajo del otro, sin coma y sin la
+      palabra <code>function</code>. Cualquiera de las dos es un error de sintaxis y no corre nada
+      del archivo.
+    </p>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Dos archivos con la misma clase</span>
+    <p>
+      En los ejemplos de la práctica casi todas las clases se llaman <code>IndexClass</code>. No
+      choca porque cada página carga <strong>un solo</strong> <code>.js</code>. Si una página
+      cargara dos archivos que declaran la misma clase, el segundo daría error.
+    </p>
+  </div>
+</div>

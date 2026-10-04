@@ -1,0 +1,280 @@
+<div class="ej">
+  <span class="tag">Sitio de ejemplo &middot; SitioEjemplo.zip</span>
+  <h2>El sitio de ejemplo de la cátedra: alta y listado de personas</h2>
+  <div class="enunciado">
+    <p>
+      Material de la teoría de la Clase 6: un "Sistema Recursos Humanos" con un formulario para
+      cargar personas (documento, nombres, apellido) y un listado. Hace lo mismo que los
+      ejercicios 3 y 4, pero con el acceso a la base metido adentro de clases de PHP.
+    </p>
+  </div>
+
+  <span class="paso">Paso 1 &mdash; Qué archivos tiene</span>
+<pre class="codigo"><code>index.php                    inicio: tres botones (Inicio, Formulario, Listado)
+formPersonas.php             el formulario de alta
+listadoPersonas.php          el listado en una tabla
+includes/
+    mysqliConn.php           la clase que abre la conexión
+    page/head.php            &lt;head&gt; con Bootstrap
+    page/navbar.php          la barra de navegación
+    page/footer.php          cierre de la página
+php/
+    procesoFormulario.php    recibe el formulario y da de alta
+    class/PersonaClass.php   la clase que habla con la tabla personas
+    class/TelefonoClass.php  (una copia de PersonaClass: ver trampas)
+imgs/                        logo y favicon</code></pre>
+  <p>
+    Las páginas no escriben su propio encabezado: lo traen con <code>require_once</code> de
+    <code>includes/page/</code>, así todas comparten el mismo <code>&lt;head&gt;</code>, la misma barra y el
+    mismo pie. Los estilos son de <strong>Bootstrap</strong>, una hoja de estilos ya hecha que se
+    baja de internet (por eso las clases <code>btn</code>, <code>table</code>,
+    <code>form-control</code>).
+  </p>
+
+  <span class="paso">Paso 2 &mdash; La conexión: <code>includes/mysqliConn.php</code></span>
+<pre class="codigo"><code>&lt;?php
+class ManagerMysqli
+{
+    public function getConnection()
+    {
+        $mysqli = new mysqli( "127.0.0.1", "fede", "********", "rrhh" );
+
+        $mysqli-&gt;set_charset("utf8");
+
+        return $mysqli;
+    }
+}</code></pre>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Cómo quedan las variables</th></tr>
+      <tr><td>2</td><td>Define una clase cuyo único trabajo es dar conexiones</td><td></td></tr>
+      <tr><td>4</td><td>Un método público que se puede llamar desde afuera</td><td></td></tr>
+      <tr><td>6</td><td>Abre la conexión con un usuario propio (<code>fede</code>), no root, a la base <code>rrhh</code>. La contraseña real está en el zip; acá se tapó</td><td><code>$mysqli</code> = la conexión</td></tr>
+      <tr><td>8</td><td>Texto en UTF-8 (sección 3)</td><td></td></tr>
+      <tr><td>10</td><td>Devuelve la conexión a quien la pidió</td><td></td></tr>
+    </table>
+  </div>
+  <p>
+    Es el mismo papel que el <code>conexion.php</code> del ejercicio 2, envuelto en una clase. No
+    revisa errores de conexión: si falla, el PHP 8.2 corta con la excepción (sección 3).
+  </p>
+
+  <span class="paso">Paso 3 &mdash; La clase de la tabla: <code>php/class/PersonaClass.php</code></span>
+  <p>
+    Guarda una persona en propiedades privadas y tiene los métodos para leer y escribir la
+    tabla. Lo de clases se vio en la Clase 5; para leerla alcanza con esto:
+    <code>private</code> = solo se usa adentro de la clase; <code>$this</code> = "este objeto";
+    <code>__construct</code> corre solo al hacer <code>new</code>, y <code>__destruct</code> corre
+    solo cuando el objeto deja de existir (a más tardar, al terminar el script).
+  </p>
+<pre class="codigo"><code>&lt;?php
+require_once $_SERVER['DOCUMENT_ROOT'].'/includes/mysqliConn.php';
+
+class PersonaClass {
+
+    private $mysqli;
+    private $documento;
+    private $apellido;
+    private $nombres;
+
+    public function __construct()
+    {
+        $oMysqli = new ManagerMysqli();
+        $this-&gt;mysqli = $oMysqli-&gt;getConnection();
+    }
+
+    public function setDocumento($documento) { $this-&gt;documento = (int)$documento; }
+    public function setNombres($nombres) { $this-&gt;nombres = $nombres; }
+    public function setApellido($apellido) { $this-&gt;apellido = $apellido; }
+
+    // (getters: getDocumento, getApellido, getNombres)
+
+    public function getAll() { ... }       // paso 4
+    public function addPersona() { ... }   // paso 5
+
+    public function __destruct() { $this-&gt;mysqli-&gt;close(); }
+}</code></pre>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Cómo quedan las variables</th></tr>
+      <tr><td>2</td><td>Incluye la clase de conexión. <code>$_SERVER['DOCUMENT_ROOT']</code> es la carpeta raíz del sitio (en XAMPP, <code>C:\xampp\htdocs</code>)</td><td></td></tr>
+      <tr><td>6-9</td><td>Las propiedades: la conexión y los tres datos de una persona</td><td>todas vacías</td></tr>
+      <tr><td>11-15</td><td>Al hacer <code>new PersonaClass()</code>, pide una conexión y la guarda en el objeto</td><td><code>$this-&gt;mysqli</code> = la conexión</td></tr>
+      <tr><td>17-19</td><td>Los <em>setters</em>: cargan cada dato. El documento se fuerza a entero con <code>(int)</code></td><td></td></tr>
+      <tr><td>26</td><td>Al destruirse el objeto, cierra la conexión: nadie se puede olvidar del <code>close()</code></td><td></td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Paso 4 &mdash; Leer: <code>getAll()</code></span>
+<pre class="codigo"><code>public function getAll() {
+
+    $query = "SELECT * FROM personas";
+
+    $result = $this-&gt;mysqli-&gt;query($query);
+
+    $vPersonas = array();
+
+    if ($result-&gt;num_rows &gt; 0)
+    {
+        while( $row = $result-&gt;fetch_array() )
+        {
+           $vPersona = array(
+            'documento' =&gt; $row['documento'],
+            'apellido' =&gt; $row['apellido'],
+            'nombres' =&gt; $row['nombres']
+           );
+
+           $vPersonas[] = $vPersona;
+        }
+    }
+
+    return $vPersonas;
+}</code></pre>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Cómo quedan las variables</th></tr>
+      <tr><td>3-5</td><td>Consulta toda la tabla por la conexión del objeto</td><td><code>$result</code> = apuntador a las filas</td></tr>
+      <tr><td>7</td><td>Arreglo vacío donde van a ir todas las personas</td><td><code>$vPersonas</code> = <code>[]</code></td></tr>
+      <tr><td>9</td><td>Solo recorre si trajo alguna fila (sección 4)</td><td></td></tr>
+      <tr><td>11</td><td>Una vuelta por fila con <code>fetch_array()</code> (sección 5)</td><td><code>$row</code> = cada fila, con claves numéricas y de nombre</td></tr>
+      <tr><td>13-17</td><td>Copia solo las tres columnas que importan, por nombre (deja afuera las claves numéricas)</td><td><code>$vPersona</code> = 3 elementos</td></tr>
+      <tr><td>19</td><td><code>$arreglo[] = x</code> agrega <code>x</code> al final del arreglo</td><td><code>$vPersonas</code> crece una persona por vuelta</td></tr>
+      <tr><td>23</td><td>Devuelve el arreglo de arreglos</td><td></td></tr>
+    </table>
+  </div>
+  <p>
+    La diferencia con el ejercicio 4: acá la página <strong>no toca la base</strong>. Recibe un
+    arreglo común de PHP y lo dibuja. Si un día cambia la base, se cambia solo la clase.
+  </p>
+
+  <span class="paso">Paso 5 &mdash; Escribir: <code>addPersona()</code></span>
+<pre class="codigo"><code>public function addPersona() {
+
+    $stmt = $this-&gt;mysqli-&gt;prepare("INSERT INTO personas (documento, apellido, nombres) VALUES (?, ?, ?)");
+
+    if ($stmt) {
+        $stmt-&gt;bind_param("iss", $this-&gt;documento, $this-&gt;apellido, $this-&gt;nombres);
+        $result = $stmt-&gt;execute();
+        $stmt-&gt;close();
+        return $result;
+    } else {
+        return false;
+    }
+}</code></pre>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Cómo quedan las variables</th></tr>
+      <tr><td>3</td><td>Consulta preparada con tres huecos (sección 6)</td><td><code>$stmt</code> = la sentencia, o <code>false</code> si el SQL estuviera mal</td></tr>
+      <tr><td>5</td><td>Solo sigue si se pudo preparar</td><td></td></tr>
+      <tr><td>6</td><td>Ata los tres datos que cargaron los setters: un entero y dos strings (<code>"iss"</code>)</td><td></td></tr>
+      <tr><td>7</td><td>Ejecuta el INSERT</td><td><code>$result</code> = <code>true</code> o <code>false</code></td></tr>
+      <tr><td>8-9</td><td>Libera la sentencia y avisa si anduvo</td><td></td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Paso 6 &mdash; El recorrido de un alta</span>
+  <ol>
+    <li><code>formPersonas.php</code> muestra tres campos (<code>documento</code>, <code>nombres</code>, <code>apellido</code>) y manda por <code>POST</code> a <code>/php/procesoFormulario.php</code>.</li>
+    <li><code>procesoFormulario.php</code> corta con <code>die("No se recibieron Datos")</code> si falta alguno de los tres.</li>
+    <li>Crea <code>new PersonaClass()</code>: el constructor abre la conexión.</li>
+    <li>Valida cada dato con las funciones de la Clase 5 y solo si pasa lo carga:
+      <code>ctype_digit</code> para el documento (y lo pasa a entero),
+      <code>ctype_alpha</code> para apellido y nombres (y les aplica <code>htmlspecialchars</code>).</li>
+    <li>Llama a <code>addPersona()</code> y, según devuelva <code>true</code> o <code>false</code>, arma el mensaje <em>"Persona Agregada"</em> o <em>"Error al agregar Persona"</em>.</li>
+    <li>Muestra el mensaje en un cartel de Bootstrap con un botón para volver al formulario. Al terminar el script, <code>__destruct</code> cierra la conexión.</li>
+  </ol>
+
+  <span class="paso">Paso 7 &mdash; El listado: <code>listadoPersonas.php</code></span>
+<pre class="codigo"><code>$oPersona = new PersonaClass();
+
+$vPersonas = $oPersona-&gt;getAll();
+
+$filasTabla = "";
+
+foreach( $vPersonas as $index =&gt; $persona )
+{
+    $filasTabla .= "&lt;tr&gt;
+            &lt;th scope='row'&gt;".($index + 1)."&lt;/th&gt;
+            &lt;td&gt;".$persona['documento']."&lt;/td&gt;
+            &lt;td&gt;".$persona['nombres']."&lt;/td&gt;
+            &lt;td&gt;".$persona['apellido']."&lt;/td&gt;
+        &lt;/tr&gt;";
+}</code></pre>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Cómo quedan las variables</th></tr>
+      <tr><td>1</td><td>Crea el objeto: abre la conexión</td><td><code>$oPersona</code> = el objeto</td></tr>
+      <tr><td>3</td><td>Pide todas las personas como arreglo</td><td><code>$vPersonas</code> = 3 arreglos (con los datos de ejemplo)</td></tr>
+      <tr><td>7</td><td><code>foreach</code> recorre el arreglo: <code>$index</code> es la posición (desde 0) y <code>$persona</code> cada persona</td><td>vuelta 1: <code>$index</code> = 0, <code>$persona</code> = García</td></tr>
+      <tr><td>9-14</td><td>Agrega una fila HTML. <code>$index + 1</code> numera desde 1. El string ocupa varios renglones: los saltos y espacios quedan adentro, y el navegador los ignora</td><td><code>$filasTabla</code> crece una fila por vuelta</td></tr>
+    </table>
+  </div>
+  <p>Con estas filas en <code>personas</code> (<strong>datos de ejemplo</strong>, los de la teoría):</p>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th>documento</th><th>apellido</th><th>nombres</th></tr>
+      <tr><td>22333444</td><td>García</td><td>Gabriel</td></tr>
+      <tr><td>11222333</td><td>Bonnet</td><td>Federico</td></tr>
+      <tr><td>44555666</td><td>Aramburu</td><td>Exequiel</td></tr>
+    </table>
+  </div>
+  <p><code>$filasTabla</code> queda así (verificado corriendo ese <code>foreach</code> con esos datos):</p>
+<pre class="salida">&lt;tr&gt;
+                &lt;th scope='row'&gt;1&lt;/th&gt;
+                &lt;td&gt;22333444&lt;/td&gt;
+                &lt;td&gt;Gabriel&lt;/td&gt;
+                &lt;td&gt;García&lt;/td&gt;
+            &lt;/tr&gt;&lt;tr&gt;
+                &lt;th scope='row'&gt;2&lt;/th&gt;
+                &lt;td&gt;11222333&lt;/td&gt;
+                &lt;td&gt;Federico&lt;/td&gt;
+                &lt;td&gt;Bonnet&lt;/td&gt;
+            &lt;/tr&gt;&lt;tr&gt;
+                &lt;th scope='row'&gt;3&lt;/th&gt;
+                &lt;td&gt;44555666&lt;/td&gt;
+                &lt;td&gt;Exequiel&lt;/td&gt;
+                &lt;td&gt;Aramburu&lt;/td&gt;
+            &lt;/tr&gt;</pre>
+  <p>Y la página lo imprime dentro de una tabla con encabezado <em># / Documento / Nombre / Apellido</em>:</p>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th>#</th><th>Documento</th><th>Nombre</th><th>Apellido</th></tr>
+      <tr><td>1</td><td>22333444</td><td>Gabriel</td><td>García</td></tr>
+      <tr><td>2</td><td>11222333</td><td>Federico</td><td>Bonnet</td></tr>
+      <tr><td>3</td><td>44555666</td><td>Exequiel</td><td>Aramburu</td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Paso 8 &mdash; Cómo probarlo en tu PC</span>
+  <ol>
+    <li>Descomprimir el zip <strong>directamente en <code>htdocs</code></strong>, no en una subcarpeta (ver trampas).</li>
+    <li>En phpMyAdmin, crear la base <code>rrhh</code> con una tabla <code>personas</code>. El zip no trae la base; por el código, tiene que tener al menos estas columnas (deducido, los largos son de ejemplo):
+<pre class="codigo"><code>CREATE TABLE personas (
+    documento INT,
+    apellido  VARCHAR(50),
+    nombres   VARCHAR(50)
+);</code></pre>
+    </li>
+    <li>En <code>mysqliConn.php</code>, cambiar usuario y contraseña por los tuyos (<code>"root"</code> y <code>""</code>), o crear el usuario <code>fede</code> con permisos sobre <code>rrhh</code> (sección 2).</li>
+  </ol>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Errores y trampas del ejemplo</span>
+    <ul>
+      <li><strong>Rutas desde la raíz.</strong> El formulario manda a <code>/php/procesoFormulario.php</code> y las clases se incluyen con <code>$_SERVER['DOCUMENT_ROOT']</code>. Las dos cosas apuntan a la raíz de <code>htdocs</code>: si el sitio está en <code>htdocs/SitioEjemplo/</code>, el formulario da "Not Found" y los <code>require_once</code> no encuentran los archivos.</li>
+      <li><strong><code>TelefonoClass.php</code> declara otra vez <code>class PersonaClass</code></strong> (es una copia sin terminar). Si un script incluyera los dos archivos, PHP corta con <em>Fatal error: Cannot declare class PersonaClass, because the name is already in use</em> (verificado). Hoy ninguna página lo incluye, así que no molesta.</li>
+      <li><strong><code>ctype_alpha</code> rechaza tildes y espacios.</strong> Verificado: <code>"Garcia"</code> pasa, pero <code>"García"</code> y <code>"De la Fuente"</code> no. Cuando no pasa, el setter no se llama, ese dato queda vacío y la página no avisa por qué: la persona se guarda sin apellido o el INSERT falla, según cómo esté definida la tabla.</li>
+      <li><strong>La contraseña de la base está escrita en el código.</strong> Es normal (el código PHP no le llega al navegador), pero por eso ese archivo no se sube a un repositorio público. En este apunte está tapada.</li>
+    </ul>
+  </div>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Resumen</span>
+    <p>
+      Mismo esquema que la guía (conectar, <code>INSERT</code> preparado, <code>SELECT</code> +
+      <code>fetch_array</code> + tabla HTML), pero repartido: <code>ManagerMysqli</code> da la
+      conexión, <code>PersonaClass</code> es la única que habla con la tabla y las páginas solo
+      reciben arreglos y los muestran.
+    </p>
+  </div>
+</div>

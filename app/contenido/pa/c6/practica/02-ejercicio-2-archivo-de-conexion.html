@@ -1,0 +1,93 @@
+<div class="ej">
+  <span class="tag">Ejercicio 2 &middot; Conexión</span>
+  <h2>Creación de un archivo de conexión</h2>
+  <div class="enunciado">
+    <p>
+      Crear un script en PHP que permita establecer una conexión con el servidor MySQL. Las
+      credenciales de acceso deberán ser las siguientes: Servidor: localhost; Usuario: root;
+      Password: (sin contraseña). Utilice para esto las clases mysqli y mysqli_result de PHP.
+    </p>
+  </div>
+
+  <span class="paso">Paso 1 &mdash; Por qué un archivo aparte</span>
+  <p>
+    Los ejercicios 3, 4 y 5 necesitan conectarse a la base, y la conexión hay que abrirla en
+    <strong>cada script</strong> (sección 3 de la teoría). En vez de copiar las mismas líneas
+    tres veces, se escriben una vez en <code>conexion.php</code> y cada script lo incluye con
+    <code>require_once</code>. Si un día cambia la contraseña, se cambia en un solo lugar.
+  </p>
+  <p>
+    La clase <code>mysqli_result</code> que nombra el enunciado no aparece en este archivo:
+    es la del resultado de un SELECT, y se usa en el ejercicio 4.
+  </p>
+
+  <span class="paso">Paso 2 &mdash; Desarme del enunciado</span>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase del enunciado</th><th>Qué significa</th><th>A dónde va</th></tr>
+      <tr><td>"Servidor: localhost"</td><td>La base está en la misma PC</td><td>primer parámetro: <code>'localhost'</code></td></tr>
+      <tr><td>"Usuario: root"</td><td>El administrador de XAMPP</td><td>segundo: <code>'root'</code></td></tr>
+      <tr><td>"Password: (sin contraseña)"</td><td>Contraseña vacía</td><td>tercero: <code>''</code></td></tr>
+      <tr><td>(la base del ejercicio 1)</td><td>A qué base entrar</td><td>cuarto: <code>'DB_Comentarios'</code></td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Paso 3 &mdash; El código: <code>conexion.php</code></span>
+<pre class="codigo"><code>&lt;?php
+try {
+    $mysqli = new mysqli('localhost', 'root', '', 'DB_Comentarios');
+} catch (mysqli_sql_exception $e) {
+    echo "No se pudo establecer la conexión.&lt;br&gt;";
+    echo "Error número: " . $e-&gt;getCode() . "&lt;br&gt;";
+    echo "Error descripción: " . $e-&gt;getMessage();
+    exit;
+}
+
+$mysqli-&gt;set_charset('utf8');
+?&gt;</code></pre>
+
+  <span class="paso">Paso 4 &mdash; Qué hace cada línea</span>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Cómo quedan las variables</th></tr>
+      <tr><td>2</td><td>Intenta lo que sigue; si mysqli lanza una excepción, salta al <code>catch</code></td><td></td></tr>
+      <tr><td>3</td><td>Abre la conexión con las credenciales del enunciado</td><td><code>$mysqli</code> = la conexión</td></tr>
+      <tr><td>4</td><td>Si falló, atrapa la excepción</td><td><code>$e</code> = la excepción</td></tr>
+      <tr><td>5-7</td><td>Muestra el mensaje, el número y la descripción del error</td><td></td></tr>
+      <tr><td>8</td><td>Corta todo: sin conexión el script que lo incluyó no puede seguir</td><td></td></tr>
+      <tr><td>11</td><td>Pide que el texto viaje en UTF-8, para que tildes y eñes se guarden bien</td><td></td></tr>
+    </table>
+  </div>
+  <p>
+    Se usa <code>try</code>/<code>catch</code> y no el <code>if ($mysqli-&gt;connect_errno)</code>
+    de la teoría porque el PHP 8.2 de XAMPP lanza una excepción al fallar, y el <code>if</code>
+    nunca se llegaría a ejecutar (ejemplo 2 de la sección 3).
+  </p>
+
+  <span class="paso">Paso 5 &mdash; Qué se ve</span>
+  <p>
+    Si se abre <code>http://localhost/conexion.php</code> con MySQL prendido: <strong>una página
+    en blanco</strong>. Es lo correcto, porque no hay nada que mostrar; este archivo no se visita,
+    se incluye.
+  </p>
+  <p>Con MySQL apagado (verificado con un servidor inexistente), el navegador muestra:</p>
+<pre class="salida">No se pudo establecer la conexión.
+Error número: 2002
+Error descripción: No se puede establecer una conexión ya que el equipo de destino denegó expresamente dicha conexión</pre>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">El ejercicio 3 dice "punto 3"</span>
+    <p>
+      La guía dice "utilice el archivo de conexión desarrollado en el punto 3", pero el archivo
+      de conexión es este, el del punto 2. Es un error de numeración.
+    </p>
+  </div>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Resultado</span>
+    <p>
+      <code>conexion.php</code> deja abierta la conexión en <code>$mysqli</code> para quien lo
+      incluya, o corta con un mensaje si no puede conectar.
+    </p>
+  </div>
+</div>

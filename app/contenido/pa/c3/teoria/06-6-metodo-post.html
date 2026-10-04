@@ -1,0 +1,142 @@
+<div class="bloque">
+  <p class="kicker">Métodos de envío</p>
+  <h2>6. Método POST: los datos en el cuerpo</h2>
+
+  <h3>Para qué sirve</h3>
+  <p>
+    Con <code>method="post"</code> los datos <strong>no se agregan a la URL</strong>: viajan en el
+    <strong>cuerpo de la solicitud HTTP</strong>, la parte del mensaje que el navegador le manda
+    al servidor y que no se ve en la barra de direcciones.
+  </p>
+  <ul>
+    <li><strong>No hay límite</strong> práctico de tamaño ni de tipo de datos: sirve para textos largos y para archivos.</li>
+    <li>Los datos <strong>no quedan expuestos en la URL</strong>, así que una contraseña no aparece en la barra ni en el historial.</li>
+    <li>
+      Pero, como remarca la cátedra con tres signos de admiración, <strong>eso no quiere decir que
+      los datos se cifren</strong>: solamente no se ven en la barra de navegación. Cualquiera que
+      pueda leer el tráfico entre el navegador y el servidor los lee igual. Lo que cifra es
+      HTTPS, no POST.
+    </li>
+  </ul>
+
+  <h3>Sintaxis</h3>
+<pre class="codigo"><code>&lt;form action="script.php" method="post"&gt;</code></pre>
+
+  <h4>Qué es una solicitud HTTP</h4>
+  <p>
+    Cada vez que el navegador pide algo al servidor le manda un mensaje de texto, la
+    <strong>solicitud HTTP</strong> (<em>request</em>). Tiene tres partes: una primera línea con el
+    método y la dirección, unos <strong>encabezados</strong> (datos sobre el mensaje) y, separado
+    por una línea en blanco, el <strong>cuerpo</strong>. Con GET el cuerpo va vacío porque los
+    datos están en la dirección; con POST los datos van en el cuerpo.
+  </p>
+
+  <h3>GET y POST, lado a lado</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th></th><th>GET</th><th>POST</th></tr>
+      <tr><td class="lbl">Dónde viajan los datos</td><td>En la URL, después del <code>?</code></td><td>En el cuerpo de la solicitud</td></tr>
+      <tr><td class="lbl">¿Se ven en la barra?</td><td>Sí</td><td>No</td></tr>
+      <tr><td class="lbl">Tamaño</td><td>Limitado (unos 3000 caracteres)</td><td>Sin límite práctico</td></tr>
+      <tr><td class="lbl">¿Están cifrados?</td><td>No</td><td><strong>Tampoco</strong></td></tr>
+      <tr><td class="lbl">Se puede guardar en favoritos</td><td>Sí, con los datos incluidos</td><td>No</td></tr>
+      <tr><td class="lbl">En PHP llegan en</td><td><code>$_GET</code></td><td><code>$_POST</code></td></tr>
+      <tr><td class="lbl">Conviene para</td><td>Búsquedas, filtros, enlaces que se comparten</td><td>Contraseñas, textos largos, archivos, datos que se guardan</td></tr>
+    </table>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; El ejemplo de la cátedra</h3>
+
+<pre class="codigo"><code>&lt;form action="procesoFormulario.php" method="post"&gt;
+Nombre: &lt;input type="text" name="nombre"&gt;
+Apellido: &lt;input type="text" name="apellido"&gt;
+&lt;input type="submit" value="Enviar el formulario"&gt;
+&lt;/form&gt;</code></pre>
+
+  <p>
+    Es el mismo formulario de la sección 5, con <code>method="post"</code>. El usuario vuelve a
+    escribir <em>Federico</em> y <em>Bonnet</em>. La barra del navegador queda en
+    <code>http://localhost/procesoFormulario.php</code>, <strong>sin <code>?</code> ni datos</strong>.
+    Lo que viaja es esta solicitud (así la escribe la cátedra):
+  </p>
+
+<pre class="salida">POST / HTTP/1.1
+Host: localhost
+Content-Type: application / x-www-form-urlencoded
+Content-Length: 30
+
+nombre=Federico &amp; apellido=Bonnet</pre>
+
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué dice</th></tr>
+      <tr><td><code>POST / HTTP/1.1</code></td><td>Método POST, la dirección pedida, y la versión del protocolo</td></tr>
+      <tr><td><code>Host: localhost</code></td><td>A qué servidor va</td></tr>
+      <tr><td><code>Content-Type: ...</code></td><td>En qué formato está el cuerpo: <code>application/x-www-form-urlencoded</code> quiere decir "pares <code>nombre=valor</code> codificados como en una URL" (sección 5)</td></tr>
+      <tr><td><code>Content-Length: 30</code></td><td>Cuántos caracteres (bytes) tiene el cuerpo</td></tr>
+      <tr><td>(línea en blanco)</td><td>Separa los encabezados del cuerpo</td></tr>
+      <tr><td><code>nombre=Federico&amp;apellido=Bonnet</code></td><td>El cuerpo: los mismos pares que con GET iban en la URL</td></tr>
+    </table>
+  </div>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Tres detalles del ejemplo de la cátedra</span>
+    <p>La diapositiva lo simplifica. Una solicitud real tiene tres diferencias:</p>
+    <ul>
+      <li>La primera línea dice la dirección completa del script: <code>POST /procesoFormulario.php HTTP/1.1</code>, no <code>POST /</code>.</li>
+      <li>Ni el <code>Content-Type</code> ni el cuerpo llevan espacios: <code>application/x-www-form-urlencoded</code> y <code>nombre=Federico&amp;apellido=Bonnet</code>.</li>
+      <li>Ese cuerpo tiene <strong>31</strong> caracteres, no 30 (contado con Python: <code>len('nombre=Federico&amp;apellido=Bonnet')</code> da 31).</li>
+    </ul>
+    <p>La idea, que es lo que importa, es la misma: los pares van en el cuerpo y no en la URL.</p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; ¿GET o POST? (formato parcial)</h3>
+
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>Para cada formulario, indicá qué método conviene y por qué.</p>
+    <ol type="a">
+      <li>Ingreso al sistema con usuario y contraseña.</li>
+      <li>Un buscador de productos, cuyo resultado el usuario quiere mandarle a un amigo.</li>
+      <li>Un comentario de varios párrafos.</li>
+      <li>Subir una foto de perfil.</li>
+    </ol>
+  </div>
+
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Caso</th><th>Método</th><th>Por qué (característica de la cátedra)</th></tr>
+      <tr><td>a. Usuario y contraseña</td><td><strong>POST</strong></td><td>Con GET la contraseña quedaría visible en la URL: "no se debe utilizar GET para enviar datos confidenciales"</td></tr>
+      <tr><td>b. Buscador</td><td><strong>GET</strong></td><td>La URL lleva la búsqueda y se puede copiar o guardar: "útil para envíos donde un usuario desea marcar el resultado"</td></tr>
+      <tr><td>c. Comentario largo</td><td><strong>POST</strong></td><td>La URL está limitada a unos 3000 caracteres; POST no tiene límite</td></tr>
+      <tr><td>d. Foto</td><td><strong>POST</strong></td><td>Un archivo no entra en una URL; con POST "no tenemos límite en el tamaño y tipo de datos"</td></tr>
+    </table>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Errores y trampas</h3>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Lo que suele salir mal</span>
+    <ul>
+      <li>
+        <strong>"POST es seguro".</strong> No: POST esconde los datos de la barra, no los cifra.
+        Es la frase que la cátedra subraya.
+      </li>
+      <li>
+        <strong>Recargar después de un POST.</strong> Si apretás F5 en la página que mostró el
+        resultado, el navegador pregunta si querés <em>reenviar el formulario</em>: aceptar vuelve
+        a mandar los mismos datos (por ejemplo, el comentario se guardaría dos veces).
+      </li>
+      <li>
+        <strong>Cambiar el método obliga a cambiar el script.</strong> Si el formulario pasa de
+        <code>post</code> a <code>get</code>, el script tiene que leer de <code>$_GET</code> en vez
+        de <code>$_POST</code> (o usar <code>$_REQUEST</code>). Es el ejercicio 4 de la práctica.
+      </li>
+    </ul>
+  </div>
+</div>

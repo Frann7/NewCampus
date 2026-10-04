@@ -1,6 +1,7 @@
 /* ============================================================
    NEWCAMPUS - navegacion
    Ruta: #<materia>/<unidad>/<pestania>   ej: #pye/u4/teoria
+         #tareas y #calendario: son de todo el campus, van solas
    ============================================================ */
 
 /* Registro de apuntes. Tiene que existir antes que generado/indice.js.
@@ -103,8 +104,28 @@ window.NC = window.NC || {};
   // Pestanias que valen para toda la materia y no para una unidad puntual
   function esGlobal(tab) { return tab === EVALUACION || tab === CALENDARIO || tab === TAREAS; }
 
-  // La ruta del hash siempre lleva las tres partes, asi se recuerda la unidad.
-  function rutaDe(s) { return s.materia + "/" + s.unidad + "/" + s.tab; }
+  // Tareas y Calendario no son de ninguna materia: entradas fijas del menu
+  // lateral, con ruta propia (#tareas, #calendario).
+  function esDelCampus(tab) { return tab === CALENDARIO || tab === TAREAS; }
+
+  // La ruta del hash lleva las tres partes, asi se recuerda la unidad; Tareas
+  // y Calendario van solas. El state igual guarda la ultima materia y unidad.
+  function rutaDe(s) {
+    return esDelCampus(s.tab) ? s.tab : s.materia + "/" + s.unidad + "/" + s.tab;
+  }
+
+  // Lee una ruta ("pye/u5/teoria", "tareas"). Las viejas con Tareas o
+  // Calendario dentro de una materia ("pye/u7/tareas") valen igual: rutaDe
+  // las reescribe a la nueva. null si no se entiende.
+  function leerRuta(texto) {
+    var p = (texto || "").split("/");
+    if (p.length === 1 && esDelCampus(p[0])) {
+      var base = rutaPorDefecto();
+      return { materia: base.materia, unidad: base.unidad, tab: p[0] };
+    }
+    if (p.length === 3) { return { materia: p[0], unidad: p[1], tab: p[2] }; }
+    return null;
+  }
 
   // Lo que EXISTE lo dice el indice; el contenido puede no estar cargado todavia.
   function existePane(s) {
@@ -1282,6 +1303,9 @@ window.NC = window.NC || {};
       bloque.className = "materia";
       bloque.setAttribute("data-materia", m.clave);
       bloque.setAttribute("data-corto", m.corto || m.nombre);
+      var term = terminoDe(m);
+      bloque.setAttribute("data-termino", term.uno);
+      bloque.setAttribute("data-terminos", term.varios);
 
       var btn = document.createElement("button");
       btn.className = "materia-btn";
@@ -1334,6 +1358,20 @@ window.NC = window.NC || {};
     });
   }
 
+  // Como se llaman las partes de una materia: "Unidad" en PyE, "Clase" en PA.
+  // Sale del "num" de su primera parte en materias.json ("Clase 1" -> Clase).
+  function terminoDe(m) {
+    var num = m && m.unidades && m.unidades[0] ? String(m.unidades[0].num || "") : "";
+    var uno = (num.match(/^\s*([^\d\s]+)/) || [])[1] || "Unidad";
+    var varios = /[aeiou]$/i.test(uno) ? uno + "s" : uno + "es";
+    return { uno: uno, varios: varios };
+  }
+
+  window.NC.termino = function (clave) {
+    var m = materiasDelIndice().filter(function (x) { return x.clave === clave; })[0];
+    return terminoDe(m);
+  };
+
   // La primera materia con apuntes: es donde se para el campus si no hay
   // nada guardado ni nada en la direccion.
   function rutaPorDefecto() {
@@ -1352,11 +1390,13 @@ window.NC = window.NC || {};
      muestra cada uno ("evaluacion" es la pestania).
      ------------------------------------------------------------ */
 
+  function fichaDe(clave) {
+    return materiasDelIndice().filter(function (m) { return m.clave === clave; })[0] || null;
+  }
+
   function materialDeLaUnidad() {
-    var ficha = null;
-    materiasDelIndice().forEach(function (m) {
-      if (m.clave === state.materia) { ficha = m; }
-    });
+    if (esDelCampus(state.tab)) { return null; }
+    var ficha = fichaDe(state.materia);
     if (!ficha || !ficha.pdf || !ficha.material) { return null; }
 
     var donde = esGlobal(state.tab) ? state.tab : state.unidad;
@@ -1401,7 +1441,8 @@ window.NC = window.NC || {};
     asegurarPane(id, function (llego) {
       if (mio !== pedido) { return; }
       if (!llego || !insertarPane(id)) {
-        aviso("No encuentro los apuntes de esta unidad. Corré python construir.py en app/.", "error");
+        aviso("No encuentro los apuntes de esta " + terminoDe(fichaDe(state.materia)).uno.toLowerCase() +
+              ". Corré python construir.py en app/.", "error");
         return;
       }
       mostrarPane(id);
@@ -1439,6 +1480,14 @@ window.NC = window.NC || {};
         b.closest(".materia").getAttribute("data-materia") === state.materia);
     });
 
+    // Tareas y Calendario: entradas fijas del menu. Mientras se ven, la fila
+    // de pestanias de la materia no se muestra (no hay materia en pantalla).
+    var delCampus = esDelCampus(state.tab);
+    document.documentElement.classList.toggle("vista-campus", delCampus);
+    $$(".nav-fija-btn").forEach(function (b) {
+      b.classList.toggle("is-active", b.getAttribute("data-ir") === state.tab);
+    });
+
     // pestanias
     $$(".tab").forEach(function (t) {
       t.classList.toggle("is-active", t.getAttribute("data-tab") === state.tab);
@@ -1452,7 +1501,8 @@ window.NC = window.NC || {};
       '.materia[data-materia="' + state.materia + '"] .unidades button[data-unidad="' + state.unidad + '"]'
     );
     var nombreMateria = document.querySelector('.materia[data-materia="' + state.materia + '"] .m-nombre');
-    $("#crumb-materia").textContent = nombreMateria ? nombreMateria.textContent : "";
+    $("#crumb-materia").textContent = nombreMateria && !delCampus ? nombreMateria.textContent : "";
+    $("#crumb-sep").hidden = delCampus;
     $("#crumb-unidad").textContent = state.tab === EVALUACION ? "Evaluación"
       : state.tab === CALENDARIO ? "Calendario"
       : state.tab === TAREAS ? "Tareas"
@@ -1522,12 +1572,18 @@ window.NC = window.NC || {};
       });
     });
 
+    // Tareas y Calendario: la materia y la unidad quedan guardadas en el state
+    $$(".nav-fija-btn").forEach(function (b) {
+      b.addEventListener("click", function () { ir({ tab: b.getAttribute("data-ir") }); });
+    });
+
     window.addEventListener("hashchange", function () {
-      var partes = window.location.hash.slice(1).split("/");
-      if (partes.length === 3) {
-        state = { materia: partes[0], unidad: partes[1], tab: partes[2] };
-        render();
-      }
+      var r = leerRuta(window.location.hash.slice(1));
+      if (!r) { return; }
+      // a #tareas o #calendario se llega sin materia: se conserva la que habia
+      if (esDelCampus(r.tab) && state.materia) { r.materia = state.materia; r.unidad = state.unidad; }
+      state = r;
+      render();
     });
   }
 
@@ -1645,11 +1701,11 @@ window.NC = window.NC || {};
   /* ---------- arranque ---------- */
 
   function rutaInicial() {
-    var h = window.location.hash.slice(1).split("/");
-    if (h.length === 3) { return { materia: h[0], unidad: h[1], tab: h[2] }; }
+    var h = leerRuta(window.location.hash.slice(1));
+    if (h) { return h; }
     try {
-      var g = (localStorage.getItem(STORE_KEY) || "").split("/");
-      if (g.length === 3) { return { materia: g[0], unidad: g[1], tab: g[2] }; }
+      var g = leerRuta(localStorage.getItem(STORE_KEY));
+      if (g) { return g; }
     } catch (e) {}
     return rutaPorDefecto();
   }

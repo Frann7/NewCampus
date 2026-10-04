@@ -1,0 +1,149 @@
+<div class="bloque">
+  <p class="kicker">Métodos de envío</p>
+  <h2>5. Método GET: los datos en la URL</h2>
+
+  <h3>Para qué sirve</h3>
+  <p>
+    El atributo <code>method</code> del <code>&lt;form&gt;</code> dice <strong>cómo</strong>
+    viajan los datos del navegador al servidor. Hay dos métodos: <strong>get</strong> y
+    <strong>post</strong>. Con <strong>GET</strong>, los datos se <strong>pegan al final de la
+    URL</strong>, como pares <code>nombre=valor</code>.
+  </p>
+  <p>Las características que da la cátedra:</p>
+  <ul>
+    <li>Agrega los datos del formulario a la URL en pares nombre / valor.</li>
+    <li>La longitud de una URL es limitada (aproximadamente 3000 caracteres): no sirve para textos largos ni archivos.</li>
+    <li><strong>No se debe usar para datos confidenciales</strong>: todo queda visible en la barra de direcciones (y en el historial del navegador).</li>
+    <li>Es útil cuando el usuario quiere <strong>guardar el resultado</strong> en favoritos o compartirlo: la URL ya tiene todo (por ejemplo, una búsqueda).</li>
+  </ul>
+
+  <h3>Sintaxis</h3>
+<pre class="codigo"><code>&lt;form action="script.php" method="get"&gt;</code></pre>
+  <p>Y la URL que arma el navegador al enviar:</p>
+<pre class="codigo"><code>http://servidor/script.php?nombre1=valor1&amp;nombre2=valor2</code></pre>
+
+  <h3>Qué es cada parte de la URL</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Parte</th><th>Qué es</th></tr>
+      <tr><td><code>http://servidor/script.php</code></td><td>La dirección del script, la que dice <code>action</code></td></tr>
+      <tr><td><code>?</code></td><td>Separa la dirección de los datos. Todo lo que sigue se llama <em>query string</em> (cadena de consulta)</td></tr>
+      <tr><td><code>nombre1=valor1</code></td><td>Un par: el <code>name</code> del control, un <code>=</code>, y lo que cargó el usuario</td></tr>
+      <tr><td><code>&amp;</code></td><td>Separa un par del siguiente</td></tr>
+    </table>
+  </div>
+
+  <h4>Los caracteres especiales se codifican</h4>
+  <p>
+    Una URL no puede llevar espacios, acentos ni símbolos como <code>@</code> o <code>&amp;</code>
+    sueltos (el <code>&amp;</code> se confundiría con el separador). El navegador los
+    <strong>codifica</strong> antes de mandarlos, y PHP los <strong>decodifica</strong> solo al
+    recibirlos: en el script vas a ver el texto original.
+  </p>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th>Carácter</th><th>Viaja como</th></tr>
+      <tr><td>espacio</td><td><code>+</code></td></tr>
+      <tr><td><code>@</code></td><td><code>%40</code></td></tr>
+      <tr><td><code>á</code></td><td><code>%C3%A1</code></td></tr>
+      <tr><td><code>í</code></td><td><code>%C3%AD</code></td></tr>
+      <tr><td><code>&amp;</code></td><td><code>%26</code></td></tr>
+    </table>
+  </div>
+  <p>
+    El <code>%</code> seguido de dos símbolos es el código del carácter en hexadecimal; los
+    acentos ocupan dos códigos porque en UTF-8 se guardan en dos bytes. No hace falta
+    memorizarlos: alcanza con reconocer que una URL con <code>%</code> y <code>+</code> es texto
+    codificado.
+  </p>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; El ejemplo de la cátedra</h3>
+
+<pre class="codigo"><code>&lt;form action="procesoFormulario.php" method="get"&gt;
+Nombre: &lt;input type="text" name="nombre"&gt;
+Apellido: &lt;input type="text" name="apellido"&gt;
+&lt;input type="submit" value="Enviar el formulario"&gt;
+&lt;/form&gt;</code></pre>
+
+  <p>El usuario escribe <em>Federico</em> y <em>Bonnet</em> y aprieta el botón.</p>
+
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th></tr>
+      <tr><td>1</td><td>El destino es <code>procesoFormulario.php</code>, y el método, GET: los datos van a ir en la URL</td></tr>
+      <tr><td>2</td><td>Cuadro de texto con <code>name="nombre"</code> &rarr; par <code>nombre=Federico</code></td></tr>
+      <tr><td>3</td><td>Cuadro de texto con <code>name="apellido"</code> &rarr; par <code>apellido=Bonnet</code></td></tr>
+      <tr><td>4</td><td>El botón: al apretarlo, el navegador arma la URL y la pide</td></tr>
+    </table>
+  </div>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">La URL que queda en la barra del navegador</span>
+<pre class="salida">http://localhost/procesoFormulario.php?nombre=Federico&amp;apellido=Bonnet</pre>
+    <p>
+      La dirección del script, un <code>?</code>, y los dos pares separados por <code>&amp;</code>,
+      en el mismo orden en que están los controles en el formulario.
+    </p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; ¿Cómo queda la URL? (formato parcial)</h3>
+
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>
+      Con este formulario, el usuario escribe <em>Ana María</em> y <em>ana@mail.com</em>.
+      ¿Cuál es la URL que se pide al enviar?
+    </p>
+<pre class="codigo"><code>&lt;form action="registro.php" method="get"&gt;
+&lt;input type="text" name="nombre"&gt;
+&lt;input type="text" name="correo"&gt;
+&lt;input type="submit" value="Registrarme"&gt;
+&lt;/form&gt;</code></pre>
+  </div>
+
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Control</th><th>Par sin codificar</th><th>Cómo se codifica</th><th>Par en la URL</th></tr>
+      <tr><td><code>name="nombre"</code></td><td><code>nombre=Ana María</code></td><td>espacio &rarr; <code>+</code>; <code>í</code> &rarr; <code>%C3%AD</code></td><td><code>nombre=Ana+Mar%C3%ADa</code></td></tr>
+      <tr><td><code>name="correo"</code></td><td><code>correo=ana@mail.com</code></td><td><code>@</code> &rarr; <code>%40</code></td><td><code>correo=ana%40mail.com</code></td></tr>
+      <tr><td>botón</td><td>&mdash;</td><td>&mdash;</td><td>no envía nada (sin <code>name</code>)</td></tr>
+    </table>
+  </div>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+<pre class="salida">registro.php?nombre=Ana+Mar%C3%ADa&amp;correo=ana%40mail.com</pre>
+    <p>
+      Codificación comprobada con Python (<code>urllib.parse.urlencode</code>, que codifica igual
+      que un navegador al enviar un formulario). Y del lado de PHP, al recibirla,
+      <code>$_GET['nombre']</code> vale <code>Ana María</code> otra vez (se comprueba en la
+      sección 8).
+    </p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Errores y trampas</h3>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Lo que suele salir mal</span>
+    <ul>
+      <li>
+        <strong>Formulario de contraseña por GET.</strong> La clave queda escrita en la barra,
+        en el historial y en los registros del servidor. Para eso está POST.
+      </li>
+      <li>
+        <strong>GET es el método por defecto.</strong> Si el <code>&lt;form&gt;</code> no dice
+        <code>method</code> (o lo dice mal escrito), se envía por GET.
+      </li>
+      <li>
+        <strong>Un enlace también es un GET.</strong> <code>&lt;a href="ver.php?id=3"&gt;</code>
+        manda <code>id=3</code> por GET aunque no haya ningún formulario. Escribir la URL a mano
+        en la barra, también.
+      </li>
+    </ul>
+  </div>
+</div>

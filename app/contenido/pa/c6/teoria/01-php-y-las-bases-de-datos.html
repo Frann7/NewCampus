@@ -1,0 +1,134 @@
+<div class="bloque">
+  <p class="kicker">Sección 1 &middot; Teoría, página 1</p>
+  <h2>1. PHP y las bases de datos</h2>
+
+  <h3>Para qué sirve</h3>
+  <p>
+    Cada vez que alguien pide una página, PHP corre el script <strong>desde cero</strong> y, al
+    terminar, se olvida de todo: las variables no sobreviven de un pedido al siguiente. Si un
+    comentario tiene que seguir ahí mañana, hay que guardarlo <strong>afuera de PHP</strong>, en
+    un programa hecho para eso: un <strong>Sistema Gestor de Base de Datos</strong> (SGBD).
+  </p>
+  <p>
+    La cátedra lo dice así: PHP es un lenguaje <strong>del lado servidor</strong> y, como tal,
+    puede conectarse a los distintos SGBD del mercado. En la materia se usa uno solo,
+    <strong>MySQL/MariaDB</strong>, a través de la extensión <strong>mysqli</strong>.
+  </p>
+
+  <h3>Qué es cada parte</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Término</th><th>Qué es</th><th>En el ejemplo de la cátedra</th></tr>
+      <tr><td class="lbl">SGBD</td><td>El programa que guarda los datos, los ordena y responde pedidos. PHP no toca los archivos de datos: le pide las cosas al SGBD</td><td>MariaDB, que viene en XAMPP</td></tr>
+      <tr><td class="lbl">MySQL / MariaDB</td><td>Dos SGBD casi idénticos. MariaDB nació como una copia de MySQL y se maneja igual: mismas instrucciones, mismas funciones de PHP. Por eso la cátedra escribe "MySql / MariaDb" como si fueran uno</td><td>La M de XAMPP</td></tr>
+      <tr><td class="lbl">Base de datos</td><td>Un conjunto de tablas con un nombre. Un mismo servidor puede tener muchas bases</td><td><code>Personal</code></td></tr>
+      <tr><td class="lbl">Tabla</td><td>Una grilla de datos de un mismo tipo de cosa</td><td><code>personas</code></td></tr>
+      <tr><td class="lbl">Columna (campo)</td><td>Un dato que tiene cada fila, con un nombre y un tipo</td><td><code>documento</code>, <code>apellido</code></td></tr>
+      <tr><td class="lbl">Fila (registro)</td><td>Una cosa concreta guardada en la tabla</td><td>la persona Bonnet Federico</td></tr>
+      <tr><td class="lbl">Clave primaria</td><td>La columna que identifica a cada fila sin repetirse nunca</td><td><code>idPersona</code></td></tr>
+      <tr><td class="lbl">SQL</td><td>El idioma en que se le piden cosas al SGBD (<code>SELECT</code>, <code>INSERT</code>&hellip;). PHP arma el texto de la instrucción y el SGBD la ejecuta</td><td><code>SELECT * FROM personas</code></td></tr>
+      <tr><td class="lbl">mysqli</td><td>La extensión de PHP para hablar con MySQL/MariaDB. La <em>i</em> es de <em>improved</em> (mejorada): reemplazó a la vieja extensión <code>mysql</code>. Según la cátedra, sirve para MySQL 4.1 en adelante</td><td><code>new mysqli(...)</code></td></tr>
+      <tr><td class="lbl">Conexión</td><td>El canal abierto entre el script y el servidor de datos. <strong>Toda</strong> la comunicación pasa por ahí. La cátedra lo llama <strong>socket</strong>: un punto de conexión por el que van y vienen datos</td><td>la variable <code>$mysqli</code></td></tr>
+    </table>
+  </div>
+
+  <h3>El recorrido de un pedido</h3>
+  <p>Cuando alguien entra a una página que lista datos, pasa esto:</p>
+<pre class="codigo"><code>Navegador --pide listado.php--&gt; Apache --&gt; PHP corre listado.php
+                                             |
+                                             | 1. abre la conexión (socket)
+                                             | 2. manda el SQL
+                                             v
+                                       MySQL / MariaDB
+                                             |
+                                             | 3. devuelve las filas
+                                             v
+Navegador &lt;--recibe el HTML-- Apache &lt;-- PHP arma el HTML con las filas
+                                          y 4. cierra la conexión</code></pre>
+  <p>
+    El navegador <strong>nunca habla con la base</strong>: solo recibe el HTML terminado. Por
+    eso las credenciales de la base (usuario y contraseña) pueden estar en el código PHP: ese
+    código no le llega a quien mira la página.
+  </p>
+
+  <h3>Sintaxis: dos formas de escribir lo mismo</h3>
+  <p>
+    mysqli se puede usar de dos maneras. La teoría de la cátedra usa la primera; la tabla de
+    funciones de la guía y el parcial usan los nombres de la segunda. Hacen exactamente lo
+    mismo:
+  </p>
+<pre class="codigo"><code>// Estilo objetos (el de la teoría)
+$mysqli = new mysqli('127.0.0.1', 'root', '', 'Personal');
+$resultado = $mysqli-&gt;query('SELECT * FROM personas');
+
+// Estilo procedural (el de la guía y el parcial)
+$conexion = mysqli_connect('127.0.0.1', 'root', '', 'Personal');
+$resultado = mysqli_query($conexion, 'SELECT * FROM personas');</code></pre>
+
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Parte</th><th>Qué es</th></tr>
+      <tr><td><code>new mysqli(...)</code></td><td><code>new</code> crea un <strong>objeto</strong> de la clase <code>mysqli</code> (las clases de PHP se vieron en la Clase 5). Ese objeto <em>es</em> la conexión</td></tr>
+      <tr><td><code>$mysqli-&gt;query(...)</code></td><td>La flecha <code>-&gt;</code> llama a un <strong>método</strong> (una función que pertenece al objeto). Como el objeto ya es la conexión, no hace falta decirle cuál</td></tr>
+      <tr><td><code>mysqli_connect(...)</code></td><td>Una función común que abre la conexión y la devuelve</td></tr>
+      <tr><td><code>mysqli_query($conexion, ...)</code></td><td>Una función común: como no pertenece a ningún objeto, hay que pasarle <strong>la conexión como primer parámetro</strong></td></tr>
+    </table>
+  </div>
+  <p>
+    La regla para pasar de uno a otro: <code>$mysqli-&gt;algo(x)</code> se escribe
+    <code>mysqli_algo($mysqli, x)</code>. La tabla completa está en la sección 8.
+  </p>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; ¿Quién hace cada cosa?</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>
+      En la PC de la facultad, con XAMPP prendido, alguien abre
+      <code>http://localhost/listado.php</code>, que muestra las personas de la tabla
+      <code>personas</code>. Decir qué programa hace cada paso.
+    </p>
+  </div>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Paso</th><th>Quién lo hace</th><th>Por qué</th></tr>
+      <tr><td>Pedir <code>listado.php</code></td><td>El navegador</td><td>Es lo único que sabe hacer: pedir y mostrar</td></tr>
+      <tr><td>Recibir el pedido y pasárselo a PHP</td><td>Apache (la A de XAMPP)</td><td>Es el servidor web</td></tr>
+      <tr><td>Abrir la conexión y mandar <code>SELECT * FROM personas</code></td><td>PHP, con mysqli</td><td>Es código del script</td></tr>
+      <tr><td>Buscar las filas y devolverlas</td><td>MariaDB (la M de XAMPP)</td><td>Es el SGBD: el único que toca los datos</td></tr>
+      <tr><td>Armar la tabla HTML con las filas</td><td>PHP</td><td>Recorre el resultado y hace <code>echo</code></td></tr>
+      <tr><td>Mostrar la tabla</td><td>El navegador</td><td>Recibe HTML común; no sabe que hubo una base</td></tr>
+    </table>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; Verdadero o falso (formato del parcial)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>Indicar si cada afirmación es verdadera o falsa.</p>
+    <ol type="a">
+      <li>Una conexión abierta en <code>index.php</code> se puede usar después en <code>listado.php</code>.</li>
+      <li>La extensión mysqli sirve tanto para MySQL como para MariaDB.</li>
+      <li>El navegador se conecta a la base de datos para traer las filas.</li>
+      <li><code>$mysqli-&gt;query($sql)</code> y <code>mysqli_query($mysqli, $sql)</code> hacen lo mismo.</li>
+    </ol>
+  </div>
+  <ol type="a">
+    <li><strong>Falso.</strong> Cada script corre desde cero y al terminar se pierde todo. Por eso la cátedra dice que la conexión hay que hacerla <strong>en cada script</strong> que consulte la base.</li>
+    <li><strong>Verdadero.</strong> MariaDB se maneja igual que MySQL.</li>
+    <li><strong>Falso.</strong> La conexión la abre PHP, en el servidor. El navegador solo recibe HTML.</li>
+    <li><strong>Verdadero.</strong> Es el mismo pedido en los dos estilos: en el procedural la conexión va como primer parámetro.</li>
+  </ol>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">mysqli no es mysql</span>
+    <p>
+      En internet todavía aparecen ejemplos con <code>mysql_connect()</code> o
+      <code>mysql_query()</code> (sin la <em>i</em>). Esa extensión vieja ya no existe en PHP 7 ni
+      en PHP 8: en el XAMPP actual esas funciones dan <em>"Call to undefined function"</em>.
+      Siempre <code>mysqli_</code>.
+    </p>
+  </div>
+</div>

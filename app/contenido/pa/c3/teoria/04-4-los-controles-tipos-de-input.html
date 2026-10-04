@@ -1,0 +1,148 @@
+<div class="bloque" data-examen="igual" data-examen-ref="Parcial PHP · preg. 11" data-examen-nota="Textual: “El componente HTML INPUT tipo text”. Las opciones incorrectas describen password (no se ven los caracteres), hidden (no es visible) y file (sube un archivo).">
+  <p class="kicker">Formularios en HTML</p>
+  <h2>4. Los controles: tipos de input</h2>
+
+  <h3>Para qué sirve</h3>
+  <p>
+    El <code>&lt;input&gt;</code> es un solo elemento que se convierte en controles muy distintos
+    según su atributo <strong><code>type</code></strong>: un cuadro de texto, un campo de
+    contraseña, un botón, un selector de archivo. La cátedra los menciona como las
+    <em>"formas que pueden ir desde líneas de texto a subida de archivos, pasando por opciones,
+    fechas, contraseñas y otras más"</em>.
+  </p>
+
+  <h3>Sintaxis</h3>
+<pre class="codigo"><code>&lt;input type="tipo" name="nombreDelDato" value="valor inicial"&gt;</code></pre>
+
+  <h3>Qué es cada tipo</h3>
+  <p>Los cuatro primeros son los que aparecen en la pregunta 11 del parcial:</p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th><code>type</code></th><th>Qué control es</th><th>Qué ve el usuario</th></tr>
+      <tr><td><code>text</code></td><td><strong>Una línea de texto.</strong> El usuario escribe y ve lo que escribe. Es el tipo por defecto: un <code>&lt;input&gt;</code> sin <code>type</code> es un <code>text</code></td><td>Un cuadro con lo que va escribiendo</td></tr>
+      <tr><td><code>password</code></td><td>Una línea de texto <strong>oculta</strong>: cada carácter se muestra como un punto o un asterisco</td><td><code>••••••</code></td></tr>
+      <tr><td><code>hidden</code></td><td>Un dato <strong>invisible</strong>: no aparece en la página, pero viaja con el formulario. Su valor lo pone el programador en <code>value</code>, no el usuario</td><td>Nada</td></tr>
+      <tr><td><code>file</code></td><td>Para elegir un <strong>archivo</strong> de la computadora y mandarlo al servidor</td><td>Un botón "Seleccionar archivo"</td></tr>
+      <tr><td><code>submit</code></td><td>El botón que <strong>envía</strong> el formulario. <code>value</code> es su texto</td><td>Un botón</td></tr>
+      <tr><td><code>reset</code></td><td>El botón que <strong>borra</strong> lo que se cargó y deja el formulario como al principio. No envía nada</td><td>Un botón</td></tr>
+      <tr><td><code>email</code></td><td>Una línea de texto que el navegador revisa que tenga forma de correo (con <code>@</code>) antes de enviar</td><td>Un cuadro de texto</td></tr>
+      <tr><td><code>date</code></td><td>Una fecha. Llega al servidor como <code>año-mes-día</code> (<code>2001-05-09</code>)</td><td>Un cuadro con calendario</td></tr>
+      <tr><td><code>checkbox</code></td><td>Una casilla para tildar (sí / no)</td><td>&#9744;</td></tr>
+      <tr><td><code>radio</code></td><td>Una opción entre varias con el mismo <code>name</code>: se puede marcar <strong>una sola</strong></td><td>&#9675;</td></tr>
+    </table>
+  </div>
+
+  <h4>Otros controles que no son input</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Elemento</th><th>Qué es</th></tr>
+      <tr><td><code>&lt;textarea name="..." rows="8" cols="30"&gt;&lt;/textarea&gt;</code></td><td>Texto de <strong>varias líneas</strong> (un comentario). Sí tiene cierre; lo que va entre las etiquetas es el texto inicial. <code>rows</code> y <code>cols</code>: alto en renglones y ancho en caracteres</td></tr>
+      <tr><td><code>&lt;select name="..."&gt;</code> con <code>&lt;option value="..."&gt;</code></td><td>Una <strong>lista desplegable</strong>. Viaja el <code>value</code> de la opción elegida, no el texto que se ve</td></tr>
+      <tr><td><code>&lt;button type="submit"&gt;Enviar&lt;/button&gt;</code></td><td>Otra forma de hacer el botón de enviar, con el texto entre las etiquetas</td></tr>
+      <tr><td><code>&lt;label for="id"&gt;</code></td><td>El rótulo de un control. Si su <code>for</code> coincide con el <code>id</code> del control, hacer clic en el rótulo pone el cursor en el control</td></tr>
+    </table>
+  </div>
+  <p>
+    Y un atributo que vas a ver en el sitio de la práctica: <code>required</code>, que marca un
+    control como <strong>obligatorio</strong>. Si está vacío, el navegador no deja enviar.
+  </p>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; Un formulario de ingreso</h3>
+
+<pre class="codigo"><code>&lt;form action="ingreso.php" method="post"&gt;
+Usuario: &lt;input type="text" name="usuario"&gt;
+Clave: &lt;input type="password" name="clave"&gt;
+&lt;input type="hidden" name="origen" value="inicio"&gt;
+&lt;input type="submit" value="Ingresar"&gt;
+&lt;/form&gt;</code></pre>
+
+  <p>El usuario escribe <code>fran</code> y la clave <code>secreta123</code>.</p>
+
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Qué se ve</th><th>Qué par envía</th></tr>
+      <tr><td>1</td><td>Abre el formulario, hacia <code>ingreso.php</code> por POST</td><td>Nada</td><td>&mdash;</td></tr>
+      <tr><td>2</td><td>Cuadro de texto común</td><td>"Usuario:" y el cuadro con <code>fran</code></td><td><code>usuario=fran</code></td></tr>
+      <tr><td>3</td><td>Cuadro de contraseña</td><td>"Clave:" y <code>••••••••••</code></td><td><code>clave=secreta123</code></td></tr>
+      <tr><td>4</td><td>Dato oculto que puso el programador</td><td><strong>Nada</strong></td><td><code>origen=inicio</code></td></tr>
+      <tr><td>5</td><td>Botón de enviar</td><td>El botón <em>Ingresar</em></td><td>ninguno (no tiene <code>name</code>)</td></tr>
+    </table>
+  </div>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Qué llega al servidor</span>
+    <p>
+      Tres pares: <code>usuario=fran</code>, <code>clave=secreta123</code> y
+      <code>origen=inicio</code>. La clave llega <strong>escrita normal</strong>: el tipo
+      <code>password</code> solo la tapa en la pantalla. Y el <code>hidden</code> llega aunque el
+      usuario nunca lo haya visto. Lo comprobamos corriendo PHP en la sección 8.
+    </p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; La pregunta 11 del parcial</h3>
+
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado (Parcial PHP, preg. 11)</span>
+    <p>El componente HTML "INPUT" tipo text:</p>
+    <ol type="a">
+      <li>Nos permite el ingreso de una cadena de texto pero no vemos los caracteres que ingresamos.</li>
+      <li>Nos permite ingresar una cadena de texto pero no es visible dentro del formulario.</li>
+      <li>Nos permite ingresar una cadena de texto.</li>
+      <li>Nos permite ingresar un archivo para ser enviado al servidor.</li>
+    </ol>
+  </div>
+
+  <p>Cada opción incorrecta describe <strong>otro</strong> tipo de la tabla:</p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Opción</th><th>Qué tipo describe</th><th>¿Es text?</th></tr>
+      <tr><td>a. "no vemos los caracteres"</td><td><code>password</code></td><td>No</td></tr>
+      <tr><td>b. "no es visible dentro del formulario"</td><td><code>hidden</code></td><td>No</td></tr>
+      <tr><td>c. "ingresar una cadena de texto"</td><td><code>text</code></td><td><strong>Sí</strong></td></tr>
+      <tr><td>d. "ingresar un archivo"</td><td><code>file</code></td><td>No</td></tr>
+    </table>
+  </div>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>
+      <strong>c.</strong> El <code>input</code> tipo <code>text</code> permite ingresar una cadena
+      de texto (de una línea), y el usuario ve lo que escribe.
+    </p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Errores y trampas</h3>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Lo que suele salir mal</span>
+    <ul>
+      <li>
+        <strong><code>password</code> no es seguridad.</strong> Solo tapa los caracteres en la
+        pantalla. Si el formulario va por GET, la clave aparece escrita en la URL (sección 5).
+      </li>
+      <li>
+        <strong><code>hidden</code> no es secreto.</strong> No se ve en la página, pero está en
+        el código HTML (clic derecho &rarr; "Ver código fuente") y el usuario lo puede cambiar.
+      </li>
+      <li>
+        <strong><code>file</code> necesita más.</strong> Para que el archivo viaje, el
+        <code>&lt;form&gt;</code> tiene que ser <code>method="post"</code> y llevar
+        <code>enctype="multipart/form-data"</code>; si no, solo viaja el nombre del archivo. En
+        esta clase no se desarrolla.
+      </li>
+      <li>
+        <strong>Una casilla (<code>checkbox</code>) sin tildar no se envía.</strong> No llega
+        vacía: directamente no llega.
+      </li>
+      <li>
+        <strong><code>reset</code> no envía.</strong> Solo vacía el formulario en el navegador; al
+        servidor no le llega nada.
+      </li>
+    </ul>
+  </div>
+</div>

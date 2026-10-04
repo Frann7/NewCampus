@@ -1,0 +1,101 @@
+<div class="ej">
+  <span class="tag">Ejercicio 1 &middot; phpMyAdmin</span>
+  <h2>Creación de la base de datos</h2>
+  <div class="enunciado">
+    <p>
+      Haciendo uso de PhpMyAdmin, cree una base de datos de nombre <code>DB_Comentarios</code>.
+      Dicha base de datos deberá contener una sola tabla de nombre <code>comentarios</code> con los
+      siguientes campos: <code>id_comentario</code>: INTEGER, not null, autoincrement;
+      <code>nombre</code>: VARCHAR(100); <code>asunto</code>: VARCHAR(150); <code>correo</code>:
+      VARCHAR(100); <code>comentario</code>: VARCHAR(250). El campo <code>id_comentario</code>
+      deberá ser definido como clave primaria de la tabla al momento de crear la misma.
+    </p>
+  </div>
+
+  <span class="paso">Paso 1 &mdash; Qué pide</span>
+  <p>
+    Una tabla con una columna por cada campo del formulario de contacto de la Clase 3 (nombre,
+    asunto, correo, comentario), más un número que identifique a cada comentario. Ese número
+    tiene que ser <strong>clave primaria</strong> (no se repite) y <strong>autoincremental</strong>
+    (lo pone la base), como se vio en la sección 2 de la teoría.
+  </p>
+
+  <span class="paso">Paso 2 &mdash; Desarme del enunciado</span>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase del enunciado</th><th>Qué significa</th><th>En phpMyAdmin</th></tr>
+      <tr><td>"base de datos de nombre DB_Comentarios"</td><td>La base</td><td>Nueva &rarr; <code>DB_Comentarios</code> &rarr; Crear</td></tr>
+      <tr><td>"una sola tabla de nombre comentarios"</td><td>La tabla, con 5 columnas</td><td>Nombre <code>comentarios</code>, 5 columnas</td></tr>
+      <tr><td>"INTEGER"</td><td>Número entero</td><td>Tipo <code>INT</code></td></tr>
+      <tr><td>"not null"</td><td>Obligatorio</td><td>Nulo sin tildar</td></tr>
+      <tr><td>"autoincrement"</td><td>Lo numera la base</td><td>A_I tildado</td></tr>
+      <tr><td>"VARCHAR(100)"</td><td>Texto de hasta 100 caracteres</td><td>Tipo <code>VARCHAR</code>, Longitud <code>100</code></td></tr>
+      <tr><td>"clave primaria"</td><td>Identifica la fila, no se repite</td><td>Índice <code>PRIMARY</code></td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Paso 3 &mdash; El formulario de la tabla</span>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Nombre</th><th>Tipo</th><th>Longitud</th><th>Nulo</th><th>Índice</th><th>A_I</th></tr>
+      <tr><td><code>id_comentario</code></td><td>INT</td><td></td><td>no</td><td>PRIMARY</td><td>sí</td></tr>
+      <tr><td><code>nombre</code></td><td>VARCHAR</td><td>100</td><td>sí</td><td></td><td></td></tr>
+      <tr><td><code>asunto</code></td><td>VARCHAR</td><td>150</td><td>sí</td><td></td><td></td></tr>
+      <tr><td><code>correo</code></td><td>VARCHAR</td><td>100</td><td>sí</td><td></td><td></td></tr>
+      <tr><td><code>comentario</code></td><td>VARCHAR</td><td>250</td><td>sí</td><td></td><td></td></tr>
+    </table>
+  </div>
+  <p>
+    Las otras cuatro columnas no dicen "not null", así que el enunciado no exige nada: el SQL de
+    abajo las deja opcionales (Nulo tildado). Si quedan sin tildar tampoco molesta, porque el
+    formulario siempre manda los cuatro campos, aunque sea vacíos. Motor: InnoDB, el de fábrica.
+  </p>
+
+  <span class="paso">Paso 4 &mdash; El SQL equivalente</span>
+  <p>Es lo que phpMyAdmin ejecuta al guardar. También se puede pegar en la pestaña SQL y da lo mismo:</p>
+<pre class="codigo"><code>CREATE DATABASE DB_Comentarios;
+
+CREATE TABLE comentarios (
+    id_comentario INT NOT NULL AUTO_INCREMENT,
+    nombre        VARCHAR(100),
+    asunto        VARCHAR(150),
+    correo        VARCHAR(100),
+    comentario    VARCHAR(250),
+    PRIMARY KEY (id_comentario)
+);</code></pre>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th></tr>
+      <tr><td><code>CREATE DATABASE DB_Comentarios;</code></td><td>Crea la base vacía</td></tr>
+      <tr><td><code>id_comentario INT NOT NULL AUTO_INCREMENT,</code></td><td>Entero, obligatorio, numerado por la base</td></tr>
+      <tr><td><code>nombre VARCHAR(100),</code> &hellip; <code>comentario VARCHAR(250),</code></td><td>Las cuatro columnas de texto, cada una con su largo máximo</td></tr>
+      <tr><td><code>PRIMARY KEY (id_comentario)</code></td><td>La clave primaria</td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Paso 5 &mdash; Qué se ve</span>
+  <p>
+    En el panel izquierdo aparece la base y, adentro, la tabla <code>comentarios</code>. En su
+    pestaña <strong>Estructura</strong> se ven las cinco columnas, con una llave al lado de
+    <code>id_comentario</code> (clave primaria) y <code>AUTO_INCREMENT</code> en la columna Extra.
+    La tabla todavía está vacía: las filas las va a cargar el ejercicio 3.
+  </p>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">En Windows la base aparece en minúsculas</span>
+    <p>
+      MariaDB en Windows guarda los nombres en minúsculas: vas a ver <code>db_comentarios</code>.
+      No es un error, y conectarse con <code>'DB_Comentarios'</code> funciona igual.
+    </p>
+  </div>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Resultado</span>
+    <p>
+      Base <code>DB_Comentarios</code> con la tabla <code>comentarios</code>: <code>id_comentario</code>
+      INT clave primaria autoincremental, y <code>nombre</code>, <code>asunto</code>,
+      <code>correo</code>, <code>comentario</code> de tipo VARCHAR(100), (150), (100) y (250). La
+      guía no tiene hoja de resultados.
+    </p>
+  </div>
+</div>

@@ -1,0 +1,192 @@
+<div class="bloque">
+  <p class="kicker">Sesiones</p>
+  <h2>1. Qué es una sesión: <code>session_start()</code> y <code>session_id()</code></h2>
+
+  <h3>Para qué sirve</h3>
+  <p>
+    Cada vez que el navegador pide una página, el servidor ejecuta el script PHP desde cero y
+    después se olvida de todo. Si en <code>index.php</code> guardás algo en una variable, en
+    <code>home.php</code> esa variable ya no existe. El servidor ni siquiera sabe que el que pide
+    <code>home.php</code> es el mismo que recién pidió <code>index.php</code>.
+  </p>
+  <p>
+    La <strong>sesión</strong> resuelve eso: es una técnica para <strong>reconocer a un mismo
+    navegador</strong> en todas las páginas del sitio y guardarle datos propios (su usuario, lo que
+    eligió, un código secreto). Cada navegador que entra tiene <strong>su</strong> sesión, separada
+    de las de los demás.
+  </p>
+
+  <h4>Cómo funciona, paso por paso</h4>
+  <p>Primero una palabra que aparece en todo el tema:</p>
+  <ul>
+    <li>
+      Una <strong>cookie</strong> es un dato chiquito que el servidor le pide al navegador que
+      guarde. A partir de ahí, el navegador lo manda de vuelta, solo, en cada pedido que haga a ese
+      mismo sitio.
+    </li>
+  </ul>
+  <p>Con eso, la sesión funciona así:</p>
+  <ol>
+    <li>
+      El navegador entra por primera vez a una página que llama a <code>session_start()</code>.
+      Como no trae ningún código, PHP <strong>inventa uno nuevo</strong>, por ejemplo
+      <code>88dv0geee5t95rbubuatcr5r6v</code>. Ese código es el <strong>id de sesión</strong>.
+    </li>
+    <li>
+      El servidor crea un archivo con ese nombre (en XAMPP, en <code>C:\xampp\tmp\</code>, se llama
+      <code>sess_88dv0geee5t95rbubuatcr5r6v</code>). Ahí va a guardar los datos de ese navegador.
+    </li>
+    <li>
+      La respuesta le pide al navegador que guarde el código como cookie. La cookie se llama
+      <code>PHPSESSID</code>.
+    </li>
+    <li>
+      En el pedido siguiente (a esa página o a otra del sitio), el navegador manda la cookie
+      <code>PHPSESSID=88dv0geee5t95rbubuatcr5r6v</code>. <code>session_start()</code> la ve, abre
+      ese mismo archivo y <strong>recupera</strong> los datos que había.
+    </li>
+  </ol>
+  <p>
+    Por eso la cátedra dice que el código queda guardado en dos lados: <strong>en el servidor, en un
+    archivo</strong>, y <strong>en el navegador, como cookie</strong>.
+  </p>
+
+  <h3>Sintaxis</h3>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Las dos funciones</span>
+<pre class="codigo"><code>session_start();   // crea la sesión, o reanuda la que ya existe
+session_id();      // devuelve el id de la sesión actual</code></pre>
+  </div>
+
+  <h3>Qué es cada parte</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Parte</th><th>Qué es</th></tr>
+      <tr><td class="lbl"><code>session_start()</code></td><td>Si el navegador no trajo cookie, crea una sesión nueva. Si la trajo, <strong>reanuda</strong> la que ya existía (la guía lo dice así: "crea una sesión o reanuda una sesión ya establecida"). Se llama en <strong>cada</strong> script que use la sesión.</td></tr>
+      <tr><td class="lbl"><code>session_id()</code></td><td>Devuelve el id de la sesión como texto. Antes de <code>session_start()</code> devuelve el texto vacío <code>""</code>.</td></tr>
+      <tr><td class="lbl">id de sesión</td><td>El código único que identifica al navegador (en XAMPP, 26 letras minúsculas y números).</td></tr>
+      <tr><td class="lbl"><code>PHPSESSID</code></td><td>El nombre de la cookie que guarda el id en el navegador.</td></tr>
+      <tr><td class="lbl">archivo <code>sess_&lt;id&gt;</code></td><td>Donde el servidor guarda los datos de esa sesión.</td></tr>
+    </table>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; Mostrar el id de la sesión</h3>
+
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>
+      El archivo <code>id.php</code> tiene el código de abajo. ¿Qué se ve al abrirlo? ¿Y al
+      recargarlo? ¿Y si lo abre otro navegador?
+    </p>
+  </div>
+
+<pre class="codigo"><code>&lt;?php
+session_start();
+echo session_id();</code></pre>
+
+  <h4>Qué hace cada línea</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Cómo queda</th></tr>
+      <tr><td><code>session_start();</code></td><td>La primera vez, el navegador no trae cookie: PHP crea un id nuevo, crea el archivo y manda la cookie <code>PHPSESSID</code>. Las veces siguientes, la cookie llega y PHP reanuda esa misma sesión.</td><td>Hay una sesión abierta con un id</td></tr>
+      <tr><td><code>echo session_id();</code></td><td>Imprime el id de esa sesión.</td><td>&mdash;</td></tr>
+    </table>
+  </div>
+
+  <h4>Qué imprime y por qué</h4>
+  <p>La primera vez, un código de 26 caracteres. En la prueba salió:</p>
+<pre class="salida">iim40atq7ceuvr1sldj4i0bf7b</pre>
+  <ul>
+    <li>
+      <strong>Al recargar</strong> sale <strong>el mismo</strong> código: el navegador mandó la cookie
+      y <code>session_start()</code> reanudó la sesión en vez de crear otra.
+    </li>
+    <li>
+      <strong>Desde otro navegador</strong> (o una ventana privada) sale <strong>otro</strong> código,
+      porque ese navegador no tiene la cookie. En la prueba: <code>vvb0pm4ubuvopc7acv49f39fub</code>.
+    </li>
+    <li>El código exacto es al azar: en tu máquina va a ser otro.</li>
+  </ul>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; ¿Cuál es la salida? (formato del parcial)</h3>
+
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>¿Cuál es la salida del siguiente script, abierto por primera vez en el navegador?</p>
+  </div>
+
+<pre class="codigo"><code>&lt;?php
+echo 'Antes: [' . session_id() . '] ';
+session_start();
+echo 'Después: [' . session_id() . ']';</code></pre>
+
+  <h4>Qué hace cada línea</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Cómo queda</th></tr>
+      <tr><td><code>echo 'Antes: [' . session_id() . '] ';</code></td><td>Todavía no se llamó a <code>session_start()</code>, así que no hay sesión: <code>session_id()</code> devuelve <code>""</code>. El punto <code>.</code> concatena (pega) los textos.</td><td>Salida: <code>Antes: [] </code></td></tr>
+      <tr><td><code>session_start();</code></td><td>Crea la sesión con un id nuevo.</td><td>Hay sesión</td></tr>
+      <tr><td><code>echo 'Después: [' . session_id() . ']';</code></td><td>Ahora sí hay id y se imprime entre corchetes.</td><td>Salida: <code>Después: [87p3ut3sgmt0p7p2ij79fooapj]</code></td></tr>
+    </table>
+  </div>
+
+  <h4>Qué imprime y por qué</h4>
+<pre class="salida">Antes: [] Después: [87p3ut3sgmt0p7p2ij79fooapj]</pre>
+  <p>
+    Los corchetes de "Antes" quedan vacíos porque sin <code>session_start()</code> no hay id. El id
+    de "Después" es al azar.
+  </p>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Por qué <code>session_start()</code> va antes que cualquier salida</span>
+    <p>
+      La cookie viaja en la <strong>cabecera</strong> de la respuesta (una parte que va antes del
+      HTML). Una vez que el script empezó a mandar texto con <code>echo</code> o con HTML, la
+      cabecera ya salió y no se le puede agregar la cookie.
+    </p>
+    <ul>
+      <li>
+        En <strong>XAMPP</strong> el ejemplo 2 funciona igual, porque su <code>php.ini</code> trae
+        <code>output_buffering=4096</code>: PHP junta los primeros 4096 bytes de salida antes de
+        mandarlos, y llega a tiempo de meter la cookie.
+      </li>
+      <li>
+        En un servidor <strong>sin</strong> ese buffer (se probó con <code>output_buffering=0</code>)
+        sale <code>Warning: session_start(): Session cannot be started after headers have already
+        been sent</code>, la sesión no arranca y se ve <code>Después: []</code>.
+      </li>
+    </ul>
+    <p>
+      Por eso, en todos los ejemplos de la cátedra, <code>session_start()</code> es
+      <strong>la primera línea</strong> del archivo, antes del <code>&lt;!DOCTYPE html&gt;</code>.
+    </p>
+  </div>
+
+  <h3>Errores y trampas</h3>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Lo que más se confunde</span>
+    <ul>
+      <li>
+        <strong><code>session_start()</code> va en cada script</strong> que use la sesión, no solo
+        en el primero. Si en <code>home.php</code> te lo olvidás, <code>$_SESSION</code> (sección 2)
+        no existe: se probó y sale <code>Warning: Undefined global variable $_SESSION</code>, aunque
+        la sesión tenga datos.
+      </li>
+      <li>
+        <strong>El servidor no guarda "al usuario"</strong>, guarda <strong>al navegador</strong>.
+        Dos navegadores en la misma computadora son dos sesiones distintas.
+      </li>
+      <li>
+        <strong>La sesión no dura para siempre.</strong> En XAMPP la cookie dura hasta que se cierra
+        el navegador, y el servidor borra los archivos de sesión que pasaron 1440 segundos
+        (24 minutos) sin usarse (<code>session.gc_maxlifetime=1440</code> en el
+        <code>php.ini</code>).
+      </li>
+      <li>El PDF escribe "SESSIONES" con doble s: la palabra es <strong>sesiones</strong> (en inglés, <em>session</em>).</li>
+    </ul>
+  </div>
+</div>

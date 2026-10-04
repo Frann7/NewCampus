@@ -1,0 +1,167 @@
+<div class="ej">
+  <span class="tag">Ejemplo de la cátedra &middot; ejemplo.zip</span>
+  <h2>Un mini sitio que arma una tabla con foreach</h2>
+  <div class="enunciado">
+    <p>
+      La carpeta de práctica de la Clase 2 trae un <code>ejemplo.zip</code>: un pequeño "Sistema
+      Recursos Humanos" con tres páginas (inicio, formulario de personas y listado de personas).
+      Lo que toca a esta clase es cómo el listado se arma <strong>recorriendo un arreglo
+      multidimensional con <code>foreach</code></strong>.
+    </p>
+  </div>
+
+  <span class="paso">Paso 1 &mdash; Qué archivos tiene</span>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Archivo</th><th>Qué es</th></tr>
+      <tr><td><code>inicio.php</code></td><td>Página de inicio, con tres botones a las otras páginas</td></tr>
+      <tr><td><code>formPersonas.php</code></td><td>Formulario para cargar una persona</td></tr>
+      <tr><td><code>listadoPersonas.php</code></td><td>Tabla con las personas</td></tr>
+      <tr><td><code>includes/head.php</code></td><td>Pedazo común: el <code>&lt;head&gt;</code> (título, ícono, estilos de Bootstrap) y la apertura del <code>&lt;body&gt;</code></td></tr>
+      <tr><td><code>includes/menu.php</code></td><td>Pedazo común: la barra de navegación</td></tr>
+      <tr><td><code>includes/footer.php</code></td><td>Pedazo común: el script de Bootstrap y el cierre de <code>&lt;body&gt;</code> y <code>&lt;html&gt;</code></td></tr>
+      <tr><td><code>php/datosTabla.php</code></td><td>El arreglo de personas y el <code>foreach</code> que arma las filas de la tabla</td></tr>
+      <tr><td><code>php/procesoFormulario.php</code></td><td>El script que recibe los datos del formulario</td></tr>
+      <tr><td><code>imgs/</code></td><td>El logo (<code>desarrollo-web.svg</code>) y el ícono de la pestaña (<code>favicon.ico</code>)</td></tr>
+    </table>
+  </div>
+  <p>
+    <strong>Bootstrap</strong> es una librería de estilos: las clases como <code>btn btn-info</code>
+    o <code>table</code> que aparecen en el HTML le dan el aspecto a botones y tablas. No es PHP.
+  </p>
+
+  <span class="paso">Paso 2 &mdash; Cómo se arma cada página: require_once</span>
+<pre class="codigo"><code>&lt;!DOCTYPE html&gt;
+&lt;html lang="es"&gt;
+&lt;?php require_once 'includes/head.php';?&gt;
+&lt;?php require_once 'includes/menu.php'; ?&gt;
+    ... el contenido propio de la página ...
+&lt;?php require_once 'includes/footer.php'; ?&gt;</code></pre>
+  <ul>
+    <li><code>require_once 'archivo.php';</code> <strong>inserta en ese lugar</strong> el contenido de otro archivo, como si estuviera escrito ahí. Si el archivo ya se había insertado antes, no lo repite (eso es el <code>_once</code>, "una vez").</li>
+    <li>Así, el encabezado, el menú y el pie se escriben <strong>una sola vez</strong> y las tres páginas los comparten: si se cambia el menú, cambia en todas.</li>
+    <li>Las etiquetas quedan repartidas: <code>head.php</code> abre el <code>&lt;body&gt;</code> y un <code>&lt;div class="container"&gt;</code>, y <code>footer.php</code> cierra <code>&lt;/body&gt;</code> y <code>&lt;/html&gt;</code>.</li>
+  </ul>
+
+  <span class="paso">Paso 3 &mdash; El arreglo y el foreach (php/datosTabla.php)</span>
+<pre class="codigo"><code>&lt;?php
+    $vPersonas = array(
+        array(
+            'id'=&gt;3,
+            'documento' =&gt; '22333444',
+            'nombre' =&gt; 'Toto',
+            'apellido' =&gt; 'Toto'
+        ),
+        array(
+            'id'=&gt;4,
+            'documento' =&gt; '23232332',
+            'nombre' =&gt; 'Tata',
+            'apellido' =&gt; 'Tata'
+        )
+    );
+
+    $filasTabla="";
+    foreach ( $vPersonas as $cadaPersona ) {
+        $filasTabla .= "&lt;tr&gt;";
+            $filasTabla .= "&lt;th scope='row'&gt;" . $cadaPersona['id'] . "&lt;/th&gt;";
+            $filasTabla .= "&lt;td&gt;" . $cadaPersona['documento'] . "&lt;/td&gt;";
+            $filasTabla .= "&lt;td&gt;" . $cadaPersona['nombre'] . "&lt;/td&gt;";
+            $filasTabla .= "&lt;td&gt;" . $cadaPersona['apellido'] . "&lt;/td&gt;";
+        $filasTabla .= "&lt;/tr&gt;";
+    }
+?&gt;</code></pre>
+
+  <h4>El operador .=</h4>
+  <p>
+    <code>$filasTabla .= "texto";</code> es una forma corta de
+    <code>$filasTabla = $filasTabla . "texto";</code>: <strong>agrega</strong> el texto al final de lo
+    que ya tenía la variable. Así se va armando un string largo de a pedazos.
+  </p>
+
+  <h4>Qué hace cada línea</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Cómo quedan las variables</th></tr>
+      <tr><td><code>$vPersonas = array( array(...), array(...) );</code></td><td>Un arreglo <strong>multidimensional</strong> (teoría, sección 4): dos elementos, cada uno un arreglo asociativo con los datos de una persona</td><td>0 =&gt; (id 3, Toto Toto) &middot; 1 =&gt; (id 4, Tata Tata)</td></tr>
+      <tr><td><code>$filasTabla="";</code></td><td>Empieza con un string vacío, para ir agregándole</td><td><code>$filasTabla</code> = ''</td></tr>
+      <tr><td><code>foreach ( $vPersonas as $cadaPersona ) {</code></td><td>Recorre las personas (teoría, sección 6); en cada vuelta, <code>$cadaPersona</code> es el arreglo de una</td><td>Vuelta 1: la de id 3; vuelta 2: la de id 4</td></tr>
+      <tr><td><code>$filasTabla .= "&lt;tr&gt;";</code></td><td>Abre una fila de tabla HTML</td><td>se agrega <code>&lt;tr&gt;</code></td></tr>
+      <tr><td><code>... "&lt;th scope='row'&gt;" . $cadaPersona['id'] . "&lt;/th&gt;";</code></td><td>Primera celda: el id, leído con su clave (teoría, sección 2)</td><td>se agrega <code>&lt;th scope='row'&gt;3&lt;/th&gt;</code></td></tr>
+      <tr><td>Las tres líneas de <code>&lt;td&gt;</code></td><td>Una celda con el documento, otra con el nombre, otra con el apellido</td><td>se agregan tres <code>&lt;td&gt;...&lt;/td&gt;</code></td></tr>
+      <tr><td><code>$filasTabla .= "&lt;/tr&gt;";</code></td><td>Cierra la fila</td><td>una fila completa por persona</td></tr>
+    </table>
+  </div>
+  <p>
+    El archivo no imprime nada: deja el texto armado en <code>$filasTabla</code>. Al terminar el
+    <code>foreach</code>, la variable vale (comprobado con PHP; todo va en una sola línea, acá se
+    cortó en dos para que entre):
+  </p>
+<pre class="salida">&lt;tr&gt;&lt;th scope='row'&gt;3&lt;/th&gt;&lt;td&gt;22333444&lt;/td&gt;&lt;td&gt;Toto&lt;/td&gt;&lt;td&gt;Toto&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;th scope='row'&gt;4&lt;/th&gt;&lt;td&gt;23232332&lt;/td&gt;&lt;td&gt;Tata&lt;/td&gt;&lt;td&gt;Tata&lt;/td&gt;&lt;/tr&gt;</pre>
+  <p>
+    Las comillas simples de <code>scope='row'</code> pueden ir sueltas adentro porque el string está
+    entre comillas dobles (teoría, sección 10).
+  </p>
+
+  <span class="paso">Paso 4 &mdash; Dónde se usa (listadoPersonas.php)</span>
+<pre class="codigo"><code>&lt;?php require_once 'php/datosTabla.php'; ?&gt;
+...
+    &lt;table class="table"&gt;
+        &lt;thead&gt; ... #, Documento, Nombre, Apellido ... &lt;/thead&gt;
+        &lt;tbody&gt;
+            &lt;tr&gt; ... 1, 22333444, Exeuiel, Aramburu ... &lt;/tr&gt;
+            &lt;tr&gt; ... 2, 23232332, Federico, Bonnet ... &lt;/tr&gt;
+            &lt;?php echo $filasTabla; ?&gt;
+        &lt;/tbody&gt;
+    &lt;/table&gt;</code></pre>
+  <ul>
+    <li>El <code>require_once</code> de arriba ejecuta <code>datosTabla.php</code>, así que <code>$filasTabla</code> ya existe en esta página.</li>
+    <li>La tabla tiene dos filas escritas a mano en HTML, y en el lugar del <code>echo $filasTabla;</code> aparecen las dos filas que armó el <code>foreach</code>.</li>
+  </ul>
+  <p>En el navegador, el listado queda así:</p>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th>#</th><th>Documento</th><th>Nombre</th><th>Apellido</th></tr>
+      <tr><td>1</td><td>22333444</td><td>Exeuiel</td><td>Aramburu</td></tr>
+      <tr><td>2</td><td>23232332</td><td>Federico</td><td>Bonnet</td></tr>
+      <tr><td>3</td><td>22333444</td><td>Toto</td><td>Toto</td></tr>
+      <tr><td>4</td><td>23232332</td><td>Tata</td><td>Tata</td></tr>
+    </table>
+  </div>
+  <p>
+    La idea del ejemplo: los datos que hoy están en el arreglo podrían venir de otro lado (más
+    adelante, de una base de datos, Clase 6), y la página no cambiaría: el <code>foreach</code>
+    arma una fila por cada persona, sean 2 o 200.
+  </p>
+
+  <span class="paso">Paso 5 &mdash; El formulario (formPersonas.php y procesoFormulario.php)</span>
+  <p>
+    Los formularios son tema de la Clase 3; acá solo lo que hace falta para entender qué pasa al
+    usar el ejemplo.
+  </p>
+<pre class="codigo"><code>&lt;form method="GET" action="/php/procesoFormulario.php" ...&gt;
+    ... campos nombre, apellido, fechaNacimiento y ciudad ...
+    &lt;button class="btn btn-primary" type="submit"&gt;Enviar datos&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+  <ul>
+    <li><code>action</code> dice a qué script se mandan los datos y <code>method="GET"</code> cómo (pegados en la dirección de la página).</li>
+    <li>En <code>procesoFormulario.php</code> hay tres bloques: uno para GET y otro para POST con los campos de este formulario, y un tercero para POST con otros campos (<code>correo</code>, <code>fecha_nacimiento</code>, <code>opciones</code>, <code>comentarios</code>). <strong>Los dos primeros están comentados</strong> (entre <code>/*</code> y <code>*/</code>), así que solo funciona el tercero.</li>
+  </ul>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Tal como viene, enviar el formulario muestra una página en blanco</span>
+    <p>
+      El formulario manda por <strong>GET</strong>, pero el único bloque activo de
+      <code>procesoFormulario.php</code> pregunta si el método es <strong>POST</strong>
+      (<code>if ( $_SERVER["REQUEST_METHOD"] == "POST")</code>): no entra y no imprime nada
+      (comprobado con el servidor de PHP). Para verlo andar hay que descomentar el bloque
+      <code>// METODO GET</code>, que lee justo los campos de este formulario.
+    </p>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Otros detalles del ejemplo</span>
+    <ul>
+      <li><code>action="/php/procesoFormulario.php"</code> y el ícono <code>/imgs/favicon.ico</code> empiezan con <code>/</code>: se buscan desde la raíz del servidor. Si el proyecto está en una subcarpeta de <code>htdocs</code> (por ejemplo <code>http://localhost/ejemplo/</code>), apuntan a <code>http://localhost/php/...</code> y no los encuentra. Sin la barra inicial (<code>php/procesoFormulario.php</code>) funcionan en cualquier carpeta.</li>
+      <li>En el <code>&lt;select&gt;</code> de ciudad, las tres opciones tienen <code>value="Paraná"</code>: elijas Oro Verde o Diamante, se envía <code>Paraná</code>.</li>
+    </ul>
+  </div>
+</div>

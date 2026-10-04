@@ -1,0 +1,162 @@
+<div class="bloque">
+  <p class="kicker">Strings</p>
+  <h2>11. El largo de un string y sus caracteres: strlen y $cadena[i]</h2>
+
+  <h3>Para qué sirve</h3>
+  <ul>
+    <li><code>strlen()</code> (<em>string length</em>) dice <strong>cuánto mide</strong> un string. Se usa para validar (que una clave tenga 8 caracteres) o para recorrerlo.</li>
+    <li>Un string se puede tratar <strong>como un arreglo de caracteres</strong>: <code>$cadena[0]</code> es el primero, <code>$cadena[1]</code> el segundo, y así.</li>
+  </ul>
+
+  <h3>Sintaxis</h3>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Largo y un carácter</span>
+<pre class="codigo"><code>strlen($cadena)     // devuelve un número
+$cadena[posicion]   // devuelve un string de un carácter</code></pre>
+  </div>
+
+  <h3>Qué es cada parte</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Parte</th><th>Qué es</th></tr>
+      <tr><td><code>strlen($cadena)</code></td><td>La longitud <strong>en bytes</strong>. Cuenta todo: letras, espacios, signos, números</td></tr>
+      <tr><td><code>$cadena[posicion]</code></td><td>El carácter en esa posición. <strong>La primera posición es 0</strong>, igual que en los arreglos</td></tr>
+      <tr><td>Última posición</td><td><code>strlen($cadena) - 1</code> (en textos sin tildes)</td></tr>
+    </table>
+  </div>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Bytes y caracteres: por qué las tildes cuentan doble</span>
+    <p>
+      La cátedra dice que <code>strlen()</code> mide <em>la longitud en bytes</em>. Un
+      <strong>byte</strong> es la unidad de memoria donde se guarda un carácter. Los archivos PHP se
+      guardan en la codificación <strong>UTF-8</strong>, donde:
+    </p>
+    <ul>
+      <li>las letras sin tilde, los números, el espacio y los signos comunes ocupan <strong>1 byte</strong>;</li>
+      <li><code>á é í ó ú ñ</code> y sus mayúsculas ocupan <strong>2 bytes</strong>;</li>
+      <li>otros símbolos, como la raya <code>–</code>, ocupan <strong>3 bytes</strong>.</li>
+    </ul>
+    <p>
+      Por eso <code>strlen('Martín')</code> da <strong>7</strong> y no 6. Esto importa en la práctica
+      (ejercicios 9 y 10).
+    </p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; Contar caracteres (teoría de la cátedra)</h3>
+<pre class="codigo"><code>&lt;?php
+$cadena = "Contamos la cantidad de caracteres, aunque este el 10.";
+echo "La longitud de cadena es: " . strlen($cadena);
+?&gt;</code></pre>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Cómo quedan las variables</th></tr>
+      <tr><td><code>$cadena = "...";</code></td><td>Un texto sin tildes: cada carácter es 1 byte</td><td>54 caracteres, contando espacios, la coma, el punto y los dígitos del 10</td></tr>
+      <tr><td><code>echo "..." . strlen($cadena);</code></td><td>Calcula el largo (54) y lo pega al texto</td><td>&mdash;</td></tr>
+    </table>
+  </div>
+<pre class="salida">La longitud de cadena es: 54</pre>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; Con tildes (formato "¿cuál es la salida?")</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>¿Cuál es la salida del siguiente script?</p>
+  </div>
+<pre class="codigo"><code>&lt;?php
+echo strlen('Hola') . '&lt;br&gt;';
+echo strlen(' a ') . '&lt;br&gt;';
+echo strlen('Martín') . '&lt;br&gt;';
+echo strlen('año');
+?&gt;</code></pre>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Cuenta</th><th>Imprime</th></tr>
+      <tr><td><code>strlen('Hola')</code></td><td>4 letras de 1 byte</td><td>4</td></tr>
+      <tr><td><code>strlen(' a ')</code></td><td>espacio + a + espacio: los espacios cuentan</td><td>3</td></tr>
+      <tr><td><code>strlen('Martín')</code></td><td>M-a-r-t-n (5 bytes) + í (2 bytes)</td><td>7</td></tr>
+      <tr><td><code>strlen('año')</code></td><td>a-o (2 bytes) + ñ (2 bytes)</td><td>4</td></tr>
+    </table>
+  </div>
+<pre class="salida">4
+3
+7
+4</pre>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 3 &mdash; Un carácter por su posición (teoría de la cátedra)</h3>
+<pre class="codigo"><code>&lt;?php
+$cadena = 'contacto';
+echo $cadena[1] . '&lt;br&gt;';
+$frase = "La cadena a mostrar.";
+echo $frase[0];
+?&gt;</code></pre>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Cómo quedan las variables</th></tr>
+      <tr><td><code>$cadena = 'contacto';</code></td><td>Posiciones: c=0, o=1, n=2, t=3, a=4, c=5, t=6, o=7</td><td><code>$cadena</code> = 'contacto'</td></tr>
+      <tr><td><code>echo $cadena[1] ...;</code></td><td>El carácter de la posición 1</td><td>sale <code>o</code></td></tr>
+      <tr><td><code>$frase = "...";</code></td><td>Otro texto</td><td><code>$frase</code> = 'La cadena a mostrar.'</td></tr>
+      <tr><td><code>echo $frase[0];</code></td><td>El primer carácter</td><td>sale <code>L</code></td></tr>
+    </table>
+  </div>
+<pre class="salida">o
+L</pre>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">La cátedra dice "a", pero es "o"</span>
+    <p>
+      El apunte anota que <code>'contacto'[1]</code> muestra <code>a</code>. Como se cuenta desde
+      0, la posición 1 es la <strong>segunda</strong> letra: <code>o</code>. La <code>a</code> está
+      en la posición 4.
+    </p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 4 &mdash; Recorrer un string con for (teoría de la cátedra)</h3>
+<pre class="codigo"><code>&lt;?php
+$cadena = "La cadena a mostrar.";
+for ($i = 0; $i &lt; strlen($cadena); $i++) {
+    if ($cadena[$i] &gt; 'c') {
+        echo $cadena[$i];
+    }
+}
+?&gt;</code></pre>
+  <p>
+    La comparación <code>$cadena[$i] &gt; 'c'</code> compara <strong>códigos de carácter</strong>:
+    cada carácter tiene un número, y en ese orden van primero el espacio y los signos, después las
+    mayúsculas y al final las minúsculas (<code>a</code> &lt; <code>b</code> &lt; <code>c</code>
+    &lt; <code>d</code>&hellip;). Entonces <code>&gt; 'c'</code> deja pasar solo las minúsculas de
+    la <code>d</code> a la <code>z</code>.
+  </p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Caracteres (posición)</th><th>¿Mayor que 'c'?</th><th>Imprime</th></tr>
+      <tr><td><code>L</code> (0)</td><td>No: es mayúscula</td><td>&mdash;</td></tr>
+      <tr><td><code>a</code>, espacio, <code>c</code>, <code>a</code> (1 a 4)</td><td>No (<code>c</code> no es <em>mayor</em> que <code>c</code>)</td><td>&mdash;</td></tr>
+      <tr><td><code>d</code>, <code>e</code>, <code>n</code> (5 a 7)</td><td>Sí</td><td><code>den</code></td></tr>
+      <tr><td><code>a</code>, espacio, <code>a</code>, espacio (8 a 11)</td><td>No</td><td>&mdash;</td></tr>
+      <tr><td><code>m</code>, <code>o</code>, <code>s</code>, <code>t</code>, <code>r</code> (12 a 16)</td><td>Sí</td><td><code>mostr</code></td></tr>
+      <tr><td><code>a</code> (17)</td><td>No</td><td>&mdash;</td></tr>
+      <tr><td><code>r</code> (18)</td><td>Sí</td><td><code>r</code></td></tr>
+      <tr><td><code>.</code> (19)</td><td>No</td><td>&mdash;</td></tr>
+    </table>
+  </div>
+<pre class="salida">denmostrr</pre>
+
+  <hr class="sep">
+
+  <h3>Errores y trampas</h3>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">$cadena[i] con tildes da medio carácter</span>
+    <p>
+      Como la <code>í</code> de <code>'Martín'</code> ocupa 2 bytes (posiciones 4 y 5),
+      <code>$m[4]</code> devuelve solo el primer byte, que no es un carácter válido: el navegador
+      muestra <code>�</code>. La posición, como <code>strlen()</code>, cuenta bytes.
+    </p>
+  </div>
+</div>

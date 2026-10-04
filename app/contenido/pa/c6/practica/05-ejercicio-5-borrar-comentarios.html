@@ -1,0 +1,134 @@
+<div class="ej">
+  <span class="tag">Ejercicio 5 &middot; Baja</span>
+  <h2>Script para borrar comentarios</h2>
+  <div class="enunciado">
+    <p>
+      Modifique el script del punto 4 de manera tal que permita eliminar algún comentario en
+      particular. Agregue para esto un botón o link a cada comentario listado que al presionarlo
+      ejecute el script <code>borrarComentario.php</code>, el cual deberá contener el código
+      necesario para realizar tal tarea.
+    </p>
+  </div>
+
+  <span class="paso">Paso 1 &mdash; Cómo sabe el script qué comentario borrar</span>
+  <p>
+    <code>borrarComentario.php</code> es un script aparte: no sabe nada del listado. Hay que
+    <strong>mandarle el número</strong> del comentario. La forma más simple es ponerlo en el
+    link, como parámetro <code>GET</code> (Clase 3): <code>borrarComentario.php?id=2</code>. Lo
+    que va después del <code>?</code> llega en <code>$_GET['id']</code>. Por eso el SELECT del
+    ejercicio 4 ya traía <code>id_comentario</code>: ahora se usa.
+  </p>
+
+  <span class="paso">Paso 2 &mdash; El cambio en <code>listarComentarios.php</code></span>
+  <p>Tres cambios: una columna más en el encabezado, un <code>&lt;td&gt;</code> más en cada fila con el link, y el <code>colspan</code> del aviso pasa a 5.</p>
+<pre class="codigo"><code>        $filasTabla .= "&lt;tr&gt;"
+            . "&lt;td&gt;" . htmlspecialchars($fila['nombre']) . "&lt;/td&gt;"
+            . "&lt;td&gt;" . htmlspecialchars($fila['asunto']) . "&lt;/td&gt;"
+            . "&lt;td&gt;" . htmlspecialchars($fila['correo']) . "&lt;/td&gt;"
+            . "&lt;td&gt;" . htmlspecialchars($fila['comentario']) . "&lt;/td&gt;"
+            . "&lt;td&gt;&lt;a href='borrarComentario.php?id=" . $fila['id_comentario'] . "'&gt;Borrar&lt;/a&gt;&lt;/td&gt;"
+            . "&lt;/tr&gt;";
+...
+    $filasTabla = "&lt;tr&gt;&lt;td colspan='5'&gt;Todavía no hay comentarios.&lt;/td&gt;&lt;/tr&gt;";
+...
+    &lt;tr&gt;&lt;th&gt;Nombre&lt;/th&gt;&lt;th&gt;Asunto&lt;/th&gt;&lt;th&gt;Correo&lt;/th&gt;&lt;th&gt;Comentario&lt;/th&gt;&lt;th&gt;&lt;/th&gt;&lt;/tr&gt;</code></pre>
+  <p>
+    La línea nueva arma, para la fila de Luis (id 2), el texto
+    <code>&lt;td&gt;&lt;a href='borrarComentario.php?id=2'&gt;Borrar&lt;/a&gt;&lt;/td&gt;</code>: el número
+    se pega en medio del <code>href</code>.
+  </p>
+
+  <span class="paso">Paso 3 &mdash; El código: <code>borrarComentario.php</code></span>
+<pre class="codigo"><code>&lt;?php
+if (!isset($_GET['id']) || !ctype_digit($_GET['id'])) {
+    die("No se indicó qué comentario borrar");
+}
+
+require_once 'conexion.php';
+
+$id = (int) $_GET['id'];
+
+$stmt = $mysqli-&gt;prepare("DELETE FROM comentarios WHERE id_comentario = ?");
+$stmt-&gt;bind_param("i", $id);
+$stmt-&gt;execute();
+
+if ($stmt-&gt;affected_rows &gt; 0) {
+    $mensaje = "Se borró el comentario número " . $id . ".";
+} else {
+    $mensaje = "No existe un comentario con el número " . $id . ".";
+}
+
+$stmt-&gt;close();
+$mysqli-&gt;close();
+?&gt;
+&lt;!DOCTYPE html&gt;
+&lt;html lang="es"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;title&gt;Borrar comentario&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;p&gt;&lt;?php echo $mensaje; ?&gt;&lt;/p&gt;
+  &lt;a href="listarComentarios.php"&gt;Volver al listado&lt;/a&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+
+  <span class="paso">Paso 4 &mdash; Qué hace cada línea</span>
+  <p>Con la tabla de ejemplo del ejercicio 4, y alguien que tocó "Borrar" en la fila de Luis (<code>?id=2</code>):</p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Cómo quedan las variables</th></tr>
+      <tr><td>2</td><td>Entra (y corta) si no vino <code>id</code>, <strong>o</strong> (<code>||</code>) si no son solo dígitos. <code>ctype_digit</code> (Clase 5) da verdadero solo si el texto son todos números</td><td><code>$_GET['id']</code> = <code>"2"</code>: no entra</td></tr>
+      <tr><td>6</td><td>Incluye la conexión</td><td><code>$mysqli</code> = la conexión</td></tr>
+      <tr><td>8</td><td><code>(int)</code> convierte el texto <code>"2"</code> en el número 2</td><td><code>$id</code> = 2</td></tr>
+      <tr><td>10</td><td>Prepara el DELETE con un hueco. Con el <code>WHERE</code> por la clave primaria, borra <strong>una sola</strong> fila</td><td><code>$stmt</code> = la sentencia</td></tr>
+      <tr><td>11</td><td>Ata <code>$id</code> como entero (<code>"i"</code>)</td><td></td></tr>
+      <tr><td>12</td><td>Ejecuta: <code>DELETE FROM comentarios WHERE id_comentario = 2</code></td><td>la tabla queda con Ana y Sofi</td></tr>
+      <tr><td>14</td><td>¿Borró algo?</td><td><code>affected_rows</code> = 1: entra</td></tr>
+      <tr><td>15</td><td>El mensaje de éxito</td><td><code>$mensaje</code> = "Se borró el comentario número 2."</td></tr>
+      <tr><td>17</td><td>Si no borró nada (ese número no existe), el otro mensaje</td><td></td></tr>
+      <tr><td>20-21</td><td>Libera la sentencia y cierra la conexión</td><td></td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Paso 5 &mdash; Qué se ve</span>
+  <p>Verificado corriendo el script con la base reemplazada por una de ejemplo, en los tres casos:</p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Dirección</th><th>Qué pasa</th><th>Qué se ve</th></tr>
+      <tr><td><code>borrarComentario.php?id=2</code></td><td>Borra a Luis</td><td>Se borró el comentario número 2.</td></tr>
+      <tr><td><code>borrarComentario.php?id=9</code></td><td>No hay id 9: el DELETE anda pero borra 0 filas</td><td>No existe un comentario con el número 9.</td></tr>
+      <tr><td><code>borrarComentario.php?id=2 OR 1=1</code></td><td><code>ctype_digit</code> da falso por los espacios y letras: corta antes de tocar la base</td><td>No se indicó qué comentario borrar</td></tr>
+    </table>
+  </div>
+  <p>
+    Abajo del mensaje está el link "Volver al listado", que ya no muestra a Luis. El listado,
+    con la columna nueva, se ve así (datos de ejemplo):
+  </p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Nombre</th><th>Asunto</th><th>Correo</th><th>Comentario</th><th></th></tr>
+      <tr><td>Ana</td><td>Consulta</td><td>ana@mail.com</td><td>¿Cuándo es el parcial?</td><td><u>Borrar</u></td></tr>
+      <tr><td>Luis</td><td>Saludo</td><td>luis@mail.com</td><td>Muy bueno el sitio</td><td><u>Borrar</u></td></tr>
+      <tr><td>Sofi</td><td>Prueba</td><td>sofi@mail.com</td><td>Escribo &lt;b&gt;en negrita&lt;/b&gt;</td><td><u>Borrar</u></td></tr>
+    </table>
+  </div>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Errores y trampas</span>
+    <ul>
+      <li><strong>Borrar por la clave primaria</strong>, no por el nombre: <code>WHERE nombre = 'Ana'</code> borraría todos los comentarios de todas las Ana.</li>
+      <li><strong>Sin validar el <code>id</code></strong>, y armando el SQL pegando <code>$_GET['id']</code>, la dirección <code>?id=2 OR 1=1</code> borraría la tabla entera (sección 6 de la teoría). Acá lo frenan dos cosas: <code>ctype_digit</code> y la consulta preparada.</li>
+      <li>La guía acepta "un botón o link". Un link funciona, pero cualquiera que conozca la dirección puede borrar con solo abrirla; en un sitio real el borrado va con un botón de un formulario <code>post</code> y pidiendo confirmación.</li>
+    </ul>
+  </div>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Resultado</span>
+    <p>
+      Cada fila del listado lleva un link <code>borrarComentario.php?id=N</code>; ese script valida
+      el número, ejecuta un <code>DELETE</code> preparado por <code>id_comentario</code> y avisa
+      según <code>affected_rows</code>. La guía no tiene hoja de resultados.
+    </p>
+  </div>
+</div>

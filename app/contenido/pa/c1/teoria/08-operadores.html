@@ -1,0 +1,260 @@
+<div class="bloque">
+  <p class="kicker">Operaciones</p>
+  <h2>8. Operadores</h2>
+
+  <h3>Para qué sirve</h3>
+  <p>
+    Los operadores son los símbolos que <strong>hacen algo con los valores</strong>: sumarlos,
+    compararlos, unir textos, combinar condiciones. Aparecen en todas las preguntas de
+    "¿cuál es la salida?", así que conviene tenerlos claros uno por uno.
+  </p>
+
+  <h3>Qué es cada uno</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Grupo</th><th>Operador</th><th>Qué hace</th><th>Ejemplo (con <code>$a = 5</code>, <code>$b = 4</code>)</th></tr>
+      <tr><td class="lbl">Asignación</td><td><code>=</code></td><td>Guarda el valor de la derecha en la variable de la izquierda.</td><td><code>$a = 5;</code></td></tr>
+      <tr><td class="lbl" rowspan="7">Aritméticos</td><td><code>+</code> <code>-</code> <code>*</code></td><td>Suma, resta, multiplicación.</td><td><code>$a + $b</code> da 9; <code>$a * $b</code> da 20</td></tr>
+      <tr><td><code>/</code></td><td>División (puede dar decimales).</td><td><code>$a / $b</code> da 1.25</td></tr>
+      <tr><td><code>%</code></td><td><strong>Módulo</strong>: el <strong>resto</strong> de la división entera.</td><td><code>$a % $b</code> da 1 (5 dividido 4 es 1 y sobra 1)</td></tr>
+      <tr><td><code>$a++</code></td><td>Post-incremento: suma 1, pero la expresión <strong>vale lo que había antes</strong>.</td><td rowspan="4">ver ejemplo 2</td></tr>
+      <tr><td><code>++$a</code></td><td>Pre-incremento: suma 1 y la expresión <strong>vale el valor nuevo</strong>.</td></tr>
+      <tr><td><code>$a--</code></td><td>Post-decremento: resta 1, vale lo de antes.</td></tr>
+      <tr><td><code>--$a</code></td><td>Pre-decremento: resta 1, vale lo nuevo.</td></tr>
+      <tr><td class="lbl" rowspan="4">Comparación</td><td><code>==</code></td><td>¿Son iguales? (en valor)</td><td><code>$a == $b</code> da <code>false</code></td></tr>
+      <tr><td><code>===</code></td><td>¿Son idénticos? Igual valor <strong>y</strong> mismo tipo.</td><td><code>5 === "5"</code> da <code>false</code></td></tr>
+      <tr><td><code>!=</code></td><td>¿Son distintos?</td><td><code>$a != $b</code> da <code>true</code></td></tr>
+      <tr><td><code>&lt;</code> <code>&gt;</code> <code>&lt;=</code> <code>&gt;=</code></td><td>Menor, mayor, menor o igual, mayor o igual.</td><td><code>$a &gt; $b</code> da <code>true</code></td></tr>
+      <tr><td class="lbl" rowspan="3">Lógicos</td><td><code>&amp;&amp;</code> o <code>and</code></td><td>Y: verdadero solo si <strong>las dos</strong> condiciones lo son.</td><td><code>($a == 5) &amp;&amp; ($b == 9)</code> da <code>false</code></td></tr>
+      <tr><td><code>||</code> o <code>or</code></td><td>O: verdadero si <strong>al menos una</strong> lo es.</td><td><code>($a == 5) || ($b == 9)</code> da <code>true</code></td></tr>
+      <tr><td><code>!</code></td><td>No: da vuelta el valor.</td><td><code>!($a == 5)</code> da <code>false</code></td></tr>
+      <tr><td class="lbl" rowspan="2">De cadena</td><td><code>.</code></td><td><strong>Concatenación</strong>: pega dos textos.</td><td><code>"Hola" . " mundo"</code> da <code>"Hola mundo"</code></td></tr>
+      <tr><td><code>.=</code></td><td>Pega un texto <strong>al final</strong> de lo que ya tiene la variable.</td><td><code>$s .= "!";</code> agrega un ! a <code>$s</code></td></tr>
+    </table>
+  </div>
+
+  <h4>El módulo, con más calma</h4>
+  <p>
+    <code>%</code> responde "¿cuánto sobra si reparto en partes iguales?". <code>10 % 3</code> da
+    <strong>1</strong> (\(10 = 3 \cdot 3 + 1\)); <code>12 % 4</code> da <strong>0</strong> (entra
+    justo); <code>7 % 2</code> da <strong>1</strong>. Por eso <code>$n % 2 == 0</code> pregunta si
+    <code>$n</code> es par, y <code>$n % 5 == 0</code> si es múltiplo de 5.
+  </p>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; Aritméticos (el de la cátedra, completado)</h3>
+
+  <pre class="codigo"><code>&lt;?php
+$a= 5; $b= 4;
+print "Suma: ". $a + $b;
+print "&lt;br&gt;";
+print "Resta: ". $a - $b;
+print "&lt;br&gt;";
+print "Producto: ". $a * $b;
+print "&lt;br&gt;";
+print "Division: ". $a / $b;
+print "&lt;br&gt;";
+print "Resto: ". $a % $b;
+?&gt;</code></pre>
+
+  <h4>Qué hace cada línea</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Qué sale</th></tr>
+      <tr><td><code>$a= 5; $b= 4;</code></td><td>Dos asignaciones en un renglón.</td><td>&mdash;</td></tr>
+      <tr><td><code>print "Suma: ". $a + $b;</code></td><td>Primero hace la cuenta \(5 + 4 = 9\) y después la pega al texto.</td><td><code>Suma: 9</code></td></tr>
+      <tr><td><code>print "Resta: ". $a - $b;</code></td><td>\(5 - 4 = 1\).</td><td><code>Resta: 1</code></td></tr>
+      <tr><td><code>print "Producto: ". $a * $b;</code></td><td>\(5 \times 4 = 20\).</td><td><code>Producto: 20</code></td></tr>
+      <tr><td><code>print "Division: ". $a / $b;</code></td><td>\(5 \div 4 = 1{,}25\). PHP escribe el decimal con punto.</td><td><code>Division: 1.25</code></td></tr>
+      <tr><td><code>print "Resto: ". $a % $b;</code></td><td>5 dividido 4 da 1 y sobra <strong>1</strong>.</td><td><code>Resto: 1</code></td></tr>
+      <tr><td><code>print "&lt;br&gt;";</code></td><td>Entre cada resultado, un salto de línea.</td><td>(bajada de renglón)</td></tr>
+    </table>
+  </div>
+
+  <h4>Qué imprime y por qué</h4>
+  <pre class="salida">Suma: 9
+Resta: 1
+Producto: 20
+Division: 1.25
+Resto: 1</pre>
+  <p>
+    En PHP 8 (el de XAMPP), <code>+</code> y <code>-</code> se resuelven <strong>antes</strong> que el
+    punto, así que la cuenta se hace primero. Para no depender de eso, lo prolijo es usar paréntesis:
+    <code>"Suma: " . ($a + $b)</code>.
+  </p>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; Con formato del Parcial PHP: incremento y decremento</h3>
+
+  <pre class="codigo"><code>&lt;?php
+$a = 1;
+echo $a++;
+echo " ";
+echo $a;
+echo " ";
+echo ++$a;
+echo " ";
+echo --$a;
+echo " ";
+echo $a--;
+echo " ";
+echo $a;
+?&gt;</code></pre>
+
+  <h4>Qué hace cada línea</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th><code>$a</code> después</th><th>Qué sale</th></tr>
+      <tr><td><code>$a = 1;</code></td><td>Valor inicial.</td><td>1</td><td></td></tr>
+      <tr><td><code>echo $a++;</code></td><td><strong>Post</strong>: primero se usa el valor (1) y <strong>después</strong> se suma.</td><td>2</td><td><code>1</code></td></tr>
+      <tr><td><code>echo $a;</code></td><td>Muestra cuánto quedó.</td><td>2</td><td><code>2</code></td></tr>
+      <tr><td><code>echo ++$a;</code></td><td><strong>Pre</strong>: primero suma (3) y muestra el valor nuevo.</td><td>3</td><td><code>3</code></td></tr>
+      <tr><td><code>echo --$a;</code></td><td><strong>Pre</strong>: primero resta (2) y muestra el nuevo.</td><td>2</td><td><code>2</code></td></tr>
+      <tr><td><code>echo $a--;</code></td><td><strong>Post</strong>: muestra el de antes (2) y después resta.</td><td>1</td><td><code>2</code></td></tr>
+      <tr><td><code>echo $a;</code></td><td>Muestra cuánto quedó.</td><td>1</td><td><code>1</code></td></tr>
+      <tr><td><code>echo " ";</code></td><td>Un espacio entre cada número.</td><td>&mdash;</td><td></td></tr>
+    </table>
+  </div>
+
+  <h4>Qué imprime y por qué</h4>
+  <pre class="salida">1 2 3 2 2 1</pre>
+  <p>
+    La regla para acordarse: <strong>el signo va del lado de cuándo se suma</strong>.
+    <code>++$a</code> (el <code>++</code> antes): suma antes de usar. <code>$a++</code> (después):
+    usa y después suma. Cuando el <code>++</code> está solo en su renglón (<code>$a++;</code>), las
+    dos formas hacen lo mismo: suman 1.
+  </p>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 3 &mdash; Comparación y lógicos (los de la cátedra)</h3>
+  <p><code>var_dump</code> (sección 6) muestra el resultado de cada comparación como <code>bool(true)</code> o <code>bool(false)</code>.</p>
+
+  <pre class="codigo"><code>&lt;?php
+$a= 4; $b= 5;
+var_dump($a == $b);
+var_dump($a != $b);
+var_dump($a &gt; $b);
+var_dump( ($a == 4) &amp;&amp; ($b == 5) );
+var_dump( ($a == 4) || ($b == 12) );
+var_dump( ($a == 4) and ($b == 12) );
+var_dump(5 == "5");
+var_dump(5 === "5");
+?&gt;</code></pre>
+
+  <h4>Qué hace cada línea</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Cómo se evalúa</th><th>Qué sale</th></tr>
+      <tr><td><code>$a == $b</code></td><td>¿4 es igual a 5? No.</td><td><code>bool(false)</code></td></tr>
+      <tr><td><code>$a != $b</code></td><td>¿4 es distinto de 5? Sí.</td><td><code>bool(true)</code></td></tr>
+      <tr><td><code>$a &gt; $b</code></td><td>¿4 es mayor que 5? No.</td><td><code>bool(false)</code></td></tr>
+      <tr><td><code>($a == 4) &amp;&amp; ($b == 5)</code></td><td>true Y true: las dos se cumplen.</td><td><code>bool(true)</code></td></tr>
+      <tr><td><code>($a == 4) || ($b == 12)</code></td><td>true O false: alcanza con una.</td><td><code>bool(true)</code></td></tr>
+      <tr><td><code>($a == 4) and ($b == 12)</code></td><td>true Y false: <strong>falla una, falla todo</strong>.</td><td><code>bool(false)</code></td></tr>
+      <tr><td><code>5 == "5"</code></td><td>El texto "5" se compara como número: mismo valor.</td><td><code>bool(true)</code></td></tr>
+      <tr><td><code>5 === "5"</code></td><td>Mismo valor, pero uno es int y el otro string: no son idénticos.</td><td><code>bool(false)</code></td></tr>
+    </table>
+  </div>
+
+  <h4>Qué imprime y por qué</h4>
+  <pre class="salida">bool(false)
+bool(true)
+bool(false)
+bool(true)
+bool(true)
+bool(false)
+bool(true)
+bool(false)</pre>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Error en el apunte: el and</span>
+    <p>
+      El apunte dice que <code>( ($a == 4) and ($b == 12) )</code> da <code>true</code>. Da
+      <strong><code>false</code></strong>: <code>$b</code> vale 5, no 12, y con <code>and</code> tienen
+      que cumplirse las dos. Probablemente se copió el resultado del <code>||</code> de arriba.
+    </p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 4 &mdash; Concatenación (el de la cátedra)</h3>
+
+  <pre class="codigo"><code>&lt;?php
+$a= "No voy a usar";
+$b= " Hola mundo!!!!!!";
+$mensaje= $a.$b;
+print $mensaje;
+print "&lt;br&gt;";
+$a= "No voy a usar"; $a.= " Hola mundo!!!!!!";
+print $a;
+?&gt;</code></pre>
+
+  <h4>Qué hace cada línea</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Cómo quedan las variables</th></tr>
+      <tr><td><code>$a= "No voy a usar";</code></td><td>Primer texto.</td><td><code>$a = "No voy a usar"</code></td></tr>
+      <tr><td><code>$b= " Hola mundo!!!!!!";</code></td><td>Segundo texto (empieza con espacio).</td><td><code>$b = " Hola mundo!!!!!!"</code></td></tr>
+      <tr><td><code>$mensaje= $a.$b;</code></td><td>Pega los dos en una variable nueva. <code>$a</code> y <code>$b</code> no cambian.</td><td><code>$mensaje = "No voy a usar Hola mundo!!!!!!"</code></td></tr>
+      <tr><td><code>print $mensaje;</code></td><td>Lo muestra.</td><td>sin cambios</td></tr>
+      <tr><td><code>$a= "No voy a usar"; $a.= " Hola mundo!!!!!!";</code></td><td><code>.=</code> agrega el texto al final de <strong>la misma</strong> <code>$a</code>. Es lo mismo que <code>$a = $a . " Hola mundo!!!!!!";</code></td><td><code>$a = "No voy a usar Hola mundo!!!!!!"</code></td></tr>
+      <tr><td><code>print $a;</code></td><td>Lo muestra.</td><td>sin cambios</td></tr>
+    </table>
+  </div>
+
+  <h4>Qué imprime y por qué</h4>
+  <pre class="salida">No voy a usar Hola mundo!!!!!!
+No voy a usar Hola mundo!!!!!!</pre>
+  <p>Los dos caminos dan lo mismo. El espacio entre "usar" y "Hola" sale de <code>$b</code>, que empieza con un espacio: el punto no agrega espacios.</p>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 5 &mdash; Con formato del Parcial PHP: ¿cuál es la salida?</h3>
+
+  <pre class="codigo"><code>&lt;?php
+$x = 10;
+$y = 3;
+echo $x % $y;
+echo " ";
+echo $x . $y;
+echo " ";
+echo $x + $y;
+?&gt;</code></pre>
+
+  <h4>Qué hace cada línea</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Qué sale</th></tr>
+      <tr><td><code>$x = 10; $y = 3;</code></td><td>Dos enteros.</td><td>&mdash;</td></tr>
+      <tr><td><code>echo $x % $y;</code></td><td>Resto de 10 dividido 3: \(10 = 3 \cdot 3 + 1\).</td><td><code>1</code></td></tr>
+      <tr><td><code>echo $x . $y;</code></td><td>El punto <strong>no suma</strong>: pega el 10 y el 3 como texto.</td><td><code>103</code></td></tr>
+      <tr><td><code>echo $x + $y;</code></td><td>Ahora sí, suma.</td><td><code>13</code></td></tr>
+    </table>
+  </div>
+
+  <h4>Qué imprime y por qué</h4>
+  <pre class="salida">1 103 13</pre>
+
+  <h3>Errores y trampas</h3>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">= asigna, == compara</span>
+    <p>
+      En la tabla de operadores de comparación el apunte incluye el <code>=</code>, pero
+      <code>=</code> <strong>no compara</strong>: guarda un valor. Para preguntar "¿es igual?" se usa
+      <code>==</code> (o <code>===</code>). Confundirlos dentro de un <code>if</code> es el error más
+      clásico (sección 9).
+    </p>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">La tabla de ++ y -- del apunte</span>
+    <p>
+      El apunte pone <code>$a++ → Salida = 2</code>. Eso es el valor que <strong>queda</strong> en
+      <code>$a</code>; si se imprime en el mismo momento (<code>echo $a++;</code>) sale
+      <strong>1</strong>, como en el ejemplo 2. En cambio para <code>$a--</code> sí pone la salida del
+      momento (2) y el valor que queda (1).
+    </p>
+  </div>
+</div>

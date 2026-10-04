@@ -1,0 +1,205 @@
+<div class="bloque">
+  <p class="kicker">Arreglos</p>
+  <h2>5. Operaciones básicas: count, is_array, isset, in_array, unset</h2>
+
+  <h3>Para qué sirve</h3>
+  <p>Cinco funciones para las preguntas más comunes sobre un arreglo:</p>
+  <ul>
+    <li><strong>¿Cuántos elementos tiene?</strong> &rarr; <code>count()</code></li>
+    <li><strong>¿Esta variable es un arreglo?</strong> &rarr; <code>is_array()</code></li>
+    <li><strong>¿Existe esta clave?</strong> &rarr; <code>array_key_exists()</code> o <code>isset()</code></li>
+    <li><strong>¿Está este valor?</strong> &rarr; <code>in_array()</code></li>
+    <li><strong>Borrar un elemento</strong> &rarr; <code>unset()</code></li>
+  </ul>
+
+  <h3>Sintaxis</h3>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Las cinco</span>
+<pre class="codigo"><code>count($arreglo)                     // devuelve un número
+is_array($variable)                 // devuelve true o false
+array_key_exists(clave, $arreglo)   // devuelve true o false
+isset($arreglo[clave])              // devuelve true o false
+in_array(valor, $arreglo)           // devuelve true o false
+unset($arreglo[clave]);             // borra el elemento, no devuelve nada</code></pre>
+  </div>
+
+  <h3>Qué es cada parte</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Función</th><th>Qué recibe</th><th>Qué devuelve</th></tr>
+      <tr><td><code>count</code></td><td>Un arreglo</td><td>La cantidad de elementos (solo del primer nivel)</td></tr>
+      <tr><td><code>is_array</code></td><td>Cualquier variable</td><td><code>true</code> si es un arreglo</td></tr>
+      <tr><td><code>array_key_exists</code></td><td>Primero la <strong>clave</strong>, después el arreglo (dos argumentos)</td><td><code>true</code> si la clave existe, aunque su valor sea <code>NULL</code></td></tr>
+      <tr><td><code>isset</code></td><td>El elemento escrito con su clave</td><td><code>true</code> si la clave existe <strong>y</strong> su valor no es <code>NULL</code></td></tr>
+      <tr><td><code>in_array</code></td><td>Primero el <strong>valor</strong> buscado, después el arreglo</td><td><code>true</code> si algún elemento tiene ese valor</td></tr>
+      <tr><td><code>unset</code></td><td>El elemento a borrar</td><td>Nada: borra la clave y su valor. <strong>Las demás claves no se renumeran</strong></td></tr>
+    </table>
+  </div>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Qué muestra echo con un true o un false</span>
+    <p>
+      <code>echo true;</code> imprime <code>1</code>, y <code>echo false;</code> <strong>no imprime
+      nada</strong>. Por eso, para ver el resultado de estas funciones conviene
+      <code>var_dump()</code> (sección 3), que muestra <code>bool(true)</code> o
+      <code>bool(false)</code>.
+    </p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; count e is_array</h3>
+<pre class="codigo"><code>&lt;?php
+$a = array('a', 'b', 'c');
+$b = array();
+echo count($a);
+echo '&lt;br&gt;';
+echo count($b);
+echo '&lt;br&gt;';
+var_dump(is_array($a));
+var_dump(is_array('a'));
+?&gt;</code></pre>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Cómo quedan las variables</th></tr>
+      <tr><td><code>$a = array('a', 'b', 'c');</code></td><td>Arreglo de 3 elementos</td><td><code>$a</code>: 0 =&gt; a &middot; 1 =&gt; b &middot; 2 =&gt; c</td></tr>
+      <tr><td><code>$b = array();</code></td><td>Arreglo vacío</td><td><code>$b</code>: (vacío)</td></tr>
+      <tr><td><code>echo count($a);</code></td><td>Cuenta los elementos de <code>$a</code>: 3</td><td>&mdash;</td></tr>
+      <tr><td><code>echo count($b);</code></td><td>Cuenta los de <code>$b</code>: 0</td><td>&mdash;</td></tr>
+      <tr><td><code>var_dump(is_array($a));</code></td><td><code>$a</code> es un arreglo</td><td>&mdash;</td></tr>
+      <tr><td><code>var_dump(is_array('a'));</code></td><td><code>'a'</code> es un texto, no un arreglo</td><td>&mdash;</td></tr>
+    </table>
+  </div>
+<pre class="salida">3
+0
+bool(true) bool(false)</pre>
+  <p>
+    <strong>Por qué la última línea:</strong> <code>var_dump</code> termina cada resultado con un
+    salto de línea de texto, que el navegador muestra como un espacio (sección 3).
+  </p>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; isset contra array_key_exists (con NULL)</h3>
+<pre class="codigo"><code>&lt;?php
+$a = array('a' =&gt; NULL, 'b' =&gt; 2);
+var_dump(isset($a['a']));
+var_dump(array_key_exists('a', $a));
+var_dump(isset($a['b']));
+var_dump(isset($a['z']));
+?&gt;</code></pre>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Resultado</th></tr>
+      <tr><td><code>$a = array('a' =&gt; NULL, 'b' =&gt; 2);</code></td><td>La clave <code>'a'</code> existe pero su valor es <code>NULL</code></td><td><code>$a</code>: a =&gt; NULL &middot; b =&gt; 2</td></tr>
+      <tr><td><code>isset($a['a'])</code></td><td>La clave existe, pero el valor es NULL: <code>isset</code> lo trata como si no existiera</td><td><code>bool(false)</code></td></tr>
+      <tr><td><code>array_key_exists('a', $a)</code></td><td>Solo mira si la clave está</td><td><code>bool(true)</code></td></tr>
+      <tr><td><code>isset($a['b'])</code></td><td>Existe y vale 2</td><td><code>bool(true)</code></td></tr>
+      <tr><td><code>isset($a['z'])</code></td><td>No existe (y no da aviso: <code>isset</code> está hecho para preguntar)</td><td><code>bool(false)</code></td></tr>
+    </table>
+  </div>
+<pre class="salida">bool(false)
+bool(true)
+bool(true)
+bool(false)</pre>
+  <p>
+    Es lo que la cátedra llama <em>"el problema que trae el uso de isset()"</em>: no considera al
+    <code>NULL</code> como un elemento.
+  </p>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 3 &mdash; in_array y unset (teoría de la cátedra)</h3>
+<pre class="codigo"><code>&lt;?php
+$a = array('a' =&gt; NULL, 'b' =&gt; 2);
+echo in_array(2, $a);
+echo '&lt;br&gt;';
+unset($a['b']);
+echo in_array(2, $a);
+echo '&lt;br&gt;';
+print_r($a);
+?&gt;</code></pre>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Cómo quedan las variables</th></tr>
+      <tr><td><code>$a = array(...);</code></td><td>Dos elementos</td><td><code>$a</code>: a =&gt; NULL &middot; b =&gt; 2</td></tr>
+      <tr><td><code>echo in_array(2, $a);</code></td><td>El valor 2 está (en la clave <code>'b'</code>): devuelve <code>true</code>, y <code>echo true</code> imprime <code>1</code></td><td>&mdash;</td></tr>
+      <tr><td><code>unset($a['b']);</code></td><td>Borra la clave <code>'b'</code> con su valor</td><td><code>$a</code>: a =&gt; NULL</td></tr>
+      <tr><td><code>echo in_array(2, $a);</code></td><td>Ya no hay ningún 2: devuelve <code>false</code>, y <code>echo false</code> no imprime nada</td><td>&mdash;</td></tr>
+      <tr><td><code>print_r($a);</code></td><td>Muestra lo que quedó</td><td>&mdash;</td></tr>
+    </table>
+  </div>
+<pre class="salida">1
+
+Array ( [a] =&gt; )</pre>
+  <p>
+    <strong>Por qué:</strong> la primera línea es el <code>1</code> del <code>true</code>; la
+    segunda queda vacía (el <code>false</code> no imprime nada, solo se ve el
+    <code>&lt;br&gt;</code>); la tercera es el <code>print_r</code> en el navegador, en una línea,
+    con la clave <code>a</code> y su <code>NULL</code> que no se ve.
+  </p>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 4 &mdash; unset no renumera (formato "¿cuál es la salida?")</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>¿Cuál es la salida del siguiente script?</p>
+  </div>
+<pre class="codigo"><code>&lt;?php
+$m = array(10, 20, 30);
+unset($m[1]);
+$m[] = 40;
+print_r($m);
+echo count($m);
+?&gt;</code></pre>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Cómo queda <code>$m</code></th></tr>
+      <tr><td><code>$m = array(10, 20, 30);</code></td><td>Claves automáticas</td><td>0 =&gt; 10 &middot; 1 =&gt; 20 &middot; 2 =&gt; 30</td></tr>
+      <tr><td><code>unset($m[1]);</code></td><td>Borra la clave 1. La 2 <strong>sigue siendo 2</strong>: no se corre</td><td>0 =&gt; 10 &middot; 2 =&gt; 30</td></tr>
+      <tr><td><code>$m[] = 40;</code></td><td>La clave entera más grande es 2, entonces usa 3 (sección 1)</td><td>0 =&gt; 10 &middot; 2 =&gt; 30 &middot; 3 =&gt; 40</td></tr>
+      <tr><td><code>print_r($m);</code></td><td>Muestra el arreglo</td><td>&mdash;</td></tr>
+      <tr><td><code>echo count($m);</code></td><td>Quedan 3 elementos</td><td>&mdash;</td></tr>
+    </table>
+  </div>
+<pre class="salida">Array
+(
+    [0] =&gt; 10
+    [2] =&gt; 30
+    [3] =&gt; 40
+)
+3</pre>
+
+  <hr class="sep">
+
+  <h3>Errores y trampas</h3>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">count() de algo que no es arreglo: en PHP 8 es un error</span>
+    <p>
+      La cátedra dice que <code>count(10)</code> da <code>1</code>. Eso era así en versiones
+      viejas de PHP. En PHP 8 (el de XAMPP) el script <strong>se corta</strong> con
+      <code>Fatal error: Uncaught TypeError: count(): Argument #1 ($value) must be of type
+      Countable|array, int given</code>. La idea de fondo de la cátedra sigue valiendo: para
+      saber si algo es un arreglo se usa <code>is_array()</code>, no <code>count()</code>.
+    </p>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">El ejemplo de isset de la cátedra no corre</span>
+    <p>
+      El apunte escribe <code>array_key_exists($a['a'])</code>, con un solo argumento: PHP 8 corta
+      con <code>ArgumentCountError: array_key_exists() expects exactly 2 arguments, 1 given</code>.
+      Se escribe <code>array_key_exists('a', $a)</code>: la clave y el arreglo. Además, en ese
+      ejemplo <code>$a = array('a', 'b', 'c')</code> tiene claves 0, 1 y 2: <code>'a'</code> y
+      <code>'b'</code> son <strong>valores</strong>, no claves, así que <code>isset($a['b'])</code>
+      da <code>false</code>.
+    </p>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">El orden de los argumentos</span>
+    <p>
+      <code>array_key_exists(clave, $arreglo)</code> e <code>in_array(valor, $arreglo)</code>:
+      en las dos, <strong>primero lo que buscás</strong> y después dónde.
+    </p>
+  </div>
+</div>

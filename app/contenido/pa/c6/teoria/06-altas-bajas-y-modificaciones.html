@@ -1,0 +1,192 @@
+<div class="bloque">
+  <p class="kicker">Sección 6 &middot; Guía práctica y sitio de ejemplo</p>
+  <h2>6. Altas, bajas y modificaciones</h2>
+
+  <h3>Para qué sirve</h3>
+  <p>
+    La guía dice que en esta clase se ven las funciones para hacer <strong>altas, bajas y
+    modificaciones</strong> de los datos (en la jerga, un <em>ABM</em>): agregar una fila,
+    borrarla o cambiarla. Se hace con el mismo <code>query()</code> de la sección 4; lo que cambia
+    es la instrucción SQL. Y cuando los datos vienen de un formulario, hay una forma más segura:
+    las <strong>consultas preparadas</strong>, que son las que usa el sitio de ejemplo de la
+    cátedra.
+  </p>
+
+  <h3>Sintaxis: las tres instrucciones SQL</h3>
+<pre class="codigo"><code>INSERT INTO personas (documento, apellido, nombres) VALUES (33444555, 'Pérez', 'Ana')
+
+UPDATE personas SET nombres = 'Fede' WHERE idPersona = 2
+
+DELETE FROM personas WHERE idPersona = 3</code></pre>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Instrucción</th><th>Qué hace</th><th>Qué es cada parte</th></tr>
+      <tr><td><code>INSERT INTO</code></td><td><strong>Alta</strong>: agrega una fila</td><td>Entre paréntesis, las columnas; después de <code>VALUES</code>, los valores en el mismo orden. El id autoincremental no se manda: lo pone la base</td></tr>
+      <tr><td><code>UPDATE ... SET</code></td><td><strong>Modificación</strong>: cambia columnas de las filas que cumplen el <code>WHERE</code></td><td><code>SET columna = valor</code>, separados por coma si son varios</td></tr>
+      <tr><td><code>DELETE FROM</code></td><td><strong>Baja</strong>: borra las filas que cumplen el <code>WHERE</code></td><td>Sin <code>WHERE</code> borra <strong>todas</strong></td></tr>
+    </table>
+  </div>
+  <p>Con estas, <code>query()</code> devuelve <code>true</code> si anduvo, y la conexión deja dos datos útiles:</p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Propiedad</th><th>Qué tiene</th></tr>
+      <tr><td><code>$mysqli-&gt;affected_rows</code></td><td>Cuántas filas agregó, cambió o borró la última instrucción</td></tr>
+      <tr><td><code>$mysqli-&gt;insert_id</code></td><td>El id que la base le puso a la última fila agregada</td></tr>
+    </table>
+  </div>
+
+  <h3>Sintaxis: consulta preparada</h3>
+  <p>
+    En vez de pegar los datos adentro del texto SQL, se dejan <strong>signos <code>?</code></strong>
+    en su lugar y los datos se mandan aparte:
+  </p>
+<pre class="codigo"><code>$stmt = $mysqli-&gt;prepare("INSERT INTO personas (documento, apellido, nombres) VALUES (?, ?, ?)");
+$stmt-&gt;bind_param("iss", $documento, $apellido, $nombres);
+$stmt-&gt;execute();
+$stmt-&gt;close();</code></pre>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Parte</th><th>Qué es</th></tr>
+      <tr><td><code>prepare(sql)</code></td><td>Le manda a la base la instrucción <strong>con los huecos</strong>. Devuelve un objeto <em>sentencia</em> (en inglés, <em>statement</em>; de ahí <code>$stmt</code>), o <code>false</code> si el SQL está mal escrito</td></tr>
+      <tr><td><code>?</code></td><td>Un hueco donde va un dato. Sin comillas, aunque el dato sea texto</td></tr>
+      <tr><td><code>bind_param(tipos, vars...)</code></td><td>"Ata" una variable a cada hueco, en orden. El primer parámetro es un string con <strong>una letra por hueco</strong></td></tr>
+      <tr><td>las letras de tipo</td><td><code>i</code> = entero, <code>d</code> = número con decimales, <code>s</code> = string, <code>b</code> = datos binarios. <code>"iss"</code> = un entero y dos strings</td></tr>
+      <tr><td><code>execute()</code></td><td>Ejecuta la instrucción con los datos. Devuelve <code>true</code> o <code>false</code></td></tr>
+      <tr><td><code>$stmt-&gt;affected_rows</code></td><td>Igual que en la conexión: cuántas filas tocó</td></tr>
+      <tr><td><code>$stmt-&gt;close()</code></td><td>Libera la sentencia (la conexión sigue abierta)</td></tr>
+    </table>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; Un alta con <code>query()</code></h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>Agregar a Ana Pérez, documento 33444555, a la tabla de ejemplo, y mostrar qué id le tocó.</p>
+  </div>
+<pre class="codigo"><code>&lt;?php
+$mysqli = new mysqli('127.0.0.1', 'root', '', 'Personal');
+
+$sql = "INSERT INTO personas (documento, apellido, nombres) VALUES (33444555, 'Pérez', 'Ana')";
+
+if ($mysqli-&gt;query($sql))
+{
+    echo "Filas agregadas: " . $mysqli-&gt;affected_rows . "&lt;br&gt;";
+    echo "Id nuevo: " . $mysqli-&gt;insert_id;
+}
+
+$mysqli-&gt;close();
+?&gt;</code></pre>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Cómo quedan las variables</th></tr>
+      <tr><td>2</td><td>Abre la conexión</td><td><code>$mysqli</code> = la conexión</td></tr>
+      <tr><td>4</td><td>Arma el INSERT. El número va sin comillas; los textos, con comillas simples</td><td><code>$sql</code> = la instrucción</td></tr>
+      <tr><td>6</td><td>La ejecuta. Un INSERT que anduvo devuelve <code>true</code>: entra</td><td>la tabla pasa a tener 4 filas</td></tr>
+      <tr><td>8</td><td>Muestra cuántas filas agregó</td><td><code>affected_rows</code> = 1</td></tr>
+      <tr><td>9</td><td>Muestra el id que puso la base</td><td><code>insert_id</code> = 4 (venía de 1, 2, 3)</td></tr>
+      <tr><td>12</td><td>Cierra la conexión</td><td></td></tr>
+    </table>
+  </div>
+  <p><strong>Qué imprime</strong>, con la tabla de ejemplo recién creada:</p>
+<pre class="salida">Filas agregadas: 1&lt;br&gt;Id nuevo: 4</pre>
+  <p>
+    En pantalla, dos renglones. Si antes se habían borrado filas, el id puede ser mayor: el
+    autoincremento <strong>no reutiliza</strong> números.
+  </p>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; ¿Cuál es la salida? Modificar y borrar</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>Con la tabla de ejemplo de la sección 2 (sin Ana Pérez) y la conexión abierta, ¿cuál es la salida?</p>
+  </div>
+<pre class="codigo"><code>&lt;?php
+$id = 2;
+$nuevo = 'Fede';
+
+$stmt = $mysqli-&gt;prepare("UPDATE personas SET nombres = ? WHERE idPersona = ?");
+$stmt-&gt;bind_param("si", $nuevo, $id);
+$stmt-&gt;execute();
+echo $stmt-&gt;affected_rows . " - ";
+$stmt-&gt;close();
+
+$apellido = 'Gómez';
+$stmt = $mysqli-&gt;prepare("DELETE FROM personas WHERE apellido = ?");
+$stmt-&gt;bind_param("s", $apellido);
+$stmt-&gt;execute();
+echo $stmt-&gt;affected_rows;
+$stmt-&gt;close();
+?&gt;</code></pre>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Cómo quedan las variables</th></tr>
+      <tr><td>2-3</td><td>Los datos</td><td><code>$id</code> = 2; <code>$nuevo</code> = 'Fede'</td></tr>
+      <tr><td>5</td><td>Prepara un UPDATE con dos huecos</td><td><code>$stmt</code> = la sentencia</td></tr>
+      <tr><td>6</td><td>Primer hueco: <code>$nuevo</code> como string (<code>s</code>); segundo: <code>$id</code> como entero (<code>i</code>)</td><td></td></tr>
+      <tr><td>7</td><td>Ejecuta: <code>UPDATE personas SET nombres = 'Fede' WHERE idPersona = 2</code></td><td>Federico pasa a Fede</td></tr>
+      <tr><td>8</td><td>Imprime cuántas filas cambió</td><td><code>affected_rows</code> = 1</td></tr>
+      <tr><td>11-14</td><td>Prepara y ejecuta un DELETE de los apellido Gómez</td><td>no hay ningún Gómez: no borra nada</td></tr>
+      <tr><td>15</td><td>Imprime cuántas borró</td><td><code>affected_rows</code> = 0</td></tr>
+    </table>
+  </div>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta (con la tabla de ejemplo)</span>
+<pre class="salida">1 - 0</pre>
+    <p>
+      Un <code>DELETE</code> que no encuentra nada <strong>no es un error</strong>: anduvo y
+      borró cero filas. Para saber si de verdad borró algo, se mira <code>affected_rows</code>.
+    </p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 3 &mdash; Por qué no pegar los datos en el SQL</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>
+      Un buscador arma el SQL pegando lo que el usuario escribió en el formulario. ¿Qué texto
+      SQL se arma si escribe <code>Bonnet</code>? ¿Y si escribe <code>x' OR '1'='1</code>?
+    </p>
+  </div>
+<pre class="codigo"><code>&lt;?php
+$apellido = $_GET['apellido'];
+$sql = "SELECT * FROM personas WHERE apellido = '" . $apellido . "'";
+echo $sql;
+?&gt;</code></pre>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Cómo quedan las variables</th></tr>
+      <tr><td>2</td><td>Toma lo que vino del formulario (los arreglos <code>$_GET</code>/<code>$_POST</code> de la Clase 3)</td><td><code>$apellido</code> = lo que escribió</td></tr>
+      <tr><td>3</td><td>Concatena: comilla de apertura, el dato, comilla de cierre</td><td><code>$sql</code> = el texto armado</td></tr>
+    </table>
+  </div>
+  <p><strong>Qué imprime</strong> (verificado) con <code>Bonnet</code>:</p>
+<pre class="salida">SELECT * FROM personas WHERE apellido = 'Bonnet'</pre>
+  <p>Y con <code>x' OR '1'='1</code>:</p>
+<pre class="salida">SELECT * FROM personas WHERE apellido = 'x' OR '1'='1'</pre>
+  <p>
+    La comilla que escribió el usuario <strong>cerró el texto antes de tiempo</strong>, y lo que
+    sigue pasó a ser SQL: "apellido es x, <strong>o</strong> 1 es igual a 1". Como 1 siempre es
+    igual a 1, la condición se cumple en todas las filas y la consulta trae la tabla entera.
+    Esto se llama <strong>inyección SQL</strong>: el usuario mete instrucciones propias por un
+    campo de texto. Con un <code>DELETE</code> armado igual, podría borrar todo.
+  </p>
+  <p>
+    Con una consulta preparada no pasa: el dato viaja <strong>aparte</strong> del SQL, así que
+    la base busca literalmente a alguien de apellido <code>x' OR '1'='1</code> y no encuentra a
+    nadie. La Clase 5 atacaba el mismo problema desde el otro lado, validando con las funciones
+    <code>ctype_</code> antes de guardar; las dos cosas se combinan.
+  </p>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Errores y trampas</span>
+    <ul>
+      <li><strong><code>UPDATE</code> o <code>DELETE</code> sin <code>WHERE</code></strong> cambia o borra <strong>todas</strong> las filas, y no hay papelera.</li>
+      <li><strong>Los tipos de <code>bind_param</code> van en el orden de los <code>?</code></strong>, uno por hueco. Si sobran o faltan letras, da error.</li>
+      <li><strong>Los <code>?</code> van sin comillas</strong>: <code>'?'</code> sería el texto "signo de pregunta", no un hueco.</li>
+      <li>Un <code>UPDATE</code> que pone el mismo valor que ya había da <code>affected_rows</code> = 0: la base no cuenta como cambiada una fila que quedó igual.</li>
+    </ul>
+  </div>
+</div>

@@ -1,0 +1,192 @@
+<div class="bloque">
+  <p class="kicker">Arreglos</p>
+  <h2>1. Qué es un arreglo y cómo se crea</h2>
+
+  <h3>Para qué sirve</h3>
+  <p>
+    Una variable común guarda <strong>un</strong> dato: <code>$dia = 'Lunes';</code>.
+    Si tenés que guardar los siete días de la semana, con variables comunes necesitarías siete
+    (<code>$dia1</code>, <code>$dia2</code>&hellip;). Un <strong>arreglo</strong> (en inglés
+    <em>array</em>, la palabra que usa la cátedra y PHP) guarda <strong>muchos datos bajo un
+    solo nombre</strong>.
+  </p>
+  <p>La definición de la cátedra, desarmada:</p>
+  <ul>
+    <li>Un arreglo es una <strong>colección ordenada de elementos</strong>.</li>
+    <li>Cada elemento tiene un <strong>valor</strong> (el dato guardado)&hellip;</li>
+    <li>&hellip;y una <strong>clave</strong> única que lo identifica dentro del arreglo (su "dirección").</li>
+  </ul>
+  <p>Se lo puede imaginar como una tabla de dos columnas:</p>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th>Clave</th><th>Valor</th></tr>
+      <tr><td>0</td><td>'Domingo'</td></tr>
+      <tr><td>1</td><td>'Lunes'</td></tr>
+      <tr><td>2</td><td>'Martes'</td></tr>
+    </table>
+  </div>
+
+  <h4>Lo que tienen de particular los arreglos de PHP</h4>
+  <ul>
+    <li><strong>No se declara ni el tipo ni el tamaño.</strong> El arreglo crece solo a medida que le agregás elementos.</li>
+    <li><strong>Puede mezclar tipos:</strong> en el mismo arreglo puede haber números, textos, booleanos y hasta otros arreglos.</li>
+    <li>
+      <strong>La clave puede ser un número entero o un texto.</strong> Si no la ponés, PHP usa
+      números automáticos que empiezan en 0.
+    </li>
+    <li>Puede tener una dimensión (un <em>vector</em>), dos (una <em>matriz</em>) o las que hagan falta (sección 4).</li>
+  </ul>
+
+  <h4>Dos nombres que vas a ver mucho</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Nombre</th><th>Qué claves tiene</th><th>Ejemplo</th></tr>
+      <tr><td class="lbl">Arreglo indexado</td><td>Números (0, 1, 2&hellip;), casi siempre puestos por PHP</td><td><code>array('rojo', 'azul')</code></td></tr>
+      <tr><td class="lbl">Arreglo asociativo</td><td>Textos elegidos por vos, que <em>asocian</em> un nombre a cada dato</td><td><code>array('apellido' =&gt; 'Gomez')</code></td></tr>
+    </table>
+  </div>
+
+  <h3>Sintaxis</h3>
+  <p>Hay dos formas de crear un arreglo.</p>
+
+  <div class="caja caja-formula">
+    <span class="caja-tit">Forma 1: con array() (o con corchetes, que es lo mismo)</span>
+<pre class="codigo"><code>$arreglo = array(valor1, valor2, valor3);
+$arreglo = array(clave1 =&gt; valor1, clave2 =&gt; valor2);
+$arreglo = array();
+$arreglo = ['rojo', 'azul'];</code></pre>
+  </div>
+
+  <div class="caja caja-formula">
+    <span class="caja-tit">Forma 2: agregando de a un elemento con []</span>
+<pre class="codigo"><code>$arreglo[] = valor;          // PHP elige la clave
+$arreglo['clave'] = valor;   // la clave la elegís vos</code></pre>
+  </div>
+
+  <h3>Qué es cada parte</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Parte</th><th>Qué es</th></tr>
+      <tr><td><code>array( ... )</code></td><td>El <strong>constructor</strong>: crea el arreglo con los elementos que van entre paréntesis, separados por comas</td></tr>
+      <tr><td><code>[ ... ]</code></td><td>Forma corta de <code>array( ... )</code>: <code>['rojo', 'azul']</code> es igual a <code>array('rojo', 'azul')</code></td></tr>
+      <tr><td><code>clave =&gt; valor</code></td><td>Un elemento con su clave elegida. La flecha <code>=&gt;</code> se lee "apunta a"</td></tr>
+      <tr><td><code>array()</code> vacío</td><td>Un arreglo <strong>sin elementos</strong>, listo para irle agregando</td></tr>
+      <tr><td><code>$arreglo[] = valor;</code></td><td>Agrega <code>valor</code> <strong>al final</strong>, con la clave numérica siguiente. Si la variable no existía, la crea como arreglo</td></tr>
+      <tr><td><code>$arreglo['c'] = valor;</code></td><td>Guarda <code>valor</code> en la clave <code>'c'</code>. Si la clave ya existía, <strong>pisa</strong> el valor anterior</td></tr>
+    </table>
+  </div>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Cómo elige PHP la clave automática</span>
+    <p>
+      Cuando no ponés clave, PHP usa <strong>el entero más grande que ya haya en el arreglo, más
+      uno</strong>. Si todavía no hay ninguna clave entera, usa <strong>0</strong>. Las claves de
+      texto no cuentan para esta cuenta.
+    </p>
+  </div>
+
+  <p>
+    Para ver un arreglo entero hace falta <code>print_r()</code>, que se explica en la sección 3.
+    Por ahora, en cada ejemplo se muestra <strong>cómo queda el arreglo por dentro</strong> (las
+    tablas se comprobaron imprimiendo cada arreglo con <code>print_r()</code>).
+  </p>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; Las cuatro formas de la cátedra</h3>
+<pre class="codigo"><code>&lt;?php
+$valores1 = array(10, 20, 30);
+$valores2 = array('a' =&gt; 10, 'b' =&gt; 20, 'cee' =&gt; 30);
+$valores3 = array(5 =&gt; 1, 3 =&gt; 2, 1 =&gt; 3);
+$valores4 = array();
+?&gt;</code></pre>
+
+  <h4>Qué hace cada línea</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Cómo queda el arreglo (clave =&gt; valor)</th></tr>
+      <tr><td><code>$valores1 = array(10, 20, 30);</code></td><td>Solo valores: PHP pone las claves 0, 1, 2</td><td>0 =&gt; 10 &nbsp;&middot;&nbsp; 1 =&gt; 20 &nbsp;&middot;&nbsp; 2 =&gt; 30</td></tr>
+      <tr><td><code>$valores2 = array('a' =&gt; 10, ...);</code></td><td>Claves de texto elegidas: es un arreglo asociativo</td><td>a =&gt; 10 &nbsp;&middot;&nbsp; b =&gt; 20 &nbsp;&middot;&nbsp; cee =&gt; 30</td></tr>
+      <tr><td><code>$valores3 = array(5 =&gt; 1, ...);</code></td><td>Claves numéricas puestas a mano y <strong>desordenadas</strong>. PHP las respeta y guarda los elementos en el orden en que se escribieron</td><td>5 =&gt; 1 &nbsp;&middot;&nbsp; 3 =&gt; 2 &nbsp;&middot;&nbsp; 1 =&gt; 3</td></tr>
+      <tr><td><code>$valores4 = array();</code></td><td>Arreglo vacío</td><td>(sin elementos)</td></tr>
+    </table>
+  </div>
+  <p>
+    <strong>Qué imprime:</strong> nada, porque no hay ningún <code>echo</code>. El script solo
+    crea los cuatro arreglos en memoria.
+  </p>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; Agregando con [] (formato "¿qué claves quedan?")</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>Después de ejecutar este script, ¿qué clave tiene cada elemento de <code>$m</code>?</p>
+  </div>
+<pre class="codigo"><code>&lt;?php
+$m = array('a', 'b');
+$m[] = 'c';
+$m['z'] = 'd';
+$m[] = 'e';
+?&gt;</code></pre>
+
+  <h4>Qué hace cada línea</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Cómo queda <code>$m</code></th></tr>
+      <tr><td><code>$m = array('a', 'b');</code></td><td>Dos valores sin clave: PHP usa 0 y 1</td><td>0 =&gt; a &nbsp;&middot;&nbsp; 1 =&gt; b</td></tr>
+      <tr><td><code>$m[] = 'c';</code></td><td>Sin clave: el entero más grande es 1, entonces usa 2</td><td>&hellip; 2 =&gt; c</td></tr>
+      <tr><td><code>$m['z'] = 'd';</code></td><td>Clave de texto elegida</td><td>&hellip; z =&gt; d</td></tr>
+      <tr><td><code>$m[] = 'e';</code></td><td>Sin clave: el entero más grande sigue siendo 2 (la <code>'z'</code> no cuenta), entonces usa 3</td><td>0 =&gt; a &middot; 1 =&gt; b &middot; 2 =&gt; c &middot; z =&gt; d &middot; 3 =&gt; e</td></tr>
+    </table>
+  </div>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>
+      <code>a</code> en la 0, <code>b</code> en la 1, <code>c</code> en la 2, <code>d</code> en
+      la <code>'z'</code> y <code>e</code> en la 3. Una clave de texto en el medio no corta la
+      numeración automática.
+    </p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 3 &mdash; Claves mezcladas (presentación de la cátedra)</h3>
+<pre class="codigo"><code>&lt;?php
+$cosas = array(
+    0 =&gt; 22444555,
+    'apellido' =&gt; 'Gomez',
+    1 =&gt; 'Martín'
+);
+$tres = array(5 =&gt; 'a', 'b', 'c');
+?&gt;</code></pre>
+  <h4>Qué hace cada línea</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Cómo queda el arreglo</th></tr>
+      <tr><td><code>$cosas = array(...);</code></td><td>Un mismo arreglo con claves numéricas y de texto, y con valores de distinto tipo (un número y dos textos)</td><td>0 =&gt; 22444555 &middot; apellido =&gt; Gomez &middot; 1 =&gt; Martín</td></tr>
+      <tr><td><code>$tres = array(5 =&gt; 'a', 'b', 'c');</code></td><td>El primero tiene clave 5; los siguientes no tienen clave, así que siguen desde el 5</td><td>5 =&gt; a &middot; 6 =&gt; b &middot; 7 =&gt; c</td></tr>
+    </table>
+  </div>
+  <p><strong>Qué imprime:</strong> nada; solo crea los arreglos.</p>
+
+  <hr class="sep">
+
+  <h3>Errores y trampas</h3>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Las claves automáticas empiezan en 0, no en 1</span>
+    <p>
+      En <code>array('Domingo', 'Lunes', 'Martes')</code>, <code>'Domingo'</code> está en la clave
+      <strong>0</strong> y <code>'Lunes'</code> en la <strong>1</strong>. Es la trampa de la
+      pregunta 8 del parcial (sección 2).
+    </p>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Repetir una clave pisa el valor</span>
+    <p>
+      Una clave es única: si escribís <code>$a['x'] = 1;</code> y después
+      <code>$a['x'] = 2;</code>, el arreglo tiene <strong>un</strong> solo elemento
+      <code>x =&gt; 2</code>. No se agrega otro.
+    </p>
+  </div>
+</div>

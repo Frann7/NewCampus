@@ -1,0 +1,144 @@
+<div class="ej">
+  <span class="tag">Ejemplo 1 &middot; page1.html</span>
+  <h2>Cambiar el título con botones</h2>
+  <div class="enunciado">
+    <p>
+      Una página con un título vacío y cinco botones: cambiar el texto, ponerlo rojo, ponerle
+      fondo verde, agrandar y achicar la letra. Todo lo hace una clase, <code>IndexClass</code>,
+      en <code>js/page1Class.js</code>.
+    </p>
+  </div>
+
+  <span class="paso">Paso 1 &mdash; El HTML: qué elementos hay</span>
+<pre class="codigo"><code>&lt;div style="text-align: center;"&gt;
+    &lt;h2&gt;Ejemplo de uso de clases en Javascript&lt;/h2&gt;
+    &lt;hr /&gt;
+    &lt;h1 id="titulo"&gt;&lt;/h1&gt;
+    &lt;hr /&gt;
+    &lt;button id="btCambioTitulo"&gt;Cambiar Título&lt;/button&gt;
+    &lt;button id="btCambioColor"&gt;Cambiar Color&lt;/button&gt;
+    &lt;button id="btCambioFondo"&gt;Cambiar Fondo&lt;/button&gt;
+    &lt;button id="btAumentoTamaño"&gt;+&lt;/button&gt;
+    &lt;button id="btDisminuirTamaño"&gt;-&lt;/button&gt;
+    &lt;hr /&gt;
+&lt;/div&gt;
+
+&lt;script src="js/page1Class.js" type="text/javascript"&gt;&lt;/script&gt;</code></pre>
+  <ul>
+    <li>El <code>&lt;h1 id="titulo"&gt;</code> está <strong>vacío</strong>: el texto lo pone JavaScript al cargar.</li>
+    <li>Cada botón tiene un <code>id</code> distinto, que es lo que usa JavaScript para encontrarlo. El texto del botón ("+", "Cambiar Color") es solo lo que ve el usuario.</li>
+    <li>El <code>&lt;script&gt;</code> va al final del <code>&lt;body&gt;</code> y carga el archivo de la clase.</li>
+  </ul>
+
+  <span class="paso">Paso 2 &mdash; El constructor: agarrar los elementos</span>
+<pre class="codigo"><code>class IndexClass {
+
+    constructor(){
+        this.titulo = document.getElementById('titulo');
+
+        this.btCambioTitulo = document.getElementById('btCambioTitulo');
+        this.btCambioColor = document.getElementById('btCambioColor');
+        this.btCambioFondo = document.getElementById('btCambioFondo');
+        this.btAumentoTamaño = document.getElementById('btAumentoTamaño');
+        this.btDisminuirTamaño = document.getElementById('btDisminuirTamaño');
+    }</code></pre>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Cómo quedan las propiedades</th></tr>
+      <tr><td><code>this.titulo = ...('titulo');</code></td><td>Guarda el <code>&lt;h1&gt;</code> en una propiedad del objeto</td><td><code>this.titulo</code> = el <code>h1</code></td></tr>
+      <tr><td><code>this.btCambioTitulo = ...</code> y las otras cuatro</td><td>Guarda cada botón en una propiedad con el <strong>mismo nombre</strong> que su id (es una costumbre, no una obligación)</td><td>Cinco propiedades, una por botón</td></tr>
+    </table>
+  </div>
+  <p>
+    El constructor solo <strong>junta</strong> los elementos. Así, después, cualquier método los
+    tiene a mano con <code>this.</code>, sin volver a buscarlos.
+  </p>
+
+  <span class="paso">Paso 3 &mdash; init(): el texto inicial</span>
+<pre class="codigo"><code>    init() {
+        this.titulo.innerHTML ="Titulo de la pagina web Programación Avanzada";
+        this.addEventListeners();
+    }</code></pre>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Qué se ve</th></tr>
+      <tr><td><code>this.titulo.innerHTML = "...";</code></td><td>Escribe el texto adentro del <code>h1</code> vacío</td><td>"Titulo de la pagina web Programación Avanzada"</td></tr>
+      <tr><td><code>this.addEventListeners();</code></td><td>Llama a otro método del mismo objeto, el que engancha los eventos (paso 4)</td><td>&mdash;</td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Paso 4 &mdash; addEventListeners(): qué hace cada botón</span>
+<pre class="codigo"><code>    addEventListeners() {
+        this.btCambioTitulo.addEventListener('click', () =&gt; {
+            this.titulo.innerHTML = "Nuevo Título de la pagina web";
+        });
+
+        this.btCambioColor.addEventListener('click', () =&gt; {
+            this.titulo.style.color = "red";
+        });
+
+        this.btCambioFondo.addEventListener('click', () =&gt; {
+            this.titulo.style.backgroundColor = "green";
+        });
+
+        this.btAumentoTamaño.addEventListener('click', () =&gt; {
+            let currentSize = window.getComputedStyle(this.titulo).fontSize;
+            this.titulo.style.fontSize = (parseFloat(currentSize) + 2) + "px";
+        });
+
+        this.btDisminuirTamaño.addEventListener('click', () =&gt; {
+            let currentSize = window.getComputedStyle(this.titulo).fontSize;
+            this.titulo.style.fontSize = (parseFloat(currentSize) - 2) + "px";
+        });
+    }
+}</code></pre>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Botón</th><th>Qué hace al hacer clic</th><th>Qué se ve</th></tr>
+      <tr><td>Cambiar Título</td><td>Reemplaza el contenido del <code>h1</code></td><td>"Nuevo Título de la pagina web". Más clics no cambian nada: pone siempre el mismo texto</td></tr>
+      <tr><td>Cambiar Color</td><td><code>style.color</code> = rojo</td><td>Letras rojas</td></tr>
+      <tr><td>Cambiar Fondo</td><td><code>style.backgroundColor</code> = verde</td><td>Franja verde detrás del título (el <code>h1</code> ocupa todo el ancho)</td></tr>
+      <tr><td>+</td><td>Lee el tamaño real con <code>getComputedStyle</code>, lo pasa a número con <code>parseFloat</code>, le suma 2 y lo vuelve a escribir con <code>"px"</code></td><td>La letra crece 2px por clic</td></tr>
+      <tr><td>-</td><td>Lo mismo restando 2</td><td>La letra se achica 2px por clic</td></tr>
+    </table>
+  </div>
+  <p>
+    Las cinco funciones son <strong>flechas</strong>: por eso adentro <code>this.titulo</code>
+    sigue siendo el título (teoría, sección 6, ejemplo 3). La cuenta del tamaño es la de la
+    sección 4, ejemplo 2: con la configuración de fábrica del navegador el <code>h1</code> arranca
+    en 32px, y tres clics en "+" lo dejan en 38px.
+  </p>
+
+  <span class="paso">Paso 5 &mdash; El arranque</span>
+<pre class="codigo"><code>window.addEventListener('load',() =&gt;{
+    new IndexClass().init();
+})</code></pre>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th></tr>
+      <tr><td><code>window.addEventListener('load', ...)</code></td><td>Espera a que la página termine de cargar</td></tr>
+      <tr><td><code>new IndexClass()</code></td><td>Crea el objeto: corre el constructor, que agarra el título y los botones</td></tr>
+      <tr><td><code>.init()</code></td><td>Pone el texto inicial y engancha los cinco botones</td></tr>
+    </table>
+  </div>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Qué se ve en la página</span>
+    <p>
+      Al abrirla: el título "Titulo de la pagina web Programación Avanzada" entre dos líneas, y
+      los cinco botones abajo. Cada botón cambia el título al instante, sin recargar. Si se
+      recarga, todo vuelve a como estaba: los cambios eran del DOM, no del archivo.
+    </p>
+  </div>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">La ñ en los nombres</span>
+    <p>
+      <code>btAumentoTamaño</code> lleva ñ en el id y en la propiedad. JavaScript y HTML lo
+      aceptan, y anda porque el archivo está guardado en UTF-8 (lo dice el
+      <code>&lt;meta charset="UTF-8"&gt;</code>). Igual, por costumbre, en el código conviene
+      evitar ñ y tildes: si el archivo se guarda con otra codificación, el id del HTML y el del
+      JavaScript dejan de coincidir.
+    </p>
+  </div>
+</div>

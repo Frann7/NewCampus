@@ -33,6 +33,14 @@
   --dato:#215c78;
   --dato-bg:#e4f0f6;
 
+  /* codigo (PA): el bloque, lo que imprime el programa y el codigo en linea */
+  --codigo-bg:#f6f7fb;
+  --codigo-borde:#d5d9e8;
+  --codigo-linea:rgba(26,28,40,.065);
+  --salida-bg:#232737;
+  --salida-ink:#e7e9f2;
+  --salida-etq:#9aa0ba;
+
   --shadow:0 1px 2px rgba(26,28,40,.05), 0 10px 30px rgba(26,28,40,.07);
   --radius:14px;
 }
@@ -68,6 +76,13 @@
     --dato:#6fb6d8;
     --dato-bg:#132a35;
 
+    --codigo-bg:#252a3a;
+    --codigo-borde:#343a50;
+    --codigo-linea:rgba(255,255,255,.08);
+    --salida-bg:#07090f;
+    --salida-ink:#d7dbea;
+    --salida-etq:#7c8196;
+
     --shadow:0 1px 2px rgba(0,0,0,.35), 0 10px 30px rgba(0,0,0,.4);
   }
 }
@@ -101,6 +116,13 @@
   --warn-bg:#302713;
   --dato:#6fb6d8;
   --dato-bg:#132a35;
+
+  --codigo-bg:#252a3a;
+  --codigo-borde:#343a50;
+  --codigo-linea:rgba(255,255,255,.08);
+  --salida-bg:#07090f;
+  --salida-ink:#d7dbea;
+  --salida-etq:#7c8196;
 
   --shadow:0 1px 2px rgba(0,0,0,.35), 0 10px 30px rgba(0,0,0,.4);
 }
@@ -177,6 +199,26 @@ body{
   font-weight:600;
   margin:20px 0 8px 6px;
 }
+
+/* Tareas y Calendario: de todo el campus, arriba de las materias */
+.nav-fija{display:flex;flex-direction:column;gap:2px;}
+.nav-fija-btn{
+  width:100%;
+  text-align:left;
+  background:none;
+  border:1px solid transparent;
+  border-left:3px solid transparent;
+  border-radius:10px;
+  padding:8px 12px;
+  font:inherit;
+  font-size:14.5px;
+  font-weight:600;
+  color:var(--ink-soft);
+  cursor:pointer;
+}
+.nav-fija-btn:hover{background:var(--surface-2);color:var(--ink);}
+.nav-fija-btn.is-active[data-ir="tareas"]{background:var(--tareas-bg);color:var(--tareas);border-left-color:var(--tareas);}
+.nav-fija-btn.is-active[data-ir="calendario"]{background:var(--ok-bg);color:var(--ok);border-left-color:var(--ok);}
 
 .materia{margin-bottom:6px;}
 
@@ -305,8 +347,9 @@ body{
 .tab.is-active[data-tab="teoria"]{color:var(--teoria);border-bottom-color:var(--teoria);}
 .tab.is-active[data-tab="practica"]{color:var(--practica);border-bottom-color:var(--practica);}
 .tab.is-active[data-tab="evaluacion"]{color:var(--dato);border-bottom-color:var(--dato);}
-.tab.is-active[data-tab="calendario"]{color:var(--ok);border-bottom-color:var(--ok);}
-.tab.is-active[data-tab="tareas"]{color:var(--tareas);border-bottom-color:var(--tareas);}
+/* En Tareas y Calendario no hay materia en pantalla: la fila de pestanias no
+   se ve, pero guarda su lugar para que la barra no cambie de alto. */
+html.vista-campus .tabs{visibility:hidden;}
 
 .theme-btn{
   background:var(--surface);
@@ -608,6 +651,74 @@ hr.sep{
 }
 .caja-calc .caja-tit{color:var(--ink-faint);font-family:"Public Sans","Segoe UI",Arial,sans-serif;}
 
+/* ---------- Codigo (PA) ----------
+   <pre class="codigo"><code>...</code></pre>  el programa
+   <pre class="salida">...</pre>               lo que imprime (fondo de consola y rotulo "Salida")
+   <code>...</code>                            codigo en el texto
+   Sirven igual dentro de .bloque, .ej, .caja y de las preguntas de evaluacion
+   (opciones incluidas): si no entra a lo ancho, scroll horizontal. */
+
+code{
+  font-family:"JetBrains Mono",Consolas,monospace;
+  font-size:.86em;
+  background:var(--codigo-linea);
+  border-radius:5px;
+  padding:.1em .38em;
+  overflow-wrap:anywhere;
+  /* sin ligaduras: => tiene que verse como se escribe, no como una flecha */
+  font-variant-ligatures:none;
+}
+
+pre.codigo, pre.salida{
+  font-family:"JetBrains Mono",Consolas,monospace;
+  font-size:13.5px;
+  line-height:1.6;
+  tab-size:4;
+  white-space:pre;
+  overflow-x:auto;
+  max-width:100%;
+  margin:14px 0;
+  padding:12px 16px;
+  border-radius:9px;
+  text-align:left;
+  font-variant-ligatures:none;
+}
+pre.codigo{
+  background:var(--codigo-bg);
+  color:var(--ink);
+  border:1px solid var(--codigo-borde);
+}
+pre.salida{
+  background:var(--salida-bg);
+  color:var(--salida-ink);
+  border:1px solid var(--codigo-borde);
+  border-left:3px solid var(--ok);
+}
+pre.salida::before{
+  content:"Salida";
+  display:block;
+  font-family:"Public Sans","Segoe UI",Arial,sans-serif;
+  font-size:10.5px;
+  font-weight:700;
+  letter-spacing:.09em;
+  text-transform:uppercase;
+  color:var(--salida-etq);
+  margin-bottom:4px;
+}
+pre.codigo code, pre.salida code{
+  font-size:inherit;
+  background:none;
+  border-radius:0;
+  padding:0;
+  overflow-wrap:normal;
+}
+pre.codigo:first-child, pre.salida:first-child{margin-top:0;}
+pre.codigo:last-child, pre.salida:last-child{margin-bottom:0;}
+/* el programa y lo que imprime, uno abajo del otro, van pegados */
+pre.codigo + pre.salida{margin-top:-6px;}
+/* en una opcion (evaluacion) el bloque va mas chico */
+.ex-op-txt pre.codigo, .ex-op-txt pre.salida{font-size:12.5px;padding:8px 12px;margin:4px 0;}
+
 /* ---------- Tablas ---------- */
 
 .tabla-wrap{overflow-x:auto;margin:18px 0;}
@@ -705,6 +816,8 @@ table.t.z-recorte td.z-cruce{
 .tab.sosteniendo{background:var(--surface-2);color:var(--ink);}
 .unidades button{position:relative;overflow:hidden;user-select:none;-webkit-user-select:none;}
 .unidades button.sosteniendo{background:var(--surface-2);color:var(--ink);}
+.nav-fija-btn{position:relative;overflow:hidden;user-select:none;-webkit-user-select:none;}
+.nav-fija-btn.sosteniendo{background:var(--surface-2);color:var(--ink);}
 
 .tab-carga{
   position:absolute;
@@ -743,9 +856,7 @@ html.es-panel .sidebar{display:none;}
 html.es-panel .tabs{display:none;}
 /* la copia de una unidad deja ver sus pestanias Teoria y Practica, nada mas */
 html.es-panel.panel-unidad .tabs{display:flex;}
-html.es-panel.panel-unidad .tab[data-tab="evaluacion"],
-html.es-panel.panel-unidad .tab[data-tab="calendario"],
-html.es-panel.panel-unidad .tab[data-tab="tareas"]{display:none;}
+html.es-panel.panel-unidad .tab[data-tab="evaluacion"]{display:none;}
 html.es-panel .medidores{display:none;}
 html.es-panel .topbar{padding:12px 24px 0;}
 html.es-panel .topbar-row{align-items:center;}

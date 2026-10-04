@@ -1,0 +1,144 @@
+<div class="bloque">
+  <p class="kicker">Formularios en HTML</p>
+  <h2>3. Formularios: el elemento form</h2>
+
+  <h3>Para qué sirve</h3>
+  <p>
+    Un formulario sirve para <strong>juntar datos que escribe el visitante</strong> (su nombre, un
+    comentario, una contraseña) y <strong>mandarlos al servidor</strong>.
+  </p>
+  <ul>
+    <li>
+      Un <code>&lt;form&gt;</code> es un <strong>contenedor de controles</strong>. Cada
+      <strong>control</strong> es un lugar donde el usuario carga algo: una línea de texto, una
+      contraseña, una fecha, una opción de una lista, un archivo para subir.
+    </li>
+    <li>
+      El formulario <strong>solo junta y manda</strong>. HTML no puede guardar ni procesar nada:
+      del otro lado tiene que haber un <strong>código del lado del servidor</strong> (en esta
+      materia, un script PHP) que reciba los datos y haga con ellos lo que el programador
+      decida.
+    </li>
+  </ul>
+
+  <h4>El viaje de los datos, paso a paso</h4>
+  <ol>
+    <li>El navegador muestra la página con el formulario.</li>
+    <li>El usuario completa los controles.</li>
+    <li>Aprieta el botón de enviar.</li>
+    <li>El navegador arma un par <code>nombre=valor</code> por cada control, con el <code>name</code> del control y lo que escribió el usuario.</li>
+    <li>Manda esos pares al script que dice <code>action</code>, de la forma que dice <code>method</code> (GET o POST, secciones 5 y 6).</li>
+    <li>El servidor ejecuta ese script PHP, que encuentra los datos en <code>$_GET</code> o <code>$_POST</code> (sección 8).</li>
+    <li>Lo que el script imprime es la página nueva que ve el usuario.</li>
+  </ol>
+
+  <h3>Sintaxis</h3>
+<pre class="codigo"><code>&lt;form action="script.php" method="post"&gt;
+    ... controles ...
+    &lt;input type="submit" value="Texto del botón"&gt;
+&lt;/form&gt;</code></pre>
+
+  <h3>Qué es cada parte</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Parte</th><th>Qué es</th></tr>
+      <tr><td><code>&lt;form&gt; &lt;/form&gt;</code></td><td>Delimitan el formulario. Solo se envían los controles que están <strong>adentro</strong></td></tr>
+      <tr><td><code>action</code></td><td>El script que va a recibir los datos (sección 7)</td></tr>
+      <tr><td><code>method</code></td><td>Cómo viajan los datos: <code>get</code> o <code>post</code> (secciones 5 y 6)</td></tr>
+      <tr><td><code>&lt;input&gt;</code></td><td>El control más común. Es un elemento vacío (no se cierra). Qué clase de control es lo dice su <code>type</code> (sección 4)</td></tr>
+      <tr><td><code>name</code></td><td>(en cada control) El <strong>nombre</strong> con el que viaja el dato. Es la clave con la que PHP lo va a buscar: <code>name="nombre"</code> llega como <code>$_POST['nombre']</code></td></tr>
+      <tr><td><code>value</code></td><td>(en cada control) El valor. En un campo de texto es lo que viene escrito de entrada; en un botón, el texto del botón</td></tr>
+      <tr><td><code>type="submit"</code></td><td>El botón de <strong>enviar</strong>: al apretarlo se manda el formulario</td></tr>
+    </table>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; El formulario mínimo de la cátedra</h3>
+
+<pre class="codigo"><code>&lt;form action="procesoFormulario.php" method="post"&gt;
+&lt;input type="text" name="nombre"&gt;
+&lt;input type="submit" value="Enviar el formulario"&gt;
+&lt;/form&gt;</code></pre>
+
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th></tr>
+      <tr><td>1</td><td>Abre el formulario: los datos van a ir a <code>procesoFormulario.php</code>, por POST</td></tr>
+      <tr><td>2</td><td>Un cuadro para escribir una línea de texto. Su dato va a viajar con el nombre <code>nombre</code></td></tr>
+      <tr><td>3</td><td>Un botón que dice <em>Enviar el formulario</em>. Como no tiene <code>name</code>, el botón en sí no manda ningún dato</td></tr>
+      <tr><td>4</td><td>Cierra el formulario</td></tr>
+    </table>
+  </div>
+
+  <h4>Qué se ve y qué pasa</h4>
+  <ul>
+    <li>Se ve un cuadro de texto vacío y, al lado, el botón <em>Enviar el formulario</em>.</li>
+    <li>Si el usuario escribe <code>Federico</code> y aprieta el botón, el navegador manda el par <code>nombre=Federico</code> a <code>procesoFormulario.php</code>.</li>
+  </ul>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; ¿Qué pares viajan? (formato parcial)</h3>
+
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>
+      El usuario escribe <em>Federico</em> en el primer cuadro y <em>Bonnet</em> en el segundo, y
+      aprieta el botón. ¿Qué pares <code>nombre=valor</code> se envían y a qué script?
+    </p>
+<pre class="codigo"><code>&lt;form action="procesoFormulario.php" method="get"&gt;
+Nombre: &lt;input type="text" name="nombre"&gt;
+Apellido: &lt;input type="text" name="apellido"&gt;
+&lt;input type="submit" value="Enviar el formulario"&gt;
+&lt;/form&gt;</code></pre>
+  </div>
+
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Qué par aporta</th></tr>
+      <tr><td>1</td><td>Destino: <code>procesoFormulario.php</code>, por GET</td><td>&mdash;</td></tr>
+      <tr><td>2</td><td>El texto "Nombre:" (se ve tal cual) y un cuadro con <code>name="nombre"</code></td><td><code>nombre=Federico</code></td></tr>
+      <tr><td>3</td><td>El texto "Apellido:" y un cuadro con <code>name="apellido"</code></td><td><code>apellido=Bonnet</code></td></tr>
+      <tr><td>4</td><td>El botón de enviar, sin <code>name</code></td><td>ninguno</td></tr>
+    </table>
+  </div>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>
+      Viajan <code>nombre=Federico</code> y <code>apellido=Bonnet</code>, a
+      <code>procesoFormulario.php</code>. Fijate que el nombre del par sale del
+      <strong><code>name</code></strong>, no del texto "Nombre:" que se ve al lado del cuadro.
+      Cómo viajan exactamente depende del método: con GET, pegados a la URL (sección 5).
+    </p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Errores y trampas</h3>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Lo que suele salir mal</span>
+    <ul>
+      <li>
+        <strong>Un control sin <code>name</code> no se envía.</strong> Se ve, el usuario lo
+        completa, pero su dato no llega nunca a PHP.
+      </li>
+      <li>
+        <strong>Un control fuera del <code>&lt;form&gt;</code> tampoco se envía.</strong>
+      </li>
+      <li>
+        <strong>Las comillas "inglesas" del apunte.</strong> En el PDF de la cátedra aparece
+        <code>method=”post”</code>, con comillas tipográficas (las curvas que pone el procesador
+        de texto). En el código hay que usar las comillas rectas del teclado:
+        <code>method="post"</code>. Con las curvas, el navegador no reconoce el valor y usa el
+        método por defecto, que es <strong>GET</strong>: los datos terminan en la URL y en
+        <code>$_GET</code>, no en <code>$_POST</code>.
+      </li>
+      <li>
+        <strong>Sin <code>method</code></strong>, el formulario se envía por GET.
+        <strong>Sin <code>action</code></strong>, se envía a la misma página que lo muestra.
+      </li>
+    </ul>
+  </div>
+</div>

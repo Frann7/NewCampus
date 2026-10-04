@@ -1,0 +1,116 @@
+<div class="bloque">
+  <p class="kicker">Arreglos</p>
+  <h2>4. Arreglos multidimensionales</h2>
+
+  <h3>Para qué sirve</h3>
+  <p>
+    Un arreglo puede guardar cualquier tipo de dato, <strong>incluso otro arreglo</strong>. Cuando
+    el valor de un elemento es un arreglo, se habla de arreglo <strong>multidimensional</strong>:
+  </p>
+  <ul>
+    <li>Un arreglo de arreglos es como una <strong>tabla</strong> (filas y columnas): por ejemplo, una lista de personas donde cada persona es un arreglo con sus datos.</li>
+    <li>PHP permite anidar todos los niveles que hagan falta.</li>
+  </ul>
+
+  <h3>Sintaxis</h3>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Crear y leer</span>
+<pre class="codigo"><code>$tabla = array();
+$tabla[] = array(valor, valor);      // la fila 0 es un arreglo
+$tabla[] = array(valor, valor);      // la fila 1 es otro arreglo
+
+echo $tabla[fila][columna];</code></pre>
+  </div>
+
+  <h3>Qué es cada parte</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Parte</th><th>Qué es</th></tr>
+      <tr><td><code>$tabla[] = array(...);</code></td><td>Agrega al final de <code>$tabla</code> un elemento cuyo valor es un arreglo entero</td></tr>
+      <tr><td><code>$tabla[fila]</code></td><td>El primer par de corchetes elige un elemento de afuera: devuelve <strong>un arreglo</strong></td></tr>
+      <tr><td><code>$tabla[fila][columna]</code></td><td>El segundo par de corchetes elige un elemento <strong>dentro</strong> de ese arreglo: devuelve el valor</td></tr>
+    </table>
+  </div>
+  <p>
+    La cátedra lo dice así: <em>bastará con ir indicando las claves hasta llegar al valor que
+    queremos recuperar</em>. Se leen de izquierda a derecha, de afuera hacia adentro.
+  </p>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; "chauestas" (teoría de la cátedra)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>¿Cuál es la salida del siguiente script?</p>
+  </div>
+<pre class="codigo"><code>&lt;?php
+$array = array();
+$array[] = array('hola', 'chau');
+$array[] = array('estas', 'como');
+echo $array[0][1] . $array[1][0];
+?&gt;</code></pre>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Cómo quedan las variables</th></tr>
+      <tr><td><code>$array = array();</code></td><td>Crea un arreglo vacío</td><td><code>$array</code>: (vacío)</td></tr>
+      <tr><td><code>$array[] = array('hola', 'chau');</code></td><td>Agrega en la clave 0 un arreglo de dos textos</td><td>0 =&gt; (0 =&gt; hola &middot; 1 =&gt; chau)</td></tr>
+      <tr><td><code>$array[] = array('estas', 'como');</code></td><td>Agrega en la clave 1 otro arreglo</td><td>0 =&gt; (hola, chau) &middot; 1 =&gt; (0 =&gt; estas &middot; 1 =&gt; como)</td></tr>
+      <tr><td><code>echo $array[0][1] . $array[1][0];</code></td><td><code>$array[0]</code> es <code>('hola','chau')</code> y su <code>[1]</code> es <code>chau</code>. <code>$array[1]</code> es <code>('estas','como')</code> y su <code>[0]</code> es <code>estas</code>. El <code>.</code> los pega sin espacio</td><td>(no cambia nada)</td></tr>
+    </table>
+  </div>
+<pre class="salida">chauestas</pre>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; Una lista de personas (presentación de la cátedra)</h3>
+<pre class="codigo"><code>&lt;?php
+$personas = array();
+$persona1 = array('documento' =&gt; 22333444, 'apellido' =&gt; 'Bonnet', 'nombres' =&gt; 'Federico');
+$persona2 = array('documento' =&gt; 11222333, 'apellido' =&gt; 'Aramburu', 'nombres' =&gt; 'Exequiel');
+$personas[] = $persona1;
+$personas[] = $persona2;
+print_r($personas[1]);
+echo $personas[1]['apellido'];
+?&gt;</code></pre>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Cómo quedan las variables</th></tr>
+      <tr><td><code>$personas = array();</code></td><td>La lista, vacía</td><td><code>$personas</code>: (vacío)</td></tr>
+      <tr><td><code>$persona1 = array(...);</code></td><td>Los datos de una persona, en un arreglo asociativo</td><td>documento =&gt; 22333444 &middot; apellido =&gt; Bonnet &middot; nombres =&gt; Federico</td></tr>
+      <tr><td><code>$persona2 = array(...);</code></td><td>Los datos de otra persona</td><td>documento =&gt; 11222333 &middot; apellido =&gt; Aramburu &middot; nombres =&gt; Exequiel</td></tr>
+      <tr><td><code>$personas[] = $persona1;</code></td><td>Guarda una copia de <code>$persona1</code> en la clave 0</td><td><code>$personas</code>: 0 =&gt; (Bonnet)</td></tr>
+      <tr><td><code>$personas[] = $persona2;</code></td><td>Guarda una copia de <code>$persona2</code> en la clave 1</td><td><code>$personas</code>: 0 =&gt; (Bonnet) &middot; 1 =&gt; (Aramburu)</td></tr>
+      <tr><td><code>print_r($personas[1]);</code></td><td>Muestra el elemento 1, que es el arreglo de Aramburu</td><td>(no cambia nada)</td></tr>
+      <tr><td><code>echo $personas[1]['apellido'];</code></td><td>Dentro del elemento 1, la clave <code>'apellido'</code></td><td>(no cambia nada)</td></tr>
+    </table>
+  </div>
+<pre class="salida">Array
+(
+    [documento] =&gt; 11222333
+    [apellido] =&gt; Aramburu
+    [nombres] =&gt; Exequiel
+)
+Aramburu</pre>
+
+  <hr class="sep">
+
+  <h3>Errores y trampas</h3>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Un espacio adentro de la clave cambia la clave</span>
+    <p>
+      En la presentación, la clave está escrita <code>' nombres'</code>, con un espacio adelante.
+      Esa es <strong>otra clave</strong>: <code>$persona1['nombres']</code> da
+      <code>Warning: Undefined array key "nombres"</code>. Acá se escribió sin el espacio.
+      Además, la diapositiva dibuja la salida de <code>print_r</code> con comillas y flechas
+      (<code>'documento'=&gt;11222333</code>), que no es como imprime PHP: la salida real es la de
+      arriba.
+    </p>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Un solo par de corchetes devuelve un arreglo</span>
+    <p>
+      <code>echo $personas[1];</code> no muestra los datos: imprime <code>Array</code> con un
+      aviso (sección 2). Hace falta el segundo par de corchetes para llegar a un valor.
+    </p>
+  </div>
+</div>

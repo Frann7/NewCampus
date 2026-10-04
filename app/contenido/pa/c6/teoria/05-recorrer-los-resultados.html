@@ -1,0 +1,197 @@
+<div class="bloque">
+  <p class="kicker">Sección 5 &middot; Teoría, páginas 3 y 4</p>
+  <h2>5. Recorrer los resultados</h2>
+
+  <h3>Para qué sirve</h3>
+  <p>
+    <code>query()</code> dejó en <code>$resultado</code> un apuntador a las filas, no las filas.
+    Para trabajar con ellas hay que <strong>transformarlas en un arreglo</strong> de PHP, una por
+    una. Eso hacen los métodos <code>fetch</code> (en inglés, "ir a buscar").
+  </p>
+
+  <h3>Sintaxis</h3>
+<pre class="codigo"><code>while ($persona = $resultado-&gt;fetch_assoc())
+{
+    // $persona es un arreglo con una fila
+}</code></pre>
+  <p>En estilo procedural: <code>mysqli_fetch_assoc($resultado)</code> y <code>mysqli_fetch_array($resultado)</code>.</p>
+
+  <h3>Qué es cada parte</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Parte</th><th>Qué es</th></tr>
+      <tr><td><code>fetch_assoc()</code></td><td>Toma <strong>la fila siguiente</strong> y la devuelve como <strong>arreglo asociativo</strong>: las claves son los nombres de las columnas de la tabla</td></tr>
+      <tr><td><code>fetch_array()</code></td><td>Lo mismo, pero el arreglo trae la fila <strong>dos veces</strong>: con claves numéricas (0, 1, 2&hellip;, en el orden de las columnas) y con los nombres. Se le puede pedir solo una forma: <code>fetch_array(MYSQLI_ASSOC)</code> (nombres) o <code>fetch_array(MYSQLI_NUM)</code> (números). Sin nada, es <code>MYSQLI_BOTH</code> (las dos)</td></tr>
+      <tr><td>El puntero interno</td><td><code>$resultado</code> recuerda <strong>por qué fila va</strong>. Cada <code>fetch</code> devuelve la fila donde está el puntero y lo <strong>mueve una adelante</strong>. No vuelve solo al principio</td></tr>
+      <tr><td>Cuando no quedan filas</td><td><code>fetch</code> devuelve <code>null</code></td></tr>
+      <tr><td><code>while ($persona = ...)</code></td><td>Otra vez un solo <code>=</code>: en cada vuelta guarda la fila en <code>$persona</code> y el <code>while</code> mira si eso es verdadero. Un arreglo con datos es verdadero; <code>null</code> es falso. Así el bucle da <strong>una vuelta por fila</strong> y termina solo</td></tr>
+    </table>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; El ejemplo de la cátedra</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>
+      Es el código de la página 3 de la teoría (con las comillas corregidas). Con la tabla de
+      ejemplo de la sección 2, ¿qué muestra?
+    </p>
+  </div>
+<pre class="codigo"><code>&lt;?php
+$mysqli = new mysqli('127.0.0.1', 'root', '', 'Personal');
+
+$sql = 'SELECT * FROM personas';
+
+if ( $resultado = $mysqli-&gt;query($sql) )
+{
+    if ( $resultado-&gt;num_rows &gt; 0 )
+    {
+        while ( $persona = $resultado-&gt;fetch_assoc() )
+        {
+            print_r ( $persona );
+            echo "&lt;br&gt;";
+        }
+    }
+}
+$mysqli-&gt;close();
+?&gt;</code></pre>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Cómo quedan las variables</th></tr>
+      <tr><td>2</td><td>Abre la conexión</td><td><code>$mysqli</code> = la conexión</td></tr>
+      <tr><td>4</td><td>Guarda el SQL</td><td><code>$sql</code> = <code>'SELECT * FROM personas'</code></td></tr>
+      <tr><td>6</td><td>Consulta; anduvo, entra</td><td><code>$resultado</code> = apuntador a 3 filas, puntero en la 1</td></tr>
+      <tr><td>8</td><td>¿Trajo alguna fila? 3 &gt; 0, entra</td><td><code>num_rows</code> = 3</td></tr>
+      <tr><td>10 (vuelta 1)</td><td>Saca la fila 1 y mueve el puntero</td><td><code>$persona</code> = <code>['idPersona'=&gt;'1', 'documento'=&gt;'22333444', 'apellido'=&gt;'García', 'nombres'=&gt;'Gabriel']</code>; puntero en la 2</td></tr>
+      <tr><td>12-13</td><td><code>print_r</code> muestra todo el arreglo; después un salto de línea HTML</td><td></td></tr>
+      <tr><td>10 (vuelta 2)</td><td>Saca la fila 2</td><td><code>$persona</code> = la de Bonnet; puntero en la 3</td></tr>
+      <tr><td>10 (vuelta 3)</td><td>Saca la fila 3</td><td><code>$persona</code> = la de Aramburu; puntero al final</td></tr>
+      <tr><td>10 (vuelta 4)</td><td>No quedan filas: devuelve <code>null</code>, el <code>while</code> termina</td><td><code>$persona</code> = <code>null</code></td></tr>
+      <tr><td>17</td><td>Cierra la conexión</td><td></td></tr>
+    </table>
+  </div>
+  <p><strong>Qué imprime.</strong> El texto que manda PHP (verificado con esos tres arreglos) es:</p>
+<pre class="salida">Array
+(
+    [idPersona] =&gt; 1
+    [documento] =&gt; 22333444
+    [apellido] =&gt; García
+    [nombres] =&gt; Gabriel
+)
+&lt;br&gt;Array
+(
+    [idPersona] =&gt; 2
+    [documento] =&gt; 11222333
+    [apellido] =&gt; Bonnet
+    [nombres] =&gt; Federico
+)
+&lt;br&gt;Array
+(
+    [idPersona] =&gt; 3
+    [documento] =&gt; 44555666
+    [apellido] =&gt; Aramburu
+    [nombres] =&gt; Exequiel
+)
+&lt;br&gt;</pre>
+  <p>
+    Pero el navegador junta los saltos de línea y los espacios de más en un solo espacio, y
+    solo corta renglón en cada <code>&lt;br&gt;</code>. Por eso en pantalla se ve como lo
+    muestra la cátedra, <strong>un arreglo por renglón</strong>:
+  </p>
+<pre class="salida">Array ( [idPersona] =&gt; 1 [documento] =&gt; 22333444 [apellido] =&gt; García [nombres] =&gt; Gabriel )
+Array ( [idPersona] =&gt; 2 [documento] =&gt; 11222333 [apellido] =&gt; Bonnet [nombres] =&gt; Federico )
+Array ( [idPersona] =&gt; 3 [documento] =&gt; 44555666 [apellido] =&gt; Aramburu [nombres] =&gt; Exequiel )</pre>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">El ejemplo del PDF tiene tres descuidos</span>
+    <ul>
+      <li>La tabla tiene las columnas <code>IdPersona</code>, <code>Nombres</code>&hellip; y el arreglo muestra <code>idPersona</code>, <code>nombre</code>. En la realidad, <strong>las claves son exactamente los nombres de las columnas</strong>, con las mismas mayúsculas. Acá están escritos iguales en los dos lados.</li>
+      <li>Los documentos del arreglo no coinciden con los de la tabla (García figura con 22333444 en una y con 11222333 en la otra). Acá se usan los de la tabla.</li>
+      <li>Dice que el arreglo queda "en la variable <code>$resultado</code>": queda en <code>$persona</code>. <code>$resultado</code> sigue siendo el apuntador.</li>
+    </ul>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; Qué trae <code>fetch_array()</code></h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>Con la tabla de ejemplo y la conexión abierta, ¿qué imprime?</p>
+  </div>
+<pre class="codigo"><code>&lt;?php
+$resultado = $mysqli-&gt;query('SELECT * FROM personas WHERE idPersona = 2');
+$fila = $resultado-&gt;fetch_array();
+print_r($fila);
+echo $fila[2] . ", " . $fila['nombres'];
+?&gt;</code></pre>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Cómo quedan las variables</th></tr>
+      <tr><td>2</td><td>Pide solo la fila con id 2</td><td><code>$resultado</code> = apuntador a 1 fila</td></tr>
+      <tr><td>3</td><td>La saca con las dos clases de claves</td><td><code>$fila</code> = 8 elementos: 0, idPersona, 1, documento, 2, apellido, 3, nombres</td></tr>
+      <tr><td>4</td><td>Muestra el arreglo entero</td><td></td></tr>
+      <tr><td>5</td><td><code>$fila[2]</code> es la tercera columna (se cuenta desde 0): el apellido. <code>$fila['nombres']</code>, los nombres</td><td>"Bonnet" y "Federico"</td></tr>
+    </table>
+  </div>
+  <p><strong>Qué imprime</strong> (verificado armando ese mismo arreglo):</p>
+<pre class="salida">Array
+(
+    [0] =&gt; 2
+    [idPersona] =&gt; 2
+    [1] =&gt; 11222333
+    [documento] =&gt; 11222333
+    [2] =&gt; Bonnet
+    [apellido] =&gt; Bonnet
+    [3] =&gt; Federico
+    [nombres] =&gt; Federico
+)
+Bonnet, Federico</pre>
+  <p>
+    Cada dato aparece dos veces: una con su posición y otra con su nombre. Por eso la definición
+    del parcial dice que devuelve "una matriz" (un arreglo) y la de la guía, "un array
+    asociativo, numérico, o ambas".
+  </p>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 3 &mdash; ¿Cuál es la salida? El puntero no vuelve</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>Con la tabla de ejemplo y la conexión abierta, ¿cuál es la salida?</p>
+  </div>
+<pre class="codigo"><code>&lt;?php
+$resultado = $mysqli-&gt;query('SELECT * FROM personas');
+$primera = $resultado-&gt;fetch_assoc();
+echo $primera['apellido'] . ": ";
+while ($p = $resultado-&gt;fetch_assoc()) {
+    echo $p['apellido'] . " ";
+}
+?&gt;</code></pre>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Cómo quedan las variables</th></tr>
+      <tr><td>2</td><td>Trae las 3 personas</td><td>puntero en la fila 1</td></tr>
+      <tr><td>3</td><td>Saca la fila 1 <strong>fuera del bucle</strong></td><td><code>$primera</code> = García; puntero en la 2</td></tr>
+      <tr><td>4</td><td>Imprime <code>García: </code></td><td></td></tr>
+      <tr><td>5 (vuelta 1)</td><td>El <code>while</code> arranca donde quedó el puntero</td><td><code>$p</code> = Bonnet; puntero en la 3</td></tr>
+      <tr><td>5 (vuelta 2)</td><td></td><td><code>$p</code> = Aramburu; puntero al final</td></tr>
+      <tr><td>5 (vuelta 3)</td><td>Devuelve <code>null</code>, termina</td><td><code>$p</code> = <code>null</code></td></tr>
+    </table>
+  </div>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta (con la tabla de ejemplo, verificada)</span>
+<pre class="salida">García: Bonnet Aramburu </pre>
+    <p>García no se repite dentro del bucle: cada <code>fetch</code> movió el puntero "hacia adelante", como dice la definición del parcial.</p>
+  </div>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Errores y trampas</span>
+    <ul>
+      <li><strong>Las claves distinguen mayúsculas.</strong> Si la columna se llama <code>apellido</code>, <code>$persona['Apellido']</code> no existe: da un <em>Warning: Undefined array key</em> y no imprime nada.</li>
+      <li><strong>Con <code>fetch_assoc()</code> no hay números:</strong> <code>$persona[0]</code> no existe. Los números solo vienen con <code>fetch_array()</code>.</li>
+      <li><strong>Todo llega como texto.</strong> Aunque la columna sea <code>INT</code>, el valor viene como string (<code>'1'</code>, no <code>1</code>). En <code>print_r</code> no se nota; con <code>var_dump</code> sí.</li>
+      <li><strong>Un <code>if</code> en vez de <code>while</code></strong> saca una sola fila: la primera.</li>
+    </ul>
+  </div>
+</div>

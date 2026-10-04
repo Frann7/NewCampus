@@ -1,0 +1,68 @@
+<div class="ej" data-examen="igual" data-examen-ref="Parcial PHP · preg. 9" data-examen-nota="En el parcial es el mismo for con continue, pero de 0 a 9 y salteando el 4 y el 5 ($i &gt; 3 &amp;&amp; $i &lt; 6): hay que elegir la salida entre cinco opciones.">
+  <span class="tag">Ejercicio 5 &middot; continue</span>
+  <h2>Del 1 al 10 sin el 4, el 5 y el 6</h2>
+  <div class="enunciado">
+    <p>
+      Realizar un script que muestra los números del 1 al 10 utilizando un ciclo for() pero sin
+      mostrar los números 4, 5 y 6 utilizando la sentencia continue.
+    </p>
+  </div>
+
+  <span class="paso">Paso 1 &mdash; Qué pide</span>
+  <ul>
+    <li>Un <code>for</code> de <strong>1 a 10</strong>: inicio <code>$i = 1</code>, condición <code>$i &lt;= 10</code>.</li>
+    <li>Cuando <code>$i</code> sea 4, 5 o 6, <code>continue</code>: saltear el <code>echo</code> de esa vuelta y seguir con la siguiente.</li>
+    <li>La condición "4, 5 o 6" es "<strong>entre 4 y 6, ambos incluidos</strong>": <code>$i &gt;= 4 &amp;&amp; $i &lt;= 6</code>. Se necesita <code>&amp;&amp;</code> porque tienen que cumplirse las dos cosas a la vez (no ser menor que 4 <strong>y</strong> no ser mayor que 6).</li>
+  </ul>
+
+  <span class="paso">Paso 2 &mdash; El código</span>
+  <pre class="codigo"><code>&lt;?php
+// Recorremos del 1 al 10
+for ($i = 1; $i &lt;= 10; $i++) {
+    // Si $i es 4, 5 o 6, saltamos al siguiente giro sin mostrarlo
+    if ($i &gt;= 4 &amp;&amp; $i &lt;= 6) {
+        continue;
+    }
+    // Esto solo se ejecuta para los números que no se saltearon
+    echo $i . " ";
+}
+?&gt;</code></pre>
+
+  <span class="paso">Paso 3 &mdash; Qué hace cada línea, vuelta por vuelta</span>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th><code>$i</code></th><th><code>$i &gt;= 4 &amp;&amp; $i &lt;= 6</code></th><th>Qué pasa</th><th>Salida acumulada</th></tr>
+      <tr><td>1</td><td>false &amp;&amp; true = false</td><td><code>echo</code></td><td><code>1 </code></td></tr>
+      <tr><td>2</td><td>false</td><td><code>echo</code></td><td><code>1 2 </code></td></tr>
+      <tr><td>3</td><td>false</td><td><code>echo</code></td><td><code>1 2 3 </code></td></tr>
+      <tr><td>4</td><td>true &amp;&amp; true = <strong>true</strong></td><td><code>continue</code>: saltea el echo, hace <code>$i++</code></td><td><code>1 2 3 </code></td></tr>
+      <tr><td>5</td><td><strong>true</strong></td><td><code>continue</code></td><td><code>1 2 3 </code></td></tr>
+      <tr><td>6</td><td><strong>true</strong></td><td><code>continue</code></td><td><code>1 2 3 </code></td></tr>
+      <tr><td>7</td><td>true &amp;&amp; false = false</td><td><code>echo</code></td><td><code>1 2 3 7 </code></td></tr>
+      <tr><td>8, 9, 10</td><td>false</td><td><code>echo</code></td><td><code>1 2 3 7 8 9 10 </code></td></tr>
+      <tr><td>11</td><td>&mdash;</td><td>¿11 &lt;= 10? No: termina el for</td><td></td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Paso 4 &mdash; Qué imprime y por qué</span>
+  <pre class="salida">1 2 3 7 8 9 10 </pre>
+  <p>El bucle hizo las 10 vueltas; en tres de ellas el <code>continue</code> evitó que se llegara al <code>echo</code>.</p>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">La resolución de la cátedra arranca en 0</span>
+    <pre class="codigo"><code>&lt;?php
+for ($i = 0; $i &lt;= 10; $i++) {
+if ($i &gt; 3 &amp;&amp; $i &lt;= 6) {
+continue;
+}
+echo "Numero: ".$i;
+}
+?&gt;</code></pre>
+    <pre class="salida">Numero: 0Numero: 1Numero: 2Numero: 3Numero: 7Numero: 8Numero: 9Numero: 10</pre>
+    <ul>
+      <li>Empieza en <code>$i = 0</code>, así que muestra también el <strong>0</strong>, que el enunciado no pide (dice "del 1 al 10").</li>
+      <li>Su condición <code>$i &gt; 3 &amp;&amp; $i &lt;= 6</code> es equivalente a la de arriba: con enteros, "mayor que 3" es lo mismo que "mayor o igual que 4".</li>
+      <li>No imprime separador, por eso todo sale pegado. Con <code>"&lt;br&gt;"</code> al final del <code>echo</code> saldría uno por renglón.</li>
+    </ul>
+  </div>
+</div>

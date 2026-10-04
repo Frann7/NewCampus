@@ -1,0 +1,169 @@
+<div class="bloque" data-examen="igual" data-examen-ref="Parcial PHP · preg. 20" data-examen-nota="Verdadero o falso, textual: “La función var_dump(), vuelca información sobre una variable, mostrando su estructura, su tipo y valor.”">
+  <p class="kicker">Datos</p>
+  <h2>6. Funciones de variables</h2>
+
+  <h3>Para qué sirve</h3>
+  <p>
+    Como en PHP las variables no declaran su tipo (sección 5), a veces hace falta
+    <strong>preguntarle a una variable qué tiene adentro</strong>. Para eso están estas funciones.
+    Una <em>función</em> se usa escribiendo su nombre y, entre paréntesis, el dato sobre el que
+    trabaja: <code>gettype($x)</code>.
+  </p>
+
+  <h3>Sintaxis</h3>
+  <pre class="codigo"><code>gettype($variable)     // devuelve el nombre del tipo, como texto
+is_string($variable)   // devuelve true o false
+var_dump($variable);   // muestra el tipo y el valor</code></pre>
+
+  <h3>Qué es cada una</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Función</th><th>Qué hace</th></tr>
+      <tr><td><code>gettype()</code></td><td>Devuelve el tipo de la variable, como texto: <code>"integer"</code>, <code>"double"</code>, <code>"string"</code>, <code>"boolean"</code>, <code>"array"</code>, <code>"NULL"</code>...</td></tr>
+      <tr><td><code>is_array()</code></td><td>Devuelve <code>true</code> si es un array, si no <code>false</code>.</td></tr>
+      <tr><td><code>is_bool()</code></td><td><code>true</code> si es booleana.</td></tr>
+      <tr><td><code>is_integer()</code></td><td><code>true</code> si es un entero (también existe con el nombre corto <code>is_int()</code>).</td></tr>
+      <tr><td><code>is_float()</code></td><td><code>true</code> si es float.</td></tr>
+      <tr><td><code>is_object()</code></td><td><code>true</code> si es un objeto.</td></tr>
+      <tr><td><code>is_string()</code></td><td><code>true</code> si es un string.</td></tr>
+      <tr><td><code>is_resource()</code></td><td><code>true</code> si es algún tipo de recurso.</td></tr>
+      <tr><td><code>var_dump()</code></td><td><strong>Vuelca</strong> (muestra) la información de la variable: su <strong>tipo</strong>, su <strong>valor</strong> y, si es un contenedor como un array, su <strong>estructura</strong> (qué tiene adentro y en qué posición).</td></tr>
+    </table>
+  </div>
+
+  <h4>Cómo se lee lo que muestra var_dump</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Muestra</th><th>Se lee</th></tr>
+      <tr><td><code>int(20)</code></td><td>Entero, vale 20.</td></tr>
+      <tr><td><code>float(99.9)</code></td><td>Float, vale 99,9.</td></tr>
+      <tr><td><code>string(4) "Hola"</code></td><td>String de <strong>4 caracteres</strong> (el número entre paréntesis es el largo), vale "Hola".</td></tr>
+      <tr><td><code>bool(false)</code></td><td>Booleano, vale falso.</td></tr>
+      <tr><td><code>NULL</code></td><td>No tiene valor.</td></tr>
+      <tr><td><code>array(2) { ... }</code></td><td>Array con 2 elementos; adentro de las llaves, cada posición y su valor.</td></tr>
+    </table>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; Preguntar el tipo con gettype()</h3>
+
+  <pre class="codigo"><code>&lt;?php
+$entero = 25;
+$decimal = 2.5;
+$texto = "Hola";
+$logico = true;
+$nada = null;
+echo gettype($entero) . "&lt;br&gt;";
+echo gettype($decimal) . "&lt;br&gt;";
+echo gettype($texto) . "&lt;br&gt;";
+echo gettype($logico) . "&lt;br&gt;";
+echo gettype($nada);
+?&gt;</code></pre>
+
+  <h4>Qué hace cada línea</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Qué sale</th></tr>
+      <tr><td><code>$entero = 25;</code> ... <code>$nada = null;</code></td><td>Crea cinco variables, una de cada tipo.</td><td>&mdash;</td></tr>
+      <tr><td><code>echo gettype($entero) . "&lt;br&gt;";</code></td><td><code>gettype</code> devuelve el texto <code>"integer"</code>; se le pega un salto de línea y se muestra.</td><td><code>integer</code></td></tr>
+      <tr><td><code>echo gettype($decimal) . "&lt;br&gt;";</code></td><td>Para un float, <code>gettype</code> devuelve <strong><code>"double"</code></strong> (es el nombre histórico del float).</td><td><code>double</code></td></tr>
+      <tr><td><code>echo gettype($texto) . "&lt;br&gt;";</code></td><td>Un string.</td><td><code>string</code></td></tr>
+      <tr><td><code>echo gettype($logico) . "&lt;br&gt;";</code></td><td>Un booleano.</td><td><code>boolean</code></td></tr>
+      <tr><td><code>echo gettype($nada);</code></td><td>Sin valor.</td><td><code>NULL</code></td></tr>
+    </table>
+  </div>
+
+  <h4>Qué imprime y por qué</h4>
+  <pre class="salida">integer
+double
+string
+boolean
+NULL</pre>
+  <p>Un renglón por variable gracias a los <code>&lt;br&gt;</code>. Lo único que sorprende es <code>double</code>: así llama <code>gettype</code> al float.</p>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; Con formato del Parcial PHP (preg. 20)</h3>
+
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>La función <code>var_dump()</code> vuelca información sobre una variable, mostrando su estructura, su tipo y valor. ¿Verdadero o falso?</p>
+  </div>
+
+  <p>Para comprobarlo, se le pasan a <code>var_dump</code> cuatro variables distintas:</p>
+  <pre class="codigo"><code>&lt;?php
+$edad = 20;
+$precio = 99.90;
+$activo = false;
+$colores = array("rojo", "verde");
+var_dump($edad);
+var_dump($precio);
+var_dump($activo);
+var_dump($colores);
+?&gt;</code></pre>
+
+  <h4>Qué hace cada línea</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Qué muestra</th></tr>
+      <tr><td><code>$edad = 20;</code> ... <code>$colores = array(...);</code></td><td>Crea un entero, un float, un booleano y un array de dos textos (<code>array(...)</code> arma una lista; se ve en la clase 2).</td><td>&mdash;</td></tr>
+      <tr><td><code>var_dump($edad);</code></td><td>Tipo y valor.</td><td><code>int(20)</code></td></tr>
+      <tr><td><code>var_dump($precio);</code></td><td>Tipo y valor. El cero final de 99.90 no cambia el número, así que no se muestra.</td><td><code>float(99.9)</code></td></tr>
+      <tr><td><code>var_dump($activo);</code></td><td>Tipo y valor. A diferencia de <code>echo</code>, sí muestra el <code>false</code>.</td><td><code>bool(false)</code></td></tr>
+      <tr><td><code>var_dump($colores);</code></td><td>Tipo, cantidad de elementos y la <strong>estructura</strong>: cada posición (empiezan en 0) con el tipo y el valor de lo que guarda.</td><td>el bloque <code>array(2) {...}</code></td></tr>
+    </table>
+  </div>
+
+  <h4>Qué imprime y por qué</h4>
+  <pre class="salida">int(20)
+float(99.9)
+bool(false)
+array(2) {
+  [0]=&gt;
+  string(4) "rojo"
+  [1]=&gt;
+  string(5) "verde"
+}</pre>
+  <p>Se ve el tipo y el valor de cada una, y en el array además cómo está armado por dentro: eso es lo que el enunciado llama "estructura".</p>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p><strong>Verdadero.</strong> <code>var_dump()</code> muestra tipo, valor y, en los datos compuestos, la estructura.</p>
+  </div>
+
+  <h3>Errores y trampas</h3>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Para ver un booleano, var_dump y no echo</span>
+    <pre class="codigo"><code>&lt;?php
+$x = 5;
+echo is_integer($x);
+echo "|";
+echo is_string($x);
+echo "|";
+var_dump(is_string($x));
+?&gt;</code></pre>
+    <pre class="salida">1||bool(false)</pre>
+    <p>
+      <code>is_integer($x)</code> da <code>true</code> y <code>echo</code> lo muestra como
+      <code>1</code>; <code>is_string($x)</code> da <code>false</code> y <code>echo</code> no muestra
+      <strong>nada</strong> (por eso los dos <code>|</code> quedan juntos). <code>var_dump</code>, en
+      cambio, dice <code>bool(false)</code> con todas las letras.
+    </p>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">El largo de un string cuenta bytes</span>
+    <p>
+      <code>var_dump("Año");</code> muestra <code>string(4) "Año"</code>, no 3: la ñ (y las letras
+      con tilde) ocupan 2 bytes en UTF-8, la codificación de los archivos.
+    </p>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">En el navegador sale todo en un renglón</span>
+    <p>
+      <code>var_dump</code> separa con saltos de línea de texto, que el navegador no respeta (sección 3).
+      Para verlo ordenado como arriba se encierra entre <code>echo "&lt;pre&gt;";</code> y
+      <code>echo "&lt;/pre&gt;";</code>, la etiqueta HTML que respeta los saltos de línea.
+    </p>
+  </div>
+</div>

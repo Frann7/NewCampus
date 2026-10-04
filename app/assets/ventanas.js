@@ -1,8 +1,8 @@
 /* ============================================================
    NEWCAMPUS - ventanas duplicadas
    ------------------------------------------------------------
-   Manteniendo apretada una pestania (Teoria / Practica / Evaluacion)
-   se saca una COPIA de ese apartado en una ventana aparte, para poder
+   Manteniendo apretada una pestania (Teoria / Practica / Evaluacion),
+   o Tareas / Calendario del menu lateral, se saca una COPIA de ese apartado en una ventana aparte, para poder
    leer dos partes del mismo apunte al mismo tiempo. Lo mismo con las
    unidades del menu de materias: la copia es solo esa unidad, con sus
    pestanias Teoria y Practica.
@@ -71,11 +71,14 @@ window.NC = window.NC || {};
     function rotular() {
       var activo = $(".tab.is-active");         // app.js ya pinto la navegacion
       var unidad = $("#crumb-unidad");
-      var nombre = activo ? (activo.dataset.nombre || activo.textContent.trim()) : "Copia";
+      // Tareas y Calendario no tienen pestania: el nombre sale de las migas
+      var nombre = activo ? (activo.dataset.nombre || activo.textContent.trim())
+                          : (unidad && unidad.textContent) || "Copia";
       var donde = unidad && unidad.textContent !== nombre ? unidad.textContent : "";
       // la copia de una unidad se nombra por la unidad: las pestanias se ven abajo
       txt.textContent = window.NC.esPanelUnidad && donde ? donde.split(" — ")[0] : nombre;
       if (activo) { chip.setAttribute("data-tab", activo.getAttribute("data-tab")); }
+      else { chip.removeAttribute("data-tab"); }
       document.title = nombre + (donde ? " - " + donde : "") + " | NewCampus";
     }
 
@@ -265,6 +268,12 @@ window.NC = window.NC || {};
     $$(".unidades button").forEach(function (b) {
       prepararSostener(b, function () { return urlDeUnidad(b); },
         "Clic para abrirla acá. Mantené apretado para abrir solo esta unidad en otra ventana.");
+    });
+
+    // Tareas y Calendario, en el menu lateral: la copia es index.html?panel=1#tareas
+    $$(".nav-fija-btn").forEach(function (b) {
+      prepararSostener(b, function () { return "index.html?panel=1#" + b.getAttribute("data-ir"); },
+        "Clic para abrirlo acá. Mantené apretado para sacarlo en otra ventana.");
     });
 
     // El clic que viene despues de sacar una copia no tiene que cambiar de

@@ -274,13 +274,16 @@ window.NC = window.NC || {};
     function pintarUnidades() {
       caja.innerHTML = "";
       var clave = select.value;
+      // el rotulo usa el termino de la materia elegida (Unidades, Clases)
+      var terminos = clave ? EV.materia(clave).terminos || "Unidades" : "Unidades";
+      cUnidades.querySelector(".cal-campo-etq").textContent = terminos + " que entran";
       if (!clave) {
         caja.appendChild(el("p", "cal-unidades-aviso", "Elegí primero la materia."));
         return;
       }
       var mat = EV.materia(clave);
       if (!mat.unidades.length) {
-        caja.appendChild(el("p", "cal-unidades-aviso", "Esta materia todavía no tiene unidades cargadas en el campus."));
+        caja.appendChild(el("p", "cal-unidades-aviso", "Esta materia todavía no tiene " + terminos.toLowerCase() + " cargadas en el campus."));
         return;
       }
       mat.unidades.forEach(function (u) {

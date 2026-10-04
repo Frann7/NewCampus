@@ -116,6 +116,9 @@ El contenido de cada unidad llega en su propia pieza cuando la abrís (con un `<
 2. En `contenido/materias.json`, agregar la materia (o la unidad, si la materia ya está) con su
    `nombre`, su `corto` —el nombre que entra en el cuadrito de un día del calendario— y el `num` y
    `nombre` de cada unidad. El orden de la lista es el del menú, y define el color en el calendario.
+   Si la materia va por clases y no por unidades, se cargan igual con `"num": "Clase 1"` (la app
+   dice "Clase/Clases" sola); `"evaluacion": {"tipo": "simple"}` le da la Evaluación simple (ver
+   `docs/evaluacion.md`).
 3. Si tiene PDFs de cátedra: copiarlos **una sola vez** a `pdf/<materia>/`, listarlos en el `pdf` de
    esa materia y decir en `material` a qué unidades se les muestran (`evaluacion` es la pestaña).
    Antes de escribir contenido, pasar sus PDFs a texto en `fuentes/<materia>/` (ver

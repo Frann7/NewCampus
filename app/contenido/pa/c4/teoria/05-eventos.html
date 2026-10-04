@@ -1,0 +1,194 @@
+<div class="bloque">
+  <p class="kicker">Sección 5 &middot; diapositiva 13 y todos los ejemplos</p>
+  <h2>5. Eventos</h2>
+
+  <h3>Para qué sirve</h3>
+  <p>
+    Un <strong>evento</strong> es algo que pasa en la página: un clic, que el usuario salga de un
+    campo, que elija otra opción de una lista, que se envíe un formulario, que la página termine
+    de cargar. Con <code>addEventListener</code> le decís al navegador: <em>"cuando pase esto,
+    ejecutá esta función"</em>. Es la forma de que el código corra cuando el usuario hace algo, y
+    no una sola vez al cargar.
+  </p>
+
+  <h3>Sintaxis</h3>
+<pre class="codigo"><code>elemento.addEventListener('nombreDelEvento', () =&gt; {
+    // lo que se ejecuta cada vez que pasa el evento
+});
+
+// con el objeto del evento, para frenar lo que el navegador haría solo
+formulario.addEventListener('submit', (event) =&gt; {
+    event.preventDefault();
+});</code></pre>
+
+  <h3>Qué es cada parte</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Pieza</th><th>Qué es</th></tr>
+      <tr><td class="lbl"><code>elemento</code></td><td>El objeto que escucha (un botón, un campo, un formulario, <code>window</code>)</td></tr>
+      <tr><td class="lbl"><code>addEventListener</code></td><td>"Agregar un escuchador": registra la función. No la ejecuta ahora; la guarda para cuando pase el evento</td></tr>
+      <tr><td class="lbl"><code>'nombreDelEvento'</code></td><td>Texto con el evento, sin el "on" de adelante: <code>'click'</code>, no <code>'onclick'</code></td></tr>
+      <tr><td class="lbl"><code>() =&gt; { ... }</code></td><td>La función que se ejecuta cada vez. Puede recibir el <strong>objeto del evento</strong> (<code>event</code>) con información de lo que pasó</td></tr>
+      <tr><td class="lbl"><code>event.preventDefault()</code></td><td>Cancela lo que el navegador haría por su cuenta. En un <code>submit</code>: no envía el formulario</td></tr>
+    </table>
+  </div>
+
+  <h4>Los eventos que usan los ejemplos de la cátedra</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Evento</th><th>Cuándo pasa</th><th>Dónde se usa</th></tr>
+      <tr><td class="lbl"><code>click</code></td><td>Clic sobre el elemento</td><td>Todos los botones</td></tr>
+      <tr><td class="lbl"><code>blur</code></td><td>El campo <strong>pierde el foco</strong>: el usuario sale con Tab o haciendo clic en otro lado</td><td>Validar un campo apenas se deja de escribir (práctica, ejemplo 4)</td></tr>
+      <tr><td class="lbl"><code>change</code></td><td>En un <code>&lt;select&gt;</code>: el usuario eligió otra opción</td><td>Cargar los departamentos de la provincia elegida (ejemplo 8)</td></tr>
+      <tr><td class="lbl"><code>submit</code></td><td>Se intenta enviar el formulario (botón <code>type="submit"</code> adentro del <code>&lt;form&gt;</code>, o Enter en un campo)</td><td>Validar antes de mandar a PHP (ejemplo 10)</td></tr>
+      <tr><td class="lbl"><code>DOMContentLoaded</code></td><td>El navegador terminó de armar el DOM (paso 1 de la sección 1). No espera imágenes ni hojas de estilo</td><td>Diapositiva 13, ejemplo 10</td></tr>
+      <tr><td class="lbl"><code>load</code></td><td>Se terminó de cargar <strong>todo</strong>: DOM, imágenes, CSS. Pasa después de <code>DOMContentLoaded</code></td><td>Ejemplos 1 a 8</td></tr>
+    </table>
+  </div>
+
+  <div class="caja caja-formula">
+    <span class="caja-tit">Por qué se espera a que cargue</span>
+    <p>
+      Seleccionar un elemento que el navegador todavía no leyó devuelve <code>null</code>
+      (sección 3). Si todo el código arranca dentro de un <code>load</code> o un
+      <code>DOMContentLoaded</code>, cuando corre ya existen todos los elementos. Para lo que hacen
+      los ejemplos, los dos sirven igual.
+    </p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; Un contador</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>
+      La página tiene <code>&lt;button id="btSumar"&gt;+1&lt;/button&gt;</code> y
+      <code>&lt;span id="total"&gt;0&lt;/span&gt;</code>. El usuario hace <strong>tres clics</strong>
+      en el botón. ¿Qué se ve en el <code>span</code>, y cuántas veces corrió cada línea?
+    </p>
+  </div>
+<pre class="codigo"><code>let clics = 0;
+const boton = document.getElementById('btSumar');
+const total = document.getElementById('total');
+boton.addEventListener('click', () =&gt; {
+    clics = clics + 1;
+    total.textContent = clics;
+});</code></pre>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Cómo quedan las variables</th></tr>
+      <tr><td><code>let clics = 0;</code></td><td>Corre <strong>una vez</strong>, al cargar el script</td><td><code>clics = 0</code></td></tr>
+      <tr><td><code>const boton = ...</code>, <code>const total = ...</code></td><td>Una vez: agarra los dos elementos</td><td>&mdash;</td></tr>
+      <tr><td><code>boton.addEventListener('click', ...)</code></td><td>Una vez: <strong>registra</strong> la función. Todavía no la ejecuta</td><td><code>clics = 0</code></td></tr>
+      <tr><td>1er clic &rarr; cuerpo de la función</td><td>Suma 1 y escribe el número en el <code>span</code></td><td><code>clics = 1</code>; se ve 1</td></tr>
+      <tr><td>2do clic</td><td>Otra vez el cuerpo</td><td><code>clics = 2</code>; se ve 2</td></tr>
+      <tr><td>3er clic</td><td>Otra vez</td><td><code>clics = 3</code>; se ve 3</td></tr>
+    </table>
+  </div>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>Se ve <strong>3</strong>. Las tres primeras líneas y el <code>addEventListener</code> corrieron una vez; el cuerpo de la función, tres (una por clic).</p>
+  </div>
+  <p>
+    <strong>Por qué:</strong> <code>clics</code> está declarada <em>afuera</em> de la función, así
+    que sobrevive entre un clic y otro. Si estuviera adentro (<code>let clics = 0;</code> dentro de
+    las llaves), cada clic arrancaría de cero y siempre se vería 1.
+  </p>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; ¿De qué color queda? (blur)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>
+      El usuario hace clic en el campo, escribe tres espacios y sale con Tab. Después vuelve,
+      escribe "Ana" y sale de nuevo. ¿De qué color queda el borde cada vez?
+    </p>
+  </div>
+<pre class="codigo"><code>const txtNombre = document.getElementById('txtNombre');
+txtNombre.addEventListener('blur', () =&gt; {
+    if (txtNombre.value.trim() === '') {
+        txtNombre.style.borderColor = 'red';
+    } else {
+        txtNombre.style.borderColor = 'green';
+    }
+});</code></pre>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Momento</th><th>Qué hace</th><th>Cómo queda</th></tr>
+      <tr><td>Carga</td><td>Registra la función para <code>blur</code></td><td>Borde normal</td></tr>
+      <tr><td>Sale con Tab (1ra vez)</td><td><code>value</code> es <code>"   "</code>; <code>trim()</code> lo deja en <code>""</code>; <code>"" === ''</code> es <code>true</code></td><td>Borde <strong>rojo</strong></td></tr>
+      <tr><td>Sale (2da vez)</td><td><code>value</code> es <code>"   Ana"</code> (los espacios siguen); <code>trim()</code> da <code>"Ana"</code>, que no es vacío</td><td>Borde <strong>verde</strong></td></tr>
+    </table>
+  </div>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>Primero rojo, después verde. Sin el <code>trim()</code>, los tres espacios habrían contado como "algo escrito" y el primer borde habría quedado verde.</p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 3 &mdash; Frenar el envío (submit)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>
+      Un formulario <code>&lt;form id="form" action="proceso.php" method="post"&gt;</code> tiene un
+      campo <code>correo</code> y un botón <code>type="submit"</code>. El usuario deja el correo
+      vacío y aprieta el botón. ¿Llega algo a <code>proceso.php</code>? ¿Y si lo completa?
+    </p>
+  </div>
+<pre class="codigo"><code>const form = document.getElementById('form');
+form.addEventListener('submit', (event) =&gt; {
+    event.preventDefault();
+    if (document.getElementById('correo').value.trim() !== '') {
+        form.submit();
+    }
+});</code></pre>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Qué pasa</th></tr>
+      <tr><td><code>form.addEventListener('submit', (event) =&gt; {</code></td><td>Escucha el intento de envío; <code>event</code> trae los datos del evento</td><td>&mdash;</td></tr>
+      <tr><td><code>event.preventDefault();</code></td><td>Cancela el envío automático: el navegador ya no va a <code>proceso.php</code> por su cuenta</td><td>Por ahora no se envía nada</td></tr>
+      <tr><td><code>if (... !== '')</code></td><td><code>!==</code> es "distinto en valor o tipo". Pregunta si el correo tiene algo</td><td>Vacío: <code>false</code>. Completo: <code>true</code></td></tr>
+      <tr><td><code>form.submit();</code></td><td>Envía el formulario <strong>a mano</strong>, a su <code>action</code> con su <code>method</code></td><td>Solo si el correo tenía algo</td></tr>
+    </table>
+  </div>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>Vacío: <strong>no llega nada</strong>, la página queda igual. Completo: se envía y el navegador pasa a <code>proceso.php</code>, que recibe el correo en <code>$_POST</code>.</p>
+  </div>
+  <p>
+    <strong>Por qué no se repite el evento:</strong> <code>form.submit()</code> envía directo,
+    <strong>sin disparar</strong> otra vez el evento <code>submit</code>. Si lo disparara, la
+    función se llamaría a sí misma para siempre. Este es el esquema del ejemplo 10 de la práctica.
+  </p>
+
+  <hr class="sep">
+
+  <h3>Errores y trampas</h3>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Pasar la función, no ejecutarla</span>
+    <p>
+      <code>boton.addEventListener('click', this.validoDatos())</code> (con paréntesis) ejecuta
+      <code>validoDatos</code> <strong>en ese momento</strong>, al cargar, y registra lo que
+      devuelve. Por eso la cátedra siempre envuelve la llamada en una flecha:
+      <code>() =&gt; { this.validoDatos(); }</code>.
+    </p>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit"><code>'click'</code>, no <code>'onclick'</code></span>
+    <p>
+      Con <code>addEventListener</code> el evento va sin "on". <code>'onclick'</code> no da error:
+      simplemente nunca pasa, y el botón no hace nada.
+    </p>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Un botón fuera del &lt;form&gt; no envía</span>
+    <p>
+      El evento <code>submit</code> lo dispara un botón <code>type="submit"</code>
+      <strong>adentro</strong> del formulario. Si el botón está afuera, el clic no envía nada: o se
+      lo mete en el <code>&lt;form&gt;</code>, o se escucha su <code>click</code> y se llama a
+      <code>form.submit()</code> (lo que hace la práctica, ejemplo 5).
+    </p>
+  </div>
+</div>

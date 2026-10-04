@@ -1,0 +1,226 @@
+<div class="ej">
+  <span class="tag">Ejemplo de la cátedra &middot; formularios (token)</span>
+  <h2>Formulario con token y el script que lo verifica</h2>
+  <div class="enunciado">
+    <p>
+      Carpeta <code>formularios</code>: <code>inicio.php</code> (menú), <code>includes/head.php</code>
+      y <code>includes/footer.php</code> (encabezado y pie comunes), <code>formToken.php</code> (el
+      formulario con token), <code>formCaptcha.php</code> e <code>includes/rdnimg.php</code> (el
+      captcha, en el ejemplo siguiente) y <code>procesoForm.php</code>, que recibe los dos
+      formularios.
+    </p>
+  </div>
+
+  <span class="paso">Archivos 1 y 2 &mdash; <code>includes/head.php</code> e <code>includes/footer.php</code></span>
+  <p>
+    <code>head.php</code> tiene el principio de toda página: <code>&lt;!DOCTYPE html&gt;</code>, el
+    <code>&lt;head&gt;</code> con Bootstrap, la apertura de <code>&lt;body&gt;</code> y de un
+    <code>&lt;div class="container"&gt;</code>, y una barra de navegación con tres enlaces:
+  </p>
+<pre class="codigo"><code>&lt;li class="nav-item active"&gt;
+    &lt;a class="nav-link" href="inicio.php"&gt;Inicio &lt;span class="sr-only"&gt;(current)&lt;/span&gt;&lt;/a&gt;
+&lt;/li&gt;
+&lt;li class="nav-item"&gt;
+    &lt;a class="nav-link" href="formToken.php"&gt;Formulario con Token&lt;/a&gt;
+&lt;/li&gt;
+&lt;li class="nav-item"&gt;
+    &lt;a class="nav-link" href="formCaptcha.php"&gt;Formulario con Captcha&lt;/a&gt;
+&lt;/li&gt;</code></pre>
+  <p>
+    <code>footer.php</code> cierra lo que abrió <code>head.php</code>: el <code>&lt;/div&gt;</code>
+    del contenedor, los <code>&lt;script&gt;</code> de Bootstrap (jQuery, Popper y Bootstrap, que
+    hacen funcionar el menú plegable en pantallas chicas), <code>&lt;/body&gt;</code> y
+    <code>&lt;/html&gt;</code>. Ninguno de los dos tiene código PHP: son HTML que las páginas traen
+    con <code>require_once</code> (teoría, sección 8).
+  </p>
+
+  <span class="paso">Archivo 3 &mdash; <code>inicio.php</code></span>
+<pre class="codigo"><code>&lt;?php
+session_start();
+?&gt;
+
+&lt;?php require_once 'includes/head.php'; ?&gt;
+
+&lt;h4 class="text-center"&gt;Sistema Recursos Humanos&lt;/h4&gt;
+&lt;div class="row justify-content-lg-center"&gt;
+    &lt;div class="col col-lg-auto"&gt;
+        &lt;a href="inicio.php" type="button" class="btn btn-info"&gt;Inicio&lt;/a&gt;
+    &lt;/div&gt;
+    &lt;div class="col col-lg-auto"&gt;
+        &lt;a href="formToken.php" type="button" class="btn btn-info"&gt;Formulario con Token&lt;/a&gt;
+    &lt;/div&gt;
+    &lt;div class="col col-lg-auto"&gt;
+        &lt;a href="formCaptcha.php" type="button" class="btn btn-info"&gt;Formulario con Captcha&lt;/a&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;?php require_once 'includes/footer.php'; ?&gt;</code></pre>
+  <p>
+    La portada: abre la sesión, trae el encabezado, muestra tres botones (enlaces con aspecto de
+    botón, por la clase <code>btn</code>) y trae el pie. No guarda nada en la sesión.
+  </p>
+
+  <span class="paso">Archivo 4 &mdash; <code>formToken.php</code></span>
+<pre class="codigo"><code>&lt;?php
+session_start();
+
+if (!empty($_SESSION['rand_code'])) {
+    unset($_SESSION['rand_code']);
+}
+
+$token = "";
+
+$a = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+$length = 20;
+
+for ($i = 0; $i &lt; $length; $i++) {
+    $token .= $a[rand(0, 61)];
+}
+
+$_SESSION['token'] = $token;
+?&gt;
+
+&lt;?php require_once 'includes/head.php'; ?&gt;
+
+&lt;h4 class="text-center"&gt;Sistema Recursos Humanos&lt;/h4&gt;
+
+&lt;form class="needs-validation" novalidate method="post" action="procesoForm.php"&gt;
+
+    &lt;input type="text" name="token" value="&lt;?php echo $token;?&gt;"&gt;
+
+    &lt;div class="form-row"&gt;
+        &lt;div class="col-md-6 mb-3"&gt;
+            &lt;label for="nombre"&gt;Usuario&lt;/label&gt;
+            &lt;input type="text" class="form-control" name="usuario" value="" required&gt;
+        &lt;/div&gt;
+        &lt;div class="col-md-6 mb-3"&gt;
+            &lt;label for="apellido"&gt;Contraseña:&lt;/label&gt;
+            &lt;input type="password" class="form-control" name="contrasenia" value=""&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;button class="btn btn-primary" type="submit"&gt;Enviar datos&lt;/button&gt;
+&lt;/form&gt;
+
+&lt;?php require_once 'includes/footer.php'; ?&gt;</code></pre>
+
+  <h4>Qué hace cada línea</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Cómo quedan las variables</th></tr>
+      <tr><td><code>session_start();</code></td><td>Abre la sesión, antes de cualquier HTML.</td><td>&mdash;</td></tr>
+      <tr><td><code>if (!empty($_SESSION['rand_code'])) unset(...)</code></td><td>Si había un código de captcha de antes, lo borra: así ese código viejo ya no sirve para enviar el otro formulario.</td><td><code>$_SESSION['rand_code']</code> no existe</td></tr>
+      <tr><td><code>$token = "";</code></td><td>El token empieza vacío.</td><td><code>$token = ""</code></td></tr>
+      <tr><td><code>$a = "0123...XYZ";</code></td><td>Los 62 caracteres posibles (posiciones 0 a 61).</td><td>&mdash;</td></tr>
+      <tr><td><code>$length = 20;</code></td><td>El largo del token.</td><td><code>$length = 20</code></td></tr>
+      <tr><td><code>for ($i = 0; $i &lt; $length; $i++)</code></td><td><code>$i</code> de 0 a 19: 20 vueltas.</td><td>&mdash;</td></tr>
+      <tr><td><code>$token .= $a[rand(0, 61)];</code></td><td>En cada vuelta pega un carácter al azar (teoría, sección 5).</td><td>al final, 20 caracteres; en la prueba, <code>jbC6lszckXPiToFxyQEr</code></td></tr>
+      <tr><td><code>$_SESSION['token'] = $token;</code></td><td>Guarda el token en la sesión.</td><td><code>$_SESSION['token'] = "jbC6lszckXPiToFxyQEr"</code></td></tr>
+      <tr><td><code>require_once 'includes/head.php';</code></td><td>Trae el encabezado y el menú.</td><td>&mdash;</td></tr>
+      <tr><td><code>&lt;input type="text" name="token" value="&lt;?php echo $token;?&gt;"&gt;</code></td><td>Escribe el token en un campo del formulario.</td><td>&mdash;</td></tr>
+      <tr><td><code>name="usuario"</code>, <code>name="contrasenia"</code></td><td>Los mismos campos que en <code>ataqueForm</code>.</td><td>&mdash;</td></tr>
+      <tr><td><code>require_once 'includes/footer.php';</code></td><td>Trae el pie.</td><td>&mdash;</td></tr>
+    </table>
+  </div>
+
+  <h4>Qué se ve</h4>
+  <p>
+    El menú, el título y el formulario, con <strong>un campo de texto arriba que ya trae escrito el
+    token</strong> (en la prueba, <code>jbC6lszckXPiToFxyQEr</code>). Cada vez que se recarga la
+    página, el token cambia.
+  </p>
+
+  <span class="paso">Archivo 5 &mdash; <code>procesoForm.php</code> (la parte del token)</span>
+<pre class="codigo"><code>&lt;?php
+session_start();
+
+if (!empty($_POST)) {
+
+    //---- PROCESO EL FORM-TOKEN ----
+
+    if (!empty($_POST['token'])) {
+        if ($_POST['token'] == $_SESSION['token']) {
+            echo "LOS DATOS PROVIENEN DE NUESTRO FORMULARIO CON TOKEN.";
+
+            // proceso los datos restantes
+
+            echo '&lt;br&gt;';
+            echo 'Usuario: ' . $_POST['usuario'];
+            echo '&lt;br&gt;';
+            echo 'Contraseña: ' . $_POST['contrasenia'];
+        } else {
+            echo "LOS DATOS PROVIENEN DE OTRO ORIGEN.";
+        }
+    }
+
+    // (después sigue la parte del captcha: ejemplo siguiente)
+}
+?&gt;</code></pre>
+
+  <h4>Qué hace cada línea</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th></tr>
+      <tr><td><code>session_start();</code></td><td>Reanuda la sesión del navegador que envió: así aparece <code>$_SESSION['token']</code>.</td></tr>
+      <tr><td><code>if (!empty($_POST))</code></td><td>Solo trabaja si llegó un POST.</td></tr>
+      <tr><td><code>if (!empty($_POST['token']))</code></td><td>Solo si vino un token. Así sabe que el envío es del formulario con token (el del captcha no manda ese campo).</td></tr>
+      <tr><td><code>$_POST['token'] == $_SESSION['token']</code></td><td>Compara lo enviado con lo guardado.</td></tr>
+      <tr><td>rama del <code>if</code></td><td>Coinciden: avisa y muestra los datos (acá iría guardarlos).</td></tr>
+      <tr><td>rama del <code>else</code></td><td>No coinciden: avisa y no muestra nada más.</td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Qué responde en cada caso</span>
+  <p>Se probó cada caso mandando el POST a una copia de la carpeta:</p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Caso</th><th>Qué llega</th><th>Respuesta</th></tr>
+      <tr><td>1. Envío desde el formulario (usuario <code>fran</code>, contraseña <code>1234</code>)</td><td>el token correcto y la cookie</td><td><code>LOS DATOS PROVIENEN DE NUESTRO FORMULARIO CON TOKEN.</code><br><code>Usuario: fran</code><br><code>Contraseña: 1234</code></td></tr>
+      <tr><td>2. El mismo envío, repetido</td><td>el mismo token (nadie lo borró)</td><td>la misma respuesta del caso 1</td></tr>
+      <tr><td>3. Token cambiado a mano (<code>abc</code>)</td><td>un token que no coincide</td><td><code>LOS DATOS PROVIENEN DE OTRO ORIGEN.</code></td></tr>
+      <tr><td>4. El <code>ataque.php</code> apuntado acá</td><td>usuario y contraseña, <strong>sin token</strong></td><td>página en blanco: no entra a ningún <code>if</code></td></tr>
+      <tr><td>5. Token correcto pero sin la cookie de sesión</td><td>token, pero la sesión nueva no tiene <code>'token'</code></td><td><code>Warning: Undefined array key "token"</code> y <code>LOS DATOS PROVIENEN DE OTRO ORIGEN.</code></td></tr>
+    </table>
+  </div>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Qué problema de seguridad evita, y cuál no</span>
+    <ul>
+      <li>
+        <strong>Evita</strong> el ataque de <code>ataqueForm</code>: un programa que manda datos sin
+        haber abierto el formulario (caso 4) no se procesa.
+      </li>
+      <li>
+        Gracias al <code>!empty($_POST['token'])</code>, no tiene el agujero de la versión del PDF
+        (teoría, sección 5), donde un envío sin token pasaba.
+      </li>
+      <li>
+        <strong>No evita</strong> un programa que primero abra <code>formToken.php</code> guardando la
+        cookie, copie el token del HTML y lo mande: es exactamente lo que se hizo en el caso 1 para
+        probarlo. Y el token se puede reusar (caso 2). Para eso, el captcha.
+      </li>
+    </ul>
+  </div>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Detalles del ejemplo</span>
+    <ul>
+      <li>
+        El token está en un campo <code>type="text"</code>, <strong>visible</strong>. En la teoría va
+        en un <code>type="hidden"</code>; acá se dejó a la vista para que se vea el código. Funciona
+        igual, pero en un sitio real va oculto.
+      </li>
+      <li>
+        <code>novalidate</code> en el <code>&lt;form&gt;</code> le dice al navegador que no valide
+        nada: el <code>required</code> del usuario <strong>no se aplica</strong>, y se puede enviar
+        vacío. La clase <code>needs-validation</code> es de Bootstrap, para una validación con
+        JavaScript que este ejemplo no incluye.
+      </li>
+      <li>
+        El caso 5 muestra el Warning porque XAMPP tiene <code>display_errors=On</code>. El script no
+        se rompe: compara contra <code>null</code> y da false.
+      </li>
+    </ul>
+  </div>
+</div>

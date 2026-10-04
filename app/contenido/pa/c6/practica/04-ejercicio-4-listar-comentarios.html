@@ -1,0 +1,141 @@
+<div class="ej">
+  <span class="tag">Ejercicio 4 &middot; Listado</span>
+  <h2>Script para listar los comentarios</h2>
+  <div class="enunciado">
+    <p>
+      Escriba un script en PHP que genere un listado de todos los comentarios guardados en la base
+      de datos. Dicho script deberá ser ejecutado mediante el link "Ver los Comentarios" incluido
+      en la página de inicio del sitio. Para esto deberá modificar la etiqueta
+      <code>&lt;a&gt;</code> para que apunte al mismo.
+    </p>
+  </div>
+
+  <span class="paso">Paso 1 &mdash; Qué pide</span>
+  <ol>
+    <li>Un script nuevo, <code>listarComentarios.php</code>, que haga un <code>SELECT</code> de la tabla y muestre cada fila (secciones 4 y 5 de la teoría).</li>
+    <li>Cambiar en <code>index.php</code> el link "Ver los Comentarios", que en la Clase 3 quedó sin destino (la guía 3 decía que se iba a desarrollar más adelante).</li>
+  </ol>
+
+  <span class="paso">Paso 2 &mdash; El link en <code>index.php</code></span>
+<pre class="codigo"><code>&lt;a href="formContacto.php"&gt;Agregar Comentario&lt;/a&gt;
+&lt;a href="listarComentarios.php"&gt;Ver los Comentarios&lt;/a&gt;</code></pre>
+  <p>El <code>href</code> es el nombre exacto del script nuevo. Es el único cambio en <code>index.php</code>.</p>
+
+  <span class="paso">Paso 3 &mdash; El código: <code>listarComentarios.php</code></span>
+  <p>Arma las filas de la tabla HTML en un string y después lo imprime, como hace el sitio de ejemplo de la cátedra:</p>
+<pre class="codigo"><code>&lt;?php
+require_once 'conexion.php';
+
+$sql = "SELECT id_comentario, nombre, asunto, correo, comentario FROM comentarios";
+$resultado = $mysqli-&gt;query($sql);
+
+$filasTabla = "";
+
+if ($resultado-&gt;num_rows &gt; 0) {
+    while ($fila = $resultado-&gt;fetch_array()) {
+        $filasTabla .= "&lt;tr&gt;"
+            . "&lt;td&gt;" . htmlspecialchars($fila['nombre']) . "&lt;/td&gt;"
+            . "&lt;td&gt;" . htmlspecialchars($fila['asunto']) . "&lt;/td&gt;"
+            . "&lt;td&gt;" . htmlspecialchars($fila['correo']) . "&lt;/td&gt;"
+            . "&lt;td&gt;" . htmlspecialchars($fila['comentario']) . "&lt;/td&gt;"
+            . "&lt;/tr&gt;";
+    }
+} else {
+    $filasTabla = "&lt;tr&gt;&lt;td colspan='4'&gt;Todavía no hay comentarios.&lt;/td&gt;&lt;/tr&gt;";
+}
+
+$mysqli-&gt;close();
+?&gt;
+&lt;!DOCTYPE html&gt;
+&lt;html lang="es"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;title&gt;Comentarios&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;h2&gt;Comentarios&lt;/h2&gt;
+  &lt;table border="1"&gt;
+    &lt;tr&gt;&lt;th&gt;Nombre&lt;/th&gt;&lt;th&gt;Asunto&lt;/th&gt;&lt;th&gt;Correo&lt;/th&gt;&lt;th&gt;Comentario&lt;/th&gt;&lt;/tr&gt;
+    &lt;?php echo $filasTabla; ?&gt;
+  &lt;/table&gt;
+  &lt;a href="index.php"&gt;Volver&lt;/a&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+
+  <span class="paso">Paso 4 &mdash; La tabla de ejemplo</span>
+  <p>Para seguir el código, supongamos que la tabla tiene estos tres comentarios (<strong>datos de ejemplo</strong>):</p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>id_comentario</th><th>nombre</th><th>asunto</th><th>correo</th><th>comentario</th></tr>
+      <tr><td>1</td><td>Ana</td><td>Consulta</td><td>ana@mail.com</td><td>¿Cuándo es el parcial?</td></tr>
+      <tr><td>2</td><td>Luis</td><td>Saludo</td><td>luis@mail.com</td><td>Muy bueno el sitio</td></tr>
+      <tr><td>3</td><td>Sofi</td><td>Prueba</td><td>sofi@mail.com</td><td><code>Escribo &lt;b&gt;en negrita&lt;/b&gt;</code></td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Paso 5 &mdash; Qué hace cada línea</span>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Cómo quedan las variables</th></tr>
+      <tr><td>2</td><td>Incluye la conexión del ejercicio 2</td><td><code>$mysqli</code> = la conexión</td></tr>
+      <tr><td>4</td><td>El SELECT con las columnas que se van a usar (con <code>*</code> sería igual)</td><td><code>$sql</code> = la instrucción</td></tr>
+      <tr><td>5</td><td>Consulta. Es un SELECT: devuelve un objeto <code>mysqli_result</code> (la clase que pedía el ejercicio 2)</td><td><code>$resultado</code> = apuntador a 3 filas</td></tr>
+      <tr><td>7</td><td>Arranca el string de filas vacío</td><td><code>$filasTabla</code> = <code>""</code></td></tr>
+      <tr><td>9</td><td>¿Hay comentarios? 3 &gt; 0: entra</td><td><code>num_rows</code> = 3</td></tr>
+      <tr><td>10 (vuelta 1)</td><td>Saca la fila 1 con claves numéricas y de nombre (se usan las de nombre)</td><td><code>$fila['nombre']</code> = <code>"Ana"</code>, &hellip;</td></tr>
+      <tr><td>11-16</td><td><code>.=</code> agrega al final del string lo que está a la derecha. Arma un <code>&lt;tr&gt;</code> con cuatro <code>&lt;td&gt;</code>. <code>htmlspecialchars</code> convierte <code>&lt;</code>, <code>&gt;</code>, <code>&amp;</code> y las comillas en su código HTML (<code>&amp;lt;</code>&hellip;), para que el navegador los <strong>muestre</strong> en vez de interpretarlos</td><td><code>$filasTabla</code> = la fila de Ana</td></tr>
+      <tr><td>10 (vuelta 2)</td><td>Fila 2: agrega la de Luis</td><td><code>$filasTabla</code> = Ana + Luis</td></tr>
+      <tr><td>10 (vuelta 3)</td><td>Fila 3: el comentario de Sofi trae <code>&lt;b&gt;</code>; <code>htmlspecialchars</code> lo convierte en <code>&amp;lt;b&amp;gt;</code></td><td><code>$filasTabla</code> = las tres filas</td></tr>
+      <tr><td>10 (vuelta 4)</td><td><code>fetch_array</code> devuelve <code>null</code>: termina</td><td></td></tr>
+      <tr><td>18-19</td><td>Si no hubiera comentarios, una sola fila con el aviso (<code>colspan='4'</code> la estira sobre las cuatro columnas)</td><td></td></tr>
+      <tr><td>22</td><td>Cierra la conexión: los datos ya están en <code>$filasTabla</code></td><td></td></tr>
+      <tr><td>34</td><td>Imprime todas las filas adentro de la tabla HTML</td><td></td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Paso 6 &mdash; Qué se ve</span>
+  <p>
+    El HTML de la tabla que genera con los datos de ejemplo (verificado reemplazando la base por
+    esas tres filas). PHP manda todas las filas en un solo renglón; acá están cortadas en
+    <code>&lt;tr&gt;</code> para leerlas:
+  </p>
+<pre class="salida">&lt;table border="1"&gt;
+    &lt;tr&gt;&lt;th&gt;Nombre&lt;/th&gt;&lt;th&gt;Asunto&lt;/th&gt;&lt;th&gt;Correo&lt;/th&gt;&lt;th&gt;Comentario&lt;/th&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;td&gt;Ana&lt;/td&gt;&lt;td&gt;Consulta&lt;/td&gt;&lt;td&gt;ana@mail.com&lt;/td&gt;&lt;td&gt;¿Cuándo es el parcial?&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;td&gt;Luis&lt;/td&gt;&lt;td&gt;Saludo&lt;/td&gt;&lt;td&gt;luis@mail.com&lt;/td&gt;&lt;td&gt;Muy bueno el sitio&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;td&gt;Sofi&lt;/td&gt;&lt;td&gt;Prueba&lt;/td&gt;&lt;td&gt;sofi@mail.com&lt;/td&gt;&lt;td&gt;Escribo &amp;lt;b&amp;gt;en negrita&amp;lt;/b&amp;gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;/table&gt;</pre>
+  <p>En el navegador:</p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Nombre</th><th>Asunto</th><th>Correo</th><th>Comentario</th></tr>
+      <tr><td>Ana</td><td>Consulta</td><td>ana@mail.com</td><td>¿Cuándo es el parcial?</td></tr>
+      <tr><td>Luis</td><td>Saludo</td><td>luis@mail.com</td><td>Muy bueno el sitio</td></tr>
+      <tr><td>Sofi</td><td>Prueba</td><td>sofi@mail.com</td><td>Escribo &lt;b&gt;en negrita&lt;/b&gt;</td></tr>
+    </table>
+  </div>
+  <p>
+    Lo de Sofi se ve <strong>tal cual lo escribió</strong>, con los signos, y no en negrita.
+    Sin <code>htmlspecialchars</code> el navegador habría ejecutado la etiqueta: cualquiera podría
+    meter HTML o JavaScript en la página de todos con solo dejar un comentario. Con la tabla
+    vacía, se ve una sola fila: <em>"Todavía no hay comentarios."</em> (también verificado).
+  </p>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Errores y trampas</span>
+    <ul>
+      <li><strong>Las claves de <code>$fila</code> son los nombres de las columnas</strong> de la tabla del ejercicio 1, no los <code>name</code> del formulario. Acá coinciden porque se eligieron iguales.</li>
+      <li><strong>Cerrar antes de terminar de leer:</strong> el <code>close()</code> va después del <code>while</code>, no antes.</li>
+      <li><strong>Las comillas adentro del string:</strong> <code>colspan='4'</code> lleva comillas simples porque el string de PHP está entre dobles.</li>
+    </ul>
+  </div>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Resultado</span>
+    <p>
+      <code>listarComentarios.php</code> recorre el SELECT con <code>fetch_array()</code> y arma
+      una tabla HTML con una fila por comentario; el link "Ver los Comentarios" de
+      <code>index.php</code> apunta a él. La guía no tiene hoja de resultados.
+    </p>
+  </div>
+</div>

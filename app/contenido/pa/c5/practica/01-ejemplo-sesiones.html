@@ -1,0 +1,177 @@
+<div class="ej">
+  <span class="tag">Ejemplo de la cátedra &middot; sessiones</span>
+  <h2>Dos páginas que comparten la sesión</h2>
+  <div class="enunciado">
+    <p>
+      Carpeta <code>sessiones</code>: <code>pagina1.php</code> guarda datos en la sesión y los
+      muestra en una tabla; <code>pagina2.php</code> no guarda nada, solo muestra la misma tabla.
+      Cada una tiene un enlace a la otra.
+    </p>
+  </div>
+
+  <span class="paso">Archivo 1 &mdash; <code>pagina1.php</code></span>
+<pre class="codigo"><code>&lt;?php
+session_start();
+
+$vDatosUsuario = array(
+    'apellido' =&gt; 'Bonnet',
+    'nombres'  =&gt; 'Federico',
+    'area'     =&gt; 'Recursos Humanos'
+);
+
+$_SESSION['usuario'] = 'fedebonnet';
+
+$_SESSION['datos'] = $vDatosUsuario;
+?&gt;
+
+&lt;!DOCTYPE html&gt;
+&lt;html lang="es"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"&gt;
+    &lt;title&gt;Programación Avanzada&lt;/title&gt;
+    &lt;!-- Bootstrap CSS --&gt;
+    &lt;link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" ...&gt;
+&lt;/head&gt;
+&lt;body class="container" style="text-align:center"&gt;
+    &lt;br&gt;
+    &lt;h1&gt;Página 1&lt;/h1&gt;
+    &lt;br&gt;
+    &lt;h4&gt;Éstos son los datos creados en la session.&lt;/h4&gt;
+    &lt;br&gt;
+    El ID de la session:&lt;h4&gt;&lt;?php echo session_id()?&gt;&lt;/h4&gt;
+    &lt;br&gt;
+
+    &lt;table class="table"&gt;
+        &lt;thead&gt;
+            &lt;tr&gt;
+                &lt;th scope="col"&gt;Clave&lt;/th&gt;
+                &lt;th scope="col"&gt;Valor&lt;/th&gt;
+            &lt;/tr&gt;
+        &lt;/thead&gt;
+        &lt;tbody&gt;
+        &lt;?php
+            if (!empty($_SESSION)) {
+                foreach ($_SESSION as $clave =&gt; $valor) {
+                    echo '&lt;tr&gt;';
+                        echo '&lt;td&gt;' . $clave . '&lt;/td&gt;';
+                        echo '&lt;td&gt;';
+                            print_r($valor);
+                        echo '&lt;/td&gt;';
+                    echo '&lt;/tr&gt;';
+                }
+            } else {
+                echo "Aún no se ha creado la sessión.";
+            }
+        ?&gt;
+        &lt;/tbody&gt;
+    &lt;/table&gt;
+    &lt;br&gt;
+    &lt;a href='pagina2.php'&gt; Ir a la página 2&lt;/a&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+  <p>
+    (El <code>&lt;link&gt;</code> de Bootstrap trae además un atributo <code>integrity</code> largo,
+    que acá se acortó con <code>...</code>: sirve para que el navegador verifique que el archivo
+    descargado no fue alterado.)
+  </p>
+
+  <h4>Qué hace cada parte</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Cómo queda <code>$_SESSION</code></th></tr>
+      <tr><td><code>session_start();</code></td><td>Primera línea del archivo, antes de cualquier HTML (teoría, sección 1). Crea o reanuda la sesión.</td><td>vacía, la primera vez</td></tr>
+      <tr><td><code>$vDatosUsuario = array(...)</code></td><td>Un array asociativo común con tres datos. Todavía no está en la sesión.</td><td>sin cambios</td></tr>
+      <tr><td><code>$_SESSION['usuario'] = 'fedebonnet';</code></td><td>Guarda un texto en la sesión.</td><td><code>usuario =&gt; fedebonnet</code></td></tr>
+      <tr><td><code>$_SESSION['datos'] = $vDatosUsuario;</code></td><td>Guarda el arreglo entero bajo una sola clave.</td><td><code>usuario</code> y <code>datos</code> (2 claves)</td></tr>
+      <tr><td><code>&lt;?php echo session_id()?&gt;</code></td><td>Escribe el id de la sesión adentro del <code>&lt;h4&gt;</code>.</td><td>&mdash;</td></tr>
+      <tr><td><code>if (!empty($_SESSION))</code></td><td>¿La sesión tiene algo? (sección 3). En esta página siempre, porque se acaba de llenar.</td><td>&mdash;</td></tr>
+      <tr><td><code>foreach ($_SESSION as $clave =&gt; $valor)</code></td><td>Una vuelta por clave: arma una fila <code>&lt;tr&gt;</code> con la clave en una celda y el valor en otra.</td><td>&mdash;</td></tr>
+      <tr><td><code>print_r($valor);</code></td><td>Imprime el valor. Se usa <code>print_r</code> y no <code>echo</code> porque <code>datos</code> es un arreglo (con <code>echo</code> saldría <code>Array</code>).</td><td>&mdash;</td></tr>
+      <tr><td><code>echo "Aún no se ha creado la sessión.";</code></td><td>Si la sesión estuviera vacía. En <code>pagina1.php</code> nunca pasa.</td><td>&mdash;</td></tr>
+      <tr><td><code>&lt;a href='pagina2.php'&gt;</code></td><td>Enlace a la otra página.</td><td>&mdash;</td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Archivo 2 &mdash; <code>pagina2.php</code></span>
+<pre class="codigo"><code>&lt;?php
+session_start();
+?&gt;
+
+&lt;!DOCTYPE html&gt;
+...
+    &lt;h1&gt;Página 2&lt;/h1&gt;
+    &lt;br&gt;
+    &lt;h4&gt;Muestro los datos de la session desde otro script.&lt;/h4&gt;
+...</code></pre>
+  <p>
+    El resto (el id, la tabla con el <code>foreach</code>, el mensaje del <code>else</code>) es
+    <strong>idéntico</strong> a <code>pagina1.php</code>, y el enlace del final va a
+    <code>pagina1.php</code>. La diferencia es que acá <strong>no se asigna nada</strong>: solo
+    <code>session_start()</code>, que recupera lo que guardó la otra página.
+  </p>
+
+  <span class="paso">Qué se ve</span>
+  <p>Se probó en un servidor con las dos páginas, en este orden:</p>
+
+  <h4>1. Abrir primero <code>pagina2.php</code> (navegador nuevo)</h4>
+  <p>
+    La sesión se acaba de crear y está vacía: <code>!empty($_SESSION)</code> da false y sale el
+    mensaje del <code>else</code>.
+  </p>
+<pre class="salida">Página 2
+Muestro los datos de la session desde otro script.
+El ID de la session:
+9cfv1qepmt1eg3r57labblhlqd
+Aún no se ha creado la sessión.</pre>
+
+  <h4>2. Abrir <code>pagina1.php</code></h4>
+  <p>Guarda los datos y los muestra. En pantalla, la tabla:</p>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th>Clave</th><th>Valor</th></tr>
+      <tr><td>usuario</td><td>fedebonnet</td></tr>
+      <tr><td>datos</td><td>Array ( [apellido] =&gt; Bonnet [nombres] =&gt; Federico [area] =&gt; Recursos Humanos )</td></tr>
+    </table>
+  </div>
+  <p>
+    <code>print_r</code> escribe el arreglo en varias líneas, pero el navegador junta los saltos de
+    línea en un espacio: por eso se ve todo en un renglón.
+  </p>
+
+  <h4>3. Tocar "Ir a la página 2"</h4>
+  <p>
+    <code>pagina2.php</code> muestra <strong>el mismo id y la misma tabla</strong>, sin haber
+    asignado nada. En la prueba el id fue <code>9cfv1qepmt1eg3r57labblhlqd</code> en los tres pasos (la cookie se creó en el paso 1), y el
+    archivo de sesión en el servidor quedó así:
+  </p>
+<pre class="salida">usuario|s:10:"fedebonnet";datos|a:3:{s:8:"apellido";s:6:"Bonnet";s:7:"nombres";s:8:"Federico";s:4:"area";s:16:"Recursos Humanos";}</pre>
+  <p>
+    Se lee así: <code>usuario</code> es un texto (<code>s</code>) de 10 caracteres;
+    <code>datos</code> es un arreglo (<code>a</code>) de 3 elementos, cada uno con su clave y su
+    valor.
+  </p>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Qué muestra el ejemplo</span>
+    <ul>
+      <li>El id es el mismo en las dos páginas: es la misma sesión, reconocida por la cookie <code>PHPSESSID</code>.</li>
+      <li>Los datos se guardan en un script y se leen en otro.</li>
+      <li>En la sesión se puede guardar un arreglo entero, no solo textos.</li>
+      <li>
+        Si lo abrís en otro navegador directamente en <code>pagina2.php</code>, otra vez aparece
+        "Aún no se ha creado la sessión.": cada navegador tiene su propia sesión.
+      </li>
+    </ul>
+  </div>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Un detalle del HTML</span>
+    <p>
+      El mensaje del <code>else</code> se imprime dentro de <code>&lt;tbody&gt;</code> pero fuera de
+      un <code>&lt;tr&gt;&lt;td&gt;</code>. Un texto suelto dentro de una tabla no es HTML válido, y
+      el navegador lo saca y lo muestra <strong>arriba</strong> de la tabla. Para que quede adentro:
+      <code>echo '&lt;tr&gt;&lt;td colspan="2"&gt;Aún no se ha creado la sesión.&lt;/td&gt;&lt;/tr&gt;';</code>
+    </p>
+  </div>
+</div>

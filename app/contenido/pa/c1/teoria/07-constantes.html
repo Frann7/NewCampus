@@ -1,0 +1,98 @@
+<div class="bloque">
+  <p class="kicker">Datos</p>
+  <h2>7. Constantes</h2>
+
+  <h3>Para qué sirve</h3>
+  <p>
+    Una constante es un contenedor para un dato que <strong>no cambia nunca</strong> mientras corre
+    el programa (inmutable): un porcentaje de IVA, el nombre del sistema, un límite. Puede guardar
+    cualquiera de los tipos de la sección 4.
+  </p>
+
+  <h3>Sintaxis</h3>
+  <pre class="codigo"><code>define("NOMBRE", valor);</code></pre>
+  <p>La firma completa que muestra la cátedra es:</p>
+  <pre class="codigo"><code>bool define (nombre, valor [, bool $case_insensitive = false])</code></pre>
+
+  <h3>Qué es cada parte</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Parte</th><th>Qué es</th></tr>
+      <tr><td><code>define</code></td><td>La función que crea la constante.</td></tr>
+      <tr><td><code>"NOMBRE"</code></td><td>El nombre, <strong>entre comillas</strong> al definirla. Por costumbre va en mayúsculas.</td></tr>
+      <tr><td><code>valor</code></td><td>El dato que va a guardar.</td></tr>
+      <tr><td><code>[, $case_insensitive]</code></td><td>Opcional (por eso los corchetes): si valía <code>true</code>, la constante se podía usar sin respetar mayúsculas. <strong>En PHP 8 ya no funciona</strong> (ver trampas).</td></tr>
+      <tr><td><code>bool</code> (adelante)</td><td><code>define</code> devuelve <code>true</code> si pudo crear la constante.</td></tr>
+    </table>
+  </div>
+  <p>
+    Para <strong>usarla</strong> se escribe el nombre <strong>solo</strong>: sin <code>$</code> (no es
+    una variable) y sin comillas. Las constantes no pueden empezar con <code>$</code>.
+  </p>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; Definir y usar una constante</h3>
+
+  <pre class="codigo"><code>&lt;?php
+define("IVA", 21);
+echo "El IVA es del " . IVA . "%";
+?&gt;</code></pre>
+
+  <h4>Qué hace cada línea</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Cómo quedan los datos</th></tr>
+      <tr><td><code>define("IVA", 21);</code></td><td>Crea la constante <code>IVA</code> con el valor 21.</td><td><code>IVA = 21</code> (para siempre)</td></tr>
+      <tr><td><code>echo "El IVA es del " . IVA . "%";</code></td><td>Pega tres partes: el texto, el valor de la constante (sin comillas ni <code>$</code>) y el signo <code>%</code>.</td><td>sin cambios</td></tr>
+    </table>
+  </div>
+
+  <h4>Qué imprime y por qué</h4>
+  <pre class="salida">El IVA es del 21%</pre>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; Con formato del Parcial PHP: ¿cuál es la salida?</h3>
+
+  <pre class="codigo"><code>&lt;?php
+define("LIMITE", 10);
+define("LIMITE", 20);
+echo LIMITE;
+?&gt;</code></pre>
+
+  <h4>Qué hace cada línea</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Cómo quedan los datos</th></tr>
+      <tr><td><code>define("LIMITE", 10);</code></td><td>Crea <code>LIMITE</code> con 10.</td><td><code>LIMITE = 10</code></td></tr>
+      <tr><td><code>define("LIMITE", 20);</code></td><td>Intenta crearla otra vez. Como es <strong>constante</strong>, no se puede cambiar: PHP avisa con un Warning y la deja como estaba.</td><td><code>LIMITE = 10</code></td></tr>
+      <tr><td><code>echo LIMITE;</code></td><td>Muestra el valor.</td><td>sin cambios</td></tr>
+    </table>
+  </div>
+
+  <h4>Qué imprime y por qué</h4>
+  <pre class="salida">Warning: Constant LIMITE already defined in ... on line 3
+10</pre>
+  <p>Sale 10, no 20: el segundo <code>define</code> falló. Es justamente lo que diferencia una constante de una variable.</p>
+
+  <h3>Errores y trampas</h3>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Entre comillas ya no es la constante</span>
+    <pre class="codigo"><code>&lt;?php
+define("CIUDAD", "Paraná");
+echo "CIUDAD";
+echo " - ";
+echo CIUDAD;
+?&gt;</code></pre>
+    <pre class="salida">CIUDAD - Paraná</pre>
+    <p>Con comillas, <code>"CIUDAD"</code> es un texto cualquiera; sin comillas, es la constante.</p>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">El ejemplo de la cátedra en PHP 8</span>
+    <p>El apunte usa <code>define("Nombre","Esteban","true"); print Nombre;</code>. En PHP 8 el tercer parámetro se ignora y avisa:</p>
+    <pre class="salida">Warning: define(): Argument #3 ($case_insensitive) is ignored since declaration of case-insensitive constants is no longer supported in ... on line 2
+Esteban</pre>
+    <p>Igual muestra <code>Esteban</code>. Pero la constante distingue mayúsculas: <code>print NOMBRE;</code> corta el script con <code>Fatal error: Uncaught Error: Undefined constant "NOMBRE"</code>.</p>
+  </div>
+</div>

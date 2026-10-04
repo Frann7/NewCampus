@@ -1,0 +1,132 @@
+<div class="bloque">
+  <p class="kicker">Datos</p>
+  <h2>4. Tipos de datos</h2>
+
+  <h3>Para qué sirve</h3>
+  <p>
+    Todo valor que maneja un programa es de algún <strong>tipo</strong>: un número entero, un
+    número con decimales, un texto, un verdadero/falso... El tipo decide qué se puede hacer con el
+    valor y cómo se muestra. PHP los agrupa en tres familias:
+  </p>
+  <ul>
+    <li><strong>Escalares:</strong> guardan <strong>un solo valor</strong> a la vez.</li>
+    <li><strong>Compuestos:</strong> son <strong>contenedores</strong> de varios valores.</li>
+    <li><strong>Especiales:</strong> para situaciones particulares (la ausencia de valor, un recurso externo).</li>
+  </ul>
+
+  <h3>Qué es cada tipo</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Familia</th><th>Tipo</th><th>Qué guarda</th><th>Cómo se escribe</th></tr>
+      <tr><td class="lbl" rowspan="4">Escalares</td><td><strong>boolean</strong></td><td>Solo dos valores: verdadero o falso. <code>true</code> se corresponde con 1 y <code>false</code> con 0.</td><td><code>true</code>, <code>false</code></td></tr>
+      <tr><td><strong>int</strong> (entero)</td><td>Números enteros con signo, positivos o negativos.</td><td><code>16543</code>, <code>-16543</code>, <code>0123</code> (octal), <code>0x1A</code> (hexadecimal)</td></tr>
+      <tr><td><strong>float</strong></td><td>Números con parte decimal (punto flotante).</td><td><code>1.2654</code>, <code>1.2e3</code>, <code>7E-10</code></td></tr>
+      <tr><td><strong>string</strong></td><td>Una secuencia ordenada de datos. Casi siempre es texto, pero puede ser también el contenido de un archivo (una imagen, una planilla).</td><td><code>"Hola"</code>, <code>'Hola'</code></td></tr>
+      <tr><td class="lbl" rowspan="2">Compuestos</td><td><strong>array</strong></td><td>Un contenedor ordenado de elementos: números, booleanos, textos, objetos y hasta otros arrays. (Clase 2.)</td><td><code>array("rojo", "verde")</code></td></tr>
+      <tr><td><strong>object</strong></td><td>Un contenedor de datos <strong>y</strong> de código: la base de la programación orientada a objetos.</td><td>&mdash;</td></tr>
+      <tr><td class="lbl" rowspan="2">Especiales</td><td><strong>NULL</strong></td><td>"Sin valor": se le asignó <code>null</code> o nunca se le asignó nada.</td><td><code>null</code></td></tr>
+      <tr><td><strong>resource</strong></td><td>Una referencia a algo externo que PHP no representa por sí mismo: un archivo abierto, una conexión a una base de datos.</td><td>&mdash;</td></tr>
+    </table>
+  </div>
+
+  <h4>Cómo se leen los números raros</h4>
+  <ul>
+    <li><strong>Octal</strong> (base 8): un entero que <strong>empieza con 0</strong>. <code>0123</code> es \(1 \cdot 8^2 + 2 \cdot 8 + 3 = 64 + 16 + 3 = 83\).</li>
+    <li><strong>Hexadecimal</strong> (base 16): empieza con <code>0x</code>; las letras A a F valen 10 a 15. <code>0x1A</code> es \(1 \cdot 16 + 10 = 26\).</li>
+    <li><strong>Notación científica</strong>: la <code>e</code> (o <code>E</code>) significa "por 10 a la". <code>1.2e3</code> es \(1{,}2 \times 10^3 = 1200\) y <code>7E-10</code> es \(7 \times 10^{-10} = 0{,}0000000007\).</li>
+  </ul>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; Cómo imprime PHP cada número</h3>
+
+  <pre class="codigo"><code>&lt;?php
+echo 16543;
+echo " | ";
+echo -16543;
+echo " | ";
+echo 0123;
+echo " | ";
+echo 0x1A;
+echo " | ";
+echo 1.2e3;
+echo " | ";
+echo 7E-10;
+?&gt;</code></pre>
+
+  <h4>Qué hace cada línea</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Qué sale</th></tr>
+      <tr><td><code>echo 16543;</code></td><td>Entero común.</td><td><code>16543</code></td></tr>
+      <tr><td><code>echo " | ";</code></td><td>Un separador, para que los números no salgan pegados (se repite entre cada uno).</td><td><code> | </code></td></tr>
+      <tr><td><code>echo -16543;</code></td><td>Entero negativo.</td><td><code>-16543</code></td></tr>
+      <tr><td><code>echo 0123;</code></td><td>Empieza con 0: es <strong>octal</strong>. PHP lo muestra en decimal.</td><td><code>83</code></td></tr>
+      <tr><td><code>echo 0x1A;</code></td><td>Empieza con 0x: es <strong>hexadecimal</strong>. Se muestra en decimal.</td><td><code>26</code></td></tr>
+      <tr><td><code>echo 1.2e3;</code></td><td>Float en notación científica: \(1{,}2 \times 1000\).</td><td><code>1200</code></td></tr>
+      <tr><td><code>echo 7E-10;</code></td><td>Float muy chico. PHP lo muestra en notación científica.</td><td><code>7.0E-10</code></td></tr>
+    </table>
+  </div>
+
+  <h4>Qué imprime y por qué</h4>
+  <pre class="salida">16543 | -16543 | 83 | 26 | 1200 | 7.0E-10</pre>
+  <p>PHP siempre muestra los enteros en base 10, sin importar cómo se escribieron. Y un float muy chico lo muestra en notación científica, agregándole el <code>.0</code>.</p>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; Con formato del Parcial PHP: ¿cuál es la salida?</h3>
+  <p>
+    Acá aparecen variables: <code>$a = true;</code> guarda el valor <code>true</code> en una
+    variable llamada <code>$a</code> (la sección 5 las explica en detalle).
+  </p>
+
+  <pre class="codigo"><code>&lt;?php
+$a = true;
+$b = false;
+echo $a;
+echo "-";
+echo $b;
+echo "-";
+echo $a + $a;
+?&gt;</code></pre>
+
+  <h4>Qué hace cada línea</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Cómo quedan las variables</th><th>Salida acumulada</th></tr>
+      <tr><td><code>$a = true;</code></td><td>Guarda verdadero en <code>$a</code>.</td><td><code>$a = true</code></td><td></td></tr>
+      <tr><td><code>$b = false;</code></td><td>Guarda falso en <code>$b</code>.</td><td><code>$a = true</code>, <code>$b = false</code></td><td></td></tr>
+      <tr><td><code>echo $a;</code></td><td>Al mostrar un booleano, PHP lo convierte a texto: <code>true</code> se convierte en <strong>"1"</strong>.</td><td>sin cambios</td><td><code>1</code></td></tr>
+      <tr><td><code>echo "-";</code></td><td>Un guion.</td><td>sin cambios</td><td><code>1-</code></td></tr>
+      <tr><td><code>echo $b;</code></td><td><code>false</code> se convierte en <strong>texto vacío</strong>: no sale nada.</td><td>sin cambios</td><td><code>1-</code></td></tr>
+      <tr><td><code>echo "-";</code></td><td>Otro guion.</td><td>sin cambios</td><td><code>1--</code></td></tr>
+      <tr><td><code>echo $a + $a;</code></td><td>Para sumar, <code>true</code> vale 1: \(1 + 1 = 2\).</td><td>sin cambios</td><td><code>1--2</code></td></tr>
+    </table>
+  </div>
+
+  <h4>Qué imprime y por qué</h4>
+  <pre class="salida">1--2</pre>
+  <p>
+    Los dos guiones quedan juntos porque <code>echo $b</code> no imprimió nada: <code>false</code>
+    se muestra como texto vacío, no como "0".
+  </p>
+
+  <h3>Errores y trampas</h3>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">El decimal va con punto, no con coma</span>
+    <p>El apunte muestra <code>$a = 1,2654</code>. En PHP eso es un error de sintaxis:</p>
+    <pre class="salida">Parse error: syntax error, unexpected token "," in ... on line 2</pre>
+    <p>Se escribe <code>$a = 1.2654;</code>.</p>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Rótulos cambiados en el apunte</span>
+    <ul>
+      <li>En la tabla de float, el apunte llama "octal" a <code>1.2e3</code> y "hexadecimal" a <code>7E-10</code>. No lo son: los dos son floats en <strong>notación científica</strong>. Octal y hexadecimal son formas de escribir <strong>enteros</strong>.</li>
+      <li>En la tabla de boolean, <code>$b = false;</code> dice "Valor verdadero". Es un error de tipeo: es el valor <strong>falso</strong> (el 0).</li>
+    </ul>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Un cero adelante cambia el número</span>
+    <p><code>010</code> no es diez: es octal, vale 8. Nunca escribas enteros con ceros a la izquierda.</p>
+  </div>
+</div>

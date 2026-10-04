@@ -1,0 +1,148 @@
+<div class="bloque">
+  <p class="kicker">Strings</p>
+  <h2>10. Strings: comillas simples, dobles y caracteres de escape</h2>
+
+  <h3>Para qué sirve</h3>
+  <p>
+    Un <strong>string</strong> (cadena de texto) es cualquier conjunto de caracteres entre
+    comillas. Gran parte de lo que hace PHP es armar texto para mostrar en una página, así que es
+    clave saber <strong>qué imprime exactamente</strong> cada forma de escribirlo.
+  </p>
+  <ul>
+    <li>Un string empieza y termina con el <strong>mismo tipo de comillas</strong>: simples <code>'...'</code> o dobles <code>"..."</code>.</li>
+    <li>A diferencia de otros lenguajes, en PHP <strong>no son lo mismo</strong>:</li>
+  </ul>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th></th><th>Comillas simples <code>'...'</code></th><th>Comillas dobles <code>"..."</code></th></tr>
+      <tr><td class="lbl">Nombre de la cátedra</td><td>"Cadenas simples"</td><td>"Cadenas complejas"</td></tr>
+      <tr><td class="lbl">Variables adentro</td><td>Se imprimen <strong>literal</strong>: <code>'$nombre'</code> muestra <code>$nombre</code></td><td>Se <strong>reemplazan por su valor</strong>: <code>"$nombre"</code> muestra <code>Martín</code></td></tr>
+      <tr><td class="lbl">Secuencias de escape</td><td>Solo <code>\'</code> y <code>\\</code></td><td>Todas: <code>\n</code>, <code>\t</code>, <code>\"</code>, <code>\$</code>, <code>\\</code></td></tr>
+    </table>
+  </div>
+
+  <h3>Sintaxis</h3>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Las dos formas</span>
+<pre class="codigo"><code>$texto = 'Hola, $nombre';    // literal: tal cual
+$texto = "Hola, $nombre";    // con el valor de $nombre adentro</code></pre>
+  </div>
+
+  <h3>Qué es cada parte: las secuencias de escape</h3>
+  <p>
+    Una <strong>secuencia de escape</strong> es una barra invertida <code>\</code> seguida de un
+    carácter. Sirve para escribir dentro del string algo que de otra forma no se podría: una comilla
+    igual a la que lo cierra, un salto de línea, un <code>$</code> que no sea variable.
+  </p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Escribís</th><th>Imprime</th><th>Funciona en</th></tr>
+      <tr><td><code>\n</code></td><td>Un salto de línea en el texto</td><td>Dobles</td></tr>
+      <tr><td><code>\t</code></td><td>Una tabulación</td><td>Dobles</td></tr>
+      <tr><td><code>\"</code></td><td>Una comilla doble <code>"</code> (sin cerrar el string)</td><td>Dobles</td></tr>
+      <tr><td><code>\$</code></td><td>Un signo <code>$</code> (sin buscar una variable)</td><td>Dobles</td></tr>
+      <tr><td><code>\'</code></td><td>Una comilla simple <code>'</code> (sin cerrar el string)</td><td>Simples</td></tr>
+      <tr><td><code>\\</code></td><td>Una barra invertida <code>\</code></td><td>Las dos</td></tr>
+    </table>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; La misma frase con las dos comillas (teoría de la cátedra)</h3>
+<pre class="codigo"><code>&lt;?php
+$nombre = "Martín";
+echo "Saludos, $nombre\n";
+echo 'Saludos, $nombre\n';
+?&gt;</code></pre>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Cómo quedan las variables</th></tr>
+      <tr><td><code>$nombre = "Martín";</code></td><td>Guarda el nombre</td><td><code>$nombre</code> = 'Martín'</td></tr>
+      <tr><td><code>echo "Saludos, $nombre\n";</code></td><td>Dobles: cambia <code>$nombre</code> por <code>Martín</code> y <code>\n</code> por un salto de línea</td><td>&mdash;</td></tr>
+      <tr><td><code>echo 'Saludos, $nombre\n';</code></td><td>Simples: todo literal, incluso el <code>$nombre</code> y el <code>\n</code></td><td>&mdash;</td></tr>
+    </table>
+  </div>
+<pre class="salida">Saludos, Martín
+Saludos, $nombre\n</pre>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; Escapar comillas y el signo $ (teoría de la cátedra)</h3>
+<pre class="codigo"><code>&lt;?php
+$valor = 15;
+echo 'Escapamos caracteres \'con\' la barra invertida.';
+echo "\n";
+echo "El valor de la variable \$valor es \"$valor\".";
+?&gt;</code></pre>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Cómo quedan las variables</th></tr>
+      <tr><td><code>$valor = 15;</code></td><td>Un número</td><td><code>$valor</code> = 15</td></tr>
+      <tr><td><code>echo '... \'con\' ...';</code></td><td>Cada <code>\'</code> imprime una comilla simple sin cerrar el string</td><td>&mdash;</td></tr>
+      <tr><td><code>echo "\n";</code></td><td>Un salto de línea</td><td>&mdash;</td></tr>
+      <tr><td><code>echo "... \$valor es \"$valor\".";</code></td><td><code>\$valor</code> sale literal (el <code>$</code> escapado no busca la variable); <code>\"</code> imprime comillas dobles; el <code>$valor</code> sin barra se reemplaza por 15</td><td>&mdash;</td></tr>
+    </table>
+  </div>
+<pre class="salida">Escapamos caracteres 'con' la barra invertida.
+El valor de la variable $valor es "15".</pre>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 3 &mdash; ¿Cuál es la salida? (formato del parcial)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>¿Cuál es la salida del siguiente script?</p>
+  </div>
+<pre class="codigo"><code>&lt;?php
+$dia = 'Lunes';
+echo 'Hoy es $dia' . '&lt;br&gt;';
+echo "Hoy es $dia" . '&lt;br&gt;';
+echo 'Hoy es ' . $dia;
+?&gt;</code></pre>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Qué imprime</th></tr>
+      <tr><td><code>$dia = 'Lunes';</code></td><td>Guarda el día</td><td>&mdash;</td></tr>
+      <tr><td><code>echo 'Hoy es $dia' . '&lt;br&gt;';</code></td><td>Simples: <code>$dia</code> sale literal</td><td><code>Hoy es $dia</code></td></tr>
+      <tr><td><code>echo "Hoy es $dia" . '&lt;br&gt;';</code></td><td>Dobles: <code>$dia</code> se reemplaza</td><td><code>Hoy es Lunes</code></td></tr>
+      <tr><td><code>echo 'Hoy es ' . $dia;</code></td><td>Simples, pero la variable está <strong>afuera</strong> de las comillas y se pega con <code>.</code></td><td><code>Hoy es Lunes</code></td></tr>
+    </table>
+  </div>
+<pre class="salida">Hoy es $dia
+Hoy es Lunes
+Hoy es Lunes</pre>
+  <p>
+    Las dos últimas formas dan lo mismo: con comillas dobles la variable va adentro; con simples,
+    se concatena afuera. La práctica de la cátedra usa las dos.
+  </p>
+
+  <hr class="sep">
+
+  <h3>Errores y trampas</h3>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">\n no es un salto de línea en el navegador</span>
+    <p>
+      <code>\n</code> pone un salto de línea en el <strong>texto</strong> que genera PHP, pero el
+      navegador lo muestra como un espacio (HTML ignora los saltos del texto, sección 3). Para
+      bajar de línea en la página se imprime <code>&lt;br&gt;</code>. El ejemplo 1 se ve en el
+      navegador como <code>Saludos, Martín Saludos, $nombre\n</code>, en una línea.
+    </p>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">"\ " no escapa un espacio</span>
+    <p>
+      La cátedra dice que se puede escapar un espacio con <code>\</code>. No es así: <code>\ </code>
+      no es una secuencia de escape, y PHP imprime la barra tal cual. <code>echo "dejamos \  un
+      espacio";</code> muestra <code>dejamos \  un espacio</code>.
+    </p>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Comillas tipográficas en los PDF</span>
+    <p>
+      Los apuntes y la práctica resuelta de la cátedra muestran muchas comillas como
+      <code>“ ”</code> (las "curvas" que pone el procesador de texto). PHP solo acepta
+      <code>"</code> y <code>'</code> rectas: copiado tal cual, <code>echo $un_dia.”&lt;br /&gt;”;</code>
+      da <code>Parse error</code>. Al pasar un código del PDF a un archivo, hay que cambiarlas.
+    </p>
+  </div>
+</div>

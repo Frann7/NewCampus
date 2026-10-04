@@ -215,7 +215,80 @@
 
   function entero(v) { var n = parseInt(v, 10); return isNaN(n) ? 0 : n; }
 
+  /* Evaluacion simple (la de PA, ver E.configMateria): solo nombre y minutos.
+     Corre todas las preguntas del banco, en orden, como cuestionario virtual. */
+  var PLANTILLA_SIMPLE =
+    '<fieldset class="ae-paso">' +
+    '  <legend><span class="ae-num">1</span>Nombre</legend>' +
+    '  <input class="ae-input" name="nombre" maxlength="60" autocomplete="off">' +
+    '  <p class="ae-ayuda" data-ayuda-nombre></p>' +
+    '</fieldset>' +
+    '<fieldset class="ae-paso">' +
+    '  <legend><span class="ae-num">2</span>Tiempo</legend>' +
+    '  <div class="ae-campo">' +
+    '    <label class="ae-opcion"><span>Contador de</span>' +
+    '      <input class="ae-input ae-corto" type="number" name="minutos" min="1" max="240"><span>minutos</span></label>' +
+    '  </div>' +
+    '</fieldset>' +
+    '<div class="ae-errores" data-errores hidden></div>' +
+    '<div class="ae-pie">' +
+    '  <span class="ae-pie-espacio"></span>' +
+    '  <button type="button" class="ev-btn" data-accion="guardar">Guardar</button>' +
+    '  <button type="submit" class="ev-btn ev-btn-primario" data-accion="lanzar">Guardar y empezar</button>' +
+    '</div>';
+
+  function mostrarSimple(cont, materia, acciones) {
+    var h = E.h;
+    var cfg = E.configMateria(materia);
+    var total = E.banco.todas(materia);
+    var porDefecto = "Autoevaluación " + (E.almacen.listar(materia).length + 1);
+
+    E.vaciar(cont);
+    cont.appendChild(h("button", { class: "ev-volver", type: "button", onclick: function () { acciones.volver(); } }, "← Evaluación"));
+    cont.appendChild(h("p", { class: "kicker ev-kicker" }, "Autoevaluación"));
+    cont.appendChild(h("h1", { class: "ev-h1" }, "Nueva autoevaluación"));
+
+    var form = h("form", { class: "ae-form", novalidate: true, html: PLANTILLA_SIMPLE });
+    cont.appendChild(form);
+    form.elements.nombre.placeholder = porDefecto;
+    form.querySelector("[data-ayuda-nombre]").textContent = "Opcional. Si lo dejás vacío, se guarda como “" + porDefecto + "”.";
+    form.elements.minutos.value = cfg.minutos;
+
+    function guardar(lanzar) {
+      var nombre = form.elements.nombre.value.trim() || porDefecto;
+      var minutos = entero(form.elements.minutos.value);
+      var errores = [];
+      if (!total) { errores.push("Todavía no hay preguntas en el banco de esta materia."); }
+      if (minutos < 1 || minutos > MAX_MINUTOS) { errores.push("El contador va de 1 a 240 minutos (4 horas)."); }
+      var caja = form.querySelector("[data-errores]");
+      if (errores.length) {
+        E.vaciar(caja);
+        caja.appendChild(h("ul", {}, errores.map(function (e) { return h("li", {}, e); })));
+        caja.hidden = false;
+        return;
+      }
+      // etapa "1": corre en cuestionario.js; tipo "simple": todas, en orden, sin reglamento
+      var v = { v: 2, tipo: "simple", etapa: "1", formato1: "virtual", modo: "normal",
+                corregirYa: false, unidades: [], cantCuestionario: total,
+                conTiempo: true, minutos: minutos };
+      var nueva = { id: "ae-" + Date.now().toString(36), materia: materia, creada: Date.now(),
+                    nombre: nombre, config: v, historial: [], intento: null };
+      if (!E.almacen.guardar(nueva)) {
+        window.alert("No se pudo guardar: el navegador no deja usar su almacenamiento en esta página.");
+        return;
+      }
+      if (lanzar) { acciones.lanzar(nueva, false); }
+      else { acciones.volver("Se guardó “" + nombre + "”. Tocá su tarjeta cuando quieras empezar."); }
+    }
+
+    form.addEventListener("submit", function (ev) { ev.preventDefault(); guardar(true); });
+    form.querySelector('[data-accion="guardar"]').addEventListener("click", function () { guardar(false); });
+    E.pantallaNueva(cont);
+  }
+
   E.formulario = {
+    mostrarSimple: mostrarSimple,
+
     /* acciones: { volver(aviso), lanzar(ae, reiniciar) } */
     mostrar: function (cont, materia, acciones) {
       var h = E.h;

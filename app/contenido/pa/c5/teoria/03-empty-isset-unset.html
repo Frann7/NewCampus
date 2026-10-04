@@ -1,0 +1,175 @@
+<div class="bloque">
+  <p class="kicker">Sesiones</p>
+  <h2>3. <code>empty</code>, <code>isset</code> y <code>unset</code>: preguntar, borrar y cerrar</h2>
+
+  <h3>Para qué sirve</h3>
+  <p>
+    Los ejemplos de la cátedra hacen todo el tiempo dos cosas con la sesión:
+  </p>
+  <ul>
+    <li><strong>Preguntar si un dato está</strong> antes de usarlo: <code>if (!empty($_SESSION['rand_code']))</code>.</li>
+    <li><strong>Borrar un dato</strong> que ya no sirve: <code>unset($_SESSION['rand_code']);</code>.</li>
+  </ul>
+  <p>Estas son las tres funciones que lo hacen.</p>
+
+  <h3>Sintaxis</h3>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Las tres</span>
+<pre class="codigo"><code>empty($_SESSION['clave'])   // true si no existe o está "vacía"
+isset($_SESSION['clave'])   // true si existe y no es null
+unset($_SESSION['clave']);  // borra esa clave del arreglo</code></pre>
+  </div>
+
+  <h3>Qué es cada parte</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Función</th><th>Qué devuelve o hace</th></tr>
+      <tr><td class="lbl"><code>empty($x)</code></td><td><code>true</code> si <code>$x</code> <strong>no existe</strong> o vale algo "vacío": <code>""</code>, <code>"0"</code>, <code>0</code>, <code>null</code>, <code>false</code> o un arreglo sin elementos. Si la variable no existe <strong>no da Warning</strong>: por eso se usa para preguntar.</td></tr>
+      <tr><td class="lbl"><code>!empty($x)</code></td><td>El <code>!</code> (no, Clase 1) da vuelta el resultado: <code>true</code> si <strong>hay algo</strong>.</td></tr>
+      <tr><td class="lbl"><code>isset($x)</code></td><td><code>true</code> si <code>$x</code> existe y no es <code>null</code>, aunque valga <code>""</code> o <code>0</code> (Clase 2).</td></tr>
+      <tr><td class="lbl"><code>unset($x)</code></td><td>Borra la variable o la clave. No devuelve nada. Después, <code>isset</code> da <code>false</code> y <code>empty</code> da <code>true</code>.</td></tr>
+    </table>
+  </div>
+
+  <h4>Dónde se separan <code>empty</code> e <code>isset</code></h4>
+  <p>Se probó cada valor con las dos funciones:</p>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th>Valor de <code>$x</code></th><th><code>empty($x)</code></th><th><code>isset($x)</code></th></tr>
+      <tr><td>no existe</td><td>true</td><td>false</td></tr>
+      <tr><td><code>""</code> (texto vacío)</td><td>true</td><td>true</td></tr>
+      <tr><td><code>"0"</code></td><td>true</td><td>true</td></tr>
+      <tr><td><code>0</code></td><td>true</td><td>true</td></tr>
+      <tr><td><code>array()</code> (vacío)</td><td>true</td><td>true</td></tr>
+      <tr><td><code>" "</code> (un espacio)</td><td>false</td><td>true</td></tr>
+      <tr><td><code>"hola"</code></td><td>false</td><td>true</td></tr>
+    </table>
+  </div>
+  <p>
+    Regla corta: <code>isset</code> pregunta "¿existe?"; <code>empty</code> pregunta "¿hay algo que
+    sirva?". Para un formulario, <code>empty</code> es la útil: un campo que llegó en blanco
+    existe, pero está vacío.
+  </p>
+
+  <h4>Cerrar la sesión entera</h4>
+  <p>
+    El material de la clase solo borra claves sueltas con <code>unset</code>. Para terminar la
+    sesión completa (por ejemplo, un botón "Salir") PHP tiene <code>session_destroy()</code>, que
+    borra el archivo de la sesión en el servidor. Se probó que <strong>no vacía
+    <code>$_SESSION</code> en el script donde se llama</strong>: los datos siguen ahí hasta que el
+    script termina, y recién el próximo pedido encuentra la sesión vacía. Por eso se lo acompaña
+    con <code>$_SESSION = array();</code>:
+  </p>
+<pre class="codigo"><code>&lt;?php
+session_start();
+$_SESSION = array();   // vacía el arreglo ya mismo
+session_destroy();     // borra el archivo de la sesión en el servidor
+?&gt;</code></pre>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; Un contador de visitas</h3>
+
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p><code>contador.php</code> tiene el código de abajo. ¿Qué muestra la primera, la segunda y la tercera vez que el mismo navegador lo abre?</p>
+  </div>
+
+<pre class="codigo"><code>&lt;?php
+session_start();
+if (isset($_SESSION['visitas'])) {
+    $_SESSION['visitas'] = $_SESSION['visitas'] + 1;
+} else {
+    $_SESSION['visitas'] = 1;
+}
+echo 'Visita número ' . $_SESSION['visitas'];
+?&gt;</code></pre>
+
+  <h4>Qué hace cada línea (primera visita)</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Cómo queda <code>$_SESSION['visitas']</code></th></tr>
+      <tr><td><code>session_start();</code></td><td>Sesión nueva, vacía.</td><td>no existe</td></tr>
+      <tr><td><code>if (isset($_SESSION['visitas']))</code></td><td>No existe: da <code>false</code>, va al <code>else</code>.</td><td>no existe</td></tr>
+      <tr><td><code>$_SESSION['visitas'] = 1;</code></td><td>Lo crea con 1.</td><td><code>1</code></td></tr>
+      <tr><td><code>echo 'Visita número ' . ...;</code></td><td>Imprime <code>Visita número 1</code>. Al terminar, el 1 queda grabado en la sesión.</td><td><code>1</code></td></tr>
+    </table>
+  </div>
+
+  <h4>Qué hace cada línea (segunda visita)</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Cómo queda <code>$_SESSION['visitas']</code></th></tr>
+      <tr><td><code>session_start();</code></td><td>Reanuda la sesión: recupera el 1.</td><td><code>1</code></td></tr>
+      <tr><td><code>if (isset($_SESSION['visitas']))</code></td><td>Ahora existe: da <code>true</code>.</td><td><code>1</code></td></tr>
+      <tr><td><code>$_SESSION['visitas'] = $_SESSION['visitas'] + 1;</code></td><td>Le suma 1 a lo que había.</td><td><code>2</code></td></tr>
+      <tr><td><code>echo ...</code></td><td>Imprime <code>Visita número 2</code>.</td><td><code>2</code></td></tr>
+    </table>
+  </div>
+
+  <h4>Qué imprime y por qué</h4>
+<pre class="salida">Visita número 1
+Visita número 2
+Visita número 3</pre>
+  <p>
+    Una línea por cada vez que se abre (la tercera sigue igual que la segunda). Desde otro
+    navegador vuelve a empezar en <code>Visita número 1</code>, porque es otra sesión.
+  </p>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; ¿Cuál es la salida? (formato del parcial)</h3>
+
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>¿Cuál es la salida del siguiente script PHP, si la sesión empieza vacía?</p>
+  </div>
+
+<pre class="codigo"><code>&lt;?php
+session_start();
+$_SESSION['a'] = 'uno';
+$_SESSION['b'] = 'dos';
+unset($_SESSION['a']);
+echo count($_SESSION) . ' ';
+var_dump(empty($_SESSION['a']));
+?&gt;</code></pre>
+
+  <h4>Qué hace cada línea</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Cómo queda <code>$_SESSION</code></th></tr>
+      <tr><td><code>$_SESSION['a'] = 'uno';</code></td><td>Crea <code>'a'</code>.</td><td><code>['a' =&gt; 'uno']</code></td></tr>
+      <tr><td><code>$_SESSION['b'] = 'dos';</code></td><td>Crea <code>'b'</code>.</td><td><code>['a' =&gt; 'uno', 'b' =&gt; 'dos']</code></td></tr>
+      <tr><td><code>unset($_SESSION['a']);</code></td><td>Borra la clave <code>'a'</code> con su valor.</td><td><code>['b' =&gt; 'dos']</code></td></tr>
+      <tr><td><code>echo count($_SESSION) . ' ';</code></td><td>Queda un elemento: imprime <code>1</code> y un espacio.</td><td>sin cambios</td></tr>
+      <tr><td><code>var_dump(empty($_SESSION['a']));</code></td><td><code>'a'</code> ya no existe, así que <code>empty</code> da <code>true</code> (sin Warning). <code>var_dump</code> muestra el tipo y el valor: <code>bool(true)</code>.</td><td>sin cambios</td></tr>
+    </table>
+  </div>
+
+  <h4>Qué imprime y por qué</h4>
+<pre class="salida">1 bool(true)</pre>
+  <p>
+    <code>unset</code> no deja la clave "vacía": la saca del arreglo. Por eso <code>count</code> da 1
+    y no 2.
+  </p>
+
+  <h3>Errores y trampas</h3>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Lo que más se confunde</span>
+    <ul>
+      <li>
+        <strong><code>"0"</code> cuenta como vacío.</strong> Si alguien escribe <code>0</code> en un
+        campo, <code>empty</code> da <code>true</code>. Si el 0 es un dato válido, usá
+        <code>isset</code> o compará con <code>""</code>.
+      </li>
+      <li>
+        <strong><code>unset</code> no es <code>session_destroy</code>.</strong> <code>unset</code>
+        borra una clave y la sesión sigue; <code>session_destroy</code> borra la sesión entera.
+      </li>
+      <li>
+        <strong><code>session_destroy()</code> no vacía <code>$_SESSION</code> al instante</strong>:
+        en el mismo script los datos siguen leyéndose. Por eso va con <code>$_SESSION = array();</code>.
+      </li>
+    </ul>
+  </div>
+</div>

@@ -1,0 +1,66 @@
+<div class="ej">
+  <span class="tag">Ejercicio 11 &middot; implode</span>
+  <h2>Una fecha armada desde un arreglo</h2>
+  <div class="enunciado">
+    <p>
+      Escriba un script PHP que permita crear una cadena a partir de un arreglo que contiene el día,
+      el mes y el año actual. Utilice la función <code>implode()</code> del lenguaje. Debe crear el
+      arreglo y asignarle el día, el mes y el año actual para luego crear la cadena.
+    </p>
+  </div>
+
+  <span class="paso">Paso 1 &mdash; Qué pide</span>
+  <ul>
+    <li>Un arreglo con tres elementos: día, mes y año <strong>actuales</strong>. Se obtienen con <code>date()</code> y una letra cada uno: <code>date('d')</code>, <code>date('m')</code>, <code>date('Y')</code> (teoría, sección 16).</li>
+    <li>Juntarlos en un texto con <code>implode()</code>, poniendo <code>/</code> entre cada uno. Es el camino inverso del ejercicio 7: allá se cortaba un texto en un arreglo, acá se junta un arreglo en un texto.</li>
+  </ul>
+
+  <span class="paso">Paso 2 &mdash; El código</span>
+<pre class="codigo"><code>&lt;?php
+$dia = date('d');
+$mes = date('m');
+$anio = date('Y');
+$fecha = array($dia, $mes, $anio);
+$fecha_de_cadena = implode("/", $fecha);
+echo $fecha_de_cadena;
+?&gt;</code></pre>
+
+  <span class="paso">Paso 3 &mdash; Qué hace cada línea</span>
+  <p>Corrido el 4 de octubre de 2026:</p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Cómo quedan las variables</th></tr>
+      <tr><td><code>$dia = date('d');</code></td><td>Día de hoy, 2 dígitos</td><td><code>$dia</code> = '04'</td></tr>
+      <tr><td><code>$mes = date('m');</code></td><td>Mes, 2 dígitos</td><td><code>$mes</code> = '10'</td></tr>
+      <tr><td><code>$anio = date('Y');</code></td><td>Año, 4 dígitos (la variable se llama <code>$anio</code> porque se evita la ñ en los nombres)</td><td><code>$anio</code> = '2026'</td></tr>
+      <tr><td><code>$fecha = array($dia, $mes, $anio);</code></td><td>El arreglo, en ese orden</td><td>0 =&gt; '04' &middot; 1 =&gt; '10' &middot; 2 =&gt; '2026'</td></tr>
+      <tr><td><code>$fecha_de_cadena = implode("/", $fecha);</code></td><td>Junta los tres con <code>/</code> entre cada uno</td><td>'04/10/2026'</td></tr>
+      <tr><td><code>echo $fecha_de_cadena;</code></td><td>La muestra</td><td>&mdash;</td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Paso 4 &mdash; La salida</span>
+<pre class="salida">04/10/2026</pre>
+  <p>Cambia según el día en que se corra (y en XAMPP, de noche, puede dar mañana: ver el ejercicio 7).</p>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Resolución de la cátedra</span>
+    <p>La cátedra arma el arreglo con valores escritos a mano:</p>
+<pre class="codigo"><code>&lt;?php
+$dia = "06";
+$mes = "09";
+$anio = "2012";
+$fecha = array($dia, $mes, $anio);
+$fecha_de_cadena = implode("/", $fecha);
+echo $fecha_de_cadena;
+?&gt;</code></pre>
+<pre class="salida">06/09/2012</pre>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Diferencia con la cátedra: la fecha no es la actual</span>
+    <p>
+      El uso de <code>implode()</code> es el mismo, pero el enunciado pide el día, el mes y el año
+      <strong>actuales</strong>, y la cátedra deja fijo el 6/9/2012. Con <code>date()</code> la fecha se actualiza sola.
+    </p>
+  </div>
+</div>

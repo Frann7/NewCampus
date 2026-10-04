@@ -170,6 +170,13 @@
 
   function etapaDe(c) { return c.etapa === "1" ? "1" : "2"; }
 
+  // Evaluacion simple (PA): todas las preguntas de cuestionario del banco,
+  // en el orden del banco (por id: pa-php-01, pa-php-02...), sin sortear.
+  function todasEnOrden(materia) {
+    return cargar(materia).lista.filter(function (p) { return !p.retirada && p.etapa === "1"; })
+      .sort(function (a, b) { return a.id < b.id ? -1 : a.id > b.id ? 1 : 0; });
+  }
+
   // c.soloParcial (2da etapa): solo lo que esta tal cual en un parcial
   // c.fundamentales: solo los ejercicios fundamentales (interactivo) o las
   // preguntas urgentes (1ra etapa)
@@ -226,6 +233,9 @@
     // soloParcial: en la 2da etapa, contar solo las que estan tal cual en un parcial.
     // fundamentales: los ejercicios, contar solo los fundamentales.
     // op1 (1ra etapa): { hoja, urgente } -> sin completar / solo las urgentes.
+    // Cuantas preguntas tiene la evaluacion simple (todas, ver todasEnOrden).
+    todas: function (materia) { return todasEnOrden(materia).length; },
+
     disponibles: function (materia, unidades, soloParcial, fundamentales, op1) {
       var r = { teoria: 0, practica: 0, ejercicio: 0, cuestionario: 0 };
       op1 = op1 || {};
@@ -268,6 +278,7 @@
 
     // Devuelve la lista ordenada de ids para un intento nuevo.
     seleccionar: function (materia, c) {
+      if (c.tipo === "simple") { return todasEnOrden(materia).map(function (p) { return p.id; }); }
       var pool = delPool(materia, c);
       if (etapaDe(c) === "1" && c.fundamentales) {
         // modo urgente: todas las urgentes, por unidad y de la mas probable a la menos

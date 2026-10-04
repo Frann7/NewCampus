@@ -130,6 +130,19 @@ window.NC.eval = window.NC.eval || {};
   E.ETAPAS = { "1": "1ra etapa · Cuestionario virtual", "2": "2da etapa · Escrito" };
   E.etapaDe = function (c) { return c && c.etapa === "1" ? "1" : "2"; };
 
+  /* Que evaluacion tiene cada materia: la dice "evaluacion" en materias.json.
+     Sin esa clave es la de PyE (dos etapas, formulario completo). La "simple"
+     (p. ej. PA) es un cuestionario del Aula Virtual con TODAS las preguntas del
+     banco, en el orden del banco, con reloj: corre en cuestionario.js como la
+     1ra etapa (config.etapa "1"), pero sin el reglamento 30/60 de PyE. */
+  E.configMateria = function (materia) {
+    var m = (((window.Apuntes || {}).indice || {}).materias || [])
+      .filter(function (x) { return x.clave === materia; })[0];
+    var ev = (m && m.evaluacion) || {};
+    return { tipo: ev.tipo === "simple" ? "simple" : "etapas", minutos: parseInt(ev.minutos, 10) || 40 };
+  };
+  E.esSimple = function (c) { return !!c && c.tipo === "simple"; };
+
   // Origen de una pregunta: el mismo lenguaje que las marcas de teoria y practica.
   E.ORIGENES = {
     parcial: { glifo: "★", texto: "Parcial" },
@@ -168,6 +181,12 @@ window.NC.eval = window.NC.eval || {};
   E.numeroDeUnidad = function (materia, id) {
     var u = E.unidades(materia).filter(function (x) { return x.id === id; })[0];
     return u ? u.num : id;
+  };
+
+  // Si una carpeta del banco es una unidad (clase) del menu. La de PA
+  // (preguntas/parcial-php/) no lo es: sus preguntas no llevan chip de unidad.
+  E.esUnidad = function (materia, id) {
+    return E.unidades(materia).some(function (x) { return x.id === id; });
   };
 
   E.nombreMateria = function (materia) {
@@ -329,6 +348,10 @@ window.NC.eval = window.NC.eval || {};
   E.resumenConfig = function (materia, c) {
     var partes = [];
     var cant = 0;
+    if (E.esSimple(c)) {
+      cant = c.cantCuestionario;
+      return [cant + (cant === 1 ? " pregunta" : " preguntas"), c.conTiempo ? c.minutos + " min" : "Sin límite"];
+    }
     if (E.etapaDe(c) === "1") {
       partes.push("1ra etapa · " + (c.formato1 === "hoja" ? "En hoja" : "Cuestionario virtual") +
         (c.urgente1 ? " · modo urgente" : "") + (c.corregirYa ? " · corrección al responder" : ""));

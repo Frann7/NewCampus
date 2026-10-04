@@ -1,0 +1,199 @@
+<div class="bloque">
+  <p class="kicker">Sección 7 &middot; diapositivas 14 a 16</p>
+  <h2>7. API REST y JSON</h2>
+
+  <h3>Para qué sirve</h3>
+  <p>
+    Hasta acá la página trabajaba con lo que ya tenía. Pero muchas veces los datos están en
+    <strong>otro sistema</strong>: la lista de provincias del gobierno, fotos de perros, los
+    usuarios de otra aplicación. Una <strong>API REST</strong> es la puerta que ese sistema deja
+    abierta para que otros programas le pidan datos por internet. Y <strong>JSON</strong> es el
+    formato de texto en que viajan esos datos.
+  </p>
+  <p>
+    <em>API</em> (<em>Application Programming Interface</em>) es un conjunto de reglas para que
+    dos programas se comuniquen. <em>REST</em> (Transferencia de Estado Representacional) es un
+    estilo de arquitectura para hacerlo sobre <strong>HTTP</strong>, el mismo protocolo con el que
+    el navegador pide páginas.
+  </p>
+
+  <h3>Sintaxis: cómo se ve un pedido y una respuesta</h3>
+  <p>El cliente pide una dirección (una URL), igual que una página:</p>
+<pre class="codigo"><code>https://apis.datos.gob.ar/georef/api/provincias</code></pre>
+  <p>Y el servidor, en vez de HTML, contesta un texto en JSON (diapositiva 16):</p>
+<pre class="codigo"><code>{
+  "id": 1024,
+  "nombre": "Juan Pérez",
+  "edad": 30,
+  "empleado_activo": true,
+  "puesto": "Desarrollador Web",
+  "habilidades": [
+    "JavaScript",
+    "Python",
+    "SQL"
+  ]
+}</code></pre>
+
+  <h3>Qué es cada parte</h3>
+  <h4>Las características de una API REST (diapositiva 15)</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Característica</th><th>Qué significa</th></tr>
+      <tr><td class="lbl">Cliente-Servidor</td><td>Separa a quien <strong>pide</strong> la información (una página web, una app del celular) de quien la <strong>guarda y procesa</strong> (el servidor). Cada lado puede cambiar sin romper al otro mientras respeten las reglas</td></tr>
+      <tr><td class="lbl">Sin estado (<em>stateless</em>)</td><td>El servidor <strong>no recuerda</strong> nada del usuario entre un pedido y otro. Cada pedido viaja con toda la información necesaria para entenderse solo</td></tr>
+      <tr><td class="lbl">Formato liviano</td><td>Los datos viajan como texto, comúnmente en JSON, que cualquier lenguaje de programación puede leer</td></tr>
+    </table>
+  </div>
+
+  <h4>Las reglas de JSON</h4>
+  <p>
+    JSON (<em>JavaScript Object Notation</em>, notación de objetos de JavaScript) es un formato de
+    texto liviano para guardar e intercambiar datos. Se parece a un objeto de JavaScript, pero es
+    más estricto:
+  </p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Pieza</th><th>Cómo se escribe</th><th>En el ejemplo</th></tr>
+      <tr><td class="lbl">Objeto</td><td>Entre llaves, pares <code>"clave": valor</code> separados por comas</td><td>todo el bloque</td></tr>
+      <tr><td class="lbl">Clave</td><td><strong>Siempre</strong> entre comillas <strong>dobles</strong></td><td><code>"nombre"</code></td></tr>
+      <tr><td class="lbl">Texto</td><td>Entre comillas dobles (nunca simples)</td><td><code>"Juan Pérez"</code></td></tr>
+      <tr><td class="lbl">Número</td><td>Sin comillas, decimales con punto</td><td><code>1024</code>, <code>30</code></td></tr>
+      <tr><td class="lbl">Booleano</td><td><code>true</code> o <code>false</code>, sin comillas</td><td><code>true</code></td></tr>
+      <tr><td class="lbl">Array</td><td>Entre corchetes, valores separados por comas</td><td><code>["JavaScript", "Python", "SQL"]</code></td></tr>
+      <tr><td class="lbl">Vacío</td><td><code>null</code></td><td>&mdash;</td></tr>
+      <tr><td class="lbl">Coma final</td><td><strong>Prohibida</strong>: después del último elemento no va coma</td><td>después de <code>"SQL"</code> no hay coma</td></tr>
+    </table>
+  </div>
+
+  <h4>Pasar de texto a objeto y al revés</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Función</th><th>Qué recibe</th><th>Qué devuelve</th></tr>
+      <tr><td class="lbl"><code>JSON.parse(texto)</code></td><td>Un string con JSON</td><td>El objeto de JavaScript, para leerlo con punto y corchetes</td></tr>
+      <tr><td class="lbl"><code>JSON.stringify(objeto)</code></td><td>Un objeto</td><td>El string JSON, todo en una línea</td></tr>
+      <tr><td class="lbl"><code>JSON.stringify(objeto, null, 2)</code></td><td>Un objeto</td><td>El string JSON con saltos de línea y 2 espacios de sangría, para leerlo cómodo. El <code>null</code> del medio es un parámetro que no se usa</td></tr>
+    </table>
+  </div>
+
+  <h4>Los códigos de respuesta HTTP</h4>
+  <p>Cada respuesta trae un número que dice cómo salió el pedido (diapositiva 17):</p>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th>Código</th><th>Significa</th></tr>
+      <tr><td>200</td><td>Salió bien</td></tr>
+      <tr><td>404</td><td>No existe lo que pediste (dirección mal escrita, dato inexistente)</td></tr>
+      <tr><td>500</td><td>Error dentro del servidor</td></tr>
+    </table>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; Leer el JSON de la diapositiva 16</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>El texto de la diapositiva llega como string en la variable <code>texto</code>. ¿Qué muestra la consola?</p>
+  </div>
+<pre class="codigo"><code>const datos = JSON.parse(texto);
+console.log(datos.nombre);
+console.log(datos.habilidades[0]);
+console.log(datos.habilidades.length);
+console.log(typeof texto, typeof datos);</code></pre>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Resultado</th></tr>
+      <tr><td><code>const datos = JSON.parse(texto);</code></td><td>Convierte el texto en un objeto de verdad</td><td><code>datos</code> = objeto con 6 claves</td></tr>
+      <tr><td><code>datos.nombre</code></td><td>Lee la clave <code>nombre</code></td><td><code>Juan Pérez</code></td></tr>
+      <tr><td><code>datos.habilidades[0]</code></td><td>Entra al array y toma el primero</td><td><code>JavaScript</code></td></tr>
+      <tr><td><code>datos.habilidades.length</code></td><td>Cuántas habilidades hay</td><td><code>3</code></td></tr>
+      <tr><td><code>typeof texto, typeof datos</code></td><td><code>typeof</code> dice el tipo de un valor</td><td><code>string object</code></td></tr>
+    </table>
+  </div>
+  <p>Qué muestra (verificado con Node.js):</p>
+<pre class="salida">Juan Pérez
+JavaScript
+3
+string object</pre>
+  <p>
+    <strong>Por qué:</strong> mientras es texto, <code>texto.nombre</code> no existe (un string
+    no tiene esa clave). Recién después de <code>JSON.parse</code> se puede entrar con punto. La
+    última línea lo confirma: antes era <code>string</code>, después <code>object</code>.
+  </p>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; ¿Cuál es JSON válido?</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>¿Cuáles de estos textos acepta <code>JSON.parse</code>?</p>
+  </div>
+<pre class="codigo"><code>a)  {"nombre": "Ana", "edad": 20}
+b)  {'nombre': 'Ana'}
+c)  {nombre: "Ana"}
+d)  {"a": 1,}</code></pre>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Texto</th><th>¿Válido?</th><th>Por qué</th><th>Qué dice <code>JSON.parse</code> (Node.js)</th></tr>
+      <tr><td>a)</td><td><strong>Sí</strong></td><td>Claves y textos con comillas dobles, número sin comillas</td><td>Devuelve el objeto</td></tr>
+      <tr><td>b)</td><td>No</td><td>Comillas simples</td><td><code>SyntaxError: Expected property name or '}' in JSON at position 1</code></td></tr>
+      <tr><td>c)</td><td>No</td><td>Clave sin comillas (en un objeto de JavaScript vale; en JSON no)</td><td><code>SyntaxError: Expected property name or '}' in JSON at position 1</code></td></tr>
+      <tr><td>d)</td><td>No</td><td>Coma después del último elemento</td><td><code>SyntaxError: Expected double-quoted property name in JSON at position 8</code></td></tr>
+    </table>
+  </div>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>Solo la <strong>a</strong>. El texto exacto del error cambia según el navegador, pero en los tres casos es un <code>SyntaxError</code>.</p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 3 &mdash; ¿Qué muestra? (objeto a texto)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>¿Cuál es la salida?</p>
+  </div>
+<pre class="codigo"><code>const o = { nombre: "Ana", edad: 20, notas: [7, 9] };
+console.log(JSON.stringify(o));
+console.log(JSON.stringify(o, null, 2));</code></pre>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Resultado</th></tr>
+      <tr><td><code>const o = {...}</code></td><td>Objeto de JavaScript (las claves pueden ir sin comillas)</td><td>&mdash;</td></tr>
+      <tr><td><code>JSON.stringify(o)</code></td><td>Lo pasa a texto JSON: agrega las comillas dobles a las claves, todo en una línea</td><td>1 línea</td></tr>
+      <tr><td><code>JSON.stringify(o, null, 2)</code></td><td>Lo mismo, pero con un elemento por línea y 2 espacios de sangría por nivel</td><td>10 líneas</td></tr>
+    </table>
+  </div>
+  <p>Qué muestra (verificado con Node.js):</p>
+<pre class="salida">{"nombre":"Ana","edad":20,"notas":[7,9]}
+{
+  "nombre": "Ana",
+  "edad": 20,
+  "notas": [
+    7,
+    9
+  ]
+}</pre>
+  <p>
+    <strong>Por qué:</strong> <code>stringify</code> escribe el JSON con todas sus reglas (comillas
+    dobles en las claves). El tercer parámetro solo cambia la presentación. La práctica (ejemplo 6)
+    usa esta forma para mostrar en pantalla la respuesta de una API.
+  </p>
+
+  <hr class="sep">
+
+  <h3>Errores y trampas</h3>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">JSON no es un objeto, es texto</span>
+    <p>
+      Lo que llega por la red es un string. Hasta que no se convierte (con <code>JSON.parse</code>
+      o, con <code>fetch</code>, con <code>response.json()</code>), no se puede leer con punto.
+    </p>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">"Sin estado" no es "sin datos"</span>
+    <p>
+      El servidor guarda datos (las provincias, los usuarios). Lo que no guarda es la
+      <strong>conversación</strong> con cada cliente: cada pedido llega solo y tiene que traer
+      todo lo necesario.
+    </p>
+  </div>
+</div>

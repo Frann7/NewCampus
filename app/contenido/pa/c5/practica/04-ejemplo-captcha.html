@@ -1,0 +1,199 @@
+<div class="ej">
+  <span class="tag">Ejemplo de la cátedra &middot; formularios (captcha)</span>
+  <h2>Formulario con captcha y el script que dibuja la imagen</h2>
+  <div class="enunciado">
+    <p>
+      Misma carpeta <code>formularios</code>: <code>formCaptcha.php</code> muestra el formulario con
+      una imagen que genera <code>includes/rdnimg.php</code>, y <code>procesoForm.php</code> compara
+      lo que escribió la persona con el código guardado en la sesión. El encabezado y el pie son los
+      mismos <code>includes/head.php</code> e <code>includes/footer.php</code> del ejemplo anterior.
+    </p>
+  </div>
+
+  <span class="paso">Archivo 1 &mdash; <code>formCaptcha.php</code></span>
+<pre class="codigo"><code>&lt;?php
+session_start();
+
+if (!empty($_SESSION['rand_code'])) {
+    unset($_SESSION['rand_code']);
+}
+
+$token = "";
+
+$a = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+$length = 6;
+
+for ($i = 0; $i &lt; $length; $i++) {
+    $token .= $a[rand(0, 61)];
+}
+
+$_SESSION['token'] = $token;
+?&gt;
+
+&lt;?php require_once 'includes/head.php'; ?&gt;
+
+&lt;h4 class="text-center"&gt;Sistema Recursos Humanos&lt;/h4&gt;
+
+&lt;form method="post" action="procesoForm.php"&gt;
+    &lt;div class="form-row"&gt;
+        &lt;div class="col-md-6 mb-3"&gt;
+            &lt;label for="nombre"&gt;Usuario&lt;/label&gt;
+            &lt;input type="text" class="form-control" name="usuario" value="" required&gt;
+        &lt;/div&gt;
+        &lt;div class="col-md-6 mb-3"&gt;
+            &lt;label for="contrasenia"&gt;Contraseña:&lt;/label&gt;
+            &lt;input type="password" class="form-control" name="contrasenia" value=""&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;div class="form-row"&gt;
+        &lt;div class="col-md-6 mb-3"&gt;
+            &lt;label for="apellido"&gt;Código:&lt;/label&gt;
+            &lt;br&gt;
+            &lt;img src="includes/rdnimg.php" &gt;
+            &lt;input type="text" name="rand_code" value=""&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;button class="btn btn-primary" type="submit"&gt;Enviar datos&lt;/button&gt;
+&lt;/form&gt;
+
+&lt;?php require_once 'includes/footer.php'; ?&gt;</code></pre>
+
+  <h4>Qué hace cada línea</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Cómo queda la sesión</th></tr>
+      <tr><td><code>session_start();</code></td><td>Abre la sesión.</td><td>&mdash;</td></tr>
+      <tr><td><code>if (!empty(...)) unset($_SESSION['rand_code']);</code></td><td>Borra un código de captcha anterior, para que no sirva uno viejo.</td><td>sin <code>rand_code</code></td></tr>
+      <tr><td>el <code>for</code> con <code>$length = 6</code></td><td>Arma un token de 6 caracteres, como en <code>formToken.php</code>.</td><td>&mdash;</td></tr>
+      <tr><td><code>$_SESSION['token'] = $token;</code></td><td>Lo guarda... pero <strong>no se usa</strong>: este formulario no lo manda y <code>procesoForm.php</code> no lo mira. Quedó del ejemplo anterior.</td><td>en la prueba: <code>token|s:6:"SHNgaQ";</code></td></tr>
+      <tr><td><code>&lt;img src="includes/rdnimg.php" &gt;</code></td><td>La imagen del captcha. El navegador la pide aparte, después de recibir esta página.</td><td>&mdash;</td></tr>
+      <tr><td><code>&lt;input type="text" name="rand_code"&gt;</code></td><td>Donde la persona escribe lo que ve en la imagen. Llega como <code>$_POST['rand_code']</code>.</td><td>&mdash;</td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Archivo 2 &mdash; <code>includes/rdnimg.php</code></span>
+<pre class="codigo"><code>&lt;?php
+session_start();
+
+if (!empty($_SESSION['rand_code'])) {
+    unset($_SESSION['rand_code']);
+}
+
+if (empty($_SESSION['rand_code'])) {
+    $str = "";
+    $a = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    for ($i = 0; $i &lt;= 3; $i++) {
+        $str .= $a[rand(0, 61)];
+    }
+
+    $_SESSION['rand_code'] = $str;
+}
+header('Content-Type: image/png');
+$im = imagecreatetruecolor(120, 30);
+$color_texto = imagecolorallocate($im, 233, 14, 91);
+imagestring($im, 10, 5, 5, $str, $color_texto);
+imagepng($im);
+imagedestroy($im);
+?&gt;</code></pre>
+
+  <h4>Qué hace cada línea</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Cómo quedan las variables</th></tr>
+      <tr><td><code>session_start();</code></td><td>Reanuda la misma sesión que el formulario (el navegador manda la misma cookie al pedir la imagen).</td><td>&mdash;</td></tr>
+      <tr><td><code>if (!empty(...)) unset(...)</code></td><td>Borra el código anterior, si había.</td><td>sin <code>rand_code</code></td></tr>
+      <tr><td><code>if (empty($_SESSION['rand_code']))</code></td><td>Siempre verdadero, porque se acaba de borrar.</td><td>&mdash;</td></tr>
+      <tr><td><code>for ($i = 0; $i &lt;= 3; $i++)</code> con <code>$str .= $a[rand(0, 61)];</code></td><td>4 vueltas (0, 1, 2, 3): un código de <strong>4</strong> caracteres al azar.</td><td>en la prueba, <code>$str = "B4Y5"</code></td></tr>
+      <tr><td><code>$_SESSION['rand_code'] = $str;</code></td><td>Guarda el código en la sesión.</td><td><code>rand_code|s:4:"B4Y5";</code></td></tr>
+      <tr><td><code>header('Content-Type: image/png');</code></td><td>Avisa que la respuesta es una imagen PNG.</td><td>&mdash;</td></tr>
+      <tr><td><code>imagecreatetruecolor(120, 30)</code></td><td>Una imagen negra de 120 &times; 30 píxeles.</td><td><code>$im</code></td></tr>
+      <tr><td><code>imagecolorallocate($im, 233, 14, 91)</code></td><td>El color rosa del texto.</td><td><code>$color_texto</code></td></tr>
+      <tr><td><code>imagestring($im, 10, 5, 5, $str, $color_texto)</code></td><td>Escribe el código a 5 píxeles del borde, con la letra más grande de PHP (la "10" se toma como 5).</td><td>&mdash;</td></tr>
+      <tr><td><code>imagepng($im); imagedestroy($im);</code></td><td>Manda la imagen y libera la memoria.</td><td>&mdash;</td></tr>
+    </table>
+  </div>
+  <p>
+    Las funciones de imagen están explicadas una por una en la teoría, sección 6. Se probó: la
+    respuesta es un PNG de 120 &times; 30, fondo negro y <code>B4Y5</code> en rosa arriba a la
+    izquierda.
+  </p>
+
+  <span class="paso">Archivo 3 &mdash; <code>procesoForm.php</code> (la parte del captcha)</span>
+<pre class="codigo"><code>    //---- PROCESO EL FORM-TOKEN ----
+
+    if (!empty($_POST['rand_code'])) {
+        if ($_POST['rand_code'] == $_SESSION['rand_code']) {
+            echo "LOS DATOS PROVIENEN DE NUESTRO FORMULARIO CON CAPTCHA.";
+
+            // proceso los datos restantes
+
+            echo '&lt;br&gt;';
+            echo 'Usuario: ' . $_POST['usuario'];
+            echo '&lt;br&gt;';
+            echo 'Contraseña: ' . $_POST['contrasenia'];
+        } else {
+            echo "LOS DATOS PROVIENEN DE OTRO ORIGEN.";
+        }
+    }</code></pre>
+  <p>
+    Va dentro del mismo <code>if (!empty($_POST))</code>, después de la parte del token. Es la
+    misma estructura con <code>rand_code</code> en vez de <code>token</code>. (El comentario dice
+    "FORM-TOKEN" porque se copió del bloque de arriba; este bloque es el del captcha.)
+  </p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th></tr>
+      <tr><td><code>if (!empty($_POST['rand_code']))</code></td><td>Solo si la persona escribió algo en el campo del código.</td></tr>
+      <tr><td><code>$_POST['rand_code'] == $_SESSION['rand_code']</code></td><td>Compara lo escrito con lo que dibujó <code>rdnimg.php</code>. Distingue mayúsculas de minúsculas.</td></tr>
+      <tr><td>rama del <code>if</code> / del <code>else</code></td><td>Igual que en la parte del token.</td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Qué responde en cada caso</span>
+  <p>
+    Se probó en orden: abrir <code>formCaptcha.php</code>, pedir la imagen (como hace el navegador)
+    y mandar el POST. La imagen mostró <code>B4Y5</code>.
+  </p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Caso</th><th>Respuesta</th></tr>
+      <tr><td>1. Escribe <code>B4Y5</code> (usuario <code>fran</code>, contraseña <code>1234</code>)</td><td><code>LOS DATOS PROVIENEN DE NUESTRO FORMULARIO CON CAPTCHA.</code><br><code>Usuario: fran</code><br><code>Contraseña: 1234</code></td></tr>
+      <tr><td>2. Escribe <code>b4y5</code></td><td><code>LOS DATOS PROVIENEN DE OTRO ORIGEN.</code></td></tr>
+      <tr><td>3. Deja el código vacío</td><td>página en blanco: no entra al <code>if</code></td></tr>
+      <tr><td>4. Repite el envío correcto</td><td>se acepta otra vez: nadie borró el código después de usarlo</td></tr>
+      <tr><td>5. Abre el formulario pero no pide la imagen, y manda un código viejo</td><td><code>Warning: Undefined array key "rand_code"</code> y <code>LOS DATOS PROVIENEN DE OTRO ORIGEN.</code> (el formulario borró el código y nadie creó otro)</td></tr>
+    </table>
+  </div>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Qué problema de seguridad evita</span>
+    <ul>
+      <li>
+        Igual que el token, frena al programa que manda datos sin abrir el formulario: no tiene
+        código en su sesión.
+      </li>
+      <li>
+        Además frena al programa que <strong>sí</strong> abre el formulario y lee el HTML: el código
+        no está escrito en ningún lado del HTML, solo dibujado en la imagen. Para pasarlo, el
+        programa tendría que leer la imagen.
+      </li>
+      <li>
+        Lo que no hace: borrar el código después de usarlo (caso 4). En el ejercicio 2 se agrega un
+        <code>unset($_SESSION['rand_code'])</code> al procesar, para que cada código sirva una sola
+        vez.
+      </li>
+    </ul>
+  </div>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Si la imagen sale rota</span>
+    <p>
+      Es la extensión GD apagada en el <code>php.ini</code> de XAMPP: <code>rdnimg.php</code> corta
+      con <code>Call to undefined function imagecreatetruecolor()</code>. Se activa sacándole el
+      <code>;</code> a <code>;extension=gd</code> y reiniciando Apache.
+    </p>
+  </div>
+</div>

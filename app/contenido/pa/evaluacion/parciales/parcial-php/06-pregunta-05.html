@@ -1,0 +1,135 @@
+<!-- ==================== PREGUNTA 5 ==================== -->
+<section class="parcial-ej">
+  <div class="parcial-ej-cab">
+    <h2>Pregunta 5</h2>
+    <span class="parcial-pts">5 puntos</span>
+    <span class="parcial-tema">Clase 1 &middot; if anidados y booleanos</span>
+  </div>
+
+  <p>¿Cuáles son los valores para las variables $a, $b y $c teniendo en cuenta que el siguiente script tiene como salida la cadena Hola, Mundo!?</p>
+  <pre class="codigo"><code>&lt;?php
+$string = "Hola, Mundo!";
+$a = ?;
+$b = ?;
+$c = ?;
+if ($a) {
+if ($b &amp;&amp; !$c) {
+              echo "Adios mundo cruel!";
+              } else if (!$b &amp;&amp; !$c) {
+                      echo "Nada por aquí";
+                      }
+        } else {
+if (!$b) {
+if (!$a &amp;&amp; (!$b &amp;&amp; $c))
+                                                    {
+    echo "Hola, mundo!";
+    } else {
+                    echo "Adios mundo!";
+                  }
+} else {
+    echo "No exactamente";
+    }
+}
+?&gt;</code></pre>
+  <p><em>Seleccione una:</em></p>
+  <ol class="parcial-incisos">
+    <li>False, True, True</li>
+    <li>True, True, False</li>
+    <li>False, True, False</li>
+    <li>False, False, True</li>
+  </ol>
+
+  <div class="parcial-extras">
+    <details class="parcial-desp pd-resultados">
+      <summary>
+        <span class="pd-icono">&#10003;</span>
+        <span class="pd-txt"><b>Resultados</b><small>Solo la respuesta</small></span>
+      </summary>
+      <div class="pd-cuerpo">
+        <p><strong>d)</strong> False, False, True</p>
+      </div>
+    </details>
+
+    <details class="parcial-desp pd-explicacion">
+      <summary>
+        <span class="pd-icono">&#9998;</span>
+        <span class="pd-txt"><b>Explicación detallada</b><small>Qué evalúa, el concepto desde cero, la traza y las trampas</small></span>
+      </summary>
+      <div class="pd-cuerpo">
+        <h4>Qué evalúa</h4>
+        <p>Seguir <strong>if anidados</strong> con condiciones booleanas (<code>!</code>, <code>&amp;&amp;</code>). Es de la <strong>Clase 1</strong> (estructuras de control).</p>
+        <h4>El concepto, desde cero</h4>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Operador</th><th>Se lee</th><th>Da true cuando</th></tr>
+            <tr><td><code>!$b</code></td><td>no <code>$b</code></td><td><code>$b</code> es false (lo da vuelta)</td></tr>
+            <tr><td><code>$b &amp;&amp; $c</code></td><td><code>$b</code> y <code>$c</code></td><td>los dos son true</td></tr>
+            <tr><td><code>if (cond) {...} else {...}</code></td><td>si &hellip; si no &hellip;</td><td>entra al primer bloque si la condición es true; si no, al <code>else</code></td></tr>
+          </table>
+        </div>
+        <p>El código del enunciado está mal sangrado, y eso confunde. Ordenado, con cada <code>{</code> alineado con su <code>}</code>, es esto:</p>
+        <pre class="codigo"><code>&lt;?php
+$string = "Hola, Mundo!";
+$a = ?;
+$b = ?;
+$c = ?;
+if ($a) {
+    if ($b &amp;&amp; !$c) {
+        echo "Adios mundo cruel!";
+    } else if (!$b &amp;&amp; !$c) {
+        echo "Nada por aquí";
+    }
+} else {
+    if (!$b) {
+        if (!$a &amp;&amp; (!$b &amp;&amp; $c)) {
+            echo "Hola, mundo!";
+        } else {
+            echo "Adios mundo!";
+        }
+    } else {
+        echo "No exactamente";
+    }
+}
+?&gt;</code></pre>
+        <h4>De la salida hacia atrás</h4>
+        <p>Lo más rápido es mirar qué camino lleva al único <code>echo</code> que dice &ldquo;Hola, mundo!&rdquo;:</p>
+        <ul>
+          <li>Está dentro del <code>else</code> del primer <code>if ($a)</code> &rArr; <code>$a</code> tiene que ser <strong>false</strong>.</li>
+          <li>Está dentro de <code>if (!$b)</code> &rArr; <code>$b</code> tiene que ser <strong>false</strong>.</li>
+          <li>Y la condición <code>!$a &amp;&amp; (!$b &amp;&amp; $c)</code> tiene que dar true: con <code>$a</code> y <code>$b</code> en false queda <code>true &amp;&amp; (true &amp;&amp; $c)</code>, así que <code>$c</code> tiene que ser <strong>true</strong>.</li>
+        </ul>
+        <p>Resultado: <strong>False, False, True</strong>, la opción d.</p>
+        <h4>Línea por línea con la opción d</h4>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Línea</th><th>Qué hace</th><th>Cómo quedan las variables</th></tr>
+            <tr><td><code>$string = "Hola, Mundo!";</code></td><td>Guarda un texto que después <strong>no se usa</strong>.</td><td><code>$string = "Hola, Mundo!"</code></td></tr>
+            <tr><td><code>$a = false; $b = false; $c = true;</code></td><td>Los valores de la opción d.</td><td><code>$a</code> = false, <code>$b</code> = false, <code>$c</code> = true</td></tr>
+            <tr><td><code>if ($a)</code></td><td>false &rArr; salta al <code>else</code>.</td><td>&mdash;</td></tr>
+            <tr><td><code>if (!$b)</code></td><td><code>!false</code> = true &rArr; entra.</td><td>&mdash;</td></tr>
+            <tr><td><code>if (!$a &amp;&amp; (!$b &amp;&amp; $c))</code></td><td><code>true &amp;&amp; (true &amp;&amp; true)</code> = true &rArr; entra.</td><td>&mdash;</td></tr>
+            <tr><td><code>echo "Hola, mundo!";</code></td><td>Imprime.</td><td>&mdash;</td></tr>
+          </table>
+        </div>
+        <pre class="salida">Hola, mundo!</pre>
+        <h4>Opción por opción</h4>
+        <p>Se corrió el script con cada combinación (PHP 8.2):</p>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Opción</th><th>$a, $b, $c</th><th>Camino</th><th>Imprime</th></tr>
+            <tr><td>a</td><td>False, True, True</td><td>else &rarr; <code>!$b</code> es false &rarr; else</td><td><code>No exactamente</code></td></tr>
+            <tr><td>b</td><td>True, True, False</td><td>if ($a) &rarr; <code>$b &amp;&amp; !$c</code> es true</td><td><code>Adios mundo cruel!</code></td></tr>
+            <tr><td>c</td><td>False, True, False</td><td>else &rarr; <code>!$b</code> es false &rarr; else</td><td><code>No exactamente</code></td></tr>
+            <tr><td><strong>d</strong></td><td><strong>False, False, True</strong></td><td>else &rarr; <code>!$b</code> &rarr; condición true</td><td><code>Hola, mundo!</code></td></tr>
+          </table>
+        </div>
+        <div class="caja caja-ojo">
+          <span class="caja-tit">Las trampas</span>
+          <p><code>$string</code> está para distraer: nunca se imprime. Lo que sale en pantalla es solo lo que dicen los <code>echo</code>.</p>
+          <p>El enunciado dice &ldquo;Hola, <strong>M</strong>undo!&rdquo; y el script imprime &ldquo;Hola, <strong>m</strong>undo!&rdquo;, con minúscula. Ningún camino imprime exactamente lo que dice el enunciado; la diferencia es un descuido de quien lo escribió, y la respuesta esperada es la d, la única que llega a ese <code>echo</code>.</p>
+          <p>Guiarse por la sangría: el código está mal indentado y parece que el <code>else</code> va con otro <code>if</code>. Siempre contá llaves.</p>
+        </div>
+      </div>
+    </details>
+  </div>
+</section>

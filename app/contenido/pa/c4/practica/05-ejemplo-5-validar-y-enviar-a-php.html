@@ -1,0 +1,191 @@
+<div class="ej">
+  <span class="tag">Ejemplo 5 &middot; pForm3.html + procesoFormulario.php</span>
+  <h2>Validar con JavaScript y enviar a PHP</h2>
+  <div class="enunciado">
+    <p>
+      El ejemplo 4 terminado: si falta algo, avisa; si está todo, <strong>envía el formulario a
+      PHP</strong>, que muestra lo que recibió. Es el primer ejemplo donde se conectan las tres
+      partes: HTML (los campos), JavaScript (la validación, en el navegador) y PHP (el proceso, en
+      el servidor). Archivos: <code>pForm3.html</code>, <code>js/pForm3Class.js</code> y
+      <code>php/procesoFormulario.php</code>.
+    </p>
+  </div>
+
+  <span class="paso">Paso 1 &mdash; El HTML: ahora los campos tienen name</span>
+<pre class="codigo"><code>&lt;form id="formulario"&gt;
+   &lt;div class="row" style="width: 50%; margin: auto; padding: 5px;"&gt;
+        &lt;div class="col-md-6"&gt;
+            &lt;input type="text" class="form-control" id="txtNombre" name="nombre" placeholder="Nombre" /&gt;
+        &lt;/div&gt;
+        &lt;div class="col-md-6"&gt;
+            &lt;input type="text" class="form-control" id="txtApellido" name="apellido" placeholder="Apellido" /&gt;
+        &lt;/div&gt;
+        &lt;div class="col-md-6"&gt;
+            &lt;input type="number" class="form-control" id="txtEdad" name="edad" placeholder="Edad" /&gt;
+        &lt;/div&gt;
+        &lt;div class="col-md-6"&gt;
+            &lt;input type="text" class="form-control" id="txtDireccion" name="direccion" placeholder="Dirección" /&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/form&gt;
+&lt;br /&gt;
+&lt;button id="btEnvioFormulario" class="btn btn-primary"&gt;Envío Datos&lt;/button&gt;</code></pre>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Pieza</th><th>Para quién es</th></tr>
+      <tr><td><code>id="txtNombre"</code></td><td>Para <strong>JavaScript</strong>: con él lo encuentra <code>getElementById</code></td></tr>
+      <tr><td><code>name="nombre"</code></td><td>Para <strong>PHP</strong>: al enviar, cada campo viaja como <code>name = valor</code>, y llega como <code>$_POST['nombre']</code>. Un campo sin <code>name</code> no se envía</td></tr>
+      <tr><td><code>&lt;form id="formulario"&gt;</code> sin <code>action</code> ni <code>method</code></td><td>Se los pone JavaScript recién cuando los datos están bien (paso 2)</td></tr>
+      <tr><td>El botón, afuera del <code>&lt;form&gt;</code></td><td>Su clic no envía nada por sí solo: el envío lo decide JavaScript</td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Paso 2 &mdash; El JavaScript: validar y enviar</span>
+<pre class="codigo"><code>class IndexClass {
+
+    constructor() {
+        this.formulario = document.getElementById('formulario');
+        this.txtNombre = document.getElementById('txtNombre');
+        this.txtApellido = document.getElementById('txtApellido');
+        this.txtEdad = document.getElementById('txtEdad');
+        this.txtDireccion = document.getElementById('txtDireccion');
+        this.btEnvioFormulario = document.getElementById('btEnvioFormulario');
+    }
+
+    init() {
+        this.addEventListeners();
+    }
+
+    addEventListeners() {
+        this.btEnvioFormulario.addEventListener('click', () =&gt; {
+            const datosValidos = this.validoDatos();
+            if (datosValidos===true) {
+                this.formulario.action='php/procesoFormulario.php';
+                this.formulario.method='POST';
+                this.formulario.submit();
+            }
+        });
+    }
+
+    validoDatos() {
+        let nombre = this.txtNombre.value;
+        let apellido = this.txtApellido.value;
+        let edad = this.txtEdad.value;
+        let direccion = this.txtDireccion.value;
+
+        let datosValidos=true;
+
+        if (nombre === '') {
+            alert('El nombre es obligatorio');
+            this.txtNombre.focus();
+            return false;
+        }
+
+        if (apellido === '') {
+            alert('El apellido es obligatorio');
+            this.txtApellido.style.borderColor = 'red';
+            this.txtApellido.focus();
+            return false;
+        }
+
+        if (edad === '') {
+            alert('La edad es obligatoria');
+            this.txtEdad.style.borderColor = 'red';
+            this.txtEdad.focus();
+            return false;
+        }
+
+        if (direccion === '') {
+            alert('La dirección es obligatoria');
+            this.txtDireccion.style.borderColor = 'red';
+            this.txtDireccion.focus();
+            return false;
+        }
+
+        return datosValidos;
+    }
+}
+
+window.addEventListener('load',() =&gt; {
+    new IndexClass().init();
+})</code></pre>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Cómo quedan las variables</th></tr>
+      <tr><td><code>this.formulario = ...('formulario');</code></td><td>Además de los campos, ahora se guarda el <code>&lt;form&gt;</code>, porque hay que enviarlo</td><td>&mdash;</td></tr>
+      <tr><td><code>const datosValidos = this.validoDatos();</code></td><td>Llama a la validación y <strong>guarda lo que devuelve</strong></td><td><code>true</code> o <code>false</code></td></tr>
+      <tr><td><code>if (datosValidos===true)</code></td><td>Solo sigue si la validación dio bien</td><td>&mdash;</td></tr>
+      <tr><td><code>this.formulario.action='php/procesoFormulario.php';</code></td><td>Le pone al formulario <strong>a dónde</strong> enviar. Es una ruta relativa: la carpeta <code>php</code> al lado de <code>pForm3.html</code></td><td>&mdash;</td></tr>
+      <tr><td><code>this.formulario.method='POST';</code></td><td>Le pone <strong>cómo</strong> enviar: por POST, así los datos llegan en <code>$_POST</code></td><td>&mdash;</td></tr>
+      <tr><td><code>this.formulario.submit();</code></td><td>Envía. El navegador deja esta página y muestra lo que conteste el PHP</td><td>&mdash;</td></tr>
+      <tr><td><code>validoDatos()</code>: <code>return false;</code></td><td>Igual que el ejemplo 4, pero ahora <strong>devuelve</strong> algo: <code>false</code> en el primer campo vacío</td><td>&rarr; <code>false</code></td></tr>
+      <tr><td><code>return datosValidos;</code></td><td>Si pasó los cuatro <code>if</code>, devuelve la variable, que nunca cambió</td><td>&rarr; <code>true</code></td></tr>
+    </table>
+  </div>
+  <p>
+    La diferencia con el ejemplo 4 está en el <code>return</code>: antes era <code>return;</code>
+    (salir sin devolver nada) y ahora es <code>return false;</code> / <code>return true</code>,
+    para que quien llamó al método sepa el resultado y decida si envía.
+  </p>
+
+  <span class="paso">Paso 3 &mdash; El PHP que recibe</span>
+<pre class="codigo"><code>&lt;?php
+
+    echo "&lt;h1&gt;Datos recibidos&lt;/h1&gt;";
+
+    foreach ( $_POST as $clave =&gt; $valor )
+    {
+        echo "&lt;p&gt;$clave: $valor&lt;/p&gt;";
+    }
+
+?&gt;</code></pre>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Cómo quedan las variables</th></tr>
+      <tr><td><code>echo "&lt;h1&gt;Datos recibidos&lt;/h1&gt;";</code></td><td>Imprime el título</td><td>&mdash;</td></tr>
+      <tr><td><code>foreach ($_POST as $clave =&gt; $valor)</code></td><td>Recorre todo lo que llegó por POST. Las claves son los <code>name</code> de los campos, en el orden del formulario</td><td>1ra vuelta: <code>$clave = 'nombre'</code>, <code>$valor = 'Ana'</code>...</td></tr>
+      <tr><td><code>echo "&lt;p&gt;$clave: $valor&lt;/p&gt;";</code></td><td>Comillas dobles: PHP reemplaza las dos variables. Un párrafo por campo</td><td>&mdash;</td></tr>
+    </table>
+  </div>
+  <p>Si el usuario envió Ana, Paz, 20 y Urquiza 100, el PHP imprime (verificado con <code>php.exe</code>, cargando esos datos en <code>$_POST</code>):</p>
+<pre class="salida">&lt;h1&gt;Datos recibidos&lt;/h1&gt;&lt;p&gt;nombre: Ana&lt;/p&gt;&lt;p&gt;apellido: Paz&lt;/p&gt;&lt;p&gt;edad: 20&lt;/p&gt;&lt;p&gt;direccion: Urquiza 100&lt;/p&gt;</pre>
+  <p>
+    En el navegador se ve el título grande "Datos recibidos" y abajo un párrafo por campo:
+    "nombre: Ana", "apellido: Paz", "edad: 20", "direccion: Urquiza 100". Fijate que dice
+    <code>direccion</code> sin tilde: es el <code>name</code> del campo, no el placeholder.
+  </p>
+
+  <span class="paso">Paso 4 &mdash; El recorrido completo</span>
+  <ol>
+    <li>El navegador pide <code>pForm3.html</code> y su <code>.js</code>. Al cargar, la clase engancha el botón.</li>
+    <li>El usuario completa los campos y aprieta "Envío Datos". <strong>JavaScript</strong>, en su computadora, valida.</li>
+    <li>Si falta algo: cartel y cursor en el campo. No se envía nada y el servidor no se entera.</li>
+    <li>Si está todo: JavaScript pone <code>action</code> y <code>method</code> y llama a <code>submit()</code>. El navegador manda los cuatro <code>name = valor</code> por POST.</li>
+    <li><strong>PHP</strong>, en el servidor, recorre <code>$_POST</code> y devuelve el HTML del paso 3, que reemplaza a la página.</li>
+  </ol>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Validar en JavaScript no alcanza</span>
+    <p>
+      La validación de JavaScript es una comodidad para el usuario, no una protección: corre en su
+      navegador, y cualquiera puede desactivarla o mandar datos a <code>procesoFormulario.php</code>
+      sin pasar por esta página. Este PHP imprime lo que llega sin revisarlo.
+    </p>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Hace falta Apache</span>
+    <p>
+      Abriendo <code>pForm3.html</code> con doble clic la validación anda, pero el envío no: el
+      <code>.php</code> solo se ejecuta si lo sirve Apache (XAMPP, por
+      <code>http://localhost/...</code>).
+    </p>
+  </div>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Qué se ve</span>
+    <p>
+      Con algún campo vacío, lo mismo que el ejemplo 4. Con todo completo, la página cambia a
+      "Datos recibidos" con un renglón <code>name: valor</code> por campo.
+    </p>
+  </div>
+</div>

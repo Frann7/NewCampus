@@ -1,0 +1,84 @@
+<!-- ==================== PREGUNTA 9 ==================== -->
+<section class="parcial-ej">
+  <div class="parcial-ej-cab">
+    <h2>Pregunta 9</h2>
+    <span class="parcial-pts">5 puntos</span>
+    <span class="parcial-tema">Clase 1 &middot; continue</span>
+  </div>
+
+  <p>Cual es la salida del siguiente script PHP:</p>
+  <pre class="codigo"><code>&lt;?php
+  for ($i = 0; $i &lt; 10; $i++) {
+    if ($i &gt; 3 &amp;&amp; $i &lt; 6) {
+                            continue;
+                          }
+        echo $i." ";
+}
+?&gt;</code></pre>
+  <p><em>Seleccione una:</em></p>
+  <ol class="parcial-incisos">
+    <li>0 1 2 3 4</li>
+    <li>0 1 2 3 4 5 6 7 8 9</li>
+    <li>0 1 2 3 6 7 8 9</li>
+    <li>0 1 2 3</li>
+    <li>0 1 2 7 8 9</li>
+  </ol>
+
+  <div class="parcial-extras">
+    <details class="parcial-desp pd-resultados">
+      <summary>
+        <span class="pd-icono">&#10003;</span>
+        <span class="pd-txt"><b>Resultados</b><small>Solo la respuesta</small></span>
+      </summary>
+      <div class="pd-cuerpo">
+        <p><strong>c)</strong> 0 1 2 3 6 7 8 9</p>
+      </div>
+    </details>
+
+    <details class="parcial-desp pd-explicacion">
+      <summary>
+        <span class="pd-icono">&#9998;</span>
+        <span class="pd-txt"><b>Explicación detallada</b><small>Qué evalúa, el concepto desde cero, la traza y las trampas</small></span>
+      </summary>
+      <div class="pd-cuerpo">
+        <h4>Qué evalúa</h4>
+        <p>Qué hace <strong>continue</strong> dentro de un ciclo. Es de la <strong>Clase 1</strong>, &ldquo;Detener y continuar&rdquo;: el ejemplo de la teoría es casi este mismo código.</p>
+        <h4>El concepto, desde cero</h4>
+        <p><code>continue</code> <strong>saltea lo que queda de la vuelta actual</strong> y pasa a la siguiente (en un for, va directo al <code>$i++</code>). No corta el ciclo: eso es <code>break</code>.</p>
+        <h4>Línea por línea</h4>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Línea</th><th>Qué hace</th><th>Cómo quedan las variables</th></tr>
+            <tr><td><code>for ($i = 0; $i &lt; 10; $i++)</code></td><td>Vueltas con <code>$i</code> de 0 a 9.</td><td><code>$i</code> = 0, 1, &hellip;, 9</td></tr>
+            <tr><td><code>if ($i &gt; 3 &amp;&amp; $i &lt; 6)</code></td><td>True solo si <code>$i</code> es mayor que 3 <strong>y</strong> menor que 6: para 4 y 5.</td><td>&mdash;</td></tr>
+            <tr><td><code>continue;</code></td><td>En esas vueltas saltea el <code>echo</code>.</td><td>&mdash;</td></tr>
+            <tr><td><code>echo $i." ";</code></td><td>En las demás vueltas muestra <code>$i</code> y un espacio.</td><td>&mdash;</td></tr>
+          </table>
+        </div>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>$i</th><th>¿$i &gt; 3 &amp;&amp; $i &lt; 6?</th><th>Qué pasa</th><th>Imprime</th></tr>
+            <tr><td>0, 1, 2, 3</td><td>no (no son mayores que 3)</td><td>echo</td><td><code>0 1 2 3 </code></td></tr>
+            <tr><td>4</td><td>sí</td><td>continue</td><td>nada</td></tr>
+            <tr><td>5</td><td>sí</td><td>continue</td><td>nada</td></tr>
+            <tr><td>6, 7, 8, 9</td><td>no (no son menores que 6)</td><td>echo</td><td><code>6 7 8 9 </code></td></tr>
+          </table>
+        </div>
+        <h4>Qué imprime y por qué</h4>
+        <pre class="salida">0 1 2 3 6 7 8 9 </pre>
+        <h4>Opción por opción</h4>
+        <ul>
+          <li><strong>a) 0 1 2 3 4</strong>: el 4 cumple la condición, así que no se imprime.</li>
+          <li><strong>b) 0 1 2 3 4 5 6 7 8 9</strong>: es ignorar el continue.</li>
+          <li><strong>c) 0 1 2 3 6 7 8 9</strong>: correcta.</li>
+          <li><strong>d) 0 1 2 3</strong>: sería con <code>break</code>, que corta el ciclo en el 4.</li>
+          <li><strong>e) 0 1 2 7 8 9</strong>: saltea de más; la condición solo atrapa al 4 y al 5.</li>
+        </ul>
+        <div class="caja caja-ojo">
+          <span class="caja-tit">La trampa</span>
+          <p>Confundir <code>continue</code> (saltea esta vuelta y sigue) con <code>break</code> (sale del ciclo). Con break la salida sería &ldquo;0 1 2 3&rdquo;, que también está entre las opciones.</p>
+        </div>
+      </div>
+    </details>
+  </div>
+</section>

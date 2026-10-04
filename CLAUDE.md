@@ -112,6 +112,9 @@ conversación vieja y costaba ~5,5 millones; con una sesión por tarea, el mismo
 
 ## Pendientes e ideas
 
+- **Sumar Programación Avanzada:** el plan, por fases, está en `docs/plan-pa.md` (leerlo antes
+  de arrancar cualquier fase y tachar la que se termina).
+
 - **Optimización de tokens:** la Fase 2 (PDFs a texto en `fuentes/`) está hecha. La Fase 3
   (formato de autoría compacto) quedó descartada por ahora: ahorra ~10 % y tiene riesgo.
 - Ideas a futuro (después de los parciales): publicar en Vercel (estático) + Supabase (login y

@@ -3,12 +3,14 @@
 > Las rutas de este documento son relativas a `app/` (salvo que digan otra cosa).
 
 
-**Tareas y Calendario van en el menú lateral**, como dos entradas fijas arriba de "MATERIAS"
-(`.nav-fija` en `index.html`), con rutas propias `#tareas` y `#calendario`; la fila de pestañas de
-una materia es solo Teoría · Práctica · Evaluación. Las rutas viejas (`#pye/u7/tareas`) se
-reescriben a las nuevas (`leerRuta` en `app.js`). Mientras se ven, las migas no muestran materia y
-la fila de pestañas queda oculta (`html.vista-campus`); la última materia y unidad siguen en el
-state, así que tocar una unidad vuelve a su teoría.
+**Tareas y Calendario están en dos lugares**: como entradas fijas del menú lateral, arriba de
+"MATERIAS" (`.nav-fija` en `index.html`), y en la fila de pestañas, después de Evaluación
+(Teoría · Práctica · Evaluación · Tareas · Calendario). Los dos llevan a las mismas rutas propias
+`#tareas` y `#calendario`; las viejas (`#pye/u7/tareas`) se reescriben a las nuevas (`leerRuta` en
+`app.js`). Mientras se ven, las migas no muestran materia, la fila de pestañas sigue a la vista con
+Tareas o Calendario marcada (y su entrada del menú también), y Teoría, Práctica y Evaluación llevan
+a la última materia y unidad, que siguen en el state. Para que eso sobreviva a una recarga en
+`#tareas`, `apuntes:ruta` guarda siempre las tres partes (`pa/c2/tareas`).
 
 **Calendario** (uno solo, no depende de la materia ni de la unidad): `assets/calendario/`.
 Vista **Mes** (el mes ocupando la pantalla, flechas a los costados, el día de hoy marcado) y vista
@@ -55,8 +57,8 @@ general. Tope de 25 tareas por columna (`MAXIMO`) y 300
 caracteres por tarea (`MAX_TEXTO`). Se guardan en `newcampus:tareas`.
 
 **Ventanas duplicadas** (`assets/ventanas.js`): manteniendo apretada una pestaña 0,8 s sale una **copia**
-de ese apartado en otra ventana (`index.html?panel=1#<materia>/<unidad>/<pestaña>`). Lo mismo con
-Tareas y Calendario del menú lateral (`index.html?panel=1#tareas`). La copia no
+de ese apartado en otra ventana (`index.html?panel=1#<materia>/<unidad>/<pestaña>`). Con Tareas y
+Calendario, de la pestaña o del menú lateral, la copia es `index.html?panel=1#tareas`. La copia no
 tiene menú de materias ni pestañas, pero sí su índice y su material; la ventana original no se mueve.
 Máximo 4 copias a la vez. Las copias **no laten** al servidor (no cuentan tiempo ni pisan el último
 apartado abierto) y se cierran solas cuando se cierra la ventana principal.

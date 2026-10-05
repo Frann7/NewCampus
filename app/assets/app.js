@@ -105,7 +105,8 @@ window.NC = window.NC || {};
   function esGlobal(tab) { return tab === EVALUACION || tab === CALENDARIO || tab === TAREAS; }
 
   // Tareas y Calendario no son de ninguna materia: entradas fijas del menu
-  // lateral, con ruta propia (#tareas, #calendario).
+  // lateral y pestanias despues de Evaluacion, con ruta propia (#tareas,
+  // #calendario).
   function esDelCampus(tab) { return tab === CALENDARIO || tab === TAREAS; }
 
   // La ruta del hash lleva las tres partes, asi se recuerda la unidad; Tareas
@@ -116,15 +117,29 @@ window.NC = window.NC || {};
 
   // Lee una ruta ("pye/u5/teoria", "tareas"). Las viejas con Tareas o
   // Calendario dentro de una materia ("pye/u7/tareas") valen igual: rutaDe
-  // las reescribe a la nueva. null si no se entiende.
+  // las reescribe a la nueva. A #tareas y #calendario se les pone la ultima
+  // materia y unidad, para que las pestanias Teoria, Practica y Evaluacion
+  // lleven ahi. null si no se entiende.
   function leerRuta(texto) {
     var p = (texto || "").split("/");
     if (p.length === 1 && esDelCampus(p[0])) {
-      var base = rutaPorDefecto();
+      var base = ultimaUnidad() || rutaPorDefecto();
       return { materia: base.materia, unidad: base.unidad, tab: p[0] };
     }
     if (p.length === 3) { return { materia: p[0], unidad: p[1], tab: p[2] }; }
     return null;
+  }
+
+  // Lo guardado lleva siempre las tres partes (tambien en Tareas y
+  // Calendario, "pye/u5/tareas"), asi al recargar en #tareas se sabe cual
+  // fue la ultima unidad.
+  function ultimaUnidad() {
+    var g = "";
+    try { g = localStorage.getItem(STORE_KEY) || ""; } catch (e) {}
+    var p = g.split("/");
+    if (p.length !== 3) { return null; }
+    var s = { materia: p[0], unidad: p[1], tab: "teoria" };
+    return existePane(s) ? s : null;
   }
 
   // Lo que EXISTE lo dice el indice; el contenido puede no estar cargado todavia.
@@ -1480,15 +1495,15 @@ window.NC = window.NC || {};
         b.closest(".materia").getAttribute("data-materia") === state.materia);
     });
 
-    // Tareas y Calendario: entradas fijas del menu. Mientras se ven, la fila
-    // de pestanias de la materia no se muestra (no hay materia en pantalla).
+    // Tareas y Calendario: entradas fijas del menu (y pestanias, abajo).
+    // Mientras se ven, las migas no muestran materia.
     var delCampus = esDelCampus(state.tab);
-    document.documentElement.classList.toggle("vista-campus", delCampus);
     $$(".nav-fija-btn").forEach(function (b) {
       b.classList.toggle("is-active", b.getAttribute("data-ir") === state.tab);
     });
 
-    // pestanias
+    // pestanias: desde Tareas o Calendario, Teoria, Practica y Evaluacion
+    // llevan a la ultima materia y unidad, que siguen en el state
     $$(".tab").forEach(function (t) {
       t.classList.toggle("is-active", t.getAttribute("data-tab") === state.tab);
       var destino = { materia: state.materia, unidad: state.unidad, tab: t.getAttribute("data-tab") };
@@ -1513,7 +1528,9 @@ window.NC = window.NC || {};
     // guardar y sincronizar hash
     // Una copia no pisa el "ultimo apartado abierto": eso lo manda la ventana principal.
     var ruta = rutaDe(state);
-    if (!PANEL) { try { localStorage.setItem(STORE_KEY, ruta); } catch (e) {} }
+    if (!PANEL) {
+      try { localStorage.setItem(STORE_KEY, state.materia + "/" + state.unidad + "/" + state.tab); } catch (e) {}
+    }
     if (window.location.hash.slice(1) !== ruta) {
       history.replaceState(null, "", "#" + ruta);
     }

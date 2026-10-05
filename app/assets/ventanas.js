@@ -1,11 +1,12 @@
 /* ============================================================
    NEWCAMPUS - ventanas duplicadas
    ------------------------------------------------------------
-   Manteniendo apretada una pestania (Teoria / Practica / Evaluacion),
-   o Tareas / Calendario del menu lateral, se saca una COPIA de ese apartado en una ventana aparte, para poder
-   leer dos partes del mismo apunte al mismo tiempo. Lo mismo con las
-   unidades del menu de materias: la copia es solo esa unidad, con sus
-   pestanias Teoria y Practica.
+   Manteniendo apretada una pestania (Teoria / Practica / Evaluacion /
+   Tareas / Calendario), o Tareas / Calendario del menu lateral, se saca
+   una COPIA de ese apartado en una ventana aparte, para poder leer dos
+   partes del mismo apunte al mismo tiempo. Lo mismo con las unidades
+   del menu de materias: la copia es solo esa unidad, con sus pestanias
+   Teoria y Practica.
 
    La copia es la misma index.html abierta como:
 
@@ -71,9 +72,7 @@ window.NC = window.NC || {};
     function rotular() {
       var activo = $(".tab.is-active");         // app.js ya pinto la navegacion
       var unidad = $("#crumb-unidad");
-      // Tareas y Calendario no tienen pestania: el nombre sale de las migas
-      var nombre = activo ? (activo.dataset.nombre || activo.textContent.trim())
-                          : (unidad && unidad.textContent) || "Copia";
+      var nombre = activo ? (activo.dataset.nombre || activo.textContent.trim()) : "Copia";
       var donde = unidad && unidad.textContent !== nombre ? unidad.textContent : "";
       // la copia de una unidad se nombra por la unidad: las pestanias se ven abajo
       txt.textContent = window.NC.esPanelUnidad && donde ? donde.split(" — ")[0] : nombre;

@@ -91,14 +91,15 @@ fórmulas (MathJax) y las tipografías. Tus datos no salen de tu máquina.
 * **Índice lateral con subíndices**: en la práctica, cada ejercicio abierto lista debajo sus
   pasos e incisos, y tocar uno lleva directo a ese inciso.
 * **Tareas**: un tablero con tres columnas, **Pendientes**, **En proceso** y **Hecho**, en el
-  menú lateral arriba de las materias, junto al Calendario (uno solo para todo el campus). Cada tarea es un cuadrito:
+  menú lateral arriba de las materias, junto al Calendario, y también en la fila de pestañas,
+  después de Evaluación (uno solo para todo el campus). Cada tarea es un cuadrito:
   se agrega al pie de su columna, se edita con el lápiz (o doble clic), se borra con la ✕ y se pasa
   de columna con las flechas o arrastrándola; arrastrando también se reordena. Al agregarla o
   editarla, entre Cancelar y Agregar se elige si es de una **materia**: toma su color (el mismo
   que en el calendario) y lleva su nombre; si se deja en "Sin materia" es una tarea general. Entran hasta **25
   tareas por columna** (con la columna llena no se agrega ni se mueve nada a ella) y hasta 300
   caracteres por tarea.
-* **Calendario** (en el menú lateral): un mes a pantalla completa con flechas para navegar, o el año entero.
+* **Calendario** (en el menú lateral y en la fila de pestañas): un mes a pantalla completa con flechas para navegar, o el año entero.
   Se le anotan **parciales y trabajos prácticos** (materia, unidades que entran, día y una
   descripción); el día con parcial se pinta entero del color de la materia, y si ese día cae más de
   una, la casilla se parte en franjas. Al abrir un día, la ficha dice **cuánto falta** para ese día.
@@ -221,6 +222,9 @@ Chrome (`chrome --headless --print-to-pdf`).
 `0.x.y-alpha` mientras esté en desarrollo. La `1.0.0` queda reservada para cuando esté terminado.
 La versión actual se lee al pie del menú lateral.
 
+* **0.34.1-alpha** — Tareas y Calendario vuelven también a la fila de pestañas (Teoría · Práctica
+  · Evaluación · Tareas · Calendario), sin dejar el menú lateral; desde ahí, Teoría, Práctica y
+  Evaluación llevan a la última unidad abierta.
 * **0.34.0-alpha** — Programación Avanzada: teoría y práctica de las 6 clases, el Parcial PHP
   resuelto y su autoevaluación. Tareas y Calendario pasan al menú lateral.
 * **0.33.1-alpha** — tareas: arrastrar una hasta abajo de su columna la deja última (quedaba

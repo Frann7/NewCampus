@@ -40,23 +40,42 @@ echo "INGRESA";
         <h4>Qué evalúa</h4>
         <p>La sintaxis del <strong>if</strong> y qué puede ir como condición. Es de la <strong>Clase 1</strong> (estructuras de control).</p>
         <h4>El concepto, desde cero</h4>
-        <p><code>if (condición) { ... }</code> ejecuta el bloque si la condición vale true. La condición puede ser una comparación (<code>$x &gt; 3</code>) o <strong>cualquier valor</strong>: PHP lo convierte a booleano. Una variable que ya es booleana se usa tal cual.</p>
+        <p>Un <strong>booleano</strong> es un valor que solo puede ser <code>true</code> (verdadero) o <code>false</code> (falso). Las condiciones de PHP siempre terminan dando uno de esos dos valores.</p>
+        <pre class="codigo"><code>if (condición) {
+    // se ejecuta solo si la condición es true
+}</code></pre>
+        <p><code>if</code> (&ldquo;si&rdquo;) mira la condición que va entre paréntesis: si es true, ejecuta lo que está entre las llaves <code>{ }</code>; si es false, lo saltea y sigue con lo que haya después de la <code>}</code>. Este if no tiene <code>else</code>, así que con false no haría nada. (Las líneas con <code>//</code> son comentarios: notas que PHP ignora.)</p>
+        <p>La condición puede ser una comparación (<code>$x &gt; 3</code>) o <strong>cualquier valor</strong>, incluida una variable sola. Si la variable ya es booleana, se usa tal cual: <code>if ($a)</code> pregunta &ldquo;¿<code>$a</code> es true?&rdquo;, igual que <code>if ($a == true)</code>.</p>
+        <h4>Las piezas del código</h4>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Pieza</th><th>Qué significa</th></tr>
+            <tr><td><code>&lt;?php</code> &hellip; <code>?&gt;</code></td><td>Marcan dónde empieza y dónde termina el código PHP.</td></tr>
+            <tr><td><code>$a</code></td><td>Una <strong>variable</strong>: caja con nombre donde se guarda un valor. En PHP empiezan con <code>$</code>.</td></tr>
+            <tr><td><code>=</code></td><td><strong>Asignación</strong>: guarda en <code>$a</code> el valor de la derecha. Que no tenga espacios (<code>$a=true</code>) da igual.</td></tr>
+            <tr><td><code>true</code></td><td>El booleano verdadero.</td></tr>
+            <tr><td><code>;</code></td><td>Termina cada instrucción.</td></tr>
+            <tr><td><code>if ($a) { &hellip; }</code></td><td>Si <code>$a</code> es true, ejecuta lo de las llaves.</td></tr>
+            <tr><td><code>echo "INGRESA";</code></td><td>Muestra el texto <code>INGRESA</code> (las comillas marcan dónde empieza y termina el texto; no se imprimen).</td></tr>
+          </table>
+        </div>
         <h4>Línea por línea</h4>
         <div class="tabla-wrap">
           <table class="t full">
             <tr><th>Línea</th><th>Qué hace</th><th>Cómo quedan las variables</th></tr>
             <tr><td><code>$a=true;</code></td><td>Guarda el booleano true.</td><td><code>$a</code> = true</td></tr>
-            <tr><td><code>if ($a) {</code></td><td>La condición es <code>$a</code>, que vale true &rArr; entra.</td><td>&mdash;</td></tr>
-            <tr><td><code>echo "INGRESA";</code></td><td>Imprime.</td><td>&mdash;</td></tr>
+            <tr><td><code>if ($a) {</code></td><td>La condición es <code>$a</code>, que vale true &rArr; entra al bloque.</td><td>sin cambios</td></tr>
+            <tr><td><code>echo "INGRESA";</code></td><td>Imprime.</td><td>sin cambios</td></tr>
+            <tr><td><code>}</code></td><td>Cierra el bloque del if; no queda nada más.</td><td>&mdash;</td></tr>
           </table>
         </div>
         <h4>Qué imprime y por qué</h4>
         <pre class="salida">INGRESA</pre>
-        <p>El código es correcto y la salida es INGRESA (comprobado corriéndolo).</p>
+        <p>El código es correcto y la salida es INGRESA. Para comparar, con <code>$a=false;</code> el mismo script no imprime nada: el if saltea su bloque y no hay <code>else</code>. (Las dos cosas comprobadas en PHP 8.2.)</p>
         <h4>Opción por opción</h4>
         <ul>
           <li><strong>a) Si es correcto</strong>: correcta.</li>
-          <li><strong>b) No, porque es falso por defecto</strong>: <code>$a</code> no tiene valor por defecto, se le asignó <code>true</code> en la línea anterior. (Una variable que <em>nunca</em> se asignó da un aviso <em>Undefined variable</em> y cuenta como false; no es este caso.)</li>
+          <li><strong>b) No, porque es falso por defecto</strong>: <code>$a</code> no tiene valor por defecto, se le asignó <code>true</code> en la línea anterior. (Una variable que <em>nunca</em> se asignó da un aviso <em>Warning: Undefined variable</em> y cuenta como false; no es este caso.)</li>
           <li><strong>c) Emite un error, porque el IF no posee condición</strong>: sí la tiene, <code>$a</code>. No hace falta escribir <code>$a == true</code>.</li>
         </ul>
         <div class="caja caja-ojo">

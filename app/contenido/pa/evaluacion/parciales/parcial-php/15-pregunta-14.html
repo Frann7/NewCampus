@@ -40,7 +40,14 @@
         <h4>Qué evalúa</h4>
         <p>Qué estructuras sirven para <strong>recorrer</strong> un array (pasar por cada elemento). Es de la <strong>Clase 2</strong> (arreglos), con las estructuras de la Clase 1.</p>
         <h4>El concepto, desde cero</h4>
-        <p>Recorrer es repetir algo para cada elemento, así que hace falta una estructura que <strong>repita</strong>: un ciclo. Los ciclos de PHP son <code>for</code>, <code>foreach</code>, <code>while</code> y <code>do...while</code>; de esos, la pregunta ofrece dos.</p>
+        <p>Un <strong>array</strong> (arreglo) es una variable que guarda varios valores, cada uno con su clave; si no se escriben claves, PHP los numera desde 0 (índices 0, 1, 2&hellip;). <strong>Recorrerlo</strong> es hacer algo con cada elemento, uno por uno: mostrarlo, sumarlo, compararlo.</p>
+        <p>Las <strong>estructuras de control</strong> son las instrucciones que deciden qué se ejecuta y cuántas veces. Hay dos familias:</p>
+        <ul>
+          <li><strong>De decisión</strong> (<code>if</code>, <code>else if</code>, <code>switch</code>): eligen un camino según una condición, <strong>una sola vez</strong>.</li>
+          <li><strong>De repetición</strong> o ciclos (<code>for</code>, <code>foreach</code>, <code>while</code>, <code>do...while</code>): repiten un bloque varias veces; cada repetición es una vuelta.</li>
+        </ul>
+        <p>Recorrer es repetir algo para cada elemento, así que hace falta un ciclo. De los cuatro, la pregunta ofrece dos: <code>for</code> y <code>foreach</code>.</p>
+        <h4>Un ejemplo con los dos</h4>
         <pre class="codigo"><code>&lt;?php
 $letras = array('x', 'y', 'z');
 for ($i = 0; $i &lt; count($letras); $i++) echo $letras[$i]." ";
@@ -48,14 +55,28 @@ foreach ($letras as $v) echo $v." ";
 ?&gt;</code></pre>
         <div class="tabla-wrap">
           <table class="t full">
+            <tr><th>Pieza</th><th>Qué significa</th></tr>
+            <tr><td><code>count($letras)</code></td><td>Función que devuelve cuántos elementos tiene el array: 3.</td></tr>
+            <tr><td><code>for ($i = 0; $i &lt; count($letras); $i++)</code></td><td>Arranca <code>$i</code> en 0, repite mientras <code>$i</code> sea menor que 3 y le suma 1 al final de cada vuelta (<code>$i++</code>): vueltas con <code>$i</code> = 0, 1, 2, justo los índices del array.</td></tr>
+            <tr><td><code>$letras[$i]</code></td><td>El elemento cuyo índice es el valor actual de <code>$i</code>.</td></tr>
+            <tr><td><code>foreach ($letras as $v)</code></td><td>&ldquo;Para cada elemento de <code>$letras</code>, guardalo en <code>$v</code>&rdquo;: da una vuelta por elemento sin necesidad de índice ni contador.</td></tr>
+            <tr><td><code>echo &hellip; ." ";</code></td><td>Muestra el elemento pegado (con el punto <code>.</code>) a un espacio.</td></tr>
+            <tr><td>sin llaves</td><td>Cuando el cuerpo de un ciclo es una sola instrucción, las llaves <code>{ }</code> se pueden omitir: el ciclo repite solo esa instrucción.</td></tr>
+          </table>
+        </div>
+        <div class="tabla-wrap">
+          <table class="t full">
             <tr><th>Línea</th><th>Qué hace</th><th>Cómo quedan las variables</th></tr>
-            <tr><td><code>$letras = array('x', 'y', 'z');</code></td><td>Array con índices 0, 1, 2.</td><td><code>$letras</code> = x, y, z</td></tr>
-            <tr><td><code>for ($i = 0; $i &lt; count($letras); $i++)</code></td><td>Usa el índice: <code>$i</code> va de 0 a 2 (<code>count</code> da 3).</td><td><code>$i</code> = 0, 1, 2</td></tr>
-            <tr><td><code>echo $letras[$i]." ";</code></td><td>Muestra el elemento de esa posición.</td><td>&mdash;</td></tr>
-            <tr><td><code>foreach ($letras as $v)</code></td><td>Pone en <code>$v</code> cada elemento, uno por vuelta, sin índice.</td><td><code>$v</code> = x, y, z</td></tr>
+            <tr><td><code>$letras = array('x', 'y', 'z');</code></td><td>Array con índices 0, 1, 2.</td><td><code>$letras[0]</code> = x, <code>[1]</code> = y, <code>[2]</code> = z</td></tr>
+            <tr><td><code>for</code>, vuelta 1</td><td><code>0 &lt; 3</code> &rArr; muestra <code>$letras[0]</code>.</td><td><code>$i</code> = 0 &rarr; imprime <code>x </code></td></tr>
+            <tr><td><code>for</code>, vuelta 2</td><td><code>1 &lt; 3</code> &rArr; muestra <code>$letras[1]</code>.</td><td><code>$i</code> = 1 &rarr; imprime <code>y </code></td></tr>
+            <tr><td><code>for</code>, vuelta 3</td><td><code>2 &lt; 3</code> &rArr; muestra <code>$letras[2]</code>.</td><td><code>$i</code> = 2 &rarr; imprime <code>z </code></td></tr>
+            <tr><td><code>for</code>, fin</td><td><code>3 &lt; 3</code> es false &rArr; sale.</td><td><code>$i</code> = 3</td></tr>
+            <tr><td><code>foreach</code></td><td>Tres vueltas, una por elemento.</td><td><code>$v</code> = x, y, z &rarr; imprime <code>x y z </code></td></tr>
           </table>
         </div>
         <pre class="salida">x y z x y z </pre>
+        <p>Los dos recorren el mismo array (comprobado en PHP 8.2): el for usando el índice, el foreach sin él.</p>
         <h4>Opción por opción</h4>
         <ul>
           <li><strong>a) else if</strong>, <strong>b) if</strong>, <strong>c) switch</strong>: son de <strong>decisión</strong>, eligen un camino una sola vez; no repiten.</li>

@@ -44,39 +44,58 @@
         <h4>Qué evalúa</h4>
         <p>Qué hace <strong>continue</strong> dentro de un ciclo. Es de la <strong>Clase 1</strong>, &ldquo;Detener y continuar&rdquo;: el ejemplo de la teoría es casi este mismo código.</p>
         <h4>El concepto, desde cero</h4>
-        <p><code>continue</code> <strong>saltea lo que queda de la vuelta actual</strong> y pasa a la siguiente (en un for, va directo al <code>$i++</code>). No corta el ciclo: eso es <code>break</code>.</p>
-        <h4>Línea por línea</h4>
+        <p>El <strong>for</strong> repite un bloque de código; cada repetición es una <strong>vuelta</strong>. <code>for (inicio; condición; paso)</code> funciona así: ejecuta el <code>inicio</code> una vez; después, mientras la <code>condición</code> sea true, ejecuta el cuerpo (lo de las llaves) y luego el <code>paso</code>; cuando la condición da false, sale.</p>
+        <p><code>continue</code> <strong>saltea lo que queda de la vuelta actual</strong> y pasa a la siguiente (en un for, va directo al <code>paso</code>, acá <code>$i++</code>). No corta el ciclo: eso es <code>break</code>, que sale del for del todo.</p>
+        <h4>Las piezas del código</h4>
         <div class="tabla-wrap">
           <table class="t full">
-            <tr><th>Línea</th><th>Qué hace</th><th>Cómo quedan las variables</th></tr>
-            <tr><td><code>for ($i = 0; $i &lt; 10; $i++)</code></td><td>Vueltas con <code>$i</code> de 0 a 9.</td><td><code>$i</code> = 0, 1, &hellip;, 9</td></tr>
-            <tr><td><code>if ($i &gt; 3 &amp;&amp; $i &lt; 6)</code></td><td>True solo si <code>$i</code> es mayor que 3 <strong>y</strong> menor que 6: para 4 y 5.</td><td>&mdash;</td></tr>
-            <tr><td><code>continue;</code></td><td>En esas vueltas saltea el <code>echo</code>.</td><td>&mdash;</td></tr>
-            <tr><td><code>echo $i." ";</code></td><td>En las demás vueltas muestra <code>$i</code> y un espacio.</td><td>&mdash;</td></tr>
+            <tr><th>Pieza</th><th>Qué significa</th></tr>
+            <tr><td><code>&lt;?php</code> &hellip; <code>?&gt;</code></td><td>Marcan dónde empieza y dónde termina el código PHP.</td></tr>
+            <tr><td><code>$i</code></td><td>Una <strong>variable</strong> (caja con nombre que guarda un valor; en PHP empiezan con <code>$</code>). Es la contadora del for.</td></tr>
+            <tr><td><code>$i = 0</code></td><td>Inicio: guarda 0 en <code>$i</code>.</td></tr>
+            <tr><td><code>$i &lt; 10</code></td><td>Condición del for: &ldquo;¿<code>$i</code> es menor que 10?&rdquo;. Con 10 ya da false, así que las vueltas son de 0 a 9.</td></tr>
+            <tr><td><code>$i++</code></td><td>Paso: suma 1 a <code>$i</code> (lo mismo que <code>$i = $i + 1</code>).</td></tr>
+            <tr><td><code>if (&hellip;) { &hellip; }</code></td><td>Decisión: ejecuta lo de las llaves solo si la condición es true. Si es false, lo saltea y sigue abajo.</td></tr>
+            <tr><td><code>$i &gt; 3</code></td><td>&ldquo;¿<code>$i</code> es mayor que 3?&rdquo; (el 3 no cuenta: 3 &gt; 3 es false).</td></tr>
+            <tr><td><code>$i &lt; 6</code></td><td>&ldquo;¿<code>$i</code> es menor que 6?&rdquo; (el 6 no cuenta).</td></tr>
+            <tr><td><code>&amp;&amp;</code></td><td><strong>Y lógico</strong>: true solo si las dos condiciones son true. Con que una sea false, todo es false.</td></tr>
+            <tr><td><code>continue;</code></td><td>Saltea el resto de esta vuelta.</td></tr>
+            <tr><td><code>echo $i." ";</code></td><td>Muestra <code>$i</code> pegado (el punto <code>.</code> concatena) a un espacio <code>" "</code>.</td></tr>
           </table>
         </div>
+        <p>La sangría rara del enunciado (el <code>continue</code> muy a la derecha) no cambia nada: PHP ignora los espacios y se guía por las llaves.</p>
+        <h4>Qué pasa en cada vuelta</h4>
+        <p>En cada vuelta PHP hace, en orden: mira la condición del for &rArr; evalúa el if &rArr; si el if es true, <code>continue</code> (y el echo no se ejecuta); si es false, saltea el bloque del if y ejecuta el echo &rArr; <code>$i++</code>.</p>
         <div class="tabla-wrap">
           <table class="t full">
-            <tr><th>$i</th><th>¿$i &gt; 3 &amp;&amp; $i &lt; 6?</th><th>Qué pasa</th><th>Imprime</th></tr>
-            <tr><td>0, 1, 2, 3</td><td>no (no son mayores que 3)</td><td>echo</td><td><code>0 1 2 3 </code></td></tr>
-            <tr><td>4</td><td>sí</td><td>continue</td><td>nada</td></tr>
-            <tr><td>5</td><td>sí</td><td>continue</td><td>nada</td></tr>
-            <tr><td>6, 7, 8, 9</td><td>no (no son menores que 6)</td><td>echo</td><td><code>6 7 8 9 </code></td></tr>
+            <tr><th><code>$i</code></th><th><code>$i &gt; 3</code></th><th><code>$i &lt; 6</code></th><th><code>&amp;&amp;</code> (las dos)</th><th>Qué pasa</th><th>Imprime</th></tr>
+            <tr><td>0</td><td>false</td><td>true</td><td>false</td><td>echo</td><td><code>0 </code></td></tr>
+            <tr><td>1</td><td>false</td><td>true</td><td>false</td><td>echo</td><td><code>1 </code></td></tr>
+            <tr><td>2</td><td>false</td><td>true</td><td>false</td><td>echo</td><td><code>2 </code></td></tr>
+            <tr><td>3</td><td>false</td><td>true</td><td>false</td><td>echo</td><td><code>3 </code></td></tr>
+            <tr><td>4</td><td>true</td><td>true</td><td><strong>true</strong></td><td>continue</td><td>nada</td></tr>
+            <tr><td>5</td><td>true</td><td>true</td><td><strong>true</strong></td><td>continue</td><td>nada</td></tr>
+            <tr><td>6</td><td>true</td><td>false</td><td>false</td><td>echo</td><td><code>6 </code></td></tr>
+            <tr><td>7</td><td>true</td><td>false</td><td>false</td><td>echo</td><td><code>7 </code></td></tr>
+            <tr><td>8</td><td>true</td><td>false</td><td>false</td><td>echo</td><td><code>8 </code></td></tr>
+            <tr><td>9</td><td>true</td><td>false</td><td>false</td><td>echo</td><td><code>9 </code></td></tr>
+            <tr><td>10</td><td colspan="4">la condición del for, <code>10 &lt; 10</code>, da false: sale</td><td>&mdash;</td></tr>
           </table>
         </div>
         <h4>Qué imprime y por qué</h4>
         <pre class="salida">0 1 2 3 6 7 8 9 </pre>
+        <p>Todo en un renglón (echo no agrega saltos de línea); faltan solo el 4 y el 5. Comprobado en PHP 8.2.</p>
         <h4>Opción por opción</h4>
         <ul>
           <li><strong>a) 0 1 2 3 4</strong>: el 4 cumple la condición, así que no se imprime.</li>
           <li><strong>b) 0 1 2 3 4 5 6 7 8 9</strong>: es ignorar el continue.</li>
           <li><strong>c) 0 1 2 3 6 7 8 9</strong>: correcta.</li>
-          <li><strong>d) 0 1 2 3</strong>: sería con <code>break</code>, que corta el ciclo en el 4.</li>
+          <li><strong>d) 0 1 2 3</strong>: sería con <code>break</code>, que corta el ciclo en el 4 (comprobado: con break imprime <code>0 1 2 3</code>).</li>
           <li><strong>e) 0 1 2 7 8 9</strong>: saltea de más; la condición solo atrapa al 4 y al 5.</li>
         </ul>
         <div class="caja caja-ojo">
           <span class="caja-tit">La trampa</span>
-          <p>Confundir <code>continue</code> (saltea esta vuelta y sigue) con <code>break</code> (sale del ciclo). Con break la salida sería &ldquo;0 1 2 3&rdquo;, que también está entre las opciones.</p>
+          <p>Confundir <code>continue</code> (saltea esta vuelta y sigue) con <code>break</code> (sale del ciclo). Con break la salida sería &ldquo;0 1 2 3&rdquo;, que también está entre las opciones. Y los bordes: <code>&gt; 3</code> y <code>&lt; 6</code> no incluyen ni al 3 ni al 6.</p>
         </div>
       </div>
     </details>

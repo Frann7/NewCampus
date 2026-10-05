@@ -42,20 +42,39 @@ echo $fecha_nueva;
         <h4>Qué evalúa</h4>
         <p><code>date()</code>, <code>explode()</code> y la concatenación con el punto. Es de la <strong>Clase 2</strong> (funciones de cadenas y arrays).</p>
         <h4>El concepto, desde cero</h4>
-        <p><code>date(formato)</code> devuelve la fecha <strong>de hoy</strong> como texto, con el formato que se le pide: <code>Y</code> = año con 4 cifras, <code>m</code> = mes con 2 cifras, <code>d</code> = día con 2 cifras. Con <code>'Y-m-d'</code> da algo como <code>2017-05-23</code>.</p>
-        <p><code>explode("-", $texto)</code> corta el texto en cada guion y devuelve un array con los pedazos. El punto (<code>.</code>) pega textos.</p>
+        <p>Una <strong>función</strong> es una instrucción con nombre que ya viene hecha en PHP: se la <em>llama</em> escribiendo su nombre y, entre paréntesis, los datos que necesita (los <strong>parámetros</strong>, separados por comas). La función hace su trabajo y <strong>devuelve</strong> un resultado, que se puede guardar en una variable con <code>=</code>.</p>
+        <ul>
+          <li><code>date(formato)</code> devuelve la fecha <strong>de hoy</strong> como texto, escrita según el formato que se le pasa: <code>Y</code> = año con 4 cifras, <code>m</code> = mes con 2 cifras, <code>d</code> = día con 2 cifras; cualquier otro carácter (acá, el guion) se copia tal cual. Con <code>'Y-m-d'</code> da algo como <code>2017-05-23</code>.</li>
+          <li><code>explode(separador, texto)</code> corta el texto cada vez que aparece el separador y devuelve un <strong>array</strong> (una lista de valores numerados desde 0) con los pedazos. El separador desaparece.</li>
+          <li>El punto <code>.</code> <strong>concatena</strong>: pega dos textos uno detrás del otro. <code>"23" . "/"</code> da <code>"23/"</code>.</li>
+        </ul>
+        <h4>Las piezas del código</h4>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Pieza</th><th>Qué significa</th></tr>
+            <tr><td><code>&lt;?php</code> &hellip; <code>?&gt;</code></td><td>Marcan dónde empieza y dónde termina el código PHP.</td></tr>
+            <tr><td><code>$fecha</code>, <code>$arreglo_fecha</code>, <code>$fecha_nueva</code></td><td><strong>Variables</strong>: cajas con nombre que guardan un valor. En PHP empiezan con <code>$</code>.</td></tr>
+            <tr><td><code>=</code></td><td><strong>Asignación</strong>: guarda en la variable de la izquierda lo que da la derecha.</td></tr>
+            <tr><td><code>'Y-m-d'</code>, <code>"-"</code>, <code>"/"</code></td><td>Textos (<em>strings</em>). Comillas simples o dobles: acá da lo mismo.</td></tr>
+            <tr><td><code>$arreglo_fecha[2]</code></td><td>El elemento de índice 2 del array (el tercero, porque se cuenta desde 0).</td></tr>
+            <tr><td><code>.</code></td><td>Concatenación (pegar textos).</td></tr>
+            <tr><td><code>;</code></td><td>Termina cada instrucción.</td></tr>
+            <tr><td><code>echo</code></td><td>Muestra (imprime) lo que le sigue.</td></tr>
+          </table>
+        </div>
         <h4>Línea por línea</h4>
         <p>Con la fecha que usan las opciones, el 23 de mayo de 2017:</p>
         <div class="tabla-wrap">
           <table class="t full">
             <tr><th>Línea</th><th>Qué hace</th><th>Cómo quedan las variables</th></tr>
             <tr><td><code>$fecha = date('Y-m-d');</code></td><td>Toma la fecha de hoy en formato año-mes-día.</td><td><code>$fecha</code> = "2017-05-23"</td></tr>
-            <tr><td><code>$arreglo_fecha = explode("-", $fecha);</code></td><td>La corta en los guiones.</td><td><code>[0]</code> = "2017", <code>[1]</code> = "05", <code>[2]</code> = "23"</td></tr>
-            <tr><td><code>$fecha_nueva = $arreglo_fecha[2]."/".$arreglo_fecha[1]."/".$arreglo_fecha[0];</code></td><td>Pega día, <code>/</code>, mes, <code>/</code>, año: invierte el orden.</td><td><code>$fecha_nueva</code> = "23/05/2017"</td></tr>
-            <tr><td><code>echo $fecha_nueva;</code></td><td>Lo muestra.</td><td>&mdash;</td></tr>
+            <tr><td><code>$arreglo_fecha = explode("-", $fecha);</code></td><td>La corta en cada guion: quedan tres pedazos, en el orden en que estaban.</td><td><code>[0]</code> = "2017", <code>[1]</code> = "05", <code>[2]</code> = "23"</td></tr>
+            <tr><td><code>$fecha_nueva = $arreglo_fecha[2]."/".$arreglo_fecha[1]."/".$arreglo_fecha[0];</code></td><td>Pega, de izquierda a derecha: <code>"23"</code> &rarr; <code>"23/"</code> &rarr; <code>"23/05"</code> &rarr; <code>"23/05/"</code> &rarr; <code>"23/05/2017"</code>. Invierte el orden: día, mes, año.</td><td><code>$fecha_nueva</code> = "23/05/2017"</td></tr>
+            <tr><td><code>echo $fecha_nueva;</code></td><td>Lo muestra.</td><td>sin cambios</td></tr>
           </table>
         </div>
         <pre class="salida">23/05/2017</pre>
+        <p>(Comprobado en PHP 8.2 poniendo <code>$fecha = "2017-05-23";</code> en lugar de <code>date()</code>.)</p>
         <h4>Qué imprime y por qué</h4>
         <p>Imprime la fecha <strong>del día en que se corre</strong>, en formato día/mes/año (<code>d/m/Y</code>). Corrido el 4/10/2026 en esta PC dio <code>05/10/2026</code> (ver la zona horaria abajo), no <code>23/05/2017</code>: ninguna opción puede ser exacta, porque la salida cambia cada día. Las opciones son de cuando se escribió la pregunta, y lo que se evalúa es el <strong>formato</strong>: la única con día/mes/año separados por <code>/</code> es la <strong>c) 23/05/2017</strong>.</p>
         <h4>Opción por opción</h4>
@@ -69,7 +88,7 @@ echo $fecha_nueva;
         <div class="caja caja-ojo">
           <span class="caja-tit">Las trampas</span>
           <p>Buscar la fecha exacta: depende del día. Se responde por el formato.</p>
-          <p>La zona horaria: <code>date()</code> usa la del <code>php.ini</code>, y el XAMPP viene con <code>Europe/Berlin</code>. Por eso, corriéndolo el 4/10/2026 a las 20 h de Argentina, dio <code>05/10/2026</code>: en Berlín ya era el día siguiente. Con <code>date_default_timezone_set('America/Argentina/Buenos_Aires');</code> antes, dio <code>04/10/2026</code>.</p>
+          <p>La zona horaria: <code>date()</code> usa la del <code>php.ini</code> (el archivo de configuración de PHP), y el XAMPP viene con <code>Europe/Berlin</code>. Por eso, corriéndolo el 4/10/2026 a las 20 h de Argentina, dio <code>05/10/2026</code>: en Berlín ya era el día siguiente. Con <code>date_default_timezone_set('America/Argentina/Buenos_Aires');</code> antes, dio <code>04/10/2026</code>.</p>
         </div>
       </div>
     </details>

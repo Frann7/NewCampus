@@ -33,9 +33,19 @@
         <h4>Qué evalúa</h4>
         <p>Qué junta <code>$_REQUEST</code>. Es de la <strong>Clase 3</strong> (formularios).</p>
         <h4>El concepto, desde cero</h4>
+        <p>Cuando el navegador abre una página, le hace un <strong>pedido</strong> (en inglés, <em>request</em>) al servidor, y ese pedido puede traer datos. PHP los pone en <strong>arrays asociativos</strong> (variables que guardan varios valores, cada uno con un nombre propio, su clave) que llena solo y que se pueden usar en cualquier parte del script: las <strong>superglobales</strong>.</p>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Array</th><th>Qué trae</th><th>¿Viene en el pedido?</th></tr>
+            <tr><td><code>$_GET</code></td><td>Los datos pegados a la URL, después del <code>?</code> (<code>pagina.php?nombre=Ana</code>), o de un formulario con <code>method="get"</code>.</td><td>Sí</td></tr>
+            <tr><td><code>$_POST</code></td><td>Los datos de un formulario con <code>method="post"</code>, que viajan ocultos dentro del pedido.</td><td>Sí</td></tr>
+            <tr><td><code>$_COOKIE</code></td><td>Las <strong>cookies</strong>: datitos que el sitio guardó en el navegador del usuario y que el navegador vuelve a mandar en cada pedido.</td><td>Sí</td></tr>
+            <tr><td><code>$_SESSION</code></td><td>Los datos de la <strong>sesión</strong>: lo que el servidor recuerda de ese usuario entre una página y otra (por ejemplo, quién inició sesión). Se guardan <strong>en el servidor</strong>.</td><td><strong>No</strong></td></tr>
+          </table>
+        </div>
         <p><code>$_REQUEST</code> sirve para leer lo que manda el usuario <strong>sin importar si el formulario usó GET o POST</strong>. Por defecto tiene el contenido de <code>$_GET</code>, <code>$_POST</code> y <code>$_COOKIE</code>: lo mismo dice la práctica de la Clase 3 (&ldquo;$_GET, $_POST y $_COOKIES&rdquo;) y el manual de PHP.</p>
         <p><code>$_SESSION</code> <strong>nunca</strong> está ahí: los datos de sesión se guardan en el servidor, no llegan en el pedido del navegador, y <code>$_REQUEST</code> junta solo lo que viene en el pedido.</p>
-        <p>Detalle: qué junta exactamente lo decide <code>request_order</code> en el <code>php.ini</code>. En el XAMPP de esta PC vale <code>"GP"</code>, así que ni siquiera trae las cookies, solo GET y POST (comprobado con <code>ini_get('request_order')</code>). En ningún caso trae la sesión.</p>
+        <p>Detalle: qué junta exactamente lo decide <code>request_order</code> en el <code>php.ini</code> (el archivo de configuración de PHP). En el XAMPP de esta PC vale <code>"GP"</code> (G de GET, P de POST), así que ni siquiera trae las cookies, solo GET y POST (comprobado con <code>ini_get('request_order')</code>). En ningún caso trae la sesión.</p>
         <h4>Respuesta</h4>
         <p><strong>Falso</strong>: el tercero es <code>$_COOKIE</code>, no <code>$_SESSION</code>.</p>
         <div class="caja caja-ojo">

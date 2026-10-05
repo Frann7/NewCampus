@@ -41,31 +41,52 @@ $i = 5;
         <h4>Qué evalúa</h4>
         <p>Cómo arranca y cuántas vueltas da un <strong>for</strong>. Es de la <strong>Clase 1</strong> (estructuras iterativas).</p>
         <h4>El concepto, desde cero</h4>
-        <p><code>for (inicio; condición; paso) { cuerpo }</code> hace esto: ejecuta <code>inicio</code> <strong>una vez</strong>; después, mientras la <code>condición</code> sea true, ejecuta el cuerpo y luego el <code>paso</code>. Cuando la condición da false, sale.</p>
-        <h4>Línea por línea</h4>
+        <p>Un <strong>ciclo</strong> (o bucle) repite un grupo de instrucciones varias veces; cada repetición se llama <strong>vuelta</strong>. El <code>for</code> es el ciclo que se usa para contar: lleva una variable contadora que cambia en cada vuelta.</p>
+        <pre class="codigo"><code>for (inicio; condición; paso) {
+    cuerpo
+}</code></pre>
+        <p>Entre los paréntesis van tres partes separadas por <code>;</code>, y PHP las usa siempre en este orden:</p>
+        <ol>
+          <li>Ejecuta el <strong>inicio</strong>, <strong>una sola vez</strong>, antes de todo.</li>
+          <li>Mira la <strong>condición</strong>. Si es false, sale del for y sigue con lo que haya después de la <code>}</code>.</li>
+          <li>Si es true, ejecuta el <strong>cuerpo</strong> (lo que está entre las llaves).</li>
+          <li>Ejecuta el <strong>paso</strong> y vuelve al punto 2.</li>
+        </ol>
+        <h4>Las piezas del código</h4>
         <div class="tabla-wrap">
           <table class="t full">
-            <tr><th>Línea</th><th>Qué hace</th><th>Cómo quedan las variables</th></tr>
-            <tr><td><code>$i = 5;</code></td><td>Guarda 5 en <code>$i</code>.</td><td><code>$i</code> = 5</td></tr>
-            <tr><td><code>$i = 1</code></td><td>El inicio del for <strong>pisa</strong> ese 5.</td><td><code>$i</code> = 1</td></tr>
-            <tr><td><code>echo $i." ";</code></td><td>Cada vuelta muestra <code>$i</code> y un espacio (el punto concatena).</td><td>&mdash;</td></tr>
-            <tr><td><code>$i++</code></td><td>Al terminar cada vuelta suma 1.</td><td><code>$i</code> = 2, 3, 4, 5, 6</td></tr>
+            <tr><th>Pieza</th><th>Qué significa</th></tr>
+            <tr><td><code>&lt;?php</code> &hellip; <code>?&gt;</code></td><td>Marcan dónde empieza y dónde termina el código PHP.</td></tr>
+            <tr><td><code>$i</code></td><td>Una <strong>variable</strong> (caja con nombre que guarda un valor); en PHP empiezan con <code>$</code>. Acá es la contadora.</td></tr>
+            <tr><td><code>$i = 5;</code></td><td><strong>Asignación</strong>: guarda 5 en <code>$i</code>. El <code>;</code> termina la instrucción.</td></tr>
+            <tr><td><code>$i = 1</code> (inicio)</td><td>Guarda 1 en <code>$i</code>: borra lo que hubiera antes.</td></tr>
+            <tr><td><code>$i &lt;= 5</code> (condición)</td><td>&ldquo;¿<code>$i</code> es <strong>menor o igual</strong> que 5?&rdquo;. Da true o false.</td></tr>
+            <tr><td><code>$i++</code> (paso)</td><td>Suma 1 a <code>$i</code>. Es lo mismo que <code>$i = $i + 1</code>.</td></tr>
+            <tr><td><code>{ &hellip; }</code></td><td>Encierran el cuerpo: lo que se repite en cada vuelta.</td></tr>
+            <tr><td><code>echo</code></td><td>Muestra (imprime) lo que le sigue.</td></tr>
+            <tr><td><code>$i." "</code></td><td>El punto <code>.</code> <strong>concatena</strong> (pega) dos textos: el valor de <code>$i</code> y <code>" "</code>, que es un espacio. Si <code>$i</code> vale 1, queda <code>"1 "</code>.</td></tr>
           </table>
         </div>
+        <p>Los espacios y saltos de línea de más (la llave <code>{</code> en la línea de abajo, el espacio antes del <code>for</code>) no cambian nada: PHP los ignora.</p>
+        <h4>La traza, en el orden en que PHP la ejecuta</h4>
         <div class="tabla-wrap">
           <table class="t full">
-            <tr><th>Vuelta</th><th>$i</th><th>¿$i &lt;= 5?</th><th>Imprime</th></tr>
-            <tr><td>1</td><td>1</td><td>sí</td><td><code>1 </code></td></tr>
-            <tr><td>2</td><td>2</td><td>sí</td><td><code>2 </code></td></tr>
-            <tr><td>3</td><td>3</td><td>sí</td><td><code>3 </code></td></tr>
-            <tr><td>4</td><td>4</td><td>sí</td><td><code>4 </code></td></tr>
-            <tr><td>5</td><td>5</td><td>sí</td><td><code>5 </code></td></tr>
-            <tr><td>&mdash;</td><td>6</td><td>no: sale</td><td>&mdash;</td></tr>
+            <tr><th>Paso</th><th>Qué hace</th><th>Cómo queda <code>$i</code></th><th>Lo impreso hasta ahora</th></tr>
+            <tr><td><code>$i = 5;</code></td><td>Guarda 5.</td><td>5</td><td>&mdash;</td></tr>
+            <tr><td>inicio <code>$i = 1</code></td><td>El for <strong>pisa</strong> ese 5 con un 1.</td><td>1</td><td>&mdash;</td></tr>
+            <tr><td>condición</td><td><code>1 &lt;= 5</code>: true &rArr; entra.</td><td>1</td><td>&mdash;</td></tr>
+            <tr><td>cuerpo</td><td><code>echo "1 "</code></td><td>1</td><td><code>1 </code></td></tr>
+            <tr><td>paso <code>$i++</code></td><td>Suma 1.</td><td>2</td><td><code>1 </code></td></tr>
+            <tr><td>condición</td><td><code>2 &lt;= 5</code>: true &rArr; cuerpo: <code>echo "2 "</code> &rArr; <code>$i++</code>.</td><td>3</td><td><code>1 2 </code></td></tr>
+            <tr><td>condición</td><td><code>3 &lt;= 5</code>: true &rArr; <code>echo "3 "</code> &rArr; <code>$i++</code>.</td><td>4</td><td><code>1 2 3 </code></td></tr>
+            <tr><td>condición</td><td><code>4 &lt;= 5</code>: true &rArr; <code>echo "4 "</code> &rArr; <code>$i++</code>.</td><td>5</td><td><code>1 2 3 4 </code></td></tr>
+            <tr><td>condición</td><td><code>5 &lt;= 5</code>: true (5 es igual a 5) &rArr; <code>echo "5 "</code> &rArr; <code>$i++</code>.</td><td>6</td><td><code>1 2 3 4 5 </code></td></tr>
+            <tr><td>condición</td><td><code>6 &lt;= 5</code>: <strong>false</strong> &rArr; sale del for.</td><td>6</td><td><code>1 2 3 4 5 </code></td></tr>
           </table>
         </div>
         <h4>Qué imprime y por qué</h4>
         <pre class="salida">1 2 3 4 5 </pre>
-        <p>Cinco vueltas, de 1 a 5 (con un espacio al final que no se ve). Al salir, <code>$i</code> vale 6 (comprobado corriéndolo).</p>
+        <p>Cinco vueltas, de 1 a 5, todo en el mismo renglón porque <code>echo</code> no agrega saltos de línea (al final queda un espacio que no se ve). Al salir, <code>$i</code> vale 6 (comprobado corriéndolo en PHP 8.2).</p>
         <h4>Opción por opción</h4>
         <ul>
           <li><strong>a) 4 5</strong>: no sale de ningún camino.</li>
@@ -76,7 +97,7 @@ $i = 5;
         </ul>
         <div class="caja caja-ojo">
           <span class="caja-tit">La trampa</span>
-          <p>El <code>$i = 5;</code> de la primera línea no sirve para nada: el for vuelve a asignar <code>$i = 1</code> antes de la primera vuelta.</p>
+          <p>El <code>$i = 5;</code> de la primera línea no sirve para nada: el for vuelve a asignar <code>$i = 1</code> antes de la primera vuelta. Y <code>&lt;=</code> incluye el 5 (con <code>&lt;</code> solo, se cortaría en 4).</p>
         </div>
       </div>
     </details>

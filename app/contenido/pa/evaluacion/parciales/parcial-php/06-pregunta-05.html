@@ -57,17 +57,64 @@ if (!$a &amp;&amp; (!$b &amp;&amp; $c))
       </summary>
       <div class="pd-cuerpo">
         <h4>Qué evalúa</h4>
-        <p>Seguir <strong>if anidados</strong> con condiciones booleanas (<code>!</code>, <code>&amp;&amp;</code>). Es de la <strong>Clase 1</strong> (estructuras de control).</p>
-        <h4>El concepto, desde cero</h4>
+        <p>Seguir <strong>if anidados</strong> (un if adentro de otro) cuyas condiciones usan valores booleanos y los operadores <code>!</code> y <code>&amp;&amp;</code>. Es de la <strong>Clase 1</strong> (estructuras de control). La pregunta va al revés de lo habitual: no da los valores y pide la salida, sino que da la salida y pide los valores.</p>
+        <h4>Primero: qué son esos <code>?</code></h4>
+        <p><code>$a = ?;</code> <strong>no es PHP válido</strong>. El <code>?</code> es el hueco que esconde el enunciado: ahí iría un valor, y averiguar cuál es justamente lo que se pregunta. Si se corriera el script así, PHP ni siquiera arrancaría: antes de ejecutar nada revisa que todo el código esté bien escrito, y en la línea 3 se frena con</p>
+        <pre class="salida">Parse error: syntax error, unexpected token "?" ... on line 3</pre>
+        <p>(<em>parse error</em> = error de sintaxis: algo escrito que PHP no entiende). Para resolver, se hace de cuenta que en cada <code>?</code> va uno de los valores de las opciones. Cada opción da los tres valores <strong>en orden</strong>: &ldquo;False, True, True&rdquo; quiere decir <code>$a = false; $b = true; $c = true;</code>.</p>
+        <h4>Las piezas del código</h4>
         <div class="tabla-wrap">
           <table class="t full">
-            <tr><th>Operador</th><th>Se lee</th><th>Da true cuando</th></tr>
-            <tr><td><code>!$b</code></td><td>no <code>$b</code></td><td><code>$b</code> es false (lo da vuelta)</td></tr>
-            <tr><td><code>$b &amp;&amp; $c</code></td><td><code>$b</code> y <code>$c</code></td><td>los dos son true</td></tr>
-            <tr><td><code>if (cond) {...} else {...}</code></td><td>si &hellip; si no &hellip;</td><td>entra al primer bloque si la condición es true; si no, al <code>else</code></td></tr>
+            <tr><th>Pieza</th><th>Qué significa</th></tr>
+            <tr><td><code>&lt;?php</code> &hellip; <code>?&gt;</code></td><td>Marcan dónde empieza y dónde termina el código PHP.</td></tr>
+            <tr><td><code>$string</code>, <code>$a</code>, <code>$b</code>, <code>$c</code></td><td><strong>Variables</strong>: cajas con nombre donde se guarda un valor. En PHP todas empiezan con <code>$</code>.</td></tr>
+            <tr><td><code>=</code></td><td><strong>Asignación</strong>: guarda en la variable de la izquierda el valor de la derecha. <code>$a = false;</code> se lee &ldquo;en <code>$a</code> guardo false&rdquo;.</td></tr>
+            <tr><td><code>;</code></td><td>Termina cada instrucción.</td></tr>
+            <tr><td><code>"Hola, Mundo!"</code></td><td>Un texto (en PHP, <em>string</em> o cadena). Las comillas marcan dónde empieza y termina.</td></tr>
+            <tr><td><code>true</code> / <code>false</code></td><td>Los dos valores <strong>booleanos</strong> (ver abajo).</td></tr>
+            <tr><td><code>if (&hellip;) { &hellip; } else { &hellip; }</code></td><td>Decisión: según la condición entre paréntesis, ejecuta un bloque o el otro (ver abajo).</td></tr>
+            <tr><td><code>else if (&hellip;)</code></td><td>Una segunda condición que se prueba solo si la primera dio false.</td></tr>
+            <tr><td><code>{</code> &hellip; <code>}</code></td><td>Las llaves encierran un <strong>bloque</strong>: el grupo de instrucciones que va junto.</td></tr>
+            <tr><td><code>!</code></td><td><strong>Negación</strong> (&ldquo;no&rdquo;): da vuelta un booleano.</td></tr>
+            <tr><td><code>&amp;&amp;</code></td><td><strong>Y lógico</strong>: true solo si lo de los dos lados es true.</td></tr>
+            <tr><td><code>( )</code> dentro de una condición</td><td>Agrupan, como en matemática: lo de adentro se calcula primero.</td></tr>
+            <tr><td><code>echo "&hellip;";</code></td><td>Muestra (imprime) el texto en la página. Es lo único de este script que produce salida.</td></tr>
           </table>
         </div>
-        <p>El código del enunciado está mal sangrado, y eso confunde. Ordenado, con cada <code>{</code> alineado con su <code>}</code>, es esto:</p>
+        <h4>Booleanos: <code>true</code> y <code>false</code></h4>
+        <p>Un <strong>booleano</strong> es un valor que solo puede ser una de dos cosas: <code>true</code> (verdadero) o <code>false</code> (falso). En esta pregunta <code>$a</code>, <code>$b</code> y <code>$c</code> van a ser booleanos: cada una vale true o false. Las opciones los escriben con mayúscula (<code>False</code>, <code>True</code>) y es lo mismo: PHP acepta <code>true</code>, <code>True</code> y <code>TRUE</code> por igual.</p>
+        <h4><code>if</code> / <code>else</code>: se ejecuta UNA sola de las dos ramas</h4>
+        <pre class="codigo"><code>if (condición) {
+    // bloque 1: se ejecuta si la condición es true
+} else {
+    // bloque 2: se ejecuta si la condición es false
+}</code></pre>
+        <p>PHP mira la condición <strong>una vez</strong>: si es true, ejecuta el bloque 1 y <strong>saltea</strong> el bloque 2; si es false, saltea el bloque 1 y ejecuta el 2. Nunca los dos, y siempre uno (si hay <code>else</code>). Las líneas con <code>//</code> son <em>comentarios</em>: notas para el que lee, PHP las ignora.</p>
+        <p>Si no hay <code>else</code> y la condición es false, el if no hace nada y PHP sigue con lo que venga después de la <code>}</code>. Con <code>else if</code>: si la primera condición da false, prueba la segunda; si también da false (y no hay un <code>else</code> final), no ejecuta nada.</p>
+        <p><strong>Una variable sola como condición:</strong> <code>if ($a)</code> pregunta &ldquo;¿<code>$a</code> es true?&rdquo;. Si <code>$a</code> vale true, entra al bloque; si vale false, va al <code>else</code>. No hace falta escribir <code>if ($a == true)</code>: es lo mismo.</p>
+        <h4><code>!</code> (no) y <code>&amp;&amp;</code> (y): sus tablas</h4>
+        <p><code>!</code> da vuelta el valor: <code>!$b</code> se lee &ldquo;no <code>$b</code>&rdquo; y es true justamente cuando <code>$b</code> es false.</p>
+        <div class="tabla-wrap">
+          <table class="t">
+            <tr><th><code>$x</code></th><th><code>!$x</code></th></tr>
+            <tr><td>true</td><td>false</td></tr>
+            <tr><td>false</td><td>true</td></tr>
+          </table>
+        </div>
+        <p><code>&amp;&amp;</code> junta dos condiciones y da true <strong>solo si las dos son true</strong>; con que una sea false, todo da false.</p>
+        <div class="tabla-wrap">
+          <table class="t">
+            <tr><th><code>$x</code></th><th><code>$y</code></th><th><code>$x &amp;&amp; $y</code></th></tr>
+            <tr><td>true</td><td>true</td><td><strong>true</strong></td></tr>
+            <tr><td>true</td><td>false</td><td>false</td></tr>
+            <tr><td>false</td><td>true</td><td>false</td></tr>
+            <tr><td>false</td><td>false</td><td>false</td></tr>
+          </table>
+        </div>
+        <p>(Tablas comprobadas con <code>var_dump</code> en PHP 8.2.) Cuando aparecen juntos, primero se calcula cada <code>!</code> y lo que está entre paréntesis, y al final el <code>&amp;&amp;</code>. Por ejemplo, con <code>$b</code> = true y <code>$c</code> = false: <code>$b &amp;&amp; !$c</code> = <code>true &amp;&amp; !false</code> = <code>true &amp;&amp; true</code> = <strong>true</strong>.</p>
+        <h4>If anidados: cómo leer el árbol</h4>
+        <p>Un if <strong>anidado</strong> es un if que está adentro del bloque de otro. El de adentro solo se mira si PHP entró a ese bloque; si tomó la otra rama, el de adentro ni se lee. Para saber qué está adentro de qué se cuentan las <strong>llaves</strong>: cada <code>{</code> abre un bloque y la <code>}</code> que le corresponde lo cierra. La <em>sangría</em> (los espacios al principio de cada línea) solo sirve para que lo lea una persona: PHP la ignora.</p>
+        <p>El código del enunciado está mal sangrado, y eso confunde. Es el mismo código con cada <code>{</code> alineado con su <code>}</code>:</p>
         <pre class="codigo"><code>&lt;?php
 $string = "Hola, Mundo!";
 $a = ?;
@@ -91,38 +138,79 @@ if ($a) {
     }
 }
 ?&gt;</code></pre>
-        <h4>De la salida hacia atrás</h4>
-        <p>Lo más rápido es mirar qué camino lleva al único <code>echo</code> que dice &ldquo;Hola, mundo!&rdquo;:</p>
+        <p>Y como árbol: cada nivel es una pregunta, y según la respuesta se baja por una rama o por la otra.</p>
         <ul>
-          <li>Está dentro del <code>else</code> del primer <code>if ($a)</code> &rArr; <code>$a</code> tiene que ser <strong>false</strong>.</li>
-          <li>Está dentro de <code>if (!$b)</code> &rArr; <code>$b</code> tiene que ser <strong>false</strong>.</li>
-          <li>Y la condición <code>!$a &amp;&amp; (!$b &amp;&amp; $c)</code> tiene que dar true: con <code>$a</code> y <code>$b</code> en false queda <code>true &amp;&amp; (true &amp;&amp; $c)</code>, así que <code>$c</code> tiene que ser <strong>true</strong>.</li>
+          <li><strong>Nivel 1 &mdash; <code>if ($a)</code></strong>
+            <ul>
+              <li><code>$a</code> true &rarr; <strong>Nivel 2 &mdash; <code>if ($b &amp;&amp; !$c)</code></strong>
+                <ul>
+                  <li>true &rarr; imprime <code>Adios mundo cruel!</code></li>
+                  <li>false &rarr; <code>else if (!$b &amp;&amp; !$c)</code>
+                    <ul>
+                      <li>true &rarr; imprime <code>Nada por aquí</code></li>
+                      <li>false &rarr; no imprime nada (no hay <code>else</code> final)</li>
+                    </ul>
+                  </li>
+                </ul>
+              </li>
+              <li><code>$a</code> false (<code>else</code>) &rarr; <strong>Nivel 2 &mdash; <code>if (!$b)</code></strong>
+                <ul>
+                  <li>true &rarr; <strong>Nivel 3 &mdash; <code>if (!$a &amp;&amp; (!$b &amp;&amp; $c))</code></strong>
+                    <ul>
+                      <li>true &rarr; imprime <code>Hola, mundo!</code></li>
+                      <li>false &rarr; imprime <code>Adios mundo!</code></li>
+                    </ul>
+                  </li>
+                  <li>false (<code>else</code>) &rarr; imprime <code>No exactamente</code></li>
+                </ul>
+              </li>
+            </ul>
+          </li>
         </ul>
-        <p>Resultado: <strong>False, False, True</strong>, la opción d.</p>
-        <h4>Línea por línea con la opción d</h4>
+        <p>Como en cada if se toma una sola rama, el script imprime <strong>a lo sumo un</strong> mensaje. <code>$string</code> no aparece en ningún <code>echo</code>: se guarda y nunca se usa.</p>
+        <h4>El camino hasta &ldquo;Hola, mundo!&rdquo;</h4>
+        <p>Se busca el único <code>echo</code> que dice &ldquo;Hola, mundo!&rdquo; y se sube por el árbol, viendo qué tiene que pasar en cada nivel para llegar ahí.</p>
+        <span class="paso">Nivel 1 &mdash; el if de afuera</span>
+        <p>Condición: <code>if ($a)</code>. El <code>echo</code> está en el bloque del <code>else</code>, y al <code>else</code> se entra solo si la condición es false. La condición es <code>$a</code> sola &rArr; <code>$a</code> tiene que ser <strong>false</strong>.</p>
+        <span class="paso">Nivel 2 &mdash; el if que está dentro del else</span>
+        <p>Condición: <code>if (!$b)</code>. El <code>echo</code> está en el bloque del if (no en su <code>else</code>, que imprime &ldquo;No exactamente&rdquo;) &rArr; <code>!$b</code> tiene que ser true &rArr; por la tabla del <code>!</code>, <code>$b</code> tiene que ser <strong>false</strong>.</p>
+        <span class="paso">Nivel 3 &mdash; el if de más adentro</span>
+        <p>Condición: <code>if (!$a &amp;&amp; (!$b &amp;&amp; $c))</code>. El <code>echo</code> está en el bloque del if (el <code>else</code> imprime &ldquo;Adios mundo!&rdquo;) &rArr; toda la condición tiene que dar true. Se reemplazan los valores que ya se sabe que son obligatorios:</p>
+        <ul>
+          <li><code>!$a</code> = <code>!false</code> = true.</li>
+          <li>Entre paréntesis: <code>!$b &amp;&amp; $c</code> = <code>!false &amp;&amp; $c</code> = <code>true &amp;&amp; $c</code>.</li>
+          <li>Todo junto: <code>true &amp;&amp; (true &amp;&amp; $c)</code>. Por la tabla del <code>&amp;&amp;</code>, eso da true solo si <code>$c</code> es true.</li>
+        </ul>
+        <p>&rArr; <code>$c</code> tiene que ser <strong>true</strong>.</p>
+        <div class="caja caja-resp">
+          <p><code>$a</code> = false, <code>$b</code> = false, <code>$c</code> = true: <strong>d) False, False, True</strong>.</p>
+        </div>
+        <h4>La traza con la opción d, en el orden en que PHP la ejecuta</h4>
         <div class="tabla-wrap">
           <table class="t full">
             <tr><th>Línea</th><th>Qué hace</th><th>Cómo quedan las variables</th></tr>
-            <tr><td><code>$string = "Hola, Mundo!";</code></td><td>Guarda un texto que después <strong>no se usa</strong>.</td><td><code>$string = "Hola, Mundo!"</code></td></tr>
-            <tr><td><code>$a = false; $b = false; $c = true;</code></td><td>Los valores de la opción d.</td><td><code>$a</code> = false, <code>$b</code> = false, <code>$c</code> = true</td></tr>
-            <tr><td><code>if ($a)</code></td><td>false &rArr; salta al <code>else</code>.</td><td>&mdash;</td></tr>
-            <tr><td><code>if (!$b)</code></td><td><code>!false</code> = true &rArr; entra.</td><td>&mdash;</td></tr>
-            <tr><td><code>if (!$a &amp;&amp; (!$b &amp;&amp; $c))</code></td><td><code>true &amp;&amp; (true &amp;&amp; true)</code> = true &rArr; entra.</td><td>&mdash;</td></tr>
-            <tr><td><code>echo "Hola, mundo!";</code></td><td>Imprime.</td><td>&mdash;</td></tr>
+            <tr><td><code>$string = "Hola, Mundo!";</code></td><td>Guarda un texto que después <strong>no se usa</strong>.</td><td><code>$string</code> = "Hola, Mundo!"</td></tr>
+            <tr><td><code>$a = false; $b = false; $c = true;</code></td><td>Los valores de la opción d en los tres huecos.</td><td><code>$a</code> = false, <code>$b</code> = false, <code>$c</code> = true</td></tr>
+            <tr><td><code>if ($a) {</code></td><td><code>$a</code> es false &rArr; saltea todo su bloque (los dos if de &ldquo;Adios mundo cruel!&rdquo; y &ldquo;Nada por aquí&rdquo;) y va al <code>else</code>.</td><td>sin cambios</td></tr>
+            <tr><td><code>if (!$b) {</code></td><td><code>!false</code> = true &rArr; entra; su <code>else</code> (&ldquo;No exactamente&rdquo;) queda salteado.</td><td>sin cambios</td></tr>
+            <tr><td><code>if (!$a &amp;&amp; (!$b &amp;&amp; $c)) {</code></td><td><code>!false &amp;&amp; (!false &amp;&amp; true)</code> = <code>true &amp;&amp; (true &amp;&amp; true)</code> = <code>true &amp;&amp; true</code> = true &rArr; entra; su <code>else</code> (&ldquo;Adios mundo!&rdquo;) queda salteado.</td><td>sin cambios</td></tr>
+            <tr><td><code>echo "Hola, mundo!";</code></td><td>Imprime.</td><td>sin cambios</td></tr>
+            <tr><td>las <code>}</code> que quedan</td><td>Cierran los bloques; no queda nada por ejecutar.</td><td>&mdash;</td></tr>
           </table>
         </div>
         <pre class="salida">Hola, mundo!</pre>
-        <h4>Opción por opción</h4>
-        <p>Se corrió el script con cada combinación (PHP 8.2):</p>
+        <h4>Cada opción recorrida por el árbol</h4>
+        <p>Se corrió el script con los valores de cada opción (PHP 8.2); en la columna &ldquo;Camino&rdquo;, cada flecha es un nivel del árbol.</p>
         <div class="tabla-wrap">
           <table class="t full">
             <tr><th>Opción</th><th>$a, $b, $c</th><th>Camino</th><th>Imprime</th></tr>
-            <tr><td>a</td><td>False, True, True</td><td>else &rarr; <code>!$b</code> es false &rarr; else</td><td><code>No exactamente</code></td></tr>
-            <tr><td>b</td><td>True, True, False</td><td>if ($a) &rarr; <code>$b &amp;&amp; !$c</code> es true</td><td><code>Adios mundo cruel!</code></td></tr>
-            <tr><td>c</td><td>False, True, False</td><td>else &rarr; <code>!$b</code> es false &rarr; else</td><td><code>No exactamente</code></td></tr>
-            <tr><td><strong>d</strong></td><td><strong>False, False, True</strong></td><td>else &rarr; <code>!$b</code> &rarr; condición true</td><td><code>Hola, mundo!</code></td></tr>
+            <tr><td>a</td><td>False, True, True</td><td><code>if ($a)</code>: false &rarr; <code>else</code> &rarr; <code>if (!$b)</code>: <code>!true</code> = false &rarr; <code>else</code></td><td><code>No exactamente</code></td></tr>
+            <tr><td>b</td><td>True, True, False</td><td><code>if ($a)</code>: true &rarr; entra &rarr; <code>if ($b &amp;&amp; !$c)</code>: <code>true &amp;&amp; !false</code> = <code>true &amp;&amp; true</code> = true &rarr; entra</td><td><code>Adios mundo cruel!</code></td></tr>
+            <tr><td>c</td><td>False, True, False</td><td><code>if ($a)</code>: false &rarr; <code>else</code> &rarr; <code>if (!$b)</code>: <code>!true</code> = false &rarr; <code>else</code></td><td><code>No exactamente</code></td></tr>
+            <tr><td><strong>d</strong></td><td><strong>False, False, True</strong></td><td><code>if ($a)</code>: false &rarr; <code>else</code> &rarr; <code>if (!$b)</code>: <code>!false</code> = true &rarr; entra &rarr; <code>if (!$a &amp;&amp; (!$b &amp;&amp; $c))</code>: <code>true &amp;&amp; (true &amp;&amp; true)</code> = true &rarr; entra</td><td><code>Hola, mundo!</code></td></tr>
           </table>
         </div>
+        <p>En a y c lo que decide es <code>$b</code>: con <code>$a</code> en false y <code>$b</code> en true, el nivel 2 ya manda a &ldquo;No exactamente&rdquo;, sin importar <code>$c</code>.</p>
         <div class="caja caja-ojo">
           <span class="caja-tit">Las trampas</span>
           <p><code>$string</code> está para distraer: nunca se imprime. Lo que sale en pantalla es solo lo que dicen los <code>echo</code>.</p>

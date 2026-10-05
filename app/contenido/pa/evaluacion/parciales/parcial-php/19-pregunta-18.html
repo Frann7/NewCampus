@@ -41,20 +41,50 @@ while ($i &lt; 10) {
         <h4>Qué evalúa</h4>
         <p>Que un <strong>while</strong> necesita algo que cambie su condición. Es de la <strong>Clase 1</strong> (estructuras iterativas).</p>
         <h4>El concepto, desde cero</h4>
-        <p><code>while (condición) { cuerpo }</code> repite el cuerpo mientras la condición sea true. A diferencia del <code>for</code>, no tiene un paso automático: si nada dentro del cuerpo cambia la variable de la condición, la condición nunca se vuelve false.</p>
+        <p>Un <strong>ciclo</strong> (o bucle) repite un grupo de instrucciones; cada repetición es una <strong>vuelta</strong>.</p>
+        <pre class="codigo"><code>while (condición) {
+    cuerpo
+}</code></pre>
+        <p><code>while</code> (&ldquo;mientras&rdquo;) funciona así: mira la condición; si es true, ejecuta el cuerpo (lo de las llaves) y <strong>vuelve a mirar la condición</strong>; si es false, sale y sigue con lo que haya después de la <code>}</code>. A diferencia del <code>for</code>, no tiene un paso automático (el <code>$i++</code> del for): si nada dentro del cuerpo cambia la variable de la condición, la condición da siempre lo mismo y el ciclo no termina nunca. Eso es un <strong>bucle infinito</strong>.</p>
+        <h4>Las piezas del código</h4>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Pieza</th><th>Qué significa</th></tr>
+            <tr><td><code>&lt;?php</code> &hellip; <code>?&gt;</code></td><td>Marcan dónde empieza y dónde termina el código PHP.</td></tr>
+            <tr><td><code>$i</code></td><td>Una <strong>variable</strong>: caja con nombre donde se guarda un valor. En PHP empiezan con <code>$</code>.</td></tr>
+            <tr><td><code>$i = 0;</code></td><td><strong>Asignación</strong>: guarda 0 en <code>$i</code>. El <code>;</code> termina la instrucción.</td></tr>
+            <tr><td><code>$i &lt; 10</code></td><td>&ldquo;¿<code>$i</code> es menor que 10?&rdquo;: da true o false.</td></tr>
+            <tr><td><code>{ &hellip; }</code></td><td>Encierran el cuerpo: lo que se repite.</td></tr>
+            <tr><td><code>echo $i;</code></td><td>Muestra el valor de <code>$i</code>, sin espacio ni salto de línea.</td></tr>
+          </table>
+        </div>
+        <p>Lo que <strong>no</strong> está es tan importante como lo que está: no hay ninguna instrucción que cambie <code>$i</code> dentro del while (como <code>$i++</code>, que le sumaría 1).</p>
         <h4>Línea por línea</h4>
         <div class="tabla-wrap">
           <table class="t full">
             <tr><th>Línea</th><th>Qué hace</th><th>Cómo quedan las variables</th></tr>
             <tr><td><code>$i = 0;</code></td><td>Guarda 0.</td><td><code>$i</code> = 0</td></tr>
             <tr><td><code>while ($i &lt; 10)</code></td><td>0 &lt; 10 es true &rArr; entra.</td><td><code>$i</code> = 0</td></tr>
-            <tr><td><code>echo $i;</code></td><td>Muestra 0 (sin espacio).</td><td><code>$i</code> = 0</td></tr>
-            <tr><td><code>}</code></td><td>Vuelve a la condición: <code>$i</code> sigue en 0, así que 0 &lt; 10 es true otra vez, y así para siempre.</td><td><code>$i</code> = 0</td></tr>
+            <tr><td><code>echo $i;</code></td><td>Muestra 0.</td><td><code>$i</code> = 0</td></tr>
+            <tr><td><code>}</code></td><td>Vuelve a la condición.</td><td><code>$i</code> = 0</td></tr>
+            <tr><td><code>while ($i &lt; 10)</code></td><td><code>$i</code> sigue en 0, así que 0 &lt; 10 es true otra vez &rArr; entra.</td><td><code>$i</code> = 0</td></tr>
+            <tr><td><code>echo $i;</code></td><td>Muestra otro 0, pegado al anterior.</td><td><code>$i</code> = 0</td></tr>
+            <tr><td>&hellip;</td><td>Y así para siempre: la condición nunca cambia.</td><td><code>$i</code> = 0</td></tr>
           </table>
         </div>
         <h4>Qué imprime y por qué</h4>
         <pre class="salida">000000000000000000000000000000...</pre>
         <p>Ceros pegados, sin fin: falta el <code>$i++</code>. (Para comprobarlo se corrió con un corte a las 30 vueltas: <code>$i</code> seguía en 0.) En el navegador, PHP lo termina cortando por tiempo máximo de ejecución (<code>max_execution_time</code>, 120 segundos en el XAMPP de esta PC) con un error.</p>
+        <p>Para comparar, con el <code>$i++</code> que falta:</p>
+        <pre class="codigo"><code>&lt;?php
+$i = 0;
+while ($i &lt; 10) {
+    echo $i;
+    $i++;
+}
+?&gt;</code></pre>
+        <pre class="salida">0123456789</pre>
+        <p>Diez vueltas, de 0 a 9 (con <code>$i</code> = 10 la condición da false), y los números pegados porque el echo no pone espacio. Para que salga como la opción b habría que escribir <code>echo $i . " ";</code>. (Las dos salidas, comprobadas en PHP 8.2.)</p>
         <h4>Opción por opción</h4>
         <ul>
           <li><strong>a) Bucle infinito</strong>: correcta.</li>

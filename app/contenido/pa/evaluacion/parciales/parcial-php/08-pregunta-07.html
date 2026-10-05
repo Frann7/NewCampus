@@ -43,15 +43,23 @@
         <h4>Qué evalúa</h4>
         <p>Qué guarda cada <strong>superglobal</strong>. <code>$_GET</code> y <code>$_POST</code> son de la <strong>Clase 3</strong> (formularios); <code>$_SESSION</code>, de la <strong>Clase 5</strong> (sesiones).</p>
         <h4>El concepto, desde cero</h4>
-        <p>Las <em>superglobales</em> son arrays asociativos que PHP llena solo y que se pueden usar en cualquier parte del script. Estas tres traen datos de afuera del script:</p>
+        <p>Cuando el navegador abre una página PHP le hace un <strong>pedido</strong> al servidor (la computadora que tiene la página). Ese pedido viaja con el protocolo <strong>HTTP</strong>, el &ldquo;idioma&rdquo; de la web, y puede llevar datos: lo que el usuario escribió en un formulario, por ejemplo. El servidor ejecuta el <strong>script</strong> (el archivo <code>.php</code>) y le devuelve al navegador el resultado.</p>
+        <p>Un <strong>array asociativo</strong> es una variable que guarda varios valores, cada uno con un nombre propio (su <strong>clave</strong>); se lee con la clave entre corchetes: <code>$_GET['nombre']</code>. Las <strong>superglobales</strong> son arrays asociativos que PHP llena solo, antes de que arranque el script, y que se pueden usar en cualquier parte del código (por eso &ldquo;súper&rdquo; globales). Estas tres traen datos de afuera del script:</p>
         <div class="tabla-wrap">
           <table class="t full">
             <tr><th>Array</th><th>De dónde salen los datos</th><th>Ejemplo</th></tr>
-            <tr><td><code>$_GET</code></td><td>De la URL: lo que va después del <code>?</code> (los <em>parámetros URL</em>), o de un formulario con <code>method="get"</code>.</td><td>Con <code>pagina.php?nombre=Ana</code>, <code>$_GET['nombre']</code> vale <code>Ana</code>.</td></tr>
-            <tr><td><code>$_POST</code></td><td>De un formulario con <code>method="post"</code>: los datos viajan en el cuerpo del pedido HTTP y no se ven en la URL.</td><td>Un <code>&lt;input name="clave"&gt;</code> llega como <code>$_POST['clave']</code>.</td></tr>
-            <tr><td><code>$_SESSION</code></td><td>De la sesión: datos que el servidor guarda para ese usuario y que siguen disponibles en las páginas siguientes. Hay que llamar antes a <code>session_start()</code>.</td><td><code>$_SESSION['usuario'] = 'Ana';</code> en el login, y se lee en cualquier otra página.</td></tr>
+            <tr><td><code>$_GET</code></td><td>De la URL (la dirección de la página): lo que va después del <code>?</code>, con la forma <code>clave=valor</code> y separado por <code>&amp;</code>. Son los <em>parámetros URL</em>. También llega acá lo de un formulario con <code>method="get"</code>.</td><td>Con <code>pagina.php?nombre=Ana</code>, <code>$_GET['nombre']</code> vale <code>Ana</code>.</td></tr>
+            <tr><td><code>$_POST</code></td><td>De un formulario con <code>method="post"</code>: los datos viajan dentro del pedido HTTP (en su cuerpo) y no se ven en la URL.</td><td>Un <code>&lt;input name="clave"&gt;</code> llega como <code>$_POST['clave']</code>.</td></tr>
+            <tr><td><code>$_SESSION</code></td><td>De la <strong>sesión</strong>: datos que el servidor guarda para ese usuario mientras navega, y que siguen disponibles en las páginas siguientes (por ejemplo, quién inició sesión). Hay que llamar antes a <code>session_start()</code>.</td><td><code>$_SESSION['usuario'] = 'Ana';</code> en el login, y se lee en cualquier otra página.</td></tr>
           </table>
         </div>
+        <h4>Un ejemplo con GET</h4>
+        <pre class="codigo"><code>&lt;?php
+echo "Hola, " . $_GET['nombre'] . " (" . $_GET['edad'] . ")";
+?&gt;</code></pre>
+        <p>Guardado como <code>pagina.php</code> y abierto con la dirección <code>pagina.php?nombre=Ana&amp;edad=20</code>, PHP llena <code>$_GET</code> con dos elementos (<code>nombre</code> &rarr; <code>Ana</code>, <code>edad</code> &rarr; <code>20</code>) y el <code>echo</code> pega (con el punto <code>.</code>) los textos y esos valores:</p>
+        <pre class="salida">Hola, Ana (20)</pre>
+        <p>(Comprobado con el servidor de PHP 8.2.)</p>
         <h4>Cómo se responde</h4>
         <ul>
           <li>&ldquo;Variables de sesión&rdquo; &rarr; <code>$_SESSION</code>.</li>

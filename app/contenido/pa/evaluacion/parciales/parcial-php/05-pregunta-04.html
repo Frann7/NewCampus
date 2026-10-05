@@ -43,16 +43,19 @@
         <h4>Qué evalúa</h4>
         <p>Las tres funciones básicas de <code>mysqli</code> para trabajar con una base de datos MySQL desde PHP. Es de la <strong>Clase 6</strong>.</p>
         <h4>El concepto, desde cero</h4>
-        <p>Leer datos de una base siempre lleva los mismos tres pasos, y cada uno tiene su función:</p>
+        <p>Una <strong>base de datos</strong> guarda información ordenada en <strong>tablas</strong>: cada tabla es como una planilla, con <strong>columnas</strong> (los datos que se guardan: nombre, edad&hellip;) y <strong>filas</strong> (cada registro: un alumno, un producto&hellip;). <strong>MySQL</strong> (o MariaDB, que viene en el XAMPP) es el programa que maneja esas bases: un <strong>servidor de base de datos</strong> que recibe pedidos y los responde.</p>
+        <p>Los pedidos se escriben en <strong>SQL</strong>, el lenguaje de las bases de datos; a cada pedido se lo llama <strong>consulta</strong>. Por ejemplo, <code>SELECT nombre FROM alumnos</code> quiere decir &ldquo;traé la columna <code>nombre</code> de la tabla <code>alumnos</code>&rdquo;.</p>
+        <p>PHP habla con MySQL a través de <strong>mysqli</strong>, un grupo de funciones que empiezan con <code>mysqli_</code>. Una <strong>función</strong> es una instrucción con nombre que ya viene hecha: se la llama con su nombre y, entre paréntesis, los datos que necesita (sus <strong>parámetros</strong>), y <strong>devuelve</strong> un resultado que se guarda en una variable. Leer datos de una base siempre lleva los mismos tres pasos, y cada uno tiene su función:</p>
         <div class="tabla-wrap">
           <table class="t full">
             <tr><th>Paso</th><th>Función</th><th>Qué hace</th></tr>
-            <tr><td>1. Conectarse</td><td><code>mysqli_connect(servidor, usuario, clave, base)</code></td><td>Abre la conexión con el servidor de base de datos y devuelve el <strong>identificador de conexión</strong>, que se usa en todo lo demás.</td></tr>
+            <tr><td>1. Conectarse</td><td><code>mysqli_connect(servidor, usuario, clave, base)</code></td><td>Abre la conexión con el servidor de base de datos y devuelve el <strong>identificador de conexión</strong>: un valor que representa esa conexión abierta y que se pasa a todas las funciones que vienen después, para que sepan por dónde hablar.</td></tr>
             <tr><td>2. Consultar</td><td><code>mysqli_query(conexion, sql)</code></td><td>Manda una consulta SQL por esa conexión y devuelve el resultado (todas las filas que salieron).</td></tr>
-            <tr><td>3. Leer las filas</td><td><code>mysqli_fetch_array(resultado)</code></td><td>Devuelve <strong>una</strong> fila del resultado como array (se puede leer por nombre de columna o por número) y avanza el puntero a la siguiente. Cuando no quedan filas devuelve <code>null</code>, que el <code>while</code> toma como falso.</td></tr>
+            <tr><td>3. Leer las filas</td><td><code>mysqli_fetch_array(resultado)</code></td><td>Devuelve <strong>una</strong> fila del resultado como array (se puede leer por nombre de columna o por número) y avanza el <strong>puntero</strong> &mdash;la marca interna de &ldquo;por qué fila voy&rdquo;&mdash; a la siguiente. Cuando no quedan filas devuelve <code>null</code> (&ldquo;nada&rdquo;), que el <code>while</code> toma como falso.</td></tr>
           </table>
         </div>
-        <p>Juntas se ven así (un ejemplo típico, con una base <code>campus</code> y una tabla <code>alumnos</code> inventadas):</p>
+        <h4>Un ejemplo con las tres</h4>
+        <p>Un ejemplo típico, con una base <code>campus</code> y una tabla <code>alumnos</code> inventadas:</p>
         <pre class="codigo"><code>&lt;?php
 $conexion = mysqli_connect("localhost", "root", "", "campus");
 $resultado = mysqli_query($conexion, "SELECT nombre FROM alumnos");
@@ -62,19 +65,31 @@ while ($fila = mysqli_fetch_array($resultado)) {
 ?&gt;</code></pre>
         <div class="tabla-wrap">
           <table class="t full">
+            <tr><th>Pieza</th><th>Qué significa</th></tr>
+            <tr><td><code>"localhost"</code></td><td>El servidor: <em>localhost</em> es la propia computadora (donde corre el MySQL del XAMPP).</td></tr>
+            <tr><td><code>"root"</code>, <code>""</code></td><td>Usuario y clave. El XAMPP viene con el usuario <code>root</code> sin clave (texto vacío).</td></tr>
+            <tr><td><code>"campus"</code></td><td>La base de datos con la que se va a trabajar.</td></tr>
+            <tr><td><code>while (&hellip;) { &hellip; }</code></td><td>Ciclo: repite lo de las llaves <strong>mientras</strong> la condición sea verdadera.</td></tr>
+            <tr><td><code>$fila = mysqli_fetch_array($resultado)</code> como condición</td><td>Hace dos cosas: guarda en <code>$fila</code> la fila siguiente y usa ese valor como condición. Si hay fila, cuenta como verdadero y entra; si devolvió <code>null</code>, cuenta como falso y el ciclo termina.</td></tr>
+            <tr><td><code>$fila['nombre']</code></td><td>El valor de la columna <code>nombre</code> en esa fila.</td></tr>
+            <tr><td><code>. "&lt;br&gt;"</code></td><td>El punto pega textos; <code>&lt;br&gt;</code> es la etiqueta HTML de salto de línea, para que en el navegador cada nombre quede en su renglón.</td></tr>
+          </table>
+        </div>
+        <div class="tabla-wrap">
+          <table class="t full">
             <tr><th>Línea</th><th>Qué hace</th><th>Cómo quedan las variables</th></tr>
             <tr><td><code>$conexion = mysqli_connect(...);</code></td><td>Se conecta al MySQL del XAMPP con el usuario <code>root</code> sin clave y elige la base <code>campus</code>.</td><td><code>$conexion</code> = el identificador de conexión</td></tr>
             <tr><td><code>$resultado = mysqli_query($conexion, "SELECT ...");</code></td><td>Ejecuta la consulta por esa conexión.</td><td><code>$resultado</code> = todas las filas encontradas</td></tr>
             <tr><td><code>while ($fila = mysqli_fetch_array($resultado))</code></td><td>Cada vuelta saca la fila siguiente y mueve el puntero. Sin filas, devuelve <code>null</code> y el ciclo termina.</td><td><code>$fila</code> = la fila de esta vuelta</td></tr>
-            <tr><td><code>echo $fila['nombre'] . "&lt;br&gt;";</code></td><td>Muestra la columna <code>nombre</code> de esa fila.</td><td>&mdash;</td></tr>
+            <tr><td><code>echo $fila['nombre'] . "&lt;br&gt;";</code></td><td>Muestra la columna <code>nombre</code> de esa fila y un salto de línea.</td><td>&mdash;</td></tr>
           </table>
         </div>
-        <p>La salida depende de lo que haya en la tabla: un nombre por renglón.</p>
+        <p>La salida depende de lo que haya en la tabla: un nombre por renglón, tantos como filas haya.</p>
         <h4>Cómo se responde</h4>
         <ul>
-          <li>&ldquo;Crea una conexión&rdquo; &rarr; <code>mysqli_connect()</code>.</li>
-          <li>&ldquo;Enviar una consulta&hellip; asociada al identificador de conexión&rdquo; &rarr; <code>mysqli_query()</code>.</li>
-          <li>&ldquo;Devuelve una matriz que corresponde a la fila&hellip; mueve el puntero&rdquo; &rarr; <code>mysqli_fetch_array()</code> (<em>fetch</em> = traer).</li>
+          <li>&ldquo;Crea una conexión&rdquo; &rarr; <code>mysqli_connect()</code> (<em>connect</em> = conectar).</li>
+          <li>&ldquo;Enviar una consulta&hellip; asociada al identificador de conexión&rdquo; &rarr; <code>mysqli_query()</code> (<em>query</em> = consulta).</li>
+          <li>&ldquo;Devuelve una matriz que corresponde a la fila&hellip; mueve el puntero&rdquo; &rarr; <code>mysqli_fetch_array()</code> (<em>fetch</em> = traer; <em>matriz</em> es otra forma de decir array).</li>
         </ul>
         <div class="caja caja-ojo">
           <span class="caja-tit">La trampa</span>

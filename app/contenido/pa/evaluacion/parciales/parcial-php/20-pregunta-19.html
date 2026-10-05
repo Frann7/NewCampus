@@ -35,17 +35,31 @@
         <h4>Qué evalúa</h4>
         <p>La regla de los nombres de variables. Es de la <strong>Clase 1</strong> (variables).</p>
         <h4>El concepto, desde cero</h4>
-        <p>En PHP una variable es <code>$</code> + un nombre. El nombre puede tener letras, números y guion bajo (<code>_</code>), pero <strong>tiene que empezar con una letra o un guion bajo, nunca con un número</strong>. Además distingue mayúsculas de minúsculas (<code>$miVariable</code> y <code>$mivariable</code> son dos variables distintas).</p>
+        <p>Una <strong>variable</strong> es una caja con nombre donde el programa guarda un valor para usarlo después. En PHP se escribe <code>$</code> + un nombre, y se le da valor con <code>=</code>: <code>$edad = 20;</code> guarda 20 en la variable <code>$edad</code>. El <code>$</code> no es parte del nombre: es la marca que le dice a PHP &ldquo;esto es una variable&rdquo;.</p>
+        <p>El nombre (lo que va después del <code>$</code>) tiene reglas:</p>
+        <ul>
+          <li>Puede tener letras, números y guion bajo (<code>_</code>); no espacios ni guiones medios.</li>
+          <li><strong>Tiene que empezar con una letra o un guion bajo, nunca con un número.</strong></li>
+          <li>Distingue mayúsculas de minúsculas: <code>$miVariable</code> y <code>$mivariable</code> son dos variables distintas.</li>
+        </ul>
         <div class="tabla-wrap">
           <table class="t full">
-            <tr><th>Nombre</th><th>Empieza con</th><th>¿Válido?</th></tr>
-            <tr><td><code>$variable10</code></td><td>letra</td><td>Sí: los números pueden ir después.</td></tr>
-            <tr><td><code>$miVariable</code></td><td>letra</td><td>Sí.</td></tr>
-            <tr><td><code>$_10</code></td><td>guion bajo</td><td>Sí: el guion bajo vale como primer carácter, aunque después vengan solo números.</td></tr>
-            <tr><td><code>$10_variable</code></td><td>número</td><td><strong>No.</strong></td></tr>
+            <tr><th>Nombre</th><th>Primer carácter después del <code>$</code></th><th>¿Válido?</th></tr>
+            <tr><td><code>$variable10</code></td><td><code>v</code>: letra</td><td>Sí: los números pueden ir después.</td></tr>
+            <tr><td><code>$miVariable</code></td><td><code>m</code>: letra</td><td>Sí (la <code>V</code> mayúscula del medio no molesta).</td></tr>
+            <tr><td><code>$_10</code></td><td><code>_</code>: guion bajo</td><td>Sí: el guion bajo vale como primer carácter, aunque después vengan solo números.</td></tr>
+            <tr><td><code>$10_variable</code></td><td><code>1</code>: número</td><td><strong>No.</strong></td></tr>
           </table>
         </div>
-        <p>Se comprobó: <code>$10_variable = 4;</code> da <em>Parse error: syntax error, unexpected integer "10"</em>, y las otras tres funcionan.</p>
+        <h4>Comprobación</h4>
+        <pre class="codigo"><code>&lt;?php
+$variable10 = 1;
+$miVariable = 2;
+$_10 = 3;
+echo $variable10 + $miVariable + $_10;
+?&gt;</code></pre>
+        <pre class="salida">6</pre>
+        <p>Las tres primeras funcionan: guardan 1, 2 y 3, y el <code>echo</code> muestra la suma (<code>+</code>). En cambio <code>$10_variable = 4;</code> hace que PHP no ejecute nada y dé <em>Parse error: syntax error, unexpected integer "10"</em> (error de sintaxis: lee el <code>$</code>, espera un nombre y se encuentra con el número 10). Comprobado en PHP 8.2.</p>
         <h4>Respuesta</h4>
         <p><strong>d) $10_variable</strong>.</p>
         <div class="caja caja-ojo">

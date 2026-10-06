@@ -188,7 +188,9 @@ ZIP, no se puede actualizar solo: bajalo de nuevo o clonalo con git.
 Doble clic en `NewCampus.exe`: levanta el servidor en `http://localhost:47800` y abre el
 navegador. Antes revisa que esté todo lo necesario y, si falta algo, lo dice en un solo
 cartel con lo que hay que instalar: un navegador, la conexión a internet (las fórmulas se cargan
-de ahí) o Python 3 si faltan los apuntes generados (y si Python está, los genera solo). El .NET
+de ahí) o Python 3 si faltan los apuntes generados (y si Python está, los genera solo). También
+revisa que esté cada archivo que nombra `app/generado/indice.js`: lo que falte lo vuelve a sacar
+de git y, si no alcanza, lo arma con Python; si igual falta, lo dice en el cartel. El .NET
 Framework 4 no lo puede revisar el propio `.exe`: si faltara, Windows avisa antes de abrirlo.
 Escucha **solo en localhost** y rechaza cualquier pedido que no venga de esa misma PC.
 Cuando cerrás la pestaña, el servidor se apaga solo; también podés cerrarlo desde el ícono que
@@ -222,6 +224,8 @@ Chrome (`chrome --headless --print-to-pdf`).
 `0.x.y-alpha` mientras esté en desarrollo. La `1.0.0` queda reservada para cuando esté terminado.
 La versión actual se lee al pie del menú lateral.
 
+* **0.34.2-alpha** — `NewCampus.exe` revisa al arrancar que estén todas las piezas de los apuntes
+  y recupera las que falten; un `construir.py` corrido en otra PC ya no traba la actualización.
 * **0.34.1-alpha** — Tareas y Calendario vuelven también a la fila de pestañas (Teoría · Práctica
   · Evaluación · Tareas · Calendario), sin dejar el menú lateral; desde ahí, Teoría, Práctica y
   Evaluación llevan a la última unidad abierta.

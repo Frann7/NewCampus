@@ -114,6 +114,9 @@ conversación vieja y costaba ~5,5 millones; con una sesión por tarea, el mismo
 ## Pendientes e ideas
 
 
+- **"No pude abrir el examen" (compañero, Parcial PHP):** no se reprodujo (clon limpio, update
+  desde antes de PA y el .exe sirven todo con 200). Si vuelve a pasar con 0.34.2, pedirle
+  `git status` y `git log -1` de su carpeta y si el .exe mostró cartel.
 - **Optimización de tokens:** la Fase 2 (PDFs a texto en `fuentes/`) está hecha. La Fase 3
   (formato de autoría compacto) quedó descartada por ahora: ahorra ~10 % y tiene riesgo.
 - Ideas a futuro (después de los parciales): publicar en Vercel (estático) + Supabase (login y

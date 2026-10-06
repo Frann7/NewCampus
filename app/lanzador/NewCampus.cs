@@ -38,7 +38,9 @@
 //   Al arrancar revisa lo que el campus necesita y, si falta algo, lo dice en
 //   un solo cartel con lo que hay que instalar: un navegador predeterminado,
 //   conexion a internet (las formulas se cargan de internet) y, solo si faltan
-//   los apuntes generados, Python 3 para armarlos. El .NET Framework 4 no se
+//   los apuntes generados, Python 3 para armarlos. "Faltan" es que no este
+//   generado\indice.js o alguna pieza que el indice nombra: lo que falta se
+//   saca primero de git y, si no alcanza, se arma con Python. El .NET Framework 4 no se
 //   puede revisar desde aca: es lo que hace correr este .exe, y si faltara
 //   Windows avisa por su cuenta antes de abrirlo.
 //   NewCampus.exe --diagnostico=archivo.txt escribe el resultado sin mostrar
@@ -65,6 +67,7 @@ using System.Drawing;
 using System.IO;
 using System.Net;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
 using Microsoft.Win32;
@@ -132,13 +135,22 @@ static class NewCampus
             if (hayInternet && Actualizar(args)) { return 0; }   // se abrio la version nueva
         }
 
-        // Sin los apuntes generados no hay nada que mostrar. Si esta Python,
-        // se generan solos; si no, se avisa que hay que instalarlo.
-        if (!File.Exists(Path.Combine(app, "generado", "indice.js")))
+        // Los apuntes generados tienen que estar completos: el indice y cada
+        // pieza que nombra. Si falta algo (una actualizacion a medias, un
+        // archivo borrado), se recupera solo: primero de git y, si no alcanza,
+        // armandolo con Python. Sin indice no hay nada que mostrar; si solo
+        // faltan piezas, se abre igual y el cartel dice cuales.
+        var piezas = PiezasQueFaltan();
+        if (piezas == null || piezas.Count > 0)
+        {
+            RecuperarDeGit(piezas);
+            piezas = PiezasQueFaltan();
+        }
+        if (piezas == null || piezas.Count > 0)
         {
             string python = BuscarPython();
             if (python != null) { Generar(python); }
-            if (!File.Exists(Path.Combine(app, "generado", "indice.js")))
+            if (PiezasQueFaltan() == null)
             {
                 pruebaInternet.Join(5000);
                 Aviso(Cartel(Faltantes(hayInternet, null, python != null)), MessageBoxIcon.Error);
@@ -248,6 +260,10 @@ static class NewCampus
                 return false;
             }
         }
+
+        // app\generado se arma desde app\contenido: si alguien corrio
+        // construir.py y quedo distinto, eso no tiene que trabar el pull.
+        Git(raiz, "checkout -- app/generado", 10000, out c);
 
         string salida = Git(raiz, "pull --ff-only --quiet", 90000, out c);
         if (c != 0)
@@ -630,18 +646,30 @@ static class NewCampus
     static List<string> Faltantes(bool hayInternet, string direccion, bool hayPython)
     {
         var falta = new List<string>();
+        var piezas = PiezasQueFaltan();
 
-        if (!File.Exists(Path.Combine(app, "generado", "indice.js")) && hayPython)
+        if (piezas == null && hayPython)
         {
             falta.Add("LOS APUNTES GENERADOS - falta la carpeta app\\generado y no se pudo armar sola. " +
                       "Abri una consola en la carpeta app y corre: python construir.py (ahi se ve el error).");
         }
-        else if (!File.Exists(Path.Combine(app, "generado", "indice.js")))
+        else if (piezas == null)
         {
             falta.Add("PYTHON 3 - faltan los apuntes generados (la carpeta app\\generado) y para " +
                       "armarlos hace falta Python 3. Instalalo desde https://www.python.org/downloads/ " +
                       "marcando la opcion \"Add python.exe to PATH\", y volve a abrir NewCampus: " +
                       "los apuntes se generan solos.");
+        }
+        else if (piezas.Count > 0)
+        {
+            string cuales = string.Join(", ", piezas.GetRange(0, Math.Min(3, piezas.Count)).ToArray()) +
+                            (piezas.Count > 3 ? " y " + (piezas.Count - 3) + " más" : "");
+            falta.Add("PARTES DE LOS APUNTES - faltan " + piezas.Count + " archivo(s) de app\\generado (" +
+                      cuales + ") y no se pudieron recuperar solos: eso no va a abrir. " +
+                      (hayPython ? "Abri una consola en la carpeta app y corre: python construir.py (ahi se ve el error). "
+                                 : "Instala Python 3 (https://www.python.org/downloads/, con \"Add python.exe to PATH\") " +
+                                   "y volve a abrir NewCampus, o baja el campus de nuevo con git clone. ") +
+                      "Si vuelven a faltar, revisa si un antivirus los esta borrando.");
         }
         if (!HayNavegador())
         {
@@ -729,6 +757,40 @@ static class NewCampus
             catch { }
         }
         return null;
+    }
+
+    // Las piezas que nombra generado\indice.js ("examenes/pa-parcial-php.js",
+    // "panes/pye-u5-teoria.js"...) y no estan en disco. null si no hay indice.
+    static List<string> PiezasQueFaltan()
+    {
+        string indice = Path.Combine(app, "generado", "indice.js");
+        string texto;
+        try { texto = File.ReadAllText(indice, Encoding.UTF8); }
+        catch { return null; }
+
+        var faltan = new List<string>();
+        foreach (Match m in Regex.Matches(texto, "\"([^\"\\\\/]+/[^\"\\\\/]+\\.js)\""))
+        {
+            string pieza = m.Groups[1].Value;
+            if (!faltan.Contains(pieza) && !File.Exists(Path.Combine(app, "generado", pieza.Replace('/', '\\'))))
+            {
+                faltan.Add(pieza);
+            }
+        }
+        return faltan;
+    }
+
+    // Si la carpeta es un repositorio de git, lo que falta de generado se
+    // vuelve a sacar de ahi (es lo mismo que se bajo). Sin indice, todo generado.
+    static void RecuperarDeGit(List<string> faltan)
+    {
+        string raiz = Path.GetFullPath(AppDomain.CurrentDomain.BaseDirectory).TrimEnd('\\');
+        if (!Directory.Exists(Path.Combine(raiz, ".git"))) { return; }
+        var rutas = new List<string>();
+        if (faltan == null) { rutas.Add("app/generado"); }
+        else { foreach (string p in faltan) { rutas.Add("\"app/generado/" + p + "\""); } }
+        int c;
+        Git(raiz, "checkout -- " + string.Join(" ", rutas.ToArray()), 20000, out c);
     }
 
     static void Generar(string python)

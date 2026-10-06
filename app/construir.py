@@ -50,7 +50,6 @@ import re
 import sys
 import json
 import glob
-import time
 
 AQUI = os.path.dirname(os.path.abspath(__file__))
 CONTENIDO = os.path.join(AQUI, "contenido")
@@ -382,7 +381,8 @@ def main():
     else:
         print("  [OK     ] %-38s %7d materias" % ("menu (contenido/materias.json)",
                                                   len(indice["materias"])))
-    indice["construido"] = time.strftime("%Y-%m-%d %H:%M:%S")
+    # Sin fecha de construccion: con el mismo contenido sale el mismo indice,
+    # asi rearmarlo en otra PC no deja generado/ cambiado y no traba el git pull.
     escribir(SALIDA, CABECERA + NL +
              "window.Apuntes.registrarIndice(" + json.dumps(indice, indent=2) + ");" + NL)
 

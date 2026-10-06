@@ -226,7 +226,10 @@
         cont.appendChild(h("p", { class: "ev-vacio" }, "Abriendo el examen…"));
         window.Apuntes.cargar(ficha.archivo, function (llego) {
           if (llego) { verExamen(ficha); }
-          else { inicio("No pude abrir el examen. Corré python construir.py en app/."); }
+          else {
+            inicio("No pude abrir el examen: no llegó generado/" + ficha.archivo +
+                   ". Cerrá NewCampus (ícono junto al reloj) y volvé a abrirlo: al arrancar recupera lo que falte.");
+          }
         });
         return;
       }

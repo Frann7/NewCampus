@@ -1457,7 +1457,7 @@ window.NC = window.NC || {};
       if (mio !== pedido) { return; }
       if (!llego || !insertarPane(id)) {
         aviso("No encuentro los apuntes de esta " + terminoDe(fichaDe(state.materia)).uno.toLowerCase() +
-              ". Corré python construir.py en app/.", "error");
+              ". Cerrá NewCampus (ícono junto al reloj) y volvé a abrirlo: al arrancar recupera lo que falte.", "error");
         return;
       }
       mostrarPane(id);

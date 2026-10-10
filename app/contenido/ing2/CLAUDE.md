@@ -43,7 +43,11 @@ El plan de carga, con lo que sube cada parte y lo que falta, está en `docs/plan
   patrón, la frase del enunciado que lo justifica, el diagrama dibujado y, si hay código, las
   señales que lo delatan.
 - **Marcas de examen:** ★ (`data-examen="igual"`, `data-examen-ref="Parcial 2025 · Teoría 4"`) en
-  lo que tomó un parcial; `variante` si fue en otro lenguaje o con un cambio.
+  lo que tomó un parcial casi tal cual; ◈ (`variante`) en lo que tiene la misma forma de consigna
+  con otro patrón u otro caso. **La práctica también se marca** (casi todos los ejercicios son
+  una consigna de parcial con otro caso). La marca dice "esto se tomó", no "esta resolución es
+  de la cátedra": la cátedra no publicó ninguna resolución (se buscó en la carpeta de la materia
+  y en el campus virtual el 10/10/2026).
 
 ## Diagramas UML
 

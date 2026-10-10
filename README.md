@@ -228,6 +228,8 @@ Chrome (`chrome --headless --print-to-pdf`).
 `0.x.y-alpha` mientras esté en desarrollo. La `1.0.0` queda reservada para cuando esté terminado.
 La versión actual se lee al pie del menú lateral.
 
+* **0.42.1-alpha** — Ingeniería de Software II: marcas de parcial (★ y ◈) en 32 ejercicios de
+  práctica, con la consigna de parcial a la que corresponde cada uno.
 * **0.42.0-alpha** — El código se ve con colores (palabras clave, tipos, funciones, textos,
   comentarios) y con número de línea en los bloques largos, en todas las materias; lo pone
   `construir.py` al armar el campus, sin nada que corra en el navegador. En Ingeniería de

@@ -37,6 +37,10 @@
   --codigo-bg:#f6f7fb;
   --codigo-borde:#d5d9e8;
   --codigo-linea:rgba(26,28,40,.065);
+  /* colores del codigo (los pone construir.py: clases c-*) */
+  --c-key:#6a3fc0; --c-tipo:#0f6e8c; --c-fn:#3d4a9e; --c-str:#1c6b52;
+  --c-num:#9c4a33; --c-com:#868ba0; --c-var:#b8243c; --c-dir:#7a5a12;
+  --c-clave:rgba(63,75,150,.13);
   --salida-bg:#232737;
   --salida-ink:#e7e9f2;
   --salida-etq:#9aa0ba;
@@ -79,6 +83,9 @@
     --codigo-bg:#252a3a;
     --codigo-borde:#343a50;
     --codigo-linea:rgba(255,255,255,.08);
+    --c-key:#c4a7ff; --c-tipo:#6cc7e0; --c-fn:#9aa4ef; --c-str:#7fd4b0;
+    --c-num:#e59e83; --c-com:#7c8196; --c-var:#f08aa0; --c-dir:#e0c070;
+    --c-clave:rgba(154,164,239,.2);
     --salida-bg:#07090f;
     --salida-ink:#d7dbea;
     --salida-etq:#7c8196;
@@ -120,6 +127,9 @@
   --codigo-bg:#252a3a;
   --codigo-borde:#343a50;
   --codigo-linea:rgba(255,255,255,.08);
+  --c-key:#c4a7ff; --c-tipo:#6cc7e0; --c-fn:#9aa4ef; --c-str:#7fd4b0;
+  --c-num:#e59e83; --c-com:#7c8196; --c-var:#f08aa0; --c-dir:#e0c070;
+  --c-clave:rgba(154,164,239,.2);
   --salida-bg:#07090f;
   --salida-ink:#d7dbea;
   --salida-etq:#7c8196;
@@ -715,6 +725,53 @@ pre.codigo:first-child, pre.salida:first-child{margin-top:0;}
 pre.codigo:last-child, pre.salida:last-child{margin-bottom:0;}
 /* el programa y lo que imprime, uno abajo del otro, van pegados */
 pre.codigo + pre.salida{margin-top:-6px;}
+/* Codigo coloreado: construir.py parte cada bloque en renglones (.cl) y marca
+   las palabras (c-*). Los bloques largos llevan numero de linea. */
+pre.codigo .cl{display:block;}
+pre.codigo .c-key{color:var(--c-key);font-weight:600;}
+pre.codigo .c-tipo{color:var(--c-tipo);}
+pre.codigo .c-fn{color:var(--c-fn);}
+pre.codigo .c-str{color:var(--c-str);}
+pre.codigo .c-num{color:var(--c-num);}
+pre.codigo .c-com{color:var(--c-com);font-style:italic;}
+pre.codigo .c-var{color:var(--c-var);}
+pre.codigo .c-dir{color:var(--c-dir);}
+pre.codigo.num{counter-reset:linea;padding-left:0;}
+pre.codigo.num .cl{padding-left:16px;}
+pre.codigo.num .cl::before{
+  counter-increment:linea;
+  content:counter(linea);
+  display:inline-block;
+  width:2.1em;
+  margin-right:14px;
+  text-align:right;
+  color:var(--c-com);
+  font-style:normal;
+  -webkit-user-select:none;
+  user-select:none;
+}
+/* renglon resaltado: lo importante de ese bloque */
+pre.codigo .cl.clave{background:var(--c-clave);box-shadow:inset 3px 0 0 var(--teoria);}
+
+/* Un programa mostrado por partes: cada parte con su numero, su titulo, su
+   codigo y una nota corta. La numeracion de lineas sigue de una parte a otra. */
+.cod-partes{margin:16px 0 20px;}
+.cod-parte{border-left:3px solid var(--line);padding:0 0 0 16px;margin:0 0 18px;}
+.cod-rotulo{display:flex;align-items:center;flex-wrap:wrap;gap:8px 10px;font-weight:700;color:var(--ink);margin:0 0 6px;}
+.cod-n{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:24px;height:24px;border-radius:50%;
+  background:var(--teoria);color:var(--surface);
+  font-size:12.5px;font-weight:700;flex:none;
+}
+.cod-rol{
+  font-size:11.5px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;
+  color:var(--teoria);background:var(--teoria-bg);
+  padding:2px 9px;border-radius:999px;
+}
+.cod-parte pre.codigo{margin:6px 0 8px;}
+.cod-parte > p:last-child{margin-bottom:0;}
+
 /* en una opcion (evaluacion) el bloque va mas chico */
 .ex-op-txt pre.codigo, .ex-op-txt pre.salida{font-size:12.5px;padding:8px 12px;margin:4px 0;}
 

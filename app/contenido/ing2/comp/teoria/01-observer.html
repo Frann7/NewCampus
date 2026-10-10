@@ -151,17 +151,26 @@
     </svg>
   </div>
 
-  <pre class="codigo"><code>#include &lt;iostream&gt;
+  <p>El programa, en 6 partes. Los números de la izquierda son los renglones del programa completo; los renglones resaltados son los que hay que mirar.</p>
+  <div class="cod-partes">
+    <div class="cod-parte">
+      <p class="cod-rotulo"><span class="cod-n">1</span>Las bibliotecas</p>
+      <pre class="codigo" data-desde="1"><code>#include &lt;iostream&gt;
 #include &lt;list&gt;
-#include &lt;string&gt;
-
-class Suscriptor {
+#include &lt;string&gt;</code></pre>
+    </div>
+    <div class="cod-parte">
+      <p class="cod-rotulo"><span class="cod-n">2</span>Lo que tiene que tener quien quiera enterarse<span class="cod-rol">Suscriptor</span></p>
+      <pre class="codigo" data-desde="5"><code>class Suscriptor {
  public:
   virtual ~Suscriptor() {}
   virtual void actualizar(std::string novedad) = 0;
-};
-
-class Tienda {
+};</code></pre>
+      <p>Un solo método: <code>actualizar()</code>.</p>
+    </div>
+    <div class="cod-parte">
+      <p class="cod-rotulo"><span class="cod-n">3</span>La lista y cómo anotarse<span class="cod-rol">Notificador</span></p>
+      <pre class="codigo" data-desde="11" data-clave="3"><code>class Tienda {
  private:
   std::list&lt;Suscriptor*&gt; suscriptores_;
 
@@ -172,9 +181,12 @@ class Tienda {
 
   void desuscribir(Suscriptor* s) {
     suscriptores_.remove(s);
-  }
-
-  void notificar(std::string novedad) {
+  }</code></pre>
+      <p>La lista es de punteros a la interfaz: la tienda no sabe qué clase es cada anotado.</p>
+    </div>
+    <div class="cod-parte">
+      <p class="cod-rotulo"><span class="cod-n">4</span>Avisar<span class="cod-rol">Notificador</span></p>
+      <pre class="codigo" data-desde="24" data-clave="3,9"><code>  void notificar(std::string novedad) {
     for (Suscriptor* s : suscriptores_) {
       s-&gt;actualizar(novedad);
     }
@@ -184,9 +196,12 @@ class Tienda {
     std::cout &lt;&lt; "Tienda: llego " &lt;&lt; producto &lt;&lt; "\n";
     notificar(producto);
   }
-};
-
-class Cliente : public Suscriptor {
+};</code></pre>
+      <p>El corazón del patrón: recorre la lista y le llama <code>actualizar()</code> a cada uno. <code>recibirProducto()</code> es el trabajo normal de la tienda, que al final avisa.</p>
+    </div>
+    <div class="cod-parte">
+      <p class="cod-rotulo"><span class="cod-n">5</span>Uno que se entera<span class="cod-rol">Suscriptor concreto</span></p>
+      <pre class="codigo" data-desde="36"><code>class Cliente : public Suscriptor {
  private:
   std::string nombre_;
 
@@ -196,9 +211,12 @@ class Cliente : public Suscriptor {
   void actualizar(std::string novedad) override {
     std::cout &lt;&lt; nombre_ &lt;&lt; " se entero de que llego " &lt;&lt; novedad &lt;&lt; "\n";
   }
-};
-
-int main() {
+};</code></pre>
+      <p>Dice qué hace cuando le avisan.</p>
+    </div>
+    <div class="cod-parte">
+      <p class="cod-rotulo"><span class="cod-n">6</span>El programa</p>
+      <pre class="codigo" data-desde="48"><code>int main() {
   Tienda tienda;
   Cliente* ana = new Cliente("Ana");
   Cliente* luis = new Cliente("Luis");
@@ -214,6 +232,9 @@ int main() {
   delete luis;
   return 0;
 }</code></pre>
+      <p>Dos clientes se anotan, llega un producto, uno se borra, llega otro producto.</p>
+    </div>
+  </div>
 
   <h4>Qué hace cada línea</h4>
   <div class="tabla-wrap">

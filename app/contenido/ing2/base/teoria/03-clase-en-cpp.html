@@ -67,32 +67,51 @@
     </svg>
   </div>
 
-  <pre class="codigo"><code>#include &lt;iostream&gt;
-#include &lt;string&gt;
-
-class Cuenta {
+  <p>El programa, en 5 partes. Los números de la izquierda son los renglones del programa completo; los renglones resaltados son los que hay que mirar.</p>
+  <div class="cod-partes">
+    <div class="cod-parte">
+      <p class="cod-rotulo"><span class="cod-n">1</span>Las bibliotecas</p>
+      <pre class="codigo" data-desde="1"><code>#include &lt;iostream&gt;
+#include &lt;string&gt;</code></pre>
+      <p>Lo que el programa trae de afuera: <code>iostream</code> para mostrar por pantalla y <code>string</code> para los textos.</p>
+    </div>
+    <div class="cod-parte">
+      <p class="cod-rotulo"><span class="cod-n">2</span>La clase y sus atributos<span class="cod-rol">privado</span></p>
+      <pre class="codigo" data-desde="4"><code>class Cuenta {
  private:
   std::string titular_;
-  double saldo_;
-
- public:
-  Cuenta(std::string titular, double saldo) : titular_(titular), saldo_(saldo) {}
-
-  void depositar(double monto) {
+  double saldo_;</code></pre>
+      <p>Empieza la clase. Debajo de <code>private:</code> van los dos datos que guarda cada cuenta: nadie de afuera los puede tocar.</p>
+    </div>
+    <div class="cod-parte">
+      <p class="cod-rotulo"><span class="cod-n">3</span>El constructor<span class="cod-rol">público</span></p>
+      <pre class="codigo" data-desde="9" data-clave="2"><code> public:
+  Cuenta(std::string titular, double saldo) : titular_(titular), saldo_(saldo) {}</code></pre>
+      <p>Se llama igual que la clase. Recibe dos datos y los guarda en los dos atributos.</p>
+    </div>
+    <div class="cod-parte">
+      <p class="cod-rotulo"><span class="cod-n">4</span>Los métodos<span class="cod-rol">público</span></p>
+      <pre class="codigo" data-desde="12"><code>  void depositar(double monto) {
     saldo_ = saldo_ + monto;
   }
 
   double saldo() const {
     return saldo_;
   }
-};
-
-int main() {
+};</code></pre>
+      <p>Lo que una cuenta sabe hacer: sumar un monto al saldo y decir cuánto saldo tiene. La llave con punto y coma del final cierra la clase.</p>
+    </div>
+    <div class="cod-parte">
+      <p class="cod-rotulo"><span class="cod-n">5</span>El programa</p>
+      <pre class="codigo" data-desde="21" data-clave="2"><code>int main() {
   Cuenta c("Ana", 100);
   c.depositar(50);
   std::cout &lt;&lt; c.saldo() &lt;&lt; "\n";
   return 0;
 }</code></pre>
+      <p>Acá arranca la ejecución: crea una cuenta, le deposita y muestra el saldo.</p>
+    </div>
+  </div>
 
   <h4>Qué hace cada línea</h4>
   <div class="tabla-wrap">
@@ -148,15 +167,24 @@ int main() {
     </svg>
   </div>
 
-  <pre class="codigo"><code>#include &lt;iostream&gt;
-#include &lt;string&gt;
-
-class Alumno {
+  <p>El programa, en 5 partes. Los números de la izquierda son los renglones del programa completo; los renglones resaltados son los que hay que mirar.</p>
+  <div class="cod-partes">
+    <div class="cod-parte">
+      <p class="cod-rotulo"><span class="cod-n">1</span>Las bibliotecas</p>
+      <pre class="codigo" data-desde="1"><code>#include &lt;iostream&gt;
+#include &lt;string&gt;</code></pre>
+    </div>
+    <div class="cod-parte">
+      <p class="cod-rotulo"><span class="cod-n">2</span>Los atributos: uno común y uno estático</p>
+      <pre class="codigo" data-desde="4" data-clave="4"><code>class Alumno {
  private:
   std::string nombre_;
-  static int cantidad_;
-
- public:
+  static int cantidad_;</code></pre>
+      <p><code>nombre_</code> es de cada alumno. <code>cantidad_</code> lleva <code>static</code>: hay uno solo para toda la clase.</p>
+    </div>
+    <div class="cod-parte">
+      <p class="cod-rotulo"><span class="cod-n">3</span>El constructor y el método estático</p>
+      <pre class="codigo" data-desde="9" data-clave="6"><code> public:
   Alumno(std::string nombre) : nombre_(nombre) {
     cantidad_ = cantidad_ + 1;
   }
@@ -164,17 +192,26 @@ class Alumno {
   static int cantidad() {
     return cantidad_;
   }
-};
-
-int Alumno::cantidad_ = 0;
-
-int main() {
+};</code></pre>
+      <p>Cada vez que se crea un alumno, el constructor suma 1 al contador compartido. <code>cantidad()</code> también es <code>static</code>: se puede llamar sin tener ningún alumno.</p>
+    </div>
+    <div class="cod-parte">
+      <p class="cod-rotulo"><span class="cod-n">4</span>El valor inicial del atributo estático</p>
+      <pre class="codigo" data-desde="19"><code>int Alumno::cantidad_ = 0;</code></pre>
+      <p>En C++ se escribe afuera de la clase. <code>Alumno::</code> se lee "de la clase Alumno".</p>
+    </div>
+    <div class="cod-parte">
+      <p class="cod-rotulo"><span class="cod-n">5</span>El programa</p>
+      <pre class="codigo" data-desde="21" data-clave="2,5"><code>int main() {
   std::cout &lt;&lt; Alumno::cantidad() &lt;&lt; "\n";
   Alumno a("Ana");
   Alumno b("Luis");
   std::cout &lt;&lt; Alumno::cantidad() &lt;&lt; "\n";
   return 0;
 }</code></pre>
+      <p>Muestra el contador, crea dos alumnos y lo vuelve a mostrar.</p>
+    </div>
+  </div>
 
   <h4>Qué hace cada línea</h4>
   <div class="tabla-wrap">

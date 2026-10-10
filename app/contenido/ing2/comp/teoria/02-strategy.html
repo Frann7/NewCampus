@@ -135,16 +135,25 @@
     </svg>
   </div>
 
-  <pre class="codigo"><code>#include &lt;iostream&gt;
-#include &lt;string&gt;
-
-class EstrategiaRuta {
+  <p>El programa, en 5 partes. Los números de la izquierda son los renglones del programa completo; los renglones resaltados son los que hay que mirar.</p>
+  <div class="cod-partes">
+    <div class="cod-parte">
+      <p class="cod-rotulo"><span class="cod-n">1</span>Las bibliotecas</p>
+      <pre class="codigo" data-desde="1"><code>#include &lt;iostream&gt;
+#include &lt;string&gt;</code></pre>
+    </div>
+    <div class="cod-parte">
+      <p class="cod-rotulo"><span class="cod-n">2</span>Lo que tienen en común las formas de hacerlo<span class="cod-rol">Estrategia</span></p>
+      <pre class="codigo" data-desde="4"><code>class EstrategiaRuta {
  public:
   virtual ~EstrategiaRuta() {}
   virtual std::string calcularRuta(std::string origen, std::string destino) const = 0;
-};
-
-class RutaEnAuto : public EstrategiaRuta {
+};</code></pre>
+      <p>Toda forma de calcular una ruta recibe origen y destino y devuelve un texto.</p>
+    </div>
+    <div class="cod-parte">
+      <p class="cod-rotulo"><span class="cod-n">3</span>Las formas de hacerlo<span class="cod-rol">Estrategias concretas</span></p>
+      <pre class="codigo" data-desde="10"><code>class RutaEnAuto : public EstrategiaRuta {
  public:
   std::string calcularRuta(std::string origen, std::string destino) const override {
     return "En auto de " + origen + " a " + destino + ": por la ruta, 20 minutos";
@@ -156,9 +165,12 @@ class RutaAPie : public EstrategiaRuta {
   std::string calcularRuta(std::string origen, std::string destino) const override {
     return "A pie de " + origen + " a " + destino + ": por el camino costero, 3 horas";
   }
-};
-
-class Navegador {
+};</code></pre>
+      <p>El mismo método, resuelto de dos maneras.</p>
+    </div>
+    <div class="cod-parte">
+      <p class="cod-rotulo"><span class="cod-n">4</span>La clase que usa una<span class="cod-rol">Contexto</span></p>
+      <pre class="codigo" data-desde="24" data-clave="3,9,13"><code>class Navegador {
  private:
   EstrategiaRuta* estrategia_;
 
@@ -172,9 +184,12 @@ class Navegador {
   void mostrarRuta(std::string origen, std::string destino) const {
     std::cout &lt;&lt; estrategia_-&gt;calcularRuta(origen, destino) &lt;&lt; "\n";
   }
-};
-
-int main() {
+};</code></pre>
+      <p>Guarda un puntero a la interfaz, lo recibe desde afuera, lo puede cambiar y le delega el trabajo: el navegador no calcula nada.</p>
+    </div>
+    <div class="cod-parte">
+      <p class="cod-rotulo"><span class="cod-n">5</span>El programa</p>
+      <pre class="codigo" data-desde="40" data-clave="8"><code>int main() {
   EstrategiaRuta* enAuto = new RutaEnAuto;
   EstrategiaRuta* aPie = new RutaAPie;
 
@@ -188,6 +203,9 @@ int main() {
   delete aPie;
   return 0;
 }</code></pre>
+      <p>El mismo navegador, la misma llamada, los mismos datos; en el medio se le cambia la estrategia.</p>
+    </div>
+  </div>
 
   <h4>Qué hace cada línea</h4>
   <div class="tabla-wrap">

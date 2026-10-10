@@ -230,10 +230,16 @@
     </svg>
   </div>
 
-  <pre class="codigo"><code>#include &lt;iostream&gt;
-#include &lt;string&gt;
-
-class Silla {
+  <p>El programa, en 7 partes. Los números de la izquierda son los renglones del programa completo; los renglones resaltados son los que hay que mirar.</p>
+  <div class="cod-partes">
+    <div class="cod-parte">
+      <p class="cod-rotulo"><span class="cod-n">1</span>Las bibliotecas</p>
+      <pre class="codigo" data-desde="1"><code>#include &lt;iostream&gt;
+#include &lt;string&gt;</code></pre>
+    </div>
+    <div class="cod-parte">
+      <p class="cod-rotulo"><span class="cod-n">2</span>Una interfaz por cada tipo de mueble<span class="cod-rol">Productos abstractos</span></p>
+      <pre class="codigo" data-desde="4"><code>class Silla {
  public:
   virtual ~Silla() {}
   virtual std::string describir() const = 0;
@@ -243,9 +249,12 @@ class Sofa {
  public:
   virtual ~Sofa() {}
   virtual std::string describir() const = 0;
-};
-
-class SillaModerna : public Silla {
+};</code></pre>
+      <p>Dos interfaces <strong>distintas</strong>: <code>Silla</code> y <code>Sofa</code>.</p>
+    </div>
+    <div class="cod-parte">
+      <p class="cod-rotulo"><span class="cod-n">3</span>Cada mueble en cada estilo<span class="cod-rol">Productos concretos</span></p>
+      <pre class="codigo" data-desde="16"><code>class SillaModerna : public Silla {
  public:
   std::string describir() const override { return "silla moderna"; }
 };
@@ -263,16 +272,22 @@ class SillaVictoriana : public Silla {
 class SofaVictoriano : public Sofa {
  public:
   std::string describir() const override { return "sofa victoriano"; }
-};
-
-class FabricaDeMuebles {
+};</code></pre>
+      <p>Dos productos por dos variantes: cuatro clases.</p>
+    </div>
+    <div class="cod-parte">
+      <p class="cod-rotulo"><span class="cod-n">4</span>La interfaz de las fábricas<span class="cod-rol">Fábrica abstracta</span></p>
+      <pre class="codigo" data-desde="36" data-clave="4,5"><code>class FabricaDeMuebles {
  public:
   virtual ~FabricaDeMuebles() {}
   virtual Silla* crearSilla() const = 0;
   virtual Sofa* crearSofa() const = 0;
-};
-
-class FabricaModerna : public FabricaDeMuebles {
+};</code></pre>
+      <p>Un método de creación por producto. Cada uno devuelve la interfaz, no una clase concreta.</p>
+    </div>
+    <div class="cod-parte">
+      <p class="cod-rotulo"><span class="cod-n">5</span>Una fábrica por estilo<span class="cod-rol">Fábricas concretas</span></p>
+      <pre class="codigo" data-desde="43"><code>class FabricaModerna : public FabricaDeMuebles {
  public:
   Silla* crearSilla() const override { return new SillaModerna; }
   Sofa* crearSofa() const override { return new SofaModerno; }
@@ -282,17 +297,23 @@ class FabricaVictoriana : public FabricaDeMuebles {
  public:
   Silla* crearSilla() const override { return new SillaVictoriana; }
   Sofa* crearSofa() const override { return new SofaVictoriano; }
-};
-
-void amoblar(FabricaDeMuebles* fabrica) {
+};</code></pre>
+      <p>Todo lo que crea cada una es de su estilo: por eso los muebles combinan.</p>
+    </div>
+    <div class="cod-parte">
+      <p class="cod-rotulo"><span class="cod-n">6</span>El que usa la fábrica<span class="cod-rol">Cliente</span></p>
+      <pre class="codigo" data-desde="55" data-clave="2,3"><code>void amoblar(FabricaDeMuebles* fabrica) {
   Silla* silla = fabrica-&gt;crearSilla();
   Sofa* sofa = fabrica-&gt;crearSofa();
   std::cout &lt;&lt; "Juego: " &lt;&lt; silla-&gt;describir() &lt;&lt; " + " &lt;&lt; sofa-&gt;describir() &lt;&lt; "\n";
   delete silla;
   delete sofa;
-}
-
-int main() {
+}</code></pre>
+      <p>Recibe una fábrica cualquiera y le pide los muebles. No nombra ninguna clase concreta.</p>
+    </div>
+    <div class="cod-parte">
+      <p class="cod-rotulo"><span class="cod-n">7</span>El programa</p>
+      <pre class="codigo" data-desde="63"><code>int main() {
   FabricaDeMuebles* f = new FabricaModerna;
   amoblar(f);
   delete f;
@@ -302,6 +323,9 @@ int main() {
   delete f;
   return 0;
 }</code></pre>
+      <p>El estilo se elige una sola vez, al crear la fábrica.</p>
+    </div>
+  </div>
 
   <h4>Qué hace cada línea</h4>
   <div class="tabla-wrap">

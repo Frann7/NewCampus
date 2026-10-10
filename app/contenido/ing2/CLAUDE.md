@@ -31,6 +31,11 @@ El plan de carga, con lo que sube cada parte y lo que falta, está en `docs/plan
   la que dio.
 - **Estilo del C++:** el de los parciales (el de Refactoring.Guru): atributos con guion bajo al
   final (`saldo_`), punteros crudos con `new`/`delete`, `std::string`, `std::cout`, `override`.
+- **El programa de cada ejemplo va por partes** (`.cod-partes`, ver `docs/contenido.md`): una
+  parte por pieza del patrón, con su título, su rol y los renglones clave resaltados
+  (`data-clave`), y `data-desde` para que la numeración siga la del programa completo. Nunca un
+  bloque de 60 líneas seguido de una tabla. El código de un **enunciado** (práctica, parciales)
+  va entero y sin resaltar, para no regalar la respuesta.
 - **Código en el HTML:** `<pre class="codigo"><code>...</code></pre>` y la salida en
   `<pre class="salida">...</pre>`. Dentro del código, `<` va como `&lt;`, `>` como `&gt;` y `&`
   como `&amp;` (`#include &lt;iostream&gt;`, `std::cout &lt;&lt; x`, `a-&gt;hablar()`).

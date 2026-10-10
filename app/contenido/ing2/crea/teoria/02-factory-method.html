@@ -165,16 +165,25 @@
     </svg>
   </div>
 
-  <pre class="codigo"><code>#include &lt;iostream&gt;
-#include &lt;string&gt;
-
-class Transporte {
+  <p>El programa, en 6 partes. Los números de la izquierda son los renglones del programa completo; los renglones resaltados son los que hay que mirar.</p>
+  <div class="cod-partes">
+    <div class="cod-parte">
+      <p class="cod-rotulo"><span class="cod-n">1</span>Las bibliotecas</p>
+      <pre class="codigo" data-desde="1"><code>#include &lt;iostream&gt;
+#include &lt;string&gt;</code></pre>
+    </div>
+    <div class="cod-parte">
+      <p class="cod-rotulo"><span class="cod-n">2</span>La interfaz de lo que se crea<span class="cod-rol">Producto</span></p>
+      <pre class="codigo" data-desde="4"><code>class Transporte {
  public:
   virtual ~Transporte() {}
   virtual std::string entregar() const = 0;
-};
-
-class Camion : public Transporte {
+};</code></pre>
+      <p>Todo transporte sabe <code>entregar()</code>.</p>
+    </div>
+    <div class="cod-parte">
+      <p class="cod-rotulo"><span class="cod-n">3</span>Los transportes que existen<span class="cod-rol">Productos concretos</span></p>
+      <pre class="codigo" data-desde="10"><code>class Camion : public Transporte {
  public:
   std::string entregar() const override {
     return "entrega por tierra, en un camion";
@@ -186,9 +195,12 @@ class Barco : public Transporte {
   std::string entregar() const override {
     return "entrega por mar, en un barco";
   }
-};
-
-class Logistica {
+};</code></pre>
+      <p>Cada uno entrega a su manera.</p>
+    </div>
+    <div class="cod-parte">
+      <p class="cod-rotulo"><span class="cod-n">4</span>La clase que necesita un transporte<span class="cod-rol">Creador</span></p>
+      <pre class="codigo" data-desde="24" data-clave="4,7"><code>class Logistica {
  public:
   virtual ~Logistica() {}
   virtual Transporte* crearTransporte() const = 0;
@@ -199,9 +211,12 @@ class Logistica {
     delete t;
     return resultado;
   }
-};
-
-class LogisticaTerrestre : public Logistica {
+};</code></pre>
+      <p><code>crearTransporte()</code> es el <strong>método fábrica</strong>: devuelve "un Transporte" y no tiene código. <code>planificarEntrega()</code> lo llama donde antes habría un <code>new Camion</code>.</p>
+    </div>
+    <div class="cod-parte">
+      <p class="cod-rotulo"><span class="cod-n">5</span>Quién decide qué se crea<span class="cod-rol">Creadores concretos</span></p>
+      <pre class="codigo" data-desde="37" data-clave="4,11"><code>class LogisticaTerrestre : public Logistica {
  public:
   Transporte* crearTransporte() const override {
     return new Camion;
@@ -213,9 +228,12 @@ class LogisticaMaritima : public Logistica {
   Transporte* crearTransporte() const override {
     return new Barco;
   }
-};
-
-int main() {
+};</code></pre>
+      <p>Acá sí está el <code>new</code>: cada subclase escribe el método fábrica y elige el transporte.</p>
+    </div>
+    <div class="cod-parte">
+      <p class="cod-rotulo"><span class="cod-n">6</span>El programa</p>
+      <pre class="codigo" data-desde="51"><code>int main() {
   Logistica* l = new LogisticaTerrestre;
   std::cout &lt;&lt; l-&gt;planificarEntrega() &lt;&lt; "\n";
   delete l;
@@ -225,6 +243,9 @@ int main() {
   delete l;
   return 0;
 }</code></pre>
+      <p>La misma llamada, <code>planificarEntrega()</code>, sobre las dos logísticas.</p>
+    </div>
+  </div>
 
   <h4>Qué hace cada línea</h4>
   <div class="tabla-wrap">

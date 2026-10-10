@@ -60,16 +60,25 @@ delete p;</code></pre>
 
   <h3>Ejemplo 1 &mdash; La misma orden, dos respuestas</h3>
 
-  <pre class="codigo"><code>#include &lt;iostream&gt;
-#include &lt;string&gt;
-
-class Animal {
+  <p>El programa, en 4 partes. Los números de la izquierda son los renglones del programa completo; los renglones resaltados son los que hay que mirar.</p>
+  <div class="cod-partes">
+    <div class="cod-parte">
+      <p class="cod-rotulo"><span class="cod-n">1</span>Las bibliotecas</p>
+      <pre class="codigo" data-desde="1"><code>#include &lt;iostream&gt;
+#include &lt;string&gt;</code></pre>
+    </div>
+    <div class="cod-parte">
+      <p class="cod-rotulo"><span class="cod-n">2</span>La clase general<span class="cod-rol">abstracta</span></p>
+      <pre class="codigo" data-desde="4" data-clave="4"><code>class Animal {
  public:
   virtual ~Animal() {}
   virtual std::string hablar() const = 0;
-};
-
-class Perro : public Animal {
+};</code></pre>
+      <p>Dice que todo animal sabe <code>hablar()</code>, pero no dice cómo: el <code>= 0</code> la hace abstracta.</p>
+    </div>
+    <div class="cod-parte">
+      <p class="cod-rotulo"><span class="cod-n">3</span>Las clases concretas</p>
+      <pre class="codigo" data-desde="10"><code>class Perro : public Animal {
  public:
   std::string hablar() const override {
     return "Guau";
@@ -81,9 +90,12 @@ class Gato : public Animal {
   std::string hablar() const override {
     return "Miau";
   }
-};
-
-int main() {
+};</code></pre>
+      <p>Cada una hereda de <code>Animal</code> (<code>: public Animal</code>) y escribe su propio <code>hablar()</code>, con <code>override</code>.</p>
+    </div>
+    <div class="cod-parte">
+      <p class="cod-rotulo"><span class="cod-n">4</span>El programa</p>
+      <pre class="codigo" data-desde="24" data-clave="3,7"><code>int main() {
   Animal* a = new Perro;
   std::cout &lt;&lt; a-&gt;hablar() &lt;&lt; "\n";
   delete a;
@@ -93,6 +105,9 @@ int main() {
   delete a;
   return 0;
 }</code></pre>
+      <p>Un solo puntero a <code>Animal</code> que primero apunta a un perro y después a un gato. La llamada es la misma las dos veces.</p>
+    </div>
+  </div>
 
   <h4>Qué hace cada línea</h4>
   <div class="tabla-wrap">
@@ -127,13 +142,19 @@ Miau</pre>
     <code>Animal</code>, <code>Perro</code> y <code>Gato</code> son las del ejemplo 1.
   </p>
 
-  <pre class="codigo"><code>#include &lt;iostream&gt;
+  <p>El programa, en 4 partes. Los números de la izquierda son los renglones del programa completo; los renglones resaltados son los que hay que mirar.</p>
+  <div class="cod-partes">
+    <div class="cod-parte">
+      <p class="cod-rotulo"><span class="cod-n">1</span>Las bibliotecas y las clases del ejemplo 1</p>
+      <pre class="codigo" data-desde="1"><code>#include &lt;iostream&gt;
 #include &lt;string&gt;
 #include &lt;vector&gt;
 
-// ... Animal, Perro y Gato, como en el ejemplo 1 ...
-
-class Duenio {
+// ... Animal, Perro y Gato, como en el ejemplo 1 ...</code></pre>
+    </div>
+    <div class="cod-parte">
+      <p class="cod-rotulo"><span class="cod-n">2</span>La clase que guarda un puntero</p>
+      <pre class="codigo" data-desde="7" data-clave="3,13"><code>class Duenio {
  private:
   Animal* mascota_;
 
@@ -147,18 +168,24 @@ class Duenio {
   void saludar() const {
     std::cout &lt;&lt; "Mi mascota dice: " &lt;&lt; mascota_-&gt;hablar() &lt;&lt; "\n";
   }
-};
-
-int main() {
+};</code></pre>
+      <p>El dueño guarda un puntero a un <code>Animal</code>, lo recibe desde afuera, lo puede cambiar, y en <code>saludar()</code> le pasa el trabajo.</p>
+    </div>
+    <div class="cod-parte">
+      <p class="cod-rotulo"><span class="cod-n">3</span>El programa: un dueño y dos mascotas</p>
+      <pre class="codigo" data-desde="23"><code>int main() {
   Animal* perro = new Perro;
   Animal* gato = new Gato;
 
   Duenio d(perro);
   d.saludar();
   d.cambiarMascota(gato);
-  d.saludar();
-
-  std::vector&lt;Animal*&gt; todos;
+  d.saludar();</code></pre>
+      <p>El mismo dueño saluda dos veces; en el medio se le cambia la mascota.</p>
+    </div>
+    <div class="cod-parte">
+      <p class="cod-rotulo"><span class="cod-n">4</span>El programa: una lista de animales</p>
+      <pre class="codigo" data-desde="32" data-clave="5"><code>  std::vector&lt;Animal*&gt; todos;
   todos.push_back(perro);
   todos.push_back(gato);
   for (Animal* x : todos) {
@@ -169,6 +196,9 @@ int main() {
   delete gato;
   return 0;
 }</code></pre>
+      <p>Una lista de punteros a <code>Animal</code> y un <code>for</code> que le pide lo mismo a cada uno.</p>
+    </div>
+  </div>
 
   <h4>Qué hace cada línea</h4>
   <div class="tabla-wrap">

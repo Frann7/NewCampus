@@ -130,17 +130,26 @@
     </svg>
   </div>
 
-  <pre class="codigo"><code>#include &lt;iostream&gt;
+  <p>El programa, en 6 partes. Los números de la izquierda son los renglones del programa completo; los renglones resaltados son los que hay que mirar.</p>
+  <div class="cod-partes">
+    <div class="cod-parte">
+      <p class="cod-rotulo"><span class="cod-n">1</span>Las bibliotecas</p>
+      <pre class="codigo" data-desde="1"><code>#include &lt;iostream&gt;
 #include &lt;string&gt;
-#include &lt;vector&gt;
-
-class Articulo {
+#include &lt;vector&gt;</code></pre>
+    </div>
+    <div class="cod-parte">
+      <p class="cod-rotulo"><span class="cod-n">2</span>Lo que tienen en común<span class="cod-rol">Componente</span></p>
+      <pre class="codigo" data-desde="5"><code>class Articulo {
  public:
   virtual ~Articulo() {}
   virtual double precio() const = 0;
-};
-
-class Producto : public Articulo {
+};</code></pre>
+      <p>Todo artículo sabe decir su <code>precio()</code>.</p>
+    </div>
+    <div class="cod-parte">
+      <p class="cod-rotulo"><span class="cod-n">3</span>El elemento simple<span class="cod-rol">Hoja</span></p>
+      <pre class="codigo" data-desde="11"><code>class Producto : public Articulo {
  private:
   std::string nombre_;
   double precio_;
@@ -151,9 +160,12 @@ class Producto : public Articulo {
   double precio() const override {
     return precio_;
   }
-};
-
-class Caja : public Articulo {
+};</code></pre>
+      <p>Devuelve el precio que guarda.</p>
+    </div>
+    <div class="cod-parte">
+      <p class="cod-rotulo"><span class="cod-n">4</span>El que contiene a otros<span class="cod-rol">Compuesto</span></p>
+      <pre class="codigo" data-desde="24" data-clave="3,13"><code>class Caja : public Articulo {
  private:
   std::vector&lt;Articulo*&gt; contenido_;
 
@@ -169,9 +181,12 @@ class Caja : public Articulo {
     }
     return total;
   }
-};
-
-int main() {
+};</code></pre>
+      <p>También es un <code>Articulo</code>, y guarda una lista de <code>Articulo</code>: por eso una caja puede ir dentro de otra. Su precio es la suma de lo que tiene adentro.</p>
+    </div>
+    <div class="cod-parte">
+      <p class="cod-rotulo"><span class="cod-n">5</span>El programa: se arma el árbol</p>
+      <pre class="codigo" data-desde="42" data-clave="12"><code>int main() {
   Producto* celular = new Producto("Celular", 1000);
   Producto* cargador = new Producto("Cargador", 200);
   Producto* funda = new Producto("Funda", 50);
@@ -182,9 +197,12 @@ int main() {
 
   Caja* cajaGrande = new Caja;
   cajaGrande-&gt;agregar(celular);
-  cajaGrande-&gt;agregar(cajaChica);
-
-  std::cout &lt;&lt; funda-&gt;precio() &lt;&lt; "\n";
+  cajaGrande-&gt;agregar(cajaChica);</code></pre>
+      <p>Tres productos, una caja chica con dos de ellos, y una caja grande con el tercero <strong>y la caja chica</strong>.</p>
+    </div>
+    <div class="cod-parte">
+      <p class="cod-rotulo"><span class="cod-n">6</span>El programa: se pregunta el precio</p>
+      <pre class="codigo" data-desde="55"><code>  std::cout &lt;&lt; funda-&gt;precio() &lt;&lt; "\n";
   std::cout &lt;&lt; cajaChica-&gt;precio() &lt;&lt; "\n";
   std::cout &lt;&lt; cajaGrande-&gt;precio() &lt;&lt; "\n";
 
@@ -195,6 +213,9 @@ int main() {
   delete cajaGrande;
   return 0;
 }</code></pre>
+      <p>La misma llamada sobre una hoja, una caja y una caja con otra caja adentro.</p>
+    </div>
+  </div>
 
   <h4>Qué hace cada línea</h4>
   <div class="tabla-wrap">

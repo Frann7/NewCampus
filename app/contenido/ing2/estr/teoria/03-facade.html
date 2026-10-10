@@ -128,10 +128,16 @@
     </svg>
   </div>
 
-  <pre class="codigo"><code>#include &lt;iostream&gt;
-#include &lt;string&gt;
-
-class Inventario {
+  <p>El programa, en 5 partes. Los números de la izquierda son los renglones del programa completo; los renglones resaltados son los que hay que mirar.</p>
+  <div class="cod-partes">
+    <div class="cod-parte">
+      <p class="cod-rotulo"><span class="cod-n">1</span>Las bibliotecas</p>
+      <pre class="codigo" data-desde="1"><code>#include &lt;iostream&gt;
+#include &lt;string&gt;</code></pre>
+    </div>
+    <div class="cod-parte">
+      <p class="cod-rotulo"><span class="cod-n">2</span>Las clases que hacen el trabajo<span class="cod-rol">Subsistema</span></p>
+      <pre class="codigo" data-desde="4"><code>class Inventario {
  public:
   bool hayStock(std::string producto) const {
     std::cout &lt;&lt; "Inventario: hay stock de " &lt;&lt; producto &lt;&lt; "\n";
@@ -151,9 +157,12 @@ class Envios {
   void despachar(std::string producto) const {
     std::cout &lt;&lt; "Envios: se despacho " &lt;&lt; producto &lt;&lt; "\n";
   }
-};
-
-class Tienda {
+};</code></pre>
+      <p>Tres clases sueltas: no heredan de nada ni se conocen entre sí.</p>
+    </div>
+    <div class="cod-parte">
+      <p class="cod-rotulo"><span class="cod-n">3</span>La clase que las junta<span class="cod-rol">Fachada</span></p>
+      <pre class="codigo" data-desde="26" data-clave="3,4,5"><code>class Tienda {
  private:
   Inventario* inventario_;
   Pagos* pagos_;
@@ -170,21 +179,30 @@ class Tienda {
     delete inventario_;
     delete pagos_;
     delete envios_;
-  }
-
-  void comprar(std::string producto, double monto) {
+  }</code></pre>
+      <p>Un puntero a cada clase del subsistema, creados en el constructor. El cliente no se entera de que existen.</p>
+    </div>
+    <div class="cod-parte">
+      <p class="cod-rotulo"><span class="cod-n">4</span>El método simple<span class="cod-rol">Fachada</span></p>
+      <pre class="codigo" data-desde="45"><code>  void comprar(std::string producto, double monto) {
     if (inventario_-&gt;hayStock(producto)) {
       pagos_-&gt;cobrar(monto);
       envios_-&gt;despachar(producto);
     }
   }
-};
-
-int main() {
+};</code></pre>
+      <p>Adentro llama a los tres subsistemas en el orden correcto. Ese orden está escrito una sola vez, acá.</p>
+    </div>
+    <div class="cod-parte">
+      <p class="cod-rotulo"><span class="cod-n">5</span>El que la usa<span class="cod-rol">Cliente</span></p>
+      <pre class="codigo" data-desde="53" data-clave="3"><code>int main() {
   Tienda tienda;
   tienda.comprar("teclado", 15000);
   return 0;
 }</code></pre>
+      <p>Crea solo la fachada y hace una sola llamada.</p>
+    </div>
+  </div>
 
   <h4>Qué hace cada línea</h4>
   <div class="tabla-wrap">
@@ -265,7 +283,7 @@ Envios: se despacho teclado</pre>
     <span class="caja-tit">Parcial 2024 &middot; ejercicio 4</span>
     <p>"A partir del siguiente código identifique qué patrón es el que se utiliza."</p>
   </div>
-  <pre class="codigo"><code>class Facturacion {
+  <pre class="codigo" data-clave="19,20,34,35"><code>class Facturacion {
  public:
   std::string Operation1() const {
     return "Facturacion: Ready!\n";

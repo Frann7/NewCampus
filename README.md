@@ -228,6 +228,11 @@ Chrome (`chrome --headless --print-to-pdf`).
 `0.x.y-alpha` mientras esté en desarrollo. La `1.0.0` queda reservada para cuando esté terminado.
 La versión actual se lee al pie del menú lateral.
 
+* **0.42.0-alpha** — El código se ve con colores (palabras clave, tipos, funciones, textos,
+  comentarios) y con número de línea en los bloques largos, en todas las materias; lo pone
+  `construir.py` al armar el campus, sin nada que corra en el navegador. En Ingeniería de
+  Software II el programa de cada ejemplo va partido en partes numeradas, cada una con su título,
+  su rol en el patrón y los renglones importantes resaltados.
 * **0.41.0-alpha** — Ingeniería de Software II: los parciales 2024 y 2025 transcriptos y resueltos
   en Evaluación (respuesta modelo y explicación de cada consigna, con el código del 2025 también en
   C++). Una materia sin banco de preguntas ya no muestra la sección Autoevaluación.

@@ -97,39 +97,60 @@
     </svg>
   </div>
 
-  <pre class="codigo"><code>#include &lt;iostream&gt;
-#include &lt;string&gt;
-
-class Configuracion {
+  <p>El programa, en 7 partes. Los números de la izquierda son los renglones del programa completo; los renglones resaltados son los que hay que mirar.</p>
+  <div class="cod-partes">
+    <div class="cod-parte">
+      <p class="cod-rotulo"><span class="cod-n">1</span>Las bibliotecas</p>
+      <pre class="codigo" data-desde="1"><code>#include &lt;iostream&gt;
+#include &lt;string&gt;</code></pre>
+    </div>
+    <div class="cod-parte">
+      <p class="cod-rotulo"><span class="cod-n">2</span>El casillero y el constructor privado<span class="cod-rol">Singleton</span></p>
+      <pre class="codigo" data-desde="4" data-clave="3,6"><code>class Configuracion {
  private:
   static Configuracion* instancia_;
   std::string idioma_;
 
-  Configuracion() : idioma_("es") {}
-
- public:
+  Configuracion() : idioma_("es") {}</code></pre>
+      <p>Las dos primeras piezas: el atributo estático <code>instancia_</code>, donde se guarda el único objeto, y el constructor debajo de <code>private:</code>, que nadie de afuera puede usar.</p>
+    </div>
+    <div class="cod-parte">
+      <p class="cod-rotulo"><span class="cod-n">3</span>Prohibir las copias</p>
+      <pre class="codigo" data-desde="11"><code> public:
   Configuracion(const Configuracion&amp;) = delete;
-  void operator=(const Configuracion&amp;) = delete;
-
-  static Configuracion* obtenerInstancia() {
+  void operator=(const Configuracion&amp;) = delete;</code></pre>
+      <p><code>= delete</code> se lee "esto no se puede hacer". Sin copias no hay un segundo objeto.</p>
+    </div>
+    <div class="cod-parte">
+      <p class="cod-rotulo"><span class="cod-n">4</span>La puerta: el método estático<span class="cod-rol">Singleton</span></p>
+      <pre class="codigo" data-desde="15" data-clave="2,3"><code>  static Configuracion* obtenerInstancia() {
     if (instancia_ == nullptr) {
       instancia_ = new Configuracion;
     }
     return instancia_;
-  }
-
-  std::string idioma() const {
+  }</code></pre>
+      <p>La tercera pieza. La primera vez crea el objeto; todas las demás devuelve el que ya estaba.</p>
+    </div>
+    <div class="cod-parte">
+      <p class="cod-rotulo"><span class="cod-n">5</span>El trabajo propio de la clase</p>
+      <pre class="codigo" data-desde="22"><code>  std::string idioma() const {
     return idioma_;
   }
 
   void cambiarIdioma(std::string idioma) {
     idioma_ = idioma;
   }
-};
-
-Configuracion* Configuracion::instancia_ = nullptr;
-
-int main() {
+};</code></pre>
+      <p>Un Singleton sigue siendo una clase común: además de controlar su instancia, hace su trabajo.</p>
+    </div>
+    <div class="cod-parte">
+      <p class="cod-rotulo"><span class="cod-n">6</span>El valor inicial del atributo estático</p>
+      <pre class="codigo" data-desde="31"><code>Configuracion* Configuracion::instancia_ = nullptr;</code></pre>
+      <p>Al arrancar no apunta a nada.</p>
+    </div>
+    <div class="cod-parte">
+      <p class="cod-rotulo"><span class="cod-n">7</span>El programa</p>
+      <pre class="codigo" data-desde="33"><code>int main() {
   Configuracion* a = Configuracion::obtenerInstancia();
   Configuracion* b = Configuracion::obtenerInstancia();
 
@@ -142,6 +163,9 @@ int main() {
   }
   return 0;
 }</code></pre>
+      <p>Se pide la instancia dos veces y se comprueba que es la misma.</p>
+    </div>
+  </div>
 
   <h4>Qué hace cada línea</h4>
   <div class="tabla-wrap">

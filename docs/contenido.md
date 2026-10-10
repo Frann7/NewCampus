@@ -114,6 +114,25 @@ Usá estas y no inventes otras, así el diseño se mantiene consistente:
 | `.tabla-wrap` + `table.t` | tablas (agregá `.full` para ancho completo) |
 | `.kicker` | rótulo chiquito arriba del `<h2>` |
 
+**Código.** Se escribe plano, `<pre class="codigo"><code>...</code></pre>` (con `&lt;`, `&gt;` y
+`&amp;`), y `construir.py` lo colorea solo al armar el campus (`app/resaltado.py`): adivina el
+lenguaje, marca las palabras y numera las líneas de los bloques de 4 renglones o más. Atributos
+opcionales del `<pre>`: `data-lang="cpp|php|cs|html|git|c|texto"` si adivina mal,
+`data-clave="3,7-9"` para resaltar renglones (contados dentro del bloque) y `data-desde="12"`
+para que la numeración arranque en ese número.
+
+Un programa largo se muestra **por partes**, no en un solo bloque:
+
+```html
+<div class="cod-partes">
+  <div class="cod-parte">
+    <p class="cod-rotulo"><span class="cod-n">1</span>Título de la parte<span class="cod-rol">Rol</span></p>
+    <pre class="codigo" data-desde="1" data-clave="4"><code>...</code></pre>
+    <p>Una nota corta: qué es esta parte.</p>
+  </div>
+</div>
+```
+
 El índice lateral se arma solo con los `<h2>` y `<h3>` del pane, y les pone adelante el número
 de ejercicio leyéndolo del `.tag`.
 

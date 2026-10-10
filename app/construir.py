@@ -51,6 +51,8 @@ import sys
 import json
 import glob
 
+from resaltado import colorear
+
 AQUI = os.path.dirname(os.path.abspath(__file__))
 CONTENIDO = os.path.join(AQUI, "contenido")
 GENERADO = os.path.join(AQUI, "generado")
@@ -101,7 +103,7 @@ def armar_apunte(carpeta, vista):
             continue
         for p in revisar_formulas(trozo):
             problemas.append("%s: %s" % (os.path.basename(ruta), p))
-        partes.append(sangrar(trozo))
+        partes.append(colorear(sangrar(trozo)))
 
     pestania = vista.rsplit("/", 1)[1]
     texto = ('<section class="pane" data-view="%s" data-tab-owner="%s">\n%s\n</section>'
@@ -131,7 +133,7 @@ def armar_examen(carpeta, tipo):
         trozo = io.open(ruta, encoding="utf-8").read().strip()
         for pr in revisar_formulas(trozo):
             problemas.append("%s: %s" % (os.path.basename(ruta), pr))
-        partes.append(sangrar(trozo))
+        partes.append(colorear(sangrar(trozo)))
     if not partes:
         return None, None, problemas + ["la carpeta no tiene ejercicios"]
 
@@ -363,7 +365,7 @@ def main():
             pregunta = io.open(ruta, encoding="utf-8").read().strip()
             for pr in revisar_preguntas(pregunta, ids_vistos):
                 problemas.append("%s: %s" % (os.path.basename(ruta), pr))
-            partes.append(pregunta)
+            partes.append(colorear(pregunta))
         if not partes:
             hubo_problemas |= informar(rel, "", ["la carpeta esta vacia"])
             continue

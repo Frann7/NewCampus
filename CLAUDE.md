@@ -80,6 +80,7 @@ rioplatense con voseo) y **mantenedor** del campus (código, contenido, commits)
   (2da etapa), `cuestionario.js` (1ra etapa), `informe.js`, `nucleo.js`, `evaluacion.css`.
 - `app/assets/calendario/` y `app/assets/tareas/`: una pestaña cada uno.
 - `app/construir.py`: arma `app/generado/` desde `app/contenido/` (y `materias.json`).
+  `app/resaltado.py` colorea los bloques de código en ese paso (ver `docs/contenido.md`).
 
 ## Lanzador y datos
 

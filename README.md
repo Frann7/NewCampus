@@ -235,6 +235,9 @@ Chrome (`chrome --headless --print-to-pdf`).
 `0.x.y-alpha` mientras esté en desarrollo. La `1.0.0` queda reservada para cuando esté terminado.
 La versión actual se lee al pie del menú lateral.
 
+* **0.44.2-alpha** — Ingeniería de Software II, unidad base: explicado por qué lo estático se
+  nombra con `Clase::` y no con un objeto y un punto, y por qué `int Alumno::cantidad_ = 0;` no es
+  una asignación a un atributo privado sino la línea que lo crea.
 * **0.44.1-alpha** — Ingeniería de Software II: los ejemplos que leen o piden un diagrama lo
   muestran ahí mismo, en vez de mandar a buscarlo más arriba (7 lugares de la teoría).
 * **0.44.0-alpha** — Ingeniería de Software II: autoevaluaciones por temas. Banco de 67 preguntas

@@ -210,7 +210,12 @@
     <div class="cod-parte">
       <p class="cod-rotulo"><span class="cod-n">4</span>El valor inicial del atributo estático</p>
       <pre class="codigo" data-desde="19"><code>int Alumno::cantidad_ = 0;</code></pre>
-      <p>En C++ se escribe afuera de la clase. <code>Alumno::</code> se lee "de la clase Alumno".</p>
+      <p>
+        Va afuera de la clase y afuera de <code>main</code>. <strong>No es una asignación</strong>:
+        empieza con el tipo (<code>int</code>), así que es la línea que <strong>crea</strong> el
+        contador, una sola vez, con su valor inicial. <code>Alumno::</code> se lee "de la clase
+        Alumno". Está explicada abajo, después de la salida.
+      </p>
     </div>
     <div class="cod-parte">
       <p class="cod-rotulo"><span class="cod-n">5</span>El programa</p>
@@ -232,7 +237,7 @@
       <tr><td><code>static int cantidad_;</code></td><td>Declara un atributo de la clase: un solo contador para todos los alumnos.</td><td>&mdash;</td></tr>
       <tr><td><code>Alumno(std::string nombre) : nombre_(nombre) { cantidad_ = cantidad_ + 1; }</code></td><td>El constructor: guarda el nombre y, cada vez que se crea un alumno, suma 1 al contador compartido.</td><td>&mdash;</td></tr>
       <tr><td><code>static int cantidad() { ... }</code></td><td>Un método de la clase: se puede llamar <strong>sin tener ningún objeto</strong>.</td><td>&mdash;</td></tr>
-      <tr><td><code>int Alumno::cantidad_ = 0;</code></td><td>Le da su valor inicial al atributo estático. En C++ esto se escribe <strong>afuera de la clase</strong>. <code>Alumno::</code> se lee "de la clase Alumno".</td><td>cantidad_ = 0</td></tr>
+      <tr><td><code>int Alumno::cantidad_ = 0;</code></td><td><strong>Crea</strong> el atributo estático y le da su valor inicial, antes de que arranque <code>main</code>. Se escribe <strong>afuera de la clase</strong>; <code>Alumno::</code> se lee "de la clase Alumno".</td><td>cantidad_ = 0</td></tr>
       <tr><td><code>std::cout &lt;&lt; Alumno::cantidad() ...</code></td><td>Llama al método estático con <code>Clase::metodo()</code>, sin objeto. Todavía no se creó ningún alumno.</td><td>cantidad_ = 0</td></tr>
       <tr><td><code>Alumno a("Ana");</code></td><td>Crea un alumno: corre el constructor.</td><td>cantidad_ = 1</td></tr>
       <tr><td><code>Alumno b("Luis");</code></td><td>Crea otro: corre el constructor de nuevo, sobre el <strong>mismo</strong> contador.</td><td>cantidad_ = 2</td></tr>
@@ -247,6 +252,85 @@
     Los dos alumnos sumaron sobre el mismo <code>cantidad_</code> porque es de la clase. Si no fuera
     <code>static</code>, cada alumno tendría el suyo.
   </p>
+
+  <h4>El punto y los dos puntos dobles: a quién se le pide</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Se escribe</th><th>A la izquierda va</th><th>Qué quiere decir</th><th>Ejemplo</th></tr>
+      <tr><td class="lbl"><code>objeto.algo</code></td><td>Un <strong>objeto</strong></td><td>"Pedile esto a <strong>este</strong> objeto": trabaja con los datos de ese objeto.</td><td><code>c.depositar(50)</code>: deposita en la cuenta <code>c</code>, no en otra</td></tr>
+      <tr><td class="lbl"><code>Clase::algo</code></td><td>El nombre de una <strong>clase</strong></td><td>"El <code>algo</code> que está <strong>adentro de</strong> esa clase". No nombra ningún objeto.</td><td><code>Alumno::cantidad()</code>: el <code>cantidad()</code> de la clase Alumno</td></tr>
+    </table>
+  </div>
+  <p>
+    Un método común necesita saber <strong>sobre qué objeto</strong> trabaja: <code>depositar(50)</code>
+    solo no alcanza, falta decir en cuál de todas las cuentas. Por eso va con un objeto y un punto.
+    Un método <code>static</code> no usa los datos de ningún objeto (<code>cantidad()</code> devuelve
+    el contador, que es de la clase), así que no hay objeto que nombrar: alcanza con decir
+    <strong>de qué clase es</strong>. Eso son los <code>::</code>.
+  </p>
+  <p>
+    Los <code>::</code> no son algo exclusivo de <code>static</code>: siempre quieren decir "el que
+    está adentro de". En <code>std::string</code> es lo mismo: "el <code>string</code> que está
+    adentro de <code>std</code>", la biblioteca estándar.
+  </p>
+  <p>
+    C++ también deja llamar a un método estático con un objeto (<code>a.cantidad()</code> compila y
+    da lo mismo), pero no se escribe así: hace creer que la cantidad es de Ana. Con un
+    <strong>puntero</strong> a un objeto, en lugar del punto va una flecha, <code>p-&gt;algo</code>
+    (sección 4).
+  </p>
+
+  <h4>Por qué <code>int Alumno::cantidad_ = 0;</code> puede tocar algo privado</h4>
+  <p>
+    Parece que desde afuera de la clase se le está cambiando el valor a un atributo privado. No es
+    eso. Un atributo estático se escribe <strong>en dos lugares</strong>:
+  </p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Dónde va</th><th>Qué hace</th></tr>
+      <tr><td><code>static int cantidad_;</code></td><td>Adentro de la clase</td><td>La <strong>declaración</strong>: avisa que la clase tiene ese atributo. Todavía no existe ningún contador.</td></tr>
+      <tr><td><code>int Alumno::cantidad_ = 0;</code></td><td>Afuera de la clase y de toda función</td><td>La <strong>definición</strong>: crea el contador, una sola vez y antes de que arranque <code>main</code>, y le pone su primer valor.</td></tr>
+    </table>
+  </div>
+  <p>
+    Hace falta porque un atributo común nace <strong>con cada objeto</strong>, y su valor inicial lo
+    pone el constructor. El estático no es de ningún objeto: si no se lo crea con esta línea, no lo
+    crea nadie. Como la línea está afuera de las llaves de la clase, hay que decir de qué clase es
+    ese <code>cantidad_</code>: por eso el <code>Alumno::</code> adelante. Si se la olvida, el
+    programa no llega a armarse:
+  </p>
+  <pre class="salida">undefined reference to `Alumno::cantidad_'</pre>
+  <p>
+    <code>private</code> controla quién <strong>usa</strong> el atributo. La definición no lo usa
+    desde afuera: es la clase terminando de escribirse, como si esa línea siguiera adentro de las
+    llaves. Usarlo desde afuera sigue prohibido. Las dos líneas se parecen, pero la primera empieza
+    con el tipo y la segunda no:
+  </p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Dónde está</th><th>Qué es</th><th>¿Compila?</th></tr>
+      <tr><td><code>int Alumno::cantidad_ = 0;</code></td><td>Suelta, afuera de toda función</td><td>La definición del atributo</td><td><span class="et ok">Sí</span></td></tr>
+      <tr><td><code>Alumno::cantidad_ = 5;</code></td><td>Adentro de <code>main</code></td><td>Una asignación, desde afuera, a algo privado</td><td><span class="et mal">No</span> <code>'int Alumno::cantidad_' is private within this context</code></td></tr>
+    </table>
+  </div>
+  <p>
+    Las dos cosas son propias de lo <code>static</code>: los atributos comunes no llevan esa línea
+    de afuera, y los métodos comunes no se llaman con el nombre de la clase.
+  </p>
+
+  <h4>La misma notación en un código de la cátedra</h4>
+  <p>
+    El Singleton de la guía de patrones (Práctica de la Unidad 4A, ejercicio 1) tiene estas tres
+    líneas. Son las que delatan al patrón:
+  </p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Cómo se lee</th></tr>
+      <tr><td><code>Inicio_Serie* Inicio_Serie::Inicio_Serie_ = nullptr;</code></td><td>La definición de un atributo estático, igual que <code>int Alumno::cantidad_ = 0;</code>. El tipo es <code>Inicio_Serie*</code> (un puntero a un objeto de la clase), el atributo se llama <code>Inicio_Serie_</code>, es de la clase <code>Inicio_Serie</code> y arranca en <code>nullptr</code> (vacío: todavía no hay objeto).</td></tr>
+      <tr><td><code>Inicio_Serie *Inicio_Serie::GetInstance(const std::string&amp; value) { ... }</code></td><td>Un <strong>método</strong> escrito afuera de la clase: adentro solo está declarado, y acá va su código. Es el otro uso de <code>Clase::</code> fuera de las llaves: "el <code>GetInstance</code> de la clase <code>Inicio_Serie</code>".</td></tr>
+      <tr><td><code>Inicio_Serie::GetInstance("FOO");</code></td><td>La llamada a un método estático, con la clase y sin objeto, igual que <code>Alumno::cantidad()</code>.</td></tr>
+    </table>
+  </div>
 
   <h3>Errores y trampas</h3>
   <div class="caja caja-ojo">

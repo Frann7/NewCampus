@@ -1,0 +1,302 @@
+<div class="bloque">
+  <p class="kicker">C++</p>
+  <h2>4. Herencia, <code>virtual</code> y punteros en C++</h2>
+
+  <h3>Para qué sirve</h3>
+  <p>
+    Todos los patrones se apoyan en la misma idea: una parte del programa trabaja con una
+    <strong>clase general</strong> (o una interfaz) sin saber cuál de las <strong>clases
+    concretas</strong> tiene adelante. Eso se llama <strong>polimorfismo</strong>: la misma orden,
+    <code>hablar()</code>, hace cosas distintas según el objeto que la recibe. En C++ se escribe con
+    cuatro piezas: herencia, <code>virtual</code>, <code>override</code> y punteros.
+  </p>
+
+  <h3>Sintaxis</h3>
+  <pre class="codigo"><code>class Madre {
+ public:
+  virtual ~Madre() {}
+  virtual Tipo metodo() const = 0;
+};
+
+class Hija : public Madre {
+ public:
+  Tipo metodo() const override {
+    // código propio de la hija
+  }
+};
+
+Madre* p = new Hija;
+p-&gt;metodo();
+delete p;</code></pre>
+
+  <h3>Qué es cada parte</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Parte</th><th>Qué es</th></tr>
+      <tr><td><code>class Hija : public Madre</code></td><td><strong>Herencia.</strong> Los dos puntos se leen "hereda de". <code>Hija</code> tiene todo lo de <code>Madre</code>.</td></tr>
+      <tr><td><code>virtual</code></td><td>Marca un método que las hijas <strong>pueden volver a escribir</strong>. Sin <code>virtual</code> no hay polimorfismo.</td></tr>
+      <tr><td><code>= 0</code></td><td>El método <strong>no tiene código</strong> en la madre: es abstracto (<em>virtual puro</em>). Las hijas están obligadas a escribirlo. Una clase con algún <code>= 0</code> es <strong>abstracta</strong>: no se pueden crear objetos de ella.</td></tr>
+      <tr><td><code>override</code></td><td>Va en la hija: "este método <strong>reemplaza</strong> al de la madre".</td></tr>
+      <tr><td><code>virtual ~Madre() {}</code></td><td>El <strong>destructor</strong>: lo que se ejecuta cuando el objeto se destruye. Se llama como la clase con <code>~</code> adelante. Aparece en casi toda clase base; para leer un patrón se puede saltear.</td></tr>
+      <tr><td><code>Madre* p</code></td><td>Un <strong>puntero</strong>: una variable que no guarda un objeto sino <strong>dónde está</strong> un objeto. El asterisco pegado al tipo se lee "puntero a". Un puntero a <code>Madre</code> puede apuntar a cualquiera de sus hijas.</td></tr>
+      <tr><td><code>new Hija</code></td><td>Crea un objeto de la clase <code>Hija</code> y devuelve dónde quedó.</td></tr>
+      <tr><td><code>p-&gt;metodo()</code></td><td>La <strong>flecha</strong> es el punto de los punteros: "pedile esto al objeto al que apunta <code>p</code>".</td></tr>
+      <tr><td><code>delete p;</code></td><td>Destruye el objeto creado con <code>new</code>. Para leer un patrón no importa.</td></tr>
+      <tr><td><code>nullptr</code></td><td>Un puntero que <strong>no apunta a nada</strong> todavía.</td></tr>
+    </table>
+  </div>
+
+  <div class="caja caja-formula">
+    <span class="caja-tit">C++ no tiene la palabra <code>interface</code></span>
+    <p>
+      Una <strong>interfaz</strong> en C++ es una clase en la que <strong>todos</strong> los métodos
+      son <code>virtual ... = 0</code> y no hay atributos. Cuando en un código veas una clase así
+      (muchas veces su nombre empieza con <code>I</code>, como <code>ISubject</code>), en el diagrama
+      es una <code>&#171;interface&#187;</code> y las que heredan de ella van con línea punteada.
+    </p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; La misma orden, dos respuestas</h3>
+
+  <pre class="codigo"><code>#include &lt;iostream&gt;
+#include &lt;string&gt;
+
+class Animal {
+ public:
+  virtual ~Animal() {}
+  virtual std::string hablar() const = 0;
+};
+
+class Perro : public Animal {
+ public:
+  std::string hablar() const override {
+    return "Guau";
+  }
+};
+
+class Gato : public Animal {
+ public:
+  std::string hablar() const override {
+    return "Miau";
+  }
+};
+
+int main() {
+  Animal* a = new Perro;
+  std::cout &lt;&lt; a-&gt;hablar() &lt;&lt; "\n";
+  delete a;
+
+  a = new Gato;
+  std::cout &lt;&lt; a-&gt;hablar() &lt;&lt; "\n";
+  delete a;
+  return 0;
+}</code></pre>
+
+  <h4>Qué hace cada línea</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Cómo quedan los datos</th></tr>
+      <tr><td><code>class Animal { ... virtual std::string hablar() const = 0; };</code></td><td>Define la clase general. Dice que todo animal sabe <code>hablar()</code> y devuelve un texto, pero no dice cómo: es abstracta.</td><td>&mdash;</td></tr>
+      <tr><td><code>class Perro : public Animal { ... override ... }</code></td><td>Un Perro es un Animal, y escribe su propio <code>hablar()</code>.</td><td>&mdash;</td></tr>
+      <tr><td><code>class Gato : public Animal { ... }</code></td><td>Lo mismo para el Gato.</td><td>&mdash;</td></tr>
+      <tr><td><code>Animal* a = new Perro;</code></td><td>Crea un Perro y guarda dónde está en <code>a</code>, que es un puntero a <strong>Animal</strong>.</td><td><code>a</code> &rarr; un Perro</td></tr>
+      <tr><td><code>std::cout &lt;&lt; a-&gt;hablar() ...</code></td><td>Le pide <code>hablar()</code> al objeto apuntado. Como es un Perro, corre el <code>hablar()</code> de Perro.</td><td>sin cambios</td></tr>
+      <tr><td><code>delete a;</code></td><td>Destruye el Perro.</td><td><code>a</code> ya no sirve</td></tr>
+      <tr><td><code>a = new Gato;</code></td><td>El mismo puntero ahora apunta a un Gato.</td><td><code>a</code> &rarr; un Gato</td></tr>
+      <tr><td><code>std::cout &lt;&lt; a-&gt;hablar() ...</code></td><td><strong>La línea es idéntica a la de antes</strong>, pero ahora corre el <code>hablar()</code> de Gato.</td><td>sin cambios</td></tr>
+    </table>
+  </div>
+
+  <h4>Qué imprime y por qué</h4>
+  <pre class="salida">Guau
+Miau</pre>
+  <p>
+    <code>a-&gt;hablar()</code> está escrito dos veces igual y dio dos resultados. El que decide qué
+    código corre <strong>no es el tipo del puntero</strong> (Animal) sino <strong>el objeto al que
+    apunta</strong>. Eso es polimorfismo.
+  </p>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; Con formato de parcial: una clase que guarda un puntero a otra</h3>
+  <p>
+    Este es el esqueleto que más se repite en los códigos de los parciales: una clase que tiene
+    como atributo un <strong>puntero a una clase general</strong> y le pasa el trabajo. Las clases
+    <code>Animal</code>, <code>Perro</code> y <code>Gato</code> son las del ejemplo 1.
+  </p>
+
+  <pre class="codigo"><code>#include &lt;iostream&gt;
+#include &lt;string&gt;
+#include &lt;vector&gt;
+
+// ... Animal, Perro y Gato, como en el ejemplo 1 ...
+
+class Duenio {
+ private:
+  Animal* mascota_;
+
+ public:
+  Duenio(Animal* mascota) : mascota_(mascota) {}
+
+  void cambiarMascota(Animal* mascota) {
+    mascota_ = mascota;
+  }
+
+  void saludar() const {
+    std::cout &lt;&lt; "Mi mascota dice: " &lt;&lt; mascota_-&gt;hablar() &lt;&lt; "\n";
+  }
+};
+
+int main() {
+  Animal* perro = new Perro;
+  Animal* gato = new Gato;
+
+  Duenio d(perro);
+  d.saludar();
+  d.cambiarMascota(gato);
+  d.saludar();
+
+  std::vector&lt;Animal*&gt; todos;
+  todos.push_back(perro);
+  todos.push_back(gato);
+  for (Animal* x : todos) {
+    std::cout &lt;&lt; x-&gt;hablar() &lt;&lt; "\n";
+  }
+
+  delete perro;
+  delete gato;
+  return 0;
+}</code></pre>
+
+  <h4>Qué hace cada línea</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Cómo quedan los datos</th></tr>
+      <tr><td><code>Animal* mascota_;</code></td><td>El Dueño guarda un puntero a un Animal. No sabe (ni le importa) si es Perro o Gato.</td><td>&mdash;</td></tr>
+      <tr><td><code>Duenio(Animal* mascota) : mascota_(mascota) {}</code></td><td>El constructor recibe el animal <strong>desde afuera</strong> y lo guarda.</td><td>&mdash;</td></tr>
+      <tr><td><code>void cambiarMascota(Animal* mascota)</code></td><td>Permite cambiar el animal guardado mientras el programa corre.</td><td>&mdash;</td></tr>
+      <tr><td><code>mascota_-&gt;hablar()</code> (en <code>saludar</code>)</td><td>El Dueño no habla: <strong>le pasa el trabajo</strong> a su mascota. A eso se le dice <em>delegar</em>.</td><td>&mdash;</td></tr>
+      <tr><td><code>Animal* perro = new Perro;</code><br><code>Animal* gato = new Gato;</code></td><td>Crea los dos animales.</td><td><code>perro</code> &rarr; un Perro; <code>gato</code> &rarr; un Gato</td></tr>
+      <tr><td><code>Duenio d(perro);</code></td><td>Crea el Dueño pasándole el Perro.</td><td><code>d</code>: mascota_ &rarr; el Perro</td></tr>
+      <tr><td><code>d.saludar();</code></td><td>El Dueño delega en su mascota, que es el Perro.</td><td>sin cambios</td></tr>
+      <tr><td><code>d.cambiarMascota(gato);</code></td><td>Le cambia la mascota.</td><td><code>d</code>: mascota_ &rarr; el Gato</td></tr>
+      <tr><td><code>d.saludar();</code></td><td>La misma llamada, ahora delega en el Gato.</td><td>sin cambios</td></tr>
+      <tr><td><code>std::vector&lt;Animal*&gt; todos;</code></td><td>Crea una <strong>lista de punteros a Animal</strong>, vacía. <code>vector</code> es la lista de C++; entre <code>&lt; &gt;</code> va qué guarda.</td><td><code>todos</code>: vacía</td></tr>
+      <tr><td><code>todos.push_back(perro);</code><br><code>todos.push_back(gato);</code></td><td><code>push_back</code> agrega al final.</td><td><code>todos</code>: [el Perro, el Gato]</td></tr>
+      <tr><td><code>for (Animal* x : todos) { ... }</code></td><td>Recorre la lista: en cada vuelta <code>x</code> es el elemento siguiente. Se lee "para cada <code>x</code> en <code>todos</code>".</td><td>vuelta 1: <code>x</code> &rarr; el Perro; vuelta 2: <code>x</code> &rarr; el Gato</td></tr>
+    </table>
+  </div>
+
+  <h4>Qué imprime y por qué</h4>
+  <pre class="salida">Mi mascota dice: Guau
+Mi mascota dice: Miau
+Guau
+Miau</pre>
+  <p>
+    Las dos primeras líneas salen de <code>d.saludar()</code>, antes y después de cambiarle la
+    mascota. Las dos últimas, del recorrido de la lista.
+  </p>
+
+  <h4>El mismo código, en diagrama</h4>
+  <div class="pd-grafico uml" data-g="duenio">
+    <svg viewBox="-14 -14 769 257" width="769" height="257" role="img" aria-label="Duenio guarda un puntero a Animal; Perro y Gato heredan de Animal">
+      <polyline class="linea" points="328,62.5 399,62.5 399,62.5 470,62.5"/>
+      <polyline class="linea" points="460,67.5 470,62.5 460,57.5"/>
+      <text class="rotulo" x="399" y="56.5" text-anchor="middle">mascota_</text>
+      <polyline class="linea" points="460.5,170 460.5,141.5 550.5,141.5 550.5,113"/>
+      <polygon class="hueca" points="550.5,100 557.5,113 543.5,113"/>
+      <polyline class="linea" points="660.5,170 660.5,141.5 550.5,141.5 550.5,113"/>
+      <polygon class="hueca" points="550.5,100 557.5,113 543.5,113"/>
+      <rect class="caja" x="0" y="0" width="328" height="126" rx="3"/>
+      <text class="nombre" x="164" y="20">Duenio</text>
+      <line class="div" x1="0" y1="30" x2="328" y2="30"/>
+      <text class="miembro" x="10" y="48">- mascota_: Animal*</text>
+      <line class="div" x1="0" y1="59" x2="328" y2="59"/>
+      <text class="miembro" x="10" y="77">+ Duenio(mascota: Animal*)</text>
+      <text class="miembro" x="10" y="96">+ cambiarMascota(mascota: Animal*): void</text>
+      <text class="miembro" x="10" y="115">+ saludar(): void</text>
+      <rect class="caja" x="470" y="25" width="161" height="75" rx="3"/>
+      <text class="estereo" x="550.5" y="41">&#171;abstract&#187;</text>
+      <text class="nombre abstracta" x="550.5" y="60">Animal</text>
+      <line class="div" x1="470" y1="71" x2="631" y2="71"/>
+      <text class="miembro abstracto" x="480" y="89">+ hablar(): string</text>
+      <rect class="caja" x="380" y="170" width="161" height="59" rx="3"/>
+      <text class="nombre" x="460.5" y="190">Perro</text>
+      <line class="div" x1="380" y1="200" x2="541" y2="200"/>
+      <text class="miembro" x="390" y="218">+ hablar(): string</text>
+      <rect class="caja" x="580" y="170" width="161" height="59" rx="3"/>
+      <text class="nombre" x="660.5" y="190">Gato</text>
+      <line class="div" x1="580" y1="200" x2="741" y2="200"/>
+      <text class="miembro" x="590" y="218">+ hablar(): string</text>
+    </svg>
+  </div>
+  <p>
+    El atributo <code>Animal* mascota_</code> es la flecha de <strong>asociación</strong> de
+    <code>Duenio</code> a <code>Animal</code>; los dos <code>: public Animal</code> son los
+    triángulos de <strong>herencia</strong>.
+  </p>
+
+  <h3>Del código al diagrama: qué flecha es cada cosa</h3>
+  <p>
+    Esta tabla es la que se usa para reconocer un patrón dentro de un código y para dibujar su
+    diagrama.
+  </p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Lo que ves en el código</th><th>Qué es</th><th>En el diagrama</th></tr>
+      <tr><td><code>class B : public A</code>, y <code>A</code> tiene código o atributos</td><td>Herencia</td><td>Línea continua con triángulo en <code>A</code></td></tr>
+      <tr><td><code>class B : public A</code>, y en <code>A</code> todo es <code>virtual ... = 0</code></td><td>Realización de una interfaz</td><td>Línea punteada con triángulo en <code>A</code>, que lleva <code>&#171;interface&#187;</code></td></tr>
+      <tr><td>Un atributo <code>A* a_;</code> dentro de <code>B</code></td><td>Asociación: <code>B</code> conoce a un <code>A</code></td><td>Flecha continua de <code>B</code> a <code>A</code></td></tr>
+      <tr><td>Un atributo <code>std::vector&lt;A*&gt;</code> o <code>std::list&lt;A*&gt;</code> dentro de <code>B</code></td><td>Agregación: <code>B</code> tiene muchos <code>A</code></td><td>Rombo vacío en <code>B</code>, línea hasta <code>A</code>, con <code>*</code></td></tr>
+      <tr><td><code>new A</code> dentro de un método de <code>B</code>, que lo devuelve</td><td>Dependencia: <code>B</code> crea un <code>A</code></td><td>Flecha punteada de <code>B</code> a <code>A</code></td></tr>
+      <tr><td><code>A</code> aparece solo como parámetro de un método de <code>B</code></td><td>Dependencia: <code>B</code> usa un <code>A</code></td><td>Flecha punteada de <code>B</code> a <code>A</code></td></tr>
+      <tr><td><code>static</code> adelante de un atributo o un método</td><td>Estático</td><td>Subrayado</td></tr>
+      <tr><td>Un método con <code>= 0</code></td><td>Abstracto</td><td>En cursiva</td></tr>
+      <tr><td><code>private:</code> / <code>protected:</code> / <code>public:</code></td><td>Visibilidad</td><td><code>-</code> / <code>#</code> / <code>+</code></td></tr>
+    </table>
+  </div>
+
+  <h3>Errores y trampas</h3>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">De una clase abstracta no se pueden crear objetos</span>
+    <p>Escribir <code>Animal a;</code> no compila:</p>
+    <pre class="salida">error: cannot declare variable 'a' to be of abstract type 'Animal'</pre>
+    <p>
+      Sí se puede tener un <strong>puntero</strong> a <code>Animal</code>, que apunte a un Perro o a
+      un Gato. Por eso los patrones trabajan siempre con punteros a la clase general.
+    </p>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Punto para objetos, flecha para punteros</span>
+    <p>
+      <code>d.saludar()</code>: <code>d</code> es un objeto. <code>perro-&gt;hablar()</code>:
+      <code>perro</code> es un puntero. Hacen lo mismo. También vas a ver
+      <code>this-&gt;atributo_</code>: <code>this</code> es un puntero al propio objeto, así que
+      <code>this-&gt;mascota_</code> es lo mismo que escribir <code>mascota_</code> a secas.
+    </p>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">La misma vuelta, escrita a la antigua</span>
+    <p>
+      En los códigos de la cátedra las listas se recorren con un <em>iterador</em>, que es más
+      largo pero hace lo mismo que el <code>for</code> de arriba:
+    </p>
+    <pre class="codigo"><code>std::list&lt;std::string&gt; nombres;
+nombres.push_back("Ana");
+nombres.push_back("Luis");
+std::list&lt;std::string&gt;::iterator it = nombres.begin();
+while (it != nombres.end()) {
+  std::cout &lt;&lt; *it &lt;&lt; "\n";
+  ++it;
+}</code></pre>
+    <pre class="salida">Ana
+Luis</pre>
+    <p>
+      <code>it</code> arranca en el primer elemento (<code>begin()</code>), <code>*it</code> es el
+      elemento donde está parado, <code>++it</code> pasa al siguiente y <code>end()</code> es "ya
+      no hay más". Cuando veas esto, leelo como <strong>"para cada elemento de la lista"</strong>.
+    </p>
+  </div>
+</div>

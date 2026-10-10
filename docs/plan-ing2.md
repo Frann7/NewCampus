@@ -85,7 +85,7 @@ Se cargan **en este orden, una atrás de la otra** (sin día fijo: pueden ir var
 Cada parte termina construida ("Todo en orden"), verificada en el navegador y pusheada, y acá se
 tilda. Si una parte se alarga, se recorta la práctica (menos ejercicios), nunca la teoría.
 
-### Parte 1 — Alta de la materia y Base ☐
+### Parte 1 — Alta de la materia y Base ☑
 
 - `materias.json`: las 6 unidades de `ing2`. `app/contenido/ing2/CLAUDE.md` con las reglas propias.
   Convención de diagramas UML (SVG + sus estilos). README y versión.

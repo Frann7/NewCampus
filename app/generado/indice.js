@@ -1,6 +1,7 @@
 /* GENERADO por construir.py - NO EDITAR. El contenido se edita en contenido/ */
 window.Apuntes.registrarIndice({
   "panes": {
+    "ing2/base/teoria": "panes/ing2-base-teoria.js",
     "pa/c1/practica": "panes/pa-c1-practica.js",
     "pa/c1/teoria": "panes/pa-c1-teoria.js",
     "pa/c2/practica": "panes/pa-c2-practica.js",
@@ -229,7 +230,13 @@ window.Apuntes.registrarIndice({
       "clave": "ing2",
       "nombre": "Ingenieria de Software II",
       "corto": "Ing. Soft. II",
-      "unidades": []
+      "unidades": [
+        {
+          "clave": "base",
+          "num": "Unidad 0",
+          "nombre": "Base: UML de clases y C++"
+        }
+      ]
     },
     {
       "clave": "so-teoria",

@@ -1,0 +1,333 @@
+<div class="bloque">
+  <p class="kicker">Diagramas</p>
+  <h2>2. Las flechas: cómo se relacionan las clases</h2>
+
+  <h3>Para qué sirve</h3>
+  <p>
+    Las clases no trabajan solas: una hereda de otra, una guarda a otra, una usa a otra. En el
+    diagrama cada tipo de relación tiene <strong>su propia línea</strong>. La estructura de un patrón
+    de diseño no es más que un grupo de clases unidas con estas líneas, así que hay que saber
+    leerlas y dibujarlas sin dudar. Son seis.
+  </p>
+
+  <h3>1. Herencia: "es un"</h3>
+  <p>
+    Una clase <strong>hija</strong> hereda todo lo que tiene la clase <strong>madre</strong>
+    (atributos y métodos) y puede agregar o cambiar cosas. Se lee: <em>"un Perro <strong>es un</strong>
+    Animal"</em>.
+  </p>
+  <div class="pd-grafico uml" data-g="herencia">
+    <svg viewBox="-14 -14 389 227" width="389" height="227" role="img" aria-label="Perro y Gato heredan de Animal">
+      <polyline class="linea" points="80.5,140 80.5,120.5 175.5,120.5 175.5,101"/>
+      <polygon class="hueca" points="175.5,88 182.5,101 168.5,101"/>
+      <polyline class="linea" points="280.5,140 280.5,120.5 175.5,120.5 175.5,101"/>
+      <polygon class="hueca" points="175.5,88 182.5,101 168.5,101"/>
+      <rect class="caja" x="95" y="0" width="161" height="88" rx="3"/>
+      <text class="nombre" x="175.5" y="20">Animal</text>
+      <line class="div" x1="95" y1="30" x2="256" y2="30"/>
+      <text class="miembro" x="105" y="48"># nombre: string</text>
+      <line class="div" x1="95" y1="59" x2="256" y2="59"/>
+      <text class="miembro" x="105" y="77">+ hablar(): string</text>
+      <rect class="caja" x="0" y="140" width="161" height="59" rx="3"/>
+      <text class="nombre" x="80.5" y="160">Perro</text>
+      <line class="div" x1="0" y1="170" x2="161" y2="170"/>
+      <text class="miembro" x="10" y="188">+ hablar(): string</text>
+      <rect class="caja" x="200" y="140" width="161" height="59" rx="3"/>
+      <text class="nombre" x="280.5" y="160">Gato</text>
+      <line class="div" x1="200" y1="170" x2="361" y2="170"/>
+      <text class="miembro" x="210" y="188">+ hablar(): string</text>
+    </svg>
+  </div>
+  <p>
+    <strong>Línea continua con un triángulo vacío. El triángulo toca a la madre.</strong>
+    Cuando varias hijas heredan de la misma madre, las líneas se juntan en un solo triángulo.
+    También se la llama <em>generalización</em>.
+  </p>
+
+  <h3>2. Realización: "cumple el contrato"</h3>
+  <p>
+    Es la herencia cuando lo de arriba es una <strong>interfaz</strong>: la clase de abajo se
+    compromete a escribir el código de todos los métodos que la interfaz lista. Se lee: <em>"un
+    Avión <strong>cumple</strong> (o <strong>implementa</strong>) Volador"</em>.
+  </p>
+  <div class="pd-grafico uml" data-g="realiza">
+    <svg viewBox="-14 -14 346 217" width="346" height="217" role="img" aria-label="Avion y Pajaro realizan la interfaz Volador">
+      <polyline class="linea punteada" points="69,130 69,109 154,109 154,88"/>
+      <polygon class="hueca" points="154,75 161,88 147,88"/>
+      <polyline class="linea punteada" points="249,130 249,109 154,109 154,88"/>
+      <polygon class="hueca" points="154,75 161,88 147,88"/>
+      <rect class="caja" x="85" y="0" width="138" height="75" rx="3"/>
+      <text class="estereo" x="154" y="16">&#171;interface&#187;</text>
+      <text class="nombre" x="154" y="35">Volador</text>
+      <line class="div" x1="85" y1="46" x2="223" y2="46"/>
+      <text class="miembro" x="95" y="64">+ volar(): void</text>
+      <rect class="caja" x="0" y="130" width="138" height="59" rx="3"/>
+      <text class="nombre" x="69" y="150">Avion</text>
+      <line class="div" x1="0" y1="160" x2="138" y2="160"/>
+      <text class="miembro" x="10" y="178">+ volar(): void</text>
+      <rect class="caja" x="180" y="130" width="138" height="59" rx="3"/>
+      <text class="nombre" x="249" y="150">Pajaro</text>
+      <line class="div" x1="180" y1="160" x2="318" y2="160"/>
+      <text class="miembro" x="190" y="178">+ volar(): void</text>
+    </svg>
+  </div>
+  <p>
+    <strong>Igual que la herencia, pero con la línea punteada.</strong> El triángulo toca a la
+    interfaz.
+  </p>
+
+  <h3>3. Asociación: "conoce a"</h3>
+  <p>
+    Una clase <strong>guarda una referencia</strong> a un objeto de otra clase, como atributo, para
+    poder pedirle cosas cuando quiera. Se lee: <em>"un Dueño <strong>conoce a</strong> su
+    Animal"</em>.
+  </p>
+  <div class="pd-grafico uml" data-g="asociacion">
+    <svg viewBox="-14 -14 509 116" width="509" height="116" role="img" aria-label="Duenio conoce a un Animal">
+      <polyline class="linea" points="153,29.5 236.5,29.5 236.5,29.5 320,29.5"/>
+      <polyline class="linea" points="310,34.5 320,29.5 310,24.5"/>
+      <text class="rotulo" x="236.5" y="23.5" text-anchor="middle">mascota</text>
+      <text class="rotulo" x="298" y="23.5" text-anchor="middle">1</text>
+      <rect class="caja" x="0" y="0" width="153" height="88" rx="3"/>
+      <text class="nombre" x="76.5" y="20">Duenio</text>
+      <line class="div" x1="0" y1="30" x2="153" y2="30"/>
+      <text class="miembro" x="10" y="48">- mascota: Animal</text>
+      <line class="div" x1="0" y1="59" x2="153" y2="59"/>
+      <text class="miembro" x="10" y="77">+ saludar(): void</text>
+      <rect class="caja" x="320" y="0" width="161" height="59" rx="3"/>
+      <text class="nombre" x="400.5" y="20">Animal</text>
+      <line class="div" x1="320" y1="30" x2="481" y2="30"/>
+      <text class="miembro" x="330" y="48">+ hablar(): string</text>
+    </svg>
+  </div>
+  <p>
+    <strong>Línea continua con punta de flecha abierta</strong>, que apunta a la clase conocida.
+    Sobre la línea se puede escribir el nombre del atributo (<code>mascota</code>). Muchas veces se
+    dibuja <strong>sin punta</strong>, como una línea simple: quiere decir lo mismo sin aclarar
+    quién conoce a quién.
+  </p>
+
+  <h3>4. Agregación: "tiene, y las partes existen solas"</h3>
+  <p>
+    Una asociación en la que una clase es el <strong>todo</strong> y la otra las
+    <strong>partes</strong>, normalmente una lista. Las partes <strong>pueden existir sin el
+    todo</strong>: si el equipo se disuelve, los jugadores siguen existiendo. Se lee: <em>"un Equipo
+    <strong>tiene</strong> Jugadores"</em>.
+  </p>
+  <div class="pd-grafico uml" data-g="agregacion">
+    <svg viewBox="-14 -14 534 116" width="534" height="116" role="img" aria-label="Un Equipo tiene muchos Jugadores">
+      <polyline class="linea" points="247,43.5 303.5,43.5 303.5,43.5 360,43.5"/>
+      <polygon class="hueca" points="229,43.5 238,37.5 247,43.5 238,49.5"/>
+      <text class="rotulo" x="338" y="37.5" text-anchor="middle">*</text>
+      <rect class="caja" x="0" y="0" width="229" height="88" rx="3"/>
+      <text class="nombre" x="114.5" y="20">Equipo</text>
+      <line class="div" x1="0" y1="30" x2="229" y2="30"/>
+      <text class="miembro" x="10" y="48">- nombre: string</text>
+      <line class="div" x1="0" y1="59" x2="229" y2="59"/>
+      <text class="miembro" x="10" y="77">+ agregar(j: Jugador): void</text>
+      <rect class="caja" x="360" y="14" width="146" height="59" rx="3"/>
+      <text class="nombre" x="433" y="34">Jugador</text>
+      <line class="div" x1="360" y1="44" x2="506" y2="44"/>
+      <text class="miembro" x="370" y="62">- nombre: string</text>
+    </svg>
+  </div>
+  <p><strong>Línea continua con un rombo vacío. El rombo toca al todo.</strong></p>
+
+  <h3>5. Composición: "está hecho de"</h3>
+  <p>
+    Una agregación más fuerte: las partes <strong>no existen sin el todo</strong>. Si se demuele la
+    casa, las habitaciones desaparecen con ella. Se lee: <em>"una Casa <strong>está hecha de</strong>
+    Habitaciones"</em>.
+  </p>
+  <div class="pd-grafico uml" data-g="composicion">
+    <svg viewBox="-14 -14 474 87" width="474" height="87" role="img" aria-label="Una Casa está hecha de Habitaciones">
+      <polyline class="linea" points="186,29.5 243,29.5 243,29.5 300,29.5"/>
+      <polygon class="llena" points="168,29.5 177,23.5 186,29.5 177,35.5"/>
+      <text class="rotulo" x="278" y="23.5" text-anchor="middle">1..*</text>
+      <rect class="caja" x="0" y="0" width="168" height="59" rx="3"/>
+      <text class="nombre" x="84" y="20">Casa</text>
+      <line class="div" x1="0" y1="30" x2="168" y2="30"/>
+      <text class="miembro" x="10" y="48">- direccion: string</text>
+      <rect class="caja" x="300" y="0" width="146" height="59" rx="3"/>
+      <text class="nombre" x="373" y="20">Habitacion</text>
+      <line class="div" x1="300" y1="30" x2="446" y2="30"/>
+      <text class="miembro" x="310" y="48">- metros: double</text>
+    </svg>
+  </div>
+  <p><strong>Igual que la agregación, pero con el rombo relleno.</strong></p>
+
+  <h3>6. Dependencia: "usa de pasada"</h3>
+  <p>
+    Una clase usa a otra <strong>un momento</strong>, sin guardarla como atributo: la recibe como
+    parámetro de un método, o la crea y la devuelve. Se lee: <em>"la Impresora <strong>usa</strong>
+    un Documento"</em>.
+  </p>
+  <div class="pd-grafico uml" data-g="dependencia">
+    <svg viewBox="-14 -14 561 87" width="561" height="87" role="img" aria-label="Impresora usa un Documento">
+      <polyline class="linea punteada" points="252,29.5 316,29.5 316,29.5 380,29.5"/>
+      <polyline class="linea" points="370,34.5 380,29.5 370,24.5"/>
+      <text class="rotulo" x="316" y="23.5" text-anchor="middle">usa</text>
+      <rect class="caja" x="0" y="0" width="252" height="59" rx="3"/>
+      <text class="nombre" x="126" y="20">Impresora</text>
+      <line class="div" x1="0" y1="30" x2="252" y2="30"/>
+      <text class="miembro" x="10" y="48">+ imprimir(d: Documento): void</text>
+      <rect class="caja" x="380" y="0" width="153" height="59" rx="3"/>
+      <text class="nombre" x="456.5" y="20">Documento</text>
+      <line class="div" x1="380" y1="30" x2="533" y2="30"/>
+      <text class="miembro" x="390" y="48">+ texto(): string</text>
+    </svg>
+  </div>
+  <p><strong>Línea punteada con punta de flecha abierta</strong>, que apunta a la clase usada.</p>
+
+  <h3>Los números en las puntas: la multiplicidad</h3>
+  <p>
+    Dicen <strong>cuántos objetos</strong> participan de ese lado de la relación.
+  </p>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th>Se escribe</th><th>Quiere decir</th></tr>
+      <tr><td><code>1</code></td><td>Exactamente uno</td></tr>
+      <tr><td><code>0..1</code></td><td>Ninguno o uno</td></tr>
+      <tr><td><code>*</code></td><td>Muchos (cero o más)</td></tr>
+      <tr><td><code>1..*</code></td><td>Uno o más</td></tr>
+    </table>
+  </div>
+  <p>
+    En los dibujos de arriba: un Equipo tiene <code>*</code> (muchos) Jugadores; una Casa tiene
+    <code>1..*</code> (al menos una) Habitaciones.
+  </p>
+
+  <h3>Las seis juntas</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Relación</th><th>Línea</th><th>Punta</th><th>Se lee</th><th>Dónde la vas a ver en los patrones</th></tr>
+      <tr><td class="lbl">Herencia</td><td>Continua</td><td>Triángulo vacío, en la madre</td><td>"es un"</td><td>En casi todos: las clases concretas heredan de una clase base</td></tr>
+      <tr><td class="lbl">Realización</td><td>Punteada</td><td>Triángulo vacío, en la interfaz</td><td>"cumple"</td><td>En casi todos: las clases concretas cumplen una interfaz</td></tr>
+      <tr><td class="lbl">Asociación</td><td>Continua</td><td>Flecha abierta (o ninguna)</td><td>"conoce a"</td><td>Strategy, Adapter, Facade: una clase guarda a otra y le delega el trabajo</td></tr>
+      <tr><td class="lbl">Agregación</td><td>Continua</td><td>Rombo vacío, en el todo</td><td>"tiene"</td><td>Composite (el compuesto tiene hijos) y Observer (el notificador tiene suscriptores)</td></tr>
+      <tr><td class="lbl">Composición</td><td>Continua</td><td>Rombo relleno, en el todo</td><td>"está hecho de"</td><td>Poco: cuando una clase crea y destruye ella misma sus partes</td></tr>
+      <tr><td class="lbl">Dependencia</td><td>Punteada</td><td>Flecha abierta</td><td>"usa" / "crea"</td><td>Factory Method y Abstract Factory: la fábrica crea el producto</td></tr>
+    </table>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; Leer un diagrama en voz alta</h3>
+  <p>Con el dibujo de la herencia de arriba (Animal, Perro, Gato):</p>
+  <ol>
+    <li>Hay tres clases: <code>Animal</code>, <code>Perro</code> y <code>Gato</code>.</li>
+    <li>
+      De <code>Perro</code> y de <code>Gato</code> sale una línea continua que termina en un
+      triángulo vacío sobre <code>Animal</code>: <strong>un Perro es un Animal y un Gato es un
+      Animal</strong>.
+    </li>
+    <li>
+      <code>Animal</code> tiene el atributo <code>nombre</code> protegido (<code>#</code>): las hijas
+      lo heredan y lo pueden usar. No hace falta volver a escribirlo en <code>Perro</code> ni en
+      <code>Gato</code>.
+    </li>
+    <li>
+      <code>hablar()</code> está en las tres: las hijas lo <strong>vuelven a escribir</strong> porque
+      cada una lo hace distinto. Cuando una hija repite un método de la madre es porque lo cambia.
+    </li>
+  </ol>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; Con formato de parcial: la aplicación farmacéutica (2024)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Parcial 2024 &middot; ejercicio 3</span>
+    <p>
+      "En el siguiente diagrama que pertenece a una aplicación farmacéutica, se solicita modelar: ..."
+    </p>
+  </div>
+  <div class="pd-grafico uml" data-g="farmacia">
+    <svg viewBox="-14 -14 616 424" width="616" height="424" role="img" aria-label="El diagrama de la aplicación farmacéutica del parcial 2024">
+      <polyline class="linea" points="76.5,270 76.5,223.5 175,223.5 175,177"/>
+      <polygon class="hueca" points="175,164 182,177 168,177"/>
+      <polyline class="linea" points="279,270 279,223.5 175,223.5 175,177"/>
+      <polygon class="hueca" points="175,164 182,177 168,177"/>
+      <polyline class="linea" points="240,82 330,82 330,82 420,82"/>
+      <rect class="caja" x="110" y="0" width="130" height="164" rx="3"/>
+      <text class="nombre" x="175" y="20">Usuario</text>
+      <line class="div" x1="110" y1="30" x2="240" y2="30"/>
+      <text class="miembro" x="120" y="48">nombre</text>
+      <text class="miembro" x="120" y="67">Telefono</text>
+      <text class="miembro" x="120" y="86">Direccion</text>
+      <line class="div" x1="110" y1="97" x2="240" y2="97"/>
+      <text class="miembro" x="120" y="115">get nombre()</text>
+      <text class="miembro" x="120" y="134">get telefono()</text>
+      <text class="miembro" x="120" y="153">set telefono()</text>
+      <rect class="caja" x="420" y="0" width="168" height="202" rx="3"/>
+      <text class="nombre" x="504" y="20">Medicamento</text>
+      <line class="div" x1="420" y1="30" x2="588" y2="30"/>
+      <text class="miembro" x="430" y="48">Serial</text>
+      <text class="miembro" x="430" y="67">Nombre</text>
+      <text class="miembro" x="430" y="86">Lote</text>
+      <text class="miembro" x="430" y="105">Posologia</text>
+      <text class="miembro" x="430" y="124">Presentacion</text>
+      <line class="div" x1="420" y1="135" x2="588" y2="135"/>
+      <text class="miembro" x="430" y="153">validarmedicacion()</text>
+      <text class="miembro" x="430" y="172">imprimirlote()</text>
+      <text class="miembro" x="430" y="191">imprimiretiqueta()</text>
+      <rect class="caja" x="0" y="270" width="153" height="126" rx="3"/>
+      <text class="nombre" x="76.5" y="290">Cliente</text>
+      <line class="div" x1="0" y1="300" x2="153" y2="300"/>
+      <text class="miembro" x="10" y="318">CUIT</text>
+      <text class="miembro" x="10" y="337">Razon Social</text>
+      <line class="div" x1="0" y1="348" x2="153" y2="348"/>
+      <text class="miembro" x="10" y="366">set razonsocial()</text>
+      <text class="miembro" x="10" y="385">get cuit()</text>
+      <rect class="caja" x="210" y="270" width="138" height="88" rx="3"/>
+      <text class="nombre" x="279" y="290">Farmaceutico</text>
+      <line class="div" x1="210" y1="300" x2="348" y2="300"/>
+      <text class="miembro" x="220" y="318">Matricula</text>
+      <line class="div" x1="210" y1="329" x2="348" y2="329"/>
+      <text class="miembro" x="220" y="347">get matricula()</text>
+    </svg>
+  </div>
+  <p>
+    Antes de modificar nada hay que <strong>leerlo</strong>. Lo que el parcial pedía agregar (dos
+    patrones) se resuelve en las unidades 4A y 4C; acá va solo la lectura:
+  </p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Lo que se ve</th><th>Qué relación es</th><th>Cómo se lee</th></tr>
+      <tr><td>De <code>Cliente</code> y <code>Farmaceutico</code> sale una línea continua con un triángulo vacío sobre <code>Usuario</code></td><td>Herencia</td><td>Un Cliente es un Usuario; un Farmacéutico es un Usuario. Los dos tienen nombre, teléfono y dirección aunque no estén escritos en sus cajas.</td></tr>
+      <tr><td><code>Cliente</code> agrega <code>CUIT</code> y <code>Razon Social</code>; <code>Farmaceutico</code> agrega <code>Matricula</code></td><td>&mdash;</td><td>Lo propio de cada hija, que la madre no tiene.</td></tr>
+      <tr><td>Una línea simple, sin puntas, entre <code>Usuario</code> y <code>Medicamento</code></td><td>Asociación</td><td>Los usuarios y los medicamentos están relacionados (el diagrama no aclara quién conoce a quién ni cuántos).</td></tr>
+    </table>
+  </div>
+
+  <h3>Errores y trampas</h3>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">El triángulo va en la madre, no en la hija</span>
+    <p>
+      La flecha de herencia <strong>apunta hacia arriba</strong>, hacia la clase más general. Es el
+      error más común al dibujar: si el triángulo queda en <code>Perro</code>, el diagrama dice que
+      un Animal es un Perro.
+    </p>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">El rombo va en el todo, no en la parte</span>
+    <p>
+      El rombo toca a la clase que <strong>contiene</strong> (Equipo, Casa), no a la contenida.
+    </p>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Continua o punteada</span>
+    <p>
+      Las dos líneas punteadas son las dos relaciones más "débiles": <strong>realización</strong>
+      (con una interfaz, que no tiene código) y <strong>dependencia</strong> (un uso de pasada).
+      Todo lo demás va con línea continua.
+    </p>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Si dudás entre asociación, agregación y composición</span>
+    <p>
+      Las tres dicen que una clase guarda a otra; cambia qué tan fuerte es el lazo. Preguntate:
+      ¿es una lista de partes? Si no, es asociación. Si sí: ¿las partes pueden vivir sin el todo?
+      Si pueden, agregación; si no, composición.
+    </p>
+  </div>
+</div>

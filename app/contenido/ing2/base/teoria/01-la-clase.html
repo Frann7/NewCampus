@@ -1,0 +1,173 @@
+<div class="bloque">
+  <p class="kicker">Diagramas</p>
+  <h2>1. La clase y cómo se dibuja</h2>
+
+  <h3>Para qué sirve</h3>
+  <p>
+    Un <strong>diagrama de clases</strong> es un dibujo de las clases de un programa y de cómo se
+    relacionan entre sí. Es parte de UML (<em>Unified Modeling Language</em>), el lenguaje de dibujos
+    que se usa para describir software sin escribir el código.
+  </p>
+  <p>
+    En el parcial aparece de dos formas: te dan uno y te piden <strong>modificarlo</strong> aplicando
+    un patrón, o te piden <strong>dibujar de cero</strong> la estructura de un patrón.
+  </p>
+
+  <h3>Las cuatro palabras que hay que tener claras</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Palabra</th><th>Qué es</th><th>Ejemplo</th></tr>
+      <tr><td class="lbl">Clase</td><td>El <strong>molde</strong>: describe qué datos y qué acciones tiene un tipo de cosa. Se escribe una sola vez.</td><td><code>Cuenta</code> (una cuenta de banco, en general)</td></tr>
+      <tr><td class="lbl">Objeto (o instancia)</td><td>Cada cosa <strong>fabricada con ese molde</strong>. Puede haber muchos, cada uno con sus propios datos.</td><td>La cuenta de Ana con $100; la cuenta de Luis con $2500</td></tr>
+      <tr><td class="lbl">Atributo</td><td>Un <strong>dato</strong> que guarda cada objeto.</td><td><code>titular</code>, <code>saldo</code></td></tr>
+      <tr><td class="lbl">Método</td><td>Una <strong>acción</strong> que el objeto sabe hacer: una función que vive dentro de la clase.</td><td><code>depositar()</code>, <code>saldo()</code></td></tr>
+    </table>
+  </div>
+  <p>
+    "Instanciar una clase" quiere decir <strong>crear un objeto</strong> de esa clase. La palabra
+    aparece todo el tiempo en los patrones (<em>"una sola instancia"</em>, <em>"sin instanciar las
+    clases concretas"</em>).
+  </p>
+
+  <h3>Cómo se dibuja: un rectángulo de tres pisos</h3>
+  <div class="pd-grafico uml" data-g="cuenta">
+    <svg viewBox="-14 -14 295 154" width="295" height="154" role="img" aria-label="La clase Cuenta dibujada en tres pisos">
+      <rect class="caja" x="0" y="0" width="267" height="126" rx="3"/>
+      <text class="nombre" x="133.5" y="20">Cuenta</text>
+      <line class="div" x1="0" y1="30" x2="267" y2="30"/>
+      <text class="miembro" x="10" y="48">- titular: string</text>
+      <text class="miembro" x="10" y="67">- saldo: double</text>
+      <line class="div" x1="0" y1="78" x2="267" y2="78"/>
+      <text class="miembro" x="10" y="96">+ depositar(monto: double): void</text>
+      <text class="miembro" x="10" y="115">+ saldo(): double</text>
+    </svg>
+  </div>
+
+  <h3>Qué es cada parte</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Piso</th><th>Qué va</th><th>Cómo se escribe</th><th>En el dibujo</th></tr>
+      <tr><td class="lbl">1 (arriba)</td><td>El nombre de la clase</td><td>En negrita, con mayúscula inicial</td><td><code>Cuenta</code></td></tr>
+      <tr><td class="lbl">2 (medio)</td><td>Los atributos</td><td><code>visibilidad nombre: Tipo</code></td><td><code>- saldo: double</code> &rarr; atributo privado <code>saldo</code>, que guarda un número con decimales</td></tr>
+      <tr><td class="lbl">3 (abajo)</td><td>Los métodos</td><td><code>visibilidad nombre(parámetro: Tipo): TipoQueDevuelve</code></td><td><code>+ depositar(monto: double): void</code> &rarr; método público que recibe un número y no devuelve nada (<code>void</code>)</td></tr>
+    </table>
+  </div>
+  <p>
+    La forma rápida de distinguir los pisos: <strong>lo que tiene paréntesis es un método</strong>;
+    lo que no, un atributo.
+  </p>
+
+  <h3>La visibilidad: quién puede usar cada cosa</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Símbolo</th><th>Nombre</th><th>Quién puede usarlo</th></tr>
+      <tr><td><code>+</code></td><td>Público</td><td>Cualquiera, desde afuera de la clase.</td></tr>
+      <tr><td><code>-</code></td><td>Privado</td><td>Solo la propia clase, desde adentro de sus métodos.</td></tr>
+      <tr><td><code>#</code></td><td>Protegido</td><td>La propia clase y las clases que heredan de ella (sección 2).</td></tr>
+    </table>
+  </div>
+  <p>
+    Lo normal es que los <strong>atributos sean privados</strong> y los <strong>métodos públicos</strong>:
+    nadie toca el saldo directamente, se le pide a la cuenta que deposite.
+  </p>
+
+  <h3>Tres marcas que aparecen en los patrones</h3>
+  <div class="pd-grafico uml" data-g="marcas">
+    <svg viewBox="-14 -14 649 154" width="649" height="154" role="img" aria-label="Una clase con miembros estáticos, una clase abstracta y una interfaz">
+      <rect class="caja" x="0" y="0" width="206" height="126" rx="3"/>
+      <text class="nombre" x="103" y="20">Alumno</text>
+      <line class="div" x1="0" y1="30" x2="206" y2="30"/>
+      <text class="miembro" x="10" y="48">- nombre: string</text>
+      <text class="miembro estatico" x="10" y="67">- cantidad: int</text>
+      <line class="div" x1="0" y1="78" x2="206" y2="78"/>
+      <text class="miembro" x="10" y="96">+ Alumno(nombre: string)</text>
+      <text class="miembro estatico" x="10" y="115">+ cantidad(): int</text>
+      <rect class="caja" x="250" y="0" width="161" height="104" rx="3"/>
+      <text class="estereo" x="330.5" y="16">&#171;abstract&#187;</text>
+      <text class="nombre abstracta" x="330.5" y="35">Animal</text>
+      <line class="div" x1="250" y1="46" x2="411" y2="46"/>
+      <text class="miembro" x="260" y="64"># nombre: string</text>
+      <line class="div" x1="250" y1="75" x2="411" y2="75"/>
+      <text class="miembro abstracto" x="260" y="93">+ hablar(): string</text>
+      <rect class="caja" x="460" y="0" width="161" height="75" rx="3"/>
+      <text class="estereo" x="540.5" y="16">&#171;interface&#187;</text>
+      <text class="nombre" x="540.5" y="35">Imprimible</text>
+      <line class="div" x1="460" y1="46" x2="621" y2="46"/>
+      <text class="miembro" x="470" y="64">+ imprimir(): void</text>
+    </svg>
+  </div>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Marca</th><th>Qué quiere decir</th><th>En el dibujo</th></tr>
+      <tr><td class="lbl">Subrayado</td><td><strong>Estático</strong>: pertenece a la clase entera, no a cada objeto. Hay uno solo, compartido por todos. Se explica con código en la sección 3.</td><td><code>cantidad</code> en <code>Alumno</code>: una sola cuenta para todos los alumnos</td></tr>
+      <tr><td class="lbl">Cursiva o <code>&#171;abstract&#187;</code></td><td><strong>Abstracto</strong>: está declarado pero no tiene código; lo completan las clases hijas. Una clase con algo abstracto es una <strong>clase abstracta</strong> y no se puede instanciar. Sección 4.</td><td><code>hablar()</code> en <code>Animal</code>: cada animal lo resuelve a su manera</td></tr>
+      <tr><td class="lbl"><code>&#171;interface&#187;</code></td><td><strong>Interfaz</strong>: una lista de métodos sin código ni atributos. Es un <strong>contrato</strong>: la clase que la cumple se compromete a tener esos métodos.</td><td><code>Imprimible</code>: todo lo que la cumpla tiene <code>imprimir()</code></td></tr>
+    </table>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; Leer la clase Cuenta</h3>
+  <p>Mirando el primer dibujo, de arriba hacia abajo:</p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Lo que dice</th><th>Cómo se lee</th></tr>
+      <tr><td><code>Cuenta</code></td><td>La clase se llama Cuenta.</td></tr>
+      <tr><td><code>- titular: string</code></td><td>Cada cuenta guarda un titular, que es un texto (<code>string</code>). Es privado.</td></tr>
+      <tr><td><code>- saldo: double</code></td><td>Cada cuenta guarda un saldo, que es un número con decimales. Es privado.</td></tr>
+      <tr><td><code>+ depositar(monto: double): void</code></td><td>A una cuenta se le puede pedir que deposite: hay que pasarle el monto y no devuelve nada.</td></tr>
+      <tr><td><code>+ saldo(): double</code></td><td>A una cuenta se le puede preguntar el saldo: no recibe nada y devuelve un número.</td></tr>
+    </table>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; Con formato de parcial: una clase "pelada"</h3>
+  <p>
+    Así viene la clase <code>Medicamento</code> en el diagrama del parcial 2024:
+  </p>
+  <div class="pd-grafico uml" data-g="medicamento">
+    <svg viewBox="-14 -14 196 230" width="196" height="230" role="img" aria-label="La clase Medicamento del parcial 2024">
+      <rect class="caja" x="0" y="0" width="168" height="202" rx="3"/>
+      <text class="nombre" x="84" y="20">Medicamento</text>
+      <line class="div" x1="0" y1="30" x2="168" y2="30"/>
+      <text class="miembro" x="10" y="48">Serial</text>
+      <text class="miembro" x="10" y="67">Nombre</text>
+      <text class="miembro" x="10" y="86">Lote</text>
+      <text class="miembro" x="10" y="105">Posologia</text>
+      <text class="miembro" x="10" y="124">Presentacion</text>
+      <line class="div" x1="0" y1="135" x2="168" y2="135"/>
+      <text class="miembro" x="10" y="153">validarmedicacion()</text>
+      <text class="miembro" x="10" y="172">imprimirlote()</text>
+      <text class="miembro" x="10" y="191">imprimiretiqueta()</text>
+    </svg>
+  </div>
+  <ul>
+    <li>
+      <strong>No tiene símbolos de visibilidad ni tipos.</strong> En los parciales los diagramas
+      vienen simplificados, y así también se pueden entregar: lo que se evalúa es que estén las
+      clases correctas, con sus métodos y sus flechas.
+    </li>
+    <li>Tiene <strong>cinco atributos</strong>: Serial, Nombre, Lote, Posologia y Presentacion.</li>
+    <li>
+      Tiene <strong>tres métodos</strong> (los que llevan paréntesis): <code>validarmedicacion()</code>,
+      <code>imprimirlote()</code> e <code>imprimiretiqueta()</code>.
+    </li>
+  </ul>
+
+  <h3>Errores y trampas</h3>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">En el diagrama van clases, no objetos</span>
+    <p>
+      No se dibuja un rectángulo para "la cuenta de Ana" y otro para "la cuenta de Luis": las dos
+      son objetos de la misma clase <code>Cuenta</code>, que se dibuja una sola vez.
+    </p>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Aunque un piso esté vacío, el orden no cambia</span>
+    <p>
+      Una interfaz no tiene atributos, así que se dibuja con el nombre y los métodos. Nunca se
+      ponen métodos en el piso de los atributos.
+    </p>
+  </div>
+</div>

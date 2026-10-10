@@ -1,0 +1,230 @@
+<div class="bloque">
+  <p class="kicker">C++</p>
+  <h2>3. Leer una clase en C++</h2>
+
+  <h3>Para qué sirve</h3>
+  <p>
+    En el parcial no hay que <strong>escribir</strong> C++: hay que <strong>leer</strong> un código
+    y decir qué patrón implementa y qué elementos lo delatan. Para eso alcanza con reconocer las
+    piezas de una clase. Esta sección muestra una clase completa y la desarma.
+  </p>
+
+  <h3>Sintaxis</h3>
+  <pre class="codigo"><code>class Nombre {
+ private:
+  Tipo atributo_;
+
+ public:
+  Nombre(Tipo parametro) : atributo_(parametro) {}
+
+  TipoQueDevuelve metodo(Tipo parametro) {
+    // código
+  }
+};</code></pre>
+
+  <h3>Qué es cada parte</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Parte</th><th>Qué es</th><th>En el diagrama</th></tr>
+      <tr><td><code>class Nombre { ... };</code></td><td>Define una clase. Todo lo que está entre las llaves es suyo. Termina con <strong>punto y coma</strong> después de la llave.</td><td>El rectángulo</td></tr>
+      <tr><td><code>private:</code></td><td>Todo lo que sigue, hasta el próximo rótulo, es privado.</td><td><code>-</code></td></tr>
+      <tr><td><code>public:</code></td><td>Todo lo que sigue es público.</td><td><code>+</code></td></tr>
+      <tr><td><code>protected:</code></td><td>Todo lo que sigue es protegido: lo ven la clase y sus hijas.</td><td><code>#</code></td></tr>
+      <tr><td><code>Tipo atributo_;</code></td><td>Un atributo: primero el tipo, después el nombre. En C++ <strong>el tipo va adelante</strong> (en UML va atrás). El guion bajo final es una costumbre para marcar que es un atributo; no cambia nada.</td><td>Piso 2</td></tr>
+      <tr><td><code>Nombre(...)</code></td><td>El <strong>constructor</strong>: un método que se llama <strong>igual que la clase</strong> y no dice qué devuelve. Se ejecuta solo, una vez, cuando se crea el objeto.</td><td>Piso 3</td></tr>
+      <tr><td><code>: atributo_(parametro)</code></td><td>La <strong>lista de inicialización</strong>: "guardá <code>parametro</code> en <code>atributo_</code>". Es la forma de C++ de darles su primer valor a los atributos.</td><td>&mdash;</td></tr>
+      <tr><td><code>TipoQueDevuelve metodo(...)</code></td><td>Un método. <code>void</code> quiere decir que no devuelve nada.</td><td>Piso 3</td></tr>
+    </table>
+  </div>
+
+  <p>Y las piezas sueltas que aparecen alrededor de las clases:</p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Se escribe</th><th>Qué es</th></tr>
+      <tr><td><code>#include &lt;iostream&gt;</code></td><td>Trae una biblioteca. <code>iostream</code> es la de mostrar por pantalla; <code>string</code>, la de textos; <code>vector</code> y <code>list</code>, las de listas.</td></tr>
+      <tr><td><code>std::string</code></td><td>El tipo "texto". El <code>std::</code> de adelante dice que viene de la biblioteca estándar.</td></tr>
+      <tr><td><code>std::cout &lt;&lt; algo;</code></td><td>Muestra <code>algo</code> por pantalla. Se pueden encadenar varios <code>&lt;&lt;</code>. Es el <code>echo</code> de C++.</td></tr>
+      <tr><td><code>"\n"</code></td><td>Un salto de línea.</td></tr>
+      <tr><td><code>int main() { ... }</code></td><td>Donde <strong>arranca</strong> el programa. Lo que está afuera de <code>main</code> son definiciones; lo que se ejecuta es lo de adentro.</td></tr>
+      <tr><td><code>int</code>, <code>double</code>, <code>bool</code>, <code>void</code></td><td>Entero, número con decimales, verdadero/falso, "nada".</td></tr>
+    </table>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; La clase Cuenta, del diagrama al código</h3>
+  <p>Es la misma clase que se dibujó en la sección 1:</p>
+  <div class="pd-grafico uml" data-g="cuenta">
+    <svg viewBox="-14 -14 295 154" width="295" height="154" role="img" aria-label="La clase Cuenta dibujada en tres pisos">
+      <rect class="caja" x="0" y="0" width="267" height="126" rx="3"/>
+      <text class="nombre" x="133.5" y="20">Cuenta</text>
+      <line class="div" x1="0" y1="30" x2="267" y2="30"/>
+      <text class="miembro" x="10" y="48">- titular: string</text>
+      <text class="miembro" x="10" y="67">- saldo: double</text>
+      <line class="div" x1="0" y1="78" x2="267" y2="78"/>
+      <text class="miembro" x="10" y="96">+ depositar(monto: double): void</text>
+      <text class="miembro" x="10" y="115">+ saldo(): double</text>
+    </svg>
+  </div>
+
+  <pre class="codigo"><code>#include &lt;iostream&gt;
+#include &lt;string&gt;
+
+class Cuenta {
+ private:
+  std::string titular_;
+  double saldo_;
+
+ public:
+  Cuenta(std::string titular, double saldo) : titular_(titular), saldo_(saldo) {}
+
+  void depositar(double monto) {
+    saldo_ = saldo_ + monto;
+  }
+
+  double saldo() const {
+    return saldo_;
+  }
+};
+
+int main() {
+  Cuenta c("Ana", 100);
+  c.depositar(50);
+  std::cout &lt;&lt; c.saldo() &lt;&lt; "\n";
+  return 0;
+}</code></pre>
+
+  <h4>Qué hace cada línea</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Cómo quedan los datos</th></tr>
+      <tr><td><code>class Cuenta {</code></td><td>Empieza la definición de la clase. Todavía no existe ninguna cuenta.</td><td>&mdash;</td></tr>
+      <tr><td><code>private:</code> y los dos atributos</td><td>Cada cuenta va a guardar un texto (<code>titular_</code>) y un número (<code>saldo_</code>), y nadie de afuera los puede tocar.</td><td>&mdash;</td></tr>
+      <tr><td><code>Cuenta(std::string titular, double saldo) : titular_(titular), saldo_(saldo) {}</code></td><td>El constructor. Recibe dos datos y los guarda en los dos atributos. Las llaves vacías del final son su cuerpo: no hace nada más.</td><td>&mdash;</td></tr>
+      <tr><td><code>void depositar(double monto) { ... }</code></td><td>Método que le suma <code>monto</code> al saldo. No devuelve nada.</td><td>&mdash;</td></tr>
+      <tr><td><code>double saldo() const { ... }</code></td><td>Método que devuelve el saldo. El <code>const</code> de atrás promete que el método <strong>no modifica</strong> al objeto: solo consulta.</td><td>&mdash;</td></tr>
+      <tr><td><code>Cuenta c("Ana", 100);</code></td><td>Acá arranca el programa. Crea un objeto de la clase <code>Cuenta</code> llamado <code>c</code>; se ejecuta el constructor con esos dos datos.</td><td><code>c</code>: titular_ = "Ana", saldo_ = 100</td></tr>
+      <tr><td><code>c.depositar(50);</code></td><td>Le pide al objeto <code>c</code> que ejecute <code>depositar</code>. El <strong>punto</strong> es "pedile a este objeto".</td><td><code>c</code>: saldo_ = 150</td></tr>
+      <tr><td><code>std::cout &lt;&lt; c.saldo() &lt;&lt; "\n";</code></td><td>Le pregunta el saldo a <code>c</code> y lo muestra, seguido de un salto de línea.</td><td>sin cambios</td></tr>
+      <tr><td><code>return 0;</code></td><td>Termina el programa avisando que salió todo bien.</td><td>&mdash;</td></tr>
+    </table>
+  </div>
+
+  <h4>Qué imprime y por qué</h4>
+  <pre class="salida">150</pre>
+  <p>La cuenta se creó con 100 y se le depositaron 50.</p>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; <code>static</code>: algo que es de la clase y no de cada objeto</h3>
+  <p>
+    Un atributo común tiene <strong>una copia por objeto</strong>: cada cuenta tiene su saldo. Un
+    atributo <code>static</code> tiene <strong>una sola copia para toda la clase</strong>, compartida
+    por todos los objetos. En el diagrama va <strong>subrayado</strong>. Es la pieza principal del
+    patrón Singleton.
+  </p>
+  <div class="pd-grafico uml" data-g="marcas">
+    <svg viewBox="-14 -14 649 154" width="649" height="154" role="img" aria-label="Una clase con miembros estáticos, una clase abstracta y una interfaz">
+      <rect class="caja" x="0" y="0" width="206" height="126" rx="3"/>
+      <text class="nombre" x="103" y="20">Alumno</text>
+      <line class="div" x1="0" y1="30" x2="206" y2="30"/>
+      <text class="miembro" x="10" y="48">- nombre: string</text>
+      <text class="miembro estatico" x="10" y="67">- cantidad: int</text>
+      <line class="div" x1="0" y1="78" x2="206" y2="78"/>
+      <text class="miembro" x="10" y="96">+ Alumno(nombre: string)</text>
+      <text class="miembro estatico" x="10" y="115">+ cantidad(): int</text>
+      <rect class="caja" x="250" y="0" width="161" height="104" rx="3"/>
+      <text class="estereo" x="330.5" y="16">&#171;abstract&#187;</text>
+      <text class="nombre abstracta" x="330.5" y="35">Animal</text>
+      <line class="div" x1="250" y1="46" x2="411" y2="46"/>
+      <text class="miembro" x="260" y="64"># nombre: string</text>
+      <line class="div" x1="250" y1="75" x2="411" y2="75"/>
+      <text class="miembro abstracto" x="260" y="93">+ hablar(): string</text>
+      <rect class="caja" x="460" y="0" width="161" height="75" rx="3"/>
+      <text class="estereo" x="540.5" y="16">&#171;interface&#187;</text>
+      <text class="nombre" x="540.5" y="35">Imprimible</text>
+      <line class="div" x1="460" y1="46" x2="621" y2="46"/>
+      <text class="miembro" x="470" y="64">+ imprimir(): void</text>
+    </svg>
+  </div>
+
+  <pre class="codigo"><code>#include &lt;iostream&gt;
+#include &lt;string&gt;
+
+class Alumno {
+ private:
+  std::string nombre_;
+  static int cantidad_;
+
+ public:
+  Alumno(std::string nombre) : nombre_(nombre) {
+    cantidad_ = cantidad_ + 1;
+  }
+
+  static int cantidad() {
+    return cantidad_;
+  }
+};
+
+int Alumno::cantidad_ = 0;
+
+int main() {
+  std::cout &lt;&lt; Alumno::cantidad() &lt;&lt; "\n";
+  Alumno a("Ana");
+  Alumno b("Luis");
+  std::cout &lt;&lt; Alumno::cantidad() &lt;&lt; "\n";
+  return 0;
+}</code></pre>
+
+  <h4>Qué hace cada línea</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Cómo quedan los datos</th></tr>
+      <tr><td><code>static int cantidad_;</code></td><td>Declara un atributo de la clase: un solo contador para todos los alumnos.</td><td>&mdash;</td></tr>
+      <tr><td><code>Alumno(std::string nombre) : nombre_(nombre) { cantidad_ = cantidad_ + 1; }</code></td><td>El constructor: guarda el nombre y, cada vez que se crea un alumno, suma 1 al contador compartido.</td><td>&mdash;</td></tr>
+      <tr><td><code>static int cantidad() { ... }</code></td><td>Un método de la clase: se puede llamar <strong>sin tener ningún objeto</strong>.</td><td>&mdash;</td></tr>
+      <tr><td><code>int Alumno::cantidad_ = 0;</code></td><td>Le da su valor inicial al atributo estático. En C++ esto se escribe <strong>afuera de la clase</strong>. <code>Alumno::</code> se lee "de la clase Alumno".</td><td>cantidad_ = 0</td></tr>
+      <tr><td><code>std::cout &lt;&lt; Alumno::cantidad() ...</code></td><td>Llama al método estático con <code>Clase::metodo()</code>, sin objeto. Todavía no se creó ningún alumno.</td><td>cantidad_ = 0</td></tr>
+      <tr><td><code>Alumno a("Ana");</code></td><td>Crea un alumno: corre el constructor.</td><td>cantidad_ = 1</td></tr>
+      <tr><td><code>Alumno b("Luis");</code></td><td>Crea otro: corre el constructor de nuevo, sobre el <strong>mismo</strong> contador.</td><td>cantidad_ = 2</td></tr>
+      <tr><td><code>std::cout &lt;&lt; Alumno::cantidad() ...</code></td><td>Muestra el contador.</td><td>cantidad_ = 2</td></tr>
+    </table>
+  </div>
+
+  <h4>Qué imprime y por qué</h4>
+  <pre class="salida">0
+2</pre>
+  <p>
+    Los dos alumnos sumaron sobre el mismo <code>cantidad_</code> porque es de la clase. Si no fuera
+    <code>static</code>, cada alumno tendría el suyo.
+  </p>
+
+  <h3>Errores y trampas</h3>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Punto y dos puntos dobles no son lo mismo</span>
+    <p>
+      <code>c.depositar(50)</code>: el <strong>punto</strong> le pide algo a un <strong>objeto</strong>.<br>
+      <code>Alumno::cantidad()</code>: los <strong>dos puntos dobles</strong> le piden algo a la
+      <strong>clase</strong>. Si en un código ves <code>Clase::algo()</code>, ese <code>algo</code> es
+      estático.
+    </p>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Lo privado no se toca desde afuera</span>
+    <p>Si en <code>main</code> se escribe <code>c.saldo_ = 1000;</code> el programa ni siquiera compila:</p>
+    <pre class="salida">error: 'double Cuenta::saldo_' is private within this context</pre>
+    <p>
+      Esto importa en los patrones: un <strong>constructor privado</strong> hace que nadie de afuera
+      pueda crear objetos de esa clase. Es la otra mitad del Singleton.
+    </p>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Nombres con guion bajo y repetidos</span>
+    <p>
+      En los códigos de los parciales los atributos terminan en guion bajo y a veces se llaman
+      igual que su clase: <code>Facturacion *Facturacion_;</code> es un atributo llamado
+      <code>Facturacion_</code> cuyo tipo es <code>Facturacion</code>. El primero es el tipo; el
+      segundo, el nombre.
+    </p>
+  </div>
+</div>

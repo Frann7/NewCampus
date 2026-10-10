@@ -65,7 +65,9 @@ No se dibujan a mano: se describen en `fuentes/ing2/diagramas/<unidad>.py` y
 `python fuentes/uml.py fuentes/ing2/diagramas/<unidad>.py` (desde la raíz del repo) mete el SVG en
 cada `<div class="pd-grafico uml" data-g="nombre"></div>` de los fragmentos. El formato está
 explicado arriba de `fuentes/uml.py`. Para corregir un diagrama se cambia su descripción y se
-vuelve a correr; el SVG del fragmento no se edita. Después de generarlos se mira **cómo quedaron**
+vuelve a correr; el SVG del fragmento no se edita. El mismo diagrama puede ir en varios lugares (el
+mismo `data-g`): un ejemplo que lo lee o lo pide lo **muestra de nuevo ahí**, no manda a mirarlo
+más arriba. Después de generarlos se mira **cómo quedaron**
 (captura): que no se pisen cajas ni líneas.
 
 ## Evaluación

@@ -63,6 +63,12 @@
 
 * Si un modelo tiene fórmulas propias de Esperanza y Varianza, explicá **de dónde salen**
   (no son fórmulas distintas: son la definición general resuelta una vez para ese caso).
+* **Cada ejemplo trae a la vista todo lo que usa:** el diagrama, la tabla, el gráfico o los datos
+  se **vuelven a mostrar ahí mismo**, aunque ya estén más arriba. Nunca "con el dibujo de arriba",
+  "el diagrama de Estructura" ni "la tabla de la sección 5": tener que subir a buscarlo corta la
+  lectura. Sí se puede mandar a otra sección por una **explicación** ("la varianza, sección 3").
+  Un diagrama UML se repite poniendo otro `<div class="pd-grafico uml" data-g="el-mismo-nombre">`
+  y volviendo a correr `fuentes/uml.py`.
 
 ## Cómo se escribe la práctica
 

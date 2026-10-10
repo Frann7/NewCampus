@@ -235,6 +235,8 @@ Chrome (`chrome --headless --print-to-pdf`).
 `0.x.y-alpha` mientras esté en desarrollo. La `1.0.0` queda reservada para cuando esté terminado.
 La versión actual se lee al pie del menú lateral.
 
+* **0.44.1-alpha** — Ingeniería de Software II: los ejemplos que leen o piden un diagrama lo
+  muestran ahí mismo, en vez de mandar a buscarlo más arriba (7 lugares de la teoría).
 * **0.44.0-alpha** — Ingeniería de Software II: autoevaluaciones por temas. Banco de 67 preguntas
   (patrones en código C++ y en enunciados, partes de los diagramas, niveles de CMMI, fichas de
   métricas, comandos de Git, versionado semántico). La evaluación simple ahora deja elegir los

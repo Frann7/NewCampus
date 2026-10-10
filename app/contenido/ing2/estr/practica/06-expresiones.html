@@ -1,0 +1,129 @@
+<div class="ej">
+  <span class="tag">Ejercicio 6 &middot; Composite</span>
+  <h2>Diseñar desde un enunciado: expresiones matemáticas</h2>
+  <div class="enunciado">
+    <p>
+      <strong>Patrones de Diseño Parte 2, ejercicio 5.</strong> Se quiere construir un editor de
+      expresiones matemáticas. Especificar el diagrama de clases que permita representar
+      expresiones válidas haciendo uso de patrones. Una expresión válida estará formada o bien por
+      un número o bien por la suma/resta/división/multiplicación de dos expresiones. Ejemplo de
+      expresiones válidas:
+    </p>
+    <p>4<br>3+8<br>14*(3+5)</p>
+  </div>
+
+  <span class="paso">Paso 1 &mdash; Ver el árbol</span>
+  <p>
+    El enunciado no nombra ningún patrón. La pista está en la definición: una expresión es un
+    número, <strong>o una operación entre dos expresiones</strong>. Es decir, una expresión puede
+    estar hecha de expresiones: algo que contiene cosas de su mismo tipo. Dibujando el tercer
+    ejemplo, <code>14*(3+5)</code>:
+  </p>
+  <pre class="salida">multiplicación
+ ├─ 14
+ └─ suma
+     ├─ 3
+     └─ 5</pre>
+  <p>Es un árbol: los números son las hojas y las operaciones son los nodos que tienen hijos.</p>
+
+  <span class="paso">Paso 2 &mdash; Desarme del enunciado</span>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase del enunciado</th><th>Qué significa</th><th>Parte del patrón</th></tr>
+      <tr><td>"una expresión válida"</td><td>Lo común a todo: se puede evaluar</td><td><strong>Componente</strong>: <code>Expresion</code>, con <code>evaluar()</code></td></tr>
+      <tr><td>"o bien por un <strong>número</strong>"</td><td>El caso simple, que no contiene nada</td><td><strong>Hoja</strong>: <code>Numero</code></td></tr>
+      <tr><td>"o bien por la suma/resta/división/multiplicación de <strong>dos expresiones</strong>"</td><td>El caso que contiene otras expresiones</td><td><strong>Compuesto</strong>: <code>Operacion</code>, con dos hijos de tipo <code>Expresion</code></td></tr>
+      <tr><td>"suma/resta/división/multiplicación"</td><td>Cuatro tipos de compuesto, que se evalúan distinto</td><td>Cuatro subclases de <code>Operacion</code></td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Paso 3 &mdash; El diagrama</span>
+  <div class="pd-grafico uml" data-g="p-expresion">
+    <svg viewBox="26 -14 636 407" width="636" height="407" role="img" aria-label="Composite para expresiones matemáticas">
+      <polyline class="linea punteada" points="109,150 109,119 279,119 279,88"/>
+      <polygon class="hueca" points="279,75 286,88 272,88"/>
+      <polyline class="linea punteada" points="365.5,150 365.5,119 279,119 279,88"/>
+      <polygon class="hueca" points="279,75 286,88 272,88"/>
+      <polyline class="linea" points="164,320 164,280.5 365.5,280.5 365.5,241"/>
+      <polygon class="hueca" points="365.5,228 372.5,241 358.5,241"/>
+      <polyline class="linea" points="299,320 299,280.5 365.5,280.5 365.5,241"/>
+      <polygon class="hueca" points="365.5,228 372.5,241 358.5,241"/>
+      <polyline class="linea" points="452,320 452,280.5 365.5,280.5 365.5,241"/>
+      <polygon class="hueca" points="365.5,228 372.5,241 358.5,241"/>
+      <polyline class="linea" points="594,320 594,280.5 365.5,280.5 365.5,241"/>
+      <polygon class="hueca" points="365.5,228 372.5,241 358.5,241"/>
+      <polyline class="linea" points="479,189 540,189 540,37.5 363,37.5"/>
+      <polygon class="hueca" points="461,189 470,183 479,189 470,195"/>
+      <text class="rotulo" x="385" y="31.5" text-anchor="middle">2</text>
+      <rect class="caja" x="195" y="0" width="168" height="75" rx="3"/>
+      <text class="estereo" x="279" y="16">&#171;interface&#187;</text>
+      <text class="nombre" x="279" y="35">Expresion</text>
+      <line class="div" x1="195" y1="46" x2="363" y2="46"/>
+      <text class="miembro" x="205" y="64">+ evaluar(): double</text>
+      <rect class="caja" x="40" y="150" width="138" height="88" rx="3"/>
+      <text class="nombre" x="109" y="170">Numero</text>
+      <line class="div" x1="40" y1="180" x2="178" y2="180"/>
+      <text class="miembro" x="50" y="198">- valor: double</text>
+      <line class="div" x1="40" y1="209" x2="178" y2="209"/>
+      <text class="miembro" x="50" y="227">+ evaluar()</text>
+      <rect class="caja destacada" x="270" y="150" width="191" height="78" rx="3"/>
+      <text class="nombre abstracta" x="365.5" y="170">Operacion</text>
+      <line class="div" x1="270" y1="180" x2="461" y2="180"/>
+      <text class="miembro" x="280" y="198"># izquierda: Expresion</text>
+      <text class="miembro" x="280" y="217"># derecha: Expresion</text>
+      <rect class="caja" x="110" y="320" width="108" height="59" rx="3"/>
+      <text class="nombre" x="164" y="340">Suma</text>
+      <line class="div" x1="110" y1="350" x2="218" y2="350"/>
+      <text class="miembro" x="120" y="368">+ evaluar()</text>
+      <rect class="caja" x="245" y="320" width="108" height="59" rx="3"/>
+      <text class="nombre" x="299" y="340">Resta</text>
+      <line class="div" x1="245" y1="350" x2="353" y2="350"/>
+      <text class="miembro" x="255" y="368">+ evaluar()</text>
+      <rect class="caja" x="380" y="320" width="144" height="59" rx="3"/>
+      <text class="nombre" x="452" y="340">Multiplicacion</text>
+      <line class="div" x1="380" y1="350" x2="524" y2="350"/>
+      <text class="miembro" x="390" y="368">+ evaluar()</text>
+      <rect class="caja" x="540" y="320" width="108" height="59" rx="3"/>
+      <text class="nombre" x="594" y="340">Division</text>
+      <line class="div" x1="540" y1="350" x2="648" y2="350"/>
+      <text class="miembro" x="550" y="368">+ evaluar()</text>
+    </svg>
+  </div>
+  <ul>
+    <li>
+      El rombo de <code>Operacion</code> vuelve a <code>Expresion</code> con un <strong>2</strong>
+      (en vez de <code>*</code>), porque cada operación tiene exactamente dos expresiones:
+      <code>izquierda</code> y <code>derecha</code>.
+    </li>
+    <li>
+      Como son siempre dos, no hacen falta <code>agregar()</code> ni <code>eliminar()</code>: se
+      pasan al crear la operación.
+    </li>
+    <li>
+      <code>Numero.evaluar()</code> devuelve su valor. <code>Suma.evaluar()</code> devuelve
+      <code>izquierda.evaluar() + derecha.evaluar()</code>, y así las otras tres.
+    </li>
+  </ul>
+
+  <span class="paso">Paso 4 &mdash; Comprobarlo con el ejemplo</span>
+  <p>Evaluando <code>14*(3+5)</code> de arriba hacia abajo:</p>
+  <ol>
+    <li>La multiplicación le pide <code>evaluar()</code> a su izquierda: es el número 14 &rarr; <strong>14</strong>.</li>
+    <li>Le pide <code>evaluar()</code> a su derecha: es una suma, que a su vez pregunta a sus dos hijos (3 y 5) y devuelve <strong>8</strong>.</li>
+    <li>Multiplica: 14 &times; 8 = <strong>112</strong>.</li>
+  </ol>
+  <p>La multiplicación no supo nunca que a su derecha había una suma: le pidió <code>evaluar()</code> a "una expresión".</p>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>
+      Patrón <strong>Composite</strong>, porque una expresión puede estar formada por otras
+      expresiones (estructura de árbol). <code>Expresion</code> es el componente, con
+      <code>evaluar()</code>; <code>Numero</code> es la hoja; <code>Operacion</code> es el
+      compuesto, que guarda dos <code>Expresion</code>, y sus subclases <code>Suma</code>,
+      <code>Resta</code>, <code>Multiplicacion</code> y <code>Division</code> evalúan sus dos
+      partes y las combinan. Cualquier expresión válida, por más anidada que esté, se arma
+      combinando estas clases y se evalúa con la misma llamada.
+    </p>
+  </div>
+</div>

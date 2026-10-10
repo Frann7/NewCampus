@@ -1,0 +1,128 @@
+<div class="ej">
+  <span class="tag">Ejercicio 3 &middot; Adapter</span>
+  <h2>Diseñar desde un enunciado: el terminal de punto de venta</h2>
+  <div class="enunciado">
+    <p>
+      <strong>Guía N°1, ejercicio 3.</strong> Una empresa que desarrolla sistemas software de
+      terminal de punto de venta, TPV solicita que se diseñe un diagrama de clases implementando
+      patrones de diseño. Estos sistemas deben permitir la conexión a ordenadores remotos para
+      procesar los pagos por tarjeta de crédito. Cada comercio podrá utilizar diferentes servicios
+      externos de autorización de pago para distintos tipos de tarjeta (uno para VISA, otro para
+      MasterCard, etc.) cada uno de los cuales tiene su propia API. El tipo de compañía de crédito
+      se puede deducir del código de la tarjeta (si empieza por 5 es una MasterCard, por 4 una VISA,
+      etc.). Cada comercio tiene un identificador dependiendo del tipo de tarjeta que debe enviarse
+      con la solicitud de pago.
+    </p>
+    <p>
+      a) Diseña una solución para que el sistema TPV pueda interactuar con diferentes sistemas
+      externos de autorización de pago utilizando patrones de diseño.<br>
+      b) ¿Qué patrón utilizaste? ¿Qué ventaja tiene?
+    </p>
+  </div>
+
+  <span class="paso">Paso 1 &mdash; Desarme del enunciado</span>
+  <p>
+    <strong>API</strong> es la forma en que se usa un servicio: qué métodos tiene y qué datos pide.
+    "Cada uno tiene su propia API" quiere decir <strong>cada uno tiene una interfaz distinta</strong>.
+  </p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase del enunciado</th><th>Qué significa</th><th>Parte del patrón</th></tr>
+      <tr><td>"el sistema TPV pueda interactuar con..."</td><td>El sistema propio, que quiere cobrar siempre de la misma forma</td><td><strong>Cliente</strong>: <code>TPV</code></td></tr>
+      <tr><td>"diferentes <strong>servicios externos</strong> de autorización de pago (uno para VISA, otro para MasterCard, etc.)"</td><td>Clases de terceros, que no se pueden modificar</td><td><strong>Servicios</strong>: <code>ServicioVisa</code>, <code>ServicioMasterCard</code></td></tr>
+      <tr><td>"cada uno de los cuales tiene <strong>su propia API</strong>"</td><td>Interfaces distintas entre sí, e incompatibles con la del TPV. <strong>La frase que decide.</strong></td><td>Hace falta un <strong>Adaptador</strong> por servicio</td></tr>
+      <tr><td>"el tipo de compañía se puede deducir del código de la tarjeta"</td><td>El TPV sabe qué adaptador usar mirando el primer dígito</td><td>La elección del adaptador</td></tr>
+      <tr><td>"cada comercio tiene un identificador (...) que debe enviarse con la solicitud"</td><td>Un dato más que hay que pasarle al servicio</td><td>Un parámetro del método común</td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Paso 2 &mdash; La solución</span>
+  <ol>
+    <li>
+      Se define <strong>una interfaz propia</strong>, <code>AutorizadorPago</code>, con el método
+      que el TPV necesita: <code>autorizar(tarjeta, importe, idComercio)</code>.
+    </li>
+    <li>
+      Por cada servicio externo se escribe <strong>un adaptador</strong> que cumple esa interfaz,
+      guarda al servicio y traduce la llamada a la API propia de ese servicio.
+    </li>
+    <li>
+      El <code>TPV</code> mira el código de la tarjeta, elige el adaptador que corresponde y le
+      pide <code>autorizar(...)</code>, igual para todos.
+    </li>
+  </ol>
+
+  <span class="paso">Paso 3 &mdash; El diagrama</span>
+  <div class="pd-grafico uml" data-g="p-tpv">
+    <svg viewBox="-14 -14 750 417" width="750" height="417" role="img" aria-label="Adapter para los servicios de autorización de pago del TPV">
+      <polyline class="linea" points="222,39.5 261,39.5 261,39.5 300,39.5"/>
+      <polyline class="linea" points="290,44.5 300,39.5 290,34.5"/>
+      <polyline class="linea punteada" points="283,160 283,124 502,124 502,88"/>
+      <polygon class="hueca" points="502,75 509,88 495,88"/>
+      <polyline class="linea punteada" points="596,160 596,124 502,124 502,88"/>
+      <polygon class="hueca" points="502,75 509,88 495,88"/>
+      <polyline class="linea" points="283,248 283,289 266.5,289 266.5,330"/>
+      <polyline class="linea" points="261.5,320 266.5,330 271.5,320"/>
+      <polyline class="linea" points="596,248 596,289 584.5,289 584.5,330"/>
+      <polyline class="linea" points="579.5,320 584.5,330 589.5,320"/>
+      <rect class="caja" x="0" y="10" width="222" height="59" rx="3"/>
+      <text class="nombre" x="111" y="30">TPV</text>
+      <line class="div" x1="0" y1="40" x2="222" y2="40"/>
+      <text class="miembro" x="10" y="58">+ cobrar(tarjeta, importe)</text>
+      <rect class="caja" x="300" y="0" width="404" height="75" rx="3"/>
+      <text class="estereo" x="502" y="16">&#171;interface&#187;</text>
+      <text class="nombre" x="502" y="35">AutorizadorPago</text>
+      <line class="div" x1="300" y1="46" x2="704" y2="46"/>
+      <text class="miembro" x="310" y="64">+ autorizar(tarjeta, importe, idComercio): boolean</text>
+      <rect class="caja destacada" x="180" y="160" width="206" height="88" rx="3"/>
+      <text class="nombre" x="283" y="180">AdaptadorVisa</text>
+      <line class="div" x1="180" y1="190" x2="386" y2="190"/>
+      <text class="miembro" x="190" y="208">- servicio: ServicioVisa</text>
+      <line class="div" x1="180" y1="219" x2="386" y2="219"/>
+      <text class="miembro" x="190" y="237">+ autorizar(...)</text>
+      <rect class="caja destacada" x="470" y="160" width="252" height="88" rx="3"/>
+      <text class="nombre" x="596" y="180">AdaptadorMasterCard</text>
+      <line class="div" x1="470" y1="190" x2="722" y2="190"/>
+      <text class="miembro" x="480" y="208">- servicio: ServicioMasterCard</text>
+      <line class="div" x1="470" y1="219" x2="722" y2="219"/>
+      <text class="miembro" x="480" y="237">+ autorizar(...)</text>
+      <rect class="caja" x="190" y="330" width="153" height="59" rx="3"/>
+      <text class="nombre" x="266.5" y="350">ServicioVisa</text>
+      <line class="div" x1="190" y1="360" x2="343" y2="360"/>
+      <text class="miembro" x="200" y="378">+ (su propia API)</text>
+      <rect class="caja" x="495" y="330" width="179" height="59" rx="3"/>
+      <text class="nombre" x="584.5" y="350">ServicioMasterCard</text>
+      <line class="div" x1="495" y1="360" x2="674" y2="360"/>
+      <text class="miembro" x="505" y="378">+ (su propia API)</text>
+    </svg>
+  </div>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>
+      <strong>a)</strong> El diagrama de arriba.<br>
+      <strong>b)</strong> Patrón <strong>Adapter</strong>: cada servicio externo de autorización
+      tiene su propia API, incompatible con la del TPV. Se define la interfaz
+      <code>AutorizadorPago</code> y un adaptador por servicio, que la implementa y traduce las
+      llamadas. <strong>Ventaja:</strong> el TPV trabaja con todos de la misma forma, sin depender
+      de la API de cada compañía; y para sumar una tarjeta nueva alcanza con agregar un adaptador,
+      sin modificar el TPV ni los servicios (principio de abierto/cerrado).
+    </p>
+  </div>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Por qué no Facade ni Factory Method</span>
+    <ul>
+      <li>
+        <strong>Facade</strong> simplificaría varios servicios que se usan <em>juntos</em> para una
+        misma operación. Acá se usa <strong>uno u otro</strong>, y el problema es que cada uno
+        "habla distinto".
+      </li>
+      <li>
+        <strong>Factory Method</strong> se podría sumar para decidir qué adaptador crear según el
+        código de la tarjeta, pero no resuelve lo que pregunta el enunciado, que es cómo
+        <em>interactuar</em> con sistemas de API distinta.
+      </li>
+    </ul>
+  </div>
+</div>

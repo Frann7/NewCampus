@@ -1,0 +1,162 @@
+<div class="ej">
+  <span class="tag">Ejercicio 1 &middot; Adapter</span>
+  <h2>Reconocer el patrón en un código C++</h2>
+  <div class="enunciado">
+    <p>
+      <strong>Guía N°2, ejercicio 1.</strong> Según el siguiente diagrama en C++, identifique de qué
+      patrón se trata, y qué elementos ayudaron a detectar el patrón mencionado.
+    </p>
+  </div>
+
+  <pre class="codigo"><code>class Target {
+ public:
+  virtual ~Target() = default;
+
+  virtual std::string Request() const {
+    return "Target: The default target's behavior.";
+  }
+};
+class convierte {
+ public:
+  std::string SpecificRequest() const {
+    return ".eetpadA eht fo roivaheb laicepS";
+  }
+};
+class conversor : public Target {
+ private:
+  convierte *convierte_;
+
+ public:
+  conversor(convierte *convierte) : convierte_(convierte) {}
+  std::string Request() const override {
+    std::string to_reverse = this-&gt;convierte_-&gt;SpecificRequest();
+    std::reverse(to_reverse.begin(), to_reverse.end());
+    return "conversor: (TRANSLATED) " + to_reverse;
+  }
+};
+void ClientCode(const Target *target) {
+  std::cout &lt;&lt; target-&gt;Request();
+}
+
+int main() {
+  std::cout &lt;&lt; "Client: I can work just fine with the Target objects:\n";
+  Target *target = new Target;
+  ClientCode(target);
+  std::cout &lt;&lt; "\n\n";
+  convierte *convierte = new convierte;
+  std::cout &lt;&lt; "Client: The convierte class has a weird interface. See, I don't understand it:\n";
+  std::cout &lt;&lt; "convierte: " &lt;&lt; convierte-&gt;SpecificRequest();
+  std::cout &lt;&lt; "\n\n";
+  std::cout &lt;&lt; "Client: But I can work with it via the conversor:\n";
+  conversor *conversor = new conversor(convierte);
+  ClientCode(conversor);
+  std::cout &lt;&lt; "\n";
+  delete target;
+  delete convierte;
+  delete conversor;
+  return 0;
+}</code></pre>
+
+  <span class="paso">Paso 1 &mdash; Listar las clases y quién hereda de quién</span>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Clase</th><th>¿Hereda?</th><th>Qué tiene</th></tr>
+      <tr><td><code>Target</code></td><td>No</td><td>Un método <code>virtual</code>: <code>Request()</code></td></tr>
+      <tr><td><code>convierte</code></td><td><strong>No</strong>, y no tiene nada <code>virtual</code></td><td>Un método con otro nombre: <code>SpecificRequest()</code></td></tr>
+      <tr><td><code>conversor</code></td><td>Sí: <code>: public Target</code></td><td>Un atributo <code>convierte *convierte_</code> y el método <code>Request()</code> con <code>override</code></td></tr>
+    </table>
+  </div>
+  <p>
+    <code>ClientCode</code> es una función suelta que recibe un <code>Target</code> y llama a
+    <code>Request()</code>: es el cliente.
+  </p>
+
+  <span class="paso">Paso 2 &mdash; Las dos preguntas sobre la clase que guarda a otra</span>
+  <ul>
+    <li><strong>¿De quién hereda <code>conversor</code>?</strong> De <code>Target</code>, que es lo que usa el cliente.</li>
+    <li>
+      <strong>¿Qué guarda?</strong> <strong>Un</strong> puntero a <code>convierte</code>, una clase
+      suelta que no tiene nada que ver con <code>Target</code>.
+    </li>
+  </ul>
+  <p>Hereda de la interfaz del cliente y envuelve a una sola clase ajena: es <strong>Adapter</strong>.</p>
+
+  <span class="paso">Paso 3 &mdash; Qué clase es cada parte</span>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Parte del patrón</th><th>En el código</th><th>Qué lo confirma</th></tr>
+      <tr><td class="lbl">Interfaz con el Cliente</td><td><code>Target</code></td><td>Es lo que recibe <code>ClientCode</code></td></tr>
+      <tr><td class="lbl">Servicio (lo incompatible)</td><td><code>convierte</code></td><td>No hereda de <code>Target</code>; su método se llama distinto (<code>SpecificRequest</code>) y devuelve el texto al revés</td></tr>
+      <tr><td class="lbl">Adaptador</td><td><code>conversor</code></td><td>Hereda de <code>Target</code>, guarda un <code>convierte</code> recibido en el constructor, y en <code>Request()</code> llama a <code>SpecificRequest()</code> y <strong>da vuelta el texto</strong> (<code>std::reverse</code>) antes de devolverlo</td></tr>
+      <tr><td class="lbl">Cliente</td><td><code>ClientCode</code></td><td>Solo conoce <code>Target</code></td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Paso 4 &mdash; Comprobarlo con lo que imprime</span>
+  <pre class="salida">Client: I can work just fine with the Target objects:
+Target: The default target's behavior.
+
+Client: The convierte class has a weird interface. See, I don't understand it:
+convierte: .eetpadA eht fo roivaheb laicepS
+
+Client: But I can work with it via the conversor:
+conversor: (TRANSLATED) Special behavior of the Adaptee.</pre>
+  <ul>
+    <li>Primer bloque: el cliente trabaja bien con un <code>Target</code>.</li>
+    <li>Segundo: lo que devuelve <code>convierte</code> no se entiende, está al revés. Es la "interfaz rara".</li>
+    <li>
+      Tercero: a través del <code>conversor</code>, el mismo texto sale derecho. Dice
+      <em>"Special behavior of the Adaptee"</em>: <strong>Adaptee</strong> es el nombre en inglés
+      del Servicio, la clase adaptada.
+    </li>
+  </ul>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Tal como está en la guía, no compila</span>
+    <p>
+      En <code>main</code> hay variables que se llaman igual que su clase
+      (<code>convierte *convierte = new convierte;</code>): es lo que quedó al reemplazar los
+      nombres originales. La salida de arriba es la del mismo código con esas dos variables
+      renombradas. Para identificar el patrón no cambia nada.
+    </p>
+  </div>
+
+  <span class="paso">Paso 5 &mdash; El diagrama</span>
+  <div class="pd-grafico uml" data-g="p-conversor">
+    <svg viewBox="26 -14 577 256" width="577" height="256" role="img" aria-label="Diagrama del código de la Guía 2, ejercicio 1">
+      <polyline class="linea" points="144,140 144,106 144,106 144,72"/>
+      <polygon class="hueca" points="144,59 151,72 137,72"/>
+      <polyline class="linea" points="246,179.5 303,179.5 303,179.5 360,179.5"/>
+      <polyline class="linea" points="350,184.5 360,179.5 350,174.5"/>
+      <rect class="caja" x="60" y="0" width="168" height="59" rx="3"/>
+      <text class="nombre" x="144" y="20">Target</text>
+      <line class="div" x1="60" y1="30" x2="228" y2="30"/>
+      <text class="miembro" x="70" y="48">+ Request(): string</text>
+      <rect class="caja destacada" x="40" y="140" width="206" height="88" rx="3"/>
+      <text class="nombre" x="143" y="160">conversor</text>
+      <line class="div" x1="40" y1="170" x2="246" y2="170"/>
+      <text class="miembro" x="50" y="188">- convierte_: convierte*</text>
+      <line class="div" x1="40" y1="199" x2="246" y2="199"/>
+      <text class="miembro" x="50" y="217">+ Request(): string</text>
+      <rect class="caja" x="360" y="150" width="229" height="59" rx="3"/>
+      <text class="nombre" x="474.5" y="170">convierte</text>
+      <line class="div" x1="360" y1="180" x2="589" y2="180"/>
+      <text class="miembro" x="370" y="198">+ SpecificRequest(): string</text>
+    </svg>
+  </div>
+  <p>
+    La línea de <code>conversor</code> a <code>Target</code> es continua (herencia) y no punteada,
+    porque <code>Target</code> no es una interfaz pura: su método <code>Request()</code> tiene código.
+  </p>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>
+      Es el patrón <strong>Adapter</strong> (estructural). Elementos que lo delatan:
+      <code>convierte</code> es una clase con una interfaz distinta (<code>SpecificRequest</code>)
+      que no hereda de <code>Target</code>; <code>conversor</code> hereda de <code>Target</code>, que
+      es la interfaz que usa el cliente, y guarda un puntero a <code>convierte</code>; y en
+      <code>Request()</code> el conversor llama a <code>SpecificRequest()</code> y transforma el
+      resultado. Así el cliente usa a <code>convierte</code> sin modificarla.
+    </p>
+  </div>
+</div>

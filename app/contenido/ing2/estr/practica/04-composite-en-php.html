@@ -1,0 +1,211 @@
+<div class="ej">
+  <span class="tag">Ejercicio 4 &middot; Composite</span>
+  <h2>Reconocer el patrón en un código en otro lenguaje</h2>
+  <div class="enunciado">
+    <p>
+      <strong>Guía N°2, ejercicio 2.</strong> Dado el siguiente código identifique el lenguaje de
+      programación en que se está implementado, qué tipo de patrón se implementa y realice el
+      diagrama correspondiente.
+    </p>
+  </div>
+
+  <pre class="codigo"><code>&lt;?php
+namespace Git\ZZZZ\Conceptual;
+abstract class Component
+{
+    protected $parent;
+    public function setParent(?Component $parent)
+    {
+        $this-&gt;parent = $parent;
+    }
+    public function getParent(): Component
+    {
+        return $this-&gt;parent;
+    }
+
+    public function add(Component $component): void { }
+    public function remove(Component $component): void { }
+    public function ismolecula(): bool
+    {
+        return false;
+    }
+
+    abstract public function operation(): string;
+}
+
+class atomo extends Component
+{
+    public function operation(): string
+    {
+        return "atomo";
+    }
+}
+
+class molecula extends Component
+{
+    protected $children;
+    public function __construct()
+    {
+        $this-&gt;children = new \SplObjectStorage();
+    }
+
+    public function add(Component $component): void
+    {
+        $this-&gt;children-&gt;attach($component);
+        $component-&gt;setParent($this);
+    }
+    public function remove(Component $component): void
+    {
+        $this-&gt;children-&gt;detach($component);
+        $component-&gt;setParent(null);
+    }
+
+    public function ismolecula(): bool
+    {
+        return true;
+    }
+
+    public function operation(): string
+    {
+        $results = [];
+        foreach ($this-&gt;children as $child) {
+            $results[] = $child-&gt;operation();
+        }
+        return "Branch(" . implode("+", $results) . ")";
+    }
+}
+
+function clientCode(Component $component)
+{
+    echo "RESULT: " . $component-&gt;operation();
+}
+
+$simple = new atomo();
+clientCode($simple);
+
+$tree = new molecula();
+$branch1 = new molecula();
+$branch1-&gt;add(new atomo());
+$branch1-&gt;add(new atomo());
+$branch2 = new molecula();
+$branch2-&gt;add(new atomo());
+$tree-&gt;add($branch1);
+$tree-&gt;add($branch2);
+clientCode($tree);</code></pre>
+  <p>
+    (Se dejó lo esencial del código de prueba; en la guía siguen unos <code>echo</code> y una
+    segunda función cliente que no cambian la respuesta.)
+  </p>
+
+  <span class="paso">Paso 1 &mdash; El lenguaje</span>
+  <p>
+    Es <strong>PHP</strong>: empieza con <code>&lt;?php</code>, las variables llevan <code>$</code>,
+    se usa <code>$this-&gt;</code>, <code>echo</code> y <code>function</code>, y las cadenas se pegan
+    con un punto.
+  </p>
+
+  <span class="paso">Paso 2 &mdash; Listar las clases y quién hereda de quién</span>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Clase</th><th>¿Hereda?</th><th>Qué tiene</th></tr>
+      <tr><td><code>Component</code></td><td>No. Es <code>abstract</code></td><td><code>add</code> y <code>remove</code> vacíos, y la operación abstracta <code>operation()</code></td></tr>
+      <tr><td><code>atomo</code></td><td><code>extends Component</code></td><td>Solo <code>operation()</code>, que devuelve un texto fijo. <strong>No guarda a nadie</strong></td></tr>
+      <tr><td><code>molecula</code></td><td><code>extends Component</code></td><td>Un atributo <code>$children</code> (hijos), <code>add</code> y <code>remove</code> con código, y un <code>operation()</code> con un <code>foreach</code></td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Paso 3 &mdash; Las dos preguntas sobre la clase que guarda a otras</span>
+  <ul>
+    <li><strong>¿De quién hereda <code>molecula</code>?</strong> De <code>Component</code>.</li>
+    <li>
+      <strong>¿Qué guarda?</strong> Una <strong>colección</strong> (<code>$children</code>) a la que
+      se le agregan objetos <code>Component</code>: <strong>del mismo tipo del que ella hereda</strong>.
+    </li>
+  </ul>
+  <p>
+    Hereda de una clase base y guarda una lista de esa misma clase base: es <strong>Composite</strong>.
+    Lo confirman:
+  </p>
+  <ul>
+    <li>
+      el <code>operation()</code> de <code>molecula</code> es un <strong>bucle que llama a
+      <code>operation()</code> de cada hijo</strong> y junta los resultados;
+    </li>
+    <li>
+      el código de prueba arma un <strong>árbol</strong>: una <code>molecula</code> (<code>$tree</code>)
+      a la que se le agregan <strong>otras dos moléculas</strong> (<code>$branch1</code>,
+      <code>$branch2</code>, "ramas"), que tienen átomos;
+    </li>
+    <li><code>clientCode</code> recibe un <code>Component</code> y lo usa igual sea un átomo o un árbol entero.</li>
+  </ul>
+
+  <span class="paso">Paso 4 &mdash; Qué clase es cada parte</span>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Parte del patrón</th><th>En el código</th></tr>
+      <tr><td class="lbl">Componente</td><td><code>Component</code></td></tr>
+      <tr><td class="lbl">Hoja</td><td><code>atomo</code></td></tr>
+      <tr><td class="lbl">Compuesto</td><td><code>molecula</code></td></tr>
+      <tr><td class="lbl">Cliente</td><td><code>clientCode</code></td></tr>
+    </table>
+  </div>
+  <p>
+    Los nombres ayudan: un átomo no se divide (hoja) y una molécula está hecha de átomos y de otras
+    moléculas (compuesto).
+  </p>
+
+  <span class="paso">Paso 5 &mdash; El diagrama</span>
+  <div class="pd-grafico uml" data-g="p-molecula">
+    <svg viewBox="26 -14 612 433" width="612" height="433" role="img" aria-label="Diagrama del código de la Guía 2, ejercicio 2">
+      <polyline class="linea" points="132,260 132,228 246,228 246,196"/>
+      <polygon class="hueca" points="246,183 253,196 239,196"/>
+      <polyline class="linea" points="376,260 376,228 246,228 246,196"/>
+      <polygon class="hueca" points="246,183 253,196 239,196"/>
+      <polyline class="linea" points="520,332.5 560,332.5 560,91.5 372,91.5"/>
+      <polygon class="hueca" points="502,332.5 511,326.5 520,332.5 511,338.5"/>
+      <text class="rotulo" x="566" y="212" text-anchor="start">children</text>
+      <text class="rotulo" x="394" y="85.5" text-anchor="middle">*</text>
+      <rect class="caja" x="120" y="0" width="252" height="183" rx="3"/>
+      <text class="nombre abstracta" x="246" y="20">Component</text>
+      <line class="div" x1="120" y1="30" x2="372" y2="30"/>
+      <text class="miembro" x="130" y="48"># parent: Component</text>
+      <line class="div" x1="120" y1="59" x2="372" y2="59"/>
+      <text class="miembro" x="130" y="77">+ setParent(parent: Component)</text>
+      <text class="miembro" x="130" y="96">+ getParent(): Component</text>
+      <text class="miembro" x="130" y="115">+ add(component: Component)</text>
+      <text class="miembro" x="130" y="134">+ remove(component: Component)</text>
+      <text class="miembro" x="130" y="153">+ ismolecula(): bool</text>
+      <text class="miembro abstracto" x="130" y="172">+ operation(): string</text>
+      <rect class="caja" x="40" y="260" width="184" height="59" rx="3"/>
+      <text class="nombre" x="132" y="280">atomo</text>
+      <line class="div" x1="40" y1="290" x2="224" y2="290"/>
+      <text class="miembro" x="50" y="308">+ operation(): string</text>
+      <rect class="caja destacada" x="250" y="260" width="252" height="145" rx="3"/>
+      <text class="nombre" x="376" y="280">molecula</text>
+      <line class="div" x1="250" y1="290" x2="502" y2="290"/>
+      <text class="miembro" x="260" y="308"># children</text>
+      <line class="div" x1="250" y1="319" x2="502" y2="319"/>
+      <text class="miembro" x="260" y="337">+ add(component: Component)</text>
+      <text class="miembro" x="260" y="356">+ remove(component: Component)</text>
+      <text class="miembro" x="260" y="375">+ ismolecula(): bool</text>
+      <text class="miembro" x="260" y="394">+ operation(): string</text>
+    </svg>
+  </div>
+  <p>
+    En esta versión <code>add</code> y <code>remove</code> están declarados también en
+    <code>Component</code> (vacíos), para que el cliente pueda llamarlos sin preguntar qué clase
+    es. En la estructura del apunte están solo en el Compuesto; las dos formas son Composite.
+  </p>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>
+      Lenguaje: <strong>PHP</strong>. Patrón: <strong>Composite</strong> (estructural).
+      <code>Component</code> es el componente, <code>atomo</code> la hoja y <code>molecula</code> el
+      compuesto: guarda una colección de <code>Component</code> en <code>$children</code>, tiene
+      <code>add</code> y <code>remove</code>, y su <code>operation()</code> recorre los hijos
+      llamando a la misma operación. El cliente trabaja con <code>Component</code> y trata igual a
+      un átomo que a un árbol de moléculas.
+    </p>
+  </div>
+</div>

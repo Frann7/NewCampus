@@ -1,0 +1,155 @@
+<div class="ej">
+  <span class="tag">Ejercicio 2 &middot; Adapter</span>
+  <h2>Aplicar el patrón sobre un diagrama: el libro digital</h2>
+  <div class="enunciado">
+    <p>
+      <strong>Guía N°2, ejercicio 4</strong> (es también el ejercicio 5 de la Guía N°1 y el 1 de
+      <em>Patrones de Diseño Parte 2</em>). Supongamos que tenemos un sistema que vende libros. Se
+      desea vincular al sistema una clase de tipo libro digital con un funcionamiento diferente al
+      que se está manejando. Se debe adaptar la nueva clase sin que afecte la lógica de la
+      aplicación. Se adjunta una parte del diagrama de UML:
+    </p>
+  </div>
+  <div class="pd-grafico uml" data-g="p-libro-antes">
+    <svg viewBox="-14 -14 594 173" width="594" height="173" role="img" aria-label="Diagrama original: Administrable, Libro y Libro digital">
+      <rect class="caja" x="0" y="10" width="153" height="113" rx="3"/>
+      <text class="estereo" x="76.5" y="26">&#171;interface&#187;</text>
+      <text class="nombre" x="76.5" y="45">Administrable</text>
+      <line class="div" x1="0" y1="56" x2="153" y2="56"/>
+      <text class="miembro" x="10" y="74">+ agregarstock()</text>
+      <text class="miembro" x="10" y="93">+ eliminarstock()</text>
+      <text class="miembro" x="10" y="112">+ vender()</text>
+      <rect class="caja" x="230" y="0" width="153" height="145" rx="3"/>
+      <text class="nombre" x="306.5" y="20">Libro</text>
+      <line class="div" x1="230" y1="30" x2="383" y2="30"/>
+      <text class="miembro" x="240" y="48">+ nombre</text>
+      <text class="miembro" x="240" y="67">+ isbn</text>
+      <line class="div" x1="230" y1="78" x2="383" y2="78"/>
+      <text class="miembro" x="240" y="96">+ agregarstock()</text>
+      <text class="miembro" x="240" y="115">+ eliminarstock()</text>
+      <text class="miembro" x="240" y="134">+ vender()</text>
+      <rect class="caja" x="430" y="10" width="136" height="59" rx="3"/>
+      <text class="nombre" x="498" y="30">Libro digital</text>
+      <line class="div" x1="430" y1="40" x2="566" y2="40"/>
+      <text class="miembro" x="440" y="58">+ vender()</text>
+    </svg>
+  </div>
+
+  <span class="paso">Paso 1 &mdash; Leer el diagrama que dan</span>
+  <ul>
+    <li>
+      <code>Administrable</code> es una <strong>interfaz</strong> con tres métodos:
+      <code>agregarstock()</code>, <code>eliminarstock()</code> y <code>vender()</code>. Es la
+      forma en que el sistema maneja lo que vende.
+    </li>
+    <li><code>Libro</code> tiene esos mismos tres métodos: es lo que el sistema ya sabe manejar.</li>
+    <li>
+      <code>Libro digital</code> tiene <strong>solo</strong> <code>vender()</code>. No tiene stock
+      que agregar ni quitar: ese es el "funcionamiento diferente".
+    </li>
+    <li>
+      En el diagrama de la guía <strong>no hay ninguna línea</strong> entre las tres. Unirlas es
+      parte de lo que hay que resolver.
+    </li>
+  </ul>
+
+  <span class="paso">Paso 2 &mdash; Desarme del enunciado</span>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase del enunciado</th><th>Qué significa</th><th>Parte del patrón</th></tr>
+      <tr><td>"un sistema que vende libros"</td><td>Lo que ya existe y funciona</td><td><strong>Cliente</strong>, que trabaja con <code>Administrable</code> (la <strong>Interfaz con el Cliente</strong>)</td></tr>
+      <tr><td>"<strong>vincular</strong> al sistema una clase de tipo libro digital"</td><td>Sumar una clase nueva</td><td><strong>Servicio</strong>: <code>Libro digital</code></td></tr>
+      <tr><td>"con un <strong>funcionamiento diferente</strong> al que se está manejando"</td><td>Su interfaz no coincide con la que usa el sistema</td><td>Interfaces incompatibles</td></tr>
+      <tr><td>"se debe <strong>adaptar</strong> la nueva clase <strong>sin que afecte</strong> la lógica de la aplicación"</td><td>No se toca el sistema, y el verbo es "adaptar"</td><td><strong>Adaptador</strong></td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Paso 3 &mdash; Qué se agrega</span>
+  <ol>
+    <li>
+      <code>Libro</code> <strong>cumple</strong> <code>Administrable</code> (línea punteada con
+      triángulo): ya tenía los tres métodos.
+    </li>
+    <li>
+      Una clase nueva, <code>AdaptadorLibroDigital</code>, que <strong>también cumple</strong>
+      <code>Administrable</code> y <strong>guarda</strong> un <code>Libro digital</code>.
+    </li>
+    <li>
+      Sus tres métodos traducen: <code>vender()</code> llama al <code>vender()</code> del libro
+      digital; <code>agregarstock()</code> y <code>eliminarstock()</code> no hacen nada, porque un
+      libro digital no se agota.
+    </li>
+  </ol>
+  <p><code>Libro digital</code> y <code>Administrable</code> <strong>quedan como estaban</strong>.</p>
+
+  <span class="paso">Paso 4 &mdash; El diagrama</span>
+  <div class="pd-grafico uml" data-g="p-libro">
+    <svg viewBox="-14 -14 704 363" width="704" height="363" role="img" aria-label="Adapter para vincular el libro digital">
+      <polyline class="linea punteada" points="76.5,190 76.5,158 196.5,158 196.5,126"/>
+      <polygon class="hueca" points="196.5,113 203.5,126 189.5,126"/>
+      <polyline class="linea punteada" points="318.5,190 318.5,158 196.5,158 196.5,126"/>
+      <polygon class="hueca" points="196.5,113 203.5,126 189.5,126"/>
+      <polyline class="linea" points="437,254.5 488.5,254.5 488.5,254.5 540,254.5"/>
+      <polyline class="linea" points="530,259.5 540,254.5 530,249.5"/>
+      <rect class="caja" x="120" y="0" width="153" height="113" rx="3"/>
+      <text class="estereo" x="196.5" y="16">&#171;interface&#187;</text>
+      <text class="nombre" x="196.5" y="35">Administrable</text>
+      <line class="div" x1="120" y1="46" x2="273" y2="46"/>
+      <text class="miembro" x="130" y="64">+ agregarstock()</text>
+      <text class="miembro" x="130" y="83">+ eliminarstock()</text>
+      <text class="miembro" x="130" y="102">+ vender()</text>
+      <rect class="caja" x="0" y="190" width="153" height="145" rx="3"/>
+      <text class="nombre" x="76.5" y="210">Libro</text>
+      <line class="div" x1="0" y1="220" x2="153" y2="220"/>
+      <text class="miembro" x="10" y="238">+ nombre</text>
+      <text class="miembro" x="10" y="257">+ isbn</text>
+      <line class="div" x1="0" y1="268" x2="153" y2="268"/>
+      <text class="miembro" x="10" y="286">+ agregarstock()</text>
+      <text class="miembro" x="10" y="305">+ eliminarstock()</text>
+      <text class="miembro" x="10" y="324">+ vender()</text>
+      <rect class="caja destacada" x="200" y="190" width="237" height="126" rx="3"/>
+      <text class="nombre" x="318.5" y="210">AdaptadorLibroDigital</text>
+      <line class="div" x1="200" y1="220" x2="437" y2="220"/>
+      <text class="miembro" x="210" y="238">- libroDigital: LibroDigital</text>
+      <line class="div" x1="200" y1="249" x2="437" y2="249"/>
+      <text class="miembro" x="210" y="267">+ agregarstock()</text>
+      <text class="miembro" x="210" y="286">+ eliminarstock()</text>
+      <text class="miembro" x="210" y="305">+ vender()</text>
+      <rect class="caja" x="540" y="225" width="136" height="59" rx="3"/>
+      <text class="nombre" x="608" y="245">Libro digital</text>
+      <line class="div" x1="540" y1="255" x2="676" y2="255"/>
+      <text class="miembro" x="550" y="273">+ vender()</text>
+    </svg>
+  </div>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>
+      Se aplica <strong>Adapter</strong>. El sistema maneja lo que vende a través de la interfaz
+      <code>Administrable</code>, y <code>Libro digital</code> tiene una interfaz distinta (solo
+      <code>vender()</code>). Se agrega <code>AdaptadorLibroDigital</code>, que implementa
+      <code>Administrable</code> y contiene un <code>Libro digital</code>, al que le delega la
+      venta. El sistema trata al libro digital como a cualquier <code>Administrable</code>, sin
+      modificar su lógica ni la clase nueva.
+    </p>
+  </div>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">El error típico: hacer que <code>Libro digital</code> implemente <code>Administrable</code></span>
+    <p>
+      Parece más corto, pero es modificar la clase nueva, que es justo lo que el patrón evita
+      (podría ser de otro sistema o de un tercero). Y el enunciado dice "adaptar", no "modificar".
+    </p>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Práctica 03, ejercicio 1: la misma idea</span>
+    <p>
+      "Una biblioteca de gráficos en 2D que solo admite la representación de círculos. Sin embargo,
+      necesitas dibujar cuadrados y triángulos (...). Implementa un adaptador". La biblioteca es el
+      Servicio, que no se toca; la aplicación trabaja con una interfaz <code>Figura</code> con
+      <code>dibujar()</code>; y los adaptadores <code>AdaptadorCuadrado</code> y
+      <code>AdaptadorTriangulo</code> cumplen <code>Figura</code>, guardan la biblioteca y
+      traducen cada <code>dibujar()</code> a las llamadas que ella entiende.
+    </p>
+  </div>
+</div>

@@ -1,0 +1,130 @@
+<div class="ej">
+  <span class="tag">Ejercicio 8 &middot; Facade</span>
+  <h2>Aplicar el patrón sobre un diagrama: la tienda</h2>
+  <div class="enunciado">
+    <p>
+      <strong>Patrones de Diseño Parte 1, ejercicio 4.</strong> Actualmente se desean implementar
+      mejoras en un sistema de gestión para una tienda que vende distintos tipos de productos
+      (revistas, cds, libros), se desea implementar una interface fácil y de simple acceso para que
+      una clase Cliente pueda interactuar de forma fácil para realizar compras y reclamos,
+      adjuntamos parte de un diagrama de clases:
+    </p>
+  </div>
+  <div class="pd-grafico uml" data-g="p-tienda-antes">
+    <svg viewBox="-14 -14 538 168" width="538" height="168" role="img" aria-label="Diagrama original: Cliente suelto y Producto con Revista, CD y Libro">
+      <polyline class="linea" points="235,110 235,76.5 351.5,76.5 351.5,43"/>
+      <polygon class="hueca" points="351.5,30 358.5,43 344.5,43"/>
+      <polyline class="linea" points="351.5,110 351.5,76.5 351.5,76.5 351.5,43"/>
+      <polygon class="hueca" points="351.5,30 358.5,43 344.5,43"/>
+      <polyline class="linea" points="465,110 465,76.5 351.5,76.5 351.5,43"/>
+      <polygon class="hueca" points="351.5,30 358.5,43 344.5,43"/>
+      <rect class="caja" x="0" y="60" width="90" height="30" rx="3"/>
+      <text class="nombre" x="45" y="80">Cliente</text>
+      <rect class="caja" x="305" y="0" width="93" height="30" rx="3"/>
+      <text class="nombre" x="351.5" y="20">Producto</text>
+      <rect class="caja" x="190" y="110" width="90" height="30" rx="3"/>
+      <text class="nombre" x="235" y="130">Revista</text>
+      <rect class="caja" x="305" y="110" width="90" height="30" rx="3"/>
+      <text class="nombre" x="350" y="130">CD</text>
+      <rect class="caja" x="420" y="110" width="90" height="30" rx="3"/>
+      <text class="nombre" x="465" y="130">Libro</text>
+    </svg>
+  </div>
+
+  <span class="paso">Paso 1 &mdash; Desarme del enunciado</span>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase del enunciado</th><th>Qué significa</th><th>Parte del patrón</th></tr>
+      <tr><td>"una <strong>interface fácil y de simple acceso</strong>"</td><td>Es el propósito de Facade: una interfaz simplificada. <strong>La frase que decide.</strong></td><td><strong>Fachada</strong></td></tr>
+      <tr><td>"para que una clase <strong>Cliente</strong> pueda interactuar de forma fácil"</td><td>Quién va a usar esa interfaz. En el diagrama está suelto, sin ninguna línea</td><td><strong>Cliente</strong></td></tr>
+      <tr><td>"para realizar <strong>compras y reclamos</strong>"</td><td>Las operaciones simples que tiene que ofrecer</td><td>Métodos de la fachada: <code>comprar()</code> y <code>reclamar()</code></td></tr>
+      <tr><td>"un sistema de gestión para una tienda que vende distintos tipos de productos"</td><td>Lo complicado que queda detrás</td><td><strong>Subsistema</strong>: los productos y lo que maneja compras y reclamos</td></tr>
+    </table>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">La trampa: Producto con tres hijas</span>
+    <p>
+      En el ejercicio 3 de esta misma guía, una clase con varias hijas era la pista de Factory
+      Method. Acá no: el enunciado <strong>no habla de crear</strong> productos, habla de darle al
+      cliente un acceso simple. El diagrama acompaña; el patrón lo decide la necesidad.
+    </p>
+  </div>
+
+  <span class="paso">Paso 2 &mdash; Qué se agrega</span>
+  <ol>
+    <li>Una clase <code>FachadaTienda</code> con los métodos <code>comprar()</code> y <code>reclamar()</code>.</li>
+    <li>Una flecha de <code>Cliente</code> a <code>FachadaTienda</code>: es lo único que el cliente conoce.</li>
+    <li>
+      Flechas de la fachada hacia las clases del sistema que hacen el trabajo. El enunciado solo
+      muestra los productos; para las compras y los reclamos se suponen dos clases del sistema,
+      <code>GestorCompras</code> y <code>GestorReclamos</code>.
+    </li>
+  </ol>
+  <p><code>Producto</code>, <code>Revista</code>, <code>CD</code> y <code>Libro</code> quedan como estaban.</p>
+
+  <span class="paso">Paso 3 &mdash; El diagrama</span>
+  <div class="pd-grafico uml" data-g="p-tienda">
+    <svg viewBox="-14 -69 692 383" width="692" height="383" role="img" aria-label="Facade para que el Cliente compre y reclame">
+      <polyline class="linea" points="90,45 120,45 120,45 150,45"/>
+      <polyline class="linea" points="140,50 150,45 140,40"/>
+      <polyline class="linea" points="394,24 437,24 437,-16 480,-16"/>
+      <polyline class="linea" points="470,-11 480,-16 470,-21"/>
+      <polyline class="linea" points="394,54 437,54 437,74.5 480,74.5"/>
+      <polyline class="linea" points="470,79.5 480,74.5 470,69.5"/>
+      <polyline class="linea punteada" points="332,78 332,124 351.5,124 351.5,170"/>
+      <polyline class="linea" points="346.5,160 351.5,170 356.5,160"/>
+      <polyline class="linea" points="235,270 235,241.5 351.5,241.5 351.5,213"/>
+      <polygon class="hueca" points="351.5,200 358.5,213 344.5,213"/>
+      <polyline class="linea" points="351.5,270 351.5,241.5 351.5,241.5 351.5,213"/>
+      <polygon class="hueca" points="351.5,200 358.5,213 344.5,213"/>
+      <polyline class="linea" points="465,270 465,241.5 351.5,241.5 351.5,213"/>
+      <polygon class="hueca" points="351.5,200 358.5,213 344.5,213"/>
+      <rect class="caja" x="0" y="30" width="90" height="30" rx="3"/>
+      <text class="nombre" x="45" y="50">Cliente</text>
+      <rect class="caja destacada" x="150" y="0" width="244" height="78" rx="3"/>
+      <text class="nombre" x="272" y="20">FachadaTienda</text>
+      <line class="div" x1="150" y1="30" x2="394" y2="30"/>
+      <text class="miembro" x="160" y="48">+ comprar(p: Producto): void</text>
+      <text class="miembro" x="160" y="67">+ reclamar(p: Producto): void</text>
+      <rect class="caja" x="480" y="-55" width="176" height="78" rx="3"/>
+      <text class="nombre" x="568" y="-35">GestorCompras</text>
+      <line class="div" x1="480" y1="-25" x2="656" y2="-25"/>
+      <text class="miembro" x="490" y="-7">+ registrarCompra(p)</text>
+      <text class="miembro" x="490" y="12">+ cobrar(p)</text>
+      <rect class="caja" x="480" y="45" width="184" height="59" rx="3"/>
+      <text class="nombre" x="572" y="65">GestorReclamos</text>
+      <line class="div" x1="480" y1="75" x2="664" y2="75"/>
+      <text class="miembro" x="490" y="93">+ registrarReclamo(p)</text>
+      <rect class="caja" x="305" y="170" width="93" height="30" rx="3"/>
+      <text class="nombre" x="351.5" y="190">Producto</text>
+      <rect class="caja" x="190" y="270" width="90" height="30" rx="3"/>
+      <text class="nombre" x="235" y="290">Revista</text>
+      <rect class="caja" x="305" y="270" width="90" height="30" rx="3"/>
+      <text class="nombre" x="350" y="290">CD</text>
+      <rect class="caja" x="420" y="270" width="90" height="30" rx="3"/>
+      <text class="nombre" x="465" y="290">Libro</text>
+    </svg>
+  </div>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>
+      Se aplica <strong>Facade</strong>, porque se pide una interfaz fácil y de simple acceso para
+      que el Cliente realice compras y reclamos. Se agrega <code>FachadaTienda</code>, con
+      <code>comprar()</code> y <code>reclamar()</code>, que por dentro coordina a las clases del
+      sistema (productos, compras, reclamos). El Cliente interactúa solo con la fachada, sin
+      conocer la complejidad del sistema de gestión, y si el sistema cambia por dentro el Cliente
+      no se modifica.
+    </p>
+  </div>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Práctica 03, ejercicio 2: el mismo, con los subsistemas dichos</span>
+    <p>
+      "Un sistema de una tienda en línea con múltiples subsistemas como el de gestión de
+      inventario, el de procesamiento de pedidos y el de envío. Crea una fachada para simplificar
+      la interacción del cliente con estos subsistemas." Es el ejemplo 1 de la teoría: la fachada
+      guarda los tres subsistemas y ofrece un método simple.
+    </p>
+  </div>
+</div>

@@ -1,0 +1,174 @@
+<div class="ej">
+  <span class="tag">Ejercicio 7 &middot; Facade</span>
+  <h2>Reconocer el patrón en un código en otro lenguaje</h2>
+  <div class="enunciado">
+    <p>
+      <strong>Guía N°2, ejercicio 3.</strong> Dado el siguiente código identifique el lenguaje de
+      programación en que se está implementado, qué tipo de patrón se implementa y realice el
+      diagrama correspondiente.
+    </p>
+  </div>
+
+  <pre class="codigo"><code>using System;
+
+namespace git.QQQQ.Conceptual
+{
+
+    public class Pantalla
+    {
+        protected Subsystem1 _subsystem1;
+        protected Subsystem2 _subsystem2;
+
+        public pantalla(Subsystem1 subsystem1, Subsystem2 subsystem2)
+        {
+            this._subsystem1 = subsystem1;
+            this._subsystem2 = subsystem2;
+        }
+
+        public string Operation()
+        {
+            string result = "pantallainitializes subsystems:\n";
+            result += this._subsystem1.operation1();
+            result += this._subsystem2.operation1();
+            result += "pantallaorders subsystems to perform the action:\n";
+            result += this._subsystem1.operationN();
+            result += this._subsystem2.operationZ();
+            return result;
+        }
+    }
+
+    public class Subsystem1
+    {
+        public string operation1()
+        {
+            return "Subsystem1: Ready!\n";
+        }
+
+        public string operationN()
+        {
+            return "Subsystem1: Go!\n";
+        }
+    }
+
+    public class Subsystem2
+    {
+        public string operation1()
+        {
+            return "Subsystem2: Get ready!\n";
+        }
+
+        public string operationZ()
+        {
+            return "Subsystem2: Fire!\n";
+        }
+    }
+
+    class Client
+    {
+        public static void ClientCode(pantallapantalla)
+        {
+            Console.Write(pantalla.Operation());
+        }
+    }
+
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Subsystem1 subsystem1 = new Subsystem1();
+            Subsystem2 subsystem2 = new Subsystem2();
+            pantallapantalla= new pantalla(subsystem1, subsystem2);
+            Client.ClientCode(pantalla);
+        }
+    }
+}</code></pre>
+
+  <span class="paso">Paso 1 &mdash; El lenguaje</span>
+  <p>
+    Es <strong>C#</strong>: <code>using System;</code>, <code>namespace</code> con llaves,
+    <code>Console.Write</code>, <code>static void Main(string[] args)</code>, y los métodos se
+    llaman con punto (<code>this._subsystem1.operation1()</code>) y no con flecha.
+  </p>
+  <p>
+    Los <code>pantallapantalla</code> y <code>pantallainitializes</code> pegados son restos de
+    haber reemplazado la palabra <code>Facade</code> por <code>pantalla</code>; se leen como
+    <code>pantalla pantalla</code> (una variable <code>pantalla</code> de tipo <code>Pantalla</code>).
+  </p>
+
+  <span class="paso">Paso 2 &mdash; Listar las clases y quién hereda de quién</span>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Clase</th><th>¿Hereda?</th><th>Qué tiene</th></tr>
+      <tr><td><code>Subsystem1</code></td><td>No</td><td>Dos métodos propios: <code>operation1()</code> y <code>operationN()</code></td></tr>
+      <tr><td><code>Subsystem2</code></td><td>No</td><td>Dos métodos propios: <code>operation1()</code> y <code>operationZ()</code></td></tr>
+      <tr><td><code>Pantalla</code></td><td><strong>No</strong></td><td>Dos atributos, uno de cada subsistema, y un solo método <code>Operation()</code></td></tr>
+      <tr><td><code>Client</code></td><td>No</td><td>Recibe una <code>Pantalla</code> y llama a <code>Operation()</code></td></tr>
+    </table>
+  </div>
+  <p><strong>Nadie hereda de nadie.</strong> Esa sola observación ya apunta a Facade.</p>
+
+  <span class="paso">Paso 3 &mdash; Las dos preguntas sobre la clase que guarda a otras</span>
+  <ul>
+    <li><strong>¿De quién hereda <code>Pantalla</code>?</strong> De nadie.</li>
+    <li><strong>¿Qué guarda?</strong> Un objeto de <strong>cada una</strong> de dos clases sueltas y distintas.</li>
+  </ul>
+  <p>
+    Y su único método, <code>Operation()</code>, <strong>llama en orden</strong> a cuatro métodos de
+    los subsistemas y junta todo en un solo resultado. El cliente hace una sola llamada.
+  </p>
+
+  <span class="paso">Paso 4 &mdash; El diagrama</span>
+  <div class="pd-grafico uml" data-g="p-pantalla">
+    <svg viewBox="-14 -14 719 216" width="719" height="216" role="img" aria-label="Diagrama del código de la Guía 2, ejercicio 3">
+      <polyline class="linea punteada" points="90,65 120,65 120,65 150,65"/>
+      <polyline class="linea" points="140,70 150,65 140,60"/>
+      <polyline class="linea" points="364,48.5 432,48.5 432,39 500,39"/>
+      <polyline class="linea" points="490,44 500,39 490,34"/>
+      <polyline class="linea" points="364,98.5 432,98.5 432,149 500,149"/>
+      <polyline class="linea" points="490,154 500,149 490,144"/>
+      <rect class="caja" x="0" y="50" width="90" height="30" rx="3"/>
+      <text class="nombre" x="45" y="70">Client</text>
+      <rect class="caja destacada" x="150" y="20" width="214" height="107" rx="3"/>
+      <text class="nombre" x="257" y="40">Pantalla</text>
+      <line class="div" x1="150" y1="50" x2="364" y2="50"/>
+      <text class="miembro" x="160" y="68"># _subsystem1: Subsystem1</text>
+      <text class="miembro" x="160" y="87"># _subsystem2: Subsystem2</text>
+      <line class="div" x1="150" y1="98" x2="364" y2="98"/>
+      <text class="miembro" x="160" y="116">+ Operation(): string</text>
+      <rect class="caja" x="500" y="0" width="191" height="78" rx="3"/>
+      <text class="nombre" x="595.5" y="20">Subsystem1</text>
+      <line class="div" x1="500" y1="30" x2="691" y2="30"/>
+      <text class="miembro" x="510" y="48">+ operation1(): string</text>
+      <text class="miembro" x="510" y="67">+ operationN(): string</text>
+      <rect class="caja" x="500" y="110" width="191" height="78" rx="3"/>
+      <text class="nombre" x="595.5" y="130">Subsystem2</text>
+      <line class="div" x1="500" y1="140" x2="691" y2="140"/>
+      <text class="miembro" x="510" y="158">+ operation1(): string</text>
+      <text class="miembro" x="510" y="177">+ operationZ(): string</text>
+    </svg>
+  </div>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>
+      Lenguaje: <strong>C#</strong>. Patrón: <strong>Facade</strong> (estructural).
+      <code>Pantalla</code> es la fachada: guarda una referencia a <code>Subsystem1</code> y otra a
+      <code>Subsystem2</code>, y su método <code>Operation()</code> llama en el orden correcto a
+      las operaciones de los dos subsistemas. El cliente usa solo <code>Pantalla.Operation()</code>
+      y no necesita conocer el subsistema. Las clases del subsistema no heredan de nada en común ni
+      conocen a la fachada.
+    </p>
+  </div>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Es el mismo código de los parciales</span>
+    <p>
+      Comparalo con el del parcial 2024 (Teoría, sección 3, ejemplo 2): <code>Pantalla</code> es
+      <code>Operador</code>, <code>Subsystem1</code> es <code>Facturacion</code> y
+      <code>Subsystem2</code> es <code>Compras</code>, con los mismos <code>Operation1</code>,
+      <code>OperationN</code> y <code>OperationZ</code>. La única diferencia es que acá los
+      subsistemas se le pasan a la fachada desde afuera, y en el parcial la fachada los crea si no
+      se los pasan.
+    </p>
+  </div>
+</div>

@@ -1,0 +1,318 @@
+<div class="bloque" data-examen="igual"
+     data-examen-ref="Parcial 2025 · Teoría 4"
+     data-examen-nota="20 puntos entre este y Abstract Factory: dibujar el UML de la estructura y explicar el propósito. El enunciado decía «conectar módulos con interfaces incompatibles con los existentes del sistema».">
+  <p class="kicker">Estructural</p>
+  <h2>1. Adapter</h2>
+  <p>También llamado <strong>Adaptador</strong>, <strong>Envoltorio</strong> o <strong>Wrapper</strong>.</p>
+
+  <h3>Para qué sirve</h3>
+  <p>
+    Tenés un programa que funciona y querés sumarle una clase que <strong>ya existe</strong> (una
+    biblioteca de otro, un sistema viejo, un servicio externo). Hace lo que necesitás, pero
+    <strong>se usa de otra manera</strong>: sus métodos se llaman distinto, o piden los datos en
+    otro formato. Su <strong>interfaz es incompatible</strong> con la que espera tu código.
+  </p>
+  <ul>
+    <li>Cambiar tu programa para adaptarlo a ella obliga a tocar todo lo que ya funciona.</li>
+    <li>Cambiar la clase ajena muchas veces es imposible: no es tuya o ni tenés su código.</li>
+  </ul>
+  <p>
+    El Adapter es una clase <strong>intermedia</strong> que hace de <strong>traductor</strong>: por
+    fuera se ve como lo que tu programa espera, y por dentro le pasa el pedido a la clase ajena,
+    convirtiendo lo que haga falta.
+  </p>
+  <p>
+    <strong>Analogía del apunte:</strong> el adaptador de enchufes. El enchufe de la notebook no
+    entra en el tomacorriente de otro país; no se cambia ni la notebook ni la pared, se pone un
+    adaptador en el medio.
+  </p>
+
+  <div class="caja caja-formula">
+    <span class="caja-tit">Propósito</span>
+    <p>
+      Adapter es un patrón <strong>estructural</strong> que permite la <strong>colaboración entre
+      objetos con interfaces incompatibles</strong>.
+    </p>
+  </div>
+
+  <h3>Estructura</h3>
+  <div class="pd-grafico uml" data-g="adapter">
+    <svg viewBox="-14 -14 773 266" width="773" height="266" role="img" aria-label="Estructura del patrón Adapter (adaptador de objetos)">
+      <polyline class="linea" points="90,25 140,25 140,25 190,25"/>
+      <polyline class="linea" points="180,30 190,25 180,20"/>
+      <polyline class="linea punteada" points="266.5,150 266.5,119 266.5,119 266.5,88"/>
+      <polygon class="hueca" points="266.5,75 273.5,88 259.5,88"/>
+      <polyline class="linea" points="346,189.5 408,189.5 408,189.5 470,189.5"/>
+      <polyline class="linea" points="460,194.5 470,189.5 460,184.5"/>
+      <rect class="caja" x="0" y="10" width="90" height="30" rx="3"/>
+      <text class="nombre" x="45" y="30">Cliente</text>
+      <rect class="caja" x="190" y="0" width="153" height="75" rx="3"/>
+      <text class="estereo" x="266.5" y="16">&#171;interface&#187;</text>
+      <text class="nombre" x="266.5" y="35">InterfazCliente</text>
+      <line class="div" x1="190" y1="46" x2="343" y2="46"/>
+      <text class="miembro" x="200" y="64">+ metodo(datos)</text>
+      <rect class="caja destacada" x="170" y="150" width="176" height="88" rx="3"/>
+      <text class="nombre" x="258" y="170">Adaptador</text>
+      <line class="div" x1="170" y1="180" x2="346" y2="180"/>
+      <text class="miembro" x="180" y="198">- adaptado: Servicio</text>
+      <line class="div" x1="170" y1="209" x2="346" y2="209"/>
+      <text class="miembro" x="180" y="227">+ metodo(datos)</text>
+      <rect class="caja" x="470" y="160" width="275" height="59" rx="3"/>
+      <text class="nombre" x="607.5" y="180">Servicio</text>
+      <line class="div" x1="470" y1="190" x2="745" y2="190"/>
+      <text class="miembro" x="480" y="208">+ metodoServicio(datosEspeciales)</text>
+    </svg>
+  </div>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Parte</th><th>Qué es</th><th>En el ejemplo del termómetro</th></tr>
+      <tr><td class="lbl">Cliente</td><td>El código que ya existe y funciona.</td><td>La función <code>mostrar()</code></td></tr>
+      <tr><td class="lbl">Interfaz con el Cliente (<em>Target</em>)</td><td>La interfaz que el cliente <strong>espera</strong>: lo que sabe usar.</td><td><code>Termometro</code>, con <code>celsius()</code></td></tr>
+      <tr><td class="lbl">Servicio (<em>Adaptee</em>)</td><td>La clase útil pero <strong>incompatible</strong>. No se modifica, y ni se entera de que existe un adaptador.</td><td><code>SensorAmericano</code>, con <code>leerFahrenheit()</code></td></tr>
+      <tr><td class="lbl">Adaptador (<em>Adapter</em>)</td><td><strong>Cumple</strong> la interfaz del cliente y <strong>guarda</strong> un objeto del servicio. Cuando el cliente lo llama, traduce el pedido y se lo pasa al servicio.</td><td><code>AdaptadorSensor</code></td></tr>
+    </table>
+  </div>
+  <p>Cómo dibujarlo de memoria: <strong>el adaptador tiene dos flechas</strong>.</p>
+  <ul>
+    <li>Una <strong>punteada con triángulo hacia arriba</strong>: cumple la interfaz que el cliente conoce.</li>
+    <li>Una <strong>continua hacia el costado</strong>: guarda al servicio (por eso tiene un atributo de ese tipo).</li>
+    <li>El Cliente apunta a la <strong>interfaz</strong>, nunca al Adaptador ni al Servicio.</li>
+  </ul>
+  <p>
+    El apunte lo llama <strong>adaptador de objetos</strong>, porque el adaptador <em>contiene</em> al
+    servicio. Existe otra versión, la <strong>clase adaptadora</strong>, en la que el adaptador
+    <em>hereda</em> a la vez de la interfaz del cliente y del servicio; solo se puede hacer en
+    lenguajes con herencia múltiple, como C++. La que se usa y se dibuja normalmente es la primera.
+  </p>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; En C++: un sensor que mide en otra unidad</h3>
+  <p>
+    El programa trabaja con termómetros que dan la temperatura en grados Celsius. Se compra un
+    sensor de otro fabricante que la da en Fahrenheit y con otro nombre de método.
+  </p>
+  <div class="pd-grafico uml" data-g="adapter-termometro">
+    <svg viewBox="-14 -14 790 266" width="790" height="266" role="img" aria-label="Adapter en el ejemplo del termómetro">
+      <polyline class="linea punteada" points="85,150 85,119 194,119 194,88"/>
+      <polygon class="hueca" points="194,75 201,88 187,88"/>
+      <polyline class="linea punteada" points="324.5,150 324.5,119 194,119 194,88"/>
+      <polygon class="hueca" points="194,75 201,88 187,88"/>
+      <polyline class="linea" points="439,189.5 489.5,189.5 489.5,189.5 540,189.5"/>
+      <polyline class="linea" points="530,194.5 540,189.5 530,184.5"/>
+      <rect class="caja" x="110" y="0" width="168" height="75" rx="3"/>
+      <text class="estereo" x="194" y="16">&#171;interface&#187;</text>
+      <text class="nombre" x="194" y="35">Termometro</text>
+      <line class="div" x1="110" y1="46" x2="278" y2="46"/>
+      <text class="miembro" x="120" y="64">+ celsius(): double</text>
+      <rect class="caja" x="0" y="150" width="170" height="59" rx="3"/>
+      <text class="nombre" x="85" y="170">TermometroDigital</text>
+      <line class="div" x1="0" y1="180" x2="170" y2="180"/>
+      <text class="miembro" x="10" y="198">+ celsius()</text>
+      <rect class="caja destacada" x="210" y="150" width="229" height="88" rx="3"/>
+      <text class="nombre" x="324.5" y="170">AdaptadorSensor</text>
+      <line class="div" x1="210" y1="180" x2="439" y2="180"/>
+      <text class="miembro" x="220" y="198">- sensor_: SensorAmericano*</text>
+      <line class="div" x1="210" y1="209" x2="439" y2="209"/>
+      <text class="miembro" x="220" y="227">+ celsius()</text>
+      <rect class="caja" x="540" y="160" width="222" height="59" rx="3"/>
+      <text class="nombre" x="651" y="180">SensorAmericano</text>
+      <line class="div" x1="540" y1="190" x2="762" y2="190"/>
+      <text class="miembro" x="550" y="208">+ leerFahrenheit(): double</text>
+    </svg>
+  </div>
+
+  <pre class="codigo"><code>#include &lt;iostream&gt;
+#include &lt;string&gt;
+
+class Termometro {
+ public:
+  virtual ~Termometro() {}
+  virtual double celsius() const = 0;
+};
+
+class TermometroDigital : public Termometro {
+ public:
+  double celsius() const override {
+    return 21.5;
+  }
+};
+
+class SensorAmericano {
+ public:
+  double leerFahrenheit() const {
+    return 77.0;
+  }
+};
+
+class AdaptadorSensor : public Termometro {
+ private:
+  SensorAmericano* sensor_;
+
+ public:
+  AdaptadorSensor(SensorAmericano* sensor) : sensor_(sensor) {}
+
+  double celsius() const override {
+    return (sensor_-&gt;leerFahrenheit() - 32) * 5 / 9;
+  }
+};
+
+void mostrar(Termometro* t) {
+  std::cout &lt;&lt; "Temperatura: " &lt;&lt; t-&gt;celsius() &lt;&lt; " grados\n";
+}
+
+int main() {
+  Termometro* propio = new TermometroDigital;
+  mostrar(propio);
+
+  SensorAmericano* sensor = new SensorAmericano;
+  Termometro* adaptado = new AdaptadorSensor(sensor);
+  mostrar(adaptado);
+
+  delete propio;
+  delete adaptado;
+  delete sensor;
+  return 0;
+}</code></pre>
+
+  <h4>Qué hace cada línea</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Cómo quedan los datos</th></tr>
+      <tr><td><code>class Termometro { ... celsius() const = 0; };</code></td><td>La <strong>Interfaz con el Cliente</strong>: lo que el programa sabe usar.</td><td>&mdash;</td></tr>
+      <tr><td><code>class TermometroDigital : public Termometro</code></td><td>Un termómetro propio, que ya encajaba. No es parte del patrón; está para comparar.</td><td>&mdash;</td></tr>
+      <tr><td><code>class SensorAmericano { ... leerFahrenheit() ... };</code></td><td>El <strong>Servicio</strong>. <strong>No hereda de <code>Termometro</code></strong> y su método se llama distinto y devuelve otra unidad: es incompatible.</td><td>&mdash;</td></tr>
+      <tr><td><code>class AdaptadorSensor : public Termometro {</code></td><td>El <strong>Adaptador</strong>. Primera flecha: cumple la interfaz que el cliente conoce.</td><td>&mdash;</td></tr>
+      <tr><td><code>SensorAmericano* sensor_;</code></td><td>Segunda flecha: guarda un puntero al servicio.</td><td>&mdash;</td></tr>
+      <tr><td><code>AdaptadorSensor(SensorAmericano* sensor) : sensor_(sensor) {}</code></td><td>Recibe el servicio al crearse y lo guarda.</td><td>&mdash;</td></tr>
+      <tr><td><code>return (sensor_-&gt;leerFahrenheit() - 32) * 5 / 9;</code></td><td><strong>La traducción.</strong> Le pide el dato al servicio con el método del servicio y lo convierte a lo que el cliente espera.</td><td>&mdash;</td></tr>
+      <tr><td><code>void mostrar(Termometro* t)</code></td><td>El <strong>Cliente</strong>: solo conoce <code>Termometro</code>.</td><td>&mdash;</td></tr>
+      <tr><td><code>Termometro* propio = new TermometroDigital;</code><br><code>mostrar(propio);</code></td><td>Con un termómetro propio funciona directo.</td><td>muestra 21.5</td></tr>
+      <tr><td><code>SensorAmericano* sensor = new SensorAmericano;</code></td><td>Se crea el sensor ajeno. No se le puede pasar a <code>mostrar</code>: no es un <code>Termometro</code>.</td><td><code>sensor</code> &rarr; un SensorAmericano</td></tr>
+      <tr><td><code>Termometro* adaptado = new AdaptadorSensor(sensor);</code></td><td>Se lo envuelve en el adaptador, que <strong>sí</strong> es un <code>Termometro</code>.</td><td><code>adaptado</code> &rarr; un AdaptadorSensor que guarda al sensor</td></tr>
+      <tr><td><code>mostrar(adaptado);</code></td><td>El cliente llama a <code>celsius()</code>; el adaptador llama a <code>leerFahrenheit()</code>, que da 77, y hace (77 &minus; 32) &times; 5 &divide; 9 = 25.</td><td>muestra 25</td></tr>
+    </table>
+  </div>
+
+  <h4>Qué imprime y por qué</h4>
+  <pre class="salida">Temperatura: 21.5 grados
+Temperatura: 25 grados</pre>
+  <p>
+    <code>mostrar</code> no cambió una letra y <code>SensorAmericano</code> tampoco. Todo lo nuevo
+    está en una sola clase, el adaptador.
+  </p>
+
+  <h3>Cómo reconocerlo</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Dónde</th><th>Qué lo delata</th></tr>
+      <tr><td class="lbl">En un enunciado</td><td>"interfaces <strong>incompatibles</strong>", "se debe <strong>adaptar</strong> la nueva clase <strong>sin que afecte</strong> la lógica de la aplicación", "con un <strong>funcionamiento diferente</strong> al que se está manejando", "servicios externos (...) cada uno de los cuales tiene <strong>su propia API</strong>", "bibliotecas externas (...) con una interfaz diferente e incompatible".</td></tr>
+      <tr><td class="lbl">En un código</td><td>
+        <ol>
+          <li>una clase suelta, <strong>que no hereda de nada</strong>, con un método de nombre "raro" (<code>SpecificRequest</code>): el servicio;</li>
+          <li>otra clase que <strong>hereda de la interfaz que usa el cliente</strong> y <strong>guarda un puntero al servicio</strong>, recibido en el constructor: el adaptador;</li>
+          <li>en el adaptador, el método de la interfaz <strong>llama al método del servicio</strong> y transforma el resultado antes de devolverlo.</li>
+        </ol>
+      </td></tr>
+    </table>
+  </div>
+
+  <h3>Ventajas y desventajas</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Ventajas</th><th>Desventajas</th></tr>
+      <tr>
+        <td>
+          <ul>
+            <li><strong>Principio de responsabilidad única:</strong> el código de conversión queda separado de la lógica principal del programa.</li>
+            <li><strong>Principio de abierto/cerrado:</strong> se pueden agregar adaptadores nuevos sin romper el código cliente, que trabaja con ellos a través de la interfaz.</li>
+          </ul>
+        </td>
+        <td>
+          <ul>
+            <li>La <strong>complejidad general aumenta</strong>: hay que sumar interfaces y clases. A veces es más simple cambiar directamente la clase de servicio para que coincida con el resto.</li>
+          </ul>
+        </td>
+      </tr>
+    </table>
+  </div>
+
+  <h3>Dónde se usa</h3>
+  <ul>
+    <li>Para usar una <strong>clase existente</strong> cuya interfaz no es compatible con el resto del código: una clase heredada, de un tercero o "con una interfaz extraña".</li>
+    <li>El ejemplo del apunte: una aplicación de bolsa que trabaja con datos en <strong>XML</strong> y quiere usar una biblioteca de análisis que solo acepta <strong>JSON</strong>.</li>
+    <li><strong>Pasarelas de pago</strong>: cada tarjeta tiene su servicio con su propia API, y el sistema quiere cobrar siempre igual.</li>
+  </ul>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; Con formato de parcial: dibujar la estructura y explicar el propósito</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Parcial 2025 &middot; Teoría 4 (20 puntos, con Abstract Factory)</span>
+    <p>
+      "... planea incorporar dos patrones de diseño en su solución empresarial, la creación flexible
+      de familias de objetos y otro para conectar módulos con interfaces incompatibles con los
+      existentes del sistema."
+    </p>
+    <p>
+      "Represente mediante un diagrama UML la estructura de los patrones de diseño que quiere
+      incorporar SoftMetrics. Explique el propósito de cada uno dentro del sistema."
+    </p>
+  </div>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase del enunciado</th><th>Qué significa</th><th>Parte del patrón</th></tr>
+      <tr><td>"<strong>conectar</strong> módulos"</td><td>Hacer que dos partes trabajen juntas: es estructural</td><td>&mdash;</td></tr>
+      <tr><td>"con <strong>interfaces incompatibles</strong>"</td><td>Las palabras del propósito de Adapter</td><td>Los módulos nuevos son el <strong>Servicio</strong></td></tr>
+      <tr><td>"con los <strong>existentes del sistema</strong>"</td><td>Lo que ya funciona y no se quiere tocar</td><td>El sistema es el <strong>Cliente</strong>, con su <strong>Interfaz</strong></td></tr>
+    </table>
+  </div>
+  <p>
+    <strong>El diagrama:</strong> el de "Estructura" de más arriba (Cliente, Interfaz con el Cliente,
+    Adaptador y Servicio, con las dos flechas del adaptador).
+  </p>
+  <p>
+    <strong>El propósito dentro del sistema:</strong> "<strong>Adapter</strong> permite que colaboren
+    objetos con interfaces incompatibles. En SoftMetrics serviría para incorporar módulos nuevos o
+    de terceros (por ejemplo, las herramientas de IA que quiere sumar) sin modificar los módulos
+    existentes: el adaptador implementa la interfaz que el sistema ya usa y traduce cada llamada a
+    la interfaz del módulo nuevo."
+  </p>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 3 &mdash; Con formato de parcial: el libro digital</h3>
+  <p>
+    Es el enunciado de Adapter de la cátedra: está, igual, en tres guías. Se resuelve entero en la
+    Práctica, ejercicio 2.
+  </p>
+  <div class="caja caja-ejemplo">
+    <p>
+      "Supongamos que tenemos un sistema que vende libros. Se desea vincular al sistema una clase
+      de tipo libro digital con un funcionamiento diferente al que se está manejando. Se debe
+      adaptar la nueva clase sin que afecte la lógica de la aplicación."
+    </p>
+  </div>
+  <p>
+    Las tres pistas están en el texto: una clase <strong>nueva</strong>, con <strong>funcionamiento
+    diferente</strong>, que hay que <strong>adaptar sin afectar</strong> lo que ya está.
+  </p>
+
+  <h3>Errores y trampas</h3>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">El servicio no se toca</span>
+    <p>
+      Si la solución modifica la clase nueva o la hace heredar de la interfaz, no hay patrón. La
+      gracia del Adapter es que <strong>ni el cliente ni el servicio cambian</strong>.
+    </p>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Con qué se confunde</span>
+    <p>
+      Con <strong>Facade</strong>: los dos ponen una clase en el medio. El Adapter envuelve
+      <strong>una</strong> clase para darle una interfaz <strong>que ya existía</strong> (la que
+      espera el cliente). La Facade envuelve <strong>varias</strong> y define una interfaz
+      <strong>nueva</strong>, más simple.
+    </p>
+  </div>
+</div>

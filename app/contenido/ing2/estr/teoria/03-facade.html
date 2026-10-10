@@ -1,0 +1,400 @@
+<div class="bloque" data-examen="igual"
+     data-examen-ref="Parcial 2024 · ej. 4 y Parcial 2025 · Práctica 2"
+     data-examen-nota="En los dos parciales el código para identificar era un Facade: en 2024 en C++ (ejemplo 2) y en 2025 en PHP.">
+  <p class="kicker">Estructural</p>
+  <h2>3. Facade</h2>
+  <p>También llamado <strong>Fachada</strong>.</p>
+
+  <h3>Para qué sirve</h3>
+  <p>
+    Para hacer algo que desde afuera parece simple ("comprar un producto", "convertir un video"),
+    muchas veces el código tiene que manejar <strong>un montón de clases</strong>: crearlas a
+    todas, saber cuál depende de cuál y llamar a sus métodos <strong>en el orden correcto</strong>.
+    A ese conjunto de clases que trabajan juntas se le dice <strong>subsistema</strong>.
+  </p>
+  <ul>
+    <li>Si cada parte del programa habla directo con todas esas clases, queda <strong>acoplada</strong> a sus detalles.</li>
+    <li>Y los mismos cuatro o cinco pasos quedan repetidos en todos lados.</li>
+  </ul>
+  <p>
+    Una <strong>fachada</strong> es <strong>una clase</strong> que conoce el subsistema y ofrece
+    <strong>unos pocos métodos simples</strong>. El resto del programa habla solo con ella, y ella
+    reparte el trabajo. Puede ofrecer menos funciones que usar el subsistema directo, pero ofrece
+    las que hacen falta.
+  </p>
+  <p>
+    <strong>Analogía del apunte:</strong> pedir por teléfono a una tienda. El operador que atiende
+    es la fachada: uno le dice qué quiere y él se ocupa del sistema de pedidos, del pago y del
+    envío.
+  </p>
+
+  <div class="caja caja-formula">
+    <span class="caja-tit">Propósito</span>
+    <p>
+      Facade es un patrón <strong>estructural</strong> que proporciona una <strong>interfaz
+      simplificada</strong> a una biblioteca, un framework o cualquier otro <strong>grupo complejo
+      de clases</strong>.
+    </p>
+  </div>
+
+  <h3>Estructura</h3>
+  <div class="pd-grafico uml" data-g="facade">
+    <svg viewBox="-14 -14 628 257" width="628" height="257" role="img" aria-label="Estructura del patrón Facade">
+      <polyline class="linea" points="90,100 130,100 130,100 170,100"/>
+      <polyline class="linea" points="160,105 170,100 160,95"/>
+      <polyline class="linea" points="338,78 404,78 404,29.5 470,29.5"/>
+      <polyline class="linea" points="460,34.5 470,29.5 460,24.5"/>
+      <polyline class="linea" points="338,114.5 404,114.5 404,114.5 470,114.5"/>
+      <polyline class="linea" points="460,119.5 470,114.5 460,109.5"/>
+      <polyline class="linea" points="338,138 404,138 404,199.5 470,199.5"/>
+      <polyline class="linea" points="460,204.5 470,199.5 460,194.5"/>
+      <rect class="caja" x="0" y="85" width="90" height="30" rx="3"/>
+      <text class="nombre" x="45" y="105">Cliente</text>
+      <rect class="caja destacada" x="170" y="45" width="168" height="126" rx="3"/>
+      <text class="nombre" x="254" y="65">Fachada</text>
+      <line class="div" x1="170" y1="75" x2="338" y2="75"/>
+      <text class="miembro" x="180" y="93">- a: ClaseA</text>
+      <text class="miembro" x="180" y="112">- b: ClaseB</text>
+      <text class="miembro" x="180" y="131">- c: ClaseC</text>
+      <line class="div" x1="170" y1="142" x2="338" y2="142"/>
+      <text class="miembro" x="180" y="160">+ operacionSimple()</text>
+      <rect class="caja" x="470" y="0" width="130" height="59" rx="3"/>
+      <text class="nombre" x="535" y="20">ClaseA</text>
+      <line class="div" x1="470" y1="30" x2="600" y2="30"/>
+      <text class="miembro" x="480" y="48">+ operacionA()</text>
+      <rect class="caja" x="470" y="85" width="130" height="59" rx="3"/>
+      <text class="nombre" x="535" y="105">ClaseB</text>
+      <line class="div" x1="470" y1="115" x2="600" y2="115"/>
+      <text class="miembro" x="480" y="133">+ operacionB()</text>
+      <rect class="caja" x="470" y="170" width="130" height="59" rx="3"/>
+      <text class="nombre" x="535" y="190">ClaseC</text>
+      <line class="div" x1="470" y1="200" x2="600" y2="200"/>
+      <text class="miembro" x="480" y="218">+ operacionC()</text>
+    </svg>
+  </div>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Parte</th><th>Qué es</th><th>En el ejemplo de la tienda</th></tr>
+      <tr><td class="lbl">Fachada (<em>Facade</em>)</td><td>La clase que da acceso simple al subsistema. <strong>Guarda</strong> (o crea) los objetos del subsistema y sabe a quién pedirle cada cosa y en qué orden.</td><td><code>Tienda</code>, con <code>comprar()</code></td></tr>
+      <tr><td class="lbl">Subsistema Complejo</td><td>Las clases que hacen el trabajo real. <strong>No saben que la fachada existe</strong>: no tienen ninguna referencia a ella.</td><td><code>Inventario</code>, <code>Pagos</code>, <code>Envios</code></td></tr>
+      <tr><td class="lbl">Cliente</td><td>Usa la fachada en vez de llamar directo a las clases del subsistema.</td><td><code>main</code></td></tr>
+    </table>
+  </div>
+  <p>Cómo dibujarlo de memoria: <strong>un abanico</strong>.</p>
+  <ul>
+    <li>El Cliente apunta a la Fachada, y <strong>de la Fachada salen flechas a cada clase del subsistema</strong>.</li>
+    <li>
+      <strong>No hay ninguna interfaz ni herencia.</strong> Es el único de los ocho patrones cuyo
+      diagrama no tiene triángulos: las clases del subsistema no tienen nada en común entre sí.
+    </li>
+    <li>Las flechas van <strong>solo de la fachada hacia el subsistema</strong>, nunca al revés.</li>
+  </ul>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; En C++: comprar en una tienda en línea</h3>
+  <p>
+    Para concretar una compra hay que consultar el inventario, cobrar y despachar. Tres
+    subsistemas, un solo método para el que compra.
+  </p>
+  <div class="pd-grafico uml" data-g="facade-tienda">
+    <svg viewBox="-14 -14 818 257" width="818" height="257" role="img" aria-label="Facade en el ejemplo de la tienda">
+      <polyline class="linea" points="389,78 444.5,78 444.5,29.5 500,29.5"/>
+      <polyline class="linea" points="490,34.5 500,29.5 490,24.5"/>
+      <polyline class="linea" points="389,114.5 444.5,114.5 444.5,114.5 500,114.5"/>
+      <polyline class="linea" points="490,119.5 500,114.5 490,109.5"/>
+      <polyline class="linea" points="389,138 444.5,138 444.5,199.5 500,199.5"/>
+      <polyline class="linea" points="490,204.5 500,199.5 490,194.5"/>
+      <rect class="caja destacada" x="0" y="45" width="389" height="126" rx="3"/>
+      <text class="nombre" x="194.5" y="65">Tienda</text>
+      <line class="div" x1="0" y1="75" x2="389" y2="75"/>
+      <text class="miembro" x="10" y="93">- inventario_: Inventario*</text>
+      <text class="miembro" x="10" y="112">- pagos_: Pagos*</text>
+      <text class="miembro" x="10" y="131">- envios_: Envios*</text>
+      <line class="div" x1="0" y1="142" x2="389" y2="142"/>
+      <text class="miembro" x="10" y="160">+ comprar(producto: string, monto: double): void</text>
+      <rect class="caja" x="500" y="0" width="282" height="59" rx="3"/>
+      <text class="nombre" x="641" y="20">Inventario</text>
+      <line class="div" x1="500" y1="30" x2="782" y2="30"/>
+      <text class="miembro" x="510" y="48">+ hayStock(producto: string): bool</text>
+      <rect class="caja" x="500" y="85" width="244" height="59" rx="3"/>
+      <text class="nombre" x="622" y="105">Pagos</text>
+      <line class="div" x1="500" y1="115" x2="744" y2="115"/>
+      <text class="miembro" x="510" y="133">+ cobrar(monto: double): void</text>
+      <rect class="caja" x="500" y="170" width="290" height="59" rx="3"/>
+      <text class="nombre" x="645" y="190">Envios</text>
+      <line class="div" x1="500" y1="200" x2="790" y2="200"/>
+      <text class="miembro" x="510" y="218">+ despachar(producto: string): void</text>
+    </svg>
+  </div>
+
+  <pre class="codigo"><code>#include &lt;iostream&gt;
+#include &lt;string&gt;
+
+class Inventario {
+ public:
+  bool hayStock(std::string producto) const {
+    std::cout &lt;&lt; "Inventario: hay stock de " &lt;&lt; producto &lt;&lt; "\n";
+    return true;
+  }
+};
+
+class Pagos {
+ public:
+  void cobrar(double monto) const {
+    std::cout &lt;&lt; "Pagos: se cobraron " &lt;&lt; monto &lt;&lt; " pesos\n";
+  }
+};
+
+class Envios {
+ public:
+  void despachar(std::string producto) const {
+    std::cout &lt;&lt; "Envios: se despacho " &lt;&lt; producto &lt;&lt; "\n";
+  }
+};
+
+class Tienda {
+ private:
+  Inventario* inventario_;
+  Pagos* pagos_;
+  Envios* envios_;
+
+ public:
+  Tienda() {
+    inventario_ = new Inventario;
+    pagos_ = new Pagos;
+    envios_ = new Envios;
+  }
+
+  ~Tienda() {
+    delete inventario_;
+    delete pagos_;
+    delete envios_;
+  }
+
+  void comprar(std::string producto, double monto) {
+    if (inventario_-&gt;hayStock(producto)) {
+      pagos_-&gt;cobrar(monto);
+      envios_-&gt;despachar(producto);
+    }
+  }
+};
+
+int main() {
+  Tienda tienda;
+  tienda.comprar("teclado", 15000);
+  return 0;
+}</code></pre>
+
+  <h4>Qué hace cada línea</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Cómo quedan los datos</th></tr>
+      <tr><td><code>class Inventario</code>, <code>class Pagos</code>, <code>class Envios</code></td><td>El <strong>Subsistema</strong>: tres clases <strong>sueltas</strong>, que no heredan de nada ni se conocen entre sí. Cada una hace una cosa.</td><td>&mdash;</td></tr>
+      <tr><td><code>class Tienda {</code></td><td>La <strong>Fachada</strong>.</td><td>&mdash;</td></tr>
+      <tr><td><code>Inventario* inventario_;</code><br><code>Pagos* pagos_;</code><br><code>Envios* envios_;</code></td><td>Guarda <strong>un puntero a cada clase del subsistema</strong>. Son las tres flechas del abanico.</td><td>&mdash;</td></tr>
+      <tr><td><code>Tienda() { inventario_ = new Inventario; ... }</code></td><td>El constructor de la fachada crea los subsistemas. El cliente ni se entera de que existen.</td><td>&mdash;</td></tr>
+      <tr><td><code>~Tienda() { delete ...; }</code></td><td>El destructor: al destruirse la fachada, destruye lo que creó. Para leer el patrón se puede saltear.</td><td>&mdash;</td></tr>
+      <tr><td><code>void comprar(std::string producto, double monto) {</code></td><td>El <strong>método simple</strong> que ofrece la fachada.</td><td>&mdash;</td></tr>
+      <tr><td><code>if (inventario_-&gt;hayStock(producto)) { pagos_-&gt;cobrar(monto); envios_-&gt;despachar(producto); }</code></td><td>Adentro, <strong>llama a los tres subsistemas en el orden correcto</strong>. Ese orden está escrito una sola vez, acá.</td><td>&mdash;</td></tr>
+      <tr><td><code>Tienda tienda;</code></td><td>Arranca el programa: el cliente crea <strong>solo la fachada</strong>.</td><td><code>tienda</code> con sus tres subsistemas creados</td></tr>
+      <tr><td><code>tienda.comprar("teclado", 15000);</code></td><td><strong>Una sola llamada.</strong> La fachada hace el resto.</td><td>sin cambios</td></tr>
+    </table>
+  </div>
+
+  <h4>Qué imprime y por qué</h4>
+  <pre class="salida">Inventario: hay stock de teclado
+Pagos: se cobraron 15000 pesos
+Envios: se despacho teclado</pre>
+  <p>
+    El cliente escribió una línea y trabajaron tres clases que él nunca nombró. Si mañana cambia
+    cómo se cobra, se toca <code>Pagos</code> o la fachada; <code>main</code> no.
+  </p>
+
+  <h3>Cómo reconocerlo</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Dónde</th><th>Qué lo delata</th></tr>
+      <tr><td class="lbl">En un enunciado</td><td>"una <strong>interface fácil y de simple acceso</strong> para que una clase Cliente pueda interactuar de forma fácil", "una <strong>fachada para simplificar</strong> la interacción del cliente con estos subsistemas", "<strong>múltiples subsistemas</strong>", "una <strong>interfaz única</strong> que permita realizar operaciones comunes".</td></tr>
+      <tr><td class="lbl">En un código</td><td>
+        <ol>
+          <li><strong>varias clases sueltas</strong>, sin clase base común ni <code>virtual</code>, cada una con sus métodos (<code>Subsystem1</code>, <code>Subsystem2</code>...);</li>
+          <li>una clase que <strong>guarda un puntero a cada una</strong> de ellas (y muchas veces las crea en su constructor);</li>
+          <li>esa clase tiene <strong>uno o pocos métodos</strong> que por dentro <strong>llaman en secuencia</strong> a los métodos de las otras;</li>
+          <li>el código cliente usa <strong>solo</strong> esa clase.</li>
+        </ol>
+        La pista más rápida: <strong>no hay herencia entre las clases del patrón</strong>.
+      </td></tr>
+    </table>
+  </div>
+
+  <h3>Ventajas y desventajas</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Ventajas</th><th>Desventajas</th></tr>
+      <tr>
+        <td>
+          <ul>
+            <li>Se <strong>aísla</strong> el código de la complejidad de un subsistema.</li>
+          </ul>
+        </td>
+        <td>
+          <ul>
+            <li>Una fachada puede convertirse en un <strong>objeto todopoderoso</strong>, acoplado a todas las clases de la aplicación.</li>
+          </ul>
+        </td>
+      </tr>
+    </table>
+  </div>
+
+  <h3>Dónde se usa</h3>
+  <ul>
+    <li>Cuando se necesita una <strong>interfaz limitada pero directa</strong> a un subsistema complejo: el ejemplo del apunte es una aplicación que solo quiere <code>codificar(archivo, formato)</code> de una biblioteca profesional de conversión de video.</li>
+    <li>Para <strong>estructurar un subsistema en capas</strong>: cada capa se comunica con la de abajo solo por su fachada.</li>
+    <li>En una <strong>tienda en línea</strong>: inventario, pedidos y envíos detrás de una sola clase.</li>
+  </ul>
+  <p>
+    Según el apunte, una fachada muchas veces se puede hacer <strong>Singleton</strong>, porque con
+    un único objeto fachada alcanza.
+  </p>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; Con formato de parcial: reconocerlo en un código C++</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Parcial 2024 &middot; ejercicio 4</span>
+    <p>"A partir del siguiente código identifique qué patrón es el que se utiliza."</p>
+  </div>
+  <pre class="codigo"><code>class Facturacion {
+ public:
+  std::string Operation1() const {
+    return "Facturacion: Ready!\n";
+  }
+  std::string OperationN() const {
+    return "Facturacion: Go!\n";
+  }};
+class Compras {
+ public:
+  std::string Operation1() const {
+    return "Compras: Get ready!\n";
+  }
+  std::string OperationZ() const {
+    return "Compras: Fire!\n";
+  }};
+class Operador {
+ protected:
+  Facturacion *Facturacion_;
+  Compras *Compras_;
+ public:
+  Operador(
+      Facturacion *Facturacion = nullptr,
+      Compras *Compras = nullptr) {
+    this-&gt;Facturacion_ = Facturacion ?: new Facturacion;
+    this-&gt;Compras_ = Compras ?: new Compras;
+  }
+  ~Operador() {
+    delete Facturacion_;
+    delete Compras_;
+  }
+  std::string Operation() {
+    std::string result = "Operador initializes subsystems:\n";
+    result += this-&gt;Facturacion_-&gt;Operation1();
+    result += this-&gt;Compras_-&gt;Operation1();
+    ...</code></pre>
+  <p>
+    El código seguía en otra hoja que no está en la copia del parcial; con lo que se ve alcanza.
+  </p>
+
+  <p><strong>Paso 1 &mdash; Traducir lo que asusta.</strong></p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Se escribe</th><th>Se lee</th></tr>
+      <tr><td><code>Facturacion *Facturacion_;</code></td><td>Un atributo llamado <code>Facturacion_</code> que es un puntero a un objeto <code>Facturacion</code> (Unidad 0, sección 3).</td></tr>
+      <tr><td><code>Facturacion *Facturacion = nullptr</code> (en el constructor)</td><td>Un parámetro <strong>opcional</strong>: si no se lo pasan, vale <code>nullptr</code>.</td></tr>
+      <tr><td><code>Facturacion ?: new Facturacion</code></td><td>"Si me pasaron uno, uso ese; <strong>si no, creo uno nuevo</strong>".</td></tr>
+      <tr><td><code>result += ...</code></td><td>Le agrega texto al final de <code>result</code>.</td></tr>
+      <tr><td><code>this-&gt;Facturacion_-&gt;Operation1()</code></td><td>"Mi atributo <code>Facturacion_</code>, hacé <code>Operation1()</code>".</td></tr>
+    </table>
+  </div>
+
+  <p><strong>Paso 2 &mdash; Buscar las señales.</strong></p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Lo que se ve</th><th>Señal</th></tr>
+      <tr><td><code>Facturacion</code> y <code>Compras</code> son dos clases sueltas: no heredan de nada, no tienen nada <code>virtual</code> y no se conocen entre sí</td><td>&#10003; Clases de un <strong>subsistema</strong>. Descarta todos los patrones que necesitan una interfaz común</td></tr>
+      <tr><td><code>Operador</code> tiene como atributos <strong>un puntero a cada una</strong></td><td>&#10003; La fachada guarda los subsistemas</td></tr>
+      <tr><td>El constructor de <code>Operador</code> los crea si no se los pasan</td><td>&#10003; La fachada se ocupa de inicializar el subsistema</td></tr>
+      <tr><td><code>Operation()</code> llama a <code>Operation1()</code> de <code>Facturacion_</code> y después a <code>Operation1()</code> de <code>Compras_</code>, y junta los resultados</td><td>&#10003; <strong>Un método simple que por dentro llama en orden a los subsistemas</strong></td></tr>
+      <tr><td>El propio texto: <code>"Operador initializes subsystems"</code></td><td>&#10003; Lo dice el código: "inicializa los subsistemas"</td></tr>
+    </table>
+  </div>
+  <div class="pd-grafico uml" data-g="facade-operador">
+    <svg viewBox="-14 -14 619 216" width="619" height="216" role="img" aria-label="Diagrama del código del parcial 2024: Operador, Facturacion y Compras">
+      <polyline class="linea" points="282,58 341,58 341,39 400,39"/>
+      <polyline class="linea" points="390,44 400,39 390,34"/>
+      <polyline class="linea" points="282,108 341,108 341,149 400,149"/>
+      <polyline class="linea" points="390,154 400,149 390,144"/>
+      <rect class="caja destacada" x="0" y="20" width="282" height="126" rx="3"/>
+      <text class="nombre" x="141" y="40">Operador</text>
+      <line class="div" x1="0" y1="50" x2="282" y2="50"/>
+      <text class="miembro" x="10" y="68"># Facturacion_: Facturacion*</text>
+      <text class="miembro" x="10" y="87"># Compras_: Compras*</text>
+      <line class="div" x1="0" y1="98" x2="282" y2="98"/>
+      <text class="miembro" x="10" y="116">+ Operador(Facturacion*, Compras*)</text>
+      <text class="miembro" x="10" y="135">+ Operation(): string</text>
+      <rect class="caja" x="400" y="0" width="191" height="78" rx="3"/>
+      <text class="nombre" x="495.5" y="20">Facturacion</text>
+      <line class="div" x1="400" y1="30" x2="591" y2="30"/>
+      <text class="miembro" x="410" y="48">+ Operation1(): string</text>
+      <text class="miembro" x="410" y="67">+ OperationN(): string</text>
+      <rect class="caja" x="400" y="110" width="191" height="78" rx="3"/>
+      <text class="nombre" x="495.5" y="130">Compras</text>
+      <line class="div" x1="400" y1="140" x2="591" y2="140"/>
+      <text class="miembro" x="410" y="158">+ Operation1(): string</text>
+      <text class="miembro" x="410" y="177">+ OperationZ(): string</text>
+    </svg>
+  </div>
+  <p>
+    <strong>Respuesta:</strong> "Es el patrón <strong>Facade</strong> (estructural).
+    <code>Operador</code> es la fachada: guarda punteros a <code>Facturacion</code> y
+    <code>Compras</code>, que son las clases del subsistema, las crea en su constructor y ofrece un
+    único método <code>Operation()</code> que llama en orden a las operaciones de las dos. El
+    cliente usa solo a <code>Operador</code>, sin conocer el subsistema. Las clases del subsistema
+    no comparten interfaz ni conocen a la fachada."
+  </p>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Cambian los nombres, no la forma</span>
+    <p>
+      Es el ejemplo de Facade de Refactoring.Guru (la fuente del apunte) con las clases rebautizadas:
+      <code>Subsystem1</code> pasó a ser <code>Facturacion</code>, <code>Subsystem2</code> es
+      <code>Compras</code> y <code>Facade</code> es <code>Operador</code>. La cátedra hace lo mismo
+      en las guías (<code>Pantalla</code>, <code>conversor</code>, <code>molecula</code>). En 2025
+      fue otra vez Facade, en PHP: <code>YouTubeDownloader</code> guardaba un <code>YouTube</code> y
+      un <code>FFMpeg</code> y ofrecía un solo método <code>downloadVideo()</code>.
+    </p>
+  </div>
+
+  <h3>Errores y trampas</h3>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Con qué se confunde</span>
+    <ul>
+      <li>
+        Con <strong>Adapter</strong>: el Adapter envuelve <strong>una</strong> clase y
+        <strong>hereda de una interfaz</strong> que el cliente ya usaba. La Facade envuelve
+        <strong>varias</strong> y no hereda de nada.
+      </li>
+      <li>
+        Con <strong>Composite</strong>: los dos tienen una clase que les pasa el trabajo a otras.
+        En Composite las otras son <strong>del mismo tipo</strong> que ella (una lista de
+        componentes); en Facade son clases <strong>distintas</strong>, una de cada una.
+      </li>
+    </ul>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">La fachada no agrega funciones</span>
+    <p>
+      Solo ordena y simplifica lo que el subsistema ya sabía hacer. Y no lo encierra: quien
+      necesite algo más fino puede seguir usando las clases del subsistema directamente.
+    </p>
+  </div>
+</div>

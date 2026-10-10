@@ -107,7 +107,7 @@ tilda. Si una parte se alarga, se recorta la práctica (menos ejercicios), nunca
   conexiones a BD); `Ejercicios_patrones_singleton_subir` (uno de los tres, los otros son iguales).
 - Leer: `02 - Creacionales` (+ sus 3 páginas ⚠).
 
-### Parte 3 — Patrones estructurales ☐
+### Parte 3 — Patrones estructurales ☑
 
 - `estr/teoria/`: `00-intro`, `01` Adapter, `02` Composite, `03` Facade.
 - `estr/practica/`: Guía 2 ej. 1 (Adapter en C++), ej. 2 (Composite en PHP), ej. 3 (Facade en C#) y

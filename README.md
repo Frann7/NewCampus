@@ -16,7 +16,7 @@ fórmulas (MathJax) y las tipografías. Tus datos no salen de tu máquina.
   sesiones, mysqli), con el código de cada ejemplo, qué hace cada línea y qué imprime. Empezó
   Ingeniería de Software II (2do parcial): una unidad base (cómo se lee y se dibuja un diagrama
   de clases UML y lo mínimo de C++ para reconocer un patrón de diseño en un código) y los
-  patrones creacionales, cada uno con su diagrama, su ejemplo en C++ línea por línea, cómo
+  patrones creacionales y estructurales, cada uno con su diagrama, su ejemplo en C++ línea por línea, cómo
   reconocerlo y una consigna de parcial resuelta; el resto
   de las materias de tercer año ya están en el menú como "pronto".
 * **Evaluación**: **parciales y finales** de la cátedra transcriptos, en dos listas. Algunos traen
@@ -228,6 +228,9 @@ Chrome (`chrome --headless --print-to-pdf`).
 `0.x.y-alpha` mientras esté en desarrollo. La `1.0.0` queda reservada para cuando esté terminado.
 La versión actual se lee al pie del menú lateral.
 
+* **0.37.0-alpha** — Ingeniería de Software II, Unidad 4B: Adapter, Composite y Facade (teoría con
+  diagramas y C++ compilado, y las consignas de los parciales resueltas) y 8 ejercicios de las
+  guías resueltos, con código en C++, PHP y C#.
 * **0.36.0-alpha** — Ingeniería de Software II, Unidad 4A: Singleton, Factory Method y Abstract
   Factory (teoría con diagramas y C++ compilado) y 7 ejercicios de las guías resueltos.
 * **0.35.0-alpha** — Ingeniería de Software II: alta de la materia y unidad Base (la clase y cómo

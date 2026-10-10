@@ -36,18 +36,22 @@ cero y paso a paso.
 
 ## Qué entra y qué no
 
-- **Entra:** `PATRONES DE DISEÑO\` (4 apuntes + 11 prácticas), `Calidad de software\` (apunte 2026,
-  2 prácticas de CMMI, diapositivas de Agentes de IA), `Métricas.pdf`, `Gestión de cambios.pdf`
+**El parcial es el miércoles 14/10/2026.** Hay cuatro días: entra lo que se toma, y de eso lo
+fundamental.
+
+- **Entra:** `PATRONES DE DISEÑO\` (4 apuntes + las prácticas), `Calidad de software\` (apunte
+  2026, 2 prácticas de CMMI, diapositivas de Agentes de IA), `Métricas.pdf`, `Gestión de cambios.pdf`
   (versión 2026, la de la raíz) y los parciales 2024 y 2025.
-- **No entra:** `Cuatrimestre 1\` (1er parcial), `[TP]\` y `[Resumenes]\` (de otras personas),
-  y las copias repetidas. **Docker** (7 diapositivas 2026) queda afuera salvo que la cátedra diga
-  que entra.
-- Los PDFs **no se copian a `app/pdf/`**: la teoría de patrones es un libro pago.
+- **No entra:** Docker (confirmado por Fran), `Cuatrimestre 1\` (1er parcial), `[TP]\` y
+  `[Resumenes]\` (de otras personas) y las copias repetidas.
+- **Se deja para después del parcial:** el banco de autoevaluación (preguntas inventadas), y de los
+  apuntes lo que nunca se tomó y es largo: claves SSH, gestores de dependencias, estándares de
+  calidad uno por uno. De eso va, como mucho, un párrafo.
 
 ## Cómo queda en el campus
 
-`ing2` ya está en `materias.json` como "pronto". Unidades propuestas (la numeración de la cátedra,
-U4 patrones / U5 calidad / U6 versiones, se confirma en la Parte 1):
+`ing2` ya está en `materias.json` como "pronto". Unidades (la numeración de la cátedra, U4 patrones
+/ U5 calidad / U6 versiones, se confirma en la Parte 1):
 
 | Clave | Nombre | Contenido |
 | :-- | :-- | :-- |
@@ -55,19 +59,22 @@ U4 patrones / U5 calidad / U6 versiones, se confirma en la Parte 1):
 | `crea` | Patrones creacionales | Singleton, Factory Method, Abstract Factory |
 | `estr` | Patrones estructurales | Adapter, Composite, Facade |
 | `comp` | Patrones de comportamiento | Observer, Strategy y "¿qué patrón es?" (los 8 comparados) |
-| `calidad` | Calidad de software y CMMI | Calidad, CMMI, IA en la mejora de procesos |
-| `metricas` | Métricas | Los 5 conceptos, ciclo de vida, tipos |
-| `git` | Gestión de cambios y Git | Conceptos, Git, ramas y merge, versionado semántico |
+| `calidad` | Calidad, CMMI y métricas | Qué es calidad, los 5 niveles de CMMI, IA en la mejora, la ficha de una métrica |
+| `git` | Gestión de cambios y Git | Conceptos, los tres estados, commit, ramas, merge, remoto |
 
 **Cada patrón es una sección de teoría con la misma forma:**
 Para qué sirve (el problema, sin jerga) → Estructura (diagrama UML dibujado + tabla "qué es cada
 parte") → El mismo ejemplo en C++, línea por línea → Cómo reconocerlo (en un enunciado / en código)
 → Ventajas y desventajas → Dónde se usa (2 o 3 ejemplos, los piden) → Con qué se confunde.
 
+**La práctica de cada unidad son los ejercicios de las guías de la cátedra, resueltos paso a paso**
+(el diagrama dibujado y la justificación escrita como se entregaría en el parcial). Primero los que
+tienen la forma del parcial; los que repiten el mismo enunciado en varias guías se resuelven una vez.
+
 **Reglas propias** (van al `app/contenido/ing2/CLAUDE.md` en la Parte 1):
 
 - Todo código C++ se **compila y corre** antes de escribirlo (`g++ -std=c++14`, MinGW 6.3 en
-  `C:\MinGW\bin`; sin `std::thread`).
+  `C:\MinGWin`; sin `std::thread`).
 - Los diagramas UML se dibujan en **SVG a mano**, con una convención fija (se define en la Parte 1).
 - Los nombres de las partes de cada patrón, como en el apunte de la cátedra (Refactoring.Guru en
   castellano), y entre paréntesis el nombre en inglés que aparece en el código de los parciales.
@@ -75,26 +82,24 @@ parte") → El mismo ejemplo en C++, línea por línea → Cómo reconocerlo (en
 
 ## Partes (una por sesión)
 
-| # | Qué se hace | Qué leer |
-| :-- | :-- | :-- |
-| 1 | Alta de la materia (`materias.json`, `CLAUDE.md` de ing2, convención de diagramas UML) y unidad **Base**: clase, atributo, método, herencia, interfaz, asociación/agregación/composición; de C++: `class`, `public/private/protected`, `virtual`, `= 0`, `override`, punteros y `->`, `new/delete`, `static`; qué es un patrón y los 3 grupos | `docs/estructura.md`, `docs/contenido.md`, `Introducción patrones de diseño.md`, un fragmento de PA como modelo |
-| 2 | **Creacionales**: teoría de los 3 + práctica | `02 - Creacionales` (+ sus 3 páginas ⚠), Guía 1, `Ejercicios de patrones`, `Ejercicios_patrones_singleton_subir`, `practica 1` |
-| 3 | **Estructurales**: teoría de los 3 + práctica | `03 - Estructurales` (+ ⚠), Guía 2, `Practica_03`, `practica 2` ej. 1, 3 y 5 |
-| 4 | **Comportamiento** + **"¿qué patrón es?"**: tabla de decisión de los 8, frases que delatan a cada uno, enunciados integradores | `04 - Comportamiento` (+ ⚠), Guía 3, `PRACTICA ADICIONAL`, `practica 2` ej. 2 y 6 |
-| 5 | **Calidad y CMMI**: teoría + los 7 casos de diagnóstico + acciones con IA | `Calidad de software.md`, sus 2 prácticas, `Agentes_IA` |
-| 6 | **Métricas** y **Git** (son cortas, van juntas) | `Métricas.md`, `Gestión de cambios.md` p. 3-4 y 12-26 |
-| 7 | **Evaluación**: parciales 2024 y 2025 transcriptos y resueltos, marcas ★ en lo que tomaron, y banco de autoevaluación | `EXAMENES/`, `docs/evaluacion.md`, `FORMATO.md` |
+| # | Día | Qué se hace | Qué leer |
+| :-- | :-- | :-- | :-- |
+| 1 | sáb 10 | Alta de la materia (`materias.json`, `CLAUDE.md` de ing2, convención de diagramas UML). **Base**, corta: clase, atributo, método, herencia, interfaz, asociación/agregación/composición; de C++: `class`, `public/private/protected`, `virtual`, `= 0`, `override`, punteros y `->`, `new/delete`, `static`; qué es un patrón y los 3 grupos. **Creacionales**: los 3 + práctica | `docs/estructura.md`, `docs/contenido.md`, un fragmento de PA como modelo, `Introducción patrones de diseño.md`, `02 - Creacionales` (+ sus 3 páginas ⚠). Práctica: Guía 1 ej. 2 y 4, `practica 1` ej. 2 y 3, `Ejercicios de patrones`, `Ejercicios_patrones_singleton_subir` |
+| 2 | dom 11 | **Estructurales**: los 3 + práctica | `03 - Estructurales` (+ ⚠). Práctica: Guía 2 ej. 1 a 4, `Practica_03`, `practica 1` ej. 4, `practica 2` ej. 1, 3 y 5, Guía 1 ej. 3 |
+| 3 | dom 11 / lun 12 | **Comportamiento**: los 2 + práctica. **"¿Qué patrón es?"**: tabla de decisión de los 8, frases que delatan a cada uno en un enunciado y señales en el código, enunciados integradores | `04 - Comportamiento` (+ ⚠). Práctica: Guía 3, `practica 2` ej. 2 y 6, Guía 1 ej. 1, Guía 2 ej. 5, `PRACTICA ADICIONAL` |
+| 4 | lun 12 | **Calidad, CMMI y métricas** y **Git**: solo lo que se toma. CMMI: los 5 niveles, cómo diagnosticar, qué falta para subir, acciones con IA. Métrica: los 5 campos y 3 fichas armadas. Git: tres estados y la secuencia de comandos con ramas y remoto | `Calidad de software.md` p. 4-6 y 19-25, `Agentes_IA`, `Métricas.md` p. 4-6 y 10-13, `Gestión de cambios.md` p. 3-4, 12-16 y 19-24. Práctica: los 2 ejercicios de CMMI y 3 casos de `Practica 2 CMMI` |
+| 5 | mar 13 | **Parciales 2024 y 2025 resueltos** en Evaluación (respuesta modelo de cada consigna, con el código del 2025 también en C++) y marcas ★ en lo que tomaron | `EXAMENES/`, `docs/evaluacion.md` |
 
-Las partes 2 a 6 dejan teoría y práctica de su unidad, construidas, verificadas y pusheadas. Si la
-fecha aprieta: 5 y 6 se pueden hacer antes que 3 y 4 (son ~30 puntos en dos sesiones cortas), y la
-7 se reduce a los dos parciales resueltos.
+Cada parte deja su unidad con teoría y práctica, construida, verificada y pusheada. Si una parte se
+alarga, se recorta la práctica (menos ejercicios), nunca la teoría de un patrón.
 
-## A confirmar con Fran
+## Decidido con Fran (10/10)
 
-- **Fecha del parcial** (define el orden y si entra todo).
-- **Unidad Base**: propuesta porque los parciales piden dibujar UML y leer C++, y no hay apunte
-  de eso en el 2do cuatrimestre. Si ya lo maneja, se achica a un repaso de una pantalla.
-- **Banco de autoevaluación**: a diferencia de PA, acá hay que **inventar** preguntas (el parcial
-  nunca se repite): "¿qué patrón es este código?", "¿qué patrón pide este enunciado?", "¿en qué
-  nivel CMMI está?". Propuesta: Evaluación simple, como PA.
-- **Docker**: ¿entra?
+- Docker no entra. El banco de autoevaluación queda para después del parcial.
+- Arranca de cero: la unidad Base va, corta.
+
+## Después del parcial
+
+- Banco de autoevaluación ("¿qué patrón es este código?", "¿en qué nivel CMMI está?"), Evaluación
+  simple como PA.
+- Completar lo recortado de Calidad y de Gestión de cambios, si hace falta para el final.

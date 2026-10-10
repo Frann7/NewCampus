@@ -115,7 +115,7 @@ tilda. Si una parte se alarga, se recorta la práctica (menos ejercicios), nunca
   `practica 2` ej. 3 (directorios) y ej. 5 (expresiones matemáticas); Guía 1 ej. 3 (TPV).
 - Leer: `03 - Estructurales` (+ ⚠).
 
-### Parte 4 — Patrones de comportamiento y "¿qué patrón es?" ☐
+### Parte 4 — Patrones de comportamiento y "¿qué patrón es?" ☑
 
 - `comp/teoria/`: `00-intro`, `01` Observer, `02` Strategy, `03` ¿Qué patrón es?: tabla de decisión
   de los 8, la frase que delata a cada uno en un enunciado y las señales en el código.

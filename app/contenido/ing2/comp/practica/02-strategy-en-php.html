@@ -1,0 +1,156 @@
+<div class="ej">
+  <span class="tag">Ejercicio 2 &middot; Strategy</span>
+  <h2>Reconocer el patrón en un código PHP</h2>
+  <div class="enunciado">
+    <p>
+      <strong>Guía N°3, ejercicio 3.</strong> Identifique el patrón que aparece en el siguiente
+      código en PHP. Realice el diagrama del mismo. Mencione ventajas y desventajas.
+    </p>
+  </div>
+
+  <pre class="codigo"><code>&lt;?php
+namespace RefactoringGuru\123\Conceptual;
+class Context
+{
+    private $dispositivo;
+    public function __construct(dispositivo $dispositivo)
+    {
+        $this-&gt;dispositivo = $dispositivo;
+    }
+    public function setdispositivo(dispositivo $dispositivo)
+    {
+        $this-&gt;dispositivo = $dispositivo;
+    }
+    public function doSomeBusinessLogic(): void
+    {
+        echo "Context: Sorting data using the dispositivo (not sure how it'll do it)\n";
+        $result = $this-&gt;dispositivo-&gt;doAlgorithm(["a", "b", "c", "d", "e"]);
+        echo implode(",", $result) . "\n";
+    }
+}
+interface dispositivo
+{
+    public function doAlgorithm(array $data): array;
+}
+class ConcretedispositivoA implements dispositivo
+{
+    public function doAlgorithm(array $data): array
+    {
+        sort($data);
+        return $data;
+    }
+}
+class ConcretedispositivoB implements dispositivo
+{
+    public function doAlgorithm(array $data): array
+    {
+        rsort($data);
+        return $data;
+    }
+}
+$context = new Context(new ConcretedispositivoA());
+echo "Client: dispositivo is set to normal sorting.\n";
+$context-&gt;doSomeBusinessLogic();
+echo "\n";
+echo "Client: dispositivo is set to reverse sorting.\n";
+$context-&gt;setdispositivo(new ConcretedispositivoB());
+$context-&gt;doSomeBusinessLogic();</code></pre>
+
+  <span class="paso">Paso 1 &mdash; Las cuatro preguntas</span>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Pregunta</th><th>Respuesta</th><th>Resultado</th></tr>
+      <tr><td>1. ¿Hay algo <code>static</code> y un constructor no público?</td><td>No</td><td>No es Singleton</td></tr>
+      <tr><td>2. ¿Alguna clase hereda de otra?</td><td>Sí: <code>ConcretedispositivoA</code> y <code>B</code> hacen <code>implements dispositivo</code></td><td>No es Facade</td></tr>
+      <tr><td>3. ¿Hay métodos que devuelven un <code>new</code>?</td><td>No. Los <code>new</code> están en el código cliente, al final</td><td>No es Factory Method ni Abstract Factory</td></tr>
+      <tr><td>4. La clase que guarda a otras, ¿qué guarda?</td><td><code>Context</code> guarda <strong>un</strong> <code>$dispositivo</code>, de tipo interfaz, y tiene <code>setdispositivo()</code> para <strong>cambiarlo</strong></td><td><strong>Strategy</strong></td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Paso 2 &mdash; Qué clase es cada parte</span>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Parte del patrón</th><th>En el código</th><th>Qué lo confirma</th></tr>
+      <tr><td class="lbl">Contexto</td><td><code>Context</code></td><td>Recibe la estrategia en el constructor, la puede cambiar con <code>setdispositivo()</code> y en <code>doSomeBusinessLogic()</code> le <strong>delega</strong>: <code>$this-&gt;dispositivo-&gt;doAlgorithm(...)</code></td></tr>
+      <tr><td class="lbl">Estrategia</td><td><code>dispositivo</code> (interfaz)</td><td>Un solo método: <code>doAlgorithm()</code></td></tr>
+      <tr><td class="lbl">Estrategias Concretas</td><td><code>ConcretedispositivoA</code>, <code>ConcretedispositivoB</code></td><td>Hacen <strong>lo mismo de distinta forma</strong>: <code>sort</code> ordena de menor a mayor y <code>rsort</code> al revés</td></tr>
+      <tr><td class="lbl">Cliente</td><td>Las últimas líneas</td><td>Elige la estrategia y se la pasa al contexto</td></tr>
+    </table>
+  </div>
+  <p>
+    <code>dispositivo</code> es el nombre que la cátedra puso en lugar de <code>Strategy</code>. El
+    propio texto que imprime lo delata: <em>"Sorting data using the dispositivo (not sure how it'll
+    do it)"</em>, es decir, "ordenando con la estrategia; no sé cómo lo va a hacer". Esa es la idea
+    del patrón: el contexto no sabe cuál tiene.
+  </p>
+
+  <span class="paso">Paso 3 &mdash; Comprobarlo con lo que imprime</span>
+  <pre class="salida">Client: dispositivo is set to normal sorting.
+Context: Sorting data using the dispositivo (not sure how it'll do it)
+a,b,c,d,e
+
+Client: dispositivo is set to reverse sorting.
+Context: Sorting data using the dispositivo (not sure how it'll do it)
+e,d,c,b,a</pre>
+  <p>
+    El <strong>mismo</strong> objeto <code>$context</code>, con la <strong>misma</strong> llamada
+    <code>doSomeBusinessLogic()</code> y los <strong>mismos</strong> datos, dio dos resultados. Lo
+    único que cambió en el medio fue <code>setdispositivo(...)</code>. Esa es la señal 5 de la
+    teoría.
+  </p>
+
+  <span class="paso">Paso 4 &mdash; El diagrama</span>
+  <div class="pd-grafico uml" data-g="p-dispositivo">
+    <svg viewBox="-14 -14 774 257" width="774" height="257" role="img" aria-label="Diagrama del código de la Guía 3, ejercicio 3">
+      <polyline class="linea" points="285,49.5 342.5,49.5 342.5,49.5 400,49.5"/>
+      <polygon class="hueca" points="267,49.5 276,43.5 285,49.5 276,55.5"/>
+      <polyline class="linea punteada" points="428,170 428,135 537.5,135 537.5,100"/>
+      <polygon class="hueca" points="537.5,87 544.5,100 530.5,100"/>
+      <polyline class="linea punteada" points="648,170 648,135 537.5,135 537.5,100"/>
+      <polygon class="hueca" points="537.5,87 544.5,100 530.5,100"/>
+      <rect class="caja destacada" x="0" y="0" width="267" height="107" rx="3"/>
+      <text class="nombre" x="133.5" y="20">Context</text>
+      <line class="div" x1="0" y1="30" x2="267" y2="30"/>
+      <text class="miembro" x="10" y="48">- dispositivo: dispositivo</text>
+      <line class="div" x1="0" y1="59" x2="267" y2="59"/>
+      <text class="miembro" x="10" y="77">+ setdispositivo(d: dispositivo)</text>
+      <text class="miembro" x="10" y="96">+ doSomeBusinessLogic(): void</text>
+      <rect class="caja" x="400" y="12" width="275" height="75" rx="3"/>
+      <text class="estereo" x="537.5" y="28">&#171;interface&#187;</text>
+      <text class="nombre" x="537.5" y="47">dispositivo</text>
+      <line class="div" x1="400" y1="58" x2="675" y2="58"/>
+      <text class="miembro" x="410" y="76">+ doAlgorithm(data: array): array</text>
+      <rect class="caja" x="330" y="170" width="196" height="59" rx="3"/>
+      <text class="nombre" x="428" y="190">ConcretedispositivoA</text>
+      <line class="div" x1="330" y1="200" x2="526" y2="200"/>
+      <text class="miembro" x="340" y="218">+ doAlgorithm(data)</text>
+      <rect class="caja" x="550" y="170" width="196" height="59" rx="3"/>
+      <text class="nombre" x="648" y="190">ConcretedispositivoB</text>
+      <line class="div" x1="550" y1="200" x2="746" y2="200"/>
+      <text class="miembro" x="560" y="218">+ doAlgorithm(data)</text>
+    </svg>
+  </div>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>
+      Es el patrón <strong>Strategy</strong> (de comportamiento). <code>Context</code> es el
+      contexto: guarda una referencia a la interfaz <code>dispositivo</code> (la estrategia), la
+      recibe en el constructor, la puede cambiar con <code>setdispositivo()</code> y le delega el
+      trabajo en <code>doSomeBusinessLogic()</code>. <code>ConcretedispositivoA</code> y
+      <code>ConcretedispositivoB</code> son las estrategias concretas, que ordenan de dos formas.
+    </p>
+    <p><strong>Ventajas:</strong></p>
+    <ul>
+      <li>Se puede cambiar el algoritmo de un objeto en tiempo de ejecución.</li>
+      <li>Los detalles del algoritmo quedan aislados del código que lo usa.</li>
+      <li>Se sustituye la herencia por composición.</li>
+      <li>Principio de abierto/cerrado: se agregan estrategias sin cambiar el contexto.</li>
+    </ul>
+    <p><strong>Desventajas:</strong></p>
+    <ul>
+      <li>Si hay pocos algoritmos y casi no cambian, complica el programa sin necesidad.</li>
+      <li>El cliente tiene que conocer las diferencias entre estrategias para elegir la adecuada.</li>
+    </ul>
+  </div>
+</div>

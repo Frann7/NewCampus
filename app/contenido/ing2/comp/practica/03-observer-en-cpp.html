@@ -1,0 +1,275 @@
+<div class="ej">
+  <span class="tag">Ejercicio 3 &middot; Observer</span>
+  <h2>Reconocer el patrón en un código C++</h2>
+  <div class="enunciado">
+    <p>
+      <strong>Guía N°3, ejercicio 4.</strong> Identifique qué patrón de comportamiento se está
+      siendo implementado en el siguiente código en C++, mencione ventajas y desventajas del mismo,
+      y realice el diagrama correspondiente:
+    </p>
+  </div>
+
+  <pre class="codigo"><code>#include &lt;iostream&gt;
+#include &lt;list&gt;
+#include &lt;string&gt;
+
+class Ialarma {
+ public:
+  virtual ~Ialarma(){};
+  virtual void Update(const std::string &amp;message_from_subject) = 0;
+};
+class ISubject {
+ public:
+  virtual ~ISubject(){};
+  virtual void Attach(Ialarma *alarma) = 0;
+  virtual void Detach(Ialarma *alarma) = 0;
+  virtual void Notify() = 0;
+};
+class Subject : public ISubject {
+ public:
+  virtual ~Subject() {
+    std::cout &lt;&lt; "Goodbye, I was the Subject.\n";
+  }
+    void Attach(Ialarma *alarma) override {
+    list_alarma_.push_back(alarma);
+  }
+  void Detach(Ialarma *alarma) override {
+    list_alarma_.remove(alarma);
+  }
+  void Notify() override {
+    std::list&lt;Ialarma *&gt;::iterator iterator = list_alarma_.begin();
+    HowManyalarma();
+    while (iterator != list_alarma_.end()) {
+      (*iterator)-&gt;Update(message_);
+      ++iterator;
+    }
+  }
+  void CreateMessage(std::string message = "Empty") {
+    this-&gt;message_ = message;
+    Notify();
+  }
+  void HowManyalarma() {
+    std::cout &lt;&lt; "There are " &lt;&lt; list_alarma_.size() &lt;&lt; " alarmas in the list.\n";
+  }
+  void SomeBusinessLogic() {
+    this-&gt;message_ = "change message message";
+    Notify();
+    std::cout &lt;&lt; "I'm about to do some thing important\n";
+  }
+ private:
+  std::list&lt;Ialarma *&gt; list_alarma_;
+  std::string message_;
+};
+class alarma : public Ialarma {
+ public:
+  alarma(Subject &amp;subject) : subject_(subject) {
+    this-&gt;subject_.Attach(this);
+    std::cout &lt;&lt; "Hi, I'm the alarma \"" &lt;&lt; ++alarma::static_number_ &lt;&lt; "\".\n";
+    this-&gt;number_ = alarma::static_number_;
+  }
+  virtual ~alarma() {
+    std::cout &lt;&lt; "Goodbye, I was the alarma \"" &lt;&lt; this-&gt;number_ &lt;&lt; "\".\n";
+  }
+  void Update(const std::string &amp;message_from_subject) override {
+    message_from_subject_ = message_from_subject;
+    PrintInfo();
+  }
+  void RemoveMeFromTheList() {
+    subject_.Detach(this);
+    std::cout &lt;&lt; "alarma \"" &lt;&lt; number_ &lt;&lt; "\" removed from the list.\n";
+  }
+  void PrintInfo() {
+    std::cout &lt;&lt; "alarma \"" &lt;&lt; this-&gt;number_ &lt;&lt; "\": a new message is available --&gt; " &lt;&lt; this-&gt;message_from_subject_ &lt;&lt; "\n";
+  }
+ private:
+  std::string message_from_subject_;
+  Subject &amp;subject_;
+  static int static_number_;
+  int number_;
+};
+int alarma::static_number_ = 0;
+void ClientCode() {
+  Subject *subject = new Subject;
+  alarma *alarma1 = new alarma(*subject);
+  alarma *alarma2 = new alarma(*subject);
+  alarma *alarma3 = new alarma(*subject);
+  alarma *alarma4;
+  alarma *alarma5;
+  subject-&gt;CreateMessage("Hello World! :D");
+  alarma3-&gt;RemoveMeFromTheList();
+  subject-&gt;CreateMessage("The weather is hot today! :p");
+  alarma4 = new alarma(*subject);
+  alarma2-&gt;RemoveMeFromTheList();
+  alarma5 = new alarma(*subject);
+  subject-&gt;CreateMessage("My new car is great! ;)");
+  alarma5-&gt;RemoveMeFromTheList();
+  alarma4-&gt;RemoveMeFromTheList();
+  alarma1-&gt;RemoveMeFromTheList();
+  delete alarma5;
+  delete alarma4;
+  delete alarma3;
+  delete alarma2;
+  delete alarma1;
+  delete subject;
+}
+int main() {
+  ClientCode();
+  return 0;
+}</code></pre>
+
+  <span class="paso">Paso 1 &mdash; Es largo: leer solo lo que importa</span>
+  <p>Con cien líneas adelante, lo que hay que mirar son <strong>cuatro cosas</strong>:</p>
+  <ol>
+    <li>Las líneas <code>class ...</code>: qué clases hay y de quién heredan.</li>
+    <li>Los <strong>nombres de los métodos</strong> de cada una.</li>
+    <li>Los <strong>atributos</strong> (están al final de cada clase, debajo de <code>private:</code>).</li>
+    <li>Los bucles: qué recorren y a qué llaman.</li>
+  </ol>
+  <p>Todos los <code>std::cout</code> y los destructores (<code>~</code>) se pueden saltear.</p>
+
+  <span class="paso">Paso 2 &mdash; Listar las clases</span>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Clase</th><th>¿Hereda?</th><th>Qué tiene</th></tr>
+      <tr><td><code>Ialarma</code></td><td>No. Todo <code>= 0</code>: es una <strong>interfaz</strong></td><td>Un solo método: <code>Update(mensaje)</code></td></tr>
+      <tr><td><code>ISubject</code></td><td>No. Todo <code>= 0</code>: es una <strong>interfaz</strong></td><td><code>Attach</code>, <code>Detach</code>, <code>Notify</code></td></tr>
+      <tr><td><code>Subject</code></td><td><code>: public ISubject</code></td><td>Atributo <code>std::list&lt;Ialarma *&gt; list_alarma_</code>; <code>Attach</code> hace <code>push_back</code>, <code>Detach</code> hace <code>remove</code>, <code>Notify</code> recorre la lista</td></tr>
+      <tr><td><code>alarma</code></td><td><code>: public Ialarma</code></td><td>Atributo <code>Subject &amp;subject_</code>; en su constructor hace <code>subject_.Attach(this)</code></td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Paso 3 &mdash; Las cuatro preguntas</span>
+  <ol>
+    <li>
+      <strong>¿<code>static</code> y constructor no público?</strong> Hay un
+      <code>static int static_number_</code>, pero es un contador para numerar las alarmas, y los
+      constructores son públicos. No es Singleton.
+    </li>
+    <li><strong>¿Alguna clase hereda?</strong> Sí. No es Facade.</li>
+    <li><strong>¿Métodos que devuelven un <code>new</code>?</strong> No. No es una fábrica.</li>
+    <li>
+      <strong>¿Qué guarda la clase del medio?</strong> <code>Subject</code> guarda una
+      <strong>lista</strong> de punteros a la interfaz <code>Ialarma</code>, que es
+      <strong>otra</strong> interfaz (no la suya), y tiene métodos para <strong>agregar, quitar y
+      avisar</strong> &rarr; <strong>Observer</strong>.
+    </li>
+  </ol>
+
+  <span class="paso">Paso 4 &mdash; Qué clase es cada parte</span>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Parte del patrón</th><th>En el código</th><th>Qué lo confirma</th></tr>
+      <tr><td class="lbl">Notificador</td><td><code>ISubject</code> (su interfaz) y <code>Subject</code></td><td>La lista <code>list_alarma_</code> y los métodos <code>Attach</code>, <code>Detach</code>, <code>Notify</code></td></tr>
+      <tr><td class="lbl">Suscriptor</td><td><code>Ialarma</code></td><td>Interfaz con un solo método, <code>Update</code></td></tr>
+      <tr><td class="lbl">Suscriptor Concreto</td><td><code>alarma</code></td><td>Implementa <code>Update</code>; <strong>se anota sola</strong> al crearse (<code>Attach(this)</code>) y se da de baja con <code>RemoveMeFromTheList()</code> (<code>Detach(this)</code>)</td></tr>
+      <tr><td class="lbl">Cliente</td><td><code>ClientCode</code></td><td>Crea el sujeto y las alarmas</td></tr>
+    </table>
+  </div>
+  <p>La línea que resume el patrón es el bucle de <code>Notify()</code>:</p>
+  <pre class="codigo"><code>while (iterator != list_alarma_.end()) {
+  (*iterator)-&gt;Update(message_);
+  ++iterator;
+}</code></pre>
+  <p>
+    Es el recorrido "a la antigua" de la Unidad 0, sección 4: <strong>para cada alarma de la lista,
+    llamale <code>Update</code></strong> con el mensaje. Y <code>CreateMessage()</code> es el hecho
+    que dispara el aviso: guarda el mensaje y llama a <code>Notify()</code>.
+  </p>
+
+  <span class="paso">Paso 5 &mdash; Comprobarlo con lo que imprime</span>
+  <p>Las primeras líneas de la salida:</p>
+  <pre class="salida">Hi, I'm the alarma "1".
+Hi, I'm the alarma "2".
+Hi, I'm the alarma "3".
+There are 3 alarmas in the list.
+alarma "1": a new message is available --&gt; Hello World! :D
+alarma "2": a new message is available --&gt; Hello World! :D
+alarma "3": a new message is available --&gt; Hello World! :D
+alarma "3" removed from the list.
+There are 2 alarmas in the list.
+alarma "1": a new message is available --&gt; The weather is hot today! :p
+alarma "2": a new message is available --&gt; The weather is hot today! :p</pre>
+  <ul>
+    <li>Se crean tres alarmas y cada una se anota sola.</li>
+    <li><code>CreateMessage("Hello World! :D")</code>: el sujeto les avisa <strong>a las tres</strong>.</li>
+    <li>La alarma 3 se da de baja.</li>
+    <li><code>CreateMessage("The weather...")</code>: ahora les avisa <strong>solo a dos</strong>.</li>
+  </ul>
+  <p>Es la tienda de la teoría con otros nombres: suscribirse, recibir el aviso, darse de baja.</p>
+
+  <span class="paso">Paso 6 &mdash; El diagrama</span>
+  <div class="pd-grafico uml" data-g="p-alarma">
+    <svg viewBox="-14 -14 738 431" width="738" height="431" role="img" aria-label="Diagrama del código de la Guía 3, ejercicio 4">
+      <polyline class="linea punteada" points="141,190 141,158 141,158 141,126"/>
+      <polygon class="hueca" points="141,113 148,126 134,126"/>
+      <polyline class="linea punteada" points="577,220 577,164 577,164 577,108"/>
+      <polygon class="hueca" points="577,95 584,108 570,108"/>
+      <polyline class="linea" points="285,201 380,201 380,67.5 470,67.5"/>
+      <polygon class="hueca" points="267,201 276,195 285,201 276,207"/>
+      <text class="rotulo" x="448" y="61.5" text-anchor="middle">*</text>
+      <polyline class="linea" points="450,351.5 358.5,351.5 358.5,331 267,331"/>
+      <polyline class="linea" points="277,326 267,331 277,336"/>
+      <rect class="caja" x="30" y="0" width="222" height="113" rx="3"/>
+      <text class="estereo" x="141" y="16">&#171;interface&#187;</text>
+      <text class="nombre" x="141" y="35">ISubject</text>
+      <line class="div" x1="30" y1="46" x2="252" y2="46"/>
+      <text class="miembro" x="40" y="64">+ Attach(alarma: Ialarma*)</text>
+      <text class="miembro" x="40" y="83">+ Detach(alarma: Ialarma*)</text>
+      <text class="miembro" x="40" y="102">+ Notify()</text>
+      <rect class="caja destacada" x="0" y="190" width="267" height="202" rx="3"/>
+      <text class="nombre" x="133.5" y="210">Subject</text>
+      <line class="div" x1="0" y1="220" x2="267" y2="220"/>
+      <text class="miembro" x="10" y="238">- list_alarma_: list&lt;Ialarma*&gt;</text>
+      <text class="miembro" x="10" y="257">- message_: string</text>
+      <line class="div" x1="0" y1="268" x2="267" y2="268"/>
+      <text class="miembro" x="10" y="286">+ Attach(alarma: Ialarma*)</text>
+      <text class="miembro" x="10" y="305">+ Detach(alarma: Ialarma*)</text>
+      <text class="miembro" x="10" y="324">+ Notify()</text>
+      <text class="miembro" x="10" y="343">+ CreateMessage(message: string)</text>
+      <text class="miembro" x="10" y="362">+ HowManyalarma()</text>
+      <text class="miembro" x="10" y="381">+ SomeBusinessLogic()</text>
+      <rect class="caja" x="470" y="20" width="214" height="75" rx="3"/>
+      <text class="estereo" x="577" y="36">&#171;interface&#187;</text>
+      <text class="nombre" x="577" y="55">Ialarma</text>
+      <line class="div" x1="470" y1="66" x2="684" y2="66"/>
+      <text class="miembro" x="480" y="84">+ Update(message: string)</text>
+      <rect class="caja" x="450" y="220" width="260" height="183" rx="3"/>
+      <text class="nombre" x="580" y="240">alarma</text>
+      <line class="div" x1="450" y1="250" x2="710" y2="250"/>
+      <text class="miembro" x="460" y="268">- subject_: Subject&amp;</text>
+      <text class="miembro" x="460" y="287">- message_from_subject_: string</text>
+      <text class="miembro" x="460" y="306">- number_: int</text>
+      <text class="miembro estatico" x="460" y="325">- static_number_: int</text>
+      <line class="div" x1="450" y1="336" x2="710" y2="336"/>
+      <text class="miembro" x="460" y="354">+ Update(message: string)</text>
+      <text class="miembro" x="460" y="373">+ RemoveMeFromTheList()</text>
+      <text class="miembro" x="460" y="392">+ PrintInfo()</text>
+    </svg>
+  </div>
+  <ul>
+    <li>El rombo con <code>*</code> de <code>Subject</code> a <code>Ialarma</code> es la lista <code>list_alarma_</code>.</li>
+    <li>
+      La flecha de <code>alarma</code> a <code>Subject</code> es el atributo <code>subject_</code>:
+      cada alarma conoce al sujeto para poder anotarse y borrarse sola. (<code>Subject &amp;</code>
+      es una <em>referencia</em>: para leer el código, lo mismo que un puntero.)
+    </li>
+  </ul>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>
+      Es el patrón <strong>Observer</strong> (de comportamiento). <code>Subject</code> es el
+      notificador: guarda una lista de <code>Ialarma</code> y tiene <code>Attach</code> para
+      suscribir, <code>Detach</code> para desuscribir y <code>Notify</code>, que recorre la lista
+      llamando a <code>Update</code>. <code>Ialarma</code> es la interfaz suscriptora y
+      <code>alarma</code> el suscriptor concreto, que se registra en el sujeto al crearse y recibe
+      cada mensaje nuevo.
+    </p>
+    <p><strong>Ventajas:</strong></p>
+    <ul>
+      <li>Principio de abierto/cerrado: se agregan suscriptores nuevos sin cambiar el notificador.</li>
+      <li>Las relaciones entre objetos se establecen en tiempo de ejecución (se suscriben y se dan de baja mientras corre).</li>
+    </ul>
+    <p><strong>Desventaja:</strong> los suscriptores son notificados en un orden aleatorio.</p>
+  </div>
+</div>

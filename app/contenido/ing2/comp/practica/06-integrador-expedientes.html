@@ -1,0 +1,194 @@
+<div class="ej">
+  <span class="tag">Ejercicio 6 &middot; Integrador</span>
+  <h2>Tres patrones sobre un diagrama: el sistema de expedientes</h2>
+  <div class="enunciado">
+    <p>
+      <strong>Práctica adicional de patrones, ejercicio 1.</strong> El siguiente diagrama de clases
+      modela el funcionamiento de un sistema de gestión de expedientes para un organismo público
+      del estado. El objetivo del diagrama es modelar el funcionamiento del módulo de envío y
+      recepción de expedientes entre distintos organismos.
+    </p>
+    <p>
+      <em>(El diagrama tiene cinco clases: <code>Persona</code>, <code>Usuario</code>,
+      <code>Organismo</code>, <code>Expediente</code> y <code>Movimiento</code>.
+      <code>Organismo</code> tiene nombre, esMesaEntrada, direccion y el método
+      <code>puedeRecibirExpedientes()</code>. <code>Movimiento</code> tiene expediente,
+      organismoOrigen, organismoDestino, usuario y los métodos <code>realizarMovimiento()</code> y
+      <code>consultarMovimiento()</code>.)</em>
+    </p>
+    <p>
+      Se solicita modelar en un nuevo diagrama de clases la resolución de los siguientes problemas
+      (indicando qué patrón y justificando en cada caso el porqué de la elección de ese patrón):
+    </p>
+    <ol>
+      <li>
+        Debido a que se cuenta con múltiples organismos y los mismos se encuentran en una
+        estructura de jerarquía, se necesita modelar dicho requerimiento, en el cual un organismo
+        puede tener organismos hijos y organismos padres.
+      </li>
+      <li>
+        Se desea crear una clase para mantener la seguridad de los usuarios, llamada
+        GestorUsuarios, dicha clase tendrá métodos para realizar el login del sistema, cambiar la
+        contraseña del usuario, dar de baja y dar de alta usuarios, por motivos de performance se
+        desea crear una sola instancia de dicha clase.
+      </li>
+      <li>
+        Se necesita implementar mecanismos de auditoría sobre los movimientos que se realizan de
+        expedientes, para esto es necesario que cada vez que se realice un movimiento, se envíe una
+        alerta al administrador y se registre este suceso en una tabla de auditoría. Es deseable a
+        futuro implementar nuevos mecanismos de alerta.
+      </li>
+    </ol>
+  </div>
+  <p>
+    Los puntos 2 y 3 son, casi palabra por palabra, el ejercicio 3 del <strong>parcial 2024</strong>
+    (allá con una farmacia y una "tabla de lotes").
+  </p>
+
+  <span class="paso">Paso 1 &mdash; Una frase y un patrón por punto</span>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Punto</th><th>La frase que decide</th><th>Patrón</th><th>Sobre qué clase</th></tr>
+      <tr><td class="lbl">1</td><td>"estructura de <strong>jerarquía</strong> (...) un organismo puede tener <strong>organismos hijos</strong> y organismos padres"</td><td><strong>Composite</strong></td><td><code>Organismo</code></td></tr>
+      <tr><td class="lbl">2</td><td>"se desea crear <strong>una sola instancia</strong> de dicha clase"</td><td><strong>Singleton</strong></td><td><code>GestorUsuarios</code> (nueva)</td></tr>
+      <tr><td class="lbl">3</td><td>"<strong>cada vez que</strong> se realice un movimiento, <strong>se envíe una alerta</strong> (...) y <strong>se registre</strong> este suceso"</td><td><strong>Observer</strong></td><td><code>Movimiento</code></td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Paso 2 &mdash; Punto 1: la jerarquía de organismos (Composite)</span>
+  <p>
+    Un organismo que contiene organismos es algo que contiene cosas de su mismo tipo: un árbol.
+    <code>Organismo</code> pasa a ser el componente; un organismo sin hijos es la hoja y uno con
+    hijos es el compuesto, que guarda la lista. El atributo <code>padre</code> cubre "organismos
+    padres": cada organismo sabe de quién depende.
+  </p>
+  <div class="pd-grafico uml" data-g="p-organismos">
+    <svg viewBox="-14 -14 662.5 374" width="662.5" height="374" role="img" aria-label="Composite para la jerarquía de organismos">
+      <polyline class="linea" points="114.5,220 114.5,189 299,189 299,158"/>
+      <polygon class="hueca" points="299,145 306,158 292,158"/>
+      <polyline class="linea" points="398.5,220 398.5,189 299,189 299,158"/>
+      <polygon class="hueca" points="299,145 306,158 292,158"/>
+      <polyline class="linea" points="535,283 590,283 590,72.5 448,72.5"/>
+      <polygon class="hueca" points="517,283 526,277 535,283 526,289"/>
+      <text class="rotulo" x="596" y="177.75" text-anchor="start">hijos</text>
+      <text class="rotulo" x="470" y="66.5" text-anchor="middle">*</text>
+      <rect class="caja" x="150" y="0" width="298" height="145" rx="3"/>
+      <text class="nombre abstracta" x="299" y="20">Organismo</text>
+      <line class="div" x1="150" y1="30" x2="448" y2="30"/>
+      <text class="miembro" x="160" y="48"># nombre: String</text>
+      <text class="miembro" x="160" y="67"># esMesaEntrada: Boolean</text>
+      <text class="miembro" x="160" y="86"># direccion: String</text>
+      <text class="miembro" x="160" y="105"># padre: Organismo</text>
+      <line class="div" x1="150" y1="116" x2="448" y2="116"/>
+      <text class="miembro abstracto" x="160" y="134">+ puedeRecibirExpedientes(): Boolean</text>
+      <rect class="caja" x="0" y="220" width="229" height="59" rx="3"/>
+      <text class="nombre" x="114.5" y="240">OrganismoSimple</text>
+      <line class="div" x1="0" y1="250" x2="229" y2="250"/>
+      <text class="miembro" x="10" y="268">+ puedeRecibirExpedientes()</text>
+      <rect class="caja destacada" x="280" y="220" width="237" height="126" rx="3"/>
+      <text class="nombre" x="398.5" y="240">OrganismoCompuesto</text>
+      <line class="div" x1="280" y1="250" x2="517" y2="250"/>
+      <text class="miembro" x="290" y="268">- hijos: Organismo[]</text>
+      <line class="div" x1="280" y1="279" x2="517" y2="279"/>
+      <text class="miembro" x="290" y="297">+ agregarHijo(o: Organismo)</text>
+      <text class="miembro" x="290" y="316">+ eliminarHijo(o: Organismo)</text>
+      <text class="miembro" x="290" y="335">+ puedeRecibirExpedientes()</text>
+    </svg>
+  </div>
+  <p>
+    <strong>Justificación:</strong> "Composite, porque los organismos forman una jerarquía en la que
+    un organismo puede contener otros organismos. Con una interfaz común, el sistema trata igual a
+    un organismo simple que a uno con toda su estructura de hijos (por ejemplo, para saber si puede
+    recibir expedientes)."
+  </p>
+
+  <span class="paso">Paso 3 &mdash; Punto 2: GestorUsuarios (Singleton)</span>
+  <p>
+    Es el ejemplo 3 de Singleton (Unidad 4A, sección 1): una clase nueva con el atributo estático
+    <code>instancia</code>, el constructor privado, el método estático
+    <code>obtenerInstancia()</code> y los cuatro métodos que pide el enunciado (login, cambiar
+    contraseña, dar de alta, dar de baja).
+  </p>
+  <p>
+    <strong>Justificación:</strong> "Singleton, porque se pide una sola instancia de GestorUsuarios.
+    El constructor privado impide crear otras y el método estático da el punto de acceso global."
+  </p>
+
+  <span class="paso">Paso 4 &mdash; Punto 3: la auditoría (Observer)</span>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Parte del patrón</th></tr>
+      <tr><td>"cada vez que se realice un movimiento"</td><td><strong>Notificador</strong>: <code>Movimiento</code>. Su <code>realizarMovimiento()</code> termina llamando a <code>notificar()</code></td></tr>
+      <tr><td>"se envíe una alerta al administrador"</td><td><strong>Suscriptor concreto</strong>: <code>AlertaAdministrador</code></td></tr>
+      <tr><td>"y se registre este suceso en una tabla de auditoría"</td><td><strong>Suscriptor concreto</strong>: <code>RegistroAuditoria</code></td></tr>
+      <tr><td>"es deseable a futuro implementar <strong>nuevos mecanismos de alerta</strong>"</td><td>Más suscriptores, sin tocar <code>Movimiento</code>: la razón para usar el patrón</td></tr>
+    </table>
+  </div>
+  <div class="pd-grafico uml" data-g="p-auditoria">
+    <svg viewBox="-14 -14 897 367" width="897" height="367" role="img" aria-label="Observer para la auditoría de movimientos">
+      <polyline class="linea" points="331,107.5 400.5,107.5 400.5,107.5 470,107.5"/>
+      <polygon class="hueca" points="313,107.5 322,101.5 331,107.5 322,113.5"/>
+      <text class="rotulo" x="448" y="101.5" text-anchor="middle">*</text>
+      <polyline class="linea punteada" points="514.5,280 514.5,219 584.5,219 584.5,158"/>
+      <polygon class="hueca" points="584.5,145 591.5,158 577.5,158"/>
+      <polyline class="linea punteada" points="754.5,280 754.5,219 584.5,219 584.5,158"/>
+      <polygon class="hueca" points="584.5,145 591.5,158 577.5,158"/>
+      <rect class="caja destacada" x="0" y="0" width="313" height="240" rx="3"/>
+      <text class="nombre" x="156.5" y="20">Movimiento</text>
+      <line class="div" x1="0" y1="30" x2="313" y2="30"/>
+      <text class="miembro" x="10" y="48">- expediente: Expediente</text>
+      <text class="miembro" x="10" y="67">- organismoOrigen: Organismo</text>
+      <text class="miembro" x="10" y="86">- organismoDestino: Organismo</text>
+      <text class="miembro" x="10" y="105">- usuario: Usuario</text>
+      <text class="miembro" x="10" y="124">- observadores: ObservadorMovimiento[]</text>
+      <line class="div" x1="0" y1="135" x2="313" y2="135"/>
+      <text class="miembro" x="10" y="153">+ realizarMovimiento()</text>
+      <text class="miembro" x="10" y="172">+ consultarMovimiento()</text>
+      <text class="miembro" x="10" y="191">+ suscribir(o: ObservadorMovimiento)</text>
+      <text class="miembro" x="10" y="210">+ desuscribir(o: ObservadorMovimiento)</text>
+      <text class="miembro" x="10" y="229">+ notificar()</text>
+      <rect class="caja" x="470" y="70" width="229" height="75" rx="3"/>
+      <text class="estereo" x="584.5" y="86">&#171;interface&#187;</text>
+      <text class="nombre" x="584.5" y="105">ObservadorMovimiento</text>
+      <line class="div" x1="470" y1="116" x2="699" y2="116"/>
+      <text class="miembro" x="480" y="134">+ actualizar(m: Movimiento)</text>
+      <rect class="caja" x="400" y="280" width="229" height="59" rx="3"/>
+      <text class="nombre" x="514.5" y="300">AlertaAdministrador</text>
+      <line class="div" x1="400" y1="310" x2="629" y2="310"/>
+      <text class="miembro" x="410" y="328">+ actualizar(m: Movimiento)</text>
+      <rect class="caja" x="640" y="280" width="229" height="59" rx="3"/>
+      <text class="nombre" x="754.5" y="300">RegistroAuditoria</text>
+      <line class="div" x1="640" y1="310" x2="869" y2="310"/>
+      <text class="miembro" x="650" y="328">+ actualizar(m: Movimiento)</text>
+    </svg>
+  </div>
+  <p>
+    <strong>Justificación:</strong> "Observer, porque cada movimiento tiene que disparar
+    automáticamente la alerta al administrador y el registro en auditoría. <code>Movimiento</code>
+    es el notificador y cada mecanismo es un suscriptor que implementa
+    <code>ObservadorMovimiento</code>. Un mecanismo de alerta nuevo se agrega como otro suscriptor,
+    sin modificar <code>Movimiento</code>."
+  </p>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>
+      1) <strong>Composite</strong> sobre <code>Organismo</code>. 2) <strong>Singleton</strong> en
+      la clase nueva <code>GestorUsuarios</code>. 3) <strong>Observer</strong> con
+      <code>Movimiento</code> como notificador y la alerta y la auditoría como suscriptores. Cada
+      uno con su diagrama y su justificación, como arriba.
+    </p>
+  </div>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Guía N°1, ejercicio 1: los mismos dos pedidos</span>
+    <p>
+      "Se debe poder crear sólo una instancia de la clase ControladorSeguridad ya que existe un
+      único objeto encargado de realizar dicha tarea" &rarr; <strong>Singleton</strong>. "Cada vez
+      que se registre el acceso de un usuario, la clase Logger debe escribir en un archivo el
+      suceso" &rarr; <strong>Observer</strong>: <code>ControladorSeguridad</code> es el notificador
+      y <code>Logger</code> el suscriptor. Está en la guía de creacionales, pero pide "patrón /
+      patrones": son dos.
+    </p>
+  </div>
+</div>

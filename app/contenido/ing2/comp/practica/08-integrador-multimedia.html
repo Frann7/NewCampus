@@ -1,0 +1,214 @@
+<div class="ej">
+  <span class="tag">Ejercicio 8 &middot; Integrador</span>
+  <h2>Reconocer varios patrones en un enunciado: la plataforma multimedia</h2>
+  <div class="enunciado">
+    <p>
+      <strong>Guía N°2, ejercicio 5.</strong> Dado el siguiente enunciado identifique qué patrones
+      se pueden implementar. Una vez identificado, represente el patrón mediante el diagrama de
+      clases implementando los mismos para cada caso.
+    </p>
+    <p>
+      Una empresa de gestión de contenidos multimedia desea desarrollar una plataforma que permita
+      a sus usuarios organizar, editar y publicar diferentes tipos de archivos digitales (imágenes,
+      videos, documentos, audios). Los usuarios pueden crear colecciones de archivos que a su vez
+      pueden contener otras colecciones, formando una estructura jerárquica que facilita la
+      organización y manejo de grandes cantidades de contenido.
+    </p>
+    <p>
+      Para simplificar la interacción con el sistema, se requiere una interfaz única que permita
+      realizar operaciones comunes como reproducir, pausar, renombrar o eliminar archivos, sin
+      importar si el usuario está trabajando con un solo archivo o con una colección completa.
+      Además, esta interfaz debe manejar internamente las particularidades de cada tipo de archivo
+      y gestionar la estructura jerárquica de colecciones.
+    </p>
+    <p>
+      Por otro lado, la plataforma debe integrarse con varias bibliotecas externas para
+      procesamiento y conversión de formatos multimedia (por ejemplo, una biblioteca para edición
+      de imágenes, otra para edición de video y otra para procesamiento de audio). Cada biblioteca
+      tiene una interfaz diferente e incompatible con la del sistema principal.
+    </p>
+    <p>
+      Finalmente, la empresa quiere que el sistema sea fácil de mantener y ampliar en el futuro,
+      permitiendo agregar nuevos tipos de archivos y servicios externos sin impactar la experiencia
+      del usuario ni la estructura general del código.
+    </p>
+  </div>
+  <p>
+    Es el enunciado de las guías que más se parece al del parcial 2025: varios párrafos, sin
+    numerar, un patrón escondido en cada uno. Está en la guía de estructurales, así que los tres
+    son estructurales.
+  </p>
+
+  <span class="paso">Paso 1 &mdash; Párrafo por párrafo</span>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Párrafo</th><th>La frase que decide</th><th>Patrón</th></tr>
+      <tr><td class="lbl">1</td><td>"colecciones de archivos que a su vez pueden <strong>contener otras colecciones</strong>, formando una <strong>estructura jerárquica</strong>"</td><td><strong>Composite</strong></td></tr>
+      <tr><td class="lbl">2</td><td>"<strong>para simplificar</strong> la interacción con el sistema, se requiere una <strong>interfaz única</strong> que permita realizar operaciones comunes (...) debe <strong>manejar internamente</strong> las particularidades"</td><td><strong>Facade</strong></td></tr>
+      <tr><td class="lbl">3</td><td>"integrarse con varias <strong>bibliotecas externas</strong> (...) cada biblioteca tiene una <strong>interfaz diferente e incompatible</strong> con la del sistema principal"</td><td><strong>Adapter</strong></td></tr>
+      <tr><td class="lbl">4</td><td>"agregar nuevos tipos de archivos y servicios externos sin impactar (...) la estructura general del código"</td><td>No pide un patrón nuevo: es la <strong>ventaja</strong> de los tres (abierto/cerrado) y sirve para justificar</td></tr>
+    </table>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">El segundo párrafo tiene dos pistas mezcladas</span>
+    <p>
+      "Sin importar si el usuario está trabajando con un solo archivo o con una colección completa"
+      es la otra mitad de <strong>Composite</strong> (tratar igual a la pieza y al grupo), no un
+      patrón distinto. Lo propio del párrafo 2 es "simplificar" e "interfaz única": <strong>Facade</strong>.
+    </p>
+  </div>
+
+  <span class="paso">Paso 2 &mdash; Composite: archivos y colecciones</span>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Parte del patrón</th><th>En el enunciado</th></tr>
+      <tr><td class="lbl">Componente</td><td><code>ElementoMultimedia</code>, con las "operaciones comunes": reproducir, pausar, renombrar, eliminar</td></tr>
+      <tr><td class="lbl">Hojas</td><td><code>Imagen</code>, <code>Video</code>, <code>Documento</code>, <code>Audio</code></td></tr>
+      <tr><td class="lbl">Compuesto</td><td><code>Coleccion</code>, que guarda una lista de <code>ElementoMultimedia</code> (archivos u otras colecciones)</td></tr>
+    </table>
+  </div>
+  <div class="pd-grafico uml" data-g="p-multimedia-arbol">
+    <svg viewBox="-14 -14 858.5 344" width="858.5" height="344" role="img" aria-label="Composite para archivos y colecciones multimedia">
+      <polyline class="linea punteada" points="45,190 45,167.5 339.5,167.5 339.5,145"/>
+      <polygon class="hueca" points="339.5,132 346.5,145 332.5,145"/>
+      <polyline class="linea punteada" points="150,190 150,167.5 339.5,167.5 339.5,145"/>
+      <polygon class="hueca" points="339.5,132 346.5,145 332.5,145"/>
+      <polyline class="linea punteada" points="260.5,190 260.5,167.5 339.5,167.5 339.5,145"/>
+      <polygon class="hueca" points="339.5,132 346.5,145 332.5,145"/>
+      <polyline class="linea punteada" points="375,190 375,167.5 339.5,167.5 339.5,145"/>
+      <polygon class="hueca" points="339.5,132 346.5,145 332.5,145"/>
+      <polyline class="linea punteada" points="577.5,190 577.5,167.5 339.5,167.5 339.5,145"/>
+      <polygon class="hueca" points="339.5,132 346.5,145 332.5,145"/>
+      <polyline class="linea" points="733,253 760,253 760,66 429,66"/>
+      <polygon class="hueca" points="715,253 724,247 733,253 724,259"/>
+      <text class="rotulo" x="766" y="159.5" text-anchor="start">elementos</text>
+      <text class="rotulo" x="451" y="60" text-anchor="middle">*</text>
+      <rect class="caja" x="250" y="0" width="179" height="132" rx="3"/>
+      <text class="estereo" x="339.5" y="16">&#171;interface&#187;</text>
+      <text class="nombre" x="339.5" y="35">ElementoMultimedia</text>
+      <line class="div" x1="250" y1="46" x2="429" y2="46"/>
+      <text class="miembro" x="260" y="64">+ reproducir()</text>
+      <text class="miembro" x="260" y="83">+ pausar()</text>
+      <text class="miembro" x="260" y="102">+ renombrar(nombre)</text>
+      <text class="miembro" x="260" y="121">+ eliminar()</text>
+      <rect class="caja" x="0" y="190" width="90" height="30" rx="3"/>
+      <text class="nombre" x="45" y="210">Imagen</text>
+      <rect class="caja" x="105" y="190" width="90" height="30" rx="3"/>
+      <text class="nombre" x="150" y="210">Video</text>
+      <rect class="caja" x="210" y="190" width="101" height="30" rx="3"/>
+      <text class="nombre" x="260.5" y="210">Documento</text>
+      <rect class="caja" x="330" y="190" width="90" height="30" rx="3"/>
+      <text class="nombre" x="375" y="210">Audio</text>
+      <rect class="caja destacada" x="440" y="190" width="275" height="126" rx="3"/>
+      <text class="nombre" x="577.5" y="210">Coleccion</text>
+      <line class="div" x1="440" y1="220" x2="715" y2="220"/>
+      <text class="miembro" x="450" y="238">- elementos: ElementoMultimedia[]</text>
+      <line class="div" x1="440" y1="249" x2="715" y2="249"/>
+      <text class="miembro" x="450" y="267">+ agregar(e: ElementoMultimedia)</text>
+      <text class="miembro" x="450" y="286">+ quitar(e: ElementoMultimedia)</text>
+      <text class="miembro" x="450" y="305">+ reproducir()</text>
+    </svg>
+  </div>
+  <p>
+    <code>Coleccion.reproducir()</code> recorre sus elementos y le llama <code>reproducir()</code> a
+    cada uno; lo mismo con las otras operaciones.
+  </p>
+
+  <span class="paso">Paso 3 &mdash; Facade y Adapter: la interfaz única y las bibliotecas</span>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Patrón</th><th>Parte</th><th>En el enunciado</th></tr>
+      <tr><td class="lbl" rowspan="2">Facade</td><td>Fachada</td><td><code>PlataformaMultimedia</code>: la "interfaz única" con las operaciones comunes</td></tr>
+      <tr><td>Subsistema</td><td>Los elementos multimedia y las conversiones, que maneja "internamente"</td></tr>
+      <tr><td class="lbl" rowspan="3">Adapter</td><td>Interfaz con el Cliente</td><td><code>Conversor</code>: la forma única en que el sistema pide una conversión</td></tr>
+      <tr><td>Servicios</td><td><code>BibliotecaImagenes</code>, <code>BibliotecaVideo</code>, <code>BibliotecaAudio</code>: externas, cada una con su interfaz</td></tr>
+      <tr><td>Adaptadores</td><td>Uno por biblioteca: cumple <code>Conversor</code>, guarda la biblioteca y traduce</td></tr>
+    </table>
+  </div>
+  <div class="pd-grafico uml" data-g="p-multimedia-fachada">
+    <svg viewBox="-14 -14 967 408" width="967" height="408" role="img" aria-label="Facade y Adapter para las bibliotecas externas">
+      <polyline class="linea" points="90,45 115,45 115,45 140,45"/>
+      <polyline class="linea" points="130,50 140,45 130,40"/>
+      <polyline class="linea" points="339,57.5 404.5,57.5 404.5,57.5 470,57.5"/>
+      <polyline class="linea" points="460,62.5 470,57.5 460,52.5"/>
+      <polyline class="linea punteada" points="359.5,220 359.5,164 569.5,164 569.5,108"/>
+      <polygon class="hueca" points="569.5,95 576.5,108 562.5,108"/>
+      <polyline class="linea punteada" points="599.5,220 599.5,164 569.5,164 569.5,108"/>
+      <polygon class="hueca" points="569.5,95 576.5,108 562.5,108"/>
+      <polyline class="linea punteada" points="839.5,220 839.5,164 569.5,164 569.5,108"/>
+      <polygon class="hueca" points="569.5,95 576.5,108 562.5,108"/>
+      <polyline class="linea" points="359.5,279 359.5,314.5 344.5,314.5 344.5,350"/>
+      <polyline class="linea" points="339.5,340 344.5,350 349.5,340"/>
+      <polyline class="linea" points="599.5,279 599.5,314.5 586.5,314.5 586.5,350"/>
+      <polyline class="linea" points="581.5,340 586.5,350 591.5,340"/>
+      <polyline class="linea" points="839.5,279 839.5,314.5 826.5,314.5 826.5,350"/>
+      <polyline class="linea" points="821.5,340 826.5,350 831.5,340"/>
+      <rect class="caja" x="0" y="30" width="90" height="30" rx="3"/>
+      <text class="nombre" x="45" y="50">Usuario</text>
+      <rect class="caja destacada" x="140" y="0" width="199" height="135" rx="3"/>
+      <text class="nombre" x="239.5" y="20">PlataformaMultimedia</text>
+      <line class="div" x1="140" y1="30" x2="339" y2="30"/>
+      <text class="miembro" x="150" y="48">+ reproducir(e)</text>
+      <text class="miembro" x="150" y="67">+ pausar(e)</text>
+      <text class="miembro" x="150" y="86">+ renombrar(e, nombre)</text>
+      <text class="miembro" x="150" y="105">+ eliminar(e)</text>
+      <text class="miembro" x="150" y="124">+ convertir(e, formato)</text>
+      <rect class="caja" x="470" y="20" width="199" height="75" rx="3"/>
+      <text class="estereo" x="569.5" y="36">&#171;interface&#187;</text>
+      <text class="nombre" x="569.5" y="55">Conversor</text>
+      <line class="div" x1="470" y1="66" x2="669" y2="66"/>
+      <text class="miembro" x="480" y="84">+ convertir(e, formato)</text>
+      <rect class="caja destacada" x="260" y="220" width="199" height="59" rx="3"/>
+      <text class="nombre" x="359.5" y="240">AdaptadorImagen</text>
+      <line class="div" x1="260" y1="250" x2="459" y2="250"/>
+      <text class="miembro" x="270" y="268">+ convertir(e, formato)</text>
+      <rect class="caja destacada" x="500" y="220" width="199" height="59" rx="3"/>
+      <text class="nombre" x="599.5" y="240">AdaptadorVideo</text>
+      <line class="div" x1="500" y1="250" x2="699" y2="250"/>
+      <text class="miembro" x="510" y="268">+ convertir(e, formato)</text>
+      <rect class="caja destacada" x="740" y="220" width="199" height="59" rx="3"/>
+      <text class="nombre" x="839.5" y="240">AdaptadorAudio</text>
+      <line class="div" x1="740" y1="250" x2="939" y2="250"/>
+      <text class="miembro" x="750" y="268">+ convertir(e, formato)</text>
+      <rect class="caja" x="255" y="350" width="179" height="30" rx="3"/>
+      <text class="nombre" x="344.5" y="370">BibliotecaImagenes</text>
+      <rect class="caja" x="510" y="350" width="153" height="30" rx="3"/>
+      <text class="nombre" x="586.5" y="370">BibliotecaVideo</text>
+      <rect class="caja" x="750" y="350" width="153" height="30" rx="3"/>
+      <text class="nombre" x="826.5" y="370">BibliotecaAudio</text>
+    </svg>
+  </div>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>
+      <strong>Composite</strong>, porque las colecciones pueden contener archivos y otras
+      colecciones (estructura jerárquica) y las operaciones se aplican igual a un archivo que a una
+      colección completa.
+    </p>
+    <p>
+      <strong>Facade</strong>, porque se pide una interfaz única que simplifique la interacción y
+      maneje internamente las particularidades de cada tipo de archivo: el usuario usa solo la
+      fachada.
+    </p>
+    <p>
+      <strong>Adapter</strong>, porque cada biblioteca externa tiene una interfaz diferente e
+      incompatible con la del sistema: un adaptador por biblioteca las hace cumplir la interfaz que
+      el sistema espera, sin modificarlas.
+    </p>
+    <p>
+      Con los tres se cumple el último párrafo: un tipo de archivo nuevo es otra hoja y un servicio
+      externo nuevo es otro adaptador, sin tocar el código existente.
+    </p>
+  </div>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Facade y Adapter, juntos y sin pisarse</span>
+    <p>
+      Es el mejor ejemplo para ver la diferencia. Los adaptadores miran <strong>hacia afuera</strong>:
+      cada uno envuelve <strong>una</strong> biblioteca ajena para que encaje. La fachada mira
+      <strong>hacia el usuario</strong>: junta <strong>todo</strong> el sistema detrás de unas pocas
+      operaciones simples.
+    </p>
+  </div>
+</div>

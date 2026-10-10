@@ -1,0 +1,213 @@
+<div class="ej">
+  <span class="tag">Ejercicio 7 &middot; Integrador</span>
+  <h2>Cuatro patrones sobre un diagrama: la gestión de contenido</h2>
+  <div class="enunciado">
+    <p>
+      <strong>Práctica adicional de patrones, ejercicio 2.</strong> El siguiente diagrama modela la
+      parte de un sistema encargada de la gestión de diverso tipo de contenido. Se brinda la
+      posibilidad a los usuarios de realizar publicaciones, permitiendo adjuntar a las mismas
+      distintos tipos de archivos, cada uno de ellos con un tamaño máximo permitido distinto.
+    </p>
+    <p>
+      <em>(El diagrama: <code>Usuario</code> crea <code>Publicacion</code>; una publicación tiene
+      una lista de adjuntos de tipo <code>Archivo</code>, con <code>agregarAdjunto()</code> y
+      <code>eliminarAdjunto()</code>. <code>Archivo</code> es abstracta, con nombre, contenido y los
+      métodos <code>obtenerTamanioMaximo()</code> y <code>visualizar()</code>, y tiene dos hijas:
+      <code>ArchivoPDF</code> y <code>ArchivoPNG</code>.)</em>
+    </p>
+    <p>A continuación, se nos solicita realizar las siguientes modificaciones:</p>
+    <ol>
+      <li>Se desea agregar la posibilidad de adjuntar archivos de tipo JPG, TXT y de poder agregar nuevos tipos de archivo en el futuro.</li>
+      <li>Se desea poder organizar la estructura de archivos en carpetas, en donde una carpeta es un tipo de archivo que contiene más archivos.</li>
+      <li>Se desean implementar notificaciones, de manera tal que cada vez que se cree una notificación, se envíe un mail al administrador del sistema y se notifique dicho suceso en una tabla de auditoría.</li>
+      <li>Se desea implementar un Gestor de Contenido, cuyo rol será el encargado de realizar las publicaciones, así como también se permitirá su edición y borrado lógico, se nos ha planteado la necesidad de contar con una sola instancia de esta clase como máximo.</li>
+    </ol>
+  </div>
+
+  <span class="paso">Paso 1 &mdash; Una frase y un patrón por punto</span>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Punto</th><th>La frase que decide</th><th>Grupo</th><th>Patrón</th></tr>
+      <tr><td class="lbl">1</td><td>"adjuntar archivos de <strong>tipo</strong> JPG, TXT y de poder <strong>agregar nuevos tipos</strong> de archivo en el futuro"</td><td>Creacional</td><td><strong>Factory Method</strong></td></tr>
+      <tr><td class="lbl">2</td><td>"una carpeta es un tipo de archivo que <strong>contiene más archivos</strong>"</td><td>Estructural</td><td><strong>Composite</strong></td></tr>
+      <tr><td class="lbl">3</td><td>"<strong>cada vez que</strong> se cree una notificación, <strong>se envíe</strong> un mail (...) y <strong>se notifique</strong> dicho suceso"</td><td>Comportamiento</td><td><strong>Observer</strong></td></tr>
+      <tr><td class="lbl">4</td><td>"contar con <strong>una sola instancia</strong> de esta clase como máximo"</td><td>Creacional</td><td><strong>Singleton</strong></td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Paso 2 &mdash; Punto 1: nuevos tipos de archivo (Factory Method)</span>
+  <p>
+    Hay <strong>un</strong> tipo de cosa (un archivo adjunto) en varias versiones, y van a aparecer
+    más. La mitad del patrón ya está en el diagrama: <code>Archivo</code> es el producto y
+    <code>ArchivoPDF</code> y <code>ArchivoPNG</code> los productos concretos. Se agregan los dos
+    productos nuevos y <strong>la columna de creadores</strong>.
+  </p>
+  <div class="pd-grafico uml" data-g="p-archivos-fabrica">
+    <svg viewBox="-14 -14 756 508" width="756" height="508" role="img" aria-label="Factory Method para los tipos de archivo adjunto">
+      <polyline class="linea" points="73,120 73,96 297,96 297,72"/>
+      <polygon class="hueca" points="297,59 304,72 290,72"/>
+      <polyline class="linea" points="238,120 238,96 297,96 297,72"/>
+      <polygon class="hueca" points="297,59 304,72 290,72"/>
+      <polyline class="linea" points="403,120 403,96 297,96 297,72"/>
+      <polygon class="hueca" points="297,59 304,72 290,72"/>
+      <polyline class="linea" points="568,120 568,96 297,96 297,72"/>
+      <polygon class="hueca" points="297,59 304,72 290,72"/>
+      <polyline class="linea" points="85,450 85,424.5 301,424.5 301,399"/>
+      <polygon class="hueca" points="301,386 308,399 294,399"/>
+      <polyline class="linea" points="235,450 235,424.5 301,424.5 301,399"/>
+      <polygon class="hueca" points="301,386 308,399 294,399"/>
+      <polyline class="linea" points="385,450 385,424.5 301,424.5 301,399"/>
+      <polygon class="hueca" points="301,386 308,399 294,399"/>
+      <polyline class="linea" points="535,450 535,424.5 301,424.5 301,399"/>
+      <polygon class="hueca" points="301,386 308,399 294,399"/>
+      <polyline class="linea punteada" points="404,29.5 690,29.5 690,323 427,323"/>
+      <polyline class="linea" points="437,318 427,323 437,328"/>
+      <text class="rotulo" x="696" y="176.25" text-anchor="start">crea</text>
+      <rect class="caja destacada" x="190" y="0" width="214" height="59" rx="3"/>
+      <text class="nombre abstracta" x="297" y="20">CreadorArchivo</text>
+      <line class="div" x1="190" y1="30" x2="404" y2="30"/>
+      <text class="miembro abstracto" x="200" y="48">+ crearArchivo(): Archivo</text>
+      <rect class="caja destacada" x="0" y="120" width="146" height="59" rx="3"/>
+      <text class="nombre" x="73" y="140">CreadorPDF</text>
+      <line class="div" x1="0" y1="150" x2="146" y2="150"/>
+      <text class="miembro" x="10" y="168">+ crearArchivo()</text>
+      <rect class="caja destacada" x="165" y="120" width="146" height="59" rx="3"/>
+      <text class="nombre" x="238" y="140">CreadorPNG</text>
+      <line class="div" x1="165" y1="150" x2="311" y2="150"/>
+      <text class="miembro" x="175" y="168">+ crearArchivo()</text>
+      <rect class="caja destacada" x="330" y="120" width="146" height="59" rx="3"/>
+      <text class="nombre" x="403" y="140">CreadorJPG</text>
+      <line class="div" x1="330" y1="150" x2="476" y2="150"/>
+      <text class="miembro" x="340" y="168">+ crearArchivo()</text>
+      <rect class="caja destacada" x="495" y="120" width="146" height="59" rx="3"/>
+      <text class="nombre" x="568" y="140">CreadorTXT</text>
+      <line class="div" x1="495" y1="150" x2="641" y2="150"/>
+      <text class="miembro" x="505" y="168">+ crearArchivo()</text>
+      <rect class="caja" x="175" y="260" width="252" height="126" rx="3"/>
+      <text class="nombre abstracta" x="301" y="280">Archivo</text>
+      <line class="div" x1="175" y1="290" x2="427" y2="290"/>
+      <text class="miembro" x="185" y="308"># nombre: String</text>
+      <text class="miembro" x="185" y="327"># contenido: String</text>
+      <line class="div" x1="175" y1="338" x2="427" y2="338"/>
+      <text class="miembro abstracto" x="185" y="356">+ obtenerTamanioMaximo(): long</text>
+      <text class="miembro abstracto" x="185" y="375">+ visualizar()</text>
+      <rect class="caja" x="30" y="450" width="110" height="30" rx="3"/>
+      <text class="nombre" x="85" y="470">ArchivoPDF</text>
+      <rect class="caja" x="180" y="450" width="110" height="30" rx="3"/>
+      <text class="nombre" x="235" y="470">ArchivoPNG</text>
+      <rect class="caja destacada" x="330" y="450" width="110" height="30" rx="3"/>
+      <text class="nombre" x="385" y="470">ArchivoJPG</text>
+      <rect class="caja destacada" x="480" y="450" width="110" height="30" rx="3"/>
+      <text class="nombre" x="535" y="470">ArchivoTXT</text>
+    </svg>
+  </div>
+  <p>
+    <strong>Justificación:</strong> "Factory Method, porque hay que crear archivos de distintos
+    tipos y poder sumar tipos en el futuro. <code>CreadorArchivo</code> declara el método fábrica
+    <code>crearArchivo()</code> y hay un creador concreto por tipo. <code>Publicacion</code> sigue
+    trabajando con <code>Archivo</code>, y un tipo nuevo se agrega con un producto y su creador,
+    sin modificar lo existente."
+  </p>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">¿No alcanzaba con agregar dos subclases?</span>
+    <p>
+      Para que existan <code>ArchivoJPG</code> y <code>ArchivoTXT</code>, sí. Pero la consigna pide
+      aplicar patrones, y "poder agregar nuevos tipos en el futuro" apunta a que el código que
+      <strong>crea</strong> los adjuntos no tenga que modificarse cada vez. Eso lo resuelve el
+      método fábrica.
+    </p>
+  </div>
+
+  <span class="paso">Paso 3 &mdash; Punto 2: carpetas (Composite)</span>
+  <p>
+    "Una carpeta es un tipo de archivo" &rarr; <code>Carpeta</code> hereda de <code>Archivo</code>.
+    "Que contiene más archivos" &rarr; tiene una lista de <code>Archivo</code>. Con las dos cosas,
+    una carpeta puede contener carpetas.
+  </p>
+  <div class="pd-grafico uml" data-g="p-carpetas">
+    <svg viewBox="-14 -14 632 344" width="632" height="344" role="img" aria-label="Composite para organizar los archivos en carpetas">
+      <polyline class="linea" points="55,190 55,164.5 286,164.5 286,139"/>
+      <polygon class="hueca" points="286,126 293,139 279,139"/>
+      <polyline class="linea" points="195,190 195,164.5 286,164.5 286,139"/>
+      <polygon class="hueca" points="286,126 293,139 279,139"/>
+      <polyline class="linea" points="385.5,190 385.5,164.5 286,164.5 286,139"/>
+      <polygon class="hueca" points="286,126 293,139 279,139"/>
+      <polyline class="linea" points="499,253 540,253 540,63 412,63"/>
+      <polygon class="hueca" points="481,253 490,247 499,253 490,259"/>
+      <text class="rotulo" x="546" y="158" text-anchor="start">archivos</text>
+      <text class="rotulo" x="434" y="57" text-anchor="middle">*</text>
+      <rect class="caja" x="160" y="0" width="252" height="126" rx="3"/>
+      <text class="nombre abstracta" x="286" y="20">Archivo</text>
+      <line class="div" x1="160" y1="30" x2="412" y2="30"/>
+      <text class="miembro" x="170" y="48"># nombre: String</text>
+      <text class="miembro" x="170" y="67"># contenido: String</text>
+      <line class="div" x1="160" y1="78" x2="412" y2="78"/>
+      <text class="miembro abstracto" x="170" y="96">+ obtenerTamanioMaximo(): long</text>
+      <text class="miembro abstracto" x="170" y="115">+ visualizar()</text>
+      <rect class="caja" x="0" y="190" width="110" height="30" rx="3"/>
+      <text class="nombre" x="55" y="210">ArchivoPDF</text>
+      <rect class="caja" x="140" y="190" width="110" height="30" rx="3"/>
+      <text class="nombre" x="195" y="210">ArchivoPNG</text>
+      <rect class="caja destacada" x="290" y="190" width="191" height="126" rx="3"/>
+      <text class="nombre" x="385.5" y="210">Carpeta</text>
+      <line class="div" x1="290" y1="220" x2="481" y2="220"/>
+      <text class="miembro" x="300" y="238">- archivos: Archivo[]</text>
+      <line class="div" x1="290" y1="249" x2="481" y2="249"/>
+      <text class="miembro" x="300" y="267">+ agregar(a: Archivo)</text>
+      <text class="miembro" x="300" y="286">+ eliminar(a: Archivo)</text>
+      <text class="miembro" x="300" y="305">+ visualizar()</text>
+    </svg>
+  </div>
+  <p>
+    <strong>Justificación:</strong> "Composite, porque una carpeta es un archivo que contiene otros
+    archivos, formando un árbol. <code>Archivo</code> es el componente, los tipos concretos son las
+    hojas y <code>Carpeta</code> es el compuesto. Una publicación adjunta un <code>Archivo</code>
+    sin distinguir si es uno solo o una carpeta entera."
+  </p>
+
+  <span class="paso">Paso 4 &mdash; Punto 3: notificaciones (Observer)</span>
+  <p>
+    Tiene la misma forma que la auditoría del ejercicio anterior: algo ocurre ("se cree una
+    notificación") y dos cosas reaccionan solas (el mail al administrador y la tabla de auditoría).
+    La clase donde se crean las notificaciones es el <strong>notificador</strong>, con su lista y
+    sus tres métodos; <code>EnvioMailAdministrador</code> y <code>RegistroAuditoria</code> son los
+    <strong>suscriptores concretos</strong>, que cumplen una interfaz con <code>actualizar()</code>.
+    El diagrama es el del ejercicio 6, punto 3, cambiando los nombres.
+  </p>
+  <p>
+    <strong>Justificación:</strong> "Observer, porque cada vez que se crea una notificación deben
+    ejecutarse automáticamente el envío del mail y el registro en auditoría. Los dos son
+    suscriptores del objeto que crea las notificaciones, y se pueden agregar otros sin modificarlo."
+  </p>
+
+  <span class="paso">Paso 5 &mdash; Punto 4: el Gestor de Contenido (Singleton)</span>
+  <div class="pd-grafico uml" data-g="p-gestor-contenido">
+    <svg viewBox="-14 -14 333 192" width="333" height="192" role="img" aria-label="GestorContenido como Singleton">
+      <rect class="caja destacada" x="0" y="0" width="305" height="164" rx="3"/>
+      <text class="nombre" x="152.5" y="20">GestorContenido</text>
+      <line class="div" x1="0" y1="30" x2="305" y2="30"/>
+      <text class="miembro estatico" x="10" y="48">- instancia: GestorContenido</text>
+      <line class="div" x1="0" y1="59" x2="305" y2="59"/>
+      <text class="miembro" x="10" y="77">- GestorContenido()</text>
+      <text class="miembro estatico" x="10" y="96">+ obtenerInstancia(): GestorContenido</text>
+      <text class="miembro" x="10" y="115">+ publicar(p: Publicacion)</text>
+      <text class="miembro" x="10" y="134">+ editar(p: Publicacion)</text>
+      <text class="miembro" x="10" y="153">+ borrar(p: Publicacion)</text>
+    </svg>
+  </div>
+  <p>
+    <strong>Justificación:</strong> "Singleton, porque se pide como máximo una instancia del Gestor
+    de Contenido. El constructor privado y el método estático <code>obtenerInstancia()</code>
+    garantizan que todo el sistema publique, edite y borre a través del mismo objeto."
+  </p>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>
+      1) <strong>Factory Method</strong> para los tipos de archivo. 2) <strong>Composite</strong>
+      para las carpetas. 3) <strong>Observer</strong> para las notificaciones. 4)
+      <strong>Singleton</strong> para el Gestor de Contenido. Uno de cada grupo, más
+      Singleton: un integrador típico.
+    </p>
+  </div>
+</div>

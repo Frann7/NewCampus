@@ -1,0 +1,111 @@
+<div class="ej">
+  <span class="tag">Ejercicio 1 &middot; Observer y Strategy</span>
+  <h2>Dar ejemplos, dibujar Observer y decir sus ventajas</h2>
+  <div class="enunciado">
+    <p>
+      <strong>Guía N°3, ejercicio 1.</strong> Mencione 3 ejemplos donde implementaría el patrón de
+      comportamiento Observer y 3 ejemplos para el patrón de comportamiento Strategy.
+    </p>
+    <p>
+      <strong>Guía N°3, ejercicio 2.</strong> Realice el diagrama correspondiente para representar
+      el patrón observer, identifique cada elemento del patrón y mencione cuáles son las ventajas
+      de implementar dicho patrón.
+    </p>
+  </div>
+  <p>
+    Son preguntas de teoría, del mismo tipo que la del parcial 2024 sobre Singleton ("dar una breve
+    descripción de su usabilidad y mencione 2 ejemplos").
+  </p>
+
+  <span class="paso">Paso 1 &mdash; Cómo armar un ejemplo que valga</span>
+  <p>
+    Un ejemplo sirve si se le ven las partes del patrón. Para no dar ejemplos vagos, conviene
+    decirlos con esta forma:
+  </p>
+  <ul>
+    <li><strong>Observer:</strong> "cuando <em>pasa tal cosa</em> en <em>tal objeto</em>, se les avisa a <em>tales otros</em>".</li>
+    <li><strong>Strategy:</strong> "<em>tal tarea</em> se puede hacer de <em>estas formas</em>, y se elige según <em>tal cosa</em>".</li>
+  </ul>
+
+  <span class="paso">Paso 2 &mdash; Tres ejemplos de Observer</span>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Ejemplo</th><th>Notificador</th><th>Suscriptores</th></tr>
+      <tr><td>Una tienda en línea avisa a los clientes interesados cuando vuelve a haber stock de un producto.</td><td>El producto (o la tienda)</td><td>Los clientes anotados</td></tr>
+      <tr><td>En un sistema de expedientes, cada vez que se realiza un movimiento se manda una alerta al administrador y se registra en una tabla de auditoría.</td><td>El movimiento</td><td>La alerta al administrador y el registro de auditoría</td></tr>
+      <tr><td>En una interfaz gráfica, cuando el usuario hace clic en un botón se ejecuta todo el código que se anotó para ese clic.</td><td>El botón</td><td>Las funciones o clases que escuchan el clic</td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Paso 3 &mdash; Tres ejemplos de Strategy</span>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Ejemplo</th><th>Contexto</th><th>Estrategias</th></tr>
+      <tr><td>Una aplicación de mapas calcula la ruta en auto, a pie o en transporte público, según lo que elija el usuario.</td><td>El navegador</td><td>Ruta en auto, a pie, en transporte público</td></tr>
+      <tr><td>Una tienda calcula el costo de envío de distintas formas según el medio elegido (correo, moto, retiro en sucursal).</td><td>El pedido</td><td>Envío por correo, por moto, retiro</td></tr>
+      <tr><td>Un sistema ordena una lista de menor a mayor o de mayor a menor según la opción elegida.</td><td>El listado</td><td>Orden ascendente, orden descendente</td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Paso 4 &mdash; El diagrama de Observer con sus elementos</span>
+  <div class="pd-grafico uml" data-g="observer">
+    <svg viewBox="-14 -14 759 267" width="759" height="267" role="img" aria-label="Estructura del patrón Observer">
+      <polyline class="linea" points="255,57.5 337.5,57.5 337.5,57.5 420,57.5"/>
+      <polygon class="hueca" points="237,57.5 246,51.5 255,57.5 246,63.5"/>
+      <text class="rotulo" x="398" y="51.5" text-anchor="middle">*</text>
+      <polyline class="linea punteada" points="425.5,180 425.5,144 515.5,144 515.5,108"/>
+      <polygon class="hueca" points="515.5,95 522.5,108 508.5,108"/>
+      <polyline class="linea punteada" points="635.5,180 635.5,144 515.5,144 515.5,108"/>
+      <polygon class="hueca" points="515.5,95 522.5,108 508.5,108"/>
+      <rect class="caja destacada" x="0" y="0" width="237" height="126" rx="3"/>
+      <text class="nombre" x="118.5" y="20">Notificador</text>
+      <line class="div" x1="0" y1="30" x2="237" y2="30"/>
+      <text class="miembro" x="10" y="48">- suscriptores: Suscriptor[]</text>
+      <line class="div" x1="0" y1="59" x2="237" y2="59"/>
+      <text class="miembro" x="10" y="77">+ suscribir(s: Suscriptor)</text>
+      <text class="miembro" x="10" y="96">+ desuscribir(s: Suscriptor)</text>
+      <text class="miembro" x="10" y="115">+ notificar()</text>
+      <rect class="caja" x="420" y="20" width="191" height="75" rx="3"/>
+      <text class="estereo" x="515.5" y="36">&#171;interface&#187;</text>
+      <text class="nombre" x="515.5" y="55">Suscriptor</text>
+      <line class="div" x1="420" y1="66" x2="611" y2="66"/>
+      <text class="miembro" x="430" y="84">+ actualizar(contexto)</text>
+      <rect class="caja" x="330" y="180" width="191" height="59" rx="3"/>
+      <text class="nombre" x="425.5" y="200">SuscriptorConcretoA</text>
+      <line class="div" x1="330" y1="210" x2="521" y2="210"/>
+      <text class="miembro" x="340" y="228">+ actualizar(contexto)</text>
+      <rect class="caja" x="540" y="180" width="191" height="59" rx="3"/>
+      <text class="nombre" x="635.5" y="200">SuscriptorConcretoB</text>
+      <line class="div" x1="540" y1="210" x2="731" y2="210"/>
+      <text class="miembro" x="550" y="228">+ actualizar(contexto)</text>
+    </svg>
+  </div>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Elemento</th><th>Qué es</th></tr>
+      <tr><td class="lbl">Notificador (sujeto)</td><td>El objeto observado. Guarda la lista de suscriptores y tiene los métodos para suscribir, desuscribir y notificar.</td></tr>
+      <tr><td class="lbl">Suscriptor (observador)</td><td>La interfaz que cumplen todos los que quieren ser avisados, con el método <code>actualizar()</code>.</td></tr>
+      <tr><td class="lbl">Suscriptores concretos</td><td>Las clases que implementan <code>actualizar()</code> y hacen algo al recibir el aviso.</td></tr>
+      <tr><td class="lbl">Cliente</td><td>Crea los objetos y registra a los suscriptores en el notificador.</td></tr>
+    </table>
+  </div>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Ventajas de Observer</span>
+    <ul>
+      <li>
+        <strong>Principio de abierto/cerrado:</strong> se pueden agregar nuevas clases suscriptoras
+        sin cambiar el código del notificador.
+      </li>
+      <li>
+        Las relaciones entre objetos se establecen <strong>en tiempo de ejecución</strong>: un
+        objeto se suscribe o se da de baja mientras el programa corre.
+      </li>
+      <li>
+        El notificador <strong>no depende</strong> de las clases concretas a las que avisa (bajo
+        acoplamiento): solo conoce la interfaz.
+      </li>
+    </ul>
+    <p>Si piden también la desventaja: los suscriptores son notificados en un orden aleatorio.</p>
+  </div>
+</div>

@@ -1,0 +1,460 @@
+<div class="bloque" data-examen="igual"
+     data-examen-ref="Parcial 2024 · ej. 3 y Parcial 2025 · Práctica 1"
+     data-examen-nota="2024: aplicarlo sobre el diagrama de la farmacia (ejemplo 2). 2025: reconocerlo en el tercer párrafo de Muebles Express (ejemplo 3).">
+  <p class="kicker">Comportamiento</p>
+  <h2>1. Observer</h2>
+  <p>
+    También llamado <strong>Observador</strong>, <strong>Publicación-Suscripción</strong>,
+    <strong>Event-Subscriber</strong> o <strong>Listener</strong>.
+  </p>
+
+  <h3>Para qué sirve</h3>
+  <p>El problema, con el ejemplo del apunte: un <strong>cliente</strong> espera que llegue un producto a una <strong>tienda</strong>.</p>
+  <ul>
+    <li>
+      Si el cliente <strong>va todos los días a preguntar</strong>, pierde el tiempo: casi todos los
+      viajes son en vano.
+    </li>
+    <li>
+      Si la tienda <strong>les manda un mail a todos</strong> cada vez que llega algo, molesta a los
+      que no les interesa.
+    </li>
+  </ul>
+  <p>
+    La salida es una <strong>lista de suscripción</strong>: el que quiere enterarse se anota, la
+    tienda les avisa <strong>solo a los anotados</strong>, y el que ya no quiere se borra.
+  </p>
+  <p>En el patrón, los dos papeles tienen nombre:</p>
+  <ul>
+    <li>
+      el <strong>notificador</strong> (también <em>sujeto</em> o <em>publicador</em>; en los códigos,
+      <code>Subject</code>): el objeto al que le pasan cosas interesantes;
+    </li>
+    <li>
+      los <strong>suscriptores</strong> (también <em>observadores</em>; en los códigos,
+      <code>Observer</code>): los objetos que quieren enterarse.
+    </li>
+  </ul>
+  <p>
+    <strong>Analogía del apunte:</strong> la suscripción a una revista. No se va al kiosco a ver si
+    salió el número nuevo: la editorial tiene la lista de suscriptores y se lo manda a cada uno, y
+    cualquiera puede darse de baja cuando quiera.
+  </p>
+
+  <div class="caja caja-formula">
+    <span class="caja-tit">Propósito</span>
+    <p>
+      Observer es un patrón de <strong>comportamiento</strong> que permite definir un
+      <strong>mecanismo de suscripción</strong> para <strong>notificar a varios objetos</strong>
+      sobre cualquier evento que le suceda al objeto que están observando.
+    </p>
+  </div>
+
+  <h3>La idea de la solución</h3>
+  <p>El mecanismo de suscripción son dos cosas dentro del notificador:</p>
+  <ol>
+    <li>una <strong>lista</strong> donde guarda a los suscriptores;</li>
+    <li>
+      métodos públicos para <strong>agregar</strong> y <strong>quitar</strong> suscriptores de esa
+      lista, más uno que <strong>recorre la lista avisándole a cada uno</strong>.
+    </li>
+  </ol>
+  <p>
+    Para que el notificador pueda avisarles a objetos de clases muy distintas sin conocerlas, todos
+    los suscriptores cumplen <strong>una misma interfaz</strong>, con un solo método: el que el
+    notificador llama para avisar.
+  </p>
+
+  <h3>Estructura</h3>
+  <div class="pd-grafico uml" data-g="observer">
+    <svg viewBox="-14 -14 759 267" width="759" height="267" role="img" aria-label="Estructura del patrón Observer">
+      <polyline class="linea" points="255,57.5 337.5,57.5 337.5,57.5 420,57.5"/>
+      <polygon class="hueca" points="237,57.5 246,51.5 255,57.5 246,63.5"/>
+      <text class="rotulo" x="398" y="51.5" text-anchor="middle">*</text>
+      <polyline class="linea punteada" points="425.5,180 425.5,144 515.5,144 515.5,108"/>
+      <polygon class="hueca" points="515.5,95 522.5,108 508.5,108"/>
+      <polyline class="linea punteada" points="635.5,180 635.5,144 515.5,144 515.5,108"/>
+      <polygon class="hueca" points="515.5,95 522.5,108 508.5,108"/>
+      <rect class="caja destacada" x="0" y="0" width="237" height="126" rx="3"/>
+      <text class="nombre" x="118.5" y="20">Notificador</text>
+      <line class="div" x1="0" y1="30" x2="237" y2="30"/>
+      <text class="miembro" x="10" y="48">- suscriptores: Suscriptor[]</text>
+      <line class="div" x1="0" y1="59" x2="237" y2="59"/>
+      <text class="miembro" x="10" y="77">+ suscribir(s: Suscriptor)</text>
+      <text class="miembro" x="10" y="96">+ desuscribir(s: Suscriptor)</text>
+      <text class="miembro" x="10" y="115">+ notificar()</text>
+      <rect class="caja" x="420" y="20" width="191" height="75" rx="3"/>
+      <text class="estereo" x="515.5" y="36">&#171;interface&#187;</text>
+      <text class="nombre" x="515.5" y="55">Suscriptor</text>
+      <line class="div" x1="420" y1="66" x2="611" y2="66"/>
+      <text class="miembro" x="430" y="84">+ actualizar(contexto)</text>
+      <rect class="caja" x="330" y="180" width="191" height="59" rx="3"/>
+      <text class="nombre" x="425.5" y="200">SuscriptorConcretoA</text>
+      <line class="div" x1="330" y1="210" x2="521" y2="210"/>
+      <text class="miembro" x="340" y="228">+ actualizar(contexto)</text>
+      <rect class="caja" x="540" y="180" width="191" height="59" rx="3"/>
+      <text class="nombre" x="635.5" y="200">SuscriptorConcretoB</text>
+      <line class="div" x1="540" y1="210" x2="731" y2="210"/>
+      <text class="miembro" x="550" y="228">+ actualizar(contexto)</text>
+    </svg>
+  </div>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Parte</th><th>Qué es</th><th>En el ejemplo de la tienda</th></tr>
+      <tr><td class="lbl">Notificador (<em>Publisher</em> / <em>Subject</em>)</td><td>El objeto observado. Guarda la <strong>lista de suscriptores</strong> y tiene los métodos para suscribir, desuscribir y notificar. Cuando le pasa algo, llama a <code>notificar()</code>.</td><td><code>Tienda</code></td></tr>
+      <tr><td class="lbl">Suscriptor (<em>Subscriber</em> / <em>Observer</em>)</td><td>La <strong>interfaz</strong> de los que quieren enterarse. Tiene un método, <code>actualizar()</code> (en los códigos, <code>Update</code>).</td><td><code>Suscriptor</code></td></tr>
+      <tr><td class="lbl">Suscriptores Concretos</td><td>Cada clase que reacciona al aviso, a su manera.</td><td><code>Cliente</code></td></tr>
+      <tr><td class="lbl">Cliente</td><td>El código que crea a unos y otros y anota a los suscriptores en el notificador.</td><td><code>main</code></td></tr>
+    </table>
+  </div>
+  <p>Cómo dibujarlo de memoria:</p>
+  <ul>
+    <li>A la izquierda el <strong>Notificador</strong>, con la lista y sus <strong>tres métodos</strong>: suscribir, desuscribir, notificar.</li>
+    <li>Un <strong>rombo vacío</strong> del Notificador a la interfaz <strong>Suscriptor</strong>, con un <code>*</code>: tiene muchos.</li>
+    <li>Debajo de la interfaz, los <strong>suscriptores concretos</strong>, con línea punteada.</li>
+  </ul>
+  <p>
+    En los códigos de la cátedra el notificador también tiene su interfaz (<code>ISubject</code>),
+    con la clase concreta debajo. Es opcional: el patrón es el mismo.
+  </p>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; En C++: la tienda avisa cuando llega un producto</h3>
+  <div class="pd-grafico uml" data-g="observer-tienda">
+    <svg viewBox="-14 -14 727 316" width="727" height="316" role="img" aria-label="Observer en el ejemplo de la tienda">
+      <polyline class="linea" points="308,67.5 374,67.5 374,67.5 440,67.5"/>
+      <polygon class="hueca" points="290,67.5 299,61.5 308,67.5 299,73.5"/>
+      <text class="rotulo" x="418" y="61.5" text-anchor="middle">*</text>
+      <polyline class="linea punteada" points="577,200 577,159 562,159 562,118"/>
+      <polygon class="hueca" points="562,105 569,118 555,118"/>
+      <rect class="caja destacada" x="0" y="0" width="290" height="145" rx="3"/>
+      <text class="nombre" x="145" y="20">Tienda</text>
+      <line class="div" x1="0" y1="30" x2="290" y2="30"/>
+      <text class="miembro" x="10" y="48">- suscriptores_: list&lt;Suscriptor*&gt;</text>
+      <line class="div" x1="0" y1="59" x2="290" y2="59"/>
+      <text class="miembro" x="10" y="77">+ suscribir(s: Suscriptor*)</text>
+      <text class="miembro" x="10" y="96">+ desuscribir(s: Suscriptor*)</text>
+      <text class="miembro" x="10" y="115">+ notificar(novedad: string)</text>
+      <text class="miembro" x="10" y="134">+ recibirProducto(producto: string)</text>
+      <rect class="caja" x="440" y="30" width="244" height="75" rx="3"/>
+      <text class="estereo" x="562" y="46">&#171;interface&#187;</text>
+      <text class="nombre" x="562" y="65">Suscriptor</text>
+      <line class="div" x1="440" y1="76" x2="684" y2="76"/>
+      <text class="miembro" x="450" y="94">+ actualizar(novedad: string)</text>
+      <rect class="caja" x="455" y="200" width="244" height="88" rx="3"/>
+      <text class="nombre" x="577" y="220">Cliente</text>
+      <line class="div" x1="455" y1="230" x2="699" y2="230"/>
+      <text class="miembro" x="465" y="248">- nombre_: string</text>
+      <line class="div" x1="455" y1="259" x2="699" y2="259"/>
+      <text class="miembro" x="465" y="277">+ actualizar(novedad: string)</text>
+    </svg>
+  </div>
+
+  <pre class="codigo"><code>#include &lt;iostream&gt;
+#include &lt;list&gt;
+#include &lt;string&gt;
+
+class Suscriptor {
+ public:
+  virtual ~Suscriptor() {}
+  virtual void actualizar(std::string novedad) = 0;
+};
+
+class Tienda {
+ private:
+  std::list&lt;Suscriptor*&gt; suscriptores_;
+
+ public:
+  void suscribir(Suscriptor* s) {
+    suscriptores_.push_back(s);
+  }
+
+  void desuscribir(Suscriptor* s) {
+    suscriptores_.remove(s);
+  }
+
+  void notificar(std::string novedad) {
+    for (Suscriptor* s : suscriptores_) {
+      s-&gt;actualizar(novedad);
+    }
+  }
+
+  void recibirProducto(std::string producto) {
+    std::cout &lt;&lt; "Tienda: llego " &lt;&lt; producto &lt;&lt; "\n";
+    notificar(producto);
+  }
+};
+
+class Cliente : public Suscriptor {
+ private:
+  std::string nombre_;
+
+ public:
+  Cliente(std::string nombre) : nombre_(nombre) {}
+
+  void actualizar(std::string novedad) override {
+    std::cout &lt;&lt; nombre_ &lt;&lt; " se entero de que llego " &lt;&lt; novedad &lt;&lt; "\n";
+  }
+};
+
+int main() {
+  Tienda tienda;
+  Cliente* ana = new Cliente("Ana");
+  Cliente* luis = new Cliente("Luis");
+
+  tienda.suscribir(ana);
+  tienda.suscribir(luis);
+  tienda.recibirProducto("el celular nuevo");
+
+  tienda.desuscribir(luis);
+  tienda.recibirProducto("la tablet nueva");
+
+  delete ana;
+  delete luis;
+  return 0;
+}</code></pre>
+
+  <h4>Qué hace cada línea</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Cómo quedan los datos</th></tr>
+      <tr><td><code>class Suscriptor { ... actualizar(...) = 0; };</code></td><td>La interfaz <strong>Suscriptor</strong>: quien quiera enterarse tiene que tener <code>actualizar()</code>.</td><td>&mdash;</td></tr>
+      <tr><td><code>std::list&lt;Suscriptor*&gt; suscriptores_;</code></td><td>La lista de anotados, dentro de <code>Tienda</code> (el <strong>Notificador</strong>). Es de punteros a la interfaz: la tienda no sabe qué clase es cada uno. <strong>Es el rombo del diagrama.</strong></td><td>&mdash;</td></tr>
+      <tr><td><code>void suscribir(Suscriptor* s) { suscriptores_.push_back(s); }</code></td><td>Anota a uno en la lista.</td><td>&mdash;</td></tr>
+      <tr><td><code>void desuscribir(Suscriptor* s) { suscriptores_.remove(s); }</code></td><td>Lo saca de la lista.</td><td>&mdash;</td></tr>
+      <tr><td><code>void notificar(...) { for (Suscriptor* s : suscriptores_) { s-&gt;actualizar(novedad); } }</code></td><td><strong>El corazón del patrón:</strong> recorre la lista y le llama <code>actualizar()</code> a cada anotado.</td><td>&mdash;</td></tr>
+      <tr><td><code>void recibirProducto(...) { ...; notificar(producto); }</code></td><td>Lo que hace la tienda en su trabajo normal. Al final, <strong>avisa</strong>.</td><td>&mdash;</td></tr>
+      <tr><td><code>class Cliente : public Suscriptor { ... actualizar(...) override ... }</code></td><td>Un <strong>Suscriptor Concreto</strong>: dice qué hace cuando le avisan.</td><td>&mdash;</td></tr>
+      <tr><td><code>tienda.suscribir(ana);</code><br><code>tienda.suscribir(luis);</code></td><td>Los dos se anotan.</td><td>suscriptores_: [Ana, Luis]</td></tr>
+      <tr><td><code>tienda.recibirProducto("el celular nuevo");</code></td><td>La tienda recibe el producto y notifica: le avisa a Ana y a Luis, en ese orden.</td><td>sin cambios</td></tr>
+      <tr><td><code>tienda.desuscribir(luis);</code></td><td>Luis se borra.</td><td>suscriptores_: [Ana]</td></tr>
+      <tr><td><code>tienda.recibirProducto("la tablet nueva");</code></td><td>La misma llamada; ahora solo le avisa a Ana.</td><td>sin cambios</td></tr>
+    </table>
+  </div>
+
+  <h4>Qué imprime y por qué</h4>
+  <pre class="salida">Tienda: llego el celular nuevo
+Ana se entero de que llego el celular nuevo
+Luis se entero de que llego el celular nuevo
+Tienda: llego la tablet nueva
+Ana se entero de que llego la tablet nueva</pre>
+  <p>
+    <code>main</code> nunca llamó a <code>actualizar()</code>: lo llamó la tienda, sola, al recibir
+    el producto. Y <code>Tienda</code> no nombra a <code>Cliente</code> en ningún lado: mañana se
+    puede anotar un <code>Proveedor</code> o un <code>RegistroDeStock</code> sin tocarla.
+  </p>
+
+  <h3>Cómo reconocerlo</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Dónde</th><th>Qué lo delata</th></tr>
+      <tr><td class="lbl">En un enunciado</td><td>Un hecho que <strong>dispara avisos automáticos</strong> a otros: "<strong>cada vez que</strong> se imprima un lote, <strong>se envíe una alerta</strong> al farmacéutico", "cada vez que se realice un movimiento, se envíe una alerta al administrador y se registre este suceso en una tabla de auditoría", "cuando se modifique el contenido del archivo, <strong>automáticamente se invoquen</strong> a los 3 exportadores", "el sistema <strong>notifica automáticamente</strong> al cliente", "el cliente puede <strong>suscribirse</strong> para recibir actualizaciones". Y si agrega "es deseable a futuro implementar <strong>nuevos mecanismos de alerta</strong>", lo confirma: son suscriptores nuevos.</td></tr>
+      <tr><td class="lbl">En un código</td><td>
+        <ol>
+          <li>una clase con una <strong>lista de punteros a una interfaz</strong> (<code>std::list&lt;IObserver*&gt;</code>);</li>
+          <li>tres métodos en esa clase: <strong><code>Attach</code></strong>, <strong><code>Detach</code></strong> y <strong><code>Notify</code></strong> (agregar, quitar, avisar);</li>
+          <li><code>Notify</code> es un <strong>bucle que llama al mismo método en cada elemento</strong> de la lista: <code>Update</code>;</li>
+          <li>la interfaz de la lista tiene <strong>un solo método</strong>, <code>Update</code>, y las clases que la cumplen <strong>se anotan solas</strong> en el notificador (<code>subject_.Attach(this)</code>).</li>
+        </ol>
+      </td></tr>
+    </table>
+  </div>
+
+  <h3>Ventajas y desventajas</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Ventajas</th><th>Desventajas</th></tr>
+      <tr>
+        <td>
+          <ul>
+            <li><strong>Principio de abierto/cerrado:</strong> se agregan clases suscriptoras nuevas sin cambiar el código del notificador (y al revés, si el notificador tiene interfaz).</li>
+            <li>Se pueden establecer relaciones entre objetos <strong>durante la ejecución</strong>: suscribirse y desuscribirse mientras el programa corre.</li>
+          </ul>
+        </td>
+        <td>
+          <ul>
+            <li>Los suscriptores son notificados en un <strong>orden aleatorio</strong>: no se puede contar con que uno se entere antes que otro.</li>
+          </ul>
+        </td>
+      </tr>
+    </table>
+  </div>
+
+  <h3>Dónde se usa</h3>
+  <ul>
+    <li>Cuando los cambios en un objeto pueden requerir cambiar otros, y <strong>no se sabe de antemano cuáles ni cuántos</strong>, o cambian mientras el programa corre.</li>
+    <li><strong>Interfaces gráficas</strong> (el ejemplo del apunte): un botón avisa a todo el código que se "colgó" de él cuando el usuario hace clic.</li>
+    <li><strong>Alertas y auditoría</strong>: cuando pasa algo, mandar un mail y dejar asentado el suceso en un registro.</li>
+    <li><strong>Notificaciones a usuarios</strong> suscriptos: el estado de un pedido, una novedad de la tienda.</li>
+  </ul>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; Con formato de parcial: aplicarlo sobre un diagrama</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Parcial 2024 &middot; ejercicio 3 (segunda parte)</span>
+    <p>
+      "En el siguiente diagrama que pertenece a una aplicación farmacéutica, se solicita modelar:
+      (...) Se necesita implementar mecanismos para la emisión de lotes de medicamentos, para esto
+      es necesario que cada vez que se imprima un lote, se envíe una alerta al farmacéutico y este
+      registra el suceso en una tabla de lotes."
+    </p>
+  </div>
+  <p>
+    El diagrama original (Usuario, Cliente, Farmacéutico, Medicamento) está leído en la Unidad 0,
+    sección 2.
+  </p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase del enunciado</th><th>Qué significa</th><th>Parte del patrón</th></tr>
+      <tr><td>"<strong>cada vez que</strong> se imprima un lote"</td><td>El hecho que dispara el aviso. <code>imprimirlote()</code> es un método de <code>Medicamento</code></td><td><strong>Notificador</strong>: <code>Medicamento</code></td></tr>
+      <tr><td>"<strong>se envíe una alerta</strong> al farmacéutico"</td><td>Alguien tiene que enterarse solo</td><td><strong>Suscriptor Concreto</strong>: <code>Farmaceutico</code></td></tr>
+      <tr><td>"y este registra el suceso en una tabla de lotes"</td><td>Lo que hace el suscriptor cuando le avisan</td><td>El cuerpo de su <code>actualizar()</code></td></tr>
+    </table>
+  </div>
+  <p>Qué se agrega al diagrama:</p>
+  <ol>
+    <li>Una interfaz <code>Observador</code> con <code>actualizar(lote)</code>.</li>
+    <li>
+      En <code>Medicamento</code>: la lista <code>observadores</code> y los métodos
+      <code>suscribir()</code>, <code>desuscribir()</code> y <code>notificar()</code>. Su
+      <code>imprimirlote()</code>, al terminar, llama a <code>notificar()</code>.
+    </li>
+    <li>
+      <code>Farmaceutico</code> cumple <code>Observador</code>: se le agregan
+      <code>actualizar(lote)</code> y <code>registrarEnTablaDeLotes(lote)</code>.
+    </li>
+  </ol>
+  <div class="pd-grafico uml" data-g="observer-farmacia">
+    <svg viewBox="-14 -14 670 463" width="670" height="463" role="img" aria-label="Observer sobre el diagrama de la aplicación farmacéutica">
+      <polyline class="linea" points="76.5,270 76.5,223.5 175,223.5 175,177"/>
+      <polygon class="hueca" points="175,164 182,177 168,177"/>
+      <polyline class="linea" points="237,270 237,223.5 175,223.5 175,177"/>
+      <polygon class="hueca" points="175,164 182,177 168,177"/>
+      <polyline class="linea" points="240,32 330,32 330,35 420,35"/>
+      <polyline class="linea" points="531,296 531,328 543,328 543,360"/>
+      <polygon class="hueca" points="531,278 537,287 531,296 525,287"/>
+      <text class="rotulo" x="551" y="342" text-anchor="middle">*</text>
+      <polyline class="linea punteada" points="419,373 438,373 438,397.5 457,397.5"/>
+      <polygon class="hueca" points="470,397.5 457,404.5 457,390.5"/>
+      <rect class="caja" x="110" y="0" width="130" height="164" rx="3"/>
+      <text class="nombre" x="175" y="20">Usuario</text>
+      <line class="div" x1="110" y1="30" x2="240" y2="30"/>
+      <text class="miembro" x="120" y="48">nombre</text>
+      <text class="miembro" x="120" y="67">Telefono</text>
+      <text class="miembro" x="120" y="86">Direccion</text>
+      <line class="div" x1="110" y1="97" x2="240" y2="97"/>
+      <text class="miembro" x="120" y="115">get nombre()</text>
+      <text class="miembro" x="120" y="134">get telefono()</text>
+      <text class="miembro" x="120" y="153">set telefono()</text>
+      <rect class="caja destacada" x="420" y="0" width="222" height="278" rx="3"/>
+      <text class="nombre" x="531" y="20">Medicamento</text>
+      <line class="div" x1="420" y1="30" x2="642" y2="30"/>
+      <text class="miembro" x="430" y="48">Serial</text>
+      <text class="miembro" x="430" y="67">Nombre</text>
+      <text class="miembro" x="430" y="86">Lote</text>
+      <text class="miembro" x="430" y="105">Posologia</text>
+      <text class="miembro" x="430" y="124">Presentacion</text>
+      <text class="miembro" x="430" y="143">observadores: Observador[]</text>
+      <line class="div" x1="420" y1="154" x2="642" y2="154"/>
+      <text class="miembro" x="430" y="172">validarmedicacion()</text>
+      <text class="miembro" x="430" y="191">imprimirlote()</text>
+      <text class="miembro" x="430" y="210">imprimiretiqueta()</text>
+      <text class="miembro" x="430" y="229">suscribir(o: Observador)</text>
+      <text class="miembro" x="430" y="248">desuscribir(o: Observador)</text>
+      <text class="miembro" x="430" y="267">notificar()</text>
+      <rect class="caja" x="0" y="270" width="153" height="126" rx="3"/>
+      <text class="nombre" x="76.5" y="290">Cliente</text>
+      <line class="div" x1="0" y1="300" x2="153" y2="300"/>
+      <text class="miembro" x="10" y="318">CUIT</text>
+      <text class="miembro" x="10" y="337">Razon Social</text>
+      <line class="div" x1="0" y1="348" x2="153" y2="348"/>
+      <text class="miembro" x="10" y="366">set razonsocial()</text>
+      <text class="miembro" x="10" y="385">get cuit()</text>
+      <rect class="caja destacada" x="175" y="270" width="244" height="126" rx="3"/>
+      <text class="nombre" x="297" y="290">Farmaceutico</text>
+      <line class="div" x1="175" y1="300" x2="419" y2="300"/>
+      <text class="miembro" x="185" y="318">Matricula</text>
+      <line class="div" x1="175" y1="329" x2="419" y2="329"/>
+      <text class="miembro" x="185" y="347">get matricula()</text>
+      <text class="miembro" x="185" y="366">actualizar(lote)</text>
+      <text class="miembro" x="185" y="385">registrarEnTablaDeLotes(lote)</text>
+      <rect class="caja destacada" x="470" y="360" width="146" height="75" rx="3"/>
+      <text class="estereo" x="543" y="376">&#171;interface&#187;</text>
+      <text class="nombre" x="543" y="395">Observador</text>
+      <line class="div" x1="470" y1="406" x2="616" y2="406"/>
+      <text class="miembro" x="480" y="424">actualizar(lote)</text>
+    </svg>
+  </div>
+  <p>
+    <strong>Justificación:</strong> "Se aplica <strong>Observer</strong>, porque cada vez que se
+    imprime un lote hay que avisarle automáticamente al farmacéutico. <code>Medicamento</code> es el
+    notificador: mantiene una lista de observadores y los notifica al imprimir un lote.
+    <code>Farmaceutico</code> implementa la interfaz <code>Observador</code> y al recibir el aviso
+    registra el suceso en la tabla de lotes. Si después hay que avisarle a alguien más, se agrega
+    otro observador sin modificar <code>Medicamento</code>."
+  </p>
+  <p>
+    La primera parte del mismo ejercicio (<code>GestorUsuarios</code>, "una sola instancia") es
+    Singleton y está en la Unidad 4A, sección 1. En la hoja van los dos sobre el mismo diagrama.
+  </p>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 3 &mdash; Con formato de parcial: reconocerlo en un enunciado</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Parcial 2025 &middot; Práctica 1 (tercer párrafo)</span>
+    <p>
+      "Cuando la fabricación del mueble se completa, el sistema notifica automáticamente al cliente
+      a través de correo electrónico o mensajes en la plataforma web, informándole que su pedido
+      está listo para ser enviado o retirado. Además, el cliente puede suscribirse para recibir
+      actualizaciones sobre el estado de su pedido en tiempo real, de manera que cualquier cambio
+      relevante &mdash;como retrasos, avances en la producción o confirmación de despacho&mdash; se
+      comunique de forma inmediata y automática."
+    </p>
+  </div>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase del enunciado</th><th>Qué significa</th><th>Parte del patrón</th></tr>
+      <tr><td>"el sistema <strong>notifica automáticamente</strong> al cliente"</td><td>Un aviso que sale solo cuando pasa algo</td><td><strong>Notificador</strong>: el <code>Pedido</code></td></tr>
+      <tr><td>"el cliente puede <strong>suscribirse</strong> para recibir actualizaciones"</td><td>La palabra del propósito: mecanismo de suscripción</td><td><strong>Suscriptor</strong>: el <code>Cliente</code></td></tr>
+      <tr><td>"a través de correo electrónico o mensajes en la plataforma web"</td><td>Distintas formas de reaccionar al aviso</td><td><strong>Suscriptores Concretos</strong>: <code>AvisoPorCorreo</code>, <code>AvisoPorWeb</code></td></tr>
+      <tr><td>"<strong>cualquier cambio</strong> relevante (...) se comunique de forma inmediata y automática"</td><td>Cada cambio de estado dispara <code>notificar()</code></td><td>&mdash;</td></tr>
+    </table>
+  </div>
+  <p>
+    <strong>Respuesta:</strong> "Para los avisos usaría <strong>Observer</strong>. El enunciado dice
+    que el cliente puede suscribirse y que cualquier cambio en el estado del pedido se le comunica
+    automáticamente. El pedido es el notificador, que guarda la lista de suscriptores, y los
+    clientes (por correo o por la web) son los suscriptores que reciben la actualización. Se pueden
+    agregar nuevos medios de aviso sin modificar el pedido."
+  </p>
+
+  <h3>Errores y trampas</h3>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Quién llama a quién</span>
+    <p>
+      El suscriptor <strong>no pregunta</strong>: es el notificador el que lo llama. Si en la
+      solución una clase "consulta cada tanto si hubo cambios", no es Observer; es el problema que
+      Observer viene a resolver.
+    </p>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">La lista es de la interfaz, no de una clase concreta</span>
+    <p>
+      Si <code>Medicamento</code> guardara directamente "un Farmaceutico", funcionaría para este
+      caso pero no habría patrón: no se podría sumar otro tipo de observador sin modificarlo.
+    </p>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Con qué se confunde</span>
+    <p>
+      Con <strong>Composite</strong>, porque los dos tienen una clase con una lista y un bucle que
+      llama al mismo método en cada elemento. En Composite la lista es <strong>del mismo tipo que
+      la clase que la tiene</strong> (por eso hay árbol) y el resultado <strong>vuelve</strong>
+      (se suma, se junta). En Observer la lista es de <strong>otra</strong> interfaz, y solo se
+      <strong>avisa</strong>: no se espera respuesta.
+    </p>
+  </div>
+</div>

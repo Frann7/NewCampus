@@ -1,0 +1,100 @@
+<div class="ej">
+  <span class="tag">Ejercicio 5 &middot; Strategy</span>
+  <h2>Reconocer el patrón en un diagrama: el coche y sus frenos</h2>
+  <div class="enunciado">
+    <p>
+      <strong>Patrones de Diseño Parte 2, ejercicio 4.</strong> Diga qué patrón se está utilizando
+      en este ejemplo e indique cuáles son las partes de la estructura del patrón.
+    </p>
+  </div>
+  <div class="pd-grafico uml" data-g="p-coche">
+    <svg viewBox="-14 -14 648 258" width="648" height="258" role="img" aria-label="Diagrama de la guía: Coche y IComportamientoFrenos">
+      <polyline class="linea" points="186,52.5 283,52.5 283,52.5 380,52.5"/>
+      <polygon class="hueca" points="168,52.5 177,46.5 186,52.5 177,58.5"/>
+      <polyline class="linea" points="63.5,200 63.5,169.5 114,169.5 114,139"/>
+      <polygon class="hueca" points="114,126 121,139 107,139"/>
+      <polyline class="linea" points="205,200 205,169.5 114,169.5 114,139"/>
+      <polygon class="hueca" points="114,126 121,139 107,139"/>
+      <polyline class="linea punteada" points="418,200 418,151.5 482.5,151.5 482.5,103"/>
+      <polygon class="hueca" points="482.5,90 489.5,103 475.5,103"/>
+      <polyline class="linea punteada" points="565,200 565,151.5 482.5,151.5 482.5,103"/>
+      <polygon class="hueca" points="482.5,90 489.5,103 475.5,103"/>
+      <rect class="caja" x="60" y="0" width="108" height="126" rx="3"/>
+      <text class="nombre" x="114" y="20">Coche</text>
+      <line class="div" x1="60" y1="30" x2="168" y2="30"/>
+      <text class="miembro" x="70" y="48">- largo</text>
+      <text class="miembro" x="70" y="67">- ancho</text>
+      <text class="miembro" x="70" y="86">- color</text>
+      <line class="div" x1="60" y1="97" x2="168" y2="97"/>
+      <text class="miembro" x="70" y="115">+ Frenado()</text>
+      <rect class="caja" x="380" y="15" width="205" height="75" rx="3"/>
+      <text class="estereo" x="482.5" y="31">&#171;Interface&#187;</text>
+      <text class="nombre" x="482.5" y="50">IComportamientoFrenos</text>
+      <line class="div" x1="380" y1="61" x2="585" y2="61"/>
+      <text class="miembro" x="390" y="79">+ Frenar()</text>
+      <rect class="caja" x="0" y="200" width="127" height="30" rx="3"/>
+      <text class="nombre" x="63.5" y="220">CocheAntiguo</text>
+      <rect class="caja" x="150" y="200" width="110" height="30" rx="3"/>
+      <text class="nombre" x="205" y="220">CocheNuevo</text>
+      <rect class="caja" x="350" y="200" width="136" height="30" rx="3"/>
+      <text class="nombre" x="418" y="220">FrenadoNormal</text>
+      <rect class="caja" x="510" y="200" width="110" height="30" rx="3"/>
+      <text class="nombre" x="565" y="220">FrenadoABS</text>
+    </svg>
+  </div>
+
+  <span class="paso">Paso 1 &mdash; Leer el diagrama</span>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Lo que se ve</th><th>Qué relación es</th><th>Cómo se lee</th></tr>
+      <tr><td><code>CocheAntiguo</code> y <code>CocheNuevo</code>, con triángulo y línea continua hacia <code>Coche</code></td><td>Herencia</td><td>Son tipos de coche</td></tr>
+      <tr><td><code>FrenadoNormal</code> y <code>FrenadoABS</code>, con triángulo y línea <strong>punteada</strong> hacia <code>IComportamientoFrenos</code></td><td>Realización</td><td>Son dos formas de cumplir la interfaz: dos formas de frenar</td></tr>
+      <tr><td>Un <strong>rombo vacío</strong> en <code>Coche</code>, con línea hasta la interfaz</td><td>Agregación</td><td>Un coche <strong>tiene un</strong> comportamiento de frenos</td></tr>
+      <tr><td><code>Coche</code> tiene <code>Frenado()</code>; la interfaz tiene <code>Frenar()</code></td><td>&mdash;</td><td>El coche, cuando frena, le pasa el trabajo a su comportamiento de frenos</td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Paso 2 &mdash; Reconocer la firma</span>
+  <p>
+    Una clase con un rombo hacia una interfaz que tiene variantes debajo puede ser Observer o
+    Strategy (Teoría, sección 3). Se decide mirando el rombo y los métodos:
+  </p>
+  <ul>
+    <li><strong>No hay <code>*</code></strong>: el coche tiene <strong>un</strong> comportamiento, no una lista.</li>
+    <li>La interfaz no tiene un <code>actualizar()</code> para recibir avisos: tiene <code>Frenar()</code>, que <strong>hace un trabajo</strong>.</li>
+    <li>Las variantes son <strong>dos formas de hacer lo mismo</strong>: frenar normal o con ABS.</li>
+  </ul>
+  <p>Es <strong>Strategy</strong>.</p>
+
+  <span class="paso">Paso 3 &mdash; Las partes</span>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Parte del patrón</th><th>En el diagrama</th></tr>
+      <tr><td class="lbl">Contexto</td><td><code>Coche</code> (y sus hijas <code>CocheAntiguo</code> y <code>CocheNuevo</code>, que heredan la estrategia)</td></tr>
+      <tr><td class="lbl">Estrategia</td><td><code>IComportamientoFrenos</code>, con <code>Frenar()</code></td></tr>
+      <tr><td class="lbl">Estrategias Concretas</td><td><code>FrenadoNormal</code> y <code>FrenadoABS</code></td></tr>
+    </table>
+  </div>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>
+      Es el patrón <strong>Strategy</strong>. <code>Coche</code> es el contexto: tiene una
+      referencia a <code>IComportamientoFrenos</code>, que es la interfaz estrategia, y su método
+      <code>Frenado()</code> le delega el trabajo llamando a <code>Frenar()</code>.
+      <code>FrenadoNormal</code> y <code>FrenadoABS</code> son las estrategias concretas. Así la
+      forma de frenar se puede cambiar o ampliar (un frenado nuevo) sin modificar las clases de
+      coche.
+    </p>
+  </div>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Por qué está armado así y no con herencia</span>
+    <p>
+      Sin el patrón, cada combinación sería una clase: coche antiguo con freno normal, coche nuevo
+      con ABS, coche nuevo con freno normal... Es el caso que nombra el apunte: "muchas clases
+      similares que sólo se diferencien en la forma en que ejecutan cierto comportamiento". Sacando
+      el frenado a su propia jerarquía, cualquier coche puede usar cualquier frenado.
+    </p>
+  </div>
+</div>

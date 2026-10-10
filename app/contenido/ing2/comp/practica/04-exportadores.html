@@ -1,0 +1,133 @@
+<div class="ej">
+  <span class="tag">Ejercicio 4 &middot; Observer</span>
+  <h2>Aplicar el patrón sobre un diagrama: el archivo y sus exportadores</h2>
+  <div class="enunciado">
+    <p>
+      <strong>Patrones de Diseño Parte 2, ejercicio 2.</strong> Se posee una clase Archivo, la cual
+      cuenta con los siguientes atributos: Nombre, Tamaño, Contenido. Además se cuentan ya con 3
+      tipos de clases, las cuales exportan a diferentes formatos (CSV, XLS, PDF). Se desea que
+      cuando se modifique el contenido del archivo, automáticamente se invoquen a los 3 exportadores
+      para publicar los cambios inmediatamente en el sistema.
+    </p>
+  </div>
+  <div class="pd-grafico uml" data-g="p-exportadores-antes">
+    <svg viewBox="-14 -14 744 188" width="744" height="188" role="img" aria-label="Diagrama original: Archivo suelto y Exportador con tres hijas">
+      <polyline class="linea" points="338,130 338,101 487.5,101 487.5,72"/>
+      <polygon class="hueca" points="487.5,59 494.5,72 480.5,72"/>
+      <polyline class="linea" points="487.5,130 487.5,101 487.5,101 487.5,72"/>
+      <polygon class="hueca" points="487.5,59 494.5,72 480.5,72"/>
+      <polyline class="linea" points="648,130 648,101 487.5,101 487.5,72"/>
+      <polygon class="hueca" points="487.5,59 494.5,72 480.5,72"/>
+      <rect class="caja" x="0" y="30" width="90" height="30" rx="3"/>
+      <text class="nombre" x="45" y="50">Archivo</text>
+      <rect class="caja" x="430" y="0" width="115" height="59" rx="3"/>
+      <text class="nombre abstracta" x="487.5" y="20">Exportador</text>
+      <line class="div" x1="430" y1="30" x2="545" y2="30"/>
+      <text class="miembro" x="440" y="48">+ exportar()</text>
+      <rect class="caja" x="270" y="130" width="136" height="30" rx="3"/>
+      <text class="nombre" x="338" y="150">ExportadorCSV</text>
+      <rect class="caja" x="425" y="130" width="136" height="30" rx="3"/>
+      <text class="nombre" x="493" y="150">ExportadorXLS</text>
+      <rect class="caja" x="580" y="130" width="136" height="30" rx="3"/>
+      <text class="nombre" x="648" y="150">ExportadorPDF</text>
+    </svg>
+  </div>
+
+  <span class="paso">Paso 1 &mdash; Desarme del enunciado</span>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase del enunciado</th><th>Qué significa</th><th>Parte del patrón</th></tr>
+      <tr><td>"<strong>cuando se modifique</strong> el contenido del archivo"</td><td>El hecho que dispara todo</td><td><strong>Notificador</strong>: <code>Archivo</code></td></tr>
+      <tr><td>"<strong>automáticamente se invoquen</strong> a los 3 exportadores"</td><td>Otros objetos tienen que enterarse y actuar, sin que nadie los llame a mano</td><td><strong>Suscriptores Concretos</strong>: <code>ExportadorCSV</code>, <code>ExportadorXLS</code>, <code>ExportadorPDF</code></td></tr>
+      <tr><td>"se cuentan ya con 3 tipos de clases"</td><td>En el diagrama ya comparten una clase base, <code>Exportador</code>, con <code>exportar()</code></td><td><strong>Suscriptor</strong>: <code>Exportador</code>. Su <code>exportar()</code> hace de <code>actualizar()</code></td></tr>
+    </table>
+  </div>
+  <p>
+    En el diagrama de la guía, <code>Archivo</code> está <strong>suelto</strong>: no tiene ninguna
+    línea hacia los exportadores. Unirlo es el ejercicio.
+  </p>
+
+  <span class="paso">Paso 2 &mdash; Qué se agrega</span>
+  <ol>
+    <li>
+      En <code>Archivo</code>: los tres atributos del enunciado, más la lista
+      <code>exportadores</code>.
+    </li>
+    <li>
+      En <code>Archivo</code>: <code>suscribir()</code>, <code>desuscribir()</code> y
+      <code>notificar()</code>, y el método donde ocurre el cambio,
+      <code>modificarContenido()</code>, que al terminar llama a <code>notificar()</code>.
+    </li>
+    <li>El rombo de <code>Archivo</code> a <code>Exportador</code>, con <code>*</code>.</li>
+  </ol>
+  <p>
+    La jerarquía de exportadores <strong>no cambia</strong>: ya tenía la forma de "interfaz
+    suscriptora con sus concretos". Media estructura del patrón venía hecha.
+  </p>
+
+  <span class="paso">Paso 3 &mdash; El diagrama</span>
+  <div class="pd-grafico uml" data-g="p-exportadores">
+    <svg viewBox="-14 -14 814 288" width="814" height="288" role="img" aria-label="Observer para que el Archivo avise a los exportadores">
+      <polyline class="linea" points="255,79.5 377.5,79.5 377.5,79.5 500,79.5"/>
+      <polygon class="hueca" points="237,79.5 246,73.5 255,79.5 246,85.5"/>
+      <text class="rotulo" x="478" y="73.5" text-anchor="middle">*</text>
+      <polyline class="linea" points="408,230 408,176 557.5,176 557.5,122"/>
+      <polygon class="hueca" points="557.5,109 564.5,122 550.5,122"/>
+      <polyline class="linea" points="557.5,230 557.5,176 557.5,176 557.5,122"/>
+      <polygon class="hueca" points="557.5,109 564.5,122 550.5,122"/>
+      <polyline class="linea" points="718,230 718,176 557.5,176 557.5,122"/>
+      <polygon class="hueca" points="557.5,109 564.5,122 550.5,122"/>
+      <rect class="caja destacada" x="0" y="0" width="237" height="202" rx="3"/>
+      <text class="nombre" x="118.5" y="20">Archivo</text>
+      <line class="div" x1="0" y1="30" x2="237" y2="30"/>
+      <text class="miembro" x="10" y="48">- nombre</text>
+      <text class="miembro" x="10" y="67">- tamanio</text>
+      <text class="miembro" x="10" y="86">- contenido</text>
+      <text class="miembro" x="10" y="105">- exportadores: Exportador[]</text>
+      <line class="div" x1="0" y1="116" x2="237" y2="116"/>
+      <text class="miembro" x="10" y="134">+ modificarContenido(nuevo)</text>
+      <text class="miembro" x="10" y="153">+ suscribir(e: Exportador)</text>
+      <text class="miembro" x="10" y="172">+ desuscribir(e: Exportador)</text>
+      <text class="miembro" x="10" y="191">+ notificar()</text>
+      <rect class="caja" x="500" y="50" width="115" height="59" rx="3"/>
+      <text class="nombre abstracta" x="557.5" y="70">Exportador</text>
+      <line class="div" x1="500" y1="80" x2="615" y2="80"/>
+      <text class="miembro" x="510" y="98">+ exportar()</text>
+      <rect class="caja" x="340" y="230" width="136" height="30" rx="3"/>
+      <text class="nombre" x="408" y="250">ExportadorCSV</text>
+      <rect class="caja" x="495" y="230" width="136" height="30" rx="3"/>
+      <text class="nombre" x="563" y="250">ExportadorXLS</text>
+      <rect class="caja" x="650" y="230" width="136" height="30" rx="3"/>
+      <text class="nombre" x="718" y="250">ExportadorPDF</text>
+    </svg>
+  </div>
+  <p>Cómo funciona, paso a paso:</p>
+  <ol>
+    <li>Al arrancar, los tres exportadores se anotan en el archivo con <code>suscribir()</code>.</li>
+    <li>Alguien llama a <code>modificarContenido(nuevo)</code>.</li>
+    <li>El archivo cambia su contenido y llama a <code>notificar()</code>.</li>
+    <li><code>notificar()</code> recorre la lista y le llama <code>exportar()</code> a cada uno.</li>
+  </ol>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>
+      Se aplica <strong>Observer</strong>, porque al modificarse el contenido del archivo tienen
+      que invocarse automáticamente los exportadores. <code>Archivo</code> es el notificador:
+      mantiene la lista de exportadores suscriptos y los notifica en
+      <code>modificarContenido()</code>. <code>Exportador</code> es la interfaz suscriptora y los
+      tres exportadores son los suscriptores concretos. Un formato nuevo (por ejemplo, JSON) se
+      agrega como otro exportador, sin modificar <code>Archivo</code>.
+    </p>
+  </div>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">La trampa: "exportan a diferentes formatos"</span>
+    <p>
+      Tres formas de exportar suena a Strategy. La diferencia está en el verbo: acá no se
+      <strong>elige una</strong> forma, se invocan <strong>las tres a la vez</strong>, y lo que el
+      enunciado pide resolver es el <strong>aviso automático</strong> cuando algo cambia. Si dijera
+      "el usuario elige en qué formato exportar", sería Strategy.
+    </p>
+  </div>
+</div>

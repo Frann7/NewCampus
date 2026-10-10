@@ -1,0 +1,338 @@
+<div class="bloque" data-examen="igual"
+     data-examen-ref="Parcial 2025 · Práctica 1"
+     data-examen-nota="Había que reconocerlo en el primer párrafo del enunciado de Muebles Express («la estrategia de configuración más adecuada») y justificar: ejemplo 2.">
+  <p class="kicker">Comportamiento</p>
+  <h2>2. Strategy</h2>
+  <p>También llamado <strong>Estrategia</strong>.</p>
+
+  <h3>Para qué sirve</h3>
+  <p>El problema, con el ejemplo del apunte: una <strong>aplicación de navegación</strong>.</p>
+  <ul>
+    <li>La primera versión calculaba rutas <strong>en auto</strong>.</li>
+    <li>Después se agregaron las rutas <strong>a pie</strong>, y más tarde en <strong>transporte público</strong>, para ciclistas, turísticas...</li>
+    <li>
+      Cada forma nueva se metía en la misma clase, que duplicaba su tamaño. Tocar un algoritmo
+      podía romper los otros, y la clase era imposible de mantener.
+    </li>
+  </ul>
+  <p>
+    Todas esas formas hacen <strong>lo mismo</strong> (calcular una ruta) <strong>de manera
+    distinta</strong>. Strategy saca cada forma a <strong>su propia clase</strong>, todas con la
+    misma interfaz, y la clase original se queda con <strong>una referencia a una de ellas</strong>
+    y le pasa el trabajo. Para cambiar de forma se le cambia el objeto, incluso mientras el
+    programa corre.
+  </p>
+  <ul>
+    <li>Cada forma de hacer la tarea es una <strong>estrategia</strong>.</li>
+    <li>La clase original, la que usa la estrategia, es el <strong>contexto</strong>.</li>
+  </ul>
+  <p>
+    <strong>Analogía del apunte:</strong> llegar al aeropuerto. Se puede ir en colectivo, en taxi o
+    en bicicleta: son estrategias de transporte, y se elige una según el presupuesto o el tiempo
+    que haya.
+  </p>
+
+  <div class="caja caja-formula">
+    <span class="caja-tit">Propósito</span>
+    <p>
+      Strategy es un patrón de <strong>comportamiento</strong> que permite definir una
+      <strong>familia de algoritmos</strong>, colocar cada uno en una <strong>clase
+      separada</strong> y hacer sus objetos <strong>intercambiables</strong>.
+    </p>
+  </div>
+  <p>
+    Un <strong>algoritmo</strong>, acá, es simplemente "una forma de hacer algo": de ordenar, de
+    calcular un precio, de frenar, de armar una ruta.
+  </p>
+
+  <h3>Estructura</h3>
+  <div class="pd-grafico uml" data-g="strategy">
+    <svg viewBox="-14 -14 755 257" width="755" height="257" role="img" aria-label="Estructura del patrón Strategy">
+      <polyline class="linea" points="300,49.5 360,49.5 360,49.5 420,49.5"/>
+      <polygon class="hueca" points="282,49.5 291,43.5 300,49.5 291,55.5"/>
+      <polyline class="linea punteada" points="423.5,170 423.5,135 496.5,135 496.5,100"/>
+      <polygon class="hueca" points="496.5,87 503.5,100 489.5,100"/>
+      <polyline class="linea punteada" points="633.5,170 633.5,135 496.5,135 496.5,100"/>
+      <polygon class="hueca" points="496.5,87 503.5,100 489.5,100"/>
+      <rect class="caja destacada" x="0" y="0" width="282" height="107" rx="3"/>
+      <text class="nombre" x="141" y="20">Contexto</text>
+      <line class="div" x1="0" y1="30" x2="282" y2="30"/>
+      <text class="miembro" x="10" y="48">- estrategia: Estrategia</text>
+      <line class="div" x1="0" y1="59" x2="282" y2="59"/>
+      <text class="miembro" x="10" y="77">+ cambiarEstrategia(e: Estrategia)</text>
+      <text class="miembro" x="10" y="96">+ hacerAlgo()</text>
+      <rect class="caja" x="420" y="12" width="153" height="75" rx="3"/>
+      <text class="estereo" x="496.5" y="28">&#171;interface&#187;</text>
+      <text class="nombre" x="496.5" y="47">Estrategia</text>
+      <line class="div" x1="420" y1="58" x2="573" y2="58"/>
+      <text class="miembro" x="430" y="76">+ ejecutar(datos)</text>
+      <rect class="caja" x="330" y="170" width="187" height="59" rx="3"/>
+      <text class="nombre" x="423.5" y="190">EstrategiaConcretaA</text>
+      <line class="div" x1="330" y1="200" x2="517" y2="200"/>
+      <text class="miembro" x="340" y="218">+ ejecutar(datos)</text>
+      <rect class="caja" x="540" y="170" width="187" height="59" rx="3"/>
+      <text class="nombre" x="633.5" y="190">EstrategiaConcretaB</text>
+      <line class="div" x1="540" y1="200" x2="727" y2="200"/>
+      <text class="miembro" x="550" y="218">+ ejecutar(datos)</text>
+    </svg>
+  </div>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Parte</th><th>Qué es</th><th>En el ejemplo del navegador</th></tr>
+      <tr><td class="lbl">Contexto (<em>Context</em>)</td><td>La clase que necesita hacer la tarea. <strong>Guarda una referencia a una estrategia</strong> y le delega el trabajo. Tiene un método para <strong>cambiarla</strong>. No sabe cuál estrategia concreta tiene.</td><td><code>Navegador</code></td></tr>
+      <tr><td class="lbl">Estrategia (<em>Strategy</em>)</td><td>La <strong>interfaz</strong> común a todas las formas de hacer la tarea. Un solo método: el que ejecuta el algoritmo.</td><td><code>EstrategiaRuta</code>, con <code>calcularRuta()</code></td></tr>
+      <tr><td class="lbl">Estrategias Concretas</td><td>Cada variante del algoritmo.</td><td><code>RutaEnAuto</code>, <code>RutaAPie</code></td></tr>
+      <tr><td class="lbl">Cliente</td><td><strong>Elige</strong> la estrategia concreta y se la pasa al contexto.</td><td><code>main</code></td></tr>
+    </table>
+  </div>
+  <p>Cómo dibujarlo de memoria:</p>
+  <ul>
+    <li>A la izquierda el <strong>Contexto</strong>, con el atributo <code>estrategia</code> y el método para cambiarla.</li>
+    <li>Un <strong>rombo vacío</strong> del Contexto a la interfaz <strong>Estrategia</strong> (también se acepta una flecha simple): el contexto <em>tiene una</em> estrategia. <strong>Sin asterisco</strong>: es una sola por vez.</li>
+    <li>Debajo de la interfaz, las <strong>estrategias concretas</strong>, con línea punteada.</li>
+  </ul>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Se parece mucho al diagrama de Observer</span>
+    <p>
+      Los dos son "una clase con un rombo hacia una interfaz, y clases concretas debajo". La
+      diferencia está en el rombo y en los métodos: Observer tiene una <strong>lista</strong>
+      (<code>*</code>) y los métodos suscribir, desuscribir y notificar; Strategy tiene
+      <strong>una sola</strong> referencia y un método para cambiarla.
+    </p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; En C++: el navegador</h3>
+  <div class="pd-grafico uml" data-g="strategy-navegador">
+    <svg viewBox="-14 -14 836 257" width="836" height="257" role="img" aria-label="Strategy en el ejemplo del navegador">
+      <polyline class="linea" points="338,47.5 394,47.5 394,47.5 450,47.5"/>
+      <polygon class="hueca" points="320,47.5 329,41.5 338,47.5 329,53.5"/>
+      <polyline class="linea punteada" points="514,170 514,134 610,134 610,98"/>
+      <polygon class="hueca" points="610,85 617,98 603,98"/>
+      <polyline class="linea punteada" points="724,170 724,134 610,134 610,98"/>
+      <polygon class="hueca" points="610,85 617,98 603,98"/>
+      <rect class="caja destacada" x="0" y="0" width="320" height="107" rx="3"/>
+      <text class="nombre" x="160" y="20">Navegador</text>
+      <line class="div" x1="0" y1="30" x2="320" y2="30"/>
+      <text class="miembro" x="10" y="48">- estrategia_: EstrategiaRuta*</text>
+      <line class="div" x1="0" y1="59" x2="320" y2="59"/>
+      <text class="miembro" x="10" y="77">+ cambiarEstrategia(e: EstrategiaRuta*)</text>
+      <text class="miembro" x="10" y="96">+ mostrarRuta(origen, destino)</text>
+      <rect class="caja" x="450" y="10" width="320" height="75" rx="3"/>
+      <text class="estereo" x="610" y="26">&#171;interface&#187;</text>
+      <text class="nombre" x="610" y="45">EstrategiaRuta</text>
+      <line class="div" x1="450" y1="56" x2="770" y2="56"/>
+      <text class="miembro" x="460" y="74">+ calcularRuta(origen, destino): string</text>
+      <rect class="caja" x="430" y="170" width="168" height="59" rx="3"/>
+      <text class="nombre" x="514" y="190">RutaEnAuto</text>
+      <line class="div" x1="430" y1="200" x2="598" y2="200"/>
+      <text class="miembro" x="440" y="218">+ calcularRuta(...)</text>
+      <rect class="caja" x="640" y="170" width="168" height="59" rx="3"/>
+      <text class="nombre" x="724" y="190">RutaAPie</text>
+      <line class="div" x1="640" y1="200" x2="808" y2="200"/>
+      <text class="miembro" x="650" y="218">+ calcularRuta(...)</text>
+    </svg>
+  </div>
+
+  <pre class="codigo"><code>#include &lt;iostream&gt;
+#include &lt;string&gt;
+
+class EstrategiaRuta {
+ public:
+  virtual ~EstrategiaRuta() {}
+  virtual std::string calcularRuta(std::string origen, std::string destino) const = 0;
+};
+
+class RutaEnAuto : public EstrategiaRuta {
+ public:
+  std::string calcularRuta(std::string origen, std::string destino) const override {
+    return "En auto de " + origen + " a " + destino + ": por la ruta, 20 minutos";
+  }
+};
+
+class RutaAPie : public EstrategiaRuta {
+ public:
+  std::string calcularRuta(std::string origen, std::string destino) const override {
+    return "A pie de " + origen + " a " + destino + ": por el camino costero, 3 horas";
+  }
+};
+
+class Navegador {
+ private:
+  EstrategiaRuta* estrategia_;
+
+ public:
+  Navegador(EstrategiaRuta* estrategia) : estrategia_(estrategia) {}
+
+  void cambiarEstrategia(EstrategiaRuta* estrategia) {
+    estrategia_ = estrategia;
+  }
+
+  void mostrarRuta(std::string origen, std::string destino) const {
+    std::cout &lt;&lt; estrategia_-&gt;calcularRuta(origen, destino) &lt;&lt; "\n";
+  }
+};
+
+int main() {
+  EstrategiaRuta* enAuto = new RutaEnAuto;
+  EstrategiaRuta* aPie = new RutaAPie;
+
+  Navegador navegador(enAuto);
+  navegador.mostrarRuta("Parana", "Oro Verde");
+
+  navegador.cambiarEstrategia(aPie);
+  navegador.mostrarRuta("Parana", "Oro Verde");
+
+  delete enAuto;
+  delete aPie;
+  return 0;
+}</code></pre>
+
+  <h4>Qué hace cada línea</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Cómo quedan los datos</th></tr>
+      <tr><td><code>class EstrategiaRuta { ... calcularRuta(...) const = 0; };</code></td><td>La interfaz <strong>Estrategia</strong>: toda forma de calcular una ruta recibe origen y destino y devuelve un texto.</td><td>&mdash;</td></tr>
+      <tr><td><code>class RutaEnAuto : public EstrategiaRuta</code><br><code>class RutaAPie : public EstrategiaRuta</code></td><td>Dos <strong>Estrategias Concretas</strong>: el mismo método, resuelto de dos formas.</td><td>&mdash;</td></tr>
+      <tr><td><code>EstrategiaRuta* estrategia_;</code></td><td>El <strong>Contexto</strong> (<code>Navegador</code>) guarda <strong>un</strong> puntero a la interfaz. Es el rombo del diagrama.</td><td>&mdash;</td></tr>
+      <tr><td><code>Navegador(EstrategiaRuta* estrategia) : estrategia_(estrategia) {}</code></td><td>Recibe la estrategia <strong>desde afuera</strong>, al crearse.</td><td>&mdash;</td></tr>
+      <tr><td><code>void cambiarEstrategia(EstrategiaRuta* estrategia)</code></td><td>Permite reemplazarla en cualquier momento. En los códigos se llama <code>set_strategy</code> o <code>setStrategy</code>.</td><td>&mdash;</td></tr>
+      <tr><td><code>estrategia_-&gt;calcularRuta(origen, destino)</code></td><td>El navegador <strong>no calcula nada</strong>: le delega el trabajo a la estrategia que tenga.</td><td>&mdash;</td></tr>
+      <tr><td><code>Navegador navegador(enAuto);</code></td><td>El cliente elige la estrategia inicial.</td><td>estrategia_ &rarr; RutaEnAuto</td></tr>
+      <tr><td><code>navegador.mostrarRuta("Parana", "Oro Verde");</code></td><td>Delega en <code>RutaEnAuto</code>.</td><td>sin cambios</td></tr>
+      <tr><td><code>navegador.cambiarEstrategia(aPie);</code></td><td>Se cambia la estrategia <strong>mientras el programa corre</strong>, sobre el mismo navegador.</td><td>estrategia_ &rarr; RutaAPie</td></tr>
+      <tr><td><code>navegador.mostrarRuta("Parana", "Oro Verde");</code></td><td>La misma llamada, ahora delega en <code>RutaAPie</code>.</td><td>sin cambios</td></tr>
+    </table>
+  </div>
+
+  <h4>Qué imprime y por qué</h4>
+  <pre class="salida">En auto de Parana a Oro Verde: por la ruta, 20 minutos
+A pie de Parana a Oro Verde: por el camino costero, 3 horas</pre>
+  <p>
+    Mismo navegador, misma llamada, mismos datos: cambió el resultado porque cambió la estrategia.
+    Para agregar la ruta en bicicleta se escribe una clase <code>RutaEnBici</code>, y
+    <code>Navegador</code> no se toca.
+  </p>
+  <p>
+    Es el mismo esqueleto del <code>Duenio</code> y su mascota de la Unidad 0, sección 4: una clase
+    que guarda un puntero a una interfaz, lo recibe por constructor, lo puede cambiar y le delega.
+  </p>
+
+  <h3>Cómo reconocerlo</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Dónde</th><th>Qué lo delata</th></tr>
+      <tr><td class="lbl">En un enunciado</td><td><strong>Varias formas de hacer una misma cosa</strong>, entre las que se elige: "el sistema aplique automáticamente la <strong>estrategia</strong> de configuración <strong>más adecuada</strong> según sus elecciones", distintas formas de calcular un precio, un descuento, un envío, un ordenamiento; "poder <strong>cambiar</strong> de un algoritmo a otro". Suele aparecer junto a "según..." (según el cliente, según el tipo, según la opción elegida).</td></tr>
+      <tr><td class="lbl">En un código</td><td>
+        <ol>
+          <li>una clase (<code>Context</code>) con <strong>un</strong> atributo que es un puntero a una interfaz, recibido en el constructor;</li>
+          <li>un método para <strong>reemplazarlo</strong> (<code>set_strategy</code>, <code>setStrategy</code>);</li>
+          <li>un método que <strong>le delega</strong> el trabajo: llama al único método de la interfaz (<code>DoAlgorithm</code>, <code>execute</code>);</li>
+          <li>varias clases que cumplen la interfaz y hacen <strong>lo mismo de distinta forma</strong> (una ordena de menor a mayor, la otra al revés);</li>
+          <li>en el código de prueba, <strong>el mismo contexto usado dos veces</strong>, cambiándole la estrategia en el medio.</li>
+        </ol>
+      </td></tr>
+    </table>
+  </div>
+
+  <h3>Ventajas y desventajas</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Ventajas</th><th>Desventajas</th></tr>
+      <tr>
+        <td>
+          <ul>
+            <li>Se pueden <strong>intercambiar algoritmos</strong> dentro de un objeto durante la ejecución.</li>
+            <li>Se <strong>aíslan los detalles</strong> de un algoritmo del código que lo usa.</li>
+            <li>Se puede <strong>sustituir la herencia por composición</strong> (en vez de una subclase por cada variante, un objeto intercambiable).</li>
+            <li><strong>Principio de abierto/cerrado:</strong> se agregan estrategias nuevas sin cambiar el contexto.</li>
+          </ul>
+        </td>
+        <td>
+          <ul>
+            <li>Si hay <strong>un par de algoritmos que casi no cambian</strong>, no se justifica complicar el programa con clases e interfaces nuevas.</li>
+            <li>Los <strong>clientes deben conocer las diferencias</strong> entre estrategias para elegir la adecuada.</li>
+            <li>Muchos lenguajes modernos permiten lo mismo con <strong>funciones anónimas</strong>, sin tantas clases.</li>
+          </ul>
+        </td>
+      </tr>
+    </table>
+  </div>
+
+  <h3>Dónde se usa</h3>
+  <ul>
+    <li>Cuando se quieren usar <strong>distintas variantes de un algoritmo</strong> dentro de un objeto y poder cambiar de una a otra en ejecución: rutas, formas de ordenar, formas de pago.</li>
+    <li>Cuando hay <strong>muchas clases parecidas</strong> que solo difieren en cómo hacen cierta cosa: se saca esa cosa a una jerarquía aparte y las clases se unifican. Es el ejemplo de la guía: coches que solo difieren en cómo frenan.</li>
+    <li>Para <strong>separar la lógica de negocio</strong> de una clase de los detalles de un algoritmo: cálculo de envío, de impuestos, de descuentos.</li>
+  </ul>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; Con formato de parcial: reconocerlo en un enunciado</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Parcial 2025 &middot; Práctica 1 (primer párrafo)</span>
+    <p>
+      "La empresa Muebles Express S.A. se dedica a la fabricación y comercialización de muebles
+      personalizados a través de su plataforma web. Los clientes pueden ingresar al sitio, navegar
+      por el catálogo de productos y seleccionar los muebles que desean comprar, teniendo la
+      posibilidad de personalizar cada artículo según diferentes parámetros: tipo de material,
+      color, tamaño y estilo de ensamblaje. Cada cliente debe poder elegir su combinación preferida
+      de estas opciones, de manera que el sistema aplique automáticamente la estrategia de
+      configuración más adecuada según sus elecciones y genere un presupuesto final."
+    </p>
+  </div>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase del enunciado</th><th>Qué significa</th><th>Parte del patrón</th></tr>
+      <tr><td>"el sistema aplique automáticamente la <strong>estrategia</strong> de configuración <strong>más adecuada</strong>"</td><td>Hay varias formas de configurar y se usa una. El enunciado usa la palabra del patrón</td><td><strong>Estrategia</strong>: <code>EstrategiaConfiguracion</code></td></tr>
+      <tr><td>"<strong>según</strong> sus elecciones"</td><td>Cuál se usa se decide en el momento, por lo que elige el cliente</td><td>La estrategia se le pasa al contexto en ejecución</td></tr>
+      <tr><td>"personalizar cada artículo según (...) tipo de material, color, tamaño y estilo de ensamblaje"</td><td>Las variantes</td><td><strong>Estrategias Concretas</strong>: una por forma de configurar</td></tr>
+      <tr><td>"y genere un presupuesto final"</td><td>La tarea que hace el sistema usando la estrategia elegida</td><td><strong>Contexto</strong>: <code>ConfiguradorDeMueble</code>, que le delega el cálculo</td></tr>
+    </table>
+  </div>
+  <p>
+    <strong>Respuesta:</strong> "Para la personalización usaría <strong>Strategy</strong>. El
+    enunciado dice que el sistema aplica la estrategia de configuración más adecuada según las
+    elecciones del cliente: hay varias formas de configurar un mueble y calcular su presupuesto, y
+    se elige una en tiempo de ejecución. Cada forma es una estrategia concreta que implementa una
+    interfaz común; el configurador (contexto) guarda la estrategia elegida y le delega el cálculo.
+    Se pueden agregar formas nuevas sin modificar el configurador."
+  </p>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 3 &mdash; Con formato de guía: reconocerlo en un diagrama</h3>
+  <p>
+    El ejercicio 4 de <em>Patrones de Diseño Parte 2</em> da un diagrama y pregunta qué patrón es:
+    un <code>Coche</code> con un rombo hacia la interfaz <code>IComportamientoFrenos</code>, que
+    tiene debajo <code>FrenadoNormal</code> y <code>FrenadoABS</code>. Es Strategy: el coche
+    (contexto) tiene <strong>un</strong> comportamiento de frenos (estrategia) intercambiable. Está
+    resuelto en la Práctica, ejercicio 5.
+  </p>
+
+  <h3>Errores y trampas</h3>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">El contexto no elige</span>
+    <p>
+      Si la clase tiene un <code>if</code> que decide "si es en auto, hago esto; si es a pie, esto
+      otro", no hay patrón: es el problema original. En Strategy la estrategia <strong>llega desde
+      afuera</strong> y el contexto solo la usa.
+    </p>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Con qué se confunde</span>
+    <ul>
+      <li>
+        Con <strong>Factory Method</strong>: los dos tienen una interfaz con variantes. Factory
+        Method resuelve <strong>qué objeto se crea</strong> (hay un método que devuelve un
+        <code>new</code>); Strategy resuelve <strong>cómo se hace una tarea</strong> (hay un método
+        que hace el trabajo, y nadie crea nada).
+      </li>
+      <li>
+        Con <strong>Observer</strong>: en el diagrama, una lista con <code>*</code> y métodos de
+        suscripción es Observer; una sola referencia y un método para cambiarla es Strategy.
+      </li>
+    </ul>
+  </div>
+</div>

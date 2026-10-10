@@ -228,6 +228,10 @@ Chrome (`chrome --headless --print-to-pdf`).
 `0.x.y-alpha` mientras esté en desarrollo. La `1.0.0` queda reservada para cuando esté terminado.
 La versión actual se lee al pie del menú lateral.
 
+* **0.39.0-alpha** — Ingeniería de Software II, Unidad 5: calidad de software, mejora de procesos,
+  CMMI (los cinco niveles y un método de cuatro preguntas para diagnosticar una empresa), IA para
+  mejorar los procesos y métricas (la ficha de cinco campos), con las tres preguntas teóricas del
+  parcial 2025 resueltas; y los siete casos de CMMI de la cátedra más tres fichas de métricas.
 * **0.38.0-alpha** — Ingeniería de Software II, Unidad 4C: Observer y Strategy, la sección "¿Qué
   patrón es?" (los ocho comparados: frases de los enunciados, señales en el código, firma de cada
   diagrama, y el enunciado del parcial 2025 resuelto) y 8 ejercicios, con los integradores.

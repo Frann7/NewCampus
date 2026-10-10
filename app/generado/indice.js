@@ -2,6 +2,8 @@
 window.Apuntes.registrarIndice({
   "panes": {
     "ing2/base/teoria": "panes/ing2-base-teoria.js",
+    "ing2/calidad/practica": "panes/ing2-calidad-practica.js",
+    "ing2/calidad/teoria": "panes/ing2-calidad-teoria.js",
     "ing2/comp/practica": "panes/ing2-comp-practica.js",
     "ing2/comp/teoria": "panes/ing2-comp-teoria.js",
     "ing2/crea/practica": "panes/ing2-crea-practica.js",
@@ -256,6 +258,11 @@ window.Apuntes.registrarIndice({
           "clave": "comp",
           "num": "Unidad 4C",
           "nombre": "Patrones de comportamiento"
+        },
+        {
+          "clave": "calidad",
+          "num": "Unidad 5",
+          "nombre": "Calidad, CMMI y metricas"
         }
       ]
     },

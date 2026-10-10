@@ -124,7 +124,7 @@ tilda. Si una parte se alarga, se recorta la práctica (menos ejercicios), nunca
   (expedientes) y 2 (gestión de contenido).
 - Leer: `04 - Comportamiento` (+ ⚠).
 
-### Parte 5 — Calidad, CMMI y métricas ☐
+### Parte 5 — Calidad, CMMI y métricas ☑
 
 - `calidad/teoria/`: `00-intro`, `01` Qué es la calidad de software (definición, atributos,
   consecuencias de la baja calidad), `02` CMMI: qué es y los 5 niveles, `03` Cómo diagnosticar el

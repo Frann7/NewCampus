@@ -1,0 +1,167 @@
+<div class="bloque">
+  <p class="kicker">Git</p>
+  <h2>2. Git y los tres estados</h2>
+
+  <h3>Para qué sirve</h3>
+  <p>
+    Antes de aprender comandos hay que tener claro <strong>dónde están los archivos</strong> en
+    cada momento. Todos los comandos de Git hacen lo mismo: <strong>mover cambios de un lugar a
+    otro</strong>. Si se entiende el mapa, los comandos salen solos; si no, se memorizan sin
+    entenderlos. El propio apunte lo avisa: los tres estados son "lo más importante que debes
+    recordar acerca de Git".
+  </p>
+
+  <div class="caja caja-formula">
+    <span class="caja-tit">Qué es Git</span>
+    <p>
+      Git es un <strong>sistema de control de versiones distribuido</strong>, diseñado para
+      rastrear y gestionar cambios en el código fuente. Lo creó <strong>Linus Torvalds en
+      2005</strong> para mejorar el desarrollo colaborativo, permitiendo que varias personas
+      trabajen en el mismo proyecto sin sobrescribir el trabajo de los demás. Es libre y de código
+      abierto.
+    </p>
+  </div>
+
+  <h3>Puntos clave de Git</h3>
+  <ul>
+    <li><strong>Control de versiones:</strong> guarda distintas versiones del proyecto y permite revisarlas y restaurarlas.</li>
+    <li><strong>Distribuido:</strong> cada copia del proyecto es un repositorio completo; se puede trabajar sin conexión y confirmar cambios en local.</li>
+    <li><strong>Trabajo en equipo:</strong> con ramas (<em>branches</em>), cada uno trabaja sin afectar la versión principal y los cambios se integran al final.</li>
+    <li><strong>Historial detallado:</strong> queda registrado cada cambio.</li>
+  </ul>
+
+  <h3>Cómo guarda los datos: fotos, no diferencias</h3>
+  <ul>
+    <li>
+      Los otros sistemas (CVS, Subversion) guardan, para cada archivo, la <strong>lista de
+      cambios</strong> que tuvo a lo largo del tiempo.
+    </li>
+    <li>
+      Git guarda <strong>copias instantáneas</strong> (<em>snapshots</em>): cada vez que se
+      confirma un cambio, toma una <strong>foto de cómo están todos los archivos</strong> en ese
+      momento. Si un archivo no cambió, no lo guarda de nuevo: guarda un enlace al que ya tenía.
+    </li>
+  </ul>
+  <p>Dos consecuencias que el apunte destaca:</p>
+  <ul>
+    <li>
+      <strong>Casi todas las operaciones son locales:</strong> como toda la historia está en el
+      disco propio, ver el historial o comparar versiones no necesita conectarse al servidor. Por
+      eso es rápido.
+    </li>
+    <li>
+      <strong>Tiene integridad:</strong> Git calcula una suma de comprobación de todo lo que
+      guarda, y no se puede perder información ni corromper un archivo sin que lo detecte.
+    </li>
+  </ul>
+
+  <h3>Los tres estados de un archivo</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Estado</th><th>En inglés</th><th>Qué significa</th></tr>
+      <tr><td class="lbl">Modificado</td><td><em>modified</em></td><td>El archivo se cambió, pero todavía no se confirmó en la base de datos.</td></tr>
+      <tr><td class="lbl">Preparado</td><td><em>staged</em></td><td>El archivo modificado se <strong>marcó</strong> para que vaya en la próxima confirmación.</td></tr>
+      <tr><td class="lbl">Confirmado</td><td><em>committed</em></td><td>Los datos están guardados de manera segura en la base de datos local.</td></tr>
+    </table>
+  </div>
+
+  <h3>Las tres secciones de un proyecto</h3>
+  <p>A cada estado le corresponde un lugar:</p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Sección</th><th>En inglés</th><th>Qué es</th><th>Estado de lo que hay ahí</th></tr>
+      <tr><td class="lbl">Directorio de trabajo</td><td><em>working directory</em></td><td>La carpeta del proyecto, con los archivos que se ven y se editan. Es una copia de una versión del proyecto.</td><td>Modificado</td></tr>
+      <tr><td class="lbl">Área de preparación</td><td><em>staging area</em> (o <em>index</em>)</td><td>Una lista de lo que va a entrar en la próxima confirmación.</td><td>Preparado</td></tr>
+      <tr><td class="lbl">Directorio de Git</td><td><em>Git directory</em> (la carpeta <code>.git</code>)</td><td>La base de datos del proyecto, con todas las fotos. Es la parte más importante, y lo que se copia al clonar.</td><td>Confirmado</td></tr>
+    </table>
+  </div>
+
+  <div class="caja caja-formula">
+    <span class="caja-tit">El flujo de trabajo básico</span>
+    <ol>
+      <li><strong>Modificás</strong> archivos en el directorio de trabajo.</li>
+      <li><strong>Preparás</strong> los archivos, agregándolos al área de preparación.</li>
+      <li><strong>Confirmás</strong> los cambios: Git toma lo que está en el área de preparación y guarda esa foto de manera permanente en el directorio de Git.</li>
+    </ol>
+  </div>
+  <pre class="salida">Directorio de trabajo      Área de preparación       Directorio de Git
+  (working directory)        (staging area)            (repositorio local)
+
+   editar el archivo
+        │
+        │──── git add ────────────▶│
+        │                          │──── git commit ────────▶│
+        │                          │                         │
+    MODIFICADO                 PREPARADO                 CONFIRMADO</pre>
+  <p>
+    Hay un <strong>cuarto lugar</strong>, fuera de la computadora: el <strong>repositorio
+    remoto</strong> (en GitHub o GitLab), la copia compartida con el equipo. Un commit queda
+    primero en el repositorio <strong>local</strong>; para que lo vean los demás hay que
+    <strong>subirlo</strong> (sección 3).
+  </p>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; Seguir un archivo por los tres estados</h3>
+  <p>
+    En un proyecto con <code>index.html</code> ya confirmado, se le cambia el título y se crea un
+    archivo nuevo, <code>estilos.css</code>. El comando <code>git status --short</code> muestra el
+    estado de cada archivo en una línea.
+  </p>
+  <p><strong>Después de editar</strong> (nada preparado todavía):</p>
+  <pre class="salida"> M index.html
+?? estilos.css</pre>
+  <ul>
+    <li><code>M</code> en la <strong>segunda</strong> columna: <code>index.html</code> está <strong>modificado</strong> en el directorio de trabajo.</li>
+    <li><code>??</code>: <code>estilos.css</code> es nuevo y Git todavía no lo sigue.</li>
+  </ul>
+  <p><strong>Después de <code>git add .</code></strong>:</p>
+  <pre class="salida">A  estilos.css
+M  index.html</pre>
+  <ul>
+    <li>Las letras pasaron a la <strong>primera</strong> columna: los dos están <strong>preparados</strong>. <code>A</code> es "agregado"; <code>M</code>, "modificado".</li>
+  </ul>
+  <p>
+    <strong>Después de <code>git commit</code></strong>, <code>git status --short</code> no muestra
+    nada: todo está <strong>confirmado</strong> y el directorio de trabajo quedó igual a la última
+    foto.
+  </p>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; Con formato de parcial: en qué estado está</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Situación</th><th>Estado</th><th>Dónde está el cambio</th></tr>
+      <tr><td>Guardé el archivo en el editor y no hice nada más.</td><td>Modificado</td><td>Directorio de trabajo</td></tr>
+      <tr><td>Hice <code>git add</code> del archivo.</td><td>Preparado</td><td>Área de preparación</td></tr>
+      <tr><td>Hice <code>git commit</code>.</td><td>Confirmado</td><td>Directorio de Git (repositorio local)</td></tr>
+      <tr><td>Hice <code>git push</code>.</td><td>Confirmado, y además compartido</td><td>También en el repositorio remoto</td></tr>
+    </table>
+  </div>
+
+  <h3>Errores y trampas</h3>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Guardar el archivo no es confirmar</span>
+    <p>
+      Guardar en el editor deja el archivo <strong>modificado</strong>. Para Git faltan dos pasos:
+      prepararlo (<code>add</code>) y confirmarlo (<code>commit</code>).
+    </p>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Confirmar no es subir</span>
+    <p>
+      Un <code>commit</code> guarda en el repositorio <strong>local</strong>: nadie más lo ve. La
+      pregunta del parcial pedía que las ramas quedaran "actualizadas en el remoto": eso es un
+      paso aparte, <code>git push</code>.
+    </p>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Los nombres, en los dos idiomas</span>
+    <p>
+      El parcial escribió <em>Working Directory</em> en inglés. Conviene saberlos de las dos
+      formas: directorio de trabajo / <em>working directory</em>, área de preparación /
+      <em>staging area</em>, repositorio / <em>repository</em>.
+    </p>
+  </div>
+</div>

@@ -135,7 +135,7 @@ tilda. Si una parte se alarga, se recorta la práctica (menos ejercicios), nunca
   (uno por nivel) y 3 fichas de métrica armadas.
 - Leer: `Calidad de software.md` p. 4-6 y 19-25, `Agentes_IA`, `Métricas.md` p. 4-6 y 10-13.
 
-### Parte 6 — Gestión de cambios y Git ☐
+### Parte 6 — Gestión de cambios y Git ☑
 
 - `git/teoria/`: `00-intro`, `01` Gestión de cambios, de la configuración y control de versiones
   (qué es cada una, centralizado vs. distribuido), `02` Git: los tres estados, `03` El flujo con

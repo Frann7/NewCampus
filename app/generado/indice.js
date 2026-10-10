@@ -10,6 +10,8 @@ window.Apuntes.registrarIndice({
     "ing2/crea/teoria": "panes/ing2-crea-teoria.js",
     "ing2/estr/practica": "panes/ing2-estr-practica.js",
     "ing2/estr/teoria": "panes/ing2-estr-teoria.js",
+    "ing2/git/practica": "panes/ing2-git-practica.js",
+    "ing2/git/teoria": "panes/ing2-git-teoria.js",
     "pa/c1/practica": "panes/pa-c1-practica.js",
     "pa/c1/teoria": "panes/pa-c1-teoria.js",
     "pa/c2/practica": "panes/pa-c2-practica.js",
@@ -263,6 +265,11 @@ window.Apuntes.registrarIndice({
           "clave": "calidad",
           "num": "Unidad 5",
           "nombre": "Calidad, CMMI y metricas"
+        },
+        {
+          "clave": "git",
+          "num": "Unidad 6",
+          "nombre": "Gestion de cambios y Git"
         }
       ]
     },

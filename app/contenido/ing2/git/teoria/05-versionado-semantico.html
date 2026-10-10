@@ -1,0 +1,125 @@
+<div class="bloque">
+  <p class="kicker">Versiones</p>
+  <h2>5. Versionado semántico</h2>
+
+  <h3>Para qué sirve</h3>
+  <p>
+    Ponerle un <strong>número de versión</strong> al software se llama <strong>versionado</strong>.
+    Si cada uno numera como quiere, el número no dice nada. El estándar más usado es
+    <strong>SemVer</strong> (<em>Semantic Versioning</em>, Versionado Semántico), escrito por Tom
+    Preston-Werner, cofundador de GitHub. Con SemVer el número <strong>avisa qué tipo de cambio
+    hubo</strong>: quien usa el software sabe, mirando la versión, si puede actualizar tranquilo o
+    si algo se le puede romper.
+  </p>
+
+  <h3>Sintaxis</h3>
+  <pre class="codigo"><code>MAYOR.MENOR.PARCHE</code></pre>
+
+  <h3>Qué es cada parte</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Parte</th><th>Se incrementa cuando...</th><th>Ejemplo</th></tr>
+      <tr><td class="lbl">MAYOR</td><td>se hace un cambio <strong>incompatible</strong> con lo anterior: lo que funcionaba con la versión vieja puede dejar de funcionar.</td><td>1.4.2 &rarr; <strong>2</strong>.0.0</td></tr>
+      <tr><td class="lbl">MENOR</td><td>se <strong>agrega funcionalidad</strong> compatible con las versiones anteriores.</td><td>1.4.2 &rarr; 1.<strong>5</strong>.0</td></tr>
+      <tr><td class="lbl">PARCHE</td><td>se <strong>corrigen errores</strong>, de forma compatible.</td><td>1.4.2 &rarr; 1.4.<strong>3</strong></td></tr>
+    </table>
+  </div>
+  <div class="caja caja-formula">
+    <span class="caja-tit">La regla del reinicio</span>
+    <p>
+      Cuando sube un número, <strong>los que están a su derecha vuelven a 0</strong>:
+    </p>
+    <ul>
+      <li>al subir el MENOR, el PARCHE se reinicia a 0;</li>
+      <li>al subir el MAYOR, el MENOR y el PARCHE se reinician a 0.</li>
+    </ul>
+  </div>
+  <p>
+    El apunte habla de "el API público": es la parte del software que usan otros programas. Un
+    cambio "incompatible en el API" es el que obliga a quienes lo usan a modificar su propio código.
+  </p>
+
+  <h3>Otras reglas de la especificación</h3>
+  <ul>
+    <li>
+      Una versión publicada <strong>no se modifica</strong>: cualquier cambio se publica como una
+      versión nueva.
+    </li>
+    <li>
+      La versión mayor en cero (<strong>0.y.z</strong>) es para el <strong>desarrollo
+      inicial</strong>: todo puede cambiar en cualquier momento. La <strong>1.0.0</strong> es la
+      primera versión estable.
+    </li>
+    <li>
+      <strong>Precedencia</strong> (cuál es más nueva): se comparan los números de izquierda a
+      derecha. 1.0.0 &lt; 2.0.0 &lt; 2.1.0 &lt; 2.1.1.
+    </li>
+    <li>
+      Una versión de <strong>prelanzamiento</strong> (con una etiqueta después de un guion) es
+      <strong>anterior</strong> a la versión normal: 1.0.0-alpha &lt; 1.0.0.
+    </li>
+  </ul>
+
+  <h3>Las etiquetas</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Etiqueta</th><th>Qué es</th><th>Para quién</th></tr>
+      <tr><td class="lbl">Alpha</td><td>Versión <strong>inicial en desarrollo</strong>. No está completa ni estable; puede tener muchos errores y le faltan funcionalidades principales.</td><td>Un grupo reducido de testers o desarrolladores, para probar ideas</td></tr>
+      <tr><td class="lbl">Beta</td><td>Más avanzada: ya tiene <strong>la mayoría de las funcionalidades</strong>, pero puede tener fallos o problemas de rendimiento.</td><td>Un público más amplio (<em>beta testers</em>), para detectar errores y validar la usabilidad</td></tr>
+      <tr><td class="lbl">Pre-release</td><td>Versión <strong>candidata</strong>, cercana a la final (<em>Release Candidate</em>). Prácticamente terminada: solo se esperan errores menores.</td><td>Usuarios avanzados o testers, como "vista previa"</td></tr>
+    </table>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; El flujo del apunte</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Lo que pasa</th><th>Versión</th><th>Qué número cambió</th></tr>
+      <tr><td>Versión inicial en desarrollo</td><td>0.1.0</td><td>&mdash;</td></tr>
+      <tr><td>Versión inicial en producción</td><td>1.0.0</td><td>MAYOR (primera versión estable)</td></tr>
+      <tr><td>Se agregan funciones nuevas compatibles</td><td>1.1.0</td><td>MENOR</td></tr>
+      <tr><td>Se corrige un bug</td><td>1.1.1</td><td>PARCHE</td></tr>
+      <tr><td>Se hacen cambios que rompen la compatibilidad</td><td>2.0.0</td><td>MAYOR; los otros dos vuelven a 0</td></tr>
+    </table>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; Con formato de parcial: ¿qué versión sigue?</h3>
+  <div class="caja caja-ejemplo">
+    <p>"Un sistema está en la versión 2.3.4. Indique la versión siguiente en cada caso."</p>
+  </div>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Cambio</th><th>Qué parte sube</th><th>Versión nueva</th></tr>
+      <tr><td>Se corrige un error en el cálculo de un total</td><td>PARCHE</td><td><strong>2.3.5</strong></td></tr>
+      <tr><td>Se agrega un reporte nuevo; lo demás sigue igual</td><td>MENOR, y el PARCHE vuelve a 0</td><td><strong>2.4.0</strong></td></tr>
+      <tr><td>Se cambia la forma de conectarse y los programas que lo usaban dejan de funcionar</td><td>MAYOR, y los otros dos vuelven a 0</td><td><strong>3.0.0</strong></td></tr>
+    </table>
+  </div>
+
+  <h3>Errores y trampas</h3>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Olvidarse de reiniciar</span>
+    <p>
+      De 2.3.4, agregar una función da <strong>2.4.0</strong>, no 2.4.4. Y un cambio incompatible
+      da <strong>3.0.0</strong>, no 3.3.4.
+    </p>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">No son decimales</span>
+    <p>
+      Cada parte es un número entero aparte: después de 1.9.0 viene <strong>1.10.0</strong>, no
+      2.0.0. Y 1.10.0 es <strong>más nueva</strong> que 1.9.0.
+    </p>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">El tamaño del cambio no importa</span>
+    <p>
+      Lo que decide es la <strong>compatibilidad</strong>, no cuánto código se tocó. Un cambio de
+      una línea que rompe a quienes usan el software sube el MAYOR; mil líneas de arreglos
+      internos suben el PARCHE.
+    </p>
+  </div>
+</div>

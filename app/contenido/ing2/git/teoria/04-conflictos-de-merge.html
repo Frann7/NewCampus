@@ -1,0 +1,140 @@
+<div class="bloque">
+  <p class="kicker">Git</p>
+  <h2>4. Conflictos de merge</h2>
+
+  <h3>Para qué sirve</h3>
+  <p>
+    Cuando se fusionan dos ramas, Git intenta combinar los cambios solo. Si en cada rama se tocaron
+    <strong>partes distintas</strong>, lo logra: el merge es automático. Si las dos ramas
+    cambiaron <strong>las mismas líneas del mismo archivo</strong>, Git no puede adivinar cuál
+    vale: se detiene y le pide a una persona que decida. Eso es un <strong>conflicto de
+    merge</strong>.
+  </p>
+
+  <h3>Tipos de conflicto</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Tipo</th><th>Cuándo ocurre</th></tr>
+      <tr><td class="lbl">De contenido (en el mismo archivo)</td><td>Las dos ramas modificaron <strong>la misma línea</strong> de un archivo.</td></tr>
+      <tr><td class="lbl">De eliminación</td><td>Una rama <strong>eliminó</strong> un archivo que la otra rama <strong>modificó</strong>.</td></tr>
+    </table>
+  </div>
+
+  <h3>Cómo se ve un conflicto</h3>
+  <p>Git marca dentro del archivo las dos versiones, con tres líneas de señales:</p>
+  <pre class="codigo"><code>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
+Cambios en la rama actual
+=======
+Cambios en la rama "feature-nueva-funcion"
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; feature-nueva-funcion</code></pre>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Parte</th><th>Qué es</th></tr>
+      <tr><td><code>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD</code></td><td>Empieza la versión de la <strong>rama actual</strong> (en la que estoy parado). <code>HEAD</code> es "donde estoy".</td></tr>
+      <tr><td><code>=======</code></td><td>La separación entre las dos versiones.</td></tr>
+      <tr><td><code>&gt;&gt;&gt;&gt;&gt;&gt;&gt; nombre-de-la-rama</code></td><td>Termina la versión de la <strong>otra rama</strong>, la que se está fusionando.</td></tr>
+    </table>
+  </div>
+
+  <h3>Cómo se resuelve: cuatro pasos</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>#</th><th>Paso</th><th>Comando</th></tr>
+      <tr><td class="lbl">1</td><td><strong>Ver</strong> qué archivos están en conflicto.</td><td><code>git status</code></td></tr>
+      <tr><td class="lbl">2</td><td><strong>Editar</strong> a mano cada archivo: elegir una versión, o combinar las dos, y <strong>borrar las tres líneas de señales</strong>.</td><td>(en el editor)</td></tr>
+      <tr><td class="lbl">3</td><td><strong>Marcar</strong> el conflicto como resuelto, agregando el archivo al área de preparación.</td><td><code>git add nombre_archivo</code></td></tr>
+      <tr><td class="lbl">4</td><td><strong>Finalizar</strong> el merge con un commit.</td><td><code>git commit</code></td></tr>
+    </table>
+  </div>
+  <p>Dos comandos útiles más:</p>
+  <ul>
+    <li><code>git merge --abort</code>: descarta el merge y deja la rama como estaba antes de intentarlo.</li>
+    <li><code>git mergetool</code>: abre una herramienta visual para resolver los conflictos, si hay alguna configurada.</li>
+  </ul>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; Un conflicto real, de principio a fin</h3>
+  <p>
+    El título de <code>index.html</code> se cambió de dos formas distintas: en <code>main</code>
+    quedó "Hola, bienvenidos" y en la rama <code>feature-nueva-funcion</code>, "Bienvenidos a la
+    tienda". Parado en <code>main</code>:
+  </p>
+  <pre class="codigo"><code>git merge feature-nueva-funcion</code></pre>
+  <pre class="salida">Auto-merging index.html
+CONFLICT (content): Merge conflict in index.html
+Automatic merge failed; fix conflicts and then commit the result.</pre>
+  <p>
+    Git avisa que el merge automático falló y qué hay que hacer: arreglar los conflictos y después
+    confirmar. <strong>Paso 1</strong>, ver qué archivos están en conflicto:
+  </p>
+  <pre class="codigo"><code>git status --short</code></pre>
+  <pre class="salida">UU index.html</pre>
+  <p><code>UU</code> quiere decir "modificado en las dos ramas, sin fusionar". <strong>Paso 2</strong>, abrir el archivo:</p>
+  <pre class="codigo"><code>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
+&lt;h1&gt;Hola, bienvenidos&lt;/h1&gt;
+=======
+&lt;h1&gt;Bienvenidos a la tienda&lt;/h1&gt;
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; feature-nueva-funcion</code></pre>
+  <ul>
+    <li>Arriba, lo de <code>HEAD</code>: la versión de <code>main</code>.</li>
+    <li>Abajo, la versión de <code>feature-nueva-funcion</code>.</li>
+  </ul>
+  <p>Se decide combinar las dos. El archivo se deja así, <strong>sin las señales</strong>:</p>
+  <pre class="codigo"><code>&lt;h1&gt;Hola, bienvenidos a la tienda&lt;/h1&gt;</code></pre>
+  <p><strong>Pasos 3 y 4</strong>, marcar como resuelto y finalizar:</p>
+  <pre class="codigo"><code>git add index.html
+git commit -m "Resuelve el conflicto del titulo"</code></pre>
+  <p>El historial (<code>git log --oneline --graph</code>) muestra las dos ramas que se abrieron y se volvieron a unir:</p>
+  <pre class="salida">*   aaf0999 Resuelve el conflicto del titulo
+|\
+| * b4a342c Titulo de la tienda
+* | 478cb40 Saludo en el titulo
+|/
+* c11a3b1 Cambia el titulo y agrega estilos</pre>
+  <p>
+    Se lee de abajo hacia arriba: desde un commit común salieron dos caminos, uno por cada rama, y
+    el commit de arriba es el <strong>merge</strong> que los junta.
+  </p>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; Con formato de parcial: los pasos para resolver un conflicto</h3>
+  <div class="caja caja-ejemplo">
+    <p>"Al hacer un merge, Git informa un conflicto. Indique los pasos para resolverlo."</p>
+  </div>
+  <p>
+    <strong>Respuesta:</strong> "1) Con <code>git status</code> se ven los archivos en conflicto.
+    2) Se abre cada archivo y se editan las partes marcadas con <code>&lt;&lt;&lt;&lt;&lt;&lt;&lt;</code>,
+    <code>=======</code> y <code>&gt;&gt;&gt;&gt;&gt;&gt;&gt;</code>, eligiendo qué versión conservar o
+    combinando ambas, y se borran las marcas. 3) Se marca como resuelto con
+    <code>git add archivo</code>. 4) Se finaliza el merge con <code>git commit</code>. Si se
+    quiere cancelar, <code>git merge --abort</code> vuelve la rama a su estado anterior."
+  </p>
+  <p>El apunte lo resume casi con las mismas palabras, en su "resumen para una clase".</p>
+
+  <h3>Errores y trampas</h3>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Las señales no se borran solas</span>
+    <p>
+      Hacer <code>git add</code> sin editar el archivo deja las líneas <code>&lt;&lt;&lt;&lt;&lt;&lt;&lt;</code>
+      y <code>=======</code> adentro del código, y quedan confirmadas así. Git no revisa que las
+      hayas sacado.
+    </p>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Un conflicto no es un error</span>
+    <p>
+      Es Git negándose a elegir por vos. Es normal cuando dos personas tocan lo mismo, y por eso el
+      control de versiones es mejor que no tenerlo: sin él, el último que guarda pisa al otro sin
+      que nadie se entere.
+    </p>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">No toda fusión da conflicto</span>
+    <p>
+      Si las dos ramas tocaron archivos distintos, o líneas distintas del mismo archivo, el merge
+      es automático. El conflicto aparece solo cuando se superponen.
+    </p>
+  </div>
+</div>

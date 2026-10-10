@@ -1,0 +1,89 @@
+<div class="ej">
+  <span class="tag">Ejercicio 2 &middot; Conflicto de merge</span>
+  <h2>Leer y resolver un conflicto</h2>
+  <div class="enunciado">
+    <p>
+      Dos desarrolladores cambiaron el precio en el mismo archivo. Al hacer
+      <code>git merge feature-descuento</code> parado en <code>develop</code>, Git responde:
+    </p>
+    <pre class="salida">Auto-merging precios.txt
+CONFLICT (content): Merge conflict in precios.txt
+Automatic merge failed; fix conflicts and then commit the result.</pre>
+    <p>y el archivo <code>precios.txt</code> queda así:</p>
+    <pre class="codigo"><code>Teclado: 15000
+&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
+Mouse: 8000
+=======
+Mouse: 7200
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; feature-descuento
+Monitor: 90000</code></pre>
+    <p>
+      a) ¿Qué tipo de conflicto es? b) ¿Qué versión es de cada rama? c) Indique los pasos para
+      resolverlo dejando el precio con descuento. d) ¿Cómo se cancela el merge si no se quiere
+      seguir?
+    </p>
+  </div>
+
+  <span class="paso">Paso 1 &mdash; Leer el mensaje de Git</span>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué dice</th></tr>
+      <tr><td><code>Auto-merging precios.txt</code></td><td>Intentó fusionar ese archivo solo.</td></tr>
+      <tr><td><code>CONFLICT (content): Merge conflict in precios.txt</code></td><td>No pudo: hay un conflicto <strong>de contenido</strong> en ese archivo.</td></tr>
+      <tr><td><code>Automatic merge failed; fix conflicts and then commit the result.</code></td><td>Qué hay que hacer: arreglar los conflictos y después confirmar.</td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Paso 2 &mdash; Leer el archivo</span>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Parte del archivo</th><th>Qué es</th></tr>
+      <tr><td><code>Teclado: 15000</code> y <code>Monitor: 90000</code></td><td>Fuera de las señales: no hubo conflicto, quedaron fusionadas solas</td></tr>
+      <tr><td>Entre <code>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD</code> y <code>=======</code></td><td>La versión de la <strong>rama actual</strong>, <code>develop</code>: <code>Mouse: 8000</code></td></tr>
+      <tr><td>Entre <code>=======</code> y <code>&gt;&gt;&gt;&gt;&gt;&gt;&gt; feature-descuento</code></td><td>La versión de la <strong>otra rama</strong>, <code>feature-descuento</code>: <code>Mouse: 7200</code></td></tr>
+    </table>
+  </div>
+  <p>El conflicto es solo en la línea del mouse: las dos ramas la cambiaron.</p>
+
+  <span class="paso">Paso 3 &mdash; Resolver</span>
+  <p>Se quiere conservar el precio con descuento. El archivo se edita y queda, <strong>sin las tres líneas de señales</strong>:</p>
+  <pre class="codigo"><code>Teclado: 15000
+Mouse: 7200
+Monitor: 90000</code></pre>
+  <p>Y se termina el merge:</p>
+  <pre class="codigo"><code>git add precios.txt
+git commit -m "Resuelve el conflicto de precios"</code></pre>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>
+      <strong>a)</strong> Es un <strong>conflicto de contenido</strong>: las dos ramas modificaron
+      la misma línea del mismo archivo.
+    </p>
+    <p>
+      <strong>b)</strong> <code>Mouse: 8000</code> es la versión de la rama actual
+      (<code>develop</code>, marcada como <code>HEAD</code>); <code>Mouse: 7200</code> es la de
+      <code>feature-descuento</code>.
+    </p>
+    <p><strong>c)</strong> Pasos:</p>
+    <ol>
+      <li><code>git status</code>, para ver los archivos en conflicto.</li>
+      <li>Editar <code>precios.txt</code>: dejar <code>Mouse: 7200</code> y borrar las líneas <code>&lt;&lt;&lt;&lt;&lt;&lt;&lt;</code>, <code>=======</code> y <code>&gt;&gt;&gt;&gt;&gt;&gt;&gt;</code>.</li>
+      <li><code>git add precios.txt</code>, para marcarlo como resuelto.</li>
+      <li><code>git commit</code>, para finalizar el merge.</li>
+    </ol>
+    <p>
+      <strong>d)</strong> Con <code>git merge --abort</code>, que descarta el merge y deja la rama
+      como estaba antes.
+    </p>
+  </div>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">¿Y si los dos hubieran cambiado líneas distintas?</span>
+    <p>
+      Si uno cambiaba el precio del mouse y el otro el del monitor, no habría conflicto: Git
+      fusiona solo y el archivo queda con los dos cambios. El conflicto aparece porque los dos
+      tocaron <strong>la misma línea</strong>.
+    </p>
+  </div>
+</div>

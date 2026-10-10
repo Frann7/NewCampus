@@ -1,0 +1,117 @@
+<div class="ej">
+  <span class="tag">Ejercicio 1 &middot; Flujo con ramas</span>
+  <h2>De una rama de función a develop y a main</h2>
+  <div class="enunciado">
+    <p>
+      <strong>Variante del parcial 2025, Teoría 3.</strong> Un desarrollador tiene que agregar el
+      formulario de login. El equipo trabaja con una rama <code>main</code>, una rama
+      <code>develop</code> y una rama por cada función nueva. Indique los pasos para: crear la rama
+      de la función a partir de <code>develop</code>, registrar los cambios, integrarlos en
+      <code>develop</code> y luego en <code>main</code>, dejando todo actualizado en el remoto.
+    </p>
+  </div>
+
+  <span class="paso">Paso 1 &mdash; Qué cambia respecto del parcial</span>
+  <p>
+    En el parcial los cambios se confirmaban directo en <code>develop</code>. Acá hay una rama
+    más, así que hay <strong>un merge más</strong>: función &rarr; <code>develop</code> &rarr;
+    <code>main</code>. La lógica es la misma: confirmar en una rama, subirla, cambiar a la
+    siguiente, fusionar, subir.
+  </p>
+
+  <span class="paso">Paso 2 &mdash; La secuencia</span>
+  <pre class="codigo"><code>git checkout develop
+git pull origin develop
+git checkout -b feature-login
+
+git add .
+git commit -m "Agrega el formulario de login"
+git push -u origin feature-login
+
+git checkout develop
+git merge feature-login
+git push origin develop
+
+git checkout main
+git merge develop
+git push origin main</code></pre>
+
+  <span class="paso">Paso 3 &mdash; Qué hace cada línea</span>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Rama en la que quedo</th></tr>
+      <tr><td><code>git checkout develop</code></td><td>Me paro en <code>develop</code>, de donde va a salir la rama nueva.</td><td>develop</td></tr>
+      <tr><td><code>git pull origin develop</code></td><td>Traigo lo último del remoto, para arrancar actualizado.</td><td>develop</td></tr>
+      <tr><td><code>git checkout -b feature-login</code></td><td>Creo la rama <code>feature-login</code> y me cambio a ella.</td><td>feature-login</td></tr>
+      <tr><td>(editar los archivos)</td><td>Los cambios quedan en el directorio de trabajo.</td><td>feature-login</td></tr>
+      <tr><td><code>git add .</code></td><td>Directorio de trabajo &rarr; área de preparación.</td><td>feature-login</td></tr>
+      <tr><td><code>git commit -m "..."</code></td><td>Área de preparación &rarr; repositorio local.</td><td>feature-login</td></tr>
+      <tr><td><code>git push -u origin feature-login</code></td><td>Subo la rama nueva al remoto. El <code>-u</code> la deja enlazada.</td><td>feature-login</td></tr>
+      <tr><td><code>git checkout develop</code></td><td>Vuelvo a <code>develop</code>, que todavía no tiene el login.</td><td>develop</td></tr>
+      <tr><td><code>git merge feature-login</code></td><td>Traigo la función a <code>develop</code>.</td><td>develop</td></tr>
+      <tr><td><code>git push origin develop</code></td><td>Subo <code>develop</code>.</td><td>develop</td></tr>
+      <tr><td><code>git checkout main</code></td><td>Paso a la rama principal.</td><td>main</td></tr>
+      <tr><td><code>git merge develop</code></td><td>Traigo <code>develop</code> a <code>main</code>.</td><td>main</td></tr>
+      <tr><td><code>git push origin main</code></td><td>Subo <code>main</code>.</td><td>main</td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Paso 4 &mdash; Comprobarlo</span>
+  <p>Lo que respondió Git en las líneas clave:</p>
+  <pre class="salida">$ git checkout -b feature-login
+Switched to a new branch 'feature-login'
+
+$ git commit -m "Agrega el formulario de login"
+[feature-login c44bc36] Agrega el formulario de login
+ 1 file changed, 1 insertion(+)
+
+$ git push -u origin feature-login
+ * [new branch]      feature-login -&gt; feature-login
+branch 'feature-login' set up to track 'origin/feature-login'.
+
+$ git merge feature-login
+Updating aaf0999..c44bc36
+Fast-forward
+ login.html | 1 +
+
+$ git push origin develop
+   aaf0999..c44bc36  develop -&gt; develop
+
+$ git push origin main
+   aaf0999..c44bc36  main -&gt; main</pre>
+  <p>Y el estado final, con <code>git log --oneline -1 --decorate</code>:</p>
+  <pre class="salida">c44bc36 (HEAD -&gt; main, origin/main, origin/feature-login, origin/develop, develop) Agrega el formulario de login</pre>
+  <p>
+    Las tres ramas del remoto (<code>origin/main</code>, <code>origin/develop</code>,
+    <code>origin/feature-login</code>) apuntan al mismo commit: todo actualizado.
+  </p>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <ol>
+      <li>Actualizar <code>develop</code> y crear la rama de la función: <code>git checkout develop</code>, <code>git pull origin develop</code>, <code>git checkout -b feature-login</code>.</li>
+      <li>Registrar los cambios en esa rama: <code>git add .</code> y <code>git commit -m "..."</code>.</li>
+      <li>Subirla: <code>git push -u origin feature-login</code>.</li>
+      <li>Integrarla en <code>develop</code> y subir: <code>git checkout develop</code>, <code>git merge feature-login</code>, <code>git push origin develop</code>.</li>
+      <li>Integrar en <code>main</code> y subir: <code>git checkout main</code>, <code>git merge develop</code>, <code>git push origin main</code>.</li>
+    </ol>
+  </div>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Con pull request</span>
+    <p>
+      Si el equipo revisa el código antes de integrar, los pasos 4 y 5 no se hacen con
+      <code>git merge</code> en la computadora: después de subir la rama se abre un
+      <strong>pull request</strong> en GitHub o GitLab, alguien lo revisa y lo aprueba, y la
+      plataforma hace la fusión. Después, cada uno actualiza su copia con <code>git pull</code>.
+    </p>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Al terminar, la rama de la función se puede borrar</span>
+    <p>
+      <code>git branch -d feature-login</code> la elimina en local y
+      <code>git push origin --delete feature-login</code> en el remoto. Los commits no se pierden:
+      ya están en <code>develop</code> y en <code>main</code>.
+    </p>
+  </div>
+</div>

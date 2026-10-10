@@ -17,7 +17,7 @@ fórmulas (MathJax) y las tipografías. Tus datos no salen de tu máquina.
   Ingeniería de Software II (2do parcial): una unidad base (cómo se lee y se dibuja un diagrama
   de clases UML y lo mínimo de C++ para reconocer un patrón de diseño en un código) y los
   ocho patrones de la cátedra (creacionales, estructurales y de comportamiento), cada uno con su diagrama, su ejemplo en C++ línea por línea, cómo
-  reconocerlo y una consigna de parcial resuelta; el resto
+  reconocerlo y una consigna de parcial resuelta, más calidad de software, CMMI, métricas y Git; el resto
   de las materias de tercer año ya están en el menú como "pronto".
 * **Evaluación**: **parciales y finales** de la cátedra transcriptos, en dos listas. Algunos traen
   cada ejercicio con resultados y explicación detallada desplegables; otros están solo transcriptos,
@@ -228,6 +228,9 @@ Chrome (`chrome --headless --print-to-pdf`).
 `0.x.y-alpha` mientras esté en desarrollo. La `1.0.0` queda reservada para cuando esté terminado.
 La versión actual se lee al pie del menú lateral.
 
+* **0.40.0-alpha** — Ingeniería de Software II, Unidad 6: gestión de cambios y control de
+  versiones, Git (los tres estados, los comandos, conflictos de merge) y versionado semántico, con
+  la pregunta de Git del parcial 2025 resuelta y todas las secuencias probadas en un repositorio.
 * **0.39.0-alpha** — Ingeniería de Software II, Unidad 5: calidad de software, mejora de procesos,
   CMMI (los cinco niveles y un método de cuatro preguntas para diagnosticar una empresa), IA para
   mejorar los procesos y métricas (la ficha de cinco campos), con las tres preguntas teóricas del

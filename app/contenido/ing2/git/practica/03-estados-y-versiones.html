@@ -1,0 +1,80 @@
+<div class="ej">
+  <span class="tag">Ejercicio 3 &middot; Estados y versionado</span>
+  <h2>En qué estado está y qué versión sigue</h2>
+  <div class="enunciado">
+    <p>
+      <strong>Parte A.</strong> En un proyecto con Git se ejecuta <code>git status --short</code> y
+      responde:
+    </p>
+    <pre class="salida">M  carrito.js
+ M pagos.js
+?? notas.txt</pre>
+    <p>
+      ¿En qué estado está cada archivo? ¿Qué entraría en el commit si ahora se ejecuta
+      <code>git commit -m "Cambios"</code>?
+    </p>
+    <p>
+      <strong>Parte B.</strong> Un sistema usa versionado semántico y está en la versión
+      <strong>1.7.3</strong>. Indique el número de versión después de cada cambio, en este orden:
+      1) se corrige un error de redondeo; 2) se agrega la exportación a PDF; 3) se corrige un
+      error en esa exportación; 4) se rediseña la forma de conectarse y los sistemas que lo usaban
+      tienen que modificarse.
+    </p>
+  </div>
+
+  <span class="paso">Paso 1 &mdash; Parte A: leer las dos columnas</span>
+  <p>
+    <code>git status --short</code> muestra dos columnas de letras antes del nombre. La
+    <strong>primera</strong> es el área de preparación; la <strong>segunda</strong>, el directorio
+    de trabajo (Teoría, sección 2).
+  </p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Dónde está la letra</th><th>Estado</th><th>¿Entra en el commit?</th></tr>
+      <tr><td><code>M&nbsp;&nbsp;carrito.js</code></td><td>Primera columna</td><td><strong>Preparado</strong>: ya se le hizo <code>git add</code></td><td><strong>Sí</strong></td></tr>
+      <tr><td><code>&nbsp;M pagos.js</code></td><td>Segunda columna</td><td><strong>Modificado</strong>: se cambió, pero no se preparó</td><td>No</td></tr>
+      <tr><td><code>?? notas.txt</code></td><td>&mdash;</td><td>Sin seguimiento: es nuevo y Git no lo conoce</td><td>No</td></tr>
+    </table>
+  </div>
+  <p>
+    <code>git commit</code> guarda <strong>solo lo que está en el área de preparación</strong>. Para
+    que entren los otros dos, antes hay que hacer <code>git add pagos.js notas.txt</code> (o
+    <code>git add .</code>).
+  </p>
+
+  <span class="paso">Paso 2 &mdash; Parte B: una pregunta por cambio</span>
+  <p>
+    Para cada cambio: ¿rompe la compatibilidad? &rarr; MAYOR. Si no: ¿agrega funcionalidad? &rarr;
+    MENOR. Si no: es una corrección &rarr; PARCHE. Y lo que está a la derecha del número que sube
+    vuelve a 0.
+  </p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>#</th><th>Cambio</th><th>Qué es</th><th>Sube</th><th>Versión</th></tr>
+      <tr><td class="lbl">&mdash;</td><td>Punto de partida</td><td>&mdash;</td><td>&mdash;</td><td>1.7.3</td></tr>
+      <tr><td class="lbl">1</td><td>Se corrige un error de redondeo</td><td>Corrección compatible</td><td>PARCHE</td><td><strong>1.7.4</strong></td></tr>
+      <tr><td class="lbl">2</td><td>Se agrega la exportación a PDF</td><td>Funcionalidad nueva, compatible</td><td>MENOR; el PARCHE vuelve a 0</td><td><strong>1.8.0</strong></td></tr>
+      <tr><td class="lbl">3</td><td>Se corrige un error en esa exportación</td><td>Corrección compatible</td><td>PARCHE</td><td><strong>1.8.1</strong></td></tr>
+      <tr><td class="lbl">4</td><td>Se rediseña la conexión y los sistemas que lo usaban deben modificarse</td><td>Cambio incompatible</td><td>MAYOR; MENOR y PARCHE vuelven a 0</td><td><strong>2.0.0</strong></td></tr>
+    </table>
+  </div>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>
+      <strong>A.</strong> <code>carrito.js</code> está <strong>preparado</strong> (en el área de
+      preparación), <code>pagos.js</code> está <strong>modificado</strong> (solo en el directorio
+      de trabajo) y <code>notas.txt</code> es un archivo nuevo <strong>sin seguimiento</strong>. El
+      commit incluiría únicamente <code>carrito.js</code>.
+    </p>
+    <p><strong>B.</strong> 1.7.3 &rarr; 1.7.4 &rarr; 1.8.0 &rarr; 1.8.1 &rarr; 2.0.0.</p>
+  </div>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">El error de la parte B</span>
+    <p>
+      Poner 1.8.4 en el paso 2 (sin reiniciar el parche) o 2.8.1 en el paso 4 (sin reiniciar los
+      otros dos). Cada vez que sube un número, todo lo que está a su derecha vuelve a cero.
+    </p>
+  </div>
+</div>

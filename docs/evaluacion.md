@@ -12,8 +12,11 @@
   id, reloj de cuenta regresiva, nota sobre 100 y revisión con explicación; sin la condición
   30/60 ni nada de etapas. El banco de PA está en `preguntas/parcial-php/` (no es una clase, así
   que sus preguntas no llevan chip de unidad). `E.configMateria`, `E.esSimple` en `nucleo.js`.
-  Una materia **sin banco de preguntas** (Ing. de Software II, por ahora) no muestra la sección
-  Autoevaluación: solo sus parciales.
+  Si el banco tiene preguntas en **más de una unidad del menú** (Ing. de Software II:
+  `preguntas/<unidad>/`, ids `ing2-u4a-01`...), el formulario suma el paso **Temas**: un chip por
+  unidad con su cantidad de preguntas, todos marcados. Lo elegido va en `config.unidades` (vacío =
+  todos) y `banco.todas(materia, unidades)` / `seleccionar` filtran por ahí. Una materia **sin
+  banco de preguntas** no muestra la sección Autoevaluación: solo sus parciales.
 
 * **Parciales y finales:** cada examen es una carpeta con `meta.json` (titulo, fecha, detalle,
   temas: lo que muestra la tarjeta sin abrir el examen) y un archivo por ejercicio. El

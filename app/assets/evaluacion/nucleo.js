@@ -350,7 +350,12 @@ window.NC.eval = window.NC.eval || {};
     var cant = 0;
     if (E.esSimple(c)) {
       cant = c.cantCuestionario;
-      return [cant + (cant === 1 ? " pregunta" : " preguntas"), c.conTiempo ? c.minutos + " min" : "Sin límite"];
+      partes = [cant + (cant === 1 ? " pregunta" : " preguntas"), c.conTiempo ? c.minutos + " min" : "Sin límite"];
+      // con temas elegidos (Ing. II), cuales
+      if (c.unidades && c.unidades.length) {
+        partes.splice(1, 0, c.unidades.map(function (u) { return E.numeroDeUnidad(materia, u); }).join(", "));
+      }
+      return partes;
     }
     if (E.etapaDe(c) === "1") {
       partes.push("1ra etapa · " + (c.formato1 === "hoja" ? "En hoja" : "Cuestionario virtual") +

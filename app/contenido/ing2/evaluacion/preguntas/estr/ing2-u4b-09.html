@@ -1,0 +1,58 @@
+<article class="preg" data-id="ing2-u4b-09" data-etapa="1" data-formato="opcion" data-origen="parcial">
+  <div class="p-enunciado">
+    <p>¿Qué patrón de diseño aplica este código?</p>
+    <pre class="codigo"><code>#include &lt;iostream&gt;
+#include &lt;string&gt;
+
+class Inventario {
+public:
+    bool hayStock(const std::string&amp; producto) const {
+        std::cout &lt;&lt; "Verificando stock de " &lt;&lt; producto &lt;&lt; "\n";
+        return true;
+    }
+};
+
+class Pagos {
+public:
+    void cobrar(int monto) const { std::cout &lt;&lt; "Cobrando $" &lt;&lt; monto &lt;&lt; "\n"; }
+};
+
+class Envios {
+public:
+    void despachar(const std::string&amp; producto) const {
+        std::cout &lt;&lt; "Despachando " &lt;&lt; producto &lt;&lt; "\n";
+    }
+};
+
+class Tienda {
+private:
+    Inventario inventario_;
+    Pagos pagos_;
+    Envios envios_;
+
+public:
+    void comprar(const std::string&amp; producto, int monto) const {
+        if (inventario_.hayStock(producto)) {
+            pagos_.cobrar(monto);
+            envios_.despachar(producto);
+        }
+    }
+};
+
+int main() {
+    Tienda tienda;
+    tienda.comprar("teclado", 15000);
+    return 0;
+}</code></pre>
+    <p class="p-fuente">Inventada &middot; estilo Parcial 2024, Ej. 4</p>
+  </div>
+  <ul class="p-opciones">
+    <li data-correcta>Facade</li>
+    <li>Adapter</li>
+    <li>Observer</li>
+    <li>Abstract Factory</li>
+  </ul>
+  <div class="p-explicacion">
+    <p><code>Tienda</code> tiene adentro un objeto de <strong>cada clase del subsistema</strong> (<code>Inventario</code>, <code>Pagos</code>, <code>Envios</code>) y ofrece <strong>un solo método</strong>, <code>comprar()</code>, que los llama en el orden correcto. El <code>main</code> usa una línea y no conoce a ninguna de las tres. Es <strong>Facade</strong>. No es Adapter: no se está haciendo encajar una clase en una interfaz que ya existía, se está dando una entrada nueva y más simple a varias.</p>
+  </div>
+</article>

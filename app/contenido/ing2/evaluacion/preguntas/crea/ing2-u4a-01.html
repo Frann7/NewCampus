@@ -1,0 +1,42 @@
+<article class="preg" data-id="ing2-u4a-01" data-etapa="1" data-formato="opcion" data-origen="parcial">
+  <div class="p-enunciado">
+    <p>¿Qué patrón de diseño aplica este código?</p>
+    <pre class="codigo"><code>#include &lt;iostream&gt;
+#include &lt;string&gt;
+
+class Registro {
+private:
+    static Registro* instancia_;
+    Registro() {}
+
+public:
+    static Registro* obtener() {
+        if (instancia_ == nullptr) {
+            instancia_ = new Registro();
+        }
+        return instancia_;
+    }
+    void anotar(const std::string&amp; texto) const {
+        std::cout &lt;&lt; "[log] " &lt;&lt; texto &lt;&lt; "\n";
+    }
+};
+
+Registro* Registro::instancia_ = nullptr;
+
+int main() {
+    Registro::obtener()-&gt;anotar("inicio");
+    Registro::obtener()-&gt;anotar("fin");
+    return 0;
+}</code></pre>
+    <p class="p-fuente">Inventada &middot; estilo Parcial 2025, Práctica 2</p>
+  </div>
+  <ul class="p-opciones">
+    <li>Facade</li>
+    <li>Factory Method</li>
+    <li data-correcta>Singleton</li>
+    <li>Strategy</li>
+  </ul>
+  <div class="p-explicacion">
+    <p>Están las tres señales del <strong>Singleton</strong>: el <strong>constructor privado</strong> (nadie puede hacer <code>new Registro()</code> desde afuera), un <strong>atributo estático</strong> que guarda la única instancia, y un <strong>método estático público</strong> que la crea la primera vez y después devuelve siempre la misma. En el <code>main</code> nunca aparece un <code>new</code>: se pide el objeto a la clase.</p>
+  </div>
+</article>

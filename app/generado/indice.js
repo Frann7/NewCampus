@@ -123,6 +123,14 @@ window.Apuntes.registrarIndice({
     ]
   },
   "preguntas": {
+    "ing2": {
+      "base": "preguntas/ing2-base.js",
+      "calidad": "preguntas/ing2-calidad.js",
+      "comp": "preguntas/ing2-comp.js",
+      "crea": "preguntas/ing2-crea.js",
+      "estr": "preguntas/ing2-estr.js",
+      "git": "preguntas/ing2-git.js"
+    },
     "pa": {
       "parcial-php": "preguntas/pa-parcial-php.js"
     },

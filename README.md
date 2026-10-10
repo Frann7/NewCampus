@@ -92,6 +92,13 @@ fórmulas (MathJax) y las tipografías. Tus datos no salen de tu máquina.
   ese parcial entero como en el Aula Virtual (las 20 preguntas en orden, con cuenta regresiva de
   40 minutos que se puede cambiar, nota sobre 100 y la revisión explicada). Sin etapas, modos ni
   elección de clases.
+* **Evaluación de Ingeniería de Software II**: los parciales 2024 y 2025 resueltos y
+  autoevaluaciones **por temas**: se eligen las unidades (base, creacionales, estructurales, de
+  comportamiento, calidad y CMMI, Git) y corre todas las preguntas de esos temas, con cuenta
+  regresiva, nota sobre 100 y la explicación de cada una. Son 67 preguntas con la forma de las
+  consignas del parcial: qué patrón aplica un código en C++, qué patrón pide un enunciado, las
+  partes de cada diagrama, en qué nivel de CMMI está una empresa, la ficha de una métrica, la
+  secuencia de comandos de Git y el versionado semántico.
 * **Índice lateral con subíndices**: en la práctica, cada ejercicio abierto lista debajo sus
   pasos e incisos, y tocar uno lleva directo a ese inciso.
 * **Tareas**: un tablero con tres columnas, **Pendientes**, **En proceso** y **Hecho**, en el
@@ -228,6 +235,10 @@ Chrome (`chrome --headless --print-to-pdf`).
 `0.x.y-alpha` mientras esté en desarrollo. La `1.0.0` queda reservada para cuando esté terminado.
 La versión actual se lee al pie del menú lateral.
 
+* **0.44.0-alpha** — Ingeniería de Software II: autoevaluaciones por temas. Banco de 67 preguntas
+  (patrones en código C++ y en enunciados, partes de los diagramas, niveles de CMMI, fichas de
+  métricas, comandos de Git, versionado semántico). La evaluación simple ahora deja elegir los
+  temas cuando el banco tiene más de una unidad.
 * **0.43.0-alpha** — Teoría y práctica más visuales, en todas las materias: títulos con su barra
   de color (azul la explicación, celeste los ejemplos, ámbar los errores), tablas con encabezado y
   primera columna de color, cajas con borde, código en el texto en celeste. En Ingeniería de

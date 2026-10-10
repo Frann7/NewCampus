@@ -73,14 +73,19 @@ vuelve a correr; el SVG del fragmento no se edita. Después de generarlos se mir
 - Parciales 2024 y 2025 en `evaluacion/parciales/`, una consigna por archivo, con `pd-resultados`
   (la respuesta modelo) y `pd-explicacion`. La cátedra no publicó respuestas: son propias, y así
   se avisa en la nota de cada parcial.
-- No hay banco de preguntas: por eso la pestaña muestra solo los Parciales
-  (`"evaluacion": {"tipo": "simple"}` en `materias.json`).
+- **Banco de autoevaluación** en `evaluacion/preguntas/<unidad>/` (una carpeta por unidad del
+  menú, un archivo por pregunta, ids `ing2-u0-NN`, `ing2-u4a-NN`, `ing2-u4b-NN`, `ing2-u4c-NN`,
+  `ing2-u5-NN`, `ing2-u6-NN`: el orden alfabético de los ids es el orden en que salen). Evaluación
+  simple (`"evaluacion": {"tipo": "simple"}` en `materias.json`) con elección de temas. Formato:
+  `app/contenido/pye/evaluacion/preguntas/FORMATO.md`, 1ra etapa (`opcion`, `multiple`,
+  `completar` con desplegables o número).
+- Las preguntas son **inventadas** (el parcial no se repite) y copian la forma de sus consignas;
+  la fuente lo dice ("Inventada · estilo Parcial 2025, Práctica 2"). Todo programa de C++ de una
+  pregunta va completo, compilado y corrido, sin comentarios ni nombres que delaten el patrón.
+  Las opciones de un desplegable van siempre en el mismo orden (alfabético) dentro de la pregunta.
 
 ## Pendientes e ideas
 
-- **Banco de autoevaluación** (después del parcial): preguntas del tipo "¿qué patrón es este
-  código?", "¿qué patrón pide este enunciado?", "¿en qué nivel de CMMI está?". Hay que inventarlas
-  (el parcial no se repite); Evaluación simple, como PA.
 - De los apuntes quedó en un párrafo o afuera lo que nunca se tomó: claves SSH, gestores de
   dependencias, la especificación completa de SemVer, los "juegos" de complejidad ciclomática
   (su código está en imagen) y Docker (confirmado que no entra).

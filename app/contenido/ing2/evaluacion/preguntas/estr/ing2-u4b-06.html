@@ -1,0 +1,53 @@
+<article class="preg" data-id="ing2-u4b-06" data-etapa="1" data-formato="completar" data-origen="parcial">
+  <div class="p-enunciado">
+    <p>¿Qué número imprime este programa? <span class="p-hueco" data-respuesta="175"></span></p>
+    <pre class="codigo"><code>#include &lt;iostream&gt;
+#include &lt;vector&gt;
+
+class Elemento {
+public:
+    virtual ~Elemento() {}
+    virtual int precio() const = 0;
+};
+
+class Producto : public Elemento {
+private:
+    int precio_;
+
+public:
+    Producto(int precio) : precio_(precio) {}
+    int precio() const override { return precio_; }
+};
+
+class Caja : public Elemento {
+private:
+    std::vector&lt;Elemento*&gt; contenido_;
+
+public:
+    void agregar(Elemento* e) { contenido_.push_back(e); }
+    int precio() const override {
+        int total = 0;
+        for (Elemento* e : contenido_) {
+            total += e-&gt;precio();
+        }
+        return total;
+    }
+};
+
+int main() {
+    Producto a(100), b(50), c(25);
+    Caja chica;
+    chica.agregar(&amp;c);
+    Caja grande;
+    grande.agregar(&amp;a);
+    grande.agregar(&amp;b);
+    grande.agregar(&amp;chica);
+    std::cout &lt;&lt; grande.precio() &lt;&lt; "\n";
+    return 0;
+}</code></pre>
+    <p class="p-fuente">Inventada &middot; Unidad 4B, Composite</p>
+  </div>
+  <div class="p-explicacion">
+    <p>Se arma un árbol: la caja grande contiene el producto de 100, el de 50 y <strong>la caja chica</strong>, que a su vez contiene el de 25. <code>grande.precio()</code> le pide el precio a cada elemento de su lista; cuando le toca la caja chica, esta hace lo mismo con los suyos y devuelve 25. Total: 100 + 50 + 25 = <strong>175</strong>. Esa llamada que baja por el árbol es lo que hace el Composite.</p>
+  </div>
+</article>

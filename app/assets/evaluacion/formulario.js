@@ -215,16 +215,22 @@
 
   function entero(v) { var n = parseInt(v, 10); return isNaN(n) ? 0 : n; }
 
-  /* Evaluacion simple (la de PA, ver E.configMateria): solo nombre y minutos.
-     Corre todas las preguntas del banco, en orden, como cuestionario virtual. */
+  /* Evaluacion simple (PA e Ing. II, ver E.configMateria): nombre y minutos.
+     Corre todas las preguntas del banco, en orden, como cuestionario virtual.
+     Si el banco tiene preguntas de mas de una unidad, se eligen los temas. */
   var PLANTILLA_SIMPLE =
     '<fieldset class="ae-paso">' +
     '  <legend><span class="ae-num">1</span>Nombre</legend>' +
     '  <input class="ae-input" name="nombre" maxlength="60" autocomplete="off">' +
     '  <p class="ae-ayuda" data-ayuda-nombre></p>' +
     '</fieldset>' +
+    '<fieldset class="ae-paso" data-bloque="temas" hidden>' +
+    '  <legend><span class="ae-num">2</span>Temas</legend>' +
+    '  <div class="ae-caja-unidades" data-unidades></div>' +
+    '  <p class="ae-ayuda" data-total></p>' +
+    '</fieldset>' +
     '<fieldset class="ae-paso">' +
-    '  <legend><span class="ae-num">2</span>Tiempo</legend>' +
+    '  <legend><span class="ae-num" data-num-tiempo>2</span>Tiempo</legend>' +
     '  <div class="ae-campo">' +
     '    <label class="ae-opcion"><span>Contador de</span>' +
     '      <input class="ae-input ae-corto" type="number" name="minutos" min="1" max="240"><span>minutos</span></label>' +
@@ -240,7 +246,6 @@
   function mostrarSimple(cont, materia, acciones) {
     var h = E.h;
     var cfg = E.configMateria(materia);
-    var total = E.banco.todas(materia);
     var porDefecto = "Autoevaluación " + (E.almacen.listar(materia).length + 1);
 
     E.vaciar(cont);
@@ -254,10 +259,40 @@
     form.querySelector("[data-ayuda-nombre]").textContent = "Opcional. Si lo dejás vacío, se guarda como “" + porDefecto + "”.";
     form.elements.minutos.value = cfg.minutos;
 
+    // Temas: las unidades del menu que tienen preguntas (todas marcadas)
+    var conPreguntas = E.unidades(materia).filter(function (u) { return E.banco.todas(materia, [u.id]) > 0; });
+    var porTemas = conPreguntas.length > 1;
+    function elegidas() {
+      return Array.prototype.filter.call(form.querySelectorAll('[name="unidad"]'), function (i) { return i.checked; })
+        .map(function (i) { return i.value; });
+    }
+    function contar() {
+      var n = elegidas().length ? E.banco.todas(materia, elegidas()) : 0;
+      form.querySelector("[data-total]").textContent = n + (n === 1 ? " pregunta." : " preguntas.");
+    }
+    if (porTemas) {
+      var cajaUnidades = form.querySelector("[data-unidades]");
+      conPreguntas.forEach(function (u) {
+        var n = E.banco.todas(materia, [u.id]);
+        cajaUnidades.appendChild(h("label", { class: "ae-chip" }, [
+          h("input", { type: "checkbox", name: "unidad", value: u.id, checked: true }),
+          h("span", {}, [h("b", {}, u.num), h("small", {}, u.nombre + " · " + n)])
+        ]));
+      });
+      form.querySelector('[data-bloque="temas"]').hidden = false;
+      form.querySelector("[data-num-tiempo]").textContent = "3";
+      cajaUnidades.addEventListener("change", contar);
+      contar();
+    }
+
     function guardar(lanzar) {
       var nombre = form.elements.nombre.value.trim() || porDefecto;
       var minutos = entero(form.elements.minutos.value);
+      var unidades = porTemas ? elegidas() : [];
       var errores = [];
+      if (porTemas && !unidades.length) { errores.push("Elegí al menos un tema."); }
+      if (porTemas && unidades.length === conPreguntas.length) { unidades = []; }   // todos: sin filtro
+      var total = E.banco.todas(materia, unidades);
       if (!total) { errores.push("Todavía no hay preguntas en el banco de esta materia."); }
       if (minutos < 1 || minutos > MAX_MINUTOS) { errores.push("El contador va de 1 a 240 minutos (4 horas)."); }
       var caja = form.querySelector("[data-errores]");
@@ -269,7 +304,7 @@
       }
       // etapa "1": corre en cuestionario.js; tipo "simple": todas, en orden, sin reglamento
       var v = { v: 2, tipo: "simple", etapa: "1", formato1: "virtual", modo: "normal",
-                corregirYa: false, unidades: [], cantCuestionario: total,
+                corregirYa: false, unidades: unidades, cantCuestionario: total,
                 conTiempo: true, minutos: minutos };
       var nueva = { id: "ae-" + Date.now().toString(36), materia: materia, creada: Date.now(),
                     nombre: nombre, config: v, historial: [], intento: null };

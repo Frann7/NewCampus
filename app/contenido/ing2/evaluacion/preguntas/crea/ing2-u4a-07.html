@@ -1,0 +1,61 @@
+<article class="preg" data-id="ing2-u4a-07" data-etapa="1" data-formato="opcion" data-origen="parcial">
+  <div class="p-enunciado">
+    <p>¿Qué patrón de diseño aplica este código?</p>
+    <pre class="codigo"><code>#include &lt;iostream&gt;
+#include &lt;string&gt;
+
+class Documento {
+public:
+    virtual ~Documento() {}
+    virtual std::string abrir() const = 0;
+};
+
+class Pdf : public Documento {
+public:
+    std::string abrir() const override { return "Abriendo PDF"; }
+};
+
+class Planilla : public Documento {
+public:
+    std::string abrir() const override { return "Abriendo planilla"; }
+};
+
+class Aplicacion {
+public:
+    virtual ~Aplicacion() {}
+    virtual Documento* crearDocumento() const = 0;
+    void nuevo() const {
+        Documento* d = crearDocumento();
+        std::cout &lt;&lt; d-&gt;abrir() &lt;&lt; "\n";
+        delete d;
+    }
+};
+
+class AppPdf : public Aplicacion {
+public:
+    Documento* crearDocumento() const override { return new Pdf(); }
+};
+
+class AppPlanilla : public Aplicacion {
+public:
+    Documento* crearDocumento() const override { return new Planilla(); }
+};
+
+int main() {
+    Aplicacion* app = new AppPlanilla();
+    app-&gt;nuevo();
+    delete app;
+    return 0;
+}</code></pre>
+    <p class="p-fuente">Inventada &middot; estilo Parcial 2025, Práctica 2</p>
+  </div>
+  <ul class="p-opciones">
+    <li>Abstract Factory</li>
+    <li data-correcta>Factory Method</li>
+    <li>Strategy</li>
+    <li>Adapter</li>
+  </ul>
+  <div class="p-explicacion">
+    <p>Hay dos jerarquías en paralelo: los <strong>productos</strong> (<code>Documento</code>, con <code>Pdf</code> y <code>Planilla</code>) y los <strong>creadores</strong> (<code>Aplicacion</code>, con <code>AppPdf</code> y <code>AppPlanilla</code>). <code>Aplicacion</code> declara el <strong>método fábrica</strong> <code>crearDocumento()</code> como virtual puro y lo usa en <code>nuevo()</code> sin saber qué documento recibe; cada subclase decide cuál crear. Es <strong>Factory Method</strong>. No es Abstract Factory porque hay un solo método de creación y un solo tipo de producto, no una familia.</p>
+  </div>
+</article>

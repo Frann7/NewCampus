@@ -1,0 +1,56 @@
+<article class="preg" data-id="ing2-u4b-05" data-etapa="1" data-formato="opcion" data-origen="parcial">
+  <div class="p-enunciado">
+    <p>¿Qué patrón de diseño aplica este código?</p>
+    <pre class="codigo"><code>#include &lt;iostream&gt;
+#include &lt;vector&gt;
+
+class Integrante {
+public:
+    virtual ~Integrante() {}
+    virtual int sueldo() const = 0;
+};
+
+class Empleado : public Integrante {
+private:
+    int sueldo_;
+
+public:
+    Empleado(int sueldo) : sueldo_(sueldo) {}
+    int sueldo() const override { return sueldo_; }
+};
+
+class Equipo : public Integrante {
+private:
+    std::vector&lt;Integrante*&gt; integrantes_;
+
+public:
+    void agregar(Integrante* integrante) { integrantes_.push_back(integrante); }
+    int sueldo() const override {
+        int total = 0;
+        for (Integrante* i : integrantes_) {
+            total += i-&gt;sueldo();
+        }
+        return total;
+    }
+};
+
+int main() {
+    Empleado ana(900), luis(700);
+    Equipo soporte;
+    soporte.agregar(&amp;ana);
+    soporte.agregar(&amp;luis);
+    std::cout &lt;&lt; soporte.sueldo() &lt;&lt; "\n";
+    return 0;
+}</code></pre>
+    <p class="p-fuente">Inventada &middot; estilo Parcial 2025, Práctica 2</p>
+  </div>
+  <ul class="p-opciones">
+    <li>Observer</li>
+    <li>Strategy</li>
+    <li data-correcta>Composite</li>
+    <li>Facade</li>
+  </ul>
+  <div class="p-explicacion">
+    <p><code>Equipo</code> hereda de <code>Integrante</code> y a la vez guarda una <strong>lista de <code>Integrante*</code></strong>: una lista <strong>de su mismo tipo</strong>, así que adentro de un equipo puede haber empleados u otros equipos. Su <code>sueldo()</code> recorre la lista, le pide lo mismo a cada uno y <strong>devuelve la suma</strong>. Es <strong>Composite</strong>: <code>Integrante</code> es el componente, <code>Empleado</code> la hoja y <code>Equipo</code> el contenedor. Observer también tiene lista y bucle, pero la lista es de <em>otra</em> interfaz y solo se avisa: no vuelve ningún resultado.</p>
+  </div>
+</article>

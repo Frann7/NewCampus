@@ -1,0 +1,35 @@
+<article class="preg" data-id="ing2-u0-06" data-etapa="1" data-formato="opcion" data-origen="parcial">
+  <div class="p-enunciado">
+    <p>¿Qué imprime este programa?</p>
+    <pre class="codigo"><code>#include &lt;iostream&gt;
+#include &lt;string&gt;
+
+class Animal {
+public:
+    virtual ~Animal() {}
+    virtual std::string hablar() const { return "..."; }
+};
+
+class Perro : public Animal {
+public:
+    std::string hablar() const override { return "Guau"; }
+};
+
+int main() {
+    Animal* a = new Perro();
+    std::cout &lt;&lt; a-&gt;hablar() &lt;&lt; "\n";
+    delete a;
+    return 0;
+}</code></pre>
+    <p class="p-fuente">Inventada &middot; Base, sección 4</p>
+  </div>
+  <ul class="p-opciones">
+    <li><code>...</code></li>
+    <li data-correcta><code>Guau</code></li>
+    <li>No compila: un <code>Animal*</code> no puede apuntar a un <code>Perro</code>.</li>
+    <li><code>...Guau</code></li>
+  </ul>
+  <div class="p-explicacion">
+    <p>El puntero es de tipo <code>Animal*</code>, pero el objeto que se creó es un <code>Perro</code>. Como <code>hablar()</code> es <code>virtual</code>, se ejecuta la versión de la <strong>clase real del objeto</strong>: imprime <code>Guau</code>. Eso es el polimorfismo, y todos los patrones se apoyan en él: se trabaja con un puntero a la clase base o a la interfaz sin saber qué clase concreta hay detrás.</p>
+  </div>
+</article>

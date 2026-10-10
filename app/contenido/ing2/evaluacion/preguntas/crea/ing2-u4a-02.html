@@ -1,0 +1,45 @@
+<article class="preg" data-id="ing2-u4a-02" data-etapa="1" data-formato="opcion" data-origen="parcial">
+  <div class="p-enunciado">
+    <p>¿Qué imprime este programa?</p>
+    <pre class="codigo"><code>#include &lt;iostream&gt;
+
+class Contador {
+private:
+    static Contador* instancia_;
+    int valor_;
+    Contador() : valor_(0) {}
+
+public:
+    static Contador* getInstance() {
+        if (instancia_ == nullptr) {
+            instancia_ = new Contador();
+        }
+        return instancia_;
+    }
+    void sumar() { valor_++; }
+    int valor() const { return valor_; }
+};
+
+Contador* Contador::instancia_ = nullptr;
+
+int main() {
+    Contador* a = Contador::getInstance();
+    Contador* b = Contador::getInstance();
+    a-&gt;sumar();
+    b-&gt;sumar();
+    b-&gt;sumar();
+    std::cout &lt;&lt; a-&gt;valor() &lt;&lt; " " &lt;&lt; (a == b) &lt;&lt; "\n";
+    return 0;
+}</code></pre>
+    <p class="p-fuente">Inventada &middot; Unidad 4A, Singleton</p>
+  </div>
+  <ul class="p-opciones">
+    <li><code>1 0</code></li>
+    <li data-correcta><code>3 1</code></li>
+    <li><code>1 1</code></li>
+    <li><code>3 0</code></li>
+  </ul>
+  <div class="p-explicacion">
+    <p><code>a</code> y <code>b</code> apuntan al <strong>mismo objeto</strong>: la segunda llamada a <code>getInstance()</code> no crea nada, devuelve la instancia que ya existía. Por eso las tres sumas caen sobre el mismo contador (vale 3) y <code>a == b</code> da verdadero, que <code>std::cout</code> muestra como 1.</p>
+  </div>
+</article>

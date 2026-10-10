@@ -1,0 +1,55 @@
+<article class="preg" data-id="ing2-u4c-03" data-etapa="1" data-formato="completar" data-origen="parcial">
+  <div class="p-enunciado">
+    <p>¿Cuántos renglones imprime este programa? <span class="p-hueco" data-respuesta="4"></span></p>
+    <pre class="codigo"><code>#include &lt;iostream&gt;
+#include &lt;list&gt;
+#include &lt;string&gt;
+
+class Suscriptor {
+public:
+    virtual ~Suscriptor() {}
+    virtual void update(const std::string&amp; mensaje) = 0;
+};
+
+class Canal {
+private:
+    std::list&lt;Suscriptor*&gt; suscriptores_;
+
+public:
+    void attach(Suscriptor* s) { suscriptores_.push_back(s); }
+    void detach(Suscriptor* s) { suscriptores_.remove(s); }
+    void notify(const std::string&amp; mensaje) {
+        for (Suscriptor* s : suscriptores_) {
+            s-&gt;update(mensaje);
+        }
+    }
+};
+
+class Usuario : public Suscriptor {
+private:
+    std::string nombre_;
+
+public:
+    Usuario(const std::string&amp; nombre) : nombre_(nombre) {}
+    void update(const std::string&amp; mensaje) override {
+        std::cout &lt;&lt; nombre_ &lt;&lt; " recibe: " &lt;&lt; mensaje &lt;&lt; "\n";
+    }
+};
+
+int main() {
+    Canal canal;
+    Usuario ana("Ana"), luis("Luis"), mia("Mia");
+    canal.attach(&amp;ana);
+    canal.attach(&amp;luis);
+    canal.notify("video 1");
+    canal.attach(&amp;mia);
+    canal.detach(&amp;ana);
+    canal.notify("video 2");
+    return 0;
+}</code></pre>
+    <p class="p-fuente">Inventada &middot; Unidad 4C, Observer</p>
+  </div>
+  <div class="p-explicacion">
+    <p>Con el primer <code>notify</code> hay dos suscriptores (Ana y Luis): 2 renglones. Después se suma Mia y <strong>se da de baja Ana</strong> (<code>detach</code>), así que el segundo <code>notify</code> llega a Luis y a Mia: 2 renglones más. Total: <strong>4</strong>. Ana no recibe "video 2": un suscriptor se puede sumar o sacar mientras el programa corre, sin tocar la clase <code>Canal</code>.</p>
+  </div>
+</article>

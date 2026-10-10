@@ -1,0 +1,63 @@
+<article class="preg" data-id="ing2-u4c-02" data-etapa="1" data-formato="opcion" data-origen="parcial">
+  <div class="p-enunciado">
+    <p>¿Qué patrón de diseño aplica este código?</p>
+    <pre class="codigo"><code>#include &lt;iostream&gt;
+#include &lt;vector&gt;
+
+class Interesado {
+public:
+    virtual ~Interesado() {}
+    virtual void actualizar(int precio) = 0;
+};
+
+class Accion {
+private:
+    std::vector&lt;Interesado*&gt; interesados_;
+    int precio_ = 0;
+
+public:
+    void agregar(Interesado* interesado) { interesados_.push_back(interesado); }
+    void fijarPrecio(int precio) {
+        precio_ = precio;
+        for (Interesado* i : interesados_) {
+            i-&gt;actualizar(precio_);
+        }
+    }
+};
+
+class Pantalla : public Interesado {
+public:
+    void actualizar(int precio) override { std::cout &lt;&lt; "Pantalla: " &lt;&lt; precio &lt;&lt; "\n"; }
+};
+
+class Alarma : public Interesado {
+public:
+    void actualizar(int precio) override {
+        if (precio &lt; 100) {
+            std::cout &lt;&lt; "Alarma: precio bajo\n";
+        }
+    }
+};
+
+int main() {
+    Accion accion;
+    Pantalla pantalla;
+    Alarma alarma;
+    accion.agregar(&amp;pantalla);
+    accion.agregar(&amp;alarma);
+    accion.fijarPrecio(120);
+    accion.fijarPrecio(90);
+    return 0;
+}</code></pre>
+    <p class="p-fuente">Inventada &middot; estilo Parcial 2025, Práctica 2</p>
+  </div>
+  <ul class="p-opciones">
+    <li>Composite</li>
+    <li data-correcta>Observer</li>
+    <li>Strategy</li>
+    <li>Adapter</li>
+  </ul>
+  <div class="p-explicacion">
+    <p><code>Accion</code> guarda una <strong>lista de punteros a una interfaz</strong> (<code>Interesado</code>), tiene un método para <strong>agregar</strong> a esa lista y, cuando su precio cambia, <strong>recorre la lista llamando al mismo método</strong> de cada uno (<code>actualizar()</code>). Es <strong>Observer</strong>: <code>Accion</code> es el notificador (<em>Subject</em>) y <code>Pantalla</code> y <code>Alarma</code> son suscriptores. No es Composite: <code>Accion</code> no es un <code>Interesado</code> (la lista es de <em>otro</em> tipo) y del bucle no vuelve ningún resultado.</p>
+  </div>
+</article>

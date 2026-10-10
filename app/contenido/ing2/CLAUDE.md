@@ -49,7 +49,17 @@ El plan de carga, con lo que sube cada parte y lo que falta, está en `docs/plan
   de la cátedra": la cátedra no publicó ninguna resolución (se buscó en la carpeta de la materia
   y en el campus virtual el 10/10/2026).
 
+- **Colores con significado** (clases en `docs/contenido.md`): ventajas y desventajas en
+  `table.t.full.pros`; los niveles de CMMI siempre con la misma etiqueta (`.et mal` el 1, `.et ojo`
+  el 2, `.et dato` el 3, `.et` el 4, `.et ok` el 5); los estados de Git, `.et mal` modificado,
+  `.et ojo` preparado, `.et ok` confirmado; el grupo de un patrón, `.et` creacional, `.et dato`
+  estructural, `.et vio` de comportamiento.
+
 ## Diagramas UML
+
+El color de cada caja lo pone `uml.py` solo: gris la clase común, violeta la interfaz
+(`estereo="interface"`), celeste la abstracta, y cabecera llena la `destacada` (la clase principal
+del patrón). Los símbolos `+ - #` salen en verde, rojo y ámbar.
 
 No se dibujan a mano: se describen en `fuentes/ing2/diagramas/<unidad>.py` y
 `python fuentes/uml.py fuentes/ing2/diagramas/<unidad>.py` (desde la raíz del repo) mete el SVG en

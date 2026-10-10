@@ -228,6 +228,13 @@ Chrome (`chrome --headless --print-to-pdf`).
 `0.x.y-alpha` mientras esté en desarrollo. La `1.0.0` queda reservada para cuando esté terminado.
 La versión actual se lee al pie del menú lateral.
 
+* **0.43.0-alpha** — Teoría y práctica más visuales, en todas las materias: títulos con su barra
+  de color (azul la explicación, celeste los ejemplos, ámbar los errores), tablas con encabezado y
+  primera columna de color, cajas con borde, código en el texto en celeste. En Ingeniería de
+  Software II, además: diagramas UML con color (violeta las interfaces, celeste las clases
+  abstractas, cabecera llena la clase principal, y `+ - #` en verde, rojo y ámbar), ventajas y
+  desventajas en verde y rojo, la escalera de los cinco niveles de CMMI, el flujo de los tres
+  estados de Git y etiquetas de color para niveles, estados y grupos de patrones.
 * **0.42.1-alpha** — Ingeniería de Software II: marcas de parcial (★ y ◈) en 32 ejercicios de
   práctica, con la consigna de parcial a la que corresponde cada uno.
 * **0.42.0-alpha** — El código se ve con colores (palabras clave, tipos, funciones, textos,

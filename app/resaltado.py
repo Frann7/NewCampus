@@ -11,6 +11,9 @@ llevan número de línea (clase "num"). Atributos opcionales en el <pre>:
     data-lang="cpp|php|cs|html|git|c|texto"   el lenguaje, si no se adivina bien
     data-desde="12"       número del primer renglón (un programa partido en partes)
     data-clave="3,7-9"    renglones resaltados, contados dentro del bloque
+
+De paso marca los <h3> de ejemplos ("Ejemplo ...") y de errores ("Errores y
+trampas") con su clase (h-ej, h-ojo), que es la que les da el color.
 """
 import html
 import re
@@ -223,5 +226,13 @@ def un_bloque(m):
     return '<pre class="codigo%s"%s%s><code>%s</code></pre>' % (extra, atributos, estilo, cuerpo)
 
 
+TITULO = re.compile(r'<h3>(Ejemplo\b|Errores y trampas)')
+
+
+def un_titulo(m):
+    """Los h3 de ejemplos y de errores llevan su color (estilos.css)."""
+    return '<h3 class="%s">%s' % ('h-ej' if m.group(1) == 'Ejemplo' else 'h-ojo', m.group(1))
+
+
 def colorear(texto):
-    return PRE.sub(un_bloque, texto)
+    return TITULO.sub(un_titulo, PRE.sub(un_bloque, texto))

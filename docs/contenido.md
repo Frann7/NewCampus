@@ -113,6 +113,17 @@ Usá estas y no inventes otras, así el diseño se mantiene consistente:
 | `.caja-tit` | título dentro de una caja (`<span class="caja-tit">`) |
 | `.tabla-wrap` + `table.t` | tablas (agregá `.full` para ancho completo) |
 | `.kicker` | rótulo chiquito arriba del `<h2>` |
+| `table.t.full.pros` | tabla de dos columnas "Ventajas / Desventajas" (una lista en cada celda): verde con ✔ y rojo con ✘ |
+| `.et` (+ `.ok` `.mal` `.ojo` `.dato` `.vio`) | etiqueta de color para algo que tiene un orden o un estado (`<span class="et ojo">Nivel 2</span>`) |
+| `.escalera` + `.escalon` | niveles que se apoyan uno sobre otro (ver CMMI en `ing2/calidad`) |
+| `.flujo` + `.flujo-caja` + `.flujo-paso` | lugares por los que pasa algo y el comando que lo mueve (ver Git en `ing2/git`) |
+
+**El color tiene un significado y se usa siempre igual**, no para adornar: azul la explicación
+(títulos, encabezados de tabla, viñetas), celeste los ejemplos, ámbar los errores y avisos, verde
+lo correcto o lo que suma, rojo lo que resta o falla. Los `<h3>` que empiezan con "Ejemplo" y los
+"Errores y trampas" toman su color solos al construir. Una etiqueta `.et` se pone solo cuando el
+color ayuda a seguir la misma cosa de una tabla a otra (el mismo nivel, el mismo estado); un
+término que no se repite va en `<strong>`.
 
 **Código.** Se escribe plano, `<pre class="codigo"><code>...</code></pre>` (con `&lt;`, `&gt;` y
 `&amp;`), y `construir.py` lo colorea solo al armar el campus (`app/resaltado.py`): adivina el

@@ -32,6 +32,11 @@
   --warn-bg:#fbf1dc;
   --dato:#215c78;
   --dato-bg:#e4f0f6;
+  --violeta:#6a3fc0;
+  --violeta-bg:#f0eafb;
+  --mal:#b8243c;
+  --mal-bg:#fbe9ec;
+  --raya:rgba(26,28,40,.028);
 
   /* codigo (PA): el bloque, lo que imprime el programa y el codigo en linea */
   --codigo-bg:#f6f7fb;
@@ -79,6 +84,11 @@
     --warn-bg:#302713;
     --dato:#6fb6d8;
     --dato-bg:#132a35;
+    --violeta:#c4a7ff;
+    --violeta-bg:#2a2344;
+    --mal:#f07a8c;
+    --mal-bg:#3a1c22;
+    --raya:rgba(255,255,255,.028);
 
     --codigo-bg:#252a3a;
     --codigo-borde:#343a50;
@@ -123,6 +133,11 @@
   --warn-bg:#302713;
   --dato:#6fb6d8;
   --dato-bg:#132a35;
+  --violeta:#c4a7ff;
+  --violeta-bg:#2a2344;
+  --mal:#f07a8c;
+  --mal-bg:#3a1c22;
+  --raya:rgba(255,255,255,.028);
 
   --codigo-bg:#252a3a;
   --codigo-borde:#343a50;
@@ -587,13 +602,21 @@ html.contenido-centrado .content-wrap{
    saca app.js; no depende de ninguna transicion). */
 .es-destino{background:var(--accent-bg);border-radius:6px;box-shadow:0 0 0 6px var(--accent-bg);}
 
+/* Cada h3 lleva una barrita de color: azul la explicacion, celeste los
+   ejemplos (h-ej) y ambar los errores (h-ojo). Esas dos clases las pone
+   construir.py segun como empieza el titulo. */
 .bloque h3{
   font-size:17px;
   font-weight:600;
-  margin:30px 0 8px;
+  margin:30px 0 10px;
   letter-spacing:-.005em;
+  color:var(--teoria);
+  border-left:3px solid currentColor;
+  padding-left:10px;
 }
 .bloque h3:first-of-type{margin-top:18px;}
+.bloque h3.h-ej{color:var(--dato);}
+.bloque h3.h-ojo{color:var(--warn);}
 
 .bloque h4{
   font-size:15.5px;
@@ -614,6 +637,7 @@ html.contenido-centrado .content-wrap{
 .bloque p{margin:0 0 14px;}
 .bloque ul, .bloque ol{margin:0 0 16px;padding-left:22px;}
 .bloque li{margin-bottom:9px;}
+.bloque li::marker{color:var(--teoria);font-weight:700;}
 
 hr.sep{
   border:none;
@@ -641,16 +665,20 @@ hr.sep{
   margin-bottom:6px;
 }
 
-.caja-formula{background:var(--teoria-bg);}
+.caja-formula{background:var(--teoria-bg);border-left:3px solid var(--teoria);}
+.caja-formula li::marker{color:var(--teoria);}
 .caja-formula .caja-tit{color:var(--teoria);}
 
-.caja-ejemplo{background:var(--dato-bg);}
+.caja-ejemplo{background:var(--dato-bg);border-left:3px solid var(--dato);}
+.caja-ejemplo li::marker{color:var(--dato);}
 .caja-ejemplo .caja-tit{color:var(--dato);}
 
-.caja-ojo{background:var(--warn-bg);}
+.caja-ojo{background:var(--warn-bg);border-left:3px solid var(--warn);}
+.caja-ojo li::marker{color:var(--warn);}
 .caja-ojo .caja-tit{color:var(--warn);}
 
-.caja-resp{background:var(--ok-bg);}
+.caja-resp{background:var(--ok-bg);border-left:3px solid var(--ok);}
+.caja-resp li::marker{color:var(--ok);}
 .caja-resp .caja-tit{color:var(--ok);}
 
 .caja-calc{
@@ -671,6 +699,7 @@ code{
   font-family:"JetBrains Mono",Consolas,monospace;
   font-size:.86em;
   background:var(--codigo-linea);
+  color:var(--c-tipo);
   border-radius:5px;
   padding:.1em .38em;
   overflow-wrap:anywhere;
@@ -716,6 +745,7 @@ pre.salida::before{
 }
 pre.codigo code, pre.salida code{
   font-size:inherit;
+  color:inherit;
   background:none;
   border-radius:0;
   padding:0;
@@ -799,6 +829,80 @@ table.t td.lbl, table.t th.lbl{text-align:left;font-weight:600;}
 table.t.full{width:100%;}
 table.t.full td, table.t.full th{white-space:normal;text-align:left;}
 
+/* En teoria y practica: encabezado y primera columna con el color del
+   apartado, y un renglon por medio apenas sombreado. */
+.bloque table.t th{background:var(--teoria-bg);color:var(--teoria);font-weight:700;}
+.bloque table.t td.lbl{color:var(--teoria);}
+.ej table.t th{background:var(--practica-bg);color:var(--practica);font-weight:700;}
+.ej table.t td.lbl{color:var(--practica);}
+.bloque table.t.full tr:nth-child(odd) td, .ej table.t.full tr:nth-child(odd) td{background:var(--raya);}
+
+/* Ventajas (verde) y desventajas (rojo), una columna cada una */
+table.t.pros th:first-child{background:var(--ok-bg);color:var(--ok);}
+table.t.pros th:last-child{background:var(--mal-bg);color:var(--mal);}
+table.t.pros td{vertical-align:top;width:50%;}
+table.t.pros td ul{list-style:none;padding-left:0;margin:0;}
+table.t.pros td li{position:relative;padding-left:24px;}
+table.t.pros td li:last-child{margin-bottom:0;}
+table.t.pros td li::before{position:absolute;left:2px;font-weight:700;}
+table.t.pros td:first-child li::before{content:"\2714";color:var(--ok);}
+table.t.pros td:last-child li::before{content:"\2718";color:var(--mal);}
+
+/* Etiquetas de color para lo que tiene un orden o un estado (niveles de
+   CMMI, estados de Git, familia de un patron): <span class="et ok">...</span> */
+.et{
+  display:inline-block;font-size:.82em;font-weight:700;line-height:1.5;
+  padding:0 .6em;border-radius:999px;white-space:nowrap;
+  background:var(--teoria-bg);color:var(--teoria);
+}
+.et.ok{background:var(--ok-bg);color:var(--ok);}
+.et.mal{background:var(--mal-bg);color:var(--mal);}
+.et.ojo{background:var(--warn-bg);color:var(--warn);}
+.et.dato{background:var(--dato-bg);color:var(--dato);}
+.et.vio{background:var(--violeta-bg);color:var(--violeta);}
+
+/* Escalera: niveles que se apoyan uno sobre otro (CMMI). Cada escalon,
+   <div class="escalon ok"><span class="esc-n">5</span><strong>..</strong><span>..</span></div> */
+.escalera{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(0,1fr);gap:6px;align-items:end;margin:18px 0 20px;}
+.escalon{
+  --k:var(--teoria);--k-bg:var(--teoria-bg);
+  display:flex;flex-direction:column;gap:3px;
+  background:var(--k-bg);border-top:3px solid var(--k);border-radius:9px 9px 0 0;
+  padding:10px 12px 12px;font-size:13.5px;line-height:1.35;color:var(--ink-soft);overflow-wrap:break-word;
+  min-height:92px;
+}
+.escalon:nth-child(2){min-height:118px;}
+.escalon:nth-child(3){min-height:144px;}
+.escalon:nth-child(4){min-height:170px;}
+.escalon:nth-child(5){min-height:196px;}
+.escalon strong{color:var(--ink);font-size:14.5px;}
+.esc-n{font-family:Georgia,"Times New Roman",serif;font-size:26px;font-weight:700;line-height:1;color:var(--k);}
+
+/* Flujo: lugares por los que pasa algo, con el comando que lo mueve entre uno y otro */
+.flujo{display:flex;align-items:stretch;gap:0;margin:18px 0 20px;}
+.flujo-caja{
+  --k:var(--teoria);--k-bg:var(--teoria-bg);
+  flex:1 1 0;display:flex;flex-direction:column;align-items:flex-start;gap:4px;
+  background:var(--k-bg);border:1px solid var(--line);border-top:3px solid var(--k);border-radius:9px;
+  padding:12px 14px;font-size:14px;color:var(--ink-soft);
+}
+.flujo-caja strong{color:var(--ink);font-size:15px;}
+.flujo-caja .et{margin-top:4px;background:var(--surface);}
+.flujo-paso{
+  flex:none;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:0 10px;font-size:13.5px;
+}
+.flujo-paso::after{content:"\2192";font-size:22px;line-height:1;color:var(--ink-faint);}
+.escalon.ok, .flujo-caja.ok{--k:var(--ok);--k-bg:var(--ok-bg);}
+.escalon.mal, .flujo-caja.mal{--k:var(--mal);--k-bg:var(--mal-bg);}
+.escalon.ojo, .flujo-caja.ojo{--k:var(--warn);--k-bg:var(--warn-bg);}
+.escalon.dato, .flujo-caja.dato{--k:var(--dato);--k-bg:var(--dato-bg);}
+
+/* Visibilidad en UML: + publico, - privado, # protegido (igual en los diagramas) */
+code.v-pub{color:var(--ok);font-weight:700;}
+code.v-priv{color:var(--mal);font-weight:700;}
+code.v-prot{color:var(--warn);font-weight:700;}
+
 /* Recorte de la tabla de la normal: la fila y la columna que se buscan, y el cruce */
 table.t.z-recorte{font-size:12px;font-variant-numeric:tabular-nums;}
 table.t.z-recorte th, table.t.z-recorte td{padding:4px 3px;}
@@ -850,7 +954,8 @@ table.t.z-recorte td.z-cruce{
 .ej p{margin:0 0 14px;}
 .ej ul, .ej ol{margin:0 0 16px;padding-left:22px;}
 .ej li{margin-bottom:9px;}
-.ej h3{font-size:17px;font-weight:600;margin:28px 0 8px;}
+.ej li::marker{color:var(--practica);font-weight:700;}
+.ej h3{font-size:17px;font-weight:600;margin:28px 0 10px;color:var(--practica);border-left:3px solid currentColor;padding-left:10px;}
 .ej h4{font-size:15.5px;font-weight:600;color:var(--ink-soft);margin:22px 0 6px;}
 
 .paso{
@@ -1482,15 +1587,30 @@ body.pdf-gesto{user-select:none;}
    el SVG trae su tamano natural y aca solo se evita que se agrande. */
 .pd-grafico.uml{overflow-x:auto;}
 .pd-grafico.uml svg{width:auto;max-width:100%;}
-.uml .caja{fill:var(--surface-2);stroke:var(--ink-soft);stroke-width:1.5;}
-.uml .caja.destacada{fill:var(--teoria-bg);stroke:var(--teoria);}
-.uml .div{stroke:var(--ink-soft);stroke-width:1;}
+/* El color de cada caja dice que es: gris una clase comun, violeta una
+   interfaz, celeste una clase abstracta. La clase principal del dibujo
+   (destacada) lleva la cabecera llena. */
+.uml .clase{--k:var(--ink-soft);--k-bg:var(--surface-3);}
+.uml .clase.destacada{--k:var(--teoria);}
+.uml .clase.k-interfaz{--k:var(--violeta);--k-bg:var(--violeta-bg);}
+.uml .clase.k-abstracta{--k:var(--dato);--k-bg:var(--dato-bg);}
+.uml .caja{fill:var(--surface);stroke:var(--k);stroke-width:1.5;}
+.uml .caja.sola{fill:var(--k-bg);}
+.uml .cab{fill:var(--k-bg);}
+.uml .div{stroke:var(--k);stroke-width:1;}
 .uml .nombre{fill:var(--ink);font:700 14px "Public Sans","Segoe UI",Arial,sans-serif;text-anchor:middle;}
 .uml .nombre.abstracta{font-style:italic;}
-.uml .estereo{fill:var(--ink-soft);font:12px "Public Sans","Segoe UI",Arial,sans-serif;text-anchor:middle;}
+.uml .estereo{fill:var(--k);font:600 12px "Public Sans","Segoe UI",Arial,sans-serif;text-anchor:middle;}
+.uml .destacada .caja{stroke-width:2;}
+.uml .destacada .cab, .uml .destacada .caja.sola{fill:var(--k);}
+.uml .destacada .nombre, .uml .destacada .estereo{fill:var(--surface);}
 .uml .miembro{fill:var(--ink);font:12.5px Consolas,"Courier New",monospace;}
 .uml .miembro.estatico{text-decoration:underline;}
 .uml .miembro.abstracto{font-style:italic;}
+.uml .miembro .tp{fill:var(--ink-soft);}
+.uml .v-pub{fill:var(--ok);font-weight:700;}
+.uml .v-priv{fill:var(--mal);font-weight:700;}
+.uml .v-prot{fill:var(--warn);font-weight:700;}
 .uml .linea{fill:none;stroke:var(--ink-soft);stroke-width:1.5;}
 .uml .linea.punteada{stroke-dasharray:6 4;}
 .uml .hueca{fill:var(--surface);stroke:var(--ink-soft);stroke-width:1.5;}

@@ -21,7 +21,8 @@ Un diagrama:
 
 Clase: `id`, `x`, `y` (esquina de arriba a la izquierda, en px), y opcionales
 `nombre` (si no es el id), `estereo` (interface, abstract...), `abstracta`
-(nombre en cursiva), `destacada` (color), `attrs`, `mets`, `w` (ancho mínimo).
+(nombre en cursiva), `destacada` (cabecera llena), `attrs`, `mets`, `w` (ancho mínimo).
+El color de cada caja sale solo: interfaz, clase abstracta o clase común.
 Un miembro que empieza con `s:` es estático (subrayado); con `a:`, abstracto
 (cursiva).
 
@@ -60,9 +61,32 @@ def medir(c):
     c["h"] = cab + sum(len(g) * ALTO_LINEA + 10 for g in (attrs, mets) if g)
 
 
+VISIB = {"+": "v-pub", "-": "v-priv", "#": "v-prot", "~": "v-paq"}
+
+
+def miembro(m):
+    """El renglón de un miembro, con el símbolo de visibilidad y los tipos
+    marcados para que estilos.css los pinte."""
+    o = ""
+    if len(m) > 1 and m[0] in VISIB and m[1] == " ":
+        o, m = f'<tspan class="{VISIB[m[0]]}">{esc(m[0])}</tspan>', m[1:]
+    for i, trozo in enumerate(re.split(r"(:\s*[^,()]+)", m)):
+        if trozo:
+            o += f'<tspan class="tp">{esc(trozo)}</tspan>' if i % 2 else esc(trozo)
+    return o
+
+
 def dibujar_clase(c):
     x, y, w, h = c["x"], c["y"], c["w"], c["h"]
-    o = [f'<rect class="caja{" destacada" if c.get("destacada") else ""}" x="{x}" y="{y}" width="{w}" height="{h}" rx="3"/>']
+    # el color de la caja sale de qué es: interfaz, clase abstracta o clase común
+    tipo = ("interfaz" if c.get("estereo") == "interface"
+            else "abstracta" if c.get("abstracta") or c.get("estereo") == "abstract" else "comun")
+    o = [f'<g class="clase k-{tipo}{" destacada" if c.get("destacada") else ""}">',
+         f'<rect class="caja" x="{x}" y="{y}" width="{w}" height="{h}" rx="3"/>']
+    if c.get("attrs") or c.get("mets"):
+        o.append(f'<rect class="cab" x="{x + 1}" y="{y + 1}" width="{w - 2}" height="{c["cab"] - 1}" rx="2"/>')
+    else:
+        o[-1] = o[-1].replace('class="caja"', 'class="caja sola"')
     ty = y + 20
     if c.get("estereo"):
         o.append(f'<text class="estereo" x="{x + w / 2:g}" y="{y + 16}">&#171;{esc(c["estereo"])}&#187;</text>')
@@ -78,8 +102,9 @@ def dibujar_clase(c):
             extra = {"s:": " estatico", "a:": " abstracto"}.get(m[:2], "")
             if extra:
                 m = m[2:]
-            o.append(f'<text class="miembro{extra}" x="{x + 10}" y="{cy + 18 + i * ALTO_LINEA}">{esc(m)}</text>')
+            o.append(f'<text class="miembro{extra}" x="{x + 10}" y="{cy + 18 + i * ALTO_LINEA}">{miembro(m)}</text>')
         cy += len(grupo) * ALTO_LINEA + 10
+    o.append("</g>")
     return o
 
 

@@ -145,7 +145,7 @@ tilda. Si una parte se alarga, se recorta la práctica (menos ejercicios), nunca
   2 variantes.
 - Leer: `Gestión de cambios.md` p. 3-4, 12-16 y 19-24.
 
-### Parte 7 — Parciales resueltos ☐
+### Parte 7 — Parciales resueltos ☑
 
 - `evaluacion/parciales/`: 2024 y 2025, una consigna por archivo, con la respuesta modelo (el
   código del 2025 también pasado a C++).

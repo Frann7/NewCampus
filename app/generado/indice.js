@@ -34,6 +34,26 @@ window.Apuntes.registrarIndice({
     "pye/u7/teoria": "panes/pye-u7-teoria.js"
   },
   "examenes": {
+    "ing2": [
+      {
+        "id": "2024-segundo-parcial",
+        "archivo": "examenes/ing2-2024-segundo-parcial.js",
+        "titulo": "Parcial N\u00b02",
+        "fecha": "23/10/2024",
+        "detalle": "4 ejercicios de patrones de dise\u00f1o",
+        "temas": "Composite \u00b7 Singleton \u00b7 Observer \u00b7 Facade",
+        "tipo": "parcial"
+      },
+      {
+        "id": "2025-segundo-parcial",
+        "archivo": "examenes/ing2-2025-segundo-parcial.js",
+        "titulo": "Parcial N\u00b02",
+        "fecha": "8/10/2025",
+        "detalle": "Teor\u00eda (5 preguntas, 50 puntos) y Pr\u00e1ctica (2 consignas)",
+        "temas": "CMMI \u00b7 Git \u00b7 Abstract Factory y Adapter \u00b7 M\u00e9tricas \u00b7 Strategy, Factory Method y Observer \u00b7 Facade",
+        "tipo": "parcial"
+      }
+    ],
     "pa": [
       {
         "id": "parcial-php",
@@ -271,7 +291,11 @@ window.Apuntes.registrarIndice({
           "num": "Unidad 6",
           "nombre": "Gestion de cambios y Git"
         }
-      ]
+      ],
+      "evaluacion": {
+        "tipo": "simple",
+        "minutos": 40
+      }
     },
     {
       "clave": "so-teoria",

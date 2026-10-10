@@ -12,6 +12,8 @@
   id, reloj de cuenta regresiva, nota sobre 100 y revisión con explicación; sin la condición
   30/60 ni nada de etapas. El banco de PA está en `preguntas/parcial-php/` (no es una clase, así
   que sus preguntas no llevan chip de unidad). `E.configMateria`, `E.esSimple` en `nucleo.js`.
+  Una materia **sin banco de preguntas** (Ing. de Software II, por ahora) no muestra la sección
+  Autoevaluación: solo sus parciales.
 
 * **Parciales y finales:** cada examen es una carpeta con `meta.json` (titulo, fecha, detalle,
   temas: lo que muestra la tarjeta sin abrir el examen) y un archivo por ejercicio. El

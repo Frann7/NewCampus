@@ -1,0 +1,113 @@
+<!-- ==================== EJERCICIO 2 ==================== -->
+<section class="parcial-ej">
+  <div class="parcial-ej-cab">
+    <h2>Ejercicio 2</h2>
+    <span class="parcial-tema">Unidad 4A &middot; Singleton</span>
+  </div>
+
+  <p>
+    <strong>2-</strong> Realice el diagrama (mediante UML) el patrón Singleton, dar una breve
+    descripción de su usabilidad y mencione 2 ejemplos.
+  </p>
+
+  <div class="parcial-extras">
+    <details class="parcial-desp pd-resultados">
+      <summary>
+        <span class="pd-icono">&#10003;</span>
+        <span class="pd-txt"><b>Resultados</b><small>Solo la respuesta</small></span>
+      </summary>
+      <div class="pd-cuerpo">
+        <div class="pd-grafico uml" data-g="singleton">
+          <svg viewBox="-14 -14 478 135" width="478" height="135" role="img" aria-label="Estructura del patrón Singleton">
+            <polyline class="linea punteada" points="90,37 140,37 140,37 190,37"/>
+            <polyline class="linea" points="180,42 190,37 180,32"/>
+            <text class="rotulo" x="140" y="31" text-anchor="middle">usa</text>
+            <rect class="caja" x="0" y="22" width="90" height="30" rx="3"/>
+            <text class="nombre" x="45" y="42">Cliente</text>
+            <rect class="caja destacada" x="190" y="0" width="260" height="107" rx="3"/>
+            <text class="nombre" x="320" y="20">Singleton</text>
+            <line class="div" x1="190" y1="30" x2="450" y2="30"/>
+            <text class="miembro estatico" x="200" y="48">- instancia: Singleton</text>
+            <line class="div" x1="190" y1="59" x2="450" y2="59"/>
+            <text class="miembro" x="200" y="77">- Singleton()</text>
+            <text class="miembro estatico" x="200" y="96">+ obtenerInstancia(): Singleton</text>
+          </svg>
+        </div>
+        <p>
+          <strong>Descripción:</strong> Singleton es un patrón creacional que se usa cuando una
+          clase debe tener una única instancia disponible para todo el programa. La clase oculta su
+          constructor y ofrece un método estático que crea el objeto la primera vez y devuelve
+          siempre el mismo, dando un punto de acceso global.
+        </p>
+        <p>
+          <strong>Dos ejemplos:</strong> la conexión a la base de datos de un sistema y la
+          configuración global de una aplicación.
+        </p>
+      </div>
+    </details>
+
+    <details class="parcial-desp pd-explicacion">
+      <summary>
+        <span class="pd-icono">&#9998;</span>
+        <span class="pd-txt"><b>Explicación detallada</b><small>El concepto desde cero, el desarme de la consigna, la respuesta y las trampas</small></span>
+      </summary>
+      <div class="pd-cuerpo">
+        <h4>Qué evalúa</h4>
+        <p>Saber de memoria la estructura de un patrón, para qué sirve y dónde se usa. Tres cosas pedidas, tres cosas en la respuesta.</p>
+
+        <h4>El concepto</h4>
+        <p>
+          Singleton resuelve dos problemas a la vez: <strong>garantiza que una clase tenga una
+          única instancia</strong> y <strong>da un punto de acceso global</strong> a ella. Lo hace
+          con dos movimientos: el <strong>constructor privado</strong> (nadie de afuera puede hacer
+          <code>new</code>) y un <strong>método estático</strong> que crea el objeto la primera vez,
+          lo guarda en un <strong>atributo estático</strong> y después devuelve siempre ese.
+        </p>
+
+        <span class="paso">Paso 1 &mdash; El diagrama</span>
+        <div class="pd-grafico uml" data-g="singleton">
+          <svg viewBox="-14 -14 478 135" width="478" height="135" role="img" aria-label="Estructura del patrón Singleton">
+            <polyline class="linea punteada" points="90,37 140,37 140,37 190,37"/>
+            <polyline class="linea" points="180,42 190,37 180,32"/>
+            <text class="rotulo" x="140" y="31" text-anchor="middle">usa</text>
+            <rect class="caja" x="0" y="22" width="90" height="30" rx="3"/>
+            <text class="nombre" x="45" y="42">Cliente</text>
+            <rect class="caja destacada" x="190" y="0" width="260" height="107" rx="3"/>
+            <text class="nombre" x="320" y="20">Singleton</text>
+            <line class="div" x1="190" y1="30" x2="450" y2="30"/>
+            <text class="miembro estatico" x="200" y="48">- instancia: Singleton</text>
+            <line class="div" x1="190" y1="59" x2="450" y2="59"/>
+            <text class="miembro" x="200" y="77">- Singleton()</text>
+            <text class="miembro estatico" x="200" y="96">+ obtenerInstancia(): Singleton</text>
+          </svg>
+        </div>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Parte</th><th>Cómo se dibuja</th></tr>
+            <tr><td class="lbl">Atributo <code>instancia</code></td><td>Privado (<code>-</code>) y estático (subrayado), del tipo de la propia clase</td></tr>
+            <tr><td class="lbl">Constructor</td><td>Privado (<code>-</code>)</td></tr>
+            <tr><td class="lbl">Método <code>obtenerInstancia()</code></td><td>Público (<code>+</code>) y estático (subrayado)</td></tr>
+          </table>
+        </div>
+        <p>Una sola clase con tres cosas. Lo que no puede faltar: los dos subrayados y los dos signos menos.</p>
+
+        <span class="paso">Paso 2 &mdash; La descripción</span>
+        <p>"Usabilidad" es para qué se usa. Alcanza con decir cuándo se aplica y cómo lo logra (el texto de Resultados).</p>
+
+        <span class="paso">Paso 3 &mdash; Los ejemplos</span>
+        <p>
+          Cualquiera de estos: la conexión a la base de datos, la configuración global, el registro
+          de eventos (<em>log</em>), un gestor de usuarios o de seguridad. Conviene decirlos con el
+          porqué: "la conexión a la base de datos, porque todo el sistema debe usar la misma".
+        </p>
+
+        <h4>Trampas</h4>
+        <ul>
+          <li><strong>Olvidarse de que el constructor es privado:</strong> sin eso, nada impide crear más objetos.</li>
+          <li><strong>No subrayar lo estático:</strong> es la marca que distingue al Singleton de una clase común.</li>
+        </ul>
+        <p>Está desarrollado en la Unidad 4A, sección 1.</p>
+      </div>
+    </details>
+  </div>
+</section>

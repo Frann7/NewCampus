@@ -1,0 +1,322 @@
+<!-- ==================== EJERCICIO 3 ==================== -->
+<section class="parcial-ej">
+  <div class="parcial-ej-cab">
+    <h2>Ejercicio 3</h2>
+    <span class="parcial-tema">Unidades 4A y 4C &middot; Singleton y Observer sobre un diagrama</span>
+  </div>
+
+  <p>
+    <strong>3-</strong> En el siguiente diagrama que pertenece a una aplicación farmacéutica, se
+    solicita modelar:
+  </p>
+  <div class="pd-grafico uml" data-g="farmacia">
+    <svg viewBox="-14 -14 616 424" width="616" height="424" role="img" aria-label="El diagrama de la aplicación farmacéutica del parcial 2024">
+      <polyline class="linea" points="76.5,270 76.5,223.5 175,223.5 175,177"/>
+      <polygon class="hueca" points="175,164 182,177 168,177"/>
+      <polyline class="linea" points="279,270 279,223.5 175,223.5 175,177"/>
+      <polygon class="hueca" points="175,164 182,177 168,177"/>
+      <polyline class="linea" points="240,82 330,82 330,82 420,82"/>
+      <rect class="caja" x="110" y="0" width="130" height="164" rx="3"/>
+      <text class="nombre" x="175" y="20">Usuario</text>
+      <line class="div" x1="110" y1="30" x2="240" y2="30"/>
+      <text class="miembro" x="120" y="48">nombre</text>
+      <text class="miembro" x="120" y="67">Telefono</text>
+      <text class="miembro" x="120" y="86">Direccion</text>
+      <line class="div" x1="110" y1="97" x2="240" y2="97"/>
+      <text class="miembro" x="120" y="115">get nombre()</text>
+      <text class="miembro" x="120" y="134">get telefono()</text>
+      <text class="miembro" x="120" y="153">set telefono()</text>
+      <rect class="caja" x="420" y="0" width="168" height="202" rx="3"/>
+      <text class="nombre" x="504" y="20">Medicamento</text>
+      <line class="div" x1="420" y1="30" x2="588" y2="30"/>
+      <text class="miembro" x="430" y="48">Serial</text>
+      <text class="miembro" x="430" y="67">Nombre</text>
+      <text class="miembro" x="430" y="86">Lote</text>
+      <text class="miembro" x="430" y="105">Posologia</text>
+      <text class="miembro" x="430" y="124">Presentacion</text>
+      <line class="div" x1="420" y1="135" x2="588" y2="135"/>
+      <text class="miembro" x="430" y="153">validarmedicacion()</text>
+      <text class="miembro" x="430" y="172">imprimirlote()</text>
+      <text class="miembro" x="430" y="191">imprimiretiqueta()</text>
+      <rect class="caja" x="0" y="270" width="153" height="126" rx="3"/>
+      <text class="nombre" x="76.5" y="290">Cliente</text>
+      <line class="div" x1="0" y1="300" x2="153" y2="300"/>
+      <text class="miembro" x="10" y="318">CUIT</text>
+      <text class="miembro" x="10" y="337">Razon Social</text>
+      <line class="div" x1="0" y1="348" x2="153" y2="348"/>
+      <text class="miembro" x="10" y="366">set razonsocial()</text>
+      <text class="miembro" x="10" y="385">get cuit()</text>
+      <rect class="caja" x="210" y="270" width="138" height="88" rx="3"/>
+      <text class="nombre" x="279" y="290">Farmaceutico</text>
+      <line class="div" x1="210" y1="300" x2="348" y2="300"/>
+      <text class="miembro" x="220" y="318">Matricula</text>
+      <line class="div" x1="210" y1="329" x2="348" y2="329"/>
+      <text class="miembro" x="220" y="347">get matricula()</text>
+    </svg>
+  </div>
+  <ul>
+    <li>
+      Se desea crear una clase para mantener la seguridad de los usuarios, llamada GestorUsuarios,
+      dicha clase tendrá métodos para realizar el login del sistema, cambiar la contraseña del
+      usuario, dar de baja y dar de alta usuarios, por motivos de performance se desea crear una
+      sola instancia de dicha clase.
+    </li>
+    <li>
+      Se necesita implementar mecanismos de para la emisión de lotes de medicamentos, para esto es
+      necesario que cada vez que se imprima un lote, se envíe una alerta al farmacéutico y este
+      registra el suceso en una tabla de lotes.
+    </li>
+  </ul>
+
+  <div class="parcial-extras">
+    <details class="parcial-desp pd-resultados">
+      <summary>
+        <span class="pd-icono">&#10003;</span>
+        <span class="pd-txt"><b>Resultados</b><small>Solo la respuesta</small></span>
+      </summary>
+      <div class="pd-cuerpo">
+        <p><strong>Primer punto: Singleton</strong>, en la clase nueva <code>GestorUsuarios</code>.</p>
+        <div class="pd-grafico uml" data-g="singleton-gestor">
+          <svg viewBox="-14 -14 371 211" width="371" height="211" role="img" aria-label="GestorUsuarios como Singleton">
+            <rect class="caja destacada" x="0" y="0" width="343" height="183" rx="3"/>
+            <text class="nombre" x="171.5" y="20">GestorUsuarios</text>
+            <line class="div" x1="0" y1="30" x2="343" y2="30"/>
+            <text class="miembro estatico" x="10" y="48">- instancia: GestorUsuarios</text>
+            <line class="div" x1="0" y1="59" x2="343" y2="59"/>
+            <text class="miembro" x="10" y="77">- GestorUsuarios()</text>
+            <text class="miembro estatico" x="10" y="96">+ obtenerInstancia(): GestorUsuarios</text>
+            <text class="miembro" x="10" y="115">+ login(usuario, clave): boolean</text>
+            <text class="miembro" x="10" y="134">+ cambiarContrasenia(usuario, nueva): void</text>
+            <text class="miembro" x="10" y="153">+ darDeAlta(usuario): void</text>
+            <text class="miembro" x="10" y="172">+ darDeBaja(usuario): void</text>
+          </svg>
+        </div>
+        <p>
+          <strong>Segundo punto: Observer.</strong> <code>Medicamento</code> es el notificador
+          (avisa al imprimir un lote) y <code>Farmaceutico</code> el suscriptor (recibe la alerta y
+          registra en la tabla de lotes).
+        </p>
+        <div class="pd-grafico uml" data-g="observer-farmacia">
+          <svg viewBox="-14 -14 670 463" width="670" height="463" role="img" aria-label="Observer sobre el diagrama de la aplicación farmacéutica">
+            <polyline class="linea" points="76.5,270 76.5,223.5 175,223.5 175,177"/>
+            <polygon class="hueca" points="175,164 182,177 168,177"/>
+            <polyline class="linea" points="237,270 237,223.5 175,223.5 175,177"/>
+            <polygon class="hueca" points="175,164 182,177 168,177"/>
+            <polyline class="linea" points="240,32 330,32 330,35 420,35"/>
+            <polyline class="linea" points="531,296 531,328 543,328 543,360"/>
+            <polygon class="hueca" points="531,278 537,287 531,296 525,287"/>
+            <text class="rotulo" x="551" y="342" text-anchor="middle">*</text>
+            <polyline class="linea punteada" points="419,373 438,373 438,397.5 457,397.5"/>
+            <polygon class="hueca" points="470,397.5 457,404.5 457,390.5"/>
+            <rect class="caja" x="110" y="0" width="130" height="164" rx="3"/>
+            <text class="nombre" x="175" y="20">Usuario</text>
+            <line class="div" x1="110" y1="30" x2="240" y2="30"/>
+            <text class="miembro" x="120" y="48">nombre</text>
+            <text class="miembro" x="120" y="67">Telefono</text>
+            <text class="miembro" x="120" y="86">Direccion</text>
+            <line class="div" x1="110" y1="97" x2="240" y2="97"/>
+            <text class="miembro" x="120" y="115">get nombre()</text>
+            <text class="miembro" x="120" y="134">get telefono()</text>
+            <text class="miembro" x="120" y="153">set telefono()</text>
+            <rect class="caja destacada" x="420" y="0" width="222" height="278" rx="3"/>
+            <text class="nombre" x="531" y="20">Medicamento</text>
+            <line class="div" x1="420" y1="30" x2="642" y2="30"/>
+            <text class="miembro" x="430" y="48">Serial</text>
+            <text class="miembro" x="430" y="67">Nombre</text>
+            <text class="miembro" x="430" y="86">Lote</text>
+            <text class="miembro" x="430" y="105">Posologia</text>
+            <text class="miembro" x="430" y="124">Presentacion</text>
+            <text class="miembro" x="430" y="143">observadores: Observador[]</text>
+            <line class="div" x1="420" y1="154" x2="642" y2="154"/>
+            <text class="miembro" x="430" y="172">validarmedicacion()</text>
+            <text class="miembro" x="430" y="191">imprimirlote()</text>
+            <text class="miembro" x="430" y="210">imprimiretiqueta()</text>
+            <text class="miembro" x="430" y="229">suscribir(o: Observador)</text>
+            <text class="miembro" x="430" y="248">desuscribir(o: Observador)</text>
+            <text class="miembro" x="430" y="267">notificar()</text>
+            <rect class="caja" x="0" y="270" width="153" height="126" rx="3"/>
+            <text class="nombre" x="76.5" y="290">Cliente</text>
+            <line class="div" x1="0" y1="300" x2="153" y2="300"/>
+            <text class="miembro" x="10" y="318">CUIT</text>
+            <text class="miembro" x="10" y="337">Razon Social</text>
+            <line class="div" x1="0" y1="348" x2="153" y2="348"/>
+            <text class="miembro" x="10" y="366">set razonsocial()</text>
+            <text class="miembro" x="10" y="385">get cuit()</text>
+            <rect class="caja destacada" x="175" y="270" width="244" height="126" rx="3"/>
+            <text class="nombre" x="297" y="290">Farmaceutico</text>
+            <line class="div" x1="175" y1="300" x2="419" y2="300"/>
+            <text class="miembro" x="185" y="318">Matricula</text>
+            <line class="div" x1="175" y1="329" x2="419" y2="329"/>
+            <text class="miembro" x="185" y="347">get matricula()</text>
+            <text class="miembro" x="185" y="366">actualizar(lote)</text>
+            <text class="miembro" x="185" y="385">registrarEnTablaDeLotes(lote)</text>
+            <rect class="caja destacada" x="470" y="360" width="146" height="75" rx="3"/>
+            <text class="estereo" x="543" y="376">&#171;interface&#187;</text>
+            <text class="nombre" x="543" y="395">Observador</text>
+            <line class="div" x1="470" y1="406" x2="616" y2="406"/>
+            <text class="miembro" x="480" y="424">actualizar(lote)</text>
+          </svg>
+        </div>
+      </div>
+    </details>
+
+    <details class="parcial-desp pd-explicacion">
+      <summary>
+        <span class="pd-icono">&#9998;</span>
+        <span class="pd-txt"><b>Explicación detallada</b><small>El concepto desde cero, el desarme de la consigna, la respuesta y las trampas</small></span>
+      </summary>
+      <div class="pd-cuerpo">
+        <h4>Qué evalúa</h4>
+        <p>
+          Leer un diagrama de clases, reconocer en dos pedidos cortos el patrón de cada uno y
+          <strong>modificar el diagrama</strong> agregando lo que el patrón necesita.
+        </p>
+
+        <span class="paso">Paso 1 &mdash; Leer el diagrama</span>
+        <ul>
+          <li><code>Cliente</code> y <code>Farmaceutico</code> heredan de <code>Usuario</code> (línea continua con triángulo en <code>Usuario</code>): los dos tienen nombre, teléfono y dirección.</li>
+          <li><code>Usuario</code> y <code>Medicamento</code> están unidos por una línea simple: una asociación.</li>
+          <li>Lo que tiene paréntesis es un método: <code>imprimirlote()</code> es un método de <code>Medicamento</code>.</li>
+        </ul>
+
+        <span class="paso">Paso 2 &mdash; Una frase y un patrón por punto</span>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Punto</th><th>La frase que decide</th><th>Patrón</th></tr>
+            <tr><td class="lbl">1</td><td>"se desea crear <strong>una sola instancia</strong> de dicha clase"</td><td><strong>Singleton</strong></td></tr>
+            <tr><td class="lbl">2</td><td>"<strong>cada vez que</strong> se imprima un lote, <strong>se envíe una alerta</strong> al farmacéutico"</td><td><strong>Observer</strong></td></tr>
+          </table>
+        </div>
+
+        <span class="paso">Paso 3 &mdash; Punto 1: GestorUsuarios</span>
+        <p>
+          Es una clase <strong>nueva</strong>. Lleva los cuatro métodos que nombra el enunciado
+          (login, cambiar contraseña, dar de alta, dar de baja) y las tres piezas de Singleton: el
+          atributo estático <code>instancia</code>, el constructor privado y el método estático
+          <code>obtenerInstancia()</code>.
+        </p>
+        <div class="pd-grafico uml" data-g="singleton-gestor">
+          <svg viewBox="-14 -14 371 211" width="371" height="211" role="img" aria-label="GestorUsuarios como Singleton">
+            <rect class="caja destacada" x="0" y="0" width="343" height="183" rx="3"/>
+            <text class="nombre" x="171.5" y="20">GestorUsuarios</text>
+            <line class="div" x1="0" y1="30" x2="343" y2="30"/>
+            <text class="miembro estatico" x="10" y="48">- instancia: GestorUsuarios</text>
+            <line class="div" x1="0" y1="59" x2="343" y2="59"/>
+            <text class="miembro" x="10" y="77">- GestorUsuarios()</text>
+            <text class="miembro estatico" x="10" y="96">+ obtenerInstancia(): GestorUsuarios</text>
+            <text class="miembro" x="10" y="115">+ login(usuario, clave): boolean</text>
+            <text class="miembro" x="10" y="134">+ cambiarContrasenia(usuario, nueva): void</text>
+            <text class="miembro" x="10" y="153">+ darDeAlta(usuario): void</text>
+            <text class="miembro" x="10" y="172">+ darDeBaja(usuario): void</text>
+          </svg>
+        </div>
+        <p>
+          <strong>Justificación:</strong> "Singleton, porque se pide una sola instancia de
+          GestorUsuarios. El constructor privado impide crear otras y el método estático devuelve
+          siempre la misma, que es el punto de acceso para todo el sistema."
+        </p>
+
+        <span class="paso">Paso 4 &mdash; Punto 2: la alerta de lotes</span>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Frase</th><th>Parte del patrón</th></tr>
+            <tr><td>"cada vez que se imprima un lote"</td><td>Notificador: <code>Medicamento</code>, que tiene <code>imprimirlote()</code></td></tr>
+            <tr><td>"se envíe una alerta al farmacéutico"</td><td>Suscriptor concreto: <code>Farmaceutico</code></td></tr>
+            <tr><td>"y este registra el suceso en una tabla de lotes"</td><td>Lo que hace su <code>actualizar()</code></td></tr>
+          </table>
+        </div>
+        <p>Qué se agrega al diagrama:</p>
+        <ol>
+          <li>Una interfaz <code>Observador</code> con <code>actualizar(lote)</code>.</li>
+          <li>En <code>Medicamento</code>: la lista <code>observadores</code> y los métodos <code>suscribir()</code>, <code>desuscribir()</code> y <code>notificar()</code>. Su <code>imprimirlote()</code> termina llamando a <code>notificar()</code>.</li>
+          <li><code>Farmaceutico</code> cumple <code>Observador</code>: se le agregan <code>actualizar(lote)</code> y <code>registrarEnTablaDeLotes(lote)</code>.</li>
+        </ol>
+        <div class="pd-grafico uml" data-g="observer-farmacia">
+          <svg viewBox="-14 -14 670 463" width="670" height="463" role="img" aria-label="Observer sobre el diagrama de la aplicación farmacéutica">
+            <polyline class="linea" points="76.5,270 76.5,223.5 175,223.5 175,177"/>
+            <polygon class="hueca" points="175,164 182,177 168,177"/>
+            <polyline class="linea" points="237,270 237,223.5 175,223.5 175,177"/>
+            <polygon class="hueca" points="175,164 182,177 168,177"/>
+            <polyline class="linea" points="240,32 330,32 330,35 420,35"/>
+            <polyline class="linea" points="531,296 531,328 543,328 543,360"/>
+            <polygon class="hueca" points="531,278 537,287 531,296 525,287"/>
+            <text class="rotulo" x="551" y="342" text-anchor="middle">*</text>
+            <polyline class="linea punteada" points="419,373 438,373 438,397.5 457,397.5"/>
+            <polygon class="hueca" points="470,397.5 457,404.5 457,390.5"/>
+            <rect class="caja" x="110" y="0" width="130" height="164" rx="3"/>
+            <text class="nombre" x="175" y="20">Usuario</text>
+            <line class="div" x1="110" y1="30" x2="240" y2="30"/>
+            <text class="miembro" x="120" y="48">nombre</text>
+            <text class="miembro" x="120" y="67">Telefono</text>
+            <text class="miembro" x="120" y="86">Direccion</text>
+            <line class="div" x1="110" y1="97" x2="240" y2="97"/>
+            <text class="miembro" x="120" y="115">get nombre()</text>
+            <text class="miembro" x="120" y="134">get telefono()</text>
+            <text class="miembro" x="120" y="153">set telefono()</text>
+            <rect class="caja destacada" x="420" y="0" width="222" height="278" rx="3"/>
+            <text class="nombre" x="531" y="20">Medicamento</text>
+            <line class="div" x1="420" y1="30" x2="642" y2="30"/>
+            <text class="miembro" x="430" y="48">Serial</text>
+            <text class="miembro" x="430" y="67">Nombre</text>
+            <text class="miembro" x="430" y="86">Lote</text>
+            <text class="miembro" x="430" y="105">Posologia</text>
+            <text class="miembro" x="430" y="124">Presentacion</text>
+            <text class="miembro" x="430" y="143">observadores: Observador[]</text>
+            <line class="div" x1="420" y1="154" x2="642" y2="154"/>
+            <text class="miembro" x="430" y="172">validarmedicacion()</text>
+            <text class="miembro" x="430" y="191">imprimirlote()</text>
+            <text class="miembro" x="430" y="210">imprimiretiqueta()</text>
+            <text class="miembro" x="430" y="229">suscribir(o: Observador)</text>
+            <text class="miembro" x="430" y="248">desuscribir(o: Observador)</text>
+            <text class="miembro" x="430" y="267">notificar()</text>
+            <rect class="caja" x="0" y="270" width="153" height="126" rx="3"/>
+            <text class="nombre" x="76.5" y="290">Cliente</text>
+            <line class="div" x1="0" y1="300" x2="153" y2="300"/>
+            <text class="miembro" x="10" y="318">CUIT</text>
+            <text class="miembro" x="10" y="337">Razon Social</text>
+            <line class="div" x1="0" y1="348" x2="153" y2="348"/>
+            <text class="miembro" x="10" y="366">set razonsocial()</text>
+            <text class="miembro" x="10" y="385">get cuit()</text>
+            <rect class="caja destacada" x="175" y="270" width="244" height="126" rx="3"/>
+            <text class="nombre" x="297" y="290">Farmaceutico</text>
+            <line class="div" x1="175" y1="300" x2="419" y2="300"/>
+            <text class="miembro" x="185" y="318">Matricula</text>
+            <line class="div" x1="175" y1="329" x2="419" y2="329"/>
+            <text class="miembro" x="185" y="347">get matricula()</text>
+            <text class="miembro" x="185" y="366">actualizar(lote)</text>
+            <text class="miembro" x="185" y="385">registrarEnTablaDeLotes(lote)</text>
+            <rect class="caja destacada" x="470" y="360" width="146" height="75" rx="3"/>
+            <text class="estereo" x="543" y="376">&#171;interface&#187;</text>
+            <text class="nombre" x="543" y="395">Observador</text>
+            <line class="div" x1="470" y1="406" x2="616" y2="406"/>
+            <text class="miembro" x="480" y="424">actualizar(lote)</text>
+          </svg>
+        </div>
+        <p>
+          <strong>Justificación:</strong> "Observer, porque cada vez que se imprime un lote hay que
+          avisarle automáticamente al farmacéutico. <code>Medicamento</code> es el notificador:
+          mantiene una lista de observadores y los notifica al imprimir un lote.
+          <code>Farmaceutico</code> implementa <code>Observador</code> y al recibir el aviso
+          registra el suceso. Si hay que avisarle a alguien más, se agrega otro observador sin
+          modificar <code>Medicamento</code>."
+        </p>
+        <p>En la hoja, <code>GestorUsuarios</code> y lo de Observer van sobre el mismo diagrama.</p>
+
+        <h4>Parecido en la guía</h4>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Ejercicio</th><th>Qué tiene igual</th><th>Qué cambia</th></tr>
+            <tr><td>Práctica adicional de patrones, ej. 1</td><td>El punto de GestorUsuarios es <strong>el mismo texto</strong>. El de auditoría ("cada vez que se realice un movimiento, se envíe una alerta al administrador y se registre...") es el mismo patrón</td><td>El sistema (expedientes) y un punto más (jerarquía de organismos: Composite)</td></tr>
+          </table>
+        </div>
+
+        <h4>Trampas</h4>
+        <ul>
+          <li><strong>Guardar "un Farmaceutico" directo en Medicamento</strong> funcionaría, pero no es el patrón: la lista es de la interfaz <code>Observador</code>.</li>
+          <li><strong>El triángulo de herencia va en la madre</strong> (<code>Usuario</code>), y el rombo en el que tiene la lista (<code>Medicamento</code>).</li>
+        </ul>
+        <p>Está desarrollado en la Unidad 4A, sección 1, y en la Unidad 4C, sección 1.</p>
+      </div>
+    </details>
+  </div>
+</section>

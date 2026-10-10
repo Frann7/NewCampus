@@ -103,11 +103,10 @@ rioplatense con voseo) y **mantenedor** del campus (código, contenido, commits)
 
 ## Pendientes e ideas
 
-- **Ingeniería de Software II (parcial el miércoles 14/10/2026):** el plan está en
-  `docs/plan-ing2.md`: 7 partes que se cargan una atrás de la otra, cada una con la lista de lo
-  que sube; ahí se tilda lo hecho. Fuentes en `fuentes/ing2/` (con su `INDICE.md`). El texto de la
-  teoría de patrones (`fuentes/ing2/PATRONES/TEORIA/`) está solo en esta PC, no en el repo: un
-  agente en worktree no lo ve.
+- **Ingeniería de Software II (parcial el miércoles 14/10/2026):** las 7 partes de
+  `docs/plan-ing2.md` están cargadas (6 unidades y los parciales 2024 y 2025 resueltos). Lo que
+  quedó para después del parcial está en `app/contenido/ing2/CLAUDE.md`. El texto de la teoría de
+  patrones (`fuentes/ing2/PATRONES/TEORIA/`) está solo en esta PC, no en el repo.
 - **"No pude abrir el examen" (compañero, Parcial PHP):** no se reprodujo (clon limpio, update
   desde antes de PA y el .exe sirven todo con 200). Si vuelve a pasar con 0.34.2, pedirle
   `git status` y `git log -1` de su carpeta y si el .exe mostró cartel.

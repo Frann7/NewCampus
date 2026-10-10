@@ -1,0 +1,96 @@
+<!-- ==================== PRÁCTICA 1 ==================== -->
+<section class="parcial-ej">
+  <div class="parcial-ej-cab">
+    <h2>Práctica 1</h2>
+    <span class="parcial-tema">Unidades 4A y 4C &middot; Patrones en un enunciado</span>
+  </div>
+
+  <p>
+    <strong>1-</strong> A partir del siguiente enunciado identifique cuáles serían los patrones de
+    diseño que utilizaría y justifique por qué eligió los mismos.
+  </p>
+  <p>La empresa <strong>Muebles Express S.A.</strong> se dedica a la fabricación y comercialización de muebles personalizados a través de su plataforma web. Los clientes pueden ingresar al sitio, navegar por el catálogo de productos y seleccionar los muebles que desean comprar, teniendo la posibilidad de personalizar cada artículo según diferentes parámetros: tipo de material, color, tamaño y estilo de ensamblaje. Cada cliente debe poder elegir su combinación preferida de estas opciones, de manera que el sistema aplique automáticamente la estrategia de configuración más adecuada según sus elecciones y genere un presupuesto final.</p>
+  <p>Una vez realizada la compra, el pedido se envía al área de producción de la empresa, donde un sistema interno se encarga de crear los muebles según las especificaciones del cliente. Para cada tipo de mueble —como sillas, mesas, estanterías o escritorios— existe un procedimiento de fabricación específico que permite instanciar los objetos correspondientes sin que el área de ventas tenga que conocer los detalles internos de la producción. Esto asegura que la creación de los muebles sea flexible y escalable, permitiendo agregar nuevos tipos de productos sin afectar la lógica de compra.</p>
+  <p>Cuando la fabricación del mueble se completa, el sistema notifica automáticamente al cliente a través de correo electrónico o mensajes en la plataforma web, informándole que su pedido está listo para ser enviado o retirado. Además, el cliente puede suscribirse para recibir actualizaciones sobre el estado de su pedido en tiempo real, de manera que cualquier cambio relevante —como retrasos, avances en la producción o confirmación de despacho— se comunique de forma inmediata y automática.</p>
+
+  <div class="parcial-extras">
+    <details class="parcial-desp pd-resultados">
+      <summary>
+        <span class="pd-icono">&#10003;</span>
+        <span class="pd-txt"><b>Resultados</b><small>Solo la respuesta</small></span>
+      </summary>
+      <div class="pd-cuerpo">
+        <ul>
+          <li><strong>Strategy</strong>, para la personalización del mueble (primer párrafo).</li>
+          <li><strong>Factory Method</strong>, para la fabricación de cada tipo de mueble (segundo párrafo).</li>
+          <li><strong>Observer</strong>, para las notificaciones al cliente (tercer párrafo).</li>
+        </ul>
+      </div>
+    </details>
+
+    <details class="parcial-desp pd-explicacion">
+      <summary>
+        <span class="pd-icono">&#9998;</span>
+        <span class="pd-txt"><b>Explicación detallada</b><small>El concepto desde cero, el desarme de la consigna, la respuesta y las trampas</small></span>
+      </summary>
+      <div class="pd-cuerpo">
+        <h4>Qué evalúa</h4>
+        <p>
+          Leer un enunciado largo, separar las necesidades y reconocer el patrón de cada una por
+          la frase que lo delata. Y justificar: nombrar el patrón solo es media respuesta.
+        </p>
+
+        <span class="paso">Paso 1 &mdash; Un párrafo, una necesidad, un patrón</span>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Párrafo</th><th>La necesidad</th><th>La frase</th><th>Patrón</th></tr>
+            <tr><td class="lbl">1. La compra</td><td>Varias formas de configurar un mueble; se elige una según lo que pide el cliente</td><td>"el sistema aplique automáticamente la <strong>estrategia</strong> de configuración <strong>más adecuada según sus elecciones</strong>"</td><td><strong>Strategy</strong></td></tr>
+            <tr><td class="lbl">2. La producción</td><td>Crear distintos tipos de mueble sin que ventas conozca los detalles, y poder agregar tipos</td><td>"para cada tipo de mueble (...) existe un procedimiento de fabricación específico que permite <strong>instanciar los objetos correspondientes</strong>"; "agregar nuevos tipos de productos sin afectar la lógica de compra"</td><td><strong>Factory Method</strong></td></tr>
+            <tr><td class="lbl">3. Los avisos</td><td>Cuando el pedido cambia, el cliente se entera solo</td><td>"el sistema <strong>notifica automáticamente</strong> al cliente"; "el cliente puede <strong>suscribirse</strong> para recibir actualizaciones"</td><td><strong>Observer</strong></td></tr>
+          </table>
+        </div>
+
+        <span class="paso">Paso 2 &mdash; Qué clase haría de qué</span>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Patrón</th><th>Partes</th></tr>
+            <tr><td class="lbl">Strategy</td><td>Contexto: el configurador del mueble, que genera el presupuesto. Estrategia: la interfaz de configuración. Estrategias concretas: cada forma de configurar (según material, color, tamaño, estilo de ensamblaje)</td></tr>
+            <tr><td class="lbl">Factory Method</td><td>Producto: <code>Mueble</code>. Productos concretos: silla, mesa, estantería, escritorio. Creador: la fábrica, con el método que crea el mueble. Creadores concretos: uno por tipo de mueble</td></tr>
+            <tr><td class="lbl">Observer</td><td>Notificador: el pedido, que guarda la lista de suscriptores y notifica cada cambio de estado. Suscriptores: los clientes, avisados por correo o por la web</td></tr>
+          </table>
+        </div>
+
+        <span class="paso">Paso 3 &mdash; La respuesta escrita</span>
+        <p>
+          <strong>Strategy</strong>, para la personalización: el cliente elige material, color,
+          tamaño y estilo de ensamblaje, y el sistema aplica la estrategia de configuración más
+          adecuada. Cada forma de configurar y presupuestar es una estrategia intercambiable, que
+          se elige en tiempo de ejecución sin modificar el código que la usa.
+        </p>
+        <p>
+          <strong>Factory Method</strong>, para la producción: cada tipo de mueble tiene su
+          procedimiento de fabricación, que instancia el objeto sin que ventas conozca los
+          detalles. Hay un creador con un método fábrica y un creador concreto por tipo; agregar
+          un tipo nuevo no afecta la lógica de compra.
+        </p>
+        <p>
+          <strong>Observer</strong>, para las notificaciones: el cliente se suscribe a su pedido y
+          el sistema le notifica automáticamente cada cambio de estado. El pedido es el
+          notificador y los clientes son los suscriptores.
+        </p>
+
+        <h4>Trampas</h4>
+        <ul>
+          <li>
+            <strong>"Fabricación" y "muebles" tientan a Abstract Factory</strong>, cuyo ejemplo de
+            libro es una mueblería. Acá no hay familias que deban combinar: hay <em>tipos</em> de
+            mueble, cada uno con su creador. Es Factory Method.
+          </li>
+          <li><strong>La palabra "estrategia" está en el enunciado:</strong> no hay que dejarla pasar.</li>
+          <li><strong>"Suscribirse"</strong> es la palabra del propósito de Observer.</li>
+        </ul>
+        <p>Está desarrollado en la Unidad 4C, sección 3.</p>
+      </div>
+    </details>
+  </div>
+</section>

@@ -1,0 +1,147 @@
+<!-- ==================== EJERCICIO 4 ==================== -->
+<section class="parcial-ej">
+  <div class="parcial-ej-cab">
+    <h2>Ejercicio 4</h2>
+    <span class="parcial-tema">Unidad 4B &middot; Facade en un código C++</span>
+  </div>
+
+  <p><strong>4-</strong> A partir del siguiente código identifique qué patrón es el que se utiliza.</p>
+  <pre class="codigo"><code>class Facturacion {
+ public:
+  std::string Operation1() const {
+    return "Facturacion: Ready!\n";
+  }
+  std::string OperationN() const {
+    return "Facturacion: Go!\n";
+  }};
+class Compras {
+ public:
+  std::string Operation1() const {
+    return "Compras: Get ready!\n";
+  }
+  std::string OperationZ() const {
+    return "Compras: Fire!\n";
+  }};
+class Operador {
+ protected:
+  Facturacion *Facturacion_;
+  Compras *Compras_;
+ public:
+  Operador(
+      Facturacion *Facturacion = nullptr,
+      Compras *Compras = nullptr) {
+    this-&gt;Facturacion_ = Facturacion ?: new Facturacion;
+    this-&gt;Compras_ = Compras ?: new Compras;
+  }
+  ~Operador() {
+    delete Facturacion_;
+    delete Compras_;
+  }
+  std::string Operation() {
+    std::string result = "Operador initializes subsystems:\n";
+    result += this-&gt;Facturacion_-&gt;Operation1();
+    result += this-&gt;Compras_-&gt;Operation1();
+    ...</code></pre>
+  <p><em>(El código seguía en otra hoja que no está en la copia del parcial.)</em></p>
+
+  <div class="parcial-extras">
+    <details class="parcial-desp pd-resultados">
+      <summary>
+        <span class="pd-icono">&#10003;</span>
+        <span class="pd-txt"><b>Resultados</b><small>Solo la respuesta</small></span>
+      </summary>
+      <div class="pd-cuerpo">
+        <p>
+          Es el patrón <strong>Facade</strong> (estructural). <code>Operador</code> es la fachada:
+          guarda punteros a <code>Facturacion</code> y <code>Compras</code>, que son las clases del
+          subsistema, las crea en su constructor si no se las pasan, y ofrece un único método
+          <code>Operation()</code> que llama en orden a las operaciones de las dos.
+        </p>
+      </div>
+    </details>
+
+    <details class="parcial-desp pd-explicacion">
+      <summary>
+        <span class="pd-icono">&#9998;</span>
+        <span class="pd-txt"><b>Explicación detallada</b><small>El concepto desde cero, el desarme de la consigna, la respuesta y las trampas</small></span>
+      </summary>
+      <div class="pd-cuerpo">
+        <h4>Qué evalúa</h4>
+        <p>Reconocer un patrón por la forma del código C++. Es la consigna que este año vuelve en C++.</p>
+
+        <span class="paso">Paso 1 &mdash; Traducir lo que asusta</span>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Se escribe</th><th>Se lee</th></tr>
+            <tr><td><code>Facturacion *Facturacion_;</code></td><td>Un atributo llamado <code>Facturacion_</code>, que es un puntero a un objeto <code>Facturacion</code></td></tr>
+            <tr><td><code>Facturacion *Facturacion = nullptr</code></td><td>Un parámetro opcional: si no se lo pasan, vale <code>nullptr</code></td></tr>
+            <tr><td><code>Facturacion ?: new Facturacion</code></td><td>"Si me pasaron uno, uso ese; si no, creo uno nuevo"</td></tr>
+            <tr><td><code>result += ...</code></td><td>Agrega texto al final de <code>result</code></td></tr>
+            <tr><td><code>this-&gt;Facturacion_-&gt;Operation1()</code></td><td>"Mi atributo <code>Facturacion_</code>, hacé <code>Operation1()</code>"</td></tr>
+          </table>
+        </div>
+
+        <span class="paso">Paso 2 &mdash; Las preguntas para reconocer un código</span>
+        <ol>
+          <li><strong>¿Hay algo <code>static</code> y un constructor que no es público?</strong> No. No es Singleton.</li>
+          <li><strong>¿Alguna clase hereda de otra?</strong> <strong>Ninguna</strong> tiene <code>: public ...</code> &rarr; <strong>Facade</strong>.</li>
+        </ol>
+
+        <span class="paso">Paso 3 &mdash; Las señales</span>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Lo que se ve</th><th>Señal</th></tr>
+            <tr><td><code>Facturacion</code> y <code>Compras</code> son clases sueltas: no heredan, no tienen nada <code>virtual</code>, no se conocen</td><td>Clases de un subsistema</td></tr>
+            <tr><td><code>Operador</code> tiene como atributos un puntero a cada una</td><td>La fachada guarda los subsistemas</td></tr>
+            <tr><td>Su constructor los crea si no se los pasan</td><td>La fachada inicializa el subsistema</td></tr>
+            <tr><td><code>Operation()</code> llama a <code>Operation1()</code> de una y de la otra, y junta los resultados</td><td>Un método simple que por dentro coordina</td></tr>
+            <tr><td>El texto <code>"Operador initializes subsystems"</code></td><td>Lo dice el código</td></tr>
+          </table>
+        </div>
+        <div class="pd-grafico uml" data-g="facade-operador">
+          <svg viewBox="-14 -14 619 216" width="619" height="216" role="img" aria-label="Diagrama del código del parcial 2024: Operador, Facturacion y Compras">
+            <polyline class="linea" points="282,58 341,58 341,39 400,39"/>
+            <polyline class="linea" points="390,44 400,39 390,34"/>
+            <polyline class="linea" points="282,108 341,108 341,149 400,149"/>
+            <polyline class="linea" points="390,154 400,149 390,144"/>
+            <rect class="caja destacada" x="0" y="20" width="282" height="126" rx="3"/>
+            <text class="nombre" x="141" y="40">Operador</text>
+            <line class="div" x1="0" y1="50" x2="282" y2="50"/>
+            <text class="miembro" x="10" y="68"># Facturacion_: Facturacion*</text>
+            <text class="miembro" x="10" y="87"># Compras_: Compras*</text>
+            <line class="div" x1="0" y1="98" x2="282" y2="98"/>
+            <text class="miembro" x="10" y="116">+ Operador(Facturacion*, Compras*)</text>
+            <text class="miembro" x="10" y="135">+ Operation(): string</text>
+            <rect class="caja" x="400" y="0" width="191" height="78" rx="3"/>
+            <text class="nombre" x="495.5" y="20">Facturacion</text>
+            <line class="div" x1="400" y1="30" x2="591" y2="30"/>
+            <text class="miembro" x="410" y="48">+ Operation1(): string</text>
+            <text class="miembro" x="410" y="67">+ OperationN(): string</text>
+            <rect class="caja" x="400" y="110" width="191" height="78" rx="3"/>
+            <text class="nombre" x="495.5" y="130">Compras</text>
+            <line class="div" x1="400" y1="140" x2="591" y2="140"/>
+            <text class="miembro" x="410" y="158">+ Operation1(): string</text>
+            <text class="miembro" x="410" y="177">+ OperationZ(): string</text>
+          </svg>
+        </div>
+
+        <h4>Parecido en la guía</h4>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Ejercicio</th><th>Qué tiene igual</th><th>Qué cambia</th></tr>
+            <tr><td>Guía N°2, ej. 3</td><td>Es el mismo código: <code>Pantalla</code> es <code>Operador</code>, <code>Subsystem1</code> es <code>Facturacion</code> y <code>Subsystem2</code> es <code>Compras</code>, con los mismos <code>Operation1</code>, <code>OperationN</code> y <code>OperationZ</code></td><td>Está en C# y los subsistemas se le pasan a la fachada desde afuera</td></tr>
+            <tr><td>Parcial 2025, Práctica 2</td><td>El mismo patrón</td><td>En PHP, con un ejemplo distinto (descargar un video)</td></tr>
+          </table>
+        </div>
+
+        <h4>Trampas</h4>
+        <ul>
+          <li><strong>Los nombres están cambiados</strong> (<code>Facade</code> pasó a ser <code>Operador</code>): hay que mirar la forma.</li>
+          <li><strong>No es Adapter:</strong> <code>Operador</code> no hereda de ninguna interfaz y envuelve dos clases, no una.</li>
+          <li>Tal como está escrito, el constructor no compila (los parámetros se llaman igual que las clases); para identificar el patrón no importa.</li>
+        </ul>
+        <p>Está desarrollado en la Unidad 4B, sección 3.</p>
+      </div>
+    </details>
+  </div>
+</section>

@@ -228,6 +228,9 @@ Chrome (`chrome --headless --print-to-pdf`).
 `0.x.y-alpha` mientras esté en desarrollo. La `1.0.0` queda reservada para cuando esté terminado.
 La versión actual se lee al pie del menú lateral.
 
+* **0.41.0-alpha** — Ingeniería de Software II: los parciales 2024 y 2025 transcriptos y resueltos
+  en Evaluación (respuesta modelo y explicación de cada consigna, con el código del 2025 también en
+  C++). Una materia sin banco de preguntas ya no muestra la sección Autoevaluación.
 * **0.40.0-alpha** — Ingeniería de Software II, Unidad 6: gestión de cambios y control de
   versiones, Git (los tres estados, los comandos, conflictos de merge) y versionado semántico, con
   la pregunta de Git del parcial 2025 resuelta y todas las secuencias probadas en un repositorio.

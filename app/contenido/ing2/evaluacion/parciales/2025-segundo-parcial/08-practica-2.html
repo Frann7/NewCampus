@@ -1,0 +1,262 @@
+<!-- ==================== PRÁCTICA 2 ==================== -->
+<section class="parcial-ej">
+  <div class="parcial-ej-cab">
+    <h2>Práctica 2</h2>
+    <span class="parcial-tema">Unidad 4B &middot; Facade en un código</span>
+  </div>
+
+  <p>
+    <strong>2-</strong> Dado el siguiente código en PHP identifique el patrón que se implementa en
+    el mismo y explique qué elementos ayudaron a identificarlo.
+  </p>
+  <pre class="codigo"><code>&lt;?php
+namespace ...\api\RealWorld;
+
+class YouTubeDownloader
+{   protected $youtube;
+    protected $ffmpeg;
+    public function __construct(string $youtubeApiKey)
+    {   $this-&gt;youtube = new YouTube($youtubeApiKey);
+        $this-&gt;ffmpeg = new FFMpeg();
+    }
+    public function downloadVideo(string $url): void
+    {
+        echo "Fetching video metadata from youtube...\n";
+        // $title = $this-&gt;youtube-&gt;fetchVideo($url)-&gt;getTitle();
+        echo "Saving video file to a temporary file...\n";
+        // $this-&gt;youtube-&gt;saveAs($url, "video.mpg");
+
+        echo "Processing source video...\n";
+        // $video = $this-&gt;ffmpeg-&gt;open('video.mpg');
+        echo "Normalizing and resizing the video to smaller dimensions...\n";
+        // $video
+        //     -&gt;filters()
+        //     -&gt;resize(new FFMpeg\Coordinate\Dimension(320, 240))
+        //     -&gt;synchronize();
+        echo "Capturing preview image...\n";
+        // $video
+        //     -&gt;frame(FFMpeg\Coordinate\TimeCode::fromSeconds(10))
+        //     -&gt;save($title . 'frame.jpg');
+        echo "Saving video in target formats...\n";
+        // $video
+        //     -&gt;save(new FFMpeg\Format\Video\X264(), $title . '.mp4')
+        //     -&gt;save(new FFMpeg\Format\Video\WMV(), $title . '.wmv')
+        //     -&gt;save(new FFMpeg\Format\Video\WebM(), $title . '.webm');
+        echo "Done!\n";
+    }
+}
+class YouTube
+{   public function fetchVideo(): string
+    {   }
+    public function saveAs(string $path): void
+    {   }
+}
+class FFMpeg
+{   public static function create(): FFMpeg
+    {   }
+    public function open(string $video): void
+    {   }
+}
+class FFMpegVideo
+{   public function filters(): self
+    {   }
+    public function resize(): self
+    {   }
+    public function synchronize(): self
+    {   }
+    public function frame(): self
+    {   }
+    public function save(string $path): self
+    {   }
+}
+function clientCode(YouTubeDownloader $api)
+{   $api-&gt;downloadVideo("https://www.youtube.com/watch?v=QH2-TGUlwu4"); }
+$api = new YouTubeDownloader("APIKEY-XXXXXXXXX");
+clientCode($api);
+?&gt;</code></pre>
+
+  <div class="parcial-extras">
+    <details class="parcial-desp pd-resultados">
+      <summary>
+        <span class="pd-icono">&#10003;</span>
+        <span class="pd-txt"><b>Resultados</b><small>Solo la respuesta</small></span>
+      </summary>
+      <div class="pd-cuerpo">
+        <p>
+          Es el patrón <strong>Facade</strong> (estructural). <code>YouTubeDownloader</code> es la
+          fachada: guarda un objeto de cada clase del subsistema (<code>YouTube</code> y
+          <code>FFMpeg</code>), los crea en su constructor y ofrece un único método simple,
+          <code>downloadVideo()</code>, que por dentro coordina todos los pasos. El cliente usa solo
+          la fachada. Las clases del subsistema no heredan de nada en común ni conocen a la fachada.
+        </p>
+      </div>
+    </details>
+
+    <details class="parcial-desp pd-explicacion">
+      <summary>
+        <span class="pd-icono">&#9998;</span>
+        <span class="pd-txt"><b>Explicación detallada</b><small>El concepto desde cero, el desarme de la consigna, la respuesta y las trampas</small></span>
+      </summary>
+      <div class="pd-cuerpo">
+        <h4>Qué evalúa</h4>
+        <p>
+          Reconocer un patrón por la <strong>forma</strong> del código, sin depender de los nombres,
+          y decir qué elementos lo delatan. Fue en PHP; en 2024 fue el mismo patrón en C++, y este
+          año el código es en C++. Abajo está este mismo código pasado a C++.
+        </p>
+
+        <span class="paso">Paso 1 &mdash; Lo mínimo de PHP para leerlo</span>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Se escribe</th><th>Se lee</th></tr>
+            <tr><td><code>class X</code> sin <code>extends</code> ni <code>implements</code></td><td>Una clase que no hereda de nada</td></tr>
+            <tr><td><code>protected $youtube;</code></td><td>Un atributo</td></tr>
+            <tr><td><code>__construct(...)</code></td><td>El constructor</td></tr>
+            <tr><td><code>$this-&gt;youtube = new YouTube(...)</code></td><td>Crea un objeto y lo guarda en el atributo</td></tr>
+            <tr><td><code>//</code> adelante de una línea</td><td>Comentario: esa línea no se ejecuta. Acá muestran lo que <em>haría</em> la fachada con el subsistema</td></tr>
+          </table>
+        </div>
+
+        <span class="paso">Paso 2 &mdash; Listar las clases</span>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Clase</th><th>¿Hereda?</th><th>Qué tiene</th></tr>
+            <tr><td><code>YouTube</code></td><td>No</td><td><code>fetchVideo()</code>, <code>saveAs()</code></td></tr>
+            <tr><td><code>FFMpeg</code></td><td>No</td><td><code>create()</code>, <code>open()</code></td></tr>
+            <tr><td><code>FFMpegVideo</code></td><td>No</td><td><code>filters()</code>, <code>resize()</code>, <code>synchronize()</code>, <code>frame()</code>, <code>save()</code></td></tr>
+            <tr><td><code>YouTubeDownloader</code></td><td><strong>No</strong></td><td>Dos atributos (<code>$youtube</code>, <code>$ffmpeg</code>), creados en el constructor, y un solo método: <code>downloadVideo()</code></td></tr>
+          </table>
+        </div>
+
+        <span class="paso">Paso 3 &mdash; Las preguntas para reconocer un código</span>
+        <ol>
+          <li><strong>¿Hay algo <code>static</code> y un constructor que no es público?</strong> <code>FFMpeg::create()</code> es estático, pero los constructores son públicos y no hay un atributo estático que guarde la instancia. No es Singleton.</li>
+          <li><strong>¿Alguna clase hereda de otra?</strong> <strong>Ninguna.</strong> &rarr; <strong>Facade</strong>.</li>
+        </ol>
+        <p>Se confirma con el resto:</p>
+        <ul>
+          <li><code>YouTubeDownloader</code> <strong>guarda un objeto de cada una</strong> de dos clases sueltas y distintas, y <strong>las crea ella misma</strong>.</li>
+          <li>
+            Su único método, <code>downloadVideo()</code>, hace <strong>en orden</strong> toda una
+            secuencia: traer los datos del video, guardarlo, procesarlo, redimensionarlo, capturar
+            una imagen y guardarlo en tres formatos.
+          </li>
+          <li>El cliente (<code>clientCode</code>) hace <strong>una sola llamada</strong> y no conoce ni a <code>YouTube</code> ni a <code>FFMpeg</code>.</li>
+        </ul>
+
+        <span class="paso">Paso 4 &mdash; Las partes del patrón</span>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Parte</th><th>En el código</th></tr>
+            <tr><td class="lbl">Fachada</td><td><code>YouTubeDownloader</code></td></tr>
+            <tr><td class="lbl">Subsistema complejo</td><td><code>YouTube</code>, <code>FFMpeg</code>, <code>FFMpegVideo</code></td></tr>
+            <tr><td class="lbl">Cliente</td><td><code>clientCode</code></td></tr>
+          </table>
+        </div>
+
+        <span class="paso">Paso 5 &mdash; El mismo código en C++</span>
+        <p>Como lo tomarían este año. Está compilado y corrido.</p>
+        <pre class="codigo"><code>#include &lt;iostream&gt;
+#include &lt;string&gt;
+
+class YouTube {
+ public:
+  YouTube(std::string apiKey) {}
+  std::string fetchVideo(std::string url) const {
+    return "video";
+  }
+  void saveAs(std::string url, std::string path) const {}
+};
+
+class FFMpegVideo {
+ public:
+  void filters() {}
+  void resize() {}
+  void synchronize() {}
+  void frame() {}
+  void save(std::string path) {}
+};
+
+class FFMpeg {
+ public:
+  FFMpegVideo* open(std::string video) const {
+    return new FFMpegVideo;
+  }
+};
+
+class YouTubeDownloader {
+ protected:
+  YouTube* youtube_;
+  FFMpeg* ffmpeg_;
+
+ public:
+  YouTubeDownloader(std::string youtubeApiKey) {
+    youtube_ = new YouTube(youtubeApiKey);
+    ffmpeg_ = new FFMpeg;
+  }
+
+  ~YouTubeDownloader() {
+    delete youtube_;
+    delete ffmpeg_;
+  }
+
+  void downloadVideo(std::string url) {
+    std::cout &lt;&lt; "Fetching video metadata from youtube...\n";
+    std::string title = youtube_-&gt;fetchVideo(url);
+    std::cout &lt;&lt; "Saving video file to a temporary file...\n";
+    youtube_-&gt;saveAs(url, "video.mpg");
+
+    std::cout &lt;&lt; "Processing source video...\n";
+    FFMpegVideo* video = ffmpeg_-&gt;open("video.mpg");
+    std::cout &lt;&lt; "Normalizing and resizing the video to smaller dimensions...\n";
+    video-&gt;filters();
+    video-&gt;resize();
+    video-&gt;synchronize();
+    std::cout &lt;&lt; "Capturing preview image...\n";
+    video-&gt;frame();
+    video-&gt;save(title + "frame.jpg");
+    std::cout &lt;&lt; "Saving video in target formats...\n";
+    video-&gt;save(title + ".mp4");
+    video-&gt;save(title + ".wmv");
+    video-&gt;save(title + ".webm");
+    std::cout &lt;&lt; "Done!\n";
+    delete video;
+  }
+};
+
+void clientCode(YouTubeDownloader* api) {
+  api-&gt;downloadVideo("https://www.youtube.com/watch?v=QH2-TGUlwu4");
+}
+
+int main() {
+  YouTubeDownloader* api = new YouTubeDownloader("APIKEY-XXXXXXXXX");
+  clientCode(api);
+  delete api;
+  return 0;
+}</code></pre>
+        <pre class="salida">Fetching video metadata from youtube...
+Saving video file to a temporary file...
+Processing source video...
+Normalizing and resizing the video to smaller dimensions...
+Capturing preview image...
+Saving video in target formats...
+Done!</pre>
+        <p>
+          Las señales son las mismas: ninguna clase tiene <code>: public ...</code>;
+          <code>YouTubeDownloader</code> guarda <code>YouTube* youtube_</code> y
+          <code>FFMpeg* ffmpeg_</code> y los crea con <code>new</code> en su constructor; y
+          <code>downloadVideo()</code> llama en orden a los métodos del subsistema.
+          <code>main</code> escribió una sola línea de trabajo y salieron siete pasos.
+        </p>
+
+        <h4>Trampas</h4>
+        <ul>
+          <li><strong>El <code>static function create()</code></strong> puede hacer pensar en Singleton o en una fábrica, pero es un método suelto de una clase del subsistema; no hay instancia única ni método fábrica sobrescrito.</li>
+          <li><strong>No es Adapter:</strong> la fachada no hereda de ninguna interfaz y envuelve varias clases, no una.</li>
+          <li><strong>La consigna pide "qué elementos ayudaron a identificarlo":</strong> hay que nombrarlos (los atributos del subsistema, el constructor que los crea, el método único, el cliente).</li>
+        </ul>
+        <p>Está desarrollado en la Unidad 4B, sección 3.</p>
+      </div>
+    </details>
+  </div>
+</section>

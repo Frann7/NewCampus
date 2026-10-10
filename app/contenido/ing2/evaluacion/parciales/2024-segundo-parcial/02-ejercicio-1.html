@@ -1,0 +1,150 @@
+<!-- ==================== EJERCICIO 1 ==================== -->
+<section class="parcial-ej">
+  <div class="parcial-ej-cab">
+    <h2>Ejercicio 1</h2>
+    <span class="parcial-tema">Unidad 4B &middot; Composite en un enunciado</span>
+  </div>
+
+  <p>
+    <strong>1-</strong> Qué patrones de diseño de los vistos en clase, usarían para el siguiente
+    enunciado. Justifique.
+  </p>
+  <p>
+    En un sistema de alarma de un edificio se consideran detectores de humo, sensores de
+    temperatura, sensores de presión, etc. Todos estos elementos tienen un estado
+    conectado/desconectado y en consecuencia se puede pasar de un estado a otro (cuando se crean,
+    están desconectados). Todos ellos son capaces de proporcionar una medida (un valor REAL) y
+    tienen un valor umbral que se fija inicialmente al crear el elemento. El sistema recorre en un
+    bucle continuo todos sus elementos conectados. Cuando la medida de uno de ellos supera su valor
+    umbral el sistema dispara la alarma. Para evitar falsas alarmas, varios elementos se pueden
+    unir formando arrays (y los arrays a su vez en otros arrays) y para este sensor complejo, la
+    alarma sólo se dispara si el valor medio de los elementos del array supera el umbral definido
+    para ese elemento compuesto.
+  </p>
+  <p>
+    <em>(En la copia del parcial sigue una oración tachada: "Diseñar una solución con las clases
+    necesarias y sus características para este problema, implementando en Eiffel al menos todo lo
+    relacionado con el disparo de la alarma".)</em>
+  </p>
+
+  <div class="parcial-extras">
+    <details class="parcial-desp pd-resultados">
+      <summary>
+        <span class="pd-icono">&#10003;</span>
+        <span class="pd-txt"><b>Resultados</b><small>Solo la respuesta</small></span>
+      </summary>
+      <div class="pd-cuerpo">
+        <p>
+          <strong>Composite</strong> (estructural). Los detectores y sensores son elementos simples
+          (hojas) y los arrays son elementos compuestos que agrupan otros elementos, incluso otros
+          arrays: forman un árbol. Todos comparten la misma interfaz (estado, medida y umbral), así
+          que el sistema le pide la medida a cada elemento sin distinguir si es un sensor o un
+          array: el sensor devuelve su valor y el array, el promedio de los suyos.
+        </p>
+      </div>
+    </details>
+
+    <details class="parcial-desp pd-explicacion">
+      <summary>
+        <span class="pd-icono">&#9998;</span>
+        <span class="pd-txt"><b>Explicación detallada</b><small>El concepto desde cero, el desarme de la consigna, la respuesta y las trampas</small></span>
+      </summary>
+      <div class="pd-cuerpo">
+        <h4>Qué evalúa</h4>
+        <p>Reconocer un patrón en un enunciado por la frase que lo delata, y justificar.</p>
+
+        <h4>El concepto</h4>
+        <p>
+          <strong>Composite</strong> permite componer objetos en estructuras de árbol y trabajar
+          con ellas como si fueran objetos individuales. Tiene tres partes: el
+          <strong>Componente</strong> (la interfaz común), la <strong>Hoja</strong> (el elemento
+          simple) y el <strong>Compuesto</strong> (el que tiene una lista de componentes y delega
+          en ellos). Se reconoce cuando algo <strong>contiene cosas de su mismo tipo</strong>.
+        </p>
+
+        <span class="paso">Paso 1 &mdash; Desarme del enunciado</span>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Frase</th><th>Qué significa</th><th>Parte del patrón</th></tr>
+            <tr><td>"detectores de humo, sensores de temperatura, sensores de presión"</td><td>Los elementos simples</td><td>Hojas</td></tr>
+            <tr><td>"<strong>Todos</strong> estos elementos tienen un estado (...) <strong>Todos</strong> ellos son capaces de proporcionar una medida (...) y tienen un valor umbral"</td><td>Todos se usan igual: hay una interfaz común</td><td>Componente: <code>Elemento</code></td></tr>
+            <tr><td>"varios elementos se pueden unir formando <strong>arrays</strong>"</td><td>Un elemento que contiene elementos</td><td>Compuesto: <code>ArrayElementos</code></td></tr>
+            <tr><td>"(y los arrays a su vez en <strong>otros arrays</strong>)"</td><td>Lo contenido es de su mismo tipo: un árbol. La frase que decide</td><td>El rombo del Compuesto al Componente</td></tr>
+            <tr><td>"este <strong>sensor complejo</strong>" / "ese <strong>elemento compuesto</strong>"</td><td>El enunciado casi nombra el patrón</td><td>&mdash;</td></tr>
+            <tr><td>"el valor medio de los elementos del array"</td><td>El compuesto resuelve su medida preguntándoles a sus hijos</td><td><code>medida()</code> del array = promedio</td></tr>
+            <tr><td>"El sistema recorre en un bucle continuo todos sus elementos"</td><td>Trata igual a un sensor que a un array</td><td>Cliente: <code>SistemaAlarma</code></td></tr>
+          </table>
+        </div>
+
+        <span class="paso">Paso 2 &mdash; El diagrama</span>
+        <p>La consigna no lo pide, pero dibujarlo refuerza la justificación.</p>
+        <div class="pd-grafico uml" data-g="composite-alarma">
+          <svg viewBox="-14 -14 878.5 395" width="878.5" height="395" role="img" aria-label="Composite para el sistema de alarma del parcial 2024">
+            <polyline class="linea" points="224,59 277,59 277,59 330,59"/>
+            <polygon class="hueca" points="206,59 215,53 224,59 215,65"/>
+            <text class="rotulo" x="308" y="53" text-anchor="middle">*</text>
+            <polyline class="linea" points="123.5,260 123.5,218.5 437,218.5 437,177"/>
+            <polygon class="hueca" points="437,164 444,177 430,177"/>
+            <polyline class="linea" points="285,260 285,218.5 437,218.5 437,177"/>
+            <polygon class="hueca" points="437,164 444,177 430,177"/>
+            <polyline class="linea" points="448,260 448,218.5 437,218.5 437,177"/>
+            <polygon class="hueca" points="437,164 444,177 430,177"/>
+            <polyline class="linea" points="629.5,260 629.5,218.5 437,218.5 437,177"/>
+            <polygon class="hueca" points="437,164 444,177 430,177"/>
+            <polyline class="linea" points="747,313.5 780,313.5 780,82 544,82"/>
+            <polygon class="hueca" points="729,313.5 738,307.5 747,313.5 738,319.5"/>
+            <text class="rotulo" x="786" y="197.75" text-anchor="start">elementos</text>
+            <text class="rotulo" x="566" y="76" text-anchor="middle">*</text>
+            <rect class="caja" x="0" y="20" width="206" height="78" rx="3"/>
+            <text class="nombre" x="103" y="40">SistemaAlarma</text>
+            <line class="div" x1="0" y1="50" x2="206" y2="50"/>
+            <text class="miembro" x="10" y="68">+ recorrer(): void</text>
+            <text class="miembro" x="10" y="87">+ dispararAlarma(): void</text>
+            <rect class="caja" x="330" y="0" width="214" height="164" rx="3"/>
+            <text class="nombre abstracta" x="437" y="20">Elemento</text>
+            <line class="div" x1="330" y1="30" x2="544" y2="30"/>
+            <text class="miembro" x="340" y="48"># conectado: BOOLEAN</text>
+            <text class="miembro" x="340" y="67"># umbral: REAL</text>
+            <line class="div" x1="330" y1="78" x2="544" y2="78"/>
+            <text class="miembro" x="340" y="96">+ conectar()</text>
+            <text class="miembro" x="340" y="115">+ desconectar()</text>
+            <text class="miembro abstracto" x="340" y="134">+ medida(): REAL</text>
+            <text class="miembro" x="340" y="153">+ superaUmbral(): BOOLEAN</text>
+            <rect class="caja" x="60" y="260" width="127" height="59" rx="3"/>
+            <text class="nombre" x="123.5" y="280">DetectorHumo</text>
+            <line class="div" x1="60" y1="290" x2="187" y2="290"/>
+            <text class="miembro" x="70" y="308">+ medida()</text>
+            <rect class="caja" x="200" y="260" width="170" height="59" rx="3"/>
+            <text class="nombre" x="285" y="280">SensorTemperatura</text>
+            <line class="div" x1="200" y1="290" x2="370" y2="290"/>
+            <text class="miembro" x="210" y="308">+ medida()</text>
+            <rect class="caja" x="380" y="260" width="136" height="59" rx="3"/>
+            <text class="nombre" x="448" y="280">SensorPresion</text>
+            <line class="div" x1="380" y1="290" x2="516" y2="290"/>
+            <text class="miembro" x="390" y="308">+ medida()</text>
+            <rect class="caja destacada" x="530" y="260" width="199" height="107" rx="3"/>
+            <text class="nombre" x="629.5" y="280">ArrayElementos</text>
+            <line class="div" x1="530" y1="290" x2="729" y2="290"/>
+            <text class="miembro" x="540" y="308">- elementos: Elemento[]</text>
+            <line class="div" x1="530" y1="319" x2="729" y2="319"/>
+            <text class="miembro" x="540" y="337">+ agregar(e: Elemento)</text>
+            <text class="miembro" x="540" y="356">+ medida()</text>
+          </svg>
+        </div>
+
+        <h4>Trampas</h4>
+        <ul>
+          <li>
+            <strong>¿Y Observer, por "dispara la alarma"?</strong> La consigna dice "patrones", en
+            plural. Pero acá nadie avisa: es el sistema el que "recorre en un bucle continuo" y
+            revisa. En Observer es al revés: el que cambia notifica. Si se lo nombra, tiene que
+            ser proponiendo ese cambio: que cada elemento notifique al sistema cuando supera su
+            umbral.
+          </li>
+          <li><strong>Una lista sola no es Composite:</strong> lo es porque los arrays contienen arrays.</li>
+        </ul>
+        <p>Está desarrollado en la Unidad 4B, sección 2.</p>
+      </div>
+    </details>
+  </div>
+</section>

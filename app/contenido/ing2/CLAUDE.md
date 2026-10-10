@@ -49,6 +49,22 @@ explicado arriba de `fuentes/uml.py`. Para corregir un diagrama se cambia su des
 vuelve a correr; el SVG del fragmento no se edita. Después de generarlos se mira **cómo quedaron**
 (captura): que no se pisen cajas ni líneas.
 
+## Evaluación
+
+- Parciales 2024 y 2025 en `evaluacion/parciales/`, una consigna por archivo, con `pd-resultados`
+  (la respuesta modelo) y `pd-explicacion`. La cátedra no publicó respuestas: son propias, y así
+  se avisa en la nota de cada parcial.
+- No hay banco de preguntas: por eso la pestaña muestra solo los Parciales
+  (`"evaluacion": {"tipo": "simple"}` en `materias.json`).
+
 ## Pendientes e ideas
 
-- Lo que falta cargar está en `docs/plan-ing2.md`.
+- **Banco de autoevaluación** (después del parcial): preguntas del tipo "¿qué patrón es este
+  código?", "¿qué patrón pide este enunciado?", "¿en qué nivel de CMMI está?". Hay que inventarlas
+  (el parcial no se repite); Evaluación simple, como PA.
+- De los apuntes quedó en un párrafo o afuera lo que nunca se tomó: claves SSH, gestores de
+  dependencias, la especificación completa de SemVer, los "juegos" de complejidad ciclomática
+  (su código está en imagen) y Docker (confirmado que no entra).
+- De las guías de patrones quedaron sin resolver por separado los ejercicios que repiten otro
+  (Práctica 03 ej. 1 a 3, Guía 1 ej. 1 y 6, `practica 2` ej. 6): están mencionados dentro del
+  ejercicio al que se parecen.

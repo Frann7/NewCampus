@@ -129,9 +129,16 @@
       var guardadas = E.almacen.listar(materia);
       var enCurso = guardadas.filter(function (a) { return E.estadoDe(a).clave === "en-curso"; }).length;
 
+      // una materia sin banco de preguntas no ofrece autoevaluaciones
+      var conAuto = E.banco.todas(materia) > 0 || guardadas.length > 0;
+      var partes = ["Parciales"];
+      if (!simple || finales.length) { partes.push("finales"); }
+      if (conAuto) { partes.push("autoevaluaciones"); }
+      var ultima = partes.pop();
+
       cont.appendChild(h("h1", { class: "ev-h1" }, "Evaluación"));
       cont.appendChild(h("p", { class: "pane-intro" },
-        (simple && !finales.length ? "Parciales y autoevaluaciones de " : "Parciales, finales y autoevaluaciones de ") +
+        (partes.length ? partes.join(", ") + " y " : "") + ultima + " de " +
         E.nombreMateria(materia) + "."));
       if (aviso) { cont.appendChild(h("div", { class: "ae-aviso" }, aviso)); }
 
@@ -141,7 +148,7 @@
         cont.appendChild(seccionExamenes("finales", "🎓", "Finales", "final", finales));
       }
 
-      cont.appendChild(seccion("autoevaluacion", "🧠", "Autoevaluación",
+      if (conAuto) cont.appendChild(seccion("autoevaluacion", "🧠", "Autoevaluación",
         guardadas.length
           ? guardadas.length + (guardadas.length === 1 ? " guardada" : " guardadas") + (enCurso ? " · " + enCurso + " en curso" : "")
           : "Armá tu primera autoevaluación",

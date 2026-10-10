@@ -2,6 +2,8 @@
 window.Apuntes.registrarIndice({
   "panes": {
     "ing2/base/teoria": "panes/ing2-base-teoria.js",
+    "ing2/crea/practica": "panes/ing2-crea-practica.js",
+    "ing2/crea/teoria": "panes/ing2-crea-teoria.js",
     "pa/c1/practica": "panes/pa-c1-practica.js",
     "pa/c1/teoria": "panes/pa-c1-teoria.js",
     "pa/c2/practica": "panes/pa-c2-practica.js",
@@ -235,6 +237,11 @@ window.Apuntes.registrarIndice({
           "clave": "base",
           "num": "Unidad 0",
           "nombre": "Base: UML de clases y C++"
+        },
+        {
+          "clave": "crea",
+          "num": "Unidad 4A",
+          "nombre": "Patrones creacionales"
         }
       ]
     },

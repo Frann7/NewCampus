@@ -1,0 +1,142 @@
+<div class="ej">
+  <span class="tag">Ejercicio 4 &middot; Factory Method</span>
+  <h2>Aplicar el patrón sobre un diagrama: la concesionaria</h2>
+  <div class="enunciado">
+    <p>
+      <strong>Patrones de Diseño Parte 1, ejercicio 3.</strong> Se desea modelar un sistema de
+      gestión automotor para una concesionaria, necesitamos resolver un problema que tiene que ver
+      con la creación de los objetos, adjuntamos parte del diagrama de clases:
+    </p>
+  </div>
+  <div class="pd-grafico uml" data-g="p-vehiculos-antes">
+    <svg viewBox="-14 -14 379 228" width="379" height="228" role="img" aria-label="Diagrama original: Vehículo con Auto, Camioneta y Motocicleta">
+      <polyline class="linea" points="187,170 187,140 187,140 187,110"/>
+      <polygon class="hueca" points="187,97 194,110 180,110"/>
+      <polyline class="linea" points="300.5,170 300.5,140 187,140 187,110"/>
+      <polygon class="hueca" points="187,97 194,110 180,110"/>
+      <polyline class="linea" points="59.5,170 59.5,140 187,140 187,110"/>
+      <polygon class="hueca" points="187,97 194,110 180,110"/>
+      <rect class="caja" x="95" y="0" width="184" height="97" rx="3"/>
+      <text class="nombre" x="187" y="20">Vehiculo</text>
+      <line class="div" x1="95" y1="30" x2="279" y2="30"/>
+      <text class="miembro" x="105" y="48">- nombre: String</text>
+      <text class="miembro" x="105" y="67">- fechaCreacion: Date</text>
+      <text class="miembro" x="105" y="86">- marca: String</text>
+      <rect class="caja" x="0" y="170" width="119" height="30" rx="3"/>
+      <text class="nombre" x="59.5" y="190">Motocicleta</text>
+      <rect class="caja" x="140" y="170" width="90" height="30" rx="3"/>
+      <text class="nombre" x="185" y="190">Auto</text>
+      <rect class="caja" x="250" y="170" width="101" height="30" rx="3"/>
+      <text class="nombre" x="300.5" y="190">Camioneta</text>
+    </svg>
+  </div>
+
+  <span class="paso">Paso 1 &mdash; Desarme del enunciado</span>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Lo que hay</th><th>Qué significa</th><th>A dónde va</th></tr>
+      <tr><td>"un problema que tiene que ver con la <strong>creación de los objetos</strong>"</td><td>El patrón es creacional</td><td>Singleton, Factory Method o Abstract Factory</td></tr>
+      <tr><td>El diagrama: <code>Vehiculo</code> y tres hijas</td><td>Hay <strong>varios tipos de una misma cosa</strong></td><td>Una sola jerarquía de productos &rarr; Factory Method</td></tr>
+      <tr><td>No dice "una sola instancia"</td><td>Una concesionaria tiene muchos vehículos</td><td>No es Singleton</td></tr>
+      <tr><td>No hay familias ni variantes que combinar</td><td>Solo se crea un tipo de cosa: vehículos</td><td>No es Abstract Factory</td></tr>
+    </table>
+  </div>
+  <p>
+    El enunciado es corto a propósito: el patrón sale <strong>del diagrama</strong>. Una clase madre
+    con varias hijas y un problema de creación es la forma típica de Factory Method.
+  </p>
+
+  <span class="paso">Paso 2 &mdash; Qué clase hace de qué</span>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Parte del patrón</th><th>En este ejercicio</th><th>¿Ya estaba?</th></tr>
+      <tr><td class="lbl">Producto</td><td><code>Vehiculo</code></td><td>Sí</td></tr>
+      <tr><td class="lbl">Productos Concretos</td><td><code>Motocicleta</code>, <code>Auto</code>, <code>Camioneta</code></td><td>Sí</td></tr>
+      <tr><td class="lbl">Creador</td><td><code>FabricaVehiculo</code>, con el método fábrica <code>crearVehiculo()</code></td><td><strong>Se agrega</strong></td></tr>
+      <tr><td class="lbl">Creadores Concretos</td><td><code>FabricaMotocicleta</code>, <code>FabricaAuto</code>, <code>FabricaCamioneta</code></td><td><strong>Se agregan</strong></td></tr>
+    </table>
+  </div>
+  <p>
+    El diagrama ya traía la mitad del patrón (los productos). Lo que falta es <strong>la otra
+    columna</strong>: los creadores.
+  </p>
+
+  <span class="paso">Paso 3 &mdash; El diagrama</span>
+  <div class="pd-grafico uml" data-g="p-vehiculos">
+    <svg viewBox="-14 -14 666 528" width="666" height="528" role="img" aria-label="Factory Method para crear vehículos">
+      <polyline class="linea" points="76.5,150 76.5,120.5 279.5,120.5 279.5,91"/>
+      <polygon class="hueca" points="279.5,78 286.5,91 272.5,91"/>
+      <polyline class="linea" points="279.5,150 279.5,120.5 279.5,120.5 279.5,91"/>
+      <polygon class="hueca" points="279.5,78 286.5,91 272.5,91"/>
+      <polyline class="linea" points="474.5,150 474.5,120.5 279.5,120.5 279.5,91"/>
+      <polygon class="hueca" points="279.5,78 286.5,91 272.5,91"/>
+      <polyline class="linea" points="140,470 140,440 282,440 282,410"/>
+      <polygon class="hueca" points="282,397 289,410 275,410"/>
+      <polyline class="linea" points="282,470 282,440 282,440 282,410"/>
+      <polygon class="hueca" points="282,397 289,410 275,410"/>
+      <polyline class="linea" points="429.5,470 429.5,440 282,440 282,410"/>
+      <polygon class="hueca" points="282,397 289,410 275,410"/>
+      <polyline class="linea punteada" points="394,39 600,39 600,348.5 374,348.5"/>
+      <polyline class="linea" points="384,343.5 374,348.5 384,353.5"/>
+      <text class="rotulo" x="606" y="193.75" text-anchor="start">crea</text>
+      <rect class="caja destacada" x="165" y="0" width="229" height="78" rx="3"/>
+      <text class="nombre abstracta" x="279.5" y="20">FabricaVehiculo</text>
+      <line class="div" x1="165" y1="30" x2="394" y2="30"/>
+      <text class="miembro" x="175" y="48">+ registrarVehiculo(): void</text>
+      <text class="miembro abstracto" x="175" y="67">+ crearVehiculo(): Vehiculo</text>
+      <rect class="caja destacada" x="0" y="150" width="153" height="59" rx="3"/>
+      <text class="nombre" x="76.5" y="170">FabricaAuto</text>
+      <line class="div" x1="0" y1="180" x2="153" y2="180"/>
+      <text class="miembro" x="10" y="198">+ crearVehiculo()</text>
+      <rect class="caja destacada" x="190" y="150" width="162" height="59" rx="3"/>
+      <text class="nombre" x="271" y="170">FabricaCamioneta</text>
+      <line class="div" x1="190" y1="180" x2="352" y2="180"/>
+      <text class="miembro" x="200" y="198">+ crearVehiculo()</text>
+      <rect class="caja destacada" x="385" y="150" width="179" height="59" rx="3"/>
+      <text class="nombre" x="474.5" y="170">FabricaMotocicleta</text>
+      <line class="div" x1="385" y1="180" x2="564" y2="180"/>
+      <text class="miembro" x="395" y="198">+ crearVehiculo()</text>
+      <rect class="caja" x="190" y="300" width="184" height="97" rx="3"/>
+      <text class="nombre" x="282" y="320">Vehiculo</text>
+      <line class="div" x1="190" y1="330" x2="374" y2="330"/>
+      <text class="miembro" x="200" y="348">- nombre: String</text>
+      <text class="miembro" x="200" y="367">- fechaCreacion: Date</text>
+      <text class="miembro" x="200" y="386">- marca: String</text>
+      <rect class="caja" x="95" y="470" width="90" height="30" rx="3"/>
+      <text class="nombre" x="140" y="490">Auto</text>
+      <rect class="caja" x="232" y="470" width="101" height="30" rx="3"/>
+      <text class="nombre" x="282.5" y="490">Camioneta</text>
+      <rect class="caja" x="370" y="470" width="119" height="30" rx="3"/>
+      <text class="nombre" x="429.5" y="490">Motocicleta</text>
+    </svg>
+  </div>
+  <ul>
+    <li>Lo resaltado es lo que se agrega.</li>
+    <li>
+      <code>crearVehiculo()</code> es abstracto en <code>FabricaVehiculo</code> y cada fábrica
+      concreta lo sobrescribe: <code>FabricaAuto</code> devuelve un <code>Auto</code>,
+      <code>FabricaCamioneta</code> una <code>Camioneta</code>, <code>FabricaMotocicleta</code> una
+      <code>Motocicleta</code>.
+    </li>
+    <li>
+      <code>registrarVehiculo()</code> es un ejemplo de la lógica propia del creador: pide el
+      vehículo con <code>crearVehiculo()</code> y lo da de alta, sin saber de qué tipo es.
+    </li>
+    <li>
+      Los creadores van arriba y los productos abajo solo para que entre en la hoja; es lo mismo
+      que ponerlos lado a lado.
+    </li>
+  </ul>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>
+      Se aplica <strong>Factory Method</strong>, porque el problema es de creación de objetos y
+      hay varios tipos de un mismo producto (<code>Vehiculo</code>). Se agrega un creador
+      <code>FabricaVehiculo</code> con el método fábrica <code>crearVehiculo()</code> y un creador
+      concreto por cada tipo. El resto del sistema trabaja con <code>Vehiculo</code> sin depender de
+      las clases concretas, y un tipo nuevo (por ejemplo, <code>Camion</code>) se agrega con dos
+      clases, sin modificar las existentes.
+    </p>
+  </div>
+</div>

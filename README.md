@@ -14,8 +14,10 @@ fórmulas (MathJax) y las tipografías. Tus datos no salen de tu máquina.
   Con contenido, por ahora, Probabilidad y Estadística (unidades 4 a 7) y Programación Avanzada,
   que va por **clases** (1 a 6: PHP, arreglos y cadenas, HTML y formularios, JavaScript y API REST,
   sesiones, mysqli), con el código de cada ejemplo, qué hace cada línea y qué imprime. Empezó
-  Ingeniería de Software II (2do parcial) con su unidad base: cómo se lee y se dibuja un diagrama
-  de clases UML y lo mínimo de C++ para reconocer un patrón de diseño en un código; el resto
+  Ingeniería de Software II (2do parcial): una unidad base (cómo se lee y se dibuja un diagrama
+  de clases UML y lo mínimo de C++ para reconocer un patrón de diseño en un código) y los
+  patrones creacionales, cada uno con su diagrama, su ejemplo en C++ línea por línea, cómo
+  reconocerlo y una consigna de parcial resuelta; el resto
   de las materias de tercer año ya están en el menú como "pronto".
 * **Evaluación**: **parciales y finales** de la cátedra transcriptos, en dos listas. Algunos traen
   cada ejercicio con resultados y explicación detallada desplegables; otros están solo transcriptos,
@@ -226,6 +228,8 @@ Chrome (`chrome --headless --print-to-pdf`).
 `0.x.y-alpha` mientras esté en desarrollo. La `1.0.0` queda reservada para cuando esté terminado.
 La versión actual se lee al pie del menú lateral.
 
+* **0.36.0-alpha** — Ingeniería de Software II, Unidad 4A: Singleton, Factory Method y Abstract
+  Factory (teoría con diagramas y C++ compilado) y 7 ejercicios de las guías resueltos.
 * **0.35.0-alpha** — Ingeniería de Software II: alta de la materia y unidad Base (la clase y cómo
   se dibuja, las seis relaciones de un diagrama de clases, leer una clase en C++, herencia y
   punteros, qué es un patrón de diseño). Los diagramas UML se generan con `fuentes/uml.py`.

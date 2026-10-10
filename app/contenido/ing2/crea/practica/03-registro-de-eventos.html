@@ -1,0 +1,98 @@
+<div class="ej">
+  <span class="tag">Ejercicio 3 &middot; Singleton</span>
+  <h2>Diseñar desde cero: registro de eventos</h2>
+  <div class="enunciado">
+    <p>
+      <strong>Ejercicios de Singleton, ejercicio 2.</strong> En una aplicación, necesitas un
+      registro de eventos para registrar errores y eventos importantes en diferentes partes del
+      código. Quieres que todas las partes de la aplicación compartan el mismo registro de eventos.
+    </p>
+    <p>
+      Se debe hacer un breve texto con los nombres de las clases, los atributos que pondríamos y
+      los métodos. También se debe mencionar qué patrón de diseño utilizo y por qué. Por último se
+      debe realizar un diagrama UML que represente la solución propuesta.
+    </p>
+  </div>
+
+  <span class="paso">Paso 1 &mdash; Desarme del enunciado</span>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase del enunciado</th><th>Qué significa</th><th>A dónde va</th></tr>
+      <tr><td>"un registro de eventos para registrar errores y eventos importantes"</td><td>Hace falta una clase que guarde mensajes</td><td>Clase <code>RegistroEventos</code>, con una lista de eventos y un método para anotar</td></tr>
+      <tr><td>"en diferentes partes del código"</td><td>Lo van a usar muchas clases distintas</td><td>Tiene que poder pedirse desde cualquier lado: punto de acceso global</td></tr>
+      <tr><td>"que todas las partes de la aplicación <strong>compartan el mismo</strong> registro"</td><td>No puede haber dos registros</td><td>Única instancia &rarr; Singleton</td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Paso 2 &mdash; El texto que pide la consigna</span>
+  <ul>
+    <li><strong>Clase:</strong> <code>RegistroEventos</code>.</li>
+    <li>
+      <strong>Atributos:</strong> <code>instancia</code> (privado y estático, guarda el único
+      objeto) y <code>eventos</code> (privado, la lista de mensajes anotados).
+    </li>
+    <li>
+      <strong>Métodos:</strong> el constructor <code>RegistroEventos()</code> privado;
+      <code>obtenerInstancia()</code> público y estático; <code>registrar(mensaje)</code>, que
+      agrega un evento a la lista; y <code>mostrar()</code>, que los lista.
+    </li>
+    <li>
+      <strong>Patrón:</strong> Singleton, porque todas las partes de la aplicación tienen que
+      compartir el mismo registro: debe existir una única instancia y un punto de acceso global.
+    </li>
+  </ul>
+
+  <span class="paso">Paso 3 &mdash; El diagrama</span>
+  <div class="pd-grafico uml" data-g="p-registro">
+    <svg viewBox="-14 -14 623 212" width="623" height="212" role="img" aria-label="RegistroEventos como Singleton, usado desde varias partes">
+      <polyline class="linea punteada" points="127,15 208.5,15 208.5,62 290,62"/>
+      <polyline class="linea" points="280,67 290,62 280,57"/>
+      <polyline class="linea punteada" points="119,85 204.5,85 204.5,102 290,102"/>
+      <polyline class="linea" points="280,107 290,102 280,97"/>
+      <polyline class="linea punteada" points="144,155 217,155 217,142 290,142"/>
+      <polyline class="linea" points="280,147 290,142 280,137"/>
+      <rect class="caja" x="0" y="0" width="127" height="30" rx="3"/>
+      <text class="nombre" x="63.5" y="20">ModuloVentas</text>
+      <rect class="caja" x="0" y="70" width="119" height="30" rx="3"/>
+      <text class="nombre" x="59.5" y="90">ModuloStock</text>
+      <rect class="caja" x="0" y="140" width="144" height="30" rx="3"/>
+      <text class="nombre" x="72" y="160">ModuloUsuarios</text>
+      <rect class="caja destacada" x="290" y="20" width="305" height="164" rx="3"/>
+      <text class="nombre" x="442.5" y="40">RegistroEventos</text>
+      <line class="div" x1="290" y1="50" x2="595" y2="50"/>
+      <text class="miembro estatico" x="300" y="68">- instancia: RegistroEventos</text>
+      <text class="miembro" x="300" y="87">- eventos: List&lt;String&gt;</text>
+      <line class="div" x1="290" y1="98" x2="595" y2="98"/>
+      <text class="miembro" x="300" y="116">- RegistroEventos()</text>
+      <text class="miembro estatico" x="300" y="135">+ obtenerInstancia(): RegistroEventos</text>
+      <text class="miembro" x="300" y="154">+ registrar(mensaje: String): void</text>
+      <text class="miembro" x="300" y="173">+ mostrar(): void</text>
+    </svg>
+  </div>
+  <p>
+    Los tres módulos de la izquierda no están en el enunciado: representan las "diferentes partes
+    del código". Cada uno anota con
+    <code>RegistroEventos::obtenerInstancia()-&gt;registrar("...")</code>, y los tres escriben en el
+    mismo objeto.
+  </p>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>
+      Patrón <strong>Singleton</strong>. La clase <code>RegistroEventos</code> tiene el constructor
+      privado, un atributo estático con su única instancia y un método estático
+      <code>obtenerInstancia()</code>. Cualquier parte de la aplicación pide el registro por ese
+      método y todas reciben el mismo objeto, así que los eventos quedan en un solo lugar.
+    </p>
+  </div>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Los otros dos ejercicios de esa guía son el mismo</span>
+    <p>
+      <strong>Configuración global</strong> ("garantizar que solo haya una instancia de esta
+      clase") es el ejemplo 1 de la teoría. <strong>Administrador de bases de datos</strong> ("solo
+      haya una instancia del administrador") es el ejercicio 2 de esta práctica con otro nombre.
+      Cambian la clase y sus métodos propios; las tres piezas de Singleton son siempre las mismas.
+    </p>
+  </div>
+</div>

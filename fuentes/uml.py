@@ -30,7 +30,8 @@ Relación: (de, a, tipo[, opciones]). Tipos: herencia, realiza, asociacion
 composicion (el rombo va en `de`, que es el todo). Opciones: `rot` (texto al
 medio), `m1` y `m2` (multiplicidad en cada punta), `sal` y `lle` (lado por el
 que sale y llega: arriba, abajo, izq, der), `d1` y `d2` (correr la punta a lo
-largo del lado), `medio` (dónde dobla, de 0 a 1).
+largo del lado), `medio` (dónde dobla, de 0 a 1), `por` (la x o la y exacta del
+tramo del medio: sirve para rodear cajas saliendo y llegando por el mismo lado).
 """
 import os
 import re
@@ -129,7 +130,7 @@ def dibujar_rel(clases, r):
     sal, lle = op.get("sal", sal), op.get("lle", lle)
     p1, p2 = ancla(de, sal, op.get("d1", 0)), ancla(a, lle, op.get("d2", 0))
     d1, d2 = DIR[sal], DIR[lle]
-    if d1[1] == 0 and d2[1] == 0 and "d1" not in op and "d2" not in op:
+    if d1[1] == 0 and d2[1] == 0 and d1 != d2 and "d1" not in op and "d2" not in op:
         # dos cajas lado a lado: si se superponen en altura, la línea va derecha
         arriba, abajo = max(de["y"], a["y"]), min(de["y"] + de["h"], a["y"] + a["h"])
         if abajo - arriba > 16:
@@ -141,11 +142,13 @@ def dibujar_rel(clases, r):
     q1 = (p1[0] + d1[0] * corte1, p1[1] + d1[1] * corte1)
     q2 = (p2[0] + d2[0] * corte2, p2[1] + d2[1] * corte2)
     medio = op.get("medio", 0.5)
+    if d1[0] == 0 and d2[0] == 0 and abs(q1[0] - q2[0]) <= 10 and "d1" not in op:
+        q1 = (q2[0], q1[1])               # casi alineadas: la línea va derecha
     if d1[0] == 0 and d2[0] == 0:        # vertical - horizontal - vertical
-        my = q1[1] + (q2[1] - q1[1]) * medio
+        my = op.get("por", q1[1] + (q2[1] - q1[1]) * medio)
         pts = [q1, (q1[0], my), (q2[0], my), q2]
     elif d1[1] == 0 and d2[1] == 0:      # horizontal - vertical - horizontal
-        mx = q1[0] + (q2[0] - q1[0]) * medio
+        mx = op.get("por", q1[0] + (q2[0] - q1[0]) * medio)
         pts = [q1, (mx, q1[1]), (mx, q2[1]), q2]
     elif d1[0] == 0:                     # sale vertical, llega horizontal
         pts = [q1, (q1[0], q2[1]), q2]
@@ -158,6 +161,8 @@ def dibujar_rel(clases, r):
         i = len(pts) // 2 - 1
         (ax, ay), (bx, by) = pts[i], pts[i + 1]
         horizontal = ay == by
+        if not horizontal:               # que el rótulo entre en el dibujo
+            pts = pts + [((ax + bx) / 2 + 12 + len(op["rot"]) * 6.5, (ay + by) / 2)]
         o.append(f'<text class="rotulo" x="{(ax + bx) / 2 + (0 if horizontal else 6):g}" '
                  f'y="{(ay + by) / 2 - (6 if horizontal else 0):g}" '
                  f'text-anchor="{"middle" if horizontal else "start"}">{esc(op["rot"])}</text>')

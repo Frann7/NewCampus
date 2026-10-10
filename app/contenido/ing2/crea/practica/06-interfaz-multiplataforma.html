@@ -1,0 +1,162 @@
+<div class="ej">
+  <span class="tag">Ejercicio 6 &middot; Abstract Factory</span>
+  <h2>Diseñar desde un enunciado: interfaz para escritorio y web</h2>
+  <div class="enunciado">
+    <p>
+      <strong>Ejercicios de patrones, ejercicio 2.</strong> Estás construyendo una aplicación de
+      dibujo que puede trabajar tanto en un entorno de escritorio como en un entorno web. Quieres
+      que tu aplicación sea capaz de crear diferentes tipos de elementos de interfaz de usuario,
+      como botones y cuadros de texto, de manera que se ajusten a la plataforma específica
+      (escritorio o web). Cada elemento de interfaz de usuario tiene los siguientes atributos:
+    </p>
+    <ul>
+      <li>Ancho: El ancho del elemento.</li>
+      <li>Alto: La altura del elemento.</li>
+      <li>Texto: El texto que se muestra en el elemento.</li>
+      <li>Color de fondo: El color de fondo del elemento.</li>
+    </ul>
+  </div>
+
+  <span class="paso">Paso 1 &mdash; Armar la tabla de productos y variantes</span>
+  <p>
+    Es el primer paso que recomienda el apunte para Abstract Factory. Si la tabla se puede armar,
+    con <strong>al menos dos columnas y dos filas</strong>, el patrón es este.
+  </p>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th></th><th>Botón</th><th>Cuadro de texto</th></tr>
+      <tr><td class="lbl">Escritorio</td><td><code>BotonEscritorio</code></td><td><code>CuadroTextoEscritorio</code></td></tr>
+      <tr><td class="lbl">Web</td><td><code>BotonWeb</code></td><td><code>CuadroTextoWeb</code></td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Paso 2 &mdash; Desarme del enunciado</span>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase del enunciado</th><th>Qué significa</th><th>A dónde va</th></tr>
+      <tr><td>"<strong>crear</strong> diferentes tipos de elementos de interfaz"</td><td>El problema es de creación</td><td>Patrón creacional</td></tr>
+      <tr><td>"como <strong>botones y cuadros de texto</strong>"</td><td>Dos productos distintos (las columnas)</td><td>Productos Abstractos: <code>Boton</code> y <code>CuadroTexto</code></td></tr>
+      <tr><td>"tanto en un entorno de <strong>escritorio</strong> como en un entorno <strong>web</strong>"</td><td>Dos variantes (las filas)</td><td>Fábricas Concretas: <code>FabricaEscritorio</code> y <code>FabricaWeb</code></td></tr>
+      <tr><td>"de manera que <strong>se ajusten a la plataforma específica</strong>"</td><td>Todos los elementos tienen que ser de la misma plataforma: forman una familia</td><td>Abstract Factory</td></tr>
+      <tr><td>Los cuatro atributos</td><td>Los tiene cada elemento de interfaz</td><td>En <code>Boton</code> y en <code>CuadroTexto</code></td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Paso 3 &mdash; Por qué no Factory Method</span>
+  <p>
+    Con Factory Method se podría crear "un botón" de distintos tipos, pero nada impediría que la
+    aplicación de escritorio terminara con un botón de escritorio y un cuadro de texto web. Acá hay
+    <strong>dos productos que tienen que corresponder a la misma plataforma</strong>: eso es una
+    familia.
+  </p>
+
+  <span class="paso">Paso 4 &mdash; El diagrama</span>
+  <div class="pd-grafico uml" data-g="p-ui">
+    <svg viewBox="-84 -14 862 607" width="862" height="607" role="img" aria-label="Abstract Factory para la interfaz de escritorio y web">
+      <polyline class="linea" points="110,59 110,104.5 137.5,104.5 137.5,150"/>
+      <polyline class="linea" points="132.5,140 137.5,150 142.5,140"/>
+      <polyline class="linea punteada" points="18,330 18,293.5 137.5,293.5 137.5,257"/>
+      <polygon class="hueca" points="137.5,244 144.5,257 130.5,257"/>
+      <polyline class="linea punteada" points="218,330 218,293.5 137.5,293.5 137.5,257"/>
+      <polygon class="hueca" points="137.5,244 144.5,257 130.5,257"/>
+      <polyline class="linea" points="496.5,200 496.5,179 588,179 588,158"/>
+      <polygon class="hueca" points="588,145 595,158 581,158"/>
+      <polyline class="linea" points="654,200 654,179 588,179 588,158"/>
+      <polygon class="hueca" points="588,145 595,158 581,158"/>
+      <polyline class="linea" points="497.5,520 497.5,499 588,499 588,478"/>
+      <polygon class="hueca" points="588,465 595,478 581,478"/>
+      <polyline class="linea" points="692,520 692,499 588,499 588,478"/>
+      <polygon class="hueca" points="588,465 595,478 581,478"/>
+      <polyline class="linea punteada" points="275,185 360,185 360,72.5 500,72.5"/>
+      <polyline class="linea" points="490,77.5 500,72.5 490,67.5"/>
+      <text class="rotulo" x="366" y="128.75" text-anchor="start">crea</text>
+      <polyline class="linea punteada" points="275,209 360,209 360,392.5 500,392.5"/>
+      <polyline class="linea" points="490,397.5 500,392.5 490,387.5"/>
+      <rect class="caja" x="22" y="0" width="176" height="59" rx="3"/>
+      <text class="nombre" x="110" y="20">Aplicacion</text>
+      <line class="div" x1="22" y1="30" x2="198" y2="30"/>
+      <text class="miembro" x="32" y="48">- fabrica: FabricaUI</text>
+      <rect class="caja destacada" x="0" y="150" width="275" height="94" rx="3"/>
+      <text class="estereo" x="137.5" y="166">&#171;interface&#187;</text>
+      <text class="nombre" x="137.5" y="185">FabricaUI</text>
+      <line class="div" x1="0" y1="196" x2="275" y2="196"/>
+      <text class="miembro" x="10" y="214">+ crearBoton(): Boton</text>
+      <text class="miembro" x="10" y="233">+ crearCuadroTexto(): CuadroTexto</text>
+      <rect class="caja" x="-70" y="330" width="176" height="78" rx="3"/>
+      <text class="nombre" x="18" y="350">FabricaEscritorio</text>
+      <line class="div" x1="-70" y1="360" x2="106" y2="360"/>
+      <text class="miembro" x="-60" y="378">+ crearBoton()</text>
+      <text class="miembro" x="-60" y="397">+ crearCuadroTexto()</text>
+      <rect class="caja" x="130" y="330" width="176" height="78" rx="3"/>
+      <text class="nombre" x="218" y="350">FabricaWeb</text>
+      <line class="div" x1="130" y1="360" x2="306" y2="360"/>
+      <text class="miembro" x="140" y="378">+ crearBoton()</text>
+      <text class="miembro" x="140" y="397">+ crearCuadroTexto()</text>
+      <rect class="caja" x="500" y="0" width="176" height="145" rx="3"/>
+      <text class="nombre abstracta" x="588" y="20">Boton</text>
+      <line class="div" x1="500" y1="30" x2="676" y2="30"/>
+      <text class="miembro" x="510" y="48"># ancho: int</text>
+      <text class="miembro" x="510" y="67"># alto: int</text>
+      <text class="miembro" x="510" y="86"># texto: String</text>
+      <text class="miembro" x="510" y="105"># colorFondo: String</text>
+      <line class="div" x1="500" y1="116" x2="676" y2="116"/>
+      <text class="miembro abstracto" x="510" y="134">+ dibujar(): void</text>
+      <rect class="caja" x="420" y="200" width="153" height="59" rx="3"/>
+      <text class="nombre" x="496.5" y="220">BotonEscritorio</text>
+      <line class="div" x1="420" y1="230" x2="573" y2="230"/>
+      <text class="miembro" x="430" y="248">+ dibujar()</text>
+      <rect class="caja" x="600" y="200" width="108" height="59" rx="3"/>
+      <text class="nombre" x="654" y="220">BotonWeb</text>
+      <line class="div" x1="600" y1="230" x2="708" y2="230"/>
+      <text class="miembro" x="610" y="248">+ dibujar()</text>
+      <rect class="caja" x="500" y="320" width="176" height="145" rx="3"/>
+      <text class="nombre abstracta" x="588" y="340">CuadroTexto</text>
+      <line class="div" x1="500" y1="350" x2="676" y2="350"/>
+      <text class="miembro" x="510" y="368"># ancho: int</text>
+      <text class="miembro" x="510" y="387"># alto: int</text>
+      <text class="miembro" x="510" y="406"># texto: String</text>
+      <text class="miembro" x="510" y="425"># colorFondo: String</text>
+      <line class="div" x1="500" y1="436" x2="676" y2="436"/>
+      <text class="miembro abstracto" x="510" y="454">+ dibujar(): void</text>
+      <rect class="caja" x="395" y="520" width="205" height="59" rx="3"/>
+      <text class="nombre" x="497.5" y="540">CuadroTextoEscritorio</text>
+      <line class="div" x1="395" y1="550" x2="600" y2="550"/>
+      <text class="miembro" x="405" y="568">+ dibujar()</text>
+      <rect class="caja" x="620" y="520" width="144" height="59" rx="3"/>
+      <text class="nombre" x="692" y="540">CuadroTextoWeb</text>
+      <line class="div" x1="620" y1="550" x2="764" y2="550"/>
+      <text class="miembro" x="630" y="568">+ dibujar()</text>
+    </svg>
+  </div>
+  <ul>
+    <li>
+      <code>FabricaUI</code> tiene <strong>un método por columna</strong> de la tabla:
+      <code>crearBoton()</code> y <code>crearCuadroTexto()</code>.
+    </li>
+    <li>
+      Hay <strong>una fábrica concreta por fila</strong>: <code>FabricaEscritorio</code> crea
+      <code>BotonEscritorio</code> y <code>CuadroTextoEscritorio</code>; <code>FabricaWeb</code>,
+      los dos de web.
+    </li>
+    <li>
+      <code>Aplicacion</code> es el cliente: recibe una fábrica al arrancar, según dónde esté
+      corriendo, y después solo usa <code>Boton</code> y <code>CuadroTexto</code>.
+    </li>
+    <li>
+      <code>Boton</code> y <code>CuadroTexto</code> son clases abstractas (y no interfaces) porque
+      guardan los cuatro atributos; las hijas heredan con línea continua.
+    </li>
+  </ul>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>
+      Patrón <strong>Abstract Factory</strong>. La aplicación tiene que crear varios elementos de
+      interfaz (botones y cuadros de texto) que se ajusten todos a una misma plataforma (escritorio
+      o web): son familias de objetos relacionados. <code>FabricaUI</code> declara un método de
+      creación por producto, y cada fábrica concreta crea los elementos de su plataforma. La
+      aplicación trabaja con las interfaces, se garantiza que los elementos son compatibles entre
+      sí, y una plataforma nueva (por ejemplo, móvil) se agrega con una fábrica más.
+    </p>
+  </div>
+</div>

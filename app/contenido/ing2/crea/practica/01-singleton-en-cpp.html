@@ -1,0 +1,136 @@
+<div class="ej">
+  <span class="tag">Ejercicio 1 &middot; Singleton</span>
+  <h2>Reconocer el patrón en un código C++</h2>
+  <div class="enunciado">
+    <p>
+      <strong>Guía N°1, ejercicio 2.</strong> Dado el siguiente código identifique qué tipo de
+      patrón se implementa y realice el diagrama correspondiente.
+    </p>
+  </div>
+
+  <pre class="codigo"><code>class Inicio_Serie
+{
+protected:
+    Inicio_Serie(const std::string value): value_(value)
+    {
+    }
+    static Inicio_Serie* Inicio_Serie_;
+    std::string value_;
+public:
+    Inicio_Serie(Inicio_Serie &amp;other) = delete;
+    void operator=(const Inicio_Serie &amp;) = delete;
+    static Inicio_Serie *GetInstance(const std::string&amp; value);
+    void SomeBusinessLogic()
+    {
+    }
+    std::string value() const{
+        return value_;
+    }
+};
+Inicio_Serie* Inicio_Serie::Inicio_Serie_= nullptr;;
+Inicio_Serie *Inicio_Serie::GetInstance(const std::string&amp; value)
+{
+    if(Inicio_Serie_==nullptr){
+        Inicio_Serie_ = new Inicio_Serie(value);
+    }
+    return Inicio_Serie_;
+}
+void ThreadFoo(){
+    std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+    Inicio_Serie* Inicio_Serie = Inicio_Serie::GetInstance("FOO");
+    std::cout &lt;&lt; Inicio_Serie-&gt;value() &lt;&lt; "\n";
+}
+void ThreadBar(){
+    std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+    Inicio_Serie* Inicio_Serie = Inicio_Serie::GetInstance("BAR");
+    std::cout &lt;&lt; Inicio_Serie-&gt;value() &lt;&lt; "\n";
+}
+int main()
+{
+    std::cout &lt;&lt;"Si ves el mismo valor, entonces fue exitoso (¡genial!\n" &lt;&lt;
+                " Si ves un valor diferente entonces esta incorrecto(booo!!)\n" &lt;&lt;
+                "RESULT:\n";
+    std::thread t1(ThreadFoo);
+    std::thread t2(ThreadBar);
+    t1.join();
+    t2.join();
+    return 0;
+}</code></pre>
+
+  <span class="paso">Paso 1 &mdash; No asustarse con el nombre ni con los hilos</span>
+  <ul>
+    <li>
+      La cátedra <strong>cambia los nombres</strong> para que no se reconozca el patrón por el
+      nombre de la clase: acá se llama <code>Inicio_Serie</code>. Hay que mirar la forma.
+    </li>
+    <li>
+      <code>std::thread</code>, <code>sleep_for</code> y <code>join</code> son <strong>hilos</strong>:
+      dos partes del programa que corren a la vez. Para reconocer el patrón alcanza con leerlo así:
+      "<code>ThreadFoo</code> y <code>ThreadBar</code> son dos funciones que piden la instancia, una
+      con el texto FOO y otra con BAR".
+    </li>
+    <li>
+      Dentro de la clase hay cosas definidas en dos partes: <code>GetInstance</code> está
+      <strong>declarado</strong> adentro (sin código) y <strong>escrito</strong> afuera, como
+      <code>Inicio_Serie::GetInstance(...)</code>. Es el mismo método.
+    </li>
+  </ul>
+
+  <span class="paso">Paso 2 &mdash; Buscar las señales</span>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea del código</th><th>Qué es</th><th>Señal de Singleton</th></tr>
+      <tr><td><code>static Inicio_Serie* Inicio_Serie_;</code></td><td>Un atributo estático que es un puntero a la propia clase</td><td>&#10003; Donde se guarda la única instancia</td></tr>
+      <tr><td><code>protected:</code><br><code>Inicio_Serie(const std::string value)...</code></td><td>El constructor no es público</td><td>&#10003; Desde afuera no se puede hacer <code>new</code></td></tr>
+      <tr><td><code>static Inicio_Serie *GetInstance(...)</code></td><td>Un método estático que devuelve un puntero a la propia clase</td><td>&#10003; El punto de acceso global</td></tr>
+      <tr><td><code>if(Inicio_Serie_==nullptr){ Inicio_Serie_ = new Inicio_Serie(value); }</code><br><code>return Inicio_Serie_;</code></td><td>Crea el objeto solo si todavía no existe, y devuelve siempre el guardado</td><td>&#10003; Garantiza que haya uno solo</td></tr>
+      <tr><td><code>Inicio_Serie(Inicio_Serie &amp;other) = delete;</code><br><code>void operator=(const Inicio_Serie &amp;) = delete;</code></td><td>Prohíbe copiar el objeto</td><td>&#10003; Refuerzo: sin copias no hay un segundo objeto</td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Paso 3 &mdash; Comprobarlo con lo que imprime</span>
+  <p>
+    El propio programa avisa qué espera: <em>"Si ves el mismo valor, entonces fue exitoso"</em>.
+    Corriendo las dos llamadas una después de la otra (sin hilos), primero con "FOO" y después con
+    "BAR", imprime:
+  </p>
+  <pre class="salida">FOO
+FOO</pre>
+  <p>
+    La segunda llamada pide la instancia con "BAR", pero como el objeto <strong>ya existía</strong>
+    no entra al <code>if</code> y devuelve el mismo de antes, que se creó con "FOO". Dos pedidos,
+    un solo objeto. Con los hilos el valor repetido puede ser FOO o BAR según cuál llegue primero,
+    pero siempre es <strong>el mismo las dos veces</strong>.
+  </p>
+
+  <span class="paso">Paso 4 &mdash; El diagrama</span>
+  <div class="pd-grafico uml" data-g="p-inicio-serie">
+    <svg viewBox="-14 -14 379 192" width="379" height="192" role="img" aria-label="Diagrama de la clase Inicio_Serie">
+      <rect class="caja destacada" x="0" y="0" width="351" height="164" rx="3"/>
+      <text class="nombre" x="175.5" y="20">Inicio_Serie</text>
+      <line class="div" x1="0" y1="30" x2="351" y2="30"/>
+      <text class="miembro estatico" x="10" y="48"># Inicio_Serie_: Inicio_Serie*</text>
+      <text class="miembro" x="10" y="67"># value_: string</text>
+      <line class="div" x1="0" y1="78" x2="351" y2="78"/>
+      <text class="miembro" x="10" y="96"># Inicio_Serie(value: string)</text>
+      <text class="miembro estatico" x="10" y="115">+ GetInstance(value: string): Inicio_Serie*</text>
+      <text class="miembro" x="10" y="134">+ SomeBusinessLogic(): void</text>
+      <text class="miembro" x="10" y="153">+ value(): string</text>
+    </svg>
+  </div>
+  <p>
+    Lo que está debajo de <code>protected:</code> lleva <code>#</code>; lo de <code>public:</code>,
+    <code>+</code>; lo <code>static</code>, subrayado.
+  </p>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>
+      Es el patrón <strong>Singleton</strong> (creacional). Lo delatan: el atributo estático
+      <code>Inicio_Serie_</code>, que es un puntero a la propia clase; el constructor protegido,
+      que impide crear objetos desde afuera; y el método estático <code>GetInstance</code>, que
+      crea la instancia solo si no existe y devuelve siempre la misma. Además, la copia y la
+      asignación están eliminadas con <code>= delete</code>.
+    </p>
+  </div>
+</div>

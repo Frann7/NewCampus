@@ -1,0 +1,453 @@
+<div class="bloque" data-examen="igual"
+     data-examen-ref="Parcial 2025 · Teoría 4"
+     data-examen-nota="20 puntos entre este y Adapter: dibujar el UML de la estructura y explicar el propósito. El enunciado no lo nombraba: decía «la creación flexible de familias de objetos».">
+  <p class="kicker">Creacional</p>
+  <h2>3. Abstract Factory</h2>
+  <p>También llamado <strong>Fábrica Abstracta</strong>.</p>
+
+  <h3>Para qué sirve</h3>
+  <p>El problema, con el ejemplo del apunte: una <strong>tienda de muebles</strong>.</p>
+  <ul>
+    <li>Vende varios <strong>productos</strong>: silla, sofá, mesilla.</li>
+    <li>Cada producto viene en varias <strong>variantes</strong> (estilos): moderna, victoriana, art déco.</li>
+    <li>
+      El cliente quiere muebles que <strong>combinen</strong>: si pide un juego moderno, no puede
+      llegarle una silla moderna con un sofá victoriano.
+    </li>
+    <li>
+      Los catálogos cambian seguido: hay que poder <strong>agregar variantes</strong> sin tocar el
+      código que ya funciona.
+    </li>
+  </ul>
+  <p>
+    Un conjunto de productos que van juntos (silla moderna + sofá moderno + mesilla moderna) es
+    una <strong>familia</strong>. Abstract Factory pone la creación de <strong>toda una
+    familia</strong> en un solo objeto, la <strong>fábrica</strong>: quien usa la fábrica moderna
+    recibe siempre muebles modernos.
+  </p>
+
+  <div class="caja caja-formula">
+    <span class="caja-tit">Propósito</span>
+    <p>
+      Abstract Factory es un patrón <strong>creacional</strong> que permite producir
+      <strong>familias de objetos relacionados</strong> sin especificar sus <strong>clases
+      concretas</strong>.
+    </p>
+  </div>
+
+  <h3>La idea de la solución</h3>
+  <p>Conviene armar primero la <strong>tabla de productos y variantes</strong>:</p>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th></th><th>Silla</th><th>Sofá</th></tr>
+      <tr><td class="lbl">Moderna</td><td><code>SillaModerna</code></td><td><code>SofaModerno</code></td></tr>
+      <tr><td class="lbl">Victoriana</td><td><code>SillaVictoriana</code></td><td><code>SofaVictoriano</code></td></tr>
+    </table>
+  </div>
+  <ol>
+    <li>
+      <strong>Cada columna es una interfaz de producto</strong> (<code>Silla</code>,
+      <code>Sofa</code>): todas las sillas se usan igual, sean del estilo que sean.
+    </li>
+    <li>
+      <strong>Cada fila es una fábrica concreta</strong> (<code>FabricaModerna</code>,
+      <code>FabricaVictoriana</code>): crea todos los productos de esa variante.
+    </li>
+    <li>
+      Todas las fábricas cumplen una misma interfaz, la <strong>fábrica abstracta</strong>, que
+      tiene <strong>un método de creación por cada columna</strong>: <code>crearSilla()</code> y
+      <code>crearSofa()</code>.
+    </li>
+    <li>
+      El <strong>cliente</strong> recibe una fábrica y le pide los muebles. No sabe cuál fábrica
+      es ni qué clases concretas le devuelve.
+    </li>
+  </ol>
+
+  <h3>Estructura</h3>
+  <div class="pd-grafico uml" data-g="abstract">
+    <svg viewBox="-64 -14 743 477" width="743" height="477" role="img" aria-label="Estructura del patrón Abstract Factory">
+      <polyline class="linea" points="122,59 122,104.5 122,104.5 122,150"/>
+      <polyline class="linea" points="117,140 122,150 127,140"/>
+      <polyline class="linea punteada" points="31,330 31,293.5 122,293.5 122,257"/>
+      <polygon class="hueca" points="122,244 129,257 115,257"/>
+      <polyline class="linea punteada" points="211,330 211,293.5 122,293.5 122,257"/>
+      <polygon class="hueca" points="122,244 129,257 115,257"/>
+      <polyline class="linea punteada" points="450,130 450,109 525.5,109 525.5,88"/>
+      <polygon class="hueca" points="525.5,75 532.5,88 518.5,88"/>
+      <polyline class="linea punteada" points="600,130 600,109 525.5,109 525.5,88"/>
+      <polygon class="hueca" points="525.5,75 532.5,88 518.5,88"/>
+      <polyline class="linea punteada" points="450,390 450,369 525.5,369 525.5,348"/>
+      <polygon class="hueca" points="525.5,335 532.5,348 518.5,348"/>
+      <polyline class="linea punteada" points="600,390 600,369 525.5,369 525.5,348"/>
+      <polygon class="hueca" points="525.5,335 532.5,348 518.5,348"/>
+      <polyline class="linea punteada" points="244,185 340,185 340,37.5 430,37.5"/>
+      <polyline class="linea" points="420,42.5 430,37.5 420,32.5"/>
+      <text class="rotulo" x="346" y="111.25" text-anchor="start">crea</text>
+      <polyline class="linea punteada" points="244,209 340,209 340,297.5 430,297.5"/>
+      <polyline class="linea" points="420,302.5 430,297.5 420,292.5"/>
+      <rect class="caja" x="8" y="0" width="229" height="59" rx="3"/>
+      <text class="nombre" x="122.5" y="20">Cliente</text>
+      <line class="div" x1="8" y1="30" x2="237" y2="30"/>
+      <text class="miembro" x="18" y="48">- fabrica: FabricaAbstracta</text>
+      <rect class="caja destacada" x="0" y="150" width="244" height="94" rx="3"/>
+      <text class="estereo" x="122" y="166">&#171;interface&#187;</text>
+      <text class="nombre" x="122" y="185">FabricaAbstracta</text>
+      <line class="div" x1="0" y1="196" x2="244" y2="196"/>
+      <text class="miembro" x="10" y="214">+ crearProductoA(): ProductoA</text>
+      <text class="miembro" x="10" y="233">+ crearProductoB(): ProductoB</text>
+      <rect class="caja" x="-50" y="330" width="162" height="78" rx="3"/>
+      <text class="nombre" x="31" y="350">FabricaConcreta1</text>
+      <line class="div" x1="-50" y1="360" x2="112" y2="360"/>
+      <text class="miembro" x="-40" y="378">+ crearProductoA()</text>
+      <text class="miembro" x="-40" y="397">+ crearProductoB()</text>
+      <rect class="caja" x="130" y="330" width="162" height="78" rx="3"/>
+      <text class="nombre" x="211" y="350">FabricaConcreta2</text>
+      <line class="div" x1="130" y1="360" x2="292" y2="360"/>
+      <text class="miembro" x="140" y="378">+ crearProductoA()</text>
+      <text class="miembro" x="140" y="397">+ crearProductoB()</text>
+      <rect class="caja" x="430" y="0" width="191" height="75" rx="3"/>
+      <text class="estereo" x="525.5" y="16">&#171;interface&#187;</text>
+      <text class="nombre" x="525.5" y="35">ProductoA</text>
+      <line class="div" x1="430" y1="46" x2="621" y2="46"/>
+      <text class="miembro" x="440" y="64">+ operacionA(): string</text>
+      <rect class="caja" x="385" y="130" width="130" height="59" rx="3"/>
+      <text class="nombre" x="450" y="150">ProductoA1</text>
+      <line class="div" x1="385" y1="160" x2="515" y2="160"/>
+      <text class="miembro" x="395" y="178">+ operacionA()</text>
+      <rect class="caja" x="535" y="130" width="130" height="59" rx="3"/>
+      <text class="nombre" x="600" y="150">ProductoA2</text>
+      <line class="div" x1="535" y1="160" x2="665" y2="160"/>
+      <text class="miembro" x="545" y="178">+ operacionA()</text>
+      <rect class="caja" x="430" y="260" width="191" height="75" rx="3"/>
+      <text class="estereo" x="525.5" y="276">&#171;interface&#187;</text>
+      <text class="nombre" x="525.5" y="295">ProductoB</text>
+      <line class="div" x1="430" y1="306" x2="621" y2="306"/>
+      <text class="miembro" x="440" y="324">+ operacionB(): string</text>
+      <rect class="caja" x="385" y="390" width="130" height="59" rx="3"/>
+      <text class="nombre" x="450" y="410">ProductoB1</text>
+      <line class="div" x1="385" y1="420" x2="515" y2="420"/>
+      <text class="miembro" x="395" y="438">+ operacionB()</text>
+      <rect class="caja" x="535" y="390" width="130" height="59" rx="3"/>
+      <text class="nombre" x="600" y="410">ProductoB2</text>
+      <line class="div" x1="535" y1="420" x2="665" y2="420"/>
+      <text class="miembro" x="545" y="438">+ operacionB()</text>
+    </svg>
+  </div>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Parte</th><th>Qué es</th><th>En el ejemplo de los muebles</th></tr>
+      <tr><td class="lbl">Productos Abstractos</td><td>Una interfaz por cada tipo de producto de la familia.</td><td><code>Silla</code>, <code>Sofa</code></td></tr>
+      <tr><td class="lbl">Productos Concretos</td><td>Las implementaciones de cada producto, una por variante.</td><td><code>SillaModerna</code>, <code>SillaVictoriana</code>, <code>SofaModerno</code>, <code>SofaVictoriano</code></td></tr>
+      <tr><td class="lbl">Fábrica Abstracta (<em>Abstract Factory</em>)</td><td>La interfaz con <strong>un método de creación por cada producto abstracto</strong>.</td><td><code>FabricaDeMuebles</code>, con <code>crearSilla()</code> y <code>crearSofa()</code></td></tr>
+      <tr><td class="lbl">Fábricas Concretas</td><td>Una por variante. Cada una crea <strong>solo</strong> los productos de su variante.</td><td><code>FabricaModerna</code>, <code>FabricaVictoriana</code></td></tr>
+      <tr><td class="lbl">Cliente</td><td>Usa la fábrica y los productos <strong>solo a través de las interfaces</strong>.</td><td>El código que amuebla</td></tr>
+    </table>
+  </div>
+  <p>Cómo dibujarlo de memoria:</p>
+  <ul>
+    <li><strong>A la izquierda, las fábricas:</strong> la interfaz arriba y una fábrica concreta por variante abajo.</li>
+    <li><strong>A la derecha, los productos:</strong> una interfaz por producto, cada una con sus concretos abajo.</li>
+    <li>
+      Las flechas punteadas <strong>"crea"</strong> salen de la fábrica hacia <strong>cada</strong>
+      interfaz de producto: los métodos de la fábrica devuelven el producto abstracto, aunque por
+      dentro cada fábrica concreta haga el <code>new</code> del concreto de su variante
+      (<code>FabricaConcreta1</code> crea <code>ProductoA1</code> y <code>ProductoB1</code>).
+    </li>
+    <li>El <strong>Cliente</strong> guarda una fábrica (flecha continua hacia la interfaz).</li>
+  </ul>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; En C++: la mueblería</h3>
+  <div class="pd-grafico uml" data-g="abstract-muebles">
+    <svg viewBox="-69 -14 763 477" width="763" height="477" role="img" aria-label="Abstract Factory en el ejemplo de la mueblería">
+      <polyline class="linea" points="111,59 111,104.5 111,104.5 111,150"/>
+      <polyline class="linea" points="106,140 111,150 116,140"/>
+      <polyline class="linea punteada" points="17,330 17,293.5 111,293.5 111,257"/>
+      <polygon class="hueca" points="111,244 118,257 104,257"/>
+      <polyline class="linea punteada" points="200,330 200,293.5 111,293.5 111,257"/>
+      <polygon class="hueca" points="111,244 118,257 104,257"/>
+      <polyline class="linea punteada" points="443.5,130 443.5,109 534,109 534,88"/>
+      <polygon class="hueca" points="534,75 541,88 527,88"/>
+      <polyline class="linea punteada" points="603.5,130 603.5,109 534,109 534,88"/>
+      <polygon class="hueca" points="534,75 541,88 527,88"/>
+      <polyline class="linea punteada" points="441.5,390 441.5,369 534,369 534,348"/>
+      <polygon class="hueca" points="534,335 541,348 527,348"/>
+      <polyline class="linea punteada" points="599,390 599,369 534,369 534,348"/>
+      <polygon class="hueca" points="534,335 541,348 527,348"/>
+      <polyline class="linea punteada" points="203,185 330,185 330,37.5 442,37.5"/>
+      <polyline class="linea" points="432,42.5 442,37.5 432,32.5"/>
+      <text class="rotulo" x="336" y="111.25" text-anchor="start">crea</text>
+      <polyline class="linea punteada" points="203,209 330,209 330,297.5 442,297.5"/>
+      <polyline class="linea" points="432,302.5 442,297.5 432,292.5"/>
+      <rect class="caja" x="0" y="0" width="229" height="59" rx="3"/>
+      <text class="nombre" x="114.5" y="20">Cliente</text>
+      <line class="div" x1="0" y1="30" x2="229" y2="30"/>
+      <text class="miembro" x="10" y="48">- fabrica: FabricaDeMuebles</text>
+      <rect class="caja destacada" x="19" y="150" width="184" height="94" rx="3"/>
+      <text class="estereo" x="111" y="166">&#171;interface&#187;</text>
+      <text class="nombre" x="111" y="185">FabricaDeMuebles</text>
+      <line class="div" x1="19" y1="196" x2="203" y2="196"/>
+      <text class="miembro" x="29" y="214">+ crearSilla(): Silla</text>
+      <text class="miembro" x="29" y="233">+ crearSofa(): Sofa</text>
+      <rect class="caja" x="-55" y="330" width="144" height="78" rx="3"/>
+      <text class="nombre" x="17" y="350">FabricaModerna</text>
+      <line class="div" x1="-55" y1="360" x2="89" y2="360"/>
+      <text class="miembro" x="-45" y="378">+ crearSilla()</text>
+      <text class="miembro" x="-45" y="397">+ crearSofa()</text>
+      <rect class="caja" x="115" y="330" width="170" height="78" rx="3"/>
+      <text class="nombre" x="200" y="350">FabricaVictoriana</text>
+      <line class="div" x1="115" y1="360" x2="285" y2="360"/>
+      <text class="miembro" x="125" y="378">+ crearSilla()</text>
+      <text class="miembro" x="125" y="397">+ crearSofa()</text>
+      <rect class="caja" x="442" y="0" width="184" height="75" rx="3"/>
+      <text class="estereo" x="534" y="16">&#171;interface&#187;</text>
+      <text class="nombre" x="534" y="35">Silla</text>
+      <line class="div" x1="442" y1="46" x2="626" y2="46"/>
+      <text class="miembro" x="452" y="64">+ describir(): string</text>
+      <rect class="caja" x="380" y="130" width="127" height="59" rx="3"/>
+      <text class="nombre" x="443.5" y="150">SillaModerna</text>
+      <line class="div" x1="380" y1="160" x2="507" y2="160"/>
+      <text class="miembro" x="390" y="178">+ describir()</text>
+      <rect class="caja" x="527" y="130" width="153" height="59" rx="3"/>
+      <text class="nombre" x="603.5" y="150">SillaVictoriana</text>
+      <line class="div" x1="527" y1="160" x2="680" y2="160"/>
+      <text class="miembro" x="537" y="178">+ describir()</text>
+      <rect class="caja" x="442" y="260" width="184" height="75" rx="3"/>
+      <text class="estereo" x="534" y="276">&#171;interface&#187;</text>
+      <text class="nombre" x="534" y="295">Sofa</text>
+      <line class="div" x1="442" y1="306" x2="626" y2="306"/>
+      <text class="miembro" x="452" y="324">+ describir(): string</text>
+      <rect class="caja" x="380" y="390" width="123" height="59" rx="3"/>
+      <text class="nombre" x="441.5" y="410">SofaModerno</text>
+      <line class="div" x1="380" y1="420" x2="503" y2="420"/>
+      <text class="miembro" x="390" y="438">+ describir()</text>
+      <rect class="caja" x="527" y="390" width="144" height="59" rx="3"/>
+      <text class="nombre" x="599" y="410">SofaVictoriano</text>
+      <line class="div" x1="527" y1="420" x2="671" y2="420"/>
+      <text class="miembro" x="537" y="438">+ describir()</text>
+    </svg>
+  </div>
+
+  <pre class="codigo"><code>#include &lt;iostream&gt;
+#include &lt;string&gt;
+
+class Silla {
+ public:
+  virtual ~Silla() {}
+  virtual std::string describir() const = 0;
+};
+
+class Sofa {
+ public:
+  virtual ~Sofa() {}
+  virtual std::string describir() const = 0;
+};
+
+class SillaModerna : public Silla {
+ public:
+  std::string describir() const override { return "silla moderna"; }
+};
+
+class SofaModerno : public Sofa {
+ public:
+  std::string describir() const override { return "sofa moderno"; }
+};
+
+class SillaVictoriana : public Silla {
+ public:
+  std::string describir() const override { return "silla victoriana"; }
+};
+
+class SofaVictoriano : public Sofa {
+ public:
+  std::string describir() const override { return "sofa victoriano"; }
+};
+
+class FabricaDeMuebles {
+ public:
+  virtual ~FabricaDeMuebles() {}
+  virtual Silla* crearSilla() const = 0;
+  virtual Sofa* crearSofa() const = 0;
+};
+
+class FabricaModerna : public FabricaDeMuebles {
+ public:
+  Silla* crearSilla() const override { return new SillaModerna; }
+  Sofa* crearSofa() const override { return new SofaModerno; }
+};
+
+class FabricaVictoriana : public FabricaDeMuebles {
+ public:
+  Silla* crearSilla() const override { return new SillaVictoriana; }
+  Sofa* crearSofa() const override { return new SofaVictoriano; }
+};
+
+void amoblar(FabricaDeMuebles* fabrica) {
+  Silla* silla = fabrica-&gt;crearSilla();
+  Sofa* sofa = fabrica-&gt;crearSofa();
+  std::cout &lt;&lt; "Juego: " &lt;&lt; silla-&gt;describir() &lt;&lt; " + " &lt;&lt; sofa-&gt;describir() &lt;&lt; "\n";
+  delete silla;
+  delete sofa;
+}
+
+int main() {
+  FabricaDeMuebles* f = new FabricaModerna;
+  amoblar(f);
+  delete f;
+
+  f = new FabricaVictoriana;
+  amoblar(f);
+  delete f;
+  return 0;
+}</code></pre>
+
+  <h4>Qué hace cada línea</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Cómo quedan los datos</th></tr>
+      <tr><td><code>class Silla { ... = 0; };</code><br><code>class Sofa { ... = 0; };</code></td><td>Los dos <strong>Productos Abstractos</strong>: dos interfaces <strong>distintas</strong>, una por tipo de mueble.</td><td>&mdash;</td></tr>
+      <tr><td><code>class SillaModerna : public Silla</code> y las otras tres</td><td>Los cuatro <strong>Productos Concretos</strong>: cada producto en cada variante.</td><td>&mdash;</td></tr>
+      <tr><td><code>class FabricaDeMuebles {</code><br><code>virtual Silla* crearSilla() const = 0;</code><br><code>virtual Sofa* crearSofa() const = 0;</code></td><td>La <strong>Fábrica Abstracta</strong>: una interfaz con <strong>dos métodos de creación</strong>, que devuelven <strong>dos interfaces distintas</strong>.</td><td>&mdash;</td></tr>
+      <tr><td><code>class FabricaModerna ... return new SillaModerna; ... return new SofaModerno;</code></td><td>Una <strong>Fábrica Concreta</strong>: todo lo que crea es moderno.</td><td>&mdash;</td></tr>
+      <tr><td><code>class FabricaVictoriana ...</code></td><td>La otra: todo lo que crea es victoriano.</td><td>&mdash;</td></tr>
+      <tr><td><code>void amoblar(FabricaDeMuebles* fabrica) {</code></td><td>El <strong>Cliente</strong>: una función suelta que recibe <strong>una fábrica cualquiera</strong>. No nombra ninguna clase concreta.</td><td>&mdash;</td></tr>
+      <tr><td><code>Silla* silla = fabrica-&gt;crearSilla();</code><br><code>Sofa* sofa = fabrica-&gt;crearSofa();</code></td><td>Le pide a la fábrica una silla y un sofá. Como salen de la <strong>misma fábrica</strong>, combinan.</td><td>&mdash;</td></tr>
+      <tr><td><code>FabricaDeMuebles* f = new FabricaModerna;</code></td><td>Arranca el programa: se elige la variante <strong>una sola vez</strong>, al crear la fábrica.</td><td><code>f</code> &rarr; una FabricaModerna</td></tr>
+      <tr><td><code>amoblar(f);</code></td><td>El cliente pide los muebles; recibe los modernos.</td><td><code>silla</code> &rarr; SillaModerna; <code>sofa</code> &rarr; SofaModerno</td></tr>
+      <tr><td><code>f = new FabricaVictoriana;</code></td><td>Se cambia la fábrica.</td><td><code>f</code> &rarr; una FabricaVictoriana</td></tr>
+      <tr><td><code>amoblar(f);</code></td><td><strong>El mismo cliente</strong>, sin cambiarle una línea, recibe los victorianos.</td><td><code>silla</code> &rarr; SillaVictoriana; <code>sofa</code> &rarr; SofaVictoriano</td></tr>
+    </table>
+  </div>
+
+  <h4>Qué imprime y por qué</h4>
+  <pre class="salida">Juego: silla moderna + sofa moderno
+Juego: silla victoriana + sofa victoriano</pre>
+  <p>
+    Nunca sale "silla moderna + sofa victoriano": es imposible, porque cada fábrica solo sabe crear
+    los productos de su variante. Para agregar el estilo art déco se suman tres clases
+    (<code>SillaArtDeco</code>, <code>SofaArtDeco</code>, <code>FabricaArtDeco</code>) y
+    <code>amoblar</code> no se toca.
+  </p>
+
+  <h3>Cómo reconocerlo</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Dónde</th><th>Qué lo delata</th></tr>
+      <tr><td class="lbl">En un enunciado</td><td>La palabra <strong>"familias"</strong>: "la creación flexible de <strong>familias de objetos</strong>", "diferentes <strong>familias de productos</strong>". O varios productos que tienen que <strong>ajustarse todos a una misma variante</strong>: "crear diferentes tipos de elementos de interfaz de usuario, como botones y cuadros de texto, de manera que se ajusten a la plataforma específica (escritorio o web)".</td></tr>
+      <tr><td class="lbl">En un código</td><td>
+        <ol>
+          <li>una interfaz con <strong>varios</strong> métodos de creación (<code>CreateProductA</code>, <code>CreateProductB</code>...) que devuelven punteros a <strong>distintas</strong> clases base;</li>
+          <li><strong>dos o más jerarquías de productos</strong> (una clase base por producto);</li>
+          <li>varias clases que cumplen la interfaz fábrica y cuyos métodos son <code>return new ...;</code> de productos <strong>de la misma variante</strong>;</li>
+          <li>un cliente que recibe la fábrica <strong>por parámetro</strong> y le pide los productos.</li>
+        </ol>
+      </td></tr>
+    </table>
+  </div>
+
+  <h3>Ventajas y desventajas</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Ventajas</th><th>Desventajas</th></tr>
+      <tr>
+        <td>
+          <ul>
+            <li>Se tiene la certeza de que los productos que salen de una fábrica son <strong>compatibles entre sí</strong>.</li>
+            <li>Evita un <strong>acoplamiento fuerte</strong> entre los productos concretos y el código cliente.</li>
+            <li><strong>Principio de responsabilidad única:</strong> el código de creación queda en un solo lugar.</li>
+            <li><strong>Principio de abierto/cerrado:</strong> se agregan variantes nuevas sin romper el código cliente.</li>
+          </ul>
+        </td>
+        <td>
+          <ul>
+            <li>El código se puede complicar más de lo necesario: aparecen <strong>muchas interfaces y clases nuevas</strong>.</li>
+          </ul>
+        </td>
+      </tr>
+    </table>
+  </div>
+
+  <h3>Dónde se usa</h3>
+  <ul>
+    <li>
+      <strong>Interfaces de usuario multiplataforma</strong> (el otro ejemplo del apunte): botones y
+      casillas que se ven distinto en Windows y en Mac, con una fábrica por sistema operativo.
+    </li>
+    <li><strong>Catálogos por estilo o por línea</strong>: los muebles del ejemplo.</li>
+    <li>
+      Cualquier sistema que deba funcionar con <strong>varias familias de productos
+      relacionados</strong> sin depender de sus clases concretas, porque no se conocen de antemano
+      o porque se quiere poder agregar más.
+    </li>
+  </ul>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; Con formato de parcial: dibujar la estructura y explicar el propósito</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Parcial 2025 &middot; Teoría 4 (20 puntos, con Adapter)</span>
+    <p>
+      Del enunciado: "El equipo de desarrollo trabaja con Programación Orientada a Objetos (POO) y
+      planea incorporar dos patrones de diseño en su solución empresarial, la creación flexible de
+      familias de objetos y otro para conectar módulos con interfaces incompatibles con los
+      existentes del sistema."
+    </p>
+    <p>
+      La consigna: "Represente mediante un diagrama UML la estructura de los patrones de diseño que
+      quiere incorporar SoftMetrics. Explique el propósito de cada uno dentro del sistema."
+    </p>
+  </div>
+  <p><strong>Paso 1 &mdash; Descubrir cuáles son.</strong> El enunciado no los nombra: los describe.</p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase del enunciado</th><th>Qué significa</th><th>Patrón</th></tr>
+      <tr><td>"la <strong>creación</strong> flexible de <strong>familias de objetos</strong>"</td><td>Es creacional, y la palabra "familias" es la del propósito de Abstract Factory</td><td>Abstract Factory</td></tr>
+      <tr><td>"conectar módulos con <strong>interfaces incompatibles</strong>"</td><td>Es estructural: hacer que encajen clases que no encajan</td><td>Adapter (Unidad 4B)</td></tr>
+    </table>
+  </div>
+  <p>
+    <strong>Paso 2 &mdash; El diagrama.</strong> Piden <em>la estructura</em>, así que va el diagrama
+    general de "Estructura" de más arriba: Cliente, Fábrica Abstracta, dos Fábricas Concretas, dos
+    Productos Abstractos y sus Productos Concretos.
+  </p>
+  <p>
+    <strong>Paso 3 &mdash; El propósito "dentro del sistema".</strong> Hay que atarlo a la empresa
+    del enunciado, no recitar la definición sola:
+  </p>
+  <p>
+    "<strong>Abstract Factory</strong> permite crear familias de objetos relacionados sin
+    especificar sus clases concretas. En SoftMetrics, que desarrolla soluciones web y aplicaciones
+    empresariales, serviría para que cada tipo de solución tenga su fábrica (por ejemplo
+    <code>FabricaWeb</code> y <code>FabricaEscritorio</code>) que cree todos sus componentes
+    (botones, formularios, reportes) compatibles entre sí. El resto del sistema trabaja solo con
+    las interfaces, así que se puede agregar una familia nueva sin modificar el código existente."
+  </p>
+
+  <h3>Errores y trampas</h3>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Una sola jerarquía de productos no es Abstract Factory</span>
+    <p>
+      Si la fábrica tiene <strong>un solo</strong> método de creación y hay <strong>un solo</strong>
+      tipo de producto, es Factory Method. Abstract Factory necesita <strong>al menos dos
+      productos distintos</strong> que formen familia.
+    </p>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Cuidado con qué se cuenta como fábrica</span>
+    <p>
+      Hay una fábrica concreta <strong>por variante</strong> (moderna, victoriana), no por producto
+      (silla, sofá). Si te encontrás dibujando <code>FabricaDeSillas</code> y
+      <code>FabricaDeSofas</code>, las familias están al revés.
+    </p>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Agregar un producto nuevo sí obliga a tocar todo</span>
+    <p>
+      Agregar una <strong>variante</strong> (art déco) es fácil: una fábrica más. Agregar un
+      <strong>producto</strong> (mesilla) obliga a sumar un método a la fábrica abstracta y a
+      <strong>todas</strong> las concretas.
+    </p>
+  </div>
+</div>

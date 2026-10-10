@@ -1,0 +1,104 @@
+<div class="ej">
+  <span class="tag">Ejercicio 2 &middot; Singleton</span>
+  <h2>Aplicar el patrón sobre un diagrama: ConexionDB</h2>
+  <div class="enunciado">
+    <p>
+      <strong>Patrones de Diseño Parte 1, ejercicio 2.</strong> Se desea modelar la parte de
+      conexión a base de datos de un sistema, para ello se necesita que sólo se pueda crear una
+      instancia de un objeto llamado ConexionDB, el cual también debe requerirse que solamente se
+      pueda crear un solo objeto, adjuntamos el diagrama de clases que existe actualmente:
+    </p>
+  </div>
+  <div class="pd-grafico uml" data-g="p-conexion-antes">
+    <svg viewBox="-14 -14 909 154" width="909" height="154" role="img" aria-label="Diagrama original: Resultado, ConexionDB y Sentencia">
+      <polyline class="linea" points="290,39.5 237,39.5 237,39.5 184,39.5"/>
+      <polyline class="linea" points="618,39.5 669,39.5 669,39.5 720,39.5"/>
+      <rect class="caja" x="0" y="10" width="184" height="59" rx="3"/>
+      <text class="nombre" x="92" y="30">Resultado</text>
+      <line class="div" x1="0" y1="40" x2="184" y2="40"/>
+      <text class="miembro" x="10" y="58">- cantidadFilas: Long</text>
+      <rect class="caja" x="290" y="0" width="328" height="126" rx="3"/>
+      <text class="nombre" x="454" y="20">ConexionDB</text>
+      <line class="div" x1="290" y1="30" x2="618" y2="30"/>
+      <text class="miembro" x="300" y="48">- usuario: String</text>
+      <text class="miembro" x="300" y="67">- password: String</text>
+      <text class="miembro" x="300" y="86">- host: String</text>
+      <line class="div" x1="290" y1="97" x2="618" y2="97"/>
+      <text class="miembro" x="300" y="115">+ obtenerResultado(Sentencia): Resultado</text>
+      <rect class="caja" x="720" y="10" width="161" height="59" rx="3"/>
+      <text class="nombre" x="800.5" y="30">Sentencia</text>
+      <line class="div" x1="720" y1="40" x2="881" y2="40"/>
+      <text class="miembro" x="730" y="58">- consulta: String</text>
+    </svg>
+  </div>
+
+  <span class="paso">Paso 1 &mdash; Desarme del enunciado</span>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase del enunciado</th><th>Qué significa</th><th>A dónde va</th></tr>
+      <tr><td>"sólo se pueda crear <strong>una instancia</strong> de un objeto llamado ConexionDB"</td><td>De esa clase tiene que haber un único objeto</td><td>Singleton, sobre <code>ConexionDB</code></td></tr>
+      <tr><td>"solamente se pueda crear <strong>un solo objeto</strong>"</td><td>Lo mismo, dicho otra vez</td><td>&mdash;</td></tr>
+      <tr><td>"el diagrama de clases que existe actualmente"</td><td>No hay que inventar clases: se <strong>modifica</strong> una de las que están</td><td>Se agregan tres cosas a <code>ConexionDB</code></td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Paso 2 &mdash; Qué se le agrega a la clase</span>
+  <p>Las tres piezas de Singleton (Teoría, sección 1), y nada más:</p>
+  <ol>
+    <li>Un atributo <strong>privado y estático</strong> <code>instancia</code>, de tipo <code>ConexionDB</code>.</li>
+    <li>El <strong>constructor privado</strong> <code>ConexionDB()</code>.</li>
+    <li>Un método <strong>público y estático</strong> <code>obtenerInstancia()</code>, que devuelve <code>ConexionDB</code>.</li>
+  </ol>
+  <p>
+    Lo que la clase ya tenía (<code>usuario</code>, <code>password</code>, <code>host</code>,
+    <code>obtenerResultado</code>) <strong>queda igual</strong>, y <code>Resultado</code> y
+    <code>Sentencia</code> no se tocan.
+  </p>
+
+  <span class="paso">Paso 3 &mdash; El diagrama</span>
+  <div class="pd-grafico uml" data-g="p-conexion">
+    <svg viewBox="-14 -14 909 211" width="909" height="211" role="img" aria-label="ConexionDB convertida en Singleton">
+      <polyline class="linea" points="290,69.5 237,69.5 237,69.5 184,69.5"/>
+      <polyline class="linea" points="618,69.5 669,69.5 669,69.5 720,69.5"/>
+      <rect class="caja" x="0" y="40" width="184" height="59" rx="3"/>
+      <text class="nombre" x="92" y="60">Resultado</text>
+      <line class="div" x1="0" y1="70" x2="184" y2="70"/>
+      <text class="miembro" x="10" y="88">- cantidadFilas: Long</text>
+      <rect class="caja destacada" x="290" y="0" width="328" height="183" rx="3"/>
+      <text class="nombre" x="454" y="20">ConexionDB</text>
+      <line class="div" x1="290" y1="30" x2="618" y2="30"/>
+      <text class="miembro estatico" x="300" y="48">- instancia: ConexionDB</text>
+      <text class="miembro" x="300" y="67">- usuario: String</text>
+      <text class="miembro" x="300" y="86">- password: String</text>
+      <text class="miembro" x="300" y="105">- host: String</text>
+      <line class="div" x1="290" y1="116" x2="618" y2="116"/>
+      <text class="miembro" x="300" y="134">- ConexionDB()</text>
+      <text class="miembro estatico" x="300" y="153">+ obtenerInstancia(): ConexionDB</text>
+      <text class="miembro" x="300" y="172">+ obtenerResultado(Sentencia): Resultado</text>
+      <rect class="caja" x="720" y="40" width="161" height="59" rx="3"/>
+      <text class="nombre" x="800.5" y="60">Sentencia</text>
+      <line class="div" x1="720" y1="70" x2="881" y2="70"/>
+      <text class="miembro" x="730" y="88">- consulta: String</text>
+    </svg>
+  </div>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>
+      Se aplica <strong>Singleton</strong> a <code>ConexionDB</code>, porque el enunciado pide que
+      solo se pueda crear una instancia. El constructor pasa a ser privado, se agrega el atributo
+      estático <code>instancia</code> y el método estático <code>obtenerInstancia()</code>, que
+      crea la conexión la primera vez y devuelve siempre la misma. Así todo el sistema usa una
+      única conexión a la base de datos.
+    </p>
+  </div>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">El ejercicio 1 de la misma guía se resuelve igual</span>
+    <p>
+      "Los alumnos son evaluados por <strong>un y sólo un docente</strong>": la clase que debe tener
+      una sola instancia es <code>Profesor</code>. Se le agregan las mismas tres piezas, y
+      <code>Persona</code> y <code>Estudiante</code> quedan como estaban.
+    </p>
+  </div>
+</div>

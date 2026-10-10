@@ -1,0 +1,363 @@
+<div class="bloque" data-examen="igual"
+     data-examen-ref="Parcial 2025 · Práctica 1"
+     data-examen-nota="Había que reconocerlo en el segundo párrafo del enunciado de Muebles Express y justificar (ejemplo 2).">
+  <p class="kicker">Creacional</p>
+  <h2>2. Factory Method</h2>
+  <p>También llamado <strong>Método Fábrica</strong>.</p>
+
+  <h3>Para qué sirve</h3>
+  <p>El problema, con el ejemplo del apunte:</p>
+  <ul>
+    <li>
+      Una aplicación de <strong>logística</strong> nació manejando solo camiones. Por eso el código
+      está lleno de <code>new Camion</code>: está <strong>acoplado</strong> (atado) a la clase
+      <code>Camion</code>.
+    </li>
+    <li>
+      Ahora piden agregar <strong>barcos</strong>. Hay que tocar todos los lugares donde se creaba un
+      camión y llenarlos de condicionales: "si es por tierra, camión; si es por mar, barco".
+    </li>
+    <li>
+      Cuando mañana pidan <strong>aviones</strong>, hay que volver a tocar todo.
+    </li>
+  </ul>
+  <p>
+    Factory Method saca el <code>new</code> del medio del código y lo pone en <strong>un método
+    aparte</strong>, el <strong>método fábrica</strong>. La clase base lo llama cuando necesita el
+    objeto, pero <strong>son las subclases las que deciden qué objeto concreto devuelve</strong>.
+  </p>
+
+  <div class="caja caja-formula">
+    <span class="caja-tit">Propósito</span>
+    <p>
+      Factory Method es un patrón <strong>creacional</strong> que proporciona una <strong>interfaz
+      para crear objetos en una superclase</strong>, mientras permite a las <strong>subclases
+      alterar el tipo de objetos</strong> que se crearán.
+    </p>
+  </div>
+
+  <h3>La idea de la solución</h3>
+  <ol>
+    <li>
+      Todos los objetos que se pueden crear (<code>Camion</code>, <code>Barco</code>) cumplen una
+      <strong>misma interfaz</strong> (<code>Transporte</code>). A esos objetos se los llama
+      <strong>productos</strong>.
+    </li>
+    <li>
+      La clase que los necesita (<code>Logistica</code>) no hace <code>new</code>: llama a su
+      método fábrica <code>crearTransporte()</code>, que devuelve "un Transporte", sin decir cuál.
+    </li>
+    <li>
+      Cada subclase (<code>LogisticaTerrestre</code>, <code>LogisticaMaritima</code>) escribe ese
+      método a su manera: una devuelve un camión, la otra un barco.
+    </li>
+  </ol>
+  <p>
+    Resultado: para agregar aviones se crean dos clases nuevas (<code>Avion</code> y
+    <code>LogisticaAerea</code>) y <strong>no se toca nada de lo que ya estaba</strong>.
+  </p>
+
+  <h3>Estructura</h3>
+  <div class="pd-grafico uml" data-g="factory">
+    <svg viewBox="-14 -14 798 237" width="798" height="237" role="img" aria-label="Estructura del patrón Factory Method">
+      <polyline class="linea" points="81,150 81,120.5 163.5,120.5 163.5,91"/>
+      <polygon class="hueca" points="163.5,78 170.5,91 156.5,91"/>
+      <polyline class="linea" points="261,150 261,120.5 163.5,120.5 163.5,91"/>
+      <polygon class="hueca" points="163.5,78 170.5,91 156.5,91"/>
+      <polyline class="linea punteada" points="505,150 505,119 595,119 595,88"/>
+      <polygon class="hueca" points="595,75 602,88 588,88"/>
+      <polyline class="linea punteada" points="685,150 685,119 595,119 595,88"/>
+      <polygon class="hueca" points="595,75 602,88 588,88"/>
+      <polyline class="linea punteada" points="278,37.5 394.5,37.5 394.5,37.5 511,37.5"/>
+      <polyline class="linea" points="501,42.5 511,37.5 501,32.5"/>
+      <text class="rotulo" x="394.5" y="31.5" text-anchor="middle">crea</text>
+      <rect class="caja destacada" x="49" y="0" width="229" height="78" rx="3"/>
+      <text class="nombre abstracta" x="163.5" y="20">Creador</text>
+      <line class="div" x1="49" y1="30" x2="278" y2="30"/>
+      <text class="miembro" x="59" y="48">+ algunaOperacion(): void</text>
+      <text class="miembro abstracto" x="59" y="67">+ crearProducto(): Producto</text>
+      <rect class="caja" x="0" y="150" width="162" height="59" rx="3"/>
+      <text class="nombre" x="81" y="170">CreadorConcretoA</text>
+      <line class="div" x1="0" y1="180" x2="162" y2="180"/>
+      <text class="miembro" x="10" y="198">+ crearProducto()</text>
+      <rect class="caja" x="180" y="150" width="162" height="59" rx="3"/>
+      <text class="nombre" x="261" y="170">CreadorConcretoB</text>
+      <line class="div" x1="180" y1="180" x2="342" y2="180"/>
+      <text class="miembro" x="190" y="198">+ crearProducto()</text>
+      <rect class="caja" x="511" y="0" width="168" height="75" rx="3"/>
+      <text class="estereo" x="595" y="16">&#171;interface&#187;</text>
+      <text class="nombre" x="595" y="35">Producto</text>
+      <line class="div" x1="511" y1="46" x2="679" y2="46"/>
+      <text class="miembro" x="521" y="64">+ hacerAlgo(): void</text>
+      <rect class="caja" x="420" y="150" width="170" height="59" rx="3"/>
+      <text class="nombre" x="505" y="170">ProductoConcretoA</text>
+      <line class="div" x1="420" y1="180" x2="590" y2="180"/>
+      <text class="miembro" x="430" y="198">+ hacerAlgo()</text>
+      <rect class="caja" x="600" y="150" width="170" height="59" rx="3"/>
+      <text class="nombre" x="685" y="170">ProductoConcretoB</text>
+      <line class="div" x1="600" y1="180" x2="770" y2="180"/>
+      <text class="miembro" x="610" y="198">+ hacerAlgo()</text>
+    </svg>
+  </div>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Parte</th><th>Qué es</th><th>En el ejemplo de logística</th></tr>
+      <tr><td class="lbl">Producto (<em>Product</em>)</td><td>La <strong>interfaz</strong> común a todos los objetos que se pueden crear.</td><td><code>Transporte</code></td></tr>
+      <tr><td class="lbl">Productos Concretos</td><td>Las distintas implementaciones de esa interfaz.</td><td><code>Camion</code>, <code>Barco</code></td></tr>
+      <tr><td class="lbl">Creador (<em>Creator</em>)</td><td>La clase que <strong>declara el método fábrica</strong>, que devuelve un Producto. Además tiene su propia lógica, que usa el producto sin saber cuál es.</td><td><code>Logistica</code>, con <code>crearTransporte()</code> y <code>planificarEntrega()</code></td></tr>
+      <tr><td class="lbl">Creadores Concretos</td><td>Las subclases que <strong>sobrescriben el método fábrica</strong> para devolver un producto concreto.</td><td><code>LogisticaTerrestre</code>, <code>LogisticaMaritima</code></td></tr>
+    </table>
+  </div>
+  <p>Cómo dibujarlo de memoria: <strong>dos familias en paralelo</strong>.</p>
+  <ul>
+    <li>A la izquierda, la de los <strong>creadores</strong>: uno abstracto arriba y los concretos abajo.</li>
+    <li>A la derecha, la de los <strong>productos</strong>: la interfaz arriba y los concretos abajo.</li>
+    <li>Una flecha punteada <strong>"crea"</strong> del Creador al Producto.</li>
+    <li>
+      Va <strong>un creador concreto por cada producto concreto</strong>. En los creadores concretos
+      el método se repite (lo sobrescriben); alcanza con poner el tipo que devuelve una sola vez,
+      en el de arriba.
+    </li>
+  </ul>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; En C++: la logística del apunte</h3>
+  <div class="pd-grafico uml" data-g="factory-logistica">
+    <svg viewBox="-14 -14 718 237" width="718" height="237" role="img" aria-label="Factory Method en el ejemplo de logística">
+      <polyline class="linea" points="89.5,150 89.5,120.5 180,120.5 180,91"/>
+      <polygon class="hueca" points="180,78 187,91 173,91"/>
+      <polyline class="linea" points="285,150 285,120.5 180,120.5 180,91"/>
+      <polygon class="hueca" points="180,78 187,91 173,91"/>
+      <polyline class="linea punteada" points="497.5,150 497.5,119 565,119 565,88"/>
+      <polygon class="hueca" points="565,75 572,88 558,88"/>
+      <polyline class="linea punteada" points="632.5,150 632.5,119 565,119 565,88"/>
+      <polygon class="hueca" points="565,75 572,88 558,88"/>
+      <polyline class="linea punteada" points="310,37.5 393.5,37.5 393.5,37.5 477,37.5"/>
+      <polyline class="linea" points="467,42.5 477,37.5 467,32.5"/>
+      <text class="rotulo" x="393.5" y="31.5" text-anchor="middle">crea</text>
+      <rect class="caja destacada" x="50" y="0" width="260" height="78" rx="3"/>
+      <text class="nombre abstracta" x="180" y="20">Logistica</text>
+      <line class="div" x1="50" y1="30" x2="310" y2="30"/>
+      <text class="miembro" x="60" y="48">+ planificarEntrega(): string</text>
+      <text class="miembro abstracto" x="60" y="67">+ crearTransporte(): Transporte</text>
+      <rect class="caja" x="0" y="150" width="179" height="59" rx="3"/>
+      <text class="nombre" x="89.5" y="170">LogisticaTerrestre</text>
+      <line class="div" x1="0" y1="180" x2="179" y2="180"/>
+      <text class="miembro" x="10" y="198">+ crearTransporte()</text>
+      <rect class="caja" x="200" y="150" width="170" height="59" rx="3"/>
+      <text class="nombre" x="285" y="170">LogisticaMaritima</text>
+      <line class="div" x1="200" y1="180" x2="370" y2="180"/>
+      <text class="miembro" x="210" y="198">+ crearTransporte()</text>
+      <rect class="caja" x="477" y="0" width="176" height="75" rx="3"/>
+      <text class="estereo" x="565" y="16">&#171;interface&#187;</text>
+      <text class="nombre" x="565" y="35">Transporte</text>
+      <line class="div" x1="477" y1="46" x2="653" y2="46"/>
+      <text class="miembro" x="487" y="64">+ entregar(): string</text>
+      <rect class="caja" x="440" y="150" width="115" height="59" rx="3"/>
+      <text class="nombre" x="497.5" y="170">Camion</text>
+      <line class="div" x1="440" y1="180" x2="555" y2="180"/>
+      <text class="miembro" x="450" y="198">+ entregar()</text>
+      <rect class="caja" x="575" y="150" width="115" height="59" rx="3"/>
+      <text class="nombre" x="632.5" y="170">Barco</text>
+      <line class="div" x1="575" y1="180" x2="690" y2="180"/>
+      <text class="miembro" x="585" y="198">+ entregar()</text>
+    </svg>
+  </div>
+
+  <pre class="codigo"><code>#include &lt;iostream&gt;
+#include &lt;string&gt;
+
+class Transporte {
+ public:
+  virtual ~Transporte() {}
+  virtual std::string entregar() const = 0;
+};
+
+class Camion : public Transporte {
+ public:
+  std::string entregar() const override {
+    return "entrega por tierra, en un camion";
+  }
+};
+
+class Barco : public Transporte {
+ public:
+  std::string entregar() const override {
+    return "entrega por mar, en un barco";
+  }
+};
+
+class Logistica {
+ public:
+  virtual ~Logistica() {}
+  virtual Transporte* crearTransporte() const = 0;
+
+  std::string planificarEntrega() const {
+    Transporte* t = crearTransporte();
+    std::string resultado = "Logistica: " + t-&gt;entregar();
+    delete t;
+    return resultado;
+  }
+};
+
+class LogisticaTerrestre : public Logistica {
+ public:
+  Transporte* crearTransporte() const override {
+    return new Camion;
+  }
+};
+
+class LogisticaMaritima : public Logistica {
+ public:
+  Transporte* crearTransporte() const override {
+    return new Barco;
+  }
+};
+
+int main() {
+  Logistica* l = new LogisticaTerrestre;
+  std::cout &lt;&lt; l-&gt;planificarEntrega() &lt;&lt; "\n";
+  delete l;
+
+  l = new LogisticaMaritima;
+  std::cout &lt;&lt; l-&gt;planificarEntrega() &lt;&lt; "\n";
+  delete l;
+  return 0;
+}</code></pre>
+
+  <h4>Qué hace cada línea</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Cómo quedan los datos</th></tr>
+      <tr><td><code>class Transporte { ... entregar() const = 0; };</code></td><td>El <strong>Producto</strong>: una interfaz (todo <code>= 0</code>). Dice que todo transporte sabe <code>entregar()</code>.</td><td>&mdash;</td></tr>
+      <tr><td><code>class Camion : public Transporte</code><br><code>class Barco : public Transporte</code></td><td>Los <strong>Productos Concretos</strong>. Cada uno entrega a su manera.</td><td>&mdash;</td></tr>
+      <tr><td><code>virtual Transporte* crearTransporte() const = 0;</code></td><td><strong>El método fábrica.</strong> Está en <code>Logistica</code> (el <strong>Creador</strong>), devuelve un puntero a <code>Transporte</code> y no tiene código (<code>= 0</code>): lo completan las subclases.</td><td>&mdash;</td></tr>
+      <tr><td><code>std::string planificarEntrega() const {</code></td><td>La lógica propia del Creador. Está escrita una sola vez y sirve para cualquier transporte.</td><td>&mdash;</td></tr>
+      <tr><td><code>Transporte* t = crearTransporte();</code></td><td>Acá, donde antes habría un <code>new Camion</code>, <strong>llama al método fábrica</strong>. No sabe qué le van a devolver.</td><td>&mdash;</td></tr>
+      <tr><td><code>... "Logistica: " + t-&gt;entregar();</code></td><td>Usa el producto a través de la interfaz. El <code>+</code> pega dos textos.</td><td>&mdash;</td></tr>
+      <tr><td><code>class LogisticaTerrestre : public Logistica { ... return new Camion; }</code></td><td>Un <strong>Creador Concreto</strong>: sobrescribe el método fábrica y <strong>acá sí está el <code>new</code></strong>.</td><td>&mdash;</td></tr>
+      <tr><td><code>class LogisticaMaritima ... return new Barco;</code></td><td>El otro Creador Concreto.</td><td>&mdash;</td></tr>
+      <tr><td><code>Logistica* l = new LogisticaTerrestre;</code></td><td>Arranca el programa: se elige la logística terrestre.</td><td><code>l</code> &rarr; una LogisticaTerrestre</td></tr>
+      <tr><td><code>l-&gt;planificarEntrega()</code></td><td>Corre el método del Creador. Adentro, <code>crearTransporte()</code> es el de <code>LogisticaTerrestre</code>: crea un <code>Camion</code>.</td><td><code>t</code> &rarr; un Camion (y se destruye al terminar)</td></tr>
+      <tr><td><code>l = new LogisticaMaritima;</code></td><td>Se cambia a la logística marítima.</td><td><code>l</code> &rarr; una LogisticaMaritima</td></tr>
+      <tr><td><code>l-&gt;planificarEntrega()</code></td><td><strong>La misma llamada</strong>; ahora <code>crearTransporte()</code> crea un <code>Barco</code>.</td><td><code>t</code> &rarr; un Barco</td></tr>
+    </table>
+  </div>
+
+  <h4>Qué imprime y por qué</h4>
+  <pre class="salida">Logistica: entrega por tierra, en un camion
+Logistica: entrega por mar, en un barco</pre>
+  <p>
+    <code>planificarEntrega()</code> es <strong>un solo código</strong> y dio dos resultados, porque
+    el transporte lo eligió la subclase. En todo el programa <code>new Camion</code> aparece una
+    sola vez, dentro de su creador.
+  </p>
+
+  <h3>Cómo reconocerlo</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Dónde</th><th>Qué lo delata</th></tr>
+      <tr><td class="lbl">En un enunciado</td><td>Se habla de <strong>crear objetos de distintos tipos</strong> de una misma cosa, y de que el resto no tenga que saber cuál: "un procedimiento de fabricación específico que permite <strong>instanciar los objetos correspondientes</strong> sin que ... tenga que conocer los detalles internos", "permitiendo <strong>agregar nuevos tipos</strong> ... sin afectar la lógica", "un problema que tiene que ver con la <strong>creación de los objetos</strong>".</td></tr>
+      <tr><td class="lbl">En un código</td><td>
+        <ol>
+          <li>una clase base con un método <code>virtual</code> (muchas veces <code>= 0</code>) que <strong>devuelve un puntero a otra clase base</strong>: ese es el método fábrica (<code>FactoryMethod</code>, <code>crear...</code>, <code>create...</code>);</li>
+          <li>subclases cuyo <code>override</code> de ese método es apenas un <strong><code>return new Algo;</code></strong>;</li>
+          <li>en la clase base, <strong>otro método</strong> que llama al método fábrica y usa lo que le devuelven.</li>
+        </ol>
+      </td></tr>
+    </table>
+  </div>
+
+  <h3>Ventajas y desventajas</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Ventajas</th><th>Desventajas</th></tr>
+      <tr>
+        <td>
+          <ul>
+            <li>Evita un <strong>acoplamiento fuerte</strong> entre el creador y los productos concretos.</li>
+            <li><strong>Principio de responsabilidad única:</strong> el código que crea productos queda en un solo lugar, más fácil de mantener.</li>
+            <li><strong>Principio de abierto/cerrado:</strong> se agregan tipos nuevos de productos sin romper el código que ya existe.</li>
+          </ul>
+        </td>
+        <td>
+          <ul>
+            <li>El código se puede complicar, porque hay que agregar <strong>muchas subclases nuevas</strong> (una creadora por cada producto).</li>
+          </ul>
+        </td>
+      </tr>
+    </table>
+  </div>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Los dos principios que nombra el apunte en casi todos los patrones</span>
+    <p>
+      <strong>Responsabilidad única:</strong> cada clase se ocupa de una sola cosa.<br>
+      <strong>Abierto/cerrado:</strong> el código está <em>abierto</em> a agregarle cosas nuevas y
+      <em>cerrado</em> a modificar lo que ya funciona. Se agrega una clase; no se edita una vieja.
+    </p>
+  </div>
+
+  <h3>Dónde se usa</h3>
+  <ul>
+    <li>Cuando <strong>no se sabe de antemano</strong> los tipos exactos de objetos con los que va a trabajar el código (camiones hoy, barcos mañana).</li>
+    <li>En una <strong>biblioteca o framework</strong>, para que quien lo usa pueda extender sus componentes: el framework crea "un botón" con un método fábrica y el usuario lo sobrescribe para que cree su botón redondo.</li>
+    <li>Para <strong>reutilizar objetos costosos</strong> (conexiones a bases de datos) en vez de crearlos cada vez: el método fábrica puede devolver uno que ya existía.</li>
+  </ul>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; Con formato de parcial: reconocerlo en un enunciado</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Parcial 2025 &middot; Práctica 1 (segundo párrafo)</span>
+    <p>
+      "Una vez realizada la compra, el pedido se envía al área de producción de la empresa, donde
+      un sistema interno se encarga de crear los muebles según las especificaciones del cliente.
+      Para cada tipo de mueble &mdash;como sillas, mesas, estanterías o escritorios&mdash; existe un
+      procedimiento de fabricación específico que permite instanciar los objetos correspondientes
+      sin que el área de ventas tenga que conocer los detalles internos de la producción. Esto
+      asegura que la creación de los muebles sea flexible y escalable, permitiendo agregar nuevos
+      tipos de productos sin afectar la lógica de compra."
+    </p>
+  </div>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase del enunciado</th><th>Qué significa</th><th>Parte del patrón</th></tr>
+      <tr><td>"se encarga de <strong>crear</strong> los muebles"</td><td>El problema es de creación de objetos: el patrón es creacional</td><td>&mdash;</td></tr>
+      <tr><td>"sillas, mesas, estanterías o escritorios"</td><td>Varios tipos de una misma cosa (mueble)</td><td>Producto: <code>Mueble</code>. Productos Concretos: <code>Silla</code>, <code>Mesa</code>, <code>Estanteria</code>, <code>Escritorio</code></td></tr>
+      <tr><td>"<strong>para cada tipo</strong> de mueble (...) existe un procedimiento de fabricación específico que permite <strong>instanciar</strong> los objetos"</td><td>Un creador por cada tipo, cada uno con su forma de crear</td><td>Creador: <code>FabricaDeMuebles</code> con <code>crearMueble()</code>. Creadores Concretos: <code>FabricaDeSillas</code>, <code>FabricaDeMesas</code>...</td></tr>
+      <tr><td>"<strong>sin que el área de ventas tenga que conocer</strong> los detalles internos"</td><td>El que pide el mueble no depende de las clases concretas</td><td>Ventas trabaja con <code>Mueble</code>, la interfaz</td></tr>
+      <tr><td>"<strong>agregar nuevos tipos</strong> de productos sin afectar la lógica de compra"</td><td>Principio de abierto/cerrado</td><td>Un tipo nuevo = un producto concreto y un creador concreto más</td></tr>
+    </table>
+  </div>
+  <p>
+    <strong>Respuesta:</strong> "Para la producción usaría <strong>Factory Method</strong>. El
+    enunciado dice que para cada tipo de mueble existe un procedimiento de fabricación que
+    instancia los objetos sin que ventas conozca los detalles, y que se pueden agregar tipos
+    nuevos sin afectar la lógica de compra. Con Factory Method hay un creador con un método
+    fábrica y una subclase creadora por cada tipo de mueble; ventas trabaja contra la interfaz
+    <code>Mueble</code> y un tipo nuevo se agrega con clases nuevas, sin modificar las existentes."
+  </p>
+
+  <h3>Errores y trampas</h3>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">No es "una clase con un <code>if</code> que decide qué crear"</span>
+    <p>
+      Una función con un <code>switch</code> que devuelve un camión o un barco según un parámetro
+      todavía obliga a modificarla cada vez que aparece un tipo nuevo. En Factory Method la
+      decisión está en <strong>qué subclase creadora se usa</strong>, y para un tipo nuevo se
+      agrega una subclase.
+    </p>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">En el dibujo, no olvidar la interfaz del producto</span>
+    <p>
+      Sin la interfaz <code>Producto</code>, el Creador tendría que nombrar a las clases concretas
+      y el patrón pierde sentido. El método fábrica <strong>devuelve la interfaz</strong>.
+    </p>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Con qué se confunde</span>
+    <p>Con Abstract Factory. La diferencia está en la sección 4.</p>
+  </div>
+</div>

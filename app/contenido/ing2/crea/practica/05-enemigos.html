@@ -1,0 +1,134 @@
+<div class="ej">
+  <span class="tag">Ejercicio 5 &middot; Factory Method</span>
+  <h2>Diseñar desde un enunciado: los enemigos del videojuego</h2>
+  <div class="enunciado">
+    <p>
+      <strong>Ejercicios de patrones, ejercicio 1.</strong> Supongamos que estás desarrollando un
+      videojuego y tienes diferentes tipos de enemigos, como orcos, trolls y goblins. Cada tipo de
+      enemigo tiene sus propias características y habilidades. Debes implementar un sistema para
+      crear instancias de estos enemigos de manera dinámica. Cada enemigo tiene los siguientes
+      atributos:
+    </p>
+    <ul>
+      <li>Nombre: El nombre del enemigo.</li>
+      <li>Puntos de vida: La cantidad de puntos de vida del enemigo.</li>
+      <li>Daño: El daño que el enemigo puede infligir en un ataque.</li>
+      <li>Velocidad: La velocidad de movimiento del enemigo.</li>
+    </ul>
+  </div>
+
+  <span class="paso">Paso 1 &mdash; Desarme del enunciado</span>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase del enunciado</th><th>Qué significa</th><th>A dónde va</th></tr>
+      <tr><td>"<strong>diferentes tipos</strong> de enemigos, como orcos, trolls y goblins"</td><td>Varios tipos de una misma cosa</td><td>Producto: <code>Enemigo</code>. Productos Concretos: <code>Orco</code>, <code>Troll</code>, <code>Goblin</code></td></tr>
+      <tr><td>"cada tipo de enemigo tiene sus propias características y habilidades"</td><td>Cada hija hace las cosas a su manera</td><td>Un método abstracto en <code>Enemigo</code> que cada una escribe: <code>atacar()</code></td></tr>
+      <tr><td>"un sistema para <strong>crear instancias</strong> de estos enemigos de manera dinámica"</td><td>El problema es de creación, y el tipo se decide mientras el juego corre</td><td>Factory Method: un creador por tipo</td></tr>
+      <tr><td>Los cuatro atributos</td><td>Los tienen todos los enemigos</td><td>En <code>Enemigo</code>, protegidos (<code>#</code>) para que las hijas los usen</td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Paso 2 &mdash; Por qué no los otros dos</span>
+  <ul>
+    <li><strong>No es Singleton:</strong> va a haber muchos enemigos, no uno.</li>
+    <li>
+      <strong>No es Abstract Factory:</strong> se crea un solo tipo de cosa (enemigos). No hay
+      varios productos distintos que tengan que combinar entre sí.
+    </li>
+  </ul>
+
+  <span class="paso">Paso 3 &mdash; El diagrama</span>
+  <div class="pd-grafico uml" data-g="p-enemigos">
+    <svg viewBox="-14 -14 596 597" width="596" height="597" role="img" aria-label="Factory Method para crear enemigos">
+      <polyline class="linea" points="73,150 73,120.5 227,120.5 227,91"/>
+      <polygon class="hueca" points="227,78 234,91 220,91"/>
+      <polyline class="linea" points="238,150 238,120.5 227,120.5 227,91"/>
+      <polygon class="hueca" points="227,78 234,91 220,91"/>
+      <polyline class="linea" points="403,150 403,120.5 227,120.5 227,91"/>
+      <polygon class="hueca" points="227,78 234,91 220,91"/>
+      <polyline class="linea" points="130,510 130,484 224,484 224,458"/>
+      <polygon class="hueca" points="224,445 231,458 217,458"/>
+      <polyline class="linea" points="250,510 250,484 224,484 224,458"/>
+      <polygon class="hueca" points="224,445 231,458 217,458"/>
+      <polyline class="linea" points="370,510 370,484 224,484 224,458"/>
+      <polygon class="hueca" points="224,445 231,458 217,458"/>
+      <polyline class="linea punteada" points="334,39 530,39 530,372.5 308,372.5"/>
+      <polyline class="linea" points="318,367.5 308,372.5 318,377.5"/>
+      <text class="rotulo" x="536" y="205.75" text-anchor="start">crea</text>
+      <rect class="caja destacada" x="120" y="0" width="214" height="78" rx="3"/>
+      <text class="nombre abstracta" x="227" y="20">CreadorEnemigo</text>
+      <line class="div" x1="120" y1="30" x2="334" y2="30"/>
+      <text class="miembro" x="130" y="48">+ aparecer(): void</text>
+      <text class="miembro abstracto" x="130" y="67">+ crearEnemigo(): Enemigo</text>
+      <rect class="caja destacada" x="0" y="150" width="146" height="59" rx="3"/>
+      <text class="nombre" x="73" y="170">CreadorOrco</text>
+      <line class="div" x1="0" y1="180" x2="146" y2="180"/>
+      <text class="miembro" x="10" y="198">+ crearEnemigo()</text>
+      <rect class="caja destacada" x="165" y="150" width="146" height="59" rx="3"/>
+      <text class="nombre" x="238" y="170">CreadorTroll</text>
+      <line class="div" x1="165" y1="180" x2="311" y2="180"/>
+      <text class="miembro" x="175" y="198">+ crearEnemigo()</text>
+      <rect class="caja destacada" x="330" y="150" width="146" height="59" rx="3"/>
+      <text class="nombre" x="403" y="170">CreadorGoblin</text>
+      <line class="div" x1="330" y1="180" x2="476" y2="180"/>
+      <text class="miembro" x="340" y="198">+ crearEnemigo()</text>
+      <rect class="caja" x="140" y="300" width="168" height="145" rx="3"/>
+      <text class="nombre abstracta" x="224" y="320">Enemigo</text>
+      <line class="div" x1="140" y1="330" x2="308" y2="330"/>
+      <text class="miembro" x="150" y="348"># nombre: String</text>
+      <text class="miembro" x="150" y="367"># puntosDeVida: int</text>
+      <text class="miembro" x="150" y="386"># danio: int</text>
+      <text class="miembro" x="150" y="405"># velocidad: int</text>
+      <line class="div" x1="140" y1="416" x2="308" y2="416"/>
+      <text class="miembro abstracto" x="150" y="434">+ atacar(): void</text>
+      <rect class="caja" x="80" y="510" width="100" height="59" rx="3"/>
+      <text class="nombre" x="130" y="530">Orco</text>
+      <line class="div" x1="80" y1="540" x2="180" y2="540"/>
+      <text class="miembro" x="90" y="558">+ atacar()</text>
+      <rect class="caja" x="200" y="510" width="100" height="59" rx="3"/>
+      <text class="nombre" x="250" y="530">Troll</text>
+      <line class="div" x1="200" y1="540" x2="300" y2="540"/>
+      <text class="miembro" x="210" y="558">+ atacar()</text>
+      <rect class="caja" x="320" y="510" width="100" height="59" rx="3"/>
+      <text class="nombre" x="370" y="530">Goblin</text>
+      <line class="div" x1="320" y1="540" x2="420" y2="540"/>
+      <text class="miembro" x="330" y="558">+ atacar()</text>
+    </svg>
+  </div>
+  <ul>
+    <li>
+      <code>CreadorEnemigo</code> declara el método fábrica <code>crearEnemigo()</code>.
+      <code>aparecer()</code> es su lógica propia: pide un enemigo y lo pone en el mapa, sin saber
+      cuál es.
+    </li>
+    <li>
+      Cada creador concreto devuelve su enemigo, ya con sus valores: <code>CreadorOrco</code> crea
+      un <code>Orco</code> con mucha vida y poca velocidad, <code>CreadorGoblin</code> un
+      <code>Goblin</code> rápido y débil.
+    </li>
+  </ul>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>
+      Patrón <strong>Factory Method</strong>. El enunciado pide crear instancias de distintos tipos
+      de enemigos de manera dinámica: <code>Enemigo</code> es el producto, con los cuatro atributos
+      comunes, y <code>Orco</code>, <code>Troll</code> y <code>Goblin</code> los productos
+      concretos. <code>CreadorEnemigo</code> declara el método fábrica <code>crearEnemigo()</code> y
+      cada creador concreto lo sobrescribe. El juego trabaja con <code>Enemigo</code> sin conocer
+      las clases concretas, y un enemigo nuevo se agrega sin tocar el código existente.
+    </p>
+  </div>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">El ejercicio 3 de la misma guía tiene la misma forma</span>
+    <p>
+      "Conectarse a diferentes bases de datos, como MySQL, PostgreSQL y MongoDB (...) crear objetos
+      de conexión de manera que la aplicación pueda trabajar con diferentes bases de datos de
+      manera transparente": el producto es <code>Conexion</code> (con nombre de la base, host,
+      puerto, usuario y contraseña), los concretos son <code>ConexionMySQL</code>,
+      <code>ConexionPostgreSQL</code> y <code>ConexionMongoDB</code>, y hay un creador por cada
+      una. "De manera transparente" es lo mismo que "sin conocer las clases concretas".
+    </p>
+  </div>
+</div>

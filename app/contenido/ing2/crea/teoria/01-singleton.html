@@ -1,0 +1,320 @@
+<div class="bloque" data-examen="igual"
+     data-examen-ref="Parcial 2024 · ej. 2 y 3"
+     data-examen-nota="Ej. 2: dibujar el UML de Singleton, describir su uso y dar dos ejemplos. Ej. 3: aplicarlo a GestorUsuarios sobre un diagrama dado.">
+  <p class="kicker">Creacional</p>
+  <h2>1. Singleton</h2>
+  <p>También llamado <strong>Instancia única</strong>.</p>
+
+  <h3>Para qué sirve</h3>
+  <p>
+    Hay cosas de las que en un programa tiene que haber <strong>una sola</strong>: la configuración,
+    la conexión a la base de datos, el registro de errores. Si cada parte del programa creara la
+    suya, habría varias configuraciones distintas dando vueltas y nadie sabría cuál vale.
+  </p>
+  <p>Singleton resuelve <strong>dos problemas a la vez</strong>:</p>
+  <ol>
+    <li><strong>Garantiza que la clase tenga una única instancia</strong> (un solo objeto).</li>
+    <li>
+      <strong>Da un punto de acceso global a esa instancia</strong>: cualquier parte del programa
+      puede pedirla, y siempre recibe la misma.
+    </li>
+  </ol>
+
+  <div class="caja caja-formula">
+    <span class="caja-tit">Propósito</span>
+    <p>
+      Singleton es un patrón <strong>creacional</strong> que asegura que una clase tenga una
+      <strong>única instancia</strong> y proporciona un <strong>punto de acceso global</strong> a
+      ella.
+    </p>
+  </div>
+
+  <h3>La idea de la solución</h3>
+  <p>Dos movimientos, y los dos ya se vieron en la Unidad 0, sección 3:</p>
+  <ol>
+    <li>
+      <strong>El constructor se hace privado.</strong> Así nadie de afuera puede escribir
+      <code>new</code>: la única que puede crear el objeto es la propia clase.
+    </li>
+    <li>
+      <strong>Se agrega un método estático</strong> que hace de puerta: la primera vez que lo
+      llaman crea el objeto y lo guarda en un <strong>atributo estático</strong>; todas las veces
+      siguientes devuelve ese mismo objeto guardado.
+    </li>
+  </ol>
+  <p>
+    <strong>Analogía del apunte:</strong> el gobierno de un país. Un país tiene un solo gobierno
+    oficial y, cambien quienes cambien las personas, "el Gobierno de X" es el punto de acceso
+    global para saber quién está a cargo.
+  </p>
+
+  <h3>Estructura</h3>
+  <div class="pd-grafico uml" data-g="singleton">
+    <svg viewBox="-14 -14 478 135" width="478" height="135" role="img" aria-label="Estructura del patrón Singleton">
+      <polyline class="linea punteada" points="90,37 140,37 140,37 190,37"/>
+      <polyline class="linea" points="180,42 190,37 180,32"/>
+      <text class="rotulo" x="140" y="31" text-anchor="middle">usa</text>
+      <rect class="caja" x="0" y="22" width="90" height="30" rx="3"/>
+      <text class="nombre" x="45" y="42">Cliente</text>
+      <rect class="caja destacada" x="190" y="0" width="260" height="107" rx="3"/>
+      <text class="nombre" x="320" y="20">Singleton</text>
+      <line class="div" x1="190" y1="30" x2="450" y2="30"/>
+      <text class="miembro estatico" x="200" y="48">- instancia: Singleton</text>
+      <line class="div" x1="190" y1="59" x2="450" y2="59"/>
+      <text class="miembro" x="200" y="77">- Singleton()</text>
+      <text class="miembro estatico" x="200" y="96">+ obtenerInstancia(): Singleton</text>
+    </svg>
+  </div>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Parte</th><th>Qué es</th><th>Cómo se ve en el diagrama</th></tr>
+      <tr><td class="lbl">Atributo <code>instancia</code></td><td>Donde la clase guarda su único objeto. Es de su mismo tipo.</td><td><strong>Privado</strong> (<code>-</code>) y <strong>estático</strong> (subrayado)</td></tr>
+      <tr><td class="lbl">Constructor <code>Singleton()</code></td><td>Lo que crea el objeto. Al ser privado, desde afuera no se puede usar.</td><td><strong>Privado</strong> (<code>-</code>)</td></tr>
+      <tr><td class="lbl">Método <code>obtenerInstancia()</code></td><td>La única puerta. Crea el objeto si todavía no existe y lo devuelve. En los códigos se llama <code>getInstance()</code>.</td><td><strong>Público</strong> (<code>+</code>) y <strong>estático</strong> (subrayado)</td></tr>
+      <tr><td class="lbl">Cliente</td><td>Cualquier clase que necesite el objeto. Lo pide con <code>Singleton::obtenerInstancia()</code>.</td><td>Flecha punteada hacia el Singleton</td></tr>
+    </table>
+  </div>
+  <p>
+    Es el diagrama más corto de los ocho: <strong>una sola clase con tres cosas</strong>. Si en el
+    parcial piden dibujarlo, lo que no puede faltar son los dos subrayados y los dos signos menos.
+  </p>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; En C++: la configuración de una aplicación</h3>
+  <div class="pd-grafico uml" data-g="singleton-config">
+    <svg viewBox="-14 -14 333 192" width="333" height="192" role="img" aria-label="La clase Configuracion como Singleton">
+      <rect class="caja destacada" x="0" y="0" width="305" height="164" rx="3"/>
+      <text class="nombre" x="152.5" y="20">Configuracion</text>
+      <line class="div" x1="0" y1="30" x2="305" y2="30"/>
+      <text class="miembro estatico" x="10" y="48">- instancia_: Configuracion*</text>
+      <text class="miembro" x="10" y="67">- idioma_: string</text>
+      <line class="div" x1="0" y1="78" x2="305" y2="78"/>
+      <text class="miembro" x="10" y="96">- Configuracion()</text>
+      <text class="miembro estatico" x="10" y="115">+ obtenerInstancia(): Configuracion*</text>
+      <text class="miembro" x="10" y="134">+ idioma(): string</text>
+      <text class="miembro" x="10" y="153">+ cambiarIdioma(idioma: string): void</text>
+    </svg>
+  </div>
+
+  <pre class="codigo"><code>#include &lt;iostream&gt;
+#include &lt;string&gt;
+
+class Configuracion {
+ private:
+  static Configuracion* instancia_;
+  std::string idioma_;
+
+  Configuracion() : idioma_("es") {}
+
+ public:
+  Configuracion(const Configuracion&amp;) = delete;
+  void operator=(const Configuracion&amp;) = delete;
+
+  static Configuracion* obtenerInstancia() {
+    if (instancia_ == nullptr) {
+      instancia_ = new Configuracion;
+    }
+    return instancia_;
+  }
+
+  std::string idioma() const {
+    return idioma_;
+  }
+
+  void cambiarIdioma(std::string idioma) {
+    idioma_ = idioma;
+  }
+};
+
+Configuracion* Configuracion::instancia_ = nullptr;
+
+int main() {
+  Configuracion* a = Configuracion::obtenerInstancia();
+  Configuracion* b = Configuracion::obtenerInstancia();
+
+  std::cout &lt;&lt; b-&gt;idioma() &lt;&lt; "\n";
+  a-&gt;cambiarIdioma("en");
+  std::cout &lt;&lt; b-&gt;idioma() &lt;&lt; "\n";
+
+  if (a == b) {
+    std::cout &lt;&lt; "a y b son el mismo objeto\n";
+  }
+  return 0;
+}</code></pre>
+
+  <h4>Qué hace cada línea</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Línea</th><th>Qué hace</th><th>Cómo quedan los datos</th></tr>
+      <tr><td><code>static Configuracion* instancia_;</code></td><td>El atributo estático: un puntero a un objeto de la misma clase. Es el casillero donde se guarda el único objeto.</td><td>&mdash;</td></tr>
+      <tr><td><code>Configuracion() : idioma_("es") {}</code></td><td>El constructor. Está debajo de <code>private:</code>, así que solo la propia clase lo puede usar. Arranca con el idioma en "es".</td><td>&mdash;</td></tr>
+      <tr><td><code>Configuracion(const Configuracion&amp;) = delete;</code><br><code>void operator=(const Configuracion&amp;) = delete;</code></td><td>Prohíben <strong>copiar</strong> el objeto. Si se pudiera copiar, habría dos. <code>= delete</code> se lee "esto no se puede hacer".</td><td>&mdash;</td></tr>
+      <tr><td><code>static Configuracion* obtenerInstancia() {</code></td><td>El método estático: la puerta. Se llama sin tener ningún objeto.</td><td>&mdash;</td></tr>
+      <tr><td><code>if (instancia_ == nullptr) { instancia_ = new Configuracion; }</code></td><td>"Si todavía no hay objeto, crealo y guardalo". Solo entra la primera vez.</td><td>&mdash;</td></tr>
+      <tr><td><code>return instancia_;</code></td><td>Devuelve el objeto guardado, sea nuevo o no.</td><td>&mdash;</td></tr>
+      <tr><td><code>Configuracion* Configuracion::instancia_ = nullptr;</code></td><td>El valor inicial del atributo estático, que en C++ va afuera de la clase: al arrancar no apunta a nada.</td><td>instancia_ = nullptr</td></tr>
+      <tr><td><code>Configuracion* a = Configuracion::obtenerInstancia();</code></td><td>Primera llamada. <code>instancia_</code> vale <code>nullptr</code>, entra al <code>if</code> y <strong>crea</strong> el objeto.</td><td>instancia_ &rarr; el objeto (idioma_ = "es"); <code>a</code> &rarr; el objeto</td></tr>
+      <tr><td><code>Configuracion* b = Configuracion::obtenerInstancia();</code></td><td>Segunda llamada. <code>instancia_</code> ya no es <code>nullptr</code>: <strong>no entra</strong> al <code>if</code> y devuelve el mismo.</td><td><code>b</code> &rarr; el mismo objeto</td></tr>
+      <tr><td><code>std::cout &lt;&lt; b-&gt;idioma() ...</code></td><td>Muestra el idioma, preguntándole a <code>b</code>.</td><td>sin cambios</td></tr>
+      <tr><td><code>a-&gt;cambiarIdioma("en");</code></td><td>Cambia el idioma, pidiéndoselo a <code>a</code>.</td><td>el objeto: idioma_ = "en"</td></tr>
+      <tr><td><code>std::cout &lt;&lt; b-&gt;idioma() ...</code></td><td>Vuelve a preguntarle a <code>b</code>.</td><td>sin cambios</td></tr>
+      <tr><td><code>if (a == b) { ... }</code></td><td>Compara los dos punteros: ¿apuntan al mismo lugar?</td><td>sí</td></tr>
+    </table>
+  </div>
+
+  <h4>Qué imprime y por qué</h4>
+  <pre class="salida">es
+en
+a y b son el mismo objeto</pre>
+  <p>
+    El cambio se hizo por <code>a</code> y se ve por <code>b</code>, porque <strong>no son dos
+    configuraciones: es una sola</strong> con dos punteros que la señalan.
+  </p>
+
+  <h3>Cómo reconocerlo</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Dónde</th><th>Qué lo delata</th></tr>
+      <tr><td class="lbl">En un enunciado</td><td>"una <strong>sola instancia</strong>", "se debe poder crear <strong>sólo una instancia</strong>", "existe un <strong>único objeto</strong> encargado de...", "que todas las partes de la aplicación <strong>compartan el mismo</strong> registro", "una <strong>lista única</strong>".</td></tr>
+      <tr><td class="lbl">En un código</td><td>
+        Tres señales, que aparecen juntas:
+        <ol>
+          <li>un <strong>atributo <code>static</code></strong> que es un puntero a la <strong>propia clase</strong>;</li>
+          <li>el <strong>constructor</strong> debajo de <code>private:</code> o <code>protected:</code>;</li>
+          <li>un <strong>método <code>static</code></strong> (casi siempre <code>GetInstance</code>) con un <code>if (... == nullptr)</code> que hace el <code>new</code> y devuelve el atributo.</li>
+        </ol>
+        Suelen acompañar las dos líneas con <code>= delete</code>.
+      </td></tr>
+    </table>
+  </div>
+
+  <h3>Ventajas y desventajas</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Ventajas</th><th>Desventajas</th></tr>
+      <tr>
+        <td>
+          <ul>
+            <li>Se tiene la certeza de que la clase tiene una única instancia.</li>
+            <li>Hay un punto de acceso global a esa instancia.</li>
+            <li>El objeto se crea recién cuando se pide por primera vez.</li>
+          </ul>
+        </td>
+        <td>
+          <ul>
+            <li>Vulnera el <strong>principio de responsabilidad única</strong>: la clase resuelve dos problemas a la vez (su trabajo y controlar su propia creación).</li>
+            <li>Puede <strong>enmascarar un mal diseño</strong>: partes del programa que saben demasiado unas de otras.</li>
+            <li>Necesita un cuidado especial con <strong>varios hilos</strong>, para que dos hilos no creen el objeto dos veces.</li>
+            <li>Complica las <strong>pruebas unitarias</strong> del código que lo usa.</li>
+          </ul>
+        </td>
+      </tr>
+    </table>
+  </div>
+
+  <h3>Dónde se usa</h3>
+  <ul>
+    <li>La <strong>conexión a la base de datos</strong>, compartida por todo el sistema.</li>
+    <li>La <strong>configuración global</strong> de una aplicación (idioma, tema).</li>
+    <li>El <strong>registro de eventos</strong> (<em>log</em>) donde todas las partes anotan errores.</li>
+    <li>Un <strong>gestor de usuarios</strong> o de seguridad único para todo el sistema.</li>
+  </ul>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; Con formato de parcial: dibujarlo y explicarlo</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Parcial 2024 &middot; ejercicio 2</span>
+    <p>
+      "Realice el diagrama (mediante UML) el patrón Singleton, dar una breve descripción de su
+      usabilidad y mencione 2 ejemplos."
+    </p>
+  </div>
+  <p>La consigna pide tres cosas; la respuesta tiene que tener las tres:</p>
+  <ol>
+    <li>
+      <strong>El diagrama:</strong> el de "Estructura" de más arriba. Una clase con el atributo
+      <code>instancia</code> privado y estático, el constructor privado y el método
+      <code>obtenerInstancia()</code> público y estático.
+    </li>
+    <li>
+      <strong>La descripción:</strong> "Singleton es un patrón creacional que se usa cuando una clase
+      debe tener una única instancia disponible para todo el programa. La clase oculta su
+      constructor y ofrece un método estático que crea el objeto la primera vez y devuelve siempre
+      el mismo, dando un punto de acceso global."
+    </li>
+    <li>
+      <strong>Dos ejemplos:</strong> "la conexión a la base de datos de un sistema" y "la
+      configuración global de una aplicación".
+    </li>
+  </ol>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 3 &mdash; Con formato de parcial: aplicarlo a una clase</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Parcial 2024 &middot; ejercicio 3 (primera parte)</span>
+    <p>
+      "Se desea crear una clase para mantener la seguridad de los usuarios, llamada GestorUsuarios,
+      dicha clase tendrá métodos para realizar el login del sistema, cambiar la contraseña del
+      usuario, dar de baja y dar de alta usuarios, por motivos de performance se desea crear una
+      sola instancia de dicha clase."
+    </p>
+  </div>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase del enunciado</th><th>Qué significa</th><th>A dónde va</th></tr>
+      <tr><td>"una clase ... llamada GestorUsuarios"</td><td>El nombre de la clase</td><td>Piso 1</td></tr>
+      <tr><td>"métodos para realizar el login, cambiar la contraseña, dar de baja y dar de alta"</td><td>Cuatro métodos públicos comunes</td><td>Piso 3</td></tr>
+      <tr><td>"se desea crear <strong>una sola instancia</strong> de dicha clase"</td><td>La frase que pide Singleton</td><td>Atributo estático, constructor privado y método estático</td></tr>
+    </table>
+  </div>
+  <div class="pd-grafico uml" data-g="singleton-gestor">
+    <svg viewBox="-14 -14 371 211" width="371" height="211" role="img" aria-label="GestorUsuarios como Singleton">
+      <rect class="caja destacada" x="0" y="0" width="343" height="183" rx="3"/>
+      <text class="nombre" x="171.5" y="20">GestorUsuarios</text>
+      <line class="div" x1="0" y1="30" x2="343" y2="30"/>
+      <text class="miembro estatico" x="10" y="48">- instancia: GestorUsuarios</text>
+      <line class="div" x1="0" y1="59" x2="343" y2="59"/>
+      <text class="miembro" x="10" y="77">- GestorUsuarios()</text>
+      <text class="miembro estatico" x="10" y="96">+ obtenerInstancia(): GestorUsuarios</text>
+      <text class="miembro" x="10" y="115">+ login(usuario, clave): boolean</text>
+      <text class="miembro" x="10" y="134">+ cambiarContrasenia(usuario, nueva): void</text>
+      <text class="miembro" x="10" y="153">+ darDeAlta(usuario): void</text>
+      <text class="miembro" x="10" y="172">+ darDeBaja(usuario): void</text>
+    </svg>
+  </div>
+  <p>
+    <strong>Justificación:</strong> "Se aplica Singleton porque el enunciado pide una sola instancia
+    de GestorUsuarios. El constructor privado impide crear otras y el método estático
+    <code>obtenerInstancia()</code> devuelve siempre la misma, que es el punto de acceso para todo
+    el sistema."
+  </p>
+  <p>
+    El mismo enunciado, palabra por palabra, está en la <em>Práctica adicional de patrones</em>.
+  </p>
+
+  <h3>Errores y trampas</h3>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Crear el objeto con <code>new</code> desde afuera no compila</span>
+    <p>Si en <code>main</code> se escribe <code>Configuracion c;</code>:</p>
+    <pre class="salida">error: 'Configuracion::Configuracion()' is private within this context</pre>
+    <p>Ese error es justamente el patrón funcionando: la única forma de llegar al objeto es <code>obtenerInstancia()</code>.</p>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">No es lo mismo que una variable global</span>
+    <p>
+      Una variable global también se ve desde todos lados, pero cualquiera puede pisarla o crear
+      otro objeto igual. El Singleton garantiza que haya <strong>uno solo</strong> y que nadie lo
+      reemplace.
+    </p>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Lo que más se olvida en el dibujo</span>
+    <p>
+      Que el <strong>constructor es privado</strong>. Sin eso, el diagrama muestra una clase común
+      con un método estático, y nada impide crear más objetos.
+    </p>
+  </div>
+</div>

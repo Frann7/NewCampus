@@ -98,7 +98,7 @@ tilda. Si una parte se alarga, se recorta la práctica (menos ejercicios), nunca
   - `05` Qué es un patrón de diseño, los 3 grupos y los 8 de la cátedra en una tabla.
 - Leer: `docs/contenido.md`, un fragmento de PA como modelo, `Introducción patrones de diseño.md`.
 
-### Parte 2 — Patrones creacionales ☐
+### Parte 2 — Patrones creacionales ☑
 
 - `crea/teoria/`: `00-intro`, `01` Singleton, `02` Factory Method, `03` Abstract Factory,
   `04` Factory Method vs. Abstract Factory (cómo no confundirlos).

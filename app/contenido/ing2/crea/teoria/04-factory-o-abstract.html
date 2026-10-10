@@ -1,0 +1,84 @@
+<div class="bloque">
+  <p class="kicker">Comparación</p>
+  <h2>4. ¿Factory Method o Abstract Factory?</h2>
+
+  <h3>Para qué sirve</h3>
+  <p>
+    Los dos son creacionales, los dos esconden el <code>new</code> detrás de una interfaz y los dos
+    tienen la palabra "fábrica". En un enunciado hay que elegir uno y <strong>justificar</strong>,
+    así que conviene tener una pregunta que los separe.
+  </p>
+
+  <div class="caja caja-formula">
+    <span class="caja-tit">La pregunta que los separa</span>
+    <p>
+      <strong>¿Se crea un solo tipo de cosa, o varias cosas distintas que tienen que
+      combinar?</strong>
+    </p>
+    <ul>
+      <li>Un solo tipo de cosa, con varias versiones &rarr; <strong>Factory Method</strong>.</li>
+      <li>Varias cosas distintas agrupadas en familias &rarr; <strong>Abstract Factory</strong>.</li>
+    </ul>
+  </div>
+
+  <h3>Lado a lado</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th></th><th>Factory Method</th><th>Abstract Factory</th></tr>
+      <tr><td class="lbl">Qué crea</td><td><strong>Un</strong> producto (un transporte)</td><td>Una <strong>familia</strong> de productos (silla + sofá + mesilla)</td></tr>
+      <tr><td class="lbl">Jerarquías de productos</td><td>Una sola: <code>Transporte</code></td><td>Dos o más: <code>Silla</code>, <code>Sofa</code></td></tr>
+      <tr><td class="lbl">Métodos de creación</td><td><strong>Uno</strong>: <code>crearTransporte()</code></td><td><strong>Uno por producto</strong>: <code>crearSilla()</code>, <code>crearSofa()</code></td></tr>
+      <tr><td class="lbl">Quién tiene el método</td><td>El <strong>Creador</strong>, una clase que además tiene su propia lógica y usa el producto</td><td>La <strong>Fábrica</strong>, un objeto que solo se dedica a crear y que el cliente recibe</td></tr>
+      <tr><td class="lbl">Cómo se elige qué crear</td><td>Eligiendo la <strong>subclase</strong> del creador (herencia)</td><td>Pasándole al cliente <strong>otra fábrica</strong> (el cliente guarda una fábrica)</td></tr>
+      <tr><td class="lbl">Qué garantiza</td><td>Que se puedan agregar tipos nuevos sin tocar lo existente</td><td>Eso, y además que los productos <strong>combinen entre sí</strong></td></tr>
+      <tr><td class="lbl">En un enunciado</td><td>"crear distintos tipos de...", "agregar nuevos tipos"</td><td>"familias de objetos", "familias de productos", "que se ajusten a la plataforma"</td></tr>
+      <tr><td class="lbl">En el diagrama</td><td>Dos columnas: creadores y productos</td><td>Fábricas a un lado y <strong>varias</strong> columnas de productos al otro, más el Cliente</td></tr>
+    </table>
+  </div>
+  <p>
+    Según el apunte, muchos diseños <strong>empiezan con Factory Method</strong>, que es más simple,
+    y evolucionan hacia Abstract Factory cuando aparecen más productos que tienen que ir juntos. De
+    hecho, cada método de una fábrica abstracta (<code>crearSilla()</code>) es, mirado solo, un
+    método fábrica.
+  </p>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; El mismo negocio, dos enunciados</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Enunciado</th><th>Qué se crea</th><th>Patrón</th></tr>
+      <tr><td>"Un videojuego tiene orcos, trolls y goblins. Se necesita crear instancias de estos enemigos de manera dinámica."</td><td>Un solo tipo de cosa (un enemigo), en tres versiones</td><td><strong>Factory Method</strong></td></tr>
+      <tr><td>"Un videojuego tiene dos mundos, el de hielo y el de fuego. En cada mundo los enemigos, las armas y los escenarios tienen que ser de ese mundo."</td><td>Tres cosas distintas (enemigo, arma, escenario) que tienen que combinar según el mundo</td><td><strong>Abstract Factory</strong>: una fábrica por mundo</td></tr>
+    </table>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; Con formato de parcial: las dos frases de 2025</h3>
+  <p>El parcial 2025 tenía los dos patrones, cada uno en una consigna distinta:</p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>La pregunta</th><th>Patrón</th></tr>
+      <tr><td>Teoría: "la creación flexible de <strong>familias de objetos</strong>"</td><td>Varias cosas agrupadas en familias</td><td>Abstract Factory</td></tr>
+      <tr><td>Práctica: "<strong>para cada tipo de mueble</strong> (...) existe un procedimiento de fabricación específico que permite instanciar los objetos correspondientes"</td><td>Un solo tipo de cosa (mueble), en varias versiones, cada una con su creador</td><td>Factory Method</td></tr>
+    </table>
+  </div>
+
+  <h3>Errores y trampas</h3>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">La palabra "fábrica" en el enunciado no define nada</span>
+    <p>
+      Muebles Express <em>fabrica</em> muebles y la respuesta era Factory Method. Lo que decide es
+      cuántas cosas distintas se crean y si tienen que combinar, no la palabra.
+    </p>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Y Singleton, ¿dónde entra?</span>
+    <p>
+      Resuelve otra cosa: <strong>cuántos</strong> objetos hay, no <strong>cuál</strong> se crea. Se
+      puede combinar con los otros dos: una fábrica concreta suele ser única en todo el programa,
+      así que muchas veces se la hace Singleton.
+    </p>
+  </div>
+</div>

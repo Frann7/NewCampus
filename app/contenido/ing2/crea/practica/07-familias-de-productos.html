@@ -1,0 +1,134 @@
+<div class="ej">
+  <span class="tag">Ejercicio 7 &middot; Abstract Factory</span>
+  <h2>Familias de productos: el stock del negocio</h2>
+  <div class="enunciado">
+    <p>
+      <strong>Guía N°1, ejercicio 4.</strong> Se quiere desarrollar una aplicación de gestión de
+      stock de un negocio que vende diferentes familias de productos. Se necesita crear por ahora
+      productos de música (CD, DVD) y productos de computación (pc, notebook, tablet). ¿Qué patrón
+      utilizaría? ¿Cuál sería la estructura del mismo? Realizar el diagrama del patrón
+      correspondiente.
+    </p>
+  </div>
+
+  <span class="paso">Paso 1 &mdash; Desarme del enunciado</span>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase del enunciado</th><th>Qué significa</th><th>A dónde va</th></tr>
+      <tr><td>"diferentes <strong>familias de productos</strong>"</td><td>Es, casi palabra por palabra, el propósito de Abstract Factory</td><td>Abstract Factory</td></tr>
+      <tr><td>"se necesita <strong>crear</strong>"</td><td>El problema es de creación</td><td>Patrón creacional</td></tr>
+      <tr><td>"productos de música (CD, DVD) y productos de computación (pc, notebook, tablet)"</td><td>Dos familias, cada una con sus productos</td><td>Una fábrica concreta por familia: <code>FabricaMusica</code> y <code>FabricaComputacion</code></td></tr>
+      <tr><td>"<strong>por ahora</strong>"</td><td>Van a aparecer más familias</td><td>Tiene que poder agregarse una fábrica sin tocar lo demás</td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Paso 2 &mdash; La estructura</span>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Parte del patrón</th><th>En este ejercicio</th></tr>
+      <tr><td class="lbl">Fábrica Abstracta</td><td><code>FabricaDeProductos</code>, con el método de creación</td></tr>
+      <tr><td class="lbl">Fábricas Concretas</td><td><code>FabricaMusica</code> (crea CD y DVD) y <code>FabricaComputacion</code> (crea PC, notebook y tablet)</td></tr>
+      <tr><td class="lbl">Productos Abstractos</td><td><code>Producto</code>, y debajo una clase por familia: <code>ProductoMusica</code> y <code>ProductoComputacion</code></td></tr>
+      <tr><td class="lbl">Productos Concretos</td><td><code>CD</code>, <code>DVD</code>, <code>PC</code>, <code>Notebook</code>, <code>Tablet</code></td></tr>
+      <tr><td class="lbl">Cliente</td><td><code>GestorStock</code>: recibe una fábrica y le pide los productos</td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Paso 3 &mdash; El diagrama</span>
+  <div class="pd-grafico uml" data-g="p-stock">
+    <svg viewBox="-4 -14 636 748" width="636" height="748" role="img" aria-label="Abstract Factory para las familias de productos de música y computación">
+      <polyline class="linea" points="260,59 260,94.5 260,94.5 260,130"/>
+      <polyline class="linea" points="255,120 260,130 265,120"/>
+      <polyline class="linea punteada" points="162,280 162,249 260,249 260,218"/>
+      <polygon class="hueca" points="260,205 267,218 253,218"/>
+      <polyline class="linea punteada" points="382,280 382,249 260,249 260,218"/>
+      <polygon class="hueca" points="260,205 267,218 253,218"/>
+      <polyline class="linea" points="117,590 117,560 258,560 258,530"/>
+      <polygon class="hueca" points="258,517 265,530 251,530"/>
+      <polyline class="linea" points="403.5,590 403.5,560 258,560 258,530"/>
+      <polygon class="hueca" points="258,517 265,530 251,530"/>
+      <polyline class="linea" points="55,690 55,661.5 117,661.5 117,633"/>
+      <polygon class="hueca" points="117,620 124,633 110,633"/>
+      <polyline class="linea" points="165,690 165,661.5 117,661.5 117,633"/>
+      <polygon class="hueca" points="117,620 124,633 110,633"/>
+      <polyline class="linea" points="295,690 295,661.5 403.5,661.5 403.5,633"/>
+      <polygon class="hueca" points="403.5,620 410.5,633 396.5,633"/>
+      <polyline class="linea" points="403.5,690 403.5,661.5 403.5,661.5 403.5,633"/>
+      <polygon class="hueca" points="403.5,620 410.5,633 396.5,633"/>
+      <polyline class="linea" points="510,690 510,661.5 403.5,661.5 403.5,633"/>
+      <polygon class="hueca" points="403.5,620 410.5,633 396.5,633"/>
+      <polyline class="linea punteada" points="420,167.5 580,167.5 580,468.5 331,468.5"/>
+      <polyline class="linea" points="341,463.5 331,468.5 341,473.5"/>
+      <text class="rotulo" x="586" y="318" text-anchor="start">crea</text>
+      <rect class="caja" x="145" y="0" width="244" height="59" rx="3"/>
+      <text class="nombre" x="267" y="20">GestorStock</text>
+      <line class="div" x1="145" y1="30" x2="389" y2="30"/>
+      <text class="miembro" x="155" y="48">- fabrica: FabricaDeProductos</text>
+      <rect class="caja destacada" x="100" y="130" width="320" height="75" rx="3"/>
+      <text class="estereo" x="260" y="146">&#171;interface&#187;</text>
+      <text class="nombre" x="260" y="165">FabricaDeProductos</text>
+      <line class="div" x1="100" y1="176" x2="420" y2="176"/>
+      <text class="miembro" x="110" y="194">+ crearProducto(tipo: String): Producto</text>
+      <rect class="caja" x="70" y="280" width="184" height="59" rx="3"/>
+      <text class="nombre" x="162" y="300">FabricaMusica</text>
+      <line class="div" x1="70" y1="310" x2="254" y2="310"/>
+      <text class="miembro" x="80" y="328">+ crearProducto(tipo)</text>
+      <rect class="caja" x="290" y="280" width="184" height="59" rx="3"/>
+      <text class="nombre" x="382" y="300">FabricaComputacion</text>
+      <line class="div" x1="290" y1="310" x2="474" y2="310"/>
+      <text class="miembro" x="300" y="328">+ crearProducto(tipo)</text>
+      <rect class="caja" x="185" y="420" width="146" height="97" rx="3"/>
+      <text class="nombre abstracta" x="258" y="440">Producto</text>
+      <line class="div" x1="185" y1="450" x2="331" y2="450"/>
+      <text class="miembro" x="195" y="468"># nombre: String</text>
+      <text class="miembro" x="195" y="487"># precio: double</text>
+      <text class="miembro" x="195" y="506"># stock: int</text>
+      <rect class="caja" x="45" y="590" width="144" height="30" rx="3"/>
+      <text class="nombre abstracta" x="117" y="610">ProductoMusica</text>
+      <rect class="caja" x="310" y="590" width="187" height="30" rx="3"/>
+      <text class="nombre abstracta" x="403.5" y="610">ProductoComputacion</text>
+      <rect class="caja" x="10" y="690" width="90" height="30" rx="3"/>
+      <text class="nombre" x="55" y="710">CD</text>
+      <rect class="caja" x="120" y="690" width="90" height="30" rx="3"/>
+      <text class="nombre" x="165" y="710">DVD</text>
+      <rect class="caja" x="250" y="690" width="90" height="30" rx="3"/>
+      <text class="nombre" x="295" y="710">PC</text>
+      <rect class="caja" x="355" y="690" width="93" height="30" rx="3"/>
+      <text class="nombre" x="401.5" y="710">Notebook</text>
+      <rect class="caja" x="465" y="690" width="90" height="30" rx="3"/>
+      <text class="nombre" x="510" y="710">Tablet</text>
+    </svg>
+  </div>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>
+      Patrón <strong>Abstract Factory</strong>, porque el negocio vende distintas familias de
+      productos. <code>FabricaDeProductos</code> es la fábrica abstracta y hay una fábrica concreta
+      por familia (<code>FabricaMusica</code>, <code>FabricaComputacion</code>), que crea solo los
+      productos de la suya. <code>GestorStock</code> trabaja con la fábrica y con
+      <code>Producto</code> a través de sus interfaces, así que una familia nueva (por ejemplo,
+      librería) se agrega con una fábrica y sus productos, sin modificar el código existente.
+    </p>
+  </div>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">En qué se diferencia este ejercicio del ejemplo del apunte</span>
+    <p>
+      En la mueblería las dos familias tienen <strong>los mismos productos</strong> (silla y sofá en
+      las dos), y por eso la fábrica tiene un método por producto. Acá cada familia tiene
+      <strong>productos distintos</strong> (la de música no tiene notebooks), así que no se puede
+      armar la tabla de productos y variantes, y la fábrica queda con un solo método que recibe
+      qué producto se quiere. La cátedra no publicó la resolución; la palabra "familias" del
+      enunciado es la que señala a Abstract Factory, y es lo que hay que justificar.
+    </p>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Este enunciado vuelve con un agregado</span>
+    <p>
+      En <em>Patrones de Diseño Parte 2</em>, ejercicio 6, es el mismo texto más: "Se requiere crear
+      diariamente una <strong>lista única</strong> de productos en oferta para publicar vía web".
+      Esa frase suma un segundo patrón: <strong>Singleton</strong>, sobre la lista de ofertas.
+    </p>
+  </div>
+</div>

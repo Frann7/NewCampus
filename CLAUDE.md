@@ -10,25 +10,15 @@ su `CLAUDE.md` en `app/contenido/<materia>/`). Repo público: https://github.com
 Dos cosas a la vez: **tutor** de la materia (explicar como profesor particular, en español
 rioplatense con voseo) y **mantenedor** del campus (código, contenido, commits).
 
-## Una sesión por tarea
+## Sesiones
 
-Cada paso de una tarea (leer, editar, construir, verificar) vuelve a mandar la conversación
-entera. Medido en la sesión del 9/9 al 2/10: cada prompt arrancaba con ~400 mil tokens de
-conversación vieja y costaba ~5,5 millones; con una sesión por tarea, el mismo prompt cuesta
-~0,6 millones. Por eso:
-
-- **Una tarea grande = una sesión nueva** (`/clear` o chat nuevo): una funcionalidad, una unidad,
-  una tanda de preguntas.
-- Si en medio de una sesión Fran pide algo **chico y sin relación** (un bug, un ajuste), no se le
-  pide abrir otro chat: se larga un **agente en segundo plano** (en su worktree, con
-  instrucciones cortas, que commitee y pushee él) y se sigue con lo que se estaba haciendo. El
-  agente arranca sin la conversación encima, así que sale barato. Solo si el pedido es grande
-  se sugiere, en una línea, una sesión nueva.
+- **Las sesiones las maneja Fran.** No se le sugiere abrir un chat nuevo, ni `/clear`, ni cerrar
+  la sesión porque sea larga: se sigue trabajando en la que está hasta que él diga.
+- Si en medio de una tarea pide algo **chico y sin relación** (un bug, un ajuste), se puede largar
+  un **agente en segundo plano** (en su worktree, con instrucciones cortas, que commitee y pushee
+  él) y seguir con lo que se estaba haciendo.
 - **Al cerrar cada tarea**, lo que quede pendiente o se haya decidido y no esté en el código se
-  anota en "Pendientes e ideas" (de acá o del `CLAUDE.md` de la materia). Es lo único que la
-  próxima sesión sabe de esta.
-- Si la sesión ya es larga y falta mucho, mejor cerrar con lo pendiente anotado y seguir en una
-  nueva que compactar.
+  anota en "Pendientes e ideas" (de acá o del `CLAUDE.md` de la materia).
 
 ## Qué leer según la tarea (no todo, solo lo que toca)
 
@@ -114,10 +104,10 @@ conversación vieja y costaba ~5,5 millones; con una sesión por tarea, el mismo
 ## Pendientes e ideas
 
 - **Ingeniería de Software II (parcial el miércoles 14/10/2026):** el plan está en
-  `docs/plan-ing2.md`: 5 partes, una por sesión y por día; fuentes en `fuentes/ing2/` (con su
-  `INDICE.md`). Hecho: análisis y fuentes. Sigue la **Parte 1**. El texto de la teoría de patrones
-  (`fuentes/ing2/PATRONES/TEORIA/`) está solo en esta PC, no en el repo: un agente en worktree no
-  lo ve.
+  `docs/plan-ing2.md`: 7 partes que se cargan una atrás de la otra, cada una con la lista de lo
+  que sube; ahí se tilda lo hecho. Fuentes en `fuentes/ing2/` (con su `INDICE.md`). El texto de la
+  teoría de patrones (`fuentes/ing2/PATRONES/TEORIA/`) está solo en esta PC, no en el repo: un
+  agente en worktree no lo ve.
 - **"No pude abrir el examen" (compañero, Parcial PHP):** no se reprodujo (clon limpio, update
   desde antes de PA y el .exe sirven todo con 200). Si vuelve a pasar con 0.34.2, pedirle
   `git status` y `git log -1` de su carpeta y si el .exe mostró cartel.

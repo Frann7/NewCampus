@@ -1,9 +1,9 @@
 # Plan para sumar Ingeniería de Software II (2do parcial)
 
 Análisis hecho el 10/10/2026 sobre `C:\Users\Fran\Desktop\SISTEMAS 3\ING 2\SEGUNDO CUATRIMESTRE\`.
-El texto de cada PDF ya está en `fuentes/ing2/` (ver su `INDICE.md`). **Una parte = una sesión
-nueva**; cada parte dice qué leer y qué deja hecho. Fran arranca de cero: todo se explica desde
-cero y paso a paso.
+El texto de cada PDF ya está en `fuentes/ing2/` (ver su `INDICE.md`). Fran arranca de cero: todo
+se explica desde cero y paso a paso. El contenido se carga **por partes, en orden**; cada parte
+dice qué archivos sube y qué hay que leer para escribirla.
 
 ## Qué toma el parcial
 
@@ -50,8 +50,7 @@ fundamental.
 
 ## Cómo queda en el campus
 
-`ing2` ya está en `materias.json` como "pronto". Unidades (la numeración de la cátedra, U4 patrones
-/ U5 calidad / U6 versiones, se confirma en la Parte 1):
+`ing2` ya está en `materias.json` como "pronto". Seis unidades:
 
 | Clave | Nombre | Contenido |
 | :-- | :-- | :-- |
@@ -80,23 +79,84 @@ tienen la forma del parcial; los que repiten el mismo enunciado en varias guías
   castellano), y entre paréntesis el nombre en inglés que aparece en el código de los parciales.
 - La teoría se escribe con palabras propias; del libro no se copian párrafos.
 
-## Partes (una por sesión)
+## Partes
 
-| # | Día | Qué se hace | Qué leer |
-| :-- | :-- | :-- | :-- |
-| 1 | sáb 10 | Alta de la materia (`materias.json`, `CLAUDE.md` de ing2, convención de diagramas UML). **Base**, corta: clase, atributo, método, herencia, interfaz, asociación/agregación/composición; de C++: `class`, `public/private/protected`, `virtual`, `= 0`, `override`, punteros y `->`, `new/delete`, `static`; qué es un patrón y los 3 grupos. **Creacionales**: los 3 + práctica | `docs/estructura.md`, `docs/contenido.md`, un fragmento de PA como modelo, `Introducción patrones de diseño.md`, `02 - Creacionales` (+ sus 3 páginas ⚠). Práctica: Guía 1 ej. 2 y 4, `practica 1` ej. 2 y 3, `Ejercicios de patrones`, `Ejercicios_patrones_singleton_subir` |
-| 2 | dom 11 | **Estructurales**: los 3 + práctica | `03 - Estructurales` (+ ⚠). Práctica: Guía 2 ej. 1 a 4, `Practica_03`, `practica 1` ej. 4, `practica 2` ej. 1, 3 y 5, Guía 1 ej. 3 |
-| 3 | dom 11 / lun 12 | **Comportamiento**: los 2 + práctica. **"¿Qué patrón es?"**: tabla de decisión de los 8, frases que delatan a cada uno en un enunciado y señales en el código, enunciados integradores | `04 - Comportamiento` (+ ⚠). Práctica: Guía 3, `practica 2` ej. 2 y 6, Guía 1 ej. 1, Guía 2 ej. 5, `PRACTICA ADICIONAL` |
-| 4 | lun 12 | **Calidad, CMMI y métricas** y **Git**: solo lo que se toma. CMMI: los 5 niveles, cómo diagnosticar, qué falta para subir, acciones con IA. Métrica: los 5 campos y 3 fichas armadas. Git: tres estados y la secuencia de comandos con ramas y remoto | `Calidad de software.md` p. 4-6 y 19-25, `Agentes_IA`, `Métricas.md` p. 4-6 y 10-13, `Gestión de cambios.md` p. 3-4, 12-16 y 19-24. Práctica: los 2 ejercicios de CMMI y 3 casos de `Practica 2 CMMI` |
-| 5 | mar 13 | **Parciales 2024 y 2025 resueltos** en Evaluación (respuesta modelo de cada consigna, con el código del 2025 también en C++) y marcas ★ en lo que tomaron | `EXAMENES/`, `docs/evaluacion.md` |
+Se cargan **en este orden, una atrás de la otra** (sin día fijo: pueden ir varias el mismo día).
+Cada parte termina construida ("Todo en orden"), verificada en el navegador y pusheada, y acá se
+tilda. Si una parte se alarga, se recorta la práctica (menos ejercicios), nunca la teoría.
 
-Cada parte deja su unidad con teoría y práctica, construida, verificada y pusheada. Si una parte se
-alarga, se recorta la práctica (menos ejercicios), nunca la teoría de un patrón.
+### Parte 1 — Alta de la materia y Base ☐
+
+- `materias.json`: las 6 unidades de `ing2`. `app/contenido/ing2/CLAUDE.md` con las reglas propias.
+  Convención de diagramas UML (SVG + sus estilos). README y versión.
+- `base/teoria/`:
+  - `00-intro` — título, bajada y cómo leer la materia (qué toma el parcial y en qué orden estudiar).
+  - `01` Qué es una clase y cómo se dibuja (nombre, atributos, métodos, `+ - #`).
+  - `02` Las flechas: herencia, interfaz, asociación, agregación, composición, dependencia.
+  - `03` Leer una clase en C++ (`class`, `public/private/protected`, constructor, `static`).
+  - `04` Herencia en C++: `virtual`, `= 0`, `override`, punteros, `->`, `new` y `delete`.
+  - `05` Qué es un patrón de diseño, los 3 grupos y los 8 de la cátedra en una tabla.
+- Leer: `docs/contenido.md`, un fragmento de PA como modelo, `Introducción patrones de diseño.md`.
+
+### Parte 2 — Patrones creacionales ☐
+
+- `crea/teoria/`: `00-intro`, `01` Singleton, `02` Factory Method, `03` Abstract Factory,
+  `04` Factory Method vs. Abstract Factory (cómo no confundirlos).
+- `crea/practica/`: Guía 1 ej. 2 (Singleton en C++) y ej. 4 (familias de productos); `practica 1`
+  ej. 2 (ConexionDB) y ej. 3 (vehículos); `Ejercicios de patrones` (enemigos, UI multiplataforma,
+  conexiones a BD); `Ejercicios_patrones_singleton_subir` (uno de los tres, los otros son iguales).
+- Leer: `02 - Creacionales` (+ sus 3 páginas ⚠).
+
+### Parte 3 — Patrones estructurales ☐
+
+- `estr/teoria/`: `00-intro`, `01` Adapter, `02` Composite, `03` Facade.
+- `estr/practica/`: Guía 2 ej. 1 (Adapter en C++), ej. 2 (Composite en PHP), ej. 3 (Facade en C#) y
+  ej. 4 (libro digital); `Practica_03` (los 3); `practica 1` ej. 4 (tienda con fachada);
+  `practica 2` ej. 3 (directorios) y ej. 5 (expresiones matemáticas); Guía 1 ej. 3 (TPV).
+- Leer: `03 - Estructurales` (+ ⚠).
+
+### Parte 4 — Patrones de comportamiento y "¿qué patrón es?" ☐
+
+- `comp/teoria/`: `00-intro`, `01` Observer, `02` Strategy, `03` ¿Qué patrón es?: tabla de decisión
+  de los 8, la frase que delata a cada uno en un enunciado y las señales en el código.
+- `comp/practica/`: Guía 3 (los 4); `practica 2` ej. 2 (Archivo con exportadores) y ej. 6;
+  integradores: Guía 1 ej. 1 (seguridad), Guía 2 ej. 5 (multimedia), `PRACTICA ADICIONAL` 1
+  (expedientes) y 2 (gestión de contenido).
+- Leer: `04 - Comportamiento` (+ ⚠).
+
+### Parte 5 — Calidad, CMMI y métricas ☐
+
+- `calidad/teoria/`: `00-intro`, `01` Qué es la calidad de software (definición, atributos,
+  consecuencias de la baja calidad), `02` CMMI: qué es y los 5 niveles, `03` Cómo diagnosticar el
+  nivel de una empresa y qué le falta para subir, `04` IA para mejorar la calidad (acciones hacia
+  el nivel 5, agentes de IA), `05` Métricas: atributo, medida, unidad, métrica, indicador; cómo
+  armar la ficha; tipos de métricas.
+- `calidad/practica/`: los 2 ejercicios de `Ejercicios prácticos`, 3 casos de `Practica 2 CMMI`
+  (uno por nivel) y 3 fichas de métrica armadas.
+- Leer: `Calidad de software.md` p. 4-6 y 19-25, `Agentes_IA`, `Métricas.md` p. 4-6 y 10-13.
+
+### Parte 6 — Gestión de cambios y Git ☐
+
+- `git/teoria/`: `00-intro`, `01` Gestión de cambios, de la configuración y control de versiones
+  (qué es cada una, centralizado vs. distribuido), `02` Git: los tres estados, `03` El flujo con
+  comandos: `add`, `commit`, ramas, `merge`, `push` y `pull`, `04` Conflictos de merge,
+  `05` Versionado semántico (corto).
+- `git/practica/`: el flujo del parcial 2025 (Working Directory → develop → main, con el remoto) y
+  2 variantes.
+- Leer: `Gestión de cambios.md` p. 3-4, 12-16 y 19-24.
+
+### Parte 7 — Parciales resueltos ☐
+
+- `evaluacion/parciales/`: 2024 y 2025, una consigna por archivo, con la respuesta modelo (el
+  código del 2025 también pasado a C++).
+- Marcas ★ en las secciones de teoría y los ejercicios que tomaron.
+- Leer: `EXAMENES/`, `docs/evaluacion.md`.
 
 ## Decidido con Fran (10/10)
 
 - Docker no entra. El banco de autoevaluación queda para después del parcial.
 - Arranca de cero: la unidad Base va, corta.
+- Las partes no tienen día: se suben seguidas, y las sesiones las maneja Fran.
 
 ## Después del parcial
 

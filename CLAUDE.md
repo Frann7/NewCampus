@@ -113,11 +113,11 @@ conversación vieja y costaba ~5,5 millones; con una sesión por tarea, el mismo
 
 ## Pendientes e ideas
 
-- **Ingeniería de Software II (2do parcial):** el análisis y el plan por partes están en
-  `docs/plan-ing2.md` (una parte por sesión; fuentes en `fuentes/ing2/`, con su `INDICE.md`).
-  Hecho: análisis y fuentes. Sigue la **Parte 1**. `fuentes/ing2/PATRONES/TEORIA/` no está en el
-  repo (libro pago): un agente en worktree no la ve.
-
+- **Ingeniería de Software II (parcial el miércoles 14/10/2026):** el plan está en
+  `docs/plan-ing2.md`: 5 partes, una por sesión y por día; fuentes en `fuentes/ing2/` (con su
+  `INDICE.md`). Hecho: análisis y fuentes. Sigue la **Parte 1**. El texto de la teoría de patrones
+  (`fuentes/ing2/PATRONES/TEORIA/`) está solo en esta PC, no en el repo: un agente en worktree no
+  lo ve.
 - **"No pude abrir el examen" (compañero, Parcial PHP):** no se reprodujo (clon limpio, update
   desde antes de PA y el .exe sirven todo con 200). Si vuelve a pasar con 0.34.2, pedirle
   `git status` y `git log -1` de su carpeta y si el .exe mostró cartel.

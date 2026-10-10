@@ -74,7 +74,7 @@ tienen la forma del parcial; los que repiten el mismo enunciado en varias guías
 **Reglas propias** (van al `app/contenido/ing2/CLAUDE.md` en la Parte 1):
 
 - Todo código C++ se **compila y corre** antes de escribirlo (`g++ -std=c++14`, MinGW 6.3 en
-  `C:\MinGWin`; sin `std::thread`).
+  `C:\MinGW\bin`; sin `std::thread`).
 - Los diagramas UML se dibujan en **SVG a mano**, con una convención fija (se define en la Parte 1).
 - Los nombres de las partes de cada patrón, como en el apunte de la cátedra (Refactoring.Guru en
   castellano), y entre paréntesis el nombre en inglés que aparece en el código de los parciales.

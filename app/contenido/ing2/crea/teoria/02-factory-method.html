@@ -121,7 +121,7 @@
   <div class="tabla-wrap">
     <table class="t full">
       <tr><th>Parte</th><th>Qué es</th><th>En el ejemplo de logística</th></tr>
-      <tr><td class="lbl">Producto (<em>Product</em>)</td><td>La <strong>interfaz</strong> común a todos los objetos que se pueden crear.</td><td><code>Transporte</code></td></tr>
+      <tr><td class="lbl">Producto (<em>Product</em>)</td><td>El <strong>tipo común</strong> de todos los objetos que se pueden crear. En la estructura general es una <strong>interfaz</strong>; si los productos comparten atributos, es una clase abstracta (está explicado debajo de esta tabla).</td><td><code>Transporte</code></td></tr>
       <tr><td class="lbl">Productos Concretos</td><td>Las distintas implementaciones de esa interfaz.</td><td><code>Camion</code>, <code>Barco</code></td></tr>
       <tr><td class="lbl">Creador (<em>Creator</em>)</td><td>La clase que <strong>declara el método fábrica</strong>, que devuelve un Producto. Además tiene su propia lógica, que usa el producto sin saber cuál es.</td><td><code>Logistica</code>, con <code>crearTransporte()</code> y <code>planificarEntrega()</code></td></tr>
       <tr><td class="lbl">Creadores Concretos</td><td>Las subclases que <strong>sobrescriben el método fábrica</strong> para devolver un producto concreto.</td><td><code>LogisticaTerrestre</code>, <code>LogisticaMaritima</code></td></tr>
@@ -138,6 +138,26 @@
       en el de arriba.
     </li>
   </ul>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">El Producto: interfaz en la estructura general, clase abstracta si hay atributos</span>
+    <p>
+      El apunte dibuja el Producto como <strong>interfaz</strong>, y así va cuando piden la
+      estructura del patrón. Pero también admite que sea una clase: dice que los productos tienen
+      que tener "una clase base o interfaz común". Cuál de las dos va lo decide el enunciado:
+    </p>
+    <div class="tabla-wrap">
+      <table class="t full">
+        <tr><th>El enunciado dice que los productos...</th><th>El Producto es</th><th>Los Productos Concretos llegan con</th></tr>
+        <tr><td>Solo comparten métodos</td><td>Una <strong>interfaz</strong> (<code>&#171;interface&#187;</code>)</td><td>Línea <strong>punteada</strong> con triángulo (realización)</td></tr>
+        <tr><td>Comparten también <strong>atributos</strong></td><td>Una <strong>clase abstracta</strong> (<code>&#171;abstract&#187;</code>)</td><td>Línea <strong>continua</strong> con triángulo (herencia)</td></tr>
+      </table>
+    </div>
+    <p>
+      Una interfaz no puede tener atributos: por eso, si el enunciado da datos que tienen todos los
+      productos, esos datos tienen que ir en una clase. El patrón es Factory Method en los dos
+      casos: lo que lo define es el Creador con su método fábrica, no la forma del Producto.
+    </p>
+  </div>
 
   <hr class="sep">
 
@@ -467,6 +487,13 @@ Logistica: entrega por mar, en un barco</pre>
       <tr><td>"nombre de la base de datos, host, puerto, usuario y contraseña"</td><td>Atributos que tienen todas las conexiones</td><td>Van una sola vez, en <code>Conexion</code>, protegidos (<code>#</code>) para que los hereden las concretas</td></tr>
     </table>
   </div>
+  <p>
+    <strong>Acá el Producto es una clase abstracta, no una interfaz.</strong> El enunciado dice que
+    toda conexión tiene cinco atributos, y una interfaz no puede tener atributos: van en
+    <code>Conexion</code>, que pasa a ser una clase abstracta, y las conexiones concretas la
+    <strong>heredan</strong> (línea continua). Es la única diferencia con el diagrama general del
+    patrón, donde el Producto es una interfaz y la línea es punteada.
+  </p>
   <div class="pd-grafico uml" data-g="fm-conexiones">
     <svg viewBox="-14 -14 1106 317" width="1106" height="317" role="img" aria-label="Factory Method para las conexiones a distintas bases de datos">
       <polyline class="linea" points="76.5,230 76.5,188.5 249.5,188.5 249.5,147"/>
@@ -557,7 +584,7 @@ Logistica: entrega por mar, en un barco</pre>
     <li><strong>Cómo se aplica:</strong> "<code>Conexion</code> es el producto: una clase abstracta con los cinco atributos comunes y el método <code>conectar()</code>, que cada conexión concreta resuelve a su manera. <code>CreadorDeConexiones</code> es el creador: declara el método fábrica <code>crearConexion()</code> y lo usa en <code>abrirConexion()</code>. Hay un creador concreto por cada base de datos, que devuelve su conexión."</li>
     <li><strong>Qué se gana:</strong> "La aplicación trabaja solo con <code>Conexion</code>, y sumar otra base de datos (por ejemplo, SQLite) es agregar una conexión y su creador, sin modificar lo que ya existe."</li>
   </ol>
-  <p>Por qué no es Abstract Factory: hay un solo tipo de producto (la conexión) en varias versiones, no varios productos que tengan que combinar. Como <code>Conexion</code> tiene atributos, se dibuja como clase abstracta y las concretas la heredan (línea continua).</p>
+  <p>Por qué no es Abstract Factory: hay un solo tipo de producto (la conexión) en varias versiones, no varios productos que tengan que combinar.</p>
 
   <hr class="sep">
 

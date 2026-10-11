@@ -235,6 +235,9 @@ Chrome (`chrome --headless --print-to-pdf`).
 `0.x.y-alpha` mientras esté en desarrollo. La `1.0.0` queda reservada para cuando esté terminado.
 La versión actual se lee al pie del menú lateral.
 
+* **0.46.4-alpha** — Ingeniería de Software II, Factory Method: aclarado que el Producto va como
+  interfaz en la estructura general y como clase abstracta cuando el enunciado da atributos
+  comunes a todos los productos, y cómo cambia la línea en cada caso.
 * **0.46.3-alpha** — Ingeniería de Software II: en los diagramas UML, las clases abstractas llevan
   el rótulo «abstract» arriba del nombre, además de la cursiva, para que no se lean como clases
   comunes. (La 0.46.2 se retiró.)

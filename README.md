@@ -235,6 +235,10 @@ Chrome (`chrome --headless --print-to-pdf`).
 `0.x.y-alpha` mientras esté en desarrollo. La `1.0.0` queda reservada para cuando esté terminado.
 La versión actual se lee al pie del menú lateral.
 
+* **0.46.1-alpha** — Ingeniería de Software II: tampoco usan consignas de parcial los ejemplos de
+  teoría de la unidad base, de calidad (diagnóstico de CMMI, tres acciones con IA, ficha de una
+  métrica) y de Git (el flujo entre dos ramas). Son casos muy parecidos, con otra empresa y otras
+  ramas; los parciales quedan en Evaluación.
 * **0.46.0-alpha** — Ingeniería de Software II, teoría de patrones: los ejemplos ya no usan los
   enunciados de los parciales (quedan en Evaluación, para rendirlos sin haberlos visto) sino los
   más parecidos de las guías de la cátedra o inventados muy parecidos. Cada patrón suma un quinto

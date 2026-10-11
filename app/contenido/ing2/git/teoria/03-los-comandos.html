@@ -1,6 +1,6 @@
 <div class="bloque" data-examen="igual"
      data-examen-ref="Parcial 2025 · Teoría 3"
-     data-examen-nota="5 puntos: «Indique los pasos que debe seguir el equipo de desarrollo para registrar todos los cambios del código desde el Working Directory hacia la rama develop, y luego integrarlos en main, asegurando que ambas ramas estén actualizadas en el remoto (Git Workflow).» Resuelta en el ejemplo 2.">
+     data-examen-nota="5 puntos: indicar los pasos (Git Workflow) para registrar todos los cambios del Working Directory en una rama, integrarlos en otra y dejar las dos actualizadas en el remoto. El ejemplo 2 tiene esa forma, con otras ramas; el parcial resuelto está en Evaluación.">
   <p class="kicker">Git</p>
   <h2>3. Los comandos: del directorio de trabajo al remoto</h2>
 
@@ -78,13 +78,14 @@ git commit -m "Actualiza el título de la página principal"</code></pre>
 
   <hr class="sep">
 
-  <h3>Ejemplo 2 &mdash; Con formato de parcial: de Working Directory a develop y a main</h3>
+  <h3>Ejemplo 2 &mdash; Con formato de parcial: de Working Directory a testing y a master</h3>
   <div class="caja caja-ejemplo">
-    <span class="caja-tit">Parcial 2025 &middot; Teoría 3 (5 puntos)</span>
+    <span class="caja-tit">Inventado &middot; con la forma del Parcial 2025, Teoría 3</span>
     <p>
-      "Indique los pasos que debe seguir el equipo de desarrollo para registrar todos los cambios
-      del código desde el Working Directory hacia la rama develop, y luego integrarlos en main,
-      asegurando que ambas ramas estén actualizadas en el remoto (<em>Git Workflow</em>)."
+      "Un equipo trabaja con dos ramas: testing, donde junta lo que desarrolla, y master, que es la
+      versión estable. Indique los pasos que debe seguir para registrar todos los cambios del código
+      desde el Working Directory hacia la rama testing, y luego integrarlos en master, asegurando
+      que ambas ramas estén actualizadas en el remoto."
     </p>
   </div>
 
@@ -93,77 +94,77 @@ git commit -m "Actualiza el título de la página principal"</code></pre>
     <table class="t full">
       <tr><th>Frase de la consigna</th><th>Qué significa</th><th>Comando</th></tr>
       <tr><td>"registrar <strong>todos</strong> los cambios (...) desde el Working Directory"</td><td>Preparar todo lo modificado y confirmarlo</td><td><code>git add .</code> y <code>git commit</code></td></tr>
-      <tr><td>"hacia la rama <strong>develop</strong>"</td><td>Hay que estar parado en <code>develop</code> al confirmar</td><td><code>git checkout develop</code></td></tr>
-      <tr><td>"y luego <strong>integrarlos en main</strong>"</td><td>Pasar a <code>main</code> y fusionarle <code>develop</code></td><td><code>git checkout main</code> y <code>git merge develop</code></td></tr>
-      <tr><td>"asegurando que <strong>ambas ramas</strong> estén actualizadas en el <strong>remoto</strong>"</td><td>Subir las dos</td><td><code>git push origin develop</code> y <code>git push origin main</code></td></tr>
+      <tr><td>"hacia la rama <strong>testing</strong>"</td><td>Hay que estar parado en <code>testing</code> al confirmar</td><td><code>git checkout testing</code></td></tr>
+      <tr><td>"y luego <strong>integrarlos en master</strong>"</td><td>Pasar a <code>master</code> y fusionarle <code>testing</code></td><td><code>git checkout master</code> y <code>git merge testing</code></td></tr>
+      <tr><td>"asegurando que <strong>ambas ramas</strong> estén actualizadas en el <strong>remoto</strong>"</td><td>Subir las dos</td><td><code>git push origin testing</code> y <code>git push origin master</code></td></tr>
     </table>
   </div>
   <p>
-    <code>develop</code> es la rama donde se junta el trabajo en desarrollo; <code>main</code>, la
+    <code>testing</code> es la rama donde se junta el trabajo en desarrollo; <code>master</code>, la
     rama principal, con lo que está listo. <em>Git Workflow</em> es "flujo de trabajo con Git": la
     secuencia de pasos que sigue el equipo.
   </p>
 
   <p><strong>Paso 2 &mdash; La secuencia.</strong></p>
-  <pre class="codigo"><code>git checkout develop
+  <pre class="codigo"><code>git checkout testing
 git add .
 git commit -m "Descripción de los cambios"
-git push origin develop
-git checkout main
-git merge develop
-git push origin main</code></pre>
+git push origin testing
+git checkout master
+git merge testing
+git push origin master</code></pre>
 
   <h4>Qué hace cada línea</h4>
   <div class="tabla-wrap">
     <table class="t full">
       <tr><th>Línea</th><th>Qué hace</th><th>Dónde quedan los cambios</th></tr>
-      <tr><td><code>git checkout develop</code></td><td>Se para en la rama <code>develop</code>. Los cambios sin confirmar del directorio de trabajo siguen ahí.</td><td>Directorio de trabajo</td></tr>
+      <tr><td><code>git checkout testing</code></td><td>Se para en la rama <code>testing</code>. Los cambios sin confirmar del directorio de trabajo siguen ahí.</td><td>Directorio de trabajo</td></tr>
       <tr><td><code>git add .</code></td><td>Prepara <strong>todos</strong> los cambios.</td><td>Área de preparación</td></tr>
-      <tr><td><code>git commit -m "..."</code></td><td>Los confirma en <code>develop</code>.</td><td>Repositorio local, rama <code>develop</code></td></tr>
-      <tr><td><code>git push origin develop</code></td><td>Sube <code>develop</code> al remoto.</td><td>Remoto, rama <code>develop</code> &#10003;</td></tr>
-      <tr><td><code>git checkout main</code></td><td>Se cambia a <code>main</code>. Todavía no tiene los cambios.</td><td>&mdash;</td></tr>
-      <tr><td><code>git merge develop</code></td><td>Trae a <code>main</code> lo que tiene <code>develop</code>.</td><td>Repositorio local, rama <code>main</code></td></tr>
-      <tr><td><code>git push origin main</code></td><td>Sube <code>main</code> al remoto.</td><td>Remoto, rama <code>main</code> &#10003;</td></tr>
+      <tr><td><code>git commit -m "..."</code></td><td>Los confirma en <code>testing</code>.</td><td>Repositorio local, rama <code>testing</code></td></tr>
+      <tr><td><code>git push origin testing</code></td><td>Sube <code>testing</code> al remoto.</td><td>Remoto, rama <code>testing</code> &#10003;</td></tr>
+      <tr><td><code>git checkout master</code></td><td>Se cambia a <code>master</code>. Todavía no tiene los cambios.</td><td>&mdash;</td></tr>
+      <tr><td><code>git merge testing</code></td><td>Trae a <code>master</code> lo que tiene <code>testing</code>.</td><td>Repositorio local, rama <code>master</code></td></tr>
+      <tr><td><code>git push origin master</code></td><td>Sube <code>master</code> al remoto.</td><td>Remoto, rama <code>master</code> &#10003;</td></tr>
     </table>
   </div>
 
   <h4>Qué responde Git</h4>
   <p>Ejecutado en un repositorio de prueba (se cambió <code>index.html</code> y se creó <code>estilos.css</code>):</p>
   <pre class="salida">$ git commit -m "Cambia el titulo y agrega estilos"
-[develop c11a3b1] Cambia el titulo y agrega estilos
+[testing c11a3b1] Cambia el titulo y agrega estilos
  2 files changed, 2 insertions(+), 1 deletion(-)
  create mode 100644 estilos.css
 
-$ git push origin develop
-   6d83081..c11a3b1  develop -&gt; develop
+$ git push origin testing
+   6d83081..c11a3b1  testing -&gt; testing
 
-$ git merge develop
+$ git merge testing
 Updating 6d83081..c11a3b1
 Fast-forward
  estilos.css | 1 +
  index.html  | 2 +-
 
-$ git push origin main
-   6d83081..c11a3b1  main -&gt; main</pre>
+$ git push origin master
+   6d83081..c11a3b1  master -&gt; master</pre>
   <p>Y al final, <code>git log --oneline --all --decorate</code> confirma que quedó todo igual:</p>
-  <pre class="salida">c11a3b1 (HEAD -&gt; main, origin/main, origin/develop, develop) Cambia el titulo y agrega estilos
+  <pre class="salida">c11a3b1 (HEAD -&gt; master, origin/master, origin/testing, testing) Cambia el titulo y agrega estilos
 6d83081 Version inicial</pre>
   <ul>
-    <li><code>main</code> y <code>develop</code>: las dos ramas locales apuntan al mismo commit.</li>
-    <li><code>origin/main</code> y <code>origin/develop</code>: las dos ramas del remoto también. <strong>Ambas actualizadas en el remoto</strong>, como pedía la consigna.</li>
-    <li><em>Fast-forward</em>: como <code>main</code> no tenía commits propios, Git solo adelantó <code>main</code> hasta donde estaba <code>develop</code>.</li>
+    <li><code>master</code> y <code>testing</code>: las dos ramas locales apuntan al mismo commit.</li>
+    <li><code>origin/master</code> y <code>origin/testing</code>: las dos ramas del remoto también. <strong>Ambas actualizadas en el remoto</strong>, como pedía la consigna.</li>
+    <li><em>Fast-forward</em>: como <code>master</code> no tenía commits propios, Git solo adelantó <code>master</code> hasta donde estaba <code>testing</code>.</li>
   </ul>
 
   <div class="caja caja-resp">
     <span class="caja-tit">Cómo quedaría escrita la respuesta</span>
     <ol>
-      <li>Ubicarse en la rama de desarrollo: <code>git checkout develop</code>.</li>
+      <li>Ubicarse en la rama de desarrollo: <code>git checkout testing</code>.</li>
       <li>Pasar los cambios del Working Directory al área de preparación: <code>git add .</code></li>
       <li>Confirmarlos en el repositorio local: <code>git commit -m "mensaje"</code>.</li>
-      <li>Subir <code>develop</code> al remoto: <code>git push origin develop</code>.</li>
-      <li>Cambiar a la rama principal: <code>git checkout main</code>.</li>
-      <li>Integrar los cambios de <code>develop</code>: <code>git merge develop</code>.</li>
-      <li>Subir <code>main</code> al remoto: <code>git push origin main</code>.</li>
+      <li>Subir <code>testing</code> al remoto: <code>git push origin testing</code>.</li>
+      <li>Cambiar a la rama principal: <code>git checkout master</code>.</li>
+      <li>Integrar los cambios de <code>testing</code>: <code>git merge testing</code>.</li>
+      <li>Subir <code>master</code> al remoto: <code>git push origin master</code>.</li>
     </ol>
     <p>
       Con eso los cambios pasaron por Working Directory &rarr; Staging Area &rarr; repositorio
@@ -174,15 +175,15 @@ $ git push origin main
     <span class="caja-tit">Lo que se puede agregar para una respuesta más completa</span>
     <ul>
       <li>
-        <strong><code>git pull origin develop</code></strong> antes de empezar, y
-        <strong><code>git pull origin main</code></strong> antes del merge: traen lo que hayan
+        <strong><code>git pull origin testing</code></strong> antes de empezar, y
+        <strong><code>git pull origin master</code></strong> antes del merge: traen lo que hayan
         subido los compañeros, para no integrar sobre una versión vieja.
       </li>
       <li>
         <strong><code>git status</code></strong> antes del <code>add</code>, para ver qué cambió.
       </li>
       <li>
-        En un equipo, el paso de <code>develop</code> a <code>main</code> muchas veces se hace con
+        En un equipo, el paso de <code>testing</code> a <code>master</code> muchas veces se hace con
         un <strong>pull request</strong> en la plataforma, para que alguien revise antes de integrar.
       </li>
     </ul>
@@ -192,16 +193,16 @@ $ git push origin main
   <div class="caja caja-ojo">
     <span class="caja-tit">El merge se hace parado en la rama que recibe</span>
     <p>
-      <code>git merge develop</code> trae <code>develop</code> <strong>hacia donde estoy</strong>.
-      Para integrar en <code>main</code> hay que hacer primero <code>git checkout main</code>. El
+      <code>git merge testing</code> trae <code>testing</code> <strong>hacia donde estoy</strong>.
+      Para integrar en <code>master</code> hay que hacer primero <code>git checkout master</code>. El
       error típico es hacer el merge sin cambiar de rama.
     </p>
   </div>
   <div class="caja caja-ojo">
     <span class="caja-tit">Dos push, no uno</span>
     <p>
-      La consigna dice "ambas ramas". <code>git push origin main</code> sube solo <code>main</code>.
-      Si falta el push de <code>develop</code>, en el remoto esa rama queda vieja.
+      La consigna dice "ambas ramas". <code>git push origin master</code> sube solo <code>master</code>.
+      Si falta el push de <code>testing</code>, en el remoto esa rama queda vieja.
     </p>
   </div>
   <div class="caja caja-ojo">

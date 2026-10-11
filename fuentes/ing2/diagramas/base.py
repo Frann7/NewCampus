@@ -21,11 +21,11 @@ D["marcas"] = dict(
     ],
 )
 
-D["medicamento"] = dict(
-    alt="La clase Medicamento del parcial 2024",
-    clases=[dict(id="Medicamento", x=0, y=0,
-                 attrs=["Serial", "Nombre", "Lote", "Posologia", "Presentacion"],
-                 mets=["validarmedicacion()", "imprimirlote()", "imprimiretiqueta()"])],
+D["pelada"] = dict(
+    alt="Una clase sin símbolos de visibilidad ni tipos, como vienen en los parciales",
+    clases=[dict(id="Paciente", x=0, y=0,
+                 attrs=["DNI", "Nombre", "ObraSocial", "Telefono"],
+                 mets=["validardatos()", "imprimirficha()", "asignarturno()"])],
 )
 
 D["herencia"] = dict(

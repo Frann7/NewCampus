@@ -1,6 +1,6 @@
 <div class="bloque" data-examen="igual"
      data-examen-ref="Parcial 2025 · Práctica 1"
-     data-examen-nota="Había que reconocerlo en el segundo párrafo del enunciado de Muebles Express y justificar (ejemplo 3).">
+     data-examen-nota="Había que reconocerlo en un párrafo de un enunciado con tres patrones y justificar. El ejemplo 4 tiene esa forma, con otro caso; el parcial resuelto está en Evaluación.">
   <p class="kicker">Creacional</p>
   <h2>2. Factory Method</h2>
   <p>También llamado <strong>Método Fábrica</strong>.</p>
@@ -315,7 +315,7 @@ Logistica: entrega por mar, en un barco</pre>
   <div class="tabla-wrap">
     <table class="t full">
       <tr><th>Dónde</th><th>Qué lo delata</th></tr>
-      <tr><td class="lbl">En un enunciado</td><td>Se habla de <strong>crear objetos de distintos tipos</strong> de una misma cosa, y de que el resto no tenga que saber cuál: "un procedimiento de fabricación específico que permite <strong>instanciar los objetos correspondientes</strong> sin que ... tenga que conocer los detalles internos", "permitiendo <strong>agregar nuevos tipos</strong> ... sin afectar la lógica", "un problema que tiene que ver con la <strong>creación de los objetos</strong>".</td></tr>
+      <tr><td class="lbl">En un enunciado</td><td>Se habla de <strong>crear objetos de distintos tipos</strong> de una misma cosa, y de que el resto no tenga que saber cuál: "<strong>crear instancias</strong> de estos enemigos de manera dinámica", "poder <strong>agregar nuevos tipos</strong> de archivo en el futuro", "trabajar con diferentes bases de datos <strong>de manera transparente</strong>", "un problema que tiene que ver con la <strong>creación de los objetos</strong>".</td></tr>
       <tr><td class="lbl">En un código</td><td>
         <ol>
           <li>una clase base con un método <code>virtual</code> (muchas veces <code>= 0</code>) que <strong>devuelve un puntero a otra clase base</strong>: ese es el método fábrica (<code>FactoryMethod</code>, <code>crear...</code>, <code>create...</code>);</li>
@@ -366,7 +366,7 @@ Logistica: entrega por mar, en un barco</pre>
 
   <h3>Ejemplo 2 &mdash; Con formato de parcial: dibujarlo y explicarlo</h3>
   <div class="caja caja-ejemplo">
-    <span class="caja-tit">Con la forma del Parcial 2024 &middot; ejercicio 2</span>
+    <span class="caja-tit">Inventado &middot; con la forma del Parcial 2024, ejercicio 2</span>
     <p>"Realice el diagrama (mediante UML) del patrón Factory Method, dé una breve descripción de su usabilidad y mencione 2 ejemplos."</p>
   </div>
   <p>La consigna pide tres cosas; la respuesta tiene que tener las tres:</p>
@@ -450,42 +450,157 @@ Logistica: entrega por mar, en un barco</pre>
 
   <h3>Ejemplo 3 &mdash; Con formato de parcial: aplicarlo a un enunciado</h3>
   <div class="caja caja-ejemplo">
-    <span class="caja-tit">Parcial 2025 &middot; Práctica 1 (segundo párrafo)</span>
-    <p>
-      "Una vez realizada la compra, el pedido se envía al área de producción de la empresa, donde
-      un sistema interno se encarga de crear los muebles según las especificaciones del cliente.
-      Para cada tipo de mueble &mdash;como sillas, mesas, estanterías o escritorios&mdash; existe un
-      procedimiento de fabricación específico que permite instanciar los objetos correspondientes
-      sin que el área de ventas tenga que conocer los detalles internos de la producción. Esto
-      asegura que la creación de los muebles sea flexible y escalable, permitiendo agregar nuevos
-      tipos de productos sin afectar la lógica de compra."
-    </p>
+    <span class="caja-tit"><em>Ejercicios de patrones</em> &middot; ejercicio 3</span>
+    <p>"Estás desarrollando una aplicación que necesita conectarse a diferentes bases de datos, como MySQL, PostgreSQL y MongoDB. Cada base de datos tiene sus propias características y configuraciones. Necesitas implementar un sistema que permita crear objetos de conexión a la base de datos de manera que la aplicación pueda trabajar con diferentes bases de datos de manera transparente. Cada objeto de conexión tiene los siguientes atributos: nombre de la base de datos, host, puerto, usuario y contraseña."</p>
   </div>
+  <p>La guía no trae consigna aparte: hay que decir qué patrón se aplica, justificarlo y dibujarlo.</p>
   <div class="tabla-wrap">
     <table class="t full">
       <tr><th>Frase del enunciado</th><th>Qué significa</th><th>Parte del patrón</th></tr>
-      <tr><td>"se encarga de <strong>crear</strong> los muebles"</td><td>El problema es de creación de objetos: el patrón es creacional</td><td>&mdash;</td></tr>
-      <tr><td>"sillas, mesas, estanterías o escritorios"</td><td>Varios tipos de una misma cosa (mueble)</td><td>Producto: <code>Mueble</code>. Productos Concretos: <code>Silla</code>, <code>Mesa</code>, <code>Estanteria</code>, <code>Escritorio</code></td></tr>
-      <tr><td>"<strong>para cada tipo</strong> de mueble (...) existe un procedimiento de fabricación específico que permite <strong>instanciar</strong> los objetos"</td><td>Un creador por cada tipo, cada uno con su forma de crear</td><td>Creador: <code>FabricaDeMuebles</code> con <code>crearMueble()</code>. Creadores Concretos: <code>FabricaDeSillas</code>, <code>FabricaDeMesas</code>...</td></tr>
-      <tr><td>"<strong>sin que el área de ventas tenga que conocer</strong> los detalles internos"</td><td>El que pide el mueble no depende de las clases concretas</td><td>Ventas trabaja con <code>Mueble</code>, la interfaz</td></tr>
-      <tr><td>"<strong>agregar nuevos tipos</strong> de productos sin afectar la lógica de compra"</td><td>Principio de abierto/cerrado</td><td>Un tipo nuevo = un producto concreto y un creador concreto más</td></tr>
+      <tr><td>"<strong>crear objetos</strong> de conexión"</td><td>El problema es de creación: el patrón es creacional</td><td>El método fábrica: <code>crearConexion()</code></td></tr>
+      <tr><td>"diferentes bases de datos, como MySQL, PostgreSQL y MongoDB"</td><td>Varios tipos de una misma cosa (una conexión)</td><td><strong>Producto</strong>: <code>Conexion</code>. <strong>Productos Concretos</strong>: <code>ConexionMySQL</code>, <code>ConexionPostgreSQL</code>, <code>ConexionMongoDB</code></td></tr>
+      <tr><td>"Cada base de datos tiene sus <strong>propias características y configuraciones</strong>"</td><td>Cada tipo se crea a su manera</td><td>Un <strong>Creador Concreto</strong> por cada base de datos</td></tr>
+      <tr><td>"trabajar con diferentes bases de datos <strong>de manera transparente</strong>"</td><td>La aplicación no nombra las clases concretas</td><td>La aplicación usa <code>Conexion</code> y al <strong>Creador</strong> (<code>CreadorDeConexiones</code>)</td></tr>
+      <tr><td>"nombre de la base de datos, host, puerto, usuario y contraseña"</td><td>Atributos que tienen todas las conexiones</td><td>Van una sola vez, en <code>Conexion</code>, protegidos (<code>#</code>) para que los hereden las concretas</td></tr>
     </table>
   </div>
-  <p>
-    <strong>Respuesta:</strong> "Para la producción usaría <strong>Factory Method</strong>. El
-    enunciado dice que para cada tipo de mueble existe un procedimiento de fabricación que
-    instancia los objetos sin que ventas conozca los detalles, y que se pueden agregar tipos
-    nuevos sin afectar la lógica de compra. Con Factory Method hay un creador con un método
-    fábrica y una subclase creadora por cada tipo de mueble; ventas trabaja contra la interfaz
-    <code>Mueble</code> y un tipo nuevo se agrega con clases nuevas, sin modificar las existentes."
-  </p>
+  <div class="pd-grafico uml" data-g="fm-conexiones">
+    <svg viewBox="-14 -14 1106 317" width="1106" height="317" role="img" aria-label="Factory Method para las conexiones a distintas bases de datos">
+      <polyline class="linea" points="76.5,230 76.5,180.5 249.5,180.5 249.5,131"/>
+      <polygon class="hueca" points="249.5,118 256.5,131 242.5,131"/>
+      <polyline class="linea" points="249.5,230 249.5,180.5 249.5,180.5 249.5,131"/>
+      <polygon class="hueca" points="249.5,118 256.5,131 242.5,131"/>
+      <polyline class="linea" points="429.5,230 429.5,180.5 249.5,180.5 249.5,131"/>
+      <polygon class="hueca" points="249.5,118 256.5,131 242.5,131"/>
+      <polyline class="linea" points="648,230 648,211.5 829,211.5 829,193"/>
+      <polygon class="hueca" points="829,180 836,193 822,193"/>
+      <polyline class="linea" points="829,230 829,211.5 829,211.5 829,193"/>
+      <polygon class="hueca" points="829,180 836,193 822,193"/>
+      <polyline class="linea" points="1001.5,230 1001.5,211.5 829,211.5 829,193"/>
+      <polygon class="hueca" points="829,180 836,193 822,193"/>
+      <polyline class="linea punteada" points="364,79 550.5,79 550.5,79 737,79"/>
+      <polyline class="linea" points="727,84 737,79 727,74"/>
+      <text class="rotulo" x="550.5" y="73" text-anchor="middle">crea</text>
+      <g class="clase k-abstracta destacada">
+      <rect class="caja" x="135" y="40" width="229" height="78" rx="3"/>
+      <rect class="cab" x="136" y="41" width="227" height="29" rx="2"/>
+      <text class="nombre abstracta" x="249.5" y="60">CreadorDeConexiones</text>
+      <line class="div" x1="135" y1="70" x2="364" y2="70"/>
+      <text class="miembro" x="145" y="88"><tspan class="v-pub">+</tspan> abrirConexion()<tspan class="tp">: void</tspan></text>
+      <text class="miembro abstracto" x="145" y="107"><tspan class="v-pub">+</tspan> crearConexion()<tspan class="tp">: Conexion</tspan></text>
+      </g>
+      <g class="clase k-comun">
+      <rect class="caja" x="0" y="230" width="153" height="59" rx="3"/>
+      <rect class="cab" x="1" y="231" width="151" height="29" rx="2"/>
+      <text class="nombre" x="76.5" y="250">CreadorMySQL</text>
+      <line class="div" x1="0" y1="260" x2="153" y2="260"/>
+      <text class="miembro" x="10" y="278"><tspan class="v-pub">+</tspan> crearConexion()</text>
+      </g>
+      <g class="clase k-comun">
+      <rect class="caja" x="168" y="230" width="170" height="59" rx="3"/>
+      <rect class="cab" x="169" y="231" width="168" height="29" rx="2"/>
+      <text class="nombre" x="253" y="250">CreadorPostgreSQL</text>
+      <line class="div" x1="168" y1="260" x2="338" y2="260"/>
+      <text class="miembro" x="178" y="278"><tspan class="v-pub">+</tspan> crearConexion()</text>
+      </g>
+      <g class="clase k-comun">
+      <rect class="caja" x="353" y="230" width="153" height="59" rx="3"/>
+      <rect class="cab" x="354" y="231" width="151" height="29" rx="2"/>
+      <text class="nombre" x="429.5" y="250">CreadorMongoDB</text>
+      <line class="div" x1="353" y1="260" x2="506" y2="260"/>
+      <text class="miembro" x="363" y="278"><tspan class="v-pub">+</tspan> crearConexion()</text>
+      </g>
+      <g class="clase k-abstracta">
+      <rect class="caja" x="737" y="0" width="184" height="180" rx="3"/>
+      <rect class="cab" x="738" y="1" width="182" height="45" rx="2"/>
+      <text class="estereo" x="829" y="16">&#171;abstract&#187;</text>
+      <text class="nombre abstracta" x="829" y="35">Conexion</text>
+      <line class="div" x1="737" y1="46" x2="921" y2="46"/>
+      <text class="miembro" x="747" y="64"><tspan class="v-prot">#</tspan> nombreBD<tspan class="tp">: string</tspan></text>
+      <text class="miembro" x="747" y="83"><tspan class="v-prot">#</tspan> host<tspan class="tp">: string</tspan></text>
+      <text class="miembro" x="747" y="102"><tspan class="v-prot">#</tspan> puerto<tspan class="tp">: int</tspan></text>
+      <text class="miembro" x="747" y="121"><tspan class="v-prot">#</tspan> usuario<tspan class="tp">: string</tspan></text>
+      <text class="miembro" x="747" y="140"><tspan class="v-prot">#</tspan> contrasenia<tspan class="tp">: string</tspan></text>
+      <line class="div" x1="737" y1="151" x2="921" y2="151"/>
+      <text class="miembro abstracto" x="747" y="169"><tspan class="v-pub">+</tspan> conectar()<tspan class="tp">: void</tspan></text>
+      </g>
+      <g class="clase k-comun">
+      <rect class="caja" x="580" y="230" width="136" height="59" rx="3"/>
+      <rect class="cab" x="581" y="231" width="134" height="29" rx="2"/>
+      <text class="nombre" x="648" y="250">ConexionMySQL</text>
+      <line class="div" x1="580" y1="260" x2="716" y2="260"/>
+      <text class="miembro" x="590" y="278"><tspan class="v-pub">+</tspan> conectar()</text>
+      </g>
+      <g class="clase k-comun">
+      <rect class="caja" x="731" y="230" width="179" height="59" rx="3"/>
+      <rect class="cab" x="732" y="231" width="177" height="29" rx="2"/>
+      <text class="nombre" x="820.5" y="250">ConexionPostgreSQL</text>
+      <line class="div" x1="731" y1="260" x2="910" y2="260"/>
+      <text class="miembro" x="741" y="278"><tspan class="v-pub">+</tspan> conectar()</text>
+      </g>
+      <g class="clase k-comun">
+      <rect class="caja" x="925" y="230" width="153" height="59" rx="3"/>
+      <rect class="cab" x="926" y="231" width="151" height="29" rx="2"/>
+      <text class="nombre" x="1001.5" y="250">ConexionMongoDB</text>
+      <line class="div" x1="925" y1="260" x2="1078" y2="260"/>
+      <text class="miembro" x="935" y="278"><tspan class="v-pub">+</tspan> conectar()</text>
+      </g>
+    </svg>
+  </div>
+  <p><strong>Justificación</strong>, en tres partes: qué patrón y qué frase lo pide, cómo queda armado en este caso y qué se gana.</p>
+  <ol>
+    <li><strong>Qué patrón y por qué:</strong> "Se aplica Factory Method, un patrón creacional, porque hay que crear objetos de conexión de distintos tipos (MySQL, PostgreSQL, MongoDB) y la aplicación tiene que trabajar con ellos de manera transparente, es decir, sin conocer la clase concreta."</li>
+    <li><strong>Cómo se aplica:</strong> "<code>Conexion</code> es el producto: una clase abstracta con los cinco atributos comunes y el método <code>conectar()</code>, que cada conexión concreta resuelve a su manera. <code>CreadorDeConexiones</code> es el creador: declara el método fábrica <code>crearConexion()</code> y lo usa en <code>abrirConexion()</code>. Hay un creador concreto por cada base de datos, que devuelve su conexión."</li>
+    <li><strong>Qué se gana:</strong> "La aplicación trabaja solo con <code>Conexion</code>, y sumar otra base de datos (por ejemplo, SQLite) es agregar una conexión y su creador, sin modificar lo que ya existe."</li>
+  </ol>
+  <p>Por qué no es Abstract Factory: hay un solo tipo de producto (la conexión) en varias versiones, no varios productos que tengan que combinar. Como <code>Conexion</code> tiene atributos, se dibuja como clase abstracta y las concretas la heredan (línea continua).</p>
 
   <hr class="sep">
 
-  <h3>Ejemplo 4 &mdash; Con formato de parcial: reconocerlo en un código</h3>
+  <h3>Ejemplo 4 &mdash; Con formato de parcial: identificar los patrones de un enunciado</h3>
   <div class="caja caja-ejemplo">
-    <span class="caja-tit">Con la forma del Parcial 2024 &middot; ejercicio 4</span>
-    <p>"A partir del siguiente código identifique qué patrón es el que se utiliza. Justifique."</p>
+    <span class="caja-tit">Inventado &middot; con la forma del Parcial 2025, Práctica 1</span>
+    <p>"A partir del siguiente enunciado identifique cuáles serían los patrones de diseño que utilizaría y justifique por qué eligió los mismos."</p>
+    <p>"DocuPyme desarrolla un sistema de gestión de trámites para municipios. El sistema debe consultar el padrón de contribuyentes, que pertenece a la provincia y se accede mediante un servicio cuyas operaciones tienen nombres y formatos diferentes de los que utiliza el sistema municipal. Ese servicio no puede modificarse, y tampoco se desea reescribir los módulos que hoy consultan los datos de los vecinos."</p>
+    <p>"Cada trámite que inicia un vecino genera un documento, que puede ser una solicitud, un reclamo o una habilitación. Para cada tipo de documento existe una oficina con su propio procedimiento para generarlo, de modo que la mesa de entradas no necesita conocer cómo se arma cada uno. El municipio ya anunció que incorporará nuevos tipos de documento, y se espera poder sumarlos sin modificar la mesa de entradas."</p>
+    <p>"Por razones de seguridad, todo acceso al sistema debe pasar por un control de sesiones. Se requiere que exista un único gestor de sesiones para toda la aplicación, de manera que no puedan crearse otros."</p>
+  </div>
+  <p>
+    El enunciado mezcla Factory Method con otros dos patrones, como en el parcial. <strong>El método:</strong>
+    un párrafo, una necesidad, un patrón. En cada párrafo se busca qué se necesita y la frase que lo dice.
+  </p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Párrafo</th><th>La necesidad</th><th>La frase que lo delata</th><th>Patrón</th></tr>
+      <tr><td>1. El padrón</td><td>Usar un servicio ajeno que no encaja con el sistema, sin tocar ninguno de los dos</td><td>"operaciones (que) tienen <strong>nombres y formatos diferentes</strong> (...) Ese servicio <strong>no puede modificarse</strong>"</td><td><strong>Adapter</strong> (estructural)</td></tr>
+      <tr><td>2. Los documentos</td><td>Crear distintos tipos de documento sin que la mesa de entradas sepa cómo, y poder sumar tipos</td><td>"<strong>para cada tipo</strong> de documento existe una oficina con <strong>su propio procedimiento para generarlo</strong>"</td><td><strong>Factory Method</strong> (creacional)</td></tr>
+      <tr><td>3. Las sesiones</td><td>Que haya un solo gestor de sesiones</td><td>"exista <strong>un único gestor</strong> de sesiones para toda la aplicación"</td><td><strong>Singleton</strong> (creacional)</td></tr>
+    </table>
+  </div>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Cómo quedaría escrita la respuesta</span>
+    <p><strong>Adapter</strong>, para consultar el padrón. El servicio de la provincia tiene operaciones con "nombres y formatos diferentes" de los que usa el sistema y "no puede modificarse". Un adaptador implementa la interfaz con la que los módulos ya consultan los datos de los vecinos y traduce cada consulta a las operaciones del servicio. No se reescribe ningún módulo.</p>
+    <p><strong>Factory Method</strong>, para generar los documentos. El enunciado dice que "para cada tipo de documento existe una oficina con su propio procedimiento para generarlo", sin que la mesa de entradas conozca cómo se arma. El documento es el producto; hay un creador con un método fábrica y un creador concreto por cada tipo (solicitud, reclamo, habilitación). Un tipo nuevo se suma con clases nuevas, "sin modificar la mesa de entradas".</p>
+    <p><strong>Singleton</strong>, para el control de sesiones. Se pide "un único gestor de sesiones para toda la aplicación, de manera que no puedan crearse otros". El gestor tiene el constructor privado y entrega su única instancia con un método estático.</p>
+  </div>
+  <p>
+    Cada justificación tiene las mismas tres partes: el patrón y para qué parte del sistema, <strong>la frase
+    del enunciado</strong> que lo pide (entre comillas) y cómo queda armado, con lo que se gana.
+  </p>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Las trampas de este enunciado</span>
+    <ul>
+      <li>Hay "tipos" de documento, no familias que tengan que combinar: es Factory Method y no Abstract Factory.</li>
+      <li>El primer párrafo no pide simplificar nada: pide hacer <strong>encajar</strong> un servicio que no se puede tocar. Por eso es Adapter y no Facade.</li>
+    </ul>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 5 &mdash; Con formato de parcial: reconocerlo en un código</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Inventado &middot; con la forma de la Guía N°1, ejercicio 2</span>
+    <p>"Dado el siguiente código identifique qué tipo de patrón se implementa. Justifique."</p>
   </div>
   <p>Los renglones resaltados son los que lo delatan:</p>
   <pre class="codigo" data-clave="4,10,27,30,40,51"><code>#include &lt;iostream&gt;
@@ -574,9 +689,9 @@ Agencia: se emitio {Pasaje terrestre}</pre>
 
   <hr class="sep">
 
-  <h3>Ejemplo 5 &mdash; Con formato de parcial: agregarlo a un diagrama</h3>
+  <h3>Ejemplo 6 &mdash; Con formato de parcial: agregarlo a un diagrama</h3>
   <div class="caja caja-ejemplo">
-    <span class="caja-tit">Con la forma del Parcial 2024 &middot; ejercicio 3</span>
+    <span class="caja-tit">Inventado &middot; con la forma de la Guía N°1, ejercicio 1</span>
     <p>"Dado el siguiente diagrama: la clase Editor crea los documentos dentro de nuevoDocumento(tipo), con un if por cada tipo. Se van a sumar tipos nuevos de documento (presentaciones, PDF) y no se quiere modificar la clase Editor cada vez. Modifique el diagrama aplicando el patrón de diseño que corresponda. Justifique."</p>
   </div>
   <div class="pd-grafico uml" data-g="fm-editor-antes">

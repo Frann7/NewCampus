@@ -315,36 +315,6 @@ D["p-stock"] = dict(
 
 # ---------- Teoría: ejemplos con formato de parcial ----------
 
-D["sing-param-antes"] = dict(
-    alt="Diagrama original: Caja y Stock tienen cada uno su objeto Parametros",
-    clases=[
-        dict(id="Caja", x=0, y=0, attrs=["- parametros: Parametros"], mets=["+ cobrar(monto)"]),
-        dict(id="Stock", x=0, y=130, attrs=["- parametros: Parametros"], mets=["+ valorizar()"]),
-        dict(id="Parametros", x=340, y=47, attrs=["- iva: double", "- moneda: string"],
-             mets=["+ Parametros()", "+ iva(): double", "+ moneda(): string"]),
-    ],
-    rel=[
-        ("Caja", "Parametros", "asociacion", dict(sal="der", lle="izq", d2=-20)),
-        ("Stock", "Parametros", "asociacion", dict(sal="der", lle="izq", d2=20)),
-    ],
-)
-
-D["sing-param"] = dict(
-    alt="Parametros convertida en Singleton",
-    clases=[
-        dict(id="Caja", x=0, y=20, mets=["+ cobrar(monto)"]),
-        dict(id="Stock", x=0, y=130, mets=["+ valorizar()"]),
-        dict(id="Parametros", x=300, y=20, destacada=True,
-             attrs=["s:- instancia: Parametros", "- iva: double", "- moneda: string"],
-             mets=["- Parametros()", "s:+ obtenerInstancia(): Parametros", "+ iva(): double",
-                   "+ moneda(): string"]),
-    ],
-    rel=[
-        ("Caja", "Parametros", "dependencia", dict(sal="der", lle="izq", d2=-30, rot="usa")),
-        ("Stock", "Parametros", "dependencia", dict(sal="der", lle="izq", d2=30)),
-    ],
-)
-
 D["fm-editor-antes"] = dict(
     alt="Diagrama original: Editor crea directamente cada tipo de documento",
     clases=[
@@ -448,5 +418,99 @@ D["af-cocina"] = dict(
         ("PlatoClasico", "Plato", "realiza"),
         ("FabricaDeMenu", "Entrada", "dependencia", dict(sal="der", lle="izq", d1=-12, por=330, rot="crea")),
         ("FabricaDeMenu", "Plato", "dependencia", dict(sal="der", lle="izq", d1=12, por=330)),
+    ],
+)
+
+D["singleton-adminbd"] = dict(
+    alt="AdministradorBD como Singleton",
+    clases=[dict(id="AdministradorBD", x=0, y=0, destacada=True,
+                 attrs=["s:- instancia: AdministradorBD", "- host: string", "- usuario: string",
+                        "- conexionAbierta: boolean"],
+                 mets=["- AdministradorBD()", "s:+ obtenerInstancia(): AdministradorBD", "+ conectar(): void",
+                       "+ ejecutar(consulta: string): Resultado", "+ desconectar(): void"])],
+)
+
+D["fm-conexiones"] = dict(
+    alt="Factory Method para las conexiones a distintas bases de datos",
+    clases=[
+        dict(id="CreadorDeConexiones", x=135, y=40, abstracta=True, destacada=True,
+             mets=["+ abrirConexion(): void", "a:+ crearConexion(): Conexion"]),
+        dict(id="CreadorMySQL", x=0, y=230, mets=["+ crearConexion()"]),
+        dict(id="CreadorPostgreSQL", x=168, y=230, mets=["+ crearConexion()"]),
+        dict(id="CreadorMongoDB", x=353, y=230, mets=["+ crearConexion()"]),
+        dict(id="Conexion", x=737, y=0, abstracta=True, estereo="abstract",
+             attrs=["# nombreBD: string", "# host: string", "# puerto: int", "# usuario: string",
+                    "# contrasenia: string"],
+             mets=["a:+ conectar(): void"]),
+        dict(id="ConexionMySQL", x=580, y=230, mets=["+ conectar()"]),
+        dict(id="ConexionPostgreSQL", x=731, y=230, mets=["+ conectar()"]),
+        dict(id="ConexionMongoDB", x=925, y=230, mets=["+ conectar()"]),
+    ],
+    rel=[
+        ("CreadorMySQL", "CreadorDeConexiones", "herencia"),
+        ("CreadorPostgreSQL", "CreadorDeConexiones", "herencia"),
+        ("CreadorMongoDB", "CreadorDeConexiones", "herencia"),
+        ("ConexionMySQL", "Conexion", "herencia"),
+        ("ConexionPostgreSQL", "Conexion", "herencia"),
+        ("ConexionMongoDB", "Conexion", "herencia"),
+        ("CreadorDeConexiones", "Conexion", "dependencia", dict(rot="crea")),
+    ],
+)
+
+# Guía N°1, ejercicio 1: el diagrama que da la cátedra y sus dos soluciones
+D["seguridad-antes"] = dict(
+    alt="Diagrama de la Guía 1: Usuario, Sesion, ControladorSeguridad y Logger",
+    clases=[
+        dict(id="Usuario", x=0, y=0, attrs=["- nombre: String", "- password: String"], mets=["+ login()"]),
+        dict(id="Sesion", x=240, y=0, attrs=["- id: Long", "- usuario: Usuario"],
+             mets=["+ crearSesion()", "+ cerrarSesion()"]),
+        dict(id="ControladorSeguridad", x=480, y=0, attrs=["- sesionesActivas: List<Sesion>"],
+             mets=["+ registrarAcceso()"]),
+        dict(id="Logger", x=541, y=180, mets=["+ escribirLog()"]),
+    ],
+    rel=[
+        ("Usuario", "Sesion", "enlace"),
+        ("Sesion", "ControladorSeguridad", "enlace"),
+        ("ControladorSeguridad", "Logger", "enlace"),
+    ],
+)
+
+D["seguridad-singleton"] = dict(
+    alt="ControladorSeguridad convertido en Singleton",
+    clases=[
+        dict(id="Usuario", x=0, y=0, attrs=["- nombre: String", "- password: String"], mets=["+ login()"]),
+        dict(id="Sesion", x=240, y=0, attrs=["- id: Long", "- usuario: Usuario"],
+             mets=["+ crearSesion()", "+ cerrarSesion()"]),
+        dict(id="ControladorSeguridad", x=480, y=0, destacada=True,
+             attrs=["s:- instancia: ControladorSeguridad", "- sesionesActivas: List<Sesion>"],
+             mets=["- ControladorSeguridad()", "s:+ obtenerInstancia(): ControladorSeguridad",
+                   "+ registrarAcceso()"]),
+        dict(id="Logger", x=582, y=230, mets=["+ escribirLog()"]),
+    ],
+    rel=[
+        ("Usuario", "Sesion", "enlace"),
+        ("Sesion", "ControladorSeguridad", "enlace"),
+        ("ControladorSeguridad", "Logger", "enlace"),
+    ],
+)
+
+D["seguridad-observer"] = dict(
+    alt="Observer sobre el módulo de seguridad: el Logger se suscribe al ControladorSeguridad",
+    clases=[
+        dict(id="Usuario", x=0, y=0, attrs=["- nombre: String", "- password: String"], mets=["+ login()"]),
+        dict(id="Sesion", x=240, y=0, attrs=["- id: Long", "- usuario: Usuario"],
+             mets=["+ crearSesion()", "+ cerrarSesion()"]),
+        dict(id="ControladorSeguridad", x=480, y=0, destacada=True,
+             attrs=["- sesionesActivas: List<Sesion>", "- observadores: Observador[]"],
+             mets=["+ registrarAcceso()", "+ suscribir(o: Observador)", "+ desuscribir(o: Observador)",
+                   "+ notificar()"]),
+        dict(id="Observador", x=522, y=250, estereo="interface", destacada=True, mets=["+ actualizar(acceso)"]),
+        dict(id="Logger", x=240, y=250, destacada=True, mets=["+ escribirLog()", "+ actualizar(acceso)"]),
+    ],
+    rel=[
+        ("Usuario", "Sesion", "enlace"),
+        ("Sesion", "ControladorSeguridad", "enlace"),
+        ("ControladorSeguridad", "Observador", "agregacion", dict(m2="*")),
+        ("Logger", "Observador", "realiza"),
     ],
 )

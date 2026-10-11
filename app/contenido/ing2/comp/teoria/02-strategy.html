@@ -1,6 +1,6 @@
 <div class="bloque" data-examen="igual"
      data-examen-ref="Parcial 2025 · Práctica 1"
-     data-examen-nota="Había que reconocerlo en el primer párrafo del enunciado de Muebles Express («la estrategia de configuración más adecuada») y justificar: ejemplo 3.">
+     data-examen-nota="Había que reconocerlo en un párrafo de un enunciado con tres patrones y justificar. El ejemplo 4 tiene esa forma, con otro caso; el parcial resuelto está en Evaluación.">
   <p class="kicker">Comportamiento</p>
   <h2>2. Strategy</h2>
   <p>También llamado <strong>Estrategia</strong>.</p>
@@ -313,7 +313,7 @@ A pie de Parana a Oro Verde: por el camino costero, 3 horas</pre>
 
   <h3>Ejemplo 2 &mdash; Con formato de parcial: dibujarlo y explicarlo</h3>
   <div class="caja caja-ejemplo">
-    <span class="caja-tit">Con la forma del Parcial 2024 &middot; ejercicio 2</span>
+    <span class="caja-tit">Inventado &middot; con la forma del Parcial 2024, ejercicio 2</span>
     <p>"Realice el diagrama (mediante UML) del patrón Strategy, dé una breve descripción de su usabilidad y mencione 2 ejemplos."</p>
   </div>
   <p>La consigna pide tres cosas; la respuesta tiene que tener las tres:</p>
@@ -380,41 +380,129 @@ A pie de Parana a Oro Verde: por el camino costero, 3 horas</pre>
 
   <h3>Ejemplo 3 &mdash; Con formato de parcial: aplicarlo a un enunciado</h3>
   <div class="caja caja-ejemplo">
-    <span class="caja-tit">Parcial 2025 &middot; Práctica 1 (primer párrafo)</span>
-    <p>
-      "La empresa Muebles Express S.A. se dedica a la fabricación y comercialización de muebles
-      personalizados a través de su plataforma web. Los clientes pueden ingresar al sitio, navegar
-      por el catálogo de productos y seleccionar los muebles que desean comprar, teniendo la
-      posibilidad de personalizar cada artículo según diferentes parámetros: tipo de material,
-      color, tamaño y estilo de ensamblaje. Cada cliente debe poder elegir su combinación preferida
-      de estas opciones, de manera que el sistema aplique automáticamente la estrategia de
-      configuración más adecuada según sus elecciones y genere un presupuesto final."
-    </p>
+    <span class="caja-tit">Inventado &middot; con la forma de la Práctica 03</span>
+    <p>"Un estacionamiento calcula la tarifa de distintas formas: por hora, por estadía (el día completo) o con abono mensual. La forma se le asigna a cada vehículo cuando entra y puede cambiarse mientras está estacionado, por ejemplo si pasa de hora a estadía. Se van a sumar formas nuevas, como una tarifa nocturna, sin modificar la clase que cobra. Indique qué patrón de diseño aplicaría, justifique y realice el diagrama UML."</p>
   </div>
   <div class="tabla-wrap">
     <table class="t full">
       <tr><th>Frase del enunciado</th><th>Qué significa</th><th>Parte del patrón</th></tr>
-      <tr><td>"el sistema aplique automáticamente la <strong>estrategia</strong> de configuración <strong>más adecuada</strong>"</td><td>Hay varias formas de configurar y se usa una. El enunciado usa la palabra del patrón</td><td><strong>Estrategia</strong>: <code>EstrategiaConfiguracion</code></td></tr>
-      <tr><td>"<strong>según</strong> sus elecciones"</td><td>Cuál se usa se decide en el momento, por lo que elige el cliente</td><td>La estrategia se le pasa al contexto en ejecución</td></tr>
-      <tr><td>"personalizar cada artículo según (...) tipo de material, color, tamaño y estilo de ensamblaje"</td><td>Las variantes</td><td><strong>Estrategias Concretas</strong>: una por forma de configurar</td></tr>
-      <tr><td>"y genere un presupuesto final"</td><td>La tarea que hace el sistema usando la estrategia elegida</td><td><strong>Contexto</strong>: <code>ConfiguradorDeMueble</code>, que le delega el cálculo</td></tr>
+      <tr><td>"calcula la tarifa <strong>de distintas formas</strong>: por hora, por estadía o con abono mensual"</td><td>Varias formas de hacer la misma tarea</td><td>La <strong>Estrategia</strong> (<code>Tarifa</code>) y sus <strong>Estrategias Concretas</strong></td></tr>
+      <tr><td>"La forma <strong>se le asigna</strong> a cada vehículo cuando entra"</td><td>Alguien de afuera elige la forma</td><td>El <strong>Cliente</strong> (<code>Caja</code>) se la pasa al <strong>Contexto</strong> (<code>Ticket</code>)</td></tr>
+      <tr><td>"<strong>puede cambiarse</strong> mientras está estacionado"</td><td>Se cambia mientras el programa corre</td><td><code>cambiarTarifa()</code></td></tr>
+      <tr><td>"sumar formas nuevas (...) <strong>sin modificar la clase que cobra</strong>"</td><td>Principio de abierto/cerrado</td><td>Una forma nueva es una Estrategia Concreta más</td></tr>
     </table>
   </div>
-  <p>
-    <strong>Respuesta:</strong> "Para la personalización usaría <strong>Strategy</strong>. El
-    enunciado dice que el sistema aplica la estrategia de configuración más adecuada según las
-    elecciones del cliente: hay varias formas de configurar un mueble y calcular su presupuesto, y
-    se elige una en tiempo de ejecución. Cada forma es una estrategia concreta que implementa una
-    interfaz común; el configurador (contexto) guarda la estrategia elegida y le delega el cálculo.
-    Se pueden agregar formas nuevas sin modificar el configurador."
-  </p>
+  <div class="pd-grafico uml" data-g="strategy-tarifa">
+    <svg viewBox="-14 -14 966 277" width="966" height="277" role="img" aria-label="Strategy aplicado a la tarifa de un estacionamiento">
+      <polyline class="linea" points="90,63 130,63 130,63 170,63"/>
+      <polyline class="linea" points="160,68 170,63 160,58"/>
+      <polyline class="linea" points="410,57.5 475,57.5 475,57.5 540,57.5"/>
+      <polygon class="hueca" points="392,57.5 401,51.5 410,57.5 401,63.5"/>
+      <polyline class="linea punteada" points="494,190 494,149 673.5,149 673.5,108"/>
+      <polygon class="hueca" points="673.5,95 680.5,108 666.5,108"/>
+      <polyline class="linea punteada" points="673.5,190 673.5,149 673.5,149 673.5,108"/>
+      <polygon class="hueca" points="673.5,95 680.5,108 666.5,108"/>
+      <polyline class="linea punteada" points="854,190 854,149 673.5,149 673.5,108"/>
+      <polygon class="hueca" points="673.5,95 680.5,108 666.5,108"/>
+      <g class="clase k-comun">
+      <rect class="caja sola" x="0" y="48" width="90" height="30" rx="3"/>
+      <text class="nombre" x="45" y="68">Caja</text>
+      </g>
+      <g class="clase k-comun destacada">
+      <rect class="caja" x="170" y="0" width="222" height="126" rx="3"/>
+      <rect class="cab" x="171" y="1" width="220" height="29" rx="2"/>
+      <text class="nombre" x="281" y="20">Ticket</text>
+      <line class="div" x1="170" y1="30" x2="392" y2="30"/>
+      <text class="miembro" x="180" y="48"><tspan class="v-priv">-</tspan> tarifa<tspan class="tp">: Tarifa</tspan></text>
+      <text class="miembro" x="180" y="67"><tspan class="v-priv">-</tspan> minutos<tspan class="tp">: int</tspan></text>
+      <line class="div" x1="170" y1="78" x2="392" y2="78"/>
+      <text class="miembro" x="180" y="96"><tspan class="v-pub">+</tspan> cambiarTarifa(t<tspan class="tp">: Tarifa</tspan>)</text>
+      <text class="miembro" x="180" y="115"><tspan class="v-pub">+</tspan> importe()<tspan class="tp">: double</tspan></text>
+      </g>
+      <g class="clase k-interfaz">
+      <rect class="caja" x="540" y="20" width="267" height="75" rx="3"/>
+      <rect class="cab" x="541" y="21" width="265" height="45" rx="2"/>
+      <text class="estereo" x="673.5" y="36">&#171;interface&#187;</text>
+      <text class="nombre" x="673.5" y="55">Tarifa</text>
+      <line class="div" x1="540" y1="66" x2="807" y2="66"/>
+      <text class="miembro" x="550" y="84"><tspan class="v-pub">+</tspan> calcular(minutos<tspan class="tp">: int</tspan>)<tspan class="tp">: double</tspan></text>
+      </g>
+      <g class="clase k-comun">
+      <rect class="caja" x="410" y="190" width="168" height="59" rx="3"/>
+      <rect class="cab" x="411" y="191" width="166" height="29" rx="2"/>
+      <text class="nombre" x="494" y="210">TarifaPorHora</text>
+      <line class="div" x1="410" y1="220" x2="578" y2="220"/>
+      <text class="miembro" x="420" y="238"><tspan class="v-pub">+</tspan> calcular(minutos)</text>
+      </g>
+      <g class="clase k-comun">
+      <rect class="caja" x="590" y="190" width="168" height="59" rx="3"/>
+      <rect class="cab" x="591" y="191" width="166" height="29" rx="2"/>
+      <text class="nombre" x="674" y="210">TarifaPorEstadia</text>
+      <line class="div" x1="590" y1="220" x2="758" y2="220"/>
+      <text class="miembro" x="600" y="238"><tspan class="v-pub">+</tspan> calcular(minutos)</text>
+      </g>
+      <g class="clase k-comun">
+      <rect class="caja" x="770" y="190" width="168" height="59" rx="3"/>
+      <rect class="cab" x="771" y="191" width="166" height="29" rx="2"/>
+      <text class="nombre" x="854" y="210">AbonoMensual</text>
+      <line class="div" x1="770" y1="220" x2="938" y2="220"/>
+      <text class="miembro" x="780" y="238"><tspan class="v-pub">+</tspan> calcular(minutos)</text>
+      </g>
+    </svg>
+  </div>
+  <p><strong>Justificación</strong>, en tres partes: qué patrón y qué frase lo pide, cómo queda armado en este caso y qué se gana.</p>
+  <ol>
+    <li><strong>Qué patrón y por qué:</strong> "Se aplica Strategy, un patrón de comportamiento, porque la tarifa se calcula de distintas formas, la forma puede cambiarse mientras el vehículo está estacionado y se van a sumar formas nuevas."</li>
+    <li><strong>Cómo se aplica:</strong> "<code>Tarifa</code> es la estrategia: una interfaz con <code>calcular(minutos)</code>. <code>TarifaPorHora</code>, <code>TarifaPorEstadia</code> y <code>AbonoMensual</code> son las estrategias concretas. <code>Ticket</code> es el contexto: guarda una <code>Tarifa</code>, la deja cambiar con <code>cambiarTarifa()</code> y en <code>importe()</code> le delega el cálculo. La <code>Caja</code>, que es el cliente, le asigna la tarifa a cada ticket."</li>
+    <li><strong>Qué se gana:</strong> "<code>Ticket</code> no tiene un <code>if</code> por cada forma de cobro: la tarifa nocturna es una clase más, y pasar de hora a estadía es llamar a <code>cambiarTarifa()</code>."</li>
+  </ol>
 
   <hr class="sep">
 
-  <h3>Ejemplo 4 &mdash; Con formato de parcial: reconocerlo en un código</h3>
+  <h3>Ejemplo 4 &mdash; Con formato de parcial: identificar los patrones de un enunciado</h3>
   <div class="caja caja-ejemplo">
-    <span class="caja-tit">Con la forma del Parcial 2024 &middot; ejercicio 4</span>
-    <p>"A partir del siguiente código identifique qué patrón es el que se utiliza. Justifique."</p>
+    <span class="caja-tit">Inventado &middot; con la forma del Parcial 2025, Práctica 1</span>
+    <p>"A partir del siguiente enunciado identifique cuáles serían los patrones de diseño que utilizaría y justifique por qué eligió los mismos."</p>
+    <p>"RutaSegura es una compañía de seguros. Una póliza puede cubrir bienes individuales o grupos de bienes, que a su vez contienen otros grupos (por ejemplo, una flota con sus sucursales y, dentro de cada una, sus vehículos). El sistema debe calcular el valor asegurado total de una póliza de la misma manera, se trate de un bien suelto o de un grupo completo."</p>
+    <p>"La prima que paga el cliente se calcula con distintos métodos de evaluación de riesgo (conservador, estándar y agresivo). El asesor selecciona el método para cada cliente en el momento de cotizar y puede cambiarlo durante la entrevista. La compañía planea incorporar nuevos métodos sin modificar el cotizador."</p>
+    <p>"Por cada póliza, el sistema emite un contrato y un certificado de cobertura. Ambos documentos existen en versión Particulares y en versión Empresas, y los de una versión no deben mezclarse con los de la otra. Próximamente se agregará la versión Agro."</p>
+  </div>
+  <p>
+    El enunciado mezcla Strategy con otros dos patrones, como en el parcial. <strong>El método:</strong>
+    un párrafo, una necesidad, un patrón. En cada párrafo se busca qué se necesita y la frase que lo dice.
+  </p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Párrafo</th><th>La necesidad</th><th>La frase que lo delata</th><th>Patrón</th></tr>
+      <tr><td>1. Los bienes</td><td>Tratar igual a un bien que a un grupo, que contiene bienes y más grupos</td><td>"grupos de bienes, que a su vez <strong>contienen otros grupos</strong> (...) <strong>de la misma manera</strong>"</td><td><strong>Composite</strong> (estructural)</td></tr>
+      <tr><td>2. La prima</td><td>Varias formas de calcular, que el asesor elige y cambia</td><td>"<strong>distintos métodos</strong> de evaluación de riesgo (...) <strong>selecciona el método</strong> (...) y <strong>puede cambiarlo</strong>"</td><td><strong>Strategy</strong> (de comportamiento)</td></tr>
+      <tr><td>3. Los documentos</td><td>Crear documentos que van juntos, y poder sumar versiones</td><td>"<strong>un contrato y un certificado</strong> (...) los de una versión <strong>no deben mezclarse</strong> con los de la otra"</td><td><strong>Abstract Factory</strong> (creacional)</td></tr>
+    </table>
+  </div>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Cómo quedaría escrita la respuesta</span>
+    <p><strong>Composite</strong>, para los bienes asegurados. Una póliza cubre bienes y "grupos de bienes, que a su vez contienen otros grupos": es un árbol. El bien es la hoja y el grupo el compuesto, con una interfaz común. El valor asegurado se pide "de la misma manera" a un bien que a un grupo, que suma el de lo que contiene.</p>
+    <p><strong>Strategy</strong>, para la prima. Hay "distintos métodos de evaluación de riesgo", el asesor "selecciona el método" al cotizar y "puede cambiarlo". Cada método es una estrategia con la misma interfaz, y el cotizador, que es el contexto, usa el que le asignan. Un método nuevo es una clase más, "sin modificar el cotizador".</p>
+    <p><strong>Abstract Factory</strong>, para los documentos. Por cada póliza se emiten "un contrato y un certificado", y los de una versión "no deben mezclarse con los de la otra": son familias de productos. Una fábrica abstracta tiene un método de creación por cada documento y hay una fábrica concreta por versión (Particulares, Empresas). La versión Agro se suma con otra fábrica.</p>
+  </div>
+  <p>
+    Cada justificación tiene las mismas tres partes: el patrón y para qué parte del sistema, <strong>la frase
+    del enunciado</strong> que lo pide (entre comillas) y cómo queda armado, con lo que se gana.
+  </p>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Las trampas de este enunciado</span>
+    <ul>
+      <li>"Métodos de evaluación" que se eligen y se cambian son estrategias. No es Factory Method: no se crean objetos de distintos tipos, se elige <strong>cómo calcular</strong>.</li>
+      <li>En el tercer párrafo son <strong>dos</strong> documentos que van juntos (contrato y certificado): por eso es Abstract Factory y no Factory Method.</li>
+    </ul>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 5 &mdash; Con formato de parcial: reconocerlo en un código</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Inventado &middot; con la forma de la Guía N°1, ejercicio 2</span>
+    <p>"Dado el siguiente código identifique qué tipo de patrón se implementa. Justifique."</p>
   </div>
   <p>Los renglones resaltados son los que lo delatan:</p>
   <pre class="codigo" data-clave="4,10,26,30,34,43"><code>#include &lt;iostream&gt;
@@ -486,9 +574,9 @@ Archivador: genero informe.rar</pre>
 
   <hr class="sep">
 
-  <h3>Ejemplo 5 &mdash; Con formato de parcial: agregarlo a un diagrama</h3>
+  <h3>Ejemplo 6 &mdash; Con formato de parcial: agregarlo a un diagrama</h3>
   <div class="caja caja-ejemplo">
-    <span class="caja-tit">Con la forma del Parcial 2024 &middot; ejercicio 3</span>
+    <span class="caja-tit">Inventado &middot; con la forma de la Guía N°1, ejercicio 1</span>
     <p>"Dado el siguiente diagrama de un sistema de sueldos: la clase Empleado tiene un método por cada forma de calcular el sueldo, y calcularSueldo() elige cuál usar según el atributo modalidad. Se van a sumar formas nuevas (por proyecto, por guardia) y un empleado puede cambiar de modalidad durante el año. Modifique el diagrama aplicando el patrón de diseño que corresponda. Justifique."</p>
   </div>
   <div class="pd-grafico uml" data-g="strategy-sueldo-antes">
@@ -595,7 +683,7 @@ Archivador: genero informe.rar</pre>
 
   <hr class="sep">
 
-  <h3>Ejemplo 6 &mdash; Con formato de guía: reconocerlo en un diagrama</h3>
+  <h3>Ejemplo 7 &mdash; Con formato de guía: reconocerlo en un diagrama</h3>
   <p>
     El ejercicio 4 de <em>Patrones de Diseño Parte 2</em> da este diagrama y pregunta qué patrón es:
   </p>

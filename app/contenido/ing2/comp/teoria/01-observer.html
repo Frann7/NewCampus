@@ -1,6 +1,6 @@
 <div class="bloque" data-examen="igual"
      data-examen-ref="Parcial 2024 · ej. 3 y Parcial 2025 · Práctica 1"
-     data-examen-nota="2024: aplicarlo sobre el diagrama de la farmacia (ejemplo 5). 2025: reconocerlo en el tercer párrafo de Muebles Express (ejemplo 3).">
+     data-examen-nota="2024: aplicarlo sobre un diagrama dado. 2025: reconocerlo en un párrafo de un enunciado con tres patrones. Los ejemplos 6 y 4 tienen esas formas, con otros casos; los parciales resueltos están en Evaluación.">
   <p class="kicker">Comportamiento</p>
   <h2>1. Observer</h2>
   <p>
@@ -291,7 +291,7 @@ Ana se entero de que llego la tablet nueva</pre>
   <div class="tabla-wrap">
     <table class="t full">
       <tr><th>Dónde</th><th>Qué lo delata</th></tr>
-      <tr><td class="lbl">En un enunciado</td><td>Un hecho que <strong>dispara avisos automáticos</strong> a otros: "<strong>cada vez que</strong> se imprima un lote, <strong>se envíe una alerta</strong> al farmacéutico", "cada vez que se realice un movimiento, se envíe una alerta al administrador y se registre este suceso en una tabla de auditoría", "cuando se modifique el contenido del archivo, <strong>automáticamente se invoquen</strong> a los 3 exportadores", "el sistema <strong>notifica automáticamente</strong> al cliente", "el cliente puede <strong>suscribirse</strong> para recibir actualizaciones". Y si agrega "es deseable a futuro implementar <strong>nuevos mecanismos de alerta</strong>", lo confirma: son suscriptores nuevos.</td></tr>
+      <tr><td class="lbl">En un enunciado</td><td>Un hecho que <strong>dispara avisos automáticos</strong> a otros: "<strong>cada vez que</strong> se registre el acceso de un usuario, la clase Logger <strong>debe escribir</strong> en un archivo el suceso", "cada vez que se realice un movimiento, se envíe una alerta al administrador y se registre este suceso en una tabla de auditoría", "cuando se modifique el contenido del archivo, <strong>automáticamente se invoquen</strong> a los 3 exportadores", "cada vez que se cree una notificación, <strong>se envíe un mail</strong> al administrador". Y si agrega "es deseable a futuro implementar <strong>nuevos mecanismos de alerta</strong>", lo confirma: son suscriptores nuevos.</td></tr>
       <tr><td class="lbl">En un código</td><td>
         <ol>
           <li>una clase con una <strong>lista de punteros a una interfaz</strong> (<code>std::list&lt;IObserver*&gt;</code>);</li>
@@ -335,7 +335,7 @@ Ana se entero de que llego la tablet nueva</pre>
 
   <h3>Ejemplo 2 &mdash; Con formato de parcial: dibujarlo y explicarlo</h3>
   <div class="caja caja-ejemplo">
-    <span class="caja-tit">Con la forma del Parcial 2024 &middot; ejercicio 2</span>
+    <span class="caja-tit">Inventado &middot; con la forma del Parcial 2024, ejercicio 2</span>
     <p>"Realice el diagrama (mediante UML) del patrón Observer, dé una breve descripción de su usabilidad y mencione 2 ejemplos."</p>
   </div>
   <p>La consigna pide tres cosas; la respuesta tiene que tener las tres:</p>
@@ -404,39 +404,117 @@ Ana se entero de que llego la tablet nueva</pre>
 
   <h3>Ejemplo 3 &mdash; Con formato de parcial: aplicarlo a un enunciado</h3>
   <div class="caja caja-ejemplo">
-    <span class="caja-tit">Parcial 2025 &middot; Práctica 1 (tercer párrafo)</span>
-    <p>
-      "Cuando la fabricación del mueble se completa, el sistema notifica automáticamente al cliente
-      a través de correo electrónico o mensajes en la plataforma web, informándole que su pedido
-      está listo para ser enviado o retirado. Además, el cliente puede suscribirse para recibir
-      actualizaciones sobre el estado de su pedido en tiempo real, de manera que cualquier cambio
-      relevante &mdash;como retrasos, avances en la producción o confirmación de despacho&mdash; se
-      comunique de forma inmediata y automática."
-    </p>
+    <span class="caja-tit">Inventado &middot; parecido a <em>Patrones de Diseño Parte 2</em>, ejercicio 2</span>
+    <p>"En un sitio de subastas en línea, cada vez que alguien hace una oferta por un artículo, todos los que están participando de esa subasta tienen que enterarse del nuevo precio en el momento. Un participante puede sumarse o retirarse de la subasta cuando quiera, y el sitio prevé avisar también al vendedor del artículo. Indique qué patrón de diseño aplicaría, justifique y realice el diagrama UML."</p>
   </div>
   <div class="tabla-wrap">
     <table class="t full">
       <tr><th>Frase del enunciado</th><th>Qué significa</th><th>Parte del patrón</th></tr>
-      <tr><td>"el sistema <strong>notifica automáticamente</strong> al cliente"</td><td>Un aviso que sale solo cuando pasa algo</td><td><strong>Notificador</strong>: el <code>Pedido</code></td></tr>
-      <tr><td>"el cliente puede <strong>suscribirse</strong> para recibir actualizaciones"</td><td>La palabra del propósito: mecanismo de suscripción</td><td><strong>Suscriptor</strong>: el <code>Cliente</code></td></tr>
-      <tr><td>"a través de correo electrónico o mensajes en la plataforma web"</td><td>Distintas formas de reaccionar al aviso</td><td><strong>Suscriptores Concretos</strong>: <code>AvisoPorCorreo</code>, <code>AvisoPorWeb</code></td></tr>
-      <tr><td>"<strong>cualquier cambio</strong> relevante (...) se comunique de forma inmediata y automática"</td><td>Cada cambio de estado dispara <code>notificar()</code></td><td>&mdash;</td></tr>
+      <tr><td>"<strong>cada vez que</strong> alguien hace una oferta (...) <strong>tienen que enterarse</strong> del nuevo precio en el momento"</td><td>Un cambio en un objeto se tiene que avisar a otros, solo</td><td>La <code>Subasta</code> es el <strong>Notificador</strong>: al recibir una oferta llama a <code>notificar()</code></td></tr>
+      <tr><td>"<strong>todos los que</strong> están participando de esa subasta"</td><td>No se sabe cuántos son: hace falta una lista</td><td>La lista de suscriptores, del tipo de la interfaz <strong>Suscriptor</strong> (<code>Interesado</code>)</td></tr>
+      <tr><td>"puede <strong>sumarse o retirarse</strong> de la subasta cuando quiera"</td><td>La lista cambia mientras el programa corre</td><td><code>suscribir()</code> y <code>desuscribir()</code></td></tr>
+      <tr><td>"avisar <strong>también al vendedor</strong>"</td><td>Otro tipo de interesado, que reacciona distinto al mismo aviso</td><td>Los <strong>Suscriptores Concretos</strong>: <code>Comprador</code> y <code>Vendedor</code></td></tr>
     </table>
   </div>
-  <p>
-    <strong>Respuesta:</strong> "Para los avisos usaría <strong>Observer</strong>. El enunciado dice
-    que el cliente puede suscribirse y que cualquier cambio en el estado del pedido se le comunica
-    automáticamente. El pedido es el notificador, que guarda la lista de suscriptores, y los
-    clientes (por correo o por la web) son los suscriptores que reciben la actualización. Se pueden
-    agregar nuevos medios de aviso sin modificar el pedido."
-  </p>
+  <div class="pd-grafico uml" data-g="observer-subasta">
+    <svg viewBox="-14 -14 764 307" width="764" height="307" role="img" aria-label="Observer aplicado a una subasta en línea">
+      <polyline class="linea" points="255,77.5 342.5,77.5 342.5,77.5 430,77.5"/>
+      <polygon class="hueca" points="237,77.5 246,71.5 255,77.5 246,83.5"/>
+      <text class="rotulo" x="408" y="71.5" text-anchor="middle">*</text>
+      <polyline class="linea punteada" points="448,220 448,174 548.5,174 548.5,128"/>
+      <polygon class="hueca" points="548.5,115 555.5,128 541.5,128"/>
+      <polyline class="linea punteada" points="648,220 648,174 548.5,174 548.5,128"/>
+      <polygon class="hueca" points="548.5,115 555.5,128 541.5,128"/>
+      <g class="clase k-comun destacada">
+      <rect class="caja" x="0" y="0" width="237" height="164" rx="3"/>
+      <rect class="cab" x="1" y="1" width="235" height="29" rx="2"/>
+      <text class="nombre" x="118.5" y="20">Subasta</text>
+      <line class="div" x1="0" y1="30" x2="237" y2="30"/>
+      <text class="miembro" x="10" y="48"><tspan class="v-priv">-</tspan> interesados<tspan class="tp">: Interesado[]</tspan></text>
+      <text class="miembro" x="10" y="67"><tspan class="v-priv">-</tspan> precio<tspan class="tp">: double</tspan></text>
+      <line class="div" x1="0" y1="78" x2="237" y2="78"/>
+      <text class="miembro" x="10" y="96"><tspan class="v-pub">+</tspan> suscribir(i<tspan class="tp">: Interesado</tspan>)</text>
+      <text class="miembro" x="10" y="115"><tspan class="v-pub">+</tspan> desuscribir(i<tspan class="tp">: Interesado</tspan>)</text>
+      <text class="miembro" x="10" y="134"><tspan class="v-pub">+</tspan> ofertar(monto<tspan class="tp">: double</tspan>)</text>
+      <text class="miembro" x="10" y="153"><tspan class="v-pub">+</tspan> notificar()</text>
+      </g>
+      <g class="clase k-interfaz">
+      <rect class="caja" x="430" y="40" width="237" height="75" rx="3"/>
+      <rect class="cab" x="431" y="41" width="235" height="45" rx="2"/>
+      <text class="estereo" x="548.5" y="56">&#171;interface&#187;</text>
+      <text class="nombre" x="548.5" y="75">Interesado</text>
+      <line class="div" x1="430" y1="86" x2="667" y2="86"/>
+      <text class="miembro" x="440" y="104"><tspan class="v-pub">+</tspan> actualizar(precio<tspan class="tp">: double</tspan>)</text>
+      </g>
+      <g class="clase k-comun">
+      <rect class="caja" x="360" y="220" width="176" height="59" rx="3"/>
+      <rect class="cab" x="361" y="221" width="174" height="29" rx="2"/>
+      <text class="nombre" x="448" y="240">Comprador</text>
+      <line class="div" x1="360" y1="250" x2="536" y2="250"/>
+      <text class="miembro" x="370" y="268"><tspan class="v-pub">+</tspan> actualizar(precio)</text>
+      </g>
+      <g class="clase k-comun">
+      <rect class="caja" x="560" y="220" width="176" height="59" rx="3"/>
+      <rect class="cab" x="561" y="221" width="174" height="29" rx="2"/>
+      <text class="nombre" x="648" y="240">Vendedor</text>
+      <line class="div" x1="560" y1="250" x2="736" y2="250"/>
+      <text class="miembro" x="570" y="268"><tspan class="v-pub">+</tspan> actualizar(precio)</text>
+      </g>
+    </svg>
+  </div>
+  <p><strong>Justificación</strong>, en tres partes: qué patrón y qué frase lo pide, cómo queda armado en este caso y qué se gana.</p>
+  <ol>
+    <li><strong>Qué patrón y por qué:</strong> "Se aplica Observer, un patrón de comportamiento, porque cada vez que alguien hace una oferta todos los participantes tienen que enterarse, y pueden sumarse o retirarse cuando quieran."</li>
+    <li><strong>Cómo se aplica:</strong> "<code>Subasta</code> es el notificador: guarda la lista de interesados, tiene <code>suscribir()</code> y <code>desuscribir()</code>, y cuando recibe una oferta (<code>ofertar()</code>) llama a <code>notificar()</code>. <code>Interesado</code> es la interfaz suscriptor, con <code>actualizar(precio)</code>. <code>Comprador</code> y <code>Vendedor</code> son los suscriptores concretos: cada uno decide qué hace con el aviso."</li>
+    <li><strong>Qué se gana:</strong> "La subasta no necesita saber quiénes ni cuántos la siguen: avisar también al vendedor, o a quien se sume después, es agregar un suscriptor, sin modificar la clase <code>Subasta</code>."</li>
+  </ol>
 
   <hr class="sep">
 
-  <h3>Ejemplo 4 &mdash; Con formato de parcial: reconocerlo en un código</h3>
+  <h3>Ejemplo 4 &mdash; Con formato de parcial: identificar los patrones de un enunciado</h3>
   <div class="caja caja-ejemplo">
-    <span class="caja-tit">Con la forma del Parcial 2024 &middot; ejercicio 4</span>
-    <p>"A partir del siguiente código identifique qué patrón es el que se utiliza. Justifique."</p>
+    <span class="caja-tit">Inventado &middot; con la forma del Parcial 2025, Práctica 1</span>
+    <p>"A partir del siguiente enunciado identifique cuáles serían los patrones de diseño que utilizaría y justifique por qué eligió los mismos."</p>
+    <p>"FitLife es una cadena de gimnasios que está desarrollando su aplicación para socios. El valor de la cuota se calcula de diferentes formas según el plan contratado (mensual, por clase o familiar). El socio puede cambiar de plan en cualquier momento, y la cadena quiere poder agregar planes nuevos sin modificar el módulo de cobros."</p>
+    <p>"Las clases grupales tienen cupo limitado. Cada vez que se libera un lugar en una clase que estaba completa, la aplicación debe avisar automáticamente a todos los socios anotados en la lista de espera de esa clase. Los socios pueden anotarse o darse de baja de la lista cuando quieran, y se prevé avisar también al profesor."</p>
+    <p>"Para inscribir a un socio nuevo, el personal de recepción hoy tiene que operar con tres módulos distintos: el de fichas médicas, el de cobros y el de credenciales, respetando ese orden. Se pide que recepción cuente con una única operación, simple, que realice la inscripción completa sin necesidad de conocer cada módulo."</p>
+  </div>
+  <p>
+    El enunciado mezcla Observer con otros dos patrones, como en el parcial. <strong>El método:</strong>
+    un párrafo, una necesidad, un patrón. En cada párrafo se busca qué se necesita y la frase que lo dice.
+  </p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Párrafo</th><th>La necesidad</th><th>La frase que lo delata</th><th>Patrón</th></tr>
+      <tr><td>1. La cuota</td><td>Varias formas de calcular la cuota, que se pueden cambiar</td><td>"se calcula <strong>de diferentes formas</strong> según el plan (...) puede <strong>cambiar de plan</strong> en cualquier momento"</td><td><strong>Strategy</strong> (de comportamiento)</td></tr>
+      <tr><td>2. La lista de espera</td><td>Que los socios se enteren solos cuando se libera un lugar</td><td>"<strong>Cada vez que</strong> se libera un lugar (...) <strong>avisar automáticamente a todos</strong> (...) <strong>anotarse o darse de baja</strong>"</td><td><strong>Observer</strong> (de comportamiento)</td></tr>
+      <tr><td>3. La inscripción</td><td>Hacer con una sola operación lo que hoy son tres módulos en orden</td><td>"operar con <strong>tres módulos distintos</strong> (...) <strong>una única operación, simple</strong>"</td><td><strong>Facade</strong> (estructural)</td></tr>
+    </table>
+  </div>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Cómo quedaría escrita la respuesta</span>
+    <p><strong>Strategy</strong>, para el valor de la cuota. La cuota "se calcula de diferentes formas según el plan" y el socio "puede cambiar de plan en cualquier momento". Cada forma de calcular es una estrategia con la misma interfaz, y el socio (el contexto) guarda la de su plan y le delega el cálculo. Un plan nuevo es una clase más, sin modificar el módulo de cobros.</p>
+    <p><strong>Observer</strong>, para la lista de espera. "Cada vez que se libera un lugar" hay que "avisar automáticamente a todos los socios anotados", que pueden "anotarse o darse de baja" cuando quieran. La clase grupal es el notificador, con su lista de espera, y los socios son los suscriptores. Avisar también al profesor es agregar otro suscriptor, sin modificar la clase.</p>
+    <p><strong>Facade</strong>, para la inscripción. Hoy recepción debe "operar con tres módulos distintos" en orden, y se pide "una única operación, simple". Una fachada guarda los tres módulos y ofrece esa operación, que carga la ficha médica, registra el cobro y emite la credencial. Recepción no necesita conocer ningún módulo.</p>
+  </div>
+  <p>
+    Cada justificación tiene las mismas tres partes: el patrón y para qué parte del sistema, <strong>la frase
+    del enunciado</strong> que lo pide (entre comillas) y cómo queda armado, con lo que se gana.
+  </p>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Las trampas de este enunciado</span>
+    <ul>
+      <li>Los párrafos 1 y 2 son los dos de comportamiento. En el 1 el socio tiene <strong>un</strong> plan y lo puede cambiar: Strategy. En el 2 la clase tiene <strong>muchos</strong> anotados y les avisa a todos: Observer.</li>
+      <li>"Cambiar de plan" no es crear nada: el socio sigue siendo el mismo objeto y lo que cambia es cómo se le calcula la cuota.</li>
+    </ul>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 5 &mdash; Con formato de parcial: reconocerlo en un código</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Inventado &middot; con la forma de la Guía N°1, ejercicio 2</span>
+    <p>"Dado el siguiente código identifique qué tipo de patrón se implementa. Justifique."</p>
   </div>
   <p>Los renglones resaltados son los que lo delatan:</p>
   <pre class="codigo" data-clave="5,13,17,23,34,52"><code>#include &lt;iostream&gt;
@@ -518,129 +596,138 @@ Visor 2: nuevo dato -&gt; 25 grados</pre>
 
   <hr class="sep">
 
-  <h3>Ejemplo 5 &mdash; Con formato de parcial: agregarlo a un diagrama</h3>
+  <h3>Ejemplo 6 &mdash; Con formato de parcial: agregarlo a un diagrama</h3>
   <div class="caja caja-ejemplo">
-    <span class="caja-tit">Parcial 2024 &middot; ejercicio 3 (segunda parte)</span>
-    <p>
-      "En el siguiente diagrama que pertenece a una aplicación farmacéutica, se solicita modelar:
-      (...) Se necesita implementar mecanismos para la emisión de lotes de medicamentos, para esto
-      es necesario que cada vez que se imprima un lote, se envíe una alerta al farmacéutico y este
-      registra el suceso en una tabla de lotes."
-    </p>
+    <span class="caja-tit">Guía N°1 &middot; ejercicio 1 (segundo pedido)</span>
+    <p>"Considere el siguiente diagrama de UML, el cual modela un módulo de seguridad de una aplicación. Dada esta implementación se necesita: cada vez que se registre el acceso de un usuario, la clase Logger debe escribir en un archivo el suceso, con el fin de registrar dicha información."</p>
+    <p>"Indicar qué patrón se puede utilizar y justificar su uso. Reescribir el diagrama de UML con la solución implementada."</p>
   </div>
-  <p>
-    El diagrama original (Usuario, Cliente, Farmacéutico, Medicamento) está leído en la Unidad 0,
-    sección 2.
-  </p>
-  <div class="tabla-wrap">
-    <table class="t full">
-      <tr><th>Frase del enunciado</th><th>Qué significa</th><th>Parte del patrón</th></tr>
-      <tr><td>"<strong>cada vez que</strong> se imprima un lote"</td><td>El hecho que dispara el aviso. <code>imprimirlote()</code> es un método de <code>Medicamento</code></td><td><strong>Notificador</strong>: <code>Medicamento</code></td></tr>
-      <tr><td>"<strong>se envíe una alerta</strong> al farmacéutico"</td><td>Alguien tiene que enterarse solo</td><td><strong>Suscriptor Concreto</strong>: <code>Farmaceutico</code></td></tr>
-      <tr><td>"y este registra el suceso en una tabla de lotes"</td><td>Lo que hace el suscriptor cuando le avisan</td><td>El cuerpo de su <code>actualizar()</code></td></tr>
-    </table>
+  <div class="pd-grafico uml" data-g="seguridad-antes">
+    <svg viewBox="-14 -14 768 267" width="768" height="267" role="img" aria-label="Diagrama de la Guía 1: Usuario, Sesion, ControladorSeguridad y Logger">
+      <polyline class="linea" points="161,53.5 200.5,53.5 200.5,53.5 240,53.5"/>
+      <polyline class="linea" points="401,44 440.5,44 440.5,44 480,44"/>
+      <polyline class="linea" points="610,88 610,134 610,134 610,180"/>
+      <g class="clase k-comun">
+      <rect class="caja" x="0" y="0" width="161" height="107" rx="3"/>
+      <rect class="cab" x="1" y="1" width="159" height="29" rx="2"/>
+      <text class="nombre" x="80.5" y="20">Usuario</text>
+      <line class="div" x1="0" y1="30" x2="161" y2="30"/>
+      <text class="miembro" x="10" y="48"><tspan class="v-priv">-</tspan> nombre<tspan class="tp">: String</tspan></text>
+      <text class="miembro" x="10" y="67"><tspan class="v-priv">-</tspan> password<tspan class="tp">: String</tspan></text>
+      <line class="div" x1="0" y1="78" x2="161" y2="78"/>
+      <text class="miembro" x="10" y="96"><tspan class="v-pub">+</tspan> login()</text>
+      </g>
+      <g class="clase k-comun">
+      <rect class="caja" x="240" y="0" width="161" height="126" rx="3"/>
+      <rect class="cab" x="241" y="1" width="159" height="29" rx="2"/>
+      <text class="nombre" x="320.5" y="20">Sesion</text>
+      <line class="div" x1="240" y1="30" x2="401" y2="30"/>
+      <text class="miembro" x="250" y="48"><tspan class="v-priv">-</tspan> id<tspan class="tp">: Long</tspan></text>
+      <text class="miembro" x="250" y="67"><tspan class="v-priv">-</tspan> usuario<tspan class="tp">: Usuario</tspan></text>
+      <line class="div" x1="240" y1="78" x2="401" y2="78"/>
+      <text class="miembro" x="250" y="96"><tspan class="v-pub">+</tspan> crearSesion()</text>
+      <text class="miembro" x="250" y="115"><tspan class="v-pub">+</tspan> cerrarSesion()</text>
+      </g>
+      <g class="clase k-comun">
+      <rect class="caja" x="480" y="0" width="260" height="88" rx="3"/>
+      <rect class="cab" x="481" y="1" width="258" height="29" rx="2"/>
+      <text class="nombre" x="610" y="20">ControladorSeguridad</text>
+      <line class="div" x1="480" y1="30" x2="740" y2="30"/>
+      <text class="miembro" x="490" y="48"><tspan class="v-priv">-</tspan> sesionesActivas<tspan class="tp">: List&lt;Sesion&gt;</tspan></text>
+      <line class="div" x1="480" y1="59" x2="740" y2="59"/>
+      <text class="miembro" x="490" y="77"><tspan class="v-pub">+</tspan> registrarAcceso()</text>
+      </g>
+      <g class="clase k-comun">
+      <rect class="caja" x="541" y="180" width="138" height="59" rx="3"/>
+      <rect class="cab" x="542" y="181" width="136" height="29" rx="2"/>
+      <text class="nombre" x="610" y="200">Logger</text>
+      <line class="div" x1="541" y1="210" x2="679" y2="210"/>
+      <text class="miembro" x="551" y="228"><tspan class="v-pub">+</tspan> escribirLog()</text>
+      </g>
+    </svg>
   </div>
-  <p>Qué se agrega al diagrama:</p>
+  <p><strong>Qué hay en el diagrama.</strong> <code>ControladorSeguridad</code> es el que registra los accesos (<code>registrarAcceso()</code>) y <code>Logger</code> el que sabe escribir (<code>escribirLog()</code>). Hoy están unidos por una línea simple: el controlador conoce directamente al logger y tendría que llamarlo él. El ejercicio tiene un primer pedido, sobre <code>ControladorSeguridad</code>: es Singleton y está resuelto en la Unidad 4A, sección 1.</p>
+  <p><strong>Qué se cambia, en orden:</strong></p>
   <ol>
-    <li>Una interfaz <code>Observador</code> con <code>actualizar(lote)</code>.</li>
-    <li>
-      En <code>Medicamento</code>: la lista <code>observadores</code> y los métodos
-      <code>suscribir()</code>, <code>desuscribir()</code> y <code>notificar()</code>. Su
-      <code>imprimirlote()</code>, al terminar, llama a <code>notificar()</code>.
-    </li>
-    <li>
-      <code>Farmaceutico</code> cumple <code>Observador</code>: se le agregan
-      <code>actualizar(lote)</code> y <code>registrarEnTablaDeLotes(lote)</code>.
-    </li>
+    <li><strong>Crear la interfaz Suscriptor.</strong> <code>Observador</code>, con un solo método: <code>actualizar(acceso)</code>.</li>
+    <li><strong>Convertir a la clase que cambia en Notificador.</strong> En <code>ControladorSeguridad</code> se agregan la lista <code>- observadores: Observador[]</code> y los métodos <code>suscribir(o)</code>, <code>desuscribir(o)</code> y <code>notificar()</code>. <code>registrarAcceso()</code> queda, y ahora termina llamando a <code>notificar()</code>.</li>
+    <li><strong>Convertir al Logger en Suscriptor Concreto.</strong> <code>Logger</code> cumple <code>Observador</code> (línea punteada con triángulo) y gana <code>actualizar(acceso)</code>, que por dentro llama al <code>escribirLog()</code> que ya tenía.</li>
+    <li><strong>Cambiar la línea entre las dos clases.</strong> Se borra la línea directa de <code>ControladorSeguridad</code> a <code>Logger</code> y se dibuja el rombo de <code>ControladorSeguridad</code> a la interfaz <code>Observador</code>, con <code>*</code>.</li>
   </ol>
-  <div class="pd-grafico uml" data-g="observer-farmacia">
-    <svg viewBox="-14 -14 670 463" width="670" height="463" role="img" aria-label="Observer sobre el diagrama de la aplicación farmacéutica">
-      <polyline class="linea" points="76.5,270 76.5,223.5 175,223.5 175,177"/>
-      <polygon class="hueca" points="175,164 182,177 168,177"/>
-      <polyline class="linea" points="237,270 237,223.5 175,223.5 175,177"/>
-      <polygon class="hueca" points="175,164 182,177 168,177"/>
-      <polyline class="linea" points="240,32 330,32 330,35 420,35"/>
-      <polyline class="linea" points="531,296 531,328 543,328 543,360"/>
-      <polygon class="hueca" points="531,278 537,287 531,296 525,287"/>
-      <text class="rotulo" x="551" y="342" text-anchor="middle">*</text>
-      <polyline class="linea punteada" points="419,373 438,373 438,397.5 457,397.5"/>
-      <polygon class="hueca" points="470,397.5 457,404.5 457,390.5"/>
+  <p><strong>El diagrama modificado:</strong></p>
+  <div class="pd-grafico uml" data-g="seguridad-observer">
+    <svg viewBox="-14 -14 768 356" width="768" height="356" role="img" aria-label="Observer sobre el módulo de seguridad: el Logger se suscribe al ControladorSeguridad">
+      <polyline class="linea" points="161,53.5 200.5,53.5 200.5,53.5 240,53.5"/>
+      <polyline class="linea" points="401,63 440.5,63 440.5,63 480,63"/>
+      <polyline class="linea" points="610,182 610,216 610,216 610,250"/>
+      <polygon class="hueca" points="610,164 616,173 610,182 604,173"/>
+      <text class="rotulo" x="618" y="232" text-anchor="middle">*</text>
+      <polyline class="linea punteada" points="416,287.5 462.5,287.5 462.5,287.5 509,287.5"/>
+      <polygon class="hueca" points="522,287.5 509,294.5 509,280.5"/>
       <g class="clase k-comun">
-      <rect class="caja" x="110" y="0" width="130" height="164" rx="3"/>
-      <rect class="cab" x="111" y="1" width="128" height="29" rx="2"/>
-      <text class="nombre" x="175" y="20">Usuario</text>
-      <line class="div" x1="110" y1="30" x2="240" y2="30"/>
-      <text class="miembro" x="120" y="48">nombre</text>
-      <text class="miembro" x="120" y="67">Telefono</text>
-      <text class="miembro" x="120" y="86">Direccion</text>
-      <line class="div" x1="110" y1="97" x2="240" y2="97"/>
-      <text class="miembro" x="120" y="115">get nombre()</text>
-      <text class="miembro" x="120" y="134">get telefono()</text>
-      <text class="miembro" x="120" y="153">set telefono()</text>
-      </g>
-      <g class="clase k-comun destacada">
-      <rect class="caja" x="420" y="0" width="222" height="278" rx="3"/>
-      <rect class="cab" x="421" y="1" width="220" height="29" rx="2"/>
-      <text class="nombre" x="531" y="20">Medicamento</text>
-      <line class="div" x1="420" y1="30" x2="642" y2="30"/>
-      <text class="miembro" x="430" y="48">Serial</text>
-      <text class="miembro" x="430" y="67">Nombre</text>
-      <text class="miembro" x="430" y="86">Lote</text>
-      <text class="miembro" x="430" y="105">Posologia</text>
-      <text class="miembro" x="430" y="124">Presentacion</text>
-      <text class="miembro" x="430" y="143">observadores<tspan class="tp">: Observador[]</tspan></text>
-      <line class="div" x1="420" y1="154" x2="642" y2="154"/>
-      <text class="miembro" x="430" y="172">validarmedicacion()</text>
-      <text class="miembro" x="430" y="191">imprimirlote()</text>
-      <text class="miembro" x="430" y="210">imprimiretiqueta()</text>
-      <text class="miembro" x="430" y="229">suscribir(o<tspan class="tp">: Observador</tspan>)</text>
-      <text class="miembro" x="430" y="248">desuscribir(o<tspan class="tp">: Observador</tspan>)</text>
-      <text class="miembro" x="430" y="267">notificar()</text>
+      <rect class="caja" x="0" y="0" width="161" height="107" rx="3"/>
+      <rect class="cab" x="1" y="1" width="159" height="29" rx="2"/>
+      <text class="nombre" x="80.5" y="20">Usuario</text>
+      <line class="div" x1="0" y1="30" x2="161" y2="30"/>
+      <text class="miembro" x="10" y="48"><tspan class="v-priv">-</tspan> nombre<tspan class="tp">: String</tspan></text>
+      <text class="miembro" x="10" y="67"><tspan class="v-priv">-</tspan> password<tspan class="tp">: String</tspan></text>
+      <line class="div" x1="0" y1="78" x2="161" y2="78"/>
+      <text class="miembro" x="10" y="96"><tspan class="v-pub">+</tspan> login()</text>
       </g>
       <g class="clase k-comun">
-      <rect class="caja" x="0" y="270" width="153" height="126" rx="3"/>
-      <rect class="cab" x="1" y="271" width="151" height="29" rx="2"/>
-      <text class="nombre" x="76.5" y="290">Cliente</text>
-      <line class="div" x1="0" y1="300" x2="153" y2="300"/>
-      <text class="miembro" x="10" y="318">CUIT</text>
-      <text class="miembro" x="10" y="337">Razon Social</text>
-      <line class="div" x1="0" y1="348" x2="153" y2="348"/>
-      <text class="miembro" x="10" y="366">set razonsocial()</text>
-      <text class="miembro" x="10" y="385">get cuit()</text>
+      <rect class="caja" x="240" y="0" width="161" height="126" rx="3"/>
+      <rect class="cab" x="241" y="1" width="159" height="29" rx="2"/>
+      <text class="nombre" x="320.5" y="20">Sesion</text>
+      <line class="div" x1="240" y1="30" x2="401" y2="30"/>
+      <text class="miembro" x="250" y="48"><tspan class="v-priv">-</tspan> id<tspan class="tp">: Long</tspan></text>
+      <text class="miembro" x="250" y="67"><tspan class="v-priv">-</tspan> usuario<tspan class="tp">: Usuario</tspan></text>
+      <line class="div" x1="240" y1="78" x2="401" y2="78"/>
+      <text class="miembro" x="250" y="96"><tspan class="v-pub">+</tspan> crearSesion()</text>
+      <text class="miembro" x="250" y="115"><tspan class="v-pub">+</tspan> cerrarSesion()</text>
       </g>
       <g class="clase k-comun destacada">
-      <rect class="caja" x="175" y="270" width="244" height="126" rx="3"/>
-      <rect class="cab" x="176" y="271" width="242" height="29" rx="2"/>
-      <text class="nombre" x="297" y="290">Farmaceutico</text>
-      <line class="div" x1="175" y1="300" x2="419" y2="300"/>
-      <text class="miembro" x="185" y="318">Matricula</text>
-      <line class="div" x1="175" y1="329" x2="419" y2="329"/>
-      <text class="miembro" x="185" y="347">get matricula()</text>
-      <text class="miembro" x="185" y="366">actualizar(lote)</text>
-      <text class="miembro" x="185" y="385">registrarEnTablaDeLotes(lote)</text>
+      <rect class="caja" x="480" y="0" width="260" height="164" rx="3"/>
+      <rect class="cab" x="481" y="1" width="258" height="29" rx="2"/>
+      <text class="nombre" x="610" y="20">ControladorSeguridad</text>
+      <line class="div" x1="480" y1="30" x2="740" y2="30"/>
+      <text class="miembro" x="490" y="48"><tspan class="v-priv">-</tspan> sesionesActivas<tspan class="tp">: List&lt;Sesion&gt;</tspan></text>
+      <text class="miembro" x="490" y="67"><tspan class="v-priv">-</tspan> observadores<tspan class="tp">: Observador[]</tspan></text>
+      <line class="div" x1="480" y1="78" x2="740" y2="78"/>
+      <text class="miembro" x="490" y="96"><tspan class="v-pub">+</tspan> registrarAcceso()</text>
+      <text class="miembro" x="490" y="115"><tspan class="v-pub">+</tspan> suscribir(o<tspan class="tp">: Observador</tspan>)</text>
+      <text class="miembro" x="490" y="134"><tspan class="v-pub">+</tspan> desuscribir(o<tspan class="tp">: Observador</tspan>)</text>
+      <text class="miembro" x="490" y="153"><tspan class="v-pub">+</tspan> notificar()</text>
       </g>
       <g class="clase k-interfaz destacada">
-      <rect class="caja" x="470" y="360" width="146" height="75" rx="3"/>
-      <rect class="cab" x="471" y="361" width="144" height="45" rx="2"/>
-      <text class="estereo" x="543" y="376">&#171;interface&#187;</text>
-      <text class="nombre" x="543" y="395">Observador</text>
-      <line class="div" x1="470" y1="406" x2="616" y2="406"/>
-      <text class="miembro" x="480" y="424">actualizar(lote)</text>
+      <rect class="caja" x="522" y="250" width="176" height="75" rx="3"/>
+      <rect class="cab" x="523" y="251" width="174" height="45" rx="2"/>
+      <text class="estereo" x="610" y="266">&#171;interface&#187;</text>
+      <text class="nombre" x="610" y="285">Observador</text>
+      <line class="div" x1="522" y1="296" x2="698" y2="296"/>
+      <text class="miembro" x="532" y="314"><tspan class="v-pub">+</tspan> actualizar(acceso)</text>
+      </g>
+      <g class="clase k-comun destacada">
+      <rect class="caja" x="240" y="250" width="176" height="78" rx="3"/>
+      <rect class="cab" x="241" y="251" width="174" height="29" rx="2"/>
+      <text class="nombre" x="328" y="270">Logger</text>
+      <line class="div" x1="240" y1="280" x2="416" y2="280"/>
+      <text class="miembro" x="250" y="298"><tspan class="v-pub">+</tspan> escribirLog()</text>
+      <text class="miembro" x="250" y="317"><tspan class="v-pub">+</tspan> actualizar(acceso)</text>
       </g>
     </svg>
   </div>
   <p>
-    <strong>Justificación:</strong> "Se aplica <strong>Observer</strong>, porque cada vez que se
-    imprime un lote hay que avisarle automáticamente al farmacéutico. <code>Medicamento</code> es el
-    notificador: mantiene una lista de observadores y los notifica al imprimir un lote.
-    <code>Farmaceutico</code> implementa la interfaz <code>Observador</code> y al recibir el aviso
-    registra el suceso en la tabla de lotes. Si después hay que avisarle a alguien más, se agrega
-    otro observador sin modificar <code>Medicamento</code>."
+    <strong>Justificación:</strong> "Se utiliza Observer porque cada vez que se registra el acceso de un usuario otra clase tiene que reaccionar, sola. <code>ControladorSeguridad</code> es el notificador: guarda una lista de observadores y, al registrar un acceso, los notifica. <code>Logger</code> es un suscriptor: implementa <code>Observador</code> y en <code>actualizar()</code> escribe el suceso en el archivo. El controlador ya no depende del logger, y otro mecanismo de registro se suma como un suscriptor más."
   </p>
-  <p>
-    La primera parte del mismo ejercicio (<code>GestorUsuarios</code>, "una sola instancia") es
-    Singleton y está en la Unidad 4A, sección 1. En la hoja van los dos sobre el mismo diagrama.
-  </p>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">A tener en cuenta al modificar el diagrama</span>
+    <ul>
+      <li>Aunque hoy haya <strong>un solo</strong> suscriptor (el <code>Logger</code>), la lista y la interfaz van igual: son las que permiten sumar otros sin tocar el controlador.</li>
+      <li>El rombo va a la <strong>interfaz</strong> <code>Observador</code>, no al <code>Logger</code>.</li>
+      <li>No se borra nada de lo que estaba: <code>escribirLog()</code> y <code>registrarAcceso()</code> siguen en su clase.</li>
+      <li>La consigna dice "patrón / patrones": con el Singleton del primer pedido, <code>ControladorSeguridad</code> termina con las dos cosas (el atributo estático, el constructor privado y <code>obtenerInstancia()</code>, además de lo de Observer). En la hoja van sobre el mismo diagrama.</li>
+    </ul>
+  </div>
 
   <h3>Errores y trampas</h3>
   <div class="caja caja-ojo">

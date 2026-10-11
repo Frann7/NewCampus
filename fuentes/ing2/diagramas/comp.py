@@ -373,3 +373,42 @@ D["strategy-sueldo"] = dict(
         ("SueldoPorComision", "CalculoDeSueldo", "realiza"),
     ],
 )
+
+D["observer-subasta"] = dict(
+    alt="Observer aplicado a una subasta en línea",
+    clases=[
+        dict(id="Subasta", x=0, y=0, destacada=True,
+             attrs=["- interesados: Interesado[]", "- precio: double"],
+             mets=["+ suscribir(i: Interesado)", "+ desuscribir(i: Interesado)", "+ ofertar(monto: double)",
+                   "+ notificar()"]),
+        dict(id="Interesado", x=430, y=40, estereo="interface", mets=["+ actualizar(precio: double)"]),
+        dict(id="Comprador", x=360, y=220, mets=["+ actualizar(precio)"]),
+        dict(id="Vendedor", x=560, y=220, mets=["+ actualizar(precio)"]),
+    ],
+    rel=[
+        ("Subasta", "Interesado", "agregacion", dict(m2="*")),
+        ("Comprador", "Interesado", "realiza"),
+        ("Vendedor", "Interesado", "realiza"),
+    ],
+)
+
+D["strategy-tarifa"] = dict(
+    alt="Strategy aplicado a la tarifa de un estacionamiento",
+    clases=[
+        dict(id="Caja", x=0, y=48),
+        dict(id="Ticket", x=170, y=0, destacada=True,
+             attrs=["- tarifa: Tarifa", "- minutos: int"],
+             mets=["+ cambiarTarifa(t: Tarifa)", "+ importe(): double"]),
+        dict(id="Tarifa", x=540, y=20, estereo="interface", mets=["+ calcular(minutos: int): double"]),
+        dict(id="TarifaPorHora", x=410, y=190, mets=["+ calcular(minutos)"]),
+        dict(id="TarifaPorEstadia", x=590, y=190, mets=["+ calcular(minutos)"]),
+        dict(id="AbonoMensual", x=770, y=190, mets=["+ calcular(minutos)"]),
+    ],
+    rel=[
+        ("Caja", "Ticket", "asociacion"),
+        ("Ticket", "Tarifa", "agregacion"),
+        ("TarifaPorHora", "Tarifa", "realiza"),
+        ("TarifaPorEstadia", "Tarifa", "realiza"),
+        ("AbonoMensual", "Tarifa", "realiza"),
+    ],
+)

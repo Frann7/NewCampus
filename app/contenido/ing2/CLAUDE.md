@@ -21,19 +21,31 @@ El plan de carga, con lo que sube cada parte y lo que falta, está en `docs/plan
 - **Cada patrón, una sección de teoría con esta forma:** Para qué sirve (el problema, sin jerga) →
   Estructura (diagrama UML + tabla "qué es cada parte") → El mismo ejemplo en C++, línea por línea
   → Cómo reconocerlo (en un enunciado / en código) → Ventajas y desventajas → Dónde se usa (2 o 3
-  ejemplos: los piden) → Ejemplo 1 en C++ → **los cuatro ejemplos con formato de parcial** →
+  ejemplos: los piden) → Ejemplo 1 en C++ → **los cinco ejemplos con formato de parcial** →
   Errores y trampas (`.caja.caja-ojo`).
-- **Los cuatro ejemplos con formato de parcial**, en todos los patrones, con este número y este
-  título: 2 "dibujarlo y explicarlo" (diagrama, descripción de su usabilidad y dos ejemplos; cada ejemplo es el caso en negrita
-  más una o dos oraciones que digan por qué ahí va el patrón, nunca una frase suelta),
-  3 "aplicarlo a un enunciado" (desarme, diagrama y justificación), 4 "reconocerlo en un código"
-  (C++ con los renglones que lo delatan resaltados, tabla renglón → parte del patrón, respuesta) y
-  5 "agregarlo a un diagrama" (diagrama dado, qué hay, qué se cambia en orden, diagrama
-  modificado, justificación y "a tener en cuenta"). El rótulo de la consigna dice si es la de un
-  parcial ("Parcial 2024 · ejercicio 2") o una inventada ("Con la forma del Parcial 2024 ·
-  ejercicio 2"). Los inventados usan casos distintos de los de la Práctica y del banco de
-  autoevaluación; su código lleva los nombres de método de Refactoring.Guru (`GetInstance`,
-  `Attach`, `Notify`, `Request`...) con las clases rebautizadas, como hace la cátedra.
+- **Los cinco ejemplos con formato de parcial**, en todos los patrones, con este número y este
+  título:
+  - 2 "dibujarlo y explicarlo": diagrama, descripción de su usabilidad y dos ejemplos; cada
+    ejemplo es el caso en negrita más una o dos oraciones que digan por qué ahí va el patrón,
+    nunca una frase suelta.
+  - 3 "aplicarlo a un enunciado": desarme, diagrama y **justificación en tres partes** (qué
+    patrón y qué frase lo pide, cómo queda armado en este caso, qué se gana).
+  - 4 "identificar los patrones de un enunciado": tres párrafos con tres patrones (el de la
+    sección y otros dos), tabla párrafo → necesidad → frase → patrón, la respuesta escrita y
+    las trampas.
+  - 5 "reconocerlo en un código": C++ con los renglones que lo delatan resaltados, tabla
+    renglón → parte del patrón y respuesta.
+  - 6 "agregarlo a un diagrama": diagrama dado, qué hay, qué se cambia en orden, diagrama
+    modificado, justificación y "a tener en cuenta".
+- **En la teoría no va el enunciado de ningún parcial** (pedido de Fran, 11/10/2026): los
+  parciales quedan en Evaluación, para rendirlos sin haberlos visto. Los ejemplos salen de las
+  **guías de la cátedra** (primero las que no están resueltas en la Práctica) y, si no hay,
+  son inventados lo más parecidos posible. Tampoco se citan frases textuales de los parciales en
+  las tablas de "cómo reconocerlo". El rótulo de cada consigna dice de dónde sale: "Guía N°1 ·
+  ejercicio 1", "Práctica 03 · ejercicio 1" (de la guía, tal cual) o "Inventado · ...". Las
+  marcas ★ y las guías de lectura sí dicen qué se tomó y con qué forma, sin resolverlo.
+  El código inventado lleva los nombres de método de Refactoring.Guru (`GetInstance`, `Attach`,
+  `Notify`, `Request`...) con las clases rebautizadas, como hace la cátedra.
 - **Nombres de las partes** como en el apunte de la cátedra (Refactoring.Guru en castellano:
   Creador, Producto, Fachada, Notificador, Suscriptor, Contexto, Estrategia...) y entre paréntesis
   el nombre en inglés que aparece en el código de los parciales (`Subject`, `Observer`, `Target`).

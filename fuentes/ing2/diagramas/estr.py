@@ -334,22 +334,6 @@ D["p-tienda"] = dict(
 
 # ---------- Teoría: ejemplos con formato de parcial ----------
 
-D["adapter-wsp"] = dict(
-    alt="Adapter para usar el servicio de WhatsApp desde el sistema de reservas",
-    clases=[
-        dict(id="Reservas", x=0, y=22),
-        dict(id="Notificacion", x=180, y=0, estereo="interface", mets=["+ enviar(destinatario, texto)"]),
-        dict(id="AdaptadorWsp", x=180, y=150, destacada=True,
-             attrs=["- servicio: ServicioWsp"], mets=["+ enviar(destinatario, texto)"]),
-        dict(id="ServicioWsp", x=520, y=165, mets=["+ mandarMensaje(numero, cuerpo, plantilla)"]),
-    ],
-    rel=[
-        ("Reservas", "Notificacion", "asociacion"),
-        ("AdaptadorWsp", "Notificacion", "realiza"),
-        ("AdaptadorWsp", "ServicioWsp", "asociacion"),
-    ],
-)
-
 D["adapter-mapa-antes"] = dict(
     alt="Diagrama original: el tablero con sus gráficos y la librería MapaExterno suelta",
     clases=[
@@ -470,5 +454,44 @@ D["facade-banco"] = dict(
         ("Operaciones", "Cuentas", "asociacion", dict(d1=-30, d2=0)),
         ("Operaciones", "Seguridad", "asociacion"),
         ("Operaciones", "Auditoria", "asociacion", dict(d1=30, d2=0)),
+    ],
+)
+
+D["adapter-graficos"] = dict(
+    alt="Adapter para dibujar cuadrados y triángulos con una biblioteca que solo dibuja círculos",
+    clases=[
+        dict(id="Aplicacion", x=0, y=22),
+        dict(id="Figura", x=315, y=0, estereo="interface", mets=["+ dibujar()"]),
+        dict(id="AdaptadorCuadrado", x=90, y=150, destacada=True,
+             attrs=["- biblioteca: BibliotecaGraficos"], mets=["+ dibujar()"]),
+        dict(id="AdaptadorTriangulo", x=375, y=150, destacada=True,
+             attrs=["- biblioteca: BibliotecaGraficos"], mets=["+ dibujar()"]),
+        dict(id="BibliotecaGraficos", x=244, y=330, mets=["+ dibujarCirculo(x, y, radio)"]),
+    ],
+    rel=[
+        ("Aplicacion", "Figura", "asociacion"),
+        ("AdaptadorCuadrado", "Figura", "realiza"),
+        ("AdaptadorTriangulo", "Figura", "realiza"),
+        ("AdaptadorCuadrado", "BibliotecaGraficos", "asociacion", dict(d2=-40)),
+        ("AdaptadorTriangulo", "BibliotecaGraficos", "asociacion", dict(d2=40)),
+    ],
+)
+
+D["composite-empleados"] = dict(
+    alt="Composite para los empleados y departamentos de una empresa",
+    clases=[
+        dict(id="Organizacion", x=0, y=22),
+        dict(id="Unidad", x=260, y=0, estereo="interface", mets=["+ salario(): double"]),
+        dict(id="Empleado", x=120, y=150, attrs=["- nombre: string", "- sueldo: double"],
+             mets=["+ salario(): double"]),
+        dict(id="Departamento", x=310, y=150, destacada=True,
+             attrs=["- nombre: string", "- miembros: Unidad[]"],
+             mets=["+ agregar(u: Unidad)", "+ salario(): double"]),
+    ],
+    rel=[
+        ("Organizacion", "Unidad", "asociacion"),
+        ("Empleado", "Unidad", "realiza"),
+        ("Departamento", "Unidad", "realiza"),
+        ("Departamento", "Unidad", "agregacion", dict(sal="der", lle="der", por=550, rot="miembros", m2="*")),
     ],
 )

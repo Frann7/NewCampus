@@ -235,6 +235,12 @@ Chrome (`chrome --headless --print-to-pdf`).
 `0.x.y-alpha` mientras esté en desarrollo. La `1.0.0` queda reservada para cuando esté terminado.
 La versión actual se lee al pie del menú lateral.
 
+* **0.46.0-alpha** — Ingeniería de Software II, teoría de patrones: los ejemplos ya no usan los
+  enunciados de los parciales (quedan en Evaluación, para rendirlos sin haberlos visto) sino los
+  más parecidos de las guías de la cátedra o inventados muy parecidos. Cada patrón suma un quinto
+  ejemplo, "identificar los patrones de un enunciado" (tres párrafos con tres patrones, como en
+  2025), y la justificación de "aplicarlo a un enunciado" va en tres partes: qué patrón y qué
+  frase lo pide, cómo queda armado y qué se gana.
 * **0.45.1-alpha** — Ingeniería de Software II: en "dibujarlo y explicarlo", los dos ejemplos de
   cada patrón ya no son una frase: cada uno trae el caso y una línea que dice por qué ahí va el
   patrón.

@@ -1,6 +1,6 @@
 <div class="bloque" data-examen="igual"
      data-examen-ref="Parcial 2024 · ej. 2 y 3"
-     data-examen-nota="Ej. 2: dibujar el UML de Singleton, describir su uso y dar dos ejemplos. Ej. 3: aplicarlo a GestorUsuarios sobre un diagrama dado.">
+     data-examen-nota="Ej. 2: dibujar el UML de Singleton, describir su uso y dar dos ejemplos. Ej. 3: aplicarlo a una clase sobre un diagrama dado. Los ejemplos 2 a 6 tienen esas formas, con casos de las guías; los parciales resueltos están en Evaluación.">
   <p class="kicker">Creacional</p>
   <h2>1. Singleton</h2>
   <p>También llamado <strong>Instancia única</strong>.</p>
@@ -257,18 +257,13 @@ a y b son el mismo objeto</pre>
 
   <h3>Ejemplo 2 &mdash; Con formato de parcial: dibujarlo y explicarlo</h3>
   <div class="caja caja-ejemplo">
-    <span class="caja-tit">Parcial 2024 &middot; ejercicio 2</span>
-    <p>
-      "Realice el diagrama (mediante UML) el patrón Singleton, dar una breve descripción de su
-      usabilidad y mencione 2 ejemplos."
-    </p>
+    <span class="caja-tit">Inventado &middot; con la forma del Parcial 2024, ejercicio 2</span>
+    <p>"Realice el diagrama (mediante UML) del patrón Singleton, dé una breve descripción de su usabilidad y mencione 2 ejemplos."</p>
   </div>
   <p>La consigna pide tres cosas; la respuesta tiene que tener las tres:</p>
   <ol>
     <li>
-      <strong>El diagrama:</strong> una clase con el atributo <code>instancia</code> privado y
-      estático, el constructor privado y el método <code>obtenerInstancia()</code> público y
-      estático.
+      <strong>El diagrama:</strong> una sola clase, con el atributo <code>instancia</code> privado y estático (subrayado), el constructor privado y el método <code>obtenerInstancia()</code> público y estático (subrayado).
       <div class="pd-grafico uml" data-g="singleton">
         <svg viewBox="-14 -14 478 135" width="478" height="135" role="img" aria-label="Estructura del patrón Singleton">
           <polyline class="linea punteada" points="90,37 140,37 140,37 190,37"/>
@@ -292,10 +287,7 @@ a y b son el mismo objeto</pre>
       </div>
     </li>
     <li>
-      <strong>La descripción:</strong> "Singleton es un patrón creacional que se usa cuando una clase
-      debe tener una única instancia disponible para todo el programa. La clase oculta su
-      constructor y ofrece un método estático que crea el objeto la primera vez y devuelve siempre
-      el mismo, dando un punto de acceso global."
+      <strong>La descripción:</strong> "Singleton es un patrón creacional que se usa cuando una clase debe tener una única instancia disponible para todo el programa. La clase oculta su constructor y ofrece un método estático que crea el objeto la primera vez y devuelve siempre el mismo, dando un punto de acceso global."
     </li>
     <li>
       <strong>Dos ejemplos:</strong> no alcanza con nombrarlos. A cada uno se le suma una
@@ -311,56 +303,98 @@ a y b son el mismo objeto</pre>
 
   <h3>Ejemplo 3 &mdash; Con formato de parcial: aplicarlo a un enunciado</h3>
   <div class="caja caja-ejemplo">
-    <span class="caja-tit">Parcial 2024 &middot; ejercicio 3 (primera parte)</span>
-    <p>
-      "Se desea crear una clase para mantener la seguridad de los usuarios, llamada GestorUsuarios,
-      dicha clase tendrá métodos para realizar el login del sistema, cambiar la contraseña del
-      usuario, dar de baja y dar de alta usuarios, por motivos de performance se desea crear una
-      sola instancia de dicha clase."
-    </p>
+    <span class="caja-tit"><em>Ejercicios de Singleton</em> &middot; ejercicio 3</span>
+    <p>"Estás desarrollando un sistema que se conecta a una base de datos y necesitas garantizar que solo haya una instancia del administrador de la base de datos en toda la aplicación."</p>
+    <p>"Se debe hacer un breve texto con los nombres de las clases, los atributos que pondríamos y los métodos. También se debe mencionar qué patrón de diseño utilizo y por qué. Por último se debe realizar un diagrama UML que represente la solución propuesta."</p>
   </div>
+  <p>
+    <strong>El breve texto que pide:</strong> "Clase <code>AdministradorBD</code>. Atributos: <code>instancia</code>
+    (estático, guarda el único objeto), <code>host</code>, <code>usuario</code> y <code>conexionAbierta</code>. Métodos: el
+    constructor, privado; <code>obtenerInstancia()</code>, estático; y <code>conectar()</code>,
+    <code>ejecutar(consulta)</code> y <code>desconectar()</code>."
+  </p>
   <div class="tabla-wrap">
     <table class="t full">
-      <tr><th>Frase del enunciado</th><th>Qué significa</th><th>A dónde va</th></tr>
-      <tr><td>"una clase ... llamada GestorUsuarios"</td><td>El nombre de la clase</td><td>Piso 1</td></tr>
-      <tr><td>"métodos para realizar el login, cambiar la contraseña, dar de baja y dar de alta"</td><td>Cuatro métodos públicos comunes</td><td>Piso 3</td></tr>
-      <tr><td>"se desea crear <strong>una sola instancia</strong> de dicha clase"</td><td>La frase que pide Singleton</td><td>Atributo estático, constructor privado y método estático</td></tr>
+      <tr><th>Frase del enunciado</th><th>Qué significa</th><th>Parte del patrón</th></tr>
+      <tr><td>"el <strong>administrador de la base de datos</strong>"</td><td>El nombre de la clase</td><td><code>AdministradorBD</code></td></tr>
+      <tr><td>"un sistema que <strong>se conecta</strong> a una base de datos"</td><td>Lo que la clase tiene que saber hacer, y los datos que necesita para hacerlo</td><td>Métodos públicos comunes (<code>conectar()</code>, <code>ejecutar()</code>, <code>desconectar()</code>) y atributos (<code>host</code>, <code>usuario</code>)</td></tr>
+      <tr><td>"garantizar que <strong>solo haya una instancia</strong> (...) en toda la aplicación"</td><td>La frase que pide Singleton</td><td>Atributo estático, constructor privado y método estático</td></tr>
     </table>
   </div>
-  <div class="pd-grafico uml" data-g="singleton-gestor">
-    <svg viewBox="-14 -14 371 211" width="371" height="211" role="img" aria-label="GestorUsuarios como Singleton">
+  <div class="pd-grafico uml" data-g="singleton-adminbd">
+    <svg viewBox="-14 -14 348 249" width="348" height="249" role="img" aria-label="AdministradorBD como Singleton">
       <g class="clase k-comun destacada">
-      <rect class="caja" x="0" y="0" width="343" height="183" rx="3"/>
-      <rect class="cab" x="1" y="1" width="341" height="29" rx="2"/>
-      <text class="nombre" x="171.5" y="20">GestorUsuarios</text>
-      <line class="div" x1="0" y1="30" x2="343" y2="30"/>
-      <text class="miembro estatico" x="10" y="48"><tspan class="v-priv">-</tspan> instancia<tspan class="tp">: GestorUsuarios</tspan></text>
-      <line class="div" x1="0" y1="59" x2="343" y2="59"/>
-      <text class="miembro" x="10" y="77"><tspan class="v-priv">-</tspan> GestorUsuarios()</text>
-      <text class="miembro estatico" x="10" y="96"><tspan class="v-pub">+</tspan> obtenerInstancia()<tspan class="tp">: GestorUsuarios</tspan></text>
-      <text class="miembro" x="10" y="115"><tspan class="v-pub">+</tspan> login(usuario, clave)<tspan class="tp">: boolean</tspan></text>
-      <text class="miembro" x="10" y="134"><tspan class="v-pub">+</tspan> cambiarContrasenia(usuario, nueva)<tspan class="tp">: void</tspan></text>
-      <text class="miembro" x="10" y="153"><tspan class="v-pub">+</tspan> darDeAlta(usuario)<tspan class="tp">: void</tspan></text>
-      <text class="miembro" x="10" y="172"><tspan class="v-pub">+</tspan> darDeBaja(usuario)<tspan class="tp">: void</tspan></text>
+      <rect class="caja" x="0" y="0" width="320" height="221" rx="3"/>
+      <rect class="cab" x="1" y="1" width="318" height="29" rx="2"/>
+      <text class="nombre" x="160" y="20">AdministradorBD</text>
+      <line class="div" x1="0" y1="30" x2="320" y2="30"/>
+      <text class="miembro estatico" x="10" y="48"><tspan class="v-priv">-</tspan> instancia<tspan class="tp">: AdministradorBD</tspan></text>
+      <text class="miembro" x="10" y="67"><tspan class="v-priv">-</tspan> host<tspan class="tp">: string</tspan></text>
+      <text class="miembro" x="10" y="86"><tspan class="v-priv">-</tspan> usuario<tspan class="tp">: string</tspan></text>
+      <text class="miembro" x="10" y="105"><tspan class="v-priv">-</tspan> conexionAbierta<tspan class="tp">: boolean</tspan></text>
+      <line class="div" x1="0" y1="116" x2="320" y2="116"/>
+      <text class="miembro" x="10" y="134"><tspan class="v-priv">-</tspan> AdministradorBD()</text>
+      <text class="miembro estatico" x="10" y="153"><tspan class="v-pub">+</tspan> obtenerInstancia()<tspan class="tp">: AdministradorBD</tspan></text>
+      <text class="miembro" x="10" y="172"><tspan class="v-pub">+</tspan> conectar()<tspan class="tp">: void</tspan></text>
+      <text class="miembro" x="10" y="191"><tspan class="v-pub">+</tspan> ejecutar(consulta<tspan class="tp">: string</tspan>)<tspan class="tp">: Resultado</tspan></text>
+      <text class="miembro" x="10" y="210"><tspan class="v-pub">+</tspan> desconectar()<tspan class="tp">: void</tspan></text>
       </g>
     </svg>
   </div>
-  <p>
-    <strong>Justificación:</strong> "Se aplica Singleton porque el enunciado pide una sola instancia
-    de GestorUsuarios. El constructor privado impide crear otras y el método estático
-    <code>obtenerInstancia()</code> devuelve siempre la misma, que es el punto de acceso para todo
-    el sistema."
-  </p>
-  <p>
-    El mismo enunciado, palabra por palabra, está en la <em>Práctica adicional de patrones</em>.
-  </p>
+  <p><strong>Justificación</strong>, en tres partes: qué patrón y qué frase lo pide, cómo queda armado en este caso y qué se gana.</p>
+  <ol>
+    <li><strong>Qué patrón y por qué:</strong> "Se aplica Singleton, un patrón creacional, porque el enunciado pide garantizar que solo haya una instancia del administrador de la base de datos en toda la aplicación."</li>
+    <li><strong>Cómo se aplica:</strong> "<code>AdministradorBD</code> guarda su única instancia en un atributo estático y privado; su constructor es privado, para que nadie más pueda crearla; y el método estático <code>obtenerInstancia()</code> la crea la primera vez y después devuelve siempre la misma. Conectar, ejecutar consultas y desconectar quedan como métodos públicos comunes."</li>
+    <li><strong>Qué se gana:</strong> "Todos los módulos trabajan con el mismo administrador: hay una sola conexión abierta y un único punto de acceso a la base de datos."</li>
+  </ol>
+  <p>La misma guía trae otros dos con esta forma: la configuración global de una aplicación (es el ejemplo 1 de esta sección) y el registro de eventos (Práctica, ejercicio 3).</p>
 
   <hr class="sep">
 
-  <h3>Ejemplo 4 &mdash; Con formato de parcial: reconocerlo en un código</h3>
+  <h3>Ejemplo 4 &mdash; Con formato de parcial: identificar los patrones de un enunciado</h3>
   <div class="caja caja-ejemplo">
-    <span class="caja-tit">Con la forma del Parcial 2024 &middot; ejercicio 4</span>
-    <p>"A partir del siguiente código identifique qué patrón es el que se utiliza. Justifique."</p>
+    <span class="caja-tit">Inventado &middot; con la forma del Parcial 2025, Práctica 1</span>
+    <p>"A partir del siguiente enunciado identifique cuáles serían los patrones de diseño que utilizaría y justifique por qué eligió los mismos."</p>
+    <p>"La Biblioteca Popular Sarmiento está desarrollando un sistema para gestionar sus préstamos. Todos los módulos (préstamos, socios, catálogo) necesitan leer los mismos parámetros de funcionamiento: días máximos de préstamo, monto de la multa diaria y horario de atención. Se detectó que cada módulo cargaba su propia copia de esos parámetros y que a veces trabajaban con valores distintos, por lo que se requiere que exista un único objeto de configuración en todo el sistema, accesible desde cualquier módulo."</p>
+    <p>"Para registrar un préstamo, el bibliotecario hoy tiene que operar con tres módulos por separado y en un orden determinado: verificar que el socio no tenga deudas, comprobar la disponibilidad del ejemplar y registrar la fecha de devolución. Se busca que la pantalla de atención al público cuente con una interfaz sencilla, con una única operación para prestar un libro, que resuelva internamente todos esos pasos sin que el bibliotecario deba conocer cada módulo."</p>
+    <p>"Por último, cuando un libro que estaba prestado es devuelto, el sistema debe avisar automáticamente a todos los socios que lo tenían reservado. Los socios pueden anotarse o borrarse de la lista de espera de un libro en cualquier momento, y en el futuro se prevé avisar también al área de compras."</p>
+  </div>
+  <p>
+    El enunciado mezcla Singleton con otros dos patrones, como en el parcial. <strong>El método:</strong>
+    un párrafo, una necesidad, un patrón. En cada párrafo se busca qué se necesita y la frase que lo dice.
+  </p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Párrafo</th><th>La necesidad</th><th>La frase que lo delata</th><th>Patrón</th></tr>
+      <tr><td>1. La configuración</td><td>Que todos los módulos usen los mismos parámetros</td><td>"exista <strong>un único objeto</strong> de configuración en todo el sistema, <strong>accesible desde cualquier módulo</strong>"</td><td><strong>Singleton</strong> (creacional)</td></tr>
+      <tr><td>2. El préstamo</td><td>Hacer con una sola operación lo que hoy son tres pasos en tres módulos</td><td>"una <strong>interfaz sencilla</strong>, con una única operación (...) sin que el bibliotecario deba conocer cada módulo"</td><td><strong>Facade</strong> (estructural)</td></tr>
+      <tr><td>3. Las reservas</td><td>Que los socios se enteren solos cuando el libro vuelve</td><td>"<strong>avisar automáticamente a todos</strong> los socios que lo tenían reservado (...) pueden <strong>anotarse o borrarse</strong>"</td><td><strong>Observer</strong> (de comportamiento)</td></tr>
+    </table>
+  </div>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Cómo quedaría escrita la respuesta</span>
+    <p><strong>Singleton</strong>, para la configuración. El enunciado pide "un único objeto de configuración en todo el sistema, accesible desde cualquier módulo". La clase de configuración guarda su única instancia en un atributo estático, tiene el constructor privado y la entrega con un método estático. Así préstamos, socios y catálogo leen siempre los mismos valores.</p>
+    <p><strong>Facade</strong>, para registrar un préstamo. Hoy hay que operar "con tres módulos por separado y en un orden determinado", y se pide "una interfaz sencilla, con una única operación". Una fachada guarda los tres módulos y ofrece esa operación, que verifica las deudas, comprueba la disponibilidad y registra la devolución. La pantalla de atención no necesita conocer ningún módulo.</p>
+    <p><strong>Observer</strong>, para las reservas. Cuando un libro es devuelto hay que "avisar automáticamente a todos los socios que lo tenían reservado", que pueden "anotarse o borrarse" cuando quieran. El libro es el notificador, con su lista de espera, y los socios son los suscriptores. Sumar al área de compras es agregar un suscriptor, sin modificar el libro.</p>
+  </div>
+  <p>
+    Cada justificación tiene las mismas tres partes: el patrón y para qué parte del sistema, <strong>la frase
+    del enunciado</strong> que lo pide (entre comillas) y cómo queda armado, con lo que se gana.
+  </p>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Las trampas de este enunciado</span>
+    <ul>
+      <li>En el primer párrafo no aparece la palabra "crear": la pista de este creacional es la <strong>cantidad de objetos</strong> ("un único").</li>
+      <li>"Interfaz sencilla" no es Adapter: no hay nada incompatible que adaptar, hay <strong>varios módulos que coordinar</strong>. Es Facade.</li>
+    </ul>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 5 &mdash; Con formato de parcial: reconocerlo en un código</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Inventado &middot; con la forma de la Guía N°1, ejercicio 2</span>
+    <p>"Dado el siguiente código identifique qué tipo de patrón se implementa. Justifique."</p>
   </div>
   <p>Los renglones resaltados son los que lo delatan:</p>
   <pre class="codigo" data-clave="6,7,10,13,23,30"><code>#include &lt;iostream&gt;
@@ -419,105 +453,122 @@ int main() {
 
   <hr class="sep">
 
-  <h3>Ejemplo 5 &mdash; Con formato de parcial: agregarlo a un diagrama</h3>
+  <h3>Ejemplo 6 &mdash; Con formato de parcial: agregarlo a un diagrama</h3>
   <div class="caja caja-ejemplo">
-    <span class="caja-tit">Con la forma del Parcial 2024 &middot; ejercicio 3</span>
-    <p>"Dado el siguiente diagrama de un sistema de ventas: los módulos Caja y Stock crean cada uno su propio objeto Parametros, y ya ocurrió que trabajaron con valores de IVA distintos. Modifique el diagrama para garantizar que exista una única instancia de Parametros en todo el sistema. Justifique."</p>
+    <span class="caja-tit">Guía N°1 &middot; ejercicio 1 (primer pedido)</span>
+    <p>"Considere el siguiente diagrama de UML, el cual modela un módulo de seguridad de una aplicación. Dada esta implementación se necesita: se debe poder crear sólo una instancia de la clase ControladorSeguridad, ya que existe un único objeto encargado de realizar dicha tarea."</p>
+    <p>"Indicar qué patrón se puede utilizar y justificar su uso. Reescribir el diagrama de UML con la solución implementada."</p>
   </div>
-  <div class="pd-grafico uml" data-g="sing-param-antes">
-    <svg viewBox="-14 -14 529 246" width="529" height="246" role="img" aria-label="Diagrama original: Caja y Stock tienen cada uno su objeto Parametros">
-      <polyline class="linea" points="206,44 273,44 273,99.5 340,99.5"/>
-      <polyline class="linea" points="330,104.5 340,99.5 330,94.5"/>
-      <polyline class="linea" points="206,174 273,174 273,139.5 340,139.5"/>
-      <polyline class="linea" points="330,144.5 340,139.5 330,134.5"/>
+  <div class="pd-grafico uml" data-g="seguridad-antes">
+    <svg viewBox="-14 -14 768 267" width="768" height="267" role="img" aria-label="Diagrama de la Guía 1: Usuario, Sesion, ControladorSeguridad y Logger">
+      <polyline class="linea" points="161,53.5 200.5,53.5 200.5,53.5 240,53.5"/>
+      <polyline class="linea" points="401,44 440.5,44 440.5,44 480,44"/>
+      <polyline class="linea" points="610,88 610,134 610,134 610,180"/>
       <g class="clase k-comun">
-      <rect class="caja" x="0" y="0" width="206" height="88" rx="3"/>
-      <rect class="cab" x="1" y="1" width="204" height="29" rx="2"/>
-      <text class="nombre" x="103" y="20">Caja</text>
-      <line class="div" x1="0" y1="30" x2="206" y2="30"/>
-      <text class="miembro" x="10" y="48"><tspan class="v-priv">-</tspan> parametros<tspan class="tp">: Parametros</tspan></text>
-      <line class="div" x1="0" y1="59" x2="206" y2="59"/>
-      <text class="miembro" x="10" y="77"><tspan class="v-pub">+</tspan> cobrar(monto)</text>
+      <rect class="caja" x="0" y="0" width="161" height="107" rx="3"/>
+      <rect class="cab" x="1" y="1" width="159" height="29" rx="2"/>
+      <text class="nombre" x="80.5" y="20">Usuario</text>
+      <line class="div" x1="0" y1="30" x2="161" y2="30"/>
+      <text class="miembro" x="10" y="48"><tspan class="v-priv">-</tspan> nombre<tspan class="tp">: String</tspan></text>
+      <text class="miembro" x="10" y="67"><tspan class="v-priv">-</tspan> password<tspan class="tp">: String</tspan></text>
+      <line class="div" x1="0" y1="78" x2="161" y2="78"/>
+      <text class="miembro" x="10" y="96"><tspan class="v-pub">+</tspan> login()</text>
       </g>
       <g class="clase k-comun">
-      <rect class="caja" x="0" y="130" width="206" height="88" rx="3"/>
-      <rect class="cab" x="1" y="131" width="204" height="29" rx="2"/>
-      <text class="nombre" x="103" y="150">Stock</text>
-      <line class="div" x1="0" y1="160" x2="206" y2="160"/>
-      <text class="miembro" x="10" y="178"><tspan class="v-priv">-</tspan> parametros<tspan class="tp">: Parametros</tspan></text>
-      <line class="div" x1="0" y1="189" x2="206" y2="189"/>
-      <text class="miembro" x="10" y="207"><tspan class="v-pub">+</tspan> valorizar()</text>
+      <rect class="caja" x="240" y="0" width="161" height="126" rx="3"/>
+      <rect class="cab" x="241" y="1" width="159" height="29" rx="2"/>
+      <text class="nombre" x="320.5" y="20">Sesion</text>
+      <line class="div" x1="240" y1="30" x2="401" y2="30"/>
+      <text class="miembro" x="250" y="48"><tspan class="v-priv">-</tspan> id<tspan class="tp">: Long</tspan></text>
+      <text class="miembro" x="250" y="67"><tspan class="v-priv">-</tspan> usuario<tspan class="tp">: Usuario</tspan></text>
+      <line class="div" x1="240" y1="78" x2="401" y2="78"/>
+      <text class="miembro" x="250" y="96"><tspan class="v-pub">+</tspan> crearSesion()</text>
+      <text class="miembro" x="250" y="115"><tspan class="v-pub">+</tspan> cerrarSesion()</text>
       </g>
       <g class="clase k-comun">
-      <rect class="caja" x="340" y="47" width="161" height="145" rx="3"/>
-      <rect class="cab" x="341" y="48" width="159" height="29" rx="2"/>
-      <text class="nombre" x="420.5" y="67">Parametros</text>
-      <line class="div" x1="340" y1="77" x2="501" y2="77"/>
-      <text class="miembro" x="350" y="95"><tspan class="v-priv">-</tspan> iva<tspan class="tp">: double</tspan></text>
-      <text class="miembro" x="350" y="114"><tspan class="v-priv">-</tspan> moneda<tspan class="tp">: string</tspan></text>
-      <line class="div" x1="340" y1="125" x2="501" y2="125"/>
-      <text class="miembro" x="350" y="143"><tspan class="v-pub">+</tspan> Parametros()</text>
-      <text class="miembro" x="350" y="162"><tspan class="v-pub">+</tspan> iva()<tspan class="tp">: double</tspan></text>
-      <text class="miembro" x="350" y="181"><tspan class="v-pub">+</tspan> moneda()<tspan class="tp">: string</tspan></text>
+      <rect class="caja" x="480" y="0" width="260" height="88" rx="3"/>
+      <rect class="cab" x="481" y="1" width="258" height="29" rx="2"/>
+      <text class="nombre" x="610" y="20">ControladorSeguridad</text>
+      <line class="div" x1="480" y1="30" x2="740" y2="30"/>
+      <text class="miembro" x="490" y="48"><tspan class="v-priv">-</tspan> sesionesActivas<tspan class="tp">: List&lt;Sesion&gt;</tspan></text>
+      <line class="div" x1="480" y1="59" x2="740" y2="59"/>
+      <text class="miembro" x="490" y="77"><tspan class="v-pub">+</tspan> registrarAcceso()</text>
+      </g>
+      <g class="clase k-comun">
+      <rect class="caja" x="541" y="180" width="138" height="59" rx="3"/>
+      <rect class="cab" x="542" y="181" width="136" height="29" rx="2"/>
+      <text class="nombre" x="610" y="200">Logger</text>
+      <line class="div" x1="541" y1="210" x2="679" y2="210"/>
+      <text class="miembro" x="551" y="228"><tspan class="v-pub">+</tspan> escribirLog()</text>
       </g>
     </svg>
   </div>
-  <p><strong>Qué hay en el diagrama.</strong> <code>Parametros</code> es una clase común: su constructor es público (<code>+</code>), así que cualquiera puede crear los objetos que quiera. <code>Caja</code> y <code>Stock</code> tienen cada una un atributo <code>parametros</code>: son dos objetos distintos.</p>
+  <p><strong>Qué hay en el diagrama.</strong> Cuatro clases unidas por líneas simples. <code>ControladorSeguridad</code> no muestra constructor: en UML, si no se dibuja, se entiende que es público y cualquiera puede crear los controladores que quiera. El ejercicio tiene un segundo pedido, sobre el <code>Logger</code>: es Observer y está resuelto en la Unidad 4C, sección 1.</p>
   <p><strong>Qué se cambia, en orden:</strong></p>
   <ol>
-    <li><strong>Agregar el atributo estático.</strong> <code>- instancia: Parametros</code>, privado y <strong>subrayado</strong>, en el piso de los atributos. Es donde la clase guarda su único objeto.</li>
-    <li><strong>Pasar el constructor a privado.</strong> <code>+ Parametros()</code> pasa a <code>- Parametros()</code>. No se borra: solo cambia el signo. Así nadie de afuera puede crear otro.</li>
-    <li><strong>Agregar el método estático.</strong> <code>+ obtenerInstancia(): Parametros</code>, público y <strong>subrayado</strong>. Es la única puerta de entrada.</li>
-    <li><strong>Corregir las clases que lo usaban.</strong> <code>Caja</code> y <code>Stock</code> ya no guardan su propio objeto: se les saca el atributo <code>parametros</code> y su flecha pasa a ser una dependencia punteada ("usa"). Lo piden con <code>obtenerInstancia()</code> cada vez que lo necesitan.</li>
+    <li><strong>Agregar el atributo estático.</strong> En <code>ControladorSeguridad</code>, <code>- instancia: ControladorSeguridad</code>, privado y <strong>subrayado</strong>. El atributo <code>sesionesActivas</code> que ya tenía queda igual.</li>
+    <li><strong>Dibujar el constructor, privado.</strong> <code>- ControladorSeguridad()</code>. En el diagrama original no estaba; ahora hay que dibujarlo para mostrar que nadie de afuera puede crear otro.</li>
+    <li><strong>Agregar el método estático.</strong> <code>+ obtenerInstancia(): ControladorSeguridad</code>, público y <strong>subrayado</strong>.</li>
+    <li><strong>Dejar el resto como está.</strong> <code>Usuario</code>, <code>Sesion</code> y <code>Logger</code> no cambian, y <code>registrarAcceso()</code> sigue siendo un método común.</li>
   </ol>
   <p><strong>El diagrama modificado:</strong></p>
-  <div class="pd-grafico uml" data-g="sing-param">
-    <svg viewBox="-14 6 595 211" width="595" height="211" role="img" aria-label="Parametros convertida en Singleton">
-      <polyline class="linea punteada" points="138,49.5 219,49.5 219,81.5 300,81.5"/>
-      <polyline class="linea" points="290,86.5 300,81.5 290,76.5"/>
-      <text class="rotulo" x="225" y="65.5" text-anchor="start">usa</text>
-      <polyline class="linea punteada" points="123,159.5 211.5,159.5 211.5,141.5 300,141.5"/>
-      <polyline class="linea" points="290,146.5 300,141.5 290,136.5"/>
+  <div class="pd-grafico uml" data-g="seguridad-singleton">
+    <svg viewBox="-14 -14 851 317" width="851" height="317" role="img" aria-label="ControladorSeguridad convertido en Singleton">
+      <polyline class="linea" points="161,53.5 200.5,53.5 200.5,53.5 240,53.5"/>
+      <polyline class="linea" points="401,63 440.5,63 440.5,63 480,63"/>
+      <polyline class="linea" points="651,145 651,187.5 651,187.5 651,230"/>
       <g class="clase k-comun">
-      <rect class="caja" x="0" y="20" width="138" height="59" rx="3"/>
-      <rect class="cab" x="1" y="21" width="136" height="29" rx="2"/>
-      <text class="nombre" x="69" y="40">Caja</text>
-      <line class="div" x1="0" y1="50" x2="138" y2="50"/>
-      <text class="miembro" x="10" y="68"><tspan class="v-pub">+</tspan> cobrar(monto)</text>
+      <rect class="caja" x="0" y="0" width="161" height="107" rx="3"/>
+      <rect class="cab" x="1" y="1" width="159" height="29" rx="2"/>
+      <text class="nombre" x="80.5" y="20">Usuario</text>
+      <line class="div" x1="0" y1="30" x2="161" y2="30"/>
+      <text class="miembro" x="10" y="48"><tspan class="v-priv">-</tspan> nombre<tspan class="tp">: String</tspan></text>
+      <text class="miembro" x="10" y="67"><tspan class="v-priv">-</tspan> password<tspan class="tp">: String</tspan></text>
+      <line class="div" x1="0" y1="78" x2="161" y2="78"/>
+      <text class="miembro" x="10" y="96"><tspan class="v-pub">+</tspan> login()</text>
       </g>
       <g class="clase k-comun">
-      <rect class="caja" x="0" y="130" width="123" height="59" rx="3"/>
-      <rect class="cab" x="1" y="131" width="121" height="29" rx="2"/>
-      <text class="nombre" x="61.5" y="150">Stock</text>
-      <line class="div" x1="0" y1="160" x2="123" y2="160"/>
-      <text class="miembro" x="10" y="178"><tspan class="v-pub">+</tspan> valorizar()</text>
+      <rect class="caja" x="240" y="0" width="161" height="126" rx="3"/>
+      <rect class="cab" x="241" y="1" width="159" height="29" rx="2"/>
+      <text class="nombre" x="320.5" y="20">Sesion</text>
+      <line class="div" x1="240" y1="30" x2="401" y2="30"/>
+      <text class="miembro" x="250" y="48"><tspan class="v-priv">-</tspan> id<tspan class="tp">: Long</tspan></text>
+      <text class="miembro" x="250" y="67"><tspan class="v-priv">-</tspan> usuario<tspan class="tp">: Usuario</tspan></text>
+      <line class="div" x1="240" y1="78" x2="401" y2="78"/>
+      <text class="miembro" x="250" y="96"><tspan class="v-pub">+</tspan> crearSesion()</text>
+      <text class="miembro" x="250" y="115"><tspan class="v-pub">+</tspan> cerrarSesion()</text>
       </g>
       <g class="clase k-comun destacada">
-      <rect class="caja" x="300" y="20" width="267" height="183" rx="3"/>
-      <rect class="cab" x="301" y="21" width="265" height="29" rx="2"/>
-      <text class="nombre" x="433.5" y="40">Parametros</text>
-      <line class="div" x1="300" y1="50" x2="567" y2="50"/>
-      <text class="miembro estatico" x="310" y="68"><tspan class="v-priv">-</tspan> instancia<tspan class="tp">: Parametros</tspan></text>
-      <text class="miembro" x="310" y="87"><tspan class="v-priv">-</tspan> iva<tspan class="tp">: double</tspan></text>
-      <text class="miembro" x="310" y="106"><tspan class="v-priv">-</tspan> moneda<tspan class="tp">: string</tspan></text>
-      <line class="div" x1="300" y1="117" x2="567" y2="117"/>
-      <text class="miembro" x="310" y="135"><tspan class="v-priv">-</tspan> Parametros()</text>
-      <text class="miembro estatico" x="310" y="154"><tspan class="v-pub">+</tspan> obtenerInstancia()<tspan class="tp">: Parametros</tspan></text>
-      <text class="miembro" x="310" y="173"><tspan class="v-pub">+</tspan> iva()<tspan class="tp">: double</tspan></text>
-      <text class="miembro" x="310" y="192"><tspan class="v-pub">+</tspan> moneda()<tspan class="tp">: string</tspan></text>
+      <rect class="caja" x="480" y="0" width="343" height="145" rx="3"/>
+      <rect class="cab" x="481" y="1" width="341" height="29" rx="2"/>
+      <text class="nombre" x="651.5" y="20">ControladorSeguridad</text>
+      <line class="div" x1="480" y1="30" x2="823" y2="30"/>
+      <text class="miembro estatico" x="490" y="48"><tspan class="v-priv">-</tspan> instancia<tspan class="tp">: ControladorSeguridad</tspan></text>
+      <text class="miembro" x="490" y="67"><tspan class="v-priv">-</tspan> sesionesActivas<tspan class="tp">: List&lt;Sesion&gt;</tspan></text>
+      <line class="div" x1="480" y1="78" x2="823" y2="78"/>
+      <text class="miembro" x="490" y="96"><tspan class="v-priv">-</tspan> ControladorSeguridad()</text>
+      <text class="miembro estatico" x="490" y="115"><tspan class="v-pub">+</tspan> obtenerInstancia()<tspan class="tp">: ControladorSeguridad</tspan></text>
+      <text class="miembro" x="490" y="134"><tspan class="v-pub">+</tspan> registrarAcceso()</text>
+      </g>
+      <g class="clase k-comun">
+      <rect class="caja" x="582" y="230" width="138" height="59" rx="3"/>
+      <rect class="cab" x="583" y="231" width="136" height="29" rx="2"/>
+      <text class="nombre" x="651" y="250">Logger</text>
+      <line class="div" x1="582" y1="260" x2="720" y2="260"/>
+      <text class="miembro" x="592" y="278"><tspan class="v-pub">+</tspan> escribirLog()</text>
       </g>
     </svg>
   </div>
   <p>
-    <strong>Justificación:</strong> "Se aplica Singleton porque se pide una única instancia de <code>Parametros</code>. El constructor privado impide que <code>Caja</code> y <code>Stock</code> creen la suya, y el método estático <code>obtenerInstancia()</code> les devuelve a las dos el mismo objeto, guardado en el atributo estático <code>instancia</code>."
+    <strong>Justificación:</strong> "Se utiliza Singleton porque el enunciado pide que se pueda crear sólo una instancia de <code>ControladorSeguridad</code>, ya que existe un único objeto encargado de la seguridad. El constructor privado impide crear otros controladores y el método estático <code>obtenerInstancia()</code> devuelve siempre el mismo, guardado en el atributo estático <code>instancia</code>. Todo el sistema registra los accesos en la misma lista de sesiones activas."
   </p>
   <div class="caja caja-ojo">
     <span class="caja-tit">A tener en cuenta al modificar el diagrama</span>
     <ul>
-      <li><strong>No se agrega ninguna clase.</strong> Singleton modifica una clase que ya está.</li>
-      <li>Lo que la clase ya tenía (<code>iva()</code>, <code>moneda()</code>) queda igual.</li>
-      <li>Los dos miembros nuevos van <strong>subrayados</strong>. Sin el subrayado no se ve que son estáticos, y es lo que define al patrón.</li>
-      <li>El constructor tiene que quedar dibujado, con el signo <code>-</code>. Si se lo borra, el diagrama no muestra por qué no se pueden crear más objetos.</li>
+      <li><strong>No se agrega ninguna clase.</strong> Singleton modifica una que ya está: en total son tres renglones nuevos en una caja.</li>
+      <li>Los dos miembros estáticos van <strong>subrayados</strong>. Sin el subrayado no se ve que son de la clase, y es lo que define al patrón.</li>
+      <li>El constructor tiene que quedar dibujado con el signo <code>-</code>, aunque el diagrama original no lo mostrara.</li>
+      <li>La consigna dice "patrón / patrones": son dos pedidos y dos patrones. En la hoja van los dos sobre el mismo diagrama.</li>
     </ul>
   </div>
 

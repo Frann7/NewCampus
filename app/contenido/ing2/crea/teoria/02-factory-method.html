@@ -122,7 +122,7 @@
       <tr><th>Parte</th><th>Qué es</th><th>En el ejemplo de logística</th></tr>
       <tr><td class="lbl">Producto (<em>Product</em>)</td><td>La <strong>interfaz</strong> común a todos los objetos que se pueden crear.</td><td><code>Transporte</code></td></tr>
       <tr><td class="lbl">Productos Concretos</td><td>Las distintas implementaciones de esa interfaz.</td><td><code>Camion</code>, <code>Barco</code></td></tr>
-      <tr><td class="lbl">Creador (<em>Creator</em>)</td><td>La clase que <strong>declara el método fábrica</strong>, que devuelve un Producto. Además tiene su propia lógica, que usa el producto sin saber cuál es. Es una <strong>clase abstracta</strong>: como el método fábrica no tiene código, no se pueden crear objetos de ella.</td><td><code>Logistica</code>, con <code>crearTransporte()</code> y <code>planificarEntrega()</code></td></tr>
+      <tr><td class="lbl">Creador (<em>Creator</em>)</td><td>La clase que <strong>declara el método fábrica</strong>, que devuelve un Producto. Además tiene su propia lógica, que usa el producto sin saber cuál es.</td><td><code>Logistica</code>, con <code>crearTransporte()</code> y <code>planificarEntrega()</code></td></tr>
       <tr><td class="lbl">Creadores Concretos</td><td>Las subclases que <strong>sobrescriben el método fábrica</strong> para devolver un producto concreto.</td><td><code>LogisticaTerrestre</code>, <code>LogisticaMaritima</code></td></tr>
     </table>
   </div>
@@ -248,7 +248,7 @@ class Barco : public Transporte {
     return resultado;
   }
 };</code></pre>
-      <p><code>crearTransporte()</code> es el <strong>método fábrica</strong>: devuelve "un Transporte" y no tiene código (termina en <code>= 0</code>). Por ese método, <code>Logistica</code> es una <strong>clase abstracta</strong>, aunque <code>planificarEntrega()</code> sí tenga código. <code>planificarEntrega()</code> lo llama donde antes habría un <code>new Camion</code>.</p>
+      <p><code>crearTransporte()</code> es el <strong>método fábrica</strong>: devuelve "un Transporte" y no tiene código. <code>planificarEntrega()</code> lo llama donde antes habría un <code>new Camion</code>.</p>
     </div>
     <div class="cod-parte">
       <p class="cod-rotulo"><span class="cod-n">5</span>Quién decide qué se crea<span class="cod-rol">Creadores concretos</span></p>
@@ -309,55 +309,6 @@ Logistica: entrega por mar, en un barco</pre>
     <code>planificarEntrega()</code> es <strong>un solo código</strong> y dio dos resultados, porque
     el transporte lo eligió la subclase. En todo el programa <code>new Camion</code> aparece una
     sola vez, dentro de su creador.
-  </p>
-
-  <h4>El Creador es una clase abstracta, aunque tenga un método con código</h4>
-  <p>
-    Una clase es <strong>abstracta</strong> cuando tiene <strong>al menos un</strong> método sin
-    código (en C++, un método virtual puro, el que termina en <code>= 0</code>). Alcanza con uno:
-    no hace falta que todos sus métodos estén vacíos. <code>Logistica</code> tiene dos métodos, y
-    por el primero ya es abstracta:
-  </p>
-  <div class="tabla-wrap">
-    <table class="t full">
-      <tr><th>Método de <code>Logistica</code></th><th>¿Tiene código?</th><th>Qué es</th></tr>
-      <tr><td><code>virtual Transporte* crearTransporte() const = 0;</code></td><td><span class="et mal">No</span></td><td>Abstracto (virtual puro): es el método fábrica. Lo escribe cada subclase.</td></tr>
-      <tr><td><code>std::string planificarEntrega() const { ... }</code></td><td><span class="et ok">Sí</span></td><td>Un método común. Es la lógica que comparten todas las logísticas, y la heredan tal cual.</td></tr>
-    </table>
-  </div>
-  <p>
-    Que sea abstracta quiere decir que <strong>no se pueden crear objetos de ella</strong>: le
-    falta un pedazo. Si en <code>main</code> se escribe <code>new Logistica()</code>, el programa
-    no compila:
-  </p>
-  <pre class="salida">error: invalid new-expression of abstract class type 'Logistica'
-note:   because the following virtual functions are pure within 'Logistica':
-note:   virtual Transporte* Logistica::crearTransporte() const</pre>
-  <p>
-    Las que sí se pueden instanciar son <code>LogisticaTerrestre</code> y
-    <code>LogisticaMaritima</code>, porque le pusieron código al método que faltaba. Por eso se
-    llaman Creadores <strong>Concretos</strong>: concreta es la clase a la que no le falta nada.
-  </p>
-  <div class="tabla-wrap">
-    <table class="t full">
-      <tr><th></th><th>Creador (<code>Logistica</code>)</th><th>Creador Concreto (<code>LogisticaTerrestre</code>)</th></tr>
-      <tr><td class="lbl">Tipo de clase</td><td>Abstracta</td><td>Concreta</td></tr>
-      <tr><td class="lbl">El método fábrica</td><td>Lo <strong>declara</strong>, sin código</td><td>Lo <strong>sobrescribe</strong>, con el <code>new</code> de su producto</td></tr>
-      <tr><td class="lbl">¿Se puede hacer <code>new</code>?</td><td><span class="et mal">No</span></td><td><span class="et ok">Sí</span></td></tr>
-      <tr><td class="lbl">En el diagrama</td><td>El nombre y el método fábrica, en <em>cursiva</em></td><td>Todo en letra normal</td></tr>
-    </table>
-  </div>
-  <p>
-    Una clase abstracta <strong>no es lo mismo que una interfaz</strong>: la interfaz no tiene
-    ningún método con código; la abstracta puede tener algunos, como <code>planificarEntrega()</code>.
-    Por eso en el diagrama <code>Logistica</code> es una clase abstracta y <code>Transporte</code>,
-    que solo tiene <code>entregar()</code> sin código, es una interfaz.
-  </p>
-  <p>
-    El apunte admite una variante: que el método fábrica del Creador <strong>tenga</strong> código y
-    devuelva un producto por defecto. En ese caso el Creador sería una clase concreta, y las
-    subclases lo sobrescriben solo si quieren otro producto. La forma que se dibuja y la que
-    aparece en los ejercicios es la de arriba, con el Creador abstracto.
   </p>
 
   <h3>Cómo reconocerlo</h3>

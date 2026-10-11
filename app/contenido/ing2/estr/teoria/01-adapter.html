@@ -456,19 +456,29 @@ Temperatura: 25 grados</pre>
     </table>
   </div>
   <div class="caja caja-resp">
-    <span class="caja-tit">Cómo quedaría escrita la respuesta</span>
-    <p><strong>Strategy</strong>, para el costo del envío. Se usa cuando hay varias formas de hacer una misma tarea y se quiere poder cambiar de una a otra mientras el programa corre, y eso pide el enunciado: el costo "puede calcularse de distintas maneras" y el sistema "debe elegir la forma de cálculo que corresponda a cada envío en el momento de cotizar". Cada forma (por peso, por distancia, tarifa plana) va en su propia clase, todas con la misma interfaz, y el módulo de cotización, que es el contexto, guarda una y le delega la tarea. Así se agregan formas nuevas sin modificar el módulo de cotización.</p>
-    <p><strong>Adapter</strong>, para los GPS. Se usa cuando hay que hacer trabajar juntas dos clases con interfaces incompatibles, sin modificar ninguna, y es el caso: los dispositivos nuevos entregan los datos "con otro formato y a través de funciones distintas", y "el software del proveedor no puede modificarse". Se agrega una clase en el medio, el adaptador, que cumple la interfaz con la que el sistema ya consulta la ubicación de sus vehículos y por dentro traduce cada llamada a las funciones del proveedor. Así el sistema consulta los GPS nuevos igual que a los demás, sin alterar el resto.</p>
-    <p><strong>Composite</strong>, para el peso total. Se usa cuando los objetos forman un árbol, con elementos simples y contenedores que agrupan elementos simples u otros contenedores, y eso describe el enunciado: "contenedores, que a su vez agrupan paquetes y otros contenedores más pequeños". El paquete (el elemento simple) y el contenedor (el contenedor) cumplen una misma interfaz, y el contenedor guarda una lista de esa interfaz y resuelve el peso pasándole el pedido a lo que contiene. Así el peso se calcula "de la misma manera" para un paquete suelto que para un contenedor entero.</p>
+    <span class="caja-tit">La respuesta de Adapter, por partes</span>
+    <ol>
+      <li><strong>Qué patrón:</strong> Adapter, un patrón estructural, para integrar los GPS del proveedor.</li>
+      <li><strong>La frase que lo pide:</strong> Los dispositivos entregan los datos "con otro formato y a través de funciones distintas", y "el software del proveedor no puede modificarse".</li>
+      <li><strong>Por qué va ese patrón:</strong> Hay que hacer trabajar juntas dos clases con interfaces incompatibles, sin modificar ninguna: el sistema de seguimiento y los GPS del proveedor.</li>
+      <li>
+        <strong>Cómo queda armado:</strong> cada parte del patrón, con su clase y lo que tiene.
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Parte del patrón</th><th>Clase</th><th>Qué tiene</th></tr>
+            <tr><td class="lbl">Interfaz con el Cliente</td><td><code>Localizador</code> (interfaz)</td><td><code>ubicacion(): Coordenadas</code>: la forma en que el sistema ya consulta a sus vehículos</td></tr>
+            <tr><td class="lbl">Servicio</td><td><code>GpsProveedor</code></td><td><code>leerTrama(): string</code>: otro nombre y otro formato. No se modifica</td></tr>
+            <tr><td class="lbl">Adaptador</td><td><code>AdaptadorGps</code></td><td>Cumple <code>Localizador</code>; guarda el atributo <code>dispositivo: GpsProveedor</code>; su <code>ubicacion()</code> llama a <code>leerTrama()</code> y convierte el resultado</td></tr>
+            <tr><td class="lbl">Cliente</td><td><code>Seguimiento</code></td><td>Sigue usando <code>Localizador</code>, sin cambios</td></tr>
+          </table>
+        </div>
+      </li>
+      <li><strong>Qué se gana:</strong> El sistema consulta los GPS nuevos igual que a los demás, sin alterar el resto.</li>
+    </ol>
   </div>
   <p>
-    Cada justificación es <strong>la descripción del patrón</strong> (la del ejemplo 2 de su sección) dicha
-    con las palabras de este enunciado: cuándo se usa, con la frase del enunciado entre comillas; cómo funciona;
-    y qué se gana.
-  </p>
-  <p>
-    <strong>El diagrama de Adapter.</strong> La consigna no lo pide, pero así quedaría dibujada la parte de
-    Adapter de este enunciado (los nombres de las clases los elige uno):
+    <strong>Dibujado.</strong> La consigna no lo pide, pero así queda el diagrama de Adapter de este enunciado (los
+    nombres de las clases los elige uno):
   </p>
   <div class="pd-grafico uml" data-g="id-adapter">
     <svg viewBox="-14 -14 752 266" width="752" height="266" role="img" aria-label="Adapter para los dispositivos GPS del proveedor">
@@ -508,7 +518,14 @@ Temperatura: 25 grados</pre>
       </g>
     </svg>
   </div>
-  <p><code>Localizador</code> es la interfaz con la que el sistema ya consulta la ubicación. <code>GpsProveedor</code> es el Servicio, que no se puede modificar. <code>AdaptadorGps</code> cumple <code>Localizador</code> y por dentro llama a <code>leerTrama()</code>.</p>
+  <p>
+    <strong>Los otros dos patrones</strong> se justifican con las mismas partes. Acá va solo el patrón y la
+    frase que lo pide; cada uno está desarrollado así en su propia sección:
+  </p>
+  <ul>
+    <li><strong>Strategy</strong>, para el costo del envío: "puede calcularse de distintas maneras", y hay que "elegir la forma de cálculo que corresponda a cada envío en el momento de cotizar".</li>
+    <li><strong>Composite</strong>, para el peso total: hay "contenedores, que a su vez agrupan paquetes y otros contenedores más pequeños", y el peso se calcula "de la misma manera".</li>
+  </ul>
   <div class="caja caja-ojo">
     <span class="caja-tit">Las trampas de este enunciado</span>
     <ul>

@@ -31,8 +31,11 @@ El plan de carga, con lo que sube cada parte y lo que falta, está en `docs/plan
   - 3 "aplicarlo a un enunciado": desarme, diagrama y **justificación en tres partes** (qué
     patrón y qué frase lo pide, cómo queda armado en este caso, qué se gana).
   - 4 "identificar los patrones de un enunciado": tres párrafos con tres patrones (el de la
-    sección y otros dos), tabla párrafo → necesidad → frase → patrón, la respuesta escrita, el
-    **diagrama del patrón de la sección** (solo de ese, aunque la consigna no lo pida) y las trampas.
+    sección y otros dos), tabla párrafo → necesidad → frase → patrón; **la respuesta del patrón de
+    la sección, por partes** (qué patrón, la frase que lo pide, por qué va, cómo queda armado en una
+    tabla parte → clase → atributos y métodos, y qué se gana); su diagrama (solo el de ese patrón,
+    aunque la consigna no lo pida); los otros dos patrones en una línea cada uno, y las trampas.
+    Nunca un párrafo largo de justificación: Fran lo tiene que poder estudiar de cero.
   - 5 "reconocerlo en un código": C++ con los renglones que lo delatan resaltados, tabla
     renglón → parte del patrón y respuesta.
   - 6 "agregarlo a un diagrama": diagrama dado, qué hay, qué se cambia en orden, diagrama

@@ -475,19 +475,28 @@ Envios: se despacho teclado</pre>
     </table>
   </div>
   <div class="caja caja-resp">
-    <span class="caja-tit">Cómo quedaría escrita la respuesta</span>
-    <p><strong>Facade</strong>, para la reserva. Se usa cuando para hacer una tarea hay que coordinar varias clases de un subsistema, y es lo que pasa: hay que "interactuar con varios subsistemas (...) en una secuencia determinada", y se pide "un acceso simple y unificado". Una clase nueva, la fachada, guarda un objeto de cada una (vuelos, hoteles y pagos) y ofrece una operación simple, reservar el viaje completo, que por dentro las llama en el orden correcto. Así el sitio web depende solo de la fachada y no necesita conocer el subsistema.</p>
-    <p><strong>Abstract Factory</strong>, para armar los paquetes. Se usa cuando hay que crear familias de objetos relacionados, que tienen que combinar entre sí, y eso dice el enunciado: "Cada categoría incluye su propio tipo de vuelo, de alojamiento y de traslado", y los de una categoría "no deben combinarse con los de la otra". Una fábrica abstracta declara un método de creación por cada producto (el vuelo, el alojamiento y el traslado), y hay una fábrica concreta por cada familia (Económica y Premium), que crea todos los productos de esa familia. Así nunca se mezclan productos de familias distintas, y la categoría Corporativa se suma con otra fábrica.</p>
-    <p><strong>Strategy</strong>, para el descuento. Se usa cuando hay varias formas de hacer una misma tarea y se quiere poder cambiar de una a otra mientras el programa corre, y eso pide el enunciado: el precio se calcula "aplicando una política de descuento", que "se elige al momento de la compra y debe poder cambiarse". Cada forma (temporada baja, compra anticipada, cliente frecuente) va en su propia clase, todas con la misma interfaz, y el paquete, que es el contexto, guarda una y le delega la tarea. Así se agregan formas nuevas sin modificar el cálculo del resto del paquete.</p>
+    <span class="caja-tit">La respuesta de Facade, por partes</span>
+    <ol>
+      <li><strong>Qué patrón:</strong> Facade, un patrón estructural, para reservar un viaje.</li>
+      <li><strong>La frase que lo pide:</strong> Hay que "interactuar con varios subsistemas (...) en una secuencia determinada", y se pide "un acceso simple y unificado".</li>
+      <li><strong>Por qué va ese patrón:</strong> Para reservar un viaje hay que coordinar varias clases de un subsistema: vuelos, hoteles y pagos.</li>
+      <li>
+        <strong>Cómo queda armado:</strong> cada parte del patrón, con su clase y lo que tiene.
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Parte del patrón</th><th>Clase</th><th>Qué tiene</th></tr>
+            <tr><td class="lbl">Subsistema</td><td><code>Vuelos</code>, <code>Hoteles</code>, <code>Pagos</code></td><td><code>reservarAsiento()</code>, <code>reservarHabitacion()</code> y <code>cobrar()</code>: ya existen y no cambian</td></tr>
+            <tr><td class="lbl">Fachada</td><td><code>ReservaDeViajes</code></td><td>Un atributo por cada subsistema (<code>vuelos</code>, <code>hoteles</code>, <code>pagos</code>) y la operación simple <code>reservarViaje(cliente, destino)</code>, que los llama en orden</td></tr>
+            <tr><td class="lbl">Cliente</td><td><code>SitioWeb</code></td><td>Llama solo a <code>reservarViaje()</code></td></tr>
+          </table>
+        </div>
+      </li>
+      <li><strong>Qué se gana:</strong> El sitio web depende solo de la fachada: si cambia un subsistema, se toca la fachada y no el sitio.</li>
+    </ol>
   </div>
   <p>
-    Cada justificación es <strong>la descripción del patrón</strong> (la del ejemplo 2 de su sección) dicha
-    con las palabras de este enunciado: cuándo se usa, con la frase del enunciado entre comillas; cómo funciona;
-    y qué se gana.
-  </p>
-  <p>
-    <strong>El diagrama de Facade.</strong> La consigna no lo pide, pero así quedaría dibujada la parte de
-    Facade de este enunciado (los nombres de las clases los elige uno):
+    <strong>Dibujado.</strong> La consigna no lo pide, pero así queda el diagrama de Facade de este enunciado (los
+    nombres de las clases los elige uno):
   </p>
   <div class="pd-grafico uml" data-g="id-facade">
     <svg viewBox="-14 -14 817 257" width="817" height="257" role="img" aria-label="Facade para reservar un viaje completo">
@@ -537,7 +546,14 @@ Envios: se despacho teclado</pre>
       </g>
     </svg>
   </div>
-  <p><code>ReservaDeViajes</code> es la Fachada: guarda los tres subsistemas y ofrece <code>reservarViaje()</code>. <code>SitioWeb</code>, el cliente, solo la conoce a ella.</p>
+  <p>
+    <strong>Los otros dos patrones</strong> se justifican con las mismas partes. Acá va solo el patrón y la
+    frase que lo pide; cada uno está desarrollado así en su propia sección:
+  </p>
+  <ul>
+    <li><strong>Abstract Factory</strong>, para armar los paquetes: "Cada categoría incluye su propio tipo de vuelo, de alojamiento y de traslado", y los de una categoría "no deben combinarse con los de la otra".</li>
+    <li><strong>Strategy</strong>, para el descuento: se aplica "una política de descuento", que "se elige al momento de la compra y debe poder cambiarse".</li>
+  </ul>
   <div class="caja caja-ojo">
     <span class="caja-tit">Las trampas de este enunciado</span>
     <ul>

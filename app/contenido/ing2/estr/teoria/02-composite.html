@@ -492,19 +492,29 @@
     </table>
   </div>
   <div class="caja caja-resp">
-    <span class="caja-tit">Cómo quedaría escrita la respuesta</span>
-    <p><strong>Composite</strong>, para la estructura de los cursos. Se usa cuando los objetos forman un árbol, con elementos simples y contenedores que agrupan elementos simples u otros contenedores, y eso describe el enunciado: "Un módulo puede contener lecciones individuales y también otros módulos". La lección (el elemento simple) y el módulo (el contenedor) cumplen una misma interfaz, y el módulo guarda una lista de esa interfaz y resuelve la duración pasándole el pedido a lo que contiene. Así la plataforma trata "de igual forma" a una lección suelta que a un módulo completo.</p>
-    <p><strong>Factory Method</strong>, para los certificados. Se usa cuando una clase no puede saber de antemano qué tipo exacto de objeto tiene que crear: acá, el módulo de inscripciones no sabe qué certificado le toca (de asistencia, de aprobación o de honor). El enunciado lo dice: "cada tipo de curso tiene su propio procedimiento para generar el que le corresponde". La creación se saca a un método, el método fábrica, que una clase base declara y cada subclase sobrescribe para devolver su certificado: hay un creador por cada tipo. Así se agregan tipos nuevos sin modificar el código que los usa, como se pide: "sin modificar lo ya desarrollado".</p>
-    <p><strong>Observer</strong>, para los avisos. Se usa cuando un cambio en un objeto se tiene que avisar a otros, y no se sabe de antemano cuántos ni cuáles son; el enunciado lo dice: "cada vez que un docente publica una nueva lección, todos los alumnos inscriptos en el curso deben ser notificados automáticamente", y "pueden activar o desactivar estos avisos". El curso es el notificador: guarda una lista de suscriptores (los alumnos inscriptos) y les avisa a todos; cada uno se puede suscribir o dar de baja cuando quiera. Así un alumno deja de recibir avisos, o vuelve a recibirlos, sin modificar el curso.</p>
+    <span class="caja-tit">La respuesta de Composite, por partes</span>
+    <ol>
+      <li><strong>Qué patrón:</strong> Composite, un patrón estructural, para la estructura de los cursos.</li>
+      <li><strong>La frase que lo pide:</strong> "Un módulo puede contener lecciones individuales y también otros módulos", y hay que tratar "de igual forma a una lección suelta que a un módulo completo".</li>
+      <li><strong>Por qué va ese patrón:</strong> Los objetos forman un árbol: lecciones (elementos simples) y módulos (contenedores), que agrupan lecciones u otros módulos.</li>
+      <li>
+        <strong>Cómo queda armado:</strong> cada parte del patrón, con su clase y lo que tiene.
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Parte del patrón</th><th>Clase</th><th>Qué tiene</th></tr>
+            <tr><td class="lbl">Componente</td><td><code>Contenido</code> (interfaz)</td><td><code>duracion(): int</code> y <code>mostrar()</code>: lo que se le pide a cualquiera de los dos</td></tr>
+            <tr><td class="lbl">Hoja</td><td><code>Leccion</code></td><td>El atributo <code>minutos</code>; su <code>duracion()</code> devuelve esos minutos</td></tr>
+            <tr><td class="lbl">Compuesto</td><td><code>Modulo</code></td><td>El atributo <code>contenidos: Contenido[]</code> (la lista); <code>agregar(c)</code>; su <code>duracion()</code> suma la de cada contenido</td></tr>
+            <tr><td class="lbl">Cliente</td><td><code>Plataforma</code></td><td>Le pide <code>duracion()</code> al módulo de más arriba</td></tr>
+          </table>
+        </div>
+      </li>
+      <li><strong>Qué se gana:</strong> La plataforma trata igual a una lección que a un módulo, y un curso se arma con los niveles que hagan falta.</li>
+    </ol>
   </div>
   <p>
-    Cada justificación es <strong>la descripción del patrón</strong> (la del ejemplo 2 de su sección) dicha
-    con las palabras de este enunciado: cuándo se usa, con la frase del enunciado entre comillas; cómo funciona;
-    y qué se gana.
-  </p>
-  <p>
-    <strong>El diagrama de Composite.</strong> La consigna no lo pide, pero así quedaría dibujada la parte de
-    Composite de este enunciado (los nombres de las clases los elige uno):
+    <strong>Dibujado.</strong> La consigna no lo pide, pero así queda el diagrama de Composite de este enunciado (los
+    nombres de las clases los elige uno):
   </p>
   <div class="pd-grafico uml" data-g="id-composite">
     <svg viewBox="-14 -14 695 324" width="695" height="324" role="img" aria-label="Composite para los módulos y las lecciones de un curso">
@@ -554,7 +564,14 @@
       </g>
     </svg>
   </div>
-  <p><code>Contenido</code> es el Componente, la interfaz común. <code>Leccion</code> es la Hoja y <code>Modulo</code> el Compuesto, que guarda una lista de <code>Contenido</code>: lecciones u otros módulos.</p>
+  <p>
+    <strong>Los otros dos patrones</strong> se justifican con las mismas partes. Acá va solo el patrón y la
+    frase que lo pide; cada uno está desarrollado así en su propia sección:
+  </p>
+  <ul>
+    <li><strong>Factory Method</strong>, para los certificados: "cada tipo de curso tiene su propio procedimiento para generar el que le corresponde".</li>
+    <li><strong>Observer</strong>, para los avisos: "cada vez que un docente publica una nueva lección, todos los alumnos inscriptos en el curso deben ser notificados automáticamente".</li>
+  </ul>
   <div class="caja caja-ojo">
     <span class="caja-tit">Las trampas de este enunciado</span>
     <ul>

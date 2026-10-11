@@ -743,19 +743,30 @@ Juego: silla victoriana + sofa victoriano</pre>
     </table>
   </div>
   <div class="caja caja-resp">
-    <span class="caja-tit">Cómo quedaría escrita la respuesta</span>
-    <p><strong>Abstract Factory</strong>, para armar las instalaciones. Se usa cuando hay que crear familias de objetos relacionados, que tienen que combinar entre sí, y eso dice el enunciado: "Cada línea tiene su propio panel de control y su propio sensor de movimiento" y "los componentes de una línea no son compatibles con los de la otra". Una fábrica abstracta declara un método de creación por cada producto (el panel y el sensor), y hay una fábrica concreta por cada familia (Hogar y Profesional), que crea todos los productos de esa familia. Así nunca se mezclan productos de familias distintas, y la línea Industrial se suma con otra fábrica, sin modificar el código que arma las instalaciones.</p>
-    <p><strong>Singleton</strong>, para el historial de eventos. Se usa cuando una clase debe tener una única instancia disponible para todo el programa, y eso pide el enunciado: "debe existir un solo registrador de eventos, compartido por toda la aplicación". El registrador oculta su constructor y ofrece un método estático que crea el objeto la primera vez y devuelve siempre el mismo. Así todas las pantallas escriben en el mismo historial y no se abren varios archivos.</p>
-    <p><strong>Adapter</strong>, para las lámparas de otro fabricante. Se usa cuando hay que hacer trabajar juntas dos clases con interfaces incompatibles, sin modificar ninguna, y es el caso: su librería tiene funciones con "otros nombres" que "reciben otros parámetros", y "no se puede modificar". Se agrega una clase en el medio, el adaptador, que cumple la interfaz con la que la aplicación ya controla sus lámparas y por dentro traduce cada llamada a las funciones de esa librería. Así la aplicación controla las lámparas ajenas igual que las propias.</p>
+    <span class="caja-tit">La respuesta de Abstract Factory, por partes</span>
+    <ol>
+      <li><strong>Qué patrón:</strong> Abstract Factory, un patrón creacional, para armar las instalaciones.</li>
+      <li><strong>La frase que lo pide:</strong> "Cada línea tiene su propio panel de control y su propio sensor de movimiento", y "los componentes de una línea no son compatibles con los de la otra".</li>
+      <li><strong>Por qué va ese patrón:</strong> Hay que crear familias de objetos relacionados, que tienen que combinar entre sí: el panel y el sensor de cada línea.</li>
+      <li>
+        <strong>Cómo queda armado:</strong> cada parte del patrón, con su clase y lo que tiene.
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Parte del patrón</th><th>Clase</th><th>Qué tiene</th></tr>
+            <tr><td class="lbl">Productos Abstractos</td><td><code>Panel</code> y <code>Sensor</code> (interfaces)</td><td>Un método cada uno: <code>mostrar()</code> y <code>detectar()</code></td></tr>
+            <tr><td class="lbl">Productos Concretos</td><td><code>PanelHogar</code>, <code>PanelProfesional</code>, <code>SensorHogar</code>, <code>SensorProfesional</code></td><td>Uno por cada producto y por cada línea</td></tr>
+            <tr><td class="lbl">Fábrica Abstracta</td><td><code>FabricaDeLinea</code> (interfaz)</td><td>Un método de creación por cada producto: <code>crearPanel(): Panel</code> y <code>crearSensor(): Sensor</code></td></tr>
+            <tr><td class="lbl">Fábricas Concretas</td><td><code>FabricaHogar</code>, <code>FabricaProfesional</code></td><td>Cada una crea el panel y el sensor <strong>de su línea</strong></td></tr>
+            <tr><td class="lbl">Cliente</td><td><code>Instalador</code></td><td>El atributo <code>fabrica: FabricaDeLinea</code>: le pide los dos componentes sin nombrar clases concretas</td></tr>
+          </table>
+        </div>
+      </li>
+      <li><strong>Qué se gana:</strong> Nunca se mezclan componentes de líneas distintas, y la línea Industrial se suma con otra fábrica y sus dos productos, sin modificar el código que arma las instalaciones.</li>
+    </ol>
   </div>
   <p>
-    Cada justificación es <strong>la descripción del patrón</strong> (la del ejemplo 2 de su sección) dicha
-    con las palabras de este enunciado: cuándo se usa, con la frase del enunciado entre comillas; cómo funciona;
-    y qué se gana.
-  </p>
-  <p>
-    <strong>El diagrama de Abstract Factory.</strong> La consigna no lo pide, pero así quedaría dibujada la parte de
-    Abstract Factory de este enunciado (los nombres de las clases los elige uno):
+    <strong>Dibujado.</strong> La consigna no lo pide, pero así queda el diagrama de Abstract Factory de este enunciado (los
+    nombres de las clases los elige uno):
   </p>
   <div class="pd-grafico uml" data-g="id-abstract">
     <svg viewBox="-74 -14 787 477" width="787" height="477" role="img" aria-label="Abstract Factory para las líneas de iluminación">
@@ -856,7 +867,14 @@ Juego: silla victoriana + sofa victoriano</pre>
       </g>
     </svg>
   </div>
-  <p><code>FabricaDeLinea</code> es la Fábrica Abstracta, con un método de creación por cada producto. <code>FabricaHogar</code> y <code>FabricaProfesional</code> son las Fábricas Concretas, una por línea. <code>Panel</code> y <code>Sensor</code> son los Productos Abstractos, y <code>Instalador</code> es el cliente.</p>
+  <p>
+    <strong>Los otros dos patrones</strong> se justifican con las mismas partes. Acá va solo el patrón y la
+    frase que lo pide; cada uno está desarrollado así en su propia sección:
+  </p>
+  <ul>
+    <li><strong>Singleton</strong>, para el historial de eventos: "debe existir un solo registrador de eventos, compartido por toda la aplicación".</li>
+    <li><strong>Adapter</strong>, para las lámparas de otro fabricante: su librería tiene funciones con "otros nombres" que "reciben otros parámetros", y "no se puede modificar".</li>
+  </ul>
   <div class="caja caja-ojo">
     <span class="caja-tit">Las trampas de este enunciado</span>
     <ul>

@@ -486,19 +486,29 @@ A pie de Parana a Oro Verde: por el camino costero, 3 horas</pre>
     </table>
   </div>
   <div class="caja caja-resp">
-    <span class="caja-tit">Cómo quedaría escrita la respuesta</span>
-    <p><strong>Composite</strong>, para los bienes asegurados. Se usa cuando los objetos forman un árbol, con elementos simples y contenedores que agrupan elementos simples u otros contenedores, y eso describe el enunciado: "grupos de bienes, que a su vez contienen otros grupos". El bien (el elemento simple) y el grupo (el contenedor) cumplen una misma interfaz, y el grupo guarda una lista de esa interfaz y resuelve el valor asegurado pasándole el pedido a lo que contiene. Así el valor asegurado se calcula "de la misma manera" para un bien suelto que para un grupo completo.</p>
-    <p><strong>Strategy</strong>, para la prima. Se usa cuando hay varias formas de hacer una misma tarea y se quiere poder cambiar de una a otra mientras el programa corre, y eso pide el enunciado: hay "distintos métodos de evaluación de riesgo", y el asesor "selecciona el método" y "puede cambiarlo durante la entrevista". Cada forma (conservador, estándar, agresivo) va en su propia clase, todas con la misma interfaz, y el cotizador, que es el contexto, guarda una y le delega la tarea. Así se agregan formas nuevas sin modificar el cotizador.</p>
-    <p><strong>Abstract Factory</strong>, para los documentos de cada póliza. Se usa cuando hay que crear familias de objetos relacionados, que tienen que combinar entre sí, y eso dice el enunciado: se emiten "un contrato y un certificado de cobertura", y "los de una versión no deben mezclarse con los de la otra". Una fábrica abstracta declara un método de creación por cada producto (el contrato y el certificado), y hay una fábrica concreta por cada familia (Particulares y Empresas), que crea todos los productos de esa familia. Así nunca se mezclan productos de familias distintas, y la versión Agro se suma con otra fábrica.</p>
+    <span class="caja-tit">La respuesta de Strategy, por partes</span>
+    <ol>
+      <li><strong>Qué patrón:</strong> Strategy, un patrón de comportamiento, para calcular la prima.</li>
+      <li><strong>La frase que lo pide:</strong> Hay "distintos métodos de evaluación de riesgo"; el asesor "selecciona el método" y "puede cambiarlo durante la entrevista".</li>
+      <li><strong>Por qué va ese patrón:</strong> Hay varias formas de hacer una misma tarea (calcular la prima) y se quiere poder cambiar de una a otra mientras el programa corre.</li>
+      <li>
+        <strong>Cómo queda armado:</strong> cada parte del patrón, con su clase y lo que tiene.
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Parte del patrón</th><th>Clase</th><th>Qué tiene</th></tr>
+            <tr><td class="lbl">Estrategia</td><td><code>MetodoDeRiesgo</code> (interfaz)</td><td>Un solo método: <code>evaluar(cliente): double</code></td></tr>
+            <tr><td class="lbl">Estrategias Concretas</td><td><code>MetodoConservador</code>, <code>MetodoEstandar</code>, <code>MetodoAgresivo</code></td><td>Cada una calcula a su manera en <code>evaluar()</code></td></tr>
+            <tr><td class="lbl">Contexto</td><td><code>Cotizador</code></td><td>El atributo <code>metodo: MetodoDeRiesgo</code>; <code>cambiarMetodo(m)</code>; y <code>calcularPrima(cliente)</code>, que le pasa el cálculo a <code>metodo</code></td></tr>
+            <tr><td class="lbl">Cliente</td><td><code>Asesor</code></td><td>Elige el método y se lo pasa al cotizador</td></tr>
+          </table>
+        </div>
+      </li>
+      <li><strong>Qué se gana:</strong> Un método nuevo es una clase más, sin modificar el cotizador.</li>
+    </ol>
   </div>
   <p>
-    Cada justificación es <strong>la descripción del patrón</strong> (la del ejemplo 2 de su sección) dicha
-    con las palabras de este enunciado: cuándo se usa, con la frase del enunciado entre comillas; cómo funciona;
-    y qué se gana.
-  </p>
-  <p>
-    <strong>El diagrama de Strategy.</strong> La consigna no lo pide, pero así quedaría dibujada la parte de
-    Strategy de este enunciado (los nombres de las clases los elige uno):
+    <strong>Dibujado.</strong> La consigna no lo pide, pero así queda el diagrama de Strategy de este enunciado (los
+    nombres de las clases los elige uno):
   </p>
   <div class="pd-grafico uml" data-g="id-strategy">
     <svg viewBox="-14 -14 992 277" width="992" height="277" role="img" aria-label="Strategy para los métodos de evaluación de riesgo">
@@ -557,7 +567,14 @@ A pie de Parana a Oro Verde: por el camino costero, 3 horas</pre>
       </g>
     </svg>
   </div>
-  <p><code>Cotizador</code> es el Contexto: guarda un <code>MetodoDeRiesgo</code> y le delega el cálculo. <code>MetodoDeRiesgo</code> es la Estrategia, con tres Estrategias Concretas, y el <code>Asesor</code>, que es el cliente, elige cuál va.</p>
+  <p>
+    <strong>Los otros dos patrones</strong> se justifican con las mismas partes. Acá va solo el patrón y la
+    frase que lo pide; cada uno está desarrollado así en su propia sección:
+  </p>
+  <ul>
+    <li><strong>Composite</strong>, para los bienes asegurados: hay "grupos de bienes, que a su vez contienen otros grupos", y el valor se calcula "de la misma manera".</li>
+    <li><strong>Abstract Factory</strong>, para los documentos de la póliza: se emiten "un contrato y un certificado de cobertura", y "los de una versión no deben mezclarse con los de la otra".</li>
+  </ul>
   <div class="caja caja-ojo">
     <span class="caja-tit">Las trampas de este enunciado</span>
     <ul>

@@ -24,7 +24,8 @@ El plan de carga, con lo que sube cada parte y lo que falta, está en `docs/plan
   ejemplos: los piden) → Ejemplo 1 en C++ → **los cuatro ejemplos con formato de parcial** →
   Errores y trampas (`.caja.caja-ojo`).
 - **Los cuatro ejemplos con formato de parcial**, en todos los patrones, con este número y este
-  título: 2 "dibujarlo y explicarlo" (diagrama, descripción de su usabilidad y dos ejemplos),
+  título: 2 "dibujarlo y explicarlo" (diagrama, descripción de su usabilidad y dos ejemplos; cada ejemplo es el caso en negrita
+  más una o dos oraciones que digan por qué ahí va el patrón, nunca una frase suelta),
   3 "aplicarlo a un enunciado" (desarme, diagrama y justificación), 4 "reconocerlo en un código"
   (C++ con los renglones que lo delatan resaltados, tabla renglón → parte del patrón, respuesta) y
   5 "agregarlo a un diagrama" (diagrama dado, qué hay, qué se cambia en orden, diagrama

@@ -235,6 +235,9 @@ Chrome (`chrome --headless --print-to-pdf`).
 `0.x.y-alpha` mientras esté en desarrollo. La `1.0.0` queda reservada para cuando esté terminado.
 La versión actual se lee al pie del menú lateral.
 
+* **0.45.1-alpha** — Ingeniería de Software II: en "dibujarlo y explicarlo", los dos ejemplos de
+  cada patrón ya no son una frase: cada uno trae el caso y una línea que dice por qué ahí va el
+  patrón.
 * **0.45.0-alpha** — Ingeniería de Software II: la teoría de los ocho patrones termina con los
   mismos cuatro ejemplos con formato de parcial, uno por cada forma en que lo pueden tomar:
   dibujarlo y explicarlo, aplicarlo a un enunciado, reconocerlo en un código C++ y agregarlo a un

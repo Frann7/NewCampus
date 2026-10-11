@@ -235,6 +235,9 @@ Chrome (`chrome --headless --print-to-pdf`).
 `0.x.y-alpha` mientras esté en desarrollo. La `1.0.0` queda reservada para cuando esté terminado.
 La versión actual se lee al pie del menú lateral.
 
+* **0.46.3-alpha** — Ingeniería de Software II: en los diagramas UML, las clases abstractas llevan
+  el rótulo «abstract» arriba del nombre, además de la cursiva, para que no se lean como clases
+  comunes. (La 0.46.2 se retiró.)
 * **0.46.1-alpha** — Ingeniería de Software II: tampoco usan consignas de parcial los ejemplos de
   teoría de la unidad base, de calidad (diagnóstico de CMMI, tres acciones con IA, ficha de una
   métrica) y de Git (el flujo entre dos ramas). Son casos muy parecidos, con otra empresa y otras

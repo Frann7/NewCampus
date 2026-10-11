@@ -21,7 +21,8 @@ Un diagrama:
 
 Clase: `id`, `x`, `y` (esquina de arriba a la izquierda, en px), y opcionales
 `nombre` (si no es el id), `estereo` (interface, abstract...), `abstracta`
-(nombre en cursiva), `destacada` (cabecera llena), `attrs`, `mets`, `w` (ancho mínimo).
+(nombre en cursiva y, si no trae otro, el rótulo «abstract»), `destacada` (cabecera llena),
+`attrs`, `mets`, `w` (ancho mínimo).
 El color de cada caja sale solo: interfaz, clase abstracta o clase común.
 Un miembro que empieza con `s:` es estático (subrayado); con `a:`, abstracto
 (cursiva).
@@ -49,6 +50,9 @@ def esc(s):
 
 
 def medir(c):
+    # una clase abstracta lleva siempre su rótulo: la cursiva sola no se ve (ni se puede hacer a mano)
+    if c.get("abstracta") and not c.get("estereo"):
+        c["estereo"] = "abstract"
     nombre = c.get("nombre", c["id"])
     attrs, mets = c.get("attrs", []), c.get("mets", [])
     limpio = [re.sub(r"^[sa]:", "", m) for m in attrs + mets]

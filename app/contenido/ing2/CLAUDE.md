@@ -82,7 +82,8 @@ El plan de carga, con lo que sube cada parte y lo que falta, está en `docs/plan
 ## Diagramas UML
 
 El color de cada caja lo pone `uml.py` solo: gris la clase común, violeta la interfaz
-(`estereo="interface"`), celeste la abstracta, y cabecera llena la `destacada` (la clase principal
+(`estereo="interface"`), celeste la abstracta, que además lleva sola el rótulo «abstract» (la
+cursiva del nombre no alcanza para verla), y cabecera llena la `destacada` (la clase principal
 del patrón). Los símbolos `+ - #` salen en verde, rojo y ámbar.
 
 No se dibujan a mano: se describen en `fuentes/ing2/diagramas/<unidad>.py` y

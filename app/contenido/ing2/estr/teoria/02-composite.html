@@ -464,7 +464,7 @@
   </p>
   <ol>
     <li><strong>Qué patrón y por qué:</strong> "Se aplica Composite, un patrón estructural, porque los objetos forman un árbol, con elementos simples (los empleados) y contenedores que agrupan elementos simples u otros contenedores (los departamentos). El enunciado lo dice: "una estructura de árbol que represente una organización jerárquica"."</li>
-    <li><strong>Cómo se aplica:</strong> "<code>Empleado</code> y <code>Departamento</code> cumplen una misma interfaz, <code>Unidad</code>, con <code>salario()</code>. <code>Departamento</code> guarda una lista de <code>Unidad</code> y resuelve su salario pidiéndoselo a cada miembro y sumando."</li>
+    <li><strong>Cómo se aplica:</strong> "<code>Empleado</code> es la hoja (el elemento simple, que no contiene a nadie) y <code>Departamento</code> el compuesto (el contenedor). Los dos cumplen una misma interfaz, el componente: <code>Unidad</code>, con <code>salario()</code>. <code>Departamento</code> guarda una lista de <code>Unidad</code> y resuelve su salario pidiéndoselo a cada miembro y sumando."</li>
     <li><strong>Qué se gana:</strong> "La organización trata igual a un empleado solo que a un departamento entero: el salario total se obtiene pidiéndole <code>salario()</code> al departamento de más arriba."</li>
   </ol>
   <p>El enunciado ya nombra el patrón y sus partes ("nodos hoja", "nodos compuestos"): lo que se evalúa es el diagrama, con el rombo de <code>Departamento</code> volviendo a la interfaz y no a <code>Empleado</code>.</p>
@@ -496,12 +496,12 @@
     <p><strong>Composite</strong>, que es el patrón de esta sección, con sus tres partes:</p>
     <ol>
       <li><strong>Qué patrón y por qué:</strong> "Usaría Composite, un patrón estructural, porque los objetos forman un árbol, con elementos simples (las lecciones) y contenedores que agrupan elementos simples u otros contenedores (los módulos). El enunciado lo dice: "Un módulo puede contener lecciones individuales y también otros módulos"."</li>
-      <li><strong>Cómo se aplica:</strong> "<code>Leccion</code> y <code>Modulo</code> cumplen una misma interfaz, <code>Contenido</code>, con <code>duracion()</code>. <code>Modulo</code> guarda una lista de <code>Contenido</code> y resuelve su duración pidiéndosela a cada uno y sumando."</li>
+      <li><strong>Cómo se aplica:</strong> "<code>Leccion</code> es la hoja (el elemento simple, que no contiene a nadie) y <code>Modulo</code> el compuesto (el contenedor). Los dos cumplen una misma interfaz, el componente: <code>Contenido</code>, con <code>duracion()</code>. <code>Modulo</code> guarda una lista de <code>Contenido</code> y resuelve su duración pidiéndosela a cada uno y sumando."</li>
       <li><strong>Qué se gana:</strong> "La plataforma trata igual a una lección sola que a un módulo entero, que es lo que se pide: "de igual forma a una lección suelta que a un módulo completo"."</li>
     </ol>
     <p><strong>Los otros dos patrones</strong>, más breves:</p>
     <ul>
-      <li><strong>Factory Method</strong> (creacional), para los certificados. Se usa cuando una clase no puede saber de antemano qué tipo exacto de objeto tiene que crear, y acá "cada tipo de curso tiene su propio procedimiento para generar el que le corresponde". La creación se saca a un método fábrica, que una clase base declara y cada subclase sobrescribe: hay un creador por cada tipo de certificado.</li>
+      <li><strong>Factory Method</strong> (creacional), para los certificados. Se usa cuando una clase no puede saber de antemano qué tipo exacto de objeto tiene que crear, y acá "cada tipo de curso tiene su propio procedimiento para generar el que le corresponde". La creación se saca a un método fábrica, que una clase base declara y cada subclase sobrescribe: hay una subclase creadora por cada tipo de certificado.</li>
       <li><strong>Observer</strong> (de comportamiento), para los avisos. Se usa cuando un cambio en un objeto se tiene que avisar a otros, sin saber de antemano cuántos ni cuáles son, y acá "cada vez que un docente publica una nueva lección, todos los alumnos inscriptos en el curso deben ser notificados automáticamente". El curso es el notificador: guarda una lista de suscriptores y les avisa a todos.</li>
     </ul>
   </div>
@@ -646,9 +646,12 @@ int main() {
       <tr><td>52</td><td>Se mete un <code>Proyecto</code> adentro de otro.</td><td>El <strong>árbol</strong></td></tr>
     </table>
   </div>
-  <p>
-    <strong>Respuesta:</strong> "Es el patrón <strong>Composite</strong> (estructural). <code>Tarea</code> es el componente: la interfaz común, con <code>Operation()</code>. <code>TareaSimple</code> es la hoja. <code>Proyecto</code> es el compuesto: guarda una lista de <code>Tarea*</code> (<code>children_</code>), así que puede contener tareas simples u otros proyectos, y su <code>Operation()</code> recorre los hijos y combina sus resultados. El cliente llama a <code>Operation()</code> sobre el proyecto raíz igual que sobre una tarea suelta."
-  </p>
+  <p><strong>Respuesta</strong>, en las mismas tres partes de siempre:</p>
+  <ol>
+    <li><strong>Qué patrón y por qué:</strong> "Es Composite, un patrón estructural que se usa cuando los objetos forman un árbol, con elementos simples y contenedores que agrupan elementos simples u otros contenedores. Se reconoce porque <code>Proyecto</code> hereda de <code>Tarea</code> y a la vez guarda una lista de <code>Tarea</code>, y su <code>Operation()</code> recorre esa lista y junta los resultados."</li>
+    <li><strong>Cómo está aplicado:</strong> "<code>Tarea</code> es el componente (la interfaz común a todos), con <code>Operation()</code>. <code>TareaSimple</code> es la hoja (el elemento simple, que no contiene a nadie). <code>Proyecto</code> es el compuesto (el contenedor): guarda una lista de <code>Tarea</code>, así que adentro puede tener tareas simples u otros proyectos, y resuelve <code>Operation()</code> pasándole el pedido a cada uno."</li>
+    <li><strong>Qué se gana:</strong> "El cliente trata igual a una tarea sola que a un proyecto entero: llama a <code>Operation()</code> sobre el proyecto de más arriba y obtiene el resultado de todo el árbol."</li>
+  </ol>
   <div class="caja caja-ojo">
     <span class="caja-tit">No es Observer</span>
     <p>También hay una lista y un bucle. La diferencia: acá la lista es <strong>del mismo tipo</strong> que la clase que la tiene (<code>Proyecto</code> es una <code>Tarea</code> y guarda <code>Tarea</code>s) y del bucle <strong>vuelve un resultado</strong>. En Observer la lista es de otra interfaz y solo se avisa.</p>
@@ -749,7 +752,7 @@ int main() {
     </svg>
   </div>
   <p>
-    <strong>Justificación:</strong> "Se aplica Composite porque los objetos pasan a formar un árbol, con elementos simples (las canciones) y contenedores que agrupan elementos simples u otros contenedores (las playlists). <code>Cancion</code> y <code>Playlist</code> cumplen una misma interfaz, <code>Elemento</code>, y <code>Playlist</code> guarda una lista de <code>Elemento</code> y resuelve su duración pidiéndosela a cada uno y sumando. Así el reproductor trata igual a una canción sola que a una playlist entera."
+    <strong>Justificación:</strong> "Se aplica Composite porque los objetos pasan a formar un árbol, con elementos simples (las canciones) y contenedores que agrupan elementos simples u otros contenedores (las playlists). <code>Cancion</code> es la hoja y <code>Playlist</code> el compuesto; los dos cumplen una misma interfaz, el componente (<code>Elemento</code>), y <code>Playlist</code> guarda una lista de <code>Elemento</code> y resuelve su duración pidiéndosela a cada uno y sumando. Así el reproductor trata igual a una canción sola que a una playlist entera."
   </p>
   <div class="caja caja-ojo">
     <span class="caja-tit">A tener en cuenta al modificar el diagrama</span>

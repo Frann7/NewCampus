@@ -457,7 +457,7 @@ Logistica: entrega por mar, en un barco</pre>
       </div>
     </li>
     <li>
-      <strong>La descripción:</strong> "Factory Method es un patrón creacional que se usa cuando una clase no puede saber de antemano qué tipo exacto de objeto tiene que crear. La creación se saca a un método, el método fábrica, que la clase base declara y cada subclase sobrescribe para devolver su producto. Así se agregan tipos nuevos sin modificar el código que los usa."
+      <strong>La descripción:</strong> "Factory Method es un patrón creacional que se usa cuando una clase no puede saber de antemano qué tipo exacto de objeto tiene que crear. La creación se saca a un método, el método fábrica: lo declara la clase base (el creador) y lo sobrescribe cada subclase (un creador concreto) para devolver su objeto (el producto). Así se agregan tipos nuevos sin modificar el código que los usa."
       <br>Tiene tres oraciones: <strong>cuándo se usa</strong>, <strong>cómo funciona</strong> y
       <strong>qué se gana</strong>. Son las mismas que sirven después para justificar: solo se cambian las
       palabras generales por los nombres del caso.
@@ -587,7 +587,7 @@ Logistica: entrega por mar, en un barco</pre>
   </p>
   <ol>
     <li><strong>Qué patrón y por qué:</strong> "Se aplica Factory Method, un patrón creacional, porque la aplicación no puede saber de antemano qué tipo exacto de conexión tiene que crear: puede ser a MySQL, a PostgreSQL o a MongoDB. El enunciado lo dice: "crear objetos de conexión a la base de datos de manera que la aplicación pueda trabajar con diferentes bases de datos"."</li>
-    <li><strong>Cómo se aplica:</strong> "La creación se saca a un método, el método fábrica <code>crearConexion()</code>, que la clase base <code>CreadorDeConexiones</code> declara y cada subclase (<code>CreadorMySQL</code>, <code>CreadorPostgreSQL</code>, <code>CreadorMongoDB</code>) sobrescribe para devolver su conexión. Todas las conexiones tienen un tipo común, <code>Conexion</code>, que es el producto."</li>
+    <li><strong>Cómo se aplica:</strong> "La creación se saca a un método, el método fábrica <code>crearConexion()</code>. Lo declara, sin código, el creador (la clase que necesita la conexión pero no decide cuál se crea): <code>CreadorDeConexiones</code>. Lo sobrescribe cada creador concreto (<code>CreadorMySQL</code>, <code>CreadorPostgreSQL</code>, <code>CreadorMongoDB</code>) para devolver su conexión. <code>Conexion</code> es el producto: el tipo común de todo lo que se crea."</li>
     <li><strong>Qué se gana:</strong> "Se agregan tipos nuevos sin modificar el código que los usa: otra base de datos (por ejemplo, SQLite) es una conexión y un creador más."</li>
   </ol>
   <p>Por qué no es Abstract Factory: hay un solo tipo de producto (la conexión) en varias versiones, no varios productos que tengan que combinar.</p>
@@ -619,7 +619,7 @@ Logistica: entrega por mar, en un barco</pre>
     <p><strong>Factory Method</strong>, que es el patrón de esta sección, con sus tres partes:</p>
     <ol>
       <li><strong>Qué patrón y por qué:</strong> "Usaría Factory Method, un patrón creacional, porque la mesa de entradas no puede saber de antemano qué tipo exacto de documento hay que crear: puede ser una solicitud, un reclamo o una habilitación. El enunciado lo dice: "Para cada tipo de documento existe una oficina con su propio procedimiento para generarlo"."</li>
-      <li><strong>Cómo se aplica:</strong> "La creación se saca a un método, el método fábrica <code>crearDocumento()</code>, que la clase base <code>Oficina</code> declara y cada oficina concreta sobrescribe para devolver su documento. Todos los documentos tienen un tipo común, <code>Documento</code>."</li>
+      <li><strong>Cómo se aplica:</strong> "La creación se saca a un método, el método fábrica <code>crearDocumento()</code>. Lo declara, sin código, el creador (la clase que necesita el documento pero no decide cuál se crea): <code>Oficina</code>. Lo sobrescribe cada creador concreto (la oficina de solicitudes, la de reclamos y la de habilitaciones) para devolver su documento. <code>Documento</code> es el producto: el tipo común de todo lo que se crea."</li>
       <li><strong>Qué se gana:</strong> "Se agregan tipos nuevos de documento sin modificar el código que los usa, que es lo que se pide: "sin modificar la mesa de entradas"."</li>
     </ol>
     <p><strong>Los otros dos patrones</strong>, más breves:</p>
@@ -808,9 +808,12 @@ Agencia: se emitio {Pasaje terrestre}</pre>
       <tr><td>51</td><td>El cliente recibe el creador por su clase base.</td><td>El <strong>Cliente</strong></td></tr>
     </table>
   </div>
-  <p>
-    <strong>Respuesta:</strong> "Es el patrón <strong>Factory Method</strong> (creacional). <code>Agencia</code> es el creador: declara el método fábrica <code>EmitirPasaje()</code>, que devuelve un <code>Pasaje</code> (el producto), y lo usa en <code>SomeOperation()</code> sin saber qué pasaje recibe. <code>AgenciaAerea</code> y <code>AgenciaTerrestre</code> lo sobrescriben para devolver un <code>PasajeAereo</code> o un <code>PasajeTerrestre</code>. Para sumar otro tipo de pasaje alcanza con una subclase nueva de cada jerarquía."
-  </p>
+  <p><strong>Respuesta</strong>, en las mismas tres partes de siempre:</p>
+  <ol>
+    <li><strong>Qué patrón y por qué:</strong> "Es Factory Method, un patrón creacional que se usa cuando una clase no puede saber de antemano qué tipo exacto de objeto tiene que crear. Se reconoce porque <code>Agencia</code> tiene un método sin código, <code>EmitirPasaje()</code>, que devuelve un <code>Pasaje</code>, y sus subclases lo sobrescriben con un <code>new</code>."</li>
+    <li><strong>Cómo está aplicado:</strong> "<code>Agencia</code> es el creador (la clase que necesita el pasaje pero no decide cuál se crea): declara el método fábrica <code>EmitirPasaje()</code> y lo usa en <code>SomeOperation()</code>. <code>AgenciaAerea</code> y <code>AgenciaTerrestre</code> son los creadores concretos (los que deciden): cada una devuelve su pasaje. <code>Pasaje</code> es el producto (el tipo común de todo lo que se crea), y <code>PasajeAereo</code> y <code>PasajeTerrestre</code>, los productos concretos."</li>
+    <li><strong>Qué se gana:</strong> "Se agregan tipos nuevos sin modificar el código que los usa: otro tipo de pasaje es un pasaje y una agencia más, y <code>Agencia</code> no cambia."</li>
+  </ol>
   <div class="caja caja-ojo">
     <span class="caja-tit">No confundir con Abstract Factory</span>
     <p>Acá hay <strong>un solo</strong> método de creación y <strong>un solo</strong> tipo de producto. Si la clase tuviera dos o más métodos de creación que devuelven productos distintos, sería Abstract Factory.</p>
@@ -928,7 +931,7 @@ Agencia: se emitio {Pasaje terrestre}</pre>
     </svg>
   </div>
   <p>
-    <strong>Justificación:</strong> "Se aplica Factory Method porque <code>Editor</code> no puede saber de antemano qué tipo exacto de documento tiene que crear, y se van a sumar tipos. La creación se saca a un método, el método fábrica <code>crearDocumento()</code>, que <code>Editor</code> declara y cada subclase (<code>EditorDeTexto</code> y <code>EditorDePlanillas</code>) sobrescribe para devolver su documento. Así se agregan tipos nuevos sin modificar <code>Editor</code> ni los documentos que ya existen."
+    <strong>Justificación:</strong> "Se aplica Factory Method porque <code>Editor</code> no puede saber de antemano qué tipo exacto de documento tiene que crear, y se van a sumar tipos. La creación se saca a un método, el método fábrica <code>crearDocumento()</code>: lo declara, sin código, el creador (<code>Editor</code>, que necesita el documento pero no decide cuál se crea) y lo sobrescribe cada creador concreto (<code>EditorDeTexto</code> y <code>EditorDePlanillas</code>) para devolver su documento. <code>Documento</code> es el producto, el tipo común de todo lo que se crea. Así se agregan tipos nuevos sin modificar <code>Editor</code> ni los documentos que ya existen."
   </p>
   <div class="caja caja-ojo">
     <span class="caja-tit">A tener en cuenta al modificar el diagrama</span>

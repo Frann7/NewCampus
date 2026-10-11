@@ -49,6 +49,13 @@ El plan de carga, con lo que sube cada parte y lo que falta, está en `docs/plan
   misma descripción con las palabras generales cambiadas por los nombres del caso, más la frase
   del enunciado entre comillas, textual. No se inventan frases nuevas para decir lo mismo: Fran
   se pierde cuando la explicación cambia de un ejemplo a otro (11/10/2026).
+- **Cada parte del patrón que se nombra, se explica.** En una respuesta modelo no va "Agencia es
+  el creador" a secas: va "Agencia es el creador (la clase que necesita el pasaje pero no decide
+  cuál se crea)". Una aclaración corta entre paréntesis, dicha con el caso, la primera vez que
+  aparece cada parte en esa respuesta (creador, producto, fábrica abstracta, familia, adaptador,
+  servicio, componente, hoja, compuesto, fachada, subsistema, notificador, suscriptor, estrategia,
+  contexto). La respuesta del ejemplo 5 (código) lleva las mismas tres partes que las demás:
+  qué patrón y por qué (con lo que lo delata), cómo está aplicado y qué se gana.
 - **En la teoría no va el enunciado de ningún parcial** (pedido de Fran, 11/10/2026): los
   parciales quedan en Evaluación, para rendirlos sin haberlos visto. Los ejemplos salen de las
   **guías de la cátedra** (primero las que no están resueltas en la Práctica) y, si no hay,

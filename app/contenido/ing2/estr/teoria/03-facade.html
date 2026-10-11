@@ -448,7 +448,7 @@ Envios: se despacho teclado</pre>
   </p>
   <ol>
     <li><strong>Qué patrón y por qué:</strong> "Se aplica Facade, un patrón estructural, porque para dar un turno hay que coordinar varias clases de un subsistema (<code>AgendaMedica</code>, <code>ObraSocial</code> y <code>Notificaciones</code>), y el enunciado pide "una interfaz fácil y de simple acceso"."</li>
-    <li><strong>Cómo se aplica:</strong> "Una clase nueva, la fachada <code>GestorDeTurnos</code>, guarda un objeto de cada una y ofrece una operación simple, <code>darTurno(paciente, medico)</code>, que por dentro las llama en el orden correcto: verifica la agenda, valida la cobertura y envía la confirmación."</li>
+    <li><strong>Cómo se aplica:</strong> "Se agrega una clase nueva, la fachada (la que da una entrada simple): <code>GestorDeTurnos</code>. Guarda un objeto de cada clase del subsistema (las que ya existían y hacen el trabajo: <code>AgendaMedica</code>, <code>ObraSocial</code> y <code>Notificaciones</code>) y ofrece una operación simple, <code>darTurno(paciente, medico)</code>, que por dentro las llama en el orden correcto."</li>
     <li><strong>Qué se gana:</strong> "<code>Recepcion</code> depende solo de la fachada y no necesita conocer el subsistema: da un turno con una sola llamada."</li>
   </ol>
 
@@ -479,7 +479,7 @@ Envios: se despacho teclado</pre>
     <p><strong>Facade</strong>, que es el patrón de esta sección, con sus tres partes:</p>
     <ol>
       <li><strong>Qué patrón y por qué:</strong> "Usaría Facade, un patrón estructural, porque para reservar un viaje hay que coordinar varias clases de un subsistema: vuelos, hoteles y pagos. El enunciado lo dice: hay que "interactuar con varios subsistemas", y se pide "un acceso simple y unificado"."</li>
-      <li><strong>Cómo se aplica:</strong> "Una clase nueva, la fachada <code>ReservaDeViajes</code>, guarda un objeto de cada subsistema y ofrece una operación simple, <code>reservarViaje()</code>, que por dentro los llama en el orden correcto."</li>
+      <li><strong>Cómo se aplica:</strong> "Se agrega una clase nueva, la fachada (la que da una entrada simple): <code>ReservaDeViajes</code>. Guarda un objeto de cada clase del subsistema (las que ya existían y hacen el trabajo: vuelos, hoteles y pagos) y ofrece una operación simple, <code>reservarViaje()</code>, que por dentro las llama en el orden correcto."</li>
       <li><strong>Qué se gana:</strong> "El sitio web depende solo de la fachada y no necesita conocer los subsistemas."</li>
     </ol>
     <p><strong>Los otros dos patrones</strong>, más breves:</p>
@@ -632,9 +632,12 @@ Empaque: a embolsar!</pre>
       <tr><td>49</td><td>El cliente recibe solo a la tercera clase y llama a un único método.</td><td>El <strong>Cliente</strong>, que no conoce el subsistema</td></tr>
     </table>
   </div>
-  <p>
-    <strong>Respuesta:</strong> "Es el patrón <strong>Facade</strong> (estructural). <code>Panaderia</code> es la fachada: guarda punteros a <code>Horno</code> y <code>Empaque</code>, que son las clases del subsistema, y ofrece un único método <code>Operation()</code> que llama en orden a las operaciones de las dos. El cliente usa solo a <code>Panaderia</code>, sin conocer el subsistema. Las clases del subsistema no comparten interfaz ni conocen a la fachada."
-  </p>
+  <p><strong>Respuesta</strong>, en las mismas tres partes de siempre:</p>
+  <ol>
+    <li><strong>Qué patrón y por qué:</strong> "Es Facade, un patrón estructural que se usa cuando para hacer una tarea hay que coordinar varias clases de un subsistema. Se reconoce porque <code>Panaderia</code> guarda un puntero a cada una de las otras clases, que no heredan de nadie ni se conocen entre sí, y tiene un solo método que las llama en orden."</li>
+    <li><strong>Cómo está aplicado:</strong> "<code>Horno</code> y <code>Empaque</code> son las clases del subsistema (las que hacen el trabajo). <code>Panaderia</code> es la fachada (la clase que da una entrada simple): guarda un objeto de cada una y ofrece <code>Operation()</code>, que por dentro llama a sus operaciones en el orden correcto."</li>
+    <li><strong>Qué se gana:</strong> "El cliente depende solo de la fachada: llama a <code>Operation()</code> y no necesita conocer el subsistema."</li>
+  </ol>
   <div class="caja caja-ojo">
     <span class="caja-tit">Cambian los nombres, no la forma</span>
     <p>Es el ejemplo de Facade de Refactoring.Guru (la fuente del apunte) con las clases rebautizadas: <code>Subsystem1</code>, <code>Subsystem2</code> y <code>Facade</code>. Los métodos quedaron con su nombre original (<code>Operation1</code>, <code>OperationN</code>, <code>OperationZ</code>). Es el patrón que tomaron como código en los dos parciales, 2024 y 2025: están resueltos en Evaluación, y la guía trae otro en C# (Práctica, ejercicio 7).</p>
@@ -751,7 +754,7 @@ Empaque: a embolsar!</pre>
     </svg>
   </div>
   <p>
-    <strong>Justificación:</strong> "Se aplica Facade porque para hacer una transferencia hay que coordinar varias clases de un subsistema (<code>Cuentas</code>, <code>Seguridad</code> y <code>Auditoria</code>). Una clase nueva, la fachada <code>Operaciones</code>, guarda un objeto de cada una y ofrece una operación simple, <code>transferir()</code>, que por dentro las llama en el orden correcto. Así <code>CajeroWeb</code> y <code>AppMovil</code> dependen solo de la fachada y no necesitan conocer el subsistema."
+    <strong>Justificación:</strong> "Se aplica Facade porque para hacer una transferencia hay que coordinar varias clases de un subsistema (las que ya existían y hacen el trabajo: <code>Cuentas</code>, <code>Seguridad</code> y <code>Auditoria</code>). Se agrega una clase nueva, la fachada (la que da una entrada simple): <code>Operaciones</code>, que guarda un objeto de cada una y ofrece <code>transferir()</code>, que por dentro las llama en el orden correcto. Así <code>CajeroWeb</code> y <code>AppMovil</code> dependen solo de la fachada y no necesitan conocer el subsistema."
   </p>
   <div class="caja caja-ojo">
     <span class="caja-tit">A tener en cuenta al modificar el diagrama</span>

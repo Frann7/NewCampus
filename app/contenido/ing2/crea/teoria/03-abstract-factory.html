@@ -715,7 +715,7 @@ Juego: silla victoriana + sofa victoriano</pre>
   </p>
   <ol>
     <li><strong>Qué patrón y por qué:</strong> "Se aplica Abstract Factory, un patrón creacional, porque hay que crear familias de objetos relacionados, que tienen que combinar entre sí: la factura y el recibo de cada país. El enunciado lo dice: "Los comprobantes de un mismo país se tienen que usar siempre juntos"."</li>
-    <li><strong>Cómo se aplica:</strong> "La fábrica abstracta, <code>FabricaFiscal</code>, declara un método de creación por cada producto (<code>crearFactura()</code> y <code>crearRecibo()</code>), y hay una fábrica concreta por cada familia (<code>FabricaArgentina</code> y <code>FabricaChile</code>), que crea los dos comprobantes de su país. <code>Facturador</code>, el cliente, trabaja solo con las interfaces."</li>
+    <li><strong>Cómo se aplica:</strong> "La fábrica abstracta (la interfaz que dice qué se puede crear) es <code>FabricaFiscal</code>, con un método de creación por cada producto: <code>crearFactura()</code> y <code>crearRecibo()</code>. Hay una fábrica concreta por cada familia (los comprobantes que van juntos): <code>FabricaArgentina</code> y <code>FabricaChile</code>, y cada una crea los dos de su país. <code>Facturador</code>, el cliente, trabaja solo con las interfaces."</li>
     <li><strong>Qué se gana:</strong> "Nunca se mezclan comprobantes de países distintos, y un país nuevo se agrega con otra fábrica y sus dos comprobantes, sin modificar el código que emite."</li>
   </ol>
   <p>Por qué no es Factory Method: no se crea un solo tipo de cosa, sino <strong>dos que tienen que combinar</strong>.</p>
@@ -747,7 +747,7 @@ Juego: silla victoriana + sofa victoriano</pre>
     <p><strong>Abstract Factory</strong>, que es el patrón de esta sección, con sus tres partes:</p>
     <ol>
       <li><strong>Qué patrón y por qué:</strong> "Usaría Abstract Factory, un patrón creacional, porque hay que crear familias de objetos relacionados, que tienen que combinar entre sí: el panel y el sensor de cada línea. El enunciado lo dice: "Cada línea tiene su propio panel de control y su propio sensor de movimiento", y "los componentes de una línea no son compatibles con los de la otra"."</li>
-      <li><strong>Cómo se aplica:</strong> "Una fábrica abstracta, <code>FabricaDeLinea</code>, declara un método de creación por cada producto (<code>crearPanel()</code> y <code>crearSensor()</code>), y hay una fábrica concreta por cada línea (<code>FabricaHogar</code> y <code>FabricaProfesional</code>), que crea los dos componentes de esa línea."</li>
+      <li><strong>Cómo se aplica:</strong> "La fábrica abstracta (la interfaz que dice qué se puede crear) es <code>FabricaDeLinea</code>, con un método de creación por cada producto: <code>crearPanel()</code> y <code>crearSensor()</code>. Hay una fábrica concreta por cada familia (los componentes que van juntos): <code>FabricaHogar</code> y <code>FabricaProfesional</code>, y cada una crea los dos de su línea."</li>
       <li><strong>Qué se gana:</strong> "Nunca se mezclan componentes de líneas distintas, y la línea Industrial se agrega con otra fábrica, sin modificar el código que arma las instalaciones."</li>
     </ol>
     <p><strong>Los otros dos patrones</strong>, más breves:</p>
@@ -954,9 +954,12 @@ motor urbano + rueda urbana</pre>
       <tr><td>51</td><td>Recibe la fábrica por su interfaz y le pide los dos productos, sin nombrar ninguna clase concreta.</td><td>El <strong>Cliente</strong></td></tr>
     </table>
   </div>
-  <p>
-    <strong>Respuesta:</strong> "Es el patrón <strong>Abstract Factory</strong> (creacional). <code>FabricaDePartes</code> es la fábrica abstracta: declara un método de creación por cada producto (<code>CreateMotor()</code> y <code>CreateRueda()</code>). <code>FabricaDeportiva</code> y <code>FabricaUrbana</code> son las fábricas concretas: cada una devuelve el motor y la rueda de su misma línea, que es la familia. <code>ClientCode()</code> trabaja solo con las interfaces, así que nunca mezcla un motor deportivo con una rueda urbana."
-  </p>
+  <p><strong>Respuesta</strong>, en las mismas tres partes de siempre:</p>
+  <ol>
+    <li><strong>Qué patrón y por qué:</strong> "Es Abstract Factory, un patrón creacional que se usa cuando hay que crear familias de objetos relacionados, que tienen que combinar entre sí. Se reconoce porque <code>FabricaDePartes</code> tiene dos métodos de creación que devuelven productos distintos (<code>CreateMotor()</code> y <code>CreateRueda()</code>), y cada subclase devuelve los dos de la misma línea."</li>
+    <li><strong>Cómo está aplicado:</strong> "<code>FabricaDePartes</code> es la fábrica abstracta (la interfaz que dice qué se puede crear, con un método por cada producto). <code>FabricaDeportiva</code> y <code>FabricaUrbana</code> son las fábricas concretas: cada una crea su familia (el motor y la rueda que van juntos). <code>Motor</code> y <code>Rueda</code> son los productos abstractos (el tipo común de cada producto). <code>ClientCode()</code>, el cliente, recibe una fábrica y no nombra ninguna clase concreta."</li>
+    <li><strong>Qué se gana:</strong> "Nunca se mezclan productos de familias distintas: no puede salir un motor deportivo con una rueda urbana."</li>
+  </ol>
   <div class="caja caja-ojo">
     <span class="caja-tit">La cuenta que lo separa de Factory Method</span>
     <p>Mirá cuántos métodos de creación tiene la clase base. <strong>Uno</strong> (y un solo producto): Factory Method. <strong>Dos o más</strong>, que devuelven productos distintos que van juntos: Abstract Factory.</p>
@@ -1127,7 +1130,7 @@ motor urbano + rueda urbana</pre>
     </svg>
   </div>
   <p>
-    <strong>Justificación:</strong> "Se aplica Abstract Factory porque hay que crear familias de objetos relacionados, que tienen que combinar entre sí: la entrada y el plato de cada línea. La fábrica abstracta, <code>FabricaDeMenu</code>, declara un método de creación por cada producto, y hay una fábrica concreta por cada familia (<code>FabricaVegana</code> y <code>FabricaClasica</code>), que crea los dos productos de su línea. Así nunca se mezclan productos de líneas distintas, y la línea sin TACC se agrega con otra fábrica, sin modificar <code>Cocina</code>."
+    <strong>Justificación:</strong> "Se aplica Abstract Factory porque hay que crear familias de objetos relacionados, que tienen que combinar entre sí: la entrada y el plato de cada línea. La fábrica abstracta (la interfaz que dice qué se puede crear) es <code>FabricaDeMenu</code>, con un método de creación por cada producto, y hay una fábrica concreta por cada familia (<code>FabricaVegana</code> y <code>FabricaClasica</code>), que crea los dos productos de su línea. Así nunca se mezclan productos de líneas distintas, y la línea sin TACC se agrega con otra fábrica, sin modificar <code>Cocina</code>."
   </p>
   <div class="caja caja-ojo">
     <span class="caja-tit">A tener en cuenta al modificar el diagrama</span>

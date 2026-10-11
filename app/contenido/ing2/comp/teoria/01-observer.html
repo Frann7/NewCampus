@@ -471,7 +471,7 @@ Ana se entero de que llego la tablet nueva</pre>
   </p>
   <ol>
     <li><strong>Qué patrón y por qué:</strong> "Se aplica Observer, un patrón de comportamiento, porque un cambio en un objeto (una oferta nueva en la subasta) se tiene que avisar a otros, y no se sabe de antemano cuántos ni cuáles son. El enunciado lo dice: "todos los que están participando de esa subasta tienen que enterarse del nuevo precio en el momento"."</li>
-    <li><strong>Cómo se aplica:</strong> "<code>Subasta</code> es el notificador: guarda una lista de suscriptores (del tipo <code>Interesado</code>) y, cuando recibe una oferta, les avisa a todos con <code>notificar()</code>. Cada uno se puede suscribir o dar de baja cuando quiera, con <code>suscribir()</code> y <code>desuscribir()</code>. <code>Comprador</code> y <code>Vendedor</code> son los suscriptores."</li>
+    <li><strong>Cómo se aplica:</strong> "<code>Subasta</code> es el notificador (el objeto que cambia y avisa): guarda una lista de suscriptores (los que quieren enterarse) y, cuando recibe una oferta, les avisa a todos con <code>notificar()</code>. Cada uno se puede suscribir o dar de baja cuando quiera, con <code>suscribir()</code> y <code>desuscribir()</code>. Los suscriptores son <code>Comprador</code> y <code>Vendedor</code>, que cumplen la interfaz <code>Interesado</code>."</li>
     <li><strong>Qué se gana:</strong> "Se suman interesados nuevos sin modificar al notificador: avisar también al vendedor es agregar un suscriptor."</li>
   </ol>
 
@@ -502,7 +502,7 @@ Ana se entero de que llego la tablet nueva</pre>
     <p><strong>Observer</strong>, que es el patrón de esta sección, con sus tres partes:</p>
     <ol>
       <li><strong>Qué patrón y por qué:</strong> "Usaría Observer, un patrón de comportamiento, porque un cambio en un objeto (se libera un lugar en una clase) se tiene que avisar a otros, y no se sabe de antemano cuántos ni cuáles son. El enunciado lo dice: hay que "avisar automáticamente a todos los socios anotados en la lista de espera", que "pueden anotarse o darse de baja de la lista cuando quieran"."</li>
-      <li><strong>Cómo se aplica:</strong> "<code>ClaseGrupal</code> es el notificador: guarda una lista de suscriptores (los anotados) y, cuando se libera un lugar, les avisa a todos con <code>notificar()</code>. Cada uno se puede suscribir o dar de baja cuando quiera, con <code>suscribir()</code> y <code>desuscribir()</code>."</li>
+      <li><strong>Cómo se aplica:</strong> "<code>ClaseGrupal</code> es el notificador (el objeto que cambia y avisa): guarda una lista de suscriptores (los que quieren enterarse: los anotados) y, cuando se libera un lugar, les avisa a todos con <code>notificar()</code>. Cada uno se puede suscribir o dar de baja cuando quiera, con <code>suscribir()</code> y <code>desuscribir()</code>."</li>
       <li><strong>Qué se gana:</strong> "Se suman interesados nuevos sin modificar al notificador: avisar también al profesor es agregar un suscriptor."</li>
     </ol>
     <p><strong>Los otros dos patrones</strong>, más breves:</p>
@@ -646,9 +646,12 @@ Visor 2: nuevo dato -&gt; 25 grados</pre>
       <tr><td>52</td><td>Uno se da de baja mientras el programa corre: el segundo dato ya no le llega.</td><td>La suscripción cambia en tiempo de ejecución</td></tr>
     </table>
   </div>
-  <p>
-    <strong>Respuesta:</strong> "Es el patrón <strong>Observer</strong> (de comportamiento). <code>Estacion</code> es el notificador: guarda una lista de <code>IVisor*</code> y tiene <code>Attach()</code>, <code>Detach()</code> y <code>Notify()</code>. <code>IVisor</code> es la interfaz suscriptor, con <code>Update()</code>, y <code>Visor</code> es el suscriptor concreto. Cuando la estación recibe un dato nuevo (<code>CreateMessage()</code>) llama a <code>Notify()</code>, que avisa a todos los que estén suscritos en ese momento: por eso el segundo dato le llega solo al Visor 2."
-  </p>
+  <p><strong>Respuesta</strong>, en las mismas tres partes de siempre:</p>
+  <ol>
+    <li><strong>Qué patrón y por qué:</strong> "Es Observer, un patrón de comportamiento que se usa cuando un cambio en un objeto se tiene que avisar a otros, y no se sabe de antemano cuántos ni cuáles son. Se reconoce porque <code>Estacion</code> guarda una lista de punteros a una interfaz (<code>IVisor</code>) y tiene <code>Attach()</code>, <code>Detach()</code> y <code>Notify()</code>, que recorre la lista llamando a <code>Update()</code>."</li>
+    <li><strong>Cómo está aplicado:</strong> "<code>Estacion</code> es el notificador (el objeto que cambia y avisa): guarda la lista de suscriptores y, cuando recibe un dato nuevo, les avisa a todos con <code>Notify()</code>. <code>IVisor</code> es la interfaz de los suscriptores (los que quieren enterarse), con <code>Update()</code>, y <code>Visor</code> es un suscriptor concreto: escribe qué hace cuando le avisan. Con <code>Attach()</code> y <code>Detach()</code> cada uno se suscribe o se da de baja."</li>
+    <li><strong>Qué se gana:</strong> "Se suman interesados nuevos sin modificar al notificador, y el que se da de baja deja de recibir avisos: por eso el segundo dato le llega solo al Visor 2."</li>
+  </ol>
   <div class="caja caja-ojo">
     <span class="caja-tit">Los tres verbos que lo delatan</span>
     <p><code>Attach</code>, <code>Detach</code> y <code>Notify</code> en una clase, y <code>Update</code> en una interfaz. Son los nombres del ejemplo de Refactoring.Guru, y en castellano suelen quedar como suscribir, desuscribir, notificar y actualizar.</p>
@@ -777,7 +780,7 @@ Visor 2: nuevo dato -&gt; 25 grados</pre>
     </svg>
   </div>
   <p>
-    <strong>Justificación:</strong> "Se utiliza Observer porque un cambio en un objeto (un acceso registrado en <code>ControladorSeguridad</code>) se tiene que avisar a otros. <code>ControladorSeguridad</code> es el notificador: guarda una lista de suscriptores (del tipo <code>Observador</code>) y les avisa a todos cada vez que registra un acceso. <code>Logger</code> es un suscriptor: al recibir el aviso escribe el suceso en el archivo. Así se suman otros mecanismos de registro sin modificar al controlador."
+    <strong>Justificación:</strong> "Se utiliza Observer porque un cambio en un objeto (un acceso registrado en <code>ControladorSeguridad</code>) se tiene que avisar a otros. <code>ControladorSeguridad</code> es el notificador (el objeto que cambia y avisa): guarda una lista de suscriptores (los que quieren enterarse, del tipo <code>Observador</code>) y les avisa a todos cada vez que registra un acceso. <code>Logger</code> es un suscriptor: al recibir el aviso escribe el suceso en el archivo. Así se suman otros mecanismos de registro sin modificar al controlador."
   </p>
   <div class="caja caja-ojo">
     <span class="caja-tit">A tener en cuenta al modificar el diagrama</span>

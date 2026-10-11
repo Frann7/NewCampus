@@ -428,7 +428,7 @@ Temperatura: 25 grados</pre>
   </p>
   <ol>
     <li><strong>Qué patrón y por qué:</strong> "Se aplica Adapter, un patrón estructural, porque hay que hacer trabajar juntas dos clases con interfaces incompatibles, sin modificar ninguna: la aplicación pide dibujar cuadrados y triángulos, y la biblioteca "solo admite la representación de círculos"."</li>
-    <li><strong>Cómo se aplica:</strong> "Se agrega una clase en el medio por cada figura, el adaptador (<code>AdaptadorCuadrado</code> y <code>AdaptadorTriangulo</code>), que cumple la interfaz que la aplicación ya usa, <code>Figura</code>, y por dentro traduce cada <code>dibujar()</code> a las llamadas de <code>BibliotecaGraficos</code>."</li>
+    <li><strong>Cómo se aplica:</strong> "Se agrega una clase en el medio por cada figura, el adaptador: <code>AdaptadorCuadrado</code> y <code>AdaptadorTriangulo</code>. Cada uno cumple la interfaz que la aplicación ya usa (<code>Figura</code>) y por dentro traduce cada <code>dibujar()</code> a las llamadas del servicio (la clase útil que tiene otra interfaz y no se modifica): <code>BibliotecaGraficos</code>."</li>
     <li><strong>Qué se gana:</strong> "La aplicación dibuja cuadrados y triángulos igual que cualquier otra figura, y la biblioteca existente se aprovecha sin tocarla."</li>
   </ol>
   <p>Acá hay dos adaptadores porque hay dos pedidos nuevos (cuadrado y triángulo); los dos apuntan al mismo servicio. La cátedra tiene otro enunciado de Adapter, el del libro digital, que parte de un diagrama: Práctica, ejercicio 2.</p>
@@ -460,7 +460,7 @@ Temperatura: 25 grados</pre>
     <p><strong>Adapter</strong>, que es el patrón de esta sección, con sus tres partes:</p>
     <ol>
       <li><strong>Qué patrón y por qué:</strong> "Usaría Adapter, un patrón estructural, porque hay que hacer trabajar juntas dos clases con interfaces incompatibles, sin modificar ninguna: el sistema de seguimiento y los GPS del proveedor. El enunciado lo dice: los dispositivos entregan los datos "con otro formato y a través de funciones distintas", y "el software del proveedor no puede modificarse"."</li>
-      <li><strong>Cómo se aplica:</strong> "Se agrega una clase en el medio, el adaptador <code>AdaptadorGps</code>, que cumple la interfaz con la que el sistema ya consulta la ubicación de sus vehículos (<code>Localizador</code>) y por dentro traduce cada llamada a las funciones del proveedor."</li>
+      <li><strong>Cómo se aplica:</strong> "Se agrega una clase en el medio, el adaptador: <code>AdaptadorGps</code>. Cumple la interfaz que el sistema ya usa para consultar la ubicación de sus vehículos (<code>Localizador</code>) y por dentro traduce cada llamada a las funciones del servicio (la clase útil que tiene otra interfaz y no se modifica): el GPS del proveedor."</li>
       <li><strong>Qué se gana:</strong> "El sistema consulta los GPS nuevos igual que a los demás, sin alterar el resto."</li>
     </ol>
     <p><strong>Los otros dos patrones</strong>, más breves:</p>
@@ -587,9 +587,12 @@ Acople: (TRADUCIDO) Sonido de la casettera vieja</pre>
       <tr><td>42</td><td>El cliente recibe el adaptador como si fuera un <code>Reproductor</code>.</td><td>El <strong>Cliente</strong>, que no se entera</td></tr>
     </table>
   </div>
-  <p>
-    <strong>Respuesta:</strong> "Es el patrón <strong>Adapter</strong> (estructural). El cliente trabaja con <code>Reproductor</code> y su método <code>Request()</code>. <code>CasetteraVieja</code> tiene una interfaz incompatible (<code>SpecificRequest()</code>, que además devuelve el texto al revés). <code>Acople</code> es el adaptador: hereda de <code>Reproductor</code>, guarda una <code>CasetteraVieja</code> y en <code>Request()</code> llama a <code>SpecificRequest()</code> y traduce el resultado. El cliente lo usa sin saber que detrás hay otra clase."
-  </p>
+  <p><strong>Respuesta</strong>, en las mismas tres partes de siempre:</p>
+  <ol>
+    <li><strong>Qué patrón y por qué:</strong> "Es Adapter, un patrón estructural que se usa cuando hay que hacer trabajar juntas dos clases con interfaces incompatibles, sin modificar ninguna. Se reconoce porque <code>Acople</code> hereda de <code>Reproductor</code>, guarda un objeto de otra clase (<code>CasetteraVieja</code>) y en <code>Request()</code> llama al método de esa otra clase."</li>
+    <li><strong>Cómo está aplicado:</strong> "<code>Reproductor</code> es la interfaz que el cliente ya sabe usar, con <code>Request()</code>. <code>CasetteraVieja</code> es el servicio (la clase útil que tiene otra interfaz y no se modifica): ofrece <code>SpecificRequest()</code>. <code>Acople</code> es el adaptador (la clase del medio): cumple <code>Reproductor</code> y en <code>Request()</code> llama a <code>SpecificRequest()</code> y traduce el resultado."</li>
+    <li><strong>Qué se gana:</strong> "El cliente usa la casettera igual que a cualquier <code>Reproductor</code>, sin saber que detrás hay otra clase."</li>
+  </ol>
   <div class="caja caja-ojo">
     <span class="caja-tit">No es Facade</span>
     <p>Los dos envuelven, pero acá se envuelve <strong>una</strong> clase para que cumpla una interfaz que <strong>ya existía</strong> (<code>Reproductor</code>). En Facade la clase nueva guarda <strong>varias</strong> y no hereda de nadie: inventa una interfaz más simple.</p>
@@ -710,7 +713,7 @@ Acople: (TRADUCIDO) Sonido de la casettera vieja</pre>
     </svg>
   </div>
   <p>
-    <strong>Justificación:</strong> "Se aplica Adapter porque hay que hacer trabajar juntas dos clases con interfaces incompatibles, sin modificar ninguna: el <code>Tablero</code> pide <code>dibujar(datos)</code> y <code>MapaExterno</code> ofrece <code>renderizar(json, zoom)</code>. Se agrega una clase en el medio, el adaptador <code>AdaptadorDeMapa</code>, que cumple la interfaz que el tablero ya usa, <code>Grafico</code>, y por dentro traduce cada llamada a <code>MapaExterno</code>. Así el tablero usa el mapa igual que a cualquier otro gráfico."
+    <strong>Justificación:</strong> "Se aplica Adapter porque hay que hacer trabajar juntas dos clases con interfaces incompatibles, sin modificar ninguna: el <code>Tablero</code> pide <code>dibujar(datos)</code> y <code>MapaExterno</code> ofrece <code>renderizar(json, zoom)</code>. Se agrega una clase en el medio, el adaptador <code>AdaptadorDeMapa</code>: cumple la interfaz que el tablero ya usa (<code>Grafico</code>) y por dentro traduce cada llamada al servicio (<code>MapaExterno</code>, la clase útil que no se modifica). Así el tablero usa el mapa igual que a cualquier otro gráfico."
   </p>
   <div class="caja caja-ojo">
     <span class="caja-tit">A tener en cuenta al modificar el diagrama</span>

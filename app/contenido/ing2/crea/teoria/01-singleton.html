@@ -496,9 +496,12 @@ int main() {
       <tr><td>30</td><td>En <code>main</code> no hay ningún <code>new</code>: el objeto se le pide a la clase, con <code>Bitacora::</code>.</td><td>El <strong>Cliente</strong></td></tr>
     </table>
   </div>
-  <p>
-    <strong>Respuesta:</strong> "Es el patrón <strong>Singleton</strong> (creacional). La clase <code>Bitacora</code> oculta su constructor y guarda en el atributo estático <code>bitacora_</code> su única instancia. El método estático <code>GetInstance()</code> la crea la primera vez y después devuelve siempre la misma, de modo que todo el programa escribe en la misma bitácora."
-  </p>
+  <p><strong>Respuesta</strong>, en las mismas tres partes de siempre:</p>
+  <ol>
+    <li><strong>Qué patrón y por qué:</strong> "Es Singleton, un patrón creacional que se usa cuando una clase debe tener una única instancia disponible para todo el programa. Se reconoce porque <code>Bitacora</code> tiene el constructor oculto (<code>protected</code>), un atributo estático de su mismo tipo y un método estático, <code>GetInstance()</code>, que lo devuelve."</li>
+    <li><strong>Cómo está aplicado:</strong> "<code>bitacora_</code> es el atributo estático que guarda la única instancia (el único objeto que va a existir). Como el constructor no es público, nadie de afuera puede hacer <code>new Bitacora()</code>. <code>GetInstance()</code> es el punto de acceso: crea el objeto la primera vez y después devuelve siempre el mismo."</li>
+    <li><strong>Qué se gana:</strong> "Todo el programa escribe en la misma bitácora: en <code>main</code> no hay ningún <code>new</code>, el objeto se le pide a la clase."</li>
+  </ol>
   <div class="caja caja-ojo">
     <span class="caja-tit">Cambian los nombres, no la forma</span>
     <p>Es el Singleton de Refactoring.Guru (la fuente del apunte) con la clase rebautizada. El método quedó con su nombre original, <code>GetInstance</code>: cuando un método conserva el nombre en inglés del ejemplo, es una pista. La guía trae este mismo código con la clase <code>Inicio_Serie</code> (Práctica, ejercicio 1).</p>

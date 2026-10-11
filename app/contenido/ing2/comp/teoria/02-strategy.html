@@ -486,25 +486,18 @@ A pie de Parana a Oro Verde: por el camino costero, 3 horas</pre>
     </table>
   </div>
   <div class="caja caja-resp">
-    <span class="caja-tit">La respuesta de Strategy, por partes</span>
+    <span class="caja-tit">Cómo quedaría escrita la respuesta</span>
+    <p><strong>Strategy</strong>, que es el patrón de esta sección, con sus tres partes:</p>
     <ol>
-      <li><strong>Qué patrón:</strong> Strategy, un patrón de comportamiento, para calcular la prima.</li>
-      <li><strong>La frase que lo pide:</strong> Hay "distintos métodos de evaluación de riesgo"; el asesor "selecciona el método" y "puede cambiarlo durante la entrevista".</li>
-      <li><strong>Por qué va ese patrón:</strong> Hay varias formas de hacer una misma tarea (calcular la prima) y se quiere poder cambiar de una a otra mientras el programa corre.</li>
-      <li>
-        <strong>Cómo queda armado:</strong> cada parte del patrón, con su clase y lo que tiene.
-        <div class="tabla-wrap">
-          <table class="t full">
-            <tr><th>Parte del patrón</th><th>Clase</th><th>Qué tiene</th></tr>
-            <tr><td class="lbl">Estrategia</td><td><code>MetodoDeRiesgo</code> (interfaz)</td><td>Un solo método: <code>evaluar(cliente): double</code></td></tr>
-            <tr><td class="lbl">Estrategias Concretas</td><td><code>MetodoConservador</code>, <code>MetodoEstandar</code>, <code>MetodoAgresivo</code></td><td>Cada una calcula a su manera en <code>evaluar()</code></td></tr>
-            <tr><td class="lbl">Contexto</td><td><code>Cotizador</code></td><td>El atributo <code>metodo: MetodoDeRiesgo</code>; <code>cambiarMetodo(m)</code>; y <code>calcularPrima(cliente)</code>, que le pasa el cálculo a <code>metodo</code></td></tr>
-            <tr><td class="lbl">Cliente</td><td><code>Asesor</code></td><td>Elige el método y se lo pasa al cotizador</td></tr>
-          </table>
-        </div>
-      </li>
-      <li><strong>Qué se gana:</strong> Un método nuevo es una clase más, sin modificar el cotizador.</li>
+      <li><strong>Qué patrón y por qué:</strong> "Usaría Strategy, un patrón de comportamiento, porque hay varias formas de hacer una misma tarea (calcular la prima) y se quiere poder cambiar de una a otra mientras el programa corre. El enunciado lo dice: hay "distintos métodos de evaluación de riesgo", y el asesor "selecciona el método" y "puede cambiarlo durante la entrevista"."</li>
+      <li><strong>Cómo se aplica:</strong> "Cada método va en su propia clase (conservador, estándar y agresivo), todas con la misma interfaz, <code>MetodoDeRiesgo</code>. <code>Cotizador</code>, que es el contexto, guarda uno y le delega el cálculo; con <code>cambiarMetodo()</code> se lo cambia."</li>
+      <li><strong>Qué se gana:</strong> "Se agregan métodos nuevos sin modificar el cotizador."</li>
     </ol>
+    <p><strong>Los otros dos patrones</strong>, más breves:</p>
+    <ul>
+      <li><strong>Composite</strong> (estructural), para los bienes asegurados. Se usa cuando los objetos forman un árbol, con elementos simples y contenedores que agrupan elementos simples u otros contenedores, y acá hay "grupos de bienes, que a su vez contienen otros grupos". El bien y el grupo cumplen una misma interfaz, y el contenedor resuelve cada pedido pasándoselo a lo que contiene.</li>
+      <li><strong>Abstract Factory</strong> (creacional), para los documentos de la póliza. Se usa cuando hay que crear familias de objetos relacionados, que tienen que combinar entre sí, y acá se emiten "un contrato y un certificado de cobertura", y "los de una versión no deben mezclarse con los de la otra". Una fábrica abstracta declara un método de creación por cada producto, y hay una fábrica concreta por cada versión.</li>
+    </ul>
   </div>
   <p>
     <strong>Dibujado.</strong> La consigna no lo pide, pero así queda el diagrama de Strategy de este enunciado (los
@@ -567,14 +560,6 @@ A pie de Parana a Oro Verde: por el camino costero, 3 horas</pre>
       </g>
     </svg>
   </div>
-  <p>
-    <strong>Los otros dos patrones</strong> se justifican con las mismas partes. Acá va solo el patrón y la
-    frase que lo pide; cada uno está desarrollado así en su propia sección:
-  </p>
-  <ul>
-    <li><strong>Composite</strong>, para los bienes asegurados: hay "grupos de bienes, que a su vez contienen otros grupos", y el valor se calcula "de la misma manera".</li>
-    <li><strong>Abstract Factory</strong>, para los documentos de la póliza: se emiten "un contrato y un certificado de cobertura", y "los de una versión no deben mezclarse con los de la otra".</li>
-  </ul>
   <div class="caja caja-ojo">
     <span class="caja-tit">Las trampas de este enunciado</span>
     <ul>

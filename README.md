@@ -235,6 +235,10 @@ Chrome (`chrome --headless --print-to-pdf`).
 `0.x.y-alpha` mientras esté en desarrollo. La `1.0.0` queda reservada para cuando esté terminado.
 La versión actual se lee al pie del menú lateral.
 
+* **0.46.8-alpha** — Ingeniería de Software II: la respuesta de "identificar los patrones de un
+  enunciado" queda como se escribiría en el parcial: el patrón de la sección en tres partes breves
+  (qué patrón y por qué, cómo se aplica, qué se gana) y los otros dos en dos oraciones, sin la
+  tabla de clases y métodos.
 * **0.46.7-alpha** — Ingeniería de Software II: en "identificar los patrones de un enunciado", la
   respuesta del patrón de la sección va por partes (qué patrón, la frase que lo pide, por qué, cómo
   queda armado con sus clases, atributos y métodos, y qué se gana), seguida de su diagrama. Los

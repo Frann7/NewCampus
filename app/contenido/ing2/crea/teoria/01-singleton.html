@@ -378,26 +378,18 @@ a y b son el mismo objeto</pre>
     </table>
   </div>
   <div class="caja caja-resp">
-    <span class="caja-tit">La respuesta de Singleton, por partes</span>
+    <span class="caja-tit">Cómo quedaría escrita la respuesta</span>
+    <p><strong>Singleton</strong>, que es el patrón de esta sección, con sus tres partes:</p>
     <ol>
-      <li><strong>Qué patrón:</strong> Singleton, un patrón creacional, para la configuración del sistema.</li>
-      <li><strong>La frase que lo pide:</strong> "exista un único objeto de configuración en todo el sistema, accesible desde cualquier módulo".</li>
-      <li><strong>Por qué va ese patrón:</strong> La clase de configuración debe tener una única instancia disponible para todo el programa: hoy cada módulo carga su propia copia y a veces trabajan con valores distintos.</li>
-      <li>
-        <strong>Cómo queda armado:</strong> cada parte del patrón, con su clase y lo que tiene.
-        <div class="tabla-wrap">
-          <table class="t full">
-            <tr><th>Parte del patrón</th><th>Clase</th><th>Qué tiene</th></tr>
-            <tr><td class="lbl">La única instancia</td><td><code>Configuracion</code></td><td>Un atributo estático y privado, <code>instancia: Configuracion</code>, que guarda el único objeto</td></tr>
-            <tr><td class="lbl">El constructor oculto</td><td><code>Configuracion</code></td><td><code>Configuracion()</code>, privado: nadie de afuera puede crear otra</td></tr>
-            <tr><td class="lbl">El punto de acceso</td><td><code>Configuracion</code></td><td>Un método estático y público, <code>obtenerInstancia(): Configuracion</code>: crea el objeto la primera vez y después devuelve siempre el mismo</td></tr>
-            <tr><td class="lbl">Lo propio de la clase</td><td><code>Configuracion</code></td><td>Los atributos <code>diasDePrestamo</code>, <code>multaDiaria</code> y <code>horario</code>, con un método para leer cada uno</td></tr>
-            <tr><td class="lbl">Los clientes</td><td><code>Prestamos</code>, <code>Socios</code>, <code>Catalogo</code></td><td>No guardan una copia: piden el objeto con <code>obtenerInstancia()</code> cuando lo necesitan</td></tr>
-          </table>
-        </div>
-      </li>
-      <li><strong>Qué se gana:</strong> Todos los módulos leen los mismos valores, porque salen de un único objeto.</li>
+      <li><strong>Qué patrón y por qué:</strong> "Usaría Singleton, un patrón creacional, porque la clase de configuración debe tener una única instancia disponible para todo el programa: hoy cada módulo carga su propia copia y trabajan con valores distintos. El enunciado lo pide: "exista un único objeto de configuración en todo el sistema, accesible desde cualquier módulo"."</li>
+      <li><strong>Cómo se aplica:</strong> "La clase <code>Configuracion</code> oculta su constructor (es privado) y ofrece un método estático, <code>obtenerInstancia()</code>, que crea el objeto la primera vez y devuelve siempre el mismo, guardado en un atributo estático."</li>
+      <li><strong>Qué se gana:</strong> "Préstamos, socios y catálogo usan el mismo objeto, a través de un único punto de acceso, y leen siempre los mismos valores."</li>
     </ol>
+    <p><strong>Los otros dos patrones</strong>, más breves:</p>
+    <ul>
+      <li><strong>Facade</strong> (estructural), para registrar un préstamo. Se usa cuando para hacer una tarea hay que coordinar varias clases de un subsistema, y acá hoy hay que "operar con tres módulos por separado y en un orden determinado". Una fachada guarda un objeto de cada una y ofrece una operación simple, prestar un libro, que las llama en el orden correcto.</li>
+      <li><strong>Observer</strong> (de comportamiento), para las reservas. Se usa cuando un cambio en un objeto se tiene que avisar a otros, sin saber de antemano cuántos ni cuáles son, y acá hay que "avisar automáticamente a todos los socios que lo tenían reservado", que "pueden anotarse o borrarse de la lista de espera". El libro es el notificador: guarda una lista de suscriptores y les avisa a todos.</li>
+    </ul>
   </div>
   <p>
     <strong>Dibujado.</strong> La consigna no lo pide, pero así queda el diagrama de Singleton de este enunciado (los
@@ -442,14 +434,6 @@ a y b son el mismo objeto</pre>
       </g>
     </svg>
   </div>
-  <p>
-    <strong>Los otros dos patrones</strong> se justifican con las mismas partes. Acá va solo el patrón y la
-    frase que lo pide; cada uno está desarrollado así en su propia sección:
-  </p>
-  <ul>
-    <li><strong>Facade</strong>, para registrar un préstamo: hoy hay que "operar con tres módulos por separado y en un orden determinado", y se pide "una interfaz sencilla, con una única operación".</li>
-    <li><strong>Observer</strong>, para las reservas: hay que "avisar automáticamente a todos los socios que lo tenían reservado", que "pueden anotarse o borrarse de la lista de espera".</li>
-  </ul>
   <div class="caja caja-ojo">
     <span class="caja-tit">Las trampas de este enunciado</span>
     <ul>

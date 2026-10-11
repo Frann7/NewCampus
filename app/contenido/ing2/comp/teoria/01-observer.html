@@ -498,24 +498,18 @@ Ana se entero de que llego la tablet nueva</pre>
     </table>
   </div>
   <div class="caja caja-resp">
-    <span class="caja-tit">La respuesta de Observer, por partes</span>
+    <span class="caja-tit">Cómo quedaría escrita la respuesta</span>
+    <p><strong>Observer</strong>, que es el patrón de esta sección, con sus tres partes:</p>
     <ol>
-      <li><strong>Qué patrón:</strong> Observer, un patrón de comportamiento, para la lista de espera.</li>
-      <li><strong>La frase que lo pide:</strong> "Cada vez que se libera un lugar" hay que "avisar automáticamente a todos los socios anotados en la lista de espera", que "pueden anotarse o darse de baja de la lista cuando quieran".</li>
-      <li><strong>Por qué va ese patrón:</strong> Un cambio en un objeto (se libera un lugar en una clase) se tiene que avisar a otros, y no se sabe de antemano cuántos ni cuáles son.</li>
-      <li>
-        <strong>Cómo queda armado:</strong> cada parte del patrón, con su clase y lo que tiene.
-        <div class="tabla-wrap">
-          <table class="t full">
-            <tr><th>Parte del patrón</th><th>Clase</th><th>Qué tiene</th></tr>
-            <tr><td class="lbl">Notificador</td><td><code>ClaseGrupal</code></td><td>El atributo <code>anotados: Anotado[]</code> (la lista); <code>suscribir(a)</code>, <code>desuscribir(a)</code> y <code>notificar()</code>; <code>liberarLugar()</code> termina llamando a <code>notificar()</code></td></tr>
-            <tr><td class="lbl">Suscriptor</td><td><code>Anotado</code> (interfaz)</td><td>Un solo método: <code>actualizar(clase)</code></td></tr>
-            <tr><td class="lbl">Suscriptores Concretos</td><td><code>Socio</code>, <code>Profesor</code></td><td>Cada uno escribe en <code>actualizar()</code> qué hace cuando le avisan</td></tr>
-          </table>
-        </div>
-      </li>
-      <li><strong>Qué se gana:</strong> Avisar también al profesor es sumar un suscriptor, sin modificar <code>ClaseGrupal</code>.</li>
+      <li><strong>Qué patrón y por qué:</strong> "Usaría Observer, un patrón de comportamiento, porque un cambio en un objeto (se libera un lugar en una clase) se tiene que avisar a otros, y no se sabe de antemano cuántos ni cuáles son. El enunciado lo dice: hay que "avisar automáticamente a todos los socios anotados en la lista de espera", que "pueden anotarse o darse de baja de la lista cuando quieran"."</li>
+      <li><strong>Cómo se aplica:</strong> "<code>ClaseGrupal</code> es el notificador: guarda una lista de suscriptores (los anotados) y, cuando se libera un lugar, les avisa a todos con <code>notificar()</code>. Cada uno se puede suscribir o dar de baja cuando quiera, con <code>suscribir()</code> y <code>desuscribir()</code>."</li>
+      <li><strong>Qué se gana:</strong> "Se suman interesados nuevos sin modificar al notificador: avisar también al profesor es agregar un suscriptor."</li>
     </ol>
+    <p><strong>Los otros dos patrones</strong>, más breves:</p>
+    <ul>
+      <li><strong>Strategy</strong> (de comportamiento), para el valor de la cuota. Se usa cuando hay varias formas de hacer una misma tarea y se quiere poder cambiar de una a otra mientras el programa corre, y acá la cuota "se calcula de diferentes formas según el plan contratado", y el socio "puede cambiar de plan en cualquier momento". Cada forma va en su propia clase, todas con la misma interfaz, y el socio guarda una y le delega la tarea.</li>
+      <li><strong>Facade</strong> (estructural), para la inscripción. Se usa cuando para hacer una tarea hay que coordinar varias clases de un subsistema, y acá recepción "tiene que operar con tres módulos distintos". Una fachada guarda un objeto de cada una y ofrece una operación simple, inscribir a un socio, que las llama en el orden correcto.</li>
+    </ul>
   </div>
   <p>
     <strong>Dibujado.</strong> La consigna no lo pide, pero así queda el diagrama de Observer de este enunciado (los
@@ -567,14 +561,6 @@ Ana se entero de que llego la tablet nueva</pre>
       </g>
     </svg>
   </div>
-  <p>
-    <strong>Los otros dos patrones</strong> se justifican con las mismas partes. Acá va solo el patrón y la
-    frase que lo pide; cada uno está desarrollado así en su propia sección:
-  </p>
-  <ul>
-    <li><strong>Strategy</strong>, para el valor de la cuota: "se calcula de diferentes formas según el plan contratado", y el socio "puede cambiar de plan en cualquier momento".</li>
-    <li><strong>Facade</strong>, para la inscripción: recepción "tiene que operar con tres módulos distintos", y se pide "una única operación, simple".</li>
-  </ul>
   <div class="caja caja-ojo">
     <span class="caja-tit">Las trampas de este enunciado</span>
     <ul>

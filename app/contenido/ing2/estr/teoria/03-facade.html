@@ -475,24 +475,18 @@ Envios: se despacho teclado</pre>
     </table>
   </div>
   <div class="caja caja-resp">
-    <span class="caja-tit">La respuesta de Facade, por partes</span>
+    <span class="caja-tit">Cómo quedaría escrita la respuesta</span>
+    <p><strong>Facade</strong>, que es el patrón de esta sección, con sus tres partes:</p>
     <ol>
-      <li><strong>Qué patrón:</strong> Facade, un patrón estructural, para reservar un viaje.</li>
-      <li><strong>La frase que lo pide:</strong> Hay que "interactuar con varios subsistemas (...) en una secuencia determinada", y se pide "un acceso simple y unificado".</li>
-      <li><strong>Por qué va ese patrón:</strong> Para reservar un viaje hay que coordinar varias clases de un subsistema: vuelos, hoteles y pagos.</li>
-      <li>
-        <strong>Cómo queda armado:</strong> cada parte del patrón, con su clase y lo que tiene.
-        <div class="tabla-wrap">
-          <table class="t full">
-            <tr><th>Parte del patrón</th><th>Clase</th><th>Qué tiene</th></tr>
-            <tr><td class="lbl">Subsistema</td><td><code>Vuelos</code>, <code>Hoteles</code>, <code>Pagos</code></td><td><code>reservarAsiento()</code>, <code>reservarHabitacion()</code> y <code>cobrar()</code>: ya existen y no cambian</td></tr>
-            <tr><td class="lbl">Fachada</td><td><code>ReservaDeViajes</code></td><td>Un atributo por cada subsistema (<code>vuelos</code>, <code>hoteles</code>, <code>pagos</code>) y la operación simple <code>reservarViaje(cliente, destino)</code>, que los llama en orden</td></tr>
-            <tr><td class="lbl">Cliente</td><td><code>SitioWeb</code></td><td>Llama solo a <code>reservarViaje()</code></td></tr>
-          </table>
-        </div>
-      </li>
-      <li><strong>Qué se gana:</strong> El sitio web depende solo de la fachada: si cambia un subsistema, se toca la fachada y no el sitio.</li>
+      <li><strong>Qué patrón y por qué:</strong> "Usaría Facade, un patrón estructural, porque para reservar un viaje hay que coordinar varias clases de un subsistema: vuelos, hoteles y pagos. El enunciado lo dice: hay que "interactuar con varios subsistemas", y se pide "un acceso simple y unificado"."</li>
+      <li><strong>Cómo se aplica:</strong> "Una clase nueva, la fachada <code>ReservaDeViajes</code>, guarda un objeto de cada subsistema y ofrece una operación simple, <code>reservarViaje()</code>, que por dentro los llama en el orden correcto."</li>
+      <li><strong>Qué se gana:</strong> "El sitio web depende solo de la fachada y no necesita conocer los subsistemas."</li>
     </ol>
+    <p><strong>Los otros dos patrones</strong>, más breves:</p>
+    <ul>
+      <li><strong>Abstract Factory</strong> (creacional), para armar los paquetes. Se usa cuando hay que crear familias de objetos relacionados, que tienen que combinar entre sí, y acá "Cada categoría incluye su propio tipo de vuelo, de alojamiento y de traslado", y los de una categoría "no deben combinarse con los de la otra". Una fábrica abstracta declara un método de creación por cada producto, y hay una fábrica concreta por cada categoría.</li>
+      <li><strong>Strategy</strong> (de comportamiento), para el descuento. Se usa cuando hay varias formas de hacer una misma tarea y se quiere poder cambiar de una a otra mientras el programa corre, y acá se aplica "una política de descuento", que "se elige al momento de la compra y debe poder cambiarse". Cada forma va en su propia clase, todas con la misma interfaz, y el paquete guarda una y le delega la tarea.</li>
+    </ul>
   </div>
   <p>
     <strong>Dibujado.</strong> La consigna no lo pide, pero así queda el diagrama de Facade de este enunciado (los
@@ -546,14 +540,6 @@ Envios: se despacho teclado</pre>
       </g>
     </svg>
   </div>
-  <p>
-    <strong>Los otros dos patrones</strong> se justifican con las mismas partes. Acá va solo el patrón y la
-    frase que lo pide; cada uno está desarrollado así en su propia sección:
-  </p>
-  <ul>
-    <li><strong>Abstract Factory</strong>, para armar los paquetes: "Cada categoría incluye su propio tipo de vuelo, de alojamiento y de traslado", y los de una categoría "no deben combinarse con los de la otra".</li>
-    <li><strong>Strategy</strong>, para el descuento: se aplica "una política de descuento", que "se elige al momento de la compra y debe poder cambiarse".</li>
-  </ul>
   <div class="caja caja-ojo">
     <span class="caja-tit">Las trampas de este enunciado</span>
     <ul>

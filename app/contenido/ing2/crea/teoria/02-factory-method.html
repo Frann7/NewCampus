@@ -615,26 +615,18 @@ Logistica: entrega por mar, en un barco</pre>
     </table>
   </div>
   <div class="caja caja-resp">
-    <span class="caja-tit">La respuesta de Factory Method, por partes</span>
+    <span class="caja-tit">Cómo quedaría escrita la respuesta</span>
+    <p><strong>Factory Method</strong>, que es el patrón de esta sección, con sus tres partes:</p>
     <ol>
-      <li><strong>Qué patrón:</strong> Factory Method, un patrón creacional, para generar los documentos.</li>
-      <li><strong>La frase que lo pide:</strong> "Para cada tipo de documento existe una oficina con su propio procedimiento para generarlo", y se quiere poder sumar tipos "sin modificar la mesa de entradas".</li>
-      <li><strong>Por qué va ese patrón:</strong> La mesa de entradas no puede saber de antemano qué tipo exacto de documento hay que crear: puede ser una solicitud, un reclamo o una habilitación.</li>
-      <li>
-        <strong>Cómo queda armado:</strong> cada parte del patrón, con su clase y lo que tiene.
-        <div class="tabla-wrap">
-          <table class="t full">
-            <tr><th>Parte del patrón</th><th>Clase</th><th>Qué tiene</th></tr>
-            <tr><td class="lbl">Producto</td><td><code>Documento</code> (interfaz)</td><td>El método <code>imprimir()</code>: lo que sabe hacer todo documento</td></tr>
-            <tr><td class="lbl">Productos Concretos</td><td><code>Solicitud</code>, <code>Reclamo</code>, <code>Habilitacion</code></td><td>Cada uno escribe su <code>imprimir()</code></td></tr>
-            <tr><td class="lbl">Creador</td><td><code>Oficina</code> (clase abstracta)</td><td><code>crearDocumento(): Documento</code>, el <strong>método fábrica</strong>, sin código; y <code>atenderTramite()</code>, que lo llama y usa el documento</td></tr>
-            <tr><td class="lbl">Creadores Concretos</td><td><code>OficinaDeSolicitudes</code>, <code>OficinaDeReclamos</code>, <code>OficinaDeHabilitaciones</code></td><td>Sobrescriben <code>crearDocumento()</code>: cada una devuelve su documento</td></tr>
-            <tr><td class="lbl">Cliente</td><td><code>MesaDeEntradas</code></td><td>Trabaja con una <code>Oficina</code>, sin saber cuál es</td></tr>
-          </table>
-        </div>
-      </li>
-      <li><strong>Qué se gana:</strong> Un tipo nuevo de documento se suma con dos clases (el documento y su oficina), sin modificar la mesa de entradas.</li>
+      <li><strong>Qué patrón y por qué:</strong> "Usaría Factory Method, un patrón creacional, porque la mesa de entradas no puede saber de antemano qué tipo exacto de documento hay que crear: puede ser una solicitud, un reclamo o una habilitación. El enunciado lo dice: "Para cada tipo de documento existe una oficina con su propio procedimiento para generarlo"."</li>
+      <li><strong>Cómo se aplica:</strong> "La creación se saca a un método, el método fábrica <code>crearDocumento()</code>, que la clase base <code>Oficina</code> declara y cada oficina concreta sobrescribe para devolver su documento. Todos los documentos tienen un tipo común, <code>Documento</code>."</li>
+      <li><strong>Qué se gana:</strong> "Se agregan tipos nuevos de documento sin modificar el código que los usa, que es lo que se pide: "sin modificar la mesa de entradas"."</li>
     </ol>
+    <p><strong>Los otros dos patrones</strong>, más breves:</p>
+    <ul>
+      <li><strong>Adapter</strong> (estructural), para consultar el padrón. Se usa cuando hay que hacer trabajar juntas dos clases con interfaces incompatibles, sin modificar ninguna, y acá el servicio de la provincia tiene operaciones con "nombres y formatos diferentes" y "no puede modificarse". Se agrega un adaptador, que cumple la interfaz que el sistema municipal ya usa y por dentro traduce cada llamada.</li>
+      <li><strong>Singleton</strong> (creacional), para el control de sesiones. Se usa cuando una clase debe tener una única instancia disponible para todo el programa, y el enunciado pide "un único gestor de sesiones para toda la aplicación". El gestor oculta su constructor y entrega su único objeto con un método estático.</li>
+    </ul>
   </div>
   <p>
     <strong>Dibujado.</strong> La consigna no lo pide, pero así queda el diagrama de Factory Method de este enunciado (los
@@ -724,14 +716,6 @@ Logistica: entrega por mar, en un barco</pre>
       </g>
     </svg>
   </div>
-  <p>
-    <strong>Los otros dos patrones</strong> se justifican con las mismas partes. Acá va solo el patrón y la
-    frase que lo pide; cada uno está desarrollado así en su propia sección:
-  </p>
-  <ul>
-    <li><strong>Adapter</strong>, para consultar el padrón: el servicio de la provincia tiene operaciones con "nombres y formatos diferentes" y "no puede modificarse".</li>
-    <li><strong>Singleton</strong>, para el control de sesiones: se pide que "exista un único gestor de sesiones para toda la aplicación".</li>
-  </ul>
   <div class="caja caja-ojo">
     <span class="caja-tit">Las trampas de este enunciado</span>
     <ul>

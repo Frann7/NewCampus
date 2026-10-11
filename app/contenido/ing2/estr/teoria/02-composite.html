@@ -379,7 +379,10 @@
       </div>
     </li>
     <li>
-      <strong>La descripción:</strong> "Composite es un patrón estructural que se usa cuando los objetos forman una estructura de árbol: elementos simples y contenedores que agrupan elementos simples u otros contenedores. Todos comparten una interfaz, de modo que el cliente trata igual a un elemento solo que a un grupo entero."
+      <strong>La descripción:</strong> "Composite es un patrón estructural que se usa cuando los objetos forman un árbol, con elementos simples y contenedores que agrupan elementos simples u otros contenedores. Todos cumplen una misma interfaz, y el contenedor guarda una lista de esa interfaz y resuelve cada pedido pasándoselo a lo que contiene. Así el cliente trata igual a un elemento solo que a un grupo entero."
+      <br>Tiene tres oraciones: <strong>cuándo se usa</strong>, <strong>cómo funciona</strong> y
+      <strong>qué se gana</strong>. Son las mismas que sirven después para justificar: solo se cambian las
+      palabras generales por los nombres del caso.
     </li>
     <li>
       <strong>Dos ejemplos:</strong> no alcanza con nombrarlos. A cada uno se le suma una
@@ -455,11 +458,14 @@
       </g>
     </svg>
   </div>
-  <p><strong>Justificación</strong>, en tres partes: qué patrón y qué frase lo pide, cómo queda armado en este caso y qué se gana.</p>
+  <p>
+    <strong>Justificación.</strong> Es la descripción del patrón (la del ejemplo 2) dicha con los nombres de
+    este caso, en las mismas tres partes: cuándo se usa, cómo funciona y qué se gana.
+  </p>
   <ol>
-    <li><strong>Qué patrón y por qué:</strong> "Se aplica Composite, un patrón estructural, porque la organización es un árbol: hay elementos simples (los empleados) y elementos que agrupan a otros (los departamentos, que tienen empleados y otros departamentos)."</li>
-    <li><strong>Cómo se aplica:</strong> "<code>Unidad</code> es el componente: la interfaz común, con <code>salario()</code>. <code>Empleado</code> es la hoja y devuelve su sueldo. <code>Departamento</code> es el compuesto: guarda una lista de <code>Unidad</code>, así que puede tener empleados u otros departamentos, y su <code>salario()</code> suma el de todos sus miembros."</li>
-    <li><strong>Qué se gana:</strong> "El salario total se obtiene pidiéndole <code>salario()</code> al departamento de más arriba, sin distinguir qué hay adentro, y la empresa puede reorganizarse en los niveles que quiera sin cambiar ese cálculo."</li>
+    <li><strong>Qué patrón y por qué:</strong> "Se aplica Composite, un patrón estructural, porque los objetos forman un árbol, con elementos simples (los empleados) y contenedores que agrupan elementos simples u otros contenedores (los departamentos). El enunciado lo dice: "una estructura de árbol que represente una organización jerárquica"."</li>
+    <li><strong>Cómo se aplica:</strong> "<code>Empleado</code> y <code>Departamento</code> cumplen una misma interfaz, <code>Unidad</code>, con <code>salario()</code>. <code>Departamento</code> guarda una lista de <code>Unidad</code> y resuelve su salario pidiéndoselo a cada miembro y sumando."</li>
+    <li><strong>Qué se gana:</strong> "La organización trata igual a un empleado solo que a un departamento entero: el salario total se obtiene pidiéndole <code>salario()</code> al departamento de más arriba."</li>
   </ol>
   <p>El enunciado ya nombra el patrón y sus partes ("nodos hoja", "nodos compuestos"): lo que se evalúa es el diagrama, con el rombo de <code>Departamento</code> volviendo a la interfaz y no a <code>Empleado</code>.</p>
 
@@ -487,13 +493,14 @@
   </div>
   <div class="caja caja-resp">
     <span class="caja-tit">Cómo quedaría escrita la respuesta</span>
-    <p><strong>Composite</strong>, para la estructura de los cursos. "Un módulo puede contener lecciones individuales y también otros módulos": es un árbol. La lección es la hoja y el módulo el compuesto, con una interfaz común. La duración total se le pide al módulo raíz, que suma la de todo lo que contiene, y la plataforma trata "de igual forma" a una lección que a un módulo.</p>
-    <p><strong>Factory Method</strong>, para los certificados. Hay "distintos tipos de certificado" y "cada tipo de curso tiene su propio procedimiento para generar el que le corresponde", sin que inscripciones sepa cómo se arma. El certificado es el producto; hay un creador con un método fábrica y un creador concreto por cada tipo. Un tipo nuevo se agrega con clases nuevas, "sin modificar lo ya desarrollado".</p>
-    <p><strong>Observer</strong>, para los avisos. "Cada vez que un docente publica una nueva lección" los alumnos inscriptos "deben ser notificados automáticamente", y pueden "activar o desactivar estos avisos". El curso es el notificador y los alumnos son los suscriptores, que se suscriben o se dan de baja cuando quieren.</p>
+    <p><strong>Composite</strong>, para la estructura de los cursos. Se usa cuando los objetos forman un árbol, con elementos simples y contenedores que agrupan elementos simples u otros contenedores, y eso describe el enunciado: "Un módulo puede contener lecciones individuales y también otros módulos". La lección (el elemento simple) y el módulo (el contenedor) cumplen una misma interfaz, y el módulo guarda una lista de esa interfaz y resuelve la duración pasándole el pedido a lo que contiene. Así la plataforma trata "de igual forma" a una lección suelta que a un módulo completo.</p>
+    <p><strong>Factory Method</strong>, para los certificados. Se usa cuando una clase no puede saber de antemano qué tipo exacto de objeto tiene que crear: acá, el módulo de inscripciones no sabe qué certificado le toca (de asistencia, de aprobación o de honor). El enunciado lo dice: "cada tipo de curso tiene su propio procedimiento para generar el que le corresponde". La creación se saca a un método, el método fábrica, que una clase base declara y cada subclase sobrescribe para devolver su certificado: hay un creador por cada tipo. Así se agregan tipos nuevos sin modificar el código que los usa, como se pide: "sin modificar lo ya desarrollado".</p>
+    <p><strong>Observer</strong>, para los avisos. Se usa cuando un cambio en un objeto se tiene que avisar a otros, y no se sabe de antemano cuántos ni cuáles son; el enunciado lo dice: "cada vez que un docente publica una nueva lección, todos los alumnos inscriptos en el curso deben ser notificados automáticamente", y "pueden activar o desactivar estos avisos". El curso es el notificador: guarda una lista de suscriptores (los alumnos inscriptos) y les avisa a todos; cada uno se puede suscribir o dar de baja cuando quiera. Así un alumno deja de recibir avisos, o vuelve a recibirlos, sin modificar el curso.</p>
   </div>
   <p>
-    Cada justificación tiene las mismas tres partes: el patrón y para qué parte del sistema, <strong>la frase
-    del enunciado</strong> que lo pide (entre comillas) y cómo queda armado, con lo que se gana.
+    Cada justificación es <strong>la descripción del patrón</strong> (la del ejemplo 2 de su sección) dicha
+    con las palabras de este enunciado: cuándo se usa, con la frase del enunciado entre comillas; cómo funciona;
+    y qué se gana.
   </p>
   <div class="caja caja-ojo">
     <span class="caja-tit">Las trampas de este enunciado</span>
@@ -687,7 +694,7 @@ int main() {
     </svg>
   </div>
   <p>
-    <strong>Justificación:</strong> "Se aplica Composite porque las playlists pasan a formar un árbol: una playlist contiene canciones y otras playlists. <code>Elemento</code> es la interfaz común; <code>Cancion</code> es la hoja y <code>Playlist</code> el compuesto, que guarda una lista de <code>Elemento</code>. Su <code>duracion()</code> suma la de cada elemento, sea una canción o una playlist entera, y el reproductor trata igual a las dos."
+    <strong>Justificación:</strong> "Se aplica Composite porque los objetos pasan a formar un árbol, con elementos simples (las canciones) y contenedores que agrupan elementos simples u otros contenedores (las playlists). <code>Cancion</code> y <code>Playlist</code> cumplen una misma interfaz, <code>Elemento</code>, y <code>Playlist</code> guarda una lista de <code>Elemento</code> y resuelve su duración pidiéndosela a cada uno y sumando. Así el reproductor trata igual a una canción sola que a una playlist entera."
   </p>
   <div class="caja caja-ojo">
     <span class="caja-tit">A tener en cuenta al modificar el diagrama</span>

@@ -388,7 +388,10 @@ Ana se entero de que llego la tablet nueva</pre>
       </div>
     </li>
     <li>
-      <strong>La descripción:</strong> "Observer es un patrón de comportamiento que se usa cuando un cambio en un objeto se tiene que avisar a otros, y no se sabe de antemano cuántos ni cuáles son. El objeto que cambia (el notificador) guarda una lista de suscriptores y les avisa a todos; cada uno se puede suscribir o dar de baja mientras el programa corre."
+      <strong>La descripción:</strong> "Observer es un patrón de comportamiento que se usa cuando un cambio en un objeto se tiene que avisar a otros, y no se sabe de antemano cuántos ni cuáles son. El objeto que cambia, el notificador, guarda una lista de suscriptores y les avisa a todos; cada uno se puede suscribir o dar de baja cuando quiera. Así se suman interesados nuevos sin modificar al notificador."
+      <br>Tiene tres oraciones: <strong>cuándo se usa</strong>, <strong>cómo funciona</strong> y
+      <strong>qué se gana</strong>. Son las mismas que sirven después para justificar: solo se cambian las
+      palabras generales por los nombres del caso.
     </li>
     <li>
       <strong>Dos ejemplos:</strong> no alcanza con nombrarlos. A cada uno se le suma una
@@ -462,11 +465,14 @@ Ana se entero de que llego la tablet nueva</pre>
       </g>
     </svg>
   </div>
-  <p><strong>Justificación</strong>, en tres partes: qué patrón y qué frase lo pide, cómo queda armado en este caso y qué se gana.</p>
+  <p>
+    <strong>Justificación.</strong> Es la descripción del patrón (la del ejemplo 2) dicha con los nombres de
+    este caso, en las mismas tres partes: cuándo se usa, cómo funciona y qué se gana.
+  </p>
   <ol>
-    <li><strong>Qué patrón y por qué:</strong> "Se aplica Observer, un patrón de comportamiento, porque cada vez que alguien hace una oferta todos los participantes tienen que enterarse, y pueden sumarse o retirarse cuando quieran."</li>
-    <li><strong>Cómo se aplica:</strong> "<code>Subasta</code> es el notificador: guarda la lista de interesados, tiene <code>suscribir()</code> y <code>desuscribir()</code>, y cuando recibe una oferta (<code>ofertar()</code>) llama a <code>notificar()</code>. <code>Interesado</code> es la interfaz suscriptor, con <code>actualizar(precio)</code>. <code>Comprador</code> y <code>Vendedor</code> son los suscriptores concretos: cada uno decide qué hace con el aviso."</li>
-    <li><strong>Qué se gana:</strong> "La subasta no necesita saber quiénes ni cuántos la siguen: avisar también al vendedor, o a quien se sume después, es agregar un suscriptor, sin modificar la clase <code>Subasta</code>."</li>
+    <li><strong>Qué patrón y por qué:</strong> "Se aplica Observer, un patrón de comportamiento, porque un cambio en un objeto (una oferta nueva en la subasta) se tiene que avisar a otros, y no se sabe de antemano cuántos ni cuáles son. El enunciado lo dice: "todos los que están participando de esa subasta tienen que enterarse del nuevo precio en el momento"."</li>
+    <li><strong>Cómo se aplica:</strong> "<code>Subasta</code> es el notificador: guarda una lista de suscriptores (del tipo <code>Interesado</code>) y, cuando recibe una oferta, les avisa a todos con <code>notificar()</code>. Cada uno se puede suscribir o dar de baja cuando quiera, con <code>suscribir()</code> y <code>desuscribir()</code>. <code>Comprador</code> y <code>Vendedor</code> son los suscriptores."</li>
+    <li><strong>Qué se gana:</strong> "Se suman interesados nuevos sin modificar al notificador: avisar también al vendedor es agregar un suscriptor."</li>
   </ol>
 
   <hr class="sep">
@@ -493,13 +499,14 @@ Ana se entero de que llego la tablet nueva</pre>
   </div>
   <div class="caja caja-resp">
     <span class="caja-tit">Cómo quedaría escrita la respuesta</span>
-    <p><strong>Strategy</strong>, para el valor de la cuota. La cuota "se calcula de diferentes formas según el plan" y el socio "puede cambiar de plan en cualquier momento". Cada forma de calcular es una estrategia con la misma interfaz, y el socio (el contexto) guarda la de su plan y le delega el cálculo. Un plan nuevo es una clase más, sin modificar el módulo de cobros.</p>
-    <p><strong>Observer</strong>, para la lista de espera. "Cada vez que se libera un lugar" hay que "avisar automáticamente a todos los socios anotados", que pueden "anotarse o darse de baja" cuando quieran. La clase grupal es el notificador, con su lista de espera, y los socios son los suscriptores. Avisar también al profesor es agregar otro suscriptor, sin modificar la clase.</p>
-    <p><strong>Facade</strong>, para la inscripción. Hoy recepción debe "operar con tres módulos distintos" en orden, y se pide "una única operación, simple". Una fachada guarda los tres módulos y ofrece esa operación, que carga la ficha médica, registra el cobro y emite la credencial. Recepción no necesita conocer ningún módulo.</p>
+    <p><strong>Strategy</strong>, para el valor de la cuota. Se usa cuando hay varias formas de hacer una misma tarea y se quiere poder cambiar de una a otra mientras el programa corre, y eso pide el enunciado: la cuota "se calcula de diferentes formas según el plan contratado", y el socio "puede cambiar de plan en cualquier momento". Cada forma (mensual, por clase, familiar) va en su propia clase, todas con la misma interfaz, y el socio, que es el contexto, guarda una y le delega la tarea. Así se agregan formas nuevas sin modificar el módulo de cobros.</p>
+    <p><strong>Observer</strong>, para la lista de espera. Se usa cuando un cambio en un objeto se tiene que avisar a otros, y no se sabe de antemano cuántos ni cuáles son; el enunciado lo dice: "Cada vez que se libera un lugar" hay que "avisar automáticamente a todos los socios anotados en la lista de espera", que "pueden anotarse o darse de baja de la lista cuando quieran". La clase grupal es el notificador: guarda una lista de suscriptores (los socios anotados) y les avisa a todos; cada uno se puede suscribir o dar de baja cuando quiera. Así avisar también al profesor es sumar un suscriptor, sin modificar la clase.</p>
+    <p><strong>Facade</strong>, para la inscripción. Se usa cuando para hacer una tarea hay que coordinar varias clases de un subsistema, y es lo que pasa: recepción "tiene que operar con tres módulos distintos" respetando un orden, y se pide "una única operación, simple". Una clase nueva, la fachada, guarda un objeto de cada una (fichas médicas, cobros y credenciales) y ofrece una operación simple, inscribir a un socio, que por dentro las llama en el orden correcto. Así recepción depende solo de la fachada y no necesita conocer el subsistema.</p>
   </div>
   <p>
-    Cada justificación tiene las mismas tres partes: el patrón y para qué parte del sistema, <strong>la frase
-    del enunciado</strong> que lo pide (entre comillas) y cómo queda armado, con lo que se gana.
+    Cada justificación es <strong>la descripción del patrón</strong> (la del ejemplo 2 de su sección) dicha
+    con las palabras de este enunciado: cuándo se usa, con la frase del enunciado entre comillas; cómo funciona;
+    y qué se gana.
   </p>
   <div class="caja caja-ojo">
     <span class="caja-tit">Las trampas de este enunciado</span>
@@ -717,7 +724,7 @@ Visor 2: nuevo dato -&gt; 25 grados</pre>
     </svg>
   </div>
   <p>
-    <strong>Justificación:</strong> "Se utiliza Observer porque cada vez que se registra el acceso de un usuario otra clase tiene que reaccionar, sola. <code>ControladorSeguridad</code> es el notificador: guarda una lista de observadores y, al registrar un acceso, los notifica. <code>Logger</code> es un suscriptor: implementa <code>Observador</code> y en <code>actualizar()</code> escribe el suceso en el archivo. El controlador ya no depende del logger, y otro mecanismo de registro se suma como un suscriptor más."
+    <strong>Justificación:</strong> "Se utiliza Observer porque un cambio en un objeto (un acceso registrado en <code>ControladorSeguridad</code>) se tiene que avisar a otros. <code>ControladorSeguridad</code> es el notificador: guarda una lista de suscriptores (del tipo <code>Observador</code>) y les avisa a todos cada vez que registra un acceso. <code>Logger</code> es un suscriptor: al recibir el aviso escribe el suceso en el archivo. Así se suman otros mecanismos de registro sin modificar al controlador."
   </p>
   <div class="caja caja-ojo">
     <span class="caja-tit">A tener en cuenta al modificar el diagrama</span>

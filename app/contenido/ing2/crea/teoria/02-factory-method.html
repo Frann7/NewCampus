@@ -458,6 +458,9 @@ Logistica: entrega por mar, en un barco</pre>
     </li>
     <li>
       <strong>La descripción:</strong> "Factory Method es un patrón creacional que se usa cuando una clase no puede saber de antemano qué tipo exacto de objeto tiene que crear. La creación se saca a un método, el método fábrica, que la clase base declara y cada subclase sobrescribe para devolver su producto. Así se agregan tipos nuevos sin modificar el código que los usa."
+      <br>Tiene tres oraciones: <strong>cuándo se usa</strong>, <strong>cómo funciona</strong> y
+      <strong>qué se gana</strong>. Son las mismas que sirven después para justificar: solo se cambian las
+      palabras generales por los nombres del caso.
     </li>
     <li>
       <strong>Dos ejemplos:</strong> no alcanza con nombrarlos. A cada uno se le suma una
@@ -578,11 +581,14 @@ Logistica: entrega por mar, en un barco</pre>
       </g>
     </svg>
   </div>
-  <p><strong>Justificación</strong>, en tres partes: qué patrón y qué frase lo pide, cómo queda armado en este caso y qué se gana.</p>
+  <p>
+    <strong>Justificación.</strong> Es la descripción del patrón (la del ejemplo 2) dicha con los nombres de
+    este caso, en las mismas tres partes: cuándo se usa, cómo funciona y qué se gana.
+  </p>
   <ol>
-    <li><strong>Qué patrón y por qué:</strong> "Se aplica Factory Method, un patrón creacional, porque hay que crear objetos de conexión de distintos tipos (MySQL, PostgreSQL, MongoDB) y la aplicación tiene que trabajar con ellos de manera transparente, es decir, sin conocer la clase concreta."</li>
-    <li><strong>Cómo se aplica:</strong> "<code>Conexion</code> es el producto: una clase abstracta con los cinco atributos comunes y el método <code>conectar()</code>, que cada conexión concreta resuelve a su manera. <code>CreadorDeConexiones</code> es el creador: declara el método fábrica <code>crearConexion()</code> y lo usa en <code>abrirConexion()</code>. Hay un creador concreto por cada base de datos, que devuelve su conexión."</li>
-    <li><strong>Qué se gana:</strong> "La aplicación trabaja solo con <code>Conexion</code>, y sumar otra base de datos (por ejemplo, SQLite) es agregar una conexión y su creador, sin modificar lo que ya existe."</li>
+    <li><strong>Qué patrón y por qué:</strong> "Se aplica Factory Method, un patrón creacional, porque la aplicación no puede saber de antemano qué tipo exacto de conexión tiene que crear: puede ser a MySQL, a PostgreSQL o a MongoDB. El enunciado lo dice: "crear objetos de conexión a la base de datos de manera que la aplicación pueda trabajar con diferentes bases de datos"."</li>
+    <li><strong>Cómo se aplica:</strong> "La creación se saca a un método, el método fábrica <code>crearConexion()</code>, que la clase base <code>CreadorDeConexiones</code> declara y cada subclase (<code>CreadorMySQL</code>, <code>CreadorPostgreSQL</code>, <code>CreadorMongoDB</code>) sobrescribe para devolver su conexión. Todas las conexiones tienen un tipo común, <code>Conexion</code>, que es el producto."</li>
+    <li><strong>Qué se gana:</strong> "Se agregan tipos nuevos sin modificar el código que los usa: otra base de datos (por ejemplo, SQLite) es una conexión y un creador más."</li>
   </ol>
   <p>Por qué no es Abstract Factory: hay un solo tipo de producto (la conexión) en varias versiones, no varios productos que tengan que combinar.</p>
 
@@ -610,13 +616,14 @@ Logistica: entrega por mar, en un barco</pre>
   </div>
   <div class="caja caja-resp">
     <span class="caja-tit">Cómo quedaría escrita la respuesta</span>
-    <p><strong>Adapter</strong>, para consultar el padrón. El servicio de la provincia tiene operaciones con "nombres y formatos diferentes" de los que usa el sistema y "no puede modificarse". Un adaptador implementa la interfaz con la que los módulos ya consultan los datos de los vecinos y traduce cada consulta a las operaciones del servicio. No se reescribe ningún módulo.</p>
-    <p><strong>Factory Method</strong>, para generar los documentos. El enunciado dice que "para cada tipo de documento existe una oficina con su propio procedimiento para generarlo", sin que la mesa de entradas conozca cómo se arma. El documento es el producto; hay un creador con un método fábrica y un creador concreto por cada tipo (solicitud, reclamo, habilitación). Un tipo nuevo se suma con clases nuevas, "sin modificar la mesa de entradas".</p>
-    <p><strong>Singleton</strong>, para el control de sesiones. Se pide "un único gestor de sesiones para toda la aplicación, de manera que no puedan crearse otros". El gestor tiene el constructor privado y entrega su única instancia con un método estático.</p>
+    <p><strong>Adapter</strong>, para consultar el padrón. Se usa cuando hay que hacer trabajar juntas dos clases con interfaces incompatibles, sin modificar ninguna, y es el caso: el servicio de la provincia tiene operaciones con "nombres y formatos diferentes" y "no puede modificarse". Se agrega una clase en el medio, el adaptador, que cumple la interfaz con la que los módulos ya consultan los datos de los vecinos y por dentro traduce cada llamada a las operaciones de ese servicio. Así los módulos consultan el padrón igual que cualquier otro dato, sin reescribirlos.</p>
+    <p><strong>Factory Method</strong>, para generar los documentos. Se usa cuando una clase no puede saber de antemano qué tipo exacto de objeto tiene que crear: acá, la mesa de entradas no sabe qué documento le toca (solicitud, reclamo o habilitación). El enunciado lo dice: "Para cada tipo de documento existe una oficina con su propio procedimiento para generarlo". La creación se saca a un método, el método fábrica, que una clase base declara y cada subclase sobrescribe para devolver su documento: hay un creador por cada tipo. Así se agregan tipos nuevos sin modificar el código que los usa, que es lo que se pide: "sin modificar la mesa de entradas".</p>
+    <p><strong>Singleton</strong>, para el control de sesiones. Se usa cuando una clase debe tener una única instancia disponible para todo el programa, y eso pide el enunciado: "exista un único gestor de sesiones para toda la aplicación, de manera que no puedan crearse otros". El gestor de sesiones oculta su constructor y ofrece un método estático que crea el objeto la primera vez y devuelve siempre el mismo. Así todo acceso al sistema pasa por el mismo gestor.</p>
   </div>
   <p>
-    Cada justificación tiene las mismas tres partes: el patrón y para qué parte del sistema, <strong>la frase
-    del enunciado</strong> que lo pide (entre comillas) y cómo queda armado, con lo que se gana.
+    Cada justificación es <strong>la descripción del patrón</strong> (la del ejemplo 2 de su sección) dicha
+    con las palabras de este enunciado: cuándo se usa, con la frase del enunciado entre comillas; cómo funciona;
+    y qué se gana.
   </p>
   <div class="caja caja-ojo">
     <span class="caja-tit">Las trampas de este enunciado</span>
@@ -830,7 +837,7 @@ Agencia: se emitio {Pasaje terrestre}</pre>
     </svg>
   </div>
   <p>
-    <strong>Justificación:</strong> "Se aplica Factory Method porque <code>Editor</code> no debe saber qué tipo exacto de documento crea. El método fábrica <code>crearDocumento()</code> se declara en <code>Editor</code> y cada subclase lo sobrescribe para devolver su documento. Un tipo nuevo se agrega con dos clases nuevas (un documento y su editor), sin modificar <code>Editor</code> ni los documentos que ya existen."
+    <strong>Justificación:</strong> "Se aplica Factory Method porque <code>Editor</code> no puede saber de antemano qué tipo exacto de documento tiene que crear, y se van a sumar tipos. La creación se saca a un método, el método fábrica <code>crearDocumento()</code>, que <code>Editor</code> declara y cada subclase (<code>EditorDeTexto</code> y <code>EditorDePlanillas</code>) sobrescribe para devolver su documento. Así se agregan tipos nuevos sin modificar <code>Editor</code> ni los documentos que ya existen."
   </p>
   <div class="caja caja-ojo">
     <span class="caja-tit">A tener en cuenta al modificar el diagrama</span>

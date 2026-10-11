@@ -363,7 +363,10 @@ Envios: se despacho teclado</pre>
       </div>
     </li>
     <li>
-      <strong>La descripción:</strong> "Facade es un patrón estructural que se usa cuando para hacer una tarea hay que coordinar varias clases de un subsistema complicado. Una clase nueva, la fachada, ofrece una interfaz simple con las operaciones que el cliente necesita y por dentro llama a las clases del subsistema en el orden correcto."
+      <strong>La descripción:</strong> "Facade es un patrón estructural que se usa cuando para hacer una tarea hay que coordinar varias clases de un subsistema. Una clase nueva, la fachada, guarda un objeto de cada una y ofrece una operación simple, que por dentro las llama en el orden correcto. Así el cliente depende solo de la fachada y no necesita conocer el subsistema."
+      <br>Tiene tres oraciones: <strong>cuándo se usa</strong>, <strong>cómo funciona</strong> y
+      <strong>qué se gana</strong>. Son las mismas que sirven después para justificar: solo se cambian las
+      palabras generales por los nombres del caso.
     </li>
     <li>
       <strong>Dos ejemplos:</strong> no alcanza con nombrarlos. A cada uno se le suma una
@@ -439,11 +442,14 @@ Envios: se despacho teclado</pre>
       </g>
     </svg>
   </div>
-  <p><strong>Justificación</strong>, en tres partes: qué patrón y qué frase lo pide, cómo queda armado en este caso y qué se gana.</p>
+  <p>
+    <strong>Justificación.</strong> Es la descripción del patrón (la del ejemplo 2) dicha con los nombres de
+    este caso, en las mismas tres partes: cuándo se usa, cómo funciona y qué se gana.
+  </p>
   <ol>
-    <li><strong>Qué patrón y por qué:</strong> "Se aplica Facade, un patrón estructural, porque dar un turno obliga a coordinar tres clases en un orden fijo y el enunciado pide una interfaz fácil y de simple acceso."</li>
-    <li><strong>Cómo se aplica:</strong> "<code>AgendaMedica</code>, <code>ObraSocial</code> y <code>Notificaciones</code> son las clases del subsistema, y no cambian. Se agrega <code>GestorDeTurnos</code>, la fachada: guarda un objeto de cada una y ofrece <code>darTurno(paciente, medico)</code>, que verifica la agenda, valida la cobertura y envía la confirmación. <code>Recepcion</code>, el cliente, solo conoce a la fachada."</li>
-    <li><strong>Qué se gana:</strong> "La recepción da un turno con una sola llamada y no depende del subsistema: si cambia la forma de validar la obra social, se modifica la fachada y no la recepción."</li>
+    <li><strong>Qué patrón y por qué:</strong> "Se aplica Facade, un patrón estructural, porque para dar un turno hay que coordinar varias clases de un subsistema (<code>AgendaMedica</code>, <code>ObraSocial</code> y <code>Notificaciones</code>), y el enunciado pide "una interfaz fácil y de simple acceso"."</li>
+    <li><strong>Cómo se aplica:</strong> "Una clase nueva, la fachada <code>GestorDeTurnos</code>, guarda un objeto de cada una y ofrece una operación simple, <code>darTurno(paciente, medico)</code>, que por dentro las llama en el orden correcto: verifica la agenda, valida la cobertura y envía la confirmación."</li>
+    <li><strong>Qué se gana:</strong> "<code>Recepcion</code> depende solo de la fachada y no necesita conocer el subsistema: da un turno con una sola llamada."</li>
   </ol>
 
   <hr class="sep">
@@ -470,13 +476,14 @@ Envios: se despacho teclado</pre>
   </div>
   <div class="caja caja-resp">
     <span class="caja-tit">Cómo quedaría escrita la respuesta</span>
-    <p><strong>Facade</strong>, para la reserva. Reservar obliga a "interactuar con varios subsistemas" (vuelos, hoteles y pagos) "en una secuencia determinada", y se pide "un acceso simple y unificado". Una fachada guarda los tres subsistemas y ofrece una operación para reservar el viaje completo. El sitio web depende solo de la fachada.</p>
-    <p><strong>Abstract Factory</strong>, para armar los paquetes. "Cada categoría incluye su propio tipo de vuelo, de alojamiento y de traslado" y los de una categoría "no deben combinarse con los de la otra": son familias de productos. Una fábrica abstracta tiene un método de creación por cada servicio y hay una fábrica concreta por categoría (Económica, Premium). La categoría Corporativa se suma con otra fábrica.</p>
-    <p><strong>Strategy</strong>, para el descuento. El precio se calcula "aplicando una política de descuento" que "se elige al momento de la compra" y "debe poder cambiarse". Cada política (temporada baja, compra anticipada, cliente frecuente) es una estrategia, y el paquete, que es el contexto, le delega el cálculo del descuento.</p>
+    <p><strong>Facade</strong>, para la reserva. Se usa cuando para hacer una tarea hay que coordinar varias clases de un subsistema, y es lo que pasa: hay que "interactuar con varios subsistemas (...) en una secuencia determinada", y se pide "un acceso simple y unificado". Una clase nueva, la fachada, guarda un objeto de cada una (vuelos, hoteles y pagos) y ofrece una operación simple, reservar el viaje completo, que por dentro las llama en el orden correcto. Así el sitio web depende solo de la fachada y no necesita conocer el subsistema.</p>
+    <p><strong>Abstract Factory</strong>, para armar los paquetes. Se usa cuando hay que crear familias de objetos relacionados, que tienen que combinar entre sí, y eso dice el enunciado: "Cada categoría incluye su propio tipo de vuelo, de alojamiento y de traslado", y los de una categoría "no deben combinarse con los de la otra". Una fábrica abstracta declara un método de creación por cada producto (el vuelo, el alojamiento y el traslado), y hay una fábrica concreta por cada familia (Económica y Premium), que crea todos los productos de esa familia. Así nunca se mezclan productos de familias distintas, y la categoría Corporativa se suma con otra fábrica.</p>
+    <p><strong>Strategy</strong>, para el descuento. Se usa cuando hay varias formas de hacer una misma tarea y se quiere poder cambiar de una a otra mientras el programa corre, y eso pide el enunciado: el precio se calcula "aplicando una política de descuento", que "se elige al momento de la compra y debe poder cambiarse". Cada forma (temporada baja, compra anticipada, cliente frecuente) va en su propia clase, todas con la misma interfaz, y el paquete, que es el contexto, guarda una y le delega la tarea. Así se agregan formas nuevas sin modificar el cálculo del resto del paquete.</p>
   </div>
   <p>
-    Cada justificación tiene las mismas tres partes: el patrón y para qué parte del sistema, <strong>la frase
-    del enunciado</strong> que lo pide (entre comillas) y cómo queda armado, con lo que se gana.
+    Cada justificación es <strong>la descripción del patrón</strong> (la del ejemplo 2 de su sección) dicha
+    con las palabras de este enunciado: cuándo se usa, con la frase del enunciado entre comillas; cómo funciona;
+    y qué se gana.
   </p>
   <div class="caja caja-ojo">
     <span class="caja-tit">Las trampas de este enunciado</span>
@@ -689,7 +696,7 @@ Empaque: a embolsar!</pre>
     </svg>
   </div>
   <p>
-    <strong>Justificación:</strong> "Se aplica Facade porque una transferencia obliga a coordinar tres clases y se pide un acceso simple. <code>Operaciones</code> guarda un objeto de cada una y ofrece <code>transferir()</code>, que valida al usuario, debita, acredita y registra la operación. <code>CajeroWeb</code> y <code>AppMovil</code> dependen solo de la fachada, así que la lógica queda en un solo lugar."
+    <strong>Justificación:</strong> "Se aplica Facade porque para hacer una transferencia hay que coordinar varias clases de un subsistema (<code>Cuentas</code>, <code>Seguridad</code> y <code>Auditoria</code>). Una clase nueva, la fachada <code>Operaciones</code>, guarda un objeto de cada una y ofrece una operación simple, <code>transferir()</code>, que por dentro las llama en el orden correcto. Así <code>CajeroWeb</code> y <code>AppMovil</code> dependen solo de la fachada y no necesitan conocer el subsistema."
   </p>
   <div class="caja caja-ojo">
     <span class="caja-tit">A tener en cuenta al modificar el diagrama</span>

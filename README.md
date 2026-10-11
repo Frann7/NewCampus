@@ -235,6 +235,10 @@ Chrome (`chrome --headless --print-to-pdf`).
 `0.x.y-alpha` mientras esté en desarrollo. La `1.0.0` queda reservada para cuando esté terminado.
 La versión actual se lee al pie del menú lateral.
 
+* **0.46.5-alpha** — Ingeniería de Software II: una sola descripción por patrón. La del ejemplo
+  "dibujarlo y explicarlo" tiene tres oraciones (cuándo se usa, cómo funciona, qué se gana) y las
+  justificaciones de los demás ejemplos son esas mismas oraciones con los nombres del caso, en
+  lugar de explicar el patrón con otras palabras cada vez.
 * **0.46.4-alpha** — Ingeniería de Software II, Factory Method: aclarado que el Producto va como
   interfaz en la estructura general y como clase abstracta cuando el enunciado da atributos
   comunes a todos los productos, y cómo cambia la línea en cada caso.

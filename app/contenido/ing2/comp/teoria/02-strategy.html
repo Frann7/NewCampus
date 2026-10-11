@@ -364,7 +364,10 @@ A pie de Parana a Oro Verde: por el camino costero, 3 horas</pre>
       </div>
     </li>
     <li>
-      <strong>La descripción:</strong> "Strategy es un patrón de comportamiento que se usa cuando hay varias formas de hacer una misma tarea y se quiere poder cambiar de una a otra mientras el programa corre. Cada forma (cada algoritmo) va en su propia clase, todas con la misma interfaz, y el contexto delega la tarea en la que tenga puesta."
+      <strong>La descripción:</strong> "Strategy es un patrón de comportamiento que se usa cuando hay varias formas de hacer una misma tarea y se quiere poder cambiar de una a otra mientras el programa corre. Cada forma va en su propia clase, todas con la misma interfaz, y el contexto guarda una y le delega la tarea. Así se agregan formas nuevas sin modificar el contexto."
+      <br>Tiene tres oraciones: <strong>cuándo se usa</strong>, <strong>cómo funciona</strong> y
+      <strong>qué se gana</strong>. Son las mismas que sirven después para justificar: solo se cambian las
+      palabras generales por los nombres del caso.
     </li>
     <li>
       <strong>Dos ejemplos:</strong> no alcanza con nombrarlos. A cada uno se le suma una
@@ -450,11 +453,14 @@ A pie de Parana a Oro Verde: por el camino costero, 3 horas</pre>
       </g>
     </svg>
   </div>
-  <p><strong>Justificación</strong>, en tres partes: qué patrón y qué frase lo pide, cómo queda armado en este caso y qué se gana.</p>
+  <p>
+    <strong>Justificación.</strong> Es la descripción del patrón (la del ejemplo 2) dicha con los nombres de
+    este caso, en las mismas tres partes: cuándo se usa, cómo funciona y qué se gana.
+  </p>
   <ol>
-    <li><strong>Qué patrón y por qué:</strong> "Se aplica Strategy, un patrón de comportamiento, porque la tarifa se calcula de distintas formas, la forma puede cambiarse mientras el vehículo está estacionado y se van a sumar formas nuevas."</li>
-    <li><strong>Cómo se aplica:</strong> "<code>Tarifa</code> es la estrategia: una interfaz con <code>calcular(minutos)</code>. <code>TarifaPorHora</code>, <code>TarifaPorEstadia</code> y <code>AbonoMensual</code> son las estrategias concretas. <code>Ticket</code> es el contexto: guarda una <code>Tarifa</code>, la deja cambiar con <code>cambiarTarifa()</code> y en <code>importe()</code> le delega el cálculo. La <code>Caja</code>, que es el cliente, le asigna la tarifa a cada ticket."</li>
-    <li><strong>Qué se gana:</strong> "<code>Ticket</code> no tiene un <code>if</code> por cada forma de cobro: la tarifa nocturna es una clase más, y pasar de hora a estadía es llamar a <code>cambiarTarifa()</code>."</li>
+    <li><strong>Qué patrón y por qué:</strong> "Se aplica Strategy, un patrón de comportamiento, porque hay varias formas de hacer una misma tarea (calcular la tarifa: por hora, por estadía o con abono) y se quiere poder cambiar de una a otra mientras el programa corre. El enunciado lo dice: la forma "puede cambiarse mientras está estacionado"."</li>
+    <li><strong>Cómo se aplica:</strong> "Cada forma va en su propia clase (<code>TarifaPorHora</code>, <code>TarifaPorEstadia</code> y <code>AbonoMensual</code>), todas con la misma interfaz, <code>Tarifa</code>. <code>Ticket</code>, que es el contexto, guarda una y le delega el cálculo en <code>importe()</code>; con <code>cambiarTarifa()</code> se la cambia."</li>
+    <li><strong>Qué se gana:</strong> "Se agregan formas nuevas sin modificar el contexto: la tarifa nocturna es una clase más, y <code>Ticket</code> no cambia."</li>
   </ol>
 
   <hr class="sep">
@@ -481,13 +487,14 @@ A pie de Parana a Oro Verde: por el camino costero, 3 horas</pre>
   </div>
   <div class="caja caja-resp">
     <span class="caja-tit">Cómo quedaría escrita la respuesta</span>
-    <p><strong>Composite</strong>, para los bienes asegurados. Una póliza cubre bienes y "grupos de bienes, que a su vez contienen otros grupos": es un árbol. El bien es la hoja y el grupo el compuesto, con una interfaz común. El valor asegurado se pide "de la misma manera" a un bien que a un grupo, que suma el de lo que contiene.</p>
-    <p><strong>Strategy</strong>, para la prima. Hay "distintos métodos de evaluación de riesgo", el asesor "selecciona el método" al cotizar y "puede cambiarlo". Cada método es una estrategia con la misma interfaz, y el cotizador, que es el contexto, usa el que le asignan. Un método nuevo es una clase más, "sin modificar el cotizador".</p>
-    <p><strong>Abstract Factory</strong>, para los documentos. Por cada póliza se emiten "un contrato y un certificado", y los de una versión "no deben mezclarse con los de la otra": son familias de productos. Una fábrica abstracta tiene un método de creación por cada documento y hay una fábrica concreta por versión (Particulares, Empresas). La versión Agro se suma con otra fábrica.</p>
+    <p><strong>Composite</strong>, para los bienes asegurados. Se usa cuando los objetos forman un árbol, con elementos simples y contenedores que agrupan elementos simples u otros contenedores, y eso describe el enunciado: "grupos de bienes, que a su vez contienen otros grupos". El bien (el elemento simple) y el grupo (el contenedor) cumplen una misma interfaz, y el grupo guarda una lista de esa interfaz y resuelve el valor asegurado pasándole el pedido a lo que contiene. Así el valor asegurado se calcula "de la misma manera" para un bien suelto que para un grupo completo.</p>
+    <p><strong>Strategy</strong>, para la prima. Se usa cuando hay varias formas de hacer una misma tarea y se quiere poder cambiar de una a otra mientras el programa corre, y eso pide el enunciado: hay "distintos métodos de evaluación de riesgo", y el asesor "selecciona el método" y "puede cambiarlo durante la entrevista". Cada forma (conservador, estándar, agresivo) va en su propia clase, todas con la misma interfaz, y el cotizador, que es el contexto, guarda una y le delega la tarea. Así se agregan formas nuevas sin modificar el cotizador.</p>
+    <p><strong>Abstract Factory</strong>, para los documentos de cada póliza. Se usa cuando hay que crear familias de objetos relacionados, que tienen que combinar entre sí, y eso dice el enunciado: se emiten "un contrato y un certificado de cobertura", y "los de una versión no deben mezclarse con los de la otra". Una fábrica abstracta declara un método de creación por cada producto (el contrato y el certificado), y hay una fábrica concreta por cada familia (Particulares y Empresas), que crea todos los productos de esa familia. Así nunca se mezclan productos de familias distintas, y la versión Agro se suma con otra fábrica.</p>
   </div>
   <p>
-    Cada justificación tiene las mismas tres partes: el patrón y para qué parte del sistema, <strong>la frase
-    del enunciado</strong> que lo pide (entre comillas) y cómo queda armado, con lo que se gana.
+    Cada justificación es <strong>la descripción del patrón</strong> (la del ejemplo 2 de su sección) dicha
+    con las palabras de este enunciado: cuándo se usa, con la frase del enunciado entre comillas; cómo funciona;
+    y qué se gana.
   </p>
   <div class="caja caja-ojo">
     <span class="caja-tit">Las trampas de este enunciado</span>
@@ -669,7 +676,7 @@ Archivador: genero informe.rar</pre>
     </svg>
   </div>
   <p>
-    <strong>Justificación:</strong> "Se aplica Strategy porque hay varias formas de calcular el sueldo y tienen que poder cambiarse mientras el sistema funciona. Cada forma pasa a una clase que cumple <code>CalculoDeSueldo</code>; <code>Empleado</code> guarda una y le delega el cálculo. Una forma nueva es una clase nueva, sin tocar <code>Empleado</code>, y cambiar de modalidad es llamar a <code>cambiarCalculo()</code>."
+    <strong>Justificación:</strong> "Se aplica Strategy porque hay varias formas de hacer una misma tarea (calcular el sueldo) y se quiere poder cambiar de una a otra mientras el sistema funciona. Cada forma va en su propia clase (<code>SueldoMensual</code>, <code>SueldoPorHora</code> y <code>SueldoPorComision</code>), todas con la misma interfaz, <code>CalculoDeSueldo</code>, y <code>Empleado</code>, que es el contexto, guarda una y le delega el cálculo. Así se agregan formas nuevas sin modificar <code>Empleado</code>."
   </p>
   <div class="caja caja-ojo">
     <span class="caja-tit">A tener en cuenta al modificar el diagrama</span>

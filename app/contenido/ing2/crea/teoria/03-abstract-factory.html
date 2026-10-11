@@ -579,7 +579,10 @@ Juego: silla victoriana + sofa victoriano</pre>
       </div>
     </li>
     <li>
-      <strong>La descripción:</strong> "Abstract Factory es un patrón creacional que se usa cuando hay que crear familias de objetos relacionados, que tienen que combinar entre sí, sin nombrar sus clases concretas. Una interfaz fábrica declara un método de creación por cada producto y cada fábrica concreta crea todos los productos de una misma familia. El cliente trabaja solo con las interfaces, así que nunca mezcla productos de familias distintas."
+      <strong>La descripción:</strong> "Abstract Factory es un patrón creacional que se usa cuando hay que crear familias de objetos relacionados, que tienen que combinar entre sí. Una fábrica abstracta declara un método de creación por cada producto, y hay una fábrica concreta por cada familia, que crea todos los productos de esa familia. Así nunca se mezclan productos de familias distintas, y una familia nueva se agrega sin modificar el código que las usa."
+      <br>Tiene tres oraciones: <strong>cuándo se usa</strong>, <strong>cómo funciona</strong> y
+      <strong>qué se gana</strong>. Son las mismas que sirven después para justificar: solo se cambian las
+      palabras generales por los nombres del caso.
     </li>
     <li>
       <strong>Dos ejemplos:</strong> no alcanza con nombrarlos. A cada uno se le suma una
@@ -706,11 +709,14 @@ Juego: silla victoriana + sofa victoriano</pre>
       </g>
     </svg>
   </div>
-  <p><strong>Justificación</strong>, en tres partes: qué patrón y qué frase lo pide, cómo queda armado en este caso y qué se gana.</p>
+  <p>
+    <strong>Justificación.</strong> Es la descripción del patrón (la del ejemplo 2) dicha con los nombres de
+    este caso, en las mismas tres partes: cuándo se usa, cómo funciona y qué se gana.
+  </p>
   <ol>
-    <li><strong>Qué patrón y por qué:</strong> "Se aplica Abstract Factory, un patrón creacional, porque hay familias de productos relacionados: la factura y el recibo de cada país se tienen que usar siempre juntos."</li>
-    <li><strong>Cómo se aplica:</strong> "<code>Factura</code> y <code>Recibo</code> son los productos abstractos, con una variante por país. <code>FabricaFiscal</code> es la fábrica abstracta, con un método de creación por cada producto, y <code>FabricaArgentina</code> y <code>FabricaChile</code> son las fábricas concretas: cada una crea los dos comprobantes de su país. <code>Facturador</code>, el cliente, guarda una fábrica y trabaja solo con las interfaces."</li>
-    <li><strong>Qué se gana:</strong> "No se pueden mezclar comprobantes de países distintos, porque los dos salen de la misma fábrica, y sumar un país es agregar una fábrica y sus dos comprobantes, sin modificar el código que emite."</li>
+    <li><strong>Qué patrón y por qué:</strong> "Se aplica Abstract Factory, un patrón creacional, porque hay que crear familias de objetos relacionados, que tienen que combinar entre sí: la factura y el recibo de cada país. El enunciado lo dice: "Los comprobantes de un mismo país se tienen que usar siempre juntos"."</li>
+    <li><strong>Cómo se aplica:</strong> "La fábrica abstracta, <code>FabricaFiscal</code>, declara un método de creación por cada producto (<code>crearFactura()</code> y <code>crearRecibo()</code>), y hay una fábrica concreta por cada familia (<code>FabricaArgentina</code> y <code>FabricaChile</code>), que crea los dos comprobantes de su país. <code>Facturador</code>, el cliente, trabaja solo con las interfaces."</li>
+    <li><strong>Qué se gana:</strong> "Nunca se mezclan comprobantes de países distintos, y un país nuevo se agrega con otra fábrica y sus dos comprobantes, sin modificar el código que emite."</li>
   </ol>
   <p>Por qué no es Factory Method: no se crea un solo tipo de cosa, sino <strong>dos que tienen que combinar</strong>.</p>
 
@@ -738,13 +744,14 @@ Juego: silla victoriana + sofa victoriano</pre>
   </div>
   <div class="caja caja-resp">
     <span class="caja-tit">Cómo quedaría escrita la respuesta</span>
-    <p><strong>Abstract Factory</strong>, para armar las instalaciones. "Cada línea tiene su propio panel de control y su propio sensor", diseñados para funcionar juntos y no compatibles con los de otra línea: son familias de productos. Una fábrica abstracta declara un método de creación por cada componente y hay una fábrica concreta por línea (Hogar, Profesional), que crea los dos. La línea Industrial se suma con una fábrica y sus componentes, sin modificar el código que arma las instalaciones.</p>
-    <p><strong>Singleton</strong>, para el historial. El enunciado dice que "debe existir un solo registrador de eventos, compartido por toda la aplicación". El registrador oculta su constructor y entrega su única instancia con un método estático: todas las pantallas escriben en el mismo historial y no se abren varios archivos.</p>
-    <p><strong>Adapter</strong>, para las lámparas de otro fabricante. Su librería tiene funciones con "otros nombres" y "otros parámetros" (una interfaz incompatible) y "no se puede modificar", ni tampoco la aplicación. Un adaptador implementa la interfaz con la que la aplicación ya controla sus lámparas y por dentro llama a la librería.</p>
+    <p><strong>Abstract Factory</strong>, para armar las instalaciones. Se usa cuando hay que crear familias de objetos relacionados, que tienen que combinar entre sí, y eso dice el enunciado: "Cada línea tiene su propio panel de control y su propio sensor de movimiento" y "los componentes de una línea no son compatibles con los de la otra". Una fábrica abstracta declara un método de creación por cada producto (el panel y el sensor), y hay una fábrica concreta por cada familia (Hogar y Profesional), que crea todos los productos de esa familia. Así nunca se mezclan productos de familias distintas, y la línea Industrial se suma con otra fábrica, sin modificar el código que arma las instalaciones.</p>
+    <p><strong>Singleton</strong>, para el historial de eventos. Se usa cuando una clase debe tener una única instancia disponible para todo el programa, y eso pide el enunciado: "debe existir un solo registrador de eventos, compartido por toda la aplicación". El registrador oculta su constructor y ofrece un método estático que crea el objeto la primera vez y devuelve siempre el mismo. Así todas las pantallas escriben en el mismo historial y no se abren varios archivos.</p>
+    <p><strong>Adapter</strong>, para las lámparas de otro fabricante. Se usa cuando hay que hacer trabajar juntas dos clases con interfaces incompatibles, sin modificar ninguna, y es el caso: su librería tiene funciones con "otros nombres" que "reciben otros parámetros", y "no se puede modificar". Se agrega una clase en el medio, el adaptador, que cumple la interfaz con la que la aplicación ya controla sus lámparas y por dentro traduce cada llamada a las funciones de esa librería. Así la aplicación controla las lámparas ajenas igual que las propias.</p>
   </div>
   <p>
-    Cada justificación tiene las mismas tres partes: el patrón y para qué parte del sistema, <strong>la frase
-    del enunciado</strong> que lo pide (entre comillas) y cómo queda armado, con lo que se gana.
+    Cada justificación es <strong>la descripción del patrón</strong> (la del ejemplo 2 de su sección) dicha
+    con las palabras de este enunciado: cuándo se usa, con la frase del enunciado entre comillas; cómo funciona;
+    y qué se gana.
   </p>
   <div class="caja caja-ojo">
     <span class="caja-tit">Las trampas de este enunciado</span>
@@ -1014,7 +1021,7 @@ motor urbano + rueda urbana</pre>
     </svg>
   </div>
   <p>
-    <strong>Justificación:</strong> "Se aplica Abstract Factory porque la entrada y el plato de cada línea forman una familia que no se debe mezclar. <code>Cocina</code> recibe una <code>FabricaDeMenu</code> y le pide los dos productos: como una fábrica concreta solo crea los de su línea, el pedido sale siempre consistente. La línea sin TACC se agrega con una fábrica y dos productos nuevos, sin modificar <code>Cocina</code>."
+    <strong>Justificación:</strong> "Se aplica Abstract Factory porque hay que crear familias de objetos relacionados, que tienen que combinar entre sí: la entrada y el plato de cada línea. La fábrica abstracta, <code>FabricaDeMenu</code>, declara un método de creación por cada producto, y hay una fábrica concreta por cada familia (<code>FabricaVegana</code> y <code>FabricaClasica</code>), que crea los dos productos de su línea. Así nunca se mezclan productos de líneas distintas, y la línea sin TACC se agrega con otra fábrica, sin modificar <code>Cocina</code>."
   </p>
   <div class="caja caja-ojo">
     <span class="caja-tit">A tener en cuenta al modificar el diagrama</span>

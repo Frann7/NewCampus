@@ -37,6 +37,11 @@ El plan de carga, con lo que sube cada parte y lo que falta, está en `docs/plan
     renglón → parte del patrón y respuesta.
   - 6 "agregarlo a un diagrama": diagrama dado, qué hay, qué se cambia en orden, diagrama
     modificado, justificación y "a tener en cuenta".
+- **Una sola descripción por patrón.** La del ejemplo 2 tiene tres oraciones: cuándo se usa, cómo
+  funciona y qué se gana. Toda justificación (ejemplos 3, 4 y 6, y la sección de repaso) es esa
+  misma descripción con las palabras generales cambiadas por los nombres del caso, más la frase
+  del enunciado entre comillas, textual. No se inventan frases nuevas para decir lo mismo: Fran
+  se pierde cuando la explicación cambia de un ejemplo a otro (11/10/2026).
 - **En la teoría no va el enunciado de ningún parcial** (pedido de Fran, 11/10/2026): los
   parciales quedan en Evaluación, para rendirlos sin haberlos visto. Los ejemplos salen de las
   **guías de la cátedra** (primero las que no están resueltas en la Práctica) y, si no hay,

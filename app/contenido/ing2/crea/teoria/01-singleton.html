@@ -287,7 +287,10 @@ a y b son el mismo objeto</pre>
       </div>
     </li>
     <li>
-      <strong>La descripción:</strong> "Singleton es un patrón creacional que se usa cuando una clase debe tener una única instancia disponible para todo el programa. La clase oculta su constructor y ofrece un método estático que crea el objeto la primera vez y devuelve siempre el mismo, dando un punto de acceso global."
+      <strong>La descripción:</strong> "Singleton es un patrón creacional que se usa cuando una clase debe tener una única instancia disponible para todo el programa. La clase oculta su constructor y ofrece un método estático que crea el objeto la primera vez y devuelve siempre el mismo. Así todo el programa usa el mismo objeto, a través de un único punto de acceso."
+      <br>Tiene tres oraciones: <strong>cuándo se usa</strong>, <strong>cómo funciona</strong> y
+      <strong>qué se gana</strong>. Son las mismas que sirven después para justificar: solo se cambian las
+      palabras generales por los nombres del caso.
     </li>
     <li>
       <strong>Dos ejemplos:</strong> no alcanza con nombrarlos. A cada uno se le suma una
@@ -341,11 +344,14 @@ a y b son el mismo objeto</pre>
       </g>
     </svg>
   </div>
-  <p><strong>Justificación</strong>, en tres partes: qué patrón y qué frase lo pide, cómo queda armado en este caso y qué se gana.</p>
+  <p>
+    <strong>Justificación.</strong> Es la descripción del patrón (la del ejemplo 2) dicha con los nombres de
+    este caso, en las mismas tres partes: cuándo se usa, cómo funciona y qué se gana.
+  </p>
   <ol>
-    <li><strong>Qué patrón y por qué:</strong> "Se aplica Singleton, un patrón creacional, porque el enunciado pide garantizar que solo haya una instancia del administrador de la base de datos en toda la aplicación."</li>
-    <li><strong>Cómo se aplica:</strong> "<code>AdministradorBD</code> guarda su única instancia en un atributo estático y privado; su constructor es privado, para que nadie más pueda crearla; y el método estático <code>obtenerInstancia()</code> la crea la primera vez y después devuelve siempre la misma. Conectar, ejecutar consultas y desconectar quedan como métodos públicos comunes."</li>
-    <li><strong>Qué se gana:</strong> "Todos los módulos trabajan con el mismo administrador: hay una sola conexión abierta y un único punto de acceso a la base de datos."</li>
+    <li><strong>Qué patrón y por qué:</strong> "Se aplica Singleton, un patrón creacional, porque la clase <code>AdministradorBD</code> debe tener una única instancia disponible para todo el programa. El enunciado lo pide: "garantizar que solo haya una instancia del administrador de la base de datos en toda la aplicación"."</li>
+    <li><strong>Cómo se aplica:</strong> "<code>AdministradorBD</code> oculta su constructor (es privado) y ofrece un método estático, <code>obtenerInstancia()</code>, que crea el objeto la primera vez y devuelve siempre el mismo, guardado en el atributo estático <code>instancia</code>. Conectar, ejecutar consultas y desconectar quedan como métodos comunes."</li>
+    <li><strong>Qué se gana:</strong> "Todo el programa usa el mismo administrador, a través de un único punto de acceso: hay una sola conexión abierta."</li>
   </ol>
   <p>La misma guía trae otros dos con esta forma: la configuración global de una aplicación (es el ejemplo 1 de esta sección) y el registro de eventos (Práctica, ejercicio 3).</p>
 
@@ -373,13 +379,14 @@ a y b son el mismo objeto</pre>
   </div>
   <div class="caja caja-resp">
     <span class="caja-tit">Cómo quedaría escrita la respuesta</span>
-    <p><strong>Singleton</strong>, para la configuración. El enunciado pide "un único objeto de configuración en todo el sistema, accesible desde cualquier módulo". La clase de configuración guarda su única instancia en un atributo estático, tiene el constructor privado y la entrega con un método estático. Así préstamos, socios y catálogo leen siempre los mismos valores.</p>
-    <p><strong>Facade</strong>, para registrar un préstamo. Hoy hay que operar "con tres módulos por separado y en un orden determinado", y se pide "una interfaz sencilla, con una única operación". Una fachada guarda los tres módulos y ofrece esa operación, que verifica las deudas, comprueba la disponibilidad y registra la devolución. La pantalla de atención no necesita conocer ningún módulo.</p>
-    <p><strong>Observer</strong>, para las reservas. Cuando un libro es devuelto hay que "avisar automáticamente a todos los socios que lo tenían reservado", que pueden "anotarse o borrarse" cuando quieran. El libro es el notificador, con su lista de espera, y los socios son los suscriptores. Sumar al área de compras es agregar un suscriptor, sin modificar el libro.</p>
+    <p><strong>Singleton</strong>, para la configuración. Se usa cuando una clase debe tener una única instancia disponible para todo el programa, y eso pide el enunciado: "exista un único objeto de configuración en todo el sistema, accesible desde cualquier módulo". La clase de configuración oculta su constructor y ofrece un método estático que crea el objeto la primera vez y devuelve siempre el mismo. Así préstamos, socios y catálogo leen siempre los mismos valores.</p>
+    <p><strong>Facade</strong>, para registrar un préstamo. Se usa cuando para hacer una tarea hay que coordinar varias clases de un subsistema, y es lo que pasa: hoy hay que "operar con tres módulos por separado y en un orden determinado", y se pide "una interfaz sencilla, con una única operación". Una clase nueva, la fachada, guarda un objeto de cada una (el de deudas, el de disponibilidad y el de devoluciones) y ofrece una operación simple, prestar un libro, que por dentro las llama en el orden correcto. Así la pantalla de atención al público depende solo de la fachada y no necesita conocer el subsistema.</p>
+    <p><strong>Observer</strong>, para las reservas. Se usa cuando un cambio en un objeto se tiene que avisar a otros, y no se sabe de antemano cuántos ni cuáles son; el enunciado lo dice: "avisar automáticamente a todos los socios que lo tenían reservado", que "pueden anotarse o borrarse de la lista de espera". El libro es el notificador: guarda una lista de suscriptores (los socios que lo reservaron) y les avisa a todos; cada uno se puede suscribir o dar de baja cuando quiera. Así avisar también al área de compras es sumar un suscriptor, sin modificar el libro.</p>
   </div>
   <p>
-    Cada justificación tiene las mismas tres partes: el patrón y para qué parte del sistema, <strong>la frase
-    del enunciado</strong> que lo pide (entre comillas) y cómo queda armado, con lo que se gana.
+    Cada justificación es <strong>la descripción del patrón</strong> (la del ejemplo 2 de su sección) dicha
+    con las palabras de este enunciado: cuándo se usa, con la frase del enunciado entre comillas; cómo funciona;
+    y qué se gana.
   </p>
   <div class="caja caja-ojo">
     <span class="caja-tit">Las trampas de este enunciado</span>
@@ -560,7 +567,7 @@ int main() {
     </svg>
   </div>
   <p>
-    <strong>Justificación:</strong> "Se utiliza Singleton porque el enunciado pide que se pueda crear sólo una instancia de <code>ControladorSeguridad</code>, ya que existe un único objeto encargado de la seguridad. El constructor privado impide crear otros controladores y el método estático <code>obtenerInstancia()</code> devuelve siempre el mismo, guardado en el atributo estático <code>instancia</code>. Todo el sistema registra los accesos en la misma lista de sesiones activas."
+    <strong>Justificación:</strong> "Se utiliza Singleton porque <code>ControladorSeguridad</code> debe tener una única instancia disponible para todo el programa: el enunciado pide "poder crear sólo una instancia de la clase ControladorSeguridad". La clase oculta su constructor (pasa a ser privado) y ofrece un método estático, <code>obtenerInstancia()</code>, que crea el objeto la primera vez y devuelve siempre el mismo. Así todo el sistema registra los accesos en el mismo controlador."
   </p>
   <div class="caja caja-ojo">
     <span class="caja-tit">A tener en cuenta al modificar el diagrama</span>

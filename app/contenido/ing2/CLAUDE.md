@@ -118,7 +118,10 @@ más arriba. Después de generarlos se mira **cómo quedaron**
 
 - Parciales 2024 y 2025 en `evaluacion/parciales/`, una consigna por archivo, con `pd-resultados`
   (la respuesta modelo) y `pd-explicacion`. La cátedra no publicó respuestas: son propias, y así
-  se avisa en la nota de cada parcial.
+  se avisa en la nota de cada parcial. Las respuestas modelo de patrones siguen el mismo criterio
+  que la teoría: tres partes breves (qué patrón y por qué, cómo se aplica, qué se gana), con la
+  frase del enunciado, cada parte del patrón explicada y todo dicho con el caso. Cuando la
+  consigna pide "el propósito dentro del sistema", se dice para qué le sirve a esa empresa.
 - **Banco de autoevaluación** en `evaluacion/preguntas/<unidad>/` (una carpeta por unidad del
   menú, un archivo por pregunta, ids `ing2-u0-NN`, `ing2-u4a-NN`, `ing2-u4b-NN`, `ing2-u4c-NN`,
   `ing2-u5-NN`, `ing2-u6-NN`: el orden alfabético de los ids es el orden en que salen). Evaluación

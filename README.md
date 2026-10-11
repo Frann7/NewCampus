@@ -235,6 +235,11 @@ Chrome (`chrome --headless --print-to-pdf`).
 `0.x.y-alpha` mientras esté en desarrollo. La `1.0.0` queda reservada para cuando esté terminado.
 La versión actual se lee al pie del menú lateral.
 
+* **0.46.10-alpha** — Ingeniería de Software II, parciales 2024 y 2025 resueltos: las respuestas
+  modelo de los siete ejercicios de patrones se reescribieron con el criterio de la teoría (tres
+  partes breves, la frase del enunciado, cada parte del patrón explicada y todo dicho con el
+  caso). En la Teoría 4 de 2025, el propósito de cada patrón queda explicado para la empresa del
+  enunciado; en la Práctica 1, cada patrón lleva su justificación completa.
 * **0.46.9-alpha** — Ingeniería de Software II: en todas las respuestas de los ejemplos de patrones,
   cada parte que se nombra (creador, producto, notificador, contexto...) lleva una aclaración
   corta de qué es, dicha con las clases del caso. La respuesta de "reconocerlo en un código" pasa

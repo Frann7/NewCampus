@@ -412,3 +412,43 @@ D["strategy-tarifa"] = dict(
         ("AbonoMensual", "Tarifa", "realiza"),
     ],
 )
+
+# ---------- Teoría, ejemplo 4: el diagrama del patrón de la sección ----------
+
+D["id-observer"] = dict(
+    alt="Observer para la lista de espera de una clase grupal",
+    clases=[
+        dict(id="ClaseGrupal", x=0, y=0, destacada=True,
+             attrs=["- cupo: int", "- anotados: Anotado[]"],
+             mets=["+ suscribir(a: Anotado)", "+ desuscribir(a: Anotado)", "+ liberarLugar()", "+ notificar()"]),
+        dict(id="Anotado", x=400, y=45, estereo="interface", mets=["+ actualizar(clase)"]),
+        dict(id="Socio", x=310, y=220, mets=["+ actualizar(clase)"]),
+        dict(id="Profesor", x=490, y=220, mets=["+ actualizar(clase)"]),
+    ],
+    rel=[
+        ("ClaseGrupal", "Anotado", "agregacion", dict(m2="*")),
+        ("Socio", "Anotado", "realiza"),
+        ("Profesor", "Anotado", "realiza"),
+    ],
+)
+
+D["id-strategy"] = dict(
+    alt="Strategy para los métodos de evaluación de riesgo",
+    clases=[
+        dict(id="Asesor", x=0, y=38),
+        dict(id="Cotizador", x=170, y=0, destacada=True,
+             attrs=["- metodo: MetodoDeRiesgo"],
+             mets=["+ cambiarMetodo(m: MetodoDeRiesgo)", "+ calcularPrima(cliente): double"]),
+        dict(id="MetodoDeRiesgo", x=600, y=16, estereo="interface", mets=["+ evaluar(cliente): double"]),
+        dict(id="MetodoConservador", x=440, y=190, mets=["+ evaluar(cliente)"]),
+        dict(id="MetodoEstandar", x=626, y=190, mets=["+ evaluar(cliente)"]),
+        dict(id="MetodoAgresivo", x=803, y=190, mets=["+ evaluar(cliente)"]),
+    ],
+    rel=[
+        ("Asesor", "Cotizador", "asociacion"),
+        ("Cotizador", "MetodoDeRiesgo", "agregacion"),
+        ("MetodoConservador", "MetodoDeRiesgo", "realiza"),
+        ("MetodoEstandar", "MetodoDeRiesgo", "realiza"),
+        ("MetodoAgresivo", "MetodoDeRiesgo", "realiza"),
+    ],
+)

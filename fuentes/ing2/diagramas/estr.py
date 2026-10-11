@@ -495,3 +495,58 @@ D["composite-empleados"] = dict(
         ("Departamento", "Unidad", "agregacion", dict(sal="der", lle="der", por=550, rot="miembros", m2="*")),
     ],
 )
+
+# ---------- Teoría, ejemplo 4: el diagrama del patrón de la sección ----------
+
+D["id-adapter"] = dict(
+    alt="Adapter para los dispositivos GPS del proveedor",
+    clases=[
+        dict(id="Seguimiento", x=0, y=22),
+        dict(id="Localizador", x=200, y=0, estereo="interface", mets=["+ ubicacion(): Coordenadas"]),
+        dict(id="AdaptadorGps", x=196, y=150, destacada=True,
+             attrs=["- dispositivo: GpsProveedor"], mets=["+ ubicacion(): Coordenadas"]),
+        dict(id="GpsProveedor", x=540, y=165, mets=["+ leerTrama(): string"]),
+    ],
+    rel=[
+        ("Seguimiento", "Localizador", "asociacion"),
+        ("AdaptadorGps", "Localizador", "realiza"),
+        ("AdaptadorGps", "GpsProveedor", "asociacion"),
+    ],
+)
+
+D["id-composite"] = dict(
+    alt="Composite para los módulos y las lecciones de un curso",
+    clases=[
+        dict(id="Plataforma", x=0, y=30),
+        dict(id="Contenido", x=250, y=0, estereo="interface", mets=["+ duracion(): int", "+ mostrar(): void"]),
+        dict(id="Leccion", x=110, y=170, attrs=["- minutos: int"], mets=["+ duracion(): int", "+ mostrar(): void"]),
+        dict(id="Modulo", x=310, y=170, destacada=True,
+             attrs=["- contenidos: Contenido[]"],
+             mets=["+ agregar(c: Contenido)", "+ duracion(): int", "+ mostrar(): void"]),
+    ],
+    rel=[
+        ("Plataforma", "Contenido", "asociacion"),
+        ("Leccion", "Contenido", "realiza"),
+        ("Modulo", "Contenido", "realiza"),
+        ("Modulo", "Contenido", "agregacion", dict(sal="der", lle="der", por=590, rot="contenidos", m2="*")),
+    ],
+)
+
+D["id-facade"] = dict(
+    alt="Facade para reservar un viaje completo",
+    clases=[
+        dict(id="SitioWeb", x=0, y=93),
+        dict(id="ReservaDeViajes", x=170, y=45, destacada=True,
+             attrs=["- vuelos: Vuelos", "- hoteles: Hoteles", "- pagos: Pagos"],
+             mets=["+ reservarViaje(cliente, destino)"]),
+        dict(id="Vuelos", x=560, y=0, mets=["+ reservarAsiento(vuelo)"]),
+        dict(id="Hoteles", x=560, y=85, mets=["+ reservarHabitacion(hotel)"]),
+        dict(id="Pagos", x=560, y=170, mets=["+ cobrar(monto)"]),
+    ],
+    rel=[
+        ("SitioWeb", "ReservaDeViajes", "asociacion"),
+        ("ReservaDeViajes", "Vuelos", "asociacion", dict(d1=-30, d2=0)),
+        ("ReservaDeViajes", "Hoteles", "asociacion"),
+        ("ReservaDeViajes", "Pagos", "asociacion", dict(d1=30, d2=0)),
+    ],
+)

@@ -235,6 +235,8 @@ Chrome (`chrome --headless --print-to-pdf`).
 `0.x.y-alpha` mientras esté en desarrollo. La `1.0.0` queda reservada para cuando esté terminado.
 La versión actual se lee al pie del menú lateral.
 
+* **0.46.6-alpha** — Ingeniería de Software II: el ejemplo "identificar los patrones de un enunciado"
+  de cada patrón suma el diagrama UML de ese patrón aplicado al enunciado (solo el de la sección).
 * **0.46.5-alpha** — Ingeniería de Software II: una sola descripción por patrón. La del ejemplo
   "dibujarlo y explicarlo" tiene tres oraciones (cuándo se usa, cómo funciona, qué se gana) y las
   justificaciones de los demás ejemplos son esas mismas oraciones con los nombres del caso, en

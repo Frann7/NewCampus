@@ -466,6 +466,49 @@ Temperatura: 25 grados</pre>
     con las palabras de este enunciado: cuándo se usa, con la frase del enunciado entre comillas; cómo funciona;
     y qué se gana.
   </p>
+  <p>
+    <strong>El diagrama de Adapter.</strong> La consigna no lo pide, pero así quedaría dibujada la parte de
+    Adapter de este enunciado (los nombres de las clases los elige uno):
+  </p>
+  <div class="pd-grafico uml" data-g="id-adapter">
+    <svg viewBox="-14 -14 752 266" width="752" height="266" role="img" aria-label="Adapter para los dispositivos GPS del proveedor">
+      <polyline class="linea" points="119,37 159.5,37 159.5,37 200,37"/>
+      <polyline class="linea" points="190,42 200,37 190,32"/>
+      <polyline class="linea punteada" points="311,150 311,119 311,119 311,88"/>
+      <polygon class="hueca" points="311,75 318,88 304,88"/>
+      <polyline class="linea" points="425,194.5 482.5,194.5 482.5,194.5 540,194.5"/>
+      <polyline class="linea" points="530,199.5 540,194.5 530,189.5"/>
+      <g class="clase k-comun">
+      <rect class="caja sola" x="0" y="22" width="119" height="30" rx="3"/>
+      <text class="nombre" x="59.5" y="42">Seguimiento</text>
+      </g>
+      <g class="clase k-interfaz">
+      <rect class="caja" x="200" y="0" width="222" height="75" rx="3"/>
+      <rect class="cab" x="201" y="1" width="220" height="45" rx="2"/>
+      <text class="estereo" x="311" y="16">&#171;interface&#187;</text>
+      <text class="nombre" x="311" y="35">Localizador</text>
+      <line class="div" x1="200" y1="46" x2="422" y2="46"/>
+      <text class="miembro" x="210" y="64"><tspan class="v-pub">+</tspan> ubicacion()<tspan class="tp">: Coordenadas</tspan></text>
+      </g>
+      <g class="clase k-comun destacada">
+      <rect class="caja" x="196" y="150" width="229" height="88" rx="3"/>
+      <rect class="cab" x="197" y="151" width="227" height="29" rx="2"/>
+      <text class="nombre" x="310.5" y="170">AdaptadorGps</text>
+      <line class="div" x1="196" y1="180" x2="425" y2="180"/>
+      <text class="miembro" x="206" y="198"><tspan class="v-priv">-</tspan> dispositivo<tspan class="tp">: GpsProveedor</tspan></text>
+      <line class="div" x1="196" y1="209" x2="425" y2="209"/>
+      <text class="miembro" x="206" y="227"><tspan class="v-pub">+</tspan> ubicacion()<tspan class="tp">: Coordenadas</tspan></text>
+      </g>
+      <g class="clase k-comun">
+      <rect class="caja" x="540" y="165" width="184" height="59" rx="3"/>
+      <rect class="cab" x="541" y="166" width="182" height="29" rx="2"/>
+      <text class="nombre" x="632" y="185">GpsProveedor</text>
+      <line class="div" x1="540" y1="195" x2="724" y2="195"/>
+      <text class="miembro" x="550" y="213"><tspan class="v-pub">+</tspan> leerTrama()<tspan class="tp">: string</tspan></text>
+      </g>
+    </svg>
+  </div>
+  <p><code>Localizador</code> es la interfaz con la que el sistema ya consulta la ubicación. <code>GpsProveedor</code> es el Servicio, que no se puede modificar. <code>AdaptadorGps</code> cumple <code>Localizador</code> y por dentro llama a <code>leerTrama()</code>.</p>
   <div class="caja caja-ojo">
     <span class="caja-tit">Las trampas de este enunciado</span>
     <ul>

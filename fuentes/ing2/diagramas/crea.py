@@ -514,3 +514,78 @@ D["seguridad-observer"] = dict(
         ("Logger", "Observador", "realiza"),
     ],
 )
+
+# ---------- Teoría, ejemplo 4: el diagrama del patrón de la sección ----------
+
+D["id-singleton"] = dict(
+    alt="Singleton para la configuración de la biblioteca",
+    clases=[
+        dict(id="Prestamos", x=0, y=20),
+        dict(id="Socios", x=0, y=96),
+        dict(id="Catalogo", x=0, y=172),
+        dict(id="Configuracion", x=270, y=0, destacada=True,
+             attrs=["s:- instancia: Configuracion", "- diasDePrestamo: int", "- multaDiaria: double",
+                    "- horario: string"],
+             mets=["- Configuracion()", "s:+ obtenerInstancia(): Configuracion", "+ diasDePrestamo(): int",
+                   "+ multaDiaria(): double", "+ horario(): string"]),
+    ],
+    rel=[
+        ("Prestamos", "Configuracion", "dependencia", dict(sal="der", lle="izq", d2=-76, rot="usa")),
+        ("Socios", "Configuracion", "dependencia", dict(sal="der", lle="izq", d2=0)),
+        ("Catalogo", "Configuracion", "dependencia", dict(sal="der", lle="izq", d2=76)),
+    ],
+)
+
+D["id-factory"] = dict(
+    alt="Factory Method para los documentos de cada trámite",
+    clases=[
+        dict(id="MesaDeEntradas", x=-10, y=72),
+        dict(id="Oficina", x=187, y=40, abstracta=True, destacada=True,
+             mets=["+ atenderTramite(): void", "a:+ crearDocumento(): Documento"]),
+        dict(id="OficinaDeSolicitudes", x=0, y=240, mets=["+ crearDocumento()"]),
+        dict(id="OficinaDeReclamos", x=211, y=240, mets=["+ crearDocumento()"]),
+        dict(id="OficinaDeHabilitaciones", x=396, y=240, mets=["+ crearDocumento()"]),
+        dict(id="Documento", x=836, y=50, estereo="interface", mets=["+ imprimir()"]),
+        dict(id="Solicitud", x=700, y=240, mets=["+ imprimir()"]),
+        dict(id="Reclamo", x=830, y=240, mets=["+ imprimir()"]),
+        dict(id="Habilitacion", x=960, y=240, mets=["+ imprimir()"]),
+    ],
+    rel=[
+        ("MesaDeEntradas", "Oficina", "asociacion"),
+        ("OficinaDeSolicitudes", "Oficina", "herencia"),
+        ("OficinaDeReclamos", "Oficina", "herencia"),
+        ("OficinaDeHabilitaciones", "Oficina", "herencia"),
+        ("Solicitud", "Documento", "realiza"),
+        ("Reclamo", "Documento", "realiza"),
+        ("Habilitacion", "Documento", "realiza"),
+        ("Oficina", "Documento", "dependencia", dict(rot="crea")),
+    ],
+)
+
+D["id-abstract"] = dict(
+    alt="Abstract Factory para las líneas de iluminación",
+    clases=[
+        dict(id="Instalador", x=-10, y=0, attrs=["- fabrica: FabricaDeLinea"]),
+        dict(id="FabricaDeLinea", x=-3, y=150, estereo="interface", destacada=True,
+             mets=["+ crearPanel(): Panel", "+ crearSensor(): Sensor"]),
+        dict(id="FabricaHogar", x=-60, y=330, mets=["+ crearPanel()", "+ crearSensor()"]),
+        dict(id="FabricaProfesional", x=95, y=330, mets=["+ crearPanel()", "+ crearSensor()"]),
+        dict(id="Panel", x=493, y=0, estereo="interface", mets=["+ mostrar()"]),
+        dict(id="PanelHogar", x=400, y=130, mets=["+ mostrar()"]),
+        dict(id="PanelProfesional", x=525, y=130, mets=["+ mostrar()"]),
+        dict(id="Sensor", x=490, y=260, estereo="interface", mets=["+ detectar()"]),
+        dict(id="SensorHogar", x=395, y=390, mets=["+ detectar()"]),
+        dict(id="SensorProfesional", x=529, y=390, mets=["+ detectar()"]),
+    ],
+    rel=[
+        ("Instalador", "FabricaDeLinea", "asociacion"),
+        ("FabricaHogar", "FabricaDeLinea", "realiza"),
+        ("FabricaProfesional", "FabricaDeLinea", "realiza"),
+        ("PanelHogar", "Panel", "realiza"),
+        ("PanelProfesional", "Panel", "realiza"),
+        ("SensorHogar", "Sensor", "realiza"),
+        ("SensorProfesional", "Sensor", "realiza"),
+        ("FabricaDeLinea", "Panel", "dependencia", dict(sal="der", lle="izq", d1=-12, por=340, rot="crea")),
+        ("FabricaDeLinea", "Sensor", "dependencia", dict(sal="der", lle="izq", d1=12, por=340)),
+    ],
+)

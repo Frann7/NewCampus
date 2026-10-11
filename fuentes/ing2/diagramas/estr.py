@@ -331,3 +331,144 @@ D["p-tienda"] = dict(
         ("Libro", "Producto", "herencia"),
     ],
 )
+
+# ---------- Teoría: ejemplos con formato de parcial ----------
+
+D["adapter-wsp"] = dict(
+    alt="Adapter para usar el servicio de WhatsApp desde el sistema de reservas",
+    clases=[
+        dict(id="Reservas", x=0, y=22),
+        dict(id="Notificacion", x=180, y=0, estereo="interface", mets=["+ enviar(destinatario, texto)"]),
+        dict(id="AdaptadorWsp", x=180, y=150, destacada=True,
+             attrs=["- servicio: ServicioWsp"], mets=["+ enviar(destinatario, texto)"]),
+        dict(id="ServicioWsp", x=520, y=165, mets=["+ mandarMensaje(numero, cuerpo, plantilla)"]),
+    ],
+    rel=[
+        ("Reservas", "Notificacion", "asociacion"),
+        ("AdaptadorWsp", "Notificacion", "realiza"),
+        ("AdaptadorWsp", "ServicioWsp", "asociacion"),
+    ],
+)
+
+D["adapter-mapa-antes"] = dict(
+    alt="Diagrama original: el tablero con sus gráficos y la librería MapaExterno suelta",
+    clases=[
+        dict(id="Tablero", x=60, y=22),
+        dict(id="Grafico", x=290, y=0, estereo="interface", mets=["+ dibujar(datos)"]),
+        dict(id="GraficoDeBarras", x=110, y=150, mets=["+ dibujar(datos)"]),
+        dict(id="GraficoDeTorta", x=290, y=150, mets=["+ dibujar(datos)"]),
+        dict(id="MapaExterno", x=451, y=300, mets=["+ renderizar(json, zoom)"]),
+    ],
+    rel=[
+        ("Tablero", "Grafico", "asociacion"),
+        ("GraficoDeBarras", "Grafico", "realiza"),
+        ("GraficoDeTorta", "Grafico", "realiza"),
+    ],
+)
+
+D["adapter-mapa"] = dict(
+    alt="Adapter para mostrar el mapa en el tablero",
+    clases=[
+        dict(id="Tablero", x=60, y=22),
+        dict(id="Grafico", x=290, y=0, estereo="interface", mets=["+ dibujar(datos)"]),
+        dict(id="GraficoDeBarras", x=110, y=150, mets=["+ dibujar(datos)"]),
+        dict(id="GraficoDeTorta", x=290, y=150, mets=["+ dibujar(datos)"]),
+        dict(id="AdaptadorDeMapa", x=470, y=150, destacada=True,
+             attrs=["- mapa: MapaExterno"], mets=["+ dibujar(datos)"]),
+        dict(id="MapaExterno", x=451, y=300, mets=["+ renderizar(json, zoom)"]),
+    ],
+    rel=[
+        ("Tablero", "Grafico", "asociacion"),
+        ("GraficoDeBarras", "Grafico", "realiza"),
+        ("GraficoDeTorta", "Grafico", "realiza"),
+        ("AdaptadorDeMapa", "Grafico", "realiza"),
+        ("AdaptadorDeMapa", "MapaExterno", "asociacion"),
+    ],
+)
+
+D["composite-playlist-antes"] = dict(
+    alt="Diagrama original: una Playlist tiene Canciones",
+    clases=[
+        dict(id="Reproductor", x=0, y=38),
+        dict(id="Playlist", x=190, y=0, attrs=["- canciones: Cancion[]"],
+             mets=["+ agregar(c: Cancion)", "+ duracion(): int"]),
+        dict(id="Cancion", x=500, y=10, attrs=["- segundos: int"], mets=["+ duracion(): int"]),
+    ],
+    rel=[
+        ("Reproductor", "Playlist", "asociacion"),
+        ("Playlist", "Cancion", "agregacion", dict(m2="*")),
+    ],
+)
+
+D["composite-playlist"] = dict(
+    alt="Composite aplicado a las playlists",
+    clases=[
+        dict(id="Reproductor", x=0, y=22),
+        dict(id="Elemento", x=235, y=0, estereo="interface", mets=["+ duracion(): int"]),
+        dict(id="Cancion", x=110, y=150, attrs=["- segundos: int"], mets=["+ duracion(): int"]),
+        dict(id="Playlist", x=300, y=150, destacada=True,
+             attrs=["- elementos: Elemento[]"],
+             mets=["+ agregar(e: Elemento)", "+ duracion(): int"]),
+    ],
+    rel=[
+        ("Reproductor", "Elemento", "asociacion"),
+        ("Cancion", "Elemento", "realiza"),
+        ("Playlist", "Elemento", "realiza"),
+        ("Playlist", "Elemento", "agregacion", dict(sal="der", lle="der", por=560, rot="elementos", m2="*")),
+    ],
+)
+
+D["facade-turnos"] = dict(
+    alt="Facade para dar un turno médico",
+    clases=[
+        dict(id="Recepcion", x=0, y=93),
+        dict(id="GestorDeTurnos", x=170, y=45, destacada=True,
+             attrs=["- agenda: AgendaMedica", "- obraSocial: ObraSocial", "- avisos: Notificaciones"],
+             mets=["+ darTurno(paciente, medico)"]),
+        dict(id="AgendaMedica", x=520, y=0, mets=["+ hayLugar(medico, dia)"]),
+        dict(id="ObraSocial", x=520, y=85, mets=["+ validar(paciente)"]),
+        dict(id="Notificaciones", x=520, y=170, mets=["+ confirmar(paciente)"]),
+    ],
+    rel=[
+        ("Recepcion", "GestorDeTurnos", "asociacion"),
+        ("GestorDeTurnos", "AgendaMedica", "asociacion", dict(d1=-30, d2=0)),
+        ("GestorDeTurnos", "ObraSocial", "asociacion"),
+        ("GestorDeTurnos", "Notificaciones", "asociacion", dict(d1=30, d2=0)),
+    ],
+)
+
+D["facade-banco-antes"] = dict(
+    alt="Diagrama original: CajeroWeb usa directamente las tres clases",
+    clases=[
+        dict(id="CajeroWeb", x=0, y=75, mets=["+ transferir(origen, destino, monto)"]),
+        dict(id="Cuentas", x=490, y=-15, mets=["+ debitar(cuenta, monto)", "+ acreditar(cuenta, monto)"]),
+        dict(id="Seguridad", x=490, y=79, mets=["+ validar(usuario)"]),
+        dict(id="Auditoria", x=490, y=155, mets=["+ registrar(operacion)"]),
+    ],
+    rel=[
+        ("CajeroWeb", "Cuentas", "asociacion", dict(sal="der", lle="izq", d1=-18, por=400)),
+        ("CajeroWeb", "Seguridad", "asociacion"),
+        ("CajeroWeb", "Auditoria", "asociacion", dict(sal="der", lle="izq", d1=18, por=400)),
+    ],
+)
+
+D["facade-banco"] = dict(
+    alt="Facade aplicado a las operaciones del banco",
+    clases=[
+        dict(id="CajeroWeb", x=0, y=60),
+        dict(id="AppMovil", x=0, y=125),
+        dict(id="Operaciones", x=190, y=45, destacada=True,
+             attrs=["- cuentas: Cuentas", "- seguridad: Seguridad", "- auditoria: Auditoria"],
+             mets=["+ transferir(origen, destino, monto)"]),
+        dict(id="Cuentas", x=590, y=-15, mets=["+ debitar(cuenta, monto)", "+ acreditar(cuenta, monto)"]),
+        dict(id="Seguridad", x=590, y=79, mets=["+ validar(usuario)"]),
+        dict(id="Auditoria", x=590, y=155, mets=["+ registrar(operacion)"]),
+    ],
+    rel=[
+        ("CajeroWeb", "Operaciones", "asociacion"),
+        ("AppMovil", "Operaciones", "asociacion"),
+        ("Operaciones", "Cuentas", "asociacion", dict(d1=-30, d2=0)),
+        ("Operaciones", "Seguridad", "asociacion"),
+        ("Operaciones", "Auditoria", "asociacion", dict(d1=30, d2=0)),
+    ],
+)

@@ -235,6 +235,11 @@ Chrome (`chrome --headless --print-to-pdf`).
 `0.x.y-alpha` mientras esté en desarrollo. La `1.0.0` queda reservada para cuando esté terminado.
 La versión actual se lee al pie del menú lateral.
 
+* **0.45.0-alpha** — Ingeniería de Software II: la teoría de los ocho patrones termina con los
+  mismos cuatro ejemplos con formato de parcial, uno por cada forma en que lo pueden tomar:
+  dibujarlo y explicarlo, aplicarlo a un enunciado, reconocerlo en un código C++ y agregarlo a un
+  diagrama que ya existe. Son 22 ejemplos nuevos (17 diagramas y 7 programas compilados) más los
+  10 de parciales reales, reordenados.
 * **0.44.2-alpha** — Ingeniería de Software II, unidad base: explicado por qué lo estático se
   nombra con `Clase::` y no con un objeto y un punto, y por qué `int Alumno::cantidad_ = 0;` no es
   una asignación a un atributo privado sino la línea que lo crea.

@@ -21,7 +21,18 @@ El plan de carga, con lo que sube cada parte y lo que falta, está en `docs/plan
 - **Cada patrón, una sección de teoría con esta forma:** Para qué sirve (el problema, sin jerga) →
   Estructura (diagrama UML + tabla "qué es cada parte") → El mismo ejemplo en C++, línea por línea
   → Cómo reconocerlo (en un enunciado / en código) → Ventajas y desventajas → Dónde se usa (2 o 3
-  ejemplos: los piden) → Con qué se confunde (`.caja.caja-ojo`).
+  ejemplos: los piden) → Ejemplo 1 en C++ → **los cuatro ejemplos con formato de parcial** →
+  Errores y trampas (`.caja.caja-ojo`).
+- **Los cuatro ejemplos con formato de parcial**, en todos los patrones, con este número y este
+  título: 2 "dibujarlo y explicarlo" (diagrama, descripción de su usabilidad y dos ejemplos),
+  3 "aplicarlo a un enunciado" (desarme, diagrama y justificación), 4 "reconocerlo en un código"
+  (C++ con los renglones que lo delatan resaltados, tabla renglón → parte del patrón, respuesta) y
+  5 "agregarlo a un diagrama" (diagrama dado, qué hay, qué se cambia en orden, diagrama
+  modificado, justificación y "a tener en cuenta"). El rótulo de la consigna dice si es la de un
+  parcial ("Parcial 2024 · ejercicio 2") o una inventada ("Con la forma del Parcial 2024 ·
+  ejercicio 2"). Los inventados usan casos distintos de los de la Práctica y del banco de
+  autoevaluación; su código lleva los nombres de método de Refactoring.Guru (`GetInstance`,
+  `Attach`, `Notify`, `Request`...) con las clases rebautizadas, como hace la cátedra.
 - **Nombres de las partes** como en el apunte de la cátedra (Refactoring.Guru en castellano:
   Creador, Producto, Fachada, Notificador, Suscriptor, Contexto, Estrategia...) y entre paréntesis
   el nombre en inglés que aparece en el código de los parciales (`Subject`, `Observer`, `Target`).

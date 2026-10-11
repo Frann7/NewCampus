@@ -339,3 +339,37 @@ D["p-multimedia-fachada"] = dict(
         ("AdaptadorAudio", "BibliotecaAudio", "asociacion"),
     ],
 )
+
+# ---------- Teoría: ejemplos con formato de parcial ----------
+
+D["strategy-sueldo-antes"] = dict(
+    alt="Diagrama original: Empleado con un método por cada forma de calcular el sueldo",
+    clases=[
+        dict(id="Liquidacion", x=0, y=50),
+        dict(id="Empleado", x=210, y=0, attrs=["- modalidad: string"],
+             mets=["+ sueldoMensual(): double", "+ sueldoPorHora(): double",
+                   "+ sueldoPorComision(): double", "+ calcularSueldo(): double"]),
+    ],
+    rel=[("Liquidacion", "Empleado", "asociacion")],
+)
+
+D["strategy-sueldo"] = dict(
+    alt="Strategy aplicado al cálculo del sueldo",
+    clases=[
+        dict(id="Liquidacion", x=0, y=38),
+        dict(id="Empleado", x=180, y=0, destacada=True,
+             attrs=["- calculo: CalculoDeSueldo"],
+             mets=["+ cambiarCalculo(c: CalculoDeSueldo)", "+ calcularSueldo(): double"]),
+        dict(id="CalculoDeSueldo", x=600, y=12, estereo="interface", mets=["+ calcular(e: Empleado): double"]),
+        dict(id="SueldoMensual", x=520, y=180, mets=["+ calcular(e)"]),
+        dict(id="SueldoPorHora", x=672, y=180, mets=["+ calcular(e)"]),
+        dict(id="SueldoPorComision", x=824, y=180, mets=["+ calcular(e)"]),
+    ],
+    rel=[
+        ("Liquidacion", "Empleado", "asociacion"),
+        ("Empleado", "CalculoDeSueldo", "agregacion"),
+        ("SueldoMensual", "CalculoDeSueldo", "realiza"),
+        ("SueldoPorHora", "CalculoDeSueldo", "realiza"),
+        ("SueldoPorComision", "CalculoDeSueldo", "realiza"),
+    ],
+)

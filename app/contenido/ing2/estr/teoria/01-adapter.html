@@ -290,7 +290,7 @@ Temperatura: 25 grados</pre>
 
   <hr class="sep">
 
-  <h3>Ejemplo 2 &mdash; Con formato de parcial: dibujar la estructura y explicar el propósito</h3>
+  <h3>Ejemplo 2 &mdash; Con formato de parcial: dibujarlo y explicarlo</h3>
   <div class="caja caja-ejemplo">
     <span class="caja-tit">Parcial 2025 &middot; Teoría 4 (20 puntos, con Abstract Factory)</span>
     <p>
@@ -363,22 +363,264 @@ Temperatura: 25 grados</pre>
 
   <hr class="sep">
 
-  <h3>Ejemplo 3 &mdash; Con formato de parcial: el libro digital</h3>
-  <p>
-    Es el enunciado de Adapter de la cátedra: está, igual, en tres guías. Se resuelve entero en la
-    Práctica, ejercicio 2.
-  </p>
+  <h3>Ejemplo 3 &mdash; Con formato de parcial: aplicarlo a un enunciado</h3>
   <div class="caja caja-ejemplo">
-    <p>
-      "Supongamos que tenemos un sistema que vende libros. Se desea vincular al sistema una clase
-      de tipo libro digital con un funcionamiento diferente al que se está manejando. Se debe
-      adaptar la nueva clase sin que afecte la lógica de la aplicación."
-    </p>
+    <span class="caja-tit">Con la forma del Parcial 2025 &middot; Práctica 1</span>
+    <p>"El sistema de reservas de un hotel envía los avisos a los huéspedes a través de la interfaz Notificacion, que tiene el método enviar(destinatario, texto). La gerencia contrató un servicio externo de WhatsApp, la clase ServicioWsp, cuyo único método es mandarMensaje(numero, cuerpo, plantilla) y cuyo código no se puede modificar. Se pide que el sistema pueda usar el servicio nuevo sin cambiar el código que hoy envía los avisos. Indique qué patrón de diseño aplicaría, justifique y realice el diagrama UML."</p>
+  </div>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase del enunciado</th><th>Qué significa</th><th>Parte del patrón</th></tr>
+      <tr><td>"envía los avisos <strong>a través de la interfaz</strong> Notificacion"</td><td>Lo que el sistema ya sabe usar</td><td>La <strong>Interfaz con el Cliente</strong>; el sistema de reservas es el <strong>Cliente</strong></td></tr>
+      <tr><td>"un servicio externo (...) cuyo único método es mandarMensaje(numero, cuerpo, plantilla)"</td><td>Una clase útil, pero con otro nombre de método y otros parámetros: <strong>interfaz incompatible</strong></td><td>El <strong>Servicio</strong>: <code>ServicioWsp</code></td></tr>
+      <tr><td>"cuyo código <strong>no se puede modificar</strong>"</td><td>No se le puede agregar <code>enviar()</code> al servicio</td><td>Hace falta una clase en el medio</td></tr>
+      <tr><td>"<strong>sin cambiar el código</strong> que hoy envía los avisos"</td><td>El cliente tampoco se toca</td><td>El <strong>Adaptador</strong>: cumple <code>Notificacion</code> y guarda un <code>ServicioWsp</code></td></tr>
+    </table>
+  </div>
+  <div class="pd-grafico uml" data-g="adapter-wsp">
+    <svg viewBox="-14 -14 891 266" width="891" height="266" role="img" aria-label="Adapter para usar el servicio de WhatsApp desde el sistema de reservas">
+      <polyline class="linea" points="93,37 136.5,37 136.5,37 180,37"/>
+      <polyline class="linea" points="170,42 180,37 170,32"/>
+      <polyline class="linea punteada" points="302,150 302,119 302,119 302,88"/>
+      <polygon class="hueca" points="302,75 309,88 295,88"/>
+      <polyline class="linea" points="424,194.5 472,194.5 472,194.5 520,194.5"/>
+      <polyline class="linea" points="510,199.5 520,194.5 510,189.5"/>
+      <g class="clase k-comun">
+      <rect class="caja sola" x="0" y="22" width="93" height="30" rx="3"/>
+      <text class="nombre" x="46.5" y="42">Reservas</text>
+      </g>
+      <g class="clase k-interfaz">
+      <rect class="caja" x="180" y="0" width="244" height="75" rx="3"/>
+      <rect class="cab" x="181" y="1" width="242" height="45" rx="2"/>
+      <text class="estereo" x="302" y="16">&#171;interface&#187;</text>
+      <text class="nombre" x="302" y="35">Notificacion</text>
+      <line class="div" x1="180" y1="46" x2="424" y2="46"/>
+      <text class="miembro" x="190" y="64"><tspan class="v-pub">+</tspan> enviar(destinatario, texto)</text>
+      </g>
+      <g class="clase k-comun destacada">
+      <rect class="caja" x="180" y="150" width="244" height="88" rx="3"/>
+      <rect class="cab" x="181" y="151" width="242" height="29" rx="2"/>
+      <text class="nombre" x="302" y="170">AdaptadorWsp</text>
+      <line class="div" x1="180" y1="180" x2="424" y2="180"/>
+      <text class="miembro" x="190" y="198"><tspan class="v-priv">-</tspan> servicio<tspan class="tp">: ServicioWsp</tspan></text>
+      <line class="div" x1="180" y1="209" x2="424" y2="209"/>
+      <text class="miembro" x="190" y="227"><tspan class="v-pub">+</tspan> enviar(destinatario, texto)</text>
+      </g>
+      <g class="clase k-comun">
+      <rect class="caja" x="520" y="165" width="343" height="59" rx="3"/>
+      <rect class="cab" x="521" y="166" width="341" height="29" rx="2"/>
+      <text class="nombre" x="691.5" y="185">ServicioWsp</text>
+      <line class="div" x1="520" y1="195" x2="863" y2="195"/>
+      <text class="miembro" x="530" y="213"><tspan class="v-pub">+</tspan> mandarMensaje(numero, cuerpo, plantilla)</text>
+      </g>
+    </svg>
   </div>
   <p>
-    Las tres pistas están en el texto: una clase <strong>nueva</strong>, con <strong>funcionamiento
-    diferente</strong>, que hay que <strong>adaptar sin afectar</strong> lo que ya está.
+    <strong>Justificación:</strong> "Se aplica Adapter porque hay que hacer trabajar juntas dos clases con interfaces incompatibles sin modificar ninguna. <code>AdaptadorWsp</code> implementa <code>Notificacion</code>, guarda un <code>ServicioWsp</code> y en <code>enviar()</code> traduce el pedido a <code>mandarMensaje()</code>. El sistema de reservas lo usa como a cualquier otra <code>Notificacion</code>."
   </p>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 4 &mdash; Con formato de parcial: reconocerlo en un código</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Con la forma del Parcial 2024 &middot; ejercicio 4</span>
+    <p>"A partir del siguiente código identifique qué patrón es el que se utiliza. Justifique."</p>
+  </div>
+  <p>Los renglones resaltados son los que lo delatan:</p>
+  <pre class="codigo" data-clave="5,13,20,22,27,42"><code>#include &lt;algorithm&gt;
+#include &lt;iostream&gt;
+#include &lt;string&gt;
+
+class Reproductor {
+ public:
+  virtual ~Reproductor() = default;
+  virtual std::string Request() const {
+    return "Reproductor: sonido estandar.";
+  }
+};
+
+class CasetteraVieja {
+ public:
+  std::string SpecificRequest() const {
+    return "ajeiv arettesac al ed odinoS";
+  }
+};
+
+class Acople : public Reproductor {
+ private:
+  CasetteraVieja* adaptee_;
+
+ public:
+  Acople(CasetteraVieja* adaptee) : adaptee_(adaptee) {}
+  std::string Request() const override {
+    std::string al_reves = this-&gt;adaptee_-&gt;SpecificRequest();
+    std::reverse(al_reves.begin(), al_reves.end());
+    return "Acople: (TRADUCIDO) " + al_reves;
+  }
+};
+
+void ClientCode(const Reproductor* reproductor) {
+  std::cout &lt;&lt; reproductor-&gt;Request() &lt;&lt; "\n";
+}
+
+int main() {
+  Reproductor* reproductor = new Reproductor;
+  ClientCode(reproductor);
+  CasetteraVieja* casettera = new CasetteraVieja;
+  Acople* acople = new Acople(casettera);
+  ClientCode(acople);
+  delete reproductor;
+  delete casettera;
+  delete acople;
+  return 0;
+}</code></pre>
+  <pre class="salida">Reproductor: sonido estandar.
+Acople: (TRADUCIDO) Sonido de la casettera vieja</pre>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Renglón</th><th>Lo que se ve</th><th>Qué parte del patrón es</th></tr>
+      <tr><td>5</td><td>La clase que el cliente ya sabe usar, con el método <code>Request()</code>.</td><td>La <strong>Interfaz con el Cliente</strong> (<em>Target</em>)</td></tr>
+      <tr><td>13</td><td>Una clase útil pero con otro método, <code>SpecificRequest()</code>, que no hereda de nadie.</td><td>El <strong>Servicio</strong> (<em>Adaptee</em>)</td></tr>
+      <tr><td>20</td><td>Hereda de la clase que espera el cliente.</td><td>El <strong>Adaptador</strong></td></tr>
+      <tr><td>22</td><td>Guarda un objeto de la clase incompatible.</td><td>La referencia del adaptador al Servicio</td></tr>
+      <tr><td>27</td><td>En <code>Request()</code> llama al método del servicio y convierte lo que devuelve.</td><td>La <strong>traducción</strong></td></tr>
+      <tr><td>42</td><td>El cliente recibe el adaptador como si fuera un <code>Reproductor</code>.</td><td>El <strong>Cliente</strong>, que no se entera</td></tr>
+    </table>
+  </div>
+  <p>
+    <strong>Respuesta:</strong> "Es el patrón <strong>Adapter</strong> (estructural). El cliente trabaja con <code>Reproductor</code> y su método <code>Request()</code>. <code>CasetteraVieja</code> tiene una interfaz incompatible (<code>SpecificRequest()</code>, que además devuelve el texto al revés). <code>Acople</code> es el adaptador: hereda de <code>Reproductor</code>, guarda una <code>CasetteraVieja</code> y en <code>Request()</code> llama a <code>SpecificRequest()</code> y traduce el resultado. El cliente lo usa sin saber que detrás hay otra clase."
+  </p>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">No es Facade</span>
+    <p>Los dos envuelven, pero acá se envuelve <strong>una</strong> clase para que cumpla una interfaz que <strong>ya existía</strong> (<code>Reproductor</code>). En Facade la clase nueva guarda <strong>varias</strong> y no hereda de nadie: inventa una interfaz más simple.</p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 5 &mdash; Con formato de parcial: agregarlo a un diagrama</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Con la forma del Parcial 2024 &middot; ejercicio 3</span>
+    <p>"Dado el siguiente diagrama: el Tablero muestra gráficos a través de la interfaz Grafico. Se compró la librería MapaExterno y se quiere mostrar el mapa en el tablero junto con los demás gráficos. No se puede modificar la librería ni la clase Tablero. Modifique el diagrama aplicando el patrón de diseño que corresponda. Justifique."</p>
+  </div>
+  <div class="pd-grafico uml" data-g="adapter-mapa-antes">
+    <svg viewBox="46 -14 625 387" width="625" height="387" role="img" aria-label="Diagrama original: el tablero con sus gráficos y la librería MapaExterno suelta">
+      <polyline class="linea" points="150,37 220,37 220,37 290,37"/>
+      <polyline class="linea" points="280,42 290,37 280,32"/>
+      <polyline class="linea punteada" points="186.5,150 186.5,119 363,119 363,88"/>
+      <polygon class="hueca" points="363,75 370,88 356,88"/>
+      <polyline class="linea punteada" points="363,150 363,119 363,119 363,88"/>
+      <polygon class="hueca" points="363,75 370,88 356,88"/>
+      <g class="clase k-comun">
+      <rect class="caja sola" x="60" y="22" width="90" height="30" rx="3"/>
+      <text class="nombre" x="105" y="42">Tablero</text>
+      </g>
+      <g class="clase k-interfaz">
+      <rect class="caja" x="290" y="0" width="146" height="75" rx="3"/>
+      <rect class="cab" x="291" y="1" width="144" height="45" rx="2"/>
+      <text class="estereo" x="363" y="16">&#171;interface&#187;</text>
+      <text class="nombre" x="363" y="35">Grafico</text>
+      <line class="div" x1="290" y1="46" x2="436" y2="46"/>
+      <text class="miembro" x="300" y="64"><tspan class="v-pub">+</tspan> dibujar(datos)</text>
+      </g>
+      <g class="clase k-comun">
+      <rect class="caja" x="110" y="150" width="153" height="59" rx="3"/>
+      <rect class="cab" x="111" y="151" width="151" height="29" rx="2"/>
+      <text class="nombre" x="186.5" y="170">GraficoDeBarras</text>
+      <line class="div" x1="110" y1="180" x2="263" y2="180"/>
+      <text class="miembro" x="120" y="198"><tspan class="v-pub">+</tspan> dibujar(datos)</text>
+      </g>
+      <g class="clase k-comun">
+      <rect class="caja" x="290" y="150" width="146" height="59" rx="3"/>
+      <rect class="cab" x="291" y="151" width="144" height="29" rx="2"/>
+      <text class="nombre" x="363" y="170">GraficoDeTorta</text>
+      <line class="div" x1="290" y1="180" x2="436" y2="180"/>
+      <text class="miembro" x="300" y="198"><tspan class="v-pub">+</tspan> dibujar(datos)</text>
+      </g>
+      <g class="clase k-comun">
+      <rect class="caja" x="451" y="300" width="206" height="59" rx="3"/>
+      <rect class="cab" x="452" y="301" width="204" height="29" rx="2"/>
+      <text class="nombre" x="554" y="320">MapaExterno</text>
+      <line class="div" x1="451" y1="330" x2="657" y2="330"/>
+      <text class="miembro" x="461" y="348"><tspan class="v-pub">+</tspan> renderizar(json, zoom)</text>
+      </g>
+    </svg>
+  </div>
+  <p><strong>Qué hay en el diagrama.</strong> Tres de las cuatro partes del patrón ya están dibujadas: el Cliente (<code>Tablero</code>), la Interfaz con el Cliente (<code>Grafico</code>) y el Servicio (<code>MapaExterno</code>, que está suelto, sin ninguna línea). El método del servicio se llama distinto y recibe otros datos: <code>renderizar(json, zoom)</code> contra <code>dibujar(datos)</code>.</p>
+  <p><strong>Qué se cambia, en orden:</strong></p>
+  <ol>
+    <li><strong>Agregar una sola clase: el Adaptador.</strong> <code>AdaptadorDeMapa</code>, al lado de los otros gráficos.</li>
+    <li><strong>Hacer que cumpla la interfaz.</strong> Línea punteada con triángulo hacia <code>Grafico</code>, y el mismo método <code>dibujar(datos)</code>.</li>
+    <li><strong>Hacer que guarde al servicio.</strong> El atributo <code>- mapa: MapaExterno</code> y una flecha de asociación hacia <code>MapaExterno</code>.</li>
+  </ol>
+  <p><strong>El diagrama modificado:</strong></p>
+  <div class="pd-grafico uml" data-g="adapter-mapa">
+    <svg viewBox="46 -14 625 387" width="625" height="387" role="img" aria-label="Adapter para mostrar el mapa en el tablero">
+      <polyline class="linea" points="150,37 220,37 220,37 290,37"/>
+      <polyline class="linea" points="280,42 290,37 280,32"/>
+      <polyline class="linea punteada" points="186.5,150 186.5,119 363,119 363,88"/>
+      <polygon class="hueca" points="363,75 370,88 356,88"/>
+      <polyline class="linea punteada" points="363,150 363,119 363,119 363,88"/>
+      <polygon class="hueca" points="363,75 370,88 356,88"/>
+      <polyline class="linea punteada" points="554,150 554,119 363,119 363,88"/>
+      <polygon class="hueca" points="363,75 370,88 356,88"/>
+      <polyline class="linea" points="554,238 554,269 554,269 554,300"/>
+      <polyline class="linea" points="549,290 554,300 559,290"/>
+      <g class="clase k-comun">
+      <rect class="caja sola" x="60" y="22" width="90" height="30" rx="3"/>
+      <text class="nombre" x="105" y="42">Tablero</text>
+      </g>
+      <g class="clase k-interfaz">
+      <rect class="caja" x="290" y="0" width="146" height="75" rx="3"/>
+      <rect class="cab" x="291" y="1" width="144" height="45" rx="2"/>
+      <text class="estereo" x="363" y="16">&#171;interface&#187;</text>
+      <text class="nombre" x="363" y="35">Grafico</text>
+      <line class="div" x1="290" y1="46" x2="436" y2="46"/>
+      <text class="miembro" x="300" y="64"><tspan class="v-pub">+</tspan> dibujar(datos)</text>
+      </g>
+      <g class="clase k-comun">
+      <rect class="caja" x="110" y="150" width="153" height="59" rx="3"/>
+      <rect class="cab" x="111" y="151" width="151" height="29" rx="2"/>
+      <text class="nombre" x="186.5" y="170">GraficoDeBarras</text>
+      <line class="div" x1="110" y1="180" x2="263" y2="180"/>
+      <text class="miembro" x="120" y="198"><tspan class="v-pub">+</tspan> dibujar(datos)</text>
+      </g>
+      <g class="clase k-comun">
+      <rect class="caja" x="290" y="150" width="146" height="59" rx="3"/>
+      <rect class="cab" x="291" y="151" width="144" height="29" rx="2"/>
+      <text class="nombre" x="363" y="170">GraficoDeTorta</text>
+      <line class="div" x1="290" y1="180" x2="436" y2="180"/>
+      <text class="miembro" x="300" y="198"><tspan class="v-pub">+</tspan> dibujar(datos)</text>
+      </g>
+      <g class="clase k-comun destacada">
+      <rect class="caja" x="470" y="150" width="168" height="88" rx="3"/>
+      <rect class="cab" x="471" y="151" width="166" height="29" rx="2"/>
+      <text class="nombre" x="554" y="170">AdaptadorDeMapa</text>
+      <line class="div" x1="470" y1="180" x2="638" y2="180"/>
+      <text class="miembro" x="480" y="198"><tspan class="v-priv">-</tspan> mapa<tspan class="tp">: MapaExterno</tspan></text>
+      <line class="div" x1="470" y1="209" x2="638" y2="209"/>
+      <text class="miembro" x="480" y="227"><tspan class="v-pub">+</tspan> dibujar(datos)</text>
+      </g>
+      <g class="clase k-comun">
+      <rect class="caja" x="451" y="300" width="206" height="59" rx="3"/>
+      <rect class="cab" x="452" y="301" width="204" height="29" rx="2"/>
+      <text class="nombre" x="554" y="320">MapaExterno</text>
+      <line class="div" x1="451" y1="330" x2="657" y2="330"/>
+      <text class="miembro" x="461" y="348"><tspan class="v-pub">+</tspan> renderizar(json, zoom)</text>
+      </g>
+    </svg>
+  </div>
+  <p>
+    <strong>Justificación:</strong> "Se aplica Adapter porque <code>MapaExterno</code> tiene una interfaz incompatible con <code>Grafico</code> y no se puede modificar. <code>AdaptadorDeMapa</code> implementa <code>Grafico</code> y guarda un <code>MapaExterno</code>: cuando el tablero le pide <code>dibujar(datos)</code>, convierte los datos y llama a <code>renderizar(json, zoom)</code>. El <code>Tablero</code> lo trata como a un gráfico más."
+  </p>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">A tener en cuenta al modificar el diagrama</span>
+    <ul>
+      <li>El adaptador es <strong>la única caja nueva</strong>. Ni <code>Tablero</code>, ni <code>Grafico</code>, ni <code>MapaExterno</code> cambian.</li>
+      <li>El error típico: unir <code>MapaExterno</code> con <code>Grafico</code> con una línea de realización. Eso es modificar la librería, que es lo que el enunciado prohíbe.</li>
+      <li>El adaptador lleva <strong>dos líneas</strong>: una punteada con triángulo (cumple la interfaz) y una de asociación (guarda al servicio).</li>
+      <li>La cátedra tiene su propio enunciado de esta forma, el del libro digital, que está en tres guías: Práctica, ejercicio 2.</li>
+    </ul>
+  </div>
 
   <h3>Errores y trampas</h3>
   <div class="caja caja-ojo">

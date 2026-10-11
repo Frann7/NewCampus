@@ -312,3 +312,141 @@ D["p-stock"] = dict(
         ("FabricaDeProductos", "Producto", "dependencia", dict(sal="der", lle="der", por=580, rot="crea")),
     ],
 )
+
+# ---------- Teoría: ejemplos con formato de parcial ----------
+
+D["sing-param-antes"] = dict(
+    alt="Diagrama original: Caja y Stock tienen cada uno su objeto Parametros",
+    clases=[
+        dict(id="Caja", x=0, y=0, attrs=["- parametros: Parametros"], mets=["+ cobrar(monto)"]),
+        dict(id="Stock", x=0, y=130, attrs=["- parametros: Parametros"], mets=["+ valorizar()"]),
+        dict(id="Parametros", x=340, y=47, attrs=["- iva: double", "- moneda: string"],
+             mets=["+ Parametros()", "+ iva(): double", "+ moneda(): string"]),
+    ],
+    rel=[
+        ("Caja", "Parametros", "asociacion", dict(sal="der", lle="izq", d2=-20)),
+        ("Stock", "Parametros", "asociacion", dict(sal="der", lle="izq", d2=20)),
+    ],
+)
+
+D["sing-param"] = dict(
+    alt="Parametros convertida en Singleton",
+    clases=[
+        dict(id="Caja", x=0, y=20, mets=["+ cobrar(monto)"]),
+        dict(id="Stock", x=0, y=130, mets=["+ valorizar()"]),
+        dict(id="Parametros", x=300, y=20, destacada=True,
+             attrs=["s:- instancia: Parametros", "- iva: double", "- moneda: string"],
+             mets=["- Parametros()", "s:+ obtenerInstancia(): Parametros", "+ iva(): double",
+                   "+ moneda(): string"]),
+    ],
+    rel=[
+        ("Caja", "Parametros", "dependencia", dict(sal="der", lle="izq", d2=-30, rot="usa")),
+        ("Stock", "Parametros", "dependencia", dict(sal="der", lle="izq", d2=30)),
+    ],
+)
+
+D["fm-editor-antes"] = dict(
+    alt="Diagrama original: Editor crea directamente cada tipo de documento",
+    clases=[
+        dict(id="Editor", x=0, y=50, mets=["+ nuevoDocumento(tipo: string)"]),
+        dict(id="DocumentoTexto", x=400, y=0, mets=["+ abrir()", "+ guardar()"]),
+        dict(id="DocumentoPlanilla", x=400, y=120, mets=["+ abrir()", "+ guardar()"]),
+    ],
+    rel=[
+        ("Editor", "DocumentoTexto", "dependencia", dict(sal="der", lle="izq", d1=-10, rot="crea")),
+        ("Editor", "DocumentoPlanilla", "dependencia", dict(sal="der", lle="izq", d1=10)),
+    ],
+)
+
+D["fm-editor"] = dict(
+    alt="Factory Method aplicado al editor",
+    clases=[
+        dict(id="Editor", x=55, y=0, abstracta=True, destacada=True,
+             mets=["+ nuevoDocumento(): void", "a:+ crearDocumento(): Documento"]),
+        dict(id="EditorDeTexto", x=0, y=160, mets=["+ crearDocumento()"]),
+        dict(id="EditorDePlanillas", x=185, y=160, mets=["+ crearDocumento()"]),
+        dict(id="Documento", x=551, y=0, estereo="interface", mets=["+ abrir()", "+ guardar()"]),
+        dict(id="DocumentoTexto", x=440, y=160, mets=["+ abrir()", "+ guardar()"]),
+        dict(id="DocumentoPlanilla", x=600, y=160, mets=["+ abrir()", "+ guardar()"]),
+    ],
+    rel=[
+        ("EditorDeTexto", "Editor", "herencia"),
+        ("EditorDePlanillas", "Editor", "herencia"),
+        ("DocumentoTexto", "Documento", "realiza"),
+        ("DocumentoPlanilla", "Documento", "realiza"),
+        ("Editor", "Documento", "dependencia", dict(rot="crea")),
+    ],
+)
+
+D["af-comprobantes"] = dict(
+    alt="Abstract Factory para los comprobantes de cada país",
+    clases=[
+        dict(id="Facturador", x=0, y=0, attrs=["- fabrica: FabricaFiscal"]),
+        dict(id="FabricaFiscal", x=-4, y=150, estereo="interface", destacada=True,
+             mets=["+ crearFactura(): Factura", "+ crearRecibo(): Recibo"]),
+        dict(id="FabricaArgentina", x=-65, y=330, mets=["+ crearFactura()", "+ crearRecibo()"]),
+        dict(id="FabricaChile", x=115, y=330, mets=["+ crearFactura()", "+ crearRecibo()"]),
+        dict(id="Factura", x=465, y=0, estereo="interface", mets=["+ total(): double"]),
+        dict(id="FacturaArgentina", x=380, y=130, mets=["+ total()"]),
+        dict(id="FacturaChilena", x=560, y=130, mets=["+ total()"]),
+        dict(id="Recibo", x=454, y=260, estereo="interface", mets=["+ imprimir(): string"]),
+        dict(id="ReciboArgentino", x=385, y=390, mets=["+ imprimir()"]),
+        dict(id="ReciboChileno", x=560, y=390, mets=["+ imprimir()"]),
+    ],
+    rel=[
+        ("Facturador", "FabricaFiscal", "asociacion"),
+        ("FabricaArgentina", "FabricaFiscal", "realiza"),
+        ("FabricaChile", "FabricaFiscal", "realiza"),
+        ("FacturaArgentina", "Factura", "realiza"),
+        ("FacturaChilena", "Factura", "realiza"),
+        ("ReciboArgentino", "Recibo", "realiza"),
+        ("ReciboChileno", "Recibo", "realiza"),
+        ("FabricaFiscal", "Factura", "dependencia", dict(sal="der", lle="izq", d1=-12, por=330, rot="crea")),
+        ("FabricaFiscal", "Recibo", "dependencia", dict(sal="der", lle="izq", d1=12, por=330)),
+    ],
+)
+
+D["af-cocina-antes"] = dict(
+    alt="Diagrama original: Cocina crea directamente las cuatro clases",
+    clases=[
+        dict(id="Cocina", x=0, y=120, mets=["+ armarPedido(linea: string)"]),
+        dict(id="EntradaVegana", x=420, y=0, mets=["+ servir()"]),
+        dict(id="PlatoVegano", x=420, y=80, mets=["+ servir()"]),
+        dict(id="EntradaClasica", x=420, y=160, mets=["+ servir()"]),
+        dict(id="PlatoClasico", x=420, y=240, mets=["+ servir()"]),
+    ],
+    rel=[
+        ("Cocina", "EntradaVegana", "dependencia", dict(sal="der", lle="izq", d1=-18, por=310, rot="crea")),
+        ("Cocina", "PlatoVegano", "dependencia", dict(sal="der", lle="izq", d1=-6, por=350)),
+        ("Cocina", "EntradaClasica", "dependencia", dict(sal="der", lle="izq", d1=6, por=350)),
+        ("Cocina", "PlatoClasico", "dependencia", dict(sal="der", lle="izq", d1=18, por=310)),
+    ],
+)
+
+D["af-cocina"] = dict(
+    alt="Abstract Factory aplicado a la cocina",
+    clases=[
+        dict(id="Cocina", x=0, y=0, attrs=["- fabrica: FabricaDeMenu"]),
+        dict(id="FabricaDeMenu", x=-4, y=150, estereo="interface", destacada=True,
+             mets=["+ crearEntrada(): Entrada", "+ crearPlato(): Plato"]),
+        dict(id="FabricaVegana", x=-50, y=330, mets=["+ crearEntrada()", "+ crearPlato()"]),
+        dict(id="FabricaClasica", x=115, y=330, mets=["+ crearEntrada()", "+ crearPlato()"]),
+        dict(id="Entrada", x=484, y=0, estereo="interface", mets=["+ servir()"]),
+        dict(id="EntradaVegana", x=385, y=130, mets=["+ servir()"]),
+        dict(id="EntradaClasica", x=540, y=130, mets=["+ servir()"]),
+        dict(id="Plato", x=480, y=260, estereo="interface", mets=["+ servir()"]),
+        dict(id="PlatoVegano", x=395, y=390, mets=["+ servir()"]),
+        dict(id="PlatoClasico", x=540, y=390, mets=["+ servir()"]),
+    ],
+    rel=[
+        ("Cocina", "FabricaDeMenu", "asociacion"),
+        ("FabricaVegana", "FabricaDeMenu", "realiza"),
+        ("FabricaClasica", "FabricaDeMenu", "realiza"),
+        ("EntradaVegana", "Entrada", "realiza"),
+        ("EntradaClasica", "Entrada", "realiza"),
+        ("PlatoVegano", "Plato", "realiza"),
+        ("PlatoClasico", "Plato", "realiza"),
+        ("FabricaDeMenu", "Entrada", "dependencia", dict(sal="der", lle="izq", d1=-12, por=330, rot="crea")),
+        ("FabricaDeMenu", "Plato", "dependencia", dict(sal="der", lle="izq", d1=12, por=330)),
+    ],
+)

@@ -235,6 +235,9 @@ Chrome (`chrome --headless --print-to-pdf`).
 `0.x.y-alpha` mientras esté en desarrollo. La `1.0.0` queda reservada para cuando esté terminado.
 La versión actual se lee al pie del menú lateral.
 
+* **0.46.2-alpha** — Ingeniería de Software II, Factory Method: explicado por qué el Creador es una
+  clase abstracta aunque tenga un método con código, qué lo diferencia de un Creador Concreto y de
+  una interfaz, y el error del compilador al querer instanciarlo.
 * **0.46.1-alpha** — Ingeniería de Software II: tampoco usan consignas de parcial los ejemplos de
   teoría de la unidad base, de calidad (diagnóstico de CMMI, tres acciones con IA, ficha de una
   métrica) y de Git (el flujo entre dos ramas). Son casos muy parecidos, con otra empresa y otras

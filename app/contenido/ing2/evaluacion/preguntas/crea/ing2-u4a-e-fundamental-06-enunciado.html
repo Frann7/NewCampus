@@ -1,0 +1,284 @@
+<article class="preg" data-id="ing2-u4a-e-fundamental-06-enunciado" data-tipo="ejercicio" data-origen="parcial" data-fundamental="06" data-rotulo="Párrafo" data-titulo="Enunciado con tres patrones · Singleton, Adapter y Factory Method">
+  <div class="p-enunciado">
+    <p>
+      A partir del siguiente enunciado identifique cuáles serían los patrones de diseño que utilizaría
+      y justifique por qué eligió los mismos.
+    </p>
+    <p>
+      La cadena <strong>Hoteles Ñandubay</strong> administra sus doce hoteles con un mismo sistema de
+      reservas. Los precios de cada noche, por tipo de habitación y por temporada, están en un
+      tarifario que se carga desde la base de datos, y esa carga es lenta. La recepción, la página
+      web y la facturación consultan precios todo el tiempo, y todos tienen que ver los mismos. Por
+      motivos de performance, se desea que exista un único tarifario para todo el sistema, al que
+      todos los módulos accedan.
+    </p>
+    <p>
+      Las habitaciones se abren con tarjeta. Para habilitar la tarjeta de un huésped, el sistema de
+      reservas ya trabaja con la interfaz <code>Cerradura</code> y su método <code>habilitar()</code>,
+      que cumplen todas las cerraduras instaladas hasta ahora. En los dos hoteles que la cadena sumó
+      este año las cerraduras son de otro fabricante, Abrix, que entrega su propia clase ya
+      programada, <code>AbrixLock</code>, con otros métodos y otros parámetros (para habilitar una
+      tarjeta se llama a <code>grantAccess()</code>). Esa clase se debe incorporar sin modificarla y
+      sin que afecte la lógica del sistema de reservas.
+    </p>
+    <p>
+      Por último, al confirmar una reserva el sistema crea el comprobante que recibe el huésped. Hay
+      comprobantes de distintos tipos: impreso, para las reservas que se toman en el mostrador, y
+      digital, para las que entran por la página web. La confirmación sigue siempre los mismos pasos
+      y tiene que trabajar con cualquier comprobante de manera transparente, sin saber de antemano de
+      qué tipo es el que se crea. Además, se quiere poder agregar nuevos tipos de comprobante en el
+      futuro (por ejemplo, uno para las reservas hechas por agencia) sin modificar la confirmación.
+    </p>
+    <p class="p-fuente">Inventado &middot; estilo Parcial 2025, Práctica 1, y Parcial 2024, Ej. 1</p>
+  </div>
+  <div class="p-explicacion">
+    <div class="tabla-wrap">
+      <table class="t full">
+        <tr><th>Párrafo</th><th>La frase que lo pide</th><th>Patrón</th></tr>
+        <tr>
+          <td class="lbl">1. El tarifario</td>
+          <td>"se desea que exista un único tarifario para todo el sistema, al que todos los módulos accedan"</td>
+          <td><strong>Singleton</strong> <span class="et">Creacional</span></td>
+        </tr>
+        <tr>
+          <td class="lbl">2. Las cerraduras</td>
+          <td>"con otros métodos y otros parámetros"; "se debe incorporar sin modificarla y sin que afecte la lógica del sistema de reservas"</td>
+          <td><strong>Adapter</strong> <span class="et dato">Estructural</span></td>
+        </tr>
+        <tr>
+          <td class="lbl">3. Los comprobantes</td>
+          <td>"sin saber de antemano de qué tipo es el que se crea"; "poder agregar nuevos tipos de comprobante en el futuro"</td>
+          <td><strong>Factory Method</strong> <span class="et">Creacional</span></td>
+        </tr>
+      </table>
+    </div>
+    <p>
+      En la hoja va un patrón por párrafo, cada uno con sus tres partes: qué patrón y por qué (con
+      la frase del enunciado entre comillas), cómo se aplica y qué se gana.
+    </p>
+  </div>
+  <div class="p-rta" data-inciso="1">
+    <p><strong>Singleton</strong> (primer párrafo):</p>
+    <ol>
+      <li><strong>Qué patrón y por qué:</strong> "Singleton, un patrón creacional, para el tarifario. Se usa cuando una clase debe tener una única instancia disponible para todo el sistema. El enunciado lo dice: "se desea que exista un único tarifario para todo el sistema, al que todos los módulos accedan"."</li>
+      <li><strong>Cómo se aplica:</strong> "La clase <code>Tarifario</code> oculta su constructor (lo declara privado, para que nadie más pueda crear otro tarifario) y ofrece un método estático (se llama sobre la clase, sin tener un objeto), <code>obtenerInstancia()</code>, que crea el tarifario la primera vez y devuelve siempre el mismo."</li>
+      <li><strong>Qué se gana:</strong> "Todo el sistema (la recepción, la página web y la facturación) usa el mismo tarifario, a través de un único punto de acceso."</li>
+    </ol>
+  </div>
+  <div class="p-rta" data-inciso="2">
+    <p><strong>Adapter</strong> (segundo párrafo):</p>
+    <ol>
+      <li><strong>Qué patrón y por qué:</strong> "Adapter, un patrón estructural, para las cerraduras de Abrix. Se usa cuando hay que hacer trabajar juntas dos clases con interfaces incompatibles, sin modificar ninguna: acá, el sistema de reservas y la clase de Abrix. El enunciado lo dice: la clase viene "con otros métodos y otros parámetros" y "se debe incorporar sin modificarla y sin que afecte la lógica del sistema de reservas"."</li>
+      <li><strong>Cómo se aplica:</strong> "Se agrega una clase en el medio, el adaptador (la clase que traduce), que cumple la interfaz que el sistema de reservas ya usa, <code>Cerradura</code>, y por dentro traduce cada llamada a <code>AbrixLock</code>, que es el servicio (la clase que ya existe y no se puede modificar): cuando le piden <code>habilitar()</code>, llama a <code>grantAccess()</code>."</li>
+      <li><strong>Qué se gana:</strong> "El sistema de reservas usa las cerraduras de Abrix igual que a las que ya conocía."</li>
+    </ol>
+  </div>
+  <div class="p-rta" data-inciso="3">
+    <p><strong>Factory Method</strong> (tercer párrafo):</p>
+    <ol>
+      <li><strong>Qué patrón y por qué:</strong> "Factory Method, un patrón creacional, para los comprobantes. Se usa cuando una clase no puede saber de antemano qué tipo exacto de objeto tiene que crear: acá, la confirmación no sabe qué tipo de comprobante le toca. El enunciado lo dice: la confirmación trabaja "sin saber de antemano de qué tipo es el que se crea", y se quiere "poder agregar nuevos tipos de comprobante en el futuro"."</li>
+      <li><strong>Cómo se aplica:</strong> "La creación se saca a un método, el método fábrica, <code>crearComprobante()</code>: lo declara la clase base, la confirmación, que es el creador (la clase que necesita el comprobante pero no decide cuál se crea), y lo sobrescribe cada subclase, un creador concreto (la confirmación de mostrador y la de la web), para devolver su comprobante, que es el producto (el objeto que se crea: el impreso o el digital)."</li>
+      <li><strong>Qué se gana:</strong> "Se agregan tipos nuevos de comprobante (el de agencia) sin modificar la confirmación, que es el código que los usa."</li>
+    </ol>
+  </div>
+  <ol class="p-pasos">
+
+    <!-- ===== Párrafo 1: Singleton ===== -->
+    <li data-inciso="1" data-nivel="principiante">
+      <div class="p-consigna"><p>Primer párrafo (el tarifario de la cadena). Antes de pensar en un patrón: ¿de qué habla la necesidad?</p></div>
+      <ul class="p-opciones">
+        <li data-correcta>De crear objetos: cuántos hay, de qué tipo, quién los instancia</li>
+        <li>De cómo se arman las clases: algo contiene a algo, o algo no encaja</li>
+        <li>De cómo se comunican los objetos: avisar cuando pasa algo</li>
+      </ul>
+      <div class="p-pista"><p>&ldquo;se desea que exista <strong>un único</strong> tarifario para todo el sistema&rdquo;.</p></div>
+      <div class="p-explicacion"><p>Habla de <strong>cuántos</strong> objetos hay (un único tarifario): es una necesidad de <strong>crear</strong> objetos.</p></div>
+    </li>
+    <li data-inciso="1" data-nivel="principiante" data-texto="creacional|creacionales|creational|de creacion">
+      <div class="p-consigna"><p>Escribí el grupo, en una palabra: un patrón que resuelve cómo se crean los objetos es un patrón...</p></div>
+      <div class="p-pista"><p>Viene de &ldquo;crear&rdquo;: empieza con <strong>c</strong> y tiene 10 letras.</p></div>
+      <div class="p-explicacion"><p>Es un patrón <strong>creacional</strong>, y los candidatos son Singleton, Factory Method y Abstract Factory. En la respuesta, el grupo va siempre al lado del nombre del patrón.</p></div>
+    </li>
+    <li data-inciso="1" data-nivel="medio">
+      <div class="p-consigna"><p>¿Qué frase del primer párrafo decide el patrón?</p></div>
+      <ul class="p-opciones">
+        <li data-correcta>&ldquo;se desea que exista un único tarifario para todo el sistema, al que todos los módulos accedan&rdquo;</li>
+        <li>&ldquo;administra sus doce hoteles con un mismo sistema de reservas&rdquo;: hace falta un acceso simple a un sistema complicado</li>
+        <li>&ldquo;por tipo de habitación y por temporada&rdquo;: hay distintos tipos de una misma cosa para crear</li>
+        <li>&ldquo;consultan precios todo el tiempo&rdquo;: cuando cambia un precio, los módulos se tienen que enterar solos</li>
+      </ul>
+      <div class="p-pista"><p>Buscá la frase que dice <strong>cuántos</strong> tiene que haber.</p></div>
+      <div class="p-explicacion"><p>Las dos señales están juntas: <strong>un único</strong> tarifario &ldquo;para todo el sistema&rdquo; y que <strong>todos</strong> los módulos accedan a él. Esa es la frase que va entre comillas en la respuesta.</p></div>
+    </li>
+    <li data-inciso="1" data-nivel="avanzado">
+      <div class="p-consigna"><p>¿Qué patrón corresponde al primer párrafo?</p></div>
+      <ul class="p-opciones">
+        <li data-correcta>Singleton</li>
+        <li>Factory Method</li>
+        <li>Facade</li>
+        <li>Observer</li>
+      </ul>
+      <div class="p-pista"><p>Que de una clase exista un solo objeto para todo el sistema.</p></div>
+      <div class="p-explicacion"><p><strong>Singleton</strong>: del tarifario tiene que existir un solo objeto para todo el sistema. No es Factory Method (no hay distintos tipos de tarifario para crear) ni Observer (los módulos consultan el tarifario: nadie les avisa nada).</p></div>
+    </li>
+    <li data-inciso="1" data-nivel="medio" data-texto="instancia|una instancia|instance">
+      <div class="p-consigna"><p>Completá con una palabra, como en la descripción del patrón: Singleton &ldquo;se usa cuando una clase debe tener una única ______ disponible para todo el programa&rdquo;.</p></div>
+      <div class="p-pista"><p>Es el nombre que se le da a un objeto creado a partir de una clase: empieza con <strong>i</strong> y tiene 9 letras.</p></div>
+      <div class="p-explicacion"><p>Una única <strong>instancia</strong>: un solo objeto de esa clase. En la respuesta se dice con el caso: &ldquo;una única instancia disponible para todo el sistema&rdquo;, que es el tarifario.</p></div>
+    </li>
+    <li data-inciso="1" data-nivel="medio">
+      <div class="p-consigna"><p>Para el &ldquo;cómo se aplica&rdquo;: ¿cómo queda armada la clase del tarifario?</p></div>
+      <ul class="p-opciones">
+        <li data-correcta>Oculta su constructor y ofrece un método estático, <code>obtenerInstancia()</code>, que crea el tarifario la primera vez y devuelve siempre el mismo</li>
+        <li>Deja su constructor público: cada módulo crea su tarifario con <code>new</code> al arrancar, y después se copian los precios entre sí</li>
+        <li>Declara un método fábrica, y cada módulo lo sobrescribe en una subclase para crear el tarifario de su propio tipo</li>
+        <li>Cumple la interfaz de la base de datos y por dentro traduce cada consulta de precios a la recepción, la web y la facturación</li>
+      </ul>
+      <div class="p-pista"><p>Si cualquiera pudiera hacer <code>new</code>, habría más de un tarifario. ¿Qué hay que esconder?</p></div>
+      <div class="p-explicacion"><p>El <strong>constructor privado</strong> impide que alguien más cree otro tarifario, y el <strong>método estático</strong> <code>obtenerInstancia()</code> (se llama sobre la clase, sin tener un objeto) lo crea la primera vez y devuelve siempre el mismo. Con un constructor público habría tres tarifarios, y la carga lenta se haría tres veces.</p></div>
+    </li>
+    <li data-inciso="1" data-nivel="avanzado">
+      <div class="p-consigna"><p>¿Qué se gana con Singleton en el tarifario?</p></div>
+      <ul class="p-opciones">
+        <li data-correcta>Todo el sistema usa el mismo tarifario, a través de un único punto de acceso</li>
+        <li>Se agregan tipos nuevos de tarifario sin modificar los módulos que consultan precios</li>
+        <li>Los módulos usan el tarifario nuevo igual que a los que ya conocían</li>
+        <li>Nunca se mezclan los precios de una temporada con los de otra</li>
+      </ul>
+      <div class="p-pista"><p>Es lo que pide el enunciado: &ldquo;todos tienen que ver los mismos&rdquo;.</p></div>
+      <div class="p-explicacion"><p>La tercera oración de Singleton: &ldquo;Así todo el programa usa el mismo objeto, a través de un único punto de acceso&rdquo;, dicha con el caso. Las otras son lo que se gana con Factory Method, Adapter y Abstract Factory.</p></div>
+    </li>
+
+    <!-- ===== Párrafo 2: Adapter ===== -->
+    <li data-inciso="2" data-nivel="principiante">
+      <div class="p-consigna"><p>Segundo párrafo (las cerraduras del nuevo fabricante). ¿De qué habla la necesidad?</p></div>
+      <ul class="p-opciones">
+        <li data-correcta>De cómo encajan las clases: algo que ya existe no encaja con lo que el sistema usa</li>
+        <li>De crear objetos: cuántos hay, de qué tipo, quién los instancia</li>
+        <li>De cómo se comunican los objetos: avisar cuando pasa algo</li>
+      </ul>
+      <div class="p-pista"><p>La clase de Abrix ya está programada, pero viene &ldquo;con <strong>otros</strong> métodos y <strong>otros</strong> parámetros&rdquo;.</p></div>
+      <div class="p-explicacion"><p>Habla de cómo <strong>encajan</strong> las clases: la clase de Abrix ya existe (no hay que crearla), pero no encaja con la interfaz que el sistema usa.</p></div>
+    </li>
+    <li data-inciso="2" data-nivel="principiante" data-texto="estructural|estructurales|structural|de estructura">
+      <div class="p-consigna"><p>Escribí el grupo, en una palabra: un patrón que resuelve cómo encajan o se arman las clases es un patrón...</p></div>
+      <div class="p-pista"><p>Viene de &ldquo;estructura&rdquo;: empieza con <strong>e</strong> y tiene 11 letras.</p></div>
+      <div class="p-explicacion"><p>Es un patrón <strong>estructural</strong>, y los candidatos son Adapter, Composite y Facade.</p></div>
+    </li>
+    <li data-inciso="2" data-nivel="medio">
+      <div class="p-consigna"><p>¿Qué frase del segundo párrafo decide el patrón?</p></div>
+      <ul class="p-opciones">
+        <li data-correcta>La clase viene &ldquo;con otros métodos y otros parámetros&rdquo; y &ldquo;se debe incorporar sin modificarla y sin que afecte la lógica del sistema de reservas&rdquo;</li>
+        <li>&ldquo;Las habitaciones se abren con tarjeta&rdquo;: hay que crear una tarjeta de un tipo distinto por cada habitación</li>
+        <li>&ldquo;En los dos hoteles que la cadena sumó este año&rdquo;: la cadena agrupa hoteles y también otras cadenas</li>
+        <li>&ldquo;las cerraduras son de otro fabricante&rdquo;: cada fabricante es una familia de productos que tienen que combinar</li>
+      </ul>
+      <div class="p-pista"><p>Buscá la frase que dice que algo que ya existe <strong>es distinto</strong> de lo que el sistema usa, y que <strong>no se puede tocar</strong>.</p></div>
+      <div class="p-explicacion"><p>Las dos señales de Adapter: una clase que ya existe pero <strong>tiene otra interfaz</strong> (&ldquo;otros métodos y otros parámetros&rdquo;), y usarla <strong>sin modificar ninguna</strong> de las dos partes (&ldquo;sin modificarla y sin que afecte la lógica del sistema&rdquo;).</p></div>
+    </li>
+    <li data-inciso="2" data-nivel="avanzado">
+      <div class="p-consigna"><p>¿Qué patrón corresponde al segundo párrafo?</p></div>
+      <ul class="p-opciones">
+        <li data-correcta>Adapter</li>
+        <li>Facade</li>
+        <li>Abstract Factory</li>
+        <li>Strategy</li>
+      </ul>
+      <div class="p-pista"><p>Usar una clase que ya existe pero tiene otra interfaz, sin modificarla.</p></div>
+      <div class="p-explicacion"><p><strong>Adapter</strong>: hay que hacer trabajar juntas dos clases con interfaces incompatibles (el sistema de reservas, que usa <code>Cerradura</code>, y <code>AbrixLock</code>), sin modificar ninguna. No es Abstract Factory (la clase de Abrix ya está hecha: no se crea una familia de objetos) ni Strategy (no se elige entre formas de hacer una tarea).</p></div>
+    </li>
+    <li data-inciso="2" data-nivel="medio">
+      <div class="p-consigna"><p>Es el par que más se confunde. ¿Por qué acá no es Facade?</p></div>
+      <ul class="p-opciones">
+        <li data-correcta>Porque se envuelve una sola clase para darle una interfaz que ya existía; Facade envuelve varias para dar una interfaz nueva y simple</li>
+        <li>Porque Facade obliga a modificar las clases que envuelve, y la clase de Abrix no se puede tocar</li>
+        <li>Porque Facade es un patrón de comportamiento, y acá la necesidad es de cómo encajan las clases</li>
+        <li>Porque Facade solo sirve cuando las clases que envuelve tienen todas la misma interfaz</li>
+      </ul>
+      <div class="p-pista"><p>Contá cuántas clases se envuelven, y fijate si la interfaz que se ofrece <strong>ya existía</strong>.</p></div>
+      <div class="p-explicacion"><p>La pregunta que los separa: ¿se envuelve <strong>una</strong> clase para darle una interfaz que ya existía (Adapter) o <strong>varias</strong> para dar una interfaz nueva y simple (Facade)? Acá es una sola, <code>AbrixLock</code>, y la interfaz <code>Cerradura</code> ya estaba. Si Abrix entregara varias clases complicadas de usar y se pidiera un acceso simple a todas, sería Facade.</p></div>
+    </li>
+    <li data-inciso="2" data-nivel="medio" data-texto="adaptador|adapter|el adaptador">
+      <div class="p-consigna"><p>Para el &ldquo;cómo se aplica&rdquo;. Escribí el nombre de la parte: la clase que se agrega en el medio, cumple la interfaz <code>Cerradura</code> y por dentro traduce cada llamada a <code>AbrixLock</code>.</p></div>
+      <div class="p-pista"><p>Se llama como el patrón, en castellano: empieza con <strong>a</strong> y tiene 9 letras.</p></div>
+      <div class="p-explicacion"><p>El <strong>adaptador</strong> (la clase que traduce) cumple <code>Cerradura</code> y guarda un <code>AbrixLock</code>: cuando el sistema le pide <code>habilitar()</code>, llama a <code>grantAccess()</code>. <code>AbrixLock</code> es el <strong>servicio</strong> (la clase que ya existe y no se puede modificar), y el sistema de reservas sigue usando <code>Cerradura</code> sin enterarse.</p></div>
+    </li>
+    <li data-inciso="2" data-nivel="avanzado">
+      <div class="p-consigna"><p>¿Qué se gana con Adapter en las cerraduras?</p></div>
+      <ul class="p-opciones">
+        <li data-correcta>El sistema de reservas usa las cerraduras de Abrix igual que a las que ya conocía</li>
+        <li>El sistema de reservas trata igual a una cerradura sola que a un hotel entero</li>
+        <li>Todos los hoteles usan la misma cerradura, a través de un único punto de acceso</li>
+        <li>Nunca se mezclan cerraduras de un fabricante con tarjetas de otro</li>
+      </ul>
+      <div class="p-pista"><p>Es la tercera oración de la descripción: &ldquo;Así el cliente usa la clase nueva igual que...&rdquo;.</p></div>
+      <div class="p-explicacion"><p>La tercera oración de Adapter: &ldquo;Así el cliente usa la clase nueva igual que a las que ya conocía&rdquo;, dicha con el caso: el cliente es el sistema de reservas y la clase nueva es la de Abrix. Las otras son lo que se gana con Composite, Singleton y Abstract Factory.</p></div>
+    </li>
+
+    <!-- ===== Párrafo 3: Factory Method ===== -->
+    <li data-inciso="3" data-nivel="principiante">
+      <div class="p-consigna"><p>Tercer párrafo (el comprobante de cada reserva). ¿De qué habla la necesidad?</p></div>
+      <ul class="p-opciones">
+        <li data-correcta>De crear objetos: cuántos hay, de qué tipo, quién los instancia</li>
+        <li>De cómo se arman las clases: algo contiene a algo, o algo no encaja</li>
+        <li>De cómo se hace una tarea: elegir entre varias formas de hacer lo mismo</li>
+      </ul>
+      <div class="p-pista"><p>&ldquo;el sistema <strong>crea</strong> el comprobante que recibe el huésped&rdquo;.</p></div>
+      <div class="p-explicacion"><p>Habla de <strong>crear</strong> objetos (los comprobantes, de un tipo o de otro): el patrón es <strong>creacional</strong>, y los candidatos son Singleton, Factory Method y Abstract Factory.</p></div>
+    </li>
+    <li data-inciso="3" data-nivel="medio">
+      <div class="p-consigna"><p>¿Qué frase del tercer párrafo decide el patrón?</p></div>
+      <ul class="p-opciones">
+        <li data-correcta>La confirmación trabaja &ldquo;sin saber de antemano de qué tipo es el que se crea&rdquo;, y se quiere &ldquo;poder agregar nuevos tipos de comprobante en el futuro&rdquo;</li>
+        <li>&ldquo;La confirmación sigue siempre los mismos pasos&rdquo;: tiene que haber una única confirmación para todo el sistema</li>
+        <li>&ldquo;para las que entran por la página web&rdquo;: la página web tiene otra interfaz y no encaja con el sistema</li>
+        <li>&ldquo;el comprobante que recibe el huésped&rdquo;: cuando se confirma una reserva, el huésped se tiene que enterar solo</li>
+      </ul>
+      <div class="p-pista"><p>Buscá la frase que dice que quien usa el objeto <strong>no sabe de qué tipo</strong> es, y la que habla de <strong>tipos nuevos</strong>.</p></div>
+      <div class="p-explicacion"><p>Las dos señales de Factory Method: crear <strong>distintos tipos de una misma cosa</strong> sin que el resto sepa cuál (&ldquo;sin saber de antemano de qué tipo es el que se crea&rdquo;) y <strong>poder agregar tipos</strong> (&ldquo;nuevos tipos de comprobante en el futuro&rdquo;).</p></div>
+    </li>
+    <li data-inciso="3" data-nivel="avanzado">
+      <div class="p-consigna"><p>¿Qué patrón corresponde al tercer párrafo?</p></div>
+      <ul class="p-opciones">
+        <li data-correcta>Factory Method</li>
+        <li>Abstract Factory</li>
+        <li>Strategy</li>
+        <li>Singleton</li>
+      </ul>
+      <div class="p-pista"><p>Crear distintos tipos de una misma cosa, sin que el resto sepa cuál, y poder agregar tipos.</p></div>
+      <div class="p-explicacion"><p><strong>Factory Method</strong>: la confirmación no puede saber de antemano qué tipo exacto de comprobante tiene que crear, y se quieren agregar tipos nuevos. No es Strategy: los comprobantes no son formas de hacer una tarea, son objetos que se crean.</p></div>
+    </li>
+    <li data-inciso="3" data-nivel="medio">
+      <div class="p-consigna"><p>Es el par que más se confunde. ¿Por qué acá no es Abstract Factory?</p></div>
+      <ul class="p-opciones">
+        <li data-correcta>Porque se crea un solo tipo de cosa, el comprobante; con Abstract Factory se crean varias cosas distintas que tienen que combinar</li>
+        <li>Porque Abstract Factory no permite agregar variantes nuevas sin modificar el código que las usa</li>
+        <li>Porque Abstract Factory es un patrón estructural, y acá la necesidad es crear objetos</li>
+        <li>Porque en Abstract Factory no hay subclases, y acá hacen falta dos tipos de comprobante</li>
+      </ul>
+      <div class="p-pista"><p>Contá cuántas cosas distintas se crean por reserva.</p></div>
+      <div class="p-explicacion"><p>La pregunta que los separa: ¿se crea <strong>un</strong> tipo de cosa (Factory Method) o <strong>varias que combinan</strong> (Abstract Factory)? Acá por cada reserva se crea una sola cosa, el comprobante. Si hubiera que crear un comprobante, una factura y un voucher, los tres impresos o los tres digitales, sería Abstract Factory.</p></div>
+    </li>
+    <li data-inciso="3" data-nivel="medio" data-texto="creador|creator|el creador|clase creadora">
+      <div class="p-consigna"><p>Para el &ldquo;cómo se aplica&rdquo;. Escribí el nombre de la parte: la clase base que declara el método fábrica <code>crearComprobante()</code> (acá, la confirmación: necesita el comprobante pero no decide cuál se crea).</p></div>
+      <div class="p-pista"><p>Es la clase que necesita que el objeto se cree: empieza con <strong>c</strong> y tiene 7 letras.</p></div>
+      <div class="p-explicacion"><p>La confirmación es el <strong>creador</strong>: declara el método fábrica <code>crearComprobante()</code> y lo usa en sus pasos sin saber qué devuelve. Lo sobrescribe cada subclase, un <strong>creador concreto</strong>: la confirmación de mostrador y la de la web.</p></div>
+    </li>
+    <li data-inciso="3" data-nivel="medio" data-texto="producto|product|el producto">
+      <div class="p-consigna"><p>Escribí el nombre de la parte: el objeto que devuelve el método fábrica (acá, el comprobante, impreso o digital).</p></div>
+      <div class="p-pista"><p>Es lo que sale de una fábrica: empieza con <strong>p</strong> y tiene 8 letras.</p></div>
+      <div class="p-explicacion"><p>El comprobante es el <strong>producto</strong> (el objeto que se crea): una interfaz en común y, debajo, el impreso y el digital. La confirmación conoce solo esa interfaz, y por eso trabaja con cualquiera &ldquo;de manera transparente&rdquo;.</p></div>
+    </li>
+    <li data-inciso="3" data-nivel="avanzado">
+      <div class="p-consigna"><p>¿Qué se gana con Factory Method en los comprobantes?</p></div>
+      <ul class="p-opciones">
+        <li data-correcta>Se agregan tipos nuevos de comprobante, como el de agencia, sin modificar la confirmación, que es el código que los usa</li>
+        <li>Nunca se mezclan comprobantes impresos con comprobantes digitales dentro de una misma reserva</li>
+        <li>El tipo de comprobante de una reserva se puede cambiar mientras el sistema sigue funcionando</li>
+        <li>Toda la cadena usa el mismo comprobante, a través de un único punto de acceso</li>
+      </ul>
+      <div class="p-pista"><p>Es lo que pide el final del párrafo: tipos nuevos &ldquo;sin modificar la confirmación&rdquo;.</p></div>
+      <div class="p-explicacion"><p>La tercera oración de Factory Method: &ldquo;Así se agregan tipos nuevos sin modificar el código que los usa&rdquo;. El comprobante de agencia es un producto más con su creador concreto, y la confirmación no se toca.</p></div>
+    </li>
+  </ol>
+</article>

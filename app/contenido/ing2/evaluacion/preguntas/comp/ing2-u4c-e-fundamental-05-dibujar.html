@@ -1,0 +1,323 @@
+<article class="preg" data-id="ing2-u4c-e-fundamental-05-dibujar" data-tipo="ejercicio" data-origen="parcial" data-fundamental="05" data-rotulo="Patrón" data-titulo="Dibujar y explicar · Observer y Strategy">
+  <div class="p-enunciado">
+    <p>
+      La empresa <strong>AgroDatos</strong> desarrolla un sistema de monitoreo de campos con
+      sensores de humedad, temperatura y lluvia, con Programación Orientada a Objetos. El equipo
+      planea incorporar dos patrones de diseño en su solución: uno para que, cada vez que una
+      estación de campo registre una medición nueva, se enteren solos los módulos interesados (el
+      tablero del productor, las alertas de helada, el historial), sin que la estación sepa de
+      antemano cuántos ni cuáles son, y otro para que el módulo de riego pueda calcular cuánta agua
+      aplicar de distintas maneras (por humedad del suelo, por pronóstico de lluvia o por etapa del
+      cultivo) y elegir la forma de cálculo en el momento de regar.
+    </p>
+    <p>
+      Represente mediante un diagrama UML la estructura de los patrones de diseño que quiere
+      incorporar AgroDatos. Dé una breve descripción de la usabilidad de cada uno, explique su
+      propósito dentro del sistema y mencione 2 ejemplos.
+    </p>
+    <p class="p-fuente">Inventado &middot; estilo Parcial 2025, Teoría 4 (20 puntos), y Parcial 2024, Ej. 2</p>
+  </div>
+  <div class="p-explicacion">
+    <div class="tabla-wrap">
+      <table class="t full">
+        <tr><th>Patrón</th><th>Lo que no puede faltar en el diagrama</th><th>Propósito en AgroDatos</th></tr>
+        <tr>
+          <td class="lbl">1. Observer</td>
+          <td>Notificador, interfaz Suscriptor y los suscriptores concretos; el rombo con <code>*</code>; suscribir, desuscribir y notificar en el notificador y <code>actualizar()</code> en la interfaz</td>
+          <td>Que los módulos interesados se enteren solos de cada medición, y sumar módulos sin modificar la estación de campo</td>
+        </tr>
+        <tr>
+          <td class="lbl">2. Strategy</td>
+          <td>Contexto, interfaz Estrategia y las estrategias concretas; el rombo <strong>sin</strong> <code>*</code> y el método para cambiar la estrategia en el contexto</td>
+          <td>Elegir la forma de calcular el riego en el momento de regar, y sumar formas sin modificar el módulo de riego</td>
+        </tr>
+      </table>
+    </div>
+    <p>
+      Los dos dibujos son casi iguales; los separa el rombo: con <code>*</code> en Observer (guarda
+      muchos y les avisa) y sin <code>*</code> en Strategy (guarda una y la puede cambiar). En las
+      dos respuestas la descripción tiene las mismas tres oraciones (cuándo se usa, cómo funciona y
+      qué se gana), y el propósito es esa misma descripción dicha con los nombres de AgroDatos.
+    </p>
+  </div>
+  <div class="p-rta" data-inciso="1">
+    <p><strong>Observer.</strong> El diagrama:</p>
+    <div class="pd-grafico uml" data-g="observer">
+      <svg viewBox="-14 -14 759 267" width="759" height="267" role="img" aria-label="Estructura del patrón Observer">
+        <polyline class="linea" points="255,57.5 337.5,57.5 337.5,57.5 420,57.5"/>
+        <polygon class="hueca" points="237,57.5 246,51.5 255,57.5 246,63.5"/>
+        <text class="rotulo" x="398" y="51.5" text-anchor="middle">*</text>
+        <polyline class="linea punteada" points="425.5,180 425.5,144 515.5,144 515.5,108"/>
+        <polygon class="hueca" points="515.5,95 522.5,108 508.5,108"/>
+        <polyline class="linea punteada" points="635.5,180 635.5,144 515.5,144 515.5,108"/>
+        <polygon class="hueca" points="515.5,95 522.5,108 508.5,108"/>
+        <g class="clase k-comun destacada">
+        <rect class="caja" x="0" y="0" width="237" height="126" rx="3"/>
+        <rect class="cab" x="1" y="1" width="235" height="29" rx="2"/>
+        <text class="nombre" x="118.5" y="20">Notificador</text>
+        <line class="div" x1="0" y1="30" x2="237" y2="30"/>
+        <text class="miembro" x="10" y="48"><tspan class="v-priv">-</tspan> suscriptores<tspan class="tp">: Suscriptor[]</tspan></text>
+        <line class="div" x1="0" y1="59" x2="237" y2="59"/>
+        <text class="miembro" x="10" y="77"><tspan class="v-pub">+</tspan> suscribir(s<tspan class="tp">: Suscriptor</tspan>)</text>
+        <text class="miembro" x="10" y="96"><tspan class="v-pub">+</tspan> desuscribir(s<tspan class="tp">: Suscriptor</tspan>)</text>
+        <text class="miembro" x="10" y="115"><tspan class="v-pub">+</tspan> notificar()</text>
+        </g>
+        <g class="clase k-interfaz">
+        <rect class="caja" x="420" y="20" width="191" height="75" rx="3"/>
+        <rect class="cab" x="421" y="21" width="189" height="45" rx="2"/>
+        <text class="estereo" x="515.5" y="36">&#171;interface&#187;</text>
+        <text class="nombre" x="515.5" y="55">Suscriptor</text>
+        <line class="div" x1="420" y1="66" x2="611" y2="66"/>
+        <text class="miembro" x="430" y="84"><tspan class="v-pub">+</tspan> actualizar(contexto)</text>
+        </g>
+        <g class="clase k-comun">
+        <rect class="caja" x="330" y="180" width="191" height="59" rx="3"/>
+        <rect class="cab" x="331" y="181" width="189" height="29" rx="2"/>
+        <text class="nombre" x="425.5" y="200">SuscriptorConcretoA</text>
+        <line class="div" x1="330" y1="210" x2="521" y2="210"/>
+        <text class="miembro" x="340" y="228"><tspan class="v-pub">+</tspan> actualizar(contexto)</text>
+        </g>
+        <g class="clase k-comun">
+        <rect class="caja" x="540" y="180" width="191" height="59" rx="3"/>
+        <rect class="cab" x="541" y="181" width="189" height="29" rx="2"/>
+        <text class="nombre" x="635.5" y="200">SuscriptorConcretoB</text>
+        <line class="div" x1="540" y1="210" x2="731" y2="210"/>
+        <text class="miembro" x="550" y="228"><tspan class="v-pub">+</tspan> actualizar(contexto)</text>
+        </g>
+      </svg>
+    </div>
+    <ol>
+      <li><strong>Descripción:</strong> "Observer es un patrón de comportamiento que se usa cuando un cambio en un objeto se tiene que avisar a otros, y no se sabe de antemano cuántos ni cuáles son. El objeto que cambia, el notificador, guarda una lista de suscriptores y les avisa a todos; cada uno se puede suscribir o dar de baja cuando quiera. Así se suman interesados nuevos sin modificar al notificador."</li>
+      <li><strong>Propósito en AgroDatos:</strong> "La estación de campo es el notificador (el objeto que cambia y avisa): guarda una lista de suscriptores y, cada vez que registra una medición nueva, les avisa a todos con <code>notificar()</code>. El tablero del productor, las alertas de helada y el historial son los suscriptores (los interesados en la medición): cada uno implementa <code>actualizar()</code> y se puede suscribir o dar de baja cuando quiera. Así se suman módulos interesados nuevos sin modificar la estación de campo."</li>
+      <li><strong>Dos ejemplos:</strong> "Los clientes que esperan un producto en una tienda: en vez de ir a preguntar todos los días si llegó, se suscriben, y cuando el producto llega la tienda (el notificador) les avisa a todos los suscritos. Los botones de una interfaz gráfica: un botón no sabe qué tiene que pasar cuando lo aprietan; las partes del programa interesadas se suscriben al botón, y al hacer clic el botón les avisa a todas."</li>
+    </ol>
+  </div>
+  <div class="p-rta" data-inciso="2">
+    <p><strong>Strategy.</strong> El diagrama:</p>
+    <div class="pd-grafico uml" data-g="strategy">
+      <svg viewBox="-14 -14 755 257" width="755" height="257" role="img" aria-label="Estructura del patrón Strategy">
+        <polyline class="linea" points="300,49.5 360,49.5 360,49.5 420,49.5"/>
+        <polygon class="hueca" points="282,49.5 291,43.5 300,49.5 291,55.5"/>
+        <polyline class="linea punteada" points="423.5,170 423.5,135 496.5,135 496.5,100"/>
+        <polygon class="hueca" points="496.5,87 503.5,100 489.5,100"/>
+        <polyline class="linea punteada" points="633.5,170 633.5,135 496.5,135 496.5,100"/>
+        <polygon class="hueca" points="496.5,87 503.5,100 489.5,100"/>
+        <g class="clase k-comun destacada">
+        <rect class="caja" x="0" y="0" width="282" height="107" rx="3"/>
+        <rect class="cab" x="1" y="1" width="280" height="29" rx="2"/>
+        <text class="nombre" x="141" y="20">Contexto</text>
+        <line class="div" x1="0" y1="30" x2="282" y2="30"/>
+        <text class="miembro" x="10" y="48"><tspan class="v-priv">-</tspan> estrategia<tspan class="tp">: Estrategia</tspan></text>
+        <line class="div" x1="0" y1="59" x2="282" y2="59"/>
+        <text class="miembro" x="10" y="77"><tspan class="v-pub">+</tspan> cambiarEstrategia(e<tspan class="tp">: Estrategia</tspan>)</text>
+        <text class="miembro" x="10" y="96"><tspan class="v-pub">+</tspan> hacerAlgo()</text>
+        </g>
+        <g class="clase k-interfaz">
+        <rect class="caja" x="420" y="12" width="153" height="75" rx="3"/>
+        <rect class="cab" x="421" y="13" width="151" height="45" rx="2"/>
+        <text class="estereo" x="496.5" y="28">&#171;interface&#187;</text>
+        <text class="nombre" x="496.5" y="47">Estrategia</text>
+        <line class="div" x1="420" y1="58" x2="573" y2="58"/>
+        <text class="miembro" x="430" y="76"><tspan class="v-pub">+</tspan> ejecutar(datos)</text>
+        </g>
+        <g class="clase k-comun">
+        <rect class="caja" x="330" y="170" width="187" height="59" rx="3"/>
+        <rect class="cab" x="331" y="171" width="185" height="29" rx="2"/>
+        <text class="nombre" x="423.5" y="190">EstrategiaConcretaA</text>
+        <line class="div" x1="330" y1="200" x2="517" y2="200"/>
+        <text class="miembro" x="340" y="218"><tspan class="v-pub">+</tspan> ejecutar(datos)</text>
+        </g>
+        <g class="clase k-comun">
+        <rect class="caja" x="540" y="170" width="187" height="59" rx="3"/>
+        <rect class="cab" x="541" y="171" width="185" height="29" rx="2"/>
+        <text class="nombre" x="633.5" y="190">EstrategiaConcretaB</text>
+        <line class="div" x1="540" y1="200" x2="727" y2="200"/>
+        <text class="miembro" x="550" y="218"><tspan class="v-pub">+</tspan> ejecutar(datos)</text>
+        </g>
+      </svg>
+    </div>
+    <ol>
+      <li><strong>Descripción:</strong> "Strategy es un patrón de comportamiento que se usa cuando hay varias formas de hacer una misma tarea y se quiere poder cambiar de una a otra mientras el programa corre. Cada forma va en su propia clase, todas con la misma interfaz, y el contexto guarda una y le delega la tarea. Así se agregan formas nuevas sin modificar el contexto."</li>
+      <li><strong>Propósito en AgroDatos:</strong> "Cada forma de calcular el agua (por humedad del suelo, por pronóstico de lluvia, por etapa del cultivo) es una estrategia (una forma de hacer la tarea, en su propia clase), todas con la misma interfaz y su método <code>calcularAgua()</code>. El módulo de riego es el contexto (la clase que necesita el cálculo pero no lo hace ella): guarda una y le delega el cálculo, y con <code>cambiarEstrategia()</code> pasa de una a otra en el momento de regar. Así se agregan formas de cálculo nuevas sin modificar el módulo de riego."</li>
+      <li><strong>Dos ejemplos:</strong> "Un navegador de rutas: el mismo viaje se puede calcular en auto, a pie o en transporte público; cada forma es una estrategia, y el navegador (el contexto) guarda la que eligió el usuario y la cambia cuando él cambia de opción. Los descuentos de un sistema de ventas: el total se calcula distinto según la promoción (sin descuento, en efectivo, mayorista); cada cálculo va en su clase y la venta usa el que le asignan, sin un <code>if</code> por cada promoción."</li>
+    </ol>
+  </div>
+  <ol class="p-pasos">
+
+    <!-- ===== Patrón 1: Observer ===== -->
+    <li data-inciso="1" data-nivel="avanzado">
+      <div class="p-consigna"><p>El primer patrón es para que &ldquo;cada vez que una estación de campo registre una medición nueva, se enteren solos los módulos interesados (el tablero del productor, las alertas de helada, el historial), sin que la estación sepa de antemano cuántos ni cuáles son&rdquo;. ¿Qué patrón es?</p></div>
+      <ul class="p-opciones">
+        <li data-correcta>Observer</li>
+        <li>Strategy</li>
+        <li>Composite</li>
+        <li>Facade</li>
+      </ul>
+      <div class="p-pista"><p>La frase habla de <strong>avisar</strong>: pasa algo en un objeto y otros se tienen que enterar, sin que el que avisa sepa quiénes son.</p></div>
+      <div class="p-explicacion"><p>Cuando <strong>pasa algo</strong> (una medición nueva), otros <strong>se enteran solos</strong>: <strong>Observer</strong>. No es Strategy, porque no se elige entre formas de hacer una tarea: se les avisa a muchos. No es Composite, porque los módulos no contienen cosas de su mismo tipo. No es Facade, porque no se pide un acceso simple a un conjunto de clases.</p></div>
+    </li>
+    <li data-inciso="1" data-nivel="principiante" data-texto="comportamiento|de comportamiento|comportamental|behavioral">
+      <div class="p-consigna"><p>Completá con una palabra el grupo del patrón, que es como empieza su descripción: &ldquo;Observer es un patrón de ______&rdquo;.</p></div>
+      <div class="p-pista"><p>Los grupos son tres: creacional (crear objetos), estructural (cómo encajan las clases) y el que habla de cómo se comunican los objetos o cómo se hace una tarea. Ese último empieza con c y tiene 14 letras.</p></div>
+      <div class="p-explicacion"><p>Observer es un patrón <strong>de comportamiento</strong>: la frase habla de cómo se comunican los objetos (avisar). De los ocho de la cátedra, los de comportamiento son dos: Observer y Strategy.</p></div>
+    </li>
+    <li data-inciso="1" data-nivel="medio" data-texto="notificador|subject|sujeto|el notificador|publicador|publisher">
+      <div class="p-consigna"><p>Escribí el nombre de la parte: en el diagrama de Observer, la clase que cambia, guarda la lista de interesados y les avisa a todos es el ______.</p></div>
+      <div class="p-pista"><p>Empieza con N y tiene 11 letras: es el que notifica. En el diagrama es la caja de la izquierda.</p></div>
+      <div class="p-explicacion"><p>El <strong>Notificador</strong> (en el código de los parciales, <code>Subject</code>) es la clase principal del diagrama. En su caja van la lista de suscriptores y tres métodos: suscribir, desuscribir y notificar. En AgroDatos es la estación de campo.</p></div>
+    </li>
+    <li data-inciso="1" data-nivel="medio" data-texto="suscriptor|observer|observador|el suscriptor|suscriptores|subscriber">
+      <div class="p-consigna"><p>Escribí el nombre de la parte: en el diagrama de Observer, la interfaz que implementan todos los interesados en el cambio es ______.</p></div>
+      <div class="p-pista"><p>Empieza con S y tiene 10 letras: es el que se anota para recibir el aviso. En el diagrama es la caja de arriba a la derecha.</p></div>
+      <div class="p-explicacion"><p><strong>Suscriptor</strong> (en el código de los parciales, <code>Observer</code>) es una interfaz: lleva &laquo;interface&raquo; arriba del nombre. Debajo van los Suscriptores Concretos, unidos a ella con línea punteada y triángulo (realización). En AgroDatos los concretos son el tablero del productor, las alertas de helada y el historial.</p></div>
+    </li>
+    <li data-inciso="1" data-nivel="medio" data-texto="actualizar|update|actualizar()|update()|actualizar(contexto)">
+      <div class="p-consigna"><p>Escribí el nombre del método: la interfaz Suscriptor tiene un solo método, el que el notificador le llama a cada suscriptor para avisarle. ¿Cómo se llama?</p></div>
+      <div class="p-pista"><p>Empieza con a y tiene 10 letras: al recibir el aviso, cada suscriptor se pone al día.</p></div>
+      <div class="p-explicacion"><p><code>actualizar()</code> (en el código de los parciales, <code>Update</code>). Es el único método de la interfaz y se repite en cada Suscriptor Concreto, que lo implementa a su manera: el tablero muestra la medición, la alerta revisa si hay helada, el historial la guarda. No es lo mismo que <code>notificar()</code>, que es del Notificador: recorre la lista y le llama <code>actualizar()</code> a cada suscriptor.</p></div>
+    </li>
+    <li data-inciso="1" data-nivel="medio">
+      <div class="p-consigna"><p>¿Qué une al Notificador con la interfaz Suscriptor en el diagrama de Observer?</p></div>
+      <ul class="p-opciones">
+        <li data-correcta>Un rombo (agregación) del lado del Notificador, con <code>*</code> del lado del Suscriptor, porque guarda muchos</li>
+        <li>Un rombo (agregación) del lado del Notificador, sin <code>*</code>, porque guarda uno solo y lo puede cambiar</li>
+        <li>Un rombo con <code>*</code> que sale del Notificador y vuelve a la interfaz que él mismo implementa</li>
+        <li>Una flecha punteada (dependencia) del Notificador al Suscriptor, con el rótulo &ldquo;crea&rdquo;</li>
+      </ul>
+      <div class="p-pista"><p>El notificador <strong>guarda una lista</strong>: son muchos suscriptores, no uno.</p></div>
+      <div class="p-explicacion"><p>Es lo que no puede faltar: el <strong>rombo con <code>*</code></strong>. El rombo dice que el Notificador guarda suscriptores, y el <code>*</code>, que son muchos. Sin <code>*</code> es el dibujo de Strategy (guarda una sola); el rombo que vuelve a la propia interfaz es el de Composite; la flecha &ldquo;crea&rdquo;, la de Factory Method. Las otras flechas del diagrama van de cada Suscriptor Concreto a la interfaz Suscriptor: <strong>realización</strong> (línea punteada con triángulo).</p></div>
+    </li>
+    <li data-inciso="1" data-nivel="avanzado">
+      <div class="p-consigna"><p>La descripción tiene tres oraciones: cuándo se usa, cómo funciona y qué se gana. ¿Cuál es el <strong>cuándo se usa</strong> de Observer?</p></div>
+      <ul class="p-opciones">
+        <li data-correcta>Cuando un cambio en un objeto se tiene que avisar a otros, y no se sabe de antemano cuántos ni cuáles son</li>
+        <li>Cuando hay varias formas de hacer una misma tarea y se quiere poder cambiar de una a otra mientras el programa corre</li>
+        <li>Cuando los objetos forman un árbol, con elementos simples y contenedores que agrupan a otros</li>
+        <li>Cuando para hacer una tarea hay que coordinar varias clases de un subsistema</li>
+      </ul>
+      <div class="p-pista"><p>Es casi la frase del enunciado: la estación no sabe &ldquo;de antemano cuántos ni cuáles son&rdquo; los módulos interesados.</p></div>
+      <div class="p-explicacion"><p>Las otras tres son el &ldquo;cuándo se usa&rdquo; de Strategy, Composite y Facade. La descripción completa: &ldquo;Observer es un patrón de comportamiento que se usa cuando un cambio en un objeto se tiene que avisar a otros, y no se sabe de antemano cuántos ni cuáles son. El objeto que cambia, el notificador, guarda una lista de suscriptores y les avisa a todos; cada uno se puede suscribir o dar de baja cuando quiera. Así se suman interesados nuevos sin modificar al notificador.&rdquo;</p></div>
+    </li>
+    <li data-inciso="1" data-nivel="avanzado">
+      <div class="p-consigna"><p>El propósito dentro del sistema es la misma descripción de Observer con los nombres de AgroDatos. ¿Qué es cada parte?</p></div>
+      <ul class="p-opciones">
+        <li data-correcta>La estación de campo es el notificador: guarda la lista y avisa con <code>notificar()</code>; el tablero, las alertas de helada y el historial son los suscriptores, y cada uno implementa <code>actualizar()</code></li>
+        <li>El tablero del productor es el contexto: guarda una sola estación de campo y la cambia por otra con <code>cambiarEstacion()</code> cuando el productor elige otro lote</li>
+        <li>La estación de campo es la fachada: guarda un objeto del tablero, otro de las alertas y otro del historial, y los llama en orden desde <code>registrarMedicion()</code></li>
+        <li>La estación de campo es el compuesto: contiene sensores y otras estaciones, y el tablero trata igual a un sensor suelto que a una estación entera</li>
+      </ul>
+      <div class="p-pista"><p>El notificador es el objeto <strong>que cambia</strong> y avisa. Los suscriptores son los <strong>interesados</strong> en ese cambio.</p></div>
+      <div class="p-explicacion"><p>El <strong>notificador</strong> es la estación de campo (el objeto que cambia: registra la medición y avisa) y los <strong>suscriptores</strong> son el tablero, las alertas de helada y el historial (los interesados), que se suscriben o se dan de baja cuando quieren. Guardar una sola cosa y cambiarla es Strategy; contener cosas del mismo tipo, Composite. La opción de la fachada es justo lo que Observer evita: una estación que conoce por nombre a cada módulo hay que modificarla cada vez que se suma uno.</p></div>
+    </li>
+    <li data-inciso="1" data-nivel="medio">
+      <div class="p-consigna"><p>¿Qué gana AgroDatos con Observer?</p></div>
+      <ul class="p-opciones">
+        <li data-correcta>Se suman módulos interesados nuevos sin modificar la estación de campo, que es la que avisa</li>
+        <li>Se agregan formas nuevas de tomar la medición sin modificar la estación de campo</li>
+        <li>El tablero depende de una sola clase y no necesita conocer la estación ni sus sensores</li>
+        <li>El tablero trata igual a un sensor suelto que a un grupo entero de sensores</li>
+      </ul>
+      <div class="p-pista"><p>Es la tercera oración de la descripción: &ldquo;Así se suman interesados nuevos sin...&rdquo;.</p></div>
+      <div class="p-explicacion"><p>Un aviso al celular del productor se suma con una clase nueva que implementa <code>actualizar()</code> y se suscribe, sin tocar la estación de campo. Las otras tres son lo que se gana con Strategy, Facade y Composite.</p></div>
+    </li>
+    <li data-inciso="1" data-nivel="medio">
+      <div class="p-consigna"><p>¿Cuál de estos pares sirve como los 2 ejemplos de Observer?</p></div>
+      <ul class="p-opciones">
+        <li data-correcta>Los clientes que esperan un producto en una tienda y se suscriben al aviso de que llegó, y los botones de una interfaz gráfica, que le avisan del clic a cada parte del programa suscrita</li>
+        <li>Un navegador que calcula la ruta en auto, a pie o en transporte público, y los descuentos de un sistema de ventas, que cambian según la promoción</li>
+        <li>Las carpetas y los archivos de un sistema de archivos, y un pedido con productos sueltos y cajas que traen otras cajas</li>
+        <li>Un conversor de video con un solo método <code>convertir()</code>, y la compra en una tienda en línea, donde <code>comprar()</code> llama a inventario, pagos y envíos</li>
+      </ul>
+      <div class="p-pista"><p>En los dos tiene que haber <strong>algo que pasa</strong> y <strong>varios interesados</strong> que se anotaron para enterarse.</p></div>
+      <div class="p-explicacion"><p>La tienda (llegó el producto) y el botón (le hicieron clic) son Observer: avisan a los que se suscribieron. El navegador y los descuentos son Strategy; carpetas y cajas, Composite; el conversor y la compra, Facade. En la hoja no alcanza con nombrarlos: a cada ejemplo se le suma una línea que diga por qué ahí va el patrón.</p></div>
+    </li>
+
+    <!-- ===== Patrón 2: Strategy ===== -->
+    <li data-inciso="2" data-nivel="avanzado">
+      <div class="p-consigna"><p>El segundo patrón es para que el módulo de riego pueda &ldquo;calcular cuánta agua aplicar de distintas maneras (por humedad del suelo, por pronóstico de lluvia o por etapa del cultivo) y elegir la forma de cálculo en el momento de regar&rdquo;. ¿Qué patrón es?</p></div>
+      <ul class="p-opciones">
+        <li data-correcta>Strategy</li>
+        <li>Factory Method</li>
+        <li>Observer</li>
+        <li>Abstract Factory</li>
+      </ul>
+      <div class="p-pista"><p>La frase habla de <strong>cómo se hace</strong> una tarea: es de comportamiento. Hay una sola tarea (calcular el agua) y varias maneras de hacerla.</p></div>
+      <div class="p-explicacion"><p><strong>Varias formas de hacer lo mismo</strong> y elegir cuál: <strong>Strategy</strong>. No es Factory Method, porque las variantes son formas de <strong>hacer una tarea</strong> (calcular), no de crear un objeto. No es Observer, porque no hay que avisarle a nadie. No es Abstract Factory, porque no se crean familias de objetos que tengan que combinar.</p></div>
+    </li>
+    <li data-inciso="2" data-nivel="medio" data-texto="contexto|context|el contexto">
+      <div class="p-consigna"><p>Escribí el nombre de la parte: en el diagrama de Strategy, la clase que guarda una forma de hacer la tarea y se la encarga es el ______.</p></div>
+      <div class="p-pista"><p>Empieza con C y tiene 8 letras. En el diagrama es la caja de la izquierda.</p></div>
+      <div class="p-explicacion"><p>El <strong>Contexto</strong> (en el código de los parciales, <code>Context</code>) es la clase principal del diagrama. En su caja van el atributo con la estrategia guardada y dos métodos: el que cambia la estrategia y el que le delega la tarea. En AgroDatos es el módulo de riego.</p></div>
+    </li>
+    <li data-inciso="2" data-nivel="medio" data-texto="estrategia|strategy|la estrategia">
+      <div class="p-consigna"><p>Escribí el nombre de la parte: en el diagrama de Strategy, la interfaz común que implementan todas las formas de hacer la tarea es ______.</p></div>
+      <div class="p-pista"><p>Es el nombre del patrón, en castellano: 10 letras. En el diagrama es la caja de arriba a la derecha.</p></div>
+      <div class="p-explicacion"><p><strong>Estrategia</strong> (en el código de los parciales, <code>Strategy</code>) es una interfaz: lleva &laquo;interface&raquo; arriba del nombre. Debajo van las Estrategias Concretas, unidas a ella con línea punteada y triángulo (realización). En AgroDatos las concretas son el cálculo por humedad del suelo, por pronóstico de lluvia y por etapa del cultivo.</p></div>
+    </li>
+    <li data-inciso="2" data-nivel="medio" data-texto="ejecutar|execute|ejecutar()|execute()|ejecutar(datos)|DoAlgorithm|DoAlgorithm()">
+      <div class="p-consigna"><p>Escribí el nombre del método: en el diagrama general de Strategy, la interfaz Estrategia tiene un solo método, el que el contexto llama para que la estrategia haga la tarea. ¿Cómo se llama?</p></div>
+      <div class="p-pista"><p>Empieza con e y tiene 8 letras: es pedirle a la estrategia que haga su trabajo.</p></div>
+      <div class="p-explicacion"><p><code>ejecutar()</code> (en el código de los parciales, <code>DoAlgorithm</code>). Es el único método de la interfaz y se repite en cada Estrategia Concreta, que lo implementa a su manera. Al aplicar el patrón toma el nombre de la tarea: en AgroDatos es <code>calcularAgua()</code>.</p></div>
+    </li>
+    <li data-inciso="2" data-nivel="medio">
+      <div class="p-consigna"><p>Observer y Strategy tienen casi el mismo dibujo: una clase con un rombo hacia una interfaz, y las clases concretas debajo. ¿Qué cambia en el de Strategy?</p></div>
+      <ul class="p-opciones">
+        <li data-correcta>El rombo va sin <code>*</code>, porque el Contexto guarda una sola estrategia, y el Contexto tiene un método para cambiarla</li>
+        <li>El rombo va con <code>*</code>, porque el Contexto guarda una lista de estrategias y las ejecuta a todas, una por una</li>
+        <li>No hay rombo: el Contexto hereda de la interfaz Estrategia y hay una subclase del Contexto por cada forma</li>
+        <li>No hay interfaz: el Contexto guarda un objeto de cada clase concreta y las llama desde un solo método</li>
+      </ul>
+      <div class="p-pista"><p>La pregunta que los separa: ¿guarda <strong>una</strong> y la puede cambiar, o guarda <strong>muchas</strong> y les avisa?</p></div>
+      <div class="p-explicacion"><p>En Strategy el <strong>rombo va sin <code>*</code></strong> (el Contexto guarda <strong>una</strong> estrategia) y en la caja del Contexto no puede faltar el <strong>método para cambiarla</strong>, <code>cambiarEstrategia()</code>. Con <code>*</code> y una lista es Observer, que guarda muchos y les avisa a todos. Una clase que guarda un objeto de cada clase, sin interfaz, es Facade.</p></div>
+    </li>
+    <li data-inciso="2" data-nivel="avanzado">
+      <div class="p-consigna"><p>¿Cuál es el <strong>cuándo se usa</strong> de Strategy, la primera oración de su descripción?</p></div>
+      <ul class="p-opciones">
+        <li data-correcta>Cuando hay varias formas de hacer una misma tarea y se quiere poder cambiar de una a otra mientras el programa corre</li>
+        <li>Cuando un cambio en un objeto se tiene que avisar a otros, y no se sabe de antemano cuántos ni cuáles son</li>
+        <li>Cuando una clase no puede saber de antemano qué tipo exacto de objeto tiene que crear</li>
+        <li>Cuando hay que crear familias de objetos relacionados, que tienen que combinar entre sí</li>
+      </ul>
+      <div class="p-pista"><p>Es casi la frase del enunciado: calcular &ldquo;de distintas maneras&rdquo; y elegir &ldquo;en el momento de regar&rdquo;.</p></div>
+      <div class="p-explicacion"><p>Las otras tres son el &ldquo;cuándo se usa&rdquo; de Observer, Factory Method y Abstract Factory. La descripción completa: &ldquo;Strategy es un patrón de comportamiento que se usa cuando hay varias formas de hacer una misma tarea y se quiere poder cambiar de una a otra mientras el programa corre. Cada forma va en su propia clase, todas con la misma interfaz, y el contexto guarda una y le delega la tarea. Así se agregan formas nuevas sin modificar el contexto.&rdquo;</p></div>
+    </li>
+    <li data-inciso="2" data-nivel="medio" data-texto="delega|delegar|le delega|delegue">
+      <div class="p-consigna"><p>Completá con una palabra la segunda oración de la descripción de Strategy: &ldquo;Cada forma va en su propia clase, todas con la misma interfaz, y el contexto guarda una y le ______ la tarea&rdquo;.</p></div>
+      <div class="p-pista"><p>Empieza con d y tiene 6 letras: el contexto no hace la tarea él mismo, se la encarga a la estrategia que tiene guardada.</p></div>
+      <div class="p-explicacion"><p>El contexto le <strong>delega</strong> la tarea: no la hace él, llama al método de la estrategia que tiene guardada. En AgroDatos, el módulo de riego no calcula el agua: le pide el cálculo a la forma que tiene guardada en ese momento.</p></div>
+    </li>
+    <li data-inciso="2" data-nivel="avanzado">
+      <div class="p-consigna"><p>El propósito dentro del sistema es la misma descripción de Strategy con los nombres de AgroDatos. ¿Qué es cada parte?</p></div>
+      <ul class="p-opciones">
+        <li data-correcta>El módulo de riego es el contexto: guarda una forma de cálculo y le delega con <code>calcularAgua()</code>; cada forma (por humedad, por pronóstico, por etapa) es una estrategia, en su propia clase</li>
+        <li>El módulo de riego es el notificador: guarda una lista con las tres formas de cálculo y les avisa a todas con <code>notificar()</code> cada vez que hay que regar</li>
+        <li>El módulo de riego es el creador: declara <code>crearRiego()</code> y hay una subclase del módulo por cada forma de cálculo, que lo sobrescribe para crear su riego</li>
+        <li>El módulo de riego tiene un solo método <code>calcularAgua()</code>, con un <code>if</code> por cada forma de cálculo y un atributo que dice cuál está elegida</li>
+      </ul>
+      <div class="p-pista"><p>El contexto es la clase que <strong>necesita</strong> el cálculo pero no lo hace ella. Cada estrategia es <strong>una forma</strong> de hacerlo.</p></div>
+      <div class="p-explicacion"><p>El <strong>contexto</strong> es el módulo de riego (necesita el cálculo pero no lo hace él) y cada forma de calcular es una <strong>estrategia</strong>, en su propia clase y con la misma interfaz; con <code>cambiarEstrategia()</code> se pasa de una a otra en el momento de regar. Avisar a una lista es Observer, y un método que se sobrescribe para crear un objeto es Factory Method. El <code>if</code> por cada forma es justo lo que el patrón evita: cada forma nueva obligaría a modificar el módulo de riego.</p></div>
+    </li>
+    <li data-inciso="2" data-nivel="medio">
+      <div class="p-consigna"><p>¿Qué gana AgroDatos con Strategy?</p></div>
+      <ul class="p-opciones">
+        <li data-correcta>Se agregan formas de cálculo nuevas sin modificar el módulo de riego, que es el que las usa</li>
+        <li>Se suman módulos interesados nuevos sin modificar el módulo de riego, que es el que avisa</li>
+        <li>Todo el sistema usa el mismo cálculo de riego, a través de un único punto de acceso</li>
+        <li>Nunca se mezclan cálculos de una familia de cultivos con cálculos de otra familia</li>
+      </ul>
+      <div class="p-pista"><p>Es la tercera oración de la descripción: &ldquo;Así se agregan formas nuevas sin...&rdquo;.</p></div>
+      <div class="p-explicacion"><p>Un cálculo por tipo de suelo se suma con una clase nueva que implementa la interfaz, sin tocar el módulo de riego. Las otras tres son lo que se gana con Observer, Singleton y Abstract Factory.</p></div>
+    </li>
+    <li data-inciso="2" data-nivel="medio">
+      <div class="p-consigna"><p>¿Cuál de estos pares sirve como los 2 ejemplos de Strategy?</p></div>
+      <ul class="p-opciones">
+        <li data-correcta>Un navegador de rutas que calcula el mismo viaje en auto, a pie o en transporte público, y los descuentos de un sistema de ventas, donde el total se calcula distinto según la promoción</li>
+        <li>Los clientes que esperan un producto en una tienda y se suscriben al aviso de que llegó, y los botones de una interfaz gráfica, que le avisan del clic a cada parte suscrita</li>
+        <li>Una empresa de logística que crea un camión o un barco según la entrega, y un framework de interfaz que deja un método <code>crearBoton()</code> para que cada aplicación devuelva el suyo</li>
+        <li>Una mueblería que vende sillas, sofás y mesas en estilo moderno o victoriano, y una casa de ropa de fútbol que arma conjuntos de un mismo club</li>
+      </ul>
+      <div class="p-pista"><p>En los dos tiene que haber <strong>una</strong> tarea y <strong>varias formas</strong> de hacerla, que se eligen mientras el programa corre.</p></div>
+      <div class="p-explicacion"><p>El navegador (calcular la ruta) y los descuentos (calcular el total) son Strategy: una tarea, varias formas, y se usa la elegida. La tienda y los botones son Observer; logística y el framework, Factory Method; la mueblería y la ropa de fútbol, Abstract Factory. En la hoja no alcanza con nombrarlos: a cada ejemplo se le suma una línea que diga por qué ahí va el patrón.</p></div>
+    </li>
+  </ol>
+</article>

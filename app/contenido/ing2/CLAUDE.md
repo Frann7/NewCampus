@@ -136,23 +136,28 @@ más arriba. Después de generarlos se mira **cómo quedaron**
   por archivo, en la carpeta de su unidad, con id `ing2-<unidad>-e-fundamental-NN-<forma>`,
   `data-tipo="ejercicio"`, `data-fundamental="NN"` (el orden en que salen, entre todas las
   unidades) y `data-rotulo` con el nombre de sus partes ("Patrón", "Párrafo", "Parte", "Punto").
-  Formato: el de "Ejercicio completo" de `FORMATO.md`. Los pasos son todos de opciones; cada
+  `data-titulo` es como se ofrece en el formulario ("Forma de consigna · patrones").
+  Formato: el de "Ejercicio completo" de `FORMATO.md`. Los pasos son de opciones o de escribir
+  la palabra clave (`data-texto`, con el nombre en inglés como alternativa): nombres de las
+  partes, de la interfaz y del método, el grupo del patrón, la palabra de la definición. Cada
   parte (`data-inciso="1"`, `"2"`...) cierra con su `p-rta`: la respuesta como va en la hoja, en
   las tres partes de siempre y con la misma descripción del patrón que la teoría. Los diagramas
   propios están en `fuentes/ing2/diagramas/evaluacion.py`, angostos a propósito (van en una
   columna); los generales de cada patrón se reusan con su mismo `data-g`.
-  Están los cuatro fundamentales de patrones, que entre todos pasan los ocho: 01 dibujar y
-  explicar (Factory Method y Facade), 02 enunciado (Composite, Abstract Factory, Strategy),
-  03 código (Adapter), 04 agregar a un diagrama (Singleton y Observer).
+  Hay ocho, y cada patrón aparece en al menos dos formas: 01 dibujar y explicar (Factory Method
+  y Facade), 02 enunciado (Composite, Abstract Factory, Strategy), 03 código (Adapter),
+  04 agregar a un diagrama (Singleton y Observer), 05 dibujar y explicar (Observer y Strategy),
+  06 enunciado (Singleton, Adapter, Factory Method), 07 código (Composite), 08 integrador
+  (Abstract Factory en un enunciado y Adapter sobre un diagrama). Los cuatro primeros no tienen
+  pasos de escribir y no se les agregan (cambiaría la cantidad de pasos de intentos guardados).
 
 ## Pendientes e ideas
 
 - **Ejercicios de parcial que faltan** (plan acordado el 12/10/2026, Fran los suma después):
   los fundamentales de teoría (CMMI: diagnosticar el nivel; CMMI: acciones hasta el nivel 5 con
   IA; Git: el flujo de trabajo; métrica: la ficha) y más ejercicios de patrones por forma de
-  consigna (un código en PHP como el del Parcial 2025, los otros patrones en cada forma). Cuando
-  haya más que los fundamentales, el formulario necesita elegir por tipo de consigna y cantidad;
-  también quedó propuesto un estilo "como en el parcial" (escribir en la hoja y autocorregirse
+  consigna (un código en PHP como el del Parcial 2025, los otros patrones en cada forma).
+  También quedó propuesto un estilo "como en el parcial" (escribir en la hoja y autocorregirse
   contra la respuesta modelo). En esta PC no hay `php`: un código en PHP no se puede correr acá.
 
 - De los apuntes quedó en un párrafo o afuera lo que nunca se tomó: claves SSH, gestores de

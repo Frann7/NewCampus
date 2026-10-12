@@ -22,8 +22,13 @@
   suma el paso **Modo**: *Preguntas cortas* (lo de arriba) o *Ejercicios de parcial*. Los
   ejercicios corren en `examen.js` como el interactivo de PyE (`etapa "2"`, `modo "interactivo"`,
   `nivel "principiante"`: todos los pasos), pero **sin vidas ni nivel** (`E.conVidas` da falso en
-  la simple), todos los fundamentales de la materia en el orden de `data-fundamental`
-  (`banco.ejercicios(materia)`), y con el tiempo libre o con contador. Un ejercicio puede llamar a
+  la simple), en el orden de `data-fundamental` (`banco.ejercicios(materia)`), y con el tiempo
+  libre o con contador. El paso **Ejercicios** del formulario tiene un chip por ejercicio (su
+  `data-titulo`: "Forma de consigna · patrones"), todos marcados; lo elegido va en
+  `config.ejercicios` (las guardadas antes de esto no lo traen: les tocan los primeros
+  `cantEjercicios`). Un paso puede ser **de escribir**: `data-texto="notificador|subject"` en el
+  `li`, sin opciones; se tipea la palabra y se compara sin mayúsculas, tildes, paréntesis ni
+  artículo (`banco.comprobarTexto`), y se muestra la primera alternativa. Un ejercicio puede llamar a
   sus partes de otra manera con `data-rotulo` en el `article` ("Párrafo", "Patrón", "Punto",
   "Parte"): se lee "Párrafo 1" y "Rta. párrafo 1" en vez de "Inciso a)" (`E.rotuloInciso`).
 

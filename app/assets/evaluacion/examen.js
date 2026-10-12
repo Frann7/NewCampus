@@ -657,7 +657,7 @@
           ]);
         }
         return paso.anotar ? h("b", { class: "ex-anotar", html: paso.anotar })   // "z = 0,84", no el numero suelto
-          : h("b", {}, paso.respuesta);
+          : h("b", {}, paso.texto ? B.textoDe(paso) : paso.respuesta);
       }
 
       // Lo que muestra "Resolver". Si el paso no trae su resolucion escrita,
@@ -669,7 +669,7 @@
         } else {
           cuerpo.appendChild(h("p", {}, [h("strong", {}, "Qué se pide: "), h("span", { html: paso.consigna })]));
           if (paso.pista) { cuerpo.appendChild(h("p", {}, [h("strong", {}, "Cómo se piensa: "), h("span", { html: paso.pista })])); }
-          if (paso.explicacion) { cuerpo.appendChild(h("p", {}, [h("strong", {}, paso.opciones ? "Por qué: " : "La cuenta: "), h("span", { html: paso.explicacion })])); }
+          if (paso.explicacion) { cuerpo.appendChild(h("p", {}, [h("strong", {}, paso.opciones || paso.texto ? "Por qué: " : "La cuenta: "), h("span", { html: paso.explicacion })])); }
         }
         cuerpo.appendChild(h("p", { class: "ex-resolucion-resp" }, [h("strong", {}, "Respuesta: "), respuestaDe(paso)]));
         return cuerpo;
@@ -749,7 +749,7 @@
           r.fallos++;
           if (!perderVida()) { return false; }
           E.vaciar(devolucion);
-          devolucion.appendChild(cartel("caja-ojo ex-cartel", textoError(paso.opciones ? "No es esa." : "No da. Revisá la cuenta.")));
+          devolucion.appendChild(cartel("caja-ojo ex-cartel", textoError(paso.opciones ? "No es esa." : paso.texto ? "No es esa palabra." : "No da. Revisá la cuenta.")));
           return true;
         }
 
@@ -767,6 +767,20 @@
             var b = respuesta.querySelector('[data-orig="' + orig + '"]');
             if (b) { b.disabled = true; b.classList.add("es-incorrecta"); }
           });
+        } else if (paso.texto) {
+          // paso de escribir: la palabra clave (una parte del diagrama, un nombre, una definicion)
+          var palabra = h("input", { class: "ae-input ex-entrada ex-entrada-texto", type: "text",
+            autocomplete: "off", autocapitalize: "off", spellcheck: "false", placeholder: "Escribí la palabra" });
+          var comprobarPalabra = function () {
+            if (!palabra.value.trim()) { palabra.focus(); return; }
+            if (B.comprobarTexto(palabra.value, paso)) { ep.dada = palabra.value; resolver(); }
+            else if (fallo()) { palabra.select(); }
+          };
+          palabra.addEventListener("keydown", function (ev) { if (ev.key === "Enter") { ev.preventDefault(); comprobarPalabra(); } });
+          respuesta = h("div", { class: "ex-linea-respuesta" }, [
+            palabra,
+            h("button", { class: "ev-btn ev-btn-primario", type: "button", onclick: comprobarPalabra }, "Comprobar")
+          ]);
         } else {
           var entrada = h("input", { class: "ae-input ex-entrada", type: "text", inputmode: "decimal",
             autocomplete: "off", placeholder: "Tu resultado (ej: 0,25)" });

@@ -99,11 +99,15 @@ fórmulas (MathJax) y las tipografías. Tus datos no salen de tu máquina.
   consignas del parcial: qué patrón aplica un código en C++, qué patrón pide un enunciado, las
   partes de cada diagrama, en qué nivel de CMMI está una empresa, la ficha de una métrica, la
   secuencia de comandos de Git y el versionado semántico. Además, al armar la autoevaluación se
-  puede elegir el modo **Ejercicios de parcial**: los cuatro ejercicios fundamentales de patrones
-  (dibujar y explicar dos patrones, identificar los patrones de un enunciado, reconocer el patrón
-  de un código y agregar patrones a un diagrama), cada uno desglosado en pasos con pista y
-  resolución, y al final de cada parte la respuesta como se escribe en la hoja. Entre los cuatro
-  pasan los ocho patrones. Sin vidas ni niveles, y con el tiempo libre o con contador.
+  puede elegir el modo **Ejercicios de parcial**: ocho ejercicios de patrones con las formas de
+  consigna de los parciales (dibujar y explicar dos patrones, identificar los patrones de un
+  enunciado, reconocer el patrón de un código, agregar patrones a un diagrama y un integrador que
+  mezcla dos formas), y se elige cuáles hacer. Cada uno se desglosa en pasos con pista y
+  resolución: unos de elegir y otros de **escribir la palabra clave** (el nombre de una parte del
+  diagrama, de la interfaz o del método, o la palabra que define al patrón; no importan las
+  mayúsculas ni las tildes, y vale el nombre en inglés). Al final de cada parte queda la
+  respuesta como se escribe en la hoja. Cada patrón aparece en al menos dos formas. Sin vidas ni
+  niveles, y con el tiempo libre o con contador.
 * **Índice lateral con subíndices**: en la práctica, cada ejercicio abierto lista debajo sus
   pasos e incisos, y tocar uno lleva directo a ese inciso.
 * **Tareas**: un tablero con tres columnas, **Pendientes**, **En proceso** y **Hecho**, en el
@@ -240,6 +244,9 @@ Chrome (`chrome --headless --print-to-pdf`).
 `0.x.y-alpha` mientras esté en desarrollo. La `1.0.0` queda reservada para cuando esté terminado.
 La versión actual se lee al pie del menú lateral.
 
+* **0.48.0-alpha** — Ingeniería de Software II, ejercicios de parcial: cuatro ejercicios más
+  (las mismas formas de consigna con los patrones rotados, y un integrador), pasos de **escribir
+  la palabra clave** y, en el formulario, la elección de qué ejercicios hacer.
 * **0.47.0-alpha** — Ingeniería de Software II: autoevaluaciones con **ejercicios de parcial**.
   El formulario suma el paso Modo (preguntas cortas o ejercicios) y hay cuatro ejercicios
   fundamentales de patrones, paso a paso, con la respuesta modelo de cada parte.

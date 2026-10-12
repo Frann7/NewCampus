@@ -75,6 +75,11 @@ pasos en avanzado y en 20 en principiante.
     varios valores). Todo inciso tiene al menos un paso `avanzado`.
   * `medio`: los resultados intermedios importantes (una marginal, un \(z\), \(E(X^{2})\)).
   * `principiante`: cada cuenta chica (cada suma de una marginal, cada término de una esperanza).
+* **Paso de escribir** (hoy lo usa Ing. II): `<li data-inciso="1" data-nivel="medio"
+  data-texto="notificador|subject|sujeto">`, sin `p-opciones`. Se tipea una palabra o un nombre
+  corto y vale cualquiera de las alternativas, sin importar mayúsculas, tildes, paréntesis ni el
+  artículo de adelante. La primera es la que se muestra como respuesta. La consigna tiene que
+  dejar claro que se espera una sola palabra.
 * Los incisos de teoría (demostrar, justificar, enunciar) se desglosan con pasos de opciones:
   "¿cuál es el paso que sigue en la demostración?", "¿qué condición justifica el modelo?".
 * Los incisos que no se pueden corregir solos (un gráfico) se dejan afuera o se convierten en una

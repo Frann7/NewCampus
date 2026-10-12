@@ -238,6 +238,11 @@
     '      <span class="ae-modo-desc" data-desc-ejercicios></span></label>' +
     '  </div>' +
     '</fieldset>' +
+    '<fieldset class="ae-paso" data-bloque="ejercicios" hidden>' +
+    '  <legend><span class="ae-num"></span>Ejercicios</legend>' +
+    '  <div class="ae-caja-unidades" data-ejercicios></div>' +
+    '  <p class="ae-ayuda" data-total-ejercicios></p>' +
+    '</fieldset>' +
     '<fieldset class="ae-paso" data-bloque="temas" hidden>' +
     '  <legend><span class="ae-num"></span>Temas</legend>' +
     '  <div class="ae-caja-unidades" data-unidades></div>' +
@@ -286,10 +291,21 @@
       form.querySelector("[data-total]").textContent = n + (n === 1 ? " pregunta." : " preguntas.");
     }
     // Modo: solo si la materia tiene ejercicios de parcial cargados
-    var ejercicios = E.banco.ejercicios(materia).length;
+    var listaEjercicios = E.banco.ejercicios(materia);
+    var ejercicios = listaEjercicios.length;
     function enEjercicios() { return ejercicios > 0 && form.elements.modo.value === "ejercicios"; }
+    function ejerciciosElegidos() {
+      return Array.prototype.filter.call(form.querySelectorAll('[name="ejercicio"]'), function (i) { return i.checked; })
+        .map(function (i) { return i.value; });
+    }
+    function contarEjercicios() {
+      var n = ejerciciosElegidos().length;
+      form.querySelector("[data-total-ejercicios]").textContent =
+        n === 1 ? "1 ejercicio." : n + " ejercicios, en este orden.";
+    }
     function acomodar() {
       var ej = enEjercicios();
+      form.querySelector('[data-bloque="ejercicios"]').hidden = !ej;
       form.querySelector('[data-bloque="temas"]').hidden = !porTemas || ej;
       // los ejercicios se hacen sin apuro: el contador es opcional
       form.querySelector("[data-tiempo-libre]").hidden = !ej;
@@ -302,9 +318,20 @@
     }
     if (ejercicios) {
       form.querySelector("[data-desc-ejercicios]").textContent =
-        (ejercicios === 1 ? "Un ejercicio fundamental" : "Los " + ejercicios + " ejercicios fundamentales") +
-        ", con la forma de las consignas del parcial. Cada uno se va desglosando en pasos, con pista y resolución, " +
+        "Ejercicios con la forma de las consignas del parcial. Cada uno se va desglosando en pasos, " +
+        "algunos de elegir y otros de escribir la palabra clave, con pista y resolución, " +
         "y al final de cada parte queda la respuesta como se escribe en la hoja.";
+      // un chip por ejercicio: la forma de la consigna y los patrones que toca
+      var cajaEjercicios = form.querySelector("[data-ejercicios]");
+      listaEjercicios.forEach(function (p, i) {
+        var partes = (p.titulo || "Ejercicio " + (i + 1)).split(" · ");
+        cajaEjercicios.appendChild(h("label", { class: "ae-chip" }, [
+          h("input", { type: "checkbox", name: "ejercicio", value: p.id, checked: true }),
+          h("span", {}, [h("b", {}, (i + 1) + ". " + partes[0]), h("small", {}, partes.slice(1).join(" · "))])
+        ]));
+      });
+      cajaEjercicios.addEventListener("change", contarEjercicios);
+      contarEjercicios();
       form.querySelector('[data-bloque="modo"]').hidden = false;
       form.querySelector('[data-bloque="modo"]').addEventListener("change", acomodar);
     }
@@ -331,8 +358,10 @@
       var errores = [];
       if (porTemas && !ej && !unidades.length) { errores.push("Elegí al menos un tema."); }
       if (porTemas && unidades.length === conPreguntas.length) { unidades = []; }   // todos: sin filtro
-      var total = ej ? ejercicios : E.banco.todas(materia, unidades);
-      if (!total) { errores.push("Todavía no hay preguntas en el banco de esta materia."); }
+      var elegidos = ej ? ejerciciosElegidos() : [];
+      var total = ej ? elegidos.length : E.banco.todas(materia, unidades);
+      if (ej && !total) { errores.push("Elegí al menos un ejercicio."); }
+      else if (!total) { errores.push("Todavía no hay preguntas en el banco de esta materia."); }
       if (conTiempo && (minutos < 1 || minutos > MAX_MINUTOS)) { errores.push("El contador va de 1 a 240 minutos (4 horas)."); }
       var caja = form.querySelector("[data-errores]");
       if (errores.length) {
@@ -348,7 +377,7 @@
       // ejercicios de parcial: etapa "2" e interactivo (examen.js), con todos los pasos
       if (ej) {
         v = { v: 2, tipo: "simple", etapa: "2", modo: "interactivo", nivel: "principiante",
-              fundamentales: true, unidades: [], cantEjercicios: total,
+              fundamentales: true, unidades: [], ejercicios: elegidos, cantEjercicios: total,
               conTiempo: conTiempo, minutos: conTiempo ? minutos : 0 };
       }
       var nueva = { id: "ae-" + Date.now().toString(36), materia: materia, creada: Date.now(),

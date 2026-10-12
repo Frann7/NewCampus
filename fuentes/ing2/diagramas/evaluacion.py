@@ -62,3 +62,50 @@ D["taller-observer"] = dict(
         ("Cliente", "Observador", "realiza", dict(sal="abajo", lle="izq")),
     ],
 )
+
+# ---------- Fundamental 08: integrador, Adapter agregado a un diagrama ----------
+
+D["aero"] = dict(
+    alt="El diagrama del módulo de check-in de la aerolínea",
+    # angosto a propósito: en el ejercicio va en la columna fija del enunciado
+    clases=[
+        dict(id="Pasajero", x=0, y=0,
+             attrs=["nombre", "vuelo"], mets=["get nombre()", "get vuelo()"]),
+        dict(id="CheckIn", x=150, y=0,
+             attrs=["lector: LectorDeDocumentos"],
+             mets=["registrar(pasajero)", "emitirTarjeta()"]),
+        dict(id="LectorDeDocumentos", x=172, y=150, estereo="interface",
+             mets=["leer(): Documento"]),
+        dict(id="LectorDeDNI", x=185, y=270, mets=["leer(): Documento"]),
+    ],
+    rel=[
+        ("Pasajero", "CheckIn", "enlace", dict(sal="der", lle="izq")),
+        ("CheckIn", "LectorDeDocumentos", "asociacion"),
+        ("LectorDeDNI", "LectorDeDocumentos", "realiza"),
+    ],
+)
+
+D["aero-adapter"] = dict(
+    alt="Adapter sobre el diagrama del check-in: AdaptadorDeEscaner cumple LectorDeDocumentos y usa al EscanerBiometrico",
+    # angosto a propósito: va en la columna de los pasos del ejercicio
+    clases=[
+        dict(id="Pasajero", x=0, y=0,
+             attrs=["nombre", "vuelo"], mets=["get nombre()", "get vuelo()"]),
+        dict(id="CheckIn", x=150, y=0,
+             attrs=["lector: LectorDeDocumentos"],
+             mets=["registrar(pasajero)", "emitirTarjeta()"]),
+        dict(id="LectorDeDocumentos", x=172, y=150, estereo="interface",
+             mets=["leer(): Documento"]),
+        dict(id="LectorDeDNI", x=20, y=285, mets=["leer(): Documento"]),
+        dict(id="AdaptadorDeEscaner", x=210, y=285, destacada=True,
+             attrs=["escaner: EscanerBiometrico"], mets=["leer(): Documento"]),
+        dict(id="EscanerBiometrico", x=226, y=420, mets=["escanearChip(): string"]),
+    ],
+    rel=[
+        ("Pasajero", "CheckIn", "enlace", dict(sal="der", lle="izq")),
+        ("CheckIn", "LectorDeDocumentos", "asociacion"),
+        ("LectorDeDNI", "LectorDeDocumentos", "realiza"),
+        ("AdaptadorDeEscaner", "LectorDeDocumentos", "realiza"),
+        ("AdaptadorDeEscaner", "EscanerBiometrico", "asociacion"),
+    ],
+)

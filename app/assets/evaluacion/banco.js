@@ -40,6 +40,8 @@
       inciso: li.getAttribute("data-inciso") || "",   // solo en los ejercicios completos
       consigna: html(hijo(li, "p-consigna")),
       respuesta: li.getAttribute("data-respuesta"),
+      // paso de escribir: las palabras que valen, separadas por "|" (la primera es la que se muestra)
+      texto: li.getAttribute("data-texto"),
       tolerancia: li.getAttribute("data-tolerancia"),
       opciones: leerOpciones(li),
       pista: html(hijo(li, "p-pista")),
@@ -116,6 +118,8 @@
           explicacion: html(hijo(a, "p-explicacion")),
           // como se llama cada parte del ejercicio, si no son incisos ("Párrafo", "Punto")
           rotulo: a.getAttribute("data-rotulo") || "",
+          // como se ofrece el ejercicio en el formulario: "Forma de consigna · patrones"
+          titulo: a.getAttribute("data-titulo") || "",
           datos: html(hijo(a, "p-datos")),   // cuadro de datos del ejercicio (niveles con ayuda)
           pasos: pasos ? Array.prototype.map.call(pasos.querySelectorAll(":scope > li"), leerPaso) : [],
           rtas: leerRtas(a)
@@ -178,6 +182,21 @@
     return cargar(materia).lista.filter(function (p) {
       return !p.retirada && p.etapa === "2" && p.tipo === "ejercicio" && p.fundamental > 0;
     }).sort(function (a, b) { return a.fundamental - b.fundamental || (a.id < b.id ? -1 : 1); });
+  }
+  // Los que eligio el usuario (c.ejercicios). Las guardadas antes de poder
+  // elegir no traen la lista: les tocan los primeros c.cantEjercicios, que
+  // eran todos los que habia.
+  function ejerciciosDe(materia, c) {
+    var todos = ejerciciosEnOrden(materia);
+    if (!c.ejercicios || !c.ejercicios.length) { return todos.slice(0, c.cantEjercicios || todos.length); }
+    return todos.filter(function (p) { return c.ejercicios.indexOf(p.id) !== -1; });
+  }
+
+  // Paso de escribir: sin mayusculas, tildes, parentesis ni articulo adelante.
+  function limpiarTexto(t) {
+    return String(t || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+      .replace(/[()\[\]"'.,;:¿?¡!]/g, " ").replace(/\s+/g, " ").trim()
+      .replace(/^(el|la|los|las|un|una) /, "");
   }
 
   // Evaluacion simple (PA, Ing. II): todas las preguntas de cuestionario del
@@ -293,7 +312,7 @@
 
     // Devuelve la lista ordenada de ids para un intento nuevo.
     seleccionar: function (materia, c) {
-      if (c.tipo === "simple" && etapaDe(c) === "2") { return ejerciciosEnOrden(materia).map(function (p) { return p.id; }); }
+      if (c.tipo === "simple" && etapaDe(c) === "2") { return ejerciciosDe(materia, c).map(function (p) { return p.id; }); }
       if (c.tipo === "simple") { return todasEnOrden(materia, c.unidades).map(function (p) { return p.id; }); }
       var pool = delPool(materia, c);
       if (etapaDe(c) === "1" && c.fundamentales) {
@@ -348,6 +367,14 @@
 
     numero: numero,
     corregirCuestionario: corregirCuestionario,
+
+    // Paso de escribir: vale cualquiera de las alternativas de data-texto.
+    comprobarTexto: function (texto, paso) {
+      var dado = limpiarTexto(texto);
+      return !!dado && String(paso.texto || "").split("|").some(function (a) { return limpiarTexto(a) === dado; });
+    },
+    // La que se muestra como respuesta: la primera.
+    textoDe: function (paso) { return String(paso.texto || "").split("|")[0].trim(); },
 
     // Tolerancia: la indicada en el paso o un 1 % del valor (minimo 0,0005).
     comprobarNumero: function (texto, paso) {

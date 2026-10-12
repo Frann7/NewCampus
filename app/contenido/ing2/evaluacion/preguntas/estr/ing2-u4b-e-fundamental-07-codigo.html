@@ -1,0 +1,245 @@
+<article class="preg" data-id="ing2-u4b-e-fundamental-07-codigo" data-tipo="ejercicio" data-origen="parcial" data-fundamental="07" data-rotulo="Parte" data-titulo="Reconocer el patrón en un código · Composite">
+  <div class="p-enunciado">
+    <p>
+      A partir del siguiente código identifique el patrón que se implementa en el mismo y explique
+      qué elementos ayudaron a identificarlo.
+    </p>
+    <pre class="codigo"><code>#include &lt;iostream&gt;
+#include &lt;list&gt;
+
+class Trabajo {
+ public:
+  virtual ~Trabajo() {}
+  virtual void Add(Trabajo *trabajo) {}
+  virtual void Remove(Trabajo *trabajo) {}
+  virtual int Operation() const = 0;
+};
+
+class Tarea : public Trabajo {
+ private:
+  int costo_;
+ public:
+  Tarea(int costo) : costo_(costo) {}
+  int Operation() const override {
+    return this-&gt;costo_;
+  }
+};
+
+class Etapa : public Trabajo {
+ private:
+  std::list&lt;Trabajo *&gt; partes_;
+ public:
+  void Add(Trabajo *trabajo) override {
+    this-&gt;partes_.push_back(trabajo);
+  }
+  void Remove(Trabajo *trabajo) override {
+    this-&gt;partes_.remove(trabajo);
+  }
+  int Operation() const override {
+    int total = 0;
+    for (const Trabajo *parte : this-&gt;partes_) {
+      total += parte-&gt;Operation();
+    }
+    return total;
+  }
+};
+
+void Presupuestar(const Trabajo *trabajo) {
+  std::cout &lt;&lt; "Costo: " &lt;&lt; trabajo-&gt;Operation() &lt;&lt; "\n";
+}
+
+int main() {
+  Trabajo *pintura = new Tarea(300);
+  Presupuestar(pintura);
+
+  Trabajo *excavacion = new Tarea(500);
+  Trabajo *hormigon = new Tarea(1200);
+  Trabajo *cimientos = new Etapa;
+  cimientos-&gt;Add(excavacion);
+  cimientos-&gt;Add(hormigon);
+  Trabajo *obra = new Etapa;
+  obra-&gt;Add(cimientos);
+  obra-&gt;Add(pintura);
+  Presupuestar(obra);
+
+  delete pintura;
+  delete excavacion;
+  delete hormigon;
+  delete cimientos;
+  delete obra;
+  return 0;
+}</code></pre>
+    <p class="p-fuente">Inventado &middot; estilo Parcial 2025, Práctica 2, y Parcial 2024, Ej. 4</p>
+  </div>
+  <div class="p-rta" data-inciso="1">
+    <p>Lo que se ve, en el orden en que conviene leerlo:</p>
+    <ul>
+      <li><strong>Herencia:</strong> dos, <code>Tarea</code> y <code>Etapa</code> heredan de <code>Trabajo</code>, que declara <code>Operation()</code> sin código.</li>
+      <li><strong>Qué guarda la clase del medio:</strong> <code>Etapa</code> guarda una lista de punteros a <code>Trabajo</code>, su misma clase base, y la llena con <code>Add()</code>.</li>
+      <li><strong>El cliente:</strong> <code>Presupuestar</code> solo conoce a <code>Trabajo</code> y llama a <code>Operation()</code>.</li>
+      <li><strong>Qué hace por dentro:</strong> <code>Tarea</code> devuelve su costo; <code>Etapa</code>, en su <code>Operation()</code>, recorre la lista, llama al <code>Operation()</code> de cada parte y devuelve la suma.</li>
+    </ul>
+  </div>
+  <div class="p-rta" data-inciso="2">
+    <p><strong>Composite.</strong> La respuesta, como se escribe en la hoja:</p>
+    <ol>
+      <li><strong>Qué patrón y por qué:</strong> &ldquo;Es Composite, un patrón estructural que se usa cuando los objetos forman un árbol, con elementos simples y contenedores que agrupan elementos simples u otros contenedores. Se reconoce porque <code>Tarea</code> y <code>Etapa</code> heredan las dos de <code>Trabajo</code>, <code>Etapa</code> guarda una lista de punteros a <code>Trabajo</code> (su misma clase base, así que adentro puede haber tareas u otras etapas) y en su <code>Operation()</code> recorre la lista, llama al <code>Operation()</code> de cada parte y devuelve la suma.&rdquo;</li>
+      <li><strong>Cómo está aplicado:</strong> &ldquo;<code>Trabajo</code> es el componente (la interfaz que cumplen todos: cualquier trabajo sabe decir su costo con <code>Operation()</code>). <code>Tarea</code> es la hoja (el elemento simple: no contiene nada y devuelve su propio costo). <code>Etapa</code> es el compuesto (el contenedor): guarda una lista de <code>Trabajo</code> y resuelve cada pedido pasándoselo a lo que contiene.&rdquo;</li>
+      <li><strong>Qué se gana:</strong> &ldquo;<code>Presupuestar</code> trata igual a una tarea sola que a una etapa entera: recibe un <code>Trabajo</code> y llama a <code>Operation()</code>, sin preguntar qué es.&rdquo;</li>
+    </ol>
+  </div>
+  <div class="p-explicacion">
+    <p>Cada renglón del código que delata al patrón, con la parte que le corresponde:</p>
+    <div class="tabla-wrap">
+      <table class="t full">
+        <tr><th>Lo que se ve en el código</th><th>Parte del patrón</th></tr>
+        <tr><td><code>class Trabajo</code>, con <code>virtual int Operation() const = 0</code></td><td>Componente (<code>Component</code>): la interfaz que cumplen todos</td></tr>
+        <tr><td><code>class Tarea : public Trabajo</code>, con <code>return this-&gt;costo_</code></td><td>Hoja (<code>Leaf</code>): no contiene nada y responde ella sola</td></tr>
+        <tr><td><code>class Etapa : public Trabajo</code> + <code>std::list&lt;Trabajo *&gt; partes_</code></td><td>Compuesto (<code>Composite</code>): hereda de la base y guarda una lista de esa misma base</td></tr>
+        <tr><td><code>Add()</code> y <code>Remove()</code></td><td>Armar el árbol: agregar y quitar partes</td></tr>
+        <tr><td><code>for (...)</code> con <code>total += parte-&gt;Operation()</code></td><td>El pedido pasa a lo que contiene y el resultado vuelve</td></tr>
+        <tr><td><code>void Presupuestar(const Trabajo *trabajo)</code></td><td>Cliente: solo conoce a <code>Trabajo</code></td></tr>
+      </table>
+    </div>
+  </div>
+  <ol class="p-pasos">
+
+    <!-- ===== Parte 1: leer el código ===== -->
+    <li data-inciso="1" data-nivel="medio">
+      <div class="p-consigna"><p>Un código se lee siempre en el mismo orden. Primero, quién hereda de quién. ¿Qué herencia hay acá?</p></div>
+      <ul class="p-opciones">
+        <li data-correcta>Dos: <code>Tarea</code> y <code>Etapa</code> heredan las dos de <code>Trabajo</code>, que es la clase base</li>
+        <li>Una sola: <code>Etapa</code> hereda de <code>Trabajo</code>, y <code>Tarea</code> es una clase suelta</li>
+        <li>Ninguna: las tres clases están sueltas y no se relacionan por herencia</li>
+        <li>Dos en cadena: <code>Etapa</code> hereda de <code>Tarea</code>, y <code>Tarea</code> hereda de <code>Trabajo</code></li>
+      </ul>
+      <div class="p-pista"><p>Buscá los renglones <code>class ... : public ...</code>.</p></div>
+      <div class="p-explicacion"><p>Hay dos <code>: public Trabajo</code>: el de <code>Tarea</code> y el de <code>Etapa</code>. <code>Trabajo</code> es la base de las dos, y su <code>Operation()</code> termina en <code>= 0</code>: no tiene código, lo escribe cada subclase. Que haya herencia ya descarta Facade, donde no hay ninguna.</p></div>
+    </li>
+    <li data-inciso="1" data-nivel="principiante" data-texto="Etapa|clase Etapa|la Etapa|class Etapa">
+      <div class="p-consigna"><p>Segundo, la clase del medio: la que guarda a otros objetos. De las tres clases, ¿cuál tiene un atributo que guarda otros objetos? Escribí solo el nombre de la clase.</p></div>
+      <div class="p-pista"><p>Mirá la parte <code>private:</code> de cada clase: una guarda un número; la otra, una lista.</p></div>
+      <div class="p-explicacion"><p><code>Etapa</code>. <code>Trabajo</code> no tiene atributos, <code>Tarea</code> guarda solo un número (<code>int costo_</code>) y <code>Etapa</code> guarda <code>partes_</code>, una lista de punteros a otros objetos. Esa es la clase que hay que mirar con más cuidado.</p></div>
+    </li>
+    <li data-inciso="1" data-nivel="medio">
+      <div class="p-consigna"><p>¿Qué guarda <code>Etapa</code> en su atributo <code>partes_</code>?</p></div>
+      <ul class="p-opciones">
+        <li data-correcta>Una lista de punteros a <code>Trabajo</code>, que es su misma clase base</li>
+        <li>Un solo puntero a <code>Tarea</code>, que recibe por el constructor</li>
+        <li>Un puntero estático a <code>Etapa</code>, es decir, a ella misma</li>
+        <li>Un solo puntero a <code>Trabajo</code>, y un método para cambiarlo por otro</li>
+      </ul>
+      <div class="p-pista"><p>Leé el tipo completo: <code>std::list&lt;Trabajo *&gt;</code>. ¿De quién hereda <code>Etapa</code>?</p></div>
+      <div class="p-explicacion"><p><code>std::list&lt;Trabajo *&gt; partes_;</code>: una <strong>lista</strong> de punteros a <code>Trabajo</code>, la <strong>misma base</strong> de la que <code>Etapa</code> hereda. Por eso adentro de una etapa puede haber tareas y también otras etapas. Un solo puntero a una clase suelta sería Adapter; un puntero estático a sí misma, Singleton; uno solo que se puede cambiar, Strategy.</p></div>
+    </li>
+    <li data-inciso="1" data-nivel="medio" data-texto="Trabajo|clase Trabajo|Trabajo *|Trabajo*|const Trabajo|const Trabajo *|const Trabajo*">
+      <div class="p-consigna"><p>La función <code>Presupuestar</code> es la que usa los objetos. ¿De qué clase es el puntero que recibe? Escribí solo el nombre de la clase.</p></div>
+      <div class="p-pista"><p>Mirá el parámetro, entre los paréntesis de <code>void Presupuestar(...)</code>.</p></div>
+      <div class="p-explicacion"><p><code>Trabajo</code>. <code>Presupuestar</code> es el <strong>cliente</strong>: recibe un <code>Trabajo*</code> y llama a <code>Operation()</code>. En <code>main</code> se la llama dos veces, una con <code>pintura</code> (una <code>Tarea</code>) y otra con <code>obra</code> (una <code>Etapa</code>), y la función no nota la diferencia.</p></div>
+    </li>
+    <li data-inciso="1" data-nivel="avanzado">
+      <div class="p-consigna"><p>¿Qué hace <code>Etapa</code> dentro de su <code>Operation()</code>?</p></div>
+      <ul class="p-opciones">
+        <li data-correcta>Recorre <code>partes_</code>, llama al <code>Operation()</code> de cada parte y devuelve la suma de lo que le devolvieron</li>
+        <li>Recorre <code>partes_</code> y le avisa a cada parte que hubo un cambio, sin esperar ni devolver ningún resultado</li>
+        <li>Llama a un método con otro nombre de una clase suelta y convierte lo que le devuelve a otra unidad</li>
+        <li>Crea una <code>Tarea</code> nueva con <code>new</code> y se la devuelve al cliente para que la use</li>
+      </ul>
+      <div class="p-pista"><p>Hay un <code>for</code>, una variable <code>total</code> que va acumulando y un <code>return</code>.</p></div>
+      <div class="p-explicacion"><p>El <code>for</code> pasa por cada elemento de <code>partes_</code>, <code>total += parte-&gt;Operation();</code> le hace a cada uno <strong>el mismo pedido</strong> que recibió la etapa, y <code>return total;</code> devuelve todo junto. La etapa no calcula nada propio: le pasa el pedido a lo que contiene y junta las respuestas.</p></div>
+    </li>
+    <li data-inciso="1" data-nivel="avanzado">
+      <div class="p-consigna"><p>En <code>main</code>, <code>obra</code> es una <code>Etapa</code> que tiene adentro a <code>cimientos</code> (otra <code>Etapa</code>) y a <code>pintura</code> (una <code>Tarea</code>). ¿Qué pasa cuando se llama a <code>Presupuestar(obra)</code>?</p></div>
+      <ul class="p-opciones">
+        <li data-correcta><code>obra</code> le pide el costo a <code>cimientos</code> y a <code>pintura</code>, y <code>cimientos</code> se lo pide a su vez a sus dos tareas. Imprime <code>Costo: 2000</code></li>
+        <li><code>obra</code> suma solo las tareas que tiene directamente y saltea a <code>cimientos</code> por ser una etapa. Imprime <code>Costo: 300</code></li>
+        <li><code>obra</code> pregunta con un <code>if</code> si cada parte es una tarea o una etapa, y a cada una la trata distinto. Imprime <code>Costo: 2000</code></li>
+        <li><code>obra</code> suma solo lo que hay dentro de <code>cimientos</code>, porque <code>pintura</code> ya se había presupuestado antes. Imprime <code>Costo: 1700</code></li>
+      </ul>
+      <div class="p-pista"><p><code>obra</code> no sabe qué es cada parte: a todas les llama <code>Operation()</code>. Hacé la cuenta con 500, 1200 y 300.</p></div>
+      <div class="p-explicacion"><p>El pedido <strong>baja por el árbol</strong>: <code>obra</code> llama al <code>Operation()</code> de <code>cimientos</code>, que suma sus dos tareas (500 + 1200 = 1700), y al de <code>pintura</code>, que devuelve 300. Total, 2000. En ningún lado hay un <code>if</code> que pregunte qué es cada parte. La salida del programa es <code>Costo: 300</code> y <code>Costo: 2000</code>.</p></div>
+    </li>
+
+    <!-- ===== Parte 2: el patrón y su justificación ===== -->
+    <li data-inciso="2" data-nivel="avanzado">
+      <div class="p-consigna"><p>Con todo eso: ¿qué patrón implementa el código?</p></div>
+      <ul class="p-opciones">
+        <li data-correcta>Composite</li>
+        <li>Observer</li>
+        <li>Strategy</li>
+        <li>Adapter</li>
+      </ul>
+      <div class="p-pista"><p>Una clase que hereda de una base y guarda una <strong>lista de esa misma base</strong>; su operación es un bucle sobre lo que contiene, y hay <code>Add</code> y <code>Remove</code>.</p></div>
+      <div class="p-explicacion"><p><strong>Composite</strong>: se usa cuando los objetos forman un árbol, con elementos simples y contenedores que agrupan elementos simples u otros contenedores. Los nombres <code>Add</code>, <code>Remove</code> y <code>Operation</code> lo confirman (son los del ejemplo original), pero la respuesta se justifica con la forma.</p></div>
+    </li>
+    <li data-inciso="2" data-nivel="principiante" data-texto="estructural|estructurales|patrón estructural|structural">
+      <div class="p-consigna"><p>Los patrones se reparten en tres grupos: creacionales, estructurales y de comportamiento. ¿A cuál pertenece Composite? Escribí una sola palabra.</p></div>
+      <div class="p-pista"><p>No se ocupa de crear objetos ni de cómo se avisan entre ellos: se ocupa de cómo se arman objetos más grandes a partir de otros.</p></div>
+      <div class="p-explicacion"><p><strong>Estructural</strong>, igual que Adapter y Facade. Es lo primero que se escribe en la hoja: &ldquo;Es Composite, un patrón estructural que se usa cuando...&rdquo;.</p></div>
+    </li>
+    <li data-inciso="2" data-nivel="medio" data-texto="árbol|un árbol|tree|estructura de árbol">
+      <div class="p-consigna"><p>La descripción de Composite dice que se usa &ldquo;cuando los objetos forman un ...&rdquo;. ¿Qué palabra falta? Escribí una sola palabra.</p></div>
+      <div class="p-pista"><p>Una obra tiene etapas, y una etapa tiene tareas u otras etapas. Dibujado, tiene una raíz, ramas y hojas.</p></div>
+      <div class="p-explicacion"><p><strong>Árbol</strong>: &ldquo;con elementos simples y contenedores que agrupan elementos simples u otros contenedores&rdquo;. En el código, <code>obra</code> es la raíz, <code>cimientos</code> es una rama, y <code>excavacion</code>, <code>hormigon</code> y <code>pintura</code> son las hojas.</p></div>
+    </li>
+    <li data-inciso="2" data-nivel="medio" data-texto="Tarea|clase Tarea|la Tarea|class Tarea">
+      <div class="p-consigna"><p>En Composite, el elemento simple, el que no contiene nada, se llama hoja. ¿Qué clase del código es la hoja? Escribí solo el nombre de la clase.</p></div>
+      <div class="p-pista"><p>Es la que en su <code>Operation()</code> no le pregunta a nadie: devuelve lo que tiene guardado.</p></div>
+      <div class="p-explicacion"><p><code>Tarea</code> es la <strong>hoja</strong> (<code>Leaf</code>): no tiene lista y su <code>Operation()</code> es un solo renglón, <code>return this-&gt;costo_;</code>. No redefine <code>Add()</code> ni <code>Remove()</code>: se queda con los de <code>Trabajo</code>, que están vacíos, porque a una tarea no se le agrega nada.</p></div>
+    </li>
+    <li data-inciso="2" data-nivel="medio" data-texto="compuesto|composite|el compuesto|contenedor|el contenedor">
+      <div class="p-consigna"><p>¿Cómo se llama la parte del patrón que cumple <code>Etapa</code>, la clase que guarda la lista? Escribí una sola palabra.</p></div>
+      <div class="p-pista"><p>Es la parte que le da el nombre al patrón, dicha en castellano.</p></div>
+      <div class="p-explicacion"><p><code>Etapa</code> es el <strong>compuesto</strong> (<code>Composite</code>), el contenedor: guarda una lista de <code>Trabajo</code> y resuelve cada pedido pasándoselo a lo que contiene.</p></div>
+    </li>
+    <li data-inciso="2" data-nivel="medio" data-texto="componente|component|el componente|interfaz componente">
+      <div class="p-consigna"><p>¿Y la parte que cumple <code>Trabajo</code>, la clase base de la que heredan las otras dos? Escribí una sola palabra.</p></div>
+      <div class="p-pista"><p>Las partes de Composite son tres: componente, hoja y compuesto. Dos ya están ubicadas.</p></div>
+      <div class="p-explicacion"><p><code>Trabajo</code> es el <strong>componente</strong> (<code>Component</code>): la interfaz que cumplen todos, hojas y compuestos. Es lo que permite que la lista de <code>Etapa</code> y el parámetro de <code>Presupuestar</code> acepten cualquiera de los dos.</p></div>
+    </li>
+    <li data-inciso="2" data-nivel="medio">
+      <div class="p-consigna"><p>Observer también tiene una lista de punteros, un método para agregar, otro para quitar y un bucle que la recorre. ¿Por qué esto no es Observer?</p></div>
+      <ul class="p-opciones">
+        <li data-correcta>Porque la lista es de la misma base de la que hereda <code>Etapa</code>, y el bucle junta un resultado y lo devuelve; en Observer la lista es de otra interfaz y solo se avisa</li>
+        <li>Porque en Observer la lista se guarda siempre en un <code>std::vector</code>, y en este código las partes están en un <code>std::list</code></li>
+        <li>Porque en Observer la clase que tiene la lista no puede heredar de ninguna otra ni tener métodos <code>virtual</code></li>
+        <li>Porque Observer es un patrón creacional, y en este código los objetos se crean todos en <code>main</code></li>
+      </ul>
+      <div class="p-pista"><p>Dos cosas: ¿la lista es del mismo tipo que la clase que la tiene, o de otro? ¿El bucle devuelve algo, o solo avisa?</p></div>
+      <div class="p-explicacion"><p>La pregunta que los separa: ¿la lista es <strong>del mismo tipo</strong> que la clase que la tiene y el resultado vuelve (Composite), o es de <strong>otra</strong> interfaz y solo se avisa (Observer)? Acá <code>Etapa</code> es un <code>Trabajo</code> y guarda <code>Trabajo</code>, y el bucle suma y devuelve el total. En Observer el notificador guarda suscriptores, que son otra cosa, y les avisa sin esperar nada de vuelta.</p></div>
+    </li>
+    <li data-inciso="2" data-nivel="medio">
+      <div class="p-consigna"><p>En Facade también hay una clase que guarda a otras y las llama desde un método, que en el ejemplo original hasta se llama <code>Operation</code>. ¿Por qué esto no es Facade?</p></div>
+      <ul class="p-opciones">
+        <li data-correcta>Porque acá hay herencia y <code>Etapa</code> guarda una lista de su misma base; una fachada no hereda de nadie y guarda un objeto de cada clase del subsistema, todas distintas</li>
+        <li>Porque una fachada tiene que tener el constructor privado y un método estático para pedirla, y <code>Etapa</code> no tiene ninguna de las dos cosas</li>
+        <li>Porque una fachada nunca recibe objetos desde afuera: los crea siempre ella misma, y acá las partes llegan por <code>Add()</code></li>
+        <li>Porque Facade es un patrón de comportamiento, y este código lo que hace es armar una estructura de objetos</li>
+      </ul>
+      <div class="p-pista"><p>¿Hay herencia? ¿Lo que guarda <code>Etapa</code> son objetos de clases distintas, o todos del mismo tipo?</p></div>
+      <div class="p-explicacion"><p>En Facade <strong>no hay ninguna herencia</strong>: son varias clases sueltas y una que guarda una de cada una y las llama en orden. Acá las tres clases están unidas por herencia y lo que <code>Etapa</code> guarda es una lista de un solo tipo, el suyo. El nombre <code>Operation</code> aparece en los dos ejemplos originales: por eso no alcanza con los nombres.</p></div>
+    </li>
+    <li data-inciso="2" data-nivel="avanzado">
+      <div class="p-consigna"><p>La consigna pide explicar qué elementos ayudaron a identificarlo. ¿Cuál es la respuesta completa?</p></div>
+      <ul class="p-opciones">
+        <li data-correcta><code>Tarea</code> y <code>Etapa</code> heredan las dos de <code>Trabajo</code>; <code>Etapa</code> guarda una lista de punteros a <code>Trabajo</code>, su misma base; y en su <code>Operation()</code> recorre la lista, llama al <code>Operation()</code> de cada parte y devuelve la suma</li>
+        <li>Los métodos se llaman <code>Add()</code>, <code>Remove()</code> y <code>Operation()</code>, que son los nombres que usa el patrón, y hay tres clases</li>
+        <li>En <code>main</code> los objetos se crean con <code>new</code>, se guardan en punteros a <code>Trabajo</code> y al final se borran con <code>delete</code></li>
+        <li><code>Trabajo</code> tiene métodos <code>virtual</code> y un destructor <code>virtual</code>, y las otras dos clases usan <code>override</code></li>
+      </ul>
+      <div class="p-pista"><p>Tres elementos: quién hereda de quién, qué guarda la clase del medio y qué hace en su método.</p></div>
+      <div class="p-explicacion"><p>Los elementos son los de la <strong>forma</strong>: la herencia, la lista de la misma base y el bucle que pasa el pedido y junta el resultado. Los nombres de los métodos sirven de confirmación, pero en un parcial pueden venir cambiados. <code>new</code>, <code>delete</code>, <code>virtual</code> y <code>override</code> aparecen en cualquier programa con herencia: no identifican a ningún patrón.</p></div>
+    </li>
+    <li data-inciso="2" data-nivel="medio">
+      <div class="p-consigna"><p>Para cerrar la respuesta: ¿qué se gana con el patrón en este código?</p></div>
+      <ul class="p-opciones">
+        <li data-correcta><code>Presupuestar</code> trata igual a una tarea sola que a una etapa entera: recibe un <code>Trabajo</code> y llama a <code>Operation()</code>, sin preguntar qué es</li>
+        <li><code>Presupuestar</code> puede cambiar la forma de calcular el costo mientras el programa corre, sin tocar las tareas ni las etapas</li>
+        <li>Todo el programa usa la misma obra, a través de un único punto de acceso, y no se puede crear una segunda</li>
+        <li><code>Presupuestar</code> puede usar una clase que tenía otra interfaz, sin modificar ni esa clase ni la función</li>
+      </ul>
+      <div class="p-pista"><p>Es la tercera oración de la descripción de Composite: &ldquo;Así el cliente trata igual a...&rdquo;.</p></div>
+      <div class="p-explicacion"><p>La tercera oración de Composite: &ldquo;Así el cliente trata igual a un elemento solo que a un grupo entero&rdquo;, dicha con el caso. Se ve en <code>main</code>: la misma función presupuesta <code>pintura</code>, que es una tarea, y <code>obra</code>, que es una etapa con otra etapa adentro, y si mañana se agrega una etapa más, <code>Presupuestar</code> no cambia.</p></div>
+    </li>
+  </ol>
+</article>

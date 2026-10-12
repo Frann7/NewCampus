@@ -103,7 +103,7 @@
               ? h("span", {}, [h("span", { html: paso.opciones.textos[paso.opciones.correcta] }),
                   paso.anotar ? h("span", { class: "ex-en-hoja" }, ["En la hoja: ", h("b", { html: paso.anotar })]) : null])
               : paso.anotar ? h("b", { html: paso.anotar })
-              : h("b", {}, paso.respuesta);
+              : h("b", {}, paso.texto ? B.textoDe(paso) : paso.respuesta);
             var como = !ep || !ep.ok
               ? (ep && ep.fallos ? "No lo resolviste (" + plural(ep.fallos, "fallo", "fallos") + ")" : "No llegaste a este paso")
               : ep.resuelto ? "Lo resolvió el campus (botón Resolver)" + (ep.fallos ? ", después de " + plural(ep.fallos, "fallo", "fallos") : "")

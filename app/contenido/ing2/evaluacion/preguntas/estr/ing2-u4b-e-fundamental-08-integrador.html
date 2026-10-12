@@ -1,0 +1,337 @@
+<article class="preg" data-id="ing2-u4b-e-fundamental-08-integrador" data-tipo="ejercicio" data-origen="parcial" data-fundamental="08" data-rotulo="Punto" data-titulo="Integrador: enunciado y diagrama · Abstract Factory y Adapter">
+  <div class="p-enunciado">
+    <p>
+      La aerolínea <strong>Alas del Paraná</strong> está renovando el sistema con el que atiende a
+      sus pasajeros en el aeropuerto. El siguiente diagrama pertenece al módulo de check-in, que hoy
+      lee el documento de cada pasajero con un lector de DNI. A partir de él, se solicita:
+    </p>
+    <div class="pd-grafico uml" data-g="aero">
+      <svg viewBox="-14 -14 400 357" width="400" height="357" role="img" aria-label="El diagrama del módulo de check-in de la aerolínea">
+        <polyline class="linea" points="115,53.5 132.5,53.5 132.5,53.5 150,53.5"/>
+        <polyline class="linea" points="261.5,107 261.5,128.5 261.5,128.5 261.5,150"/>
+        <polyline class="linea" points="256.5,140 261.5,150 266.5,140"/>
+        <polyline class="linea punteada" points="261.5,270 261.5,254 261.5,254 261.5,238"/>
+        <polygon class="hueca" points="261.5,225 268.5,238 254.5,238"/>
+        <g class="clase k-comun">
+        <rect class="caja" x="0" y="0" width="115" height="126" rx="3"/>
+        <rect class="cab" x="1" y="1" width="113" height="29" rx="2"/>
+        <text class="nombre" x="57.5" y="20">Pasajero</text>
+        <line class="div" x1="0" y1="30" x2="115" y2="30"/>
+        <text class="miembro" x="10" y="48">nombre</text>
+        <text class="miembro" x="10" y="67">vuelo</text>
+        <line class="div" x1="0" y1="78" x2="115" y2="78"/>
+        <text class="miembro" x="10" y="96">get nombre()</text>
+        <text class="miembro" x="10" y="115">get vuelo()</text>
+        </g>
+        <g class="clase k-comun">
+        <rect class="caja" x="150" y="0" width="222" height="107" rx="3"/>
+        <rect class="cab" x="151" y="1" width="220" height="29" rx="2"/>
+        <text class="nombre" x="261" y="20">CheckIn</text>
+        <line class="div" x1="150" y1="30" x2="372" y2="30"/>
+        <text class="miembro" x="160" y="48">lector<tspan class="tp">: LectorDeDocumentos</tspan></text>
+        <line class="div" x1="150" y1="59" x2="372" y2="59"/>
+        <text class="miembro" x="160" y="77">registrar(pasajero)</text>
+        <text class="miembro" x="160" y="96">emitirTarjeta()</text>
+        </g>
+        <g class="clase k-interfaz">
+        <rect class="caja" x="172" y="150" width="179" height="75" rx="3"/>
+        <rect class="cab" x="173" y="151" width="177" height="45" rx="2"/>
+        <text class="estereo" x="261.5" y="166">&#171;interface&#187;</text>
+        <text class="nombre" x="261.5" y="185">LectorDeDocumentos</text>
+        <line class="div" x1="172" y1="196" x2="351" y2="196"/>
+        <text class="miembro" x="182" y="214">leer()<tspan class="tp">: Documento</tspan></text>
+        </g>
+        <g class="clase k-comun">
+        <rect class="caja" x="185" y="270" width="153" height="59" rx="3"/>
+        <rect class="cab" x="186" y="271" width="151" height="29" rx="2"/>
+        <text class="nombre" x="261.5" y="290">LectorDeDNI</text>
+        <line class="div" x1="185" y1="300" x2="338" y2="300"/>
+        <text class="miembro" x="195" y="318">leer()<tspan class="tp">: Documento</tspan></text>
+        </g>
+      </svg>
+    </div>
+    <ul>
+      <li>
+        En el embarque, cada pasajero recibe un asiento, un menú y un kit de viaje. La aerolínea
+        trabaja con dos categorías, Turista y Ejecutiva, y las tres cosas que recibe un mismo
+        pasajero tienen que ser siempre de la misma categoría, nunca mezcladas. Se prevé sumar la
+        categoría Primera sin modificar el módulo de embarque. Identifique qué patrón de diseño
+        utilizaría y justifique por qué lo eligió.
+      </li>
+      <li>
+        El módulo de check-in, que ya trabaja con la interfaz <code>LectorDeDocumentos</code>, tiene
+        que empezar a usar el lector de pasaportes de otro fabricante: la clase
+        <code>EscanerBiometrico</code>, que tiene otro método, <code>escanearChip()</code>, y
+        devuelve los datos en otro formato (un texto en lugar de un <code>Documento</code>). Hay
+        que incorporarlo sin modificar el check-in ni la clase del fabricante. Modele la solución
+        en el diagrama.
+      </li>
+    </ul>
+    <p class="p-fuente">Inventado &middot; estilo Parcial 2025, Práctica 1, y Parcial 2024, Ej. 3</p>
+  </div>
+  <div class="p-explicacion">
+    <div class="tabla-wrap">
+      <table class="t full">
+        <tr><th>Punto</th><th>Patrón</th><th>Qué se hace</th></tr>
+        <tr>
+          <td class="lbl">1. Lo que recibe cada pasajero</td>
+          <td><strong>Abstract Factory</strong> <span class="et">Creacional</span></td>
+          <td>Se identifica y se justifica, sin diagrama: una fábrica abstracta con un método por producto (asiento, menú, kit) y una fábrica concreta por categoría</td>
+        </tr>
+        <tr>
+          <td class="lbl">2. El lector de pasaportes</td>
+          <td><strong>Adapter</strong> <span class="et dato">Estructural</span></td>
+          <td>Una clase nueva, <code>AdaptadorDeEscaner</code>, con una realización hacia <code>LectorDeDocumentos</code> y una asociación hacia <code>EscanerBiometrico</code>. El resto no cambia</td>
+        </tr>
+      </table>
+    </div>
+    <p>
+      En la hoja va, por cada punto, la justificación en tres partes: qué patrón y por qué (con la
+      frase del enunciado), cómo se aplica y qué se gana. En el segundo, además, el diagrama
+      modificado.
+    </p>
+  </div>
+  <div class="p-rta" data-inciso="1">
+    <p><strong>Abstract Factory</strong>, para lo que recibe cada pasajero en el embarque:</p>
+    <ol>
+      <li><strong>Qué patrón y por qué:</strong> "Abstract Factory, un patrón creacional, para lo que recibe cada pasajero. Se usa cuando hay que crear familias de objetos relacionados, que tienen que combinar entre sí. El enunciado lo dice: "las tres cosas que recibe un mismo pasajero tienen que ser siempre de la misma categoría, nunca mezcladas"."</li>
+      <li><strong>Cómo se aplica:</strong> "Una fábrica abstracta (la interfaz que dice qué se puede crear) declara un método de creación por cada producto: el asiento, el menú y el kit de viaje. Hay una fábrica concreta por cada familia (las tres cosas de una misma categoría): la de Turista y la de Ejecutiva, y cada una crea el asiento, el menú y el kit de su categoría."</li>
+      <li><strong>Qué se gana:</strong> "Nunca se mezclan productos de categorías distintas, y la categoría Primera se agrega con otra fábrica concreta, "sin modificar el módulo de embarque"."</li>
+    </ol>
+  </div>
+  <div class="p-rta" data-inciso="2">
+    <p><strong>Adapter</strong>, entre <code>CheckIn</code> y <code>EscanerBiometrico</code>:</p>
+    <div class="pd-grafico uml" data-g="aero-adapter">
+      <svg viewBox="-14 -14 460 507" width="460" height="507" role="img" aria-label="Adapter sobre el diagrama del check-in: AdaptadorDeEscaner cumple LectorDeDocumentos y usa al EscanerBiometrico">
+        <polyline class="linea" points="115,53.5 132.5,53.5 132.5,53.5 150,53.5"/>
+        <polyline class="linea" points="261.5,107 261.5,128.5 261.5,128.5 261.5,150"/>
+        <polyline class="linea" points="256.5,140 261.5,150 266.5,140"/>
+        <polyline class="linea punteada" points="96.5,285 96.5,261.5 261.5,261.5 261.5,238"/>
+        <polygon class="hueca" points="261.5,225 268.5,238 254.5,238"/>
+        <polyline class="linea punteada" points="321,285 321,261.5 261.5,261.5 261.5,238"/>
+        <polygon class="hueca" points="261.5,225 268.5,238 254.5,238"/>
+        <polyline class="linea" points="321.5,373 321.5,396.5 321.5,396.5 321.5,420"/>
+        <polyline class="linea" points="316.5,410 321.5,420 326.5,410"/>
+        <g class="clase k-comun">
+        <rect class="caja" x="0" y="0" width="115" height="126" rx="3"/>
+        <rect class="cab" x="1" y="1" width="113" height="29" rx="2"/>
+        <text class="nombre" x="57.5" y="20">Pasajero</text>
+        <line class="div" x1="0" y1="30" x2="115" y2="30"/>
+        <text class="miembro" x="10" y="48">nombre</text>
+        <text class="miembro" x="10" y="67">vuelo</text>
+        <line class="div" x1="0" y1="78" x2="115" y2="78"/>
+        <text class="miembro" x="10" y="96">get nombre()</text>
+        <text class="miembro" x="10" y="115">get vuelo()</text>
+        </g>
+        <g class="clase k-comun">
+        <rect class="caja" x="150" y="0" width="222" height="107" rx="3"/>
+        <rect class="cab" x="151" y="1" width="220" height="29" rx="2"/>
+        <text class="nombre" x="261" y="20">CheckIn</text>
+        <line class="div" x1="150" y1="30" x2="372" y2="30"/>
+        <text class="miembro" x="160" y="48">lector<tspan class="tp">: LectorDeDocumentos</tspan></text>
+        <line class="div" x1="150" y1="59" x2="372" y2="59"/>
+        <text class="miembro" x="160" y="77">registrar(pasajero)</text>
+        <text class="miembro" x="160" y="96">emitirTarjeta()</text>
+        </g>
+        <g class="clase k-interfaz">
+        <rect class="caja" x="172" y="150" width="179" height="75" rx="3"/>
+        <rect class="cab" x="173" y="151" width="177" height="45" rx="2"/>
+        <text class="estereo" x="261.5" y="166">&#171;interface&#187;</text>
+        <text class="nombre" x="261.5" y="185">LectorDeDocumentos</text>
+        <line class="div" x1="172" y1="196" x2="351" y2="196"/>
+        <text class="miembro" x="182" y="214">leer()<tspan class="tp">: Documento</tspan></text>
+        </g>
+        <g class="clase k-comun">
+        <rect class="caja" x="20" y="285" width="153" height="59" rx="3"/>
+        <rect class="cab" x="21" y="286" width="151" height="29" rx="2"/>
+        <text class="nombre" x="96.5" y="305">LectorDeDNI</text>
+        <line class="div" x1="20" y1="315" x2="173" y2="315"/>
+        <text class="miembro" x="30" y="333">leer()<tspan class="tp">: Documento</tspan></text>
+        </g>
+        <g class="clase k-comun destacada">
+        <rect class="caja" x="210" y="285" width="222" height="88" rx="3"/>
+        <rect class="cab" x="211" y="286" width="220" height="29" rx="2"/>
+        <text class="nombre" x="321" y="305">AdaptadorDeEscaner</text>
+        <line class="div" x1="210" y1="315" x2="432" y2="315"/>
+        <text class="miembro" x="220" y="333">escaner<tspan class="tp">: EscanerBiometrico</tspan></text>
+        <line class="div" x1="210" y1="344" x2="432" y2="344"/>
+        <text class="miembro" x="220" y="362">leer()<tspan class="tp">: Documento</tspan></text>
+        </g>
+        <g class="clase k-comun">
+        <rect class="caja" x="226" y="420" width="191" height="59" rx="3"/>
+        <rect class="cab" x="227" y="421" width="189" height="29" rx="2"/>
+        <text class="nombre" x="321.5" y="440">EscanerBiometrico</text>
+        <line class="div" x1="226" y1="450" x2="417" y2="450"/>
+        <text class="miembro" x="236" y="468">escanearChip()<tspan class="tp">: string</tspan></text>
+        </g>
+      </svg>
+    </div>
+    <ol>
+      <li><strong>Qué patrón y por qué:</strong> "Adapter, un patrón estructural, para el lector de pasaportes. Se usa cuando hay que hacer trabajar juntas dos clases con interfaces incompatibles (<code>CheckIn</code> y <code>EscanerBiometrico</code>), sin modificar ninguna. El enunciado lo pide: "sin modificar el check-in ni la clase del fabricante"."</li>
+      <li><strong>Cómo se aplica:</strong> "Se agrega una clase en el medio, <code>AdaptadorDeEscaner</code>, que es el adaptador (la clase que traduce): cumple <code>LectorDeDocumentos</code>, la interfaz con el cliente (la que <code>CheckIn</code> ya usa). Por dentro traduce cada llamada a <code>leer()</code> en una llamada a <code>escanearChip()</code> de <code>EscanerBiometrico</code>, que es el servicio (la clase útil que tiene la interfaz incompatible)."</li>
+      <li><strong>Qué se gana:</strong> "<code>CheckIn</code> usa el escáner de pasaportes igual que al lector de DNI que ya conocía."</li>
+    </ol>
+  </div>
+  <ol class="p-pasos">
+
+    <!-- ===== Punto 1: Abstract Factory (identificar y justificar) ===== -->
+    <li data-inciso="1" data-nivel="medio">
+      <div class="p-consigna"><p>Primer punto (lo que recibe cada pasajero en el embarque). ¿Qué frase del pedido decide el patrón?</p></div>
+      <ul class="p-opciones">
+        <li data-correcta>&ldquo;las tres cosas que recibe un mismo pasajero tienen que ser siempre de la misma categoría, nunca mezcladas&rdquo;</li>
+        <li>&ldquo;cada pasajero recibe un asiento, un menú y un kit de viaje&rdquo;: un conjunto que contiene cosas de su mismo tipo</li>
+        <li>&ldquo;dos categorías, Turista y Ejecutiva&rdquo;: dos formas de hacer una misma tarea, y se elige cuál</li>
+        <li>&ldquo;En el embarque, cada pasajero recibe&rdquo;: cuando pasa algo, otros se tienen que enterar solos</li>
+      </ul>
+      <div class="p-pista"><p>Buscá la frase que dice que las cosas que se crean tienen que <strong>combinar</strong>.</p></div>
+      <div class="p-explicacion"><p>&ldquo;De la misma categoría, nunca mezcladas&rdquo;: son <strong>varias cosas distintas que tienen que combinar</strong>. Esa es la frase que va entre comillas en la justificación.</p></div>
+    </li>
+    <li data-inciso="1" data-nivel="avanzado">
+      <div class="p-consigna"><p>¿Qué patrón corresponde al primer punto?</p></div>
+      <ul class="p-opciones">
+        <li data-correcta>Abstract Factory</li>
+        <li>Factory Method</li>
+        <li>Composite</li>
+        <li>Strategy</li>
+      </ul>
+      <div class="p-pista"><p>Crear varias cosas distintas que tienen que combinar.</p></div>
+      <div class="p-explicacion"><p><strong>Abstract Factory</strong>, un patrón creacional: se usa cuando hay que crear familias de objetos relacionados, que tienen que combinar entre sí. No es Strategy: Turista y Ejecutiva no son formas de hacer una tarea, son objetos que se crean.</p></div>
+    </li>
+    <li data-inciso="1" data-nivel="medio">
+      <div class="p-consigna"><p>Es el par que más se confunde. ¿Por qué acá no es Factory Method?</p></div>
+      <ul class="p-opciones">
+        <li data-correcta>Porque se crean varias cosas distintas que tienen que combinar; con Factory Method se crea un solo tipo de cosa</li>
+        <li>Porque Factory Method no permite agregar tipos nuevos sin modificar el código que los usa</li>
+        <li>Porque Factory Method es un patrón estructural, y acá la necesidad es crear objetos</li>
+        <li>Porque en Factory Method no hay subclases, y acá hacen falta dos categorías</li>
+      </ul>
+      <div class="p-pista"><p>Contá cuántas cosas distintas recibe cada pasajero.</p></div>
+      <div class="p-explicacion"><p>La pregunta que los separa: ¿se crea <strong>un</strong> tipo de cosa (Factory Method) o <strong>varias que combinan</strong> (Abstract Factory)? Acá son tres cosas distintas (asiento, menú y kit) que tienen que ser de la misma categoría. Si el enunciado hablara solo de crear asientos de distintos tipos, sería Factory Method.</p></div>
+    </li>
+    <li data-inciso="1" data-nivel="principiante" data-texto="familia|familias|una familia|family">
+      <div class="p-consigna"><p>Completá con una palabra: el asiento, el menú y el kit de viaje de una misma categoría forman una ______ de objetos.</p></div>
+      <div class="p-pista"><p>Empieza con F y tiene 7 letras. Es un grupo de cosas distintas que tienen que combinar entre sí.</p></div>
+      <div class="p-explicacion"><p>Una <strong>familia</strong> es el grupo de objetos distintos que tienen que combinar: acá, el asiento, el menú y el kit de una misma categoría. Hoy hay dos familias, la de Turista y la de Ejecutiva, y está anunciada una tercera, la de Primera.</p></div>
+    </li>
+    <li data-inciso="1" data-nivel="principiante" data-texto="producto|productos|un producto|product">
+      <div class="p-consigna"><p>Completá con una palabra: cada una de las cosas distintas que hay que crear (el asiento, el menú, el kit de viaje) es un ______.</p></div>
+      <div class="p-pista"><p>Empieza con P y tiene 8 letras. Es lo que sale de una fábrica.</p></div>
+      <div class="p-explicacion"><p>Hay tres <strong>productos</strong>: el asiento, el menú y el kit de viaje. No hay que confundirlos con las familias: Turista y Ejecutiva no son productos, son las dos versiones en que viene cada producto.</p></div>
+    </li>
+    <li data-inciso="1" data-nivel="avanzado" data-texto="fábrica abstracta|abstract factory|la fábrica abstracta|factoría abstracta">
+      <div class="p-consigna"><p>Escribí el nombre de la parte (dos palabras): la interfaz que dice qué se puede crear (un asiento, un menú y un kit), sin decir de qué categoría.</p></div>
+      <div class="p-pista"><p>Es el nombre del patrón, en castellano: &ldquo;fábrica ______&rdquo;.</p></div>
+      <div class="p-explicacion"><p>La <strong>fábrica abstracta</strong> es la interfaz que dice qué se puede crear. El módulo de embarque guarda una fábrica de ese tipo y le pide las tres cosas, sin saber de qué categoría es la que le tocó.</p></div>
+    </li>
+    <li data-inciso="1" data-nivel="medio" data-texto="fábrica concreta|concrete factory|la fábrica concreta|fábricas concretas|factoría concreta">
+      <div class="p-consigna"><p>Escribí el nombre de la parte (dos palabras): la clase que cumple esa interfaz y crea los objetos de verdad.</p></div>
+      <div class="p-pista"><p>&ldquo;Fábrica ______&rdquo;: lo contrario de abstracta. La palabra que falta empieza con C y tiene 8 letras.</p></div>
+      <div class="p-explicacion"><p>Las <strong>fábricas concretas</strong> son las clases que cumplen la fábrica abstracta y hacen los <code>new</code>. Cuántas hay y qué crea cada una es el paso que sigue.</p></div>
+    </li>
+    <li data-inciso="1" data-nivel="avanzado">
+      <div class="p-consigna"><p>Para el &ldquo;cómo se aplica&rdquo;: ¿cómo quedan armadas las fábricas?</p></div>
+      <ul class="p-opciones">
+        <li data-correcta>La fábrica abstracta declara un método por cada producto (asiento, menú, kit), y hay una fábrica concreta por cada categoría, que crea las tres cosas de esa categoría</li>
+        <li>La fábrica abstracta declara un método por cada categoría (Turista, Ejecutiva), y hay una fábrica concreta por cada producto: la de asientos, la de menús y la de kits</li>
+        <li>Hay una sola fábrica, sin subclases, que en cada método pregunta con un <code>if</code> de qué categoría es el pasajero</li>
+        <li>El asiento es la fábrica abstracta, y el menú y el kit de viaje son los productos que él crea</li>
+      </ul>
+      <div class="p-pista"><p>Un <strong>método</strong> por cada producto; una <strong>fábrica concreta</strong> por cada familia.</p></div>
+      <div class="p-explicacion"><p>Los <strong>métodos</strong> de la fábrica abstracta son los productos (<code>crearAsiento()</code>, <code>crearMenu()</code>, <code>crearKit()</code>) y las <strong>fábricas concretas</strong> son las familias (la de Turista y la de Ejecutiva). Armarlo al revés, con una fábrica por producto, es el error más común: así nada garantiza que las tres cosas salgan de la misma categoría.</p></div>
+    </li>
+    <li data-inciso="1" data-nivel="avanzado">
+      <div class="p-consigna"><p>¿Qué se gana con Abstract Factory en el embarque?</p></div>
+      <ul class="p-opciones">
+        <li data-correcta>Nunca se mezclan productos de categorías distintas, y la categoría Primera se agrega con otra fábrica concreta, sin modificar el módulo de embarque</li>
+        <li>El módulo de embarque trata igual a una cosa sola que a un conjunto entero de cosas, con la misma interfaz</li>
+        <li>La categoría de un pasajero se puede cambiar por otra mientras el programa corre, con un método del módulo de embarque</li>
+        <li>Todo el aeropuerto usa la misma fábrica de asientos, menús y kits, a través de un único punto de acceso</li>
+      </ul>
+      <div class="p-pista"><p>Dos cosas: lo de &ldquo;nunca mezcladas&rdquo; y lo de la categoría Primera.</p></div>
+      <div class="p-explicacion"><p>La tercera oración de Abstract Factory: &ldquo;Así nunca se mezclan productos de familias distintas, y una familia nueva se agrega sin modificar el código que las usa&rdquo;, dicha con el caso. La familia nueva es la categoría Primera, que el enunciado ya anuncia, y el código que las usa es el módulo de embarque.</p></div>
+    </li>
+
+    <!-- ===== Punto 2: Adapter (agregar al diagrama) ===== -->
+    <li data-inciso="2" data-nivel="medio">
+      <div class="p-consigna"><p>Segundo punto (el lector de pasaportes). ¿Qué frase del pedido decide el patrón?</p></div>
+      <ul class="p-opciones">
+        <li data-correcta>&ldquo;sin modificar el check-in ni la clase del fabricante&rdquo;</li>
+        <li>&ldquo;tiene que empezar a usar el lector de pasaportes&rdquo;: una clase que crea lectores de distintos tipos</li>
+        <li>&ldquo;devuelve los datos en otro formato&rdquo;: varias formas de hacer una misma tarea</li>
+        <li>&ldquo;El módulo de check-in&rdquo;: un acceso simple a un conjunto de clases complicado</li>
+      </ul>
+      <div class="p-pista"><p>Buscá la frase que dice qué es lo que <strong>no se puede tocar</strong>.</p></div>
+      <div class="p-explicacion"><p>Hay una clase que ya existe y sirve, <code>EscanerBiometrico</code>, pero &ldquo;tiene otro método&rdquo;: su interfaz no es la que el check-in espera. Y &ldquo;sin modificar el check-in ni la clase del fabricante&rdquo; dice que no se puede cambiar ninguna de las dos. Esa es la frase que va entre comillas en la justificación.</p></div>
+    </li>
+    <li data-inciso="2" data-nivel="avanzado">
+      <div class="p-consigna"><p>¿Qué patrón corresponde al segundo punto?</p></div>
+      <ul class="p-opciones">
+        <li data-correcta>Adapter</li>
+        <li>Facade</li>
+        <li>Factory Method</li>
+        <li>Observer</li>
+      </ul>
+      <div class="p-pista"><p>Usar una clase que ya existe pero tiene otra interfaz, sin modificarla.</p></div>
+      <div class="p-explicacion"><p><strong>Adapter</strong>, un patrón estructural: se usa cuando hay que hacer trabajar juntas dos clases con interfaces incompatibles, sin modificar ninguna. No es Factory Method: no hay que crear nada, la clase del fabricante ya existe; el problema es que no encaja.</p></div>
+    </li>
+    <li data-inciso="2" data-nivel="medio">
+      <div class="p-consigna"><p>Es el par que más se confunde. ¿Por qué acá no es Facade?</p></div>
+      <ul class="p-opciones">
+        <li data-correcta>Porque se envuelve una sola clase para darle una interfaz que ya existía; con Facade se envuelven varias para dar una interfaz nueva y simple</li>
+        <li>Porque Facade es un patrón creacional, y acá la necesidad es cómo encajan las clases que ya están en el diagrama</li>
+        <li>Porque Facade obliga a modificar las clases que envuelve, y acá el enunciado no deja tocar la clase del fabricante</li>
+        <li>Porque en Facade la clase nueva tiene que cumplir una interfaz, y acá la clase nueva no cumple ninguna</li>
+      </ul>
+      <div class="p-pista"><p>Contá cuántas clases se envuelven, y fijate si la interfaz que se ofrece ya existía.</p></div>
+      <div class="p-explicacion"><p>La pregunta que los separa: ¿se envuelve <strong>una</strong> clase para darle una interfaz que ya existía (Adapter) o <strong>varias</strong> para dar una interfaz nueva y simple (Facade)? Acá se envuelve una sola, <code>EscanerBiometrico</code>, y la interfaz que se le da ya existía: <code>LectorDeDocumentos</code>.</p></div>
+    </li>
+    <li data-inciso="2" data-nivel="principiante" data-texto="cliente|el cliente|client">
+      <div class="p-consigna"><p>Completá con una palabra: en Adapter, <code>LectorDeDocumentos</code> (la interfaz que <code>CheckIn</code> ya usa) es la &ldquo;interfaz con el ______&rdquo;.</p></div>
+      <div class="p-pista"><p>Empieza con C y tiene 7 letras. Es la parte que le toca a <code>CheckIn</code>: la clase que usa a las demás.</p></div>
+      <div class="p-explicacion"><p><code>CheckIn</code> es el <strong>cliente</strong> (la clase que usa al lector) y <code>LectorDeDocumentos</code> es la <strong>interfaz con el cliente</strong>: la que él ya usa. El check-in solo conoce esa interfaz, y por eso le sirve cualquier clase que la cumpla.</p></div>
+    </li>
+    <li data-inciso="2" data-nivel="avanzado" data-texto="adaptador|adapter|el adaptador">
+      <div class="p-consigna"><p>Escribí el nombre de la parte (una palabra): la clase nueva que va en el medio, cumple <code>LectorDeDocumentos</code> y por dentro traduce cada llamada.</p></div>
+      <div class="p-pista"><p>Empieza con A y tiene 9 letras. Es el nombre del patrón, en castellano.</p></div>
+      <div class="p-explicacion"><p>El <strong>adaptador</strong> es la clase que traduce: por fuera cumple la interfaz que el cliente ya usa, y por dentro llama a la otra clase. En este diagrama se llama <code>AdaptadorDeEscaner</code>.</p></div>
+    </li>
+    <li data-inciso="2" data-nivel="medio" data-texto="servicio|el servicio|adaptee|service">
+      <div class="p-consigna"><p>Escribí el nombre de la parte (una palabra): <code>EscanerBiometrico</code>, la clase útil que tiene la interfaz incompatible.</p></div>
+      <div class="p-pista"><p>Empieza con S y tiene 8 letras. Es la clase que hace el trabajo que se necesita.</p></div>
+      <div class="p-explicacion"><p><code>EscanerBiometrico</code> es el <strong>servicio</strong> (<code>Adaptee</code>, en inglés): la clase útil que tiene la interfaz incompatible. Hace lo que se necesita, leer el pasaporte, pero con otro método, <code>escanearChip()</code>, y devolviendo un texto en lugar de un <code>Documento</code>.</p></div>
+    </li>
+    <li data-inciso="2" data-nivel="avanzado">
+      <div class="p-consigna"><p>¿Qué se agrega al diagrama y qué queda como estaba?</p></div>
+      <ul class="p-opciones">
+        <li data-correcta>Se agrega la clase <code>AdaptadorDeEscaner</code> y se dibuja <code>EscanerBiometrico</code> tal como la entrega el fabricante; <code>CheckIn</code>, <code>LectorDeDocumentos</code> y <code>LectorDeDNI</code> no cambian</li>
+        <li>Se dibuja <code>EscanerBiometrico</code> con un método nuevo, <code>leer()</code>, y una realización hacia <code>LectorDeDocumentos</code>; <code>CheckIn</code> y <code>LectorDeDNI</code> no cambian</li>
+        <li>Se dibuja <code>EscanerBiometrico</code>, y a <code>CheckIn</code> se le agrega el atributo <code>escaner: EscanerBiometrico</code> y un método para elegir cuál de los dos lectores usa</li>
+        <li>Se agrega la clase <code>Lectores</code>, que coordina a <code>LectorDeDNI</code> y a <code>EscanerBiometrico</code> y le ofrece a <code>CheckIn</code> un método nuevo y más simple</li>
+      </ul>
+      <div class="p-pista"><p>El enunciado dice qué dos cosas no se pueden tocar. Lo nuevo va <strong>en el medio</strong>.</p></div>
+      <div class="p-explicacion"><p>Una sola clase nueva, <code>AdaptadorDeEscaner</code>, con un atributo que guarda el escáner (<code>escaner: EscanerBiometrico</code>) y el método <code>leer()</code> de la interfaz, que por dentro llama a <code>escanearChip()</code> y convierte el texto en un <code>Documento</code>. Agregarle <code>leer()</code> a <code>EscanerBiometrico</code> es modificar la clase del fabricante, y agregarle un atributo a <code>CheckIn</code> es modificar el check-in: las dos cosas que el enunciado no permite.</p></div>
+    </li>
+    <li data-inciso="2" data-nivel="medio">
+      <div class="p-consigna"><p>¿Qué dos flechas salen de <code>AdaptadorDeEscaner</code>?</p></div>
+      <ul class="p-opciones">
+        <li data-correcta>Una línea punteada con triángulo (realización) hacia <code>LectorDeDocumentos</code>, y una flecha continua (asociación) hacia <code>EscanerBiometrico</code></li>
+        <li>Una flecha continua (asociación) hacia <code>LectorDeDocumentos</code>, y una línea punteada con triángulo (realización) hacia <code>EscanerBiometrico</code></li>
+        <li>Un rombo (agregación) hacia <code>LectorDeDocumentos</code>, con <code>*</code> de ese lado, y una línea continua con triángulo (herencia) hacia <code>CheckIn</code></li>
+        <li>Una flecha punteada &ldquo;crea&rdquo; hacia <code>EscanerBiometrico</code>, y una línea continua con triángulo (herencia) hacia <code>LectorDeDNI</code></li>
+      </ul>
+      <div class="p-pista"><p>Punteada con triángulo hacia lo que <strong>cumple</strong>; continua hacia lo que <strong>guarda</strong> y usa.</p></div>
+      <div class="p-explicacion"><p>Es lo que no puede faltar en el diagrama de Adapter: las dos flechas del adaptador. <strong>Punteada con triángulo</strong> hacia la interfaz (<code>AdaptadorDeEscaner</code> realiza <code>LectorDeDocumentos</code>, igual que <code>LectorDeDNI</code>) y <strong>continua</strong> hacia el servicio (guarda un <code>EscanerBiometrico</code> y lo usa). La flecha de <code>CheckIn</code> a <code>LectorDeDocumentos</code> ya estaba y no cambia.</p></div>
+    </li>
+    <li data-inciso="2" data-nivel="avanzado">
+      <div class="p-consigna"><p>¿Qué se gana con Adapter en el check-in?</p></div>
+      <ul class="p-opciones">
+        <li data-correcta><code>CheckIn</code> usa el escáner de pasaportes igual que al lector de DNI que ya conocía</li>
+        <li><code>CheckIn</code> depende de una sola clase y no necesita conocer a ninguno de los lectores</li>
+        <li><code>CheckIn</code> se entera solo cada vez que el escáner termina de leer un pasaporte</li>
+        <li>Todo el aeropuerto usa el mismo escáner de pasaportes, a través de un único punto de acceso</li>
+      </ul>
+      <div class="p-pista"><p>Es la tercera oración de la descripción: &ldquo;Así el cliente usa la clase nueva igual que...&rdquo;.</p></div>
+      <div class="p-explicacion"><p>La tercera oración de Adapter: &ldquo;Así el cliente usa la clase nueva igual que a las que ya conocía&rdquo;, dicha con el caso. Para <code>CheckIn</code>, <code>AdaptadorDeEscaner</code> es un <code>LectorDeDocumentos</code> más: llama a <code>leer()</code> y recibe un <code>Documento</code>, sin enterarse de que atrás hay un escáner de otro fabricante.</p></div>
+    </li>
+  </ol>
+</article>

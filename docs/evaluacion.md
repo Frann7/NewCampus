@@ -28,7 +28,14 @@
   `config.ejercicios` (las guardadas antes de esto no lo traen: les tocan los primeros
   `cantEjercicios`). Un paso puede ser **de escribir**: `data-texto="notificador|subject"` en el
   `li`, sin opciones; se tipea la palabra y se compara sin mayúsculas, tildes, paréntesis ni
-  artículo (`banco.comprobarTexto`), y se muestra la primera alternativa. Un ejercicio puede llamar a
+  artículo ni espacios (`banco.comprobarTexto`), y se muestra la primera alternativa.
+  El tercer modo es **Practicar diagramas** (`config.practica = "diagrama"`): corre igual que
+  los ejercicios, con las preguntas que llevan `data-practica="diagrama"` (`banco.diagramas`),
+  elegidas con un chip por patrón y **mezcladas**. El enunciado trae el diagrama entero y
+  `taparDiagrama` (en `examen.js`) le tapa lo que falta: cada paso pendiente con `data-oculta`
+  reemplaza por "(n) ?" los textos del SVG que contienen alguno de sus trozos, así que el dibujo
+  se completa a medida que se resuelven los pasos. La columna del diagrama es más ancha
+  (`.ex-con-enunciado.es-diagrama`) y no se muestra el chip de la unidad, que diría el grupo. Un ejercicio puede llamar a
   sus partes de otra manera con `data-rotulo` en el `article` ("Párrafo", "Patrón", "Punto",
   "Parte"): se lee "Párrafo 1" y "Rta. párrafo 1" en vez de "Inciso a)" (`E.rotuloInciso`).
 

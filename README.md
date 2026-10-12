@@ -107,7 +107,12 @@ fórmulas (MathJax) y las tipografías. Tus datos no salen de tu máquina.
   diagrama, de la interfaz o del método, o la palabra que define al patrón; no importan las
   mayúsculas ni las tildes, y vale el nombre en inglés). Al final de cada parte queda la
   respuesta como se escribe en la hoja. Cada patrón aparece en al menos dos formas. Sin vidas ni
-  niveles, y con el tiempo libre o con contador.
+  niveles, y con el tiempo libre o con contador. El tercer modo es **Practicar diagramas**: el
+  diagrama UML de cada uno de los ocho patrones con la estructura ya dibujada (cajas, flechas,
+  rombos, estereotipos) y los nombres tapados con un número. Se escribe de qué patrón es y,
+  paso a paso, el nombre de cada clase, los atributos y los métodos con sus tipos; el dibujo se
+  va completando a medida que se acierta. Cada paso tiene pista y resolución, el diagrama se
+  puede saltear, y salen mezclados para no saber cuál viene.
 * **Índice lateral con subíndices**: en la práctica, cada ejercicio abierto lista debajo sus
   pasos e incisos, y tocar uno lleva directo a ese inciso.
 * **Tareas**: un tablero con tres columnas, **Pendientes**, **En proceso** y **Hecho**, en el
@@ -244,6 +249,9 @@ Chrome (`chrome --headless --print-to-pdf`).
 `0.x.y-alpha` mientras esté en desarrollo. La `1.0.0` queda reservada para cuando esté terminado.
 La versión actual se lee al pie del menú lateral.
 
+* **0.49.0-alpha** — Ingeniería de Software II: modo **Practicar diagramas** en las
+  autoevaluaciones. Los ocho diagramas de patrones con los nombres tapados, para completar
+  escribiendo el patrón, las clases, los atributos y los métodos.
 * **0.48.0-alpha** — Ingeniería de Software II, ejercicios de parcial: cuatro ejercicios más
   (las mismas formas de consigna con los patrones rotados, y un integrador), pasos de **escribir
   la palabra clave** y, en el formulario, la elección de qué ejercicios hacer.

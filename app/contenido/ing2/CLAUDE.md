@@ -151,6 +151,14 @@ más arriba. Después de generarlos se mira **cómo quedaron**
   (Abstract Factory en un enunciado y Adapter sobre un diagrama). Los cuatro primeros no tienen
   pasos de escribir y no se les agregan (cambiaría la cantidad de pasos de intentos guardados).
 
+- **Practicar diagramas** (tercer modo del formulario): un archivo por patrón,
+  `ing2-<unidad>-d-<patron>.html`, con `data-practica="diagrama"`. El enunciado muestra el
+  diagrama general del patrón (el mismo `data-g` de la teoría: si cambia allá, hay que revisar los
+  `data-oculta` de acá) y los pasos, todos de escribir, piden el patrón, las clases, los atributos
+  y los métodos; las alternativas aceptan el nombre sin tipos, el de Refactoring.Guru en inglés y
+  el del código de los parciales. No se preguntan los nombres de relleno (`hacerAlgo`,
+  `operacionA`). Formato en `FORMATO.md` ("Diagrama para completar").
+
 ## Pendientes e ideas
 
 - **Ejercicios de parcial que faltan** (plan acordado el 12/10/2026, Fran los suma después):

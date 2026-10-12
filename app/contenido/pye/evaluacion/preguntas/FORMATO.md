@@ -80,6 +80,13 @@ pasos en avanzado y en 20 en principiante.
   corto y vale cualquiera de las alternativas, sin importar mayúsculas, tildes, paréntesis ni el
   artículo de adelante. La primera es la que se muestra como respuesta. La consigna tiene que
   dejar claro que se espera una sola palabra.
+* **Diagrama para completar** (Ing. II, modo Practicar diagramas): el `article` lleva
+  `data-practica="diagrama"` y `data-titulo="Strategy · De comportamiento"`, el enunciado trae el
+  diagrama completo y los pasos (de escribir, sin `data-inciso`) dicen qué tapan con
+  `data-oculta="trozo|trozo"`: mientras el paso no esté resuelto, todo texto del diagrama que
+  contenga uno de esos trozos (en minúsculas) se ve como "(n) ?", con n el número del paso. Un
+  texto queda a la vista recién cuando se resolvieron todos los pasos que lo tapan, así que el
+  orden importa: primero el nombre de la clase, después los miembros que lo nombran.
 * Los incisos de teoría (demostrar, justificar, enunciar) se desglosan con pasos de opciones:
   "¿cuál es el paso que sigue en la demostración?", "¿qué condición justifica el modelo?".
 * Los incisos que no se pueden corregir solos (un gráfico) se dejan afuera o se convierten en una

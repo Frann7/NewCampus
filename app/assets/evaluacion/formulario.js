@@ -236,12 +236,20 @@
     '    <label class="ae-modo"><input type="radio" name="modo" value="ejercicios">' +
     '      <span class="ae-modo-tit">Ejercicios de parcial</span>' +
     '      <span class="ae-modo-desc" data-desc-ejercicios></span></label>' +
+    '    <label class="ae-modo" data-modo-diagramas hidden><input type="radio" name="modo" value="diagramas">' +
+    '      <span class="ae-modo-tit">Practicar diagramas</span>' +
+    '      <span class="ae-modo-desc">El diagrama UML de cada patrón con la estructura ya dibujada (cajas, flechas, rombos) y los nombres tapados: escribís de qué patrón es, las clases, los atributos y los métodos, con pista y resolución en cada paso.</span></label>' +
     '  </div>' +
     '</fieldset>' +
     '<fieldset class="ae-paso" data-bloque="ejercicios" hidden>' +
     '  <legend><span class="ae-num"></span>Ejercicios</legend>' +
     '  <div class="ae-caja-unidades" data-ejercicios></div>' +
     '  <p class="ae-ayuda" data-total-ejercicios></p>' +
+    '</fieldset>' +
+    '<fieldset class="ae-paso" data-bloque="diagramas" hidden>' +
+    '  <legend><span class="ae-num"></span>Diagramas</legend>' +
+    '  <div class="ae-caja-unidades" data-diagramas></div>' +
+    '  <p class="ae-ayuda" data-total-diagramas></p>' +
     '</fieldset>' +
     '<fieldset class="ae-paso" data-bloque="temas" hidden>' +
     '  <legend><span class="ae-num"></span>Temas</legend>' +
@@ -293,7 +301,19 @@
     // Modo: solo si la materia tiene ejercicios de parcial cargados
     var listaEjercicios = E.banco.ejercicios(materia);
     var ejercicios = listaEjercicios.length;
-    function enEjercicios() { return ejercicios > 0 && form.elements.modo.value === "ejercicios"; }
+    var listaDiagramas = E.banco.diagramas(materia);
+    function enDiagramas() { return listaDiagramas.length > 0 && form.elements.modo.value === "diagramas"; }
+    function diagramasElegidos() {
+      return Array.prototype.filter.call(form.querySelectorAll('[name="diagrama"]'), function (i) { return i.checked; })
+        .map(function (i) { return i.value; });
+    }
+    function contarDiagramas() {
+      var n = diagramasElegidos().length;
+      form.querySelector("[data-total-diagramas]").textContent =
+        n === 1 ? "1 diagrama." : n + " diagramas, mezclados: no vas a saber cuál viene.";
+    }
+    // "con pasos": ejercicios de parcial o diagramas, lo que corre en examen.js
+    function enEjercicios() { return enDiagramas() || (ejercicios > 0 && form.elements.modo.value === "ejercicios"); }
     function ejerciciosElegidos() {
       return Array.prototype.filter.call(form.querySelectorAll('[name="ejercicio"]'), function (i) { return i.checked; })
         .map(function (i) { return i.value; });
@@ -305,7 +325,8 @@
     }
     function acomodar() {
       var ej = enEjercicios();
-      form.querySelector('[data-bloque="ejercicios"]').hidden = !ej;
+      form.querySelector('[data-bloque="ejercicios"]').hidden = !ej || enDiagramas();
+      form.querySelector('[data-bloque="diagramas"]').hidden = !enDiagramas();
       form.querySelector('[data-bloque="temas"]').hidden = !porTemas || ej;
       // los ejercicios se hacen sin apuro: el contador es opcional
       form.querySelector("[data-tiempo-libre]").hidden = !ej;
@@ -315,6 +336,20 @@
       Array.prototype.forEach.call(form.querySelectorAll(".ae-paso"), function (f) {
         if (!f.hidden) { f.querySelector(".ae-num").textContent = String(++n); }
       });
+    }
+    if (listaDiagramas.length) {
+      // un chip por patron, con su grupo
+      var cajaDiagramas = form.querySelector("[data-diagramas]");
+      listaDiagramas.forEach(function (p) {
+        var partes = (p.titulo || p.id).split(" · ");
+        cajaDiagramas.appendChild(h("label", { class: "ae-chip" }, [
+          h("input", { type: "checkbox", name: "diagrama", value: p.id, checked: true }),
+          h("span", {}, [h("b", {}, partes[0]), h("small", {}, partes.slice(1).join(" · "))])
+        ]));
+      });
+      cajaDiagramas.addEventListener("change", contarDiagramas);
+      contarDiagramas();
+      form.querySelector("[data-modo-diagramas]").hidden = false;
     }
     if (ejercicios) {
       form.querySelector("[data-desc-ejercicios]").textContent =
@@ -358,9 +393,10 @@
       var errores = [];
       if (porTemas && !ej && !unidades.length) { errores.push("Elegí al menos un tema."); }
       if (porTemas && unidades.length === conPreguntas.length) { unidades = []; }   // todos: sin filtro
-      var elegidos = ej ? ejerciciosElegidos() : [];
+      var dg = enDiagramas();
+      var elegidos = dg ? diagramasElegidos() : ej ? ejerciciosElegidos() : [];
       var total = ej ? elegidos.length : E.banco.todas(materia, unidades);
-      if (ej && !total) { errores.push("Elegí al menos un ejercicio."); }
+      if (ej && !total) { errores.push(dg ? "Elegí al menos un diagrama." : "Elegí al menos un ejercicio."); }
       else if (!total) { errores.push("Todavía no hay preguntas en el banco de esta materia."); }
       if (conTiempo && (minutos < 1 || minutos > MAX_MINUTOS)) { errores.push("El contador va de 1 a 240 minutos (4 horas)."); }
       var caja = form.querySelector("[data-errores]");
@@ -379,6 +415,7 @@
         v = { v: 2, tipo: "simple", etapa: "2", modo: "interactivo", nivel: "principiante",
               fundamentales: true, unidades: [], ejercicios: elegidos, cantEjercicios: total,
               conTiempo: conTiempo, minutos: conTiempo ? minutos : 0 };
+        if (dg) { v.practica = "diagrama"; }
       }
       var nueva = { id: "ae-" + Date.now().toString(36), materia: materia, creada: Date.now(),
                     nombre: nombre, config: v, historial: [], intento: null };

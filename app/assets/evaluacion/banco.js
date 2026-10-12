@@ -42,6 +42,9 @@
       respuesta: li.getAttribute("data-respuesta"),
       // paso de escribir: las palabras que valen, separadas por "|" (la primera es la que se muestra)
       texto: li.getAttribute("data-texto"),
+      // practica de diagramas: lo que este paso mantiene tapado en el dibujo hasta
+      // resolverlo (trozos de texto separados por "|", sin mayusculas)
+      oculta: li.getAttribute("data-oculta") || "",
       tolerancia: li.getAttribute("data-tolerancia"),
       opciones: leerOpciones(li),
       pista: html(hijo(li, "p-pista")),
@@ -120,6 +123,8 @@
           rotulo: a.getAttribute("data-rotulo") || "",
           // como se ofrece el ejercicio en el formulario: "Forma de consigna · patrones"
           titulo: a.getAttribute("data-titulo") || "",
+          // "diagrama": el diagrama de un patron para completar (modo Practicar diagramas)
+          practica: a.getAttribute("data-practica") || "",
           datos: html(hijo(a, "p-datos")),   // cuadro de datos del ejercicio (niveles con ayuda)
           pasos: pasos ? Array.prototype.map.call(pasos.querySelectorAll(":scope > li"), leerPaso) : [],
           rtas: leerRtas(a)
@@ -180,8 +185,14 @@
   // de toda la materia, en su orden de estudio (data-fundamental).
   function ejerciciosEnOrden(materia) {
     return cargar(materia).lista.filter(function (p) {
-      return !p.retirada && p.etapa === "2" && p.tipo === "ejercicio" && p.fundamental > 0;
+      return !p.retirada && p.etapa === "2" && p.tipo === "ejercicio" && !p.practica && p.fundamental > 0;
     }).sort(function (a, b) { return a.fundamental - b.fundamental || (a.id < b.id ? -1 : 1); });
+  }
+  // Practicar diagramas (Ing. II): el diagrama de cada patron, para completar.
+  function diagramasDe(materia) {
+    return cargar(materia).lista.filter(function (p) {
+      return !p.retirada && p.etapa === "2" && p.practica === "diagrama";
+    }).sort(function (a, b) { return a.id < b.id ? -1 : 1; });
   }
   // Los que eligio el usuario (c.ejercicios). Las guardadas antes de poder
   // elegir no traen la lista: les tocan los primeros c.cantEjercicios, que
@@ -196,6 +207,7 @@
   function limpiarTexto(t) {
     return String(t || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")
       .replace(/[()\[\]"'.,;:¿?¡!]/g, " ").replace(/\s+/g, " ").trim()
+      .replace(/^[-+#~] ?/, "")           // el simbolo de visibilidad de un miembro: "+ notificar()"
       .replace(/^(el|la|los|las|un|una) /, "");
   }
 
@@ -269,6 +281,7 @@
     todas: function (materia, unidades) { return todasEnOrden(materia, unidades).length; },
     // Los ejercicios de parcial de la evaluacion simple (ver ejerciciosEnOrden).
     ejercicios: function (materia) { return ejerciciosEnOrden(materia); },
+    diagramas: function (materia) { return diagramasDe(materia); },
 
     disponibles: function (materia, unidades, soloParcial, fundamentales, op1) {
       var r = { teoria: 0, practica: 0, ejercicio: 0, cuestionario: 0 };
@@ -312,6 +325,12 @@
 
     // Devuelve la lista ordenada de ids para un intento nuevo.
     seleccionar: function (materia, c) {
+      if (c.tipo === "simple" && c.practica === "diagrama") {
+        // los elegidos, mezclados: el primer paso es decir de que patron es
+        return E.mezclar(diagramasDe(materia).filter(function (p) {
+          return !c.ejercicios || !c.ejercicios.length || c.ejercicios.indexOf(p.id) !== -1;
+        }).map(function (p) { return p.id; }));
+      }
       if (c.tipo === "simple" && etapaDe(c) === "2") { return ejerciciosDe(materia, c).map(function (p) { return p.id; }); }
       if (c.tipo === "simple") { return todasEnOrden(materia, c.unidades).map(function (p) { return p.id; }); }
       var pool = delPool(materia, c);
@@ -370,8 +389,10 @@
 
     // Paso de escribir: vale cualquiera de las alternativas de data-texto.
     comprobarTexto: function (texto, paso) {
-      var dado = limpiarTexto(texto);
-      return !!dado && String(paso.texto || "").split("|").some(function (a) { return limpiarTexto(a) === dado; });
+      // sin espacios: "creador concreto" vale por "CreadorConcreto", y "e:Estrategia" por "e: Estrategia"
+      function clave(t) { return limpiarTexto(t).replace(/ /g, ""); }
+      var dado = clave(texto);
+      return !!dado && String(paso.texto || "").split("|").some(function (a) { return clave(a) === dado; });
     },
     // La que se muestra como respuesta: la primera.
     textoDe: function (paso) { return String(paso.texto || "").split("|")[0].trim(); },

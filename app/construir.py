@@ -171,7 +171,7 @@ def revisar_preguntas(texto, ids_vistos):
             tipo = atributo("tipo")
             if tipo not in ("teoria", "practica", "ejercicio"):
                 problemas.append("%s: data-tipo tiene que ser teoria, practica o ejercicio" % pid)
-            if tipo == "ejercicio":
+            if tipo == "ejercicio" and not atributo("practica"):
                 # cada paso dice su inciso, y todo inciso tiene su resultado en avanzado
                 pasos = re.findall(r'<li([^>]*data-nivel="[^"]*"[^>]*)>', sin_comentarios)
                 if not pasos:

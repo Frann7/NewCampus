@@ -107,7 +107,8 @@ rioplatense con voseo) y **mantenedor** del campus (código, contenido, commits)
 - **Ingeniería de Software II (parcial el miércoles 14/10/2026):** las 7 partes de
   `docs/plan-ing2.md` están cargadas (6 unidades y los parciales 2024 y 2025 resueltos), más
   el banco de autoevaluación por temas (67 preguntas) y ocho ejercicios de parcial de
-  patrones, con pasos de elegir y de escribir (faltan los de teoría: CMMI, Git y métricas). Lo que
+  patrones, con pasos de elegir y de escribir (faltan los de teoría: CMMI, Git y métricas), y el modo
+  Practicar diagramas con los ocho diagramas para completar. Lo que
   quedó para después del parcial está en `app/contenido/ing2/CLAUDE.md`. El texto de la teoría de
   patrones (`fuentes/ing2/PATRONES/TEORIA/`) está solo en esta PC, no en el repo.
 - **"No pude abrir el examen" (compañero, Parcial PHP):** no se reprodujo (clon limpio, update

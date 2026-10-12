@@ -324,8 +324,33 @@
 
       // Un salteado en pantalla: retomarlo, o seguir. Si ya no queda nada sin
       // hacer, la lista de los salteados que faltan y la opcion de terminar.
+      /* Practicar diagramas: el dibujo esta entero en el enunciado y aca se le
+         tapa lo que todavia no se escribio. Cada paso pendiente tapa los textos
+         que contienen alguno de sus trozos (data-oculta), y en su lugar queda el
+         numero del paso: "(3) ?". Queda a la vista la estructura: cajas, flechas,
+         estereotipos, el simbolo de visibilidad y el subrayado de lo estatico. */
+      function taparDiagrama(raiz, p, r) {
+        if (p.practica !== "diagrama") { return; }
+        var pendientes = [];
+        B.pasosDelNivel(p, E.nivelDe(c)).forEach(function (paso, k) {
+          if (k < r.paso || !paso.oculta) { return; }
+          paso.oculta.split("|").forEach(function (trozo) { pendientes.push({ trozo: trozo.toLowerCase(), n: k + 1 }); });
+        });
+        if (!pendientes.length) { return; }
+        Array.prototype.forEach.call(raiz.querySelectorAll(".uml text:not(.estereo)"), function (t) {
+          var texto = t.textContent.toLowerCase();
+          var tapa = pendientes.filter(function (x) { return texto.indexOf(x.trozo) !== -1; })[0];
+          if (!tapa) { return; }
+          var visib = t.firstElementChild && /^v-/.test(t.firstElementChild.getAttribute("class") || "")
+            ? t.firstElementChild.textContent + " " : "";
+          t.textContent = visib + "(" + tapa.n + ") ?";
+          t.classList.add("dg-tapado");
+        });
+      }
+
       function pintarSalteado(tarjeta, p, r, idx) {
         tarjeta.appendChild(h("div", { class: "ex-enunciado", html: p.enunciado }));
+        taparDiagrama(tarjeta, p, r);
         var donde = r.paso ? " Ibas por el paso " + (r.paso + 1) + ": seguís desde ahí." : "";
         tarjeta.appendChild(cartel("caja-ojo", "Lo salteaste",
           "<p>Lo dejaste para después." + donde + " Si terminás la autoevaluación sin completarlo, en el informe figura como salteado.</p>"));
@@ -587,7 +612,7 @@
          vista. En pantallas angostas va arriba, como antes (evaluacion.css). */
       function pintarPasos(tarjeta, p, r, pasos) {
         var col = h("div", { class: "ex-pasos-col" });
-        tarjeta.appendChild(h("div", { class: "ex-con-enunciado" }, [
+        tarjeta.appendChild(h("div", { class: "ex-con-enunciado" + (p.practica === "diagrama" ? " es-diagrama" : "") }, [
           h("aside", { class: "ex-enunciado-lado" }, [
             h("div", { class: "ex-enunciado-tit" }, "Enunciado"),
             h("div", { class: "ex-enunciado ex-enunciado-fijo", html: p.enunciado }),
@@ -599,6 +624,7 @@
           ]),
           col
         ]));
+        taparDiagrama(tarjeta, p, r);
         var lista = h("ol", { class: "ex-pasos" });
         col.appendChild(lista);
         var actual = null;
@@ -833,8 +859,9 @@
         var conPasos = E.guiado(c) && (p.tipo === "practica" || p.tipo === "ejercicio");
         var pasos = conPasos ? B.pasosDelNivel(p, E.nivelDe(c)) : [];
         var etiquetas = [
-          h("span", { class: "ev-chip ev-chip-" + p.tipo }, E.TIPOS[p.tipo]),
-          h("span", { class: "ev-chip" }, E.numeroDeUnidad(materia, p.unidad)),
+          h("span", { class: "ev-chip ev-chip-" + p.tipo }, p.practica === "diagrama" ? "Diagrama" : E.TIPOS[p.tipo]),
+          // en un diagrama para completar, la unidad diria de que grupo es el patron
+          p.practica === "diagrama" ? null : h("span", { class: "ev-chip" }, E.numeroDeUnidad(materia, p.unidad)),
           E.chipOrigen(p)
         ];
         if (pasos.length && E.conVidas(c)) { etiquetas.push(h("span", { class: "ev-chip" }, "Nivel " + E.NIVELES[c.nivel].toLowerCase())); }

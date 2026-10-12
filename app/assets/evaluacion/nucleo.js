@@ -119,6 +119,7 @@ window.NC.eval = window.NC.eval || {};
   // El estilo guiado siempre desglosa en todos los pasos (son las "faciles").
   E.nivelDe = function (c) { return c.modo === "interactivo" ? c.nivel : "principiante"; };
   E.nombreModo = function (c) {
+    if (E.esSimple(c) && c.practica === "diagrama") { return "Practicar diagramas"; }
     if (E.esSimple(c) && c.modo === "interactivo") { return "Ejercicios de parcial"; }
     if (c.modo === "interactivo") { return "Interactivo · " + E.NIVELES[c.nivel]; }
     if (c.estilo === "guiado") { return "Normal · fáciles y guiadas"; }
@@ -362,7 +363,8 @@ window.NC.eval = window.NC.eval || {};
     var cant = 0;
     if (E.esSimple(c) && E.etapaDe(c) === "2") {
       cant = c.cantEjercicios;
-      return [cant + (cant === 1 ? " ejercicio de parcial" : " ejercicios de parcial"),
+      return [c.practica === "diagrama" ? cant + (cant === 1 ? " diagrama para completar" : " diagramas para completar")
+                                        : cant + (cant === 1 ? " ejercicio de parcial" : " ejercicios de parcial"),
               c.conTiempo ? c.minutos + " min" : "Sin límite"];
     }
     if (E.esSimple(c)) {

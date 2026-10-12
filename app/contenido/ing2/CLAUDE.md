@@ -132,8 +132,28 @@ más arriba. Después de generarlos se mira **cómo quedaron**
   la fuente lo dice ("Inventada · estilo Parcial 2025, Práctica 2"). Todo programa de C++ de una
   pregunta va completo, compilado y corrido, sin comentarios ni nombres que delaten el patrón.
   Las opciones de un desplegable van siempre en el mismo orden (alfabético) dentro de la pregunta.
+- **Ejercicios de parcial** (modo "Ejercicios de parcial" del formulario): un ejercicio completo
+  por archivo, en la carpeta de su unidad, con id `ing2-<unidad>-e-fundamental-NN-<forma>`,
+  `data-tipo="ejercicio"`, `data-fundamental="NN"` (el orden en que salen, entre todas las
+  unidades) y `data-rotulo` con el nombre de sus partes ("Patrón", "Párrafo", "Parte", "Punto").
+  Formato: el de "Ejercicio completo" de `FORMATO.md`. Los pasos son todos de opciones; cada
+  parte (`data-inciso="1"`, `"2"`...) cierra con su `p-rta`: la respuesta como va en la hoja, en
+  las tres partes de siempre y con la misma descripción del patrón que la teoría. Los diagramas
+  propios están en `fuentes/ing2/diagramas/evaluacion.py`, angostos a propósito (van en una
+  columna); los generales de cada patrón se reusan con su mismo `data-g`.
+  Están los cuatro fundamentales de patrones, que entre todos pasan los ocho: 01 dibujar y
+  explicar (Factory Method y Facade), 02 enunciado (Composite, Abstract Factory, Strategy),
+  03 código (Adapter), 04 agregar a un diagrama (Singleton y Observer).
 
 ## Pendientes e ideas
+
+- **Ejercicios de parcial que faltan** (plan acordado el 12/10/2026, Fran los suma después):
+  los fundamentales de teoría (CMMI: diagnosticar el nivel; CMMI: acciones hasta el nivel 5 con
+  IA; Git: el flujo de trabajo; métrica: la ficha) y más ejercicios de patrones por forma de
+  consigna (un código en PHP como el del Parcial 2025, los otros patrones en cada forma). Cuando
+  haya más que los fundamentales, el formulario necesita elegir por tipo de consigna y cantidad;
+  también quedó propuesto un estilo "como en el parcial" (escribir en la hoja y autocorregirse
+  contra la respuesta modelo). En esta PC no hay `php`: un código en PHP no se puede correr acá.
 
 - De los apuntes quedó en un párrafo o afuera lo que nunca se tomó: claves SSH, gestores de
   dependencias, la especificación completa de SemVer, los "juegos" de complejidad ciclomática

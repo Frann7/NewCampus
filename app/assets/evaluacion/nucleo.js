@@ -114,10 +114,12 @@ window.NC.eval = window.NC.eval || {};
   E.guiado = function (c) {
     return !!c && (c.modo === "interactivo" || (c.modo === "normal" && c.estilo === "guiado"));
   };
-  E.conVidas = function (c) { return !!c && c.modo === "interactivo"; };
+  // (los ejercicios de la evaluacion simple, Ing. II, van sin vidas ni nivel)
+  E.conVidas = function (c) { return !!c && c.modo === "interactivo" && !E.esSimple(c); };
   // El estilo guiado siempre desglosa en todos los pasos (son las "faciles").
   E.nivelDe = function (c) { return c.modo === "interactivo" ? c.nivel : "principiante"; };
   E.nombreModo = function (c) {
+    if (E.esSimple(c) && c.modo === "interactivo") { return "Ejercicios de parcial"; }
     if (c.modo === "interactivo") { return "Interactivo · " + E.NIVELES[c.nivel]; }
     if (c.estilo === "guiado") { return "Normal · fáciles y guiadas"; }
     return "Normal";
@@ -142,6 +144,16 @@ window.NC.eval = window.NC.eval || {};
     return { tipo: ev.tipo === "simple" ? "simple" : "etapas", minutos: parseInt(ev.minutos, 10) || 40 };
   };
   E.esSimple = function (c) { return !!c && c.tipo === "simple"; };
+
+  // Como se llama cada parte de un ejercicio completo: "Inciso a)" o, si el
+  // ejercicio trae data-rotulo ("Párrafo"), "Párrafo 1".
+  E.rotuloInciso = function (p, inciso) {
+    return p && p.rotulo ? p.rotulo + " " + inciso : "Inciso " + inciso + ")";
+  };
+  E.rotuloRta = function (p, inciso) {
+    var t = E.rotuloInciso(p, inciso);
+    return "Rta. " + t.charAt(0).toLowerCase() + t.slice(1);
+  };
 
   // Origen de una pregunta: el mismo lenguaje que las marcas de teoria y practica.
   E.ORIGENES = {
@@ -348,6 +360,11 @@ window.NC.eval = window.NC.eval || {};
   E.resumenConfig = function (materia, c) {
     var partes = [];
     var cant = 0;
+    if (E.esSimple(c) && E.etapaDe(c) === "2") {
+      cant = c.cantEjercicios;
+      return [cant + (cant === 1 ? " ejercicio de parcial" : " ejercicios de parcial"),
+              c.conTiempo ? c.minutos + " min" : "Sin límite"];
+    }
     if (E.esSimple(c)) {
       cant = c.cantCuestionario;
       partes = [cant + (cant === 1 ? " pregunta" : " preguntas"), c.conTiempo ? c.minutos + " min" : "Sin límite"];

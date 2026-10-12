@@ -1,0 +1,365 @@
+<article class="preg" data-id="ing2-u4a-e-fundamental-04-diagrama" data-tipo="ejercicio" data-origen="parcial" data-fundamental="04" data-rotulo="Punto">
+  <div class="p-enunciado">
+    <p>
+      En el siguiente diagrama, que pertenece a la aplicación de un taller mecánico, se solicita
+      modelar:
+    </p>
+    <div class="pd-grafico uml" data-g="taller">
+      <svg viewBox="-14 -14 381 379" width="381" height="379" role="img" aria-label="El diagrama de la aplicación del taller mecánico">
+        <polyline class="linea" points="54,225 54,191.5 95,191.5 95,158"/>
+        <polygon class="hueca" points="95,145 102,158 88,158"/>
+        <polyline class="linea" points="182.5,225 182.5,191.5 95,191.5 95,158"/>
+        <polygon class="hueca" points="95,145 102,158 88,158"/>
+        <polyline class="linea" points="160,72.5 180,72.5 180,72.5 200,72.5"/>
+        <g class="clase k-comun">
+        <rect class="caja" x="30" y="0" width="130" height="145" rx="3"/>
+        <rect class="cab" x="31" y="1" width="128" height="29" rx="2"/>
+        <text class="nombre" x="95" y="20">Persona</text>
+        <line class="div" x1="30" y1="30" x2="160" y2="30"/>
+        <text class="miembro" x="40" y="48">nombre</text>
+        <text class="miembro" x="40" y="67">telefono</text>
+        <line class="div" x1="30" y1="78" x2="160" y2="78"/>
+        <text class="miembro" x="40" y="96">get nombre()</text>
+        <text class="miembro" x="40" y="115">get telefono()</text>
+        <text class="miembro" x="40" y="134">set telefono()</text>
+        </g>
+        <g class="clase k-comun">
+        <rect class="caja" x="200" y="0" width="153" height="183" rx="3"/>
+        <rect class="cab" x="201" y="1" width="151" height="29" rx="2"/>
+        <text class="nombre" x="276.5" y="20">OrdenDeTrabajo</text>
+        <line class="div" x1="200" y1="30" x2="353" y2="30"/>
+        <text class="miembro" x="210" y="48">numero</text>
+        <text class="miembro" x="210" y="67">patente</text>
+        <text class="miembro" x="210" y="86">estado</text>
+        <text class="miembro" x="210" y="105">total</text>
+        <line class="div" x1="200" y1="116" x2="353" y2="116"/>
+        <text class="miembro" x="210" y="134">agregarRepuesto()</text>
+        <text class="miembro" x="210" y="153">cambiarEstado()</text>
+        <text class="miembro" x="210" y="172">calcularTotal()</text>
+        </g>
+        <g class="clase k-comun">
+        <rect class="caja" x="0" y="225" width="108" height="126" rx="3"/>
+        <rect class="cab" x="1" y="226" width="106" height="29" rx="2"/>
+        <text class="nombre" x="54" y="245">Cliente</text>
+        <line class="div" x1="0" y1="255" x2="108" y2="255"/>
+        <text class="miembro" x="10" y="273">DNI</text>
+        <text class="miembro" x="10" y="292">email</text>
+        <line class="div" x1="0" y1="303" x2="108" y2="303"/>
+        <text class="miembro" x="10" y="321">get dni()</text>
+        <text class="miembro" x="10" y="340">get email()</text>
+        </g>
+        <g class="clase k-comun">
+        <rect class="caja" x="125" y="225" width="115" height="88" rx="3"/>
+        <rect class="cab" x="126" y="226" width="113" height="29" rx="2"/>
+        <text class="nombre" x="182.5" y="245">Mecanico</text>
+        <line class="div" x1="125" y1="255" x2="240" y2="255"/>
+        <text class="miembro" x="135" y="273">legajo</text>
+        <line class="div" x1="125" y1="284" x2="240" y2="284"/>
+        <text class="miembro" x="135" y="302">get legajo()</text>
+        </g>
+      </svg>
+    </div>
+    <ul>
+      <li>
+        Se desea crear una clase para llevar el stock de repuestos, llamada RegistroDeRepuestos;
+        dicha clase tendrá métodos para consultar el stock de un repuesto, reservarlo y reponerlo.
+        Para que todos los módulos trabajen sobre los mismos datos, se desea crear una sola
+        instancia de dicha clase.
+      </li>
+      <li>
+        Se necesita implementar un mecanismo de seguimiento de las órdenes de trabajo: cada vez que
+        una orden cambie de estado, se debe enviar un aviso al cliente, y este lo registra en su
+        historial de avisos.
+      </li>
+    </ul>
+    <p class="p-fuente">Inventado &middot; estilo Parcial 2024, Ej. 3</p>
+  </div>
+  <div class="p-explicacion">
+    <div class="tabla-wrap">
+      <table class="t full">
+        <tr><th>Punto</th><th>Patrón</th><th>Qué se cambia en el diagrama</th></tr>
+        <tr>
+          <td class="lbl">1. El stock de repuestos</td>
+          <td><strong>Singleton</strong> <span class="et">Creacional</span></td>
+          <td>Una clase nueva, <code>RegistroDeRepuestos</code>, con <code>instancia</code> y <code>obtenerInstancia()</code> subrayados y el constructor privado. El resto no cambia</td>
+        </tr>
+        <tr>
+          <td class="lbl">2. El aviso al cliente</td>
+          <td><strong>Observer</strong> <span class="et vio">De comportamiento</span></td>
+          <td>La lista y tres métodos en <code>OrdenDeTrabajo</code>, la interfaz <code>Observador</code>, <code>actualizar()</code> en <code>Cliente</code>, un rombo y una realización</td>
+        </tr>
+      </table>
+    </div>
+    <p>
+      En la hoja va, por cada punto, el diagrama modificado y la justificación en tres partes: qué
+      patrón y por qué (con la frase del enunciado), cómo se aplica y qué se gana.
+    </p>
+  </div>
+  <div class="p-rta" data-inciso="1">
+    <p><strong>Singleton</strong>, en la clase nueva <code>RegistroDeRepuestos</code>:</p>
+    <div class="pd-grafico uml" data-g="taller-singleton">
+      <svg viewBox="-14 -14 364 192" width="364" height="192" role="img" aria-label="RegistroDeRepuestos como Singleton">
+        <g class="clase k-comun destacada">
+        <rect class="caja" x="0" y="0" width="336" height="164" rx="3"/>
+        <rect class="cab" x="1" y="1" width="334" height="29" rx="2"/>
+        <text class="nombre" x="168" y="20">RegistroDeRepuestos</text>
+        <line class="div" x1="0" y1="30" x2="336" y2="30"/>
+        <text class="miembro estatico" x="10" y="48"><tspan class="v-priv">-</tspan> instancia<tspan class="tp">: RegistroDeRepuestos</tspan></text>
+        <line class="div" x1="0" y1="59" x2="336" y2="59"/>
+        <text class="miembro" x="10" y="77"><tspan class="v-priv">-</tspan> RegistroDeRepuestos()</text>
+        <text class="miembro estatico" x="10" y="96"><tspan class="v-pub">+</tspan> obtenerInstancia()<tspan class="tp">: RegistroDeRepuestos</tspan></text>
+        <text class="miembro" x="10" y="115"><tspan class="v-pub">+</tspan> consultarStock(repuesto)<tspan class="tp">: int</tspan></text>
+        <text class="miembro" x="10" y="134"><tspan class="v-pub">+</tspan> reservar(repuesto)<tspan class="tp">: void</tspan></text>
+        <text class="miembro" x="10" y="153"><tspan class="v-pub">+</tspan> reponer(repuesto, cantidad)<tspan class="tp">: void</tspan></text>
+        </g>
+      </svg>
+    </div>
+    <ol>
+      <li><strong>Qué patrón y por qué:</strong> "Singleton, un patrón creacional, porque la clase <code>RegistroDeRepuestos</code> debe tener una única instancia disponible para todo el programa. El enunciado lo pide: "se desea crear una sola instancia de dicha clase"."</li>
+      <li><strong>Cómo se aplica:</strong> "<code>RegistroDeRepuestos</code> oculta su constructor (es privado) y ofrece un método estático, <code>obtenerInstancia()</code>, que crea el objeto la primera vez y devuelve siempre el mismo, guardado en el atributo estático <code>instancia</code>. Los métodos que pide el enunciado (consultar el stock, reservar y reponer) quedan como métodos comunes."</li>
+      <li><strong>Qué se gana:</strong> "Todo el taller usa el mismo registro de repuestos, a través de un único punto de acceso: todos los módulos trabajan sobre los mismos datos."</li>
+    </ol>
+  </div>
+  <div class="p-rta" data-inciso="2">
+    <p><strong>Observer</strong>, entre <code>OrdenDeTrabajo</code> y <code>Cliente</code>:</p>
+    <div class="pd-grafico uml" data-g="taller-observer">
+      <svg viewBox="-14 -14 470 608" width="470" height="608" role="img" aria-label="Observer sobre el diagrama del taller: el Cliente se suscribe a la OrdenDeTrabajo">
+        <polyline class="linea" points="57.5,305 57.5,231.5 105,231.5 105,158"/>
+        <polygon class="hueca" points="105,145 112,158 98,158"/>
+        <polyline class="linea" points="214,305 214,231.5 105,231.5 105,158"/>
+        <polygon class="hueca" points="105,145 112,158 98,158"/>
+        <polyline class="linea" points="170,72.5 195,72.5 195,72.5 220,72.5"/>
+        <polyline class="linea" points="331.5,277 331.5,391 331.5,391 331.5,505"/>
+        <polygon class="hueca" points="331,259 337,268 331,277 325,268"/>
+        <text class="rotulo" x="339.5" y="487" text-anchor="middle">*</text>
+        <polyline class="linea punteada" points="214,469 214,542.5 242,542.5"/>
+        <polygon class="hueca" points="255,542.5 242,549.5 242,535.5"/>
+        <g class="clase k-comun">
+        <rect class="caja" x="40" y="0" width="130" height="145" rx="3"/>
+        <rect class="cab" x="41" y="1" width="128" height="29" rx="2"/>
+        <text class="nombre" x="105" y="20">Persona</text>
+        <line class="div" x1="40" y1="30" x2="170" y2="30"/>
+        <text class="miembro" x="50" y="48">nombre</text>
+        <text class="miembro" x="50" y="67">telefono</text>
+        <line class="div" x1="40" y1="78" x2="170" y2="78"/>
+        <text class="miembro" x="50" y="96">get nombre()</text>
+        <text class="miembro" x="50" y="115">get telefono()</text>
+        <text class="miembro" x="50" y="134">set telefono()</text>
+        </g>
+        <g class="clase k-comun destacada">
+        <rect class="caja" x="220" y="0" width="222" height="259" rx="3"/>
+        <rect class="cab" x="221" y="1" width="220" height="29" rx="2"/>
+        <text class="nombre" x="331" y="20">OrdenDeTrabajo</text>
+        <line class="div" x1="220" y1="30" x2="442" y2="30"/>
+        <text class="miembro" x="230" y="48">numero</text>
+        <text class="miembro" x="230" y="67">patente</text>
+        <text class="miembro" x="230" y="86">estado</text>
+        <text class="miembro" x="230" y="105">total</text>
+        <text class="miembro" x="230" y="124">observadores<tspan class="tp">: Observador[]</tspan></text>
+        <line class="div" x1="220" y1="135" x2="442" y2="135"/>
+        <text class="miembro" x="230" y="153">agregarRepuesto()</text>
+        <text class="miembro" x="230" y="172">cambiarEstado()</text>
+        <text class="miembro" x="230" y="191">calcularTotal()</text>
+        <text class="miembro" x="230" y="210">suscribir(o<tspan class="tp">: Observador</tspan>)</text>
+        <text class="miembro" x="230" y="229">desuscribir(o<tspan class="tp">: Observador</tspan>)</text>
+        <text class="miembro" x="230" y="248">notificar()</text>
+        </g>
+        <g class="clase k-comun">
+        <rect class="caja" x="0" y="305" width="115" height="88" rx="3"/>
+        <rect class="cab" x="1" y="306" width="113" height="29" rx="2"/>
+        <text class="nombre" x="57.5" y="325">Mecanico</text>
+        <line class="div" x1="0" y1="335" x2="115" y2="335"/>
+        <text class="miembro" x="10" y="353">legajo</text>
+        <line class="div" x1="0" y1="364" x2="115" y2="364"/>
+        <text class="miembro" x="10" y="382">get legajo()</text>
+        </g>
+        <g class="clase k-comun destacada">
+        <rect class="caja" x="122" y="305" width="184" height="164" rx="3"/>
+        <rect class="cab" x="123" y="306" width="182" height="29" rx="2"/>
+        <text class="nombre" x="214" y="325">Cliente</text>
+        <line class="div" x1="122" y1="335" x2="306" y2="335"/>
+        <text class="miembro" x="132" y="353">DNI</text>
+        <text class="miembro" x="132" y="372">email</text>
+        <line class="div" x1="122" y1="383" x2="306" y2="383"/>
+        <text class="miembro" x="132" y="401">get dni()</text>
+        <text class="miembro" x="132" y="420">get email()</text>
+        <text class="miembro" x="132" y="439">actualizar(orden)</text>
+        <text class="miembro" x="132" y="458">registrarAviso(aviso)</text>
+        </g>
+        <g class="clase k-interfaz destacada">
+        <rect class="caja" x="255" y="505" width="153" height="75" rx="3"/>
+        <rect class="cab" x="256" y="506" width="151" height="45" rx="2"/>
+        <text class="estereo" x="331.5" y="521">&#171;interface&#187;</text>
+        <text class="nombre" x="331.5" y="540">Observador</text>
+        <line class="div" x1="255" y1="551" x2="408" y2="551"/>
+        <text class="miembro" x="265" y="569">actualizar(orden)</text>
+        </g>
+      </svg>
+    </div>
+    <ol>
+      <li><strong>Qué patrón y por qué:</strong> "Observer, un patrón de comportamiento, porque un cambio en un objeto (una orden de trabajo cambia de estado) se tiene que avisar a otros. El enunciado lo dice: "cada vez que una orden cambie de estado, se debe enviar un aviso al cliente"."</li>
+      <li><strong>Cómo se aplica:</strong> "<code>OrdenDeTrabajo</code> es el notificador (el objeto que cambia y avisa): guarda una lista de suscriptores (los que quieren enterarse, del tipo <code>Observador</code>) y les avisa a todos cada vez que cambia de estado. <code>Cliente</code> es un suscriptor: al recibir el aviso lo registra en su historial."</li>
+      <li><strong>Qué se gana:</strong> "Se suman otros interesados (el mecánico, el encargado) u otras formas de aviso sin modificar <code>OrdenDeTrabajo</code>."</li>
+    </ol>
+  </div>
+  <ol class="p-pasos">
+
+    <!-- ===== Punto 1: Singleton ===== -->
+    <li data-inciso="1" data-nivel="medio">
+      <div class="p-consigna"><p>Primer punto (la clase <code>RegistroDeRepuestos</code>). ¿Qué frase del pedido decide el patrón?</p></div>
+      <ul class="p-opciones">
+        <li data-correcta>&ldquo;se desea crear una sola instancia de dicha clase&rdquo;</li>
+        <li>&ldquo;tendrá métodos para consultar el stock de un repuesto, reservarlo y reponerlo&rdquo;: tres formas de hacer una misma tarea</li>
+        <li>&ldquo;Se desea crear una clase para llevar el stock de repuestos&rdquo;: una clase que crea repuestos de distintos tipos</li>
+        <li>&ldquo;todos los módulos&rdquo;: una clase que les da un acceso simple a todos los módulos</li>
+      </ul>
+      <div class="p-pista"><p>Buscá la frase que dice <strong>cuántos objetos</strong> de esa clase tiene que haber.</p></div>
+      <div class="p-explicacion"><p>&ldquo;Una sola instancia&rdquo; es la señal: habla de <strong>cuántos</strong> objetos se crean. Lo de consultar, reservar y reponer son los métodos comunes de la clase, no la razón del patrón.</p></div>
+    </li>
+    <li data-inciso="1" data-nivel="avanzado">
+      <div class="p-consigna"><p>¿Qué patrón corresponde al primer punto?</p></div>
+      <ul class="p-opciones">
+        <li data-correcta>Singleton</li>
+        <li>Factory Method</li>
+        <li>Facade</li>
+        <li>Observer</li>
+      </ul>
+      <div class="p-pista"><p>Que de una clase exista un solo objeto para todo el sistema.</p></div>
+      <div class="p-explicacion"><p><strong>Singleton</strong>, un patrón creacional: la clase debe tener una única instancia disponible para todo el programa.</p></div>
+    </li>
+    <li data-inciso="1" data-nivel="avanzado">
+      <div class="p-consigna"><p>¿Qué tres cosas hay que ponerle a <code>RegistroDeRepuestos</code> para que sea Singleton?</p></div>
+      <ul class="p-opciones">
+        <li data-correcta>Un atributo estático y privado, <code>instancia</code>, de su mismo tipo; el constructor privado; y un método estático y público, <code>obtenerInstancia()</code></li>
+        <li>Un atributo público, <code>instancia</code>; el constructor público; y un método <code>crearInstancia()</code> que devuelve un objeto nuevo cada vez</li>
+        <li>Una lista de instancias; los métodos <code>agregar()</code> y <code>quitar()</code>; y un método que las recorre</li>
+        <li>Un método abstracto, <code>crearRegistro()</code>; una subclase por cada tipo de repuesto; y una flecha punteada &ldquo;crea&rdquo;</li>
+      </ul>
+      <div class="p-pista"><p>La clase <strong>oculta su constructor</strong> y ofrece un <strong>método estático</strong> que devuelve siempre el mismo objeto, que tiene que estar guardado en algún lado.</p></div>
+      <div class="p-explicacion"><p>Las tres piezas: el atributo <code>instancia</code> (estático y privado: ahí queda guardado el único objeto), el <strong>constructor privado</strong> (nadie de afuera puede hacer <code>new</code>) y <code>obtenerInstancia()</code> (estático y público: crea el objeto la primera vez y devuelve siempre el mismo).</p></div>
+    </li>
+    <li data-inciso="1" data-nivel="medio">
+      <div class="p-consigna"><p>¿Cómo se dibuja eso en UML?</p></div>
+      <ul class="p-opciones">
+        <li data-correcta>Lo estático va subrayado (<code>instancia</code> y <code>obtenerInstancia()</code>), y el constructor lleva el signo &minus; de privado</li>
+        <li>Lo estático va en cursiva (<code>instancia</code> y <code>obtenerInstancia()</code>), y el constructor lleva el signo + de público</li>
+        <li>Lo estático no se marca, y arriba del nombre de la clase se escribe el rótulo &laquo;interface&raquo;</li>
+        <li>Lo estático lleva el signo #, y el constructor no se dibuja porque es privado</li>
+      </ul>
+      <div class="p-pista"><p>La cursiva es para lo abstracto. Lo estático tiene otra marca.</p></div>
+      <div class="p-explicacion"><p><strong>Subrayado</strong> = estático; <strong>&minus;</strong> = privado. El diagrama de Singleton es una sola caja, y lo que no puede faltar es el atributo <code>instancia</code> y el método <code>obtenerInstancia()</code> subrayados, y el constructor con &minus;.</p></div>
+    </li>
+    <li data-inciso="1" data-nivel="medio">
+      <div class="p-consigna"><p>¿Qué pasa con los métodos que pide el enunciado y con el resto del diagrama?</p></div>
+      <ul class="p-opciones">
+        <li data-correcta>Consultar el stock, reservar y reponer quedan como métodos comunes y públicos de la clase nueva; las demás clases del diagrama no cambian</li>
+        <li>Consultar el stock, reservar y reponer pasan a ser estáticos y van subrayados, igual que <code>obtenerInstancia()</code></li>
+        <li>Consultar el stock, reservar y reponer se mueven a <code>OrdenDeTrabajo</code>, que pasa a heredar de la clase nueva</li>
+        <li>Todas las clases del diagrama pasan a tener el constructor privado, para que haya una sola instancia de cada una</li>
+      </ul>
+      <div class="p-pista"><p>El patrón solo controla <strong>cuántos objetos</strong> hay de esa clase. Lo que la clase hace sigue igual.</p></div>
+      <div class="p-explicacion"><p>Los métodos del enunciado son métodos comunes: se llaman sobre el único objeto, el que devuelve <code>obtenerInstancia()</code>. El pedido habla solo de esa clase, así que <code>Persona</code>, <code>Cliente</code>, <code>Mecanico</code> y <code>OrdenDeTrabajo</code> quedan como estaban.</p></div>
+    </li>
+    <li data-inciso="1" data-nivel="avanzado">
+      <div class="p-consigna"><p>¿Qué se gana con Singleton en el taller?</p></div>
+      <ul class="p-opciones">
+        <li data-correcta>Todo el taller usa el mismo registro de repuestos, a través de un único punto de acceso</li>
+        <li>Se agregan tipos de repuesto nuevos sin modificar el código que los usa</li>
+        <li>Los módulos se enteran solos cada vez que cambia el stock de un repuesto</li>
+        <li>Los módulos dependen solo del registro y no necesitan conocer a los repuestos</li>
+      </ul>
+      <div class="p-pista"><p>Es lo que pide el enunciado: &ldquo;que todos los módulos trabajen sobre los mismos datos&rdquo;.</p></div>
+      <div class="p-explicacion"><p>La tercera oración de Singleton: &ldquo;Así todo el programa usa el mismo objeto, a través de un único punto de acceso&rdquo;, dicha con el caso. Si hubiera dos registros, un módulo podría reservar un repuesto que el otro cree disponible.</p></div>
+    </li>
+
+    <!-- ===== Punto 2: Observer ===== -->
+    <li data-inciso="2" data-nivel="medio">
+      <div class="p-consigna"><p>Segundo punto (el seguimiento de las órdenes). ¿Qué frase del pedido decide el patrón?</p></div>
+      <ul class="p-opciones">
+        <li data-correcta>&ldquo;cada vez que una orden cambie de estado, se debe enviar un aviso al cliente&rdquo;</li>
+        <li>&ldquo;Se necesita implementar un mecanismo de seguimiento&rdquo;: un acceso simple a varias clases</li>
+        <li>&ldquo;este lo registra en su historial de avisos&rdquo;: un historial que contiene otros historiales</li>
+        <li>&ldquo;las órdenes de trabajo&rdquo;: hay que crear órdenes de distintos tipos</li>
+      </ul>
+      <div class="p-pista"><p>Buscá el &ldquo;cada vez que...&rdquo;: algo pasa y otro se tiene que enterar.</p></div>
+      <div class="p-explicacion"><p>&ldquo;<strong>Cada vez que</strong> [pasa algo], se debe enviar un aviso&rdquo;: cuando pasa algo, otros se enteran solos. Es la misma forma que las frases de las guías: &ldquo;cada vez que se realice un movimiento, se envíe una alerta al administrador&rdquo;.</p></div>
+    </li>
+    <li data-inciso="2" data-nivel="avanzado">
+      <div class="p-consigna"><p>¿Qué patrón corresponde al segundo punto?</p></div>
+      <ul class="p-opciones">
+        <li data-correcta>Observer</li>
+        <li>Strategy</li>
+        <li>Composite</li>
+        <li>Singleton</li>
+      </ul>
+      <div class="p-pista"><p>Que cuando pasa algo, otros se enteren solos.</p></div>
+      <div class="p-explicacion"><p><strong>Observer</strong>, un patrón de comportamiento: se usa cuando un cambio en un objeto se tiene que avisar a otros, y no se sabe de antemano cuántos ni cuáles son.</p></div>
+    </li>
+    <li data-inciso="2" data-nivel="avanzado">
+      <div class="p-consigna"><p>¿Qué clase del diagrama es el notificador y cuál es el suscriptor?</p></div>
+      <ul class="p-opciones">
+        <li data-correcta><code>OrdenDeTrabajo</code> es el notificador y <code>Cliente</code> es el suscriptor</li>
+        <li><code>Cliente</code> es el notificador y <code>OrdenDeTrabajo</code> es el suscriptor</li>
+        <li><code>Persona</code> es el notificador y <code>Mecanico</code> es el suscriptor</li>
+        <li><code>RegistroDeRepuestos</code> es el notificador y <code>OrdenDeTrabajo</code> es el suscriptor</li>
+      </ul>
+      <div class="p-pista"><p>El notificador es el objeto que <strong>cambia y avisa</strong>. El suscriptor es el que <strong>quiere enterarse</strong>.</p></div>
+      <div class="p-explicacion"><p>La que cambia de estado es la <strong>orden</strong>: <code>OrdenDeTrabajo</code> es el notificador (el objeto que cambia y avisa). El que recibe el aviso es el <strong>cliente</strong>: <code>Cliente</code> es el suscriptor (el que quiere enterarse).</p></div>
+    </li>
+    <li data-inciso="2" data-nivel="medio">
+      <div class="p-consigna"><p>¿Qué se le agrega a <code>OrdenDeTrabajo</code>?</p></div>
+      <ul class="p-opciones">
+        <li data-correcta>Un atributo con la lista de observadores, y los métodos <code>suscribir()</code>, <code>desuscribir()</code> y <code>notificar()</code></li>
+        <li>Un atributo con un solo observador, y un método para cambiarlo por otro</li>
+        <li>Un atributo <code>instancia</code> subrayado, y el método <code>obtenerInstancia()</code></li>
+        <li>Nada: alcanza con agregarle a <code>Cliente</code> un método <code>consultarEstado()</code></li>
+      </ul>
+      <div class="p-pista"><p>El notificador <strong>guarda una lista</strong> de suscriptores, deja que se anoten y se borren, y les avisa a todos.</p></div>
+      <div class="p-explicacion"><p>El notificador lleva la <strong>lista</strong> (<code>observadores: Observador[]</code>) y tres métodos: <code>suscribir()</code>, <code>desuscribir()</code> y <code>notificar()</code>. Guardar uno solo y poder cambiarlo es Strategy. Que el cliente tenga que ir a consultar es justo lo que el patrón evita.</p></div>
+    </li>
+    <li data-inciso="2" data-nivel="medio">
+      <div class="p-consigna"><p>¿Qué caja nueva aparece en el diagrama?</p></div>
+      <ul class="p-opciones">
+        <li data-correcta>La interfaz <code>Observador</code>, con un solo método, <code>actualizar()</code></li>
+        <li>La clase <code>Aviso</code>, que hereda de <code>OrdenDeTrabajo</code> y guarda el texto del mensaje</li>
+        <li>La clase abstracta <code>Notificador</code>, de la que pasa a heredar <code>Cliente</code></li>
+        <li>Ninguna: se resuelve con las cuatro clases que ya están</li>
+      </ul>
+      <div class="p-pista"><p>La orden no tiene que conocer a <code>Cliente</code> por su nombre: conoce un tipo general, &ldquo;alguien a quien avisarle&rdquo;.</p></div>
+      <div class="p-explicacion"><p>La interfaz <code>Observador</code>, con <code>actualizar()</code>. Es lo que permite que la orden le avise a cualquiera que la cumpla, sin saber quién es: hoy el cliente, mañana el mecánico o el encargado.</p></div>
+    </li>
+    <li data-inciso="2" data-nivel="medio">
+      <div class="p-consigna"><p>¿Qué flechas nuevas se dibujan?</p></div>
+      <ul class="p-opciones">
+        <li data-correcta>Un rombo (agregación) de <code>OrdenDeTrabajo</code> a <code>Observador</code>, con <code>*</code> del lado de <code>Observador</code>, y una línea punteada con triángulo (realización) de <code>Cliente</code> a <code>Observador</code></li>
+        <li>Una línea continua con triángulo (herencia) de <code>Cliente</code> a <code>OrdenDeTrabajo</code>, y otra de <code>Observador</code> a <code>Persona</code></li>
+        <li>Un rombo (agregación) de <code>Cliente</code> a <code>OrdenDeTrabajo</code>, con <code>*</code> del lado de <code>OrdenDeTrabajo</code>, y ninguna otra</li>
+        <li>Una flecha punteada &ldquo;crea&rdquo; de <code>OrdenDeTrabajo</code> a <code>Cliente</code>, y otra de <code>Cliente</code> a <code>Observador</code></li>
+      </ul>
+      <div class="p-pista"><p>El rombo va del lado del que <strong>tiene</strong> la lista. Y una clase que cumple una interfaz se une a ella con línea punteada y triángulo.</p></div>
+      <div class="p-explicacion"><p>El <strong>rombo con <code>*</code></strong> sale de <code>OrdenDeTrabajo</code> (la que tiene la lista) y llega a <code>Observador</code>: una orden, muchos observadores. Y <code>Cliente</code> <strong>realiza</strong> la interfaz <code>Observador</code>: línea punteada con triángulo. <code>Cliente</code> sigue heredando de <code>Persona</code>, como antes.</p></div>
+    </li>
+    <li data-inciso="2" data-nivel="medio">
+      <div class="p-consigna"><p>¿Qué se le agrega a <code>Cliente</code>, y en qué momento se avisa?</p></div>
+      <ul class="p-opciones">
+        <li data-correcta><code>Cliente</code> suma <code>actualizar()</code>, que registra el aviso en su historial; y <code>OrdenDeTrabajo</code> llama a <code>notificar()</code> desde <code>cambiarEstado()</code></li>
+        <li><code>Cliente</code> suma <code>notificar()</code>, y lo llama cada vez que quiere saber en qué estado está su orden</li>
+        <li><code>Cliente</code> suma <code>suscribir()</code> y <code>desuscribir()</code>; y <code>OrdenDeTrabajo</code>, el método <code>actualizar()</code></li>
+        <li><code>Cliente</code> no cambia; <code>OrdenDeTrabajo</code> escribe directamente en el historial de cada cliente desde <code>calcularTotal()</code></li>
+      </ul>
+      <div class="p-pista"><p>El suscriptor solo tiene que saber <strong>recibir</strong> el aviso. El aviso sale cuando pasa lo que dice el enunciado: &ldquo;cada vez que una orden cambie de estado&rdquo;.</p></div>
+      <div class="p-explicacion"><p><code>Cliente</code> suma <code>actualizar()</code> (por cumplir la interfaz) y, como el enunciado dice que &ldquo;lo registra en su historial de avisos&rdquo;, también <code>registrarAviso()</code>. Y el aviso sale desde <code>cambiarEstado()</code>, que al terminar llama a <code>notificar()</code>, y este recorre la lista llamando al <code>actualizar()</code> de cada observador.</p></div>
+    </li>
+    <li data-inciso="2" data-nivel="avanzado">
+      <div class="p-consigna"><p>¿Qué se gana con Observer en el taller?</p></div>
+      <ul class="p-opciones">
+        <li data-correcta>Se suman otros interesados (el mecánico, el encargado) u otras formas de aviso sin modificar <code>OrdenDeTrabajo</code></li>
+        <li>Todo el taller usa la misma orden de trabajo, a través de un único punto de acceso</li>
+        <li>El cliente depende solo de la orden y no necesita conocer al resto del taller</li>
+        <li>Se puede cambiar la forma de calcular el total de la orden mientras el programa corre</li>
+      </ul>
+      <div class="p-pista"><p>Es la tercera oración de la descripción: &ldquo;Así se suman interesados nuevos sin...&rdquo;.</p></div>
+      <div class="p-explicacion"><p>La tercera oración de Observer: &ldquo;Así se suman interesados nuevos sin modificar al notificador&rdquo;, dicha con el caso. Cualquier clase que cumpla <code>Observador</code> se puede suscribir, y <code>OrdenDeTrabajo</code> no se toca.</p></div>
+    </li>
+  </ol>
+</article>

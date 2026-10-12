@@ -217,22 +217,37 @@
 
   /* Evaluacion simple (PA e Ing. II, ver E.configMateria): nombre y minutos.
      Corre todas las preguntas del banco, en orden, como cuestionario virtual.
-     Si el banco tiene preguntas de mas de una unidad, se eligen los temas. */
+     Si el banco tiene preguntas de mas de una unidad, se eligen los temas.
+     Si ademas tiene ejercicios de parcial (Ing. II: los "-e-fundamental-"), se
+     elige el modo: preguntas cortas o ejercicios, que corren en examen.js
+     paso a paso, todos y en su orden, sin vidas ni nivel. */
   var PLANTILLA_SIMPLE =
     '<fieldset class="ae-paso">' +
-    '  <legend><span class="ae-num">1</span>Nombre</legend>' +
+    '  <legend><span class="ae-num"></span>Nombre</legend>' +
     '  <input class="ae-input" name="nombre" maxlength="60" autocomplete="off">' +
     '  <p class="ae-ayuda" data-ayuda-nombre></p>' +
     '</fieldset>' +
+    '<fieldset class="ae-paso" data-bloque="modo" hidden>' +
+    '  <legend><span class="ae-num"></span>Modo</legend>' +
+    '  <div class="ae-modos">' +
+    '    <label class="ae-modo"><input type="radio" name="modo" value="preguntas" checked>' +
+    '      <span class="ae-modo-tit">Preguntas cortas</span>' +
+    '      <span class="ae-modo-desc">Las preguntas del banco de los temas que elijas, con reloj. Se corrige al entregar, sobre 100 puntos.</span></label>' +
+    '    <label class="ae-modo"><input type="radio" name="modo" value="ejercicios">' +
+    '      <span class="ae-modo-tit">Ejercicios de parcial</span>' +
+    '      <span class="ae-modo-desc" data-desc-ejercicios></span></label>' +
+    '  </div>' +
+    '</fieldset>' +
     '<fieldset class="ae-paso" data-bloque="temas" hidden>' +
-    '  <legend><span class="ae-num">2</span>Temas</legend>' +
+    '  <legend><span class="ae-num"></span>Temas</legend>' +
     '  <div class="ae-caja-unidades" data-unidades></div>' +
     '  <p class="ae-ayuda" data-total></p>' +
     '</fieldset>' +
     '<fieldset class="ae-paso">' +
-    '  <legend><span class="ae-num" data-num-tiempo>2</span>Tiempo</legend>' +
+    '  <legend><span class="ae-num"></span>Tiempo</legend>' +
     '  <div class="ae-campo">' +
-    '    <label class="ae-opcion"><span>Contador de</span>' +
+    '    <label class="ae-opcion" data-tiempo-libre hidden><input type="radio" name="tiempo" value="libre"><span>Sin límite</span></label>' +
+    '    <label class="ae-opcion"><input type="radio" name="tiempo" value="contador" checked hidden><span>Contador de</span>' +
     '      <input class="ae-input ae-corto" type="number" name="minutos" min="1" max="240"><span>minutos</span></label>' +
     '  </div>' +
     '</fieldset>' +
@@ -270,6 +285,29 @@
       var n = elegidas().length ? E.banco.todas(materia, elegidas()) : 0;
       form.querySelector("[data-total]").textContent = n + (n === 1 ? " pregunta." : " preguntas.");
     }
+    // Modo: solo si la materia tiene ejercicios de parcial cargados
+    var ejercicios = E.banco.ejercicios(materia).length;
+    function enEjercicios() { return ejercicios > 0 && form.elements.modo.value === "ejercicios"; }
+    function acomodar() {
+      var ej = enEjercicios();
+      form.querySelector('[data-bloque="temas"]').hidden = !porTemas || ej;
+      // los ejercicios se hacen sin apuro: el contador es opcional
+      form.querySelector("[data-tiempo-libre]").hidden = !ej;
+      form.querySelector('[name="tiempo"][value="contador"]').hidden = !ej;
+      form.querySelector('[name="tiempo"][value="' + (ej ? "libre" : "contador") + '"]').checked = true;
+      var n = 0;
+      Array.prototype.forEach.call(form.querySelectorAll(".ae-paso"), function (f) {
+        if (!f.hidden) { f.querySelector(".ae-num").textContent = String(++n); }
+      });
+    }
+    if (ejercicios) {
+      form.querySelector("[data-desc-ejercicios]").textContent =
+        (ejercicios === 1 ? "Un ejercicio fundamental" : "Los " + ejercicios + " ejercicios fundamentales") +
+        ", con la forma de las consignas del parcial. Cada uno se va desglosando en pasos, con pista y resolución, " +
+        "y al final de cada parte queda la respuesta como se escribe en la hoja.";
+      form.querySelector('[data-bloque="modo"]').hidden = false;
+      form.querySelector('[data-bloque="modo"]').addEventListener("change", acomodar);
+    }
     if (porTemas) {
       var cajaUnidades = form.querySelector("[data-unidades]");
       conPreguntas.forEach(function (u) {
@@ -279,22 +317,23 @@
           h("span", {}, [h("b", {}, u.num), h("small", {}, u.nombre + " · " + n)])
         ]));
       });
-      form.querySelector('[data-bloque="temas"]').hidden = false;
-      form.querySelector("[data-num-tiempo]").textContent = "3";
       cajaUnidades.addEventListener("change", contar);
       contar();
     }
+    acomodar();
 
     function guardar(lanzar) {
       var nombre = form.elements.nombre.value.trim() || porDefecto;
       var minutos = entero(form.elements.minutos.value);
-      var unidades = porTemas ? elegidas() : [];
+      var ej = enEjercicios();
+      var conTiempo = !ej || form.elements.tiempo.value === "contador";
+      var unidades = porTemas && !ej ? elegidas() : [];
       var errores = [];
-      if (porTemas && !unidades.length) { errores.push("Elegí al menos un tema."); }
+      if (porTemas && !ej && !unidades.length) { errores.push("Elegí al menos un tema."); }
       if (porTemas && unidades.length === conPreguntas.length) { unidades = []; }   // todos: sin filtro
-      var total = E.banco.todas(materia, unidades);
+      var total = ej ? ejercicios : E.banco.todas(materia, unidades);
       if (!total) { errores.push("Todavía no hay preguntas en el banco de esta materia."); }
-      if (minutos < 1 || minutos > MAX_MINUTOS) { errores.push("El contador va de 1 a 240 minutos (4 horas)."); }
+      if (conTiempo && (minutos < 1 || minutos > MAX_MINUTOS)) { errores.push("El contador va de 1 a 240 minutos (4 horas)."); }
       var caja = form.querySelector("[data-errores]");
       if (errores.length) {
         E.vaciar(caja);
@@ -306,6 +345,12 @@
       var v = { v: 2, tipo: "simple", etapa: "1", formato1: "virtual", modo: "normal",
                 corregirYa: false, unidades: unidades, cantCuestionario: total,
                 conTiempo: true, minutos: minutos };
+      // ejercicios de parcial: etapa "2" e interactivo (examen.js), con todos los pasos
+      if (ej) {
+        v = { v: 2, tipo: "simple", etapa: "2", modo: "interactivo", nivel: "principiante",
+              fundamentales: true, unidades: [], cantEjercicios: total,
+              conTiempo: conTiempo, minutos: conTiempo ? minutos : 0 };
+      }
       var nueva = { id: "ae-" + Date.now().toString(36), materia: materia, creada: Date.now(),
                     nombre: nombre, config: v, historial: [], intento: null };
       if (!E.almacen.guardar(nueva)) {

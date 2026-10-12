@@ -607,8 +607,8 @@
           if (k > r.paso) { return; }
           var ep = r.pasos[k] = r.pasos[k] || { ok: null, fallos: 0, pistas: 0, dada: null, orden: null, descartadas: [] };
           var nuevoInciso = paso.inciso && (k === 0 || pasos[k - 1].inciso !== paso.inciso);
-          if (nuevoInciso) { lista.appendChild(h("li", { class: "ex-inciso" }, "Inciso " + paso.inciso + ")")); }
-          var cab = (paso.inciso ? "Inciso " + paso.inciso + ") · " : "") + "Paso " + (k + 1) + " de " + pasos.length;
+          if (nuevoInciso) { lista.appendChild(h("li", { class: "ex-inciso" }, E.rotuloInciso(p, paso.inciso))); }
+          var cab = (paso.inciso ? E.rotuloInciso(p, paso.inciso) + " · " : "") + "Paso " + (k + 1) + " de " + pasos.length;
           var li;
           if (k < r.paso) {
             li = h("li", { class: "ex-paso es-bien" });
@@ -625,7 +625,7 @@
           // termino el inciso (su ultimo paso en este nivel): la respuesta final en palabras
           if (k < r.paso && finDeInciso(pasos, k) && p.rtas && p.rtas[paso.inciso]) {
             lista.appendChild(h("li", { class: "ex-rta" }, [
-              h("span", { class: "ex-rta-tit" }, "Rta. inciso " + paso.inciso + ")"),
+              h("span", { class: "ex-rta-tit" }, E.rotuloRta(p, paso.inciso)),
               h("div", { html: p.rtas[paso.inciso] })
             ]));
           }
@@ -669,7 +669,7 @@
         } else {
           cuerpo.appendChild(h("p", {}, [h("strong", {}, "Qué se pide: "), h("span", { html: paso.consigna })]));
           if (paso.pista) { cuerpo.appendChild(h("p", {}, [h("strong", {}, "Cómo se piensa: "), h("span", { html: paso.pista })])); }
-          if (paso.explicacion) { cuerpo.appendChild(h("p", {}, [h("strong", {}, "La cuenta: "), h("span", { html: paso.explicacion })])); }
+          if (paso.explicacion) { cuerpo.appendChild(h("p", {}, [h("strong", {}, paso.opciones ? "Por qué: " : "La cuenta: "), h("span", { html: paso.explicacion })])); }
         }
         cuerpo.appendChild(h("p", { class: "ex-resolucion-resp" }, [h("strong", {}, "Respuesta: "), respuestaDe(paso)]));
         return cuerpo;
@@ -749,7 +749,7 @@
           r.fallos++;
           if (!perderVida()) { return false; }
           E.vaciar(devolucion);
-          devolucion.appendChild(cartel("caja-ojo ex-cartel", textoError("No da. Revisá la cuenta.")));
+          devolucion.appendChild(cartel("caja-ojo ex-cartel", textoError(paso.opciones ? "No es esa." : "No da. Revisá la cuenta.")));
           return true;
         }
 
@@ -823,7 +823,7 @@
           h("span", { class: "ev-chip" }, E.numeroDeUnidad(materia, p.unidad)),
           E.chipOrigen(p)
         ];
-        if (pasos.length && c.modo === "interactivo") { etiquetas.push(h("span", { class: "ev-chip" }, "Nivel " + E.NIVELES[c.nivel].toLowerCase())); }
+        if (pasos.length && E.conVidas(c)) { etiquetas.push(h("span", { class: "ev-chip" }, "Nivel " + E.NIVELES[c.nivel].toLowerCase())); }
         var tarjeta = h("div", { class: "ex-tarjeta" + (revisar !== null ? " es-revision" : "") }, h("div", { class: "ex-etiquetas" }, etiquetas));
         zona.appendChild(tarjeta);
 

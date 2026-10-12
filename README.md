@@ -98,7 +98,12 @@ fórmulas (MathJax) y las tipografías. Tus datos no salen de tu máquina.
   regresiva, nota sobre 100 y la explicación de cada una. Son 67 preguntas con la forma de las
   consignas del parcial: qué patrón aplica un código en C++, qué patrón pide un enunciado, las
   partes de cada diagrama, en qué nivel de CMMI está una empresa, la ficha de una métrica, la
-  secuencia de comandos de Git y el versionado semántico.
+  secuencia de comandos de Git y el versionado semántico. Además, al armar la autoevaluación se
+  puede elegir el modo **Ejercicios de parcial**: los cuatro ejercicios fundamentales de patrones
+  (dibujar y explicar dos patrones, identificar los patrones de un enunciado, reconocer el patrón
+  de un código y agregar patrones a un diagrama), cada uno desglosado en pasos con pista y
+  resolución, y al final de cada parte la respuesta como se escribe en la hoja. Entre los cuatro
+  pasan los ocho patrones. Sin vidas ni niveles, y con el tiempo libre o con contador.
 * **Índice lateral con subíndices**: en la práctica, cada ejercicio abierto lista debajo sus
   pasos e incisos, y tocar uno lleva directo a ese inciso.
 * **Tareas**: un tablero con tres columnas, **Pendientes**, **En proceso** y **Hecho**, en el
@@ -235,6 +240,9 @@ Chrome (`chrome --headless --print-to-pdf`).
 `0.x.y-alpha` mientras esté en desarrollo. La `1.0.0` queda reservada para cuando esté terminado.
 La versión actual se lee al pie del menú lateral.
 
+* **0.47.0-alpha** — Ingeniería de Software II: autoevaluaciones con **ejercicios de parcial**.
+  El formulario suma el paso Modo (preguntas cortas o ejercicios) y hay cuatro ejercicios
+  fundamentales de patrones, paso a paso, con la respuesta modelo de cada parte.
 * **0.46.12-alpha** — Ingeniería de Software II, Abstract Factory: el segundo ejemplo de "dibujarlo
   y explicarlo" pasa a ser una casa de ropa de fútbol, escrito con la misma forma que el de la
   mueblería (el del videojuego tampoco se entendía).

@@ -1,0 +1,357 @@
+<article class="preg" data-id="ing2-u4a-e-fundamental-01-dibujar" data-tipo="ejercicio" data-origen="parcial" data-fundamental="01" data-rotulo="Patrón">
+  <div class="p-enunciado">
+    <p>
+      La empresa <strong>FitControl</strong> desarrolla el sistema de gestión de una cadena de
+      gimnasios, con Programación Orientada a Objetos. El equipo planea incorporar dos patrones de
+      diseño en su solución: uno para crear los distintos tipos de pase de los socios (diario,
+      mensual, anual) sin que el módulo de inscripciones sepa de antemano cuál le toca crear, y otro
+      para que la aplicación del socio pueda anotarlo en una clase con un acceso simple al conjunto
+      de clases de cupos, pagos y agenda.
+    </p>
+    <p>
+      Represente mediante un diagrama UML la estructura de los patrones de diseño que quiere
+      incorporar FitControl. Dé una breve descripción de la usabilidad de cada uno, explique su
+      propósito dentro del sistema y mencione 2 ejemplos.
+    </p>
+    <p class="p-fuente">Inventado &middot; estilo Parcial 2025, Teoría 4 (20 puntos), y Parcial 2024, Ej. 2</p>
+  </div>
+  <div class="p-explicacion">
+    <div class="tabla-wrap">
+      <table class="t full">
+        <tr><th>Patrón</th><th>Lo que no puede faltar en el diagrama</th><th>Propósito en FitControl</th></tr>
+        <tr>
+          <td class="lbl">1. Factory Method</td>
+          <td>Dos columnas (creadores y productos), el método fábrica en cursiva en el Creador y la flecha punteada "crea" del Creador al Producto</td>
+          <td>Sumar tipos de pase sin modificar el módulo de inscripciones</td>
+        </tr>
+        <tr>
+          <td class="lbl">2. Facade</td>
+          <td>Cliente, Fachada y las clases del subsistema; flechas en abanico de la fachada a cada clase y ningún triángulo</td>
+          <td>Que la aplicación del socio anote en una clase con una sola operación</td>
+        </tr>
+      </table>
+    </div>
+    <p>
+      En las dos respuestas la descripción tiene las mismas tres oraciones (cuándo se usa, cómo
+      funciona y qué se gana), y el propósito es esa misma descripción dicha con los nombres de
+      FitControl.
+    </p>
+  </div>
+  <div class="p-rta" data-inciso="1">
+    <p><strong>Factory Method.</strong> El diagrama:</p>
+    <div class="pd-grafico uml" data-g="factory">
+      <svg viewBox="-14 -14 798 237" width="798" height="237" role="img" aria-label="Estructura del patrón Factory Method">
+        <polyline class="linea" points="81,150 81,128.5 163.5,128.5 163.5,107"/>
+        <polygon class="hueca" points="163.5,94 170.5,107 156.5,107"/>
+        <polyline class="linea" points="261,150 261,128.5 163.5,128.5 163.5,107"/>
+        <polygon class="hueca" points="163.5,94 170.5,107 156.5,107"/>
+        <polyline class="linea punteada" points="505,150 505,119 595,119 595,88"/>
+        <polygon class="hueca" points="595,75 602,88 588,88"/>
+        <polyline class="linea punteada" points="685,150 685,119 595,119 595,88"/>
+        <polygon class="hueca" points="595,75 602,88 588,88"/>
+        <polyline class="linea punteada" points="278,37.5 394.5,37.5 394.5,37.5 511,37.5"/>
+        <polyline class="linea" points="501,42.5 511,37.5 501,32.5"/>
+        <text class="rotulo" x="394.5" y="31.5" text-anchor="middle">crea</text>
+        <g class="clase k-abstracta destacada">
+        <rect class="caja" x="49" y="0" width="229" height="94" rx="3"/>
+        <rect class="cab" x="50" y="1" width="227" height="45" rx="2"/>
+        <text class="estereo" x="163.5" y="16">&#171;abstract&#187;</text>
+        <text class="nombre abstracta" x="163.5" y="35">Creador</text>
+        <line class="div" x1="49" y1="46" x2="278" y2="46"/>
+        <text class="miembro" x="59" y="64"><tspan class="v-pub">+</tspan> algunaOperacion()<tspan class="tp">: void</tspan></text>
+        <text class="miembro abstracto" x="59" y="83"><tspan class="v-pub">+</tspan> crearProducto()<tspan class="tp">: Producto</tspan></text>
+        </g>
+        <g class="clase k-comun">
+        <rect class="caja" x="0" y="150" width="162" height="59" rx="3"/>
+        <rect class="cab" x="1" y="151" width="160" height="29" rx="2"/>
+        <text class="nombre" x="81" y="170">CreadorConcretoA</text>
+        <line class="div" x1="0" y1="180" x2="162" y2="180"/>
+        <text class="miembro" x="10" y="198"><tspan class="v-pub">+</tspan> crearProducto()</text>
+        </g>
+        <g class="clase k-comun">
+        <rect class="caja" x="180" y="150" width="162" height="59" rx="3"/>
+        <rect class="cab" x="181" y="151" width="160" height="29" rx="2"/>
+        <text class="nombre" x="261" y="170">CreadorConcretoB</text>
+        <line class="div" x1="180" y1="180" x2="342" y2="180"/>
+        <text class="miembro" x="190" y="198"><tspan class="v-pub">+</tspan> crearProducto()</text>
+        </g>
+        <g class="clase k-interfaz">
+        <rect class="caja" x="511" y="0" width="168" height="75" rx="3"/>
+        <rect class="cab" x="512" y="1" width="166" height="45" rx="2"/>
+        <text class="estereo" x="595" y="16">&#171;interface&#187;</text>
+        <text class="nombre" x="595" y="35">Producto</text>
+        <line class="div" x1="511" y1="46" x2="679" y2="46"/>
+        <text class="miembro" x="521" y="64"><tspan class="v-pub">+</tspan> hacerAlgo()<tspan class="tp">: void</tspan></text>
+        </g>
+        <g class="clase k-comun">
+        <rect class="caja" x="420" y="150" width="170" height="59" rx="3"/>
+        <rect class="cab" x="421" y="151" width="168" height="29" rx="2"/>
+        <text class="nombre" x="505" y="170">ProductoConcretoA</text>
+        <line class="div" x1="420" y1="180" x2="590" y2="180"/>
+        <text class="miembro" x="430" y="198"><tspan class="v-pub">+</tspan> hacerAlgo()</text>
+        </g>
+        <g class="clase k-comun">
+        <rect class="caja" x="600" y="150" width="170" height="59" rx="3"/>
+        <rect class="cab" x="601" y="151" width="168" height="29" rx="2"/>
+        <text class="nombre" x="685" y="170">ProductoConcretoB</text>
+        <line class="div" x1="600" y1="180" x2="770" y2="180"/>
+        <text class="miembro" x="610" y="198"><tspan class="v-pub">+</tspan> hacerAlgo()</text>
+        </g>
+      </svg>
+    </div>
+    <ol>
+      <li><strong>Descripción:</strong> "Factory Method es un patrón creacional que se usa cuando una clase no puede saber de antemano qué tipo exacto de objeto tiene que crear. La creación se saca a un método, el método fábrica: lo declara la clase base (el creador) y lo sobrescribe cada subclase (un creador concreto) para devolver su objeto (el producto). Así se agregan tipos nuevos sin modificar el código que los usa."</li>
+      <li><strong>Propósito en FitControl:</strong> "El módulo de inscripciones es el creador (la clase que necesita el pase pero no decide cuál se crea): declara el método fábrica <code>crearPase()</code>. Hay un creador concreto por cada tipo de pase (diario, mensual, anual), que lo sobrescribe para devolver el suyo. El pase es el producto (el tipo común de todo lo que se crea). Así se suman tipos de pase sin modificar el módulo de inscripciones."</li>
+      <li><strong>Dos ejemplos:</strong> "Una empresa de logística: la aplicación planifica entregas que van en camión o en barco; <code>Logistica</code> declara <code>crearTransporte()</code> y cada subclase crea el suyo. Un framework de interfaz gráfica: sabe armar una ventana con un botón, pero no qué botón quiere cada aplicación, y deja un método <code>crearBoton()</code> para que cada una devuelva el suyo."</li>
+    </ol>
+  </div>
+  <div class="p-rta" data-inciso="2">
+    <p><strong>Facade.</strong> El diagrama:</p>
+    <div class="pd-grafico uml" data-g="facade">
+      <svg viewBox="-14 -14 628 257" width="628" height="257" role="img" aria-label="Estructura del patrón Facade">
+        <polyline class="linea" points="90,100 130,100 130,100 170,100"/>
+        <polyline class="linea" points="160,105 170,100 160,95"/>
+        <polyline class="linea" points="338,78 404,78 404,29.5 470,29.5"/>
+        <polyline class="linea" points="460,34.5 470,29.5 460,24.5"/>
+        <polyline class="linea" points="338,114.5 404,114.5 404,114.5 470,114.5"/>
+        <polyline class="linea" points="460,119.5 470,114.5 460,109.5"/>
+        <polyline class="linea" points="338,138 404,138 404,199.5 470,199.5"/>
+        <polyline class="linea" points="460,204.5 470,199.5 460,194.5"/>
+        <g class="clase k-comun">
+        <rect class="caja sola" x="0" y="85" width="90" height="30" rx="3"/>
+        <text class="nombre" x="45" y="105">Cliente</text>
+        </g>
+        <g class="clase k-comun destacada">
+        <rect class="caja" x="170" y="45" width="168" height="126" rx="3"/>
+        <rect class="cab" x="171" y="46" width="166" height="29" rx="2"/>
+        <text class="nombre" x="254" y="65">Fachada</text>
+        <line class="div" x1="170" y1="75" x2="338" y2="75"/>
+        <text class="miembro" x="180" y="93"><tspan class="v-priv">-</tspan> a<tspan class="tp">: ClaseA</tspan></text>
+        <text class="miembro" x="180" y="112"><tspan class="v-priv">-</tspan> b<tspan class="tp">: ClaseB</tspan></text>
+        <text class="miembro" x="180" y="131"><tspan class="v-priv">-</tspan> c<tspan class="tp">: ClaseC</tspan></text>
+        <line class="div" x1="170" y1="142" x2="338" y2="142"/>
+        <text class="miembro" x="180" y="160"><tspan class="v-pub">+</tspan> operacionSimple()</text>
+        </g>
+        <g class="clase k-comun">
+        <rect class="caja" x="470" y="0" width="130" height="59" rx="3"/>
+        <rect class="cab" x="471" y="1" width="128" height="29" rx="2"/>
+        <text class="nombre" x="535" y="20">ClaseA</text>
+        <line class="div" x1="470" y1="30" x2="600" y2="30"/>
+        <text class="miembro" x="480" y="48"><tspan class="v-pub">+</tspan> operacionA()</text>
+        </g>
+        <g class="clase k-comun">
+        <rect class="caja" x="470" y="85" width="130" height="59" rx="3"/>
+        <rect class="cab" x="471" y="86" width="128" height="29" rx="2"/>
+        <text class="nombre" x="535" y="105">ClaseB</text>
+        <line class="div" x1="470" y1="115" x2="600" y2="115"/>
+        <text class="miembro" x="480" y="133"><tspan class="v-pub">+</tspan> operacionB()</text>
+        </g>
+        <g class="clase k-comun">
+        <rect class="caja" x="470" y="170" width="130" height="59" rx="3"/>
+        <rect class="cab" x="471" y="171" width="128" height="29" rx="2"/>
+        <text class="nombre" x="535" y="190">ClaseC</text>
+        <line class="div" x1="470" y1="200" x2="600" y2="200"/>
+        <text class="miembro" x="480" y="218"><tspan class="v-pub">+</tspan> operacionC()</text>
+        </g>
+      </svg>
+    </div>
+    <ol>
+      <li><strong>Descripción:</strong> "Facade es un patrón estructural que se usa cuando para hacer una tarea hay que coordinar varias clases de un subsistema. Una clase nueva, la fachada, guarda un objeto de cada una y ofrece una operación simple, que por dentro las llama en el orden correcto. Así el cliente depende solo de la fachada y no necesita conocer el subsistema."</li>
+      <li><strong>Propósito en FitControl:</strong> "Las clases de cupos, pagos y agenda son el subsistema (las que hacen el trabajo). Una clase nueva, la fachada (la que da una entrada simple), guarda un objeto de cada una y ofrece una sola operación, <code>anotarEnClase()</code>, que por dentro verifica el cupo, cobra y agenda, en ese orden. La aplicación del socio es el cliente: depende solo de la fachada y no necesita conocer esas tres clases."</li>
+      <li><strong>Dos ejemplos:</strong> "Un conversor de video: convertir obliga a usar varias clases de una librería en un orden preciso, y la fachada ofrece un solo método, <code>convertir()</code>. La compra en una tienda en línea: la fachada <code>Tienda</code> tiene <code>comprar()</code>, que llama a <code>Inventario</code>, <code>Pagos</code> y <code>Envios</code> en orden."</li>
+    </ol>
+  </div>
+  <ol class="p-pasos">
+
+    <!-- ===== Patrón 1: Factory Method ===== -->
+    <li data-inciso="1" data-nivel="avanzado">
+      <div class="p-consigna"><p>El primer patrón es para &ldquo;crear los distintos tipos de pase de los socios (diario, mensual, anual) sin que el módulo de inscripciones sepa de antemano cuál le toca crear&rdquo;. ¿Qué patrón es?</p></div>
+      <ul class="p-opciones">
+        <li data-correcta>Factory Method</li>
+        <li>Abstract Factory</li>
+        <li>Singleton</li>
+        <li>Strategy</li>
+      </ul>
+      <div class="p-pista"><p>La frase habla de <strong>crear</strong> objetos: es un patrón creacional. Fijate cuántas cosas distintas se crean: ¿una sola (el pase, en varios tipos) o varias que tienen que combinar?</p></div>
+      <div class="p-explicacion"><p>Se crean <strong>distintos tipos de una misma cosa</strong> (el pase) sin que el resto sepa cuál: <strong>Factory Method</strong>. No es Abstract Factory, porque no hay varias cosas distintas que tengan que combinar (familias). No es Singleton, porque no se pide un único objeto. No es Strategy, porque las variantes son formas de <strong>crear un objeto</strong>, no de hacer una tarea.</p></div>
+    </li>
+    <li data-inciso="1" data-nivel="medio">
+      <div class="p-consigna"><p>Para dibujarlo: ¿qué cajas tiene el diagrama de Factory Method y cómo se acomodan?</p></div>
+      <ul class="p-opciones">
+        <li data-correcta>Dos columnas: a la izquierda el Creador con sus Creadores Concretos debajo; a la derecha el Producto con sus Productos Concretos debajo</li>
+        <li>Una sola caja, con un atributo y un método subrayados y el constructor con el signo &minus;</li>
+        <li>Una Fábrica Abstracta con una Fábrica Concreta por familia, y dos o más columnas de productos, más el Cliente</li>
+        <li>El Contexto, que guarda una Estrategia, y debajo de la interfaz las Estrategias Concretas</li>
+      </ul>
+      <div class="p-pista"><p>Hay dos familias de clases en paralelo: las que <strong>crean</strong> y lo que <strong>se crea</strong>.</p></div>
+      <div class="p-explicacion"><p>Factory Method son <strong>dos columnas</strong>: creadores y productos, con un creador concreto por cada producto concreto. Las otras opciones son la firma de Singleton (una caja), Abstract Factory (fábricas más dos o más columnas de productos) y Strategy (contexto e interfaz).</p></div>
+    </li>
+    <li data-inciso="1" data-nivel="medio">
+      <div class="p-consigna"><p>¿Dónde va el método fábrica, <code>crearProducto()</code>, y cómo se dibuja?</p></div>
+      <ul class="p-opciones">
+        <li data-correcta>En el Creador, abstracto (en cursiva), y repetido en cada Creador Concreto, que lo sobrescribe para devolver su producto</li>
+        <li>En la interfaz Producto, y repetido en cada Producto Concreto, que lo implementa para crearse a sí mismo</li>
+        <li>Solo en los Creadores Concretos: el Creador no lo tiene porque no sabe qué producto se crea</li>
+        <li>En el Creador, subrayado, porque es un método estático que devuelve siempre el mismo objeto</li>
+      </ul>
+      <div class="p-pista"><p>El creador <strong>declara</strong> el método sin decidir qué se crea; el que decide es cada subclase.</p></div>
+      <div class="p-explicacion"><p>El método fábrica lo <strong>declara el Creador</strong>, sin código (por eso va en cursiva y el Creador es una clase abstracta), y lo <strong>sobrescribe cada Creador Concreto</strong>. El Creador tiene además otro método común, que usa el producto sin saber cuál es. Subrayado sería estático, que es lo de Singleton.</p></div>
+    </li>
+    <li data-inciso="1" data-nivel="medio">
+      <div class="p-consigna"><p>¿Qué flecha une al Creador con el Producto?</p></div>
+      <ul class="p-opciones">
+        <li data-correcta>Una flecha punteada (dependencia) del Creador al Producto, con el rótulo &ldquo;crea&rdquo;</li>
+        <li>Una línea continua con triángulo (herencia) del Producto al Creador</li>
+        <li>Un rombo (agregación) del Creador al Producto, con <code>*</code> del lado del Producto</li>
+        <li>Ninguna: las dos columnas no se conectan</li>
+      </ul>
+      <div class="p-pista"><p>El creador no guarda productos ni hereda de ellos: solo los crea y los usa.</p></div>
+      <div class="p-explicacion"><p>Es la flecha que no puede faltar: <strong>punteada, del Creador al Producto, con &ldquo;crea&rdquo;</strong>. Las otras flechas del diagrama: de cada Creador Concreto al Creador, <strong>herencia</strong> (línea continua con triángulo); de cada Producto Concreto al Producto, <strong>realización</strong> (línea punteada con triángulo), porque Producto es una interfaz.</p></div>
+    </li>
+    <li data-inciso="1" data-nivel="avanzado">
+      <div class="p-consigna"><p>La descripción tiene tres oraciones: cuándo se usa, cómo funciona y qué se gana. ¿Cuál es el <strong>cuándo se usa</strong> de Factory Method?</p></div>
+      <ul class="p-opciones">
+        <li data-correcta>Cuando una clase no puede saber de antemano qué tipo exacto de objeto tiene que crear</li>
+        <li>Cuando hay que crear familias de objetos relacionados, que tienen que combinar entre sí</li>
+        <li>Cuando una clase debe tener una única instancia disponible para todo el programa</li>
+        <li>Cuando hay varias formas de hacer una misma tarea y se quiere poder cambiar de una a otra mientras el programa corre</li>
+      </ul>
+      <div class="p-pista"><p>Es casi la frase del enunciado: el módulo de inscripciones no sabe &ldquo;de antemano cuál le toca crear&rdquo;.</p></div>
+      <div class="p-explicacion"><p>Las otras tres son el &ldquo;cuándo se usa&rdquo; de Abstract Factory, Singleton y Strategy. La descripción completa: &ldquo;Factory Method es un patrón creacional que se usa cuando una clase no puede saber de antemano qué tipo exacto de objeto tiene que crear. La creación se saca a un método, el método fábrica: lo declara la clase base (el creador) y lo sobrescribe cada subclase (un creador concreto) para devolver su objeto (el producto). Así se agregan tipos nuevos sin modificar el código que los usa.&rdquo;</p></div>
+    </li>
+    <li data-inciso="1" data-nivel="avanzado">
+      <div class="p-consigna"><p>El propósito dentro del sistema es la misma descripción con los nombres de FitControl. ¿Qué es cada parte?</p></div>
+      <ul class="p-opciones">
+        <li data-correcta>El módulo de inscripciones es el creador y declara <code>crearPase()</code>; hay un creador concreto por cada tipo de pase, que lo sobrescribe; el pase es el producto</li>
+        <li>El pase es el creador y declara <code>crearInscripcion()</code>; el módulo de inscripciones es el producto, y hay uno por cada gimnasio</li>
+        <li>El socio es el creador y elige con un <code>if</code> qué pase crear; el pase es el producto y no hacen falta subclases</li>
+        <li>Hay una fábrica por cada gimnasio, que crea a la vez el pase, el socio y el cupo; el módulo de inscripciones es el cliente</li>
+      </ul>
+      <div class="p-pista"><p>El creador es la clase que <strong>necesita</strong> el objeto pero no decide cuál se crea. El producto es <strong>lo que se crea</strong>.</p></div>
+      <div class="p-explicacion"><p>El <strong>creador</strong> es el módulo de inscripciones (necesita el pase pero no decide cuál se crea) y el <strong>producto</strong> es el pase. Cada tipo de pase tiene su <strong>creador concreto</strong>, que sobrescribe <code>crearPase()</code>. Un <code>if</code> por tipo es justo lo que el patrón evita, y una fábrica que crea varias cosas a la vez sería Abstract Factory.</p></div>
+    </li>
+    <li data-inciso="1" data-nivel="medio">
+      <div class="p-consigna"><p>¿Qué gana FitControl con Factory Method?</p></div>
+      <ul class="p-opciones">
+        <li data-correcta>Se agregan tipos de pase nuevos sin modificar el módulo de inscripciones, que es el código que los usa</li>
+        <li>Todo el sistema usa el mismo pase, a través de un único punto de acceso</li>
+        <li>Nunca se mezclan pases de una familia con pases de otra</li>
+        <li>El módulo de inscripciones se entera solo cada vez que cambia un pase</li>
+      </ul>
+      <div class="p-pista"><p>Es la tercera oración de la descripción: &ldquo;Así se agregan tipos nuevos sin...&rdquo;.</p></div>
+      <div class="p-explicacion"><p>Un pase semanal se suma con dos clases nuevas (el pase y su creador concreto), sin tocar lo que ya funciona. Las otras tres son lo que se gana con Singleton, Abstract Factory y Observer.</p></div>
+    </li>
+    <li data-inciso="1" data-nivel="medio">
+      <div class="p-consigna"><p>¿Cuál de estos pares sirve como los 2 ejemplos de Factory Method?</p></div>
+      <ul class="p-opciones">
+        <li data-correcta>Una empresa de logística que crea un camión o un barco según la entrega, y un framework de interfaz que deja un método <code>crearBoton()</code> para que cada aplicación devuelva el suyo</li>
+        <li>Una mueblería que vende sillas, sofás y mesas en estilo moderno o victoriano, y una casa de ropa de fútbol que arma conjuntos de un mismo club</li>
+        <li>La conexión a la base de datos de un sistema y la configuración global de una aplicación</li>
+        <li>Un navegador que calcula la ruta en auto, a pie o en transporte público, y los descuentos de un sistema de ventas</li>
+      </ul>
+      <div class="p-pista"><p>En los dos tiene que haber <strong>una</strong> cosa que se crea en distintos tipos, y alguien que no sabe de antemano cuál.</p></div>
+      <div class="p-explicacion"><p>Logística (camión o barco) y el framework (qué botón) son Factory Method. La mueblería y la ropa de fútbol son Abstract Factory (varias cosas que combinan); la conexión y la configuración, Singleton; el navegador y los descuentos, Strategy. En la hoja no alcanza con nombrarlos: a cada ejemplo se le suma una línea que diga por qué ahí va el patrón.</p></div>
+    </li>
+
+    <!-- ===== Patrón 2: Facade ===== -->
+    <li data-inciso="2" data-nivel="avanzado">
+      <div class="p-consigna"><p>El segundo patrón es para que la aplicación del socio pueda anotarlo en una clase &ldquo;con un acceso simple al conjunto de clases de cupos, pagos y agenda&rdquo;. ¿Qué patrón es?</p></div>
+      <ul class="p-opciones">
+        <li data-correcta>Facade</li>
+        <li>Adapter</li>
+        <li>Composite</li>
+        <li>Singleton</li>
+      </ul>
+      <div class="p-pista"><p>La frase habla de cómo <strong>encajan</strong> las clases: es estructural. Hay un conjunto de clases complicado de usar y se quiere un acceso simple.</p></div>
+      <div class="p-explicacion"><p>Un <strong>acceso simple a un conjunto de clases</strong>: <strong>Facade</strong>. No es Composite, porque ninguna clase contiene cosas de su mismo tipo. No es Singleton, porque no se pide un único objeto. La diferencia con Adapter es el paso que sigue.</p></div>
+    </li>
+    <li data-inciso="2" data-nivel="medio">
+      <div class="p-consigna"><p>Adapter y Facade se confunden porque los dos &ldquo;envuelven&rdquo; clases. ¿Por qué acá no es Adapter?</p></div>
+      <ul class="p-opciones">
+        <li data-correcta>Porque se envuelven varias clases para dar una interfaz nueva y simple; Adapter envuelve una sola, para darle una interfaz que ya existía</li>
+        <li>Porque Adapter es un patrón creacional, y acá no se crea ningún objeto</li>
+        <li>Porque Adapter necesita que las clases envueltas hereden todas de una misma interfaz</li>
+        <li>Porque en Adapter el cliente tiene que conocer a todas las clases del subsistema</li>
+      </ul>
+      <div class="p-pista"><p>Contá cuántas clases quedan &ldquo;detrás&rdquo;: cupos, pagos y agenda.</p></div>
+      <div class="p-explicacion"><p>La pregunta que los separa: ¿se envuelve <strong>una</strong> clase para darle una interfaz que ya existía (Adapter) o <strong>varias</strong> para dar una interfaz nueva y simple (Facade)? Acá son tres clases y nadie dijo que alguna tenga una interfaz incompatible.</p></div>
+    </li>
+    <li data-inciso="2" data-nivel="medio">
+      <div class="p-consigna"><p>Para dibujarlo: ¿qué cajas tiene el diagrama de Facade?</p></div>
+      <ul class="p-opciones">
+        <li data-correcta>El Cliente, la Fachada en el medio y, a la derecha, las clases del subsistema</li>
+        <li>El Cliente, la Interfaz con el Cliente, el Adaptador y el Servicio</li>
+        <li>La interfaz Componente y, debajo, la Hoja y el Compuesto</li>
+        <li>El Notificador, la interfaz Suscriptor y los Suscriptores Concretos</li>
+      </ul>
+      <div class="p-pista"><p>Tres grupos: el que pide, la clase nueva que simplifica, y las clases que hacen el trabajo.</p></div>
+      <div class="p-explicacion"><p>Cliente, Fachada y las clases del subsistema. Las otras opciones son las cajas de Adapter, Composite y Observer.</p></div>
+    </li>
+    <li data-inciso="2" data-nivel="medio">
+      <div class="p-consigna"><p>¿Qué lleva adentro la caja de la Fachada?</p></div>
+      <ul class="p-opciones">
+        <li data-correcta>Un atributo por cada clase del subsistema y un método simple</li>
+        <li>Un atributo <code>instancia</code> subrayado y el constructor privado</li>
+        <li>Una lista de suscriptores y los métodos suscribir, desuscribir y notificar</li>
+        <li>Una lista de componentes y los métodos agregar y quitar</li>
+      </ul>
+      <div class="p-pista"><p>La fachada <strong>guarda</strong> a las clases que coordina y ofrece una operación.</p></div>
+      <div class="p-explicacion"><p>La fachada guarda <strong>un objeto de cada clase del subsistema</strong> (un atributo por cada una) y ofrece <strong>una operación simple</strong>. Las otras opciones son el contenido de Singleton, del notificador de Observer y del compuesto de Composite.</p></div>
+    </li>
+    <li data-inciso="2" data-nivel="medio">
+      <div class="p-consigna"><p>¿Qué flechas lleva el diagrama de Facade?</p></div>
+      <ul class="p-opciones">
+        <li data-correcta>Flechas abiertas (asociación) del Cliente a la Fachada y de la Fachada a cada clase del subsistema, en abanico; ningún triángulo</li>
+        <li>Un triángulo (herencia) de cada clase del subsistema hacia la Fachada, porque todas heredan de ella</li>
+        <li>Un rombo de la Fachada que vuelve a la propia Fachada, con <code>*</code></li>
+        <li>Una flecha punteada &ldquo;crea&rdquo; de la Fachada a cada clase del subsistema</li>
+      </ul>
+      <div class="p-pista"><p>En Facade no hay herencia ni interfaces: nadie hereda de nadie.</p></div>
+      <div class="p-explicacion"><p>Solo <strong>asociaciones</strong>: del Cliente a la Fachada y de la Fachada a cada clase, en abanico. <strong>Ningún triángulo</strong> (no hay herencia ni interfaz) y ninguna flecha de vuelta: las clases del subsistema no conocen a la fachada.</p></div>
+    </li>
+    <li data-inciso="2" data-nivel="avanzado">
+      <div class="p-consigna"><p>¿Cuál es el <strong>cuándo se usa</strong> de Facade, la primera oración de su descripción?</p></div>
+      <ul class="p-opciones">
+        <li data-correcta>Cuando para hacer una tarea hay que coordinar varias clases de un subsistema</li>
+        <li>Cuando hay que hacer trabajar juntas dos clases con interfaces incompatibles, sin modificar ninguna</li>
+        <li>Cuando los objetos forman un árbol, con elementos simples y contenedores que agrupan a otros</li>
+        <li>Cuando un cambio en un objeto se tiene que avisar a otros, y no se sabe de antemano cuántos ni cuáles son</li>
+      </ul>
+      <div class="p-pista"><p>Anotar a un socio en una clase es <strong>una tarea</strong> que necesita a cupos, pagos y agenda.</p></div>
+      <div class="p-explicacion"><p>Las otras tres son el &ldquo;cuándo se usa&rdquo; de Adapter, Composite y Observer. La descripción completa: &ldquo;Facade es un patrón estructural que se usa cuando para hacer una tarea hay que coordinar varias clases de un subsistema. Una clase nueva, la fachada, guarda un objeto de cada una y ofrece una operación simple, que por dentro las llama en el orden correcto. Así el cliente depende solo de la fachada y no necesita conocer el subsistema.&rdquo;</p></div>
+    </li>
+    <li data-inciso="2" data-nivel="avanzado">
+      <div class="p-consigna"><p>El propósito dentro del sistema: ¿qué es cada parte en FitControl?</p></div>
+      <ul class="p-opciones">
+        <li data-correcta>Cupos, pagos y agenda son el subsistema; una clase nueva, la fachada, guarda un objeto de cada una y ofrece <code>anotarEnClase()</code>; la aplicación del socio es el cliente</li>
+        <li>La aplicación del socio es la fachada; guarda una lista de socios y les avisa a todos cuando se libera un cupo</li>
+        <li>Cupos, pagos y agenda heredan de una clase abstracta Fachada, y cada una sobrescribe <code>anotarEnClase()</code> a su manera</li>
+        <li>La fachada traduce los métodos de la clase de pagos a la interfaz que la aplicación del socio ya usaba</li>
+      </ul>
+      <div class="p-pista"><p>El subsistema son las clases que hacen el trabajo. La fachada es una clase <strong>nueva</strong>, que las llama en orden.</p></div>
+      <div class="p-explicacion"><p>El <strong>subsistema</strong> son cupos, pagos y agenda; la <strong>fachada</strong> es una clase nueva que guarda un objeto de cada una y ofrece <code>anotarEnClase()</code>, que por dentro verifica el cupo, cobra y agenda; el <strong>cliente</strong> es la aplicación del socio. Avisar a una lista es Observer, heredar y sobrescribir no es Facade (no hay herencia) y traducir una interfaz es Adapter.</p></div>
+    </li>
+    <li data-inciso="2" data-nivel="medio">
+      <div class="p-consigna"><p>¿Qué gana FitControl con Facade?</p></div>
+      <ul class="p-opciones">
+        <li data-correcta>La aplicación del socio depende solo de la fachada y no necesita conocer las clases de cupos, pagos y agenda</li>
+        <li>Se agregan tipos de clase nuevos sin modificar el código que los usa</li>
+        <li>La aplicación del socio trata igual a una clase sola que a un grupo entero de clases</li>
+        <li>Se suman interesados nuevos sin modificar al notificador</li>
+      </ul>
+      <div class="p-pista"><p>Es la tercera oración de la descripción: &ldquo;Así el cliente depende solo de...&rdquo;.</p></div>
+      <div class="p-explicacion"><p>El cliente depende solo de la fachada: si mañana cambia cómo se cobra, se toca la fachada y la aplicación del socio ni se entera. Las otras tres son lo que se gana con Factory Method, Composite y Observer.</p></div>
+    </li>
+    <li data-inciso="2" data-nivel="medio">
+      <div class="p-consigna"><p>¿Cuál de estos pares sirve como los 2 ejemplos de Facade?</p></div>
+      <ul class="p-opciones">
+        <li data-correcta>Un conversor de video con un solo método <code>convertir()</code>, que por dentro usa códecs, mezclador y compresor, y la compra en una tienda en línea, donde <code>comprar()</code> llama a inventario, pagos y envíos</li>
+        <li>Una aplicación que trabaja con XML y una librería que solo acepta JSON, y un sistema de cobros que suma un proveedor nuevo con otros métodos</li>
+        <li>Las carpetas y los archivos de un sistema de archivos, y un pedido con productos sueltos y cajas que traen otras cajas</li>
+        <li>Los clientes que esperan un producto en una tienda y se suscriben al aviso, y los botones de una interfaz gráfica</li>
+      </ul>
+      <div class="p-pista"><p>En los dos tiene que haber <strong>varias clases</strong> que coordinar y <strong>una operación simple</strong> que las esconde.</p></div>
+      <div class="p-explicacion"><p>El conversor de video y la tienda en línea son Facade: varias clases detrás de un solo método. XML y JSON y el proveedor de cobros son Adapter; carpetas y cajas, Composite; los avisos y los botones, Observer.</p></div>
+    </li>
+  </ol>
+</article>

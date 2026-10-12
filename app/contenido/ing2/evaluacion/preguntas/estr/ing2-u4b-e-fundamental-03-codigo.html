@@ -1,0 +1,212 @@
+<article class="preg" data-id="ing2-u4b-e-fundamental-03-codigo" data-tipo="ejercicio" data-origen="parcial" data-fundamental="03" data-rotulo="Parte">
+  <div class="p-enunciado">
+    <p>
+      A partir del siguiente código identifique el patrón que se implementa en el mismo y explique
+      qué elementos ayudaron a identificarlo.
+    </p>
+    <pre class="codigo"><code>#include &lt;iostream&gt;
+
+class Balanza {
+ public:
+  virtual ~Balanza() {}
+  virtual int Request() const {
+    return 12;
+  }
+};
+
+class BalanzaImportada {
+ public:
+  int SpecificRequest() const {
+    return 100;
+  }
+};
+
+class BalanzaMuelle : public Balanza {
+ private:
+  BalanzaImportada *importada_;
+
+ public:
+  BalanzaMuelle(BalanzaImportada *importada) : importada_(importada) {}
+  int Request() const override {
+    int libras = this-&gt;importada_-&gt;SpecificRequest();
+    return libras * 454 / 1000;
+  }
+};
+
+void Despachar(const Balanza *balanza) {
+  std::cout &lt;&lt; "Peso: " &lt;&lt; balanza-&gt;Request() &lt;&lt; " kg\n";
+}
+
+int main() {
+  Balanza *comun = new Balanza;
+  Despachar(comun);
+
+  BalanzaImportada *importada = new BalanzaImportada;
+  Balanza *muelle = new BalanzaMuelle(importada);
+  Despachar(muelle);
+
+  delete comun;
+  delete importada;
+  delete muelle;
+  return 0;
+}</code></pre>
+    <p class="p-fuente">Inventado &middot; estilo Parcial 2025, Práctica 2, y Parcial 2024, Ej. 4</p>
+  </div>
+  <div class="p-rta" data-inciso="1">
+    <p>Lo que se ve, en el orden en que conviene leerlo:</p>
+    <ul>
+      <li><strong>Herencia:</strong> una sola, <code>BalanzaMuelle</code> hereda de <code>Balanza</code>. <code>BalanzaImportada</code> está suelta.</li>
+      <li><strong>Qué guarda la clase del medio:</strong> <code>BalanzaMuelle</code> guarda un puntero a <code>BalanzaImportada</code>.</li>
+      <li><strong>El cliente:</strong> <code>Despachar</code> solo conoce a <code>Balanza</code> y llama a <code>Request()</code>.</li>
+      <li><strong>Qué hace por dentro:</strong> en su <code>Request()</code>, <code>BalanzaMuelle</code> llama a <code>SpecificRequest()</code> y convierte el resultado de libras a kilos.</li>
+    </ul>
+  </div>
+  <div class="p-rta" data-inciso="2">
+    <p><strong>Adapter.</strong> La respuesta, como se escribe en la hoja:</p>
+    <ol>
+      <li><strong>Qué patrón y por qué:</strong> "Es Adapter, un patrón estructural que se usa cuando hay que hacer trabajar juntas dos clases con interfaces incompatibles, sin modificar ninguna. Se reconoce porque <code>BalanzaMuelle</code> hereda de <code>Balanza</code> (la clase que usa el cliente), guarda un puntero a <code>BalanzaImportada</code> (una clase suelta, con otro método) y en su <code>Request()</code> llama a <code>SpecificRequest()</code> y convierte el resultado."</li>
+      <li><strong>Cómo está aplicado:</strong> "<code>Balanza</code> es la interfaz con el cliente (la que <code>Despachar</code> ya usa). <code>BalanzaImportada</code> es el servicio (la clase útil con la interfaz incompatible: su método se llama distinto y devuelve libras). <code>BalanzaMuelle</code> es el adaptador (la clase del medio): cumple la interfaz de <code>Balanza</code> y por dentro traduce cada llamada a la balanza importada, pasando las libras a kilos."</li>
+      <li><strong>Qué se gana:</strong> "<code>Despachar</code> usa la balanza importada igual que a las que ya conocía, sin modificar ni <code>Despachar</code> ni <code>BalanzaImportada</code>."</li>
+    </ol>
+  </div>
+  <div class="p-explicacion">
+    <p>Cada renglón del código que delata al patrón, con la parte que le corresponde:</p>
+    <div class="tabla-wrap">
+      <table class="t full">
+        <tr><th>Lo que se ve en el código</th><th>Parte del patrón</th></tr>
+        <tr><td><code>class Balanza</code>, con <code>virtual int Request()</code></td><td>Interfaz con el cliente (<code>Target</code>)</td></tr>
+        <tr><td><code>class BalanzaImportada</code>, sin herencia, con <code>SpecificRequest()</code></td><td>Servicio (<code>Adaptee</code>)</td></tr>
+        <tr><td><code>class BalanzaMuelle : public Balanza</code> + <code>BalanzaImportada *importada_</code></td><td>Adaptador (<code>Adapter</code>): hereda de una y guarda a la otra</td></tr>
+        <tr><td><code>this-&gt;importada_-&gt;SpecificRequest()</code> y <code>libras * 454 / 1000</code></td><td>La traducción</td></tr>
+        <tr><td><code>void Despachar(const Balanza *balanza)</code></td><td>Cliente: solo conoce a <code>Balanza</code></td></tr>
+      </table>
+    </div>
+  </div>
+  <ol class="p-pasos">
+    
+    <!-- ===== Parte 1: leer el código ===== -->
+    <li data-inciso="1" data-nivel="medio">
+      <div class="p-consigna"><p>Un código se lee siempre en el mismo orden. Primero, quién hereda de quién. ¿Qué herencia hay acá?</p></div>
+      <ul class="p-opciones">
+        <li data-correcta>Una sola: <code>BalanzaMuelle</code> hereda de <code>Balanza</code>. <code>BalanzaImportada</code> no hereda de nadie</li>
+        <li>Ninguna: las tres clases están sueltas y no se relacionan por herencia</li>
+        <li>Dos: <code>BalanzaImportada</code> y <code>BalanzaMuelle</code> heredan las dos de <code>Balanza</code></li>
+        <li>Una sola: <code>Balanza</code> hereda de <code>BalanzaImportada</code></li>
+      </ul>
+      <div class="p-pista"><p>Buscá los renglones <code>class ... : public ...</code>.</p></div>
+      <div class="p-explicacion"><p>El único <code>: public</code> está en <code>class BalanzaMuelle : public Balanza</code>. <code>BalanzaImportada</code> es una clase <strong>suelta</strong>: no hereda de nadie y nadie hereda de ella. Que haya una herencia ya descarta Facade, donde no hay ninguna.</p></div>
+    </li>
+    <li data-inciso="1" data-nivel="medio">
+      <div class="p-consigna"><p>Segundo, qué guarda la clase del medio. ¿Qué atributo tiene <code>BalanzaMuelle</code>?</p></div>
+      <ul class="p-opciones">
+        <li data-correcta>Un puntero a <code>BalanzaImportada</code>, que recibe por el constructor</li>
+        <li>Una lista de punteros a <code>Balanza</code>, a la que se le agregan elementos</li>
+        <li>Un puntero estático a <code>BalanzaMuelle</code>, es decir, a ella misma</li>
+        <li>Un puntero a cada una de las otras dos clases del programa</li>
+      </ul>
+      <div class="p-pista"><p>Mirá la parte <code>private:</code> de <code>BalanzaMuelle</code>.</p></div>
+      <div class="p-explicacion"><p><code>BalanzaImportada *importada_;</code>: <strong>un</strong> puntero a la clase suelta. Una lista de su misma base sería Composite; un puntero estático a sí misma, Singleton; un puntero a cada clase, Facade.</p></div>
+    </li>
+    <li data-inciso="1" data-nivel="medio">
+      <div class="p-consigna"><p>¿Con qué tipo trabaja la función <code>Despachar</code>, que es la que usa las balanzas?</p></div>
+      <ul class="p-opciones">
+        <li data-correcta>Solo con <code>Balanza</code>: llama a <code>Request()</code> y no conoce a <code>BalanzaImportada</code></li>
+        <li>Con <code>BalanzaImportada</code>: llama directamente a <code>SpecificRequest()</code></li>
+        <li>Con <code>BalanzaMuelle</code>: necesita saber que la balanza es la del muelle</li>
+        <li>Con las tres clases: elige con un <code>if</code> a cuál llamar</li>
+      </ul>
+      <div class="p-pista"><p>Mirá el parámetro: <code>void Despachar(const Balanza *balanza)</code>.</p></div>
+      <div class="p-explicacion"><p><code>Despachar</code> es el <strong>cliente</strong>: recibe un <code>Balanza*</code> y llama a <code>Request()</code>. En <code>main</code> se la llama dos veces, una con una <code>Balanza</code> común y otra con una <code>BalanzaMuelle</code>, y la función no nota la diferencia.</p></div>
+    </li>
+    <li data-inciso="1" data-nivel="medio">
+      <div class="p-consigna"><p>¿Por qué no se le puede pasar una <code>BalanzaImportada</code> directamente a <code>Despachar</code>?</p></div>
+      <ul class="p-opciones">
+        <li data-correcta>Porque tiene otra interfaz: no hereda de <code>Balanza</code>, su método se llama <code>SpecificRequest()</code> y devuelve el peso en otra unidad</li>
+        <li>Porque su constructor es privado y no se pueden crear objetos de esa clase desde afuera</li>
+        <li>Porque es una clase abstracta, con un método virtual sin código</li>
+        <li>Porque ya existe un objeto de esa clase y no se puede crear otro</li>
+      </ul>
+      <div class="p-pista"><p>Compará el método de <code>Balanza</code> con el de <code>BalanzaImportada</code>: cómo se llaman, y en qué variable se guarda lo que devuelve el segundo (<code>libras</code>).</p></div>
+      <div class="p-explicacion"><p>Las dos clases tienen <strong>interfaces incompatibles</strong>: <code>Despachar</code> espera un <code>Balanza*</code> con <code>Request()</code> en kilos, y <code>BalanzaImportada</code> no es una <code>Balanza</code>, su método tiene otro nombre y devuelve libras. Es exactamente el problema que resuelve el patrón.</p></div>
+    </li>
+    <li data-inciso="1" data-nivel="avanzado">
+      <div class="p-consigna"><p>¿Qué hace <code>BalanzaMuelle</code> dentro de su <code>Request()</code>?</p></div>
+      <ul class="p-opciones">
+        <li data-correcta>Llama a <code>SpecificRequest()</code> de la balanza importada que guarda y convierte el resultado de libras a kilos</li>
+        <li>Recorre una lista de balanzas, le pide el peso a cada una y devuelve la suma</li>
+        <li>Crea una balanza nueva con <code>new</code> y la devuelve para que la use el cliente</li>
+        <li>Les avisa a todas las balanzas registradas que hay un peso nuevo</li>
+      </ul>
+      <div class="p-pista"><p>Son dos renglones: uno llama a la otra clase, el otro hace una cuenta con lo que le devolvió.</p></div>
+      <div class="p-explicacion"><p><code>int libras = this-&gt;importada_-&gt;SpecificRequest();</code> le pide el dato a la clase suelta, y <code>return libras * 454 / 1000;</code> lo pasa a kilos. Eso es <strong>traducir la llamada</strong>: recibe un <code>Request()</code>, lo convierte en un <code>SpecificRequest()</code> y adapta la respuesta. La salida del programa es <code>Peso: 12 kg</code> y <code>Peso: 45 kg</code>.</p></div>
+    </li>
+    
+    <!-- ===== Parte 2: el patrón y su justificación ===== -->
+    <li data-inciso="2" data-nivel="avanzado">
+      <div class="p-consigna"><p>Con todo eso: ¿qué patrón implementa el código?</p></div>
+      <ul class="p-opciones">
+        <li data-correcta>Adapter</li>
+        <li>Facade</li>
+        <li>Strategy</li>
+        <li>Composite</li>
+      </ul>
+      <div class="p-pista"><p>Una clase que hereda de la interfaz del cliente y guarda <strong>un</strong> puntero a una clase <strong>suelta</strong>, a la que le traduce las llamadas.</p></div>
+      <div class="p-explicacion"><p><strong>Adapter</strong>, un patrón estructural: se usa cuando hay que hacer trabajar juntas dos clases con interfaces incompatibles, sin modificar ninguna. Los nombres <code>Request</code> y <code>SpecificRequest</code> lo confirman (son los del ejemplo original), pero la respuesta se justifica con la forma.</p></div>
+    </li>
+    <li data-inciso="2" data-nivel="avanzado">
+      <div class="p-consigna"><p>¿Qué parte del patrón es cada clase?</p></div>
+      <ul class="p-opciones">
+        <li data-correcta><code>Balanza</code> es la interfaz con el cliente, <code>BalanzaImportada</code> es el servicio y <code>BalanzaMuelle</code> es el adaptador</li>
+        <li><code>BalanzaImportada</code> es la interfaz con el cliente, <code>Balanza</code> es el servicio y <code>BalanzaMuelle</code> es el adaptador</li>
+        <li><code>Balanza</code> es el componente, <code>BalanzaImportada</code> es la hoja y <code>BalanzaMuelle</code> es el compuesto</li>
+        <li><code>BalanzaMuelle</code> es la fachada, y <code>Balanza</code> y <code>BalanzaImportada</code> son las clases del subsistema</li>
+      </ul>
+      <div class="p-pista"><p>La interfaz con el cliente es la que el cliente <strong>ya usa</strong>. El servicio es la clase útil que <strong>no encaja</strong>. El adaptador es la del medio.</p></div>
+      <div class="p-explicacion"><p><code>Balanza</code> es la <strong>interfaz con el cliente</strong> (<code>Target</code>): la que <code>Despachar</code> ya usa. <code>BalanzaImportada</code> es el <strong>servicio</strong> (<code>Adaptee</code>): la clase útil con la interfaz incompatible. <code>BalanzaMuelle</code> es el <strong>adaptador</strong>: cumple la primera y por dentro llama a la segunda.</p></div>
+    </li>
+    <li data-inciso="2" data-nivel="medio">
+      <div class="p-consigna"><p>Facade también es una clase que guarda a otra y la llama. ¿Por qué esto no es Facade?</p></div>
+      <ul class="p-opciones">
+        <li data-correcta>Porque envuelve una sola clase y le da una interfaz que ya existía, la de <code>Balanza</code>; una fachada guarda varias clases, no hereda de nadie y ofrece una interfaz nueva</li>
+        <li>Porque en una fachada las clases del subsistema tienen que heredar todas de la fachada, y acá no heredan</li>
+        <li>Porque una fachada no puede tener atributos privados ni recibir objetos por el constructor</li>
+        <li>Porque Facade es un patrón de comportamiento, y este código es estructural</li>
+      </ul>
+      <div class="p-pista"><p>¿Cuántas clases envuelve? ¿La interfaz que ofrece es nueva, o ya la usaba el cliente?</p></div>
+      <div class="p-explicacion"><p>La pregunta que los separa: ¿se envuelve <strong>una</strong> clase para darle una interfaz que ya existía (Adapter) o <strong>varias</strong> para dar una interfaz nueva y simple (Facade)? Acá es una sola (<code>BalanzaImportada</code>) y la interfaz ya existía (<code>Balanza</code>, de la que el adaptador hereda). En Facade no hay ninguna herencia.</p></div>
+    </li>
+    <li data-inciso="2" data-nivel="medio">
+      <div class="p-consigna"><p>En Strategy también hay una clase que guarda un puntero y le delega. ¿Por qué esto no es Strategy?</p></div>
+      <ul class="p-opciones">
+        <li data-correcta>Porque lo que guarda es una clase suelta con otra interfaz, y hay que traducir; en Strategy se guarda un puntero a una interfaz con varias implementaciones, y hay un método para cambiarla</li>
+        <li>Porque en Strategy la clase que delega no puede heredar de ninguna otra</li>
+        <li>Porque en Strategy el puntero se guarda en un atributo público, y acá es privado</li>
+        <li>Porque Strategy necesita al menos tres clases que hereden de la misma base</li>
+      </ul>
+      <div class="p-pista"><p>En Strategy lo que se guarda es <strong>intercambiable</strong>. ¿Acá hay algún método para cambiar la balanza importada por otra cosa?</p></div>
+      <div class="p-explicacion"><p>En Strategy el contexto guarda un puntero a una <strong>interfaz</strong> (con varias estrategias concretas detrás) y tiene un método para cambiarla. Acá el puntero es a una clase concreta y suelta, no hay nada intercambiable ni método para cambiarla, y el trabajo de <code>BalanzaMuelle</code> es convertir una interfaz en otra.</p></div>
+    </li>
+    <li data-inciso="2" data-nivel="avanzado">
+      <div class="p-consigna"><p>La consigna pide explicar qué elementos ayudaron a identificarlo. ¿Cuál es la respuesta completa?</p></div>
+      <ul class="p-opciones">
+        <li data-correcta><code>BalanzaMuelle</code> hereda de <code>Balanza</code>, que es la clase que usa el cliente; guarda un puntero a <code>BalanzaImportada</code>, una clase suelta con otro método; y en su <code>Request()</code> llama a <code>SpecificRequest()</code> y convierte el resultado</li>
+        <li>Los métodos se llaman <code>Request()</code> y <code>SpecificRequest()</code>, que son los nombres que usa el patrón, y hay tres clases</li>
+        <li>En <code>main</code> los objetos se crean con <code>new</code>, se pasan por puntero y al final se borran con <code>delete</code></li>
+        <li><code>Balanza</code> tiene un método <code>virtual</code> y un destructor <code>virtual</code>, y <code>BalanzaMuelle</code> usa <code>override</code></li>
+      </ul>
+      <div class="p-pista"><p>Tres elementos, los tres de la clase del medio: de quién hereda, qué guarda y qué hace en su método.</p></div>
+      <div class="p-explicacion"><p>Los elementos son los de la <strong>forma</strong>: de quién hereda el adaptador, qué guarda y qué hace con eso. Los nombres de los métodos sirven de confirmación, pero en un parcial pueden venir cambiados. <code>new</code>, <code>delete</code>, <code>virtual</code> y <code>override</code> aparecen en cualquier programa con herencia: no identifican a ningún patrón.</p></div>
+    </li>
+    <li data-inciso="2" data-nivel="medio">
+      <div class="p-consigna"><p>Para cerrar la respuesta: ¿qué se gana con el patrón en este código?</p></div>
+      <ul class="p-opciones">
+        <li data-correcta><code>Despachar</code> usa la balanza importada igual que a las que ya conocía, sin modificar ni <code>Despachar</code> ni <code>BalanzaImportada</code></li>
+        <li><code>Despachar</code> depende solo de <code>BalanzaMuelle</code> y deja de conocer a <code>Balanza</code></li>
+        <li>Todo el programa usa la misma balanza, a través de un único punto de acceso</li>
+        <li>Se puede cambiar la forma de pesar mientras el programa corre</li>
+      </ul>
+      <div class="p-pista"><p>Es la tercera oración de la descripción de Adapter: &ldquo;Así el cliente usa la clase nueva igual que...&rdquo;.</p></div>
+      <div class="p-explicacion"><p>La tercera oración de Adapter: &ldquo;Así el cliente usa la clase nueva igual que a las que ya conocía&rdquo;, dicha con el caso. Ninguna de las dos clases que no encajaban se modificó: todo el cambio está en la clase nueva del medio.</p></div>
+    </li>
+  </ol>
+</article>

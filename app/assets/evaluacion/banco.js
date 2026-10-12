@@ -114,6 +114,8 @@
           opciones: leerOpciones(a),
           pista: html(hijo(a, "p-pista")),
           explicacion: html(hijo(a, "p-explicacion")),
+          // como se llama cada parte del ejercicio, si no son incisos ("Párrafo", "Punto")
+          rotulo: a.getAttribute("data-rotulo") || "",
           datos: html(hijo(a, "p-datos")),   // cuadro de datos del ejercicio (niveles con ayuda)
           pasos: pasos ? Array.prototype.map.call(pasos.querySelectorAll(":scope > li"), leerPaso) : [],
           rtas: leerRtas(a)
@@ -169,6 +171,14 @@
   }
 
   function etapaDe(c) { return c.etapa === "1" ? "1" : "2"; }
+
+  // Evaluacion simple con ejercicios de parcial (Ing. II): los fundamentales
+  // de toda la materia, en su orden de estudio (data-fundamental).
+  function ejerciciosEnOrden(materia) {
+    return cargar(materia).lista.filter(function (p) {
+      return !p.retirada && p.etapa === "2" && p.tipo === "ejercicio" && p.fundamental > 0;
+    }).sort(function (a, b) { return a.fundamental - b.fundamental || (a.id < b.id ? -1 : 1); });
+  }
 
   // Evaluacion simple (PA, Ing. II): todas las preguntas de cuestionario del
   // banco, en el orden del banco (por id: pa-php-01, pa-php-02...), sin sortear.
@@ -238,6 +248,8 @@
     // op1 (1ra etapa): { hoja, urgente } -> sin completar / solo las urgentes.
     // Cuantas preguntas tiene la evaluacion simple (todas, ver todasEnOrden).
     todas: function (materia, unidades) { return todasEnOrden(materia, unidades).length; },
+    // Los ejercicios de parcial de la evaluacion simple (ver ejerciciosEnOrden).
+    ejercicios: function (materia) { return ejerciciosEnOrden(materia); },
 
     disponibles: function (materia, unidades, soloParcial, fundamentales, op1) {
       var r = { teoria: 0, practica: 0, ejercicio: 0, cuestionario: 0 };
@@ -281,6 +293,7 @@
 
     // Devuelve la lista ordenada de ids para un intento nuevo.
     seleccionar: function (materia, c) {
+      if (c.tipo === "simple" && etapaDe(c) === "2") { return ejerciciosEnOrden(materia).map(function (p) { return p.id; }); }
       if (c.tipo === "simple") { return todasEnOrden(materia, c.unidades).map(function (p) { return p.id; }); }
       var pool = delPool(materia, c);
       if (etapaDe(c) === "1" && c.fundamentales) {

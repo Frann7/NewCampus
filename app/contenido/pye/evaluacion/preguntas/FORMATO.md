@@ -67,7 +67,9 @@ pasos en avanzado y en 20 en principiante.
 ```
 
 * Cada paso dice a qué inciso pertenece con `data-inciso` (la letra), y los pasos van en el orden
-  en que se resuelve el ejercicio.
+  en que se resuelve el ejercicio. Si las partes del ejercicio no son incisos, el `article` lleva
+  `data-rotulo="Párrafo"` (o "Punto", "Patrón"...) y `data-inciso` es el número: se muestra
+  "Párrafo 1" en vez de "Inciso a)".
 * **Los niveles** usan la misma regla de `data-nivel` de siempre:
   * `avanzado`: el **resultado de cada inciso** (uno o varios pasos por inciso si el inciso pide
     varios valores). Todo inciso tiene al menos un paso `avanzado`.

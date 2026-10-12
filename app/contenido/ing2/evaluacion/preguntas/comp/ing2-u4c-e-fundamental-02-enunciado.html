@@ -1,0 +1,283 @@
+<article class="preg" data-id="ing2-u4c-e-fundamental-02-enunciado" data-tipo="ejercicio" data-origen="parcial" data-fundamental="02" data-rotulo="Párrafo">
+  <div class="p-enunciado">
+    <p>
+      A partir del siguiente enunciado identifique cuáles serían los patrones de diseño que utilizaría
+      y justifique por qué eligió los mismos.
+    </p>
+    <p>
+      La empresa <strong>Sabores Express</strong> vende comida por pedido a través de su aplicación.
+      La carta está formada por platos sueltos y por combos: un combo agrupa platos y también puede
+      incluir otros combos (el combo familiar trae dos combos individuales y un postre). Al armar el
+      pedido, el sistema tiene que poder pedirle el precio a cualquier elemento de la carta de la
+      misma manera, sea un plato solo o un combo entero; en ese caso, el precio es la suma de lo que
+      contiene.
+    </p>
+    <p>
+      Cada pedido sale de la cocina con su juego de envases: una bandeja, un vaso y un set de
+      cubiertos. La empresa trabaja con dos líneas de envases, la clásica (de plástico) y la
+      ecológica (de cartón), y los tres envases de un mismo pedido tienen que ser siempre de la
+      misma línea, nunca mezclados. Se prevé sumar una línea premium sin modificar la parte del
+      sistema que arma los pedidos.
+    </p>
+    <p>
+      Por último, a cada pedido listo se le asigna un repartidor. La asignación se puede hacer de
+      distintas maneras: al repartidor más cercano, al que lleva menos pedidos o por zonas fijas. El
+      encargado elige la forma de asignación que corresponde según cómo venga el turno y la puede
+      cambiar en cualquier momento, mientras el sistema sigue funcionando.
+    </p>
+    <p class="p-fuente">Inventado &middot; estilo Parcial 2025, Práctica 1, y Parcial 2024, Ej. 1</p>
+  </div>
+  <div class="p-explicacion">
+    <div class="tabla-wrap">
+      <table class="t full">
+        <tr><th>Párrafo</th><th>La frase que lo pide</th><th>Patrón</th></tr>
+        <tr>
+          <td class="lbl">1. La carta</td>
+          <td>"un combo agrupa platos y también puede incluir otros combos"; "de la misma manera, sea un plato solo o un combo entero"</td>
+          <td><strong>Composite</strong> <span class="et dato">Estructural</span></td>
+        </tr>
+        <tr>
+          <td class="lbl">2. Los envases</td>
+          <td>"los tres envases de un mismo pedido tienen que ser siempre de la misma línea, nunca mezclados"</td>
+          <td><strong>Abstract Factory</strong> <span class="et">Creacional</span></td>
+        </tr>
+        <tr>
+          <td class="lbl">3. El repartidor</td>
+          <td>"La asignación se puede hacer de distintas maneras"; "la puede cambiar en cualquier momento, mientras el sistema sigue funcionando"</td>
+          <td><strong>Strategy</strong> <span class="et vio">De comportamiento</span></td>
+        </tr>
+      </table>
+    </div>
+    <p>
+      En la hoja va un patrón por párrafo, cada uno con sus tres partes: qué patrón y por qué (con
+      la frase del enunciado entre comillas), cómo se aplica y qué se gana.
+    </p>
+  </div>
+  <div class="p-rta" data-inciso="1">
+    <p><strong>Composite</strong> (primer párrafo):</p>
+    <ol>
+      <li><strong>Qué patrón y por qué:</strong> "Composite, un patrón estructural, para la carta. Se usa cuando los objetos forman un árbol, con elementos simples y contenedores que agrupan elementos simples u otros contenedores. El enunciado lo dice: "un combo agrupa platos y también puede incluir otros combos", y el precio se pide "de la misma manera, sea un plato solo o un combo entero"."</li>
+      <li><strong>Cómo se aplica:</strong> "El plato es la hoja (el elemento simple, que no contiene nada) y el combo es el compuesto (el contenedor). Los dos cumplen una misma interfaz, el componente (lo que tienen en común: el método <code>precio()</code>). El combo guarda una lista de componentes y resuelve su precio pidiéndoselo a cada cosa que contiene y sumando."</li>
+      <li><strong>Qué se gana:</strong> "El sistema trata igual a un plato solo que a un combo entero."</li>
+    </ol>
+  </div>
+  <div class="p-rta" data-inciso="2">
+    <p><strong>Abstract Factory</strong> (segundo párrafo):</p>
+    <ol>
+      <li><strong>Qué patrón y por qué:</strong> "Abstract Factory, un patrón creacional, para los envases. Se usa cuando hay que crear familias de objetos relacionados, que tienen que combinar entre sí. El enunciado lo dice: "los tres envases de un mismo pedido tienen que ser siempre de la misma línea, nunca mezclados"."</li>
+      <li><strong>Cómo se aplica:</strong> "Una fábrica abstracta (la interfaz que dice qué se puede crear) declara un método de creación por cada producto: la bandeja, el vaso y los cubiertos. Hay una fábrica concreta por cada familia (los envases de una misma línea): la clásica y la ecológica, y cada una crea los tres envases de su línea."</li>
+      <li><strong>Qué se gana:</strong> "Nunca se mezclan envases de líneas distintas, y la línea premium se agrega con otra fábrica concreta, "sin modificar la parte del sistema que arma los pedidos"."</li>
+    </ol>
+  </div>
+  <div class="p-rta" data-inciso="3">
+    <p><strong>Strategy</strong> (tercer párrafo):</p>
+    <ol>
+      <li><strong>Qué patrón y por qué:</strong> "Strategy, un patrón de comportamiento, para la asignación del repartidor. Se usa cuando hay varias formas de hacer una misma tarea y se quiere poder cambiar de una a otra mientras el programa corre. El enunciado lo dice: "La asignación se puede hacer de distintas maneras", y el encargado "la puede cambiar en cualquier momento, mientras el sistema sigue funcionando"."</li>
+      <li><strong>Cómo se aplica:</strong> "Cada forma de asignar (al más cercano, al que lleva menos pedidos, por zonas) va en su propia clase, una estrategia concreta, y todas cumplen la misma interfaz, la estrategia. El asignador de pedidos es el contexto (la clase que usa una estrategia y le delega la tarea): guarda la que eligió el encargado y tiene un método para cambiarla."</li>
+      <li><strong>Qué se gana:</strong> "Se agregan formas nuevas de asignar sin modificar el contexto."</li>
+    </ol>
+  </div>
+  <ol class="p-pasos">
+
+    <!-- ===== Párrafo 1: Composite ===== -->
+    <li data-inciso="1" data-nivel="principiante">
+      <div class="p-consigna"><p>Primer párrafo (la carta, con platos y combos). Antes de pensar en un patrón: ¿de qué habla la necesidad?</p></div>
+      <ul class="p-opciones">
+        <li data-correcta>De cómo se arman las clases: algo contiene a algo</li>
+        <li>De crear objetos: cuántos hay, de qué tipo, quién los instancia</li>
+        <li>De cómo se comunican los objetos: avisar cuando pasa algo</li>
+      </ul>
+      <div class="p-pista"><p>&ldquo;Un combo <strong>agrupa</strong> platos y también puede <strong>incluir</strong> otros combos&rdquo;.</p></div>
+      <div class="p-explicacion"><p>Habla de cómo <strong>se arman</strong> las clases (un combo contiene platos y combos): el patrón es <strong>estructural</strong>, y los candidatos son Adapter, Composite y Facade.</p></div>
+    </li>
+    <li data-inciso="1" data-nivel="medio">
+      <div class="p-consigna"><p>¿Qué frase del primer párrafo decide el patrón?</p></div>
+      <ul class="p-opciones">
+        <li data-correcta>&ldquo;un combo agrupa platos y también puede incluir otros combos&rdquo;, y el precio se pide &ldquo;de la misma manera, sea un plato solo o un combo entero&rdquo;</li>
+        <li>&ldquo;vende comida por pedido a través de su aplicación&rdquo;: hace falta un acceso simple a un sistema complicado</li>
+        <li>&ldquo;La carta está formada por platos sueltos y por combos&rdquo;: hay dos tipos de producto para crear</li>
+        <li>&ldquo;el precio es la suma de lo que contiene&rdquo;: hay varias formas de calcular un precio</li>
+      </ul>
+      <div class="p-pista"><p>Buscá la frase que dice que algo contiene cosas <strong>de su mismo tipo</strong>.</p></div>
+      <div class="p-explicacion"><p>Las dos señales están juntas: un combo que <strong>incluye otros combos</strong> (un árbol) y la necesidad de tratar <strong>igual</strong> a un plato que a un combo. Esa es la frase que va entre comillas en la respuesta.</p></div>
+    </li>
+    <li data-inciso="1" data-nivel="avanzado">
+      <div class="p-consigna"><p>¿Qué patrón corresponde al primer párrafo?</p></div>
+      <ul class="p-opciones">
+        <li data-correcta>Composite</li>
+        <li>Facade</li>
+        <li>Abstract Factory</li>
+        <li>Observer</li>
+      </ul>
+      <div class="p-pista"><p>Algo que contiene cosas de su mismo tipo, y tratar igual a la pieza y al grupo.</p></div>
+      <div class="p-explicacion"><p><strong>Composite</strong>: los objetos forman un árbol (platos y combos que agrupan platos u otros combos) y se quiere tratar igual a un elemento solo que a un grupo. No es Facade (no se simplifica un conjunto de clases distintas) ni Observer (el combo no avisa: pide el precio y devuelve la suma).</p></div>
+    </li>
+    <li data-inciso="1" data-nivel="medio">
+      <div class="p-consigna"><p>Para el &ldquo;cómo se aplica&rdquo;: ¿qué es cada parte del patrón en la carta?</p></div>
+      <ul class="p-opciones">
+        <li data-correcta>El plato es la hoja y el combo es el compuesto; los dos cumplen la misma interfaz, el componente, con el método <code>precio()</code></li>
+        <li>El combo es la hoja y el plato es el compuesto; cada plato guarda la lista de los combos en los que aparece</li>
+        <li>La carta es la fachada, y los platos y los combos son las clases del subsistema que ella coordina</li>
+        <li>El combo es el notificador y los platos son los suscriptores, a los que les avisa cuando cambia el precio</li>
+      </ul>
+      <div class="p-pista"><p>La hoja es el elemento simple, que no contiene nada. El compuesto es el contenedor.</p></div>
+      <div class="p-explicacion"><p>El <strong>plato</strong> es la hoja (el elemento simple, que no contiene nada); el <strong>combo</strong> es el compuesto (el contenedor, que guarda una lista de elementos de la carta); y los dos cumplen la misma interfaz, el <strong>componente</strong>, con <code>precio()</code>.</p></div>
+    </li>
+    <li data-inciso="1" data-nivel="medio">
+      <div class="p-consigna"><p>¿Cómo resuelve su precio un combo?</p></div>
+      <ul class="p-opciones">
+        <li data-correcta>Le pide el precio a cada elemento de su lista, sin fijarse si es un plato u otro combo, y devuelve la suma</li>
+        <li>Pregunta con un <code>if</code> si cada elemento es un plato o un combo, y hace una cuenta distinta en cada caso</li>
+        <li>Devuelve un precio fijo guardado en un atributo, que no depende de lo que contiene</li>
+        <li>Le avisa a cada plato que el pedido cambió, y no devuelve nada</li>
+      </ul>
+      <div class="p-pista"><p>La lista del combo es de <strong>componentes</strong>: no sabe (ni necesita saber) qué hay adentro de cada uno.</p></div>
+      <div class="p-explicacion"><p>El compuesto <strong>resuelve cada pedido pasándoselo a lo que contiene</strong>: recorre su lista, le pide <code>precio()</code> a cada componente y suma. Si uno de ellos es otro combo, ese hace lo mismo con los suyos. Por eso no hace falta ningún <code>if</code>.</p></div>
+    </li>
+    <li data-inciso="1" data-nivel="avanzado">
+      <div class="p-consigna"><p>¿Qué se gana con Composite en la carta?</p></div>
+      <ul class="p-opciones">
+        <li data-correcta>El sistema trata igual a un plato solo que a un combo entero</li>
+        <li>Nunca se mezclan platos de una línea con platos de otra</li>
+        <li>Toda la aplicación usa la misma carta, a través de un único punto de acceso</li>
+        <li>El sistema depende solo de la carta y no necesita conocer la cocina</li>
+      </ul>
+      <div class="p-pista"><p>Es lo que pide el enunciado: &ldquo;de la misma manera, sea un plato solo o un combo entero&rdquo;.</p></div>
+      <div class="p-explicacion"><p>La tercera oración de Composite: &ldquo;Así el cliente trata igual a un elemento solo que a un grupo entero&rdquo;, dicha con el caso. Las otras son lo que se gana con Abstract Factory, Singleton y Facade.</p></div>
+    </li>
+
+    <!-- ===== Párrafo 2: Abstract Factory ===== -->
+    <li data-inciso="2" data-nivel="principiante">
+      <div class="p-consigna"><p>Segundo párrafo (el juego de envases de cada pedido). ¿De qué habla la necesidad?</p></div>
+      <ul class="p-opciones">
+        <li data-correcta>De crear objetos: cuántos hay, de qué tipo, quién los instancia</li>
+        <li>De cómo se arman las clases: algo contiene a algo, o algo no encaja</li>
+        <li>De cómo se hace una tarea: elegir entre varias formas de hacer lo mismo</li>
+      </ul>
+      <div class="p-pista"><p>Para cada pedido hay que <strong>producir</strong> una bandeja, un vaso y un set de cubiertos, de la línea que corresponda.</p></div>
+      <div class="p-explicacion"><p>Habla de <strong>crear</strong> objetos (los envases, de una línea o de otra): el patrón es <strong>creacional</strong>, y los candidatos son Singleton, Factory Method y Abstract Factory.</p></div>
+    </li>
+    <li data-inciso="2" data-nivel="medio">
+      <div class="p-consigna"><p>¿Qué frase del segundo párrafo decide el patrón?</p></div>
+      <ul class="p-opciones">
+        <li data-correcta>&ldquo;los tres envases de un mismo pedido tienen que ser siempre de la misma línea, nunca mezclados&rdquo;</li>
+        <li>&ldquo;Cada pedido sale de la cocina&rdquo;: cuando pasa algo, otros se tienen que enterar</li>
+        <li>&ldquo;una bandeja, un vaso y un set de cubiertos&rdquo;: un juego que contiene cosas de su mismo tipo</li>
+        <li>&ldquo;la clásica (de plástico) y la ecológica (de cartón)&rdquo;: dos formas de hacer la misma tarea</li>
+      </ul>
+      <div class="p-pista"><p>Buscá la frase que dice que las cosas que se crean tienen que <strong>combinar</strong>.</p></div>
+      <div class="p-explicacion"><p>&ldquo;De la misma línea, nunca mezclados&rdquo;: son <strong>varias cosas distintas que tienen que combinar</strong>, es decir, familias de objetos. Esa es la frase que va entre comillas.</p></div>
+    </li>
+    <li data-inciso="2" data-nivel="avanzado">
+      <div class="p-consigna"><p>¿Qué patrón corresponde al segundo párrafo?</p></div>
+      <ul class="p-opciones">
+        <li data-correcta>Abstract Factory</li>
+        <li>Factory Method</li>
+        <li>Composite</li>
+        <li>Strategy</li>
+      </ul>
+      <div class="p-pista"><p>Crear varias cosas distintas que tienen que combinar: familias.</p></div>
+      <div class="p-explicacion"><p><strong>Abstract Factory</strong>: hay que crear familias de objetos relacionados (bandeja, vaso y cubiertos de una misma línea) que tienen que combinar entre sí. No es Strategy: las líneas no son formas de hacer una tarea, son objetos que se crean.</p></div>
+    </li>
+    <li data-inciso="2" data-nivel="medio">
+      <div class="p-consigna"><p>Es el par que más se confunde. ¿Por qué acá no es Factory Method?</p></div>
+      <ul class="p-opciones">
+        <li data-correcta>Porque se crean varias cosas distintas que tienen que combinar; con Factory Method se crea un solo tipo de cosa</li>
+        <li>Porque Factory Method no permite agregar tipos nuevos sin modificar el código que los usa</li>
+        <li>Porque Factory Method es un patrón estructural, y acá la necesidad es crear objetos</li>
+        <li>Porque en Factory Method no hay subclases, y acá hacen falta dos líneas</li>
+      </ul>
+      <div class="p-pista"><p>Contá cuántas cosas distintas se crean por pedido.</p></div>
+      <div class="p-explicacion"><p>La pregunta que los separa: ¿se crea <strong>un</strong> tipo de cosa (Factory Method) o <strong>varias que combinan</strong> (Abstract Factory)? Acá son tres envases distintos que tienen que ser de la misma línea. Si el enunciado hablara solo de crear bandejas de distintos tipos, sería Factory Method.</p></div>
+    </li>
+    <li data-inciso="2" data-nivel="medio">
+      <div class="p-consigna"><p>Para el &ldquo;cómo se aplica&rdquo;: ¿cómo quedan armadas las fábricas?</p></div>
+      <ul class="p-opciones">
+        <li data-correcta>La fábrica abstracta declara un método por cada producto (bandeja, vaso, cubiertos), y hay una fábrica concreta por cada línea, que crea los tres envases de esa línea</li>
+        <li>La fábrica abstracta declara un método por cada línea (clásica, ecológica), y hay una fábrica concreta por cada producto: la de bandejas, la de vasos y la de cubiertos</li>
+        <li>Hay una sola fábrica, sin subclases, que en cada método pregunta con un <code>if</code> de qué línea es el pedido</li>
+        <li>La bandeja es la fábrica abstracta, y el vaso y los cubiertos son los productos que ella crea</li>
+      </ul>
+      <div class="p-pista"><p>Un <strong>método</strong> por cada producto; una <strong>fábrica concreta</strong> por cada familia.</p></div>
+      <div class="p-explicacion"><p>Los <strong>métodos</strong> de la fábrica abstracta son los productos (<code>crearBandeja()</code>, <code>crearVaso()</code>, <code>crearCubiertos()</code>) y las <strong>fábricas concretas</strong> son las familias (la línea clásica y la ecológica). Armarlo al revés, con una fábrica por producto, es el error más común: así nada garantiza que los tres envases salgan de la misma línea.</p></div>
+    </li>
+    <li data-inciso="2" data-nivel="avanzado">
+      <div class="p-consigna"><p>¿Qué se gana con Abstract Factory en los envases?</p></div>
+      <ul class="p-opciones">
+        <li data-correcta>Nunca se mezclan envases de líneas distintas, y la línea premium se agrega con otra fábrica concreta, sin modificar la parte que arma los pedidos</li>
+        <li>La parte que arma los pedidos trata igual a un envase solo que a un juego entero de envases</li>
+        <li>La línea de envases se puede cambiar mientras el pedido se está repartiendo</li>
+        <li>Todos los pedidos comparten el mismo juego de envases, a través de un único punto de acceso</li>
+      </ul>
+      <div class="p-pista"><p>Dos cosas: lo de &ldquo;nunca mezclados&rdquo; y lo de la línea premium.</p></div>
+      <div class="p-explicacion"><p>La tercera oración de Abstract Factory: &ldquo;Así nunca se mezclan productos de familias distintas, y una familia nueva se agrega sin modificar el código que las usa&rdquo;. La familia nueva es la línea premium, que el enunciado ya anuncia.</p></div>
+    </li>
+
+    <!-- ===== Párrafo 3: Strategy ===== -->
+    <li data-inciso="3" data-nivel="principiante">
+      <div class="p-consigna"><p>Tercer párrafo (la asignación del repartidor). ¿De qué habla la necesidad?</p></div>
+      <ul class="p-opciones">
+        <li data-correcta>De cómo se hace una tarea: elegir entre varias formas de hacer lo mismo</li>
+        <li>De crear objetos: cuántos hay, de qué tipo, quién los instancia</li>
+        <li>De cómo se arman las clases: algo contiene a algo, o algo es complicado de usar</li>
+      </ul>
+      <div class="p-pista"><p>&ldquo;La asignación <strong>se puede hacer de distintas maneras</strong>&rdquo;.</p></div>
+      <div class="p-explicacion"><p>Habla de <strong>cómo se hace</strong> una tarea (asignar el repartidor): el patrón es <strong>de comportamiento</strong>, y los candidatos son Observer y Strategy.</p></div>
+    </li>
+    <li data-inciso="3" data-nivel="medio">
+      <div class="p-consigna"><p>¿Qué frase del tercer párrafo decide el patrón?</p></div>
+      <ul class="p-opciones">
+        <li data-correcta>&ldquo;La asignación se puede hacer de distintas maneras&rdquo;, y el encargado &ldquo;la puede cambiar en cualquier momento, mientras el sistema sigue funcionando&rdquo;</li>
+        <li>&ldquo;a cada pedido listo se le asigna un repartidor&rdquo;: hay que crear un repartidor por cada pedido</li>
+        <li>&ldquo;por zonas fijas&rdquo;: las zonas agrupan repartidores y también otras zonas</li>
+        <li>&ldquo;según cómo venga el turno&rdquo;: cuando cambia el turno hay que avisarles a todos los repartidores</li>
+      </ul>
+      <div class="p-pista"><p>Buscá la frase que dice que hay <strong>varias formas</strong> de hacer lo mismo y que se puede <strong>cambiar</strong> de una a otra.</p></div>
+      <div class="p-explicacion"><p>Las dos señales de Strategy: <strong>varias formas de hacer una misma tarea</strong> (&ldquo;de distintas maneras&rdquo;) y poder <strong>cambiar de una a otra mientras el programa corre</strong> (&ldquo;en cualquier momento, mientras el sistema sigue funcionando&rdquo;).</p></div>
+    </li>
+    <li data-inciso="3" data-nivel="avanzado">
+      <div class="p-consigna"><p>¿Qué patrón corresponde al tercer párrafo?</p></div>
+      <ul class="p-opciones">
+        <li data-correcta>Strategy</li>
+        <li>Observer</li>
+        <li>Factory Method</li>
+        <li>Facade</li>
+      </ul>
+      <div class="p-pista"><p>Tener varias formas de hacer lo mismo y elegir cuál.</p></div>
+      <div class="p-explicacion"><p><strong>Strategy</strong>: hay varias formas de hacer una misma tarea (asignar el repartidor) y se quiere poder cambiar de una a otra mientras el programa corre. No es Observer: nadie se suscribe ni recibe avisos.</p></div>
+    </li>
+    <li data-inciso="3" data-nivel="medio">
+      <div class="p-consigna"><p>Hay &ldquo;distintos tipos&rdquo; de asignación, como en Factory Method había distintos tipos de objeto. ¿Por qué acá no es Factory Method?</p></div>
+      <ul class="p-opciones">
+        <li data-correcta>Porque las variantes son formas de hacer una tarea (asignar), no de crear un objeto</li>
+        <li>Porque en Factory Method las variantes no se pueden agregar sin modificar el código</li>
+        <li>Porque Factory Method solo sirve cuando las variantes son exactamente dos</li>
+        <li>Porque en Factory Method las variantes no cumplen una interfaz en común</li>
+      </ul>
+      <div class="p-pista"><p>¿Qué varía: <strong>qué objeto se crea</strong> o <strong>cómo se hace algo</strong>?</p></div>
+      <div class="p-explicacion"><p>La pregunta que los separa: ¿las variantes son formas de <strong>hacer una tarea</strong> (Strategy) o de <strong>crear un objeto</strong> (Factory Method)? Asignar un repartidor es una tarea: no se crea nada.</p></div>
+    </li>
+    <li data-inciso="3" data-nivel="medio">
+      <div class="p-consigna"><p>Para el &ldquo;cómo se aplica&rdquo;: ¿qué es cada parte del patrón en la asignación?</p></div>
+      <ul class="p-opciones">
+        <li data-correcta>Cada forma de asignar va en su propia clase, una estrategia concreta, todas con la misma interfaz; el asignador de pedidos es el contexto: guarda una, le delega la tarea y tiene un método para cambiarla</li>
+        <li>El asignador de pedidos tiene las tres formas de asignar en un <code>switch</code>, y un atributo que dice cuál usar; el encargado cambia ese atributo</li>
+        <li>El asignador de pedidos guarda una lista con las tres formas de asignar y las ejecuta a todas cada vez que hay un pedido listo</li>
+        <li>El encargado es la estrategia y cada repartidor es un contexto, que guarda la zona que le tocó en el turno</li>
+      </ul>
+      <div class="p-pista"><p>El contexto es la clase que <strong>usa</strong> una estrategia y le delega la tarea. Guarda <strong>una</strong>, no una lista.</p></div>
+      <div class="p-explicacion"><p>Cada forma de asignar es una <strong>estrategia concreta</strong> (más cercano, menos pedidos, por zonas), y todas cumplen la interfaz <strong>estrategia</strong>. El asignador de pedidos es el <strong>contexto</strong>: guarda una, le delega la asignación y tiene el método para cambiarla. Un <code>switch</code> es justo lo que el patrón evita, y una lista a la que se recorre entera sería Observer.</p></div>
+    </li>
+    <li data-inciso="3" data-nivel="avanzado">
+      <div class="p-consigna"><p>¿Qué se gana con Strategy en la asignación?</p></div>
+      <ul class="p-opciones">
+        <li data-correcta>Se agregan formas nuevas de asignar sin modificar el asignador de pedidos, que es el contexto</li>
+        <li>Se suman repartidores interesados sin modificar al notificador</li>
+        <li>El asignador de pedidos trata igual a un repartidor solo que a una zona entera</li>
+        <li>Nunca se mezclan repartidores de una zona con pedidos de otra</li>
+      </ul>
+      <div class="p-pista"><p>Es la tercera oración de la descripción: &ldquo;Así se agregan formas nuevas sin...&rdquo;.</p></div>
+      <div class="p-explicacion"><p>La tercera oración de Strategy: &ldquo;Así se agregan formas nuevas sin modificar el contexto&rdquo;. Una asignación &ldquo;por antigüedad&rdquo; es una clase más, y el asignador no se toca.</p></div>
+    </li>
+  </ol>
+</article>

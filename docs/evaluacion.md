@@ -17,6 +17,15 @@
   unidad con su cantidad de preguntas, todos marcados. Lo elegido va en `config.unidades` (vacío =
   todos) y `banco.todas(materia, unidades)` / `seleccionar` filtran por ahí. Una materia **sin
   banco de preguntas** no muestra la sección Autoevaluación: solo sus parciales.
+  Si el banco de una materia simple tiene además **ejercicios de parcial** (`data-tipo="ejercicio"`
+  con `data-fundamental`, hoy solo Ing. II: `ing2-u4a-e-fundamental-01-dibujar`...), el formulario
+  suma el paso **Modo**: *Preguntas cortas* (lo de arriba) o *Ejercicios de parcial*. Los
+  ejercicios corren en `examen.js` como el interactivo de PyE (`etapa "2"`, `modo "interactivo"`,
+  `nivel "principiante"`: todos los pasos), pero **sin vidas ni nivel** (`E.conVidas` da falso en
+  la simple), todos los fundamentales de la materia en el orden de `data-fundamental`
+  (`banco.ejercicios(materia)`), y con el tiempo libre o con contador. Un ejercicio puede llamar a
+  sus partes de otra manera con `data-rotulo` en el `article` ("Párrafo", "Patrón", "Punto",
+  "Parte"): se lee "Párrafo 1" y "Rta. párrafo 1" en vez de "Inciso a)" (`E.rotuloInciso`).
 
 * **Parciales y finales:** cada examen es una carpeta con `meta.json` (titulo, fecha, detalle,
   temas: lo que muestra la tarjeta sin abrir el examen) y un archivo por ejercicio. El

@@ -235,6 +235,9 @@ Chrome (`chrome --headless --print-to-pdf`).
 `0.x.y-alpha` mientras esté en desarrollo. La `1.0.0` queda reservada para cuando esté terminado.
 La versión actual se lee al pie del menú lateral.
 
+* **0.46.12-alpha** — Ingeniería de Software II, Abstract Factory: el segundo ejemplo de "dibujarlo
+  y explicarlo" pasa a ser una casa de ropa de fútbol, escrito con la misma forma que el de la
+  mueblería (el del videojuego tampoco se entendía).
 * **0.46.11-alpha** — Ingeniería de Software II, Abstract Factory: en "dibujarlo y explicarlo", el
   segundo ejemplo (la interfaz gráfica multiplataforma) se cambió por uno más sencillo, un
   videojuego con mundos.

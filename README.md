@@ -92,8 +92,8 @@ fórmulas (MathJax) y las tipografías. Tus datos no salen de tu máquina.
   ese parcial entero como en el Aula Virtual (las 20 preguntas en orden, con cuenta regresiva de
   40 minutos que se puede cambiar, nota sobre 100 y la revisión explicada). Sin etapas, modos ni
   elección de clases.
-* **Evaluación de Ingeniería de Software II**: las **preguntas fundamentales de teoría** (13
-  preguntas de CMMI, Git, métricas y calidad, de la más probable a la menos, cada una con la
+* **Evaluación de Ingeniería de Software II**: las **preguntas fundamentales de teoría** (14
+  preguntas de CMMI, Git, métricas, agentes de IA y calidad, de la más probable a la menos, cada una con la
   respuesta corta para aprender y la explicación desde cero), los parciales 2024 y 2025 resueltos y
   autoevaluaciones **por temas**: se eligen las unidades (base, creacionales, estructurales, de
   comportamiento, calidad y CMMI, Git) y corre todas las preguntas de esos temas, con cuenta
@@ -251,6 +251,8 @@ Chrome (`chrome --headless --print-to-pdf`).
 `0.x.y-alpha` mientras esté en desarrollo. La `1.0.0` queda reservada para cuando esté terminado.
 La versión actual se lee al pie del menú lateral.
 
+* **0.50.1-alpha** — Ingeniería de Software II, preguntas fundamentales: se suma la de agentes de IA
+  para programación (material nuevo de 2026), en el sexto lugar.
 * **0.50.0-alpha** — Ingeniería de Software II: **preguntas fundamentales de teoría**, junto a
   los parciales. Trece preguntas de CMMI, Git, métricas y calidad con otros casos que el parcial
   2025, cada una con la respuesta para aprender y la explicación desde cero.

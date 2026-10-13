@@ -58,8 +58,8 @@ window.Apuntes.registrarIndice({
         "archivo": "examenes/ing2-2026-preguntas-fundamentales.js",
         "titulo": "Preguntas fundamentales de teor\u00eda",
         "fecha": "Para el parcial del 14/10/2026",
-        "detalle": "13 preguntas con la respuesta para aprender y la explicaci\u00f3n desde cero, de la m\u00e1s probable a la menos",
-        "temas": "CMMI \u00b7 Git \u00b7 M\u00e9tricas \u00b7 Calidad \u00b7 Control de versiones \u00b7 Versionado sem\u00e1ntico",
+        "detalle": "14 preguntas con la respuesta para aprender y la explicaci\u00f3n desde cero, de la m\u00e1s probable a la menos",
+        "temas": "CMMI \u00b7 Git \u00b7 M\u00e9tricas \u00b7 Agentes de IA \u00b7 Calidad \u00b7 Control de versiones \u00b7 Versionado sem\u00e1ntico",
         "tipo": "parcial"
       }
     ],

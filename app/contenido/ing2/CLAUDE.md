@@ -124,7 +124,7 @@ más arriba. Después de generarlos se mira **cómo quedaron**
   consigna pide "el propósito dentro del sistema", se dice para qué le sirve a esa empresa.
 - **Preguntas fundamentales de teoría** en `evaluacion/parciales/2026-preguntas-fundamentales/`:
   no es un parcial, pero va como una tarjeta más de Parciales (la primera, por el nombre de la
-  carpeta). Trece preguntas de las unidades 5 y 6, **ordenadas de la más probable a la menos**
+  carpeta). Catorce preguntas de las unidades 5 y 6, **ordenadas de la más probable a la menos**
   (el número del archivo es el orden; lo que el parcial 2025 tomó tal cual va al final), con
   otros casos que los de los parciales. Cada una lleva `pd-resultados` con el rótulo "Respuesta"
   (corta, de 4 a 8 renglones, para memorizar y escribir) y `pd-explicacion` con "Explicación

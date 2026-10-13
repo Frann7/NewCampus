@@ -94,7 +94,9 @@ fórmulas (MathJax) y las tipografías. Tus datos no salen de tu máquina.
   elección de clases.
 * **Evaluación de Ingeniería de Software II**: las **preguntas fundamentales de teoría** (14
   preguntas de CMMI, Git, métricas, agentes de IA y calidad, de la más probable a la menos, cada una con la
-  respuesta corta para aprender y la explicación desde cero), los parciales 2024 y 2025 resueltos y
+  respuesta corta para aprender y la explicación desde cero), **9 casos cortos de CMMI** (cinco
+  empresas para identificar el nivel, una por nivel, y cuatro para decir cómo subir al siguiente),
+  los parciales 2024 y 2025 resueltos y
   autoevaluaciones **por temas**: se eligen las unidades (base, creacionales, estructurales, de
   comportamiento, calidad y CMMI, Git) y corre todas las preguntas de esos temas, con cuenta
   regresiva, nota sobre 100 y la explicación de cada una. Son 67 preguntas con la forma de las
@@ -251,6 +253,9 @@ Chrome (`chrome --headless --print-to-pdf`).
 `0.x.y-alpha` mientras esté en desarrollo. La `1.0.0` queda reservada para cuando esté terminado.
 La versión actual se lee al pie del menú lateral.
 
+* **0.51.0-alpha** — Ingeniería de Software II: **CMMI en 9 casos cortos**, junto a los parciales.
+  Una empresa en cada uno de los cinco niveles para identificarlo, justificar y decir los riesgos,
+  y un caso por cada escalón para proponer cómo subir.
 * **0.50.3-alpha** — Ingeniería de Software II, preguntas fundamentales: revisadas las 14 respuestas
   contra su consigna; la de conflictos de merge ahora empieza por la definición.
 * **0.50.2-alpha** — Ingeniería de Software II, preguntas fundamentales: reordenadas de la más básica

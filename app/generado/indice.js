@@ -54,6 +54,15 @@ window.Apuntes.registrarIndice({
         "tipo": "parcial"
       },
       {
+        "id": "2026-cmmi-casos",
+        "archivo": "examenes/ing2-2026-cmmi-casos.js",
+        "titulo": "CMMI: 9 casos cortos",
+        "fecha": "Para el parcial del 14/10/2026",
+        "detalle": "5 empresas para identificar el nivel (una por nivel, desordenadas) y 4 para decir c\u00f3mo subir al siguiente",
+        "temas": "CMMI \u00b7 diagn\u00f3stico \u00b7 riesgos \u00b7 acciones para subir de nivel",
+        "tipo": "parcial"
+      },
+      {
         "id": "2026-preguntas-fundamentales",
         "archivo": "examenes/ing2-2026-preguntas-fundamentales.js",
         "titulo": "Preguntas fundamentales de teor\u00eda",

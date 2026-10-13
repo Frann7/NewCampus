@@ -108,8 +108,8 @@ rioplatense con voseo) y **mantenedor** del campus (código, contenido, commits)
   `docs/plan-ing2.md` están cargadas (6 unidades y los parciales 2024 y 2025 resueltos), más
   el banco de autoevaluación por temas (67 preguntas) y ocho ejercicios de parcial de
   patrones, con pasos de elegir y de escribir, el modo Practicar diagramas con los ocho diagramas para
-  completar, y las 14 preguntas fundamentales de teoría (CMMI, Git, métricas, agentes de IA y calidad) como una
-  tarjeta más de Parciales. Lo que
+  completar, y las 14 preguntas fundamentales de teoría (CMMI, Git, métricas, agentes de IA y calidad) y los 9 casos cortos de CMMI, como
+  tarjetas de Parciales. Lo que
   quedó para después del parcial está en `app/contenido/ing2/CLAUDE.md`. El texto de la teoría de
   patrones (`fuentes/ing2/PATRONES/TEORIA/`) está solo en esta PC, no en el repo.
 - **"No pude abrir el examen" (compañero, Parcial PHP):** no se reprodujo (clon limpio, update

@@ -135,6 +135,13 @@ más arriba. Después de generarlos se mira **cómo quedaron**
   (corta, de 4 a 8 renglones, para memorizar y escribir, pero **completa**: responde cada parte de la consigna, en su orden) y `pd-explicacion` con "Explicación
   desde cero" (rápida, sin dar nada por sabido, con las trampas al final). Todo sale de la teoría
   de la unidad: si el apunte cambia, se revisan.
+- **CMMI: 9 casos cortos** en `evaluacion/parciales/2026-cmmi-casos/` (otra tarjeta de Parciales,
+  pedida por Fran el 13/10/2026 para cubrir las dos formas de consigna): casos 1 a 5, una empresa
+  en cada nivel para identificarlo, justificar y decir los riesgos; casos 6 a 9, uno por escalón
+  para proponer tres acciones. Van **desordenados** y el título es el nombre de la empresa, para
+  que no se adivine el nivel. Las pistas, los riesgos y las acciones son los de la sección 4 de la
+  teoría de calidad; el riesgo del Nivel 5 (dejar de sostener la mejora) es deducción, el apunte no
+  lo da.
 - **Banco de autoevaluación** en `evaluacion/preguntas/<unidad>/` (una carpeta por unidad del
   menú, un archivo por pregunta, ids `ing2-u0-NN`, `ing2-u4a-NN`, `ing2-u4b-NN`, `ing2-u4c-NN`,
   `ing2-u5-NN`, `ing2-u6-NN`: el orden alfabético de los ids es el orden en que salen). Evaluación

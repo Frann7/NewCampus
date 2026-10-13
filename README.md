@@ -251,6 +251,8 @@ Chrome (`chrome --headless --print-to-pdf`).
 `0.x.y-alpha` mientras esté en desarrollo. La `1.0.0` queda reservada para cuando esté terminado.
 La versión actual se lee al pie del menú lateral.
 
+* **0.50.3-alpha** — Ingeniería de Software II, preguntas fundamentales: revisadas las 14 respuestas
+  contra su consigna; la de conflictos de merge ahora empieza por la definición.
 * **0.50.2-alpha** — Ingeniería de Software II, preguntas fundamentales: reordenadas de la más básica
   a la más específica dentro de cada tema (primero los cinco niveles de CMMI, después diagnosticar),
   y con un solo nombre para cada nivel en todas las explicaciones.

@@ -132,7 +132,7 @@ más arriba. Después de generarlos se mira **cómo quedaron**
   Cuantitativamente gestionado y En optimización continua; nada de reglas con otras palabras):
   Fran se perdió cuando una explicación los nombró distinto que la anterior (13/10/2026), con
   otros casos que los de los parciales. Cada una lleva `pd-resultados` con el rótulo "Respuesta"
-  (corta, de 4 a 8 renglones, para memorizar y escribir) y `pd-explicacion` con "Explicación
+  (corta, de 4 a 8 renglones, para memorizar y escribir, pero **completa**: responde cada parte de la consigna, en su orden) y `pd-explicacion` con "Explicación
   desde cero" (rápida, sin dar nada por sabido, con las trampas al final). Todo sale de la teoría
   de la unidad: si el apunte cambia, se revisan.
 - **Banco de autoevaluación** en `evaluacion/preguntas/<unidad>/` (una carpeta por unidad del

@@ -122,6 +122,14 @@ más arriba. Después de generarlos se mira **cómo quedaron**
   que la teoría: tres partes breves (qué patrón y por qué, cómo se aplica, qué se gana), con la
   frase del enunciado, cada parte del patrón explicada y todo dicho con el caso. Cuando la
   consigna pide "el propósito dentro del sistema", se dice para qué le sirve a esa empresa.
+- **Preguntas fundamentales de teoría** en `evaluacion/parciales/2026-preguntas-fundamentales/`:
+  no es un parcial, pero va como una tarjeta más de Parciales (la primera, por el nombre de la
+  carpeta). Trece preguntas de las unidades 5 y 6, **ordenadas de la más probable a la menos**
+  (el número del archivo es el orden; lo que el parcial 2025 tomó tal cual va al final), con
+  otros casos que los de los parciales. Cada una lleva `pd-resultados` con el rótulo "Respuesta"
+  (corta, de 4 a 8 renglones, para memorizar y escribir) y `pd-explicacion` con "Explicación
+  desde cero" (rápida, sin dar nada por sabido, con las trampas al final). Todo sale de la teoría
+  de la unidad: si el apunte cambia, se revisan.
 - **Banco de autoevaluación** en `evaluacion/preguntas/<unidad>/` (una carpeta por unidad del
   menú, un archivo por pregunta, ids `ing2-u0-NN`, `ing2-u4a-NN`, `ing2-u4b-NN`, `ing2-u4c-NN`,
   `ing2-u5-NN`, `ing2-u6-NN`: el orden alfabético de los ids es el orden en que salen). Evaluación
@@ -161,9 +169,10 @@ más arriba. Después de generarlos se mira **cómo quedaron**
 
 ## Pendientes e ideas
 
-- **Ejercicios de parcial que faltan** (plan acordado el 12/10/2026, Fran los suma después):
-  los fundamentales de teoría (CMMI: diagnosticar el nivel; CMMI: acciones hasta el nivel 5 con
-  IA; Git: el flujo de trabajo; métrica: la ficha) y más ejercicios de patrones por forma de
+- **Ejercicios de parcial que faltan** (plan acordado el 12/10/2026): la teoría quedó como
+  preguntas fundamentales en Parciales (13/10/2026, decisión de Fran: para leer y aprender, no
+  como autoevaluación); si después las quiere interactivas, son los ejercicios de CMMI, Git y
+  métricas. De patrones faltan más ejercicios por forma de
   consigna (un código en PHP como el del Parcial 2025, los otros patrones en cada forma).
   También quedó propuesto un estilo "como en el parcial" (escribir en la hoja y autocorregirse
   contra la respuesta modelo). En esta PC no hay `php`: un código en PHP no se puede correr acá.

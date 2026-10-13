@@ -1,0 +1,87 @@
+<!-- ==================== 4 · GIT: LOS COMANDOS ==================== -->
+<section class="parcial-ej">
+  <div class="parcial-ej-cab">
+    <h2>4. Git: los comandos, del directorio de trabajo al remoto</h2>
+    <span class="parcial-tema">Unidad 6 &middot; Git</span>
+  </div>
+
+  <p>
+    Un equipo tiene como rama principal a master, que es la versión estable. Un desarrollador, que
+    está ubicado en master, tiene que programar el inicio de sesión en una rama nueva llamada
+    feature-login. Indique los pasos que debe seguir para crear esa rama, registrar en ella todos
+    los cambios del Working Directory, subirla al remoto, integrarla en master y dejar master
+    actualizada en el remoto (<em>Git Workflow</em>).
+  </p>
+
+  <div class="parcial-extras">
+    <details class="parcial-desp pd-resultados">
+      <summary>
+        <span class="pd-icono">&#10003;</span>
+        <span class="pd-txt"><b>Respuesta</b><small>Para aprender y escribir en la hoja</small></span>
+      </summary>
+      <div class="pd-cuerpo">
+        <ol>
+          <li>Crear la rama y pasarse a ella: <code>git checkout -b feature-login</code></li>
+          <li>Preparar todos los cambios: <code>git add .</code></li>
+          <li>Confirmarlos: <code>git commit -m "Agrega el inicio de sesión"</code></li>
+          <li>Subir la rama al remoto: <code>git push origin feature-login</code></li>
+          <li>Volver a la rama principal: <code>git checkout master</code></li>
+          <li>Integrar la rama: <code>git merge feature-login</code></li>
+          <li>Subir master al remoto: <code>git push origin master</code></li>
+        </ol>
+      </div>
+    </details>
+
+    <details class="parcial-desp pd-explicacion">
+      <summary>
+        <span class="pd-icono">&#9998;</span>
+        <span class="pd-txt"><b>Explicación desde cero</b><small>Parte por parte</small></span>
+      </summary>
+      <div class="pd-cuerpo">
+        <h4>El mapa</h4>
+        <p>Cada comando de Git mueve los cambios de un lugar a otro:</p>
+        <pre class="salida">Directorio        Área de          Repositorio         Repositorio
+de trabajo        preparación      local               remoto (origin)
+
+    │── git add ──────▶│                │                    │
+    │                  │── git commit ─▶│                    │
+    │                  │                │──── git push ─────▶│</pre>
+        <p>
+          Una <strong>rama</strong> es una versión paralela del proyecto: permite trabajar en algo
+          nuevo sin afectar la rama principal. <code>origin</code> es el nombre que Git le pone por
+          defecto al remoto.
+        </p>
+
+        <span class="paso">Cada comando: qué hace y por qué va ahí</span>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Comando</th><th>Qué hace</th><th>Por qué va en ese lugar</th></tr>
+            <tr><td><code>git checkout -b feature-login</code></td><td>Crea la rama nueva y cambia a ella.</td><td>Va primero para que los commits caigan en la rama nueva y no en master.</td></tr>
+            <tr><td><code>git add .</code></td><td>Prepara todos los cambios (el punto es "todo lo de esta carpeta").</td><td>El commit guarda solo lo que está en el área de preparación.</td></tr>
+            <tr><td><code>git commit -m "..."</code></td><td>Confirma lo preparado en feature-login, con un mensaje.</td><td>Sin commit no hay nada para subir: el push sube commits.</td></tr>
+            <tr><td><code>git push origin feature-login</code></td><td>Sube la rama al remoto.</td><td>Hasta acá la rama existía solo en el repositorio local.</td></tr>
+            <tr><td><code>git checkout master</code></td><td>Cambia a master, que todavía no tiene los cambios.</td><td>El merge trae los cambios a la rama en la que estoy parado.</td></tr>
+            <tr><td><code>git merge feature-login</code></td><td>Trae a master lo que tiene feature-login.</td><td>Recién ahora master tiene el inicio de sesión, pero solo en local.</td></tr>
+            <tr><td><code>git push origin master</code></td><td>Sube master al remoto.</td><td>Es lo último: deja el remoto actualizado.</td></tr>
+          </table>
+        </div>
+
+        <span class="paso">Por qué el merge se hace parado en la rama que recibe</span>
+        <p>
+          <code>git merge rama</code> no lleva un "destino": siempre trae los cambios de la rama que
+          se nombra <strong>hacia la rama actual</strong>. Para que reciba master hay que estar en
+          master. Si te quedás en feature-login y escribís <code>git merge master</code>, hacés lo
+          contrario: traés master a tu rama, y master queda sin el inicio de sesión.
+        </p>
+
+        <h4>Trampas</h4>
+        <ul>
+          <li><strong>Dos push, uno por rama:</strong> <code>git push origin master</code> sube solo master. Si la consigna pide subir la rama nueva, lleva su propio push.</li>
+          <li><strong><code>checkout -b</code> crea; <code>checkout</code> solo cambia:</strong> sin el <code>-b</code>, la rama tiene que existir.</li>
+          <li><strong>Sin <code>add</code> no hay commit:</strong> saltearlo es saltearse un estado.</li>
+          <li>Suma agregar <code>git pull origin master</code> antes de crear la rama y antes del merge, para traer lo que hayan subido los demás.</li>
+        </ul>
+      </div>
+    </details>
+  </div>
+</section>

@@ -141,7 +141,9 @@ más arriba. Después de generarlos se mira **cómo quedaron**
   para proponer tres acciones. Van **desordenados** y el título es el nombre de la empresa, para
   que no se adivine el nivel. Las pistas, los riesgos y las acciones son los de la sección 4 de la
   teoría de calidad; el riesgo del Nivel 5 (dejar de sostener la mejora) es deducción, el apunte no
-  lo da.
+  lo da. **El riesgo de no avanzar se escribe siempre igual**, en una oración: "Como no [lo que
+  define al nivel siguiente], [qué le pasa por no tenerlo]" (pedido de Fran, 13/10/2026: le costaba
+  armarlo desde las definiciones). Las cuatro oraciones están en la pregunta fundamental 2.
 - **Banco de autoevaluación** en `evaluacion/preguntas/<unidad>/` (una carpeta por unidad del
   menú, un archivo por pregunta, ids `ing2-u0-NN`, `ing2-u4a-NN`, `ing2-u4b-NN`, `ing2-u4c-NN`,
   `ing2-u5-NN`, `ing2-u6-NN`: el orden alfabético de los ids es el orden en que salen). Evaluación

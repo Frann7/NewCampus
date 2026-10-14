@@ -253,6 +253,9 @@ Chrome (`chrome --headless --print-to-pdf`).
 `0.x.y-alpha` mientras esté en desarrollo. La `1.0.0` queda reservada para cuando esté terminado.
 La versión actual se lee al pie del menú lateral.
 
+* **0.51.1-alpha** — Ingeniería de Software II, CMMI: los riesgos de no avanzar de nivel, más cortos
+  y armados desde la definición del nivel siguiente ("Como no..., ..."), con la tabla de los
+  cuatro casos en la pregunta fundamental 2 y la forma de escribirlos en la teoría.
 * **0.51.0-alpha** — Ingeniería de Software II: **CMMI en 9 casos cortos**, junto a los parciales.
   Una empresa en cada uno de los cinco niveles para identificarlo, justificar y decir los riesgos,
   y un caso por cada escalón para proponer cómo subir.

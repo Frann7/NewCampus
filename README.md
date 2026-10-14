@@ -253,6 +253,9 @@ Chrome (`chrome --headless --print-to-pdf`).
 `0.x.y-alpha` mientras esté en desarrollo. La `1.0.0` queda reservada para cuando esté terminado.
 La versión actual se lee al pie del menú lateral.
 
+* **0.51.2-alpha** — Ingeniería de Software II, pregunta fundamental de CMMI con IA: cada acción
+  empieza por lo que define a su nivel, y la explicación separa el Nivel 4 (los datos para
+  controlar y predecir) del 5 (los datos para cambiar el proceso).
 * **0.51.1-alpha** — Ingeniería de Software II, CMMI: los riesgos de no avanzar de nivel, más cortos
   y armados desde la definición del nivel siguiente ("Como no..., ..."), con la tabla de los
   cuatro casos en la pregunta fundamental 2 y la forma de escribirlos en la teoría.

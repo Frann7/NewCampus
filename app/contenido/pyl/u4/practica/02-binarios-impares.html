@@ -1,0 +1,98 @@
+<div class="ej" data-examen="variante"
+     data-examen-ref="Parciales 2023-2025 · ej. 3"
+     data-examen-nota="La misma consigna que el ejercicio 3 del parcial (20 puntos).">
+  <span class="tag">Ejercicio 2 &middot; TP I &middot; ej. 24</span>
+  <h2>Binarios impares</h2>
+  <div class="enunciado">
+    <p>Realice un AFD o AFND y una expresión regular para el conjunto de cadenas de números binarios impares.</p>
+  </div>
+
+  <span class="paso">Paso 1 &mdash; Ejemplos que sí y que no</span>
+  <p>
+    En binario, cada dígito vale una potencia de 2; todas son pares salvo la del último (vale 1).
+    Entonces un binario es impar <strong>si y solo si termina en 1</strong>. El alfabeto es {0, 1}.
+  </p>
+  <ul>
+    <li>Sí: <code>1</code>, <code>11</code> (3), <code>101</code> (5), <code>0111</code> (7, con un cero adelante).</li>
+    <li>No: <code>ε</code> (no es un número), <code>0</code>, <code>10</code> (2), <code>110</code> (6).</li>
+  </ul>
+
+  <span class="paso">Paso 2 &mdash; Qué tiene que recordar el autómata</span>
+  <p>Solo si el último dígito que leyó fue 1.</p>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th>Estado</th><th>Qué significa</th></tr>
+      <tr><td class="lbl">q0</td><td>No leyó nada o lo último fue 0 (inicial).</td></tr>
+      <tr><td class="lbl">q1</td><td>Lo último fue 1 (final).</td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Paso 3 &mdash; Transiciones y dibujo</span>
+  <p>Un 0 lleva siempre a q0 y un 1 siempre a q1, venga de donde venga.</p>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th>&delta;</th><th>0</th><th>1</th></tr>
+      <tr><td class="lbl">&rarr; q0</td><td>q0</td><td>q1</td></tr>
+      <tr><td class="lbl">q1 *</td><td>q0</td><td>q1</td></tr>
+    </table>
+  </div>
+  <p>AFD completo, sin estado muerto.</p>
+  <div class="pd-grafico af" data-g="u4-e2-af">
+    <svg viewBox="-61 -77 273 130" width="273" height="130" role="img" aria-label="Diagrama de un autómata finito">
+      <path class="arco" d="M-8.9,-16.8 C-40.0,-51.2 40.0,-51.2 8.9,-16.8"/>
+      <path class="punta" d="M8.9,-16.8 L11.6,-26.5 L18.3,-20.4 Z"/>
+      <text class="rot" x="0.0" y="-56.0" text-anchor="middle" dominant-baseline="central">0</text>
+      <path class="arco" d="M17.3,-7.8 Q80.0,-36.0 142.7,-7.8"/>
+      <path class="punta" d="M142.7,-7.8 L132.6,-7.4 L136.3,-15.6 Z"/>
+      <text class="rot" x="80.0" y="-31.9" text-anchor="middle" dominant-baseline="central">1</text>
+      <path class="arco" d="M151.1,-16.8 C120.0,-51.2 200.0,-51.2 168.9,-16.8"/>
+      <path class="punta" d="M168.9,-16.8 L171.6,-26.5 L178.3,-20.4 Z"/>
+      <text class="rot" x="160.0" y="-56.0" text-anchor="middle" dominant-baseline="central">1</text>
+      <path class="arco" d="M142.7,7.8 Q80.0,36.0 17.3,7.8"/>
+      <path class="punta" d="M17.3,7.8 L27.4,7.4 L23.7,15.6 Z"/>
+      <text class="rot" x="80.0" y="31.9" text-anchor="middle" dominant-baseline="central">0</text>
+      <path class="arco" d="M-49.0,0.0 L-19.0,0.0"/>
+      <path class="punta" d="M-19.0,0.0 L-28.0,4.5 L-28.0,-4.5 Z"/>
+      <g class="estado">
+        <circle class="borde" cx="0.0" cy="0.0" r="19"/>
+        <text class="nom" x="0.0" y="0.0" text-anchor="middle" dominant-baseline="central">q0</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="160.0" cy="0.0" r="19"/>
+        <circle class="borde" cx="160.0" cy="0.0" r="15"/>
+        <text class="nom" x="160.0" y="0.0" text-anchor="middle" dominant-baseline="central">q1</text>
+      </g>
+    </svg>
+  </div>
+
+  <span class="paso">Paso 4 &mdash; La ER, por piezas</span>
+  <ul>
+    <li><code>(0|1)*</code>: cualquier cosa adelante (incluso nada).</li>
+    <li><code>1</code>: el último dígito, obligatorio.</li>
+  </ul>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p><strong>AFD:</strong> el del dibujo (q0 inicial, q1 final).</p>
+    <p><strong>ER:</strong> <code>(0|1)*1</code></p>
+  </div>
+
+  <h3>Probamos con cadenas</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Cadena</th><th>Recorrido</th><th>¿La acepta?</th></tr>
+      <tr><td><code>101</code></td><td>q0 &rarr;1 q1 &rarr;0 q0 &rarr;1 q1</td><td>Sí: es 5</td></tr>
+      <tr><td><code>110</code></td><td>q0 &rarr;1 q1 &rarr;1 q1 &rarr;0 q0</td><td>No: es 6</td></tr>
+      <tr><td><code>ε</code></td><td>se queda en q0</td><td>No: q0 no es final</td></tr>
+    </table>
+  </div>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Errores y trampas</span>
+    <ul>
+      <li><code>1(0|1)*1</code> deja afuera al <code>1</code>, que es impar.</li>
+      <li>El autómata no sabe cuál es el último dígito hasta que se termina la cadena: por eso q1 tiene que poder volver a q0 con un 0.</li>
+      <li>Los ceros a la izquierda (<code>0111</code>) se aceptan: sigue siendo el 7. Si no se quisieran, la cadena tendría que empezar con 1 y sería otro autómata.</li>
+    </ul>
+  </div>
+</div>

@@ -1,0 +1,213 @@
+<div class="bloque">
+  <p class="kicker">De bolsillo</p>
+  <h2>2. Las formas que se repiten</h2>
+  <p>Casi todas las consignas son una de estas formas, o dos combinadas (sección 3). Todas sobre {a, b} o {0, 1}; con otro alfabeto se cambian las letras.</p>
+
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Forma</th><th>Qué recuerda</th><th>ER</th></tr>
+      <tr><td class="lbl">Empieza con w</td><td>Cuánto de w ya leí; después, nada</td><td><code>w(a|b)*</code></td></tr>
+      <tr><td class="lbl">Termina con w</td><td>Cuánto del final de lo leído coincide con el principio de w</td><td><code>(a|b)*w</code></td></tr>
+      <tr><td class="lbl">Contiene w</td><td>Cuánto de w llevo; al completarlo, final para siempre</td><td><code>(a|b)*w(a|b)*</code></td></tr>
+      <tr><td class="lbl">No contiene w</td><td>El AFD de "contiene w" con finales y no finales <strong>al revés</strong></td><td>Sale del autómata (Unidad 2)</td></tr>
+      <tr><td class="lbl">Cantidad par de x</td><td>Par o impar (2 estados)</td><td>ver abajo</td></tr>
+      <tr><td class="lbl">Longitud múltiplo de n</td><td>El resto de dividir lo leído por n (n estados en ciclo)</td><td><code>((a|b)<sup>n veces</sup>)*</code></td></tr>
+    </table>
+  </div>
+
+  <h3>Termina con ab</h3>
+  <div class="pd-grafico af" data-g="u4-termina">
+    <svg viewBox="-61 -78 396 169" width="396" height="169" role="img" aria-label="Terminan en ab">
+      <path class="arco" d="M-8.9,-16.8 C-40.0,-51.2 40.0,-51.2 8.9,-16.8"/>
+      <path class="punta" d="M8.9,-16.8 L11.6,-26.5 L18.3,-20.4 Z"/>
+      <text class="rot" x="0.0" y="-56.0" text-anchor="middle" dominant-baseline="central">b</text>
+      <path class="arco" d="M19.0,0.0 L133.0,0.0"/>
+      <path class="punta" d="M133.0,0.0 L124.0,4.5 L124.0,-4.5 Z"/>
+      <text class="rot" x="76.0" y="-10.0" text-anchor="middle" dominant-baseline="central">a</text>
+      <path class="arco" d="M143.1,-16.8 C112.0,-51.2 192.0,-51.2 160.9,-16.8"/>
+      <path class="punta" d="M160.9,-16.8 L163.6,-26.5 L170.3,-20.4 Z"/>
+      <text class="rot" x="152.0" y="-56.0" text-anchor="middle" dominant-baseline="central">a</text>
+      <path class="arco" d="M171.0,0.0 L285.0,0.0"/>
+      <path class="punta" d="M285.0,0.0 L276.0,4.5 L276.0,-4.5 Z"/>
+      <text class="rot" x="228.0" y="-10.0" text-anchor="middle" dominant-baseline="central">b</text>
+      <path class="arco" d="M290.9,-13.8 Q228.0,-80.0 165.1,-13.8"/>
+      <path class="punta" d="M165.1,-13.8 L168.0,-23.4 L174.5,-17.2 Z"/>
+      <text class="rot" x="228.0" y="-56.9" text-anchor="middle" dominant-baseline="central">a</text>
+      <path class="arco" d="M288.6,11.1 Q152.0,110.0 15.4,11.1"/>
+      <path class="punta" d="M15.4,11.1 L25.3,12.8 L20.0,20.1 Z"/>
+      <text class="rot" x="152.0" y="70.6" text-anchor="middle" dominant-baseline="central">b</text>
+      <path class="arco" d="M-49.0,0.0 L-19.0,0.0"/>
+      <path class="punta" d="M-19.0,0.0 L-28.0,4.5 L-28.0,-4.5 Z"/>
+      <g class="estado">
+        <circle class="borde" cx="0.0" cy="0.0" r="19"/>
+        <text class="nom" x="0.0" y="0.0" text-anchor="middle" dominant-baseline="central">q0</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="152.0" cy="0.0" r="19"/>
+        <text class="nom" x="152.0" y="0.0" text-anchor="middle" dominant-baseline="central">q1</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="304.0" cy="0.0" r="19"/>
+        <circle class="borde" cx="304.0" cy="0.0" r="15"/>
+        <text class="nom" x="304.0" y="0.0" text-anchor="middle" dominant-baseline="central">q2</text>
+      </g>
+    </svg>
+  </div>
+  <p>
+    La trampa está en las flechas de vuelta: desde q2 ("lo último fue ab"), una a no lleva al
+    principio sino a q1, porque esa a puede ser el comienzo de un nuevo ab.
+  </p>
+
+  <h3>Contiene ab (AFD)</h3>
+  <div class="pd-grafico af" data-g="u4-contiene">
+    <svg viewBox="-61 -77 417 108" width="417" height="108" role="img" aria-label="Contienen ab (AFD)">
+      <path class="arco" d="M-8.9,-16.8 C-40.0,-51.2 40.0,-51.2 8.9,-16.8"/>
+      <path class="punta" d="M8.9,-16.8 L11.6,-26.5 L18.3,-20.4 Z"/>
+      <text class="rot" x="0.0" y="-56.0" text-anchor="middle" dominant-baseline="central">b</text>
+      <path class="arco" d="M19.0,0.0 L133.0,0.0"/>
+      <path class="punta" d="M133.0,0.0 L124.0,4.5 L124.0,-4.5 Z"/>
+      <text class="rot" x="76.0" y="-10.0" text-anchor="middle" dominant-baseline="central">a</text>
+      <path class="arco" d="M143.1,-16.8 C112.0,-51.2 192.0,-51.2 160.9,-16.8"/>
+      <path class="punta" d="M160.9,-16.8 L163.6,-26.5 L170.3,-20.4 Z"/>
+      <text class="rot" x="152.0" y="-56.0" text-anchor="middle" dominant-baseline="central">a</text>
+      <path class="arco" d="M171.0,0.0 L285.0,0.0"/>
+      <path class="punta" d="M285.0,0.0 L276.0,4.5 L276.0,-4.5 Z"/>
+      <text class="rot" x="228.0" y="-10.0" text-anchor="middle" dominant-baseline="central">b</text>
+      <path class="arco" d="M295.1,-16.8 C264.0,-51.2 344.0,-51.2 312.9,-16.8"/>
+      <path class="punta" d="M312.9,-16.8 L315.6,-26.5 L322.3,-20.4 Z"/>
+      <text class="rot" x="304.0" y="-56.0" text-anchor="middle" dominant-baseline="central">a, b</text>
+      <path class="arco" d="M-49.0,0.0 L-19.0,0.0"/>
+      <path class="punta" d="M-19.0,0.0 L-28.0,4.5 L-28.0,-4.5 Z"/>
+      <g class="estado">
+        <circle class="borde" cx="0.0" cy="0.0" r="19"/>
+        <text class="nom" x="0.0" y="0.0" text-anchor="middle" dominant-baseline="central">q0</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="152.0" cy="0.0" r="19"/>
+        <text class="nom" x="152.0" y="0.0" text-anchor="middle" dominant-baseline="central">q1</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="304.0" cy="0.0" r="19"/>
+        <circle class="borde" cx="304.0" cy="0.0" r="15"/>
+        <text class="nom" x="304.0" y="0.0" text-anchor="middle" dominant-baseline="central">q2</text>
+      </g>
+    </svg>
+  </div>
+  <p>q0: "todavía no empezó"; q1: "lo último fue a"; q2: "ya apareció ab". Desde q2 no se sale.</p>
+
+  <h3>No contiene ab</h3>
+  <p>El mismo AFD, con los finales dados vuelta. q2 queda como estado muerto.</p>
+  <div class="pd-grafico af" data-g="u4-no-contiene">
+    <svg viewBox="-61 -77 417 108" width="417" height="108" role="img" aria-label="No contienen ab: el mismo AFD con los finales al revés">
+      <path class="arco" d="M-8.9,-16.8 C-40.0,-51.2 40.0,-51.2 8.9,-16.8"/>
+      <path class="punta" d="M8.9,-16.8 L11.6,-26.5 L18.3,-20.4 Z"/>
+      <text class="rot" x="0.0" y="-56.0" text-anchor="middle" dominant-baseline="central">b</text>
+      <path class="arco" d="M19.0,0.0 L133.0,0.0"/>
+      <path class="punta" d="M133.0,0.0 L124.0,4.5 L124.0,-4.5 Z"/>
+      <text class="rot" x="76.0" y="-10.0" text-anchor="middle" dominant-baseline="central">a</text>
+      <path class="arco" d="M143.1,-16.8 C112.0,-51.2 192.0,-51.2 160.9,-16.8"/>
+      <path class="punta" d="M160.9,-16.8 L163.6,-26.5 L170.3,-20.4 Z"/>
+      <text class="rot" x="152.0" y="-56.0" text-anchor="middle" dominant-baseline="central">a</text>
+      <path class="arco" d="M171.0,0.0 L285.0,0.0"/>
+      <path class="punta" d="M285.0,0.0 L276.0,4.5 L276.0,-4.5 Z"/>
+      <text class="rot" x="228.0" y="-10.0" text-anchor="middle" dominant-baseline="central">b</text>
+      <path class="arco" d="M295.1,-16.8 C264.0,-51.2 344.0,-51.2 312.9,-16.8"/>
+      <path class="punta" d="M312.9,-16.8 L315.6,-26.5 L322.3,-20.4 Z"/>
+      <text class="rot" x="304.0" y="-56.0" text-anchor="middle" dominant-baseline="central">a, b</text>
+      <path class="arco" d="M-49.0,0.0 L-19.0,0.0"/>
+      <path class="punta" d="M-19.0,0.0 L-28.0,4.5 L-28.0,-4.5 Z"/>
+      <g class="estado">
+        <circle class="borde" cx="0.0" cy="0.0" r="19"/>
+        <circle class="borde" cx="0.0" cy="0.0" r="15"/>
+        <text class="nom" x="0.0" y="0.0" text-anchor="middle" dominant-baseline="central">q0</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="152.0" cy="0.0" r="19"/>
+        <circle class="borde" cx="152.0" cy="0.0" r="15"/>
+        <text class="nom" x="152.0" y="0.0" text-anchor="middle" dominant-baseline="central">q1</text>
+      </g>
+      <g class="estado muerto">
+        <circle class="borde" cx="304.0" cy="0.0" r="19"/>
+        <text class="nom" x="304.0" y="0.0" text-anchor="middle" dominant-baseline="central">q2</text>
+      </g>
+    </svg>
+  </div>
+  <p>Mirando el dibujo: primero b, después a, y nunca una b después de una a. ER: <code>b*a*</code>.</p>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">El truco del complemento solo vale con AFD</span>
+    <p>Dar vuelta los finales funciona solo si el autómata es determinístico y <strong>completo</strong> (con su estado muerto). En un AFND da cualquier cosa.</p>
+  </div>
+
+  <h3>Cantidad par de 1</h3>
+  <div class="pd-grafico af" data-g="u4-paridad">
+    <svg viewBox="-61 -77 273 130" width="273" height="130" role="img" aria-label="Cantidad par de 1">
+      <path class="arco" d="M17.3,-7.8 Q80.0,-36.0 142.7,-7.8"/>
+      <path class="punta" d="M142.7,-7.8 L132.6,-7.4 L136.3,-15.6 Z"/>
+      <text class="rot" x="80.0" y="-31.9" text-anchor="middle" dominant-baseline="central">1</text>
+      <path class="arco" d="M142.7,7.8 Q80.0,36.0 17.3,7.8"/>
+      <path class="punta" d="M17.3,7.8 L27.4,7.4 L23.7,15.6 Z"/>
+      <text class="rot" x="80.0" y="31.9" text-anchor="middle" dominant-baseline="central">1</text>
+      <path class="arco" d="M-8.9,-16.8 C-40.0,-51.2 40.0,-51.2 8.9,-16.8"/>
+      <path class="punta" d="M8.9,-16.8 L11.6,-26.5 L18.3,-20.4 Z"/>
+      <text class="rot" x="0.0" y="-56.0" text-anchor="middle" dominant-baseline="central">0</text>
+      <path class="arco" d="M151.1,-16.8 C120.0,-51.2 200.0,-51.2 168.9,-16.8"/>
+      <path class="punta" d="M168.9,-16.8 L171.6,-26.5 L178.3,-20.4 Z"/>
+      <text class="rot" x="160.0" y="-56.0" text-anchor="middle" dominant-baseline="central">0</text>
+      <path class="arco" d="M-49.0,0.0 L-19.0,0.0"/>
+      <path class="punta" d="M-19.0,0.0 L-28.0,4.5 L-28.0,-4.5 Z"/>
+      <g class="estado">
+        <circle class="borde" cx="0.0" cy="0.0" r="19"/>
+        <circle class="borde" cx="0.0" cy="0.0" r="15"/>
+        <text class="nom" x="0.0" y="0.0" text-anchor="middle" dominant-baseline="central">P</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="160.0" cy="0.0" r="19"/>
+        <text class="nom" x="160.0" y="0.0" text-anchor="middle" dominant-baseline="central">I</text>
+      </g>
+    </svg>
+  </div>
+  <p>
+    P = "vi una cantidad par de 1", I = "impar". El 0 no cambia la paridad (lazo). ER:
+    <code>(0|10*1)*</code>: bloques que son un 0 suelto, o dos 1 con ceros en el medio.
+  </p>
+
+  <h3>Longitud múltiplo de 3</h3>
+  <div class="pd-grafico af" data-g="u4-longitud">
+    <svg viewBox="-61 -81 380 112" width="380" height="112" role="img" aria-label="Longitud múltiplo de 3">
+      <path class="arco" d="M19.0,0.0 L125.0,0.0"/>
+      <path class="punta" d="M125.0,0.0 L116.0,4.5 L116.0,-4.5 Z"/>
+      <text class="rot" x="72.0" y="-10.0" text-anchor="middle" dominant-baseline="central">a, b</text>
+      <path class="arco" d="M163.0,0.0 L269.0,0.0"/>
+      <path class="punta" d="M269.0,0.0 L260.0,4.5 L260.0,-4.5 Z"/>
+      <text class="rot" x="216.0" y="-10.0" text-anchor="middle" dominant-baseline="central">a, b</text>
+      <path class="arco" d="M271.9,-10.1 Q144.0,-90.0 16.1,-10.1"/>
+      <path class="punta" d="M16.1,-10.1 L21.4,-18.7 L26.1,-11.0 Z"/>
+      <text class="rot" x="144.0" y="-60.0" text-anchor="middle" dominant-baseline="central">a, b</text>
+      <path class="arco" d="M-49.0,0.0 L-19.0,0.0"/>
+      <path class="punta" d="M-19.0,0.0 L-28.0,4.5 L-28.0,-4.5 Z"/>
+      <g class="estado">
+        <circle class="borde" cx="0.0" cy="0.0" r="19"/>
+        <circle class="borde" cx="0.0" cy="0.0" r="15"/>
+        <text class="nom" x="0.0" y="0.0" text-anchor="middle" dominant-baseline="central">q0</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="144.0" cy="0.0" r="19"/>
+        <text class="nom" x="144.0" y="0.0" text-anchor="middle" dominant-baseline="central">q1</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="288.0" cy="0.0" r="19"/>
+        <text class="nom" x="288.0" y="0.0" text-anchor="middle" dominant-baseline="central">q2</text>
+      </g>
+    </svg>
+  </div>
+  <p>q0, q1, q2 = "leí 0, 1 o 2 símbolos de más sobre un múltiplo de 3". Cualquier símbolo avanza uno en el ciclo. ER: <code>((a|b)(a|b)(a|b))*</code>.</p>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Errores y trampas</span>
+    <ul>
+      <li>"Cantidad par" incluye el <strong>cero</strong>: la cadena sin ese símbolo (y ε) entra.</li>
+      <li>En "termina con" y "contiene", al fallar no siempre se vuelve al inicio: puede que lo leído ya sirva como comienzo del patrón.</li>
+      <li>"No contiene" no se puede escribir directo con una ER de bolsillo: se hace el AFD y, si piden ER, se pasa con la Unidad 2.</li>
+    </ul>
+  </div>
+</div>

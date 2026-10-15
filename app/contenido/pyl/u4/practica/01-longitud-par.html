@@ -1,0 +1,92 @@
+<div class="ej" data-examen="variante"
+     data-examen-ref="Parciales 2023-2025 · ej. 3"
+     data-examen-nota="La misma consigna que el ejercicio 3 del parcial (20 puntos).">
+  <span class="tag">Ejercicio 1 &middot; TP I &middot; ej. 5</span>
+  <h2>Longitud par</h2>
+  <div class="enunciado">
+    <p>Realice un AFD o AFND y una expresión regular para el conjunto de cadenas sobre {a, b} de longitud par.</p>
+  </div>
+
+  <span class="paso">Paso 1 &mdash; Ejemplos que sí y que no</span>
+  <ul>
+    <li>Sí: <code>ε</code> (largo 0, y el 0 es par), <code>ab</code>, <code>bb</code>, <code>abba</code>.</li>
+    <li>No: <code>a</code>, <code>b</code>, <code>aba</code>, <code>abbab</code>.</li>
+  </ul>
+
+  <span class="paso">Paso 2 &mdash; Qué tiene que recordar el autómata</span>
+  <p>
+    Qué letras leyó no importa: solo si lleva una cantidad <strong>par o impar</strong> de letras.
+    Dos situaciones, dos estados.
+  </p>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th>Estado</th><th>Qué significa</th></tr>
+      <tr><td class="lbl">q0</td><td>Leyó una cantidad par de letras. Arranca acá (0 letras): inicial y final.</td></tr>
+      <tr><td class="lbl">q1</td><td>Leyó una cantidad impar.</td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Paso 3 &mdash; Transiciones y dibujo</span>
+  <p>Cada letra, sea cual sea, cambia la paridad: pasa de un estado al otro.</p>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th>&delta;</th><th>a</th><th>b</th></tr>
+      <tr><td class="lbl">&rarr; q0 *</td><td>q1</td><td>q1</td></tr>
+      <tr><td class="lbl">q1</td><td>q0</td><td>q0</td></tr>
+    </table>
+  </div>
+  <p>Es un AFD completo: no hace falta estado muerto.</p>
+  <div class="pd-grafico af" data-g="u4-e1-af">
+    <svg viewBox="-61 -53 252 106" width="252" height="106" role="img" aria-label="Diagrama de un autómata finito">
+      <path class="arco" d="M17.3,-7.8 Q80.0,-36.0 142.7,-7.8"/>
+      <path class="punta" d="M142.7,-7.8 L132.6,-7.4 L136.3,-15.6 Z"/>
+      <text class="rot" x="80.0" y="-31.9" text-anchor="middle" dominant-baseline="central">a, b</text>
+      <path class="arco" d="M142.7,7.8 Q80.0,36.0 17.3,7.8"/>
+      <path class="punta" d="M17.3,7.8 L27.4,7.4 L23.7,15.6 Z"/>
+      <text class="rot" x="80.0" y="31.9" text-anchor="middle" dominant-baseline="central">a, b</text>
+      <path class="arco" d="M-49.0,0.0 L-19.0,0.0"/>
+      <path class="punta" d="M-19.0,0.0 L-28.0,4.5 L-28.0,-4.5 Z"/>
+      <g class="estado">
+        <circle class="borde" cx="0.0" cy="0.0" r="19"/>
+        <circle class="borde" cx="0.0" cy="0.0" r="15"/>
+        <text class="nom" x="0.0" y="0.0" text-anchor="middle" dominant-baseline="central">q0</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="160.0" cy="0.0" r="19"/>
+        <text class="nom" x="160.0" y="0.0" text-anchor="middle" dominant-baseline="central">q1</text>
+      </g>
+    </svg>
+  </div>
+
+  <span class="paso">Paso 4 &mdash; La ER, por piezas</span>
+  <ul>
+    <li><code>(a|b)</code>: una letra cualquiera.</li>
+    <li><code>(a|b)(a|b)</code>: un par de letras cualesquiera.</li>
+    <li><code>((a|b)(a|b))*</code>: cero o más pares, o sea largo 0, 2, 4...</li>
+  </ul>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p><strong>AFD:</strong> el del dibujo (q0 inicial y final; cualquier letra pasa de q0 a q1 y de q1 a q0).</p>
+    <p><strong>ER:</strong> <code>((a|b)(a|b))*</code></p>
+  </div>
+
+  <h3>Probamos con cadenas</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Cadena</th><th>Recorrido</th><th>¿La acepta?</th></tr>
+      <tr><td><code>ε</code></td><td>se queda en q0</td><td>Sí: q0 es final</td></tr>
+      <tr><td><code>abb</code></td><td>q0 &rarr;a q1 &rarr;b q0 &rarr;b q1</td><td>No: largo 3</td></tr>
+      <tr><td><code>abba</code></td><td>q0 &rarr;a q1 &rarr;b q0 &rarr;b q1 &rarr;a q0</td><td>Sí: largo 4</td></tr>
+    </table>
+  </div>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Errores y trampas</span>
+    <ul>
+      <li><code>(aa|bb)*</code> no es "largo par": deja afuera <code>ab</code>. El par es de letras <strong>cualesquiera</strong>.</li>
+      <li>Si q0 no es final se pierde <code>ε</code>, que tiene largo 0 (par).</li>
+      <li><code>(a|b)(a|b)*</code> es "al menos una letra", no tiene nada que ver con la paridad.</li>
+    </ul>
+  </div>
+</div>

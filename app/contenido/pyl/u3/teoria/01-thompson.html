@@ -1,0 +1,304 @@
+<div class="bloque">
+  <p class="kicker">Paso 1 de 3</p>
+  <h2>1. Thompson: de ER a AFN-ε</h2>
+
+  <h3>Qué es</h3>
+  <p>
+    Una receta que arma el autómata <strong>pieza por pieza</strong>, siguiendo cómo se evalúa la ER
+    (primero las <code>*</code>, después las concatenaciones, al final las <code>|</code>). Cada
+    pieza tiene <strong>un solo inicial y un solo final</strong>, al final no le sale nada y al
+    inicial no le entra nada: por eso se pueden enchufar entre sí.
+  </p>
+
+  <h3>Las reglas</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Para</th><th>Se construye</th></tr>
+      <tr><td class="lbl">∅</td><td>Un inicial y un final, sin flecha</td></tr>
+      <tr><td class="lbl">ε</td><td>Inicial &mdash;ε&rarr; final</td></tr>
+      <tr><td class="lbl">un símbolo a</td><td>Inicial &mdash;a&rarr; final</td></tr>
+      <tr><td class="lbl">r | s</td><td>Un inicial nuevo con ε a las dos piezas; un final nuevo al que llegan las dos con ε</td></tr>
+      <tr><td class="lbl">r s</td><td>El final de r <strong>es</strong> el inicial de s (se funden en un solo estado)</td></tr>
+      <tr><td class="lbl">r*</td><td>Inicial y final nuevos, y cuatro ε: entrar a r, salir de r, volver del final al inicial de r (repetir) y del inicial nuevo al final nuevo (cero veces)</td></tr>
+    </table>
+  </div>
+
+  <h3>Cómo se ven</h3>
+  <p><strong>ε</strong> y <strong>un símbolo</strong>:</p>
+  <div class="pd-grafico af" data-g="u3-th-eps">
+    <svg viewBox="-61 -31 220 62" width="220" height="62" role="img" aria-label="Thompson para ε">
+      <path class="arco" d="M19.0,0.0 L109.0,0.0"/>
+      <path class="punta" d="M109.0,0.0 L100.0,4.5 L100.0,-4.5 Z"/>
+      <text class="rot" x="64.0" y="-10.0" text-anchor="middle" dominant-baseline="central">ε</text>
+      <path class="arco" d="M-49.0,0.0 L-19.0,0.0"/>
+      <path class="punta" d="M-19.0,0.0 L-28.0,4.5 L-28.0,-4.5 Z"/>
+      <g class="estado">
+        <circle class="borde" cx="0.0" cy="0.0" r="19"/>
+        <text class="nom" x="0.0" y="0.0" text-anchor="middle" dominant-baseline="central">i</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="128.0" cy="0.0" r="19"/>
+        <circle class="borde" cx="128.0" cy="0.0" r="15"/>
+        <text class="nom" x="128.0" y="0.0" text-anchor="middle" dominant-baseline="central">f</text>
+      </g>
+    </svg>
+  </div>
+  <div class="pd-grafico af" data-g="u3-th-a">
+    <svg viewBox="-61 -31 220 62" width="220" height="62" role="img" aria-label="Thompson para un símbolo">
+      <path class="arco" d="M19.0,0.0 L109.0,0.0"/>
+      <path class="punta" d="M109.0,0.0 L100.0,4.5 L100.0,-4.5 Z"/>
+      <text class="rot" x="64.0" y="-10.0" text-anchor="middle" dominant-baseline="central">a</text>
+      <path class="arco" d="M-49.0,0.0 L-19.0,0.0"/>
+      <path class="punta" d="M-19.0,0.0 L-28.0,4.5 L-28.0,-4.5 Z"/>
+      <g class="estado">
+        <circle class="borde" cx="0.0" cy="0.0" r="19"/>
+        <text class="nom" x="0.0" y="0.0" text-anchor="middle" dominant-baseline="central">i</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="128.0" cy="0.0" r="19"/>
+        <circle class="borde" cx="128.0" cy="0.0" r="15"/>
+        <text class="nom" x="128.0" y="0.0" text-anchor="middle" dominant-baseline="central">f</text>
+      </g>
+    </svg>
+  </div>
+  <p><strong>Unión</strong>, <code>a|b</code>:</p>
+  <div class="pd-grafico af" data-g="u3-th-union">
+    <svg viewBox="-61 -67 332 134" width="332" height="134" role="img" aria-label="Thompson para a|b">
+      <path class="arco" d="M99.0,-36.0 L141.0,-36.0"/>
+      <path class="punta" d="M141.0,-36.0 L132.0,-31.5 L132.0,-40.5 Z"/>
+      <text class="rot" x="120.0" y="-46.0" text-anchor="middle" dominant-baseline="central">a</text>
+      <path class="arco" d="M99.0,36.0 L141.0,36.0"/>
+      <path class="punta" d="M141.0,36.0 L132.0,40.5 L132.0,31.5 Z"/>
+      <text class="rot" x="120.0" y="26.0" text-anchor="middle" dominant-baseline="central">b</text>
+      <path class="arco" d="M17.3,-7.8 L62.7,-28.2"/>
+      <path class="punta" d="M62.7,-28.2 L56.3,-20.4 L52.6,-28.6 Z"/>
+      <text class="rot" x="35.3" y="-28.5" text-anchor="middle" dominant-baseline="central">ε</text>
+      <path class="arco" d="M17.3,7.8 L62.7,28.2"/>
+      <path class="punta" d="M62.7,28.2 L52.6,28.6 L56.3,20.4 Z"/>
+      <text class="rot" x="44.7" y="7.5" text-anchor="middle" dominant-baseline="central">ε</text>
+      <path class="arco" d="M177.3,-28.2 L222.7,-7.8"/>
+      <path class="punta" d="M222.7,-7.8 L212.6,-7.4 L216.3,-15.6 Z"/>
+      <text class="rot" x="204.7" y="-28.5" text-anchor="middle" dominant-baseline="central">ε</text>
+      <path class="arco" d="M177.3,28.2 L222.7,7.8"/>
+      <path class="punta" d="M222.7,7.8 L216.3,15.6 L212.6,7.4 Z"/>
+      <text class="rot" x="195.3" y="7.5" text-anchor="middle" dominant-baseline="central">ε</text>
+      <path class="arco" d="M-49.0,0.0 L-19.0,0.0"/>
+      <path class="punta" d="M-19.0,0.0 L-28.0,4.5 L-28.0,-4.5 Z"/>
+      <g class="estado">
+        <circle class="borde" cx="80.0" cy="-36.0" r="19"/>
+        <text class="nom" x="80.0" y="-36.0" text-anchor="middle" dominant-baseline="central">1</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="160.0" cy="-36.0" r="19"/>
+        <text class="nom" x="160.0" y="-36.0" text-anchor="middle" dominant-baseline="central">3</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="80.0" cy="36.0" r="19"/>
+        <text class="nom" x="80.0" y="36.0" text-anchor="middle" dominant-baseline="central">2</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="160.0" cy="36.0" r="19"/>
+        <text class="nom" x="160.0" y="36.0" text-anchor="middle" dominant-baseline="central">4</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="0.0" cy="0.0" r="19"/>
+        <text class="nom" x="0.0" y="0.0" text-anchor="middle" dominant-baseline="central">0</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="240.0" cy="0.0" r="19"/>
+        <circle class="borde" cx="240.0" cy="0.0" r="15"/>
+        <text class="nom" x="240.0" y="0.0" text-anchor="middle" dominant-baseline="central">5</text>
+      </g>
+    </svg>
+  </div>
+  <p><strong>Concatenación</strong>, <code>ab</code> (el estado 1 es a la vez el final de <code>a</code> y el inicial de <code>b</code>):</p>
+  <div class="pd-grafico af" data-g="u3-th-concat">
+    <svg viewBox="-61 -31 252 62" width="252" height="62" role="img" aria-label="Thompson para ab">
+      <path class="arco" d="M19.0,0.0 L61.0,0.0"/>
+      <path class="punta" d="M61.0,0.0 L52.0,4.5 L52.0,-4.5 Z"/>
+      <text class="rot" x="40.0" y="-10.0" text-anchor="middle" dominant-baseline="central">a</text>
+      <path class="arco" d="M99.0,0.0 L141.0,0.0"/>
+      <path class="punta" d="M141.0,0.0 L132.0,4.5 L132.0,-4.5 Z"/>
+      <text class="rot" x="120.0" y="-10.0" text-anchor="middle" dominant-baseline="central">b</text>
+      <path class="arco" d="M-49.0,0.0 L-19.0,0.0"/>
+      <path class="punta" d="M-19.0,0.0 L-28.0,4.5 L-28.0,-4.5 Z"/>
+      <g class="estado">
+        <circle class="borde" cx="0.0" cy="0.0" r="19"/>
+        <text class="nom" x="0.0" y="0.0" text-anchor="middle" dominant-baseline="central">0</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="80.0" cy="0.0" r="19"/>
+        <text class="nom" x="80.0" y="0.0" text-anchor="middle" dominant-baseline="central">1</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="160.0" cy="0.0" r="19"/>
+        <circle class="borde" cx="160.0" cy="0.0" r="15"/>
+        <text class="nom" x="160.0" y="0.0" text-anchor="middle" dominant-baseline="central">2</text>
+      </g>
+    </svg>
+  </div>
+  <p><strong>Clausura</strong>, <code>a*</code> (arriba la vuelta, abajo el salto):</p>
+  <div class="pd-grafico af" data-g="u3-th-estrella">
+    <svg viewBox="-61 -84 332 160" width="332" height="160" role="img" aria-label="Thompson para a*">
+      <path class="arco" d="M99.0,0.0 L141.0,0.0"/>
+      <path class="punta" d="M141.0,0.0 L132.0,4.5 L132.0,-4.5 Z"/>
+      <text class="rot" x="120.0" y="-10.0" text-anchor="middle" dominant-baseline="central">a</text>
+      <path class="arco" d="M19.0,0.0 L61.0,0.0"/>
+      <path class="punta" d="M61.0,0.0 L52.0,4.5 L52.0,-4.5 Z"/>
+      <text class="rot" x="40.0" y="-10.0" text-anchor="middle" dominant-baseline="central">ε</text>
+      <path class="arco" d="M179.0,0.0 L221.0,0.0"/>
+      <path class="punta" d="M221.0,0.0 L212.0,4.5 L212.0,-4.5 Z"/>
+      <text class="rot" x="200.0" y="-10.0" text-anchor="middle" dominant-baseline="central">ε</text>
+      <path class="arco" d="M152.1,-17.3 Q120.0,-88.0 87.9,-17.3"/>
+      <path class="punta" d="M87.9,-17.3 L87.5,-27.4 L95.7,-23.6 Z"/>
+      <text class="rot" x="120.0" y="-62.6" text-anchor="middle" dominant-baseline="central">ε</text>
+      <path class="arco" d="M15.8,10.5 Q120.0,80.0 224.2,10.5"/>
+      <path class="punta" d="M224.2,10.5 L219.2,19.3 L214.2,11.8 Z"/>
+      <text class="rot" x="120.0" y="55.3" text-anchor="middle" dominant-baseline="central">ε</text>
+      <path class="arco" d="M-49.0,0.0 L-19.0,0.0"/>
+      <path class="punta" d="M-19.0,0.0 L-28.0,4.5 L-28.0,-4.5 Z"/>
+      <g class="estado">
+        <circle class="borde" cx="80.0" cy="0.0" r="19"/>
+        <text class="nom" x="80.0" y="0.0" text-anchor="middle" dominant-baseline="central">1</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="160.0" cy="0.0" r="19"/>
+        <text class="nom" x="160.0" y="0.0" text-anchor="middle" dominant-baseline="central">2</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="0.0" cy="0.0" r="19"/>
+        <text class="nom" x="0.0" y="0.0" text-anchor="middle" dominant-baseline="central">0</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="240.0" cy="0.0" r="19"/>
+        <circle class="borde" cx="240.0" cy="0.0" r="15"/>
+        <text class="nom" x="240.0" y="0.0" text-anchor="middle" dominant-baseline="central">3</text>
+      </g>
+    </svg>
+  </div>
+
+  <h3>Ejemplo 1: ab*</h3>
+  <ol>
+    <li>Piezas sueltas: <code>a</code> y <code>b</code>.</li>
+    <li>Primero la <code>*</code>: <code>b*</code> (la b con sus cuatro ε).</li>
+    <li>Después la concatenación: el final de <code>a</code> se funde con el inicial de <code>b*</code>.</li>
+  </ol>
+  <div class="pd-grafico af" data-g="u3-th-ej">
+    <svg viewBox="-61 -84 412 160" width="412" height="160" role="img" aria-label="AFN-ε de Thompson para ab*">
+      <path class="arco" d="M19.0,0.0 L61.0,0.0"/>
+      <path class="punta" d="M61.0,0.0 L52.0,4.5 L52.0,-4.5 Z"/>
+      <text class="rot" x="40.0" y="-10.0" text-anchor="middle" dominant-baseline="central">a</text>
+      <path class="arco" d="M179.0,0.0 L221.0,0.0"/>
+      <path class="punta" d="M221.0,0.0 L212.0,4.5 L212.0,-4.5 Z"/>
+      <text class="rot" x="200.0" y="-10.0" text-anchor="middle" dominant-baseline="central">b</text>
+      <path class="arco" d="M99.0,0.0 L141.0,0.0"/>
+      <path class="punta" d="M141.0,0.0 L132.0,4.5 L132.0,-4.5 Z"/>
+      <text class="rot" x="120.0" y="-10.0" text-anchor="middle" dominant-baseline="central">ε</text>
+      <path class="arco" d="M259.0,0.0 L301.0,0.0"/>
+      <path class="punta" d="M301.0,0.0 L292.0,4.5 L292.0,-4.5 Z"/>
+      <text class="rot" x="280.0" y="-10.0" text-anchor="middle" dominant-baseline="central">ε</text>
+      <path class="arco" d="M232.1,-17.3 Q200.0,-88.0 167.9,-17.3"/>
+      <path class="punta" d="M167.9,-17.3 L167.5,-27.4 L175.7,-23.6 Z"/>
+      <text class="rot" x="200.0" y="-62.6" text-anchor="middle" dominant-baseline="central">ε</text>
+      <path class="arco" d="M95.8,10.5 Q200.0,80.0 304.2,10.5"/>
+      <path class="punta" d="M304.2,10.5 L299.2,19.3 L294.2,11.8 Z"/>
+      <text class="rot" x="200.0" y="55.3" text-anchor="middle" dominant-baseline="central">ε</text>
+      <path class="arco" d="M-49.0,0.0 L-19.0,0.0"/>
+      <path class="punta" d="M-19.0,0.0 L-28.0,4.5 L-28.0,-4.5 Z"/>
+      <g class="estado">
+        <circle class="borde" cx="0.0" cy="0.0" r="19"/>
+        <text class="nom" x="0.0" y="0.0" text-anchor="middle" dominant-baseline="central">0</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="80.0" cy="0.0" r="19"/>
+        <text class="nom" x="80.0" y="0.0" text-anchor="middle" dominant-baseline="central">1</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="160.0" cy="0.0" r="19"/>
+        <text class="nom" x="160.0" y="0.0" text-anchor="middle" dominant-baseline="central">2</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="240.0" cy="0.0" r="19"/>
+        <text class="nom" x="240.0" y="0.0" text-anchor="middle" dominant-baseline="central">3</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="320.0" cy="0.0" r="19"/>
+        <circle class="borde" cx="320.0" cy="0.0" r="15"/>
+        <text class="nom" x="320.0" y="0.0" text-anchor="middle" dominant-baseline="central">4</text>
+      </g>
+    </svg>
+  </div>
+  <p>Los estados se numeran de izquierda a derecha: así la tabla del paso siguiente es fácil de seguir.</p>
+
+  <h3>Ejemplo 2: (a|b)c</h3>
+  <ol>
+    <li>El paréntesis primero: <code>a|b</code> (inicial 0, final 5).</li>
+    <li>Concatenación con <code>c</code>: el 5 pasa a ser el inicial de la <code>c</code>.</li>
+  </ol>
+  <div class="pd-grafico af" data-g="u3-th-ej2">
+    <svg viewBox="-61 -67 412 134" width="412" height="134" role="img" aria-label="AFN-ε de Thompson para (a|b)c">
+      <path class="arco" d="M99.0,-36.0 L141.0,-36.0"/>
+      <path class="punta" d="M141.0,-36.0 L132.0,-31.5 L132.0,-40.5 Z"/>
+      <text class="rot" x="120.0" y="-46.0" text-anchor="middle" dominant-baseline="central">a</text>
+      <path class="arco" d="M99.0,36.0 L141.0,36.0"/>
+      <path class="punta" d="M141.0,36.0 L132.0,40.5 L132.0,31.5 Z"/>
+      <text class="rot" x="120.0" y="26.0" text-anchor="middle" dominant-baseline="central">b</text>
+      <path class="arco" d="M17.3,-7.8 L62.7,-28.2"/>
+      <path class="punta" d="M62.7,-28.2 L56.3,-20.4 L52.6,-28.6 Z"/>
+      <text class="rot" x="35.3" y="-28.5" text-anchor="middle" dominant-baseline="central">ε</text>
+      <path class="arco" d="M17.3,7.8 L62.7,28.2"/>
+      <path class="punta" d="M62.7,28.2 L52.6,28.6 L56.3,20.4 Z"/>
+      <text class="rot" x="44.7" y="7.5" text-anchor="middle" dominant-baseline="central">ε</text>
+      <path class="arco" d="M177.3,-28.2 L222.7,-7.8"/>
+      <path class="punta" d="M222.7,-7.8 L212.6,-7.4 L216.3,-15.6 Z"/>
+      <text class="rot" x="204.7" y="-28.5" text-anchor="middle" dominant-baseline="central">ε</text>
+      <path class="arco" d="M177.3,28.2 L222.7,7.8"/>
+      <path class="punta" d="M222.7,7.8 L216.3,15.6 L212.6,7.4 Z"/>
+      <text class="rot" x="195.3" y="7.5" text-anchor="middle" dominant-baseline="central">ε</text>
+      <path class="arco" d="M259.0,0.0 L301.0,0.0"/>
+      <path class="punta" d="M301.0,0.0 L292.0,4.5 L292.0,-4.5 Z"/>
+      <text class="rot" x="280.0" y="-10.0" text-anchor="middle" dominant-baseline="central">c</text>
+      <path class="arco" d="M-49.0,0.0 L-19.0,0.0"/>
+      <path class="punta" d="M-19.0,0.0 L-28.0,4.5 L-28.0,-4.5 Z"/>
+      <g class="estado">
+        <circle class="borde" cx="80.0" cy="-36.0" r="19"/>
+        <text class="nom" x="80.0" y="-36.0" text-anchor="middle" dominant-baseline="central">1</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="160.0" cy="-36.0" r="19"/>
+        <text class="nom" x="160.0" y="-36.0" text-anchor="middle" dominant-baseline="central">3</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="80.0" cy="36.0" r="19"/>
+        <text class="nom" x="80.0" y="36.0" text-anchor="middle" dominant-baseline="central">2</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="160.0" cy="36.0" r="19"/>
+        <text class="nom" x="160.0" y="36.0" text-anchor="middle" dominant-baseline="central">4</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="0.0" cy="0.0" r="19"/>
+        <text class="nom" x="0.0" y="0.0" text-anchor="middle" dominant-baseline="central">0</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="240.0" cy="0.0" r="19"/>
+        <text class="nom" x="240.0" y="0.0" text-anchor="middle" dominant-baseline="central">5</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="320.0" cy="0.0" r="19"/>
+        <circle class="borde" cx="320.0" cy="0.0" r="15"/>
+        <text class="nom" x="320.0" y="0.0" text-anchor="middle" dominant-baseline="central">6</text>
+      </g>
+    </svg>
+  </div>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Errores y trampas</span>
+    <ul>
+      <li>En la concatenación <strong>no se agrega ε</strong>: los dos estados son uno solo (es como lo hace la cátedra).</li>
+      <li>En la <code>*</code> faltan muchas veces la ε de "cero veces" (inicial nuevo &rarr; final nuevo) o la de "repetir" (final de r &rarr; inicial de r). Son cuatro ε, siempre.</li>
+      <li><code>a|b|c</code> se arma como <code>(a|b)|c</code>: dos uniones anidadas (todo asocia por izquierda).</li>
+      <li>Respetá la prioridad: en <code>ab*</code> la <code>*</code> envuelve solo a la b.</li>
+    </ul>
+  </div>
+</div>

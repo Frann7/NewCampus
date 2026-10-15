@@ -1,0 +1,154 @@
+<div class="bloque">
+  <p class="kicker">Paso 3 de 3</p>
+  <h2>3. Minimización</h2>
+
+  <h3>Qué es</h3>
+  <p>
+    Juntar los estados que <strong>no se distinguen</strong>: los que, lea lo que lea la máquina
+    desde ahí, aceptan y rechazan exactamente las mismas cadenas. Para todo AFD existe uno
+    equivalente con la mínima cantidad de estados, y este algoritmo lo encuentra.
+  </p>
+  <p>
+    Dos estados son <strong>distinguibles</strong> si hay una cadena w que desde uno lleva a un final
+    y desde el otro a un no final. Ejemplo: un final y un no final se distinguen con w = ε.
+  </p>
+
+  <h3>El algoritmo (particiones)</h3>
+  <ol>
+    <li><strong>P1</strong>: dos grupos, los finales y los no finales (el ∅ va con los no finales).</li>
+    <li>Para cada grupo, mirar cada estado: <strong>con cada símbolo, ¿a qué grupo va?</strong> Los que van a los mismos grupos con todos los símbolos se quedan juntos; los demás se separan.</li>
+    <li>La partición nueva es P2. Si es igual a la anterior, se termina; si no, se repite el paso 2 con P2.</li>
+    <li>Cada grupo final es un estado del AFD mínimo. Es inicial el grupo que tiene al inicial; son finales los grupos de finales.</li>
+  </ol>
+  <div class="caja caja-formula">
+    <span class="caja-tit">La pregunta de cada ronda</span>
+    <p>Para cada estado de un grupo, armar su "firma": <strong>a qué grupo va con cada símbolo</strong>. Misma firma = mismo grupo.</p>
+  </div>
+
+  <h3>Ejemplo 1: el AFD de ab*</h3>
+  <p>El AFD de la sección 2:</p>
+  <div class="pd-grafico af" data-g="u3-sub-ej-afd">
+    <svg viewBox="-61 -52 436 265" width="436" height="265" role="img" aria-label="Diagrama de un autómata finito">
+      <path class="arco" d="M19.0,0.0 L133.0,0.0"/>
+      <path class="punta" d="M133.0,0.0 L124.0,4.5 L124.0,-4.5 Z"/>
+      <text class="rot" x="76.0" y="-10.0" text-anchor="middle" dominant-baseline="central">a</text>
+      <path class="arco" d="M14.2,12.7 L137.8,123.3"/>
+      <path class="punta" d="M137.8,123.3 L128.1,120.7 L134.1,114.0 Z"/>
+      <text class="rot" x="84.4" y="58.7" text-anchor="middle" dominant-baseline="central">b</text>
+      <path class="arco" d="M171.0,0.0 L285.0,0.0"/>
+      <path class="punta" d="M285.0,0.0 L276.0,4.5 L276.0,-4.5 Z"/>
+      <text class="rot" x="228.0" y="-10.0" text-anchor="middle" dominant-baseline="central">b</text>
+      <path class="arco" d="M152.0,19.0 L152.0,117.0"/>
+      <path class="punta" d="M152.0,117.0 L147.5,108.0 L156.5,108.0 Z"/>
+      <text class="rot" x="138.2" y="68.0" text-anchor="middle" dominant-baseline="central">a</text>
+      <path class="arco" d="M320.8,-8.9 C355.2,-40.0 355.2,40.0 320.8,8.9"/>
+      <path class="punta" d="M320.8,8.9 L330.5,11.6 L324.4,18.3 Z"/>
+      <text class="rot" x="358.8" y="0.0" text-anchor="middle" dominant-baseline="central">b</text>
+      <path class="arco" d="M289.8,12.7 L166.2,123.3"/>
+      <path class="punta" d="M166.2,123.3 L169.9,114.0 L175.9,120.7 Z"/>
+      <text class="rot" x="219.6" y="58.7" text-anchor="middle" dominant-baseline="central">a</text>
+      <path class="arco" d="M160.9,152.8 C192.0,187.2 112.0,187.2 143.1,152.8"/>
+      <path class="punta" d="M143.1,152.8 L140.4,162.5 L133.7,156.4 Z"/>
+      <text class="rot" x="152.0" y="192.0" text-anchor="middle" dominant-baseline="central">a, b</text>
+      <path class="arco" d="M-49.0,0.0 L-19.0,0.0"/>
+      <path class="punta" d="M-19.0,0.0 L-28.0,4.5 L-28.0,-4.5 Z"/>
+      <g class="estado">
+        <circle class="borde" cx="0.0" cy="0.0" r="19"/>
+        <text class="nom" x="0.0" y="0.0" text-anchor="middle" dominant-baseline="central">A</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="152.0" cy="0.0" r="19"/>
+        <circle class="borde" cx="152.0" cy="0.0" r="15"/>
+        <text class="nom" x="152.0" y="0.0" text-anchor="middle" dominant-baseline="central">B</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="304.0" cy="0.0" r="19"/>
+        <circle class="borde" cx="304.0" cy="0.0" r="15"/>
+        <text class="nom" x="304.0" y="0.0" text-anchor="middle" dominant-baseline="central">C</text>
+      </g>
+      <g class="estado muerto">
+        <circle class="borde" cx="152.0" cy="136.0" r="19"/>
+        <text class="nom" x="152.0" y="136.0" text-anchor="middle" dominant-baseline="central">∅</text>
+      </g>
+    </svg>
+  </div>
+  <ul>
+    <li><strong>P1</strong> = {B, C} &nbsp; {A, ∅}</li>
+    <li>
+      Grupo {B, C}: con a, B va a ∅ y C va a ∅ (los dos al grupo {A, ∅}); con b, B va a C y C va a C
+      (los dos al grupo {B, C}). <strong>Misma firma: siguen juntos.</strong>
+    </li>
+    <li>
+      Grupo {A, ∅}: con a, A va a B (grupo {B, C}) pero ∅ va a ∅ (grupo {A, ∅}). <strong>Firmas
+      distintas: se separan.</strong>
+    </li>
+    <li><strong>P2</strong> = {B, C} &nbsp; {A} &nbsp; {∅}</li>
+    <li>Otra ronda: {B, C} sigue igual (los dos van a ∅ con a y a {B, C} con b). <strong>P3</strong> = P2: se termina.</li>
+  </ul>
+  <p>B y C se juntan (queda B):</p>
+  <div class="pd-grafico af" data-g="u3-min-ej">
+    <svg viewBox="-61 -52 284 265" width="284" height="265" role="img" aria-label="Diagrama de un autómata finito">
+      <path class="arco" d="M19.0,0.0 L133.0,0.0"/>
+      <path class="punta" d="M133.0,0.0 L124.0,4.5 L124.0,-4.5 Z"/>
+      <text class="rot" x="76.0" y="-10.0" text-anchor="middle" dominant-baseline="central">a</text>
+      <path class="arco" d="M14.2,12.7 L137.8,123.3"/>
+      <path class="punta" d="M137.8,123.3 L128.1,120.7 L134.1,114.0 Z"/>
+      <text class="rot" x="84.4" y="58.7" text-anchor="middle" dominant-baseline="central">b</text>
+      <path class="arco" d="M168.8,-8.9 C203.2,-40.0 203.2,40.0 168.8,8.9"/>
+      <path class="punta" d="M168.8,8.9 L178.5,11.6 L172.4,18.3 Z"/>
+      <text class="rot" x="206.8" y="0.0" text-anchor="middle" dominant-baseline="central">b</text>
+      <path class="arco" d="M152.0,19.0 L152.0,117.0"/>
+      <path class="punta" d="M152.0,117.0 L147.5,108.0 L156.5,108.0 Z"/>
+      <text class="rot" x="138.2" y="68.0" text-anchor="middle" dominant-baseline="central">a</text>
+      <path class="arco" d="M160.9,152.8 C192.0,187.2 112.0,187.2 143.1,152.8"/>
+      <path class="punta" d="M143.1,152.8 L140.4,162.5 L133.7,156.4 Z"/>
+      <text class="rot" x="152.0" y="192.0" text-anchor="middle" dominant-baseline="central">a, b</text>
+      <path class="arco" d="M-49.0,0.0 L-19.0,0.0"/>
+      <path class="punta" d="M-19.0,0.0 L-28.0,4.5 L-28.0,-4.5 Z"/>
+      <g class="estado">
+        <circle class="borde" cx="0.0" cy="0.0" r="19"/>
+        <text class="nom" x="0.0" y="0.0" text-anchor="middle" dominant-baseline="central">A</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="152.0" cy="0.0" r="19"/>
+        <circle class="borde" cx="152.0" cy="0.0" r="15"/>
+        <text class="nom" x="152.0" y="0.0" text-anchor="middle" dominant-baseline="central">B</text>
+      </g>
+      <g class="estado muerto">
+        <circle class="borde" cx="152.0" cy="136.0" r="19"/>
+        <text class="nom" x="152.0" y="136.0" text-anchor="middle" dominant-baseline="central">∅</text>
+      </g>
+    </svg>
+  </div>
+
+  <h3>Ejemplo 2: el AFD de (a|b)c</h3>
+  <p>Estados A, B, C, D (final) y ∅, con las transiciones de la sección 2.</p>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th>&delta;</th><th>a</th><th>b</th><th>c</th></tr>
+      <tr><td class="lbl">&rarr; A</td><td>B</td><td>C</td><td>∅</td></tr>
+      <tr><td class="lbl">B</td><td>∅</td><td>∅</td><td>D</td></tr>
+      <tr><td class="lbl">C</td><td>∅</td><td>∅</td><td>D</td></tr>
+      <tr><td class="lbl">D *</td><td>∅</td><td>∅</td><td>∅</td></tr>
+      <tr><td class="lbl">∅</td><td>∅</td><td>∅</td><td>∅</td></tr>
+    </table>
+  </div>
+  <ul>
+    <li><strong>P1</strong> = {D} &nbsp; {A, B, C, ∅}</li>
+    <li>Firmas en {A, B, C, ∅} (grupo al que van con a, b, c): A &rarr; (no fin, no fin, no fin); B &rarr; (no fin, no fin, <strong>{D}</strong>); C &rarr; igual que B; ∅ &rarr; (no fin, no fin, no fin).</li>
+    <li><strong>P2</strong> = {D} &nbsp; {B, C} &nbsp; {A, ∅}</li>
+    <li>Ronda 2: en {A, ∅}, con a, A va a B (grupo {B, C}) y ∅ va a ∅: se separan. {B, C} sigue junto.</li>
+    <li><strong>P3</strong> = {D} &nbsp; {B, C} &nbsp; {A} &nbsp; {∅}. Ronda 3: no cambia. Se termina.</li>
+  </ul>
+  <p>Resultado: 4 estados (A, BC, D y ∅). Se ve que hacían falta <strong>dos rondas</strong>: no hay que cortar en P2.</p>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Errores y trampas</span>
+    <ul>
+      <li>La firma se arma con el <strong>grupo</strong> al que va, no con el estado: "B va a C y C va a C" es la misma firma si los dos destinos están en el mismo grupo.</li>
+      <li>Cada ronda se compara contra la partición <strong>anterior</strong> completa, no contra la que estás armando.</li>
+      <li>Nunca se juntan un final y un no final.</li>
+      <li>El ∅ entra en la minimización como cualquier no final. Si al final queda solo, es el estado muerto del AFD mínimo.</li>
+    </ul>
+  </div>
+</div>

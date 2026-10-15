@@ -31,7 +31,14 @@ window.Apuntes.registrarIndice({
     "pye/u6/practica": "panes/pye-u6-practica.js",
     "pye/u6/teoria": "panes/pye-u6-teoria.js",
     "pye/u7/practica": "panes/pye-u7-practica.js",
-    "pye/u7/teoria": "panes/pye-u7-teoria.js"
+    "pye/u7/teoria": "panes/pye-u7-teoria.js",
+    "pyl/u1/teoria": "panes/pyl-u1-teoria.js",
+    "pyl/u2/practica": "panes/pyl-u2-practica.js",
+    "pyl/u2/teoria": "panes/pyl-u2-teoria.js",
+    "pyl/u3/practica": "panes/pyl-u3-practica.js",
+    "pyl/u3/teoria": "panes/pyl-u3-teoria.js",
+    "pyl/u4/practica": "panes/pyl-u4-practica.js",
+    "pyl/u4/teoria": "panes/pyl-u4-teoria.js"
   },
   "examenes": {
     "ing2": [
@@ -137,6 +144,53 @@ window.Apuntes.registrarIndice({
         "detalle": "4 ejercicios \u00b7 100 puntos \u00b7 resuelto",
         "temas": "Densidad continua \u00b7 Normal \u00b7 Inferencia \u00b7 Descriptiva \u00b7 Bayes",
         "tipo": "final"
+      }
+    ],
+    "pyl": [
+      {
+        "id": "2023-parcial",
+        "archivo": "examenes/pyl-2023-parcial.js",
+        "titulo": "Parcial",
+        "fecha": "2023",
+        "detalle": "3 ejercicios de aut\u00f3matas y expresiones regulares",
+        "temas": "AF \u2192 ER \u00b7 ER \u2192 AFD m\u00ednimo \u00b7 AFD y ER de identificadores",
+        "tipo": "parcial"
+      },
+      {
+        "id": "2023-recuperatorio",
+        "archivo": "examenes/pyl-2023-recuperatorio.js",
+        "titulo": "Recuperatorio",
+        "fecha": "2023",
+        "detalle": "3 ejercicios de aut\u00f3matas y expresiones regulares",
+        "temas": "AF \u2192 ER \u00b7 ER \u2192 AFD m\u00ednimo \u00b7 AFD sin abba ni baab",
+        "tipo": "parcial"
+      },
+      {
+        "id": "2025-parcial",
+        "archivo": "examenes/pyl-2025-parcial.js",
+        "titulo": "Parcial",
+        "fecha": "2025",
+        "detalle": "3 ejercicios de aut\u00f3matas y expresiones regulares",
+        "temas": "AF \u2192 ER \u00b7 ER \u2192 AFD m\u00ednimo \u00b7 AFD y ER con cantidad par de 2",
+        "tipo": "parcial"
+      },
+      {
+        "id": "2025-recuperatorio",
+        "archivo": "examenes/pyl-2025-recuperatorio.js",
+        "titulo": "Recuperatorio",
+        "fecha": "2025",
+        "detalle": "3 ejercicios de aut\u00f3matas y expresiones regulares",
+        "temas": "AF \u2192 ER \u00b7 ER \u2192 AFD m\u00ednimo \u00b7 AFD con cantidad par de 1",
+        "tipo": "parcial"
+      },
+      {
+        "id": "2026-parcial-de-practica",
+        "archivo": "examenes/pyl-2026-parcial-de-practica.js",
+        "titulo": "Parcial de pr\u00e1ctica",
+        "fecha": "2026",
+        "detalle": "Inventado con la forma de los parciales",
+        "temas": "AF \u2192 ER \u00b7 ER \u2192 AFD m\u00ednimo \u00b7 AF y ER: termina con z, impar de x",
+        "tipo": "parcial"
       }
     ]
   },
@@ -339,7 +393,31 @@ window.Apuntes.registrarIndice({
       "clave": "pyl",
       "nombre": "Paradigmas y Lenguajes",
       "corto": "Paradigmas",
-      "unidades": []
+      "unidades": [
+        {
+          "clave": "u1",
+          "num": "Unidad 1",
+          "nombre": "Lenguajes, automatas y ER"
+        },
+        {
+          "clave": "u2",
+          "num": "Unidad 2",
+          "nombre": "De AF a ER"
+        },
+        {
+          "clave": "u3",
+          "num": "Unidad 3",
+          "nombre": "De ER a AFD minimo"
+        },
+        {
+          "clave": "u4",
+          "num": "Unidad 4",
+          "nombre": "Disenar AF y ER"
+        }
+      ],
+      "evaluacion": {
+        "tipo": "simple"
+      }
     },
     {
       "clave": "emp",

@@ -1,0 +1,320 @@
+<div class="ej" data-examen="variante"
+     data-examen-ref="Parciales 2023-2025 · ej. 2"
+     data-examen-nota="La misma consigna que el ejercicio 2 del parcial (60 puntos), con otra ER.">
+  <span class="tag">Ejercicio 6 &middot; ER &rarr; AFD mínimo</span>
+  <h2>x(y|z)*x</h2>
+  <div class="enunciado">
+    <p>Dada la siguiente ER, pasar a autómata determinístico mínimo: <strong>x(y|z)*x</strong></p>
+  </div>
+
+  <span class="paso">Paso 1 &mdash; Qué lenguaje genera</span>
+  <p>
+    Una <code>x</code>, después cualquier mezcla de <code>y</code> y <code>z</code> (incluso nada), y
+    otra <code>x</code>. El alfabeto tiene <strong>tres</strong> símbolos: la tabla lleva tres pares de
+    columnas. En palabras: <strong>empieza y termina en x, y en el medio solo hay y o z</strong>.
+  </p>
+  <ul>
+    <li>Sí: <code>xx</code>, <code>xyx</code>, <code>xzyzx</code>.</li>
+    <li>No: <code>x</code>, <code>xy</code>, <code>xxx</code>, <code>yx</code>.</li>
+  </ul>
+  <p>Esto no es parte de la respuesta, pero sirve para controlar el AFD al final.</p>
+
+  <span class="paso">Paso 2 &mdash; AFN-ε con Thompson</span>
+  <p>Se arma de adentro hacia afuera, en el orden en que se evalúa la ER:</p>
+  <ol>
+    <li><code>y|z</code>: 3 &rarr;y 5 y 4 &rarr;z 6; un inicial (2) con ε a cada uno y un final (7) al que llegan los dos con ε.</li>
+    <li><code>(y|z)*</code>: ε para entrar (1 &rarr; 2), ε de vuelta (7 &rarr; 2), ε para salir (7 &rarr; 8) y ε para saltearlo (1 &rarr; 8).</li>
+    <li>Las dos <code>x</code>, pegadas por concatenación: el final de la primera es el inicial de la clausura (0 &rarr;x 1) y el final de la clausura es el inicial de la segunda (8 &rarr;x 9).</li>
+  </ol>
+  <div class="pd-grafico af" data-g="u3-e6-thompson">
+    <svg viewBox="-61 -119 652 231" width="652" height="231" role="img" aria-label="AFN-ε de Thompson para x(y|z)*x">
+      <path class="arco" d="M19.0,0.0 L61.0,0.0"/>
+      <path class="punta" d="M61.0,0.0 L52.0,4.5 L52.0,-4.5 Z"/>
+      <text class="rot" x="40.0" y="-10.0" text-anchor="middle" dominant-baseline="central">x</text>
+      <path class="arco" d="M259.0,-36.0 L301.0,-36.0"/>
+      <path class="punta" d="M301.0,-36.0 L292.0,-31.5 L292.0,-40.5 Z"/>
+      <text class="rot" x="280.0" y="-46.0" text-anchor="middle" dominant-baseline="central">y</text>
+      <path class="arco" d="M259.0,36.0 L301.0,36.0"/>
+      <path class="punta" d="M301.0,36.0 L292.0,40.5 L292.0,31.5 Z"/>
+      <text class="rot" x="280.0" y="26.0" text-anchor="middle" dominant-baseline="central">z</text>
+      <path class="arco" d="M177.3,-7.8 L222.7,-28.2"/>
+      <path class="punta" d="M222.7,-28.2 L216.3,-20.4 L212.6,-28.6 Z"/>
+      <text class="rot" x="195.3" y="-28.5" text-anchor="middle" dominant-baseline="central">ε</text>
+      <path class="arco" d="M177.3,7.8 L222.7,28.2"/>
+      <path class="punta" d="M222.7,28.2 L212.6,28.6 L216.3,20.4 Z"/>
+      <text class="rot" x="204.7" y="7.5" text-anchor="middle" dominant-baseline="central">ε</text>
+      <path class="arco" d="M337.3,-28.2 L382.7,-7.8"/>
+      <path class="punta" d="M382.7,-7.8 L372.6,-7.4 L376.3,-15.6 Z"/>
+      <text class="rot" x="364.7" y="-28.5" text-anchor="middle" dominant-baseline="central">ε</text>
+      <path class="arco" d="M337.3,28.2 L382.7,7.8"/>
+      <path class="punta" d="M382.7,7.8 L376.3,15.6 L372.6,7.4 Z"/>
+      <text class="rot" x="355.3" y="7.5" text-anchor="middle" dominant-baseline="central">ε</text>
+      <path class="arco" d="M99.0,0.0 L141.0,0.0"/>
+      <path class="punta" d="M141.0,0.0 L132.0,4.5 L132.0,-4.5 Z"/>
+      <text class="rot" x="120.0" y="-10.0" text-anchor="middle" dominant-baseline="central">ε</text>
+      <path class="arco" d="M419.0,0.0 L461.0,0.0"/>
+      <path class="punta" d="M461.0,0.0 L452.0,4.5 L452.0,-4.5 Z"/>
+      <text class="rot" x="440.0" y="-10.0" text-anchor="middle" dominant-baseline="central">ε</text>
+      <path class="arco" d="M388.6,-15.2 Q280.0,-160.0 171.4,-15.2"/>
+      <path class="punta" d="M171.4,-15.2 L173.2,-25.1 L180.4,-19.7 Z"/>
+      <text class="rot" x="280.0" y="-97.6" text-anchor="middle" dominant-baseline="central">ε</text>
+      <path class="arco" d="M95.1,11.5 Q280.0,152.0 464.9,11.5"/>
+      <path class="punta" d="M464.9,11.5 L460.4,20.5 L455.0,13.4 Z"/>
+      <text class="rot" x="280.0" y="91.7" text-anchor="middle" dominant-baseline="central">ε</text>
+      <path class="arco" d="M499.0,0.0 L541.0,0.0"/>
+      <path class="punta" d="M541.0,0.0 L532.0,4.5 L532.0,-4.5 Z"/>
+      <text class="rot" x="520.0" y="-10.0" text-anchor="middle" dominant-baseline="central">x</text>
+      <path class="arco" d="M-49.0,0.0 L-19.0,0.0"/>
+      <path class="punta" d="M-19.0,0.0 L-28.0,4.5 L-28.0,-4.5 Z"/>
+      <g class="estado">
+        <circle class="borde" cx="0.0" cy="0.0" r="19"/>
+        <text class="nom" x="0.0" y="0.0" text-anchor="middle" dominant-baseline="central">0</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="80.0" cy="0.0" r="19"/>
+        <text class="nom" x="80.0" y="0.0" text-anchor="middle" dominant-baseline="central">1</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="240.0" cy="-36.0" r="19"/>
+        <text class="nom" x="240.0" y="-36.0" text-anchor="middle" dominant-baseline="central">3</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="320.0" cy="-36.0" r="19"/>
+        <text class="nom" x="320.0" y="-36.0" text-anchor="middle" dominant-baseline="central">5</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="240.0" cy="36.0" r="19"/>
+        <text class="nom" x="240.0" y="36.0" text-anchor="middle" dominant-baseline="central">4</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="320.0" cy="36.0" r="19"/>
+        <text class="nom" x="320.0" y="36.0" text-anchor="middle" dominant-baseline="central">6</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="160.0" cy="0.0" r="19"/>
+        <text class="nom" x="160.0" y="0.0" text-anchor="middle" dominant-baseline="central">2</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="400.0" cy="0.0" r="19"/>
+        <text class="nom" x="400.0" y="0.0" text-anchor="middle" dominant-baseline="central">7</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="480.0" cy="0.0" r="19"/>
+        <text class="nom" x="480.0" y="0.0" text-anchor="middle" dominant-baseline="central">8</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="560.0" cy="0.0" r="19"/>
+        <circle class="borde" cx="560.0" cy="0.0" r="15"/>
+        <text class="nom" x="560.0" y="0.0" text-anchor="middle" dominant-baseline="central">9</text>
+      </g>
+    </svg>
+  </div>
+
+  <span class="paso">Paso 3 &mdash; Subconjuntos (AFN-ε &rarr; AFD)</span>
+  <p>
+    <strong>Estado inicial:</strong> <code>A = ε-clausura({0})</code>. Del 0 no salen ε:
+    <code>A = {0}</code>. Con <code>x</code> va a <code>ε-clausura({1}) = {1, 2, 3, 4, 8}</code> =
+    <code>B</code>.
+  </p>
+  <p>
+    <strong>Cómo sale cada casilla</strong>, con <code>B</code> y la <code>y</code>:
+  </p>
+  <ul>
+    <li><code>mueve(B, y)</code>: de los estados de B, solo el 3 tiene flecha <code>y</code> (va al 5). Resultado: <code>{5}</code>.</li>
+    <li><code>ε-clausura({5})</code>: 5 &rarr; 7; 7 &rarr; 2 (volver) y 7 &rarr; 8 (salir); 2 &rarr; 3 y 4. Resultado: <code>{2, 3, 4, 5, 7, 8}</code> = <code>D</code>.</li>
+  </ul>
+  <p>
+    Y con <code>B</code> y la <code>x</code>: la única <code>x</code> que sale de B es 8 &rarr; 9, así
+    que va a <code>{9}</code> = <code>C</code>, el único final.
+  </p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Estado del AFD</th><th>Estados de Thompson</th><th>mueve(T, x)</th><th>ε-clausura: con x va a</th><th>mueve(T, y)</th><th>ε-clausura: con y va a</th><th>mueve(T, z)</th><th>ε-clausura: con z va a</th></tr>
+      <tr><td class="lbl">A</td><td>{0}</td><td>{1}</td><td>{1, 2, 3, 4, 8} = <strong>B</strong></td><td>∅</td><td>∅ = <strong>∅</strong></td><td>∅</td><td>∅ = <strong>∅</strong></td></tr>
+      <tr><td class="lbl">B</td><td>{1, 2, 3, 4, 8}</td><td>{9}</td><td>{9} = <strong>C</strong></td><td>{5}</td><td>{2, 3, 4, 5, 7, 8} = <strong>D</strong></td><td>{6}</td><td>{2, 3, 4, 6, 7, 8} = <strong>E</strong></td></tr>
+      <tr><td class="lbl">C (final)</td><td>{9}</td><td>∅</td><td>∅ = <strong>∅</strong></td><td>∅</td><td>∅ = <strong>∅</strong></td><td>∅</td><td>∅ = <strong>∅</strong></td></tr>
+      <tr><td class="lbl">D</td><td>{2, 3, 4, 5, 7, 8}</td><td>{9}</td><td>{9} = <strong>C</strong></td><td>{5}</td><td>{2, 3, 4, 5, 7, 8} = <strong>D</strong></td><td>{6}</td><td>{2, 3, 4, 6, 7, 8} = <strong>E</strong></td></tr>
+      <tr><td class="lbl">E</td><td>{2, 3, 4, 6, 7, 8}</td><td>{9}</td><td>{9} = <strong>C</strong></td><td>{5}</td><td>{2, 3, 4, 5, 7, 8} = <strong>D</strong></td><td>{6}</td><td>{2, 3, 4, 6, 7, 8} = <strong>E</strong></td></tr>
+    </table>
+  </div>
+  <p>
+    <strong>Finales del AFD:</strong> los que contienen el final de Thompson (el 9). Solo
+    <code>C</code>.
+  </p>
+
+  <span class="paso">Paso 4 &mdash; El AFD</span>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th>&delta;</th><th>x</th><th>y</th><th>z</th></tr>
+      <tr><td class="lbl">&rarr; A</td><td>B</td><td>∅</td><td>∅</td></tr>
+      <tr><td class="lbl">B</td><td>C</td><td>D</td><td>E</td></tr>
+      <tr><td class="lbl">∅</td><td>∅</td><td>∅</td><td>∅</td></tr>
+      <tr><td class="lbl">C *</td><td>∅</td><td>∅</td><td>∅</td></tr>
+      <tr><td class="lbl">D</td><td>C</td><td>D</td><td>E</td></tr>
+      <tr><td class="lbl">E</td><td>C</td><td>D</td><td>E</td></tr>
+    </table>
+  </div>
+  <div class="pd-grafico af" data-g="u3-e6-afd">
+    <svg viewBox="-61 -157 540 586" width="540" height="586" role="img" aria-label="Diagrama de un autómata finito">
+      <path class="arco" d="M19.0,80.0 L141.0,80.0"/>
+      <path class="punta" d="M141.0,80.0 L132.0,84.5 L132.0,75.5 Z"/>
+      <text class="rot" x="80.0" y="70.0" text-anchor="middle" dominant-baseline="central">x</text>
+      <path class="arco" d="M9.6,96.4 L150.4,335.6"/>
+      <path class="punta" d="M150.4,335.6 L141.9,330.1 L149.7,325.6 Z"/>
+      <text class="rot" x="99.9" y="204.3" text-anchor="middle" dominant-baseline="central">y, z</text>
+      <path class="arco" d="M175.8,90.5 L432.2,261.5"/>
+      <path class="punta" d="M432.2,261.5 L422.2,260.2 L427.2,252.7 Z"/>
+      <text class="rot" x="310.7" y="165.9" text-anchor="middle" dominant-baseline="central">x</text>
+      <path class="arco" d="M175.1,68.4 L352.9,-68.4"/>
+      <path class="punta" d="M352.9,-68.4 L348.6,-59.4 L343.1,-66.5 Z"/>
+      <text class="rot" x="256.5" y="-9.8" text-anchor="middle" dominant-baseline="central">y</text>
+      <path class="arco" d="M179.0,80.0 L277.0,80.0"/>
+      <path class="punta" d="M277.0,80.0 L268.0,84.5 L268.0,75.5 Z"/>
+      <text class="rot" x="228.0" y="70.0" text-anchor="middle" dominant-baseline="central">z</text>
+      <path class="arco" d="M429.7,277.1 L178.3,346.9"/>
+      <path class="punta" d="M178.3,346.9 L185.8,340.2 L188.2,348.8 Z"/>
+      <text class="rot" x="299.4" y="295.5" text-anchor="middle" dominant-baseline="central">x, y, z</text>
+      <path class="arco" d="M372.2,-61.5 L443.8,253.5"/>
+      <path class="punta" d="M443.8,253.5 L437.4,245.7 L446.2,243.7 Z"/>
+      <text class="rot" x="421.4" y="93.0" text-anchor="middle" dominant-baseline="central">x</text>
+      <path class="arco" d="M359.1,-96.8 C328.0,-131.2 408.0,-131.2 376.9,-96.8"/>
+      <path class="punta" d="M376.9,-96.8 L379.6,-106.5 L386.3,-100.4 Z"/>
+      <text class="rot" x="368.0" y="-136.0" text-anchor="middle" dominant-baseline="central">y</text>
+      <path class="arco" d="M367.4,-61.0 Q364.8,14.8 309.8,66.9"/>
+      <path class="punta" d="M309.8,66.9 L313.2,57.5 L319.4,64.0 Z"/>
+      <text class="rot" x="364.0" y="14.4" text-anchor="middle" dominant-baseline="central">z</text>
+      <path class="arco" d="M307.8,94.9 L436.2,257.1"/>
+      <path class="punta" d="M436.2,257.1 L427.1,252.8 L434.1,247.3 Z"/>
+      <text class="rot" x="382.2" y="167.9" text-anchor="middle" dominant-baseline="central">x</text>
+      <path class="arco" d="M296.6,61.0 Q299.2,-14.8 354.2,-66.9"/>
+      <path class="punta" d="M354.2,-66.9 L350.8,-57.5 L344.6,-64.0 Z"/>
+      <text class="rot" x="300.0" y="-14.4" text-anchor="middle" dominant-baseline="central">y</text>
+      <path class="arco" d="M304.9,96.8 C336.0,131.2 256.0,131.2 287.1,96.8"/>
+      <path class="punta" d="M287.1,96.8 L284.4,106.5 L277.7,100.4 Z"/>
+      <text class="rot" x="296.0" y="136.0" text-anchor="middle" dominant-baseline="central">z</text>
+      <path class="arco" d="M168.9,368.8 C200.0,403.2 120.0,403.2 151.1,368.8"/>
+      <path class="punta" d="M151.1,368.8 L148.4,378.5 L141.7,372.4 Z"/>
+      <text class="rot" x="160.0" y="408.0" text-anchor="middle" dominant-baseline="central">x, y, z</text>
+      <path class="arco" d="M-49.0,80.0 L-19.0,80.0"/>
+      <path class="punta" d="M-19.0,80.0 L-28.0,84.5 L-28.0,75.5 Z"/>
+      <g class="estado">
+        <circle class="borde" cx="0.0" cy="80.0" r="19"/>
+        <text class="nom" x="0.0" y="80.0" text-anchor="middle" dominant-baseline="central">A</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="160.0" cy="80.0" r="19"/>
+        <text class="nom" x="160.0" y="80.0" text-anchor="middle" dominant-baseline="central">B</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="296.0" cy="80.0" r="19"/>
+        <text class="nom" x="296.0" y="80.0" text-anchor="middle" dominant-baseline="central">E</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="368.0" cy="-80.0" r="19"/>
+        <text class="nom" x="368.0" y="-80.0" text-anchor="middle" dominant-baseline="central">D</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="448.0" cy="272.0" r="19"/>
+        <circle class="borde" cx="448.0" cy="272.0" r="15"/>
+        <text class="nom" x="448.0" y="272.0" text-anchor="middle" dominant-baseline="central">C</text>
+      </g>
+      <g class="estado muerto">
+        <circle class="borde" cx="160.0" cy="352.0" r="19"/>
+        <text class="nom" x="160.0" y="352.0" text-anchor="middle" dominant-baseline="central">∅</text>
+      </g>
+    </svg>
+  </div>
+
+  <span class="paso">Paso 5 &mdash; Minimización</span>
+  <ul>
+    <li><strong>P1</strong> = {C} &nbsp; {A, B, D, E, ∅} (finales y no finales).</li>
+    <li>
+      Grupo {A, B, D, E, ∅}: con <code>x</code>, B, D y E van a C (grupo {C}), pero A va a B y ∅ va
+      a ∅ (los dos dentro del grupo grande). Con <code>y</code> y con <code>z</code> todos se quedan
+      en el grupo grande. <strong>Se parte en {A, ∅} y {B, D, E}.</strong>
+    </li>
+    <li><strong>P2</strong> = {C} &nbsp; {A, ∅} &nbsp; {B, D, E}</li>
+    <li>
+      Grupo {A, ∅}: con <code>x</code>, A va a B (ahora grupo {B, D, E}) y ∅ va a ∅ (grupo {A, ∅}).
+      <strong>Se separan.</strong> En P1 no se veía porque B y ∅ estaban en el mismo grupo.
+    </li>
+    <li>
+      Grupo {B, D, E}: con <code>x</code> los tres van a C; con <code>y</code>, a D; con
+      <code>z</code>, a E. Se comportan igual.
+    </li>
+    <li><strong>P3</strong> = {C} &nbsp; {A} &nbsp; {∅} &nbsp; {B, D, E}</li>
+    <li><strong>P4</strong> = P3: no cambia, se termina.</li>
+  </ul>
+  <p>B, D y E se juntan en un solo estado (lo llamamos B).</p>
+
+  <span class="paso">Paso 6 &mdash; AFD mínimo</span>
+  <div class="pd-grafico af" data-g="u3-e6-min">
+    <svg viewBox="-61 -77 412 314" width="412" height="314" role="img" aria-label="Diagrama de un autómata finito">
+      <path class="arco" d="M19.0,0.0 L141.0,0.0"/>
+      <path class="punta" d="M141.0,0.0 L132.0,4.5 L132.0,-4.5 Z"/>
+      <text class="rot" x="80.0" y="-10.0" text-anchor="middle" dominant-baseline="central">x</text>
+      <path class="arco" d="M13.4,13.4 L146.6,146.6"/>
+      <path class="punta" d="M146.6,146.6 L137.0,143.4 L143.4,137.0 Z"/>
+      <text class="rot" x="94.7" y="65.3" text-anchor="middle" dominant-baseline="central">y, z</text>
+      <path class="arco" d="M179.0,0.0 L301.0,0.0"/>
+      <path class="punta" d="M301.0,0.0 L292.0,4.5 L292.0,-4.5 Z"/>
+      <text class="rot" x="240.0" y="-10.0" text-anchor="middle" dominant-baseline="central">x</text>
+      <path class="arco" d="M151.1,-16.8 C120.0,-51.2 200.0,-51.2 168.9,-16.8"/>
+      <path class="punta" d="M168.9,-16.8 L171.6,-26.5 L178.3,-20.4 Z"/>
+      <text class="rot" x="160.0" y="-56.0" text-anchor="middle" dominant-baseline="central">y, z</text>
+      <path class="arco" d="M306.6,13.4 L173.4,146.6"/>
+      <path class="punta" d="M173.4,146.6 L176.6,137.0 L183.0,143.4 Z"/>
+      <text class="rot" x="219.6" y="59.6" text-anchor="middle" dominant-baseline="central">x, y, z</text>
+      <path class="arco" d="M168.9,176.8 C200.0,211.2 120.0,211.2 151.1,176.8"/>
+      <path class="punta" d="M151.1,176.8 L148.4,186.5 L141.7,180.4 Z"/>
+      <text class="rot" x="160.0" y="216.0" text-anchor="middle" dominant-baseline="central">x, y, z</text>
+      <path class="arco" d="M-49.0,0.0 L-19.0,0.0"/>
+      <path class="punta" d="M-19.0,0.0 L-28.0,4.5 L-28.0,-4.5 Z"/>
+      <g class="estado">
+        <circle class="borde" cx="0.0" cy="0.0" r="19"/>
+        <text class="nom" x="0.0" y="0.0" text-anchor="middle" dominant-baseline="central">A</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="160.0" cy="0.0" r="19"/>
+        <text class="nom" x="160.0" y="0.0" text-anchor="middle" dominant-baseline="central">B</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="320.0" cy="0.0" r="19"/>
+        <circle class="borde" cx="320.0" cy="0.0" r="15"/>
+        <text class="nom" x="320.0" y="0.0" text-anchor="middle" dominant-baseline="central">C</text>
+      </g>
+      <g class="estado muerto">
+        <circle class="borde" cx="160.0" cy="160.0" r="19"/>
+        <text class="nom" x="160.0" y="160.0" text-anchor="middle" dominant-baseline="central">∅</text>
+      </g>
+    </svg>
+  </div>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>
+      AFD mínimo de cuatro estados: <code>A</code> (inicial), <code>B</code>, <code>C</code>
+      (final) y el muerto <code>∅</code>. A va a B con <code>x</code>; B se queda en B con
+      <code>y</code> o <code>z</code> y va a C con <code>x</code>. Todo lo demás va a ∅.
+    </p>
+  </div>
+
+  <h3>Probamos con cadenas</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Cadena</th><th>Recorrido</th><th>¿La acepta?</th></tr>
+      <tr><td><code>xx</code></td><td>A &rarr;x B &rarr;x C</td><td>Sí: nada en el medio</td></tr>
+      <tr><td><code>xzyx</code></td><td>A &rarr;x B &rarr;z B &rarr;y B &rarr;x C</td><td>Sí</td></tr>
+      <tr><td><code>xyxx</code></td><td>A &rarr;x B &rarr;y B &rarr;x C &rarr;x ∅</td><td>No: después de la segunda x no va nada</td></tr>
+      <tr><td><code>xy</code></td><td>A &rarr;x B &rarr;y B</td><td>No: falta la x del final</td></tr>
+    </table>
+  </div>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Errores y trampas</span>
+    <ul>
+      <li>Con tres símbolos son tres casillas por fila: es fácil saltearse la <code>z</code> y dejar el AFD incompleto.</li>
+      <li>Cortar la minimización en P2 porque "ya se separó algo": se sigue hasta que una ronda no cambie nada. Acá A y ∅ recién se separan en P3.</li>
+      <li>En cada ronda se mira a qué grupo <strong>de la partición anterior</strong> va cada estado, no a qué estado.</li>
+    </ul>
+  </div>
+</div>

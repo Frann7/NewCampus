@@ -1,0 +1,194 @@
+<!-- ==================== EJERCICIO 3 ==================== -->
+<section class="parcial-ej">
+  <div class="parcial-ej-cab">
+    <h2>Ejercicio 3 (20)</h2>
+    <span class="parcial-tema">Unidad 4 &middot; Diseñar AF y ER</span>
+  </div>
+
+  <p>
+    <strong>3.</strong> (20) Realice un AFD o AFND y una Expresión Regular para todas las cadenas
+    sobre {0, 1, 2} que comiencen con 01 o 2, y contengan cantidad par de 2. Ej: 01001, 0102112, 22,
+    201021
+  </p>
+
+  <div class="parcial-extras">
+    <details class="parcial-desp pd-resultados">
+      <summary>
+        <span class="pd-icono">&#10003;</span>
+        <span class="pd-txt"><b>Resultados</b><small>Solo la respuesta</small></span>
+      </summary>
+      <div class="pd-cuerpo">
+        <div class="pd-grafico af" data-g="p25-pares">
+          <svg viewBox="-61 -52 442 264" width="442" height="264" role="img" aria-label="Diagrama de un autómata finito">
+            <path class="arco" d="M16.4,70.4 L119.6,9.6"/>
+            <path class="punta" d="M119.6,9.6 L114.1,18.1 L109.6,10.3 Z"/>
+            <text class="rot" x="62.0" y="29.7" text-anchor="middle" dominant-baseline="central">0</text>
+            <path class="arco" d="M155.0,0.0 L269.0,0.0"/>
+            <path class="punta" d="M269.0,0.0 L260.0,4.5 L260.0,-4.5 Z"/>
+            <text class="rot" x="212.0" y="-10.0" text-anchor="middle" dominant-baseline="central">1</text>
+            <path class="arco" d="M18.3,85.1 L269.7,154.9"/>
+            <path class="punta" d="M269.7,154.9 L259.8,156.8 L262.2,148.2 Z"/>
+            <text class="rot" x="146.9" y="109.4" text-anchor="middle" dominant-baseline="central">2</text>
+            <path class="arco" d="M304.8,-8.9 C339.2,-40.0 339.2,40.0 304.8,8.9"/>
+            <path class="punta" d="M304.8,8.9 L314.5,11.6 L308.4,18.3 Z"/>
+            <text class="rot" x="354.2" y="0.0" text-anchor="middle" dominant-baseline="central">0, 1</text>
+            <path class="arco" d="M295.8,17.3 Q324.0,80.0 295.8,142.7"/>
+            <path class="punta" d="M295.8,142.7 L295.4,132.6 L303.6,136.3 Z"/>
+            <text class="rot" x="323.7" y="80.0" text-anchor="middle" dominant-baseline="central">2</text>
+            <path class="arco" d="M280.2,142.7 Q252.0,80.0 280.2,17.3"/>
+            <path class="punta" d="M280.2,17.3 L280.6,27.4 L272.4,23.7 Z"/>
+            <text class="rot" x="252.3" y="80.0" text-anchor="middle" dominant-baseline="central">2</text>
+            <path class="arco" d="M304.8,151.1 C339.2,120.0 339.2,200.0 304.8,168.9"/>
+            <path class="punta" d="M304.8,168.9 L314.5,171.6 L308.4,178.3 Z"/>
+            <text class="rot" x="354.2" y="160.0" text-anchor="middle" dominant-baseline="central">0, 1</text>
+            <path class="arco" d="M-49.0,80.0 L-19.0,80.0"/>
+            <path class="punta" d="M-19.0,80.0 L-28.0,84.5 L-28.0,75.5 Z"/>
+            <g class="estado">
+              <circle class="borde" cx="0.0" cy="80.0" r="19"/>
+              <text class="nom" x="0.0" y="80.0" text-anchor="middle" dominant-baseline="central">q0</text>
+            </g>
+            <g class="estado">
+              <circle class="borde" cx="136.0" cy="0.0" r="19"/>
+              <text class="nom" x="136.0" y="0.0" text-anchor="middle" dominant-baseline="central">q1</text>
+            </g>
+            <g class="estado">
+              <circle class="borde" cx="288.0" cy="0.0" r="19"/>
+              <circle class="borde" cx="288.0" cy="0.0" r="15"/>
+              <text class="nom" x="288.0" y="0.0" text-anchor="middle" dominant-baseline="central">q2</text>
+            </g>
+            <g class="estado">
+              <circle class="borde" cx="288.0" cy="160.0" r="19"/>
+              <text class="nom" x="288.0" y="160.0" text-anchor="middle" dominant-baseline="central">q3</text>
+            </g>
+          </svg>
+        </div>
+        <p>(Las flechas que faltan van a un estado muerto.)</p>
+        <p>ER = <code>(01|2(0|1)*2)(0|1|2(0|1)*2)*</code></p>
+      </div>
+    </details>
+
+    <details class="parcial-desp pd-explicacion">
+      <summary>
+        <span class="pd-icono">&#9998;</span>
+        <span class="pd-txt"><b>Explicación detallada</b><small>Qué recordar, los estados, la ER y el estado muerto</small></span>
+      </summary>
+      <div class="pd-cuerpo">
+        <h4>Qué evalúa</h4>
+        <p>Diseñar un autómata y una ER a partir de una descripción en palabras (Unidad 4), combinando dos condiciones con "y": cómo empieza y la paridad de un símbolo.</p>
+
+        <h4>Desarme de la consigna</h4>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Frase</th><th>Qué significa</th><th>En la ER</th></tr>
+            <tr><td>"comiencen con 01"</td><td>los dos primeros símbolos son 0 y 1</td><td><code>01</code> al principio</td></tr>
+            <tr><td>"o 2"</td><td>o el primer símbolo es un 2, <strong>que ya cuenta</strong> para la paridad</td><td><code>2</code> al principio, que necesita otro 2 que lo empareje</td></tr>
+            <tr><td>"cantidad par de 2"</td><td>0, 2, 4... doses en toda la cadena</td><td>los 2 de a pares, con 0 y 1 en el medio: <code>2(0|1)*2</code></td></tr>
+          </table>
+        </div>
+        <p>Ejemplos: <code>01001</code> (ningún 2: cero es par), <code>0102112</code>, <code>22</code> y <code>201021</code> (dos 2 cada una). No entran: <code>2</code> (un solo 2), <code>012</code> (un 2), <code>10</code> (empieza con 1), <code>0</code> (no llega a formar 01).</p>
+
+        <span class="paso">Paso 1 &mdash; Qué tiene que recordar</span>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Estado</th><th>Qué significa</th></tr>
+            <tr><td class="lbl">q0 (inicial)</td><td>No leí nada</td></tr>
+            <tr><td class="lbl">q1</td><td>Leí el 0 de 01</td></tr>
+            <tr><td class="lbl">q2 (final)</td><td>Empezó bien y lleva cantidad par de 2</td></tr>
+            <tr><td class="lbl">q3</td><td>Empezó bien y lleva cantidad impar de 2</td></tr>
+          </table>
+        </div>
+        <p>Una vez que empezó bien, "cómo empezó" ya no importa: lo único que hay que recordar es la paridad de 2.</p>
+
+        <span class="paso">Paso 2 &mdash; Transiciones</span>
+        <ul>
+          <li>q0 &mdash;0&rarr; q1; q0 &mdash;2&rarr; q3 (empezó bien y ya hay un 2: impar); q0 &mdash;1&rarr; muerto.</li>
+          <li>q1 &mdash;1&rarr; q2 (completó 01, con cero 2: par); q1 &mdash;0, 2&rarr; muerto.</li>
+          <li>q2 &mdash;0, 1&rarr; q2 y q3 &mdash;0, 1&rarr; q3 (no cambian la paridad); q2 &mdash;2&rarr; q3 y q3 &mdash;2&rarr; q2.</li>
+        </ul>
+        <div class="pd-grafico af" data-g="p25-pares">
+          <svg viewBox="-61 -52 442 264" width="442" height="264" role="img" aria-label="Diagrama de un autómata finito">
+            <path class="arco" d="M16.4,70.4 L119.6,9.6"/>
+            <path class="punta" d="M119.6,9.6 L114.1,18.1 L109.6,10.3 Z"/>
+            <text class="rot" x="62.0" y="29.7" text-anchor="middle" dominant-baseline="central">0</text>
+            <path class="arco" d="M155.0,0.0 L269.0,0.0"/>
+            <path class="punta" d="M269.0,0.0 L260.0,4.5 L260.0,-4.5 Z"/>
+            <text class="rot" x="212.0" y="-10.0" text-anchor="middle" dominant-baseline="central">1</text>
+            <path class="arco" d="M18.3,85.1 L269.7,154.9"/>
+            <path class="punta" d="M269.7,154.9 L259.8,156.8 L262.2,148.2 Z"/>
+            <text class="rot" x="146.9" y="109.4" text-anchor="middle" dominant-baseline="central">2</text>
+            <path class="arco" d="M304.8,-8.9 C339.2,-40.0 339.2,40.0 304.8,8.9"/>
+            <path class="punta" d="M304.8,8.9 L314.5,11.6 L308.4,18.3 Z"/>
+            <text class="rot" x="354.2" y="0.0" text-anchor="middle" dominant-baseline="central">0, 1</text>
+            <path class="arco" d="M295.8,17.3 Q324.0,80.0 295.8,142.7"/>
+            <path class="punta" d="M295.8,142.7 L295.4,132.6 L303.6,136.3 Z"/>
+            <text class="rot" x="323.7" y="80.0" text-anchor="middle" dominant-baseline="central">2</text>
+            <path class="arco" d="M280.2,142.7 Q252.0,80.0 280.2,17.3"/>
+            <path class="punta" d="M280.2,17.3 L280.6,27.4 L272.4,23.7 Z"/>
+            <text class="rot" x="252.3" y="80.0" text-anchor="middle" dominant-baseline="central">2</text>
+            <path class="arco" d="M304.8,151.1 C339.2,120.0 339.2,200.0 304.8,168.9"/>
+            <path class="punta" d="M304.8,168.9 L314.5,171.6 L308.4,178.3 Z"/>
+            <text class="rot" x="354.2" y="160.0" text-anchor="middle" dominant-baseline="central">0, 1</text>
+            <path class="arco" d="M-49.0,80.0 L-19.0,80.0"/>
+            <path class="punta" d="M-19.0,80.0 L-28.0,84.5 L-28.0,75.5 Z"/>
+            <g class="estado">
+              <circle class="borde" cx="0.0" cy="80.0" r="19"/>
+              <text class="nom" x="0.0" y="80.0" text-anchor="middle" dominant-baseline="central">q0</text>
+            </g>
+            <g class="estado">
+              <circle class="borde" cx="136.0" cy="0.0" r="19"/>
+              <text class="nom" x="136.0" y="0.0" text-anchor="middle" dominant-baseline="central">q1</text>
+            </g>
+            <g class="estado">
+              <circle class="borde" cx="288.0" cy="0.0" r="19"/>
+              <circle class="borde" cx="288.0" cy="0.0" r="15"/>
+              <text class="nom" x="288.0" y="0.0" text-anchor="middle" dominant-baseline="central">q2</text>
+            </g>
+            <g class="estado">
+              <circle class="borde" cx="288.0" cy="160.0" r="19"/>
+              <text class="nom" x="288.0" y="160.0" text-anchor="middle" dominant-baseline="central">q3</text>
+            </g>
+          </svg>
+        </div>
+        <p>Como la consigna acepta AFD o AFND, alcanza con este dibujo: las flechas que faltan (q0 con 1, q1 con 0 y con 2) van a un estado muerto, que para el AFD completo se agrega con lazo de 0, 1 y 2.</p>
+
+        <span class="paso">Paso 3 &mdash; La ER, por piezas</span>
+        <ul>
+          <li>El comienzo: <code>01</code> (deja cero 2) o el 2 inicial hasta el 2 que lo empareja, <code>2(0|1)*2</code>. Junto: <code>(01|2(0|1)*2)</code>.</li>
+          <li>Lo que sigue: cualquier cantidad de bloques que no rompen la paridad: un 0, un 1 o un par de 2 con 0 y 1 en el medio. <code>(0|1|2(0|1)*2)*</code>.</li>
+        </ul>
+        <p>ER = <strong><code>(01|2(0|1)*2)(0|1|2(0|1)*2)*</code></strong>.</p>
+
+        <h4>Control con cadenas</h4>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Cadena</th><th>Recorrido</th><th>¿La acepta?</th></tr>
+            <tr><td><code>01001</code></td><td>q0 &rarr; q1 &rarr; q2 &rarr; q2 &rarr; q2 &rarr; q2</td><td>Sí</td></tr>
+            <tr><td><code>0102112</code></td><td>q0 &rarr; q1 &rarr; q2 &rarr; q2 &rarr;2 q3 &rarr; q3 &rarr; q3 &rarr;2 q2</td><td>Sí</td></tr>
+            <tr><td><code>22</code></td><td>q0 &rarr;2 q3 &rarr;2 q2</td><td>Sí</td></tr>
+            <tr><td><code>201021</code></td><td>q0 &rarr;2 q3 &rarr; q3 &rarr; q3 &rarr; q3 &rarr;2 q2 &rarr; q2</td><td>Sí</td></tr>
+            <tr><td><code>012</code></td><td>q0 &rarr; q1 &rarr; q2 &rarr;2 q3</td><td>No: un solo 2</td></tr>
+            <tr><td><code>10</code></td><td>q0 &rarr;1 muerto</td><td>No: empieza con 1</td></tr>
+          </table>
+        </div>
+
+        <h4>Parecido en la práctica</h4>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Dónde</th><th>Qué tiene igual</th><th>Qué cambia</th></tr>
+            <tr><td>Unidad 4, Teoría, sección 3, ejemplo 2 (empiezan con a y tienen cantidad par de b)</td><td>Un comienzo fijo y después solo la paridad</td><td>Allá la a del comienzo no cuenta para la paridad; acá el 2 sí</td></tr>
+            <tr><td>Unidad 4, Teoría, sección 2, "Cantidad par de 1"</td><td>Dos estados que se pasan la paridad y la ER con los 1 de a pares</td><td>Allá no hay condición de comienzo</td></tr>
+          </table>
+        </div>
+
+        <div class="caja caja-ojo">
+          <span class="caja-tit">Trampas</span>
+          <ul>
+            <li>El 2 del comienzo <strong>cuenta</strong>: después de él se está en impar (q3), no en par. Si q0 &mdash;2&rarr; q2, aceptaría <code>2</code>.</li>
+            <li>La ER <code>(01|2)(0|1|2(0|1)*2)*</code> está mal por lo mismo: genera <code>2</code>, que tiene un solo 2.</li>
+            <li>Hacer final a q1: aceptaría <code>0</code>, que no empieza con 01.</li>
+          </ul>
+        </div>
+      </div>
+    </details>
+  </div>
+</section>

@@ -1,0 +1,70 @@
+<div class="bloque">
+  <p class="kicker">Para pensar</p>
+  <h2>1. El método</h2>
+
+  <ol>
+    <li><strong>Ejemplos.</strong> Escribí 4 o 5 cadenas que sí y 4 o 5 que no, incluidos los bordes: ε, una sola letra, la más corta que entra. Los ejemplos de la consigna también se prueban.</li>
+    <li><strong>¿Qué tiene que recordar?</strong> El autómata no tiene memoria: solo sabe en qué estado está. Preguntate qué necesitás saber de lo leído hasta ahora para decidir: "¿ya vi el prefijo?", "¿la cantidad es par o impar?", "¿qué fue lo último?".</li>
+    <li><strong>Un estado por cada situación.</strong> Hacé una tabla Estado | Qué significa. Marcá el inicial (la situación "no leí nada") y los finales (las situaciones que cumplen la condición).</li>
+    <li><strong>Transiciones.</strong> Para cada estado y cada símbolo: "si estoy en esta situación y leo esto, ¿en qué situación quedo?".</li>
+    <li><strong>Probar.</strong> Recorré tus ejemplos del paso 1. Si uno falla, el error está en una situación mal pensada.</li>
+  </ol>
+
+  <h3>Ejemplo: empiezan con ab</h3>
+  <div class="caja caja-ejemplo">
+    <p>Cadenas sobre {a, b} que empiezan con ab.</p>
+  </div>
+  <ol>
+    <li>Sí: <code>ab</code>, <code>aba</code>, <code>abbb</code>. No: <code>ε</code>, <code>a</code>, <code>ba</code>, <code>aab</code>.</li>
+    <li>Hay que recordar cuánto del prefijo <code>ab</code> ya se vio.</li>
+    <li>
+      <div class="tabla-wrap">
+        <table class="t full">
+          <tr><th>Estado</th><th>Qué significa</th></tr>
+          <tr><td class="lbl">q0 (inicial)</td><td>No leí nada</td></tr>
+          <tr><td class="lbl">q1</td><td>Leí la a del principio</td></tr>
+          <tr><td class="lbl">q2 (final)</td><td>Ya leí ab: lo que venga no importa</td></tr>
+        </table>
+      </div>
+    </li>
+    <li>q0 &rarr;a q1, q1 &rarr;b q2, q2 &rarr;a,b q2. Lo demás (q0 con b, q1 con a) no tiene arreglo: va al muerto, o se deja sin flecha en un AFND.</li>
+  </ol>
+  <div class="pd-grafico af" data-g="u4-empieza">
+    <svg viewBox="-61 -77 401 108" width="401" height="108" role="img" aria-label="Empiezan con ab">
+      <path class="arco" d="M19.0,0.0 L125.0,0.0"/>
+      <path class="punta" d="M125.0,0.0 L116.0,4.5 L116.0,-4.5 Z"/>
+      <text class="rot" x="72.0" y="-10.0" text-anchor="middle" dominant-baseline="central">a</text>
+      <path class="arco" d="M163.0,0.0 L269.0,0.0"/>
+      <path class="punta" d="M269.0,0.0 L260.0,4.5 L260.0,-4.5 Z"/>
+      <text class="rot" x="216.0" y="-10.0" text-anchor="middle" dominant-baseline="central">b</text>
+      <path class="arco" d="M279.1,-16.8 C248.0,-51.2 328.0,-51.2 296.9,-16.8"/>
+      <path class="punta" d="M296.9,-16.8 L299.6,-26.5 L306.3,-20.4 Z"/>
+      <text class="rot" x="288.0" y="-56.0" text-anchor="middle" dominant-baseline="central">a, b</text>
+      <path class="arco" d="M-49.0,0.0 L-19.0,0.0"/>
+      <path class="punta" d="M-19.0,0.0 L-28.0,4.5 L-28.0,-4.5 Z"/>
+      <g class="estado">
+        <circle class="borde" cx="0.0" cy="0.0" r="19"/>
+        <text class="nom" x="0.0" y="0.0" text-anchor="middle" dominant-baseline="central">q0</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="144.0" cy="0.0" r="19"/>
+        <text class="nom" x="144.0" y="0.0" text-anchor="middle" dominant-baseline="central">q1</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="288.0" cy="0.0" r="19"/>
+        <circle class="borde" cx="288.0" cy="0.0" r="15"/>
+        <text class="nom" x="288.0" y="0.0" text-anchor="middle" dominant-baseline="central">q2</text>
+      </g>
+    </svg>
+  </div>
+  <p>ER: <code>ab(a|b)*</code>.</p>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Errores y trampas</span>
+    <ul>
+      <li>Saltear el paso 1: la mayoría de los errores son casos borde (ε, una letra) que nadie probó.</li>
+      <li>Hacer un estado por cada cadena posible: los estados son <strong>situaciones</strong>, no cadenas.</li>
+      <li>Leer "y" como "o" en la consigna: "empiezan con aa <strong>o</strong> con b, <strong>y</strong> tienen cantidad par de a" son dos condiciones que se cumplen a la vez (la primera ya trae un "o" adentro).</li>
+    </ul>
+  </div>
+</div>

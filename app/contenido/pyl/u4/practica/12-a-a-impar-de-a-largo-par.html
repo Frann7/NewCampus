@@ -1,0 +1,152 @@
+<div class="ej" data-examen="variante"
+     data-examen-ref="Parciales 2023-2025 · ej. 3"
+     data-examen-nota="La misma consigna que el ejercicio 3 del parcial (20 puntos).">
+  <span class="tag">Ejercicio 12 &middot; TP I &middot; ej. 66</span>
+  <h2>Empiezan y terminan con a, impar de a, largo par</h2>
+  <div class="enunciado">
+    <p>Realice un AFD o AFND y una expresión regular para el conjunto de cadenas sobre {a, b} que comiencen y terminen con a, con cantidad impar de a, y longitud par.</p>
+  </div>
+
+  <span class="paso">Paso 1 &mdash; Ejemplos que sí y que no</span>
+  <ul>
+    <li>Sí: <code>aaba</code>, <code>abaa</code>, <code>aabbba</code>, <code>ababba</code>.</li>
+    <li>No: <code>ε</code>, <code>a</code> (largo 1), <code>aa</code> (dos a), <code>aaa</code> (largo 3), <code>abba</code> (dos a), <code>baab</code> (empieza con b).</li>
+  </ul>
+
+  <span class="paso">Paso 2 &mdash; Qué tiene que recordar el autómata</span>
+  <p>
+    La cadena es <code>a w a</code>. Las dos a de las puntas suman 2, así que el medio
+    <code>w</code> tiene que tener <strong>impar de a</strong> y <strong>largo par</strong>; y si
+    tiene largo par e impar de a, tiene <strong>impar de b</strong>. Queda: una a, un medio con
+    impar de a e impar de b, y una a.
+  </p>
+  <p>
+    Se arma un <strong>AFND</strong>: después de la primera a, cuatro estados cuentan las paridades
+    del medio (como en el ejercicio 11); desde "impar e impar", una a puede ser la última.
+  </p>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th>Estado</th><th>Qué significa</th></tr>
+      <tr><td class="lbl">q0</td><td>No leyó nada (inicial).</td></tr>
+      <tr><td class="lbl">q1</td><td>Leyó la primera a; el medio va con par de a y par de b.</td></tr>
+      <tr><td class="lbl">q2</td><td>Medio con impar de a, par de b.</td></tr>
+      <tr><td class="lbl">q3</td><td>Medio con par de a, impar de b.</td></tr>
+      <tr><td class="lbl">q4</td><td>Medio con impar de a, impar de b.</td></tr>
+      <tr><td class="lbl">q5</td><td>Leyó la a final (final; no sale nada).</td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Paso 3 &mdash; Transiciones y dibujo</span>
+  <p>Entre q1 y q4, una a cambia la paridad de las a y una b la de las b. Desde q4 con a hay dos caminos: esa a es del medio (q3) o es la última (q5).</p>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th>&delta;</th><th>a</th><th>b</th></tr>
+      <tr><td class="lbl">&rarr; q0</td><td>{q1}</td><td>∅</td></tr>
+      <tr><td class="lbl">q1</td><td>{q2}</td><td>{q3}</td></tr>
+      <tr><td class="lbl">q2</td><td>{q1}</td><td>{q4}</td></tr>
+      <tr><td class="lbl">q3</td><td>{q4}</td><td>{q1}</td></tr>
+      <tr><td class="lbl">q4</td><td>{q3, q5}</td><td>{q2}</td></tr>
+      <tr><td class="lbl">q5 *</td><td>∅</td><td>∅</td></tr>
+    </table>
+  </div>
+  <p>
+    Es un <strong>AFND</strong>: q4 tiene dos flechas con a, y las casillas vacías (∅) no llevan
+    flecha (si se pidiera AFD, irían a un estado muerto). Acepta si algún camino termina en q5.
+  </p>
+  <div class="pd-grafico af" data-g="u4-e12-af">
+    <svg viewBox="-61 -52 588 281" width="588" height="281" role="img" aria-label="Diagrama de un autómata finito">
+      <path class="arco" d="M19.0,0.0 L125.0,0.0"/>
+      <path class="punta" d="M125.0,0.0 L116.0,4.5 L116.0,-4.5 Z"/>
+      <text class="rot" x="72.0" y="-10.0" text-anchor="middle" dominant-baseline="central">a</text>
+      <path class="arco" d="M161.8,-6.7 Q240.0,-36.0 318.2,-6.7"/>
+      <path class="punta" d="M318.2,-6.7 L308.2,-5.6 L311.4,-14.0 Z"/>
+      <text class="rot" x="240.0" y="-31.3" text-anchor="middle" dominant-baseline="central">a</text>
+      <path class="arco" d="M318.2,6.7 Q240.0,36.0 161.8,6.7"/>
+      <path class="punta" d="M161.8,6.7 L171.8,5.6 L168.6,14.0 Z"/>
+      <text class="rot" x="240.0" y="31.3" text-anchor="middle" dominant-baseline="central">a</text>
+      <path class="arco" d="M161.8,169.3 Q240.0,140.0 318.2,169.3"/>
+      <path class="punta" d="M318.2,169.3 L308.2,170.4 L311.4,162.0 Z"/>
+      <text class="rot" x="240.0" y="144.7" text-anchor="middle" dominant-baseline="central">a</text>
+      <path class="arco" d="M318.2,182.7 Q240.0,212.0 161.8,182.7"/>
+      <path class="punta" d="M161.8,182.7 L171.8,181.6 L168.6,190.0 Z"/>
+      <text class="rot" x="240.0" y="207.3" text-anchor="middle" dominant-baseline="central">a</text>
+      <path class="arco" d="M151.2,17.6 Q180.0,88.0 151.2,158.4"/>
+      <path class="punta" d="M151.2,158.4 L150.4,148.4 L158.8,151.8 Z"/>
+      <text class="rot" x="179.4" y="88.0" text-anchor="middle" dominant-baseline="central">b</text>
+      <path class="arco" d="M136.8,158.4 Q108.0,88.0 136.8,17.6"/>
+      <path class="punta" d="M136.8,17.6 L137.6,27.6 L129.2,24.2 Z"/>
+      <text class="rot" x="108.6" y="88.0" text-anchor="middle" dominant-baseline="central">b</text>
+      <path class="arco" d="M343.2,17.6 Q372.0,88.0 343.2,158.4"/>
+      <path class="punta" d="M343.2,158.4 L342.4,148.4 L350.8,151.8 Z"/>
+      <text class="rot" x="371.4" y="88.0" text-anchor="middle" dominant-baseline="central">b</text>
+      <path class="arco" d="M328.8,158.4 Q300.0,88.0 328.8,17.6"/>
+      <path class="punta" d="M328.8,17.6 L329.6,27.6 L321.2,24.2 Z"/>
+      <text class="rot" x="300.6" y="88.0" text-anchor="middle" dominant-baseline="central">b</text>
+      <path class="arco" d="M355.0,176.0 L477.0,176.0"/>
+      <path class="punta" d="M477.0,176.0 L468.0,180.5 L468.0,171.5 Z"/>
+      <text class="rot" x="416.0" y="166.0" text-anchor="middle" dominant-baseline="central">a</text>
+      <path class="arco" d="M-49.0,0.0 L-19.0,0.0"/>
+      <path class="punta" d="M-19.0,0.0 L-28.0,4.5 L-28.0,-4.5 Z"/>
+      <g class="estado">
+        <circle class="borde" cx="0.0" cy="0.0" r="19"/>
+        <text class="nom" x="0.0" y="0.0" text-anchor="middle" dominant-baseline="central">q0</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="144.0" cy="0.0" r="19"/>
+        <text class="nom" x="144.0" y="0.0" text-anchor="middle" dominant-baseline="central">q1</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="336.0" cy="0.0" r="19"/>
+        <text class="nom" x="336.0" y="0.0" text-anchor="middle" dominant-baseline="central">q2</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="144.0" cy="176.0" r="19"/>
+        <text class="nom" x="144.0" y="176.0" text-anchor="middle" dominant-baseline="central">q3</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="336.0" cy="176.0" r="19"/>
+        <text class="nom" x="336.0" y="176.0" text-anchor="middle" dominant-baseline="central">q4</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="496.0" cy="176.0" r="19"/>
+        <circle class="borde" cx="496.0" cy="176.0" r="15"/>
+        <text class="nom" x="496.0" y="176.0" text-anchor="middle" dominant-baseline="central">q5</text>
+      </g>
+    </svg>
+  </div>
+
+  <span class="paso">Paso 4 &mdash; La ER, por piezas</span>
+  <p>El medio se lee de a pares, como en el ejercicio 11:</p>
+  <ul>
+    <li><code>(aa|bb)</code>: un par que no cambia ninguna paridad.</li>
+    <li><code>(ab|ba)</code>: un par mezclado, que da vuelta las dos.</li>
+    <li>Impar de a e impar de b = una cantidad <strong>impar</strong> de pares mezclados: <code>(aa|bb)*</code> hasta el primero, <code>(ab|ba)</code> el primero, y después una cantidad par de mezclados: <code>(aa|bb|(ab|ba)(aa|bb)*(ab|ba))*</code>.</li>
+    <li>Las dos a de las puntas: <code>a</code> al principio y <code>a</code> al final.</li>
+  </ul>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p><strong>AFND:</strong> el del dibujo (q0 inicial, q5 final).</p>
+    <p><strong>ER:</strong> <code>a(aa|bb)*(ab|ba)(aa|bb|(ab|ba)(aa|bb)*(ab|ba))*a</code></p>
+  </div>
+
+  <h3>Probamos con cadenas</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Cadena</th><th>Recorrido</th><th>¿La acepta?</th></tr>
+      <tr><td><code>aaba</code></td><td>q0 &rarr;a q1 &rarr;a q2 &rarr;b q4 &rarr;a q5</td><td>Sí. En la ER: <code>a</code> + <code>ab</code> + <code>a</code></td></tr>
+      <tr><td><code>aabbba</code></td><td>q0 &rarr;a q1 &rarr;a q2 &rarr;b q4 &rarr;b q2 &rarr;b q4 &rarr;a q5</td><td>Sí. En la ER: <code>a</code> + <code>ab</code> + <code>bb</code> + <code>a</code></td></tr>
+      <tr><td><code>abba</code></td><td>q0 &rarr;a q1 &rarr;b q3 &rarr;b q1 &rarr;a q2</td><td>No: el medio <code>bb</code> no tiene a</td></tr>
+      <tr><td><code>aaa</code></td><td>q0 &rarr;a q1 &rarr;a q2 &rarr;a q1</td><td>No: largo impar</td></tr>
+    </table>
+  </div>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Errores y trampas</span>
+    <ul>
+      <li>Contar las paridades de toda la cadena y olvidarse de que las dos a de las puntas también cuentan.</li>
+      <li>Traducir "largo par" a "impar de b" (en el medio) simplifica: quedan dos paridades, como en el ejercicio 11.</li>
+      <li>La cadena <code>a</code> empieza y termina con a, pero tiene largo 1: probar siempre los bordes.</li>
+    </ul>
+  </div>
+</div>

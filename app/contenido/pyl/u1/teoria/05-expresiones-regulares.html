@@ -1,0 +1,88 @@
+<div class="bloque">
+  <p class="kicker">La notación</p>
+  <h2>5. Expresiones regulares</h2>
+
+  <h3>Qué es</h3>
+  <p>
+    Una forma de <strong>escribir</strong> un lenguaje con una fórmula corta. El autómata
+    <em>reconoce</em> cadenas; la ER las <em>genera</em>. Los dos describen la misma clase de
+    lenguajes: los <strong>regulares</strong>.
+  </p>
+
+  <h3>Las piezas</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>ER</th><th>Genera</th><th>Se lee</th></tr>
+      <tr><td class="lbl">∅</td><td>{} (ninguna cadena)</td><td>el lenguaje vacío</td></tr>
+      <tr><td class="lbl">ε</td><td>{ε}</td><td>la cadena vacía</td></tr>
+      <tr><td class="lbl">a</td><td>{a}</td><td>el símbolo a</td></tr>
+      <tr><td class="lbl">r | s</td><td>lo de r unido a lo de s</td><td>"r o s"</td></tr>
+      <tr><td class="lbl">r s</td><td>una de r seguida de una de s</td><td>"r y después s"</td></tr>
+      <tr><td class="lbl">r*</td><td>cero o más repeticiones de r</td><td>"r, las veces que quieras, incluso ninguna"</td></tr>
+      <tr><td class="lbl">(r)</td><td>lo mismo que r</td><td>paréntesis para agrupar</td></tr>
+    </table>
+  </div>
+  <p>Toda ER se arma combinando estas piezas. Esa es la definición recursiva de la cátedra.</p>
+
+  <h3>Prioridad: primero *, después concatenación, al final |</h3>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Igual que en la aritmética</span>
+    <p><code>*</code> es como la potencia, la concatenación como la multiplicación y <code>|</code> como la suma. Todos asocian por izquierda.</p>
+  </div>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Se escribe</th><th>Se entiende</th><th>Genera</th></tr>
+      <tr><td class="lbl"><code>ab*</code></td><td><code>a(b*)</code></td><td>a, ab, abb... (la * es solo de la b)</td></tr>
+      <tr><td class="lbl"><code>(ab)*</code></td><td>&mdash;</td><td>ε, ab, abab...</td></tr>
+      <tr><td class="lbl"><code>ab|c</code></td><td><code>(ab)|c</code></td><td>ab, c</td></tr>
+      <tr><td class="lbl"><code>a(b|c)</code></td><td>&mdash;</td><td>ab, ac</td></tr>
+    </table>
+  </div>
+
+  <h3>Ejemplo 1: qué genera una ER (el de la cátedra)</h3>
+  <div class="caja caja-ejemplo">
+    <p><code>a | (ba)* | ε</code></p>
+  </div>
+  <ol>
+    <li><code>a</code> genera {a}.</li>
+    <li><code>(ba)*</code> genera {ε, ba, baba, bababa, ...}.</li>
+    <li><code>ε</code> genera {ε}, que ya estaba.</li>
+    <li>Uniendo: {ε, a, ba, baba, bababa, ...}. La <code>| ε</code> no agrega nada.</li>
+  </ol>
+
+  <h3>Ejemplo 2: de palabras a ER</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Lenguaje (sobre {a, b})</th><th>ER</th><th>Por qué</th></tr>
+      <tr><td>Cualquier cadena</td><td><code>(a|b)*</code></td><td>en cada lugar, a o b, las veces que quieras</td></tr>
+      <tr><td>Empiezan con a</td><td><code>a(a|b)*</code></td><td>una a obligatoria y después cualquier cosa</td></tr>
+      <tr><td>Terminan en bb</td><td><code>(a|b)*bb</code></td><td>cualquier cosa y al final bb</td></tr>
+      <tr><td>Contienen aa</td><td><code>(a|b)*aa(a|b)*</code></td><td>cualquier cosa, aa, cualquier cosa</td></tr>
+      <tr><td>Exactamente una b</td><td><code>a*ba*</code></td><td>a antes y después, pero una sola b</td></tr>
+      <tr><td>Longitud par</td><td><code>((a|b)(a|b))*</code></td><td>bloques de dos símbolos</td></tr>
+    </table>
+  </div>
+
+  <h3>Equivalencias que sirven para simplificar</h3>
+  <p>Al pasar un AF a ER salen expresiones largas. Estas igualdades permiten acortarlas (todas probadas con todas las cadenas hasta largo 9):</p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Igualdad</th><th>Por qué</th></tr>
+      <tr><td class="lbl"><code>ε | aa*</code> = <code>a*</code></td><td>"ninguna, o una y después más" es "cualquier cantidad"</td></tr>
+      <tr><td class="lbl"><code>aa*</code> = <code>a*a</code></td><td>las dos son "una o más a" (a veces se escribe a<sup>+</sup>)</td></tr>
+      <tr><td class="lbl"><code>(ab)*a</code> = <code>a(ba)*</code></td><td>las dos son a, aba, ababa...</td></tr>
+      <tr><td class="lbl"><code>(a*b*)*</code> = <code>(a|b)*</code></td><td>las dos generan cualquier cadena</td></tr>
+      <tr><td class="lbl"><code>r | r</code> = <code>r</code> &nbsp; <code>r ε</code> = <code>r</code></td><td>repetir o concatenar ε no cambia nada</td></tr>
+    </table>
+  </div>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Errores y trampas</span>
+    <ul>
+      <li><code>ab*</code> no es <code>(ab)*</code>: la * toma lo que tiene inmediatamente a la izquierda.</li>
+      <li><code>a*b*</code> no es <code>(a|b)*</code>: en <code>a*b*</code> todas las a van antes que todas las b (<code>ba</code> no entra).</li>
+      <li>Ante la duda, <strong>poné paréntesis</strong>: nunca restan puntos.</li>
+      <li>Antes de entregar una ER, probala con 2 cadenas que sí y 2 que no.</li>
+    </ul>
+  </div>
+</div>

@@ -1,0 +1,204 @@
+<div class="bloque">
+  <p class="kicker">Dos condiciones</p>
+  <h2>3. Combinar condiciones</h2>
+
+  <h3>"y": recordar dos cosas a la vez</h3>
+  <p>
+    Cada estado guarda <strong>las dos informaciones juntas</strong>: si una condición tiene 2
+    situaciones y la otra 2, hacen falta hasta 2 &times; 2 = 4 estados. Es final el estado donde
+    <strong>se cumplen las dos</strong>.
+  </p>
+
+  <h3>Ejemplo 1: cantidad par de a y cantidad par de b</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Estado</th><th>Qué significa</th></tr>
+      <tr><td class="lbl">PP (inicial, final)</td><td>a par, b par</td></tr>
+      <tr><td class="lbl">IP</td><td>a impar, b par</td></tr>
+      <tr><td class="lbl">PI</td><td>a par, b impar</td></tr>
+      <tr><td class="lbl">II</td><td>a impar, b impar</td></tr>
+    </table>
+  </div>
+  <p>La a cambia la primera letra (P &harr; I) y la b la segunda.</p>
+  <div class="pd-grafico af" data-g="u4-par-par">
+    <svg viewBox="-61 -53 288 265" width="288" height="265" role="img" aria-label="Cantidad par de a y cantidad par de b">
+      <path class="arco" d="M17.6,-7.2 Q88.0,-36.0 158.4,-7.2"/>
+      <path class="punta" d="M158.4,-7.2 L148.4,-6.4 L151.8,-14.8 Z"/>
+      <text class="rot" x="88.0" y="-31.6" text-anchor="middle" dominant-baseline="central">a</text>
+      <path class="arco" d="M158.4,7.2 Q88.0,36.0 17.6,7.2"/>
+      <path class="punta" d="M17.6,7.2 L27.6,6.4 L24.2,14.8 Z"/>
+      <text class="rot" x="88.0" y="31.6" text-anchor="middle" dominant-baseline="central">a</text>
+      <path class="arco" d="M17.6,152.8 Q88.0,124.0 158.4,152.8"/>
+      <path class="punta" d="M158.4,152.8 L148.4,153.6 L151.8,145.2 Z"/>
+      <text class="rot" x="88.0" y="128.4" text-anchor="middle" dominant-baseline="central">a</text>
+      <path class="arco" d="M158.4,167.2 Q88.0,196.0 17.6,167.2"/>
+      <path class="punta" d="M17.6,167.2 L27.6,166.4 L24.2,174.8 Z"/>
+      <text class="rot" x="88.0" y="191.6" text-anchor="middle" dominant-baseline="central">a</text>
+      <path class="arco" d="M7.8,17.3 Q36.0,80.0 7.8,142.7"/>
+      <path class="punta" d="M7.8,142.7 L7.4,132.6 L15.6,136.3 Z"/>
+      <text class="rot" x="35.7" y="80.0" text-anchor="middle" dominant-baseline="central">b</text>
+      <path class="arco" d="M-7.8,142.7 Q-36.0,80.0 -7.8,17.3"/>
+      <path class="punta" d="M-7.8,17.3 L-7.4,27.4 L-15.6,23.7 Z"/>
+      <text class="rot" x="-35.7" y="80.0" text-anchor="middle" dominant-baseline="central">b</text>
+      <path class="arco" d="M183.8,17.3 Q212.0,80.0 183.8,142.7"/>
+      <path class="punta" d="M183.8,142.7 L183.4,132.6 L191.6,136.3 Z"/>
+      <text class="rot" x="211.7" y="80.0" text-anchor="middle" dominant-baseline="central">b</text>
+      <path class="arco" d="M168.2,142.7 Q140.0,80.0 168.2,17.3"/>
+      <path class="punta" d="M168.2,17.3 L168.6,27.4 L160.4,23.7 Z"/>
+      <text class="rot" x="140.3" y="80.0" text-anchor="middle" dominant-baseline="central">b</text>
+      <path class="arco" d="M-49.0,0.0 L-19.0,0.0"/>
+      <path class="punta" d="M-19.0,0.0 L-28.0,4.5 L-28.0,-4.5 Z"/>
+      <g class="estado">
+        <circle class="borde" cx="0.0" cy="0.0" r="19"/>
+        <circle class="borde" cx="0.0" cy="0.0" r="15"/>
+        <text class="nom" x="0.0" y="0.0" text-anchor="middle" dominant-baseline="central">PP</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="176.0" cy="0.0" r="19"/>
+        <text class="nom" x="176.0" y="0.0" text-anchor="middle" dominant-baseline="central">IP</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="0.0" cy="160.0" r="19"/>
+        <text class="nom" x="0.0" y="160.0" text-anchor="middle" dominant-baseline="central">PI</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="176.0" cy="160.0" r="19"/>
+        <text class="nom" x="176.0" y="160.0" text-anchor="middle" dominant-baseline="central">II</text>
+      </g>
+    </svg>
+  </div>
+  <p><code>abab</code>: PP &rarr;a IP &rarr;b II &rarr;a PI &rarr;b PP. Acepta (dos a y dos b).</p>
+
+  <h3>Ejemplo 2: empiezan con a y tienen cantidad par de b</h3>
+  <p>
+    A veces una condición se "termina" enseguida y las situaciones se achican: "empieza con a" solo
+    importa en la primera letra. Después de esa a, lo único que hay que recordar es la paridad de b.
+  </p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Estado</th><th>Qué significa</th></tr>
+      <tr><td class="lbl">q0 (inicial)</td><td>No leí nada</td></tr>
+      <tr><td class="lbl">P (final)</td><td>Empezó con a, b par</td></tr>
+      <tr><td class="lbl">I</td><td>Empezó con a, b impar</td></tr>
+    </table>
+  </div>
+  <div class="pd-grafico af" data-g="u4-combina">
+    <svg viewBox="-61 -5 425 130" width="425" height="130" role="img" aria-label="Empiezan con a y tienen cantidad par de b">
+      <path class="arco" d="M19.0,72.0 L133.0,72.0"/>
+      <path class="punta" d="M133.0,72.0 L124.0,76.5 L124.0,67.5 Z"/>
+      <text class="rot" x="76.0" y="62.0" text-anchor="middle" dominant-baseline="central">a</text>
+      <path class="arco" d="M143.1,55.2 C112.0,20.8 192.0,20.8 160.9,55.2"/>
+      <path class="punta" d="M160.9,55.2 L163.6,45.5 L170.3,51.6 Z"/>
+      <text class="rot" x="152.0" y="16.0" text-anchor="middle" dominant-baseline="central">a</text>
+      <path class="arco" d="M169.3,64.2 Q232.0,36.0 294.7,64.2"/>
+      <path class="punta" d="M294.7,64.2 L284.6,64.6 L288.3,56.4 Z"/>
+      <text class="rot" x="232.0" y="40.1" text-anchor="middle" dominant-baseline="central">b</text>
+      <path class="arco" d="M294.7,79.8 Q232.0,108.0 169.3,79.8"/>
+      <path class="punta" d="M169.3,79.8 L179.4,79.4 L175.7,87.6 Z"/>
+      <text class="rot" x="232.0" y="103.9" text-anchor="middle" dominant-baseline="central">b</text>
+      <path class="arco" d="M303.1,55.2 C272.0,20.8 352.0,20.8 320.9,55.2"/>
+      <path class="punta" d="M320.9,55.2 L323.6,45.5 L330.3,51.6 Z"/>
+      <text class="rot" x="312.0" y="16.0" text-anchor="middle" dominant-baseline="central">a</text>
+      <path class="arco" d="M-49.0,72.0 L-19.0,72.0"/>
+      <path class="punta" d="M-19.0,72.0 L-28.0,76.5 L-28.0,67.5 Z"/>
+      <g class="estado">
+        <circle class="borde" cx="0.0" cy="72.0" r="19"/>
+        <text class="nom" x="0.0" y="72.0" text-anchor="middle" dominant-baseline="central">q0</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="152.0" cy="72.0" r="19"/>
+        <circle class="borde" cx="152.0" cy="72.0" r="15"/>
+        <text class="nom" x="152.0" y="72.0" text-anchor="middle" dominant-baseline="central">P</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="312.0" cy="72.0" r="19"/>
+        <text class="nom" x="312.0" y="72.0" text-anchor="middle" dominant-baseline="central">I</text>
+      </g>
+    </svg>
+  </div>
+  <p>Si empieza con b, va al muerto (no dibujado). ER: <code>a(a|ba*b)*</code>: la a obligatoria y después bloques que son una a, o dos b con a en el medio.</p>
+
+  <h3>"o": dos caminos</h3>
+  <p>
+    Con un <strong>AFND</strong> (o un AFN-ε) es lo más fácil: un inicial con ε a un autómata de
+    cada condición. Acepta si alguno de los dos caminos acepta. Es la misma idea que la unión de
+    Thompson. La ER es la unión de las dos: <code>r1 | r2</code>.
+  </p>
+
+  <h3>Ejemplo 3: empiezan con aa o terminan con bb</h3>
+  <div class="pd-grafico af" data-g="u4-union">
+    <svg viewBox="-61 -52 530 305" width="530" height="305" role="img" aria-label="AFN-ε: empiezan con aa o terminan con bb">
+      <path class="arco" d="M15.3,76.8 L104.7,11.2"/>
+      <path class="punta" d="M104.7,11.2 L100.1,20.2 L94.8,12.9 Z"/>
+      <text class="rot" x="52.8" y="34.1" text-anchor="middle" dominant-baseline="central">ε</text>
+      <path class="arco" d="M139.0,0.0 L229.0,0.0"/>
+      <path class="punta" d="M229.0,0.0 L220.0,4.5 L220.0,-4.5 Z"/>
+      <text class="rot" x="184.0" y="-10.0" text-anchor="middle" dominant-baseline="central">a</text>
+      <path class="arco" d="M267.0,0.0 L357.0,0.0"/>
+      <path class="punta" d="M357.0,0.0 L348.0,4.5 L348.0,-4.5 Z"/>
+      <text class="rot" x="312.0" y="-10.0" text-anchor="middle" dominant-baseline="central">a</text>
+      <path class="arco" d="M392.8,-8.9 C427.2,-40.0 427.2,40.0 392.8,8.9"/>
+      <path class="punta" d="M392.8,8.9 L402.5,11.6 L396.4,18.3 Z"/>
+      <text class="rot" x="442.2" y="0.0" text-anchor="middle" dominant-baseline="central">a, b</text>
+      <path class="arco" d="M15.3,99.2 L104.7,164.8"/>
+      <path class="punta" d="M104.7,164.8 L94.8,163.1 L100.1,155.8 Z"/>
+      <text class="rot" x="67.2" y="122.1" text-anchor="middle" dominant-baseline="central">ε</text>
+      <path class="arco" d="M128.9,192.8 C160.0,227.2 80.0,227.2 111.1,192.8"/>
+      <path class="punta" d="M111.1,192.8 L108.4,202.5 L101.7,196.4 Z"/>
+      <text class="rot" x="120.0" y="232.0" text-anchor="middle" dominant-baseline="central">a, b</text>
+      <path class="arco" d="M139.0,176.0 L229.0,176.0"/>
+      <path class="punta" d="M229.0,176.0 L220.0,180.5 L220.0,171.5 Z"/>
+      <text class="rot" x="184.0" y="166.0" text-anchor="middle" dominant-baseline="central">b</text>
+      <path class="arco" d="M267.0,176.0 L357.0,176.0"/>
+      <path class="punta" d="M357.0,176.0 L348.0,180.5 L348.0,171.5 Z"/>
+      <text class="rot" x="312.0" y="166.0" text-anchor="middle" dominant-baseline="central">b</text>
+      <path class="arco" d="M-49.0,88.0 L-19.0,88.0"/>
+      <path class="punta" d="M-19.0,88.0 L-28.0,92.5 L-28.0,83.5 Z"/>
+      <g class="estado">
+        <circle class="borde" cx="0.0" cy="88.0" r="19"/>
+        <text class="nom" x="0.0" y="88.0" text-anchor="middle" dominant-baseline="central">i</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="120.0" cy="0.0" r="19"/>
+        <text class="nom" x="120.0" y="0.0" text-anchor="middle" dominant-baseline="central">p0</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="248.0" cy="0.0" r="19"/>
+        <text class="nom" x="248.0" y="0.0" text-anchor="middle" dominant-baseline="central">p1</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="376.0" cy="0.0" r="19"/>
+        <circle class="borde" cx="376.0" cy="0.0" r="15"/>
+        <text class="nom" x="376.0" y="0.0" text-anchor="middle" dominant-baseline="central">p2</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="120.0" cy="176.0" r="19"/>
+        <text class="nom" x="120.0" y="176.0" text-anchor="middle" dominant-baseline="central">r0</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="248.0" cy="176.0" r="19"/>
+        <text class="nom" x="248.0" y="176.0" text-anchor="middle" dominant-baseline="central">r1</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="376.0" cy="176.0" r="19"/>
+        <circle class="borde" cx="376.0" cy="176.0" r="15"/>
+        <text class="nom" x="376.0" y="176.0" text-anchor="middle" dominant-baseline="central">r2</text>
+      </g>
+    </svg>
+  </div>
+  <ul>
+    <li>Arriba, "empieza con aa"; abajo, "termina con bb" en versión no determinística: r0 se queda leyendo hasta que adivina las dos b finales.</li>
+    <li><code>aaba</code>: el camino de arriba acepta. <code>abb</code>: el de abajo acepta. <code>aba</code>: ninguno.</li>
+    <li>ER: <code>aa(a|b)*|(a|b)*bb</code>.</li>
+  </ul>
+  <p>Si la consigna pide <strong>AFD</strong>, se hace con la idea del "y" (recordar las dos cosas) y es final el estado donde se cumple <strong>alguna</strong>.</p>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Errores y trampas</span>
+    <ul>
+      <li>En el "o" con AFND, no unir los dos autómatas compartiendo un estado con lazos: los lazos de uno arruinan al otro. Un inicial nuevo con ε es lo seguro.</li>
+      <li>En el "y", nombrá los estados con las dos informaciones (PP, PI...): así no te perdés al dibujar.</li>
+      <li>Fijate si la consigna dice "AFD o AFND" (elegís) o solo "AFD".</li>
+    </ul>
+  </div>
+</div>

@@ -1,0 +1,99 @@
+<div class="bloque">
+  <p class="kicker">Eliminación de estados</p>
+  <h2>1. El método</h2>
+
+  <h3>La idea</h3>
+  <p>
+    Se permite que una flecha tenga una <strong>ER</strong> como etiqueta (no solo un símbolo): "de
+    acá se pasa allá leyendo cualquier cadena que genere esa ER". Así se pueden ir sacando estados
+    sin cambiar el lenguaje. Cuando quedan solo el inicial y el final, la etiqueta de la única
+    flecha es la respuesta.
+  </p>
+
+  <h3>Los pasos (los de la cátedra)</h3>
+  <ol>
+    <li><strong>Sacar los estados muertos</strong> (un no final del que no se sale) con todas sus flechas.</li>
+    <li><strong>Agregar dos estados nuevos:</strong> un inicial <code>i</code> con ε al inicial viejo, y un final <code>f</code> al que llega una ε desde cada final viejo. Los viejos dejan de ser inicial y finales.</li>
+    <li><strong>Juntar paralelas:</strong> dos flechas del mismo origen al mismo destino, <code>r1</code> y <code>r2</code>, pasan a ser una sola <code>r1|r2</code>.</li>
+    <li><strong>Eliminar un estado intermedio t</strong> con la regla α β* γ (abajo). Volver al paso 3 hasta que no queden intermedios.</li>
+    <li>La ER es la etiqueta de la flecha de <code>i</code> a <code>f</code>.</li>
+  </ol>
+
+  <h3>La regla α β* γ</h3>
+  <p>Para eliminar t, por <strong>cada</strong> par (flecha que entra a t, flecha que sale de t):</p>
+  <div class="pd-grafico af" data-g="u2-regla-antes">
+    <svg viewBox="-31 -77 366 108" width="366" height="108" role="img" aria-label="Un estado t con entrada α, lazo β y salida γ">
+      <path class="arco" d="M19.0,0.0 L133.0,0.0"/>
+      <path class="punta" d="M133.0,0.0 L124.0,4.5 L124.0,-4.5 Z"/>
+      <text class="rot" x="76.0" y="-10.0" text-anchor="middle" dominant-baseline="central">α</text>
+      <path class="arco" d="M143.1,-16.8 C112.0,-51.2 192.0,-51.2 160.9,-16.8"/>
+      <path class="punta" d="M160.9,-16.8 L163.6,-26.5 L170.3,-20.4 Z"/>
+      <text class="rot" x="152.0" y="-56.0" text-anchor="middle" dominant-baseline="central">β</text>
+      <path class="arco" d="M171.0,0.0 L285.0,0.0"/>
+      <path class="punta" d="M285.0,0.0 L276.0,4.5 L276.0,-4.5 Z"/>
+      <text class="rot" x="228.0" y="-10.0" text-anchor="middle" dominant-baseline="central">γ</text>
+      <g class="estado">
+        <circle class="borde" cx="0.0" cy="0.0" r="19"/>
+        <text class="nom" x="0.0" y="0.0" text-anchor="middle" dominant-baseline="central">q</text>
+      </g>
+      <g class="estado marcado">
+        <circle class="borde" cx="152.0" cy="0.0" r="19"/>
+        <text class="nom" x="152.0" y="0.0" text-anchor="middle" dominant-baseline="central">t</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="304.0" cy="0.0" r="19"/>
+        <text class="nom" x="304.0" y="0.0" text-anchor="middle" dominant-baseline="central">p</text>
+      </g>
+    </svg>
+  </div>
+  <div class="pd-grafico af" data-g="u2-regla-despues">
+    <svg viewBox="-31 -31 366 62" width="366" height="62" role="img" aria-label="Después de eliminar t queda una sola transición αβ*γ">
+      <path class="arco nueva" d="M19.0,0.0 L285.0,0.0"/>
+      <path class="punta nueva" d="M285.0,0.0 L276.0,4.5 L276.0,-4.5 Z"/>
+      <text class="rot" x="152.0" y="-10.0" text-anchor="middle" dominant-baseline="central">αβ*γ</text>
+      <g class="estado">
+        <circle class="borde" cx="0.0" cy="0.0" r="19"/>
+        <text class="nom" x="0.0" y="0.0" text-anchor="middle" dominant-baseline="central">q</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="304.0" cy="0.0" r="19"/>
+        <text class="nom" x="304.0" y="0.0" text-anchor="middle" dominant-baseline="central">p</text>
+      </g>
+    </svg>
+  </div>
+  <div class="caja caja-formula">
+    <span class="caja-tit">De q a p, pasando por t</span>
+    <p>
+      <strong>α β* γ</strong> = lo que entra (α), el lazo de t las veces que sea (β*), lo que sale (γ).
+      <br>Si t no tiene lazo, queda <strong>α γ</strong>.
+    </p>
+  </div>
+  <ul>
+    <li>Si a t le entran <strong>n</strong> flechas y salen <strong>m</strong>, se crean <strong>n &times; m</strong> flechas nuevas.</li>
+    <li>Si q y p son el mismo estado (entra desde q y sale hacia q), la flecha nueva es un <strong>lazo</strong> en q.</li>
+    <li>Si ya había una flecha de q a p, la nueva se junta con <code>|</code> (paso 3).</li>
+    <li>Una ε en α o en γ se borra al escribir: ε b = b.</li>
+  </ul>
+
+  <h3>Ejemplo chico de la regla</h3>
+  <div class="caja caja-ejemplo">
+    <p>Entran a t: <code>q1 -a&rarr; t</code> y <code>q2 -b&rarr; t</code>. Lazo: <code>c</code>. Sale: <code>t -d&rarr; p</code>.</p>
+  </div>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Entra (α)</th><th>Lazo (β)</th><th>Sale (γ)</th><th>Flecha nueva</th></tr>
+      <tr><td>q1, <code>a</code></td><td><code>c</code></td><td>p, <code>d</code></td><td>q1 &mdash;<code>ac*d</code>&rarr; p</td></tr>
+      <tr><td>q2, <code>b</code></td><td><code>c</code></td><td>p, <code>d</code></td><td>q2 &mdash;<code>bc*d</code>&rarr; p</td></tr>
+    </table>
+  </div>
+  <p>2 entradas &times; 1 salida = 2 flechas nuevas.</p>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Errores y trampas</span>
+    <ul>
+      <li>Olvidarse de un par: hay que hacer <strong>todas</strong> las combinaciones entrada &times; salida, incluida la salida hacia <code>f</code>.</li>
+      <li>Poner el lazo sin estrella (<code>αβγ</code>): el lazo se puede dar cero o muchas veces, siempre va <code>β*</code>.</li>
+      <li>Cuando una etiqueta tiene <code>|</code>, al concatenarla va <strong>entre paréntesis</strong>: entra <code>a|b</code> y sale <code>c</code> da <code>(a|b)c</code>, no <code>a|bc</code>.</li>
+    </ul>
+  </div>
+</div>

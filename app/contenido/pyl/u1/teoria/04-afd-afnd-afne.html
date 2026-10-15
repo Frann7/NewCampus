@@ -1,0 +1,100 @@
+<div class="bloque">
+  <p class="kicker">Tres clases</p>
+  <h2>4. AFD, AFND y AFN-ε</h2>
+
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th></th><th>AFD (determinístico)</th><th>AFND (no determinístico)</th><th>AFN-ε</th></tr>
+      <tr><td class="lbl">Desde un estado, con un símbolo</td><td>Va a <strong>un solo</strong> estado</td><td>Puede ir a <strong>varios</strong> (o a ninguno)</td><td>Igual que el AFND</td></tr>
+      <tr><td class="lbl">Transiciones ε</td><td>No</td><td>No</td><td><strong>Sí</strong>: pasa de estado sin leer nada</td></tr>
+      <tr><td class="lbl">Cuándo acepta</td><td>Si termina en un final</td><td>Si <strong>algún</strong> camino posible termina en un final</td><td>Igual que el AFND</td></tr>
+      <tr><td class="lbl">Dónde aparece</td><td>El resultado del ejercicio 2; el ejercicio 3</td><td>El ejercicio 3 lo permite</td><td>Thompson, en el ejercicio 2</td></tr>
+    </table>
+  </div>
+  <p>
+    <strong>Los tres reconocen exactamente los mismos lenguajes</strong> (los regulares): todo AFND o
+    AFN-ε se puede pasar a un AFD equivalente. Esa es la construcción de subconjuntos de la Unidad 3.
+  </p>
+
+  <h3>Ejemplo 1: AFND que contiene ab</h3>
+  <div class="pd-grafico af" data-g="u1-afnd-ab">
+    <svg viewBox="-61 -77 417 108" width="417" height="108" role="img" aria-label="AFND de las cadenas que contienen ab">
+      <path class="arco" d="M-8.9,-16.8 C-40.0,-51.2 40.0,-51.2 8.9,-16.8"/>
+      <path class="punta" d="M8.9,-16.8 L11.6,-26.5 L18.3,-20.4 Z"/>
+      <text class="rot" x="0.0" y="-56.0" text-anchor="middle" dominant-baseline="central">a, b</text>
+      <path class="arco" d="M19.0,0.0 L133.0,0.0"/>
+      <path class="punta" d="M133.0,0.0 L124.0,4.5 L124.0,-4.5 Z"/>
+      <text class="rot" x="76.0" y="-10.0" text-anchor="middle" dominant-baseline="central">a</text>
+      <path class="arco" d="M171.0,0.0 L285.0,0.0"/>
+      <path class="punta" d="M285.0,0.0 L276.0,4.5 L276.0,-4.5 Z"/>
+      <text class="rot" x="228.0" y="-10.0" text-anchor="middle" dominant-baseline="central">b</text>
+      <path class="arco" d="M295.1,-16.8 C264.0,-51.2 344.0,-51.2 312.9,-16.8"/>
+      <path class="punta" d="M312.9,-16.8 L315.6,-26.5 L322.3,-20.4 Z"/>
+      <text class="rot" x="304.0" y="-56.0" text-anchor="middle" dominant-baseline="central">a, b</text>
+      <path class="arco" d="M-49.0,0.0 L-19.0,0.0"/>
+      <path class="punta" d="M-19.0,0.0 L-28.0,4.5 L-28.0,-4.5 Z"/>
+      <g class="estado">
+        <circle class="borde" cx="0.0" cy="0.0" r="19"/>
+        <text class="nom" x="0.0" y="0.0" text-anchor="middle" dominant-baseline="central">q0</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="152.0" cy="0.0" r="19"/>
+        <text class="nom" x="152.0" y="0.0" text-anchor="middle" dominant-baseline="central">q1</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="304.0" cy="0.0" r="19"/>
+        <circle class="borde" cx="304.0" cy="0.0" r="15"/>
+        <text class="nom" x="304.0" y="0.0" text-anchor="middle" dominant-baseline="central">q2</text>
+      </g>
+    </svg>
+  </div>
+  <ul>
+    <li>En q0, con una <code>a</code> hay dos opciones: quedarse en q0 o pasar a q1. Por eso es <strong>no determinístico</strong>.</li>
+    <li>Se lee como "adivinar": se queda en q0 hasta que adivina que empieza el <code>ab</code>.</li>
+    <li><code>bab</code>: el camino q0 &rarr;b q0 &rarr;a q1 &rarr;b q2 termina en final. <strong>Acepta</strong> (alcanza con un camino).</li>
+    <li><code>ba</code>: ningún camino llega a q2. <strong>Rechaza</strong>.</li>
+    <li>q1 no tiene flecha con <code>a</code>: en un AFND eso está permitido (ese camino muere).</li>
+  </ul>
+  <p>El mismo lenguaje como AFD necesita pensar más (qué pasa con cada símbolo en cada estado): está en la Unidad 4, sección "Contiene".</p>
+
+  <h3>Ejemplo 2: AFN-ε de a*b*</h3>
+  <div class="pd-grafico af" data-g="u1-afne">
+    <svg viewBox="-61 -77 273 108" width="273" height="108" role="img" aria-label="AFN-ε de a*b*">
+      <path class="arco" d="M-8.9,-16.8 C-40.0,-51.2 40.0,-51.2 8.9,-16.8"/>
+      <path class="punta" d="M8.9,-16.8 L11.6,-26.5 L18.3,-20.4 Z"/>
+      <text class="rot" x="0.0" y="-56.0" text-anchor="middle" dominant-baseline="central">a</text>
+      <path class="arco" d="M19.0,0.0 L141.0,0.0"/>
+      <path class="punta" d="M141.0,0.0 L132.0,4.5 L132.0,-4.5 Z"/>
+      <text class="rot" x="80.0" y="-10.0" text-anchor="middle" dominant-baseline="central">ε</text>
+      <path class="arco" d="M151.1,-16.8 C120.0,-51.2 200.0,-51.2 168.9,-16.8"/>
+      <path class="punta" d="M168.9,-16.8 L171.6,-26.5 L178.3,-20.4 Z"/>
+      <text class="rot" x="160.0" y="-56.0" text-anchor="middle" dominant-baseline="central">b</text>
+      <path class="arco" d="M-49.0,0.0 L-19.0,0.0"/>
+      <path class="punta" d="M-19.0,0.0 L-28.0,4.5 L-28.0,-4.5 Z"/>
+      <g class="estado">
+        <circle class="borde" cx="0.0" cy="0.0" r="19"/>
+        <text class="nom" x="0.0" y="0.0" text-anchor="middle" dominant-baseline="central">q0</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="160.0" cy="0.0" r="19"/>
+        <circle class="borde" cx="160.0" cy="0.0" r="15"/>
+        <text class="nom" x="160.0" y="0.0" text-anchor="middle" dominant-baseline="central">q1</text>
+      </g>
+    </svg>
+  </div>
+  <ul>
+    <li>En q0 se leen las a; la ε pasa a q1 <strong>sin leer nada</strong>; en q1 se leen las b.</li>
+    <li><code>aab</code>: q0 &rarr;a q0 &rarr;a q0 &rarr;ε q1 &rarr;b q1. Acepta.</li>
+    <li><code>ba</code>: después de la b ya está en q1, y q1 no lee a. Rechaza.</li>
+    <li><code>ε</code>: q0 &rarr;ε q1, que es final. Acepta.</li>
+  </ul>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Errores y trampas</span>
+    <ul>
+      <li>Cuando la consigna dice <strong>"AFD o AFND"</strong>, cualquiera de los dos suma los puntos. El AFND suele ser más fácil de dibujar; el AFD, más fácil de probar.</li>
+      <li>Un AFD al que le faltan flechas (sin estado muerto) se suele aceptar como AFD "incompleto"; si querés que sea AFD en sentido estricto, agregá el estado muerto.</li>
+      <li>Si te piden <strong>AFD</strong> (como en el ejercicio 2), no puede quedar ninguna ε ni dos flechas con la misma letra desde un estado.</li>
+    </ul>
+  </div>
+</div>

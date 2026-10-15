@@ -1,0 +1,244 @@
+<div class="ej" data-examen="variante"
+     data-examen-ref="Parciales 2023-2025 · ej. 2"
+     data-examen-nota="La misma consigna que el ejercicio 2 del parcial (60 puntos), con otra ER.">
+  <span class="tag">Ejercicio 1 &middot; ER &rarr; AFD mínimo</span>
+  <h2>(a|b)*b</h2>
+  <div class="enunciado">
+    <p>Dada la siguiente ER, pasar a autómata determinístico mínimo: <strong>(a|b)*b</strong></p>
+  </div>
+
+  <span class="paso">Paso 1 &mdash; Qué lenguaje genera</span>
+  <p>
+    <code>(a|b)*</code> es "cualquier cadena de a y b, incluso la vacía"; después viene una
+    <code>b</code> obligatoria. En palabras: <strong>las cadenas sobre {a, b} que terminan en b</strong>.
+  </p>
+  <ul>
+    <li>Sí: <code>b</code>, <code>ab</code>, <code>bb</code>, <code>abab</code>.</li>
+    <li>No: <code>ε</code>, <code>a</code>, <code>ba</code>, <code>abba</code>.</li>
+  </ul>
+  <p>Esto no es parte de la respuesta, pero sirve para controlar el AFD al final.</p>
+
+  <span class="paso">Paso 2 &mdash; AFN-ε con Thompson</span>
+  <p>Se arma de adentro hacia afuera, en el orden en que se evalúa la ER:</p>
+  <ol>
+    <li><code>a</code> y <code>b</code>: un autómata de dos estados cada uno.</li>
+    <li><code>a|b</code>: un estado inicial nuevo con ε a cada uno y un final nuevo al que llegan los dos con ε.</li>
+    <li><code>(a|b)*</code>: dos estados más; ε para entrar, ε para salir, ε de vuelta (repetir) y ε para saltearlo (cero veces).</li>
+    <li><code>(a|b)*b</code>: concatenación; el final de <code>(a|b)*</code> pasa a ser el inicial de <code>b</code> (es el mismo estado, el 7).</li>
+  </ol>
+  <div class="pd-grafico af" data-g="u3-e1-thompson">
+    <svg viewBox="-61 -119 572 231" width="572" height="231" role="img" aria-label="AFN-ε de Thompson para (a|b)*b">
+      <path class="arco" d="M179.0,-36.0 L221.0,-36.0"/>
+      <path class="punta" d="M221.0,-36.0 L212.0,-31.5 L212.0,-40.5 Z"/>
+      <text class="rot" x="200.0" y="-46.0" text-anchor="middle" dominant-baseline="central">a</text>
+      <path class="arco" d="M179.0,36.0 L221.0,36.0"/>
+      <path class="punta" d="M221.0,36.0 L212.0,40.5 L212.0,31.5 Z"/>
+      <text class="rot" x="200.0" y="26.0" text-anchor="middle" dominant-baseline="central">b</text>
+      <path class="arco" d="M97.3,-7.8 L142.7,-28.2"/>
+      <path class="punta" d="M142.7,-28.2 L136.3,-20.4 L132.6,-28.6 Z"/>
+      <text class="rot" x="115.3" y="-28.5" text-anchor="middle" dominant-baseline="central">ε</text>
+      <path class="arco" d="M97.3,7.8 L142.7,28.2"/>
+      <path class="punta" d="M142.7,28.2 L132.6,28.6 L136.3,20.4 Z"/>
+      <text class="rot" x="124.7" y="7.5" text-anchor="middle" dominant-baseline="central">ε</text>
+      <path class="arco" d="M257.3,-28.2 L302.7,-7.8"/>
+      <path class="punta" d="M302.7,-7.8 L292.6,-7.4 L296.3,-15.6 Z"/>
+      <text class="rot" x="284.7" y="-28.5" text-anchor="middle" dominant-baseline="central">ε</text>
+      <path class="arco" d="M257.3,28.2 L302.7,7.8"/>
+      <path class="punta" d="M302.7,7.8 L296.3,15.6 L292.6,7.4 Z"/>
+      <text class="rot" x="275.3" y="7.5" text-anchor="middle" dominant-baseline="central">ε</text>
+      <path class="arco" d="M19.0,0.0 L61.0,0.0"/>
+      <path class="punta" d="M61.0,0.0 L52.0,4.5 L52.0,-4.5 Z"/>
+      <text class="rot" x="40.0" y="-10.0" text-anchor="middle" dominant-baseline="central">ε</text>
+      <path class="arco" d="M339.0,0.0 L381.0,0.0"/>
+      <path class="punta" d="M381.0,0.0 L372.0,4.5 L372.0,-4.5 Z"/>
+      <text class="rot" x="360.0" y="-10.0" text-anchor="middle" dominant-baseline="central">ε</text>
+      <path class="arco" d="M308.6,-15.2 Q200.0,-160.0 91.4,-15.2"/>
+      <path class="punta" d="M91.4,-15.2 L93.2,-25.1 L100.4,-19.7 Z"/>
+      <text class="rot" x="200.0" y="-97.6" text-anchor="middle" dominant-baseline="central">ε</text>
+      <path class="arco" d="M15.1,11.5 Q200.0,152.0 384.9,11.5"/>
+      <path class="punta" d="M384.9,11.5 L380.4,20.5 L375.0,13.4 Z"/>
+      <text class="rot" x="200.0" y="91.7" text-anchor="middle" dominant-baseline="central">ε</text>
+      <path class="arco" d="M419.0,0.0 L461.0,0.0"/>
+      <path class="punta" d="M461.0,0.0 L452.0,4.5 L452.0,-4.5 Z"/>
+      <text class="rot" x="440.0" y="-10.0" text-anchor="middle" dominant-baseline="central">b</text>
+      <path class="arco" d="M-49.0,0.0 L-19.0,0.0"/>
+      <path class="punta" d="M-19.0,0.0 L-28.0,4.5 L-28.0,-4.5 Z"/>
+      <g class="estado">
+        <circle class="borde" cx="160.0" cy="-36.0" r="19"/>
+        <text class="nom" x="160.0" y="-36.0" text-anchor="middle" dominant-baseline="central">2</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="240.0" cy="-36.0" r="19"/>
+        <text class="nom" x="240.0" y="-36.0" text-anchor="middle" dominant-baseline="central">4</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="160.0" cy="36.0" r="19"/>
+        <text class="nom" x="160.0" y="36.0" text-anchor="middle" dominant-baseline="central">3</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="240.0" cy="36.0" r="19"/>
+        <text class="nom" x="240.0" y="36.0" text-anchor="middle" dominant-baseline="central">5</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="80.0" cy="0.0" r="19"/>
+        <text class="nom" x="80.0" y="0.0" text-anchor="middle" dominant-baseline="central">1</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="320.0" cy="0.0" r="19"/>
+        <text class="nom" x="320.0" y="0.0" text-anchor="middle" dominant-baseline="central">6</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="0.0" cy="0.0" r="19"/>
+        <text class="nom" x="0.0" y="0.0" text-anchor="middle" dominant-baseline="central">0</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="400.0" cy="0.0" r="19"/>
+        <text class="nom" x="400.0" y="0.0" text-anchor="middle" dominant-baseline="central">7</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="480.0" cy="0.0" r="19"/>
+        <circle class="borde" cx="480.0" cy="0.0" r="15"/>
+        <text class="nom" x="480.0" y="0.0" text-anchor="middle" dominant-baseline="central">8</text>
+      </g>
+    </svg>
+  </div>
+
+  <span class="paso">Paso 3 &mdash; Subconjuntos (AFN-ε &rarr; AFD)</span>
+  <p>
+    <strong>Estado inicial:</strong> <code>A = ε-clausura({0})</code>. Desde el 0, solo con ε, se
+    llega al 1 y al 7; desde el 1, al 2 y al 3. Entonces <code>A = {0, 1, 2, 3, 7}</code>.
+  </p>
+  <p>
+    <strong>Cómo sale cada casilla</strong>, con <code>A</code> y la <code>b</code>:
+  </p>
+  <ul>
+    <li><code>mueve(A, b)</code>: desde los estados de A, ¿cuáles tienen una flecha <code>b</code>? El 3 (va al 5) y el 7 (va al 8). Resultado: <code>{5, 8}</code>.</li>
+    <li><code>ε-clausura({5, 8})</code>: desde el 5 y el 8, todo lo que se alcanza solo con ε. 5 &rarr; 6 &rarr; 1 y 7; 1 &rarr; 2 y 3. Del 8 no sale nada. Resultado: <code>{1, 2, 3, 5, 6, 7, 8}</code>, que es nuevo: se llama <code>C</code>.</li>
+  </ul>
+  <p>Se repite para cada estado nuevo y cada símbolo, hasta que no aparezcan estados nuevos:</p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Estado del AFD</th><th>Estados de Thompson</th><th>mueve(T, a)</th><th>ε-clausura: con a va a</th><th>mueve(T, b)</th><th>ε-clausura: con b va a</th></tr>
+      <tr><td class="lbl">A</td><td>{0, 1, 2, 3, 7}</td><td>{4}</td><td>{1, 2, 3, 4, 6, 7} = <strong>B</strong></td><td>{5, 8}</td><td>{1, 2, 3, 5, 6, 7, 8} = <strong>C</strong></td></tr>
+      <tr><td class="lbl">B</td><td>{1, 2, 3, 4, 6, 7}</td><td>{4}</td><td>{1, 2, 3, 4, 6, 7} = <strong>B</strong></td><td>{5, 8}</td><td>{1, 2, 3, 5, 6, 7, 8} = <strong>C</strong></td></tr>
+      <tr><td class="lbl">C (final)</td><td>{1, 2, 3, 5, 6, 7, 8}</td><td>{4}</td><td>{1, 2, 3, 4, 6, 7} = <strong>B</strong></td><td>{5, 8}</td><td>{1, 2, 3, 5, 6, 7, 8} = <strong>C</strong></td></tr>
+    </table>
+  </div>
+  <p>
+    <strong>Finales del AFD:</strong> los que contienen el final de Thompson (el 8). Solo
+    <code>C</code>.
+  </p>
+
+  <span class="paso">Paso 4 &mdash; El AFD</span>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th>&delta;</th><th>a</th><th>b</th></tr>
+      <tr><td class="lbl">&rarr; A</td><td>B</td><td>C</td></tr>
+      <tr><td class="lbl">B</td><td>B</td><td>C</td></tr>
+      <tr><td class="lbl">C *</td><td>B</td><td>C</td></tr>
+    </table>
+  </div>
+  <div class="pd-grafico af" data-g="u3-e1-afd">
+    <svg viewBox="-61 -52 284 264" width="284" height="264" role="img" aria-label="Diagrama de un autómata finito">
+      <path class="arco" d="M16.8,71.2 L135.2,8.8"/>
+      <path class="punta" d="M135.2,8.8 L129.3,17.0 L125.1,9.1 Z"/>
+      <text class="rot" x="70.5" y="29.6" text-anchor="middle" dominant-baseline="central">a</text>
+      <path class="arco" d="M16.8,88.8 L135.2,151.2"/>
+      <path class="punta" d="M135.2,151.2 L125.1,150.9 L129.3,143.0 Z"/>
+      <text class="rot" x="81.5" y="109.6" text-anchor="middle" dominant-baseline="central">b</text>
+      <path class="arco" d="M168.8,-8.9 C203.2,-40.0 203.2,40.0 168.8,8.9"/>
+      <path class="punta" d="M168.8,8.9 L178.5,11.6 L172.4,18.3 Z"/>
+      <text class="rot" x="206.8" y="0.0" text-anchor="middle" dominant-baseline="central">a</text>
+      <path class="arco" d="M159.8,17.3 Q188.0,80.0 159.8,142.7"/>
+      <path class="punta" d="M159.8,142.7 L159.4,132.6 L167.6,136.3 Z"/>
+      <text class="rot" x="187.7" y="80.0" text-anchor="middle" dominant-baseline="central">b</text>
+      <path class="arco" d="M144.2,142.7 Q116.0,80.0 144.2,17.3"/>
+      <path class="punta" d="M144.2,17.3 L144.6,27.4 L136.4,23.7 Z"/>
+      <text class="rot" x="116.3" y="80.0" text-anchor="middle" dominant-baseline="central">a</text>
+      <path class="arco" d="M168.8,151.1 C203.2,120.0 203.2,200.0 168.8,168.9"/>
+      <path class="punta" d="M168.8,168.9 L178.5,171.6 L172.4,178.3 Z"/>
+      <text class="rot" x="206.8" y="160.0" text-anchor="middle" dominant-baseline="central">b</text>
+      <path class="arco" d="M-49.0,80.0 L-19.0,80.0"/>
+      <path class="punta" d="M-19.0,80.0 L-28.0,84.5 L-28.0,75.5 Z"/>
+      <g class="estado">
+        <circle class="borde" cx="0.0" cy="80.0" r="19"/>
+        <text class="nom" x="0.0" y="80.0" text-anchor="middle" dominant-baseline="central">A</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="152.0" cy="0.0" r="19"/>
+        <text class="nom" x="152.0" y="0.0" text-anchor="middle" dominant-baseline="central">B</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="152.0" cy="160.0" r="19"/>
+        <circle class="borde" cx="152.0" cy="160.0" r="15"/>
+        <text class="nom" x="152.0" y="160.0" text-anchor="middle" dominant-baseline="central">C</text>
+      </g>
+    </svg>
+  </div>
+
+  <span class="paso">Paso 5 &mdash; Minimización</span>
+  <ul>
+    <li><strong>P1</strong> = {C} &nbsp; {A, B} (finales y no finales).</li>
+    <li>
+      Grupo {A, B}: con <code>a</code>, A va a B y B va a B (los dos al grupo {A, B}); con
+      <code>b</code>, los dos van a C (grupo {C}). <strong>Se comportan igual: no se separan.</strong>
+    </li>
+    <li><strong>P2</strong> = P1: no cambia, se termina.</li>
+  </ul>
+  <p>A y B se juntan en un solo estado (lo llamamos A).</p>
+
+  <span class="paso">Paso 6 &mdash; AFD mínimo</span>
+  <div class="pd-grafico af" data-g="u3-e1-min">
+    <svg viewBox="-61 -77 273 130" width="273" height="130" role="img" aria-label="Diagrama de un autómata finito">
+      <path class="arco" d="M-8.9,-16.8 C-40.0,-51.2 40.0,-51.2 8.9,-16.8"/>
+      <path class="punta" d="M8.9,-16.8 L11.6,-26.5 L18.3,-20.4 Z"/>
+      <text class="rot" x="0.0" y="-56.0" text-anchor="middle" dominant-baseline="central">a</text>
+      <path class="arco" d="M17.3,-7.8 Q80.0,-36.0 142.7,-7.8"/>
+      <path class="punta" d="M142.7,-7.8 L132.6,-7.4 L136.3,-15.6 Z"/>
+      <text class="rot" x="80.0" y="-31.9" text-anchor="middle" dominant-baseline="central">b</text>
+      <path class="arco" d="M142.7,7.8 Q80.0,36.0 17.3,7.8"/>
+      <path class="punta" d="M17.3,7.8 L27.4,7.4 L23.7,15.6 Z"/>
+      <text class="rot" x="80.0" y="31.9" text-anchor="middle" dominant-baseline="central">a</text>
+      <path class="arco" d="M151.1,-16.8 C120.0,-51.2 200.0,-51.2 168.9,-16.8"/>
+      <path class="punta" d="M168.9,-16.8 L171.6,-26.5 L178.3,-20.4 Z"/>
+      <text class="rot" x="160.0" y="-56.0" text-anchor="middle" dominant-baseline="central">b</text>
+      <path class="arco" d="M-49.0,0.0 L-19.0,0.0"/>
+      <path class="punta" d="M-19.0,0.0 L-28.0,4.5 L-28.0,-4.5 Z"/>
+      <g class="estado">
+        <circle class="borde" cx="0.0" cy="0.0" r="19"/>
+        <text class="nom" x="0.0" y="0.0" text-anchor="middle" dominant-baseline="central">A</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="160.0" cy="0.0" r="19"/>
+        <circle class="borde" cx="160.0" cy="0.0" r="15"/>
+        <text class="nom" x="160.0" y="0.0" text-anchor="middle" dominant-baseline="central">C</text>
+      </g>
+    </svg>
+  </div>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>
+      AFD mínimo de dos estados: <code>A</code> (inicial, no final) y <code>C</code> (final).
+      Con <code>a</code> los dos van a A; con <code>b</code> los dos van a C.
+    </p>
+  </div>
+
+  <h3>Probamos con cadenas</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Cadena</th><th>Recorrido</th><th>¿La acepta?</th></tr>
+      <tr><td><code>ab</code></td><td>A &rarr;a A &rarr;b C</td><td>Sí: termina en b</td></tr>
+      <tr><td><code>abba</code></td><td>A &rarr;a A &rarr;b C &rarr;b C &rarr;a A</td><td>No: termina en a</td></tr>
+      <tr><td><code>ε</code></td><td>se queda en A</td><td>No: A no es final</td></tr>
+    </table>
+  </div>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Errores y trampas</span>
+    <ul>
+      <li>La ε-clausura <strong>incluye al propio estado</strong>: <code>ε-clausura({5, 8})</code> tiene al 5 y al 8.</li>
+      <li>En <code>mueve</code> no se siguen las ε: solo el paso con el símbolo. Las ε se siguen después, en la clausura.</li>
+      <li>Dos estados del AFD con distintos conjuntos (A y B) pueden ser equivalentes: por eso se minimiza.</li>
+    </ul>
+  </div>
+</div>

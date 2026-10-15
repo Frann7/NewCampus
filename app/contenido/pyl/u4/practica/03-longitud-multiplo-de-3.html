@@ -1,0 +1,99 @@
+<div class="ej" data-examen="variante"
+     data-examen-ref="Parciales 2023-2025 · ej. 3"
+     data-examen-nota="La misma consigna que el ejercicio 3 del parcial (20 puntos).">
+  <span class="tag">Ejercicio 3 &middot; TP I &middot; ej. 26</span>
+  <h2>Longitud múltiplo de 3</h2>
+  <div class="enunciado">
+    <p>Realice un AFD o AFND y una expresión regular para el conjunto de cadenas sobre {x, y} de longitud múltiplo de 3 o de longitud 0.</p>
+  </div>
+
+  <span class="paso">Paso 1 &mdash; Ejemplos que sí y que no</span>
+  <ul>
+    <li>Sí: <code>ε</code>, <code>xyx</code>, <code>yyy</code>, <code>xxyyxy</code> (6).</li>
+    <li>No: <code>x</code>, <code>xy</code>, <code>xyxy</code> (4).</li>
+  </ul>
+  <p>El "o de longitud 0" no agrega nada: 0 = 3 &middot; 0 ya es múltiplo de 3. Sirve para acordarse de aceptar <code>ε</code>.</p>
+
+  <span class="paso">Paso 2 &mdash; Qué tiene que recordar el autómata</span>
+  <p>El resto de dividir por 3 la cantidad de letras leídas: 0, 1 o 2. Tres estados.</p>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th>Estado</th><th>Qué significa</th></tr>
+      <tr><td class="lbl">q0</td><td>Leyó 0, 3, 6... letras (resto 0). Inicial y final.</td></tr>
+      <tr><td class="lbl">q1</td><td>Leyó 1, 4, 7... (resto 1).</td></tr>
+      <tr><td class="lbl">q2</td><td>Leyó 2, 5, 8... (resto 2).</td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Paso 3 &mdash; Transiciones y dibujo</span>
+  <p>Cada letra suma 1 al largo: avanza al siguiente estado de la vuelta, y desde q2 vuelve a q0.</p>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th>&delta;</th><th>x</th><th>y</th></tr>
+      <tr><td class="lbl">&rarr; q0 *</td><td>q1</td><td>q1</td></tr>
+      <tr><td class="lbl">q1</td><td>q2</td><td>q2</td></tr>
+      <tr><td class="lbl">q2</td><td>q0</td><td>q0</td></tr>
+    </table>
+  </div>
+  <p>AFD completo, sin estado muerto.</p>
+  <div class="pd-grafico af" data-g="u4-e3-af">
+    <svg viewBox="-61 -31 268 206" width="268" height="206" role="img" aria-label="Diagrama de un autómata finito">
+      <path class="arco" d="M19.0,0.0 L157.0,0.0"/>
+      <path class="punta" d="M157.0,0.0 L148.0,4.5 L148.0,-4.5 Z"/>
+      <text class="rot" x="88.0" y="-10.0" text-anchor="middle" dominant-baseline="central">x, y</text>
+      <path class="arco" d="M166.1,16.2 L97.9,127.8"/>
+      <path class="punta" d="M97.9,127.8 L98.8,117.8 L106.4,122.5 Z"/>
+      <text class="rot" x="151.6" y="84.0" text-anchor="middle" dominant-baseline="central">x, y</text>
+      <path class="arco" d="M78.1,127.8 L9.9,16.2"/>
+      <path class="punta" d="M9.9,16.2 L18.4,21.5 L10.8,26.2 Z"/>
+      <text class="rot" x="24.4" y="84.0" text-anchor="middle" dominant-baseline="central">x, y</text>
+      <path class="arco" d="M-49.0,0.0 L-19.0,0.0"/>
+      <path class="punta" d="M-19.0,0.0 L-28.0,4.5 L-28.0,-4.5 Z"/>
+      <g class="estado">
+        <circle class="borde" cx="0.0" cy="0.0" r="19"/>
+        <circle class="borde" cx="0.0" cy="0.0" r="15"/>
+        <text class="nom" x="0.0" y="0.0" text-anchor="middle" dominant-baseline="central">q0</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="176.0" cy="0.0" r="19"/>
+        <text class="nom" x="176.0" y="0.0" text-anchor="middle" dominant-baseline="central">q1</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="88.0" cy="144.0" r="19"/>
+        <text class="nom" x="88.0" y="144.0" text-anchor="middle" dominant-baseline="central">q2</text>
+      </g>
+    </svg>
+  </div>
+
+  <span class="paso">Paso 4 &mdash; La ER, por piezas</span>
+  <ul>
+    <li><code>(x|y)</code>: una letra cualquiera.</li>
+    <li><code>(x|y)(x|y)(x|y)</code>: un bloque de tres letras.</li>
+    <li><code>((x|y)(x|y)(x|y))*</code>: cero o más bloques: largo 0, 3, 6...</li>
+  </ul>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p><strong>AFD:</strong> el del dibujo (tres estados en vuelta; q0 inicial y final).</p>
+    <p><strong>ER:</strong> <code>((x|y)(x|y)(x|y))*</code></p>
+  </div>
+
+  <h3>Probamos con cadenas</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Cadena</th><th>Recorrido</th><th>¿La acepta?</th></tr>
+      <tr><td><code>ε</code></td><td>se queda en q0</td><td>Sí: largo 0</td></tr>
+      <tr><td><code>xy</code></td><td>q0 &rarr;x q1 &rarr;y q2</td><td>No: largo 2</td></tr>
+      <tr><td><code>yxyxxy</code></td><td>q0 &rarr;y q1 &rarr;x q2 &rarr;y q0 &rarr;x q1 &rarr;x q2 &rarr;y q0</td><td>Sí: largo 6</td></tr>
+    </table>
+  </div>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Errores y trampas</span>
+    <ul>
+      <li><code>(xxx|yyy)*</code> deja afuera <code>xyx</code>: las tres letras del bloque son cualesquiera.</li>
+      <li>"O de longitud 0" no pide un estado aparte: ya lo cubre q0.</li>
+      <li>La receta sirve para cualquier "largo múltiplo de n": n estados en vuelta y la ER con n veces <code>(x|y)</code> adentro de la estrella.</li>
+    </ul>
+  </div>
+</div>

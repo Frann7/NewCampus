@@ -1,0 +1,134 @@
+<div class="ej" data-examen="variante"
+     data-examen-ref="Parciales 2023-2025 · ej. 3"
+     data-examen-nota="La misma consigna que el ejercicio 3 del parcial (20 puntos).">
+  <span class="tag">Ejercicio 11 &middot; TP I &middot; ej. 28</span>
+  <h2>Impar de 0 y par de 1</h2>
+  <div class="enunciado">
+    <p>Realice un AFD o AFND y una expresión regular para el conjunto de cadenas sobre {0, 1} con un número impar de 0s y un número par de 1s.</p>
+  </div>
+
+  <span class="paso">Paso 1 &mdash; Ejemplos que sí y que no</span>
+  <ul>
+    <li>Sí: <code>0</code>, <code>000</code>, <code>011</code>, <code>101</code>, <code>110</code>, <code>01111</code>.</li>
+    <li>No: <code>ε</code> (cero 0s: par), <code>1</code>, <code>00</code>, <code>01</code>, <code>0110</code>.</li>
+  </ul>
+
+  <span class="paso">Paso 2 &mdash; Qué tiene que recordar el autómata</span>
+  <p>
+    Dos condiciones unidas por "y", cada una con dos posibilidades (par o impar): un estado por
+    cada <strong>combinación</strong>, 2 &times; 2 = 4 estados.
+  </p>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th>Estado</th><th>Qué significa</th></tr>
+      <tr><td class="lbl">q0</td><td>Par de 0, par de 1. Inicial (cero de cada uno).</td></tr>
+      <tr><td class="lbl">q1</td><td>Impar de 0, par de 1 (final).</td></tr>
+      <tr><td class="lbl">q2</td><td>Par de 0, impar de 1.</td></tr>
+      <tr><td class="lbl">q3</td><td>Impar de 0, impar de 1.</td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Paso 3 &mdash; Transiciones y dibujo</span>
+  <p>Un 0 cambia solo la paridad de los 0 (q0 &harr; q1, q2 &harr; q3); un 1, solo la de los 1 (q0 &harr; q2, q1 &harr; q3).</p>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th>&delta;</th><th>0</th><th>1</th></tr>
+      <tr><td class="lbl">&rarr; q0</td><td>q1</td><td>q2</td></tr>
+      <tr><td class="lbl">q1 *</td><td>q0</td><td>q3</td></tr>
+      <tr><td class="lbl">q2</td><td>q3</td><td>q0</td></tr>
+      <tr><td class="lbl">q3</td><td>q2</td><td>q1</td></tr>
+    </table>
+  </div>
+  <p>AFD completo, sin estado muerto.</p>
+  <div class="pd-grafico af" data-g="u4-e11-af">
+    <svg viewBox="-61 -52 320 280" width="320" height="280" role="img" aria-label="Diagrama de un autómata finito">
+      <path class="arco" d="M18.0,-6.2 Q104.0,-36.0 190.0,-6.2"/>
+      <path class="punta" d="M190.0,-6.2 L180.1,-4.9 L183.0,-13.4 Z"/>
+      <text class="rot" x="104.0" y="-31.1" text-anchor="middle" dominant-baseline="central">0</text>
+      <path class="arco" d="M190.0,6.2 Q104.0,36.0 18.0,6.2"/>
+      <path class="punta" d="M18.0,6.2 L27.9,4.9 L25.0,13.4 Z"/>
+      <text class="rot" x="104.0" y="31.1" text-anchor="middle" dominant-baseline="central">0</text>
+      <path class="arco" d="M18.0,169.8 Q104.0,140.0 190.0,169.8"/>
+      <path class="punta" d="M190.0,169.8 L180.1,171.1 L183.0,162.6 Z"/>
+      <text class="rot" x="104.0" y="144.9" text-anchor="middle" dominant-baseline="central">0</text>
+      <path class="arco" d="M190.0,182.2 Q104.0,212.0 18.0,182.2"/>
+      <path class="punta" d="M18.0,182.2 L27.9,180.9 L25.0,189.4 Z"/>
+      <text class="rot" x="104.0" y="207.1" text-anchor="middle" dominant-baseline="central">0</text>
+      <path class="arco" d="M7.2,17.6 Q36.0,88.0 7.2,158.4"/>
+      <path class="punta" d="M7.2,158.4 L6.4,148.4 L14.8,151.8 Z"/>
+      <text class="rot" x="35.4" y="88.0" text-anchor="middle" dominant-baseline="central">1</text>
+      <path class="arco" d="M-7.2,158.4 Q-36.0,88.0 -7.2,17.6"/>
+      <path class="punta" d="M-7.2,17.6 L-6.4,27.6 L-14.8,24.2 Z"/>
+      <text class="rot" x="-35.4" y="88.0" text-anchor="middle" dominant-baseline="central">1</text>
+      <path class="arco" d="M215.2,17.6 Q244.0,88.0 215.2,158.4"/>
+      <path class="punta" d="M215.2,158.4 L214.4,148.4 L222.8,151.8 Z"/>
+      <text class="rot" x="243.4" y="88.0" text-anchor="middle" dominant-baseline="central">1</text>
+      <path class="arco" d="M200.8,158.4 Q172.0,88.0 200.8,17.6"/>
+      <path class="punta" d="M200.8,17.6 L201.6,27.6 L193.2,24.2 Z"/>
+      <text class="rot" x="172.6" y="88.0" text-anchor="middle" dominant-baseline="central">1</text>
+      <path class="arco" d="M-49.0,0.0 L-19.0,0.0"/>
+      <path class="punta" d="M-19.0,0.0 L-28.0,4.5 L-28.0,-4.5 Z"/>
+      <g class="estado">
+        <circle class="borde" cx="0.0" cy="0.0" r="19"/>
+        <text class="nom" x="0.0" y="0.0" text-anchor="middle" dominant-baseline="central">q0</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="208.0" cy="0.0" r="19"/>
+        <circle class="borde" cx="208.0" cy="0.0" r="15"/>
+        <text class="nom" x="208.0" y="0.0" text-anchor="middle" dominant-baseline="central">q1</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="0.0" cy="176.0" r="19"/>
+        <text class="nom" x="0.0" y="176.0" text-anchor="middle" dominant-baseline="central">q2</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="208.0" cy="176.0" r="19"/>
+        <text class="nom" x="208.0" y="176.0" text-anchor="middle" dominant-baseline="central">q3</text>
+      </g>
+    </svg>
+  </div>
+
+  <span class="paso">Paso 4 &mdash; La ER, por piezas</span>
+  <p>Con paridades conviene leer la cadena <strong>de a pares de símbolos</strong>:</p>
+  <ul>
+    <li><code>(00|11)</code>: un par que no cambia ninguna paridad (suma dos 0 o dos 1).</li>
+    <li><code>(01|10)</code>: un par "mezclado", que da vuelta las dos paridades.</li>
+    <li>
+      <code>(00|11|(01|10)(00|11)*(01|10))*</code>: cadenas con par de 0 y par de 1 (de q0 a q0).
+      Pares que no cambian nada, o un mezclado, pares que no cambian y otro mezclado que vuelve
+      a dar vuelta todo. La llamamos <strong>P</strong>.
+    </li>
+    <li>
+      Impar de 0 y par de 1 da largo impar: se separa el <strong>último</strong> símbolo.
+      Si es 0, lo de antes tiene par de 0 y par de 1: <code>P0</code>. Si es 1, lo de antes tiene
+      impar de 0 e impar de 1, o sea una cantidad impar de pares mezclados:
+      <code>(00|11)*(01|10)P1</code>.
+    </li>
+  </ul>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p><strong>AFD:</strong> el del dibujo (q0 inicial, q1 final).</p>
+    <p><strong>ER:</strong> <code>(00|11|(01|10)(00|11)*(01|10))*0|(00|11)*(01|10)(00|11|(01|10)(00|11)*(01|10))*1</code></p>
+  </div>
+
+  <h3>Probamos con cadenas</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Cadena</th><th>Recorrido</th><th>¿La acepta?</th></tr>
+      <tr><td><code>101</code></td><td>q0 &rarr;1 q2 &rarr;0 q3 &rarr;1 q1</td><td>Sí. En la ER: <code>10</code> (mezclado) y el <code>1</code> final</td></tr>
+      <tr><td><code>000</code></td><td>q0 &rarr;0 q1 &rarr;0 q0 &rarr;0 q1</td><td>Sí. En la ER: <code>00</code> y el <code>0</code> final</td></tr>
+      <tr><td><code>0110</code></td><td>q0 &rarr;0 q1 &rarr;1 q3 &rarr;1 q1 &rarr;0 q0</td><td>No: dos 0</td></tr>
+      <tr><td><code>ε</code></td><td>se queda en q0</td><td>No: q0 no es final</td></tr>
+    </table>
+  </div>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Errores y trampas</span>
+    <ul>
+      <li>Armar la ER con estrellas sueltas, como <code>(11)*0(00)*(11)*</code>: deja afuera <code>101</code>, donde los 1 no están juntos.</li>
+      <li>El inicial es "par y par", no es final.</li>
+      <li>La ER también sale eliminando estados (Unidad 2): da otra más larga, igual de válida.</li>
+    </ul>
+  </div>
+</div>

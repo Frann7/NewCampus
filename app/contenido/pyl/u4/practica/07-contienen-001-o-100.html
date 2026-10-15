@@ -1,0 +1,138 @@
+<div class="ej" data-examen="variante"
+     data-examen-ref="Parciales 2023-2025 · ej. 3"
+     data-examen-nota="La misma consigna que el ejercicio 3 del parcial (20 puntos).">
+  <span class="tag">Ejercicio 7 &middot; TP I &middot; ej. 8</span>
+  <h2>Contienen 001 o 100</h2>
+  <div class="enunciado">
+    <p>Realice un AFD o AFND y una expresión regular para el conjunto de cadenas sobre {0, 1} que contengan como subcadenas a 001 o 100.</p>
+  </div>
+
+  <span class="paso">Paso 1 &mdash; Ejemplos que sí y que no</span>
+  <ul>
+    <li>Sí: <code>001</code>, <code>100</code>, <code>1001</code> (tiene las dos), <code>01001</code>.</li>
+    <li>No: <code>ε</code>, <code>0</code>, <code>000</code>, <code>0101</code>, <code>0110</code>.</li>
+  </ul>
+
+  <span class="paso">Paso 2 &mdash; Qué tiene que recordar el autómata</span>
+  <p>
+    Con un "o" entre dos subcadenas, lo más corto es un <strong>AFND</strong>: un camino para cada
+    subcadena, que comparten el comienzo y el final. El autómata "adivina" dónde empieza la subcadena.
+  </p>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th>Estado</th><th>Qué significa</th></tr>
+      <tr><td class="lbl">q0</td><td>Todavía no empezó la subcadena (inicial).</td></tr>
+      <tr><td class="lbl">q1</td><td>Leyó <code>0</code> de 001.</td></tr>
+      <tr><td class="lbl">q2</td><td>Leyó <code>00</code> de 001.</td></tr>
+      <tr><td class="lbl">q3</td><td>Leyó <code>1</code> de 100.</td></tr>
+      <tr><td class="lbl">q4</td><td>Leyó <code>10</code> de 100.</td></tr>
+      <tr><td class="lbl">q5</td><td>Ya apareció una de las dos (final).</td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Paso 3 &mdash; Transiciones y dibujo</span>
+  <p>En un AFND cada casilla es un <strong>conjunto</strong> de estados (∅ si no hay flecha):</p>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th>&delta;</th><th>0</th><th>1</th></tr>
+      <tr><td class="lbl">&rarr; q0</td><td>{q0, q1}</td><td>{q0, q3}</td></tr>
+      <tr><td class="lbl">q1</td><td>{q2}</td><td>∅</td></tr>
+      <tr><td class="lbl">q2</td><td>∅</td><td>{q5}</td></tr>
+      <tr><td class="lbl">q3</td><td>{q4}</td><td>∅</td></tr>
+      <tr><td class="lbl">q4</td><td>{q5}</td><td>∅</td></tr>
+      <tr><td class="lbl">q5 *</td><td>{q5}</td><td>{q5}</td></tr>
+    </table>
+  </div>
+  <p>
+    Es AFND porque q0 tiene dos flechas con el mismo símbolo. Acepta si <strong>algún</strong>
+    camino termina en q5.
+  </p>
+  <div class="pd-grafico af" data-g="u4-e7-af">
+    <svg viewBox="-61 -31 586 222" width="586" height="222" role="img" aria-label="Diagrama de un autómata finito">
+      <path class="arco" d="M8.9,96.8 C40.0,131.2 -40.0,131.2 -8.9,96.8"/>
+      <path class="punta" d="M-8.9,96.8 L-11.6,106.5 L-18.3,100.4 Z"/>
+      <text class="rot" x="0.0" y="136.0" text-anchor="middle" dominant-baseline="central">0, 1</text>
+      <path class="arco" d="M16.6,70.8 L127.4,9.2"/>
+      <path class="punta" d="M127.4,9.2 L121.7,17.5 L117.3,9.7 Z"/>
+      <text class="rot" x="66.2" y="29.6" text-anchor="middle" dominant-baseline="central">0</text>
+      <path class="arco" d="M163.0,0.0 L269.0,0.0"/>
+      <path class="punta" d="M269.0,0.0 L260.0,4.5 L260.0,-4.5 Z"/>
+      <text class="rot" x="216.0" y="-10.0" text-anchor="middle" dominant-baseline="central">0</text>
+      <path class="arco" d="M304.6,9.2 L415.4,70.8"/>
+      <path class="punta" d="M415.4,70.8 L405.3,70.3 L409.7,62.5 Z"/>
+      <text class="rot" x="365.8" y="29.6" text-anchor="middle" dominant-baseline="central">1</text>
+      <path class="arco" d="M16.6,89.2 L127.4,150.8"/>
+      <path class="punta" d="M127.4,150.8 L117.3,150.3 L121.7,142.5 Z"/>
+      <text class="rot" x="77.8" y="109.6" text-anchor="middle" dominant-baseline="central">1</text>
+      <path class="arco" d="M163.0,160.0 L269.0,160.0"/>
+      <path class="punta" d="M269.0,160.0 L260.0,164.5 L260.0,155.5 Z"/>
+      <text class="rot" x="216.0" y="150.0" text-anchor="middle" dominant-baseline="central">0</text>
+      <path class="arco" d="M304.6,150.8 L415.4,89.2"/>
+      <path class="punta" d="M415.4,89.2 L409.7,97.5 L405.3,89.7 Z"/>
+      <text class="rot" x="354.2" y="109.6" text-anchor="middle" dominant-baseline="central">0</text>
+      <path class="arco" d="M448.8,71.1 C483.2,40.0 483.2,120.0 448.8,88.9"/>
+      <path class="punta" d="M448.8,88.9 L458.5,91.6 L452.4,98.3 Z"/>
+      <text class="rot" x="498.2" y="80.0" text-anchor="middle" dominant-baseline="central">0, 1</text>
+      <path class="arco" d="M-49.0,80.0 L-19.0,80.0"/>
+      <path class="punta" d="M-19.0,80.0 L-28.0,84.5 L-28.0,75.5 Z"/>
+      <g class="estado">
+        <circle class="borde" cx="0.0" cy="80.0" r="19"/>
+        <text class="nom" x="0.0" y="80.0" text-anchor="middle" dominant-baseline="central">q0</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="144.0" cy="0.0" r="19"/>
+        <text class="nom" x="144.0" y="0.0" text-anchor="middle" dominant-baseline="central">q1</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="288.0" cy="0.0" r="19"/>
+        <text class="nom" x="288.0" y="0.0" text-anchor="middle" dominant-baseline="central">q2</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="144.0" cy="160.0" r="19"/>
+        <text class="nom" x="144.0" y="160.0" text-anchor="middle" dominant-baseline="central">q3</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="288.0" cy="160.0" r="19"/>
+        <text class="nom" x="288.0" y="160.0" text-anchor="middle" dominant-baseline="central">q4</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="432.0" cy="80.0" r="19"/>
+        <circle class="borde" cx="432.0" cy="80.0" r="15"/>
+        <text class="nom" x="432.0" y="80.0" text-anchor="middle" dominant-baseline="central">q5</text>
+      </g>
+    </svg>
+  </div>
+
+  <span class="paso">Paso 4 &mdash; La ER, por piezas</span>
+  <ul>
+    <li><code>(0|1)*</code>: cualquier cosa antes.</li>
+    <li><code>(001|100)</code>: una de las dos subcadenas. Los paréntesis son obligatorios.</li>
+    <li><code>(0|1)*</code>: cualquier cosa después.</li>
+  </ul>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p><strong>AFND:</strong> el del dibujo (q0 inicial, q5 final).</p>
+    <p><strong>ER:</strong> <code>(0|1)*(001|100)(0|1)*</code></p>
+  </div>
+
+  <h3>Probamos con cadenas</h3>
+  <p>En un AFND se muestra el camino que llega al final (si hay uno).</p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Cadena</th><th>Recorrido</th><th>¿La acepta?</th></tr>
+      <tr><td><code>1001</code></td><td>q0 &rarr;1 q3 &rarr;0 q4 &rarr;0 q5 &rarr;1 q5</td><td>Sí</td></tr>
+      <tr><td><code>01001</code></td><td>q0 &rarr;0 q0 &rarr;1 q0 &rarr;0 q1 &rarr;0 q2 &rarr;1 q5</td><td>Sí</td></tr>
+      <tr><td><code>0101</code></td><td>ningún camino llega a q5: los que salen de q0 se cortan antes (no hay 001 ni 100)</td><td>No</td></tr>
+    </table>
+  </div>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Errores y trampas</span>
+    <ul>
+      <li>Sin el lazo de q0 solo se aceptan cadenas que <strong>empiezan</strong> con 001 o 100.</li>
+      <li><code>(0|1)*001|100(0|1)*</code> sin paréntesis es otra cosa: el <code>|</code> es lo último que se aplica y parte la ER en "termina con 001" o "empieza con 100".</li>
+      <li>Si la consigna pidiera AFD, se pasa este AFND por subconjuntos (como en la Unidad 3).</li>
+    </ul>
+  </div>
+</div>

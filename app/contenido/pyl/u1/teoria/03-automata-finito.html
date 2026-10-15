@@ -1,0 +1,189 @@
+<div class="bloque">
+  <p class="kicker">La máquina</p>
+  <h2>3. Autómata finito</h2>
+
+  <h3>Qué es</h3>
+  <p>
+    Una máquina que lee una cadena de izquierda a derecha, símbolo por símbolo, y al terminar dice
+    <strong>acepta</strong> o <strong>rechaza</strong>. No tiene memoria: lo único que "recuerda" es
+    el <strong>estado</strong> en el que está. Cada autómata define exactamente un lenguaje: el de
+    las cadenas que acepta.
+  </p>
+
+  <h3>La 5-upla (Q, Σ, δ, q0, F)</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Parte</th><th>Qué es</th></tr>
+      <tr><td class="lbl">Q</td><td>El conjunto (finito) de estados</td></tr>
+      <tr><td class="lbl">Σ</td><td>El alfabeto de entrada</td></tr>
+      <tr><td class="lbl">δ</td><td>La función de transición: δ(estado, símbolo) = estado al que pasa</td></tr>
+      <tr><td class="lbl">q0</td><td>El estado inicial (uno solo)</td></tr>
+      <tr><td class="lbl">F</td><td>Los estados finales o de aceptación (pueden ser varios, o ninguno)</td></tr>
+    </table>
+  </div>
+
+  <h3>Cómo se dibuja (diagrama de transiciones)</h3>
+  <ul>
+    <li>Cada estado es un círculo con su nombre.</li>
+    <li>El <strong>inicial</strong> tiene una flecha que no sale de ningún estado.</li>
+    <li>Los <strong>finales</strong> van con <strong>doble círculo</strong>.</li>
+    <li>Cada flecha lleva el símbolo con el que se pasa. Si varios símbolos van al mismo lugar, se escriben juntos: <code>a, b</code>.</li>
+  </ul>
+
+  <h3>Cómo se escribe en tabla (tabla de transiciones)</h3>
+  <p>Una fila por estado, una columna por símbolo; en la casilla, a dónde va. El inicial se marca con &rarr; y los finales con *.</p>
+
+  <h3>Cómo reconoce una cadena</h3>
+  <ol>
+    <li>Arranca en el estado inicial, mirando el primer símbolo.</li>
+    <li>Con δ(estado actual, símbolo) pasa al estado siguiente y avanza un símbolo.</li>
+    <li>Repite hasta que se termina la cadena.</li>
+    <li>Si el estado donde quedó es final, <strong>acepta</strong>; si no, <strong>rechaza</strong>.</li>
+  </ol>
+
+  <h3>Ejemplo 1: cantidad par de a</h3>
+  <div class="caja caja-ejemplo">
+    <p>Cadenas sobre {a, b} con una cantidad par de a (0, 2, 4...).</p>
+  </div>
+  <div class="pd-grafico af" data-g="u1-par-a">
+    <svg viewBox="-61 -77 273 130" width="273" height="130" role="img" aria-label="AFD de las cadenas con cantidad par de a">
+      <path class="arco" d="M17.3,-7.8 Q80.0,-36.0 142.7,-7.8"/>
+      <path class="punta" d="M142.7,-7.8 L132.6,-7.4 L136.3,-15.6 Z"/>
+      <text class="rot" x="80.0" y="-31.9" text-anchor="middle" dominant-baseline="central">a</text>
+      <path class="arco" d="M142.7,7.8 Q80.0,36.0 17.3,7.8"/>
+      <path class="punta" d="M17.3,7.8 L27.4,7.4 L23.7,15.6 Z"/>
+      <text class="rot" x="80.0" y="31.9" text-anchor="middle" dominant-baseline="central">a</text>
+      <path class="arco" d="M-8.9,-16.8 C-40.0,-51.2 40.0,-51.2 8.9,-16.8"/>
+      <path class="punta" d="M8.9,-16.8 L11.6,-26.5 L18.3,-20.4 Z"/>
+      <text class="rot" x="0.0" y="-56.0" text-anchor="middle" dominant-baseline="central">b</text>
+      <path class="arco" d="M151.1,-16.8 C120.0,-51.2 200.0,-51.2 168.9,-16.8"/>
+      <path class="punta" d="M168.9,-16.8 L171.6,-26.5 L178.3,-20.4 Z"/>
+      <text class="rot" x="160.0" y="-56.0" text-anchor="middle" dominant-baseline="central">b</text>
+      <path class="arco" d="M-49.0,0.0 L-19.0,0.0"/>
+      <path class="punta" d="M-19.0,0.0 L-28.0,4.5 L-28.0,-4.5 Z"/>
+      <g class="estado">
+        <circle class="borde" cx="0.0" cy="0.0" r="19"/>
+        <circle class="borde" cx="0.0" cy="0.0" r="15"/>
+        <text class="nom" x="0.0" y="0.0" text-anchor="middle" dominant-baseline="central">q0</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="160.0" cy="0.0" r="19"/>
+        <text class="nom" x="160.0" y="0.0" text-anchor="middle" dominant-baseline="central">q1</text>
+      </g>
+    </svg>
+  </div>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th>&delta;</th><th>a</th><th>b</th></tr>
+      <tr><td class="lbl">&rarr; q0 *</td><td>q1</td><td>q0</td></tr>
+      <tr><td class="lbl">q1</td><td>q0</td><td>q1</td></tr>
+    </table>
+  </div>
+  <p>q0 significa "hasta acá vi una cantidad par de a"; q1, "impar". La b no cambia nada (lazo).</p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Cadena</th><th>Recorrido</th><th>Termina en</th><th>Resultado</th></tr>
+      <tr><td><code>abab</code></td><td>q0 &rarr;a q1 &rarr;b q1 &rarr;a q0 &rarr;b q0</td><td>q0 (final)</td><td>Acepta</td></tr>
+      <tr><td><code>baaa</code></td><td>q0 &rarr;b q0 &rarr;a q1 &rarr;a q0 &rarr;a q1</td><td>q1</td><td>Rechaza</td></tr>
+      <tr><td><code>ε</code></td><td>no se mueve</td><td>q0 (final)</td><td>Acepta: cero a es par</td></tr>
+    </table>
+  </div>
+
+  <h3>Ejemplo 2: terminan en ab</h3>
+  <div class="pd-grafico af" data-g="u1-termina-ab">
+    <svg viewBox="-61 -78 396 169" width="396" height="169" role="img" aria-label="AFD de las cadenas que terminan en ab">
+      <path class="arco" d="M-8.9,-16.8 C-40.0,-51.2 40.0,-51.2 8.9,-16.8"/>
+      <path class="punta" d="M8.9,-16.8 L11.6,-26.5 L18.3,-20.4 Z"/>
+      <text class="rot" x="0.0" y="-56.0" text-anchor="middle" dominant-baseline="central">b</text>
+      <path class="arco" d="M19.0,0.0 L133.0,0.0"/>
+      <path class="punta" d="M133.0,0.0 L124.0,4.5 L124.0,-4.5 Z"/>
+      <text class="rot" x="76.0" y="-10.0" text-anchor="middle" dominant-baseline="central">a</text>
+      <path class="arco" d="M143.1,-16.8 C112.0,-51.2 192.0,-51.2 160.9,-16.8"/>
+      <path class="punta" d="M160.9,-16.8 L163.6,-26.5 L170.3,-20.4 Z"/>
+      <text class="rot" x="152.0" y="-56.0" text-anchor="middle" dominant-baseline="central">a</text>
+      <path class="arco" d="M171.0,0.0 L285.0,0.0"/>
+      <path class="punta" d="M285.0,0.0 L276.0,4.5 L276.0,-4.5 Z"/>
+      <text class="rot" x="228.0" y="-10.0" text-anchor="middle" dominant-baseline="central">b</text>
+      <path class="arco" d="M290.9,-13.8 Q228.0,-80.0 165.1,-13.8"/>
+      <path class="punta" d="M165.1,-13.8 L168.0,-23.4 L174.5,-17.2 Z"/>
+      <text class="rot" x="228.0" y="-56.9" text-anchor="middle" dominant-baseline="central">a</text>
+      <path class="arco" d="M288.6,11.1 Q152.0,110.0 15.4,11.1"/>
+      <path class="punta" d="M15.4,11.1 L25.3,12.8 L20.0,20.1 Z"/>
+      <text class="rot" x="152.0" y="70.6" text-anchor="middle" dominant-baseline="central">b</text>
+      <path class="arco" d="M-49.0,0.0 L-19.0,0.0"/>
+      <path class="punta" d="M-19.0,0.0 L-28.0,4.5 L-28.0,-4.5 Z"/>
+      <g class="estado">
+        <circle class="borde" cx="0.0" cy="0.0" r="19"/>
+        <text class="nom" x="0.0" y="0.0" text-anchor="middle" dominant-baseline="central">q0</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="152.0" cy="0.0" r="19"/>
+        <text class="nom" x="152.0" y="0.0" text-anchor="middle" dominant-baseline="central">q1</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="304.0" cy="0.0" r="19"/>
+        <circle class="borde" cx="304.0" cy="0.0" r="15"/>
+        <text class="nom" x="304.0" y="0.0" text-anchor="middle" dominant-baseline="central">q2</text>
+      </g>
+    </svg>
+  </div>
+  <ul>
+    <li>q0: "no vengo de nada útil"; q1: "lo último fue a"; q2: "lo último fue ab" (final).</li>
+    <li>Desde q2, una a deja "lo último fue a" (vuelve a q1); una b rompe todo (vuelve a q0).</li>
+    <li><code>aab</code>: q0 &rarr;a q1 &rarr;a q1 &rarr;b q2. Acepta.</li>
+    <li><code>abb</code>: q0 &rarr;a q1 &rarr;b q2 &rarr;b q0. Rechaza.</li>
+  </ul>
+
+  <h3>Estado muerto</h3>
+  <p>
+    Un estado <strong>no final</strong> del que no se sale nunca (todas sus flechas son lazos a él
+    mismo). Si la cadena cae ahí, ya está rechazada, venga lo que venga.
+  </p>
+  <div class="caja caja-ejemplo">
+    <p>Cadenas sobre {a, b} que empiezan con a. Si la primera es b, no hay arreglo: qm es el estado muerto.</p>
+  </div>
+  <div class="pd-grafico af" data-g="u1-empieza-a">
+    <svg viewBox="-61 -77 273 265" width="273" height="265" role="img" aria-label="AFD de las cadenas que empiezan con a, con su estado muerto">
+      <path class="arco" d="M19.0,0.0 L141.0,0.0"/>
+      <path class="punta" d="M141.0,0.0 L132.0,4.5 L132.0,-4.5 Z"/>
+      <text class="rot" x="80.0" y="-10.0" text-anchor="middle" dominant-baseline="central">a</text>
+      <path class="arco" d="M151.1,-16.8 C120.0,-51.2 200.0,-51.2 168.9,-16.8"/>
+      <path class="punta" d="M168.9,-16.8 L171.6,-26.5 L178.3,-20.4 Z"/>
+      <text class="rot" x="160.0" y="-56.0" text-anchor="middle" dominant-baseline="central">a, b</text>
+      <path class="arco" d="M0.0,19.0 L0.0,117.0"/>
+      <path class="punta" d="M0.0,117.0 L-4.5,108.0 L4.5,108.0 Z"/>
+      <text class="rot" x="-13.8" y="68.0" text-anchor="middle" dominant-baseline="central">b</text>
+      <path class="arco" d="M16.8,127.1 C51.2,96.0 51.2,176.0 16.8,144.9"/>
+      <path class="punta" d="M16.8,144.9 L26.5,147.6 L20.4,154.3 Z"/>
+      <text class="rot" x="66.2" y="136.0" text-anchor="middle" dominant-baseline="central">a, b</text>
+      <path class="arco" d="M-49.0,0.0 L-19.0,0.0"/>
+      <path class="punta" d="M-19.0,0.0 L-28.0,4.5 L-28.0,-4.5 Z"/>
+      <g class="estado">
+        <circle class="borde" cx="0.0" cy="0.0" r="19"/>
+        <text class="nom" x="0.0" y="0.0" text-anchor="middle" dominant-baseline="central">q0</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="160.0" cy="0.0" r="19"/>
+        <circle class="borde" cx="160.0" cy="0.0" r="15"/>
+        <text class="nom" x="160.0" y="0.0" text-anchor="middle" dominant-baseline="central">q1</text>
+      </g>
+      <g class="estado muerto">
+        <circle class="borde" cx="0.0" cy="136.0" r="19"/>
+        <text class="nom" x="0.0" y="136.0" text-anchor="middle" dominant-baseline="central">qm</text>
+      </g>
+    </svg>
+  </div>
+  <p>
+    En los dibujos del campus el estado muerto va <strong>punteado</strong>. Muchas veces no se
+    dibuja: se entiende que toda flecha que falta va a un estado muerto.
+  </p>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Errores y trampas</span>
+    <ul>
+      <li>Aceptar depende de <strong>dónde termina</strong>, no de si "pasó" por un final en el medio.</li>
+      <li>Si el inicial es también final, el autómata acepta ε.</li>
+      <li>Al leer un dibujo del parcial (hecho con JFLAP), mirá bien <strong>hacia dónde apunta</strong> cada flecha: entre dos estados suele haber una de ida y otra de vuelta, con letras distintas.</li>
+    </ul>
+  </div>
+</div>

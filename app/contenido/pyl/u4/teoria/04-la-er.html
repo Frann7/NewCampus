@@ -1,0 +1,56 @@
+<div class="bloque">
+  <p class="kicker">La segunda mitad</p>
+  <h2>4. La ER</h2>
+
+  <p>Cuando la consigna pide también la ER, hay dos caminos:</p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Camino</th><th>Cuándo conviene</th></tr>
+      <tr><td class="lbl">Por piezas</td><td>Cuando el lenguaje se describe como "una cosa, después otra": empieza con, termina con, contiene, bloques</td></tr>
+      <tr><td class="lbl">Desde el autómata</td><td>Cuando hay paridades, "no contiene" o condiciones combinadas: se pasa el AF a ER con la Unidad 2</td></tr>
+    </table>
+  </div>
+
+  <h3>Por piezas</h3>
+  <ol>
+    <li>Partí la cadena en pedazos que se lean en orden: principio, medio, final.</li>
+    <li>Escribí cada pedazo: lo fijo como está, lo que se repite con <code>*</code>, las opciones con <code>|</code>.</li>
+    <li>Concatená los pedazos.</li>
+  </ol>
+
+  <h3>Ejemplo 1: identificadores</h3>
+  <div class="caja caja-ejemplo">
+    <p>Identificadores que empiezan con una letra y siguen con letras o dígitos, sobre {L, D} (L = letra, D = dígito).</p>
+  </div>
+  <ul>
+    <li>Principio: una letra, <code>L</code>.</li>
+    <li>Resto: letras o dígitos, cualquier cantidad: <code>(L|D)*</code>.</li>
+    <li>ER: <code>L(L|D)*</code>.</li>
+  </ul>
+  <p>Las consignas con alfabeto "simbólico" (L, D, M, N, o...) son así: cada letra representa una clase de caracteres y se usa como un símbolo más.</p>
+
+  <h3>Ejemplo 2: exactamente dos a</h3>
+  <div class="caja caja-ejemplo">
+    <p>Cadenas sobre {a, b} con exactamente dos a.</p>
+  </div>
+  <ul>
+    <li>Las a son fijas; entre ellas, antes y después, solo b: <code>b*ab*ab*</code>.</li>
+    <li>Prueba: <code>aa</code> (todas las <code>b*</code> en cero) sí; <code>baba</code> sí; <code>abaa</code> no (tiene tres a).</li>
+  </ul>
+
+  <h3>Ejemplo 3: desde el autómata</h3>
+  <p>
+    Para "empiezan con a y tienen cantidad par de b" (sección 3), se toma el AFD y se eliminan
+    estados: queda <code>a(a|ba*b)*</code>. Es el mismo procedimiento de la Unidad 2, y sirve de
+    control: si la ER por piezas y la del autómata no generan lo mismo, alguna está mal.
+  </p>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Errores y trampas</span>
+    <ul>
+      <li>La ER y el autómata tienen que describir <strong>el mismo</strong> lenguaje: probá las mismas cadenas en los dos.</li>
+      <li>"Longitud mínima 2", "al menos uno": no te olvides de forzarlo en la ER (un símbolo fijo antes del <code>*</code>).</li>
+      <li>Si una ER por piezas se complica mucho, pasá al camino del autómata: siempre funciona.</li>
+    </ul>
+  </div>
+</div>

@@ -1,0 +1,220 @@
+<!-- ==================== EJERCICIO 3 ==================== -->
+<section class="parcial-ej">
+  <div class="parcial-ej-cab">
+    <h2>Ejercicio 3 (20)</h2>
+    <span class="parcial-tema">Unidad 4 &middot; Diseñar AF y ER</span>
+  </div>
+
+  <p>
+    <strong>3.</strong> (20) Realice un AFD o AFND y una Expresión Regular para identificadores
+    sobre {M, N, D, o} que comienzan con mayúscula y puedan contener dígitos o letras mayúsculas o
+    minúsculas y finalicen con mayúscula. Como mínimo tienen que tener longitud 2.
+  </p>
+  <p>Ejemplos: AA, A5A, HolaS, WoOUuW</p>
+  <p>Los elementos del alfabeto representan lo siguiente: M = mayúscula, N = minúscula, D = dígito, o = otro</p>
+
+  <div class="parcial-extras">
+    <details class="parcial-desp pd-resultados">
+      <summary>
+        <span class="pd-icono">&#10003;</span>
+        <span class="pd-txt"><b>Resultados</b><small>Solo la respuesta</small></span>
+      </summary>
+      <div class="pd-cuerpo">
+        <div class="pd-grafico af" data-g="p23-ident">
+          <svg viewBox="-61 -77 417 130" width="417" height="130" role="img" aria-label="Diagrama de un autómata finito">
+            <path class="arco" d="M19.0,0.0 L133.0,0.0"/>
+            <path class="punta" d="M133.0,0.0 L124.0,4.5 L124.0,-4.5 Z"/>
+            <text class="rot" x="76.0" y="-10.0" text-anchor="middle" dominant-baseline="central">M</text>
+            <path class="arco" d="M143.1,-16.8 C112.0,-51.2 192.0,-51.2 160.9,-16.8"/>
+            <path class="punta" d="M160.9,-16.8 L163.6,-26.5 L170.3,-20.4 Z"/>
+            <text class="rot" x="152.0" y="-56.0" text-anchor="middle" dominant-baseline="central">N, D</text>
+            <path class="arco" d="M169.2,-8.1 Q228.0,-36.0 286.8,-8.1"/>
+            <path class="punta" d="M286.8,-8.1 L276.8,-7.9 L280.6,-16.1 Z"/>
+            <text class="rot" x="228.0" y="-32.1" text-anchor="middle" dominant-baseline="central">M</text>
+            <path class="arco" d="M295.1,-16.8 C264.0,-51.2 344.0,-51.2 312.9,-16.8"/>
+            <path class="punta" d="M312.9,-16.8 L315.6,-26.5 L322.3,-20.4 Z"/>
+            <text class="rot" x="304.0" y="-56.0" text-anchor="middle" dominant-baseline="central">M</text>
+            <path class="arco" d="M286.8,8.1 Q228.0,36.0 169.2,8.1"/>
+            <path class="punta" d="M169.2,8.1 L179.2,7.9 L175.4,16.1 Z"/>
+            <text class="rot" x="228.0" y="32.1" text-anchor="middle" dominant-baseline="central">N, D</text>
+            <path class="arco" d="M-49.0,0.0 L-19.0,0.0"/>
+            <path class="punta" d="M-19.0,0.0 L-28.0,4.5 L-28.0,-4.5 Z"/>
+            <g class="estado">
+              <circle class="borde" cx="0.0" cy="0.0" r="19"/>
+              <text class="nom" x="0.0" y="0.0" text-anchor="middle" dominant-baseline="central">q0</text>
+            </g>
+            <g class="estado">
+              <circle class="borde" cx="152.0" cy="0.0" r="19"/>
+              <text class="nom" x="152.0" y="0.0" text-anchor="middle" dominant-baseline="central">q1</text>
+            </g>
+            <g class="estado">
+              <circle class="borde" cx="304.0" cy="0.0" r="19"/>
+              <circle class="borde" cx="304.0" cy="0.0" r="15"/>
+              <text class="nom" x="304.0" y="0.0" text-anchor="middle" dominant-baseline="central">q2</text>
+            </g>
+          </svg>
+        </div>
+        <p>(Las flechas que faltan, entre ellas todas las de <code>o</code>, van a un estado muerto.)</p>
+        <p>ER = <code>M(M|N|D)*M</code></p>
+      </div>
+    </details>
+
+    <details class="parcial-desp pd-explicacion">
+      <summary>
+        <span class="pd-icono">&#9998;</span>
+        <span class="pd-txt"><b>Explicación detallada</b><small>Qué recordar, los estados, la ER y el estado muerto</small></span>
+      </summary>
+      <div class="pd-cuerpo">
+        <h4>Qué evalúa</h4>
+        <p>Diseñar un autómata y una ER a partir de una descripción en palabras (Unidad 4). El alfabeto es "simbólico": cada letra representa una clase de caracteres.</p>
+
+        <h4>Desarme de la consigna</h4>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Frase</th><th>Qué significa</th><th>En la ER</th></tr>
+            <tr><td>"comienzan con mayúscula"</td><td>el primer símbolo es M</td><td><code>M</code> al principio</td></tr>
+            <tr><td>"puedan contener dígitos o letras mayúsculas o minúsculas"</td><td>en el medio, cualquier cantidad de M, N o D (o no tenga nada)</td><td><code>(M|N|D)*</code></td></tr>
+            <tr><td>"finalicen con mayúscula"</td><td>el último símbolo es M</td><td><code>M</code> al final</td></tr>
+            <tr><td>"como mínimo longitud 2"</td><td>la M del principio y la del final son distintas</td><td>dos M fijas: ya lo cumple</td></tr>
+            <tr><td>o = otro</td><td>nunca puede aparecer</td><td>no se usa</td></tr>
+          </table>
+        </div>
+        <p>Ejemplos traducidos: AA = <code>MM</code>, A5A = <code>MDM</code>, HolaS = <code>MNNNM</code>. No entran: <code>M</code> (largo 1), <code>MN</code> (termina en minúscula), <code>NM</code>, <code>MoM</code>.</p>
+
+        <span class="paso">Paso 1 &mdash; Qué tiene que recordar</span>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Estado</th><th>Qué significa</th></tr>
+            <tr><td class="lbl">q0 (inicial)</td><td>No leí nada</td></tr>
+            <tr><td class="lbl">q1</td><td>Empezó bien, pero lo último <strong>no</strong> es una mayúscula que cierre (es la M inicial, o una N o una D)</td></tr>
+            <tr><td class="lbl">q2 (final)</td><td>Empezó bien, tiene largo 2 o más y lo último fue M</td></tr>
+          </table>
+        </div>
+
+        <span class="paso">Paso 2 &mdash; Transiciones</span>
+        <ul>
+          <li>q0 &mdash;M&rarr; q1 (con N, D u o: no tiene arreglo, va al muerto).</li>
+          <li>q1 &mdash;N, D&rarr; q1 (sigue sin cerrar); q1 &mdash;M&rarr; q2 (cierra con mayúscula).</li>
+          <li>q2 &mdash;M&rarr; q2 (otra mayúscula: sigue cerrado); q2 &mdash;N, D&rarr; q1 (se "abre" otra vez).</li>
+        </ul>
+        <div class="pd-grafico af" data-g="p23-ident">
+          <svg viewBox="-61 -77 417 130" width="417" height="130" role="img" aria-label="Diagrama de un autómata finito">
+            <path class="arco" d="M19.0,0.0 L133.0,0.0"/>
+            <path class="punta" d="M133.0,0.0 L124.0,4.5 L124.0,-4.5 Z"/>
+            <text class="rot" x="76.0" y="-10.0" text-anchor="middle" dominant-baseline="central">M</text>
+            <path class="arco" d="M143.1,-16.8 C112.0,-51.2 192.0,-51.2 160.9,-16.8"/>
+            <path class="punta" d="M160.9,-16.8 L163.6,-26.5 L170.3,-20.4 Z"/>
+            <text class="rot" x="152.0" y="-56.0" text-anchor="middle" dominant-baseline="central">N, D</text>
+            <path class="arco" d="M169.2,-8.1 Q228.0,-36.0 286.8,-8.1"/>
+            <path class="punta" d="M286.8,-8.1 L276.8,-7.9 L280.6,-16.1 Z"/>
+            <text class="rot" x="228.0" y="-32.1" text-anchor="middle" dominant-baseline="central">M</text>
+            <path class="arco" d="M295.1,-16.8 C264.0,-51.2 344.0,-51.2 312.9,-16.8"/>
+            <path class="punta" d="M312.9,-16.8 L315.6,-26.5 L322.3,-20.4 Z"/>
+            <text class="rot" x="304.0" y="-56.0" text-anchor="middle" dominant-baseline="central">M</text>
+            <path class="arco" d="M286.8,8.1 Q228.0,36.0 169.2,8.1"/>
+            <path class="punta" d="M169.2,8.1 L179.2,7.9 L175.4,16.1 Z"/>
+            <text class="rot" x="228.0" y="32.1" text-anchor="middle" dominant-baseline="central">N, D</text>
+            <path class="arco" d="M-49.0,0.0 L-19.0,0.0"/>
+            <path class="punta" d="M-19.0,0.0 L-28.0,4.5 L-28.0,-4.5 Z"/>
+            <g class="estado">
+              <circle class="borde" cx="0.0" cy="0.0" r="19"/>
+              <text class="nom" x="0.0" y="0.0" text-anchor="middle" dominant-baseline="central">q0</text>
+            </g>
+            <g class="estado">
+              <circle class="borde" cx="152.0" cy="0.0" r="19"/>
+              <text class="nom" x="152.0" y="0.0" text-anchor="middle" dominant-baseline="central">q1</text>
+            </g>
+            <g class="estado">
+              <circle class="borde" cx="304.0" cy="0.0" r="19"/>
+              <circle class="borde" cx="304.0" cy="0.0" r="15"/>
+              <text class="nom" x="304.0" y="0.0" text-anchor="middle" dominant-baseline="central">q2</text>
+            </g>
+          </svg>
+        </div>
+        <p>Como la consigna acepta AFD o AFND, alcanza con este dibujo. Como AFD completo, con el estado muerto qm:</p>
+        <div class="pd-grafico af" data-g="p23-ident-completo">
+          <svg viewBox="-61 -77 417 306" width="417" height="306" role="img" aria-label="Diagrama de un autómata finito">
+            <path class="arco" d="M19.0,0.0 L133.0,0.0"/>
+            <path class="punta" d="M133.0,0.0 L124.0,4.5 L124.0,-4.5 Z"/>
+            <text class="rot" x="76.0" y="-10.0" text-anchor="middle" dominant-baseline="central">M</text>
+            <path class="arco" d="M143.1,-16.8 C112.0,-51.2 192.0,-51.2 160.9,-16.8"/>
+            <path class="punta" d="M160.9,-16.8 L163.6,-26.5 L170.3,-20.4 Z"/>
+            <text class="rot" x="152.0" y="-56.0" text-anchor="middle" dominant-baseline="central">N, D</text>
+            <path class="arco" d="M169.2,-8.1 Q228.0,-36.0 286.8,-8.1"/>
+            <path class="punta" d="M286.8,-8.1 L276.8,-7.9 L280.6,-16.1 Z"/>
+            <text class="rot" x="228.0" y="-32.1" text-anchor="middle" dominant-baseline="central">M</text>
+            <path class="arco" d="M295.1,-16.8 C264.0,-51.2 344.0,-51.2 312.9,-16.8"/>
+            <path class="punta" d="M312.9,-16.8 L315.6,-26.5 L322.3,-20.4 Z"/>
+            <text class="rot" x="304.0" y="-56.0" text-anchor="middle" dominant-baseline="central">M</text>
+            <path class="arco" d="M286.8,8.1 Q228.0,36.0 169.2,8.1"/>
+            <path class="punta" d="M169.2,8.1 L179.2,7.9 L175.4,16.1 Z"/>
+            <text class="rot" x="228.0" y="32.1" text-anchor="middle" dominant-baseline="central">N, D</text>
+            <path class="arco" d="M13.4,13.4 L138.6,138.6"/>
+            <path class="punta" d="M138.6,138.6 L129.0,135.4 L135.4,129.0 Z"/>
+            <text class="rot" x="96.4" y="55.6" text-anchor="middle" dominant-baseline="central">N, D, o</text>
+            <path class="arco" d="M152.0,19.0 L152.0,133.0"/>
+            <path class="punta" d="M152.0,133.0 L147.5,124.0 L156.5,124.0 Z"/>
+            <text class="rot" x="138.2" y="76.0" text-anchor="middle" dominant-baseline="central">o</text>
+            <path class="arco" d="M290.6,13.4 L165.4,138.6"/>
+            <path class="punta" d="M165.4,138.6 L168.6,129.0 L175.0,135.4 Z"/>
+            <text class="rot" x="219.0" y="67.0" text-anchor="middle" dominant-baseline="central">o</text>
+            <path class="arco" d="M160.9,168.8 C192.0,203.2 112.0,203.2 143.1,168.8"/>
+            <path class="punta" d="M143.1,168.8 L140.4,178.5 L133.7,172.4 Z"/>
+            <text class="rot" x="152.0" y="208.0" text-anchor="middle" dominant-baseline="central">M, N, D, o</text>
+            <path class="arco" d="M-49.0,0.0 L-19.0,0.0"/>
+            <path class="punta" d="M-19.0,0.0 L-28.0,4.5 L-28.0,-4.5 Z"/>
+            <g class="estado">
+              <circle class="borde" cx="0.0" cy="0.0" r="19"/>
+              <text class="nom" x="0.0" y="0.0" text-anchor="middle" dominant-baseline="central">q0</text>
+            </g>
+            <g class="estado">
+              <circle class="borde" cx="152.0" cy="0.0" r="19"/>
+              <text class="nom" x="152.0" y="0.0" text-anchor="middle" dominant-baseline="central">q1</text>
+            </g>
+            <g class="estado">
+              <circle class="borde" cx="304.0" cy="0.0" r="19"/>
+              <circle class="borde" cx="304.0" cy="0.0" r="15"/>
+              <text class="nom" x="304.0" y="0.0" text-anchor="middle" dominant-baseline="central">q2</text>
+            </g>
+            <g class="estado muerto">
+              <circle class="borde" cx="152.0" cy="152.0" r="19"/>
+              <text class="nom" x="152.0" y="152.0" text-anchor="middle" dominant-baseline="central">qm</text>
+            </g>
+          </svg>
+        </div>
+
+        <span class="paso">Paso 3 &mdash; La ER, por piezas</span>
+        <p><code>M</code> + <code>(M|N|D)*</code> + <code>M</code> = <strong><code>M(M|N|D)*M</code></strong>.</p>
+
+        <h4>Control con cadenas</h4>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Cadena</th><th>Recorrido</th><th>¿La acepta?</th></tr>
+            <tr><td><code>MM</code> (AA)</td><td>q0 &rarr; q1 &rarr; q2</td><td>Sí</td></tr>
+            <tr><td><code>MDM</code> (A5A)</td><td>q0 &rarr; q1 &rarr; q1 &rarr; q2</td><td>Sí</td></tr>
+            <tr><td><code>MNMMN</code></td><td>q0 &rarr; q1 &rarr; q1 &rarr; q2 &rarr; q2 &rarr; q1</td><td>No: termina en minúscula</td></tr>
+            <tr><td><code>M</code></td><td>q0 &rarr; q1</td><td>No: largo 1</td></tr>
+          </table>
+        </div>
+
+        <h4>Parecido en la práctica</h4>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Dónde</th><th>Qué tiene igual</th><th>Qué cambia</th></tr>
+            <tr><td>TP I, ejercicio 9 (Unidad 4, Práctica, ejercicio 10)</td><td>Identificadores con alfabeto simbólico</td><td>Allá no hay que terminar en mayúscula</td></tr>
+            <tr><td>Unidad 4, Teoría, sección 2</td><td>"Termina con": el estado final se abandona y se vuelve</td><td>Allá con a y b</td></tr>
+          </table>
+        </div>
+
+        <div class="caja caja-ojo">
+          <span class="caja-tit">Trampas</span>
+          <ul>
+            <li>Hacer final a q1 después de la primera M: aceptaría <code>M</code>, que tiene largo 1.</li>
+            <li>Olvidar la flecha q2 &mdash;N, D&rarr; q1: el autómata rechazaría <code>MMNM</code>, que es válido.</li>
+            <li>Escribir <code>M(M|N|D)*</code>: no obliga a terminar en mayúscula ni a tener largo 2.</li>
+          </ul>
+        </div>
+      </div>
+    </details>
+  </div>
+</section>

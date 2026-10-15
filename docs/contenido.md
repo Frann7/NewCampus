@@ -122,6 +122,7 @@ Usá estas y no inventes otras, así el diseño se mantiene consistente:
 | `table.t.full.pros` | tabla de dos columnas "Ventajas / Desventajas" (una lista en cada celda): verde con ✔ y rojo con ✘ |
 | `.et` (+ `.ok` `.mal` `.ojo` `.dato` `.vio`) | etiqueta de color para algo que tiene un orden o un estado (`<span class="et ojo">Nivel 2</span>`) |
 | `.escalera` + `.escalon` | niveles que se apoyan uno sobre otro (ver CMMI en `ing2/calidad`) |
+| `.pd-grafico.af` | un autómata finito; el SVG lo genera `fuentes/automatas.py` (ver `app/contenido/pyl/CLAUDE.md`) |
 | `.flujo` + `.flujo-caja` + `.flujo-paso` | lugares por los que pasa algo y el comando que lo mueve (ver Git en `ing2/git`) |
 
 **El color tiene un significado y se usa siempre igual**, no para adornar: azul la explicación

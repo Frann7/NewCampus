@@ -1,0 +1,117 @@
+<div class="ej" data-examen="variante"
+     data-examen-ref="Parciales 2023-2025 · ej. 3"
+     data-examen-nota="La misma consigna que el ejercicio 3 del parcial (20 puntos).">
+  <span class="tag">Ejercicio 10 &middot; TP I &middot; ej. 9</span>
+  <h2>Identificadores con guiones</h2>
+  <div class="enunciado">
+    <p>
+      Realice un AFD o AFND y una expresión regular para los identificadores de cualquier longitud
+      que comiencen con una letra y contengan letras, dígitos o guiones, que no contengan dos guiones
+      seguidos ni terminen con guion.
+    </p>
+  </div>
+
+  <span class="paso">Paso 1 &mdash; El alfabeto y ejemplos</span>
+  <p>
+    Un AF con una flecha por cada letra y cada dígito sería ilegible. Se usa un símbolo por clase,
+    y <strong>se aclara en la hoja</strong>: <strong>L</strong> = una letra, <strong>D</strong> = un
+    dígito, <strong>G</strong> = un guion. El alfabeto queda {L, D, G}.
+  </p>
+  <ul>
+    <li>Sí: <code>x</code> (L), <code>a1b</code> (LDL), <code>a-1</code> (LGD), <code>mi-var2</code> (LLGLLLD).</li>
+    <li>No: <code>ε</code>, <code>1a</code> (DL), <code>-a</code> (GL), <code>a-</code> (LG), <code>a--b</code> (LGGL).</li>
+  </ul>
+
+  <span class="paso">Paso 2 &mdash; Qué tiene que recordar el autómata</span>
+  <p>Si ya empezó bien (con una letra) y si lo último fue un guion.</p>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th>Estado</th><th>Qué significa</th></tr>
+      <tr><td class="lbl">q0</td><td>No leyó nada (inicial).</td></tr>
+      <tr><td class="lbl">q1</td><td>Empezó con letra y lo último no es guion: identificador válido hasta acá (final).</td></tr>
+      <tr><td class="lbl">q2</td><td>Lo último fue un guion: no puede terminar acá ni leer otro guion.</td></tr>
+      <tr><td class="lbl">∅</td><td>Empezó con dígito o guion, o hubo dos guiones: muerto.</td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Paso 3 &mdash; Transiciones y dibujo</span>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th>&delta;</th><th>L</th><th>D</th><th>G</th></tr>
+      <tr><td class="lbl">&rarr; q0</td><td>q1</td><td>∅</td><td>∅</td></tr>
+      <tr><td class="lbl">q1 *</td><td>q1</td><td>q1</td><td>q2</td></tr>
+      <tr><td class="lbl">q2</td><td>q1</td><td>q1</td><td>∅</td></tr>
+      <tr><td class="lbl">∅</td><td>∅</td><td>∅</td><td>∅</td></tr>
+    </table>
+  </div>
+  <p>
+    El dibujo va sin ∅: es un <strong>AFD incompleto</strong>. Las flechas que faltan (q0 con D y
+    con G, q2 con G) van al estado muerto.
+  </p>
+  <div class="pd-grafico af" data-g="u4-e10-af">
+    <svg viewBox="-61 -77 412 130" width="412" height="130" role="img" aria-label="Diagrama de un autómata finito">
+      <path class="arco" d="M19.0,0.0 L141.0,0.0"/>
+      <path class="punta" d="M141.0,0.0 L132.0,4.5 L132.0,-4.5 Z"/>
+      <text class="rot" x="80.0" y="-10.0" text-anchor="middle" dominant-baseline="central">L</text>
+      <path class="arco" d="M151.1,-16.8 C120.0,-51.2 200.0,-51.2 168.9,-16.8"/>
+      <path class="punta" d="M168.9,-16.8 L171.6,-26.5 L178.3,-20.4 Z"/>
+      <text class="rot" x="160.0" y="-56.0" text-anchor="middle" dominant-baseline="central">L, D</text>
+      <path class="arco" d="M177.3,-7.8 Q240.0,-36.0 302.7,-7.8"/>
+      <path class="punta" d="M302.7,-7.8 L292.6,-7.4 L296.3,-15.6 Z"/>
+      <text class="rot" x="240.0" y="-31.9" text-anchor="middle" dominant-baseline="central">G</text>
+      <path class="arco" d="M302.7,7.8 Q240.0,36.0 177.3,7.8"/>
+      <path class="punta" d="M177.3,7.8 L187.4,7.4 L183.7,15.6 Z"/>
+      <text class="rot" x="240.0" y="31.9" text-anchor="middle" dominant-baseline="central">L, D</text>
+      <path class="arco" d="M-49.0,0.0 L-19.0,0.0"/>
+      <path class="punta" d="M-19.0,0.0 L-28.0,4.5 L-28.0,-4.5 Z"/>
+      <g class="estado">
+        <circle class="borde" cx="0.0" cy="0.0" r="19"/>
+        <text class="nom" x="0.0" y="0.0" text-anchor="middle" dominant-baseline="central">q0</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="160.0" cy="0.0" r="19"/>
+        <circle class="borde" cx="160.0" cy="0.0" r="15"/>
+        <text class="nom" x="160.0" y="0.0" text-anchor="middle" dominant-baseline="central">q1</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="320.0" cy="0.0" r="19"/>
+        <text class="nom" x="320.0" y="0.0" text-anchor="middle" dominant-baseline="central">q2</text>
+      </g>
+    </svg>
+  </div>
+
+  <span class="paso">Paso 4 &mdash; La ER, por piezas</span>
+  <ul>
+    <li><code>L</code>: la primera, obligatoria.</li>
+    <li><code>(L|D)</code>: una letra o un dígito.</li>
+    <li><code>G(L|D)</code>: un guion <strong>pegado</strong> a la letra o dígito que lo sigue. Así nunca hay dos guiones seguidos ni uno al final.</li>
+    <li><code>(L|D|G(L|D))*</code>: cualquier cantidad de esas piezas.</li>
+  </ul>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>L = letra, D = dígito, G = guion.</p>
+    <p><strong>AFD</strong> (incompleto, sin el estado muerto): el del dibujo, q0 inicial y q1 final.</p>
+    <p><strong>ER:</strong> <code>L(L|D|G(L|D))*</code></p>
+  </div>
+
+  <h3>Probamos con cadenas</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Cadena</th><th>Recorrido</th><th>¿La acepta?</th></tr>
+      <tr><td><code>LLGLLLD</code> (mi-var2)</td><td>q0 &rarr;L q1 &rarr;L q1 &rarr;G q2 &rarr;L q1 &rarr;L q1 &rarr;L q1 &rarr;D q1</td><td>Sí</td></tr>
+      <tr><td><code>LG</code> (a-)</td><td>q0 &rarr;L q1 &rarr;G q2</td><td>No: q2 no es final</td></tr>
+      <tr><td><code>LGGL</code> (a--b)</td><td>q0 &rarr;L q1 &rarr;G q2 &rarr;G ∅ &rarr;L ∅</td><td>No: dos guiones</td></tr>
+      <tr><td><code>DL</code> (1a)</td><td>q0 &rarr;D ∅ &rarr;L ∅</td><td>No: empieza con dígito</td></tr>
+    </table>
+  </div>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Errores y trampas</span>
+    <ul>
+      <li><code>L(L|D|G)*</code> acepta <code>a-</code> y <code>a--b</code>: el guion suelto en la estrella no controla nada.</li>
+      <li>Si no se dice qué es L, D y G, la respuesta queda incompleta.</li>
+      <li>q2 no es final: un identificador no puede terminar con guion.</li>
+    </ul>
+  </div>
+</div>

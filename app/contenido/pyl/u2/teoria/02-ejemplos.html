@@ -142,11 +142,11 @@
         <circle class="borde" cx="0.0" cy="0.0" r="19"/>
         <text class="nom" x="0.0" y="0.0" text-anchor="middle" dominant-baseline="central">q0</text>
       </g>
-      <g class="estado">
+      <g class="estado marcado">
         <circle class="borde" cx="152.0" cy="0.0" r="19"/>
         <text class="nom" x="152.0" y="0.0" text-anchor="middle" dominant-baseline="central">q1</text>
       </g>
-      <g class="estado marcado">
+      <g class="estado">
         <circle class="borde" cx="304.0" cy="0.0" r="19"/>
         <text class="nom" x="304.0" y="0.0" text-anchor="middle" dominant-baseline="central">q2</text>
       </g>
@@ -158,77 +158,54 @@
     </svg>
   </div>
 
-  <span class="paso">Paso 2 &mdash; Eliminar q2</span>
-  <p>Le entra una flecha (desde q1) y le salen tres (a q1, a q0 y a f): 1 &times; 3 = 3 flechas nuevas.</p>
+  <span class="paso">Paso 2 &mdash; Elegir el primero</span>
+  <p>Se cuentan entradas y salidas de cada intermedio (los lazos no cuentan; sección 1, "La tablita"):</p>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th>Estado</th><th>Entradas</th><th>Salidas</th><th>Flechas nuevas</th></tr>
+      <tr><td class="lbl">q0</td><td>2 (i, q2)</td><td>1 (q1)</td><td>2</td></tr>
+      <tr><td class="lbl">q1</td><td>2 (q0, q2)</td><td>1 (q2)</td><td>2</td></tr>
+      <tr><td class="lbl">q2</td><td>1 (q1)</td><td>3 (q1, q0, f)</td><td>3</td></tr>
+    </table>
+  </div>
+  <p>Empatan q0 y q1: se elige cualquiera. Va q1.</p>
+
+  <span class="paso">Paso 3 &mdash; Eliminar q1</span>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th>Entran</th><th>Salen</th></tr>
+      <tr><td>q0, con <code>a</code></td><td>q2, con <code>b</code></td></tr>
+      <tr><td>q2, con <code>a</code></td><td></td></tr>
+    </table>
+  </div>
+  <p>Lazo de q1: <code>a</code>. Se cruza cada entrada con cada salida:</p>
   <div class="tabla-wrap">
     <table class="t full">
       <tr><th>Entra (α)</th><th>Lazo (β)</th><th>Sale (γ)</th><th>Flecha nueva</th></tr>
-      <tr><td>q1, <code>b</code></td><td>no tiene</td><td>q1, <code>a</code></td><td>lazo en q1: <code>ba</code> &rarr; con el lazo <code>a</code> que ya estaba: <code>a|ba</code></td></tr>
-      <tr><td>q1, <code>b</code></td><td>no tiene</td><td>q0, <code>b</code></td><td>q1 &rarr; q0: <code>bb</code></td></tr>
-      <tr><td>q1, <code>b</code></td><td>no tiene</td><td>f, <code>ε</code></td><td>q1 &rarr; f: <code>b</code></td></tr>
+      <tr><td>q0, <code>a</code></td><td><code>a</code></td><td>q2, <code>b</code></td><td>q0 &rarr; q2: <code>aa*b</code></td></tr>
+      <tr><td>q2, <code>a</code></td><td><code>a</code></td><td>q2, <code>b</code></td><td>lazo en q2: <code>aa*b</code></td></tr>
     </table>
   </div>
   <div class="pd-grafico af" data-g="u2-ej1-paso2">
-    <svg viewBox="-165 -78 564 109" width="564" height="109" role="img" aria-label="Diagrama de un autómata finito">
+    <svg viewBox="-165 -77 532 159" width="532" height="159" role="img" aria-label="Diagrama de un autómata finito">
       <path class="arco" d="M-85.0,0.0 L-19.0,0.0"/>
       <path class="punta" d="M-19.0,0.0 L-28.0,4.5 L-28.0,-4.5 Z"/>
       <text class="rot" x="-52.0" y="-10.0" text-anchor="middle" dominant-baseline="central">ε</text>
       <path class="arco" d="M-8.9,-16.8 C-40.0,-51.2 40.0,-51.2 8.9,-16.8"/>
       <path class="punta" d="M8.9,-16.8 L11.6,-26.5 L18.3,-20.4 Z"/>
       <text class="rot" x="0.0" y="-56.0" text-anchor="middle" dominant-baseline="central">b</text>
-      <path class="arco" d="M19.0,0.0 L133.0,0.0"/>
-      <path class="punta" d="M133.0,0.0 L124.0,4.5 L124.0,-4.5 Z"/>
-      <text class="rot" x="76.0" y="-10.0" text-anchor="middle" dominant-baseline="central">a</text>
-      <path class="arco nueva" d="M143.1,-16.8 C112.0,-51.2 192.0,-51.2 160.9,-16.8"/>
-      <path class="punta nueva" d="M160.9,-16.8 L163.6,-26.5 L170.3,-20.4 Z"/>
-      <text class="rot" x="152.0" y="-56.0" text-anchor="middle" dominant-baseline="central">a|ba</text>
-      <path class="arco" d="M138.9,-13.8 Q76.0,-80.0 13.1,-13.8"/>
-      <path class="punta" d="M13.1,-13.8 L16.0,-23.4 L22.5,-17.2 Z"/>
-      <text class="rot" x="76.0" y="-56.9" text-anchor="middle" dominant-baseline="central">bb</text>
-      <path class="arco nueva" d="M171.0,0.0 L349.0,0.0"/>
-      <path class="punta nueva" d="M349.0,0.0 L340.0,4.5 L340.0,-4.5 Z"/>
-      <text class="rot" x="260.0" y="-10.0" text-anchor="middle" dominant-baseline="central">b</text>
-      <path class="arco" d="M-153.0,0.0 L-123.0,0.0"/>
-      <path class="punta" d="M-123.0,0.0 L-132.0,4.5 L-132.0,-4.5 Z"/>
-      <g class="estado">
-        <circle class="borde" cx="-104.0" cy="0.0" r="19"/>
-        <text class="nom" x="-104.0" y="0.0" text-anchor="middle" dominant-baseline="central">i</text>
-      </g>
-      <g class="estado">
-        <circle class="borde" cx="0.0" cy="0.0" r="19"/>
-        <text class="nom" x="0.0" y="0.0" text-anchor="middle" dominant-baseline="central">q0</text>
-      </g>
-      <g class="estado marcado">
-        <circle class="borde" cx="152.0" cy="0.0" r="19"/>
-        <text class="nom" x="152.0" y="0.0" text-anchor="middle" dominant-baseline="central">q1</text>
-      </g>
-      <g class="estado">
-        <circle class="borde" cx="368.0" cy="0.0" r="19"/>
-        <circle class="borde" cx="368.0" cy="0.0" r="15"/>
-        <text class="nom" x="368.0" y="0.0" text-anchor="middle" dominant-baseline="central">f</text>
-      </g>
-    </svg>
-  </div>
-
-  <span class="paso">Paso 3 &mdash; Eliminar q1</span>
-  <div class="tabla-wrap">
-    <table class="t full">
-      <tr><th>Entra (α)</th><th>Lazo (β)</th><th>Sale (γ)</th><th>Flecha nueva</th></tr>
-      <tr><td>q0, <code>a</code></td><td><code>a|ba</code></td><td>q0, <code>bb</code></td><td>lazo en q0: <code>a(a|ba)*bb</code> &rarr; con el lazo <code>b</code>: <code>b|a(a|ba)*bb</code></td></tr>
-      <tr><td>q0, <code>a</code></td><td><code>a|ba</code></td><td>f, <code>b</code></td><td>q0 &rarr; f: <code>a(a|ba)*b</code></td></tr>
-    </table>
-  </div>
-  <div class="pd-grafico af" data-g="u2-ej1-paso3">
-    <svg viewBox="-165 -77 564 108" width="564" height="108" role="img" aria-label="Diagrama de un autómata finito">
-      <path class="arco" d="M-85.0,0.0 L-19.0,0.0"/>
-      <path class="punta" d="M-19.0,0.0 L-28.0,4.5 L-28.0,-4.5 Z"/>
-      <text class="rot" x="-52.0" y="-10.0" text-anchor="middle" dominant-baseline="central">ε</text>
-      <path class="arco nueva" d="M-8.9,-16.8 C-40.0,-51.2 40.0,-51.2 8.9,-16.8"/>
-      <path class="punta nueva" d="M8.9,-16.8 L11.6,-26.5 L18.3,-20.4 Z"/>
-      <text class="rot" x="0.0" y="-56.0" text-anchor="middle" dominant-baseline="central">b|a(a|ba)*bb</text>
-      <path class="arco nueva" d="M19.0,0.0 L349.0,0.0"/>
-      <path class="punta nueva" d="M349.0,0.0 L340.0,4.5 L340.0,-4.5 Z"/>
-      <text class="rot" x="184.0" y="-10.0" text-anchor="middle" dominant-baseline="central">a(a|ba)*b</text>
+      <path class="arco nueva" d="M19.0,0.0 L189.0,0.0"/>
+      <path class="punta nueva" d="M189.0,0.0 L180.0,4.5 L180.0,-4.5 Z"/>
+      <text class="rot" x="104.0" y="-10.0" text-anchor="middle" dominant-baseline="central">aa*b</text>
+      <path class="arco nueva" d="M199.1,-16.8 C168.0,-51.2 248.0,-51.2 216.9,-16.8"/>
+      <path class="punta nueva" d="M216.9,-16.8 L219.6,-26.5 L226.3,-20.4 Z"/>
+      <text class="rot" x="208.0" y="-56.0" text-anchor="middle" dominant-baseline="central">aa*b</text>
+      <path class="arco" d="M193.6,12.4 Q104.0,90.0 14.4,12.4"/>
+      <path class="punta" d="M14.4,12.4 L24.1,14.9 L18.2,21.7 Z"/>
+      <text class="rot" x="104.0" y="61.2" text-anchor="middle" dominant-baseline="central">b</text>
+      <path class="arco" d="M227.0,0.0 L317.0,0.0"/>
+      <path class="punta" d="M317.0,0.0 L308.0,4.5 L308.0,-4.5 Z"/>
+      <text class="rot" x="272.0" y="-10.0" text-anchor="middle" dominant-baseline="central">ε</text>
       <path class="arco" d="M-153.0,0.0 L-123.0,0.0"/>
       <path class="punta" d="M-123.0,0.0 L-132.0,4.5 L-132.0,-4.5 Z"/>
       <g class="estado">
@@ -240,20 +217,62 @@
         <text class="nom" x="0.0" y="0.0" text-anchor="middle" dominant-baseline="central">q0</text>
       </g>
       <g class="estado">
-        <circle class="borde" cx="368.0" cy="0.0" r="19"/>
-        <circle class="borde" cx="368.0" cy="0.0" r="15"/>
-        <text class="nom" x="368.0" y="0.0" text-anchor="middle" dominant-baseline="central">f</text>
+        <circle class="borde" cx="208.0" cy="0.0" r="19"/>
+        <text class="nom" x="208.0" y="0.0" text-anchor="middle" dominant-baseline="central">q2</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="336.0" cy="0.0" r="19"/>
+        <circle class="borde" cx="336.0" cy="0.0" r="15"/>
+        <text class="nom" x="336.0" y="0.0" text-anchor="middle" dominant-baseline="central">f</text>
       </g>
     </svg>
   </div>
 
   <span class="paso">Paso 4 &mdash; Eliminar q0</span>
-  <p>Entra <code>ε</code> desde i, lazo <code>b|a(a|ba)*bb</code>, sale <code>a(a|ba)*b</code> hacia f.</p>
+  <p>Entran i (con <code>ε</code>) y q2 (con <code>b</code>); sale q2 (con <code>aa*b</code>); lazo <code>b</code>.</p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Entra (α)</th><th>Lazo (β)</th><th>Sale (γ)</th><th>Flecha nueva</th></tr>
+      <tr><td>i, <code>ε</code></td><td><code>b</code></td><td>q2, <code>aa*b</code></td><td>i &rarr; q2: <code>b*aa*b</code></td></tr>
+      <tr><td>q2, <code>b</code></td><td><code>b</code></td><td>q2, <code>aa*b</code></td><td>lazo en q2: <code>bb*aa*b</code> &rarr; con el lazo <code>aa*b</code>: <code>aa*b|bb*aa*b</code></td></tr>
+    </table>
+  </div>
+  <div class="pd-grafico af" data-g="u2-ej1-paso3">
+    <svg viewBox="-165 -77 468 108" width="468" height="108" role="img" aria-label="Diagrama de un autómata finito">
+      <path class="arco nueva" d="M-85.0,0.0 L109.0,0.0"/>
+      <path class="punta nueva" d="M109.0,0.0 L100.0,4.5 L100.0,-4.5 Z"/>
+      <text class="rot" x="12.0" y="-10.0" text-anchor="middle" dominant-baseline="central">b*aa*b</text>
+      <path class="arco nueva" d="M119.1,-16.8 C88.0,-51.2 168.0,-51.2 136.9,-16.8"/>
+      <path class="punta nueva" d="M136.9,-16.8 L139.6,-26.5 L146.3,-20.4 Z"/>
+      <text class="rot" x="128.0" y="-56.0" text-anchor="middle" dominant-baseline="central">aa*b|bb*aa*b</text>
+      <path class="arco" d="M147.0,0.0 L253.0,0.0"/>
+      <path class="punta" d="M253.0,0.0 L244.0,4.5 L244.0,-4.5 Z"/>
+      <text class="rot" x="200.0" y="-10.0" text-anchor="middle" dominant-baseline="central">ε</text>
+      <path class="arco" d="M-153.0,0.0 L-123.0,0.0"/>
+      <path class="punta" d="M-123.0,0.0 L-132.0,4.5 L-132.0,-4.5 Z"/>
+      <g class="estado">
+        <circle class="borde" cx="-104.0" cy="0.0" r="19"/>
+        <text class="nom" x="-104.0" y="0.0" text-anchor="middle" dominant-baseline="central">i</text>
+      </g>
+      <g class="estado marcado">
+        <circle class="borde" cx="128.0" cy="0.0" r="19"/>
+        <text class="nom" x="128.0" y="0.0" text-anchor="middle" dominant-baseline="central">q2</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="272.0" cy="0.0" r="19"/>
+        <circle class="borde" cx="272.0" cy="0.0" r="15"/>
+        <text class="nom" x="272.0" y="0.0" text-anchor="middle" dominant-baseline="central">f</text>
+      </g>
+    </svg>
+  </div>
+
+  <span class="paso">Paso 5 &mdash; Eliminar q2</span>
+  <p>Entra <code>b*aa*b</code> desde i, lazo <code>aa*b|bb*aa*b</code>, sale <code>ε</code> hacia f.</p>
   <div class="pd-grafico af" data-g="u2-ej1-er">
-    <svg viewBox="-61 -31 460 62" width="460" height="62" role="img" aria-label="Diagrama de un autómata finito">
-      <path class="arco nueva" d="M19.0,0.0 L349.0,0.0"/>
-      <path class="punta nueva" d="M349.0,0.0 L340.0,4.5 L340.0,-4.5 Z"/>
-      <text class="rot" x="184.0" y="-10.0" text-anchor="middle" dominant-baseline="central">(b|a(a|ba)*bb)*a(a|ba)*b</text>
+    <svg viewBox="-61 -31 412 62" width="412" height="62" role="img" aria-label="Diagrama de un autómata finito">
+      <path class="arco nueva" d="M19.0,0.0 L301.0,0.0"/>
+      <path class="punta nueva" d="M301.0,0.0 L292.0,4.5 L292.0,-4.5 Z"/>
+      <text class="rot" x="160.0" y="-10.0" text-anchor="middle" dominant-baseline="central">b*aa*b(aa*b|bb*aa*b)*</text>
       <path class="arco" d="M-49.0,0.0 L-19.0,0.0"/>
       <path class="punta" d="M-19.0,0.0 L-28.0,4.5 L-28.0,-4.5 Z"/>
       <g class="estado">
@@ -261,15 +280,15 @@
         <text class="nom" x="0.0" y="0.0" text-anchor="middle" dominant-baseline="central">i</text>
       </g>
       <g class="estado">
-        <circle class="borde" cx="368.0" cy="0.0" r="19"/>
-        <circle class="borde" cx="368.0" cy="0.0" r="15"/>
-        <text class="nom" x="368.0" y="0.0" text-anchor="middle" dominant-baseline="central">f</text>
+        <circle class="borde" cx="320.0" cy="0.0" r="19"/>
+        <circle class="borde" cx="320.0" cy="0.0" r="15"/>
+        <text class="nom" x="320.0" y="0.0" text-anchor="middle" dominant-baseline="central">f</text>
       </g>
     </svg>
   </div>
   <div class="caja caja-resp">
     <span class="caja-tit">Respuesta</span>
-    <p>ER = <code>(b|a(a|ba)*bb)*a(a|ba)*b</code></p>
+    <p>ER = <code>b*aa*b(aa*b|bb*aa*b)*</code></p>
   </div>
   <p>
     Es larga, pero es correcta: genera exactamente las cadenas que terminan en ab (probado con

@@ -256,6 +256,10 @@ Chrome (`chrome --headless --print-to-pdf`).
 `0.x.y-alpha` mientras esté en desarrollo. La `1.0.0` queda reservada para cuando esté terminado.
 La versión actual se lee al pie del menú lateral.
 
+* **0.52.1-alpha** — Paradigmas y Lenguajes, técnicas para la hoja: la tablita de entradas y
+  salidas para eliminar estados (y la cuenta para elegir cuál va primero, con el ejemplo de la
+  Unidad 2 rehecho en ese orden), la lista de flechas con letra para los mueve, dos atajos de la
+  minimización y "pensar por ramas" en la Unidad 4.
 * **0.52.0-alpha** — **Paradigmas y Lenguajes**: alta de la materia con el parcial de autómatas
   (TOPIC 1 y 2 de la cátedra), en cuatro unidades: lenguajes, autómatas y ER; de AF a ER; de ER a
   AFD mínimo; diseñar AF y ER. Teoría corta para leer rápido y práctica resuelta paso a paso

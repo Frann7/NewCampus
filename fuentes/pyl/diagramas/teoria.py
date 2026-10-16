@@ -56,24 +56,24 @@ D["u2-regla-despues"] = dict(
 D["u2-ej1-af"] = dict(D["u1-termina-ab"], er="(a|b)*ab")
 D["u2-ej1-paso1"] = dict(
     estados={"i": (-1.3, 0), "q0": (0, 0), "q1": (1.9, 0), "q2": (3.8, 0), "f": (5.2, 0)},
-    inicial="i", finales=["f"], marcados=["q2"], er="(a|b)*ab", sigma="ab",
+    inicial="i", finales=["f"], marcados=["q1"], er="(a|b)*ab", sigma="ab",
     trans=[nv("i", "q0", "ε"), ("q0", "q0", "b"), ("q0", "q1", "a"), ("q1", "q1", "a"), ("q1", "q2", "b"),
            ("q2", "q1", "a", {"curva": -40}), ("q2", "q0", "b", {"curva": 55}), nv("q2", "f", "ε")],
 )
 D["u2-ej1-paso2"] = dict(
-    estados={"i": (-1.3, 0), "q0": (0, 0), "q1": (1.9, 0), "f": (4.6, 0)},
-    inicial="i", finales=["f"], marcados=["q1"], er="(a|b)*ab", sigma="ab",
-    trans=[("i", "q0", "ε"), ("q0", "q0", "b"), ("q0", "q1", "a"), nv("q1", "q1", "a|ba"),
-           nv("q1", "q0", "bb", {"curva": -40}), nv("q1", "f", "b")],
+    estados={"i": (-1.3, 0), "q0": (0, 0), "q2": (2.6, 0), "f": (4.2, 0)},
+    inicial="i", finales=["f"], marcados=["q0"], er="(a|b)*ab", sigma="ab",
+    trans=[("i", "q0", "ε"), ("q0", "q0", "b"), nv("q0", "q2", "aa*b"), nv("q2", "q2", "aa*b"),
+           ("q2", "q0", "b", {"curva": 45}), ("q2", "f", "ε")],
 )
 D["u2-ej1-paso3"] = dict(
-    estados={"i": (-1.3, 0), "q0": (0, 0), "f": (4.6, 0)},
-    inicial="i", finales=["f"], marcados=["q0"], er="(a|b)*ab", sigma="ab",
-    trans=[("i", "q0", "ε"), nv("q0", "q0", "b|a(a|ba)*bb"), nv("q0", "f", "a(a|ba)*b")],
+    estados={"i": (-1.3, 0), "q2": (1.6, 0), "f": (3.4, 0)},
+    inicial="i", finales=["f"], marcados=["q2"], er="(a|b)*ab", sigma="ab",
+    trans=[nv("i", "q2", "b*aa*b"), nv("q2", "q2", "aa*b|bb*aa*b"), ("q2", "f", "ε")],
 )
 D["u2-ej1-er"] = dict(
-    estados={"i": (0, 0), "f": (4.6, 0)}, inicial="i", finales=["f"], er="(a|b)*ab", sigma="ab",
-    trans=[nv("i", "f", "(b|a(a|ba)*bb)*a(a|ba)*b")],
+    estados={"i": (0, 0), "f": (4.0, 0)}, inicial="i", finales=["f"], er="(a|b)*ab", sigma="ab",
+    trans=[nv("i", "f", "b*aa*b(aa*b|bb*aa*b)*")],
 )
 
 # ===================================================================== Unidad 3
@@ -157,4 +157,22 @@ D["u4-par-par"] = dict(
     trans=[("PP", "IP", "a"), ("IP", "PP", "a"), ("PI", "II", "a"), ("II", "PI", "a"),
            ("PP", "PI", "b"), ("PI", "PP", "b"), ("IP", "II", "b"), ("II", "IP", "b")],
     alt="Cantidad par de a y cantidad par de b",
+)
+
+# pensar por ramas: empiezan con aa o con b, y tienen cantidad par de b
+D["u4-ramas"] = dict(
+    estados={"q0": (0, 1.1), "r1": (1.6, 0), "R": (3.2, 0), "S": (5.0, 0),
+             "T": (1.6, 2.2), "U": (3.4, 2.2)},
+    inicial="q0", finales=["R", "U"], er="(aa|ba*b)(a|ba*b)*", sigma="ab",
+    trans=[("q0", "r1", "a"), ("r1", "R", "a"), ("R", "R", "a"), ("R", "S", "b"), ("S", "R", "b"),
+           ("S", "S", "a"), ("q0", "T", "b"), ("T", "T", "a", {"lazo": "abajo"}), ("T", "U", "b"),
+           ("U", "T", "b"), ("U", "U", "a", {"lazo": "abajo"})],
+    alt="Por ramas: una rama para los que empiezan con aa y otra para los que empiezan con b",
+)
+D["u4-ramas-junto"] = dict(
+    estados={"q0": (0, 1.1), "r1": (1.6, 0), "P": (3.2, 0), "I": (3.2, 2.2)},
+    inicial="q0", finales=["P"], er="(aa|ba*b)(a|ba*b)*", sigma="ab",
+    trans=[("q0", "r1", "a"), ("r1", "P", "a"), ("P", "P", "a", {"lazo": "der"}), ("P", "I", "b"),
+           ("I", "P", "b"), ("I", "I", "a", {"lazo": "der"}), ("q0", "I", "b")],
+    alt="Las dos ramas juntas: R y U son el mismo estado (par), S y T también (impar)",
 )

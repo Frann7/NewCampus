@@ -88,6 +88,38 @@ def sangrar(trozo):
     return NL.join(lineas)
 
 
+ER_CODE = re.compile(r'(?<!<pre class="codigo">)<code>([A-Za-z0-9ε|*()+ ]+)</code>')
+
+
+def formatear_er(texto):
+    """Paradigmas: cada <code> que es una expresion regular se arma con un
+    color por nivel de parentesis (el que abre y el que cierra, iguales), la
+    | separada y la * chiquita arriba, para que se pueda leer. Los estilos
+    son los .er de estilos.css."""
+    def armar(m):
+        er = m.group(1)
+        if not any(c in er for c in "|*()") or er.count("(") != er.count(")"):
+            return m.group(0)
+        partes, nivel = [], 0
+        for c in er.replace(" ", ""):
+            if c == "(":
+                partes.append('<span class="er-p er-p%d">(</span>' % (nivel % 3))
+                nivel += 1
+            elif c == ")":
+                nivel -= 1
+                partes.append('<span class="er-p er-p%d">)</span>' % (nivel % 3))
+            elif c == "|":
+                partes.append('<span class="er-o">|</span>')
+            elif c in "*+":
+                partes.append('<span class="er-k">%s</span>' % c)
+            elif c == "ε":
+                partes.append('<span class="er-e">ε</span>')
+            else:
+                partes.append(c)
+        return '<code class="er">%s</code>' % "".join(partes)
+    return ER_CODE.sub(armar, texto)
+
+
 def armar_apunte(carpeta, vista):
     """Pega los fragmentos de una unidad y los envuelve en su <section>."""
     fragmentos = sorted(glob.glob(os.path.join(carpeta, "*.html")))
@@ -103,7 +135,8 @@ def armar_apunte(carpeta, vista):
             continue
         for p in revisar_formulas(trozo):
             problemas.append("%s: %s" % (os.path.basename(ruta), p))
-        partes.append(colorear(sangrar(trozo)))
+        trozo = colorear(sangrar(trozo))
+        partes.append(formatear_er(trozo) if vista.startswith("pyl/") else trozo)
 
     pestania = vista.rsplit("/", 1)[1]
     texto = ('<section class="pane" data-view="%s" data-tab-owner="%s">\n%s\n</section>'
@@ -133,7 +166,8 @@ def armar_examen(carpeta, tipo):
         trozo = io.open(ruta, encoding="utf-8").read().strip()
         for pr in revisar_formulas(trozo):
             problemas.append("%s: %s" % (os.path.basename(ruta), pr))
-        partes.append(colorear(sangrar(trozo)))
+        trozo = colorear(sangrar(trozo))
+        partes.append(formatear_er(trozo) if "pyl" in os.path.normpath(carpeta).split(os.sep) else trozo)
     if not partes:
         return None, None, problemas + ["la carpeta no tiene ejercicios"]
 

@@ -256,6 +256,9 @@ Chrome (`chrome --headless --print-to-pdf`).
 `0.x.y-alpha` mientras esté en desarrollo. La `1.0.0` queda reservada para cuando esté terminado.
 La versión actual se lee al pie del menú lateral.
 
+* **0.52.2-alpha** — Paradigmas y Lenguajes: las expresiones regulares se leen mejor. Cada nivel
+  de paréntesis tiene su color (el que abre y el que cierra iguales), la `|` va separada y la `*`
+  arriba, como en la hoja; en las respuestas, más grandes.
 * **0.52.1-alpha** — Paradigmas y Lenguajes, técnicas para la hoja: la tablita de entradas y
   salidas para eliminar estados (y la cuenta para elegir cuál va primero, con el ejemplo de la
   Unidad 2 rehecho en ese orden), la lista de flechas con letra para los mueve, dos atajos de la

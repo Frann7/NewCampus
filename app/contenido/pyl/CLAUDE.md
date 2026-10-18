@@ -29,7 +29,9 @@ Las reglas generales están en `docs/contenido.md` (raíz del repo); acá va sol
   Al final, la respuesta en `.caja.caja-resp` y una tabla **"Probamos con cadenas"** (cadena,
   ¿la acepta?, por qué): es lo que se hace en la hoja para no entregar un autómata roto.
 - **Notación (la de la cátedra):** ER con `|` (unión), concatenación sin punto, `*`, `ε` y
-  paréntesis; prioridad `*` → concatenación → `|`. Estados `q0, q1...` en los autómatas dados;
+  paréntesis; prioridad `*` → concatenación → `|`. Una ER va en `<code>` sola, tal cual
+  (`<code>(a|b)*ab</code>`): `construir.py` (`formatear_er`) la arma con un color por nivel de
+  paréntesis, la `|` separada y la `*` arriba (estilos `.er` de `estilos.css`). Estados `q0, q1...` en los autómatas dados;
   en la construcción de subconjuntos, `A, B, C...` (con su conjunto de estados al lado) y `∅`
   para el estado muerto; particiones `P1, P2...`.
 - **Thompson como la cátedra:** en la concatenación el final de Nr y el inicial de Ns son el mismo

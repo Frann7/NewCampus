@@ -1,0 +1,24 @@
+<div class="ej">
+  <span class="tag">Guía 9 · Consulta 14</span>
+  <h2>Longitud sobre duración</h2>
+  <div class="enunciado">
+    <p>Indicar por cada itinerario la relación longitud sobre duración, ordenados de mayor a menor siendo los mayores los más exigentes.</p>
+  </div>
+
+  <span class="paso">Las tablas que usa</span>
+  <pre class="codigo" data-lang="texto"><code>Itinerario (Codigo (PK), Duracion, Longitud, CantVisitantes)</code></pre>
+
+  <span class="paso">Cómo se arma</span>
+  <ul>
+    <li><strong>Una columna calculada:</strong> en el SELECT se puede escribir una cuenta con columnas: <code>Longitud / Duracion</code>, con su alias.</li>
+    <li><strong>Orden:</strong> de mayor a menor, con el alias: <code>ORDER BY Exigencia DESC</code>.</li>
+  </ul>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Resolución</span>
+    <pre class="codigo"><code>SELECT Codigo, Longitud, Duracion, Longitud / Duracion AS Exigencia
+FROM Itinerario
+ORDER BY Exigencia DESC;</code></pre>
+  </div>
+  <p>Longitud es <code>DECIMAL</code>, así que la división da con decimales. Si las dos fueran <code>INT</code>, SQL Server dividiría entero (7 / 2 = 3): ahí conviene <code>CAST(Longitud AS DECIMAL(10,2)) / Duracion</code>.</p>
+</div>

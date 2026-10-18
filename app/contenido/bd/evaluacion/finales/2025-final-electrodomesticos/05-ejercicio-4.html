@@ -1,0 +1,80 @@
+<!-- ==================== EJERCICIO 4 ==================== -->
+<section class="parcial-ej">
+  <div class="parcial-ej-cab">
+    <h2>Ejercicio 4</h2>
+    <span class="parcial-tema">DER &rarr; 3FN (1er parcial)</span>
+  </div>
+
+  <p><strong>4.</strong> A partir del enunciado que se encuentra a continuación confeccionar el diagrama E/R, pasar a modelo relacional y normalizarlo a 3FN.</p>
+  <p><em>Una empresa dedicada a la venta de electrodomésticos nos detalla lo siguiente: De sus empleados se conoce Nro. de legajo, DNI, nombre completo, fecha ingreso, sueldo. Estos pueden trabajar como administrativos, técnicos o como vendedores. Éstos últimos tienen definido un % de comisión por ventas. Los administrativos son los encargados de autorizar los pedidos a los proveedores. De los proveedores se conoce CUIT, razón social, nombre de contacto, e-mail y teléfonos.</em></p>
+  <p><em>Un pedido tiene un número, fecha de pedido, fecha de entrega, datos del proveedor, y el detalle de los productos pedidos. Un producto se identifica por un código corto (6 dígitos alfanuméricos), código de barras, marca, modelo, descripción, stock, precio unitario.</em></p>
+  <p><em>De los clientes se conoce el DNI, nombre, domicilio, condición fiscal (Responsable Inscripto, Monotributo, Consumidor Final) y límite de crédito (Cual es la deuda máxima que puede contraer con la empresa). Al momento de la venta, el cliente puede adquirir más de un producto en cada factura, siendo de interés conocer el precio del mismo. Además se almacena fecha de la operación, tipo y número de factura, el importe total, forma de pago y el vendedor que realizó dicha venta.</em></p>
+
+  <div class="parcial-extras">
+    <details class="parcial-desp pd-resultados">
+      <summary>
+        <span class="pd-icono">&#10003;</span>
+        <span class="pd-txt"><b>Resultados</b><small>Solo la respuesta</small></span>
+      </summary>
+      <div class="pd-cuerpo">
+        <pre class="codigo" data-lang="texto"><code>Puesto (IdPuesto (PK), Descripcion)
+Empleado (Legajo (PK), DNI, NombreCompleto, FechaIngreso, Sueldo, IdPuesto (FK))
+Vendedor (Legajo (PK)(FK), PorcentajeComision)
+Proveedor (CUIT (PK), RazonSocial, NombreContacto, Email)
+Proveedor_Telefonos (CUIT (PK)(FK), Telefono (PK))
+Producto (Codigo (PK), CodigoBarras, Marca, Modelo, Descripcion, Stock, PrecioUnitario)
+Pedido (Numero (PK), FechaPedido, FechaEntrega, CUIT (FK), LegajoAutoriza (FK))
+Pedido_Detalle (NumeroPedido (PK)(FK), CodigoProducto (PK)(FK), Cantidad)
+CondicionFiscal (IdCondicion (PK), Descripcion)
+Cliente (DNI (PK), Nombre, Domicilio, IdCondicion (FK), LimiteCredito)
+Factura (Tipo (PK), Numero (PK), Fecha, ImporteTotal, FormaPago, DNICliente (FK), LegajoVendedor (FK))
+Factura_Detalle (TipoFactura (PK)(FK), NumeroFactura (PK)(FK), CodigoProducto (PK)(FK), Cantidad, PrecioUnitario)</code></pre>
+      </div>
+    </details>
+
+    <details class="parcial-desp pd-explicacion">
+      <summary>
+        <span class="pd-icono">&#9998;</span>
+        <span class="pd-txt"><b>Explicación detallada</b><small>Las decisiones frase por frase y el modelo</small></span>
+      </summary>
+      <div class="pd-cuerpo">
+        <h4>Qué evalúa</h4>
+        <p>Del enunciado al modelo relacional en 3FN (Unidad 2). Las consultas del ejercicio 5 se escriben sobre estas tablas.</p>
+        <span class="paso">Las decisiones, frase por frase</span>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Frase del enunciado</th><th>Qué se hizo</th></tr>
+            <tr><td class="lbl">"administrativos, técnicos o vendedores"</td><td>Una generalización. Como la consulta a) pide "su puesto", el puesto queda en Empleado (FK a Puesto), y solo el vendedor tiene tabla propia porque es el único con un atributo extra (la comisión)</td></tr>
+            <tr><td class="lbl">"teléfonos" del proveedor</td><td>Multivaluado: <code>Proveedor_Telefonos</code></td></tr>
+            <tr><td class="lbl">"el detalle de los productos pedidos"</td><td>N:M Pedido &ndash; Producto: <code>Pedido_Detalle</code></td></tr>
+            <tr><td class="lbl">"los administrativos autorizan los pedidos"</td><td>FK <code>LegajoAutoriza</code> en Pedido</td></tr>
+            <tr><td class="lbl">"condición fiscal (RI, Monotributo, CF)"</td><td>Tabla <code>CondicionFiscal</code> con sus valores</td></tr>
+            <tr><td class="lbl">"más de un producto en cada factura... el precio"</td><td>N:M Factura &ndash; Producto con precio: <code>Factura_Detalle</code></td></tr>
+            <tr><td class="lbl">"tipo y número de factura"</td><td>PK compuesta (Tipo, Numero): el número se repite entre tipos</td></tr>
+            <tr><td class="lbl">"el vendedor que realizó dicha venta"</td><td>FK <code>LegajoVendedor</code> en Factura</td></tr>
+          </table>
+        </div>
+        <div class="caja caja-resp">
+          <span class="caja-tit">Modelo relacional en 3FN</span>
+          <pre class="codigo" data-lang="texto"><code>Puesto (IdPuesto (PK), Descripcion)
+Empleado (Legajo (PK), DNI, NombreCompleto, FechaIngreso, Sueldo, IdPuesto (FK))
+Vendedor (Legajo (PK)(FK), PorcentajeComision)
+Proveedor (CUIT (PK), RazonSocial, NombreContacto, Email)
+Proveedor_Telefonos (CUIT (PK)(FK), Telefono (PK))
+Producto (Codigo (PK), CodigoBarras, Marca, Modelo, Descripcion, Stock, PrecioUnitario)
+Pedido (Numero (PK), FechaPedido, FechaEntrega, CUIT (FK), LegajoAutoriza (FK))
+Pedido_Detalle (NumeroPedido (PK)(FK), CodigoProducto (PK)(FK), Cantidad)
+CondicionFiscal (IdCondicion (PK), Descripcion)
+Cliente (DNI (PK), Nombre, Domicilio, IdCondicion (FK), LimiteCredito)
+Factura (Tipo (PK), Numero (PK), Fecha, ImporteTotal, FormaPago, DNICliente (FK), LegajoVendedor (FK))
+Factura_Detalle (TipoFactura (PK)(FK), NumeroFactura (PK)(FK), CodigoProducto (PK)(FK), Cantidad, PrecioUnitario)</code></pre>
+        </div>
+        <h4>Trampas</h4>
+        <ul>
+          <li>El importe total de la factura se guarda porque el enunciado lo pide ("se almacena... el importe total"), aunque se podría calcular desde el detalle.</li>
+          <li>Una FK a una PK compuesta lleva las dos columnas: <code>(TipoFactura, NumeroFactura)</code> en el detalle.</li>
+        </ul>
+      </div>
+    </details>
+  </div>
+</section>

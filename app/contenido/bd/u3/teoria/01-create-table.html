@@ -1,0 +1,85 @@
+<div class="bloque">
+  <p class="kicker">DDL</p>
+  <h2>1. La forma del CREATE TABLE</h2>
+
+  <div class="caja caja-formula">
+    <span class="caja-tit">La forma general</span>
+    <pre class="codigo"><code>CREATE TABLE NombreTabla (
+  Columna1  TIPO  NOT NULL,
+  Columna2  TIPO,
+  ...
+  PRIMARY KEY (Columna1)
+);</code></pre>
+  </div>
+  <ul>
+    <li><strong>Una línea por columna</strong>: el nombre, el tipo de dato y, si no puede quedar vacía, <code>NOT NULL</code>.</li>
+    <li>Las líneas se separan con <strong>coma</strong>; la última no lleva.</li>
+    <li>Al final, las claves (sección 2). Todo va entre <strong>paréntesis</strong>, y la sentencia termina con <strong>punto y coma</strong>.</li>
+    <li>Los nombres van <strong>sin espacios ni tildes</strong> (<code>FechaNac</code>, <code>Numero_HC</code>): así se evitan errores.</li>
+  </ul>
+
+  <h3>Los tipos de datos de SQL Server</h3>
+  <p>Son los de la diapositiva "Del DER al SQL Server" de la cátedra. Para el parcial alcanza con estos:</p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Tipo</th><th>Qué guarda</th><th>Para qué atributo</th></tr>
+      <tr><td class="lbl"><code>INT</code></td><td>Un número entero (hasta unos 2.000 millones)</td><td>Códigos, números de turno, legajos, cantidades</td></tr>
+      <tr><td class="lbl"><code>DECIMAL(p, s)</code></td><td>Un número con decimales exactos: <code>p</code> dígitos en total, <code>s</code> de ellos después de la coma</td><td>Precios, costos, sueldos, pesos, superficies</td></tr>
+      <tr><td class="lbl"><code>VARCHAR(n)</code></td><td>Un texto de <strong>hasta</strong> <code>n</code> caracteres (ocupa solo lo que usa)</td><td>Nombres, direcciones, descripciones, documentos con guiones</td></tr>
+      <tr><td class="lbl"><code>CHAR(n)</code></td><td>Un texto de <strong>exactamente</strong> <code>n</code> caracteres</td><td>Códigos de largo fijo: sexo (<code>CHAR(1)</code>), letra de zona</td></tr>
+      <tr><td class="lbl"><code>DATE</code></td><td>Una fecha (año, mes, día)</td><td>Fecha de nacimiento, de ingreso, de una factura</td></tr>
+      <tr><td class="lbl"><code>TIME</code></td><td>Una hora</td><td>Hora de un recorrido</td></tr>
+      <tr><td class="lbl"><code>DATETIME</code></td><td>Fecha y hora juntas</td><td>FechaHora de un turno</td></tr>
+      <tr><td class="lbl"><code>BIT</code></td><td>0 o 1 (no o sí)</td><td>"Tiene mantenimiento", "está activo"</td></tr>
+    </table>
+  </div>
+  <p>
+    <strong>Cómo se lee <code>DECIMAL(p, s)</code>:</strong> <code>DECIMAL(10, 2)</code> tiene 10 dígitos
+    en total y 2 son decimales, así que entra hasta 99.999.999,99. <code>DECIMAL(5, 2)</code> llega a
+    999,99: alcanza para el peso de un animal en kilos.
+  </p>
+
+  <h3>Ejemplo 1: una tabla sin claves foráneas</h3>
+  <div class="caja caja-ejemplo">
+    <p>Zona (Codigo (PK), Nombre, Extension) &mdash; la extensión es en m2 y puede tener decimales.</p>
+  </div>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Atributo</th><th>Qué es</th><th>Tipo</th></tr>
+      <tr><td class="lbl">Codigo</td><td>Un número que identifica la zona; es la PK, no puede faltar</td><td><code>INT NOT NULL</code></td></tr>
+      <tr><td class="lbl">Nombre</td><td>Un texto corto; toda zona tiene nombre</td><td><code>VARCHAR(50) NOT NULL</code></td></tr>
+      <tr><td class="lbl">Extension</td><td>Metros cuadrados, con decimales</td><td><code>DECIMAL(10,2)</code></td></tr>
+    </table>
+  </div>
+  <pre class="codigo"><code>CREATE TABLE Zona (
+  Codigo     INT           NOT NULL,
+  Nombre     VARCHAR(50)   NOT NULL,
+  Extension  DECIMAL(10,2),
+  PRIMARY KEY (Codigo)
+);</code></pre>
+
+  <h3>Ejemplo 2: elegir los tipos de un enunciado de parcial</h3>
+  <div class="caja caja-ejemplo">
+    <p>"De cada cliente se conoce: nombre completo, DNI o CUIT, dirección y fecha de alta. Se registra si tiene la cuenta al día."</p>
+  </div>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase del enunciado</th><th>Qué es</th><th>Tipo</th></tr>
+      <tr><td class="lbl">"nombre completo"</td><td>Texto de largo variable</td><td><code>VARCHAR(100)</code></td></tr>
+      <tr><td class="lbl">"DNI o CUIT"</td><td>Un CUIT tiene 11 dígitos y suele llevar guiones (20-12345678-9): mejor texto</td><td><code>VARCHAR(13)</code></td></tr>
+      <tr><td class="lbl">"dirección"</td><td>Texto</td><td><code>VARCHAR(150)</code></td></tr>
+      <tr><td class="lbl">"fecha de alta"</td><td>Una fecha sin hora</td><td><code>DATE</code></td></tr>
+      <tr><td class="lbl">"si tiene la cuenta al día"</td><td>Sí o no</td><td><code>BIT</code></td></tr>
+    </table>
+  </div>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Errores y trampas</span>
+    <ul>
+      <li>Un número con el que <strong>no se hacen cuentas</strong> y puede tener guiones o ceros adelante (teléfono, CUIT) va como <code>VARCHAR</code>.</li>
+      <li>La plata nunca va en <code>INT</code>: se pierden los centavos. <code>DECIMAL(10,2)</code>.</li>
+      <li>La coma de más antes del paréntesis final (<code>...,</code> <code>)</code>) es el error de sintaxis más común.</li>
+      <li>El largo exacto de un <code>VARCHAR</code> no lo corrigen: que sea razonable (un nombre en 50 o 100 está bien).</li>
+    </ul>
+  </div>
+</div>

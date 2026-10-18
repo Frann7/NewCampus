@@ -1,0 +1,86 @@
+<!-- ==================== EJERCICIO 1 ==================== -->
+<section class="parcial-ej">
+  <div class="parcial-ej-cab">
+    <h2>Ejercicio 1</h2>
+    <span class="parcial-tema">DER &rarr; 3FN (1er parcial)</span>
+  </div>
+
+  <p><strong>Ejercicio 1:</strong> Lea atentamente el siguiente enunciado y realice el DER extendido correspondiente. Algunos atributos están implícitos, pero puede agregar aquellos que considere necesario. Escriba las entidades y normalícelas a 3FN, identificando las PK y FK de cada una.</p>
+  <p><em>Una Editorial necesita organizar su información para mejorar su eficiencia operativa en la gestión de pedidos, venta y entrega de los libros que comercializa. De cada libro se conocen la siguiente información: ISBN (código único que identifica al libro internacionalmente), título, autor, año de la edición, género, precio unitario, fecha del precio unitario y cantidad de artículos en cada almacén. La fecha del precio unitario va cambiando a medida que se agrega un nuevo precio y es importante guardar un histórico de precios.</em></p>
+  <p><em>Los clientes de la editorial son librerías. De cada cliente se conocen la siguiente información: Razón Social, número de CUIT, Dirección, Ciudad, Provincia, País, E-Mails (pueden ser más de uno, identificados según un tipo. Ej: Laboral), Teléfono fijo de la empresa, Contacto y teléfono celular del contacto.</em></p>
+  <p><em>Cuando un cliente desea realizar una compra comienza con un Pedido que debe contener como mínimo la siguiente información: Número de pedido, fecha, cliente, artículos solicitados, precio unitario, cantidad. En este momento, el pedido debe estar identificado como pendiente, de tal manera que el sector de facturación sepa que hay un pedido listo para facturar. Luego, cuando se realice la factura, el pedido debe marcarse como pendiente de entrega para que el sector de entregas sepa que hay un despacho pendiente y que lo marcará como Entregado cuando se haya finalizado la entrega. Puede ocurrir, en cualquier momento, que el pedido se cancele. En este caso, el pedido debe marcarse como Cancelado.</em></p>
+  <p><em>Cuando un pedido está marcado como Pendiente, el departamento de facturación procede a emitir la factura correspondiente. Para esto se deberán almacenar los siguientes datos: ID de Factura, Tipo de comprobante, letra, punto de venta (numérico) y número de factura (numérico), la fecha de la factura, el código del cliente, los artículos facturados con sus precios y cantidades tal como figuran en el pedido seleccionado. La factura es una copia de la información incluida en el pedido, por eso es necesario guardar también, por cada factura, el número de pedido que generó la misma.</em></p>
+
+  <div class="parcial-extras">
+    <details class="parcial-desp pd-resultados">
+      <summary>
+        <span class="pd-icono">&#10003;</span>
+        <span class="pd-txt"><b>Resultados</b><small>Solo la respuesta</small></span>
+      </summary>
+      <div class="pd-cuerpo">
+        <p>Entidades e interrelaciones del DER: Libro, Almacén (N:M con Libro, con Cantidad), Precio histórico (débil de Libro), Cliente (con Emails multivaluado y TipoEmail), Pedido (1:N con Cliente; N:M con Libro, con precio y cantidad), Factura (1:1 con Pedido; N:M con Libro, con precio y cantidad).</p>
+        <pre class="codigo" data-lang="texto"><code>Pais (IdPais (PK), Nombre)
+Provincia (IdProvincia (PK), Nombre, IdPais (FK))
+Ciudad (IdCiudad (PK), Nombre, IdProvincia (FK))
+Libro (ISBN (PK), Titulo, Autor, AnioEdicion, Genero)
+Libro_Precio (ISBN (PK)(FK), FechaPrecio (PK), PrecioUnitario)
+Almacen (IdAlmacen (PK), Nombre)
+Libro_Almacen (ISBN (PK)(FK), IdAlmacen (PK)(FK), Cantidad)
+Cliente (CUIT (PK), RazonSocial, Direccion, IdCiudad (FK), TelefonoFijo, Contacto, CelularContacto)
+TipoEmail (IdTipoEmail (PK), Descripcion)
+Cliente_Email (CUIT (PK)(FK), Email (PK), IdTipoEmail (FK))
+Pedido (Numero (PK), Fecha, Estado, CUIT (FK))
+Pedido_Detalle (NumeroPedido (PK)(FK), ISBN (PK)(FK), PrecioUnitario, Cantidad)
+Factura (IdFactura (PK), TipoComprobante, Letra, PuntoVenta, NumeroFactura, Fecha, NumeroPedido (FK))
+Factura_Detalle (IdFactura (PK)(FK), ISBN (PK)(FK), PrecioUnitario, Cantidad)</code></pre>
+      </div>
+    </details>
+
+    <details class="parcial-desp pd-explicacion">
+      <summary>
+        <span class="pd-icono">&#9998;</span>
+        <span class="pd-txt"><b>Explicación detallada</b><small>Las decisiones frase por frase y el modelo</small></span>
+      </summary>
+      <div class="pd-cuerpo">
+        <h4>Qué evalúa</h4>
+        <p>Es el ejercicio del 1er parcial (dibujar el DER desde el enunciado y pasarlo a 3FN). Para el 2do parcial importa la segunda mitad: las tablas, porque los ejercicios 2 y 3 se escriben sobre ellas. Las reglas son las de la Unidad 2.</p>
+        <span class="paso">Las decisiones, frase por frase</span>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Frase del enunciado</th><th>Qué es</th><th>Qué tabla sale</th></tr>
+            <tr><td class="lbl">"histórico de precios"</td><td>Un libro tiene muchos precios, uno por fecha: entidad débil de Libro</td><td><code>Libro_Precio</code>, PK (ISBN, FechaPrecio)</td></tr>
+            <tr><td class="lbl">"cantidad de artículos en cada almacén"</td><td>N:M Libro &ndash; Almacén, con atributo</td><td><code>Libro_Almacen</code> con Cantidad</td></tr>
+            <tr><td class="lbl">"Ciudad, Provincia, País"</td><td>Dependencia transitiva</td><td>Tres tablas; <code>IdCiudad</code> en Cliente</td></tr>
+            <tr><td class="lbl">"E-Mails (más de uno, según un tipo)"</td><td>Multivaluado, con un tipo</td><td><code>Cliente_Email</code> y <code>TipoEmail</code></td></tr>
+            <tr><td class="lbl">"artículos solicitados, precio unitario, cantidad"</td><td>N:M Pedido &ndash; Libro, con atributos</td><td><code>Pedido_Detalle</code> (el detalle)</td></tr>
+            <tr><td class="lbl">"pendiente... pendiente de entrega... Entregado... Cancelado"</td><td>El estado del pedido</td><td>Columna <code>Estado</code> en Pedido</td></tr>
+            <tr><td class="lbl">"el número de pedido que generó la misma"</td><td>1:1 Pedido &ndash; Factura</td><td>FK <code>NumeroPedido</code> en Factura</td></tr>
+            <tr><td class="lbl">"artículos facturados con sus precios y cantidades"</td><td>N:M Factura &ndash; Libro</td><td><code>Factura_Detalle</code></td></tr>
+          </table>
+        </div>
+        <div class="caja caja-resp">
+          <span class="caja-tit">Modelo relacional en 3FN</span>
+          <pre class="codigo" data-lang="texto"><code>Pais (IdPais (PK), Nombre)
+Provincia (IdProvincia (PK), Nombre, IdPais (FK))
+Ciudad (IdCiudad (PK), Nombre, IdProvincia (FK))
+Libro (ISBN (PK), Titulo, Autor, AnioEdicion, Genero)
+Libro_Precio (ISBN (PK)(FK), FechaPrecio (PK), PrecioUnitario)
+Almacen (IdAlmacen (PK), Nombre)
+Libro_Almacen (ISBN (PK)(FK), IdAlmacen (PK)(FK), Cantidad)
+Cliente (CUIT (PK), RazonSocial, Direccion, IdCiudad (FK), TelefonoFijo, Contacto, CelularContacto)
+TipoEmail (IdTipoEmail (PK), Descripcion)
+Cliente_Email (CUIT (PK)(FK), Email (PK), IdTipoEmail (FK))
+Pedido (Numero (PK), Fecha, Estado, CUIT (FK))
+Pedido_Detalle (NumeroPedido (PK)(FK), ISBN (PK)(FK), PrecioUnitario, Cantidad)
+Factura (IdFactura (PK), TipoComprobante, Letra, PuntoVenta, NumeroFactura, Fecha, NumeroPedido (FK))
+Factura_Detalle (IdFactura (PK)(FK), ISBN (PK)(FK), PrecioUnitario, Cantidad)</code></pre>
+        </div>
+        <h4>Trampas</h4>
+        <ul>
+          <li>El enunciado pide guardar "el código del cliente" en la factura, pero se obtiene por el pedido (NumeroPedido &rarr; CUIT): guardarlo otra vez sería una dependencia transitiva. Si se lo deja, conviene aclararlo como redundancia pedida.</li>
+          <li>El precio del pedido va en el <strong>detalle</strong>, no se toma del Libro: el precio del libro cambia (por eso hay un histórico).</li>
+        </ul>
+      </div>
+    </details>
+  </div>
+</section>

@@ -1,0 +1,27 @@
+<div class="ej">
+  <span class="tag">Guía 9 · Consulta 2</span>
+  <h2>Especies de una zona dada</h2>
+  <div class="enunciado">
+    <p>Listado de especies ubicadas en una zona dada.</p>
+  </div>
+
+  <span class="paso">Las tablas que usa</span>
+  <pre class="codigo" data-lang="texto"><code>Especie (Codigo (PK), Nombre, NombreCientifico, Descripcion, CodigoZona (FK))
+Zona (Codigo (PK), Nombre, Extension)</code></pre>
+
+  <span class="paso">Cómo se arma</span>
+  <ul>
+    <li><strong>"Una zona dada":</strong> la consigna deja elegir cuál; se toma la zona de nombre 'Sabana'.</li>
+    <li><strong>Camino:</strong> el nombre de la zona está en Zona, y la especie tiene la FK <code>CodigoZona</code>: un JOIN.</li>
+    <li><strong>Filtro:</strong> <code>z.Nombre = 'Sabana'</code>.</li>
+  </ul>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Resolución</span>
+    <pre class="codigo"><code>SELECT e.Codigo, e.Nombre, e.NombreCientifico
+FROM Especie e
+INNER JOIN Zona z ON z.Codigo = e.CodigoZona
+WHERE z.Nombre = 'Sabana';</code></pre>
+  </div>
+  <p>Si dieran el <strong>código</strong> de la zona (por ejemplo, 2), no haría falta el JOIN: <code>SELECT ... FROM Especie WHERE CodigoZona = 2</code>.</p>
+</div>

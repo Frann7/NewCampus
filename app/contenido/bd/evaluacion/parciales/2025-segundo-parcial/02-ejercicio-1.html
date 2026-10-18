@@ -1,0 +1,90 @@
+<!-- ==================== EJERCICIO 1 ==================== -->
+<section class="parcial-ej">
+  <div class="parcial-ej-cab">
+    <h2>Ejercicio 1</h2>
+    <span class="parcial-tema">Unidad 1 &middot; Transacción</span>
+  </div>
+
+  <p><strong>Ejercicio 1:</strong> Defina Transacción en base de datos. Definición y propiedades.</p>
+
+  <div class="parcial-extras">
+    <details class="parcial-desp pd-resultados">
+      <summary>
+        <span class="pd-icono">&#10003;</span>
+        <span class="pd-txt"><b>Resultados</b><small>Solo la respuesta</small></span>
+      </summary>
+      <div class="pd-cuerpo">
+        <p>
+          Una <strong>transacción</strong> es un conjunto de operaciones sobre la base de datos que se
+          ejecutan como <strong>una sola unidad de trabajo</strong>: o se realizan todas, o no se
+          realiza ninguna. Lleva a la base de un estado consistente a otro. Si todo sale bien se
+          confirma (<code>COMMIT</code>) y los cambios quedan guardados; si algo falla se deshace
+          (<code>ROLLBACK</code>) y la base vuelve a como estaba al empezar (<code>BEGIN TRAN</code>).
+        </p>
+        <p>Propiedades (<strong>ACID</strong>):</p>
+        <ul>
+          <li><strong>Atomicidad:</strong> es indivisible; se ejecuta completa o no se ejecuta nada.</li>
+          <li><strong>Consistencia:</strong> deja la base en un estado válido, cumpliendo las restricciones de integridad.</li>
+          <li><strong>Aislamiento:</strong> las transacciones simultáneas no se interfieren; cada una trabaja como si estuviera sola.</li>
+          <li><strong>Durabilidad:</strong> una vez confirmada, los cambios son permanentes aunque falle el sistema.</li>
+        </ul>
+      </div>
+    </details>
+
+    <details class="parcial-desp pd-explicacion">
+      <summary>
+        <span class="pd-icono">&#9998;</span>
+        <span class="pd-txt"><b>Explicación detallada</b><small>El concepto desde cero, un ejemplo y las trampas</small></span>
+      </summary>
+      <div class="pd-cuerpo">
+        <h4>Qué evalúa</h4>
+        <p>Dos cosas: la <strong>definición</strong> (qué es una transacción) y las <strong>propiedades</strong> (las cuatro de ACID, cada una explicada).</p>
+
+        <h4>La idea, con un ejemplo</h4>
+        <p>
+          Algunas tareas necesitan varias sentencias. Cuando un turno de la clínica se atiende, hay
+          que registrar la consulta <strong>y</strong> pasar el turno a "Atendido". Si se hace la
+          primera y el sistema se cae antes de la segunda, queda una consulta para un turno que
+          figura como pendiente. La transacción las convierte en una sola cosa:
+        </p>
+        <pre class="codigo"><code>BEGIN TRAN;
+INSERT INTO Consulta (Numero, Diagnostico, Observaciones, Fecha, NumeroTurno)
+VALUES (501, 'Otitis', 'Control en 7 días', '2026-10-14', 3020);
+UPDATE Turno SET Estado = 'Atendido' WHERE Numero = 3020;
+COMMIT;</code></pre>
+
+        <h4>Las cuatro propiedades sobre ese ejemplo</h4>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Propiedad</th><th>En el ejemplo</th></tr>
+            <tr><td class="lbl">Atomicidad</td><td>Si el <code>UPDATE</code> falla, el <code>INSERT</code> se deshace: no queda la consulta suelta.</td></tr>
+            <tr><td class="lbl">Consistencia</td><td>La consulta apunta a un turno que existe (la FK se cumple) y el turno queda en un estado válido.</td></tr>
+            <tr><td class="lbl">Aislamiento</td><td>Si en ese momento alguien lista los turnos pendientes, no ve el turno "a medias".</td></tr>
+            <tr><td class="lbl">Durabilidad</td><td>Después del <code>COMMIT</code>, aunque se corte la luz, la consulta y el estado nuevo quedan.</td></tr>
+          </table>
+        </div>
+        <p>
+          Para ampliar, se puede nombrar a los módulos del SGBD que las cumplen (apunte de la
+          cátedra): el <strong>gestor de transacciones</strong>, el <strong>control de la
+          integridad</strong>, el <strong>planificador</strong> (concurrencia) y el <strong>gestor de
+          recuperación</strong>.
+        </p>
+
+        <h4>Parecido en el campus</h4>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Dónde</th><th>Qué tiene igual</th><th>Qué cambia</th></tr>
+            <tr><td>Unidad 1, sección 3</td><td>La definición, las propiedades y las sentencias</td><td>Nada: es la misma respuesta</td></tr>
+          </table>
+        </div>
+
+        <h4>Trampas</h4>
+        <ul>
+          <li>Nombrar las cuatro letras sin explicar cada una deja la respuesta a medias.</li>
+          <li>"Consistencia" no es "sin datos repetidos": es que se cumplan todas las reglas de integridad.</li>
+          <li>No confundir con el "archivo de transacciones" del apunte de Archivos (los movimientos que actualizan un archivo maestro).</li>
+        </ul>
+      </div>
+    </details>
+  </div>
+</section>

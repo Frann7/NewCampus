@@ -1,0 +1,63 @@
+<div class="ej" data-examen="variante"
+     data-examen-ref="2do parcial 2025 · ej. 4"
+     data-examen-nota="La misma consigna que el ejercicio 4 del parcial (una tabla con sus atributos y claves), con otra tabla.">
+  <span class="tag">Guía 10 &middot; Una tabla con sus claves</span>
+  <h2>La tabla de Embarcaciones</h2>
+  <div class="enunciado">
+    <p>Utilizando lenguaje SQL, crear la tabla de Embarcaciones del club náutico, con sus atributos y claves correspondientes.</p>
+    <pre class="codigo" data-lang="texto"><code>Socio (DNI (PK), Nombre, Direccion, FechaIngreso)
+TipoEmbarcacion (Codigo (PK), Descripcion)
+Amarre (Numero (PK), LecturaAgua, LecturaLuz, Mantenimiento, LetraZona (FK),
+        DNIPropietario (FK), FechaAdquisicion)
+Embarcacion (Matricula (PK), Nombre, Dimension, CodigoTipo (FK), DNISocio (FK),
+             NumeroAmarre (FK), FechaAsignacion)</code></pre>
+  </div>
+
+  <span class="paso">Paso 1 &mdash; Desarme de la tabla</span>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Columna</th><th>Qué es</th><th>Tipo</th><th>Clave</th></tr>
+      <tr><td class="lbl">Matricula</td><td>Identifica la embarcación; tiene letras y números</td><td><code>VARCHAR(20) NOT NULL</code></td><td>PK</td></tr>
+      <tr><td class="lbl">Nombre</td><td>Texto</td><td><code>VARCHAR(50)</code></td><td></td></tr>
+      <tr><td class="lbl">Dimension</td><td>Metros de eslora, con decimales</td><td><code>DECIMAL(5,2)</code></td><td></td></tr>
+      <tr><td class="lbl">CodigoTipo</td><td>Apunta a TipoEmbarcacion</td><td><code>INT NOT NULL</code> (como <code>TipoEmbarcacion.Codigo</code>)</td><td>FK</td></tr>
+      <tr><td class="lbl">DNISocio</td><td>El dueño; apunta a Socio</td><td><code>VARCHAR(13) NOT NULL</code> (como <code>Socio.DNI</code>)</td><td>FK</td></tr>
+      <tr><td class="lbl">NumeroAmarre</td><td>El amarre que ocupa; apunta a Amarre</td><td><code>INT NOT NULL</code></td><td>FK, y además <code>UNIQUE</code></td></tr>
+      <tr><td class="lbl">FechaAsignacion</td><td>Cuándo se le asignó el amarre</td><td><code>DATE</code></td><td></td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Paso 2 &mdash; Por qué UNIQUE en NumeroAmarre</span>
+  <p>
+    La interrelación con Amarre es <strong>1:1</strong>: un amarre lo ocupa <strong>una sola</strong>
+    embarcación. Una FK común se puede repetir (dos embarcaciones con el mismo amarre); con
+    <code>UNIQUE</code>, SQL Server lo impide.
+  </p>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Resolución</span>
+    <pre class="codigo"><code>CREATE TABLE Embarcacion (
+  Matricula        VARCHAR(20)   NOT NULL,
+  Nombre           VARCHAR(50),
+  Dimension        DECIMAL(5,2),
+  CodigoTipo       INT           NOT NULL,
+  DNISocio         VARCHAR(13)   NOT NULL,
+  NumeroAmarre     INT           NOT NULL,
+  FechaAsignacion  DATE,
+  PRIMARY KEY (Matricula),
+  UNIQUE (NumeroAmarre),
+  FOREIGN KEY (CodigoTipo) REFERENCES TipoEmbarcacion(Codigo),
+  FOREIGN KEY (DNISocio) REFERENCES Socio(DNI),
+  FOREIGN KEY (NumeroAmarre) REFERENCES Amarre(Numero)
+);</code></pre>
+    <p>Las tablas TipoEmbarcacion, Socio y Amarre tienen que estar creadas antes.</p>
+  </div>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Errores y trampas</span>
+    <ul>
+      <li>Si la consigna pide <strong>una</strong> tabla, se crea esa sola, pero con <strong>todas</strong> sus FK: son parte de "sus claves correspondientes".</li>
+      <li>El tipo de cada FK se copia del de la PK a la que apunta: si <code>Socio.DNI</code> es <code>VARCHAR(13)</code>, <code>DNISocio</code> también.</li>
+    </ul>
+  </div>
+</div>

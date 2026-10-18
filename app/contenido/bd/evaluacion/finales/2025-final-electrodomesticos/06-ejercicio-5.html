@@ -1,0 +1,108 @@
+<!-- ==================== EJERCICIO 5 ==================== -->
+<section class="parcial-ej">
+  <div class="parcial-ej-cab">
+    <h2>Ejercicio 5</h2>
+    <span class="parcial-tema">Unidad 4 &middot; Consultas</span>
+  </div>
+
+  <p><strong>5.</strong> Resolver las siguientes consultas utilizando SQL:</p>
+  <ol class="parcial-incisos">
+    <li>Listado de empleados indicando legajo, nombre completo, fecha ingreso y su puesto, ordenado por antigüedad, los más antiguos primeros.</li>
+    <li>Cantidad de productos que actualmente tiene en stock la empresa, ordenados por marca.</li>
+    <li>Listado de compras realizadas por un cliente dado, indicando nombre del cliente, fecha, importe y nombre del vendedor que intervino en dicha venta.</li>
+    <li>Listado de los pedidos del mes de febrero de este año, indicando número, fecha, razón social del proveedor, y nombre completo de quién autorizó el pedido, ordenados por fecha.</li>
+  </ol>
+
+  <div class="parcial-extras">
+    <details class="parcial-desp pd-resultados">
+      <summary>
+        <span class="pd-icono">&#10003;</span>
+        <span class="pd-txt"><b>Resultados</b><small>Solo la respuesta</small></span>
+      </summary>
+      <div class="pd-cuerpo">
+        <p><strong>a)</strong></p>
+        <pre class="codigo"><code>SELECT e.Legajo, e.NombreCompleto, e.FechaIngreso, pu.Descripcion AS Puesto
+FROM Empleado e
+INNER JOIN Puesto pu ON pu.IdPuesto = e.IdPuesto
+ORDER BY e.FechaIngreso ASC;</code></pre>
+        <p><strong>b)</strong></p>
+        <pre class="codigo"><code>SELECT Marca, SUM(Stock) AS CantidadEnStock
+FROM Producto
+GROUP BY Marca
+ORDER BY Marca;</code></pre>
+        <p><strong>c)</strong> (el cliente de DNI 30111222)</p>
+        <pre class="codigo"><code>SELECT c.Nombre AS Cliente, f.Fecha, f.ImporteTotal, e.NombreCompleto AS Vendedor
+FROM Factura f
+INNER JOIN Cliente c ON c.DNI = f.DNICliente
+INNER JOIN Empleado e ON e.Legajo = f.LegajoVendedor
+WHERE c.DNI = '30111222'
+ORDER BY f.Fecha;</code></pre>
+        <p><strong>d)</strong></p>
+        <pre class="codigo"><code>SELECT p.Numero, p.FechaPedido, pr.RazonSocial, e.NombreCompleto AS Autorizo
+FROM Pedido p
+INNER JOIN Proveedor pr ON pr.CUIT = p.CUIT
+INNER JOIN Empleado e ON e.Legajo = p.LegajoAutoriza
+WHERE MONTH(p.FechaPedido) = 2
+  AND YEAR(p.FechaPedido) = YEAR(GETDATE())
+ORDER BY p.FechaPedido;</code></pre>
+      </div>
+    </details>
+
+    <details class="parcial-desp pd-explicacion">
+      <summary>
+        <span class="pd-icono">&#9998;</span>
+        <span class="pd-txt"><b>Explicación detallada</b><small>Cada consulta, y las dos lecturas de b)</small></span>
+      </summary>
+      <div class="pd-cuerpo">
+        <h4>Qué evalúa</h4>
+        <p>Cuatro consultas más simples que las del parcial 2025 (Unidad 4, secciones 1 a 4), sobre las tablas del ejercicio 4.</p>
+        <pre class="codigo" data-lang="texto"><code>Puesto (IdPuesto (PK), Descripcion)
+Empleado (Legajo (PK), DNI, NombreCompleto, FechaIngreso, Sueldo, IdPuesto (FK))
+Vendedor (Legajo (PK)(FK), PorcentajeComision)
+Proveedor (CUIT (PK), RazonSocial, NombreContacto, Email)
+Proveedor_Telefonos (CUIT (PK)(FK), Telefono (PK))
+Producto (Codigo (PK), CodigoBarras, Marca, Modelo, Descripcion, Stock, PrecioUnitario)
+Pedido (Numero (PK), FechaPedido, FechaEntrega, CUIT (FK), LegajoAutoriza (FK))
+Pedido_Detalle (NumeroPedido (PK)(FK), CodigoProducto (PK)(FK), Cantidad)
+CondicionFiscal (IdCondicion (PK), Descripcion)
+Cliente (DNI (PK), Nombre, Domicilio, IdCondicion (FK), LimiteCredito)
+Factura (Tipo (PK), Numero (PK), Fecha, ImporteTotal, FormaPago, DNICliente (FK), LegajoVendedor (FK))
+Factura_Detalle (TipoFactura (PK)(FK), NumeroFactura (PK)(FK), CodigoProducto (PK)(FK), Cantidad, PrecioUnitario)</code></pre>
+        <h4>a) Empleados por antigüedad</h4>
+        <p>"Los más antiguos primero" = fecha de ingreso de menor a mayor. El puesto está en otra tabla: un JOIN.</p>
+        <pre class="codigo"><code>SELECT e.Legajo, e.NombreCompleto, e.FechaIngreso, pu.Descripcion AS Puesto
+FROM Empleado e
+INNER JOIN Puesto pu ON pu.IdPuesto = e.IdPuesto
+ORDER BY e.FechaIngreso ASC;</code></pre>
+        <h4>b) Stock por marca</h4>
+        <p>"Cantidad de productos en stock ordenados por marca": una suma por marca. <code>SUM(Stock)</code> da las unidades; si se entendiera "cuántos productos distintos tienen stock", sería <code>COUNT(*)</code> con <code>WHERE Stock &gt; 0</code>. Conviene aclarar cuál se eligió.</p>
+        <pre class="codigo"><code>SELECT Marca, SUM(Stock) AS CantidadEnStock
+FROM Producto
+GROUP BY Marca
+ORDER BY Marca;</code></pre>
+        <h4>c) Compras de un cliente dado</h4>
+        <p>"Un cliente dado": se elige uno y va en el <code>WHERE</code>. El vendedor es un Empleado: se une por <code>LegajoVendedor</code>.</p>
+        <pre class="codigo"><code>SELECT c.Nombre AS Cliente, f.Fecha, f.ImporteTotal, e.NombreCompleto AS Vendedor
+FROM Factura f
+INNER JOIN Cliente c ON c.DNI = f.DNICliente
+INNER JOIN Empleado e ON e.Legajo = f.LegajoVendedor
+WHERE c.DNI = '30111222'
+ORDER BY f.Fecha;</code></pre>
+        <h4>d) Pedidos de febrero de este año</h4>
+        <p>Dos condiciones de fecha: el mes es 2 y el año es el de hoy (<code>YEAR(GETDATE())</code>). Solo <code>MONTH = 2</code> traería febreros de todos los años.</p>
+        <pre class="codigo"><code>SELECT p.Numero, p.FechaPedido, pr.RazonSocial, e.NombreCompleto AS Autorizo
+FROM Pedido p
+INNER JOIN Proveedor pr ON pr.CUIT = p.CUIT
+INNER JOIN Empleado e ON e.Legajo = p.LegajoAutoriza
+WHERE MONTH(p.FechaPedido) = 2
+  AND YEAR(p.FechaPedido) = YEAR(GETDATE())
+ORDER BY p.FechaPedido;</code></pre>
+        <h4>Trampas</h4>
+        <ul>
+          <li>En b), la regla de oro: <code>Marca</code> está en el <code>SELECT</code> sin función, así que va al <code>GROUP BY</code>.</li>
+          <li>En c) y d), el nombre de una persona sale de Empleado: Factura y Pedido solo tienen el legajo.</li>
+        </ul>
+      </div>
+    </details>
+  </div>
+</section>

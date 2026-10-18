@@ -1,0 +1,79 @@
+<div class="bloque" data-examen="variante"
+     data-examen-ref="Finales 2025 · ej. 1 y ej. 4"
+     data-examen-nota="En los dos finales: «Desarrolle Archivo Indexado: estructura, proceso de alta, baja y modificaciones» y «Explique cuál es la estructura y funcionamiento de un archivo indexado». Es tema del 1er parcial.">
+  <p class="kicker">Repaso del 1er parcial</p>
+  <h2>5. Archivo indexado</h2>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Para escribir en la hoja</span>
+    <p>
+      <strong>Estructura:</strong> un archivo indexado tiene dos áreas. El <strong>área de datos</strong>
+      guarda los registros. El <strong>área de índice</strong> guarda, por cada registro, su
+      <strong>clave</strong> y la <strong>dirección</strong> donde está en el área de datos, ordenadas
+      por clave (generalmente en un árbol B). La clave cumple unicidad y minimalidad.
+    </p>
+    <p>
+      <strong>Funcionamiento (acceso):</strong> la única forma de llegar a un registro es por su clave:
+      se lee el índice, se ubica la clave, se toma la dirección y se va directo al dato en el área de
+      datos. Es más rápido que el secuencial y más lento que el directo.
+    </p>
+    <ul>
+      <li><strong>Alta:</strong> se ubica la clave nueva en el área de índice, se reserva una dirección en el área de datos y se la asocia a la clave, se graba el registro en esa dirección y se lo encadena con los existentes.</li>
+      <li><strong>Baja:</strong> se busca la clave y se obtiene la dirección. Se borra físicamente la clave del área de índice y en el área de datos el registro se marca (baja lógica); después se depura para recuperar el espacio.</li>
+      <li><strong>Modificación:</strong> se ubica la clave en el índice, se trae el registro del área de datos a memoria, se modifica y se vuelve a grabar en el mismo lugar. Si se cambia la clave, hay que reorganizar el índice.</li>
+    </ul>
+    <p><strong>Uso:</strong> sistemas en línea donde hay que encontrar un registro rápido (alumnado, reservas de aerolíneas, bancos) y con datos que cambian mucho.</p>
+  </div>
+
+  <h3>El dibujo que acompaña la respuesta</h3>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th colspan="2">Área de índice</th><th></th><th colspan="2">Área de datos</th></tr>
+      <tr><th>Clave</th><th>Dirección</th><th></th><th>Dirección</th><th>Registro</th></tr>
+      <tr><td>AB</td><td>1021</td><td>&rarr;</td><td>1018</td><td>BC &middot; Silva Mariana</td></tr>
+      <tr><td>AC</td><td>1019</td><td>&rarr;</td><td>1019</td><td>AC &middot; Torres Diego</td></tr>
+      <tr><td>AD</td><td>1022</td><td>&rarr;</td><td>1021</td><td>AB &middot; Alvarez Andrea</td></tr>
+      <tr><td>BC</td><td>1018</td><td>&rarr;</td><td>1022</td><td>AD &middot; Alvarez José</td></tr>
+    </table>
+  </div>
+  <p>El índice está <strong>ordenado por clave</strong>; los datos pueden estar en cualquier orden, porque se llega a ellos por la dirección.</p>
+
+  <h3>Ejemplo 1: buscar un registro</h3>
+  <div class="caja caja-ejemplo">
+    <p>Con el dibujo de arriba, buscar el registro de clave AD.</p>
+  </div>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th colspan="2">Área de índice</th><th></th><th colspan="2">Área de datos</th></tr>
+      <tr><th>Clave</th><th>Dirección</th><th></th><th>Dirección</th><th>Registro</th></tr>
+      <tr><td>AB</td><td>1021</td><td>&rarr;</td><td>1018</td><td>BC &middot; Silva Mariana</td></tr>
+      <tr><td>AC</td><td>1019</td><td>&rarr;</td><td>1019</td><td>AC &middot; Torres Diego</td></tr>
+      <tr><td><strong>AD</strong></td><td><strong>1022</strong></td><td>&rarr;</td><td>1021</td><td>AB &middot; Alvarez Andrea</td></tr>
+      <tr><td>BC</td><td>1018</td><td>&rarr;</td><td><strong>1022</strong></td><td><strong>AD &middot; Alvarez José</strong></td></tr>
+    </table>
+  </div>
+  <ol>
+    <li>Leer el índice y ubicar AD (está ordenado: se encuentra rápido).</li>
+    <li>Tomar su dirección: 1022.</li>
+    <li>Ir directo a la dirección 1022 del área de datos: Alvarez José. No hizo falta leer los otros registros.</li>
+  </ol>
+
+  <h3>Ejemplo 2: secuencial o indexado</h3>
+  <div class="caja caja-ejemplo">
+    <p>Un sistema de alumnado donde cada consulta trae un alumno por su legajo, y se dan altas y bajas todo el tiempo. ¿Qué organización conviene?</p>
+  </div>
+  <ul>
+    <li>En un <strong>secuencial</strong>, para encontrar un legajo hay que leer desde el principio; y un alta en el medio obliga a reescribir el archivo.</li>
+    <li>En un <strong>indexado</strong>, se va por el índice directo al registro, y un alta solo agrega una clave al índice y un registro en cualquier lugar libre.</li>
+    <li>Conviene el <strong>indexado</strong>: acceso rápido por clave y datos que cambian mucho.</li>
+  </ul>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Errores y trampas</span>
+    <ul>
+      <li>El índice guarda <strong>clave y dirección</strong>, no el registro entero.</li>
+      <li>Si se pierde el área de índice, no hay forma de llegar a los datos: se reconstruye con un <strong>regenerador</strong>, que recorre el área de datos (por eso conviene que la clave esté también dentro del registro).</li>
+      <li>No confundir con el <strong>secuencial indexado</strong> (ISAM), que tiene los datos en bloques ordenados y un índice por bloque.</li>
+    </ul>
+  </div>
+</div>

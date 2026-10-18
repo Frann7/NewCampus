@@ -1,0 +1,196 @@
+<!-- ==================== EJERCICIO 5 ==================== -->
+<section class="parcial-ej">
+  <div class="parcial-ej-cab">
+    <h2>Ejercicio 5</h2>
+    <span class="parcial-tema">Unidad 4 &middot; Consultas</span>
+  </div>
+
+  <p><strong>Ejercicio 5:</strong> Utilizando sentencias SQL, realice los scripts correspondientes para generar cada uno de los siguientes listados:</p>
+  <ol class="parcial-incisos">
+    <li>Listado de turnos pendientes, ordenado por fecha y hora del turno (más antiguos primero), mostrando número de turno, fecha, hora, nombre del cliente, nombre del animal y servicio solicitado.</li>
+    <li>Listado de cantidad de turnos pendientes por cliente, ordenado por provincia, ciudad y nombre del cliente. Se debe mostrar: País, Provincia, Ciudad, Nombre del Cliente, Cantidad de Turnos Pendientes.</li>
+    <li>Listado de clientes ordenados por total facturado en tratamientos durante los últimos 12 meses, agrupado por año y mes. Mostrar: Año, Mes, Nombre del Cliente, Total Facturado.</li>
+  </ol>
+
+  <div class="parcial-extras">
+    <details class="parcial-desp pd-resultados">
+      <summary>
+        <span class="pd-icono">&#10003;</span>
+        <span class="pd-txt"><b>Resultados</b><small>Solo la respuesta</small></span>
+      </summary>
+      <div class="pd-cuerpo">
+        <p><strong>a)</strong></p>
+        <pre class="codigo"><code>SELECT t.Numero AS NroTurno,
+       CAST(t.FechaHora AS DATE) AS Fecha,
+       CAST(t.FechaHora AS TIME) AS Hora,
+       p.Nombre AS Cliente,
+       a.Nombre AS Animal,
+       s.Descripcion AS Servicio
+FROM Turno t
+INNER JOIN Animal a ON a.NumeroHC = t.NumeroHC
+INNER JOIN Propietario p ON p.Documento = a.Documento
+INNER JOIN Turno_Servicio ts ON ts.NumeroTurno = t.Numero
+INNER JOIN Servicio s ON s.Codigo = ts.CodigoServicio
+WHERE t.Estado = 'Pendiente'
+ORDER BY t.FechaHora ASC;</code></pre>
+        <p><strong>b)</strong></p>
+        <pre class="codigo"><code>SELECT pa.Nombre AS Pais,
+       pr.Nombre AS Provincia,
+       ci.Nombre AS Ciudad,
+       p.Nombre AS Cliente,
+       COUNT(t.Numero) AS CantidadTurnosPendientes
+FROM Propietario p
+INNER JOIN Ciudad ci ON ci.IdCiudad = p.IdCiudad
+INNER JOIN Provincia pr ON pr.IdProvincia = ci.IdProvincia
+INNER JOIN Pais pa ON pa.IdPais = pr.IdPais
+INNER JOIN Animal a ON a.Documento = p.Documento
+INNER JOIN Turno t ON t.NumeroHC = a.NumeroHC
+WHERE t.Estado = 'Pendiente'
+GROUP BY pa.Nombre, pr.Nombre, ci.Nombre, p.Documento, p.Nombre
+ORDER BY pr.Nombre, ci.Nombre, p.Nombre;</code></pre>
+        <p><strong>c)</strong></p>
+        <pre class="codigo"><code>SELECT YEAR(co.Fecha) AS Anio,
+       MONTH(co.Fecha) AS Mes,
+       p.Nombre AS Cliente,
+       SUM(ct.Costo) AS TotalFacturado
+FROM Propietario p
+INNER JOIN Animal a ON a.Documento = p.Documento
+INNER JOIN Turno t ON t.NumeroHC = a.NumeroHC
+INNER JOIN Consulta co ON co.NumeroTurno = t.Numero
+INNER JOIN Consulta_Tratamiento ct ON ct.NumeroConsulta = co.Numero
+WHERE co.Fecha &gt;= DATEADD(MONTH, -12, GETDATE())
+GROUP BY YEAR(co.Fecha), MONTH(co.Fecha), p.Documento, p.Nombre
+ORDER BY TotalFacturado DESC;</code></pre>
+      </div>
+    </details>
+
+    <details class="parcial-desp pd-explicacion">
+      <summary>
+        <span class="pd-icono">&#9998;</span>
+        <span class="pd-txt"><b>Explicación detallada</b><small>Los cinco pasos de la receta en cada listado, y las trampas</small></span>
+      </summary>
+      <div class="pd-cuerpo">
+        <h4>Qué evalúa</h4>
+        <p>
+          Los tres listados de siempre (Unidad 4, sección 6): uno fila por fila, uno con
+          <code>COUNT</code> y uno con <code>SUM</code> por año y mes. Se escriben sobre las tablas del
+          ejercicio 3:
+        </p>
+        <pre class="codigo" data-lang="texto"><code>Pais (IdPais (PK), Nombre)
+Provincia (IdProvincia (PK), Nombre, IdPais (FK))
+Ciudad (IdCiudad (PK), Nombre, IdProvincia (FK))
+Propietario (Documento (PK), Nombre, Direccion, IdCiudad (FK))
+Animal (NumeroHC (PK), Nombre, Raza, Sexo, FechaNac, Peso, Documento (FK))
+Servicio (Codigo (PK), Descripcion)
+Turno (Numero (PK), FechaHora, Estado, NumeroHC (FK), NroMatricula (FK))
+Turno_Servicio (NumeroTurno (PK)(FK), CodigoServicio (PK)(FK))
+Consulta (Numero (PK), Diagnostico, Observaciones, Fecha, NumeroTurno (FK))
+Consulta_Tratamiento (NumeroConsulta (PK)(FK), CodigoTratamiento (PK)(FK), Costo)</code></pre>
+        <p>El "cliente" del enunciado es el <strong>Propietario</strong>.</p>
+
+        <h4>a) Turnos pendientes</h4>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Paso</th><th>Qué sale</th></tr>
+            <tr><td class="lbl">1. Columnas</td><td>Número, fecha y hora &rarr; Turno (fecha y hora salen de FechaHora con <code>CAST</code>). Cliente &rarr; Propietario. Animal &rarr; Animal. Servicio &rarr; Servicio</td></tr>
+            <tr><td class="lbl">2. Camino</td><td>Turno &rarr; Animal (NumeroHC) &rarr; Propietario (Documento); Turno &rarr; Turno_Servicio &rarr; Servicio</td></tr>
+            <tr><td class="lbl">3. Filtro</td><td><code>t.Estado = 'Pendiente'</code></td></tr>
+            <tr><td class="lbl">4. ¿Cantidad o total?</td><td>No: sin <code>GROUP BY</code></td></tr>
+            <tr><td class="lbl">5. Orden</td><td>Fecha y hora, más antiguos primero: <code>ORDER BY t.FechaHora ASC</code></td></tr>
+          </table>
+        </div>
+        <pre class="codigo"><code>SELECT t.Numero AS NroTurno,
+       CAST(t.FechaHora AS DATE) AS Fecha,
+       CAST(t.FechaHora AS TIME) AS Hora,
+       p.Nombre AS Cliente,
+       a.Nombre AS Animal,
+       s.Descripcion AS Servicio
+FROM Turno t
+INNER JOIN Animal a ON a.NumeroHC = t.NumeroHC
+INNER JOIN Propietario p ON p.Documento = a.Documento
+INNER JOIN Turno_Servicio ts ON ts.NumeroTurno = t.Numero
+INNER JOIN Servicio s ON s.Codigo = ts.CodigoServicio
+WHERE t.Estado = 'Pendiente'
+ORDER BY t.FechaHora ASC;</code></pre>
+        <p>Si un turno tiene dos servicios, aparece en dos filas, una por servicio: es lo que pide "servicio solicitado".</p>
+
+        <h4>b) Cantidad de turnos pendientes por cliente</h4>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Paso</th><th>Qué sale</th></tr>
+            <tr><td class="lbl">1. Columnas</td><td>País, Provincia, Ciudad &rarr; sus tablas. Cliente &rarr; Propietario. Cantidad &rarr; <code>COUNT(t.Numero)</code></td></tr>
+            <tr><td class="lbl">2. Camino</td><td>Pais &larr; Provincia &larr; Ciudad &larr; Propietario &rarr; Animal &rarr; Turno</td></tr>
+            <tr><td class="lbl">3. Filtro</td><td><code>t.Estado = 'Pendiente'</code>, en el <code>WHERE</code></td></tr>
+            <tr><td class="lbl">4. ¿Cantidad?</td><td>Sí, por cliente: <code>GROUP BY</code> país, provincia, ciudad, documento y nombre</td></tr>
+            <tr><td class="lbl">5. Orden</td><td>Lo que dice la consigna: provincia, ciudad y nombre</td></tr>
+          </table>
+        </div>
+        <pre class="codigo"><code>SELECT pa.Nombre AS Pais,
+       pr.Nombre AS Provincia,
+       ci.Nombre AS Ciudad,
+       p.Nombre AS Cliente,
+       COUNT(t.Numero) AS CantidadTurnosPendientes
+FROM Propietario p
+INNER JOIN Ciudad ci ON ci.IdCiudad = p.IdCiudad
+INNER JOIN Provincia pr ON pr.IdProvincia = ci.IdProvincia
+INNER JOIN Pais pa ON pa.IdPais = pr.IdPais
+INNER JOIN Animal a ON a.Documento = p.Documento
+INNER JOIN Turno t ON t.NumeroHC = a.NumeroHC
+WHERE t.Estado = 'Pendiente'
+GROUP BY pa.Nombre, pr.Nombre, ci.Nombre, p.Documento, p.Nombre
+ORDER BY pr.Nombre, ci.Nombre, p.Nombre;</code></pre>
+        <ul>
+          <li>Se cuenta por <strong>turno</strong> (<code>COUNT(t.Numero)</code>), y no se pasa por Turno_Servicio: si se uniera con los servicios, un turno con dos servicios contaría doble.</li>
+          <li><code>p.Documento</code> va al <code>GROUP BY</code> aunque no se muestre: así dos clientes que se llaman igual no se suman juntos.</li>
+          <li>Si las tablas de ubicación no estuvieran separadas (Ciudad, Provincia y País como columnas de Propietario), el listado sería el mismo sin esos tres JOIN.</li>
+        </ul>
+
+        <h4>c) Total facturado por cliente, año y mes</h4>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Paso</th><th>Qué sale</th></tr>
+            <tr><td class="lbl">1. Columnas</td><td>Año y mes &rarr; <code>YEAR</code> y <code>MONTH</code> de la fecha de la <strong>Consulta</strong> (cuándo se hizo el tratamiento). Cliente &rarr; Propietario. Total &rarr; <code>SUM</code> del Costo de Consulta_Tratamiento</td></tr>
+            <tr><td class="lbl">2. Camino</td><td>Propietario &rarr; Animal &rarr; Turno &rarr; Consulta &rarr; Consulta_Tratamiento</td></tr>
+            <tr><td class="lbl">3. Filtro</td><td>Últimos 12 meses: <code>co.Fecha &gt;= DATEADD(MONTH, -12, GETDATE())</code></td></tr>
+            <tr><td class="lbl">4. ¿Total?</td><td>Sí: <code>SUM(ct.Costo)</code>, y <code>GROUP BY</code> año, mes y cliente</td></tr>
+            <tr><td class="lbl">5. Orden</td><td>Por total facturado, de mayor a menor: <code>ORDER BY TotalFacturado DESC</code></td></tr>
+          </table>
+        </div>
+        <pre class="codigo"><code>SELECT YEAR(co.Fecha) AS Anio,
+       MONTH(co.Fecha) AS Mes,
+       p.Nombre AS Cliente,
+       SUM(ct.Costo) AS TotalFacturado
+FROM Propietario p
+INNER JOIN Animal a ON a.Documento = p.Documento
+INNER JOIN Turno t ON t.NumeroHC = a.NumeroHC
+INNER JOIN Consulta co ON co.NumeroTurno = t.Numero
+INNER JOIN Consulta_Tratamiento ct ON ct.NumeroConsulta = co.Numero
+WHERE co.Fecha &gt;= DATEADD(MONTH, -12, GETDATE())
+GROUP BY YEAR(co.Fecha), MONTH(co.Fecha), p.Documento, p.Nombre
+ORDER BY TotalFacturado DESC;</code></pre>
+        <ul>
+          <li>"Facturado en tratamientos" = la suma de los <strong>costos</strong> de cada tratamiento aplicado. El costo está en la tabla intermedia (ejercicio 3, paso 5).</li>
+          <li>El <code>GROUP BY</code> repite <code>YEAR(co.Fecha)</code> y <code>MONTH(co.Fecha)</code>: el alias <code>Anio</code> no se puede usar ahí. En el <code>ORDER BY</code> sí.</li>
+          <li>Si se prefiere ver mes por mes, <code>ORDER BY Anio, Mes, TotalFacturado DESC</code> también es una lectura válida de la consigna; conviene aclarar cuál se eligió.</li>
+        </ul>
+
+        <h4>Parecido en el campus</h4>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Dónde</th><th>Qué tiene igual</th><th>Qué cambia</th></tr>
+            <tr><td>Unidad 4, teoría, sección 6 (taller mecánico)</td><td>Los tres listados con la misma forma</td><td>Órdenes y reparaciones en vez de turnos y tratamientos</td></tr>
+            <tr><td>Final 26/09/2025, ej. 3</td><td>Los mismos tres listados</td><td>Pedidos y facturas de una editorial</td></tr>
+          </table>
+        </div>
+
+        <h4>Trampas</h4>
+        <ul>
+          <li>En b), "pendientes" va en el <code>WHERE</code> (cada turno), no en el <code>HAVING</code>.</li>
+          <li>En b) y c), el nombre del cliente está en el <code>SELECT</code> sin función: tiene que estar en el <code>GROUP BY</code>.</li>
+          <li>En c), "por año y mes" son dos expresiones en el <code>GROUP BY</code>; solo <code>MONTH</code> juntaría octubre de dos años distintos.</li>
+          <li>La fecha de c) es la de la <strong>consulta</strong>; la del turno sirve igual si se aclara (el turno atendido y su consulta son del mismo día).</li>
+        </ul>
+      </div>
+    </details>
+  </div>
+</section>

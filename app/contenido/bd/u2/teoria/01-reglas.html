@@ -1,0 +1,256 @@
+<div class="bloque" data-examen="variante"
+     data-examen-ref="2do parcial 2025 · ej. 3"
+     data-examen-nota="El ejercicio 3 del parcial da el DER y pide el modelo relacional en 3FN con PKs y FKs. Los dos finales lo piden también, pero desde el enunciado.">
+  <p class="kicker">Modelo relacional</p>
+  <h2>1. Las reglas: qué sale de cada cosa del DER</h2>
+
+  <h3>Cómo se lee el DER de la cátedra</h3>
+  <ul>
+    <li><strong>Rectángulo:</strong> una entidad. <strong>Rombo:</strong> una interrelación.</li>
+    <li><strong>Círculo lleno:</strong> el identificador de la entidad (va a ser su PK). <strong>Círculo vacío:</strong> un atributo común.</li>
+    <li><strong>Cardinalidad (mín, máx)</strong> junto a cada entidad: cuántas veces participa <strong>esa</strong> entidad en la interrelación. (1,1) = exactamente una; (1,n) = una o muchas; (0,1) = ninguna o una.</li>
+  </ul>
+
+  <h3>Cómo se escribe la respuesta</h3>
+  <p>Una línea por tabla, con la PK y las FK marcadas, como en las resoluciones de la cátedra:</p>
+  <pre class="codigo" data-lang="texto"><code>Animal (NumeroHC (PK), Nombre, Raza, Documento (FK))</code></pre>
+  <p>Si un atributo es PK y FK a la vez, lleva las dos marcas: <code>Legajo (PK)(FK)</code>.</p>
+
+  <h3>Las reglas</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>En el DER</th><th>En el modelo relacional</th></tr>
+      <tr><td class="lbl">Entidad</td><td>Una tabla. Sus atributos son columnas; el identificador es la PK.</td></tr>
+      <tr><td class="lbl">Atributo compuesto (Dirección = calle, número, piso)</td><td>Cada componente es una columna: Calle, Nro, Piso, Dpto.</td></tr>
+      <tr><td class="lbl">Atributo multivaluado (Teléfonos)</td><td>Una <strong>tabla nueva</strong> con la PK de la entidad y el valor; la PK es el par.</td></tr>
+      <tr><td class="lbl">Interrelación 1:N</td><td><strong>No</strong> hay tabla nueva: la PK del lado "1" pasa como <strong>FK</strong> a la tabla de la entidad que tiene <strong>(1,1)</strong>.</td></tr>
+      <tr><td class="lbl">Interrelación 1:1</td><td>La PK de una pasa como FK a la otra: a la que participa <strong>obligatoriamente</strong> (la que tiene (1,1)).</td></tr>
+      <tr><td class="lbl">Interrelación N:M</td><td>Una <strong>tabla intermedia</strong> con las PK de las dos entidades (las dos son FK, y juntas forman la PK).</td></tr>
+      <tr><td class="lbl">Atributo de una interrelación (Horas, Costo)</td><td>Va donde quedó la interrelación: en la tabla intermedia si es N:M, junto a la FK si es 1:N o 1:1.</td></tr>
+      <tr><td class="lbl">Entidad débil</td><td>Una tabla cuya PK incluye la PK de la entidad fuerte.</td></tr>
+      <tr><td class="lbl">Generalización</td><td>La forma recomendada por la cátedra: una tabla para el padre y una por cada hijo, con la PK del padre (PK y FK a la vez) y sus atributos propios.</td></tr>
+    </table>
+  </div>
+
+  <h3>Ejemplo 1: multivaluado</h3>
+  <div class="caja caja-ejemplo"><p>Una persona puede tener muchos teléfonos.</p></div>
+  <div class="pd-grafico der" data-g="u2-multi">
+    <svg viewBox="-49 -38 251 77" width="251" height="77" style="min-width:200px" role="img" aria-label="Persona con un atributo multivaluado">
+      <rect class="ent" x="-41.4" y="-18.0" width="82.9" height="36.0"/>
+      <text class="nent" x="0.0" y="0.0" text-anchor="middle" dominant-baseline="central">Persona</text>
+      <path class="lin" d="M41.4,-5.6 L67.4,-22.5"/>
+      <circle class="id" cx="71.4" cy="-22.5" r="3.6"/>
+      <text class="att pk" x="79.4" y="-22.5" text-anchor="start" dominant-baseline="central">DNI</text>
+      <path class="lin" d="M41.4,-1.9 L67.4,-7.5"/>
+      <circle class="noid" cx="71.4" cy="-7.5" r="3.6"/>
+      <text class="att" x="79.4" y="-7.5" text-anchor="start" dominant-baseline="central">Nombre</text>
+      <path class="lin" d="M41.4,1.9 L67.4,7.5"/>
+      <circle class="noid" cx="71.4" cy="7.5" r="3.6"/>
+      <text class="att" x="79.4" y="7.5" text-anchor="start" dominant-baseline="central">Apellido</text>
+      <path class="lin" d="M41.4,5.6 L67.4,22.5"/>
+      <circle class="noid" cx="71.4" cy="22.5" r="3.6"/>
+      <text class="att" x="79.4" y="22.5" text-anchor="start" dominant-baseline="central">Teléfonos (varios)</text>
+    </svg>
+  </div>
+  <pre class="codigo" data-lang="texto"><code>Persona (DNI (PK), Nombre, Apellido)
+Persona_Telefonos (DNI (PK)(FK), Numero (PK))</code></pre>
+  <p>
+    Si Teléfonos quedara como una columna de Persona habría varios valores en una celda, y eso viola
+    la 1FN (sección 2). El par (DNI, Numero) es la PK: una persona no tiene el mismo teléfono dos veces.
+  </p>
+
+  <h3>Ejemplo 2: 1:N</h3>
+  <div class="caja caja-ejemplo"><p>Cada empleado trabaja en un departamento; en un departamento trabajan muchos.</p></div>
+  <div class="pd-grafico der" data-g="u2-1n">
+    <svg viewBox="-137 -31 616 62" width="616" height="62" style="min-width:493px" role="img" aria-label="Empleado trabaja en Departamento (1:N)">
+      <path class="lin" d="M108.2,0.0 L43.8,0.0"/>
+      <text class="card" x="63.8" y="-11.0" text-anchor="middle" dominant-baseline="central">(1,1)</text>
+      <path class="lin" d="M221.8,0.0 L269.3,0.0"/>
+      <text class="card" x="249.3" y="-11.0" text-anchor="middle" dominant-baseline="central">(1,n)</text>
+      <polygon class="rel" points="165.0,-21.0 221.8,0.0 165.0,21.0 108.2,0.0"/>
+      <text class="nrel" x="165.0" y="0.0" text-anchor="middle" dominant-baseline="central">Trabaja en</text>
+      <rect class="ent" x="-43.8" y="-18.0" width="87.5" height="36.0"/>
+      <text class="nent" x="0.0" y="0.0" text-anchor="middle" dominant-baseline="central">Empleado</text>
+      <path class="lin" d="M-43.8,-3.8 L-69.8,-15.0"/>
+      <circle class="id" cx="-73.8" cy="-15.0" r="3.6"/>
+      <text class="att pk" x="-81.8" y="-15.0" text-anchor="end" dominant-baseline="central">DNI</text>
+      <path class="lin" d="M-43.8,0.0 L-69.8,0.0"/>
+      <circle class="noid" cx="-73.8" cy="0.0" r="3.6"/>
+      <text class="att" x="-81.8" y="0.0" text-anchor="end" dominant-baseline="central">Nombre</text>
+      <path class="lin" d="M-43.8,3.8 L-69.8,15.0"/>
+      <circle class="noid" cx="-73.8" cy="15.0" r="3.6"/>
+      <text class="att" x="-81.8" y="15.0" text-anchor="end" dominant-baseline="central">Apellido</text>
+      <rect class="ent" x="269.3" y="-18.0" width="121.4" height="36.0"/>
+      <text class="nent" x="330.0" y="0.0" text-anchor="middle" dominant-baseline="central">Departamento</text>
+      <path class="lin" d="M390.7,-1.9 L416.7,-7.5"/>
+      <circle class="id" cx="420.7" cy="-7.5" r="3.6"/>
+      <text class="att pk" x="428.7" y="-7.5" text-anchor="start" dominant-baseline="central">Codigo</text>
+      <path class="lin" d="M390.7,1.9 L416.7,7.5"/>
+      <circle class="noid" cx="420.7" cy="7.5" r="3.6"/>
+      <text class="att" x="428.7" y="7.5" text-anchor="start" dominant-baseline="central">Nombre</text>
+    </svg>
+  </div>
+  <pre class="codigo" data-lang="texto"><code>Empleado (DNI (PK), Nombre, Apellido, Codigo_dpto (FK))
+Departamento (Codigo (PK), Nombre)</code></pre>
+  <p>
+    Empleado tiene <strong>(1,1)</strong>: cada empleado está en <strong>un solo</strong> departamento,
+    así que entra en una columna de Empleado. Al revés no se puede: un departamento tiene muchos
+    empleados y no entran en una columna.
+  </p>
+
+  <h3>Ejemplo 3: N:M con atributo</h3>
+  <div class="caja caja-ejemplo"><p>Un empleado trabaja en muchos proyectos, y en un proyecto trabajan muchos empleados. Se guardan las horas.</p></div>
+  <div class="pd-grafico der" data-g="u2-nm">
+    <svg viewBox="-137 -31 601 75" width="601" height="75" style="min-width:481px" role="img" aria-label="Empleado trabaja en Proyecto (N:M) con horas">
+      <path class="lin" d="M108.2,0.0 L43.8,0.0"/>
+      <text class="card" x="63.8" y="-11.0" text-anchor="middle" dominant-baseline="central">(1,n)</text>
+      <path class="lin" d="M221.8,0.0 L284.7,0.0"/>
+      <text class="card" x="264.7" y="-11.0" text-anchor="middle" dominant-baseline="central">(1,n)</text>
+      <polygon class="rel" points="165.0,-21.0 221.8,0.0 165.0,21.0 108.2,0.0"/>
+      <text class="nrel" x="165.0" y="0.0" text-anchor="middle" dominant-baseline="central">Trabaja en</text>
+      <path class="lin" d="M182.2,11.6 L184.4,27.6"/>
+      <circle class="noid" cx="188.4" cy="27.6" r="3.6"/>
+      <text class="att" x="196.4" y="27.6" text-anchor="start" dominant-baseline="central">Horas</text>
+      <rect class="ent" x="-43.8" y="-18.0" width="87.5" height="36.0"/>
+      <text class="nent" x="0.0" y="0.0" text-anchor="middle" dominant-baseline="central">Empleado</text>
+      <path class="lin" d="M-43.8,-3.8 L-69.8,-15.0"/>
+      <circle class="id" cx="-73.8" cy="-15.0" r="3.6"/>
+      <text class="att pk" x="-81.8" y="-15.0" text-anchor="end" dominant-baseline="central">DNI</text>
+      <path class="lin" d="M-43.8,0.0 L-69.8,0.0"/>
+      <circle class="noid" cx="-73.8" cy="0.0" r="3.6"/>
+      <text class="att" x="-81.8" y="0.0" text-anchor="end" dominant-baseline="central">Nombre</text>
+      <path class="lin" d="M-43.8,3.8 L-69.8,15.0"/>
+      <circle class="noid" cx="-73.8" cy="15.0" r="3.6"/>
+      <text class="att" x="-81.8" y="15.0" text-anchor="end" dominant-baseline="central">Apellido</text>
+      <rect class="ent" x="284.7" y="-18.0" width="90.6" height="36.0"/>
+      <text class="nent" x="330.0" y="0.0" text-anchor="middle" dominant-baseline="central">Proyecto</text>
+      <path class="lin" d="M375.3,-1.9 L401.3,-7.5"/>
+      <circle class="id" cx="405.3" cy="-7.5" r="3.6"/>
+      <text class="att pk" x="413.3" y="-7.5" text-anchor="start" dominant-baseline="central">Codigo</text>
+      <path class="lin" d="M375.3,1.9 L401.3,7.5"/>
+      <circle class="noid" cx="405.3" cy="7.5" r="3.6"/>
+      <text class="att" x="413.3" y="7.5" text-anchor="start" dominant-baseline="central">Nombre</text>
+    </svg>
+  </div>
+  <pre class="codigo" data-lang="texto"><code>Empleado (DNI (PK), Nombre, Apellido)
+Proyecto (Codigo (PK), Nombre)
+Empleado_Proyecto (DNI (PK)(FK), Codigo_p (PK)(FK), Horas)</code></pre>
+  <p>Las horas no son de un empleado ni de un proyecto: son de <strong>ese empleado en ese proyecto</strong>. Por eso van en la tabla intermedia.</p>
+
+  <h3>Ejemplo 4: 1:1</h3>
+  <div class="caja caja-ejemplo"><p>Cada departamento tiene un director; un empleado dirige como mucho un departamento.</p></div>
+  <div class="pd-grafico der" data-g="u2-11">
+    <svg viewBox="-137 -31 616 62" width="616" height="62" style="min-width:493px" role="img" aria-label="Empleado dirige Departamento (1:1)">
+      <path class="lin" d="M119.0,0.0 L43.8,0.0"/>
+      <text class="card" x="63.8" y="-11.0" text-anchor="middle" dominant-baseline="central">(0,1)</text>
+      <path class="lin" d="M211.0,0.0 L269.3,0.0"/>
+      <text class="card" x="249.3" y="-11.0" text-anchor="middle" dominant-baseline="central">(1,1)</text>
+      <polygon class="rel" points="165.0,-21.0 211.0,0.0 165.0,21.0 119.0,0.0"/>
+      <text class="nrel" x="165.0" y="0.0" text-anchor="middle" dominant-baseline="central">Dirige</text>
+      <rect class="ent" x="-43.8" y="-18.0" width="87.5" height="36.0"/>
+      <text class="nent" x="0.0" y="0.0" text-anchor="middle" dominant-baseline="central">Empleado</text>
+      <path class="lin" d="M-43.8,-3.8 L-69.8,-15.0"/>
+      <circle class="id" cx="-73.8" cy="-15.0" r="3.6"/>
+      <text class="att pk" x="-81.8" y="-15.0" text-anchor="end" dominant-baseline="central">DNI</text>
+      <path class="lin" d="M-43.8,0.0 L-69.8,0.0"/>
+      <circle class="noid" cx="-73.8" cy="0.0" r="3.6"/>
+      <text class="att" x="-81.8" y="0.0" text-anchor="end" dominant-baseline="central">Nombre</text>
+      <path class="lin" d="M-43.8,3.8 L-69.8,15.0"/>
+      <circle class="noid" cx="-73.8" cy="15.0" r="3.6"/>
+      <text class="att" x="-81.8" y="15.0" text-anchor="end" dominant-baseline="central">Apellido</text>
+      <rect class="ent" x="269.3" y="-18.0" width="121.4" height="36.0"/>
+      <text class="nent" x="330.0" y="0.0" text-anchor="middle" dominant-baseline="central">Departamento</text>
+      <path class="lin" d="M390.7,-1.9 L416.7,-7.5"/>
+      <circle class="id" cx="420.7" cy="-7.5" r="3.6"/>
+      <text class="att pk" x="428.7" y="-7.5" text-anchor="start" dominant-baseline="central">Codigo</text>
+      <path class="lin" d="M390.7,1.9 L416.7,7.5"/>
+      <circle class="noid" cx="420.7" cy="7.5" r="3.6"/>
+      <text class="att" x="428.7" y="7.5" text-anchor="start" dominant-baseline="central">Nombre</text>
+    </svg>
+  </div>
+  <pre class="codigo" data-lang="texto"><code>Empleado (DNI (PK), Nombre, Apellido)
+Departamento (Codigo (PK), Nombre, DNI_dirige (FK))</code></pre>
+  <p>
+    La FK va en Departamento porque es el lado <strong>(1,1)</strong>: todo departamento tiene
+    director. Si fuera en Empleado, la mayoría de los empleados (que no dirigen) la tendría vacía.
+  </p>
+
+  <h3>Ejemplo 5: entidad débil</h3>
+  <div class="caja caja-ejemplo"><p>De cada libro hay varios ejemplares, numerados 1, 2, 3... dentro de cada libro.</p></div>
+  <div class="pd-grafico der" data-g="u2-debil">
+    <svg viewBox="-118 -31 579 62" width="579" height="62" style="min-width:464px" role="img" aria-label="Ejemplar, entidad débil de Libro">
+      <path class="lin" d="M111.6,0.0 L32.2,0.0"/>
+      <text class="card" x="52.2" y="-11.0" text-anchor="middle" dominant-baseline="central">(1,n)</text>
+      <path class="lin" d="M218.4,0.0 L286.2,0.0"/>
+      <text class="card" x="266.2" y="-11.0" text-anchor="middle" dominant-baseline="central">(1,1)</text>
+      <polygon class="rel" points="165.0,-21.0 218.4,0.0 165.0,21.0 111.6,0.0"/>
+      <text class="nrel" x="165.0" y="0.0" text-anchor="middle" dominant-baseline="central">Pertenece</text>
+      <rect class="ent" x="-32.2" y="-18.0" width="64.4" height="36.0"/>
+      <text class="nent" x="0.0" y="0.0" text-anchor="middle" dominant-baseline="central">Libro</text>
+      <path class="lin" d="M-32.2,-3.8 L-58.2,-15.0"/>
+      <circle class="id" cx="-62.2" cy="-15.0" r="3.6"/>
+      <text class="att pk" x="-70.2" y="-15.0" text-anchor="end" dominant-baseline="central">ISBN</text>
+      <path class="lin" d="M-32.2,0.0 L-58.2,0.0"/>
+      <circle class="noid" cx="-62.2" cy="0.0" r="3.6"/>
+      <text class="att" x="-70.2" y="0.0" text-anchor="end" dominant-baseline="central">Título</text>
+      <path class="lin" d="M-32.2,3.8 L-58.2,15.0"/>
+      <circle class="noid" cx="-62.2" cy="15.0" r="3.6"/>
+      <text class="att" x="-70.2" y="15.0" text-anchor="end" dominant-baseline="central">Autor</text>
+      <rect class="ent" x="286.2" y="-18.0" width="87.5" height="36.0"/>
+      <text class="nent" x="330.0" y="0.0" text-anchor="middle" dominant-baseline="central">Ejemplar</text>
+      <path class="lin" d="M373.8,0.0 L399.8,0.0"/>
+      <circle class="id" cx="403.8" cy="0.0" r="3.6"/>
+      <text class="att pk" x="411.8" y="0.0" text-anchor="start" dominant-baseline="central">Número</text>
+    </svg>
+  </div>
+  <pre class="codigo" data-lang="texto"><code>Libro (ISBN (PK), Titulo, Autor)
+Ejemplar (ISBN (PK)(FK), Numero (PK))</code></pre>
+  <p>El número solo no alcanza (todos los libros tienen un ejemplar 1): la PK es el par.</p>
+
+  <h3>Ejemplo 6: generalización</h3>
+  <div class="caja caja-ejemplo"><p>Una persona puede ser empleado, cliente o las dos cosas.</p></div>
+  <div class="pd-grafico der" data-g="u2-gen">
+    <svg viewBox="-12 -31 402 191" width="402" height="191" style="min-width:322px" role="img" aria-label="Persona generaliza a Empleado y Cliente">
+      <path class="lin" d="M150.0,18.0 L150.0,55.0"/>
+      <path class="lin" d="M40.0,55.0 L260.0,55.0"/>
+      <path class="lin" d="M40.0,55.0 L40.0,92.0"/>
+      <path class="lin" d="M260.0,55.0 L260.0,92.0"/>
+      <text class="card" x="158.0" y="36.5" text-anchor="start" dominant-baseline="central">(t,s)</text>
+      <rect class="ent" x="108.6" y="-18.0" width="82.9" height="36.0"/>
+      <text class="nent" x="150.0" y="0.0" text-anchor="middle" dominant-baseline="central">Persona</text>
+      <path class="lin" d="M191.4,-3.8 L217.4,-15.0"/>
+      <circle class="id" cx="221.4" cy="-15.0" r="3.6"/>
+      <text class="att pk" x="229.4" y="-15.0" text-anchor="start" dominant-baseline="central">DNI</text>
+      <path class="lin" d="M191.4,0.0 L217.4,0.0"/>
+      <circle class="noid" cx="221.4" cy="0.0" r="3.6"/>
+      <text class="att" x="229.4" y="0.0" text-anchor="start" dominant-baseline="central">Nombre</text>
+      <path class="lin" d="M191.4,3.8 L217.4,15.0"/>
+      <circle class="noid" cx="221.4" cy="15.0" r="3.6"/>
+      <text class="att" x="229.4" y="15.0" text-anchor="start" dominant-baseline="central">Calle</text>
+      <rect class="ent" x="-3.8" y="92.0" width="87.5" height="36.0"/>
+      <text class="nent" x="40.0" y="110.0" text-anchor="middle" dominant-baseline="central">Empleado</text>
+      <path class="lin" d="M64.1,128.0 L68.8,144.0"/>
+      <circle class="noid" cx="72.8" cy="144.0" r="3.6"/>
+      <text class="att" x="80.8" y="144.0" text-anchor="start" dominant-baseline="central">Sueldo</text>
+      <rect class="ent" x="221.6" y="92.0" width="76.7" height="36.0"/>
+      <text class="nent" x="260.0" y="110.0" text-anchor="middle" dominant-baseline="central">Cliente</text>
+      <path class="lin" d="M281.1,128.0 L284.8,144.0"/>
+      <circle class="noid" cx="288.8" cy="144.0" r="3.6"/>
+      <text class="att" x="296.8" y="144.0" text-anchor="start" dominant-baseline="central">LímiteCrédito</text>
+    </svg>
+  </div>
+  <pre class="codigo" data-lang="texto"><code>Persona (DNI (PK), Nombre, Calle)
+Empleado (DNI (PK)(FK), Sueldo)
+Cliente (DNI (PK)(FK), LimiteCredito)</code></pre>
+  <p>Es la forma que la cátedra marca como recomendada: sirve para cualquier cobertura y no repite datos.</p>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Errores y trampas</span>
+    <ul>
+      <li>En una 1:N la FK va del lado de <strong>muchos</strong> (la entidad con (1,1)), nunca al revés.</li>
+      <li>Una N:M <strong>siempre</strong> es tabla nueva, aunque no tenga atributos.</li>
+      <li>Toda FK tiene que tener el mismo tipo de dato que la PK a la que apunta (importa en la Unidad 3).</li>
+      <li>No se olvida marcar <strong>(PK)</strong> y <strong>(FK)</strong>: la consigna lo pide con todas las letras.</li>
+    </ul>
+  </div>
+</div>

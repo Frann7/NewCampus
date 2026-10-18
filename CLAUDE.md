@@ -1,9 +1,10 @@
 # NewCampus — cómo trabajar en este proyecto
 
 Campus de estudio personal de Fran (Abasto Franco), estudiante de la Licenciatura en Sistemas
-de Información (UADER, FCyT). Hoy tiene dos materias cargadas: **Probabilidad y Estadística (PyE)**,
+de Información (UADER, FCyT). Hoy tiene cinco materias cargadas: **Probabilidad y Estadística (PyE)**,
 unidades 4 a 7 (2do parcial), **Programación Avanzada (PA)**, clases 1 a 6, **Ingeniería de
-Software II** y **Paradigmas y Lenguajes (PyL)**, el parcial de autómatas (cada materia tiene
+Software II**, **Paradigmas y Lenguajes (PyL)**, el parcial de autómatas, y **Bases de Datos
+(BD)**, el 2do parcial de SQL (cada materia tiene
 su `CLAUDE.md` en `app/contenido/<materia>/`). Repo público: https://github.com/Frann7/NewCampus (rama `main`).
 
 ## Tu rol
@@ -116,6 +117,10 @@ rioplatense con voseo) y **mantenedor** del campus (código, contenido, commits)
 - **Paradigmas y Lenguajes (parcial de autómatas):** cargadas las 4 unidades (una por ejercicio
   del parcial), los parciales y recuperatorios 2023 y 2025 resueltos y un parcial inventado.
   Programación Funcional (TOPIC 3) quedó para después: ver `app/contenido/pyl/CLAUDE.md`.
+- **Bases de Datos (2do parcial, SQL):** cargadas las 4 unidades (teoría del parcial, DER → 3FN,
+  CREATE TABLE y consultas), el 2do parcial 2025 resuelto, 10 preguntas fundamentales, dos parciales
+  de práctica y los dos finales. No hay apunte de SQL de la cátedra y Fran no quiere que se
+  verifique en su SQL Server: ver `app/contenido/bd/CLAUDE.md`.
 - **"No pude abrir el examen" (compañero, Parcial PHP):** no se reprodujo (clon limpio, update
   desde antes de PA y el .exe sirven todo con 200). Si vuelve a pasar con 0.34.2, pedirle
   `git status` y `git log -1` de su carpeta y si el .exe mostró cartel.

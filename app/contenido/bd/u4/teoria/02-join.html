@@ -1,0 +1,79 @@
+<div class="bloque">
+  <p class="kicker">DML</p>
+  <h2>2. JOIN: datos de varias tablas</h2>
+
+  <p>
+    Con la base en 3FN, los datos están repartidos: la especie tiene el <strong>código</strong> de la
+    zona, pero el <strong>nombre</strong> de la zona está en otra tabla. Para mostrarlos juntos se
+    unen las tablas por la FK con <code>INNER JOIN</code>.
+  </p>
+  <div class="caja caja-formula">
+    <span class="caja-tit">La forma</span>
+    <pre class="codigo"><code>SELECT ...
+FROM TablaA a
+INNER JOIN TablaB b ON b.ClavePrimaria = a.ClaveForanea</code></pre>
+  </div>
+  <ul>
+    <li><code>ON</code> dice <strong>qué columna tiene que coincidir</strong>: siempre la FK de una con la PK de la otra.</li>
+    <li>El resultado tiene una fila por cada par que coincide. Una fila sin pareja <strong>no aparece</strong> (por eso es "inner", de adentro).</li>
+    <li><code>a</code> y <code>b</code> son <strong>alias de tabla</strong>: un nombre corto para no escribir el nombre entero cada vez. <code>a.Nombre</code> se lee "la columna Nombre de la tabla a".</li>
+  </ul>
+
+  <h3>El camino de las FK</h3>
+  <p>Antes de escribir el JOIN se busca el <strong>camino</strong> entre las tablas que tienen las columnas pedidas, saltando de FK en FK:</p>
+  <pre class="codigo" data-lang="texto"><code>Cuidador_Especie.Legajo  -&gt; Empleado.Legajo
+Cuidador_Especie.CodigoEspecie -&gt; Especie.Codigo
+Especie.CodigoZona -&gt; Zona.Codigo</code></pre>
+  <p>Cada flecha es un <code>INNER JOIN ... ON</code>. Si para ir de una tabla a otra hay que pasar por una tercera (una tabla intermedia), esa tercera también entra en el FROM aunque no se muestre nada de ella.</p>
+
+  <h3>Ejemplo 1: dos tablas</h3>
+  <div class="caja caja-ejemplo">
+    <p>Listar cada especie con el nombre de su zona. Tablas: Especie (Codigo (PK), Nombre, CodigoZona (FK)) y Zona (Codigo (PK), Nombre, Extension).</p>
+  </div>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th colspan="3">Especie</th><th></th><th colspan="2">Zona</th></tr>
+      <tr><th>Codigo</th><th>Nombre</th><th>CodigoZona</th><th></th><th>Codigo</th><th>Nombre</th></tr>
+      <tr><td>10</td><td>Yaguareté</td><td>1</td><td></td><td>1</td><td>Selva</td></tr>
+      <tr><td>11</td><td>León</td><td>2</td><td></td><td>2</td><td>Sabana</td></tr>
+      <tr><td>12</td><td>Jirafa</td><td>2</td><td></td><td>3</td><td>Acuario</td></tr>
+    </table>
+  </div>
+  <pre class="codigo"><code>SELECT e.Nombre AS Especie, z.Nombre AS Zona
+FROM Especie e
+INNER JOIN Zona z ON z.Codigo = e.CodigoZona;</code></pre>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th>Especie</th><th>Zona</th></tr>
+      <tr><td>Yaguareté</td><td>Selva</td></tr>
+      <tr><td>León</td><td>Sabana</td></tr>
+      <tr><td>Jirafa</td><td>Sabana</td></tr>
+    </table>
+  </div>
+  <p>Acuario no aparece: ninguna especie de esta lista tiene <code>CodigoZona = 3</code>.</p>
+
+  <h3>Ejemplo 2: pasar por una tabla intermedia</h3>
+  <div class="caja caja-ejemplo">
+    <p>Nombre y teléfono de los cuidadores a cargo de la especie "León" (Guía 9, consulta 3). Tablas: Empleado (Legajo (PK), Nombre, Telefono), Cuidador_Especie (Legajo (PK)(FK), CodigoEspecie (PK)(FK), FechaDesde) y Especie (Codigo (PK), Nombre).</p>
+  </div>
+  <p>Camino: Empleado &rarr; Cuidador_Especie (por Legajo) &rarr; Especie (por el código de la especie).</p>
+  <pre class="codigo"><code>SELECT emp.Nombre, emp.Telefono
+FROM Empleado emp
+INNER JOIN Cuidador_Especie ce ON ce.Legajo = emp.Legajo
+INNER JOIN Especie esp ON esp.Codigo = ce.CodigoEspecie
+WHERE esp.Nombre = 'León';</code></pre>
+  <ul>
+    <li>Cuidador_Especie no muestra nada, pero <strong>tiene que estar</strong>: es la única que sabe qué cuidador tiene qué especie.</li>
+    <li>No hace falta pasar por la tabla Cuidador: el Legajo de Cuidador_Especie ya es el del empleado.</li>
+  </ul>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Errores y trampas</span>
+    <ul>
+      <li>Si dos tablas tienen una columna con el mismo nombre (las dos tienen <code>Nombre</code>), hay que decir de cuál: <code>e.Nombre</code> o <code>z.Nombre</code>. Si no, SQL Server da error de "nombre ambiguo".</li>
+      <li>Cada <code>INNER JOIN</code> lleva su <code>ON</code>. Un JOIN sin <code>ON</code> no es válido.</li>
+      <li>El <code>ON</code> une <strong>FK con PK</strong>. Unir por nombre (<code>e.Nombre = z.Nombre</code>) no tiene sentido.</li>
+      <li>Si un turno tiene dos servicios, el JOIN con los servicios da <strong>dos filas</strong> para ese turno: es lo esperado.</li>
+    </ul>
+  </div>
+</div>

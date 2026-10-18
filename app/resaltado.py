@@ -8,7 +8,7 @@ estilos.css los pinte (clases c-*). No hay nada que corra en el navegador.
 
 Cada renglón queda en un <span class="cl">. Los bloques de 4 renglones o más
 llevan número de línea (clase "num"). Atributos opcionales en el <pre>:
-    data-lang="cpp|php|cs|html|git|c|texto"   el lenguaje, si no se adivina bien
+    data-lang="cpp|php|cs|html|git|sql|c|texto"   el lenguaje, si no se adivina bien
     data-desde="12"       número del primer renglón (un programa partido en partes)
     data-clave="3,7-9"    renglones resaltados, contados dentro del bloque
 
@@ -43,6 +43,27 @@ VAR_PHP = re.compile(r'\$[A-Za-z_]\w*')
 DIR_PHP = re.compile(r'<\?php|<\?=|\?>')
 LLAMADA = re.compile(r'[ \t]*\(')
 
+# SQL (el de SQL Server, el de Bases de Datos): sin distinguir mayúsculas.
+CLAVES_SQL = set("""
+select from where and or not in is null like between order by asc desc group having top distinct as
+join inner left right outer full on create table alter add drop constraint primary key foreign
+references unique default check identity insert into values update set delete begin tran
+transaction commit rollback use go case when then else end exists union all with grant revoke
+truncate view index database if declare column
+""".split())
+
+TIPOS_SQL = set("""
+int integer bigint smallint tinyint bit decimal numeric money smallmoney float real date datetime
+datetime2 smalldatetime time char varchar nchar nvarchar text ntext
+""".split())
+
+SENTENCIA_SQL = re.compile(r'^\s*(select\s|create\s+(table|database|view)\b|insert\s+into\b|'
+                           r'update\s+\w+\s+set\b|delete\s+from\b|alter\s+table\b|drop\s+table\b|'
+                           r'begin\s+tran)', re.I | re.M)
+COM_SQL = re.compile(r'--[^\n]*')
+CADENA_SQL = re.compile(r"'(?:''|[^'\n])*'")
+VAR_SQL = re.compile(r'@\w+')
+
 
 def lenguaje(src, atributos):
     m = re.search(r'data-lang="([^"]+)"', atributos)
@@ -61,6 +82,8 @@ def lenguaje(src, atributos):
         return 'cpp'
     if src.lstrip().startswith('<') and re.search(r'</?[a-zA-Z]', src):
         return 'html'
+    if SENTENCIA_SQL.search(src):
+        return 'sql'
     if re.search(r'[;{}]|\bclass\b', src):
         return 'c'
     return 'texto'
@@ -168,6 +191,44 @@ def tokens_git(src):
                 yield None, p
 
 
+def tokens_sql(src):
+    i, n = 0, len(src)
+    while i < n:
+        c = src[i]
+        m = None
+        if c == '-':
+            m, clase = COM_SQL.match(src, i), 'com'
+        elif c == '/':
+            m, clase = COM_BLOQUE.match(src, i), 'com'
+        elif c == "'":
+            m, clase = CADENA_SQL.match(src, i), 'str'
+        elif c == '@':
+            m, clase = VAR_SQL.match(src, i), 'var'
+        elif c.isdigit():
+            m, clase = NUMERO.match(src, i), 'num'
+        if m:
+            yield clase, m.group(0)
+            i = m.end()
+            continue
+        if c.isalpha() or c == '_':
+            m = IDENT.match(src, i)
+            palabra = m.group(0)
+            baja = palabra.lower()
+            if baja in CLAVES_SQL:
+                clase = 'key'
+            elif baja in TIPOS_SQL:
+                clase = 'tipo'
+            elif LLAMADA.match(src, m.end()):
+                clase = 'fn'
+            else:
+                clase = None
+            yield clase, palabra
+            i = m.end()
+            continue
+        yield None, c
+        i += 1
+
+
 def tokens_conflicto(src):
     for k, linea in enumerate(src.split('\n')):
         if k:
@@ -184,6 +245,8 @@ def tokens(src, lang):
         return tokens_git(src)
     if lang == 'conflicto':
         return tokens_conflicto(src)
+    if lang == 'sql':
+        return tokens_sql(src)
     return tokens_c(src, lang)
 
 

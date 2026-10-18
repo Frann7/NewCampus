@@ -1,0 +1,51 @@
+<div class="bloque">
+  <p class="kicker">DML</p>
+  <h2>5. INSERT, UPDATE y DELETE</h2>
+
+  <p>Las otras tres sentencias del DML (Unidad 1, sección 2). En el parcial no las pidieron como ejercicio, pero sí como parte de la pregunta de DML, y aparecen en las transacciones.</p>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Las tres formas</span>
+    <pre class="codigo"><code>INSERT INTO Tabla (Columna1, Columna2) VALUES (valor1, valor2);
+
+UPDATE Tabla SET Columna = nuevo_valor WHERE condición;
+
+DELETE FROM Tabla WHERE condición;</code></pre>
+  </div>
+  <ul>
+    <li><code>INSERT</code>: los valores van en el <strong>mismo orden</strong> que las columnas de la lista.</li>
+    <li><code>UPDATE</code>: cambia las columnas del <code>SET</code> en las filas que cumplen el <code>WHERE</code>.</li>
+    <li><code>DELETE</code>: borra las filas que cumplen el <code>WHERE</code>. La tabla sigue existiendo.</li>
+  </ul>
+
+  <h3>Ejemplo 1: cargar y corregir una especie</h3>
+  <div class="caja caja-ejemplo">
+    <p>Tabla Especie (Codigo (PK), Nombre, NombreCientifico, Descripcion, CodigoZona (FK)). Cargar el ñandú en la zona 2 y después pasarlo a la zona 1.</p>
+  </div>
+  <pre class="codigo"><code>INSERT INTO Especie (Codigo, Nombre, NombreCientifico, CodigoZona)
+VALUES (14, 'Ñandú', 'Rhea americana', 2);
+
+UPDATE Especie SET CodigoZona = 1 WHERE Codigo = 14;</code></pre>
+  <ul>
+    <li>Descripcion no está en la lista: queda vacía (puede, porque no es <code>NOT NULL</code>).</li>
+    <li>El <code>INSERT</code> funciona solo si la zona 2 existe: es la FK haciendo su trabajo.</li>
+  </ul>
+
+  <h3>Ejemplo 2: el WHERE que falta</h3>
+  <div class="caja caja-ejemplo"><p>¿Qué hacen estas dos sentencias?</p></div>
+  <pre class="codigo"><code>UPDATE Turno SET Estado = 'Cancelado';
+DELETE FROM Turno WHERE Estado = 'Cancelado';</code></pre>
+  <p>
+    El <code>UPDATE</code> no tiene <code>WHERE</code>: cancela <strong>todos</strong> los turnos. Y el
+    <code>DELETE</code> después los borra todos. Por eso los cambios grandes se hacen dentro de una
+    transacción (<code>BEGIN TRAN</code>): si el resultado no es el esperado, <code>ROLLBACK</code> y no pasó nada.
+  </p>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Errores y trampas</span>
+    <ul>
+      <li><code>UPDATE</code> y <code>DELETE</code> <strong>sin <code>WHERE</code></strong> afectan a toda la tabla.</li>
+      <li>No se puede borrar una fila a la que otra apunta con una FK (una zona con especies): SQL Server lo rechaza.</li>
+      <li><code>DELETE FROM Turno</code> deja la tabla vacía; <code>DROP TABLE Turno</code> (DDL) la hace desaparecer.</li>
+    </ul>
+  </div>
+</div>

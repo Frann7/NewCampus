@@ -1,6 +1,13 @@
 /* GENERADO por construir.py - NO EDITAR. El contenido se edita en contenido/ */
 window.Apuntes.registrarIndice({
   "panes": {
+    "bd/u1/teoria": "panes/bd-u1-teoria.js",
+    "bd/u2/practica": "panes/bd-u2-practica.js",
+    "bd/u2/teoria": "panes/bd-u2-teoria.js",
+    "bd/u3/practica": "panes/bd-u3-practica.js",
+    "bd/u3/teoria": "panes/bd-u3-teoria.js",
+    "bd/u4/practica": "panes/bd-u4-practica.js",
+    "bd/u4/teoria": "panes/bd-u4-teoria.js",
     "ing2/base/teoria": "panes/ing2-base-teoria.js",
     "ing2/calidad/practica": "panes/ing2-calidad-practica.js",
     "ing2/calidad/teoria": "panes/ing2-calidad-teoria.js",
@@ -41,6 +48,62 @@ window.Apuntes.registrarIndice({
     "pyl/u4/teoria": "panes/pyl-u4-teoria.js"
   },
   "examenes": {
+    "bd": [
+      {
+        "id": "2025-segundo-parcial",
+        "archivo": "examenes/bd-2025-segundo-parcial.js",
+        "titulo": "Segundo parcial",
+        "fecha": "2025",
+        "detalle": "5 ejercicios: 2 de teor\u00eda, el modelo relacional desde el DER y 2 de SQL",
+        "temas": "Transacci\u00f3n \u00b7 DDL y DML \u00b7 DER \u2192 3FN \u00b7 CREATE TABLE \u00b7 Listados con JOIN, COUNT y SUM",
+        "tipo": "parcial"
+      },
+      {
+        "id": "2026-parcial-de-practica-1",
+        "archivo": "examenes/bd-2026-parcial-de-practica-1.js",
+        "titulo": "Parcial de pr\u00e1ctica 1",
+        "fecha": "Inventado, con la forma del 2025",
+        "detalle": "5 ejercicios sobre un gimnasio, resueltos",
+        "temas": "\u00bfQu\u00e9 es SQL? \u00b7 Claves \u00b7 DER \u2192 3FN \u00b7 CREATE TABLE \u00b7 Listados con JOIN, COUNT y SUM",
+        "tipo": "parcial"
+      },
+      {
+        "id": "2026-parcial-de-practica-2",
+        "archivo": "examenes/bd-2026-parcial-de-practica-2.js",
+        "titulo": "Parcial de pr\u00e1ctica 2",
+        "fecha": "Inventado, con la forma del 2025",
+        "detalle": "5 ejercicios sobre un hotel, resueltos",
+        "temas": "COMMIT y ROLLBACK \u00b7 El SGBD \u00b7 DER \u2192 3FN \u00b7 Cabecera y detalle \u00b7 Listados con JOIN, COUNT y SUM",
+        "tipo": "parcial"
+      },
+      {
+        "id": "2026-preguntas-fundamentales",
+        "archivo": "examenes/bd-2026-preguntas-fundamentales.js",
+        "titulo": "Preguntas fundamentales de teor\u00eda",
+        "fecha": "Para el 2do parcial",
+        "detalle": "10 preguntas con la respuesta para aprender y la explicaci\u00f3n, de la m\u00e1s b\u00e1sica a la m\u00e1s espec\u00edfica",
+        "temas": "SQL \u00b7 DDL y DML \u00b7 Transacci\u00f3n \u00b7 COMMIT y ROLLBACK \u00b7 SGBD \u00b7 Claves \u00b7 Integridad referencial \u00b7 Archivo indexado",
+        "tipo": "parcial"
+      },
+      {
+        "id": "2025-09-26-final",
+        "archivo": "examenes/bd-2025-09-26-final.js",
+        "titulo": "Examen final",
+        "fecha": "26/09/2025",
+        "detalle": "6 ejercicios (regulares: 1, 3a, 3b, 4 y 5)",
+        "temas": "DER \u2192 3FN \u00b7 CREATE TABLE con cabecera y detalle \u00b7 Los tres listados del parcial \u00b7 Archivo indexado \u00b7 Claves \u00b7 DDL y DML",
+        "tipo": "final"
+      },
+      {
+        "id": "2025-final-electrodomesticos",
+        "archivo": "examenes/bd-2025-final-electrodomesticos.js",
+        "titulo": "Evaluaci\u00f3n final",
+        "fecha": "Sin fecha en la foto",
+        "detalle": "5 ejercicios",
+        "temas": "Archivo indexado \u00b7 Claves \u00b7 SQL, DDL y DML \u00b7 DER \u2192 3FN \u00b7 4 consultas SQL",
+        "tipo": "final"
+      }
+    ],
     "ing2": [
       {
         "id": "2024-segundo-parcial",
@@ -334,7 +397,108 @@ window.Apuntes.registrarIndice({
       "clave": "bd",
       "nombre": "Base de Datos",
       "corto": "Base de Datos",
-      "unidades": []
+      "unidades": [
+        {
+          "clave": "u1",
+          "num": "Unidad 1",
+          "nombre": "Teoria del 2do parcial"
+        },
+        {
+          "clave": "u2",
+          "num": "Unidad 2",
+          "nombre": "Del DER a las tablas en 3FN"
+        },
+        {
+          "clave": "u3",
+          "num": "Unidad 3",
+          "nombre": "SQL: crear tablas"
+        },
+        {
+          "clave": "u4",
+          "num": "Unidad 4",
+          "nombre": "SQL: consultas"
+        }
+      ],
+      "pdf": [
+        {
+          "id": "sgbd",
+          "sigla": "SGBD",
+          "titulo": "Sistema Gestor de Bases de Datos",
+          "archivo": "pdf/bd/sistema-gestor-de-bases-de-datos.pdf"
+        },
+        {
+          "id": "cap1",
+          "sigla": "CAP1",
+          "titulo": "Teoria de Bases de Datos, capitulo 1",
+          "archivo": "pdf/bd/teoria-capitulo-1.pdf"
+        },
+        {
+          "id": "archivos",
+          "sigla": "ARC",
+          "titulo": "Archivos de datos",
+          "archivo": "pdf/bd/archivos.pdf"
+        },
+        {
+          "id": "der-rel",
+          "sigla": "DER",
+          "titulo": "DER a Modelo Relacional",
+          "archivo": "pdf/bd/der-a-relacional.pdf"
+        },
+        {
+          "id": "normalizacion",
+          "sigla": "NOR",
+          "titulo": "Teoria de Normalizacion",
+          "archivo": "pdf/bd/normalizacion.pdf"
+        },
+        {
+          "id": "guia-9",
+          "sigla": "G9",
+          "titulo": "Guia Practica 9 (zoologico)",
+          "archivo": "pdf/bd/guia-9.pdf"
+        },
+        {
+          "id": "guia-10",
+          "sigla": "G10",
+          "titulo": "Guia Practica 10 (club nautico)",
+          "archivo": "pdf/bd/guia-10.pdf"
+        },
+        {
+          "id": "guia-11",
+          "sigla": "G11",
+          "titulo": "Guia Practica 11 (olimpiadas)",
+          "archivo": "pdf/bd/guia-11.pdf"
+        },
+        {
+          "id": "guia-12",
+          "sigla": "G12",
+          "titulo": "Guia Practica 12 (Northwind)",
+          "archivo": "pdf/bd/guia-12.pdf"
+        }
+      ],
+      "material": {
+        "u1": [
+          "sgbd",
+          "cap1",
+          "archivos"
+        ],
+        "u2": [
+          "der-rel",
+          "normalizacion"
+        ],
+        "u3": [
+          "guia-9",
+          "guia-10"
+        ],
+        "u4": [
+          "guia-9",
+          "guia-10",
+          "guia-11",
+          "guia-12"
+        ]
+      },
+      "evaluacion": {
+        "tipo": "simple"
+      }
     },
     {
       "clave": "ing2",

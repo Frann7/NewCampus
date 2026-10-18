@@ -1,0 +1,128 @@
+<!-- ==================== EJERCICIO 3 ==================== -->
+<section class="parcial-ej">
+  <div class="parcial-ej-cab">
+    <h2>Ejercicio 3</h2>
+    <span class="parcial-tema">Unidad 4 &middot; Consultas</span>
+  </div>
+
+  <p><strong>Ejercicio 3:</strong> Utilizando sentencias SQL, realice los scripts correspondientes para generar cada uno de los siguientes listados:</p>
+  <ol class="parcial-incisos">
+    <li>Listado de pedidos pendientes, ordenado por fecha del pedido, de más antiguo a más nuevo, mostrando el número de pedido, fecha, código del cliente, razón social, importe total del pedido (no discriminar por artículo).</li>
+    <li>Listado de cantidad de pedidos pendientes por cliente, ordenado por País, Provincia, Localidad, Razón Social. Se debe mostrar: País, Provincia, Localidad, Razón Social, Código de Cliente, Cantidad de Pedidos pendientes.</li>
+    <li>Listado de clientes, ordenados por total facturado de mayor a menor, según las facturas de los últimos 12 meses, agrupado por Año y Mes de la factura. La información que se debe listar es la siguiente: AÑO, MES, RAZON SOCIAL, TOTAL FACTURADO.</li>
+  </ol>
+
+  <div class="parcial-extras">
+    <details class="parcial-desp pd-resultados">
+      <summary>
+        <span class="pd-icono">&#10003;</span>
+        <span class="pd-txt"><b>Resultados</b><small>Solo la respuesta</small></span>
+      </summary>
+      <div class="pd-cuerpo">
+        <p><strong>a)</strong></p>
+        <pre class="codigo"><code>SELECT p.Numero, p.Fecha, c.CUIT AS CodigoCliente, c.RazonSocial,
+       SUM(d.Cantidad * d.PrecioUnitario) AS ImporteTotal
+FROM Pedido p
+INNER JOIN Cliente c ON c.CUIT = p.CUIT
+INNER JOIN Pedido_Detalle d ON d.NumeroPedido = p.Numero
+WHERE p.Estado = 'Pendiente'
+GROUP BY p.Numero, p.Fecha, c.CUIT, c.RazonSocial
+ORDER BY p.Fecha ASC;</code></pre>
+        <p><strong>b)</strong></p>
+        <pre class="codigo"><code>SELECT pa.Nombre AS Pais, pv.Nombre AS Provincia, ci.Nombre AS Localidad,
+       c.RazonSocial, c.CUIT AS CodigoCliente,
+       COUNT(p.Numero) AS CantidadPedidosPendientes
+FROM Cliente c
+INNER JOIN Ciudad ci ON ci.IdCiudad = c.IdCiudad
+INNER JOIN Provincia pv ON pv.IdProvincia = ci.IdProvincia
+INNER JOIN Pais pa ON pa.IdPais = pv.IdPais
+INNER JOIN Pedido p ON p.CUIT = c.CUIT
+WHERE p.Estado = 'Pendiente'
+GROUP BY pa.Nombre, pv.Nombre, ci.Nombre, c.RazonSocial, c.CUIT
+ORDER BY pa.Nombre, pv.Nombre, ci.Nombre, c.RazonSocial;</code></pre>
+        <p><strong>c)</strong></p>
+        <pre class="codigo"><code>SELECT YEAR(f.Fecha) AS Anio, MONTH(f.Fecha) AS Mes, c.RazonSocial,
+       SUM(fd.Cantidad * fd.PrecioUnitario) AS TotalFacturado
+FROM Factura f
+INNER JOIN Factura_Detalle fd ON fd.IdFactura = f.IdFactura
+INNER JOIN Pedido p ON p.Numero = f.NumeroPedido
+INNER JOIN Cliente c ON c.CUIT = p.CUIT
+WHERE f.Fecha &gt;= DATEADD(MONTH, -12, GETDATE())
+GROUP BY YEAR(f.Fecha), MONTH(f.Fecha), c.CUIT, c.RazonSocial
+ORDER BY TotalFacturado DESC;</code></pre>
+      </div>
+    </details>
+
+    <details class="parcial-desp pd-explicacion">
+      <summary>
+        <span class="pd-icono">&#9998;</span>
+        <span class="pd-txt"><b>Explicación detallada</b><small>La receta en cada listado, y lo que cambia en a)</small></span>
+      </summary>
+      <div class="pd-cuerpo">
+        <h4>Qué evalúa</h4>
+        <p>Los mismos tres listados del 2do parcial 2025 (Unidad 4, sección 6), con una diferencia en a): pide un <strong>total</strong> por pedido.</p>
+        <pre class="codigo" data-lang="texto"><code>Pais (IdPais (PK), Nombre)
+Provincia (IdProvincia (PK), Nombre, IdPais (FK))
+Ciudad (IdCiudad (PK), Nombre, IdProvincia (FK))
+Libro (ISBN (PK), Titulo, Autor, AnioEdicion, Genero)
+Libro_Precio (ISBN (PK)(FK), FechaPrecio (PK), PrecioUnitario)
+Almacen (IdAlmacen (PK), Nombre)
+Libro_Almacen (ISBN (PK)(FK), IdAlmacen (PK)(FK), Cantidad)
+Cliente (CUIT (PK), RazonSocial, Direccion, IdCiudad (FK), TelefonoFijo, Contacto, CelularContacto)
+TipoEmail (IdTipoEmail (PK), Descripcion)
+Cliente_Email (CUIT (PK)(FK), Email (PK), IdTipoEmail (FK))
+Pedido (Numero (PK), Fecha, Estado, CUIT (FK))
+Pedido_Detalle (NumeroPedido (PK)(FK), ISBN (PK)(FK), PrecioUnitario, Cantidad)
+Factura (IdFactura (PK), TipoComprobante, Letra, PuntoVenta, NumeroFactura, Fecha, NumeroPedido (FK))
+Factura_Detalle (IdFactura (PK)(FK), ISBN (PK)(FK), PrecioUnitario, Cantidad)</code></pre>
+        <h4>a) Pedidos pendientes con su importe total</h4>
+        <ul>
+          <li>"Importe total del pedido (no discriminar por artículo)" = una fila por pedido con la suma de sus renglones: <code>SUM(d.Cantidad * d.PrecioUnitario)</code>. Dentro de una función se puede hacer una cuenta.</li>
+          <li>Por eso este a) lleva <code>GROUP BY</code> (por pedido): sin él saldría una fila por libro.</li>
+          <li><strong>Filtro:</strong> <code>p.Estado = 'Pendiente'</code>. <strong>Orden:</strong> <code>p.Fecha ASC</code>.</li>
+        </ul>
+        <pre class="codigo"><code>SELECT p.Numero, p.Fecha, c.CUIT AS CodigoCliente, c.RazonSocial,
+       SUM(d.Cantidad * d.PrecioUnitario) AS ImporteTotal
+FROM Pedido p
+INNER JOIN Cliente c ON c.CUIT = p.CUIT
+INNER JOIN Pedido_Detalle d ON d.NumeroPedido = p.Numero
+WHERE p.Estado = 'Pendiente'
+GROUP BY p.Numero, p.Fecha, c.CUIT, c.RazonSocial
+ORDER BY p.Fecha ASC;</code></pre>
+        <h4>b) Cantidad por cliente</h4>
+        <p>Igual al b) del parcial: Pais &larr; Provincia &larr; Ciudad &larr; Cliente &rarr; Pedido, <code>COUNT</code>, y esta vez también se muestra el código del cliente (el CUIT).</p>
+        <pre class="codigo"><code>SELECT pa.Nombre AS Pais, pv.Nombre AS Provincia, ci.Nombre AS Localidad,
+       c.RazonSocial, c.CUIT AS CodigoCliente,
+       COUNT(p.Numero) AS CantidadPedidosPendientes
+FROM Cliente c
+INNER JOIN Ciudad ci ON ci.IdCiudad = c.IdCiudad
+INNER JOIN Provincia pv ON pv.IdProvincia = ci.IdProvincia
+INNER JOIN Pais pa ON pa.IdPais = pv.IdPais
+INNER JOIN Pedido p ON p.CUIT = c.CUIT
+WHERE p.Estado = 'Pendiente'
+GROUP BY pa.Nombre, pv.Nombre, ci.Nombre, c.RazonSocial, c.CUIT
+ORDER BY pa.Nombre, pv.Nombre, ci.Nombre, c.RazonSocial;</code></pre>
+        <h4>c) Total facturado por año y mes</h4>
+        <ul>
+          <li>Se suma el <strong>detalle de las facturas</strong> (no el del pedido): "según las facturas".</li>
+          <li>El cliente se encuentra por el pedido que generó la factura: Factura &rarr; Pedido &rarr; Cliente.</li>
+          <li>"De mayor a menor": <code>ORDER BY TotalFacturado DESC</code>.</li>
+        </ul>
+        <pre class="codigo"><code>SELECT YEAR(f.Fecha) AS Anio, MONTH(f.Fecha) AS Mes, c.RazonSocial,
+       SUM(fd.Cantidad * fd.PrecioUnitario) AS TotalFacturado
+FROM Factura f
+INNER JOIN Factura_Detalle fd ON fd.IdFactura = f.IdFactura
+INNER JOIN Pedido p ON p.Numero = f.NumeroPedido
+INNER JOIN Cliente c ON c.CUIT = p.CUIT
+WHERE f.Fecha &gt;= DATEADD(MONTH, -12, GETDATE())
+GROUP BY YEAR(f.Fecha), MONTH(f.Fecha), c.CUIT, c.RazonSocial
+ORDER BY TotalFacturado DESC;</code></pre>
+        <h4>Trampas</h4>
+        <ul>
+          <li>En a), sin <code>GROUP BY</code> el total no se puede calcular; con él, las columnas que se muestran van todas al <code>GROUP BY</code>.</li>
+          <li>En b), "Localidad" es la ciudad: el nombre de la columna lo elige uno con el alias.</li>
+        </ul>
+      </div>
+    </details>
+  </div>
+</section>

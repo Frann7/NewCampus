@@ -1,0 +1,98 @@
+<div class="bloque">
+  <p class="kicker">DML</p>
+  <h2>4. Agrupar y contar</h2>
+
+  <h3>Las funciones de agregado</h3>
+  <p>Toman <strong>muchas filas</strong> y devuelven <strong>un solo número</strong>:</p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Función</th><th>Qué calcula</th><th>Ejemplo</th></tr>
+      <tr><td class="lbl"><code>COUNT(*)</code></td><td>Cuántas filas hay</td><td>Cantidad de especies</td></tr>
+      <tr><td class="lbl"><code>COUNT(columna)</code></td><td>Cuántas filas tienen esa columna con valor (no vacía)</td><td><code>COUNT(t.Numero)</code>: cantidad de turnos</td></tr>
+      <tr><td class="lbl"><code>SUM(columna)</code></td><td>La suma</td><td>Total facturado</td></tr>
+      <tr><td class="lbl"><code>AVG(columna)</code></td><td>El promedio</td><td>Duración promedio de los itinerarios</td></tr>
+      <tr><td class="lbl"><code>MAX(columna)</code> / <code>MIN(columna)</code></td><td>El mayor / el menor</td><td>La extensión más grande</td></tr>
+    </table>
+  </div>
+  <pre class="codigo"><code>SELECT AVG(Duracion) AS DuracionPromedio
+FROM Itinerario;</code></pre>
+  <p>Sin <code>GROUP BY</code>, da <strong>un solo número</strong> para toda la tabla (Guía 9, consulta 10).</p>
+
+  <h3>GROUP BY: un resultado por grupo</h3>
+  <p>
+    Cuando la consigna dice "<strong>por</strong> cliente", "<strong>por</strong> zona" o "<strong>de
+    cada</strong>...", no se quiere un solo número sino <strong>uno por grupo</strong>. El
+    <code>GROUP BY</code> junta las filas que tienen el mismo valor y calcula la función en cada montón.
+  </p>
+  <div class="caja caja-formula">
+    <span class="caja-tit">La forma completa (en este orden)</span>
+    <pre class="codigo"><code>SELECT columnas_del_grupo, FUNCION(columna) AS Alias
+FROM ...
+INNER JOIN ...
+WHERE condición_de_las_filas
+GROUP BY columnas_del_grupo
+HAVING condición_del_grupo
+ORDER BY ...;</code></pre>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">La regla de oro del GROUP BY</span>
+    <p>Toda columna del <code>SELECT</code> que <strong>no</strong> está adentro de una función (<code>COUNT</code>, <code>SUM</code>...) tiene que estar en el <code>GROUP BY</code>. Si falta una, SQL Server da error.</p>
+  </div>
+
+  <h3>WHERE o HAVING</h3>
+  <ul>
+    <li><code>WHERE</code> filtra <strong>filas</strong>, antes de agrupar: "solo los turnos pendientes".</li>
+    <li><code>HAVING</code> filtra <strong>grupos</strong>, después de calcular: "solo los cuidadores con más de 5 especies". Se usa cuando la condición es sobre un <code>COUNT</code> o un <code>SUM</code>.</li>
+  </ul>
+
+  <h3>Ejemplo 1: contar por grupo</h3>
+  <div class="caja caja-ejemplo">
+    <p>Cada zona con su extensión y la cantidad de especies que aloja (Guía 9, consulta 6). Tablas: Zona (Codigo (PK), Nombre, Extension) y Especie (Codigo (PK), Nombre, CodigoZona (FK)).</p>
+  </div>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th colspan="3">Zona</th><th></th><th colspan="3">Especie</th></tr>
+      <tr><th>Codigo</th><th>Nombre</th><th>Extension</th><th></th><th>Codigo</th><th>Nombre</th><th>CodigoZona</th></tr>
+      <tr><td>1</td><td>Selva</td><td>5000.00</td><td></td><td>10</td><td>Yaguareté</td><td>1</td></tr>
+      <tr><td>2</td><td>Sabana</td><td>12000.00</td><td></td><td>11</td><td>León</td><td>2</td></tr>
+      <tr><td>3</td><td>Acuario</td><td>800.00</td><td></td><td>12</td><td>Jirafa</td><td>2</td></tr>
+      <tr><td></td><td></td><td></td><td></td><td>13</td><td>Pingüino</td><td>3</td></tr>
+    </table>
+  </div>
+  <pre class="codigo"><code>SELECT z.Nombre, z.Extension, COUNT(e.Codigo) AS CantidadEspecies
+FROM Zona z
+INNER JOIN Especie e ON e.CodigoZona = z.Codigo
+GROUP BY z.Codigo, z.Nombre, z.Extension;</code></pre>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th>Nombre</th><th>Extension</th><th>CantidadEspecies</th></tr>
+      <tr><td>Selva</td><td>5000.00</td><td>1</td></tr>
+      <tr><td>Sabana</td><td>12000.00</td><td>2</td></tr>
+      <tr><td>Acuario</td><td>800.00</td><td>1</td></tr>
+    </table>
+  </div>
+  <ul>
+    <li>El JOIN arma una fila por especie con los datos de su zona; el <code>GROUP BY</code> junta las de la misma zona y <code>COUNT</code> cuenta cuántas hay en cada montón.</li>
+    <li><code>z.Nombre</code> y <code>z.Extension</code> están en el <code>SELECT</code> sin función: por la regla de oro, van al <code>GROUP BY</code>. Se agrega <code>z.Codigo</code> para que dos zonas con el mismo nombre no se junten.</li>
+  </ul>
+
+  <h3>Ejemplo 2: HAVING</h3>
+  <div class="caja caja-ejemplo">
+    <p>Los cuidadores con más de 5 especies a cargo (Guía 9, consulta 19). Tablas: Empleado (Legajo (PK), Nombre) y Cuidador_Especie (Legajo (PK)(FK), CodigoEspecie (PK)(FK), FechaDesde).</p>
+  </div>
+  <pre class="codigo"><code>SELECT emp.Legajo, emp.Nombre, COUNT(ce.CodigoEspecie) AS Especies
+FROM Empleado emp
+INNER JOIN Cuidador_Especie ce ON ce.Legajo = emp.Legajo
+GROUP BY emp.Legajo, emp.Nombre
+HAVING COUNT(ce.CodigoEspecie) &gt; 5;</code></pre>
+  <p>La condición es sobre la <strong>cantidad</strong>, que recién existe después de agrupar: por eso va en <code>HAVING</code> y no en <code>WHERE</code>.</p>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Errores y trampas</span>
+    <ul>
+      <li>En SQL Server el <strong>alias</strong> del <code>SELECT</code> se puede usar en el <code>ORDER BY</code> (<code>ORDER BY CantidadEspecies DESC</code>), pero <strong>no</strong> en el <code>GROUP BY</code> ni en el <code>HAVING</code>: ahí se repite la expresión.</li>
+      <li>Si se agrupa por un nombre de persona solo, dos clientes que se llaman igual quedan sumados juntos. Se agrega la PK (Documento, Legajo) al <code>GROUP BY</code>.</li>
+      <li>Una zona sin especies <strong>no aparece</strong> con <code>INNER JOIN</code> (no tiene pareja). Para el parcial alcanza: los listados piden lo que sí existe.</li>
+    </ul>
+  </div>
+</div>

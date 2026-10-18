@@ -1,0 +1,108 @@
+<div class="bloque" data-examen="igual"
+     data-examen-ref="2do parcial 2025 · ej. 1"
+     data-examen-nota="«Defina Transacción en base de datos. Definición y propiedades.»">
+  <p class="kicker">Definiciones</p>
+  <h2>3. Transacción y sus propiedades</h2>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Para escribir en la hoja</span>
+    <p>
+      Una <strong>transacción</strong> es un conjunto de operaciones sobre la base de datos (consultas,
+      inserciones, modificaciones, eliminaciones) que se ejecutan como <strong>una sola unidad de
+      trabajo</strong>: o se realizan <strong>todas</strong>, o no se realiza <strong>ninguna</strong>.
+      Lleva a la base de un estado consistente a otro estado consistente.
+    </p>
+    <p>Si todas salen bien, se <strong>confirma</strong> (<code>COMMIT</code>) y los cambios quedan guardados; si alguna falla, se <strong>deshace</strong> (<code>ROLLBACK</code>) y la base vuelve a como estaba antes de empezar.</p>
+    <p>Sus propiedades se conocen como <strong>ACID</strong>:</p>
+    <ul>
+      <li><strong>Atomicidad:</strong> la transacción es indivisible; se ejecuta completa o no se ejecuta nada.</li>
+      <li><strong>Consistencia:</strong> deja la base en un estado válido, respetando todas las restricciones de integridad (claves, valores permitidos).</li>
+      <li><strong>Aislamiento:</strong> las transacciones que se ejecutan al mismo tiempo no se interfieren; cada una trabaja como si estuviera sola.</li>
+      <li><strong>Durabilidad:</strong> una vez confirmada, los cambios son permanentes, aunque después se corte la luz o falle el sistema.</li>
+    </ul>
+  </div>
+
+  <h3>Por qué hace falta</h3>
+  <p>
+    Muchas tareas de la vida real necesitan <strong>más de una sentencia</strong>, y si se corta en el
+    medio, la base queda contando algo que no pasó. El ejemplo clásico es una transferencia bancaria:
+  </p>
+  <ol>
+    <li>restar 1000 pesos de la cuenta A;</li>
+    <li>sumar 1000 pesos a la cuenta B.</li>
+  </ol>
+  <p>
+    Si se ejecuta la 1 y el sistema se cae antes de la 2, desaparecieron 1000 pesos. Metidas en una
+    transacción, las dos sentencias son una sola cosa: si la 2 no llega a hacerse, la 1 se deshace.
+  </p>
+
+  <h3>Cada propiedad, con quién se encarga</h3>
+  <p>
+    Los apuntes de la cátedra no listan las cuatro propiedades, pero sí nombran los módulos del SGBD
+    que las cumplen. Sirve para ampliar la respuesta:
+  </p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Propiedad</th><th>Qué garantiza</th><th>Módulo del SGBD (apunte de la cátedra)</th></tr>
+      <tr><td class="lbl"><span class="et dato">A</span> Atomicidad</td><td>Todo o nada</td><td><strong>Gestor de transacciones</strong> (procesa las transacciones) y <strong>gestor de recuperación</strong> (deshace lo incompleto)</td></tr>
+      <tr><td class="lbl"><span class="et ok">C</span> Consistencia</td><td>Se respetan las reglas</td><td><strong>Control de la integridad:</strong> comprueba que cada operación cumpla las restricciones</td></tr>
+      <tr><td class="lbl"><span class="et ojo">I</span> Aislamiento</td><td>No se pisan entre sí</td><td><strong>Planificador</strong> y control de concurrencia: varios usuarios a la vez, sin conflictos</td></tr>
+      <tr><td class="lbl"><span class="et vio">D</span> Durabilidad</td><td>Lo confirmado no se pierde</td><td><strong>Gestor de recuperación</strong>, con las copias de seguridad</td></tr>
+    </table>
+  </div>
+
+  <h3>Las sentencias, en SQL Server</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Sentencia</th><th>Qué hace</th></tr>
+      <tr><td class="lbl"><code>BEGIN TRAN</code></td><td>Marca el comienzo: desde acá, todo es parte de la transacción</td></tr>
+      <tr><td class="lbl"><code>COMMIT</code></td><td>Confirma: los cambios quedan guardados para siempre (durabilidad)</td></tr>
+      <tr><td class="lbl"><code>ROLLBACK</code></td><td>Deshace: todo vuelve a como estaba en el <code>BEGIN TRAN</code> (atomicidad)</td></tr>
+    </table>
+  </div>
+  <p>
+    Son las mismas que se usaron en el Trabajo Práctico final: el script de carga empezaba con
+    <code>BEGIN TRAN</code>, se revisaba el resultado con un <code>SELECT</code> y recién ahí se
+    confirmaba con <code>COMMIT</code>; si algo había salido mal, se volvía atrás con
+    <code>ROLLBACK</code>.
+  </p>
+
+  <h3>Ejemplo 1: la transferencia</h3>
+  <div class="caja caja-ejemplo">
+    <p>Pasar 1000 pesos de la cuenta 10 a la cuenta 20 sin riesgo de que la plata se pierda.</p>
+  </div>
+  <pre class="codigo"><code>BEGIN TRAN;
+UPDATE Cuenta SET Saldo = Saldo - 1000 WHERE Numero = 10;
+UPDATE Cuenta SET Saldo = Saldo + 1000 WHERE Numero = 20;
+COMMIT;</code></pre>
+  <ul>
+    <li>Si el sistema se cae entre los dos <code>UPDATE</code>, nunca llegó el <code>COMMIT</code>: al volver, el SGBD deshace el primero. <strong>Atomicidad</strong>.</li>
+    <li>Si otra persona consulta el saldo justo en el medio, no ve la cuenta 10 ya descontada y la 20 sin sumar. <strong>Aislamiento</strong>.</li>
+    <li>Después del <code>COMMIT</code>, aunque se corte la luz, la transferencia queda hecha. <strong>Durabilidad</strong>.</li>
+    <li>La plata total antes y después es la misma: la base sigue siendo correcta. <strong>Consistencia</strong>.</li>
+  </ul>
+
+  <h3>Ejemplo 2: con el caso del parcial</h3>
+  <div class="caja caja-ejemplo">
+    <p>En la clínica veterinaria, cuando un turno se atiende hay que hacer dos cosas: registrar la consulta y cambiar el estado del turno a "Atendido".</p>
+  </div>
+  <pre class="codigo"><code>BEGIN TRAN;
+INSERT INTO Consulta (Numero, Diagnostico, Observaciones, Fecha, NumeroTurno)
+VALUES (501, 'Otitis', 'Control en 7 días', '2026-10-14', 3020);
+UPDATE Turno SET Estado = 'Atendido' WHERE Numero = 3020;
+COMMIT;</code></pre>
+  <p>
+    Sin la transacción, si el <code>UPDATE</code> falla quedaría una consulta registrada para un
+    turno que sigue figurando como "Pendiente". Con ella, o quedan las dos cosas, o ninguna.
+  </p>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Errores y trampas</span>
+    <ul>
+      <li>La consigna pide <strong>definición y propiedades</strong>: si solo se nombran las letras de ACID sin explicarlas, la respuesta queda a medias.</li>
+      <li>Una transacción no es "una operación": es un <strong>conjunto</strong> de operaciones que se tratan como una.</li>
+      <li>Consistencia no es "que no haya datos repetidos": es que se cumplan <strong>todas las reglas de integridad</strong> antes y después.</li>
+      <li>En el apunte de Archivos, "archivo de transacciones" es otra cosa: un archivo temporal con los movimientos que después actualizan el archivo maestro. No se mezcla con esta definición.</li>
+    </ul>
+  </div>
+</div>

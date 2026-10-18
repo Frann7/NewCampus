@@ -1,0 +1,71 @@
+<div class="bloque">
+  <p class="kicker">DDL</p>
+  <h2>3. Orden de creación, ALTER y DROP</h2>
+
+  <h3>Primero las tablas a las que se apunta</h3>
+  <p>
+    Un <code>FOREIGN KEY ... REFERENCES Zona(Codigo)</code> solo funciona si la tabla
+    <strong>Zona ya existe</strong>. Por eso las tablas se crean en orden:
+  </p>
+  <ol>
+    <li>Las que <strong>no tienen FK</strong> (las "independientes"): Zona, Empleado, Itinerario.</li>
+    <li>Las que apuntan solo a las del paso 1: Especie (a Zona), Guia y Cuidador (a Empleado).</li>
+    <li>Al final, las <strong>tablas intermedias</strong>, que apuntan a dos tablas: Cuidador_Especie, Guia_Itinerario, Itinerario_Zona.</li>
+  </ol>
+  <p>
+    En el parcial, si piden una sola tabla con FK (como Animal), conviene aclarar en una línea que la
+    tabla a la que apunta (Propietario) tiene que estar creada antes.
+  </p>
+
+  <h3>ALTER TABLE: cambiar una tabla que ya existe</h3>
+  <div class="caja caja-formula">
+    <pre class="codigo"><code>ALTER TABLE Animal ADD Color VARCHAR(20);              -- agrega una columna
+ALTER TABLE Animal ALTER COLUMN Raza VARCHAR(80);      -- cambia el tipo de una columna
+ALTER TABLE Animal DROP COLUMN Color;                  -- saca una columna
+ALTER TABLE Animal ADD CONSTRAINT fk_animal_propietario
+  FOREIGN KEY (Documento) REFERENCES Propietario(Documento);  -- agrega una FK</code></pre>
+  </div>
+  <p>Lo que sigue a <code>--</code> es un <strong>comentario</strong>: SQL Server no lo ejecuta. Sirve para anotar qué hace cada línea.</p>
+
+  <h3>DROP TABLE: borrar una tabla</h3>
+  <pre class="codigo"><code>DROP TABLE Cuidador_Especie;</code></pre>
+  <p>
+    Borra la tabla <strong>entera</strong>, con todos sus datos. El orden es el <strong>inverso</strong>
+    al de creación: no se puede borrar Zona mientras Especie la tenga como FK. En el TP final, los
+    scripts empezaban con <code>DROP TABLE IF EXISTS</code> (borrala solo si existe) para poder
+    correrlos de nuevo desde cero.
+  </p>
+
+  <h3>Ejemplo 1: el orden del zoológico</h3>
+  <div class="caja caja-ejemplo">
+    <p>Ordenar la creación: Itinerario_Zona, Especie, Zona, Cuidador, Empleado, Cuidador_Especie.</p>
+  </div>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Orden</th><th>Tabla</th><th>Apunta a</th></tr>
+      <tr><td class="lbl">1</td><td>Zona</td><td>&mdash;</td></tr>
+      <tr><td class="lbl">2</td><td>Empleado</td><td>&mdash;</td></tr>
+      <tr><td class="lbl">3</td><td>Especie</td><td>Zona</td></tr>
+      <tr><td class="lbl">4</td><td>Cuidador</td><td>Empleado</td></tr>
+      <tr><td class="lbl">5</td><td>Cuidador_Especie</td><td>Cuidador y Especie</td></tr>
+      <tr><td class="lbl">6</td><td>Itinerario_Zona</td><td>Itinerario y Zona (Itinerario tiene que estar creada antes)</td></tr>
+    </table>
+  </div>
+
+  <h3>Ejemplo 2: ¿ALTER o UPDATE?</h3>
+  <div class="caja caja-ejemplo">
+    <p>(a) A todos los animales se les quiere guardar también el color. (b) Un animal cambió de dueño.</p>
+  </div>
+  <ul>
+    <li><strong>(a)</strong> cambia la <strong>estructura</strong> (una columna nueva): <code>ALTER TABLE Animal ADD Color VARCHAR(20);</code> &mdash; DDL.</li>
+    <li><strong>(b)</strong> cambia un <strong>dato</strong> de una fila: es un <code>UPDATE</code> (Unidad 4) &mdash; DML.</li>
+  </ul>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Errores y trampas</span>
+    <ul>
+      <li>Crear una tabla con FK antes que la tabla a la que apunta da error: el orden importa.</li>
+      <li><code>DROP TABLE</code> no pide confirmación ni se deshace (salvo dentro de una transacción con <code>ROLLBACK</code>).</li>
+    </ul>
+  </div>
+</div>

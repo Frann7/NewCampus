@@ -1,0 +1,90 @@
+<div class="bloque" data-examen="igual"
+     data-examen-ref="2do parcial 2025 · ej. 2"
+     data-examen-nota="«Defina DDL y DML y para qué sirve cada uno y cuáles son las sentencias específicas en SQL.» También en los dos finales, casi con las mismas palabras.">
+  <p class="kicker">Definiciones</p>
+  <h2>2. DDL y DML</h2>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Para escribir en la hoja</span>
+    <p>
+      Son los dos lenguajes que provee el SGBD, uno por cada una de sus funciones principales:
+      la de <strong>definición</strong> y la de <strong>manipulación</strong>.
+    </p>
+    <p>
+      <strong>DDL</strong> (<em>Data Definition Language</em>, lenguaje de definición de datos):
+      sirve para <strong>definir la estructura</strong> de la base de datos: crear, modificar y
+      eliminar las tablas, sus atributos, sus claves (primarias y foráneas) y sus restricciones de
+      integridad. Lo procesa el compilador de DDL, que guarda esas definiciones (metadatos) en el
+      <strong>diccionario de datos</strong>. Lo usa sobre todo el administrador de la base (DBA).
+    </p>
+    <p>Sentencias: <code>CREATE</code>, <code>ALTER</code> y <code>DROP</code>.</p>
+    <p>
+      <strong>DML</strong> (<em>Data Manipulation Language</em>, lenguaje de manipulación de datos):
+      sirve para <strong>trabajar con los datos</strong> que están guardados en esa estructura:
+      consultarlos, agregarlos, modificarlos y eliminarlos. Lo usan todos los usuarios de la base.
+    </p>
+    <p>Sentencias: <code>SELECT</code>, <code>INSERT</code>, <code>UPDATE</code> y <code>DELETE</code>.</p>
+  </div>
+
+  <h3>Cada sentencia, en una línea</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Lenguaje</th><th>Sentencia</th><th>Qué hace</th><th>Ejemplo corto</th></tr>
+      <tr><td class="lbl" rowspan="3"><span class="et dato">DDL</span></td><td><code>CREATE</code></td><td>Crea un objeto: una base, una tabla</td><td><code>CREATE TABLE Raza (...)</code></td></tr>
+      <tr><td><code>ALTER</code></td><td>Modifica un objeto que ya existe: agrega una columna o una clave</td><td><code>ALTER TABLE Animal ADD Color VARCHAR(20)</code></td></tr>
+      <tr><td><code>DROP</code></td><td>Elimina el objeto entero, con todos sus datos</td><td><code>DROP TABLE Raza</code></td></tr>
+      <tr><td class="lbl" rowspan="4"><span class="et ok">DML</span></td><td><code>SELECT</code></td><td>Consulta: muestra los datos que cumplen una condición</td><td><code>SELECT * FROM Animal</code></td></tr>
+      <tr><td><code>INSERT</code></td><td>Agrega filas nuevas</td><td><code>INSERT INTO Raza VALUES (1, 'Caniche')</code></td></tr>
+      <tr><td><code>UPDATE</code></td><td>Modifica valores de filas que ya existen</td><td><code>UPDATE Turno SET Estado = 'Atendido' ...</code></td></tr>
+      <tr><td><code>DELETE</code></td><td>Borra filas (la tabla queda)</td><td><code>DELETE FROM Turno WHERE ...</code></td></tr>
+    </table>
+  </div>
+  <p>La sintaxis completa del DDL está en la Unidad 3, y la del DML en la Unidad 4.</p>
+
+  <h3>De dónde sale: las funciones del SGBD</h3>
+  <p>Los apuntes de la cátedra dicen que el SGBD tiene tres funciones, y las dos primeras son estos lenguajes:</p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Función del SGBD</th><th>Qué permite</th><th>Con qué</th></tr>
+      <tr><td class="lbl">Definición (descripción)</td><td>Describir los datos, su estructura, sus interrelaciones y sus validaciones</td><td>DDL (en castellano, <strong>LDD</strong>)</td></tr>
+      <tr><td class="lbl">Manipulación</td><td>Buscar, añadir, suprimir y modificar los datos</td><td>DML (en castellano, <strong>LMD</strong>)</td></tr>
+      <tr><td class="lbl">Utilización</td><td>Copias de seguridad, carga de archivos, estadísticas, protección contra accesos no autorizados, concurrencia</td><td>Herramientas del SGBD para el DBA</td></tr>
+    </table>
+  </div>
+
+  <h3>Ejemplo 1: ¿DDL o DML?</h3>
+  <div class="caja caja-ejemplo">
+    <p>Clasificá cada acción: (a) agregar a la tabla Animal la columna Color; (b) cargar un animal nuevo; (c) cambiar el peso de un animal; (d) borrar la tabla Raza; (e) listar los turnos pendientes.</p>
+  </div>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Acción</th><th>¿Cambia la estructura o los datos?</th><th>Lenguaje y sentencia</th></tr>
+      <tr><td class="lbl">(a) agregar la columna Color</td><td>La estructura: la tabla pasa a tener otra columna</td><td><span class="et dato">DDL</span> <code>ALTER</code></td></tr>
+      <tr><td class="lbl">(b) cargar un animal</td><td>Los datos: una fila más</td><td><span class="et ok">DML</span> <code>INSERT</code></td></tr>
+      <tr><td class="lbl">(c) cambiar el peso</td><td>Los datos: un valor de una fila</td><td><span class="et ok">DML</span> <code>UPDATE</code></td></tr>
+      <tr><td class="lbl">(d) borrar la tabla Raza</td><td>La estructura: la tabla deja de existir</td><td><span class="et dato">DDL</span> <code>DROP</code></td></tr>
+      <tr><td class="lbl">(e) listar los turnos pendientes</td><td>Los datos: se leen, no se cambian</td><td><span class="et ok">DML</span> <code>SELECT</code></td></tr>
+    </table>
+  </div>
+  <p>La pregunta que decide siempre es la misma: <strong>¿cambia la forma de la tabla, o lo que tiene adentro?</strong></p>
+
+  <h3>Ejemplo 2: con un ejercicio de parcial</h3>
+  <div class="caja caja-ejemplo">
+    <p>En el 2do parcial, el ejercicio 4 pide crear la tabla de Animales y el 5 pide listados. ¿Qué lenguaje usa cada uno?</p>
+  </div>
+  <ul>
+    <li><strong>Ejercicio 4</strong> (crear la tabla): <span class="et dato">DDL</span>, con <code>CREATE TABLE</code>.</li>
+    <li><strong>Ejercicio 5</strong> (listados): <span class="et ok">DML</span>, con <code>SELECT</code>.</li>
+  </ul>
+  <p>Mencionarlo en la respuesta del ejercicio 2 ("por ejemplo, el CREATE TABLE del ejercicio 4 es DDL") suma: muestra que sabés para qué sirve cada uno.</p>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Errores y trampas</span>
+    <ul>
+      <li><code>SELECT</code> es <strong>DML</strong>: los apuntes ponen la consulta entre las operaciones de manipulación, aunque no cambie nada.</li>
+      <li><code>DELETE</code> (DML) borra <strong>filas</strong> y la tabla queda vacía; <code>DROP</code> (DDL) borra <strong>la tabla</strong>.</li>
+      <li><code>UPDATE</code> (DML) cambia <strong>valores</strong>; <code>ALTER</code> (DDL) cambia <strong>columnas</strong>. Es la confusión más común.</li>
+      <li>La consigna pide tres cosas: la definición, para qué sirve cada uno y las sentencias. Si falta una, la respuesta queda incompleta.</li>
+    </ul>
+  </div>
+</div>

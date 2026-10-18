@@ -1,0 +1,409 @@
+<!-- ==================== EJERCICIO 3 ==================== -->
+<section class="parcial-ej">
+  <div class="parcial-ej-cab">
+    <h2>Ejercicio 3</h2>
+    <span class="parcial-tema">Unidad 2 &middot; DER &rarr; modelo relacional</span>
+  </div>
+
+  <p><strong>Ejercicio 3:</strong> A partir del diagrama, realice el modelo relacional normalizado a 3FN, indicando PKs y FKs.</p>
+  <p><em>Una clínica veterinaria necesita organizar la información de sus pacientes, turnos y tratamientos.</em></p>
+  <p>
+    <em>De cada animal se conoce: número de historia clínica (único), nombre, raza, sexo, fecha de
+    nacimiento, peso actual (al momento del ingreso por primera vez) y el cliente (propietario) al que
+    pertenece. De cada cliente se conoce: nombre completo, DNI o CUIT, dirección, ciudad, provincia,
+    país y teléfonos. Cada cliente puede solicitar turnos para distintos servicios (consultas,
+    vacunaciones, cirugías, etc.). Cada turno posee: número de turno, fecha, hora, servicio
+    solicitado, médico veterinario asignado y estado (pendiente, atendido, cancelado). Cuando un turno
+    se atiende, se registra una consulta, donde se guarda: número de consulta (identificador único),
+    diagnóstico (un texto libre escrito por el propio profesional), observaciones, medicamentos
+    utilizados, costos y la fecha en que se realizó. Puede haber más de un tratamiento por turno (por
+    ejemplo, control + vacunación).</em>
+  </p>
+  <div class="pd-grafico der" data-g="p25-vet">
+    <svg viewBox="37 -1 866 575" width="866" height="575" style="min-width:693px" role="img" aria-label="DER de la clínica veterinaria">
+      <path class="lin" d="M200.0,154.0 L200.0,78.0"/>
+      <text class="card" x="211.0" y="98.0" text-anchor="middle" dominant-baseline="central">(1,N)</text>
+      <path class="lin" d="M200.0,196.0 L200.0,272.0"/>
+      <text class="card" x="211.0" y="252.0" text-anchor="middle" dominant-baseline="central">(1,1)</text>
+      <polygon class="rel" points="200.0,154.0 249.5,175.0 200.0,196.0 150.5,175.0"/>
+      <text class="nrel" x="200.0" y="175.0" text-anchor="middle" dominant-baseline="central">es dueño</text>
+      <path class="lin" d="M284.0,290.0 L234.5,290.0"/>
+      <text class="card" x="254.5" y="279.0" text-anchor="middle" dominant-baseline="central">(1,N)</text>
+      <path class="lin" d="M376.0,290.0 L426.3,290.0"/>
+      <text class="card" x="406.3" y="279.0" text-anchor="middle" dominant-baseline="central">(1,1)</text>
+      <polygon class="rel" points="330.0,269.0 376.0,290.0 330.0,311.0 284.0,290.0"/>
+      <text class="nrel" x="330.0" y="290.0" text-anchor="middle" dominant-baseline="central">asigna</text>
+      <path class="lin" d="M460.0,154.0 L460.0,78.0"/>
+      <text class="card" x="471.0" y="98.0" text-anchor="middle" dominant-baseline="central">(1,N)</text>
+      <path class="lin" d="M460.0,196.0 L460.0,272.0"/>
+      <text class="card" x="471.0" y="252.0" text-anchor="middle" dominant-baseline="central">(1,N)</text>
+      <polygon class="rel" points="460.0,154.0 506.0,175.0 460.0,196.0 414.0,175.0"/>
+      <text class="nrel" x="460.0" y="175.0" text-anchor="middle" dominant-baseline="central">incluye</text>
+      <path class="lin" d="M690.0,154.0 L690.0,78.0"/>
+      <text class="card" x="701.0" y="98.0" text-anchor="middle" dominant-baseline="central">(1,N)</text>
+      <path class="lin" d="M668.0,186.0 L493.7,273.1"/>
+      <text class="card" x="506.7" y="254.3" text-anchor="middle" dominant-baseline="central">(1,1)</text>
+      <polygon class="rel" points="690.0,154.0 736.0,175.0 690.0,196.0 644.0,175.0"/>
+      <text class="nrel" x="690.0" y="175.0" text-anchor="middle" dominant-baseline="central">atiende</text>
+      <path class="lin" d="M460.0,399.0 L460.0,308.0"/>
+      <text class="card" x="447.0" y="328.0" text-anchor="middle" dominant-baseline="central">(1,1)</text>
+      <path class="lin" d="M460.0,441.0 L460.0,512.0"/>
+      <text class="card" x="471.0" y="492.0" text-anchor="middle" dominant-baseline="central">(1,1)</text>
+      <polygon class="rel" points="460.0,399.0 506.0,420.0 460.0,441.0 414.0,420.0"/>
+      <text class="nrel" x="460.0" y="420.0" text-anchor="middle" dominant-baseline="central">realiza</text>
+      <path class="lin" d="M564.0,530.0 L503.8,530.0"/>
+      <text class="card" x="523.8" y="519.0" text-anchor="middle" dominant-baseline="central">(1,N)</text>
+      <path class="lin" d="M656.0,530.0 L704.7,530.0"/>
+      <text class="card" x="684.7" y="519.0" text-anchor="middle" dominant-baseline="central">(1,N)</text>
+      <polygon class="rel" points="610.0,509.0 656.0,530.0 610.0,551.0 564.0,530.0"/>
+      <text class="nrel" x="610.0" y="530.0" text-anchor="middle" dominant-baseline="central">aplica</text>
+      <path class="lin" d="M623.9,541.5 L625.0,557.5"/>
+      <circle class="noid" cx="629.0" cy="557.5" r="3.6"/>
+      <text class="att" x="637.0" y="557.5" text-anchor="start" dominant-baseline="central">Costo</text>
+      <rect class="ent" x="146.2" y="42.0" width="107.5" height="36.0"/>
+      <text class="nent" x="200.0" y="60.0" text-anchor="middle" dominant-baseline="central">Propietario</text>
+      <path class="lin" d="M146.2,48.8 L120.2,15.0"/>
+      <circle class="noid" cx="116.2" cy="15.0" r="3.6"/>
+      <text class="att" x="108.2" y="15.0" text-anchor="end" dominant-baseline="central">Nombre</text>
+      <path class="lin" d="M146.2,52.5 L120.2,30.0"/>
+      <circle class="id" cx="116.2" cy="30.0" r="3.6"/>
+      <text class="att pk" x="108.2" y="30.0" text-anchor="end" dominant-baseline="central">Documento</text>
+      <path class="lin" d="M146.2,56.2 L120.2,45.0"/>
+      <circle class="noid" cx="116.2" cy="45.0" r="3.6"/>
+      <text class="att" x="108.2" y="45.0" text-anchor="end" dominant-baseline="central">Teléfonos</text>
+      <path class="lin" d="M146.2,60.0 L120.2,60.0"/>
+      <circle class="noid" cx="116.2" cy="60.0" r="3.6"/>
+      <text class="att" x="108.2" y="60.0" text-anchor="end" dominant-baseline="central">Dirección</text>
+      <path class="lin" d="M146.2,63.8 L120.2,75.0"/>
+      <circle class="noid" cx="116.2" cy="75.0" r="3.6"/>
+      <text class="att" x="108.2" y="75.0" text-anchor="end" dominant-baseline="central">Ciudad</text>
+      <path class="lin" d="M146.2,67.5 L120.2,90.0"/>
+      <circle class="noid" cx="116.2" cy="90.0" r="3.6"/>
+      <text class="att" x="108.2" y="90.0" text-anchor="end" dominant-baseline="central">Provincia</text>
+      <path class="lin" d="M146.2,71.2 L120.2,105.0"/>
+      <circle class="noid" cx="116.2" cy="105.0" r="3.6"/>
+      <text class="att" x="108.2" y="105.0" text-anchor="end" dominant-baseline="central">País</text>
+      <rect class="ent" x="165.5" y="272.0" width="69.0" height="36.0"/>
+      <text class="nent" x="200.0" y="290.0" text-anchor="middle" dominant-baseline="central">Animal</text>
+      <path class="lin" d="M165.5,280.6 L139.5,252.5"/>
+      <circle class="id" cx="135.5" cy="252.5" r="3.6"/>
+      <text class="att pk" x="127.5" y="252.5" text-anchor="end" dominant-baseline="central">NúmeroHC</text>
+      <path class="lin" d="M165.5,284.4 L139.5,267.5"/>
+      <circle class="noid" cx="135.5" cy="267.5" r="3.6"/>
+      <text class="att" x="127.5" y="267.5" text-anchor="end" dominant-baseline="central">Nombre</text>
+      <path class="lin" d="M165.5,288.1 L139.5,282.5"/>
+      <circle class="noid" cx="135.5" cy="282.5" r="3.6"/>
+      <text class="att" x="127.5" y="282.5" text-anchor="end" dominant-baseline="central">Raza</text>
+      <path class="lin" d="M165.5,291.9 L139.5,297.5"/>
+      <circle class="noid" cx="135.5" cy="297.5" r="3.6"/>
+      <text class="att" x="127.5" y="297.5" text-anchor="end" dominant-baseline="central">Sexo</text>
+      <path class="lin" d="M165.5,295.6 L139.5,312.5"/>
+      <circle class="noid" cx="135.5" cy="312.5" r="3.6"/>
+      <text class="att" x="127.5" y="312.5" text-anchor="end" dominant-baseline="central">FechaNac</text>
+      <path class="lin" d="M165.5,299.4 L139.5,327.5"/>
+      <circle class="noid" cx="135.5" cy="327.5" r="3.6"/>
+      <text class="att" x="127.5" y="327.5" text-anchor="end" dominant-baseline="central">Peso</text>
+      <rect class="ent" x="413.9" y="42.0" width="92.1" height="36.0"/>
+      <text class="nent" x="460.0" y="60.0" text-anchor="middle" dominant-baseline="central">Servicios</text>
+      <path class="lin" d="M413.9,58.1 L387.9,52.5"/>
+      <circle class="id" cx="383.9" cy="52.5" r="3.6"/>
+      <text class="att pk" x="375.9" y="52.5" text-anchor="end" dominant-baseline="central">Código</text>
+      <path class="lin" d="M413.9,61.9 L387.9,67.5"/>
+      <circle class="noid" cx="383.9" cy="67.5" r="3.6"/>
+      <text class="att" x="375.9" y="67.5" text-anchor="end" dominant-baseline="central">Descripción</text>
+      <rect class="ent" x="426.3" y="272.0" width="67.5" height="36.0"/>
+      <text class="nent" x="460.0" y="290.0" text-anchor="middle" dominant-baseline="central">Turno</text>
+      <path class="lin" d="M478.6,308.0 L481.3,324.0"/>
+      <circle class="id" cx="485.3" cy="324.0" r="3.6"/>
+      <text class="att pk" x="493.3" y="324.0" text-anchor="start" dominant-baseline="central">Número</text>
+      <path class="lin" d="M478.6,308.0 L481.3,339.0"/>
+      <circle class="noid" cx="485.3" cy="339.0" r="3.6"/>
+      <text class="att" x="493.3" y="339.0" text-anchor="start" dominant-baseline="central">FechaHora</text>
+      <path class="lin" d="M478.6,308.0 L481.3,354.0"/>
+      <circle class="noid" cx="485.3" cy="354.0" r="3.6"/>
+      <text class="att" x="493.3" y="354.0" text-anchor="start" dominant-baseline="central">Estado</text>
+      <rect class="ent" x="636.2" y="42.0" width="107.5" height="36.0"/>
+      <text class="nent" x="690.0" y="60.0" text-anchor="middle" dominant-baseline="central">Veterinario</text>
+      <path class="lin" d="M743.8,58.1 L769.8,52.5"/>
+      <circle class="id" cx="773.8" cy="52.5" r="3.6"/>
+      <text class="att pk" x="781.8" y="52.5" text-anchor="start" dominant-baseline="central">NroMatricula</text>
+      <path class="lin" d="M743.8,61.9 L769.8,67.5"/>
+      <circle class="noid" cx="773.8" cy="67.5" r="3.6"/>
+      <text class="att" x="781.8" y="67.5" text-anchor="start" dominant-baseline="central">Nombre</text>
+      <rect class="ent" x="416.2" y="512.0" width="87.5" height="36.0"/>
+      <text class="nent" x="460.0" y="530.0" text-anchor="middle" dominant-baseline="central">Consulta</text>
+      <path class="lin" d="M416.2,524.4 L390.2,507.5"/>
+      <circle class="id" cx="386.2" cy="507.5" r="3.6"/>
+      <text class="att pk" x="378.2" y="507.5" text-anchor="end" dominant-baseline="central">Número</text>
+      <path class="lin" d="M416.2,528.1 L390.2,522.5"/>
+      <circle class="noid" cx="386.2" cy="522.5" r="3.6"/>
+      <text class="att" x="378.2" y="522.5" text-anchor="end" dominant-baseline="central">Diagnóstico</text>
+      <path class="lin" d="M416.2,531.9 L390.2,537.5"/>
+      <circle class="noid" cx="386.2" cy="537.5" r="3.6"/>
+      <text class="att" x="378.2" y="537.5" text-anchor="end" dominant-baseline="central">Observaciones</text>
+      <path class="lin" d="M416.2,535.6 L390.2,552.5"/>
+      <circle class="noid" cx="386.2" cy="552.5" r="3.6"/>
+      <text class="att" x="378.2" y="552.5" text-anchor="end" dominant-baseline="central">Fecha</text>
+      <rect class="ent" x="704.7" y="512.0" width="110.6" height="36.0"/>
+      <text class="nent" x="760.0" y="530.0" text-anchor="middle" dominant-baseline="central">Tratamiento</text>
+      <path class="lin" d="M815.3,528.1 L841.3,522.5"/>
+      <circle class="id" cx="845.3" cy="522.5" r="3.6"/>
+      <text class="att pk" x="853.3" y="522.5" text-anchor="start" dominant-baseline="central">Código</text>
+      <path class="lin" d="M815.3,531.9 L841.3,537.5"/>
+      <circle class="noid" cx="845.3" cy="537.5" r="3.6"/>
+      <text class="att" x="853.3" y="537.5" text-anchor="start" dominant-baseline="central">Nombre</text>
+    </svg>
+  </div>
+
+  <div class="parcial-extras">
+    <details class="parcial-desp pd-resultados">
+      <summary>
+        <span class="pd-icono">&#10003;</span>
+        <span class="pd-txt"><b>Resultados</b><small>Solo la respuesta</small></span>
+      </summary>
+      <div class="pd-cuerpo">
+        <pre class="codigo" data-lang="texto"><code>Pais (IdPais (PK), Nombre)
+Provincia (IdProvincia (PK), Nombre, IdPais (FK))
+Ciudad (IdCiudad (PK), Nombre, IdProvincia (FK))
+Propietario (Documento (PK), Nombre, Direccion, IdCiudad (FK))
+Propietario_Telefonos (Documento (PK)(FK), Telefono (PK))
+Animal (NumeroHC (PK), Nombre, Raza, Sexo, FechaNac, Peso, Documento (FK))
+Servicio (Codigo (PK), Descripcion)
+Veterinario (NroMatricula (PK), Nombre)
+Turno (Numero (PK), FechaHora, Estado, NumeroHC (FK), NroMatricula (FK))
+Turno_Servicio (NumeroTurno (PK)(FK), CodigoServicio (PK)(FK))
+Consulta (Numero (PK), Diagnostico, Observaciones, Fecha, NumeroTurno (FK))
+Tratamiento (Codigo (PK), Nombre)
+Consulta_Tratamiento (NumeroConsulta (PK)(FK), CodigoTratamiento (PK)(FK), Costo)</code></pre>
+      </div>
+    </details>
+
+    <details class="parcial-desp pd-explicacion">
+      <summary>
+        <span class="pd-icono">&#9998;</span>
+        <span class="pd-txt"><b>Explicación detallada</b><small>Regla por regla, la 3FN y las trampas</small></span>
+      </summary>
+      <div class="pd-cuerpo">
+        <h4>Qué evalúa</h4>
+        <p>
+          Aplicar las reglas del DER al modelo relacional (Unidad 2, sección 1) y dejar las tablas en
+          3FN (sección 2), marcando PK y FK. El DER ya está dado: se trabaja <strong>sobre el
+          diagrama</strong>, y el texto sirve para entender qué es cada cosa.
+        </p>
+        <div class="pd-grafico der" data-g="p25-vet">
+          <svg viewBox="37 -1 866 575" width="866" height="575" style="min-width:693px" role="img" aria-label="DER de la clínica veterinaria">
+            <path class="lin" d="M200.0,154.0 L200.0,78.0"/>
+            <text class="card" x="211.0" y="98.0" text-anchor="middle" dominant-baseline="central">(1,N)</text>
+            <path class="lin" d="M200.0,196.0 L200.0,272.0"/>
+            <text class="card" x="211.0" y="252.0" text-anchor="middle" dominant-baseline="central">(1,1)</text>
+            <polygon class="rel" points="200.0,154.0 249.5,175.0 200.0,196.0 150.5,175.0"/>
+            <text class="nrel" x="200.0" y="175.0" text-anchor="middle" dominant-baseline="central">es dueño</text>
+            <path class="lin" d="M284.0,290.0 L234.5,290.0"/>
+            <text class="card" x="254.5" y="279.0" text-anchor="middle" dominant-baseline="central">(1,N)</text>
+            <path class="lin" d="M376.0,290.0 L426.3,290.0"/>
+            <text class="card" x="406.3" y="279.0" text-anchor="middle" dominant-baseline="central">(1,1)</text>
+            <polygon class="rel" points="330.0,269.0 376.0,290.0 330.0,311.0 284.0,290.0"/>
+            <text class="nrel" x="330.0" y="290.0" text-anchor="middle" dominant-baseline="central">asigna</text>
+            <path class="lin" d="M460.0,154.0 L460.0,78.0"/>
+            <text class="card" x="471.0" y="98.0" text-anchor="middle" dominant-baseline="central">(1,N)</text>
+            <path class="lin" d="M460.0,196.0 L460.0,272.0"/>
+            <text class="card" x="471.0" y="252.0" text-anchor="middle" dominant-baseline="central">(1,N)</text>
+            <polygon class="rel" points="460.0,154.0 506.0,175.0 460.0,196.0 414.0,175.0"/>
+            <text class="nrel" x="460.0" y="175.0" text-anchor="middle" dominant-baseline="central">incluye</text>
+            <path class="lin" d="M690.0,154.0 L690.0,78.0"/>
+            <text class="card" x="701.0" y="98.0" text-anchor="middle" dominant-baseline="central">(1,N)</text>
+            <path class="lin" d="M668.0,186.0 L493.7,273.1"/>
+            <text class="card" x="506.7" y="254.3" text-anchor="middle" dominant-baseline="central">(1,1)</text>
+            <polygon class="rel" points="690.0,154.0 736.0,175.0 690.0,196.0 644.0,175.0"/>
+            <text class="nrel" x="690.0" y="175.0" text-anchor="middle" dominant-baseline="central">atiende</text>
+            <path class="lin" d="M460.0,399.0 L460.0,308.0"/>
+            <text class="card" x="447.0" y="328.0" text-anchor="middle" dominant-baseline="central">(1,1)</text>
+            <path class="lin" d="M460.0,441.0 L460.0,512.0"/>
+            <text class="card" x="471.0" y="492.0" text-anchor="middle" dominant-baseline="central">(1,1)</text>
+            <polygon class="rel" points="460.0,399.0 506.0,420.0 460.0,441.0 414.0,420.0"/>
+            <text class="nrel" x="460.0" y="420.0" text-anchor="middle" dominant-baseline="central">realiza</text>
+            <path class="lin" d="M564.0,530.0 L503.8,530.0"/>
+            <text class="card" x="523.8" y="519.0" text-anchor="middle" dominant-baseline="central">(1,N)</text>
+            <path class="lin" d="M656.0,530.0 L704.7,530.0"/>
+            <text class="card" x="684.7" y="519.0" text-anchor="middle" dominant-baseline="central">(1,N)</text>
+            <polygon class="rel" points="610.0,509.0 656.0,530.0 610.0,551.0 564.0,530.0"/>
+            <text class="nrel" x="610.0" y="530.0" text-anchor="middle" dominant-baseline="central">aplica</text>
+            <path class="lin" d="M623.9,541.5 L625.0,557.5"/>
+            <circle class="noid" cx="629.0" cy="557.5" r="3.6"/>
+            <text class="att" x="637.0" y="557.5" text-anchor="start" dominant-baseline="central">Costo</text>
+            <rect class="ent" x="146.2" y="42.0" width="107.5" height="36.0"/>
+            <text class="nent" x="200.0" y="60.0" text-anchor="middle" dominant-baseline="central">Propietario</text>
+            <path class="lin" d="M146.2,48.8 L120.2,15.0"/>
+            <circle class="noid" cx="116.2" cy="15.0" r="3.6"/>
+            <text class="att" x="108.2" y="15.0" text-anchor="end" dominant-baseline="central">Nombre</text>
+            <path class="lin" d="M146.2,52.5 L120.2,30.0"/>
+            <circle class="id" cx="116.2" cy="30.0" r="3.6"/>
+            <text class="att pk" x="108.2" y="30.0" text-anchor="end" dominant-baseline="central">Documento</text>
+            <path class="lin" d="M146.2,56.2 L120.2,45.0"/>
+            <circle class="noid" cx="116.2" cy="45.0" r="3.6"/>
+            <text class="att" x="108.2" y="45.0" text-anchor="end" dominant-baseline="central">Teléfonos</text>
+            <path class="lin" d="M146.2,60.0 L120.2,60.0"/>
+            <circle class="noid" cx="116.2" cy="60.0" r="3.6"/>
+            <text class="att" x="108.2" y="60.0" text-anchor="end" dominant-baseline="central">Dirección</text>
+            <path class="lin" d="M146.2,63.8 L120.2,75.0"/>
+            <circle class="noid" cx="116.2" cy="75.0" r="3.6"/>
+            <text class="att" x="108.2" y="75.0" text-anchor="end" dominant-baseline="central">Ciudad</text>
+            <path class="lin" d="M146.2,67.5 L120.2,90.0"/>
+            <circle class="noid" cx="116.2" cy="90.0" r="3.6"/>
+            <text class="att" x="108.2" y="90.0" text-anchor="end" dominant-baseline="central">Provincia</text>
+            <path class="lin" d="M146.2,71.2 L120.2,105.0"/>
+            <circle class="noid" cx="116.2" cy="105.0" r="3.6"/>
+            <text class="att" x="108.2" y="105.0" text-anchor="end" dominant-baseline="central">País</text>
+            <rect class="ent" x="165.5" y="272.0" width="69.0" height="36.0"/>
+            <text class="nent" x="200.0" y="290.0" text-anchor="middle" dominant-baseline="central">Animal</text>
+            <path class="lin" d="M165.5,280.6 L139.5,252.5"/>
+            <circle class="id" cx="135.5" cy="252.5" r="3.6"/>
+            <text class="att pk" x="127.5" y="252.5" text-anchor="end" dominant-baseline="central">NúmeroHC</text>
+            <path class="lin" d="M165.5,284.4 L139.5,267.5"/>
+            <circle class="noid" cx="135.5" cy="267.5" r="3.6"/>
+            <text class="att" x="127.5" y="267.5" text-anchor="end" dominant-baseline="central">Nombre</text>
+            <path class="lin" d="M165.5,288.1 L139.5,282.5"/>
+            <circle class="noid" cx="135.5" cy="282.5" r="3.6"/>
+            <text class="att" x="127.5" y="282.5" text-anchor="end" dominant-baseline="central">Raza</text>
+            <path class="lin" d="M165.5,291.9 L139.5,297.5"/>
+            <circle class="noid" cx="135.5" cy="297.5" r="3.6"/>
+            <text class="att" x="127.5" y="297.5" text-anchor="end" dominant-baseline="central">Sexo</text>
+            <path class="lin" d="M165.5,295.6 L139.5,312.5"/>
+            <circle class="noid" cx="135.5" cy="312.5" r="3.6"/>
+            <text class="att" x="127.5" y="312.5" text-anchor="end" dominant-baseline="central">FechaNac</text>
+            <path class="lin" d="M165.5,299.4 L139.5,327.5"/>
+            <circle class="noid" cx="135.5" cy="327.5" r="3.6"/>
+            <text class="att" x="127.5" y="327.5" text-anchor="end" dominant-baseline="central">Peso</text>
+            <rect class="ent" x="413.9" y="42.0" width="92.1" height="36.0"/>
+            <text class="nent" x="460.0" y="60.0" text-anchor="middle" dominant-baseline="central">Servicios</text>
+            <path class="lin" d="M413.9,58.1 L387.9,52.5"/>
+            <circle class="id" cx="383.9" cy="52.5" r="3.6"/>
+            <text class="att pk" x="375.9" y="52.5" text-anchor="end" dominant-baseline="central">Código</text>
+            <path class="lin" d="M413.9,61.9 L387.9,67.5"/>
+            <circle class="noid" cx="383.9" cy="67.5" r="3.6"/>
+            <text class="att" x="375.9" y="67.5" text-anchor="end" dominant-baseline="central">Descripción</text>
+            <rect class="ent" x="426.3" y="272.0" width="67.5" height="36.0"/>
+            <text class="nent" x="460.0" y="290.0" text-anchor="middle" dominant-baseline="central">Turno</text>
+            <path class="lin" d="M478.6,308.0 L481.3,324.0"/>
+            <circle class="id" cx="485.3" cy="324.0" r="3.6"/>
+            <text class="att pk" x="493.3" y="324.0" text-anchor="start" dominant-baseline="central">Número</text>
+            <path class="lin" d="M478.6,308.0 L481.3,339.0"/>
+            <circle class="noid" cx="485.3" cy="339.0" r="3.6"/>
+            <text class="att" x="493.3" y="339.0" text-anchor="start" dominant-baseline="central">FechaHora</text>
+            <path class="lin" d="M478.6,308.0 L481.3,354.0"/>
+            <circle class="noid" cx="485.3" cy="354.0" r="3.6"/>
+            <text class="att" x="493.3" y="354.0" text-anchor="start" dominant-baseline="central">Estado</text>
+            <rect class="ent" x="636.2" y="42.0" width="107.5" height="36.0"/>
+            <text class="nent" x="690.0" y="60.0" text-anchor="middle" dominant-baseline="central">Veterinario</text>
+            <path class="lin" d="M743.8,58.1 L769.8,52.5"/>
+            <circle class="id" cx="773.8" cy="52.5" r="3.6"/>
+            <text class="att pk" x="781.8" y="52.5" text-anchor="start" dominant-baseline="central">NroMatricula</text>
+            <path class="lin" d="M743.8,61.9 L769.8,67.5"/>
+            <circle class="noid" cx="773.8" cy="67.5" r="3.6"/>
+            <text class="att" x="781.8" y="67.5" text-anchor="start" dominant-baseline="central">Nombre</text>
+            <rect class="ent" x="416.2" y="512.0" width="87.5" height="36.0"/>
+            <text class="nent" x="460.0" y="530.0" text-anchor="middle" dominant-baseline="central">Consulta</text>
+            <path class="lin" d="M416.2,524.4 L390.2,507.5"/>
+            <circle class="id" cx="386.2" cy="507.5" r="3.6"/>
+            <text class="att pk" x="378.2" y="507.5" text-anchor="end" dominant-baseline="central">Número</text>
+            <path class="lin" d="M416.2,528.1 L390.2,522.5"/>
+            <circle class="noid" cx="386.2" cy="522.5" r="3.6"/>
+            <text class="att" x="378.2" y="522.5" text-anchor="end" dominant-baseline="central">Diagnóstico</text>
+            <path class="lin" d="M416.2,531.9 L390.2,537.5"/>
+            <circle class="noid" cx="386.2" cy="537.5" r="3.6"/>
+            <text class="att" x="378.2" y="537.5" text-anchor="end" dominant-baseline="central">Observaciones</text>
+            <path class="lin" d="M416.2,535.6 L390.2,552.5"/>
+            <circle class="noid" cx="386.2" cy="552.5" r="3.6"/>
+            <text class="att" x="378.2" y="552.5" text-anchor="end" dominant-baseline="central">Fecha</text>
+            <rect class="ent" x="704.7" y="512.0" width="110.6" height="36.0"/>
+            <text class="nent" x="760.0" y="530.0" text-anchor="middle" dominant-baseline="central">Tratamiento</text>
+            <path class="lin" d="M815.3,528.1 L841.3,522.5"/>
+            <circle class="id" cx="845.3" cy="522.5" r="3.6"/>
+            <text class="att pk" x="853.3" y="522.5" text-anchor="start" dominant-baseline="central">Código</text>
+            <path class="lin" d="M815.3,531.9 L841.3,537.5"/>
+            <circle class="noid" cx="845.3" cy="537.5" r="3.6"/>
+            <text class="att" x="853.3" y="537.5" text-anchor="start" dominant-baseline="central">Nombre</text>
+          </svg>
+        </div>
+
+        <span class="paso">Paso 1 &mdash; Una tabla por entidad</span>
+        <p>Siete: Propietario, Animal, Servicio, Turno, Veterinario, Consulta y Tratamiento. El identificador de cada una (círculo lleno) es su PK.</p>
+
+        <span class="paso">Paso 2 &mdash; Los atributos de Propietario</span>
+        <ul>
+          <li><strong>Teléfonos</strong> está en plural ("y teléfonos"): es <strong>multivaluado</strong>. Va a una tabla aparte, <code>Propietario_Telefonos</code>, con la PK (Documento, Telefono).</li>
+          <li><strong>Ciudad, Provincia y País</strong> forman una cadena: la provincia depende de la ciudad, y el país de la provincia. Dejarlos en Propietario es una dependencia <strong>transitiva</strong> (no está en 3FN). Cada eslabón va a su tabla, y Propietario se queda con <code>IdCiudad</code> como FK.</li>
+        </ul>
+
+        <span class="paso">Paso 3 &mdash; Las interrelaciones, una por una</span>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Interrelación</th><th>Cardinalidades</th><th>Tipo</th><th>Qué se hace</th></tr>
+            <tr><td class="lbl">es dueño (Propietario &ndash; Animal)</td><td>Propietario (1,N), Animal (1,1)</td><td>1:N</td><td>FK <code>Documento</code> en Animal</td></tr>
+            <tr><td class="lbl">asigna (Animal &ndash; Turno)</td><td>Animal (1,N), Turno (1,1)</td><td>1:N</td><td>FK <code>NumeroHC</code> en Turno</td></tr>
+            <tr><td class="lbl">atiende (Veterinario &ndash; Turno)</td><td>Veterinario (1,N), Turno (1,1)</td><td>1:N</td><td>FK <code>NroMatricula</code> en Turno</td></tr>
+            <tr><td class="lbl">incluye (Servicios &ndash; Turno)</td><td>(1,N) y (1,N)</td><td>N:M</td><td>Tabla <code>Turno_Servicio</code></td></tr>
+            <tr><td class="lbl">realiza (Turno &ndash; Consulta)</td><td>(1,1) y (1,1)</td><td>1:1</td><td>FK <code>NumeroTurno</code> en Consulta (ver abajo)</td></tr>
+            <tr><td class="lbl">aplica (Consulta &ndash; Tratamiento), con Costo</td><td>(1,N) y (1,N)</td><td>N:M</td><td>Tabla <code>Consulta_Tratamiento</code>, con Costo</td></tr>
+          </table>
+        </div>
+
+        <span class="paso">Paso 4 &mdash; La 1:1 entre Turno y Consulta</span>
+        <p>
+          La regla deja poner la FK de cualquier lado. El texto decide: "<strong>cuando un turno se
+          atiende</strong>, se registra una consulta". Los turnos pendientes o cancelados no tienen
+          consulta; toda consulta, en cambio, sale de un turno. Si la FK fuera en Turno, quedaría
+          vacía en todos los pendientes; en Consulta nunca queda vacía.
+        </p>
+
+        <span class="paso">Paso 5 &mdash; El Costo</span>
+        <p>
+          Está en el rombo "aplica": no es del tratamiento (la misma vacuna puede costar distinto en
+          dos consultas) ni de la consulta (tiene varios tratamientos). Es de <strong>ese tratamiento en
+          esa consulta</strong>: va en la tabla intermedia.
+        </p>
+
+        <span class="paso">Paso 6 &mdash; Comprobar la 3FN</span>
+        <ul>
+          <li><strong>1FN:</strong> el multivaluado (Teléfonos) ya está en su tabla; FechaHora es un solo valor.</li>
+          <li><strong>2FN:</strong> en las tablas con PK compuesta, Costo depende del par entero; Turno_Servicio y Propietario_Telefonos no tienen otros atributos.</li>
+          <li><strong>3FN:</strong> la cadena Ciudad &rarr; Provincia &rarr; País quedó separada; no hay otro atributo que dependa de un no clave.</li>
+        </ul>
+
+        <div class="caja caja-resp">
+          <span class="caja-tit">Modelo relacional en 3FN</span>
+          <pre class="codigo" data-lang="texto"><code>Pais (IdPais (PK), Nombre)
+Provincia (IdProvincia (PK), Nombre, IdPais (FK))
+Ciudad (IdCiudad (PK), Nombre, IdProvincia (FK))
+Propietario (Documento (PK), Nombre, Direccion, IdCiudad (FK))
+Propietario_Telefonos (Documento (PK)(FK), Telefono (PK))
+Animal (NumeroHC (PK), Nombre, Raza, Sexo, FechaNac, Peso, Documento (FK))
+Servicio (Codigo (PK), Descripcion)
+Veterinario (NroMatricula (PK), Nombre)
+Turno (Numero (PK), FechaHora, Estado, NumeroHC (FK), NroMatricula (FK))
+Turno_Servicio (NumeroTurno (PK)(FK), CodigoServicio (PK)(FK))
+Consulta (Numero (PK), Diagnostico, Observaciones, Fecha, NumeroTurno (FK))
+Tratamiento (Codigo (PK), Nombre)
+Consulta_Tratamiento (NumeroConsulta (PK)(FK), CodigoTratamiento (PK)(FK), Costo)</code></pre>
+        </div>
+
+        <h4>Parecido en el campus</h4>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Dónde</th><th>Qué tiene igual</th><th>Qué cambia</th></tr>
+            <tr><td>Unidad 2, práctica: el club náutico</td><td>Un DER dado, con una 1:1 y varias N:M</td><td>No tiene multivaluados ni la cadena de ciudad</td></tr>
+            <tr><td>Unidad 2, teoría, sección 2</td><td>La trampa de Ciudad, Provincia y País</td><td>&mdash;</td></tr>
+          </table>
+        </div>
+
+        <h4>Trampas</h4>
+        <ul>
+          <li>El texto nombra "medicamentos utilizados, costos" en la consulta, pero el DER no los tiene: se respeta el diagrama, que pone el <strong>Costo en "aplica"</strong>.</li>
+          <li>El texto dice "servicio solicitado" (uno), pero el DER pone (1,N) en los dos lados de "incluye": se sigue el DER, y es N:M.</li>
+          <li>El estado (pendiente, atendido, cancelado) puede quedar como columna o ir a una tabla <code>EstadoTurno</code>: las dos están en 3FN.</li>
+          <li>Fecha y hora del turno vienen juntas en el DER (FechaHora): queda una sola columna, y en el listado se separan (ejercicio 5).</li>
+        </ul>
+      </div>
+    </details>
+  </div>
+</section>

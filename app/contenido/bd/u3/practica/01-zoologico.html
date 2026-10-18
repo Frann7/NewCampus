@@ -1,0 +1,116 @@
+<div class="ej">
+  <span class="tag">Guía 9 &middot; CREATE TABLE</span>
+  <h2>Todas las tablas del zoológico</h2>
+  <div class="enunciado">
+    <p>Crear con SQL las tablas del modelo relacional del zoológico, con sus claves primarias y foráneas.</p>
+    <pre class="codigo" data-lang="texto"><code>Empleado (Legajo (PK), Nombre, Direccion, Telefono, FechaIngreso)
+Guia (Legajo (PK)(FK))
+Cuidador (Legajo (PK)(FK))
+Zona (Codigo (PK), Nombre, Extension)
+Especie (Codigo (PK), Nombre, NombreCientifico, Descripcion, CodigoZona (FK))
+Itinerario (Codigo (PK), Duracion, Longitud, CantVisitantes)
+Cuidador_Especie (Legajo (PK)(FK), CodigoEspecie (PK)(FK), FechaDesde)
+Guia_Itinerario (Legajo (PK)(FK), CodigoItinerario (PK)(FK), Hora)
+Itinerario_Zona (CodigoItinerario (PK)(FK), CodigoZona (PK)(FK))</code></pre>
+  </div>
+
+  <span class="paso">Paso 1 &mdash; El orden</span>
+  <p>Primero las que no tienen FK (Empleado, Zona, Itinerario), después las que apuntan a esas (Guia, Cuidador, Especie) y al final las intermedias.</p>
+
+  <span class="paso">Paso 2 &mdash; Los tipos</span>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Atributo</th><th>Tipo</th><th>Por qué</th></tr>
+      <tr><td class="lbl">Legajo, Codigo, CantVisitantes</td><td><code>INT</code></td><td>Números enteros</td></tr>
+      <tr><td class="lbl">Duracion</td><td><code>INT</code></td><td>En minutos, un entero</td></tr>
+      <tr><td class="lbl">Extension, Longitud</td><td><code>DECIMAL</code></td><td>Metros cuadrados y kilómetros, con decimales</td></tr>
+      <tr><td class="lbl">Telefono</td><td><code>VARCHAR(20)</code></td><td>No se hacen cuentas, puede tener guiones</td></tr>
+      <tr><td class="lbl">FechaIngreso, FechaDesde</td><td><code>DATE</code></td><td>Fechas sin hora</td></tr>
+      <tr><td class="lbl">Hora</td><td><code>TIME</code></td><td>Solo la hora del recorrido</td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Paso 3 &mdash; El script</span>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Resolución</span>
+    <pre class="codigo"><code>CREATE TABLE Empleado (
+  Legajo        INT           NOT NULL,
+  Nombre        VARCHAR(100)  NOT NULL,
+  Direccion     VARCHAR(150),
+  Telefono      VARCHAR(20),
+  FechaIngreso  DATE          NOT NULL,
+  PRIMARY KEY (Legajo)
+);
+
+CREATE TABLE Zona (
+  Codigo     INT            NOT NULL,
+  Nombre     VARCHAR(50)    NOT NULL,
+  Extension  DECIMAL(10,2),
+  PRIMARY KEY (Codigo)
+);
+
+CREATE TABLE Itinerario (
+  Codigo          INT           NOT NULL,
+  Duracion        INT,
+  Longitud        DECIMAL(6,2),
+  CantVisitantes  INT,
+  PRIMARY KEY (Codigo)
+);
+
+CREATE TABLE Guia (
+  Legajo  INT  NOT NULL,
+  PRIMARY KEY (Legajo),
+  FOREIGN KEY (Legajo) REFERENCES Empleado(Legajo)
+);
+
+CREATE TABLE Cuidador (
+  Legajo  INT  NOT NULL,
+  PRIMARY KEY (Legajo),
+  FOREIGN KEY (Legajo) REFERENCES Empleado(Legajo)
+);
+
+CREATE TABLE Especie (
+  Codigo            INT           NOT NULL,
+  Nombre            VARCHAR(50)   NOT NULL,
+  NombreCientifico  VARCHAR(100),
+  Descripcion       VARCHAR(250),
+  CodigoZona        INT           NOT NULL,
+  PRIMARY KEY (Codigo),
+  FOREIGN KEY (CodigoZona) REFERENCES Zona(Codigo)
+);
+
+CREATE TABLE Cuidador_Especie (
+  Legajo         INT   NOT NULL,
+  CodigoEspecie  INT   NOT NULL,
+  FechaDesde     DATE  NOT NULL,
+  PRIMARY KEY (Legajo, CodigoEspecie),
+  FOREIGN KEY (Legajo) REFERENCES Cuidador(Legajo),
+  FOREIGN KEY (CodigoEspecie) REFERENCES Especie(Codigo)
+);
+
+CREATE TABLE Guia_Itinerario (
+  Legajo            INT   NOT NULL,
+  CodigoItinerario  INT   NOT NULL,
+  Hora              TIME  NOT NULL,
+  PRIMARY KEY (Legajo, CodigoItinerario),
+  FOREIGN KEY (Legajo) REFERENCES Guia(Legajo),
+  FOREIGN KEY (CodigoItinerario) REFERENCES Itinerario(Codigo)
+);
+
+CREATE TABLE Itinerario_Zona (
+  CodigoItinerario  INT  NOT NULL,
+  CodigoZona        INT  NOT NULL,
+  PRIMARY KEY (CodigoItinerario, CodigoZona),
+  FOREIGN KEY (CodigoItinerario) REFERENCES Itinerario(Codigo),
+  FOREIGN KEY (CodigoZona) REFERENCES Zona(Codigo)
+);</code></pre>
+  </div>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Errores y trampas</span>
+    <ul>
+      <li>En Guia y Cuidador, <code>Legajo</code> es PK y FK a la vez: lleva las dos líneas.</li>
+      <li><code>Guia_Itinerario.Legajo</code> apunta a <strong>Guia</strong>, no a Empleado: así solo se pueden cargar recorridos de alguien que sea guía.</li>
+    </ul>
+  </div>
+</div>

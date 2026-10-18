@@ -1,0 +1,27 @@
+<div class="ej">
+  <span class="tag">Guía 10 · Consulta 22</span>
+  <h2>Amarres a cargo de cada empleado</h2>
+  <div class="enunciado">
+    <p>Listado de empleados, indicando la cantidad de amarres que tiene a cargo cada uno, ordenando por este criterio de mayor a menor.</p>
+  </div>
+
+  <span class="paso">Las tablas que usa</span>
+  <pre class="codigo" data-lang="texto"><code>Empleado (Codigo (PK), Nombre, Telefono)
+Empleado_Amarre (CodigoEmpleado (PK)(FK), NumeroAmarre (PK)(FK))</code></pre>
+
+  <span class="paso">Cómo se arma</span>
+  <ul>
+    <li><strong>Columnas:</strong> el empleado y un <code>COUNT</code> de sus amarres.</li>
+    <li><strong>Camino:</strong> Empleado &rarr; Empleado_Amarre por el código.</li>
+    <li><strong>Orden:</strong> por la cantidad, de mayor a menor: el alias en el ORDER BY con <code>DESC</code>.</li>
+  </ul>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Resolución</span>
+    <pre class="codigo"><code>SELECT emp.Codigo, emp.Nombre, COUNT(ea.NumeroAmarre) AS CantidadAmarres
+FROM Empleado emp
+INNER JOIN Empleado_Amarre ea ON ea.CodigoEmpleado = emp.Codigo
+GROUP BY emp.Codigo, emp.Nombre
+ORDER BY CantidadAmarres DESC;</code></pre>
+  </div>
+</div>

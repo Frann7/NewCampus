@@ -1,0 +1,30 @@
+<div class="ej" data-examen="variante"
+     data-examen-ref="2do parcial 2025 · ej. 5b"
+     data-examen-nota="La forma del listado b): una cantidad por persona, con COUNT y GROUP BY.">
+  <span class="tag">Guía 9 · Consulta 18</span>
+  <h2>Cuidadores y cantidad de especies</h2>
+  <div class="enunciado">
+    <p>Listado de cuidadores y la cantidad de especies a cargo que tiene cada uno.</p>
+  </div>
+
+  <span class="paso">Las tablas que usa</span>
+  <pre class="codigo" data-lang="texto"><code>Empleado (Legajo (PK), Nombre, Direccion, Telefono, FechaIngreso)
+Cuidador_Especie (Legajo (PK)(FK), CodigoEspecie (PK)(FK), FechaDesde)</code></pre>
+
+  <span class="paso">Cómo se arma</span>
+  <ul>
+    <li><strong>Columnas:</strong> el cuidador y un <code>COUNT</code> de sus especies.</li>
+    <li><strong>Camino:</strong> Empleado &rarr; Cuidador_Especie.</li>
+    <li><strong>GROUP BY:</strong> legajo y nombre (todo lo que no es el COUNT).</li>
+    <li><strong>Orden:</strong> no lo piden; de mayor a menor se lee mejor.</li>
+  </ul>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Resolución</span>
+    <pre class="codigo"><code>SELECT emp.Legajo, emp.Nombre, COUNT(ce.CodigoEspecie) AS CantidadEspecies
+FROM Empleado emp
+INNER JOIN Cuidador_Especie ce ON ce.Legajo = emp.Legajo
+GROUP BY emp.Legajo, emp.Nombre
+ORDER BY CantidadEspecies DESC;</code></pre>
+  </div>
+</div>

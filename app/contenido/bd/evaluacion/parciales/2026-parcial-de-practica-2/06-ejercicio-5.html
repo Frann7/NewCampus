@@ -1,0 +1,147 @@
+<!-- ==================== EJERCICIO 5 ==================== -->
+<section class="parcial-ej">
+  <div class="parcial-ej-cab">
+    <h2>Ejercicio 5</h2>
+    <span class="parcial-tema">Unidad 4 &middot; Consultas</span>
+  </div>
+
+  <p><strong>Ejercicio 5:</strong> Utilizando sentencias SQL, realice los scripts correspondientes para generar cada uno de los siguientes listados:</p>
+  <ol class="parcial-incisos">
+    <li>Listado de reservas pendientes, ordenado por fecha de ingreso (más antiguas primero), mostrando número de reserva, fecha de ingreso, fecha de egreso, nombre del huésped, número de habitación y tipo de habitación.</li>
+    <li>Listado de cantidad de reservas pendientes por huésped, ordenado por país, provincia, ciudad y nombre del huésped. Se debe mostrar: País, Provincia, Ciudad, Nombre del Huésped, Cantidad de Reservas Pendientes.</li>
+    <li>Listado de huéspedes ordenados por total facturado durante los últimos 12 meses, agrupado por año y mes de la factura. Mostrar: Año, Mes, Nombre del Huésped, Total Facturado.</li>
+  </ol>
+
+  <div class="parcial-extras">
+    <details class="parcial-desp pd-resultados">
+      <summary>
+        <span class="pd-icono">&#10003;</span>
+        <span class="pd-txt"><b>Resultados</b><small>Solo la respuesta</small></span>
+      </summary>
+      <div class="pd-cuerpo">
+        <p><strong>a)</strong></p>
+        <pre class="codigo"><code>SELECT r.Numero AS NroReserva,
+       r.FechaIngreso,
+       r.FechaEgreso,
+       h.Nombre AS Huesped,
+       hab.Numero AS Habitacion,
+       th.Descripcion AS TipoHabitacion
+FROM Reserva r
+INNER JOIN Huesped h ON h.Documento = r.Documento
+INNER JOIN Reserva_Habitacion rh ON rh.NumeroReserva = r.Numero
+INNER JOIN Habitacion hab ON hab.Numero = rh.NumeroHabitacion
+INNER JOIN TipoHabitacion th ON th.Codigo = hab.CodigoTipo
+WHERE r.Estado = 'Pendiente'
+ORDER BY r.FechaIngreso ASC;</code></pre>
+        <p><strong>b)</strong></p>
+        <pre class="codigo"><code>SELECT pa.Nombre AS Pais,
+       pv.Nombre AS Provincia,
+       ci.Nombre AS Ciudad,
+       h.Nombre AS Huesped,
+       COUNT(r.Numero) AS CantidadReservasPendientes
+FROM Huesped h
+INNER JOIN Ciudad ci ON ci.IdCiudad = h.IdCiudad
+INNER JOIN Provincia pv ON pv.IdProvincia = ci.IdProvincia
+INNER JOIN Pais pa ON pa.IdPais = pv.IdPais
+INNER JOIN Reserva r ON r.Documento = h.Documento
+WHERE r.Estado = 'Pendiente'
+GROUP BY pa.Nombre, pv.Nombre, ci.Nombre, h.Documento, h.Nombre
+ORDER BY pa.Nombre, pv.Nombre, ci.Nombre, h.Nombre;</code></pre>
+        <p><strong>c)</strong></p>
+        <pre class="codigo"><code>SELECT YEAR(f.Fecha) AS Anio,
+       MONTH(f.Fecha) AS Mes,
+       h.Nombre AS Huesped,
+       SUM(fs.Importe) AS TotalFacturado
+FROM Huesped h
+INNER JOIN Reserva r ON r.Documento = h.Documento
+INNER JOIN Factura f ON f.NumeroReserva = r.Numero
+INNER JOIN Factura_Servicio fs ON fs.NumeroFactura = f.Numero
+WHERE f.Fecha &gt;= DATEADD(MONTH, -12, GETDATE())
+GROUP BY YEAR(f.Fecha), MONTH(f.Fecha), h.Documento, h.Nombre
+ORDER BY TotalFacturado DESC;</code></pre>
+      </div>
+    </details>
+
+    <details class="parcial-desp pd-explicacion">
+      <summary>
+        <span class="pd-icono">&#9998;</span>
+        <span class="pd-txt"><b>Explicación detallada</b><small>Los cinco pasos de la receta en cada listado</small></span>
+      </summary>
+      <div class="pd-cuerpo">
+        <h4>Qué evalúa</h4>
+        <p>Los tres listados de la receta (Unidad 4, sección 6), sobre las tablas del ejercicio 3.</p>
+        <pre class="codigo" data-lang="texto"><code>Pais (IdPais (PK), Nombre)
+Provincia (IdProvincia (PK), Nombre, IdPais (FK))
+Ciudad (IdCiudad (PK), Nombre, IdProvincia (FK))
+Huesped (Documento (PK), Nombre, IdCiudad (FK))
+Huesped_Emails (Documento (PK)(FK), Email (PK))
+TipoHabitacion (Codigo (PK), Descripcion, PrecioNoche)
+Habitacion (Numero (PK), Piso, CodigoTipo (FK))
+Reserva (Numero (PK), FechaIngreso, FechaEgreso, Estado, Documento (FK))
+Reserva_Habitacion (NumeroReserva (PK)(FK), NumeroHabitacion (PK)(FK))
+Factura (Numero (PK), Tipo, Fecha, NumeroReserva (FK))
+Servicio (Codigo (PK), Descripcion)
+Factura_Servicio (NumeroFactura (PK)(FK), CodigoServicio (PK)(FK), Importe)</code></pre>
+        <h4>a) Reservas pendientes</h4>
+        <ul>
+          <li><strong>Camino:</strong> Reserva &rarr; Huesped; Reserva &rarr; Reserva_Habitacion &rarr; Habitacion &rarr; TipoHabitacion.</li>
+          <li>Una reserva con dos habitaciones sale en dos filas, una por habitación.</li>
+          <li><strong>Filtro:</strong> <code>r.Estado = 'Pendiente'</code>. <strong>Orden:</strong> <code>r.FechaIngreso ASC</code>. Las fechas ya vienen separadas: no hace falta <code>CAST</code>.</li>
+        </ul>
+        <pre class="codigo"><code>SELECT r.Numero AS NroReserva,
+       r.FechaIngreso,
+       r.FechaEgreso,
+       h.Nombre AS Huesped,
+       hab.Numero AS Habitacion,
+       th.Descripcion AS TipoHabitacion
+FROM Reserva r
+INNER JOIN Huesped h ON h.Documento = r.Documento
+INNER JOIN Reserva_Habitacion rh ON rh.NumeroReserva = r.Numero
+INNER JOIN Habitacion hab ON hab.Numero = rh.NumeroHabitacion
+INNER JOIN TipoHabitacion th ON th.Codigo = hab.CodigoTipo
+WHERE r.Estado = 'Pendiente'
+ORDER BY r.FechaIngreso ASC;</code></pre>
+        <h4>b) Cantidad por huésped</h4>
+        <ul>
+          <li><strong>Camino:</strong> Pais &larr; Provincia &larr; Ciudad &larr; Huesped &rarr; Reserva. No se pasa por las habitaciones: contaría doble las reservas con dos habitaciones.</li>
+          <li><code>COUNT(r.Numero)</code>, filtro en el <code>WHERE</code>, <code>GROUP BY</code> con el documento.</li>
+        </ul>
+        <pre class="codigo"><code>SELECT pa.Nombre AS Pais,
+       pv.Nombre AS Provincia,
+       ci.Nombre AS Ciudad,
+       h.Nombre AS Huesped,
+       COUNT(r.Numero) AS CantidadReservasPendientes
+FROM Huesped h
+INNER JOIN Ciudad ci ON ci.IdCiudad = h.IdCiudad
+INNER JOIN Provincia pv ON pv.IdProvincia = ci.IdProvincia
+INNER JOIN Pais pa ON pa.IdPais = pv.IdPais
+INNER JOIN Reserva r ON r.Documento = h.Documento
+WHERE r.Estado = 'Pendiente'
+GROUP BY pa.Nombre, pv.Nombre, ci.Nombre, h.Documento, h.Nombre
+ORDER BY pa.Nombre, pv.Nombre, ci.Nombre, h.Nombre;</code></pre>
+        <h4>c) Total facturado por año y mes</h4>
+        <ul>
+          <li><strong>Camino:</strong> Huesped &rarr; Reserva &rarr; Factura &rarr; Factura_Servicio.</li>
+          <li><strong>Fecha:</strong> la de la factura ("año y mes de la factura").</li>
+          <li><code>SUM(fs.Importe)</code>, <code>GROUP BY</code> año, mes y huésped; orden por total, de mayor a menor.</li>
+        </ul>
+        <pre class="codigo"><code>SELECT YEAR(f.Fecha) AS Anio,
+       MONTH(f.Fecha) AS Mes,
+       h.Nombre AS Huesped,
+       SUM(fs.Importe) AS TotalFacturado
+FROM Huesped h
+INNER JOIN Reserva r ON r.Documento = h.Documento
+INNER JOIN Factura f ON f.NumeroReserva = r.Numero
+INNER JOIN Factura_Servicio fs ON fs.NumeroFactura = f.Numero
+WHERE f.Fecha &gt;= DATEADD(MONTH, -12, GETDATE())
+GROUP BY YEAR(f.Fecha), MONTH(f.Fecha), h.Documento, h.Nombre
+ORDER BY TotalFacturado DESC;</code></pre>
+        <h4>Trampas</h4>
+        <ul>
+          <li>En b), meter Reserva_Habitacion en el JOIN cambia el resultado: el <code>COUNT</code> contaría habitaciones, no reservas.</li>
+          <li>En c), para llegar de la factura al huésped hay que pasar por la reserva: Factura no tiene el documento.</li>
+        </ul>
+      </div>
+    </details>
+  </div>
+</section>

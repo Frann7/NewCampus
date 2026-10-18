@@ -1,0 +1,86 @@
+<div class="bloque">
+  <p class="kicker">DML</p>
+  <h2>1. SELECT, WHERE y ORDER BY</h2>
+
+  <div class="caja caja-formula">
+    <span class="caja-tit">La forma de una consulta</span>
+    <pre class="codigo"><code>SELECT columnas          -- qué se muestra
+FROM tabla               -- de dónde
+WHERE condición          -- qué filas (opcional)
+ORDER BY columna;        -- en qué orden (opcional)</code></pre>
+  </div>
+  <p>Se escriben <strong>en ese orden</strong>, siempre. El resultado es otra tabla, con las columnas del <code>SELECT</code> y solo las filas que cumplen el <code>WHERE</code>.</p>
+
+  <h3>Las piezas</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Pieza</th><th>Qué hace</th><th>Ejemplo</th></tr>
+      <tr><td class="lbl"><code>*</code></td><td>Todas las columnas</td><td><code>SELECT * FROM Especie</code></td></tr>
+      <tr><td class="lbl"><code>AS</code></td><td>Le pone otro nombre a una columna del resultado (alias)</td><td><code>SELECT Nombre AS Especie</code></td></tr>
+      <tr><td class="lbl"><code>=</code>, <code>&lt;&gt;</code>, <code>&lt;</code>, <code>&gt;</code>, <code>&lt;=</code>, <code>&gt;=</code></td><td>Comparar (<code>&lt;&gt;</code> es "distinto")</td><td><code>WHERE Extension &gt; 1000</code></td></tr>
+      <tr><td class="lbl"><code>AND</code>, <code>OR</code>, <code>NOT</code></td><td>Juntar condiciones</td><td><code>WHERE CodigoZona = 2 AND Nombre &lt;&gt; 'León'</code></td></tr>
+      <tr><td class="lbl"><code>BETWEEN a AND b</code></td><td>Entre dos valores (los incluye)</td><td><code>WHERE Precio BETWEEN 20 AND 50</code></td></tr>
+      <tr><td class="lbl"><code>LIKE</code></td><td>Parecido a un texto; <code>%</code> = cualquier cosa</td><td><code>WHERE Nombre LIKE 'A%'</code> (empieza con A)</td></tr>
+      <tr><td class="lbl"><code>IS NULL</code></td><td>La celda está vacía</td><td><code>WHERE Descripcion IS NULL</code></td></tr>
+      <tr><td class="lbl"><code>ORDER BY ... ASC</code> / <code>DESC</code></td><td>De menor a mayor (o A a Z) / al revés. Sin nada, es <code>ASC</code></td><td><code>ORDER BY Extension DESC</code></td></tr>
+      <tr><td class="lbl"><code>DISTINCT</code></td><td>Saca las filas repetidas del resultado</td><td><code>SELECT DISTINCT Ciudad FROM Cliente</code></td></tr>
+      <tr><td class="lbl"><code>TOP n</code></td><td>Solo las primeras n filas (SQL Server)</td><td><code>SELECT TOP 10 ...</code></td></tr>
+    </table>
+  </div>
+  <p>Los textos y las fechas van entre <strong>comillas simples</strong> (<code>'León'</code>, <code>'2026-10-01'</code>); los números, sin comillas.</p>
+
+  <h3>Ejemplo 1: filtrar y ordenar</h3>
+  <div class="caja caja-ejemplo">
+    <p>Con la tabla Especie (Codigo (PK), Nombre, NombreCientifico, Descripcion, CodigoZona (FK)), listar nombre y nombre científico de las especies de la zona 2, en orden alfabético.</p>
+  </div>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th colspan="4">Especie</th></tr>
+      <tr><th>Codigo</th><th>Nombre</th><th>NombreCientifico</th><th>CodigoZona</th></tr>
+      <tr><td>10</td><td>Yaguareté</td><td>Panthera onca</td><td>1</td></tr>
+      <tr><td>11</td><td>León</td><td>Panthera leo</td><td>2</td></tr>
+      <tr><td>12</td><td>Jirafa</td><td>Giraffa camelopardalis</td><td>2</td></tr>
+      <tr><td>13</td><td>Pingüino</td><td>Spheniscus magellanicus</td><td>3</td></tr>
+    </table>
+  </div>
+  <pre class="codigo"><code>SELECT Nombre, NombreCientifico
+FROM Especie
+WHERE CodigoZona = 2
+ORDER BY Nombre;</code></pre>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th>Nombre</th><th>NombreCientifico</th></tr>
+      <tr><td>Jirafa</td><td>Giraffa camelopardalis</td></tr>
+      <tr><td>León</td><td>Panthera leo</td></tr>
+    </table>
+  </div>
+  <p>El <code>WHERE</code> dejó las dos filas con <code>CodigoZona = 2</code>; el <code>ORDER BY</code> puso Jirafa antes que León.</p>
+
+  <h3>Ejemplo 2: TOP con ORDER BY ("el mayor")</h3>
+  <div class="caja caja-ejemplo">
+    <p>Con la tabla Zona (Codigo (PK), Nombre, Extension), el nombre de la zona de mayor extensión (Guía 9, consulta 11).</p>
+  </div>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th colspan="3">Zona</th></tr>
+      <tr><th>Codigo</th><th>Nombre</th><th>Extension</th></tr>
+      <tr><td>1</td><td>Selva</td><td>5000.00</td></tr>
+      <tr><td>2</td><td>Sabana</td><td>12000.00</td></tr>
+      <tr><td>3</td><td>Acuario</td><td>800.00</td></tr>
+    </table>
+  </div>
+  <pre class="codigo"><code>SELECT TOP 1 Nombre
+FROM Zona
+ORDER BY Extension DESC;</code></pre>
+  <p>Se ordena de mayor a menor y se queda con la primera: <strong>Sabana</strong>. Para "los 10 más..." es lo mismo con <code>TOP 10</code>.</p>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Errores y trampas</span>
+    <ul>
+      <li>El orden de las cláusulas no se cambia: <code>WHERE</code> va antes que <code>ORDER BY</code>.</li>
+      <li><code>TOP</code> sin <code>ORDER BY</code> trae filas cualquiera: "los primeros" no significa nada si no se dice por qué orden.</li>
+      <li>Para ordenar por varias columnas se separan con coma: <code>ORDER BY Provincia, Ciudad, Nombre</code> (desempata por la segunda, después por la tercera).</li>
+      <li>Un texto con comillas dobles (<code>"León"</code>) da error en SQL Server: van simples.</li>
+    </ul>
+  </div>
+</div>

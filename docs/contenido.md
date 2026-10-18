@@ -123,6 +123,7 @@ Usá estas y no inventes otras, así el diseño se mantiene consistente:
 | `.et` (+ `.ok` `.mal` `.ojo` `.dato` `.vio`) | etiqueta de color para algo que tiene un orden o un estado (`<span class="et ojo">Nivel 2</span>`) |
 | `.escalera` + `.escalon` | niveles que se apoyan uno sobre otro (ver CMMI en `ing2/calidad`) |
 | `.pd-grafico.af` | un autómata finito; el SVG lo genera `fuentes/automatas.py` (ver `app/contenido/pyl/CLAUDE.md`) |
+| `.pd-grafico.der` | un diagrama entidad-relación; el SVG lo genera `fuentes/der.py` (ver `app/contenido/bd/CLAUDE.md`) |
 | `.flujo` + `.flujo-caja` + `.flujo-paso` | lugares por los que pasa algo y el comando que lo mueve (ver Git en `ing2/git`) |
 
 **El color tiene un significado y se usa siempre igual**, no para adornar: azul la explicación
@@ -135,7 +136,7 @@ término que no se repite va en `<strong>`.
 **Código.** Se escribe plano, `<pre class="codigo"><code>...</code></pre>` (con `&lt;`, `&gt;` y
 `&amp;`), y `construir.py` lo colorea solo al armar el campus (`app/resaltado.py`): adivina el
 lenguaje, marca las palabras y numera las líneas de los bloques de 4 renglones o más. Atributos
-opcionales del `<pre>`: `data-lang="cpp|php|cs|html|git|c|texto"` si adivina mal,
+opcionales del `<pre>`: `data-lang="cpp|php|cs|html|git|sql|c|texto"` si adivina mal,
 `data-clave="3,7-9"` para resaltar renglones (contados dentro del bloque) y `data-desde="12"`
 para que la numeración arranque en ese número.
 

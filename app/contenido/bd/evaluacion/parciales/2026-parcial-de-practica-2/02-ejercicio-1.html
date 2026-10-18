@@ -1,0 +1,51 @@
+<!-- ==================== EJERCICIO 1 ==================== -->
+<section class="parcial-ej">
+  <div class="parcial-ej-cab">
+    <h2>Ejercicio 1</h2>
+    <span class="parcial-tema">Unidad 1 &middot; Transacción</span>
+  </div>
+
+  <p><strong>Ejercicio 1:</strong> ¿Qué hacen las sentencias BEGIN TRAN, COMMIT y ROLLBACK? ¿Con qué propiedades de las transacciones se relacionan? Dé un ejemplo con las tablas del ejercicio 3.</p>
+
+  <div class="parcial-extras">
+    <details class="parcial-desp pd-resultados">
+      <summary>
+        <span class="pd-icono">&#10003;</span>
+        <span class="pd-txt"><b>Resultados</b><small>Solo la respuesta</small></span>
+      </summary>
+      <div class="pd-cuerpo">
+        <ul>
+          <li><code>BEGIN TRAN</code>: marca el comienzo de una transacción (un conjunto de operaciones que se ejecutan como una sola unidad).</li>
+          <li><code>COMMIT</code>: la confirma; los cambios quedan guardados de forma permanente (<strong>durabilidad</strong>).</li>
+          <li><code>ROLLBACK</code>: la deshace; la base vuelve a como estaba en el <code>BEGIN TRAN</code> (<strong>atomicidad</strong>: todo o nada).</li>
+        </ul>
+        <p>Ejemplo: al hacer el check-out se emite la factura y la reserva pasa a "Finalizada"; las dos cosas o ninguna:</p>
+        <pre class="codigo"><code>BEGIN TRAN;
+INSERT INTO Factura (Numero, Tipo, Fecha, NumeroReserva)
+VALUES (9001, 'B', '2026-10-18', 450);
+UPDATE Reserva SET Estado = 'Finalizada' WHERE Numero = 450;
+COMMIT;</code></pre>
+      </div>
+    </details>
+
+    <details class="parcial-desp pd-explicacion">
+      <summary>
+        <span class="pd-icono">&#9998;</span>
+        <span class="pd-txt"><b>Explicación detallada</b><small>Las sentencias, ACID y el ejemplo</small></span>
+      </summary>
+      <div class="pd-cuerpo">
+        <h4>Qué evalúa</h4>
+        <p>Es una variante de "Defina Transacción" (2do parcial 2025): en vez de la definición, pide las sentencias y su relación con ACID. Unidad 1, sección 3.</p>
+        <h4>Las cuatro propiedades, por si las piden</h4>
+        <ul>
+          <li><strong>Atomicidad</strong> (la cumple el <code>ROLLBACK</code>): si el <code>UPDATE</code> falla, la factura no queda emitida.</li>
+          <li><strong>Consistencia:</strong> la factura apunta a una reserva que existe.</li>
+          <li><strong>Aislamiento:</strong> nadie ve la factura emitida con la reserva todavía pendiente.</li>
+          <li><strong>Durabilidad</strong> (la cumple el <code>COMMIT</code>): confirmado, no se pierde.</li>
+        </ul>
+        <h4>Trampas</h4>
+        <ul><li>Después del <code>COMMIT</code> ya no hay <code>ROLLBACK</code> posible.</li></ul>
+      </div>
+    </details>
+  </div>
+</section>

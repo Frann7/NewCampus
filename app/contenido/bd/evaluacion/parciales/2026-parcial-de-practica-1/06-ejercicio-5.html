@@ -1,0 +1,144 @@
+<!-- ==================== EJERCICIO 5 ==================== -->
+<section class="parcial-ej">
+  <div class="parcial-ej-cab">
+    <h2>Ejercicio 5</h2>
+    <span class="parcial-tema">Unidad 4 &middot; Consultas</span>
+  </div>
+
+  <p><strong>Ejercicio 5:</strong> Utilizando sentencias SQL, realice los scripts correspondientes para generar cada uno de los siguientes listados:</p>
+  <ol class="parcial-incisos">
+    <li>Listado de reservas pendientes, ordenado por fecha y hora (más antiguas primero), mostrando número de reserva, fecha, hora, nombre del socio, nombre de la clase y nombre del profesor.</li>
+    <li>Listado de cantidad de reservas pendientes por socio, ordenado por país, provincia, ciudad y nombre del socio. Se debe mostrar: País, Provincia, Ciudad, Nombre del Socio, Cantidad de Reservas Pendientes.</li>
+    <li>Listado de socios ordenados por total pagado durante los últimos 12 meses, agrupado por año y mes. Mostrar: Año, Mes, Nombre del Socio, Total Pagado.</li>
+  </ol>
+
+  <div class="parcial-extras">
+    <details class="parcial-desp pd-resultados">
+      <summary>
+        <span class="pd-icono">&#10003;</span>
+        <span class="pd-txt"><b>Resultados</b><small>Solo la respuesta</small></span>
+      </summary>
+      <div class="pd-cuerpo">
+        <p><strong>a)</strong></p>
+        <pre class="codigo"><code>SELECT r.Numero AS NroReserva,
+       CAST(r.FechaHora AS DATE) AS Fecha,
+       CAST(r.FechaHora AS TIME) AS Hora,
+       s.Nombre AS Socio,
+       c.Nombre AS Clase,
+       pr.Nombre AS Profesor
+FROM Reserva r
+INNER JOIN Socio s ON s.DNI = r.DNI
+INNER JOIN Clase c ON c.Codigo = r.CodigoClase
+INNER JOIN Profesor pr ON pr.Legajo = c.Legajo
+WHERE r.Estado = 'Pendiente'
+ORDER BY r.FechaHora ASC;</code></pre>
+        <p><strong>b)</strong></p>
+        <pre class="codigo"><code>SELECT pa.Nombre AS Pais,
+       pv.Nombre AS Provincia,
+       ci.Nombre AS Ciudad,
+       s.Nombre AS Socio,
+       COUNT(r.Numero) AS CantidadReservasPendientes
+FROM Socio s
+INNER JOIN Ciudad ci ON ci.IdCiudad = s.IdCiudad
+INNER JOIN Provincia pv ON pv.IdProvincia = ci.IdProvincia
+INNER JOIN Pais pa ON pa.IdPais = pv.IdPais
+INNER JOIN Reserva r ON r.DNI = s.DNI
+WHERE r.Estado = 'Pendiente'
+GROUP BY pa.Nombre, pv.Nombre, ci.Nombre, s.DNI, s.Nombre
+ORDER BY pa.Nombre, pv.Nombre, ci.Nombre, s.Nombre;</code></pre>
+        <p><strong>c)</strong></p>
+        <pre class="codigo"><code>SELECT YEAR(p.Fecha) AS Anio,
+       MONTH(p.Fecha) AS Mes,
+       s.Nombre AS Socio,
+       SUM(pc.Importe) AS TotalPagado
+FROM Socio s
+INNER JOIN Pago p ON p.DNI = s.DNI
+INNER JOIN Pago_Concepto pc ON pc.NumeroPago = p.Numero
+WHERE p.Fecha &gt;= DATEADD(MONTH, -12, GETDATE())
+GROUP BY YEAR(p.Fecha), MONTH(p.Fecha), s.DNI, s.Nombre
+ORDER BY TotalPagado DESC;</code></pre>
+      </div>
+    </details>
+
+    <details class="parcial-desp pd-explicacion">
+      <summary>
+        <span class="pd-icono">&#9998;</span>
+        <span class="pd-txt"><b>Explicación detallada</b><small>Los cinco pasos de la receta en cada listado</small></span>
+      </summary>
+      <div class="pd-cuerpo">
+        <h4>Qué evalúa</h4>
+        <p>Los tres listados de la receta (Unidad 4, sección 6), sobre las tablas del ejercicio 3.</p>
+        <pre class="codigo" data-lang="texto"><code>Pais (IdPais (PK), Nombre)
+Provincia (IdProvincia (PK), Nombre, IdPais (FK))
+Ciudad (IdCiudad (PK), Nombre, IdProvincia (FK))
+Membresia (Codigo (PK), Descripcion, PrecioMensual)
+Socio (DNI (PK), Nombre, Direccion, IdCiudad (FK), CodigoMembresia (FK))
+Socio_Telefonos (DNI (PK)(FK), Telefono (PK))
+Profesor (Legajo (PK), Nombre)
+Clase (Codigo (PK), Nombre, Dia, Hora, Legajo (FK))
+Reserva (Numero (PK), FechaHora, Estado, DNI (FK), CodigoClase (FK))
+Pago (Numero (PK), Fecha, DNI (FK))
+Concepto (Codigo (PK), Descripcion)
+Pago_Concepto (NumeroPago (PK)(FK), CodigoConcepto (PK)(FK), Importe)</code></pre>
+        <h4>a) Reservas pendientes</h4>
+        <ul>
+          <li><strong>Columnas:</strong> número, fecha y hora (Reserva, con <code>CAST</code>), socio (Socio), clase (Clase) y profesor (Profesor).</li>
+          <li><strong>Camino:</strong> Reserva &rarr; Socio; Reserva &rarr; Clase &rarr; Profesor. El profesor no está en la reserva: se llega por la clase.</li>
+          <li><strong>Filtro:</strong> <code>r.Estado = 'Pendiente'</code>. <strong>Orden:</strong> <code>r.FechaHora ASC</code>.</li>
+        </ul>
+        <pre class="codigo"><code>SELECT r.Numero AS NroReserva,
+       CAST(r.FechaHora AS DATE) AS Fecha,
+       CAST(r.FechaHora AS TIME) AS Hora,
+       s.Nombre AS Socio,
+       c.Nombre AS Clase,
+       pr.Nombre AS Profesor
+FROM Reserva r
+INNER JOIN Socio s ON s.DNI = r.DNI
+INNER JOIN Clase c ON c.Codigo = r.CodigoClase
+INNER JOIN Profesor pr ON pr.Legajo = c.Legajo
+WHERE r.Estado = 'Pendiente'
+ORDER BY r.FechaHora ASC;</code></pre>
+        <h4>b) Cantidad por socio</h4>
+        <ul>
+          <li><strong>Camino:</strong> Pais &larr; Provincia &larr; Ciudad &larr; Socio &rarr; Reserva. Acá el socio reserva directo (en la veterinaria había que pasar por el animal).</li>
+          <li><strong>Filtro</strong> en el <code>WHERE</code>; <code>COUNT(r.Numero)</code>; al <code>GROUP BY</code> todo lo demás más el DNI.</li>
+          <li><strong>Orden:</strong> esta vez la consigna incluye el país: <code>ORDER BY</code> país, provincia, ciudad y nombre.</li>
+        </ul>
+        <pre class="codigo"><code>SELECT pa.Nombre AS Pais,
+       pv.Nombre AS Provincia,
+       ci.Nombre AS Ciudad,
+       s.Nombre AS Socio,
+       COUNT(r.Numero) AS CantidadReservasPendientes
+FROM Socio s
+INNER JOIN Ciudad ci ON ci.IdCiudad = s.IdCiudad
+INNER JOIN Provincia pv ON pv.IdProvincia = ci.IdProvincia
+INNER JOIN Pais pa ON pa.IdPais = pv.IdPais
+INNER JOIN Reserva r ON r.DNI = s.DNI
+WHERE r.Estado = 'Pendiente'
+GROUP BY pa.Nombre, pv.Nombre, ci.Nombre, s.DNI, s.Nombre
+ORDER BY pa.Nombre, pv.Nombre, ci.Nombre, s.Nombre;</code></pre>
+        <h4>c) Total pagado por año y mes</h4>
+        <ul>
+          <li><strong>Camino:</strong> Socio &rarr; Pago &rarr; Pago_Concepto (donde está el Importe).</li>
+          <li><strong>Filtro:</strong> <code>p.Fecha &gt;= DATEADD(MONTH, -12, GETDATE())</code>.</li>
+          <li><code>SUM(pc.Importe)</code>, y <code>GROUP BY</code> el año, el mes y el socio. <strong>Orden:</strong> por total, de mayor a menor.</li>
+        </ul>
+        <pre class="codigo"><code>SELECT YEAR(p.Fecha) AS Anio,
+       MONTH(p.Fecha) AS Mes,
+       s.Nombre AS Socio,
+       SUM(pc.Importe) AS TotalPagado
+FROM Socio s
+INNER JOIN Pago p ON p.DNI = s.DNI
+INNER JOIN Pago_Concepto pc ON pc.NumeroPago = p.Numero
+WHERE p.Fecha &gt;= DATEADD(MONTH, -12, GETDATE())
+GROUP BY YEAR(p.Fecha), MONTH(p.Fecha), s.DNI, s.Nombre
+ORDER BY TotalPagado DESC;</code></pre>
+        <h4>Trampas</h4>
+        <ul>
+          <li>En a), el profesor se trae pasando por Clase: no hay FK de Reserva a Profesor.</li>
+          <li>En c), el total de un pago no está guardado: se suma el detalle (Pago_Concepto).</li>
+        </ul>
+      </div>
+    </details>
+  </div>
+</section>

@@ -1,0 +1,91 @@
+<div class="bloque" data-examen="variante"
+     data-examen-ref="2do parcial 2025 · ej. 4"
+     data-examen-nota="«Utilizando lenguaje SQL, crear la tabla de Animales, con sus atributos y claves correspondientes.» Lo que suma puntos son las claves: la PK y la FK al propietario.">
+  <p class="kicker">DDL</p>
+  <h2>2. Las claves y las restricciones</h2>
+
+  <p>Una <strong>restricción</strong> es una regla que el SGBD hace cumplir solo: si un <code>INSERT</code> o un <code>UPDATE</code> la viola, lo rechaza. Es el "control de la integridad" del apunte de SGBD.</p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Restricción</th><th>Cómo se escribe</th><th>Qué hace cumplir</th></tr>
+      <tr><td class="lbl"><code>NOT NULL</code></td><td>Al lado del tipo: <code>Nombre VARCHAR(50) NOT NULL</code></td><td>La columna no puede quedar vacía</td></tr>
+      <tr><td class="lbl"><code>PRIMARY KEY</code></td><td>Al final: <code>PRIMARY KEY (Codigo)</code></td><td>No se repite y no queda vacía (unicidad)</td></tr>
+      <tr><td class="lbl"><code>PRIMARY KEY</code> compuesta</td><td><code>PRIMARY KEY (Legajo, CodigoEspecie)</code></td><td>No se repite el <strong>par</strong> (cada columna sola sí puede repetirse)</td></tr>
+      <tr><td class="lbl"><code>FOREIGN KEY</code></td><td><code>FOREIGN KEY (CodigoZona) REFERENCES Zona(Codigo)</code></td><td>El valor tiene que <strong>existir</strong> en la otra tabla (integridad referencial)</td></tr>
+      <tr><td class="lbl"><code>UNIQUE</code></td><td><code>UNIQUE (Email)</code></td><td>No se repite, pero no es la PK: sirve para una clave secundaria</td></tr>
+      <tr><td class="lbl"><code>IDENTITY(1,1)</code></td><td>Al lado del tipo: <code>Id INT IDENTITY(1,1)</code></td><td>El SGBD numera solo: 1, 2, 3... (no se carga a mano)</td></tr>
+      <tr><td class="lbl"><code>DEFAULT</code></td><td><code>Estado VARCHAR(20) DEFAULT 'Pendiente'</code></td><td>El valor que toma si no se lo carga</td></tr>
+    </table>
+  </div>
+
+  <h3>Cómo se lee una FOREIGN KEY</h3>
+  <pre class="codigo"><code>FOREIGN KEY (CodigoZona) REFERENCES Zona(Codigo)</code></pre>
+  <ul>
+    <li><code>(CodigoZona)</code>: la columna de <strong>esta</strong> tabla.</li>
+    <li><code>REFERENCES Zona(Codigo)</code>: la tabla a la que apunta, y su PK entre paréntesis.</li>
+    <li>Se lee: "CodigoZona tiene que ser un Codigo que ya exista en Zona". Las dos columnas tienen que ser del <strong>mismo tipo</strong>.</li>
+  </ul>
+
+  <h3>Dos formas de escribir las FK</h3>
+  <p>Las dos aparecen en el material de la materia y las dos están bien:</p>
+  <ul>
+    <li><strong>Adentro del CREATE TABLE</strong>, al final, como en el TP final. Es la más cómoda para el parcial.</li>
+    <li><strong>Después, con ALTER TABLE</strong> (sección 3), como en el script de Northwind de la cátedra: <code>ALTER TABLE Especie ADD CONSTRAINT fk_especie_zona FOREIGN KEY (CodigoZona) REFERENCES Zona(Codigo);</code></li>
+  </ul>
+  <p><code>CONSTRAINT nombre</code> le pone nombre a la restricción. Es opcional (si no, SQL Server inventa uno), pero ayuda a leer los mensajes de error.</p>
+
+  <h3>Ejemplo 1: una tabla con FK</h3>
+  <div class="caja caja-ejemplo">
+    <p>Especie (Codigo (PK), Nombre, NombreCientifico, Descripcion, CodigoZona (FK)) &mdash; la FK apunta a Zona (Codigo (PK), Nombre, Extension).</p>
+  </div>
+  <pre class="codigo" data-clave="6,8"><code>CREATE TABLE Especie (
+  Codigo            INT           NOT NULL,
+  Nombre            VARCHAR(50)   NOT NULL,
+  NombreCientifico  VARCHAR(100),
+  Descripcion       VARCHAR(250),
+  CodigoZona        INT           NOT NULL,
+  PRIMARY KEY (Codigo),
+  FOREIGN KEY (CodigoZona) REFERENCES Zona(Codigo)
+);</code></pre>
+  <ul>
+    <li><code>CodigoZona</code> es <code>INT</code> porque <code>Zona.Codigo</code> es <code>INT</code>.</li>
+    <li>Es <code>NOT NULL</code> porque en el DER la especie tiene <strong>(1,1)</strong>: siempre está en una zona.</li>
+  </ul>
+
+  <h3>Ejemplo 2: una tabla intermedia (PK compuesta)</h3>
+  <div class="caja caja-ejemplo">
+    <p>Cuidador_Especie (Legajo (PK)(FK), CodigoEspecie (PK)(FK), FechaDesde) &mdash; apunta a Cuidador (Legajo) y a Especie (Codigo).</p>
+  </div>
+  <pre class="codigo" data-clave="5-7"><code>CREATE TABLE Cuidador_Especie (
+  Legajo         INT   NOT NULL,
+  CodigoEspecie  INT   NOT NULL,
+  FechaDesde     DATE  NOT NULL,
+  PRIMARY KEY (Legajo, CodigoEspecie),
+  FOREIGN KEY (Legajo) REFERENCES Cuidador(Legajo),
+  FOREIGN KEY (CodigoEspecie) REFERENCES Especie(Codigo)
+);</code></pre>
+  <ul>
+    <li>Una sola <code>PRIMARY KEY</code> con <strong>las dos columnas</strong>: no son dos claves primarias, es una compuesta.</li>
+    <li>Y dos <code>FOREIGN KEY</code>, una por cada tabla a la que apunta.</li>
+  </ul>
+
+  <h3>Ejemplo 3: una PK numerada sola</h3>
+  <div class="caja caja-ejemplo"><p>Pais (IdPais (PK), Nombre), donde el código no viene de ningún lado y se quiere que SQL Server lo asigne.</p></div>
+  <pre class="codigo"><code>CREATE TABLE Pais (
+  IdPais  INT  IDENTITY(1,1)  NOT NULL,
+  Nombre  VARCHAR(50)  NOT NULL,
+  PRIMARY KEY (IdPais),
+  UNIQUE (Nombre)
+);</code></pre>
+  <p><code>IDENTITY(1,1)</code> = empieza en 1 y suma de a 1. <code>UNIQUE (Nombre)</code> evita cargar "Argentina" dos veces (el TP final lo usó igual).</p>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Errores y trampas</span>
+    <ul>
+      <li>Si la consigna dice "con sus claves correspondientes", la FK <strong>no es opcional</strong>: sin el <code>FOREIGN KEY ... REFERENCES</code>, la tabla queda suelta.</li>
+      <li>Una PK compuesta se escribe <code>PRIMARY KEY (A, B)</code>, no dos veces <code>PRIMARY KEY</code>.</li>
+      <li>Después de <code>REFERENCES</code> va el nombre de la <strong>tabla</strong> y, entre paréntesis, su <strong>columna PK</strong>.</li>
+      <li>No se pone <code>IDENTITY</code> en una FK: la FK copia un valor que ya existe en otra tabla.</li>
+    </ul>
+  </div>
+</div>

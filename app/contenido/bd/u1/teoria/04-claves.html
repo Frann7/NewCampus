@@ -1,0 +1,61 @@
+<div class="bloque" data-examen="igual"
+     data-examen-ref="1er parcial 2024 · ej. 4"
+     data-examen-nota="«Defina Clave primaria, clave foránea y Clave candidata.» También en los dos finales; uno agrega clave secundaria y clave compuesta. En el 2do parcial 2025 no la tomaron.">
+  <p class="kicker">Definiciones</p>
+  <h2>4. Claves</h2>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Para escribir en la hoja</span>
+    <p>Una <strong>clave</strong> es un conjunto de uno o más atributos que identifica a cada fila de una tabla. Para serlo tiene que cumplir dos propiedades:</p>
+    <ul>
+      <li><strong>Unicidad:</strong> no hay dos filas con el mismo valor de la clave (y no puede quedar vacía).</li>
+      <li><strong>Minimalidad:</strong> si la clave tiene varios atributos, no se le puede sacar ninguno sin perder la unicidad.</li>
+    </ul>
+    <ul>
+      <li><strong>Clave candidata:</strong> cada conjunto de atributos que cumple unicidad y minimalidad. Una tabla puede tener varias.</li>
+      <li><strong>Clave primaria (PK):</strong> la clave candidata que se <strong>elige</strong> para identificar las filas de la tabla. Hay una sola por tabla.</li>
+      <li><strong>Clave secundaria (o alternativa):</strong> una clave candidata que <strong>no</strong> se eligió como primaria.</li>
+      <li><strong>Clave foránea (FK):</strong> un atributo (o varios) de una tabla que es la clave primaria de <strong>otra</strong> tabla. Es lo que relaciona las dos tablas: su valor tiene que existir en la tabla a la que apunta.</li>
+      <li><strong>Clave compuesta:</strong> una clave formada por <strong>más de un atributo</strong>, porque ninguno solo alcanza para identificar la fila.</li>
+    </ul>
+  </div>
+
+  <h3>Ejemplo 1: las cinco en una misma base</h3>
+  <div class="caja caja-ejemplo">
+    <p>
+      Propietario(<strong>Documento</strong>, Email, Nombre) &middot;
+      Animal(<strong>NumeroHC</strong>, Nombre, Documento) &middot;
+      ConsultaTratamiento(<strong>NumeroConsulta, CodigoTratamiento</strong>, Costo)
+    </p>
+  </div>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Clave</th><th>Dónde está</th><th>Por qué</th></tr>
+      <tr><td class="lbl">Candidatas</td><td>En Propietario: Documento y Email</td><td>Cada una sola ya identifica a una persona: no hay dos con el mismo documento ni con el mismo email</td></tr>
+      <tr><td class="lbl">Primaria</td><td>Documento</td><td>Es la que se eligió de las dos candidatas</td></tr>
+      <tr><td class="lbl">Secundaria</td><td>Email</td><td>Es candidata, pero no se eligió</td></tr>
+      <tr><td class="lbl">Foránea</td><td>Documento, dentro de Animal</td><td>Es la PK de Propietario, guardada en Animal para saber de quién es cada animal</td></tr>
+      <tr><td class="lbl">Compuesta</td><td>(NumeroConsulta, CodigoTratamiento)</td><td>Una consulta tiene varios tratamientos y un tratamiento se aplica en varias consultas: solo el par no se repite</td></tr>
+    </table>
+  </div>
+
+  <h3>Ejemplo 2: ¿es clave o no?</h3>
+  <div class="caja caja-ejemplo">
+    <p>En una tabla Empleado(Legajo, DNI, Nombre, Telefono): ¿Nombre es candidata? ¿Y (Legajo, Nombre)?</p>
+  </div>
+  <ul>
+    <li><strong>Nombre:</strong> no. Puede haber dos empleados que se llamen igual: falla la <strong>unicidad</strong>.</li>
+    <li><strong>(Legajo, Nombre):</strong> no se repite nunca, pero <strong>no es mínima</strong>: si le sacás Nombre, Legajo solo sigue identificando. Falla la <strong>minimalidad</strong>.</li>
+    <li>Las candidatas son <strong>Legajo</strong> y <strong>DNI</strong>. Si se elige Legajo como primaria, DNI queda como secundaria.</li>
+  </ul>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Errores y trampas</span>
+    <ul>
+      <li>La clave primaria <strong>nunca</strong> puede quedar vacía (nula) ni repetirse. Una foránea sí se repite (muchos animales del mismo dueño).</li>
+      <li>Toda primaria es candidata, pero no toda candidata es primaria.</li>
+      <li>"Compuesta" habla de <strong>cuántos atributos</strong> tiene; "primaria" o "candidata" hablan de <strong>qué papel</strong> cumple. Una clave puede ser primaria y compuesta a la vez.</li>
+      <li>En el apunte de Archivos, "clave secundaria" también se usa para un campo por el que se busca aunque se repita (un índice extra). Si la pregunta es de bases de datos, va la definición de arriba.</li>
+    </ul>
+  </div>
+</div>

@@ -20,7 +20,10 @@ fórmulas (MathJax) y las tipografías. Tus datos no salen de tu máquina.
   reconocerlo y una consigna de parcial resuelta, más calidad de software, CMMI, métricas y Git.
   Paradigmas y Lenguajes (parcial de autómatas): una unidad por cada ejercicio del parcial
   (AF → ER, ER → AFD mínimo con Thompson, subconjuntos y minimización, y diseñar un AF y su ER),
-  con teoría corta, muchos ejemplos y cada autómata dibujado paso a paso; el resto
+  con teoría corta, muchos ejemplos y cada autómata dibujado paso a paso. Bases de Datos
+  (2do parcial: SQL): la teoría que toman (DDL y DML, transacción, claves), del DER a las tablas
+  en 3FN, `CREATE TABLE` y consultas con `JOIN`, `GROUP BY` y fechas, con el código SQL
+  coloreado y los diagramas entidad-relación dibujados con la notación de la cátedra; el resto
   de las materias de tercer año ya están en el menú como "pronto".
 * **Evaluación**: **parciales y finales** de la cátedra transcriptos, en dos listas. Algunos traen
   cada ejercicio con resultados y explicación detallada desplegables; otros están solo transcriptos,
@@ -256,6 +259,13 @@ Chrome (`chrome --headless --print-to-pdf`).
 `0.x.y-alpha` mientras esté en desarrollo. La `1.0.0` queda reservada para cuando esté terminado.
 La versión actual se lee al pie del menú lateral.
 
+* **0.53.0-alpha** — **Bases de Datos**: alta de la materia con el 2do parcial (SQL), en cuatro
+  unidades: teoría del 2do parcial (qué es SQL, DDL y DML, transacción y ACID, claves, archivo
+  indexado), del DER a las tablas en 3FN, `CREATE TABLE` y consultas (de `SELECT` a los tres
+  listados del parcial). Teoría corta con la respuesta para la hoja y práctica de las guías 9 y 10.
+  En Evaluación, el 2do parcial 2025 resuelto, las 10 preguntas fundamentales de teoría, dos
+  parciales de práctica inventados y dos finales resueltos. El código SQL se colorea solo (también
+  el de Programación Avanzada) y los DER los dibuja `fuentes/der.py`.
 * **0.52.2-alpha** — Paradigmas y Lenguajes: las expresiones regulares se leen mejor. Cada nivel
   de paréntesis tiene su color (el que abre y el que cierra iguales), la `|` va separada y la `*`
   arriba, como en la hoja; en las respuestas, más grandes.

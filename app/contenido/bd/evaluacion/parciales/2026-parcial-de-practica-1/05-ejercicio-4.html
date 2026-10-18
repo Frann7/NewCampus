@@ -1,0 +1,73 @@
+<!-- ==================== EJERCICIO 4 ==================== -->
+<section class="parcial-ej">
+  <div class="parcial-ej-cab">
+    <h2>Ejercicio 4</h2>
+    <span class="parcial-tema">Unidad 3 &middot; CREATE TABLE</span>
+  </div>
+
+  <p><strong>Ejercicio 4:</strong> Utilizando lenguaje SQL, crear la tabla de Reservas, con sus atributos y claves correspondientes.</p>
+
+  <div class="parcial-extras">
+    <details class="parcial-desp pd-resultados">
+      <summary>
+        <span class="pd-icono">&#10003;</span>
+        <span class="pd-txt"><b>Resultados</b><small>Solo la respuesta</small></span>
+      </summary>
+      <div class="pd-cuerpo">
+        <pre class="codigo"><code>CREATE TABLE Reserva (
+  Numero       INT          NOT NULL,
+  FechaHora    DATETIME     NOT NULL,
+  Estado       VARCHAR(20)  NOT NULL,
+  DNI          VARCHAR(13)  NOT NULL,
+  CodigoClase  INT          NOT NULL,
+  PRIMARY KEY (Numero),
+  FOREIGN KEY (DNI) REFERENCES Socio(DNI),
+  FOREIGN KEY (CodigoClase) REFERENCES Clase(Codigo)
+);</code></pre>
+        <p>Las tablas Socio y Clase tienen que estar creadas antes.</p>
+      </div>
+    </details>
+
+    <details class="parcial-desp pd-explicacion">
+      <summary>
+        <span class="pd-icono">&#9998;</span>
+        <span class="pd-txt"><b>Explicación detallada</b><small>Columna por columna y las claves</small></span>
+      </summary>
+      <div class="pd-cuerpo">
+        <h4>Qué evalúa</h4>
+        <p>El <code>CREATE TABLE</code> de la Unidad 3, con la PK y <strong>las dos FK</strong>. Sale de la tabla del ejercicio 3:</p>
+        <pre class="codigo" data-lang="texto"><code>Reserva (Numero (PK), FechaHora, Estado, DNI (FK), CodigoClase (FK))
+Socio (DNI (PK), Nombre, Direccion, IdCiudad (FK), CodigoMembresia (FK))
+Clase (Codigo (PK), Nombre, Dia, Hora, Legajo (FK))</code></pre>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Columna</th><th>Tipo</th><th>Por qué</th></tr>
+            <tr><td class="lbl">Numero</td><td><code>INT NOT NULL</code></td><td>Entero, es la PK</td></tr>
+            <tr><td class="lbl">FechaHora</td><td><code>DATETIME NOT NULL</code></td><td>Fecha y hora juntas</td></tr>
+            <tr><td class="lbl">Estado</td><td><code>VARCHAR(20) NOT NULL</code></td><td>Pendiente, Asistida o Cancelada</td></tr>
+            <tr><td class="lbl">DNI</td><td><code>VARCHAR(13) NOT NULL</code></td><td>Mismo tipo que <code>Socio.DNI</code>; obligatoria, Reserva tiene (1,1)</td></tr>
+            <tr><td class="lbl">CodigoClase</td><td><code>INT NOT NULL</code></td><td>Mismo tipo que <code>Clase.Codigo</code>; obligatoria</td></tr>
+          </table>
+        </div>
+        <div class="caja caja-resp">
+          <span class="caja-tit">Resolución</span>
+          <pre class="codigo"><code>CREATE TABLE Reserva (
+  Numero       INT          NOT NULL,
+  FechaHora    DATETIME     NOT NULL,
+  Estado       VARCHAR(20)  NOT NULL,
+  DNI          VARCHAR(13)  NOT NULL,
+  CodigoClase  INT          NOT NULL,
+  PRIMARY KEY (Numero),
+  FOREIGN KEY (DNI) REFERENCES Socio(DNI),
+  FOREIGN KEY (CodigoClase) REFERENCES Clase(Codigo)
+);</code></pre>
+        </div>
+        <h4>Trampas</h4>
+        <ul>
+          <li>Dos FK, cada una con su <code>FOREIGN KEY ... REFERENCES</code>.</li>
+          <li>Se podría poner <code>DEFAULT 'Pendiente'</code> en Estado: no es obligatorio, pero muestra que se conoce.</li>
+        </ul>
+      </div>
+    </details>
+  </div>
+</section>

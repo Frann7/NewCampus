@@ -1,0 +1,67 @@
+<div class="ej" data-examen="variante"
+     data-examen-ref="Final 26/09/2025 · ej. 2"
+     data-examen-nota="En el final pidieron las tablas de libros y de pedidos con cabecera y detalle. Acá, la misma forma con la factura del apunte de Normalización.">
+  <span class="tag">Apunte de Normalización &middot; Cabecera y detalle</span>
+  <h2>Factura con su detalle</h2>
+  <div class="enunciado">
+    <p>Crear con SQL las tablas de la factura (cabecera y detalle), con sus atributos y claves. Es el ejemplo en 3FN del apunte de la cátedra:</p>
+    <pre class="codigo" data-lang="texto"><code>Cliente (Codigo_cliente (PK), Nombre_cliente, Direccion_cliente, Localidad_cliente)
+Articulo (Codigo_articulo (PK), Descripcion)
+Factura (Codigo_factura (PK), Codigo_cliente (FK), Fecha_factura, Forma_pago, Tipo_IVA)
+Detalle_Factura (Codigo_factura (PK)(FK), Codigo_articulo (PK)(FK), Cantidad, Importe)</code></pre>
+  </div>
+
+  <span class="paso">Paso 1 &mdash; Qué es cabecera y qué es detalle</span>
+  <ul>
+    <li><strong>Cabecera</strong> (Factura): lo que se escribe <strong>una vez</strong> por factura: número, cliente, fecha, forma de pago.</li>
+    <li><strong>Detalle</strong> (Detalle_Factura): <strong>un renglón por artículo</strong> facturado. Su PK es el par (factura, artículo), y las dos partes son FK.</li>
+  </ul>
+
+  <span class="paso">Paso 2 &mdash; El orden</span>
+  <p>Cliente y Articulo primero (no tienen FK); después Factura (apunta a Cliente); al final Detalle_Factura (apunta a Factura y a Articulo).</p>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Resolución</span>
+    <pre class="codigo"><code>CREATE TABLE Cliente (
+  Codigo_cliente     INT           NOT NULL,
+  Nombre_cliente     VARCHAR(100)  NOT NULL,
+  Direccion_cliente  VARCHAR(150),
+  Localidad_cliente  VARCHAR(50),
+  PRIMARY KEY (Codigo_cliente)
+);
+
+CREATE TABLE Articulo (
+  Codigo_articulo  INT           NOT NULL,
+  Descripcion      VARCHAR(100)  NOT NULL,
+  PRIMARY KEY (Codigo_articulo)
+);
+
+CREATE TABLE Factura (
+  Codigo_factura  INT          NOT NULL,
+  Codigo_cliente  INT          NOT NULL,
+  Fecha_factura   DATE         NOT NULL,
+  Forma_pago      VARCHAR(30),
+  Tipo_IVA        VARCHAR(30),
+  PRIMARY KEY (Codigo_factura),
+  FOREIGN KEY (Codigo_cliente) REFERENCES Cliente(Codigo_cliente)
+);
+
+CREATE TABLE Detalle_Factura (
+  Codigo_factura   INT            NOT NULL,
+  Codigo_articulo  INT            NOT NULL,
+  Cantidad         INT            NOT NULL,
+  Importe          DECIMAL(10,2)  NOT NULL,
+  PRIMARY KEY (Codigo_factura, Codigo_articulo),
+  FOREIGN KEY (Codigo_factura) REFERENCES Factura(Codigo_factura),
+  FOREIGN KEY (Codigo_articulo) REFERENCES Articulo(Codigo_articulo)
+);</code></pre>
+  </div>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Errores y trampas</span>
+    <ul>
+      <li>El total de la factura <strong>no se guarda</strong> en la cabecera: se calcula sumando el detalle (Unidad 4, <code>SUM</code>). Guardarlo sería repetir un dato.</li>
+      <li>El precio va en el <strong>detalle</strong>: es el precio de ese día, y el del artículo puede cambiar después.</li>
+    </ul>
+  </div>
+</div>

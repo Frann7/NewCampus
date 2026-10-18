@@ -1,0 +1,59 @@
+<div class="bloque">
+  <p class="kicker">Normalización</p>
+  <h2>2. Comprobar la 3FN</h2>
+
+  <p>
+    Si se aplicaron las reglas de la sección 1, las tablas casi siempre ya están en 3FN. Igual se
+    revisan con estas tres preguntas, en orden (cada forma normal incluye a la anterior):
+  </p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Forma</th><th>La pregunta</th><th>Si falla</th></tr>
+      <tr><td class="lbl"><span class="et dato">1FN</span></td><td>¿Cada celda tiene un <strong>solo valor</strong> (atómico)?</td><td>Un multivaluado va a una tabla aparte; un compuesto se separa en columnas</td></tr>
+      <tr><td class="lbl"><span class="et ojo">2FN</span></td><td>Si la PK es <strong>compuesta</strong>, ¿cada atributo depende de la clave <strong>entera</strong> y no de una parte?</td><td>Lo que depende de una parte se va a la tabla de esa parte</td></tr>
+      <tr><td class="lbl"><span class="et ok">3FN</span></td><td>¿Ningún atributo no clave depende de <strong>otro atributo no clave</strong> (sin dependencias transitivas)?</td><td>El atributo que determina y sus dependientes se van a una tabla nueva; queda una FK</td></tr>
+    </table>
+  </div>
+  <p>Una tabla con PK de un solo atributo cumple la 2FN sola.</p>
+
+  <h3>Ejemplo 1: la trampa de Ciudad, Provincia y País</h3>
+  <div class="caja caja-ejemplo">
+    <p>Propietario (Documento (PK), Nombre, Direccion, Ciudad, Provincia, Pais). ¿Está en 3FN?</p>
+  </div>
+  <ul>
+    <li><strong>1FN:</strong> sí, cada celda tiene un valor.</li>
+    <li><strong>2FN:</strong> sí, la PK es de un solo atributo.</li>
+    <li><strong>3FN:</strong> <strong>no</strong>. La provincia no depende de la persona: depende de la ciudad (Paraná &rarr; Entre Ríos), y el país depende de la provincia. Es una cadena Documento &rarr; Ciudad &rarr; Provincia &rarr; País: dependencias <strong>transitivas</strong>.</li>
+  </ul>
+  <p>Se separa cada eslabón en su tabla:</p>
+  <pre class="codigo" data-lang="texto"><code>Pais (IdPais (PK), Nombre)
+Provincia (IdProvincia (PK), Nombre, IdPais (FK))
+Ciudad (IdCiudad (PK), Nombre, IdProvincia (FK))
+Propietario (Documento (PK), Nombre, Direccion, IdCiudad (FK))</code></pre>
+  <p>
+    Si quedara todo en Propietario, "Entre Ríos" se escribiría una vez por cada vecino de Paraná, y un
+    error de tipeo dejaría a Paraná en dos provincias. Aparece en casi todos los enunciados con
+    clientes o propietarios.
+  </p>
+
+  <h3>Ejemplo 2: 2FN con clave compuesta</h3>
+  <div class="caja caja-ejemplo">
+    <p>Detalle_Factura (Codigo_factura (PK), Codigo_articulo (PK), Descripcion, Cantidad, Importe). ¿Está en 2FN?</p>
+  </div>
+  <ul>
+    <li>Cantidad e Importe dependen de <strong>la factura y el artículo juntos</strong>: bien.</li>
+    <li>Descripcion depende <strong>solo del artículo</strong> (una parte de la clave): <strong>no</strong> está en 2FN.</li>
+  </ul>
+  <pre class="codigo" data-lang="texto"><code>Detalle_Factura (Codigo_factura (PK)(FK), Codigo_articulo (PK)(FK), Cantidad, Importe)
+Articulo (Codigo_articulo (PK), Descripcion)</code></pre>
+  <p>Es el ejemplo del apunte de la cátedra (Factura, Detalle, Artículo, Cliente).</p>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Errores y trampas</span>
+    <ul>
+      <li>Un atributo que puede repetirse dentro de la misma fila (teléfonos, emails) rompe la <strong>1FN</strong>, no la 3FN.</li>
+      <li>Un estado con pocos valores fijos (Pendiente, Atendido, Cancelado) puede quedar como columna o ir a su tabla (EstadoTurno). Las dos están en 3FN; la tabla aparte evita errores de tipeo.</li>
+      <li>Si el DER del examen ya trae Ciudad, Provincia y País como atributos sueltos, separarlos es lo que te piden con "normalizado a 3FN".</li>
+    </ul>
+  </div>
+</div>

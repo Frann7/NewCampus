@@ -117,10 +117,11 @@ rioplatense con voseo) y **mantenedor** del campus (código, contenido, commits)
 - **Paradigmas y Lenguajes (parcial de autómatas):** cargadas las 4 unidades (una por ejercicio
   del parcial), los parciales y recuperatorios 2023 y 2025 resueltos y un parcial inventado.
   Programación Funcional (TOPIC 3) quedó para después: ver `app/contenido/pyl/CLAUDE.md`.
-- **Bases de Datos (2do parcial, SQL):** cargadas las 4 unidades (teoría del parcial, DER → 3FN,
-  CREATE TABLE y consultas), el 2do parcial 2025 resuelto, 10 preguntas fundamentales, dos parciales
-  de práctica y los dos finales. No hay apunte de SQL de la cátedra y Fran no quiere que se
-  verifique en su SQL Server: ver `app/contenido/bd/CLAUDE.md`.
+- **Bases de Datos (2do parcial, SQL, 27/10/2026):** cargadas las 4 unidades (teoría del parcial,
+  DER → 3FN, CREATE TABLE y consultas), el 2do parcial 2025 resuelto, 7 preguntas fundamentales,
+  dos parciales de práctica y los dos finales, ajustado a las clases grabadas de los profes. Fran no
+  quiere que se verifique en su SQL Server. Ver `app/contenido/bd/CLAUDE.md` y el contexto en
+  `C:\Users\Fran\Desktop\SISTEMAS 3\BD\CONTEXTO-CAMPUS.md`.
 - **"No pude abrir el examen" (compañero, Parcial PHP):** no se reprodujo (clon limpio, update
   desde antes de PA y el .exe sirven todo con 200). Si vuelve a pasar con 0.34.2, pedirle
   `git status` y `git log -1` de su carpeta y si el .exe mostró cartel.

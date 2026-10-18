@@ -2,12 +2,12 @@
      data-examen-ref="2do parcial 2025 · ej. 5"
      data-examen-nota="Los tres listados del parcial, con la misma forma y otro enunciado. En el final del 26/09/2025 fueron los mismos tres, con pedidos y facturas.">
   <p class="kicker">Forma de parcial</p>
-  <h2>6. La receta de los tres listados</h2>
+  <h2>7. La receta de los listados</h2>
 
   <h3>Los cinco pasos, para cualquier listado</h3>
   <ol>
     <li><strong>¿Qué columnas muestra?</strong> Se leen del "mostrando..." o "se debe mostrar...". Cada una, ¿en qué tabla está?</li>
-    <li><strong>El camino de JOIN:</strong> de FK en FK entre esas tablas, sumando las intermedias que hagan falta (sección 2).</li>
+    <li><strong>El camino de JOIN:</strong> de FK en FK entre esas tablas, sumando las intermedias que hagan falta (sección 2). Si tienen que aparecer también los que no tienen ninguno ("incluyendo...", "los que no..."), <code>LEFT JOIN</code>.</li>
     <li><strong>El filtro (<code>WHERE</code>):</strong> "pendientes", "de los últimos 12 meses".</li>
     <li><strong>¿Pide una cantidad o un total "por" algo?</strong> Entonces <code>COUNT</code> o <code>SUM</code>, y todo lo demás del <code>SELECT</code> al <code>GROUP BY</code> (sección 4).</li>
     <li><strong>El orden (<code>ORDER BY</code>):</strong> lo que dice "ordenado por...", en ese orden. "Más antiguos primero" = <code>ASC</code>; "de mayor a menor" = <code>DESC</code>.</li>
@@ -27,6 +27,7 @@ Orden_Reparacion (NumeroOrden (PK)(FK), CodigoReparacion (PK)(FK), Importe)</cod
     <p>a) Listado de órdenes pendientes, ordenado por fecha y hora (más antiguas primero), mostrando número de orden, fecha, hora, nombre del cliente y patente.</p>
     <p>b) Listado de cantidad de órdenes pendientes por cliente, ordenado por país, provincia, ciudad y nombre del cliente. Mostrar: País, Provincia, Ciudad, Nombre del Cliente, Cantidad de Órdenes Pendientes.</p>
     <p>c) Listado de clientes ordenados por total facturado en reparaciones durante los últimos 12 meses, agrupado por año y mes. Mostrar: Año, Mes, Nombre del Cliente, Total Facturado.</p>
+    <p>d) Listado de reparaciones con la cantidad de veces que se hicieron, incluyendo las que no se hicieron nunca.</p>
   </div>
 
   <h3>Listado a): filtrar, unir y ordenar</h3>
@@ -125,6 +126,23 @@ ORDER BY TotalFacturado DESC;</code></pre>
     <li>El total no está guardado en ningún lado: sale de <strong>sumar los importes</strong> del detalle, como el total de una factura.</li>
     <li>"Ordenados por total facturado" se lee de mayor a menor (el final lo dijo con todas las letras). Si se quiere ver mes por mes, <code>ORDER BY Anio, Mes, TotalFacturado DESC</code> también es una lectura válida: conviene aclararlo en una línea.</li>
   </ul>
+
+  <h3>Listado d): el que lleva LEFT JOIN</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Paso</th><th>Qué sale</th></tr>
+      <tr><td class="lbl">1. Columnas</td><td>La reparación (Reparacion) y una cantidad: <code>COUNT</code> de Orden_Reparacion</td></tr>
+      <tr><td class="lbl">2. Camino</td><td>Reparacion &rarr; Orden_Reparacion. "Incluyendo las que no se hicieron nunca": <code>LEFT JOIN</code>, con Reparacion en el <code>FROM</code></td></tr>
+      <tr><td class="lbl">3. Filtro</td><td>Ninguno</td></tr>
+      <tr><td class="lbl">4. ¿Cantidad?</td><td>Sí: <code>COUNT(r.NumeroOrden)</code>, una columna de la tabla de la derecha (no <code>COUNT(*)</code>, que daría 1 en vez de 0)</td></tr>
+      <tr><td class="lbl">5. Orden</td><td>No lo piden</td></tr>
+    </table>
+  </div>
+  <pre class="codigo"><code>SELECT rep.Codigo, rep.Descripcion, COUNT(r.NumeroOrden) AS VecesRealizada
+FROM Reparacion rep
+LEFT JOIN Orden_Reparacion r ON r.CodigoReparacion = rep.Codigo
+GROUP BY rep.Codigo, rep.Descripcion;</code></pre>
+  <p>Si la consigna fuera "las reparaciones que no se hicieron nunca", sería el otro uso: el mismo <code>LEFT JOIN</code> con <code>WHERE r.NumeroOrden IS NULL</code>, sin <code>GROUP BY</code>.</p>
 
   <div class="caja caja-ojo">
     <span class="caja-tit">Errores y trampas</span>

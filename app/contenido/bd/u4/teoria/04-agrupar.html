@@ -8,15 +8,19 @@
     <table class="t full">
       <tr><th>Función</th><th>Qué calcula</th><th>Ejemplo</th></tr>
       <tr><td class="lbl"><code>COUNT(*)</code></td><td>Cuántas filas hay</td><td>Cantidad de especies</td></tr>
-      <tr><td class="lbl"><code>COUNT(columna)</code></td><td>Cuántas filas tienen esa columna con valor (no vacía)</td><td><code>COUNT(t.Numero)</code>: cantidad de turnos</td></tr>
+      <tr><td class="lbl"><code>COUNT(columna)</code></td><td>Cuántas filas tienen esa columna con valor (no nula)</td><td><code>COUNT(e.Codigo)</code>: cantidad de especies</td></tr>
       <tr><td class="lbl"><code>SUM(columna)</code></td><td>La suma</td><td>Total facturado</td></tr>
       <tr><td class="lbl"><code>AVG(columna)</code></td><td>El promedio</td><td>Duración promedio de los itinerarios</td></tr>
       <tr><td class="lbl"><code>MAX(columna)</code> / <code>MIN(columna)</code></td><td>El mayor / el menor</td><td>La extensión más grande</td></tr>
     </table>
   </div>
-  <pre class="codigo"><code>SELECT AVG(Duracion) AS DuracionPromedio
+  <pre class="codigo"><code>SELECT AVG(Duracion * 1.0) AS DuracionPromedio
 FROM Itinerario;</code></pre>
-  <p>Sin <code>GROUP BY</code>, da <strong>un solo número</strong> para toda la tabla (Guía 9, consulta 10).</p>
+  <p>
+    Sin <code>GROUP BY</code>, da <strong>un solo número</strong> para toda la tabla (Guía 9,
+    consulta 10). El <code>* 1.0</code> es el truco de los profes: el promedio de enteros en SQL
+    Server da un entero (el promedio de 2 y 3 daría 2); multiplicando por 1.0 da 2.5.
+  </p>
 
   <h3>GROUP BY: un resultado por grupo</h3>
   <p>
@@ -45,7 +49,7 @@ ORDER BY ...;</code></pre>
     <li><code>HAVING</code> filtra <strong>grupos</strong>, después de calcular: "solo los cuidadores con más de 5 especies". Se usa cuando la condición es sobre un <code>COUNT</code> o un <code>SUM</code>.</li>
   </ul>
 
-  <h3>Ejemplo 1: contar por grupo</h3>
+  <h3>Ejemplo 1: contar por grupo, con los que tienen 0</h3>
   <div class="caja caja-ejemplo">
     <p>Cada zona con su extensión y la cantidad de especies que aloja (Guía 9, consulta 6). Tablas: Zona (Codigo (PK), Nombre, Extension) y Especie (Codigo (PK), Nombre, CodigoZona (FK)).</p>
   </div>
@@ -55,24 +59,24 @@ ORDER BY ...;</code></pre>
       <tr><th>Codigo</th><th>Nombre</th><th>Extension</th><th></th><th>Codigo</th><th>Nombre</th><th>CodigoZona</th></tr>
       <tr><td>1</td><td>Selva</td><td>5000.00</td><td></td><td>10</td><td>Yaguareté</td><td>1</td></tr>
       <tr><td>2</td><td>Sabana</td><td>12000.00</td><td></td><td>11</td><td>León</td><td>2</td></tr>
-      <tr><td>3</td><td>Acuario</td><td>800.00</td><td></td><td>12</td><td>Jirafa</td><td>2</td></tr>
-      <tr><td></td><td></td><td></td><td></td><td>13</td><td>Pingüino</td><td>3</td></tr>
+      <tr><td>4</td><td>Reptilario</td><td>600.00</td><td></td><td>12</td><td>Jirafa</td><td>2</td></tr>
     </table>
   </div>
   <pre class="codigo"><code>SELECT z.Nombre, z.Extension, COUNT(e.Codigo) AS CantidadEspecies
 FROM Zona z
-INNER JOIN Especie e ON e.CodigoZona = z.Codigo
+LEFT JOIN Especie e ON e.CodigoZona = z.Codigo
 GROUP BY z.Codigo, z.Nombre, z.Extension;</code></pre>
   <div class="tabla-wrap">
     <table class="t">
       <tr><th>Nombre</th><th>Extension</th><th>CantidadEspecies</th></tr>
       <tr><td>Selva</td><td>5000.00</td><td>1</td></tr>
       <tr><td>Sabana</td><td>12000.00</td><td>2</td></tr>
-      <tr><td>Acuario</td><td>800.00</td><td>1</td></tr>
+      <tr><td>Reptilario</td><td>600.00</td><td>0</td></tr>
     </table>
   </div>
   <ul>
-    <li>El JOIN arma una fila por especie con los datos de su zona; el <code>GROUP BY</code> junta las de la misma zona y <code>COUNT</code> cuenta cuántas hay en cada montón.</li>
+    <li>El <code>LEFT JOIN</code> (sección 2) deja a Reptilario aunque no tenga especies; con <code>INNER JOIN</code> no aparecería. Es la versión que resolvieron los profes.</li>
+    <li><code>COUNT(e.Codigo)</code> y no <code>COUNT(*)</code>: en la fila de Reptilario <code>e.Codigo</code> es <code>NULL</code>, así que cuenta 0. <code>COUNT(*)</code> cuenta la fila y daría 1. Lo remarcaron en las dos clases de consultas.</li>
     <li><code>z.Nombre</code> y <code>z.Extension</code> están en el <code>SELECT</code> sin función: por la regla de oro, van al <code>GROUP BY</code>. Se agrega <code>z.Codigo</code> para que dos zonas con el mismo nombre no se junten.</li>
   </ul>
 
@@ -92,7 +96,7 @@ HAVING COUNT(ce.CodigoEspecie) &gt; 5;</code></pre>
     <ul>
       <li>En SQL Server el <strong>alias</strong> del <code>SELECT</code> se puede usar en el <code>ORDER BY</code> (<code>ORDER BY CantidadEspecies DESC</code>), pero <strong>no</strong> en el <code>GROUP BY</code> ni en el <code>HAVING</code>: ahí se repite la expresión.</li>
       <li>Si se agrupa por un nombre de persona solo, dos clientes que se llaman igual quedan sumados juntos. Se agrega la PK (Documento, Legajo) al <code>GROUP BY</code>.</li>
-      <li>Una zona sin especies <strong>no aparece</strong> con <code>INNER JOIN</code> (no tiene pareja). Para el parcial alcanza: los listados piden lo que sí existe.</li>
+      <li>Con <code>LEFT JOIN</code>, contar siempre una columna de la tabla de la <strong>derecha</strong> (<code>COUNT(e.Codigo)</code>), nunca <code>COUNT(*)</code>.</li>
     </ul>
   </div>
 </div>

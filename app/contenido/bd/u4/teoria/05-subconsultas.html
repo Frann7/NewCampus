@@ -1,0 +1,66 @@
+<div class="bloque">
+  <p class="kicker">DML</p>
+  <h2>5. Subconsultas</h2>
+
+  <p>
+    Una <strong>subconsulta</strong> (en clase, "subselect") es un <code>SELECT</code> escrito adentro
+    de otro, entre paréntesis. Se usa cuando para responder hace falta un dato que primero hay que
+    calcular: el promedio, la zona con más amarres. Los profes las usaron en las guías 9 y 10 de
+    estas cuatro formas:
+  </p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Dónde va</th><th>Para qué</th><th>Forma</th></tr>
+      <tr><td class="lbl">En el <code>WHERE</code>, con <code>=</code>, <code>&gt;</code>, <code>&lt;</code></td><td>Comparar contra <strong>un solo</strong> valor calculado</td><td><code>WHERE Duracion &gt; (SELECT AVG(Duracion) FROM Itinerario)</code></td></tr>
+      <tr><td class="lbl">En el <code>WHERE</code>, con <code>IN</code></td><td>Comparar contra una <strong>lista</strong> de valores</td><td><code>WHERE CodigoZona IN (SELECT ...)</code></td></tr>
+      <tr><td class="lbl"><code>NOT EXISTS</code></td><td>"Los que no tienen...": lo mismo que <code>LEFT JOIN ... IS NULL</code> (sección 2)</td><td><code>WHERE NOT EXISTS (SELECT 1 FROM ... WHERE ...)</code></td></tr>
+      <tr><td class="lbl">En el <code>FROM</code>, con alias</td><td>Calcular algo sobre un resultado agrupado (el promedio de unas cantidades)</td><td><code>FROM (SELECT ... GROUP BY ...) AS tabla</code></td></tr>
+    </table>
+  </div>
+
+  <h3>Ejemplo 1: por encima del promedio</h3>
+  <div class="caja caja-ejemplo">
+    <p>Con Itinerario (Codigo (PK), Duracion, Longitud, CantVisitantes), los itinerarios cuya duración esté por encima del promedio (Guía 9, consulta 15).</p>
+  </div>
+  <pre class="codigo"><code>SELECT Codigo, Duracion
+FROM Itinerario
+WHERE Duracion &gt; (SELECT AVG(Duracion) FROM Itinerario);</code></pre>
+  <p>Primero se resuelve el paréntesis (un número: el promedio) y después se compara cada itinerario contra ese número.</p>
+
+  <h3>Ejemplo 2: los que no tienen, con NOT EXISTS</h3>
+  <div class="caja caja-ejemplo">
+    <p>Con Socio (DNI (PK), Nombre, ...) y Amarre (Numero (PK), ..., DNIPropietario (FK)), los socios que no son propietarios de amarres (Guía 10, consulta 16).</p>
+  </div>
+  <pre class="codigo"><code>SELECT s.DNI, s.Nombre
+FROM Socio s
+WHERE NOT EXISTS (SELECT 1 FROM Amarre a WHERE a.DNIPropietario = s.DNI);</code></pre>
+  <ul>
+    <li>Para cada socio, la subconsulta busca un amarre suyo. <code>NOT EXISTS</code> se cumple si <strong>no encontró ninguno</strong>.</li>
+    <li>El <code>SELECT 1</code> es porque no importa qué devuelve, solo si devuelve algo.</li>
+    <li>Con <code>LEFT JOIN</code> es: <code>FROM Socio s LEFT JOIN Amarre a ON a.DNIPropietario = s.DNI WHERE a.Numero IS NULL</code>. Las dos están bien.</li>
+  </ul>
+
+  <h3>Ejemplo 3: un promedio de cantidades</h3>
+  <div class="caja caja-ejemplo">
+    <p>Calcular la cantidad promedio de amarres por socio (Guía 10, consulta 10).</p>
+  </div>
+  <pre class="codigo"><code>SELECT AVG(CantidadAmarres * 1.0) AS PromedioAmarresPorSocio
+FROM (SELECT s.DNI, COUNT(a.Numero) AS CantidadAmarres
+      FROM Socio s
+      LEFT JOIN Amarre a ON a.DNIPropietario = s.DNI
+      GROUP BY s.DNI) AS tabla;</code></pre>
+  <ul>
+    <li>Adentro, la cantidad de amarres <strong>de cada socio</strong> (con <code>LEFT JOIN</code>, para que cuenten también los que tienen 0).</li>
+    <li>Afuera, el promedio de esa columna. La subconsulta del <code>FROM</code> tiene que llevar un alias (<code>AS tabla</code>).</li>
+    <li><code>* 1.0</code> para que el promedio no salga entero (sección 4).</li>
+  </ul>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Errores y trampas</span>
+    <ul>
+      <li>Con <code>=</code>, la subconsulta tiene que devolver <strong>un solo valor</strong>; si devuelve varios, SQL Server da error ("la subconsulta ha devuelto más de un valor"). Para varios, <code>IN</code>.</li>
+      <li>"El de mayor..." se puede resolver con <code>TOP 1 ... ORDER BY ... DESC</code> (sección 1) o con <code>= (SELECT MAX(...) ...)</code>. En clase mostraron las dos; la de <code>TOP</code> es más corta, pero si hay empate trae uno solo.</li>
+      <li>Los profes avisaron: cuanto más subconsultas se encadenan, peor sale. La solución más simple suele ser la correcta.</li>
+    </ul>
+  </div>
+</div>

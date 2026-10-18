@@ -1,0 +1,29 @@
+<div class="ej">
+  <span class="tag">Guía 9 · Consulta 9</span>
+  <h2>Especie y fecha de cada cuidador</h2>
+  <div class="enunciado">
+    <p>Nombre de la especie y fecha en la que se hizo cargo de la misma cada cuidador.</p>
+  </div>
+
+  <span class="paso">Las tablas que usa</span>
+  <pre class="codigo" data-lang="texto"><code>Especie (Codigo (PK), Nombre, NombreCientifico, Descripcion, CodigoZona (FK))
+Cuidador_Especie (Legajo (PK)(FK), CodigoEspecie (PK)(FK), FechaDesde)
+Empleado (Legajo (PK), Nombre, Direccion, Telefono, FechaIngreso)</code></pre>
+
+  <span class="paso">Cómo se arma</span>
+  <ul>
+    <li><strong>Columnas:</strong> la especie (Especie), el cuidador (Empleado) y la fecha (Cuidador_Especie, porque es un dato de la interrelación).</li>
+    <li><strong>Camino:</strong> Especie &rarr; Cuidador_Especie &rarr; Empleado.</li>
+    <li><strong>LEFT JOIN:</strong> los profes lo resolvieron así para que aparezcan también las especies que todavía no tienen cuidador (con el cuidador y la fecha vacíos).</li>
+  </ul>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Resolución</span>
+    <pre class="codigo"><code>SELECT esp.Nombre AS Especie, emp.Nombre AS Cuidador, ce.FechaDesde
+FROM Especie esp
+LEFT JOIN Cuidador_Especie ce ON ce.CodigoEspecie = esp.Codigo
+LEFT JOIN Empleado emp ON emp.Legajo = ce.Legajo
+ORDER BY esp.Nombre;</code></pre>
+  </div>
+  <p>Con <code>INNER JOIN</code> también está bien si se lee "cada cuidador" como "solo las especies que tienen"; el <code>LEFT</code> no pierde ninguna especie.</p>
+</div>

@@ -12,15 +12,15 @@ Itinerario_Zona (CodigoItinerario (PK)(FK), CodigoZona (PK)(FK))</code></pre>
   <span class="paso">Cómo se arma</span>
   <ul>
     <li><strong>"Cantidad... cada zona":</strong> <code>COUNT</code> con <code>GROUP BY</code> por zona.</li>
-    <li><strong>Camino:</strong> Zona &rarr; Itinerario_Zona. No hace falta la tabla Itinerario: se cuentan los códigos de la intermedia.</li>
-    <li><strong>GROUP BY:</strong> el nombre de la zona está en el SELECT, así que va al GROUP BY (con el código).</li>
+    <li><strong>LEFT JOIN desde Zona:</strong> "cada zona" incluye a las que no visita ningún itinerario, que tienen que salir con 0. En clase lo hicieron con <code>RIGHT JOIN</code> y Zona a la derecha: es lo mismo.</li>
+    <li><strong>COUNT de una columna de la derecha</strong> (<code>iz.CodigoItinerario</code>): da 0 donde no hay pareja; <code>COUNT(*)</code> daría 1.</li>
   </ul>
 
   <div class="caja caja-resp">
     <span class="caja-tit">Resolución</span>
     <pre class="codigo"><code>SELECT z.Nombre AS Zona, COUNT(iz.CodigoItinerario) AS CantidadItinerarios
 FROM Zona z
-INNER JOIN Itinerario_Zona iz ON iz.CodigoZona = z.Codigo
+LEFT JOIN Itinerario_Zona iz ON iz.CodigoZona = z.Codigo
 GROUP BY z.Codigo, z.Nombre;</code></pre>
   </div>
 </div>

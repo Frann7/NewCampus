@@ -1,0 +1,31 @@
+<div class="ej" data-examen="variante"
+     data-examen-ref="Clase 06/10: LEFT JOIN"
+     data-examen-nota="Los profes avisaron que probablemente haya una consulta con LEFT JOIN en el parcial.">
+  <span class="tag">Guía 9 · Consulta 17</span>
+  <h2>Empleados sin especies ni itinerarios</h2>
+  <div class="enunciado">
+    <p>Listado de empleados que no tengan especies a cargo ni lleven ningún itinerario.</p>
+  </div>
+
+  <span class="paso">Las tablas que usa</span>
+  <pre class="codigo" data-lang="texto"><code>Empleado (Legajo (PK), Nombre, Direccion, Telefono, FechaIngreso)
+Cuidador_Especie (Legajo (PK)(FK), CodigoEspecie (PK)(FK), FechaDesde)
+Guia_Itinerario (Legajo (PK)(FK), CodigoItinerario (PK)(FK), Hora)</code></pre>
+
+  <span class="paso">Cómo se arma</span>
+  <ul>
+    <li><strong>"Que no tengan":</strong> el primer uso del <code>LEFT JOIN</code> (Unidad 4, sección 2): unir y quedarse con los vacíos.</li>
+    <li><strong>Dos LEFT JOIN</strong> desde Empleado: uno a Cuidador_Especie y otro a Guia_Itinerario.</li>
+    <li><strong>Filtro:</strong> los dos lados vacíos, con <code>IS NULL</code>.</li>
+  </ul>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Resolución</span>
+    <pre class="codigo"><code>SELECT emp.Legajo, emp.Nombre
+FROM Empleado emp
+LEFT JOIN Cuidador_Especie ce ON ce.Legajo = emp.Legajo
+LEFT JOIN Guia_Itinerario gi ON gi.Legajo = emp.Legajo
+WHERE ce.CodigoEspecie IS NULL
+  AND gi.CodigoItinerario IS NULL;</code></pre>
+  </div>
+</div>

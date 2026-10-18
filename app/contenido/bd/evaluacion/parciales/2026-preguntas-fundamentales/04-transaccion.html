@@ -1,7 +1,7 @@
-<!-- ==================== 3. TRANSACCIÓN Y ACID ==================== -->
+<!-- ==================== 3. TRANSACCIÓN Y SUS PROPIEDADES ==================== -->
 <section class="parcial-ej">
   <div class="parcial-ej-cab">
-    <h2>3. Transacción y ACID</h2>
+    <h2>3. Transacción y sus propiedades</h2>
     <span class="parcial-tema">Unidad 1 &middot; Transacción</span>
   </div>
 
@@ -14,12 +14,12 @@
         <span class="pd-txt"><b>Respuesta</b><small>Para aprender y escribir en la hoja</small></span>
       </summary>
       <div class="pd-cuerpo">
-        <p>Una <strong>transacción</strong> es un conjunto de operaciones sobre la base que se ejecutan como <strong>una sola unidad de trabajo</strong>: o se realizan todas, o ninguna. Lleva la base de un estado consistente a otro. Se confirma con <code>COMMIT</code> o se deshace con <code>ROLLBACK</code>.</p>
+        <p>Una <strong>transacción</strong> es una unidad de la ejecución de un programa. Puede incluir distintos accesos a la base: consultas, actualizaciones, ejecuciones de procedimientos almacenados, vistas, etc. Empieza con una marca (<code>BEGIN TRAN</code>) y termina con una confirmación (<code>COMMIT</code>) o una cancelación (<code>ROLLBACK</code>).</p>
         <ul>
-          <li><strong>Atomicidad:</strong> se ejecuta completa o no se ejecuta nada.</li>
-          <li><strong>Consistencia:</strong> deja la base en un estado válido, respetando las restricciones de integridad.</li>
-          <li><strong>Aislamiento:</strong> las transacciones simultáneas no se interfieren.</li>
-          <li><strong>Durabilidad:</strong> lo confirmado es permanente, aunque falle el sistema.</li>
+          <li><strong>Atomicidad:</strong> se ve como una operación atómica: ocurre totalmente o no ocurre.</li>
+          <li><strong>Consistencia:</strong> su ejecución, aislada, conserva la consistencia de la base de datos.</li>
+          <li><strong>Aislamiento:</strong> el SGBD garantiza que dos transacciones simultáneas tengan el nivel de aislamiento correcto para que no haya inconsistencias; los datos se hacen efectivos con el <code>COMMIT</code>.</li>
+          <li><strong>Durabilidad:</strong> lo confirmado con <code>COMMIT</code> queda guardado aunque falle el sistema.</li>
         </ul>
       </div>
     </details>
@@ -30,15 +30,16 @@
         <span class="pd-txt"><b>Explicación</b><small>Un ejemplo, de dónde sale y las trampas</small></span>
       </summary>
       <div class="pd-cuerpo">
-        <h4>Para qué existe</h4>
-        <p>Una transferencia son dos <code>UPDATE</code> (restar en una cuenta, sumar en la otra). Si el sistema se cae entre los dos, desaparece la plata. Dentro de una transacción, si el segundo no llega, el primero se deshace.</p>
+        <h4>De dónde sale</h4>
+        <p>De las diapositivas "Transacciones y concurrencia" de la cátedra (clase del 15/09). En la grabación se ven las de atomicidad, consistencia y aislamiento; la durabilidad completa la sigla ACID. Unidad 1, sección 3, con el ejemplo de la clínica.</p>
         <pre class="codigo"><code>BEGIN TRAN;
-UPDATE Cuenta SET Saldo = Saldo - 1000 WHERE Numero = 10;
-UPDATE Cuenta SET Saldo = Saldo + 1000 WHERE Numero = 20;
+INSERT INTO Consulta (Numero, Diagnostico, Observaciones, Fecha, NumeroTurno)
+VALUES (501, 'Otitis', 'Control en 7 días', '2026-10-14', 3020);
+UPDATE Turno SET Estado = 'Atendido' WHERE Numero = 3020;
 COMMIT;</code></pre>
-        <p>Está desarrollado en la Unidad 1, sección 3, con el ejemplo de la clínica.</p>
+        <p>Si el <code>UPDATE</code> falla, el <code>INSERT</code> se deshace (atomicidad).</p>
         <h4>Trampas</h4>
-        <ul><li>Nombrar ACID sin explicar cada letra deja la respuesta a medias.</li></ul>
+        <ul><li>Nombrar las propiedades sin explicar cada una deja la respuesta a medias.</li></ul>
       </div>
     </details>
   </div>

@@ -19,18 +19,18 @@
   Tipo           CHAR(1)   NOT NULL,
   Fecha          DATE      NOT NULL,
   NumeroReserva  INT       NOT NULL,
-  PRIMARY KEY (Numero),
-  UNIQUE (NumeroReserva),
-  FOREIGN KEY (NumeroReserva) REFERENCES Reserva(Numero)
+  CONSTRAINT PK_Factura PRIMARY KEY (Numero),
+  CONSTRAINT UQ_Factura_NumeroReserva UNIQUE (NumeroReserva),
+  CONSTRAINT FK_Factura_Reserva FOREIGN KEY (NumeroReserva) REFERENCES Reserva(Numero)
 );
 
 CREATE TABLE Factura_Servicio (
   NumeroFactura   INT            NOT NULL,
   CodigoServicio  INT            NOT NULL,
   Importe         DECIMAL(10,2)  NOT NULL,
-  PRIMARY KEY (NumeroFactura, CodigoServicio),
-  FOREIGN KEY (NumeroFactura) REFERENCES Factura(Numero),
-  FOREIGN KEY (CodigoServicio) REFERENCES Servicio(Codigo)
+  CONSTRAINT PK_Factura_Servicio PRIMARY KEY (NumeroFactura, CodigoServicio),
+  CONSTRAINT FK_Factura_Servicio_Factura FOREIGN KEY (NumeroFactura) REFERENCES Factura(Numero),
+  CONSTRAINT FK_Factura_Servicio_Servicio FOREIGN KEY (CodigoServicio) REFERENCES Servicio(Codigo)
 );</code></pre>
         <p>Reserva y Servicio tienen que estar creadas antes, y Factura antes que Factura_Servicio.</p>
       </div>
@@ -63,18 +63,18 @@ Factura_Servicio (NumeroFactura (PK)(FK), CodigoServicio (PK)(FK), Importe)</cod
   Tipo           CHAR(1)   NOT NULL,
   Fecha          DATE      NOT NULL,
   NumeroReserva  INT       NOT NULL,
-  PRIMARY KEY (Numero),
-  UNIQUE (NumeroReserva),
-  FOREIGN KEY (NumeroReserva) REFERENCES Reserva(Numero)
+  CONSTRAINT PK_Factura PRIMARY KEY (Numero),
+  CONSTRAINT UQ_Factura_NumeroReserva UNIQUE (NumeroReserva),
+  CONSTRAINT FK_Factura_Reserva FOREIGN KEY (NumeroReserva) REFERENCES Reserva(Numero)
 );
 
 CREATE TABLE Factura_Servicio (
   NumeroFactura   INT            NOT NULL,
   CodigoServicio  INT            NOT NULL,
   Importe         DECIMAL(10,2)  NOT NULL,
-  PRIMARY KEY (NumeroFactura, CodigoServicio),
-  FOREIGN KEY (NumeroFactura) REFERENCES Factura(Numero),
-  FOREIGN KEY (CodigoServicio) REFERENCES Servicio(Codigo)
+  CONSTRAINT PK_Factura_Servicio PRIMARY KEY (NumeroFactura, CodigoServicio),
+  CONSTRAINT FK_Factura_Servicio_Factura FOREIGN KEY (NumeroFactura) REFERENCES Factura(Numero),
+  CONSTRAINT FK_Factura_Servicio_Servicio FOREIGN KEY (CodigoServicio) REFERENCES Servicio(Codigo)
 );</code></pre>
         </div>
         <h4>Trampas</h4>

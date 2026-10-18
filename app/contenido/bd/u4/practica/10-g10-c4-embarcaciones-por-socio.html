@@ -15,16 +15,15 @@ Embarcacion (Matricula (PK), Nombre, Dimension, CodigoTipo (FK), DNISocio (FK),
   <span class="paso">Cómo se arma</span>
   <ul>
     <li><strong>Columnas:</strong> nombre y DNI (Socio) y un <code>COUNT</code> de las embarcaciones.</li>
-    <li><strong>Camino:</strong> Socio &rarr; Embarcacion por <code>DNISocio</code>.</li>
-    <li><strong>GROUP BY:</strong> DNI y nombre.</li>
+    <li><strong>LEFT JOIN</strong> a Embarcacion, para que salgan también los socios con 0 (así la resolvieron en clase; si pidiera solo los que tienen, alcanza con <code>INNER</code>).</li>
+    <li><strong>COUNT(e.Matricula)</strong>, de la tabla de la derecha: con <code>COUNT(*)</code> el socio sin embarcaciones saldría con 1.</li>
   </ul>
 
   <div class="caja caja-resp">
     <span class="caja-tit">Resolución</span>
     <pre class="codigo"><code>SELECT s.Nombre, s.DNI, COUNT(e.Matricula) AS CantidadEmbarcaciones
 FROM Socio s
-INNER JOIN Embarcacion e ON e.DNISocio = s.DNI
+LEFT JOIN Embarcacion e ON e.DNISocio = s.DNI
 GROUP BY s.DNI, s.Nombre;</code></pre>
   </div>
-  <p>Un socio sin embarcaciones no aparece (no tiene pareja en el JOIN). La Guía 10 lo pide aparte (consulta 17).</p>
 </div>

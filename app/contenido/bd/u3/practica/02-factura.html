@@ -27,13 +27,13 @@ Detalle_Factura (Codigo_factura (PK)(FK), Codigo_articulo (PK)(FK), Cantidad, Im
   Nombre_cliente     VARCHAR(100)  NOT NULL,
   Direccion_cliente  VARCHAR(150),
   Localidad_cliente  VARCHAR(50),
-  PRIMARY KEY (Codigo_cliente)
+  CONSTRAINT PK_Cliente PRIMARY KEY (Codigo_cliente)
 );
 
 CREATE TABLE Articulo (
   Codigo_articulo  INT           NOT NULL,
   Descripcion      VARCHAR(100)  NOT NULL,
-  PRIMARY KEY (Codigo_articulo)
+  CONSTRAINT PK_Articulo PRIMARY KEY (Codigo_articulo)
 );
 
 CREATE TABLE Factura (
@@ -42,8 +42,8 @@ CREATE TABLE Factura (
   Fecha_factura   DATE         NOT NULL,
   Forma_pago      VARCHAR(30),
   Tipo_IVA        VARCHAR(30),
-  PRIMARY KEY (Codigo_factura),
-  FOREIGN KEY (Codigo_cliente) REFERENCES Cliente(Codigo_cliente)
+  CONSTRAINT PK_Factura PRIMARY KEY (Codigo_factura),
+  CONSTRAINT FK_Factura_Cliente FOREIGN KEY (Codigo_cliente) REFERENCES Cliente(Codigo_cliente)
 );
 
 CREATE TABLE Detalle_Factura (
@@ -51,9 +51,9 @@ CREATE TABLE Detalle_Factura (
   Codigo_articulo  INT            NOT NULL,
   Cantidad         INT            NOT NULL,
   Importe          DECIMAL(10,2)  NOT NULL,
-  PRIMARY KEY (Codigo_factura, Codigo_articulo),
-  FOREIGN KEY (Codigo_factura) REFERENCES Factura(Codigo_factura),
-  FOREIGN KEY (Codigo_articulo) REFERENCES Articulo(Codigo_articulo)
+  CONSTRAINT PK_Detalle_Factura PRIMARY KEY (Codigo_factura, Codigo_articulo),
+  CONSTRAINT FK_Detalle_Factura_Factura FOREIGN KEY (Codigo_factura) REFERENCES Factura(Codigo_factura),
+  CONSTRAINT FK_Detalle_Factura_Articulo FOREIGN KEY (Codigo_articulo) REFERENCES Articulo(Codigo_articulo)
 );</code></pre>
   </div>
 

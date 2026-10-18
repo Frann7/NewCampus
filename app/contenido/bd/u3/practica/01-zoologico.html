@@ -39,14 +39,14 @@ Itinerario_Zona (CodigoItinerario (PK)(FK), CodigoZona (PK)(FK))</code></pre>
   Direccion     VARCHAR(150),
   Telefono      VARCHAR(20),
   FechaIngreso  DATE          NOT NULL,
-  PRIMARY KEY (Legajo)
+  CONSTRAINT PK_Empleado PRIMARY KEY (Legajo)
 );
 
 CREATE TABLE Zona (
   Codigo     INT            NOT NULL,
   Nombre     VARCHAR(50)    NOT NULL,
   Extension  DECIMAL(10,2),
-  PRIMARY KEY (Codigo)
+  CONSTRAINT PK_Zona PRIMARY KEY (Codigo)
 );
 
 CREATE TABLE Itinerario (
@@ -54,19 +54,19 @@ CREATE TABLE Itinerario (
   Duracion        INT,
   Longitud        DECIMAL(6,2),
   CantVisitantes  INT,
-  PRIMARY KEY (Codigo)
+  CONSTRAINT PK_Itinerario PRIMARY KEY (Codigo)
 );
 
 CREATE TABLE Guia (
   Legajo  INT  NOT NULL,
-  PRIMARY KEY (Legajo),
-  FOREIGN KEY (Legajo) REFERENCES Empleado(Legajo)
+  CONSTRAINT PK_Guia PRIMARY KEY (Legajo),
+  CONSTRAINT FK_Guia_Empleado FOREIGN KEY (Legajo) REFERENCES Empleado(Legajo)
 );
 
 CREATE TABLE Cuidador (
   Legajo  INT  NOT NULL,
-  PRIMARY KEY (Legajo),
-  FOREIGN KEY (Legajo) REFERENCES Empleado(Legajo)
+  CONSTRAINT PK_Cuidador PRIMARY KEY (Legajo),
+  CONSTRAINT FK_Cuidador_Empleado FOREIGN KEY (Legajo) REFERENCES Empleado(Legajo)
 );
 
 CREATE TABLE Especie (
@@ -75,34 +75,34 @@ CREATE TABLE Especie (
   NombreCientifico  VARCHAR(100),
   Descripcion       VARCHAR(250),
   CodigoZona        INT           NOT NULL,
-  PRIMARY KEY (Codigo),
-  FOREIGN KEY (CodigoZona) REFERENCES Zona(Codigo)
+  CONSTRAINT PK_Especie PRIMARY KEY (Codigo),
+  CONSTRAINT FK_Especie_Zona FOREIGN KEY (CodigoZona) REFERENCES Zona(Codigo)
 );
 
 CREATE TABLE Cuidador_Especie (
   Legajo         INT   NOT NULL,
   CodigoEspecie  INT   NOT NULL,
   FechaDesde     DATE  NOT NULL,
-  PRIMARY KEY (Legajo, CodigoEspecie),
-  FOREIGN KEY (Legajo) REFERENCES Cuidador(Legajo),
-  FOREIGN KEY (CodigoEspecie) REFERENCES Especie(Codigo)
+  CONSTRAINT PK_Cuidador_Especie PRIMARY KEY (Legajo, CodigoEspecie),
+  CONSTRAINT FK_Cuidador_Especie_Cuidador FOREIGN KEY (Legajo) REFERENCES Cuidador(Legajo),
+  CONSTRAINT FK_Cuidador_Especie_Especie FOREIGN KEY (CodigoEspecie) REFERENCES Especie(Codigo)
 );
 
 CREATE TABLE Guia_Itinerario (
   Legajo            INT   NOT NULL,
   CodigoItinerario  INT   NOT NULL,
   Hora              TIME  NOT NULL,
-  PRIMARY KEY (Legajo, CodigoItinerario),
-  FOREIGN KEY (Legajo) REFERENCES Guia(Legajo),
-  FOREIGN KEY (CodigoItinerario) REFERENCES Itinerario(Codigo)
+  CONSTRAINT PK_Guia_Itinerario PRIMARY KEY (Legajo, CodigoItinerario),
+  CONSTRAINT FK_Guia_Itinerario_Guia FOREIGN KEY (Legajo) REFERENCES Guia(Legajo),
+  CONSTRAINT FK_Guia_Itinerario_Itinerario FOREIGN KEY (CodigoItinerario) REFERENCES Itinerario(Codigo)
 );
 
 CREATE TABLE Itinerario_Zona (
   CodigoItinerario  INT  NOT NULL,
   CodigoZona        INT  NOT NULL,
-  PRIMARY KEY (CodigoItinerario, CodigoZona),
-  FOREIGN KEY (CodigoItinerario) REFERENCES Itinerario(Codigo),
-  FOREIGN KEY (CodigoZona) REFERENCES Zona(Codigo)
+  CONSTRAINT PK_Itinerario_Zona PRIMARY KEY (CodigoItinerario, CodigoZona),
+  CONSTRAINT FK_Itinerario_Zona_Itinerario FOREIGN KEY (CodigoItinerario) REFERENCES Itinerario(Codigo),
+  CONSTRAINT FK_Itinerario_Zona_Zona FOREIGN KEY (CodigoZona) REFERENCES Zona(Codigo)
 );</code></pre>
   </div>
 

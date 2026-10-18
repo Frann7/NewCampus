@@ -15,7 +15,7 @@ INNER JOIN TablaB b ON b.ClavePrimaria = a.ClaveForanea</code></pre>
   </div>
   <ul>
     <li><code>ON</code> dice <strong>qué columna tiene que coincidir</strong>: siempre la FK de una con la PK de la otra.</li>
-    <li>El resultado tiene una fila por cada par que coincide. Una fila sin pareja <strong>no aparece</strong> (por eso es "inner", de adentro).</li>
+    <li>El resultado tiene una fila por cada par que coincide. Una fila sin pareja <strong>no aparece</strong> (por eso es "inner", de adentro); para que aparezca, <code>LEFT JOIN</code> (más abajo).</li>
     <li><code>a</code> y <code>b</code> son <strong>alias de tabla</strong>: un nombre corto para no escribir el nombre entero cada vez. <code>a.Nombre</code> se lee "la columna Nombre de la tabla a".</li>
   </ul>
 
@@ -67,6 +67,63 @@ WHERE esp.Nombre = 'León';</code></pre>
     <li>No hace falta pasar por la tabla Cuidador: el Legajo de Cuidador_Especie ya es el del empleado.</li>
   </ul>
 
+  <h3>LEFT JOIN: que aparezcan también los que no tienen pareja</h3>
+  <p>
+    El <code>INNER JOIN</code> deja afuera las filas sin pareja. El <code>LEFT JOIN</code> trae
+    <strong>todas</strong> las filas de la tabla de la izquierda (la del <code>FROM</code>), y de la
+    derecha solo las que coinciden; donde no hay pareja, las columnas de la derecha quedan en
+    <code>NULL</code> (vacías). <code>RIGHT JOIN</code> es lo mismo, con prioridad a la tabla de la
+    derecha. En la clase del 06/10 los profes avisaron que <strong>probablemente haya una consulta
+    con LEFT JOIN</strong> en el parcial.
+  </p>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Los dos usos que se vieron en clase</span>
+    <pre class="codigo"><code>-- 1. "Los que NO tienen...": LEFT JOIN y quedarse con los vacíos
+SELECT z.Nombre
+FROM Zona z
+LEFT JOIN Especie e ON e.CodigoZona = z.Codigo
+WHERE e.Codigo IS NULL;
+
+-- 2. "Cantidad por...", que muestre también los que tienen 0 (sección 4)
+SELECT z.Nombre, COUNT(e.Codigo) AS CantidadEspecies
+FROM Zona z
+LEFT JOIN Especie e ON e.CodigoZona = z.Codigo
+GROUP BY z.Codigo, z.Nombre;</code></pre>
+  </div>
+
+  <h3>Ejemplo 3: las zonas sin especies</h3>
+  <div class="caja caja-ejemplo">
+    <p>Con Zona (Codigo (PK), Nombre, Extension) y Especie (Codigo (PK), Nombre, CodigoZona (FK)), listar las zonas que todavía no alojan ninguna especie.</p>
+  </div>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th colspan="2">Zona</th><th></th><th colspan="3">Especie</th></tr>
+      <tr><th>Codigo</th><th>Nombre</th><th></th><th>Codigo</th><th>Nombre</th><th>CodigoZona</th></tr>
+      <tr><td>1</td><td>Selva</td><td></td><td>10</td><td>Yaguareté</td><td>1</td></tr>
+      <tr><td>2</td><td>Sabana</td><td></td><td>11</td><td>León</td><td>2</td></tr>
+      <tr><td>4</td><td>Reptilario</td><td></td><td>12</td><td>Jirafa</td><td>2</td></tr>
+    </table>
+  </div>
+  <p>Lo que arma el <code>LEFT JOIN</code>, antes del <code>WHERE</code>:</p>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th>z.Nombre</th><th>e.Codigo</th><th>e.Nombre</th></tr>
+      <tr><td>Selva</td><td>10</td><td>Yaguareté</td></tr>
+      <tr><td>Sabana</td><td>11</td><td>León</td></tr>
+      <tr><td>Sabana</td><td>12</td><td>Jirafa</td></tr>
+      <tr><td><strong>Reptilario</strong></td><td>NULL</td><td>NULL</td></tr>
+    </table>
+  </div>
+  <pre class="codigo"><code>SELECT z.Codigo, z.Nombre
+FROM Zona z
+LEFT JOIN Especie e ON e.CodigoZona = z.Codigo
+WHERE e.Codigo IS NULL;</code></pre>
+  <p>
+    El <code>WHERE e.Codigo IS NULL</code> deja solo la fila sin pareja: <strong>Reptilario</strong>.
+    Con <code>INNER JOIN</code> Reptilario ni siquiera aparecería. La misma consulta se puede
+    escribir con <code>NOT EXISTS</code> (sección 5), como la resolvieron también en clase.
+  </p>
+
   <div class="caja caja-ojo">
     <span class="caja-tit">Errores y trampas</span>
     <ul>
@@ -74,6 +131,8 @@ WHERE esp.Nombre = 'León';</code></pre>
       <li>Cada <code>INNER JOIN</code> lleva su <code>ON</code>. Un JOIN sin <code>ON</code> no es válido.</li>
       <li>El <code>ON</code> une <strong>FK con PK</strong>. Unir por nombre (<code>e.Nombre = z.Nombre</code>) no tiene sentido.</li>
       <li>Si un turno tiene dos servicios, el JOIN con los servicios da <strong>dos filas</strong> para ese turno: es lo esperado.</li>
+      <li>En el <code>LEFT JOIN</code> importa el orden: la tabla que tiene que aparecer completa va en el <code>FROM</code>, a la izquierda.</li>
+      <li>Cuando la misma tabla entra dos veces (el dueño del amarre y el dueño de la embarcación, los dos en Socio), cada una lleva su alias: <code>socio s1</code> y <code>socio s2</code>.</li>
     </ul>
   </div>
 </div>

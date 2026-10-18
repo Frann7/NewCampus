@@ -20,7 +20,7 @@
   Autor        VARCHAR(100),
   AnioEdicion  INT,
   Genero       VARCHAR(50),
-  PRIMARY KEY (ISBN)
+  CONSTRAINT PK_Libro PRIMARY KEY (ISBN)
 );
 
 CREATE TABLE Pedido (
@@ -28,8 +28,8 @@ CREATE TABLE Pedido (
   Fecha   DATE         NOT NULL,
   Estado  VARCHAR(30)  NOT NULL,
   CUIT    VARCHAR(13)  NOT NULL,
-  PRIMARY KEY (Numero),
-  FOREIGN KEY (CUIT) REFERENCES Cliente(CUIT)
+  CONSTRAINT PK_Pedido PRIMARY KEY (Numero),
+  CONSTRAINT FK_Pedido_Cliente FOREIGN KEY (CUIT) REFERENCES Cliente(CUIT)
 );
 
 CREATE TABLE Pedido_Detalle (
@@ -37,9 +37,9 @@ CREATE TABLE Pedido_Detalle (
   ISBN            VARCHAR(13)    NOT NULL,
   PrecioUnitario  DECIMAL(10,2)  NOT NULL,
   Cantidad        INT            NOT NULL,
-  PRIMARY KEY (NumeroPedido, ISBN),
-  FOREIGN KEY (NumeroPedido) REFERENCES Pedido(Numero),
-  FOREIGN KEY (ISBN) REFERENCES Libro(ISBN)
+  CONSTRAINT PK_Pedido_Detalle PRIMARY KEY (NumeroPedido, ISBN),
+  CONSTRAINT FK_Pedido_Detalle_Pedido FOREIGN KEY (NumeroPedido) REFERENCES Pedido(Numero),
+  CONSTRAINT FK_Pedido_Detalle_Libro FOREIGN KEY (ISBN) REFERENCES Libro(ISBN)
 );</code></pre>
         <p>Cliente tiene que estar creada antes que Pedido.</p>
       </div>
@@ -70,7 +70,7 @@ CREATE TABLE Pedido_Detalle (
   Autor        VARCHAR(100),
   AnioEdicion  INT,
   Genero       VARCHAR(50),
-  PRIMARY KEY (ISBN)
+  CONSTRAINT PK_Libro PRIMARY KEY (ISBN)
 );
 
 CREATE TABLE Pedido (
@@ -78,8 +78,8 @@ CREATE TABLE Pedido (
   Fecha   DATE         NOT NULL,
   Estado  VARCHAR(30)  NOT NULL,
   CUIT    VARCHAR(13)  NOT NULL,
-  PRIMARY KEY (Numero),
-  FOREIGN KEY (CUIT) REFERENCES Cliente(CUIT)
+  CONSTRAINT PK_Pedido PRIMARY KEY (Numero),
+  CONSTRAINT FK_Pedido_Cliente FOREIGN KEY (CUIT) REFERENCES Cliente(CUIT)
 );
 
 CREATE TABLE Pedido_Detalle (
@@ -87,9 +87,9 @@ CREATE TABLE Pedido_Detalle (
   ISBN            VARCHAR(13)    NOT NULL,
   PrecioUnitario  DECIMAL(10,2)  NOT NULL,
   Cantidad        INT            NOT NULL,
-  PRIMARY KEY (NumeroPedido, ISBN),
-  FOREIGN KEY (NumeroPedido) REFERENCES Pedido(Numero),
-  FOREIGN KEY (ISBN) REFERENCES Libro(ISBN)
+  CONSTRAINT PK_Pedido_Detalle PRIMARY KEY (NumeroPedido, ISBN),
+  CONSTRAINT FK_Pedido_Detalle_Pedido FOREIGN KEY (NumeroPedido) REFERENCES Pedido(Numero),
+  CONSTRAINT FK_Pedido_Detalle_Libro FOREIGN KEY (ISBN) REFERENCES Libro(ISBN)
 );</code></pre>
         </div>
         <h4>Trampas</h4>

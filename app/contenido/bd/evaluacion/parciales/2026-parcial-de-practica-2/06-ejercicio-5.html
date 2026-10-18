@@ -10,6 +10,7 @@
     <li>Listado de reservas pendientes, ordenado por fecha de ingreso (más antiguas primero), mostrando número de reserva, fecha de ingreso, fecha de egreso, nombre del huésped, número de habitación y tipo de habitación.</li>
     <li>Listado de cantidad de reservas pendientes por huésped, ordenado por país, provincia, ciudad y nombre del huésped. Se debe mostrar: País, Provincia, Ciudad, Nombre del Huésped, Cantidad de Reservas Pendientes.</li>
     <li>Listado de huéspedes ordenados por total facturado durante los últimos 12 meses, agrupado por año y mes de la factura. Mostrar: Año, Mes, Nombre del Huésped, Total Facturado.</li>
+    <li>Listado de habitaciones que nunca fueron reservadas, indicando número, piso y tipo de habitación.</li>
   </ol>
 
   <div class="parcial-extras">
@@ -59,6 +60,12 @@ INNER JOIN Factura_Servicio fs ON fs.NumeroFactura = f.Numero
 WHERE f.Fecha &gt;= DATEADD(MONTH, -12, GETDATE())
 GROUP BY YEAR(f.Fecha), MONTH(f.Fecha), h.Documento, h.Nombre
 ORDER BY TotalFacturado DESC;</code></pre>
+        <p><strong>d)</strong></p>
+        <pre class="codigo"><code>SELECT hab.Numero, hab.Piso, th.Descripcion AS TipoHabitacion
+FROM Habitacion hab
+INNER JOIN TipoHabitacion th ON th.Codigo = hab.CodigoTipo
+LEFT JOIN Reserva_Habitacion rh ON rh.NumeroHabitacion = hab.Numero
+WHERE rh.NumeroReserva IS NULL;</code></pre>
       </div>
     </details>
 
@@ -69,7 +76,7 @@ ORDER BY TotalFacturado DESC;</code></pre>
       </summary>
       <div class="pd-cuerpo">
         <h4>Qué evalúa</h4>
-        <p>Los tres listados de la receta (Unidad 4, sección 6), sobre las tablas del ejercicio 3.</p>
+        <p>Los tres listados de la receta (Unidad 4, sección 7), sobre las tablas del ejercicio 3.</p>
         <pre class="codigo" data-lang="texto"><code>Pais (IdPais (PK), Nombre)
 Provincia (IdProvincia (PK), Nombre, IdPais (FK))
 Ciudad (IdCiudad (PK), Nombre, IdProvincia (FK))
@@ -136,6 +143,17 @@ INNER JOIN Factura_Servicio fs ON fs.NumeroFactura = f.Numero
 WHERE f.Fecha &gt;= DATEADD(MONTH, -12, GETDATE())
 GROUP BY YEAR(f.Fecha), MONTH(f.Fecha), h.Documento, h.Nombre
 ORDER BY TotalFacturado DESC;</code></pre>
+        <h4>d) Las que nunca se reservaron</h4>
+        <ul>
+          <li>"Nunca": el otro uso del <code>LEFT JOIN</code> (Unidad 4, sección 2): unir con Reserva_Habitacion y quedarse con las que no tienen pareja, <code>IS NULL</code>.</li>
+          <li>El tipo sale con un <code>INNER JOIN</code> común: toda habitación tiene tipo.</li>
+          <li>También vale con <code>NOT EXISTS (SELECT 1 FROM Reserva_Habitacion rh WHERE rh.NumeroHabitacion = hab.Numero)</code> (sección 5).</li>
+        </ul>
+        <pre class="codigo"><code>SELECT hab.Numero, hab.Piso, th.Descripcion AS TipoHabitacion
+FROM Habitacion hab
+INNER JOIN TipoHabitacion th ON th.Codigo = hab.CodigoTipo
+LEFT JOIN Reserva_Habitacion rh ON rh.NumeroHabitacion = hab.Numero
+WHERE rh.NumeroReserva IS NULL;</code></pre>
         <h4>Trampas</h4>
         <ul>
           <li>En b), meter Reserva_Habitacion en el JOIN cambia el resultado: el <code>COUNT</code> contaría habitaciones, no reservas.</li>

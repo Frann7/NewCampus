@@ -2,39 +2,69 @@
   <p class="kicker">DML</p>
   <h2>3. Fechas</h2>
 
-  <p>Los listados del parcial siempre tienen fechas: ordenar por fecha, separar fecha y hora, agrupar por año y mes, y "los últimos 12 meses". Son estas funciones de SQL Server:</p>
+  <p>
+    En la clase del 06/10 lo dijeron con todas las letras: en el parcial <strong>seguro hay una
+    consulta con fechas</strong> ("este año", "este mes", "los últimos 30 días", "los de 2022"), y
+    hay que saber qué función usar en cada caso. Son estas, todas de SQL Server y todas vistas en
+    clase:
+  </p>
   <div class="tabla-wrap">
     <table class="t full">
       <tr><th>Función</th><th>Qué devuelve</th><th>Con <code>'2026-10-18 14:30'</code></th></tr>
-      <tr><td class="lbl"><code>GETDATE()</code></td><td>La fecha y hora de <strong>ahora</strong></td><td>&mdash;</td></tr>
+      <tr><td class="lbl"><code>GETDATE()</code></td><td>La fecha y hora de <strong>hoy</strong> (la del servidor)</td><td>&mdash;</td></tr>
       <tr><td class="lbl"><code>YEAR(fecha)</code></td><td>El año, como número</td><td><code>2026</code></td></tr>
       <tr><td class="lbl"><code>MONTH(fecha)</code></td><td>El mes, de 1 a 12</td><td><code>10</code></td></tr>
       <tr><td class="lbl"><code>DAY(fecha)</code></td><td>El día del mes</td><td><code>18</code></td></tr>
-      <tr><td class="lbl"><code>CAST(fecha AS DATE)</code></td><td>Solo la fecha (le saca la hora)</td><td><code>2026-10-18</code></td></tr>
-      <tr><td class="lbl"><code>CAST(fecha AS TIME)</code></td><td>Solo la hora</td><td><code>14:30:00</code></td></tr>
-      <tr><td class="lbl"><code>DATEADD(MONTH, -12, fecha)</code></td><td>La fecha corrida 12 meses para atrás (con <code>YEAR</code> o <code>DAY</code>, años o días)</td><td><code>2025-10-18 14:30</code></td></tr>
+      <tr><td class="lbl"><code>DATEDIFF(unidad, desde, hasta)</code></td><td>La <strong>diferencia</strong> entre dos fechas, en la unidad que se pida: <code>YEAR</code>, <code>MONTH</code> o <code>DAY</code></td><td><code>DATEDIFF(YEAR, '2016-03-01', GETDATE())</code> = <code>10</code></td></tr>
+      <tr><td class="lbl"><code>DATEADD(unidad, n, fecha)</code></td><td>La fecha corrida <code>n</code> unidades (con <code>n</code> negativo, para atrás)</td><td><code>DATEADD(MONTH, -12, ...)</code> = <code>2025-10-18 14:30</code></td></tr>
+      <tr><td class="lbl"><code>GETDATE() - 30</code></td><td>Hoy menos 30 días</td><td><code>2026-09-18</code></td></tr>
+      <tr><td class="lbl"><code>CAST(fecha AS DATE)</code> / <code>AS TIME</code></td><td>Solo la fecha / solo la hora</td><td><code>2026-10-18</code> / <code>14:30:00</code></td></tr>
+    </table>
+  </div>
+  <p>Una fecha escrita a mano va entre comillas simples, como año-mes-día: <code>'2026-10-01'</code>.</p>
+
+  <h3>Qué usar en cada caso</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>La consigna dice</th><th>Se escribe</th></tr>
+      <tr><td class="lbl">"este año"</td><td><code>YEAR(f) = YEAR(GETDATE())</code></td></tr>
+      <tr><td class="lbl">"este mes"</td><td><code>YEAR(f) = YEAR(GETDATE()) AND MONTH(f) = MONTH(GETDATE())</code></td></tr>
+      <tr><td class="lbl">"en 2022", "en febrero de este año"</td><td><code>YEAR(f) = 2022</code> &middot; <code>MONTH(f) = 2 AND YEAR(f) = YEAR(GETDATE())</code></td></tr>
+      <tr><td class="lbl">"los últimos 30 días"</td><td><code>DATEDIFF(DAY, f, GETDATE()) &lt; 30</code> o <code>f &gt;= GETDATE() - 30</code></td></tr>
+      <tr><td class="lbl">"los últimos 12 meses"</td><td><code>f &gt;= DATEADD(MONTH, -12, GETDATE())</code></td></tr>
+      <tr><td class="lbl">"más de 10 años de antigüedad"</td><td><code>DATEDIFF(YEAR, f, GETDATE()) &gt; 10</code></td></tr>
     </table>
   </div>
   <p>
-    <code>GETDATE()</code>, <code>YEAR()</code>, <code>MONTH()</code>, <code>DAY()</code> y <code>CAST</code> se usaron en el TP final.
-    <code>DATEADD</code> es la que hace falta para "los últimos 12 meses" o "el último mes": suma
-    (o resta, con un número negativo) una cantidad de meses, años o días a una fecha.
+    Para "los últimos 12 meses", <code>DATEADD</code> es lo exacto: <code>DATEDIFF(MONTH, ...)</code>
+    cuenta cuántas veces <strong>cambió el mes</strong> entre las dos fechas, no meses enteros (del
+    31/01 al 01/02 da 1).
   </p>
-  <p>Una fecha escrita a mano va entre comillas simples, como año-mes-día: <code>'2026-10-01'</code>.</p>
 
-  <h3>Ejemplo 1: los que entraron en el último mes</h3>
+  <h3>Ejemplo 1: los que entraron este mes</h3>
   <div class="caja caja-ejemplo">
     <p>Con Empleado (Legajo (PK), Nombre, FechaIngreso), los que entraron a trabajar en el último mes (Guía 9, consulta 7).</p>
   </div>
   <pre class="codigo"><code>SELECT Legajo, Nombre, FechaIngreso
 FROM Empleado
-WHERE FechaIngreso &gt;= DATEADD(MONTH, -1, GETDATE());</code></pre>
+WHERE YEAR(FechaIngreso) = YEAR(GETDATE())
+  AND MONTH(FechaIngreso) = MONTH(GETDATE());</code></pre>
   <ul>
-    <li><code>DATEADD(MONTH, -1, GETDATE())</code>: hoy menos un mes. Si hoy es 18/10/2026, da 18/09/2026.</li>
-    <li><code>&gt;=</code>: la fecha de ingreso es esa o posterior, o sea, dentro del último mes.</li>
+    <li>Es la versión de los profes: "el último mes" leído como el mes en curso.</li>
+    <li>Si se lee como "los últimos 30 días", también vale <code>WHERE DATEDIFF(DAY, FechaIngreso, GETDATE()) &lt; 30</code>; en clase aceptaron las dos.</li>
   </ul>
 
-  <h3>Ejemplo 2: separar, y agrupar por año y mes</h3>
+  <h3>Ejemplo 2: antigüedad en años</h3>
+  <div class="caja caja-ejemplo">
+    <p>Los empleados con más de 10 años de antigüedad, mostrando cuántos años tienen (Guía 9, consulta 8).</p>
+  </div>
+  <pre class="codigo"><code>SELECT Nombre, FechaIngreso,
+       DATEDIFF(YEAR, FechaIngreso, GETDATE()) AS Antiguedad
+FROM Empleado
+WHERE DATEDIFF(YEAR, FechaIngreso, GETDATE()) &gt; 10;</code></pre>
+  <p><code>DATEDIFF(YEAR, desde, hasta)</code>: primero la fecha vieja, después la de hoy. Al revés da negativo.</p>
+
+  <h3>Ejemplo 3: separar fecha y hora</h3>
   <div class="caja caja-ejemplo">
     <p>Una tabla Turno (Numero (PK), FechaHora, Estado) guarda fecha y hora en una sola columna, y el listado pide "fecha" y "hora" por separado.</p>
   </div>
@@ -44,17 +74,17 @@ WHERE FechaIngreso &gt;= DATEADD(MONTH, -1, GETDATE());</code></pre>
 FROM Turno
 ORDER BY FechaHora;</code></pre>
   <p>
-    Para ordenar <strong>por fecha y hora</strong> alcanza con <code>ORDER BY FechaHora</code>: la columna
-    ya tiene las dos. Y para agrupar por mes se usan <code>YEAR(FechaHora)</code> y
-    <code>MONTH(FechaHora)</code> en el <code>GROUP BY</code> (sección 4).
+    Para ordenar <strong>por fecha y hora</strong> alcanza con <code>ORDER BY FechaHora</code>. Y
+    para agrupar por mes se usan <code>YEAR(FechaHora)</code> y <code>MONTH(FechaHora)</code> en el
+    <code>GROUP BY</code> (sección 4).
   </p>
 
   <div class="caja caja-ojo">
     <span class="caja-tit">Errores y trampas</span>
     <ul>
-      <li>Agrupar <strong>solo por <code>MONTH</code></strong> junta octubre de 2025 con octubre de 2026. "Por año y mes" son las dos: <code>YEAR(...)</code> y <code>MONTH(...)</code>.</li>
-      <li>"Los últimos 12 meses" se cuentan desde <strong>hoy</strong> (<code>GETDATE()</code>), no desde el 1 de enero. No es lo mismo que <code>YEAR(fecha) = 2026</code>.</li>
-      <li>En <code>DATEADD</code> el número va <strong>negativo</strong> para ir al pasado: <code>-12</code>.</li>
+      <li><strong>No poner el año o el mes fijo</strong> (<code>YEAR(f) = 2026</code> para "este año"): el año que viene la consulta ya no sirve. Siempre contra <code>GETDATE()</code>. Es el error que más remarcaron en clase.</li>
+      <li>Agrupar <strong>solo por <code>MONTH</code></strong> junta octubre de 2025 con octubre de 2026. "Por año y mes" son las dos.</li>
+      <li>"Los últimos 12 meses" se cuentan desde <strong>hoy</strong>, no desde el 1 de enero: no es lo mismo que "este año".</li>
     </ul>
   </div>
 </div>

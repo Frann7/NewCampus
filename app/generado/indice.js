@@ -64,7 +64,7 @@ window.Apuntes.registrarIndice({
         "titulo": "Parcial de pr\u00e1ctica 1",
         "fecha": "Inventado, con la forma del 2025",
         "detalle": "5 ejercicios sobre un gimnasio, resueltos",
-        "temas": "\u00bfQu\u00e9 es SQL? \u00b7 Claves \u00b7 DER \u2192 3FN \u00b7 CREATE TABLE \u00b7 Listados con JOIN, COUNT y SUM",
+        "temas": "\u00bfQu\u00e9 es SQL? \u00b7 Claves \u00b7 DER \u2192 3FN \u00b7 CREATE TABLE \u00b7 Listados con JOIN, LEFT JOIN, COUNT y SUM",
         "tipo": "parcial"
       },
       {
@@ -73,7 +73,7 @@ window.Apuntes.registrarIndice({
         "titulo": "Parcial de pr\u00e1ctica 2",
         "fecha": "Inventado, con la forma del 2025",
         "detalle": "5 ejercicios sobre un hotel, resueltos",
-        "temas": "COMMIT y ROLLBACK \u00b7 El SGBD \u00b7 DER \u2192 3FN \u00b7 Cabecera y detalle \u00b7 Listados con JOIN, COUNT y SUM",
+        "temas": "Transacci\u00f3n \u00b7 El SGBD \u00b7 DER \u2192 3FN \u00b7 Cabecera y detalle \u00b7 Listados con JOIN, LEFT JOIN, COUNT y SUM",
         "tipo": "parcial"
       },
       {
@@ -81,8 +81,8 @@ window.Apuntes.registrarIndice({
         "archivo": "examenes/bd-2026-preguntas-fundamentales.js",
         "titulo": "Preguntas fundamentales de teor\u00eda",
         "fecha": "Para el 2do parcial",
-        "detalle": "10 preguntas con la respuesta para aprender y la explicaci\u00f3n, de la m\u00e1s b\u00e1sica a la m\u00e1s espec\u00edfica",
-        "temas": "SQL \u00b7 DDL y DML \u00b7 Transacci\u00f3n \u00b7 COMMIT y ROLLBACK \u00b7 SGBD \u00b7 Claves \u00b7 Integridad referencial \u00b7 Archivo indexado",
+        "detalle": "7 preguntas con la respuesta para aprender y la explicaci\u00f3n, de la m\u00e1s b\u00e1sica a la m\u00e1s espec\u00edfica",
+        "temas": "SQL \u00b7 DDL y DML \u00b7 Transacci\u00f3n \u00b7 SGBD \u00b7 Claves \u00b7 Archivo indexado",
         "tipo": "parcial"
       },
       {

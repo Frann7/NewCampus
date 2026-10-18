@@ -259,6 +259,11 @@ Chrome (`chrome --headless --print-to-pdf`).
 `0.x.y-alpha` mientras esté en desarrollo. La `1.0.0` queda reservada para cuando esté terminado.
 La versión actual se lee al pie del menú lateral.
 
+* **0.53.1-alpha** — Bases de Datos, ajustado a las clases grabadas: la teoría queda solo con lo
+  de la cátedra que se toma (la transacción, con la definición de sus diapositivas), los
+  `CREATE TABLE` con las claves con nombre (`CONSTRAINT PK_...`), y en consultas `LEFT JOIN`,
+  `DATEDIFF`, subconsultas y la práctica de las guías 9 y 10 como la resolvieron los profes. Las
+  preguntas fundamentales pasan a 7 y los parciales de práctica suman un inciso con `LEFT JOIN`.
 * **0.53.0-alpha** — **Bases de Datos**: alta de la materia con el 2do parcial (SQL), en cuatro
   unidades: teoría del 2do parcial (qué es SQL, DDL y DML, transacción y ACID, claves, archivo
   indexado), del DER a las tablas en 3FN, `CREATE TABLE` y consultas (de `SELECT` a los tres

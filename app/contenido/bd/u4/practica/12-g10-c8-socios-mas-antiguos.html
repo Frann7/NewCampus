@@ -10,13 +10,15 @@
 
   <span class="paso">Cómo se arma</span>
   <ul>
-    <li><strong>"Mayor antigüedad":</strong> los que ingresaron <strong>antes</strong>, o sea, fecha de ingreso de menor a mayor.</li>
-    <li><strong>"Los 10":</strong> <code>TOP 10</code> con ese orden.</li>
+    <li><strong>"Mayor antigüedad":</strong> los que ingresaron <strong>antes</strong>: fecha de ingreso de menor a mayor.</li>
+    <li><strong>"Los 10":</strong> <code>TOP 10</code> con ese orden (en MySQL sería <code>LIMIT 10</code>; en SQL Server, <code>TOP</code>).</li>
+    <li>En clase agregaron los años de antigüedad con <code>DATEDIFF</code>, entre corchetes porque el nombre tiene espacios.</li>
   </ul>
 
   <div class="caja caja-resp">
     <span class="caja-tit">Resolución</span>
-    <pre class="codigo"><code>SELECT TOP 10 DNI, Nombre, FechaIngreso
+    <pre class="codigo"><code>SELECT TOP 10 DNI, Nombre, FechaIngreso,
+       DATEDIFF(YEAR, FechaIngreso, GETDATE()) AS [Años de antigüedad]
 FROM Socio
 ORDER BY FechaIngreso ASC;</code></pre>
   </div>

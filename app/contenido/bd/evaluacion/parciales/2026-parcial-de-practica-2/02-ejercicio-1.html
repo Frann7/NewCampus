@@ -5,7 +5,7 @@
     <span class="parcial-tema">Unidad 1 &middot; Transacción</span>
   </div>
 
-  <p><strong>Ejercicio 1:</strong> ¿Qué hacen las sentencias BEGIN TRAN, COMMIT y ROLLBACK? ¿Con qué propiedades de las transacciones se relacionan? Dé un ejemplo con las tablas del ejercicio 3.</p>
+  <p><strong>Ejercicio 1:</strong> Defina transacción. ¿Con qué sentencias empieza y con cuáles puede terminar? Explique la atomicidad con un ejemplo sobre las tablas del ejercicio 3.</p>
 
   <div class="parcial-extras">
     <details class="parcial-desp pd-resultados">
@@ -14,12 +14,8 @@
         <span class="pd-txt"><b>Resultados</b><small>Solo la respuesta</small></span>
       </summary>
       <div class="pd-cuerpo">
-        <ul>
-          <li><code>BEGIN TRAN</code>: marca el comienzo de una transacción (un conjunto de operaciones que se ejecutan como una sola unidad).</li>
-          <li><code>COMMIT</code>: la confirma; los cambios quedan guardados de forma permanente (<strong>durabilidad</strong>).</li>
-          <li><code>ROLLBACK</code>: la deshace; la base vuelve a como estaba en el <code>BEGIN TRAN</code> (<strong>atomicidad</strong>: todo o nada).</li>
-        </ul>
-        <p>Ejemplo: al hacer el check-out se emite la factura y la reserva pasa a "Finalizada"; las dos cosas o ninguna:</p>
+        <p>Una <strong>transacción</strong> es una unidad de la ejecución de un programa, que puede incluir distintos accesos a la base (consultas, actualizaciones, procedimientos almacenados, vistas). Empieza con una marca, <code>BEGIN TRAN</code>, y termina con una confirmación, <code>COMMIT</code>, o con una cancelación, <code>ROLLBACK</code>.</p>
+        <p><strong>Atomicidad:</strong> la transacción se ve como una operación atómica: ocurre totalmente o no ocurre. Ejemplo: al hacer el check-out se emite la factura y la reserva pasa a "Finalizada"; si falla la segunda, la primera se deshace:</p>
         <pre class="codigo"><code>BEGIN TRAN;
 INSERT INTO Factura (Numero, Tipo, Fecha, NumeroReserva)
 VALUES (9001, 'B', '2026-10-18', 450);
@@ -31,20 +27,19 @@ COMMIT;</code></pre>
     <details class="parcial-desp pd-explicacion">
       <summary>
         <span class="pd-icono">&#9998;</span>
-        <span class="pd-txt"><b>Explicación detallada</b><small>Las sentencias, ACID y el ejemplo</small></span>
+        <span class="pd-txt"><b>Explicación detallada</b><small>La definición de la cátedra, la propiedad y el ejemplo</small></span>
       </summary>
       <div class="pd-cuerpo">
         <h4>Qué evalúa</h4>
-        <p>Es una variante de "Defina Transacción" (2do parcial 2025): en vez de la definición, pide las sentencias y su relación con ACID. Unidad 1, sección 3.</p>
-        <h4>Las cuatro propiedades, por si las piden</h4>
+        <p>Es una variante de "Defina Transacción" (2do parcial 2025): la definición de las diapositivas de la cátedra y una sola propiedad, aplicada a un caso. Unidad 1, sección 3.</p>
+        <h4>Las otras propiedades, por si las piden</h4>
         <ul>
-          <li><strong>Atomicidad</strong> (la cumple el <code>ROLLBACK</code>): si el <code>UPDATE</code> falla, la factura no queda emitida.</li>
-          <li><strong>Consistencia:</strong> la factura apunta a una reserva que existe.</li>
-          <li><strong>Aislamiento:</strong> nadie ve la factura emitida con la reserva todavía pendiente.</li>
-          <li><strong>Durabilidad</strong> (la cumple el <code>COMMIT</code>): confirmado, no se pierde.</li>
+          <li><strong>Consistencia:</strong> la ejecución aislada de la transacción conserva la consistencia de la base (la factura apunta a una reserva que existe).</li>
+          <li><strong>Aislamiento:</strong> dos transacciones simultáneas tienen el nivel de aislamiento correcto; nadie ve la factura emitida con la reserva todavía pendiente, porque los datos se hacen efectivos con el <code>COMMIT</code>.</li>
+          <li><strong>Durabilidad:</strong> lo confirmado no se pierde aunque falle el sistema.</li>
         </ul>
         <h4>Trampas</h4>
-        <ul><li>Después del <code>COMMIT</code> ya no hay <code>ROLLBACK</code> posible.</li></ul>
+        <ul><li>"Con cuáles puede terminar" son dos: <code>COMMIT</code> o <code>ROLLBACK</code>.</li></ul>
       </div>
     </details>
   </div>

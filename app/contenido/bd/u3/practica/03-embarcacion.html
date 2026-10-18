@@ -44,11 +44,11 @@ Embarcacion (Matricula (PK), Nombre, Dimension, CodigoTipo (FK), DNISocio (FK),
   DNISocio         VARCHAR(13)   NOT NULL,
   NumeroAmarre     INT           NOT NULL,
   FechaAsignacion  DATE,
-  PRIMARY KEY (Matricula),
-  UNIQUE (NumeroAmarre),
-  FOREIGN KEY (CodigoTipo) REFERENCES TipoEmbarcacion(Codigo),
-  FOREIGN KEY (DNISocio) REFERENCES Socio(DNI),
-  FOREIGN KEY (NumeroAmarre) REFERENCES Amarre(Numero)
+  CONSTRAINT PK_Embarcacion PRIMARY KEY (Matricula),
+  CONSTRAINT UQ_Embarcacion_NumeroAmarre UNIQUE (NumeroAmarre),
+  CONSTRAINT FK_Embarcacion_TipoEmbarcacion FOREIGN KEY (CodigoTipo) REFERENCES TipoEmbarcacion(Codigo),
+  CONSTRAINT FK_Embarcacion_Socio FOREIGN KEY (DNISocio) REFERENCES Socio(DNI),
+  CONSTRAINT FK_Embarcacion_Amarre FOREIGN KEY (NumeroAmarre) REFERENCES Amarre(Numero)
 );</code></pre>
     <p>Las tablas TipoEmbarcacion, Socio y Amarre tienen que estar creadas antes.</p>
   </div>

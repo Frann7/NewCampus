@@ -11,17 +11,17 @@ Empleado_Amarre (CodigoEmpleado (PK)(FK), NumeroAmarre (PK)(FK))</code></pre>
 
   <span class="paso">Cómo se arma</span>
   <ul>
-    <li><strong>Columnas:</strong> el empleado y un <code>COUNT</code> de sus amarres.</li>
-    <li><strong>Camino:</strong> Empleado &rarr; Empleado_Amarre por el código.</li>
-    <li><strong>Orden:</strong> por la cantidad, de mayor a menor: el alias en el ORDER BY con <code>DESC</code>.</li>
+    <li><strong>"Cada uno":</strong> también los que no tienen amarres: <code>LEFT JOIN</code> y <code>COUNT</code> de una columna de Empleado_Amarre.</li>
+    <li><strong>Orden:</strong> por la cantidad, de mayor a menor.</li>
   </ul>
 
   <div class="caja caja-resp">
     <span class="caja-tit">Resolución</span>
     <pre class="codigo"><code>SELECT emp.Codigo, emp.Nombre, COUNT(ea.NumeroAmarre) AS CantidadAmarres
 FROM Empleado emp
-INNER JOIN Empleado_Amarre ea ON ea.CodigoEmpleado = emp.Codigo
+LEFT JOIN Empleado_Amarre ea ON ea.CodigoEmpleado = emp.Codigo
 GROUP BY emp.Codigo, emp.Nombre
 ORDER BY CantidadAmarres DESC;</code></pre>
   </div>
+  <p>En clase la mostraron con <code>COUNT(*)</code> primero: el empleado sin amarres aparecía con 1. Con <code>COUNT(ea.NumeroAmarre)</code> aparece con 0.</p>
 </div>

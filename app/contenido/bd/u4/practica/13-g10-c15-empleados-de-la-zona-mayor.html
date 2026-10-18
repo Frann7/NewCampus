@@ -1,0 +1,31 @@
+<div class="ej">
+  <span class="tag">Guía 10 · Consulta 15</span>
+  <h2>Empleados de la zona con más amarres</h2>
+  <div class="enunciado">
+    <p>Indicar los empleados asignados a la zona con más cantidad de amarres.</p>
+  </div>
+
+  <span class="paso">Las tablas que usa</span>
+  <pre class="codigo" data-lang="texto"><code>Empleado (Codigo (PK), Nombre, Telefono)
+Empleado_Zona (CodigoEmpleado (PK)(FK), LetraZona (PK)(FK))
+Amarre (Numero (PK), LecturaAgua, LecturaLuz, Mantenimiento, LetraZona (FK),
+        DNIPropietario (FK), FechaAdquisicion)</code></pre>
+
+  <span class="paso">Cómo se arma</span>
+  <ul>
+    <li><strong>Primero, la zona con más amarres:</strong> <code>TOP 1</code> de la cantidad por zona, de mayor a menor (consulta 14 de la guía).</li>
+    <li><strong>Después, sus empleados:</strong> ese resultado va como subconsulta en el <code>WHERE</code> (Unidad 4, sección 5).</li>
+    <li>Con <code>=</code> la subconsulta tiene que devolver un solo valor: por eso el <code>TOP 1</code>. En clase, sin él, dio error.</li>
+  </ul>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Resolución</span>
+    <pre class="codigo"><code>SELECT emp.Codigo, emp.Nombre
+FROM Empleado emp
+INNER JOIN Empleado_Zona ez ON ez.CodigoEmpleado = emp.Codigo
+WHERE ez.LetraZona = (SELECT TOP 1 a.LetraZona
+                      FROM Amarre a
+                      GROUP BY a.LetraZona
+                      ORDER BY COUNT(*) DESC);</code></pre>
+  </div>
+</div>

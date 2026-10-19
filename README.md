@@ -259,6 +259,11 @@ Chrome (`chrome --headless --print-to-pdf`).
 `0.x.y-alpha` mientras esté en desarrollo. La `1.0.0` queda reservada para cuando esté terminado.
 La versión actual se lee al pie del menú lateral.
 
+* **0.53.2-alpha** — Bases de Datos, Unidad 2: cómo se normaliza paso a paso, con la dependencia
+  funcional y los dos ejemplos de la cátedra (el alquiler de películas y la factura), y cinco
+  ejercicios nuevos resueltos como en clase: normalizar las tablas de la Guía 4 y la biblioteca de
+  la Guía 5 de punta a punta, con su DER. La transacción queda con las tres propiedades de la
+  presentación de la cátedra.
 * **0.53.1-alpha** — Bases de Datos, ajustado a las clases grabadas: la teoría queda solo con lo
   de la cátedra que se toma (la transacción, con la definición de sus diapositivas), los
   `CREATE TABLE` con las claves con nombre (`CONSTRAINT PK_...`), y en consultas `LEFT JOIN`,

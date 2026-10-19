@@ -1,0 +1,60 @@
+<div class="ej" data-examen="variante"
+     data-examen-ref="Clase 26/05: normalizar"
+     data-examen-nota="Resuelto como lo corrigieron en clase. En el parcial, después de pasar el DER a tablas, hay que normalizar.">
+  <span class="tag">Guía 4 · Ejercicio 1</span>
+  <h2>Normalizar: la biblioteca</h2>
+  <div class="enunciado">
+    <p>Normalizar el siguiente conjunto de datos de una biblioteca.</p>
+    <pre class="codigo" data-lang="texto"><code>Libros (ID Libro, Título, ID Autor, Año Publicación, ID Editor, Género)
+Autores (ID Autor, Nombre, Nacionalidad)
+Editorial (ID Editorial, Nombre, Dirección)
+Prestamos (ID Préstamo, ID Libro, ID Miembro, Nombre, Dirección, Teléfono, Fecha Préstamo,
+           Fecha Devolución)
+Reserva (ID Reserva, ID Libro, ID Miembro, Nombre, Dirección, Teléfono, Fecha Reserva)
+Multas (ID Multa, ID Préstamo, Monto, Fecha)
+Comentarios (ID Comentario, ID Libro, Nombre Autor, ID Miembro, Nombre Miembro, Comentario, Fecha)</code></pre>
+  </div>
+
+  <span class="paso">Tabla por tabla</span>
+  <p>El método de la Unidad 2, sección 2: poner la PK, sacar lo que se repite, sacar lo que describe a otra cosa y borrar lo que ya se obtiene por otra FK.</p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Tabla</th><th>Qué está mal</th><th>Qué se hace</th></tr>
+      <tr><td class="lbl">Libros</td><td>Nada: los datos del autor y de la editorial ya están en sus tablas</td><td>PK IdLibro; IdAutor e IdEditorial quedan como FK</td></tr>
+      <tr><td class="lbl">Autores, Editorial</td><td>Nada</td><td>Quedan igual, con su PK</td></tr>
+      <tr><td class="lbl">Prestamos</td><td>Nombre, Dirección y Teléfono son <strong>del miembro</strong>, no del préstamo: dependen de IdMiembro (transitiva)</td><td>Tabla nueva <strong>Miembro</strong>; en Préstamo queda IdMiembro como FK</td></tr>
+      <tr><td class="lbl">Reserva</td><td>Los mismos datos del miembro, repetidos</td><td>Se sacan; queda IdMiembro como FK</td></tr>
+      <tr><td class="lbl">Multas</td><td>Nada</td><td>IdPrestamo queda como FK</td></tr>
+      <tr><td class="lbl">Comentarios</td><td>Nombre Autor ya se obtiene por el libro (IdLibro &rarr; Libro &rarr; Autor); Nombre Miembro, por IdMiembro</td><td>Se borran los dos nombres</td></tr>
+    </table>
+  </div>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">En 3FN</span>
+    <pre class="codigo" data-lang="texto"><code>Miembro (IdMiembro (PK), Nombre, Direccion, Telefono)
+Autor (IdAutor (PK), Nombre, Nacionalidad)
+Editorial (IdEditorial (PK), Nombre, Direccion)
+Libro (IdLibro (PK), Titulo, AnioPublicacion, Genero, IdAutor (FK), IdEditorial (FK))
+Prestamo (IdPrestamo (PK), IdLibro (FK), IdMiembro (FK), FechaPrestamo, FechaDevolucion)
+Reserva (IdReserva (PK), IdLibro (FK), IdMiembro (FK), FechaReserva)
+Multa (IdMulta (PK), IdPrestamo (FK), Monto, Fecha)
+Comentario (IdComentario (PK), IdLibro (FK), IdMiembro (FK), Comentario, Fecha)</code></pre>
+  </div>
+
+  <h3>Variante: un libro con varios autores</h3>
+  <p>
+    En clase un alumno preguntó qué pasa si un libro tiene varios autores. No es un "multivaluado":
+    es una relación <strong>N:M</strong> entre libro y autor, y va a una tabla intermedia. Libro deja
+    de tener IdAutor:
+  </p>
+  <pre class="codigo" data-lang="texto"><code>Libro (IdLibro (PK), Titulo, AnioPublicacion, Genero, IdEditorial (FK))
+Libro_Autor (IdLibro (PK)(FK), IdAutor (PK)(FK))</code></pre>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Errores y trampas</span>
+    <ul>
+      <li>El error más común: dejar el nombre del miembro en Préstamo "para tenerlo a mano". Se obtiene con un JOIN.</li>
+      <li>Si al normalizar sale una tabla nueva (Miembro), hay que agregarla también al DER.</li>
+    </ul>
+  </div>
+</div>

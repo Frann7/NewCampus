@@ -13,10 +13,13 @@ El contexto completo de la materia (exámenes, clases grabadas, qué dijeron los
 - **Fuentes:**
   - Apuntes y guías en `C:\Users\Fran\Desktop\SISTEMAS 3\BD\`, en texto en `fuentes/bd/`
     (`fuentes/bd/INDICE.md`).
-  - **Clases grabadas** (playlist de YouTube "no listado" que subió un compañero): 13/08
+  - **Clases grabadas** (playlist de YouTube "no listado" que subió un compañero): 26/05
+    normalización (Guía 4, ej. 1 y 2), 02/06 DER parte 3 (Guía 4, ej. 3 y 4; Guía 5), 13/08
     programación de BD (DDL y DML, CREATE TABLE), 18/08 álgebra relacional y SQL, 25/08 JOIN y
     agregación (Guía 9 resuelta), 15/09 transacciones (diapositivas de la cátedra), 06/10 TP y
     consultas (Guía 10 resuelta). Lo que se sacó de cada una está en el `CONTEXTO-CAMPUS.md`.
+- **Transacción:** la presentación de la cátedra trae tres propiedades (atomicidad, consistencia,
+  aislamiento); la durabilidad va como nota aparte, no en la respuesta.
 - **Regla para la teoría (pedido de Fran, 18/10):** en las preguntas de teoría va solo lo que está
   en la teoría de la cátedra (apuntes o diapositivas de clase) **y** tiene forma de pregunta de
   parcial. Lo demás se saca; si hace falta para la práctica, se explica en la práctica.
@@ -64,8 +67,6 @@ fuentes/bd/diagramas/der.py` mete los SVG.
 
 ## Pendientes e ideas
 
-- La diapositiva de **durabilidad** no se llegó a ver en la grabación del 15/09: si Fran consigue la
-  presentación "Transacciones y concurrencia", contrastar la Unidad 1, sección 3.
 - La clase del 15/09 no tenía transcripción en YouTube (se subió el 15/10); se leyeron solo las
   diapositivas. Volver a mirarla si aparece la transcripción.
 - Completar las tablas "página → qué hay" de los `.md` de `fuentes/bd/`.

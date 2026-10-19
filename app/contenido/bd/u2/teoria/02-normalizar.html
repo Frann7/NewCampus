@@ -1,0 +1,147 @@
+<div class="bloque" data-examen="variante"
+     data-examen-ref="2do parcial 2025 · ej. 3"
+     data-examen-nota="El ejercicio 3 pide el modelo relacional «normalizado a 3FN». En la clase del 26/05 avisaron que el parcial es narrativa → DER → tablas → normalizar.">
+  <p class="kicker">Normalización</p>
+  <h2>2. Normalizar paso a paso</h2>
+
+  <h3>Qué es y cuándo se hace</h3>
+  <p>
+    La <strong>normalización</strong> es el proceso que transforma datos complejos en un conjunto de
+    estructuras de datos más pequeñas, más simples y estables, y más fáciles de mantener (apunte de
+    la cátedra). Se hace <strong>después del DER y antes del modelo lógico</strong>: se toman las
+    tablas que salieron del DER y se revisa que no repitan datos.
+  </p>
+  <p>Para qué sirve: <strong>minimizar la redundancia</strong> (no escribir lo mismo muchas veces) y evitar las <strong>anomalías</strong>:</p>
+  <ul>
+    <li><strong>De actualización:</strong> si el nombre de un socio está en cada préstamo y cambia, hay que corregirlo en todos los renglones; si se olvida uno, el dato queda contradictorio.</li>
+    <li><strong>De borrado:</strong> borrar el último préstamo de un socio borra también sus datos.</li>
+    <li><strong>De inserción:</strong> no se puede cargar un socio que todavía no pidió nada.</li>
+  </ul>
+  <p>Hay seis formas normales; <strong>la cátedra pide hasta la 3FN</strong>. Cada una incluye a la anterior: para estar en 2FN primero hay que estar en 1FN.</p>
+
+  <h3>La herramienta: dependencia funcional</h3>
+  <p>
+    Una <strong>dependencia funcional</strong> <code>X &rarr; Y</code> ("X determina a Y") dice que
+    si dos filas tienen el mismo valor de X, tienen también el mismo valor de Y: conociendo X, se
+    conoce Y. El ejemplo del apunte de la cátedra:
+  </p>
+  <pre class="codigo" data-lang="texto"><code>EMPLEADO_PROYECTO (DNI, NumPro, Horas, NombreE, NombrePro, UbicacionPro)
+
+DNI → NombreE                         el DNI determina el nombre del empleado
+NumPro → NombrePro, UbicacionPro      el número de proyecto determina su nombre y ubicación
+DNI, NumPro → Horas                   las horas son de ese empleado EN ese proyecto</code></pre>
+  <p>Las formas normales se definen con estas flechas: 2FN mira las que salen de <strong>una parte</strong> de la clave, y 3FN las que salen de un atributo que <strong>no es clave</strong>.</p>
+
+  <h3>Las tres formas normales</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Forma</th><th>Qué pide</th><th>Cómo se arregla</th></tr>
+      <tr><td class="lbl"><span class="et dato">1FN</span></td><td>Cada atributo tiene un valor <strong>atómico</strong>: no hay grupos que se repiten ni atributos con varios valores</td><td>El grupo que se repite (los artículos de una factura, los teléfonos) va a una tabla aparte, con la clave de la tabla original</td></tr>
+      <tr><td class="lbl"><span class="et ojo">2FN</span></td><td>Está en 1FN y cada atributo no clave depende de la clave <strong>completa</strong>, no de una parte. Si la PK es de un solo atributo, ya cumple</td><td>Lo que depende de una parte de la clave va a una tabla nueva, cuya clave es esa parte</td></tr>
+      <tr><td class="lbl"><span class="et ok">3FN</span></td><td>Está en 2FN y ningún atributo no clave depende de otro atributo no clave (sin dependencias <strong>transitivas</strong>)</td><td>El atributo que determina y los que dependen de él van a una tabla nueva; en la original queda solo ese atributo, como FK</td></tr>
+    </table>
+  </div>
+
+  <h3>Cómo se hace en la hoja (como lo corrigen en clase)</h3>
+  <p>En la práctica no hace falta escribir cada forma normal por separado (los profes dicen que muchos van directo a la 3FN y el resultado es el mismo). Tabla por tabla:</p>
+  <ol>
+    <li><strong>Poner la PK.</strong></li>
+    <li><strong>Sacar lo que se repite</strong> (grupos, multivaluados) a una tabla aparte. &rarr; 1FN</li>
+    <li><strong>Sacar lo que describe a otra cosa</strong> (el nombre del cliente en la factura, el nombre del estadio en el partido) a una tabla nueva, y dejar en su lugar el código como FK. &rarr; 2FN y 3FN</li>
+    <li><strong>Borrar lo que ya se obtiene por otra FK</strong> (el nombre del autor en un comentario que ya tiene el libro; la fecha de una tarjeta, que es la del partido).</li>
+    <li><strong>Las relaciones N:M</strong> van a una tabla intermedia con PK compuesta.</li>
+  </ol>
+
+  <h3>Ejemplo 1: el alquiler de películas (apunte de la cátedra)</h3>
+  <div class="caja caja-ejemplo">
+    <p>Una sola tabla con todo, <strong>sin normalizar</strong>:</p>
+    <pre class="codigo" data-lang="texto"><code>Alquiler-Pelicula (CodigoPel, TituloPel, EstudioPel, TipoPel, IdiomaPel, CodigoClie,
+                   NombreCli, FechaAlq, FechaDevol, NroAlq, NroVendedor, NombreVendedor)</code></pre>
+  </div>
+  <span class="paso">Paso 1 &mdash; 1FN: valores atómicos y sin grupos que se repitan</span>
+  <ul>
+    <li><code>NombreCli</code> tiene nombre y apellido juntos: se separa en <code>NombreCli</code> y <code>ApellidoCli</code> (igual el vendedor).</li>
+    <li>Si un cliente se lleva tres películas, sus datos y los del vendedor se repiten tres veces: las películas son un <strong>grupo que se repite</strong> y se van a otra tabla, con el número de alquiler.</li>
+  </ul>
+  <pre class="codigo" data-lang="texto"><code>Alquiler-Pelicula (NroAlq (PK), CodigoPel (PK), TituloPel, EstudioPel, TipoPel, IdiomaPel)
+Alquiler (NroAlq (PK), CodigoClie, NombreCli, ApellidoCli, FechaAlq, FechaDevol, NroVen,
+          NombreVen, ApellidoVen)</code></pre>
+
+  <span class="paso">Paso 2 &mdash; 2FN: nada que dependa de una parte de la clave</span>
+  <p>
+    <code>Alquiler-Pelicula</code> tiene clave compuesta (NroAlq, CodigoPel), y el título, el estudio,
+    el tipo y el idioma dependen <strong>solo de CodigoPel</strong>: son de la película, no del
+    alquiler. Se van a una tabla con la "parte" de la clave:
+  </p>
+  <pre class="codigo" data-lang="texto"><code>Peliculas (CodigoPel (PK), TituloPel, EstudioPel, TipoPel, IdiomaPel)
+Peliculas-Alquiladas (NroAlq (PK)(FK), CodigoPel (PK)(FK))</code></pre>
+  <p><code>Alquiler</code> tiene PK de un solo atributo: ya está en 2FN.</p>
+
+  <span class="paso">Paso 3 &mdash; 3FN: nada que dependa de un atributo que no es clave</span>
+  <p>
+    En <code>Alquiler</code>, el nombre y el apellido del cliente dependen de <code>CodigoClie</code>,
+    no del número de alquiler (NroAlq &rarr; CodigoClie &rarr; NombreCli: transitiva). Lo mismo con el
+    vendedor. Cada uno va a su tabla y en Alquiler queda el código como FK:
+  </p>
+  <div class="caja caja-resp">
+    <span class="caja-tit">En 3FN</span>
+    <pre class="codigo" data-lang="texto"><code>Clientes (CodigoClie (PK), NombreCli, ApellidoCli)
+Vendedores (NroVen (PK), NombreVen, ApellidoVen)
+Alquiler (NroAlq (PK), CodigoClie (FK), FechaAlq, FechaDevol, NroVen (FK))
+Peliculas (CodigoPel (PK), TituloPel, EstudioPel, TipoPel, IdiomaPel)
+Peliculas-Alquiladas (NroAlq (PK)(FK), CodigoPel (PK)(FK))</code></pre>
+  </div>
+
+  <h3>Ejemplo 2: la factura (diapositivas y clase del 26/05)</h3>
+  <div class="caja caja-ejemplo">
+    <p>La factura en papel, pasada a una sola tabla:</p>
+    <pre class="codigo" data-lang="texto"><code>Facturacion (Codigo_factura, Codigo_cliente, Nombre_cliente, Direccion_cliente,
+             Localidad_cliente, Fecha_factura, Forma_pago,
+             Codigo_articulo_1, Descripcion_1, Cantidad_1, Importe_1, Tipo_IVA_1,
+             ...
+             Codigo_articulo_N, Descripcion_N, Cantidad_N, Importe_N, Tipo_IVA_N)</code></pre>
+  </div>
+  <span class="paso">Paso 1 &mdash; 1FN: el grupo de artículos va al detalle</span>
+  <p>Los artículos se repiten N veces: se separan en <strong>cabecera y detalle</strong> (en clase, "maestro-detalle").</p>
+  <pre class="codigo" data-lang="texto"><code>Factura (Codigo_factura (PK), Codigo_cliente, Nombre_cliente, Direccion_cliente,
+         Localidad_cliente, Fecha_factura, Forma_pago)
+Detalle_Factura (Codigo_factura (PK), Codigo_articulo (PK), Descripcion, Cantidad,
+                 Importe, Tipo_IVA)</code></pre>
+
+  <span class="paso">Paso 2 &mdash; 2FN: la descripción es del artículo</span>
+  <p>
+    En el detalle, la descripción depende solo de <code>Codigo_articulo</code> (una parte de la
+    clave): se va a <code>Articulo</code>. La cantidad y el importe sí dependen de la clave completa
+    (de ese artículo <strong>en esa factura</strong>: los precios cambian). El tipo de IVA los profes
+    lo discutieron en clase: es del artículo; si se deja en el detalle, es el valor "congelado" de
+    ese día, como el importe.
+  </p>
+  <pre class="codigo" data-lang="texto"><code>Articulo (Codigo_articulo (PK), Descripcion, Tipo_IVA)
+Detalle_Factura (Codigo_factura (PK)(FK), Codigo_articulo (PK)(FK), Cantidad, Importe)</code></pre>
+
+  <span class="paso">Paso 3 &mdash; 3FN: los datos del cliente</span>
+  <p>En <code>Factura</code>, el nombre, la dirección y la localidad dependen de <code>Codigo_cliente</code>, no de la factura: van a <code>Cliente</code>.</p>
+  <div class="caja caja-resp">
+    <span class="caja-tit">En 3FN</span>
+    <pre class="codigo" data-lang="texto"><code>Cliente (Codigo_cliente (PK), Nombre_cliente, Direccion_cliente, Localidad_cliente)
+Factura (Codigo_factura (PK), Codigo_cliente (FK), Fecha_factura, Forma_pago)
+Articulo (Codigo_articulo (PK), Descripcion, Tipo_IVA)
+Detalle_Factura (Codigo_factura (PK)(FK), Codigo_articulo (PK)(FK), Cantidad, Importe)</code></pre>
+  </div>
+  <p>
+    Con esta PK no se puede cargar dos veces el mismo artículo en una factura. Si hiciera falta
+    (las leches que pasan de a una por la caja), en clase propusieron como PK
+    <code>(Codigo_factura, NumeroItem)</code> y el artículo como FK aparte. Las dos están bien
+    normalizadas.
+  </p>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Errores y trampas (los que marcan en los exámenes)</span>
+    <ul>
+      <li><strong>"El pecado mortal":</strong> si al normalizar aparece una entidad que no estaba en el DER (un Estadio, un Cliente), hay que volver y <strong>corregir el DER</strong>. Normalizar bien no arregla un DER mal hecho.</li>
+      <li>No guardar un <strong>nombre</strong> donde va un <strong>código</strong> (el equipo local como "Boca" en vez de su ID).</li>
+      <li>No dejar datos que ya se obtienen por otra FK (el nombre del miembro en un comentario que ya tiene su ID).</li>
+      <li>Un importe, un total o un resultado que se podría calcular se puede guardar si queda <strong>"congelado"</strong> (el precio de ese día, el neto de un recibo): los profes lo aceptan.</li>
+    </ul>
+  </div>
+</div>

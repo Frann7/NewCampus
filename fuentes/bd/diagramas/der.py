@@ -161,3 +161,27 @@ D["pp2-hotel"] = dict(
              attrs=["Importe"], lado="abajo"),
     ],
 )
+
+# ---------- Guía 5, ejercicio 1: biblioteca (resuelto en la clase del 02/06) ----------
+D["g5-biblioteca"] = dict(
+    titulo="DER de la biblioteca (Guía 5)",
+    ent=[
+        dict(id="Editorial", x=150, y=60, lado="izq", attrs=["*Código", "Nombre", "Dirección", "Teléfono"]),
+        dict(id="Género", x=560, y=60, lado="der", attrs=["*Código", "Descripción"]),
+        dict(id="Autor", x=110, y=290, lado="izq", attrs=["*Código", "Nombre", "Nacionalidad"]),
+        dict(id="Libro", x=360, y=290, lado="der", attrs=["*IdLibro", "Título"]),
+        dict(id="Ejemplar", x=360, y=520, lado="izq", attrs=["*Número"]),
+        dict(id="Sucursal", x=620, y=520, lado="der", attrs=["*IdSucursal", "Nombre", "Dirección"]),
+        dict(id="Préstamo", x=360, y=750, lado="izq", attrs=["*Código", "FechaPréstamo", "FechaDevolución"]),
+        dict(id="Socio", x=640, y=750, lado="der", attrs=["*NroTarjeta", "Nombre", "Dirección", "Teléfono"]),
+    ],
+    rel=[
+        dict(id="publica", x=250, y=175, une=[("Editorial", "(1,n)"), ("Libro", "(1,1)")]),
+        dict(id="pertenece", x=470, y=175, une=[("Género", "(1,n)"), ("Libro", "(1,1)")]),
+        dict(id="escribe", x=235, y=290, une=[("Autor", "(1,n)"), ("Libro", "(1,n)")]),
+        dict(id="tiene", x=360, y=405, une=[("Libro", "(1,n)"), ("Ejemplar", "(1,1)")]),
+        dict(id="asignado", x=490, y=520, une=[("Sucursal", "(1,n)"), ("Ejemplar", "(1,1)")]),
+        dict(id="incluye", x=360, y=635, une=[("Ejemplar", "(0,n)"), ("Préstamo", "(1,n)")]),
+        dict(id="pide", x=500, y=750, une=[("Socio", "(0,n)"), ("Préstamo", "(1,1)")]),
+    ],
+)

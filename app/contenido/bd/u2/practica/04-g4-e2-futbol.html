@@ -1,0 +1,48 @@
+<div class="ej" data-examen="variante"
+     data-examen-ref="Clase 26/05: normalizar"
+     data-examen-nota="Resuelto como lo corrigieron en clase. En el parcial, después de pasar el DER a tablas, hay que normalizar.">
+  <span class="tag">Guía 4 · Ejercicio 2</span>
+  <h2>Normalizar: el campeonato de fútbol</h2>
+  <div class="enunciado">
+    <p>Normalizar el siguiente conjunto de datos de un campeonato.</p>
+    <pre class="codigo" data-lang="texto"><code>Equipos (ID Equipo, Nombre, Ciudad, Fecha inscripción)
+Jugadores (ID Jugador, Nombre, Apellido, Edad, ID Equipo, Nombre Equipo, Nacionalidad)
+Partidos (ID Partido, Equipo Local, Equipo Visitante, Fecha, Nombre Estadio, Capacidad)
+Partido_Arbitros (ID Partido, ID Árbitro, Nombre, Apellido, Nacionalidad)
+Goles (ID Gol, ID Partido, ID Jugador, Nombre Jugador, Minuto)
+Tarjetas (ID Tarjeta, ID Partido, Fecha, ID Jugador, Tipo, Minuto)</code></pre>
+  </div>
+
+  <span class="paso">Tabla por tabla</span>
+  <p>El método de la Unidad 2, sección 2: poner la PK, sacar lo que se repite, sacar lo que describe a otra cosa y borrar lo que ya se obtiene por otra FK.</p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Tabla</th><th>Qué está mal</th><th>Qué se hace</th></tr>
+      <tr><td class="lbl">Jugadores</td><td>Nombre Equipo depende de IdEquipo (transitiva)</td><td>Se borra; queda IdEquipo como FK</td></tr>
+      <tr><td class="lbl">Partidos</td><td>Equipo Local y Visitante guardan <strong>nombres</strong>; Nombre Estadio y Capacidad son del estadio, que se repite en muchos partidos</td><td>Dos FK a Equipo (IdEquipoLocal, IdEquipoVisitante) y tabla nueva <strong>Estadio</strong>, con IdEstadio como FK</td></tr>
+      <tr><td class="lbl">Partido_Arbitros</td><td>Nombre, Apellido y Nacionalidad son del árbitro, no del partido (dependen de una parte de la clave: 2FN)</td><td>Tabla nueva <strong>Arbitro</strong>; la intermedia queda con la PK compuesta (IdPartido, IdArbitro), las dos FK</td></tr>
+      <tr><td class="lbl">Goles</td><td>Nombre Jugador ya se obtiene por IdJugador</td><td>Se borra</td></tr>
+      <tr><td class="lbl">Tarjetas</td><td>La Fecha es la del partido: ya se obtiene por IdPartido</td><td>Se borra</td></tr>
+    </table>
+  </div>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">En 3FN</span>
+    <pre class="codigo" data-lang="texto"><code>Equipo (IdEquipo (PK), Nombre, Ciudad, FechaInscripcion)
+Jugador (IdJugador (PK), Nombre, Apellido, Edad, Nacionalidad, IdEquipo (FK))
+Estadio (IdEstadio (PK), Nombre, Capacidad)
+Partido (IdPartido (PK), IdEquipoLocal (FK), IdEquipoVisitante (FK), Fecha, IdEstadio (FK))
+Arbitro (IdArbitro (PK), Nombre, Apellido, Nacionalidad)
+Partido_Arbitro (IdPartido (PK)(FK), IdArbitro (PK)(FK))
+Gol (IdGol (PK), IdPartido (FK), IdJugador (FK), Minuto)
+Tarjeta (IdTarjeta (PK), IdPartido (FK), IdJugador (FK), Tipo, Minuto)</code></pre>
+  </div>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Errores y trampas</span>
+    <ul>
+      <li>Los árbitros no pueden ir como FK en Partido: hay varios por partido (como mínimo cuatro). Por eso la tabla intermedia.</li>
+      <li>IdEquipoLocal e IdEquipoVisitante apuntan a la misma tabla (Unidad 2, sección 1, ejemplo 7).</li>
+    </ul>
+  </div>
+</div>

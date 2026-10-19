@@ -1,0 +1,203 @@
+<div class="ej" data-examen="variante"
+     data-examen-ref="Clase 02/06: narrativa → DER → tablas"
+     data-examen-nota="Es la forma que avisaron para el parcial: una narrativa, el diagrama, pasarlo a tablas y normalizar. Resuelto como en clase.">
+  <span class="tag">Guía 5 &middot; Ejercicio 1</span>
+  <h2>La biblioteca, de punta a punta</h2>
+  <div class="enunciado">
+    <p>
+      Una biblioteca almacena información de los libros que toman en préstamo sus lectores. Por cada
+      libro se guarda un identificador único, el título y los datos de la editorial (nombre, dirección
+      y teléfono), y a qué género pertenece (código y descripción). La biblioteca tiene varias
+      sucursales (identificador, nombre y dirección). De cada libro hay una o varias copias,
+      distribuidas por las sucursales, y se quiere saber cuántas copias tiene asignadas cada
+      sucursal. Un ejemplar puede estar en su sucursal o prestado a un lector, del que se conoce el
+      número de tarjeta de socio (único), nombre, dirección y teléfono. Se guarda qué libros tomó
+      prestados cada lector, de qué sucursal, y la fecha de préstamo y de devolución. También se
+      almacenan los autores de cada libro (código único, nombre y nacionalidad).
+    </p>
+    <p>Realizar el DER y pasarlo a tablas en 3FN, con PK y FK.</p>
+  </div>
+
+  <span class="paso">Paso 1 &mdash; Las entidades</span>
+  <p>
+    Libro, Editorial, Género, Autor, Sucursal, Ejemplar, Socio y Préstamo. Editorial y Género son
+    entidades (no atributos del libro) porque tienen datos propios que se repetirían en cada libro.
+  </p>
+  <ul>
+    <li><strong>Ejemplar es una entidad débil:</strong> es una copia concreta de un libro. Si el libro no existe, el ejemplar tampoco, y se identifica con el libro más su número de copia (ejemplar 1, 2, 3... de cada libro). En clase lo remarcaron: "no se olviden" de que su clave es compuesta.</li>
+    <li>El ejemplar se relaciona con la <strong>sucursal</strong> directamente (está asignado a una), no solo a través del préstamo: un ejemplar que nunca se prestó también tiene que saber dónde está.</li>
+  </ul>
+
+  <span class="paso">Paso 2 &mdash; El DER</span>
+  <div class="pd-grafico der" data-g="g5-biblioteca">
+    <svg viewBox="-45 22 834 767" width="834" height="767" style="min-width:667px" role="img" aria-label="DER de la biblioteca (Guía 5)">
+      <path class="lin" d="M236.9,160.0 L165.7,78.0"/>
+      <text class="card" x="187.1" y="85.9" text-anchor="middle" dominant-baseline="central">(1,n)</text>
+      <path class="lin" d="M264.0,189.6 L342.8,272.0"/>
+      <text class="card" x="336.9" y="249.9" text-anchor="middle" dominant-baseline="central">(1,1)</text>
+      <polygon class="rel" points="250.0,154.0 296.0,175.0 250.0,196.0 204.0,175.0"/>
+      <text class="nrel" x="250.0" y="175.0" text-anchor="middle" dominant-baseline="central">publica</text>
+      <path class="lin" d="M482.5,159.0 L545.9,78.0"/>
+      <text class="card" x="524.9" y="87.0" text-anchor="middle" dominant-baseline="central">(1,n)</text>
+      <path class="lin" d="M455.4,190.2 L377.2,272.0"/>
+      <text class="card" x="383.1" y="249.9" text-anchor="middle" dominant-baseline="central">(1,1)</text>
+      <polygon class="rel" points="470.0,154.0 522.9,175.0 470.0,196.0 417.1,175.0"/>
+      <text class="nrel" x="470.0" y="175.0" text-anchor="middle" dominant-baseline="central">pertenece</text>
+      <path class="lin" d="M189.0,290.0 L143.7,290.0"/>
+      <text class="card" x="163.7" y="279.0" text-anchor="middle" dominant-baseline="central">(1,n)</text>
+      <path class="lin" d="M281.0,290.0 L327.8,290.0"/>
+      <text class="card" x="307.8" y="279.0" text-anchor="middle" dominant-baseline="central">(1,n)</text>
+      <polygon class="rel" points="235.0,269.0 281.0,290.0 235.0,311.0 189.0,290.0"/>
+      <text class="nrel" x="235.0" y="290.0" text-anchor="middle" dominant-baseline="central">escribe</text>
+      <path class="lin" d="M360.0,384.0 L360.0,308.0"/>
+      <text class="card" x="371.0" y="328.0" text-anchor="middle" dominant-baseline="central">(1,n)</text>
+      <path class="lin" d="M360.0,426.0 L360.0,502.0"/>
+      <text class="card" x="371.0" y="482.0" text-anchor="middle" dominant-baseline="central">(1,1)</text>
+      <polygon class="rel" points="360.0,384.0 406.0,405.0 360.0,426.0 314.0,405.0"/>
+      <text class="nrel" x="360.0" y="405.0" text-anchor="middle" dominant-baseline="central">tiene</text>
+      <path class="lin" d="M538.1,520.0 L576.2,520.0"/>
+      <text class="card" x="556.2" y="509.0" text-anchor="middle" dominant-baseline="central">(1,n)</text>
+      <path class="lin" d="M441.9,520.0 L403.8,520.0"/>
+      <text class="card" x="423.8" y="509.0" text-anchor="middle" dominant-baseline="central">(1,1)</text>
+      <polygon class="rel" points="490.0,499.0 538.1,520.0 490.0,541.0 441.9,520.0"/>
+      <text class="nrel" x="490.0" y="520.0" text-anchor="middle" dominant-baseline="central">asignado</text>
+      <path class="lin" d="M360.0,614.0 L360.0,538.0"/>
+      <text class="card" x="371.0" y="558.0" text-anchor="middle" dominant-baseline="central">(0,n)</text>
+      <path class="lin" d="M360.0,656.0 L360.0,732.0"/>
+      <text class="card" x="371.0" y="712.0" text-anchor="middle" dominant-baseline="central">(1,n)</text>
+      <polygon class="rel" points="360.0,614.0 406.0,635.0 360.0,656.0 314.0,635.0"/>
+      <text class="nrel" x="360.0" y="635.0" text-anchor="middle" dominant-baseline="central">incluye</text>
+      <path class="lin" d="M546.0,750.0 L607.8,750.0"/>
+      <text class="card" x="587.8" y="739.0" text-anchor="middle" dominant-baseline="central">(0,n)</text>
+      <path class="lin" d="M454.0,750.0 L405.3,750.0"/>
+      <text class="card" x="425.3" y="739.0" text-anchor="middle" dominant-baseline="central">(1,1)</text>
+      <polygon class="rel" points="500.0,729.0 546.0,750.0 500.0,771.0 454.0,750.0"/>
+      <text class="nrel" x="500.0" y="750.0" text-anchor="middle" dominant-baseline="central">pide</text>
+      <rect class="ent" x="105.5" y="42.0" width="89.0" height="36.0"/>
+      <text class="nent" x="150.0" y="60.0" text-anchor="middle" dominant-baseline="central">Editorial</text>
+      <path class="lin" d="M105.5,54.4 L79.5,37.5"/>
+      <circle class="id" cx="75.5" cy="37.5" r="3.6"/>
+      <text class="att pk" x="67.5" y="37.5" text-anchor="end" dominant-baseline="central">Código</text>
+      <path class="lin" d="M105.5,58.1 L79.5,52.5"/>
+      <circle class="noid" cx="75.5" cy="52.5" r="3.6"/>
+      <text class="att" x="67.5" y="52.5" text-anchor="end" dominant-baseline="central">Nombre</text>
+      <path class="lin" d="M105.5,61.9 L79.5,67.5"/>
+      <circle class="noid" cx="75.5" cy="67.5" r="3.6"/>
+      <text class="att" x="67.5" y="67.5" text-anchor="end" dominant-baseline="central">Dirección</text>
+      <path class="lin" d="M105.5,65.6 L79.5,82.5"/>
+      <circle class="noid" cx="75.5" cy="82.5" r="3.6"/>
+      <text class="att" x="67.5" y="82.5" text-anchor="end" dominant-baseline="central">Teléfono</text>
+      <rect class="ent" x="522.4" y="42.0" width="75.2" height="36.0"/>
+      <text class="nent" x="560.0" y="60.0" text-anchor="middle" dominant-baseline="central">Género</text>
+      <path class="lin" d="M597.6,58.1 L623.6,52.5"/>
+      <circle class="id" cx="627.6" cy="52.5" r="3.6"/>
+      <text class="att pk" x="635.6" y="52.5" text-anchor="start" dominant-baseline="central">Código</text>
+      <path class="lin" d="M597.6,61.9 L623.6,67.5"/>
+      <circle class="noid" cx="627.6" cy="67.5" r="3.6"/>
+      <text class="att" x="635.6" y="67.5" text-anchor="start" dominant-baseline="central">Descripción</text>
+      <rect class="ent" x="76.3" y="272.0" width="67.5" height="36.0"/>
+      <text class="nent" x="110.0" y="290.0" text-anchor="middle" dominant-baseline="central">Autor</text>
+      <path class="lin" d="M76.3,286.2 L50.3,275.0"/>
+      <circle class="id" cx="46.3" cy="275.0" r="3.6"/>
+      <text class="att pk" x="38.3" y="275.0" text-anchor="end" dominant-baseline="central">Código</text>
+      <path class="lin" d="M76.3,290.0 L50.3,290.0"/>
+      <circle class="noid" cx="46.3" cy="290.0" r="3.6"/>
+      <text class="att" x="38.3" y="290.0" text-anchor="end" dominant-baseline="central">Nombre</text>
+      <path class="lin" d="M76.3,293.8 L50.3,305.0"/>
+      <circle class="noid" cx="46.3" cy="305.0" r="3.6"/>
+      <text class="att" x="38.3" y="305.0" text-anchor="end" dominant-baseline="central">Nacionalidad</text>
+      <rect class="ent" x="327.8" y="272.0" width="64.4" height="36.0"/>
+      <text class="nent" x="360.0" y="290.0" text-anchor="middle" dominant-baseline="central">Libro</text>
+      <path class="lin" d="M392.2,288.1 L418.2,282.5"/>
+      <circle class="id" cx="422.2" cy="282.5" r="3.6"/>
+      <text class="att pk" x="430.2" y="282.5" text-anchor="start" dominant-baseline="central">IdLibro</text>
+      <path class="lin" d="M392.2,291.9 L418.2,297.5"/>
+      <circle class="noid" cx="422.2" cy="297.5" r="3.6"/>
+      <text class="att" x="430.2" y="297.5" text-anchor="start" dominant-baseline="central">Título</text>
+      <rect class="ent" x="316.2" y="502.0" width="87.5" height="36.0"/>
+      <text class="nent" x="360.0" y="520.0" text-anchor="middle" dominant-baseline="central">Ejemplar</text>
+      <path class="lin" d="M316.2,520.0 L290.2,520.0"/>
+      <circle class="id" cx="286.2" cy="520.0" r="3.6"/>
+      <text class="att pk" x="278.2" y="520.0" text-anchor="end" dominant-baseline="central">Número</text>
+      <rect class="ent" x="576.2" y="502.0" width="87.5" height="36.0"/>
+      <text class="nent" x="620.0" y="520.0" text-anchor="middle" dominant-baseline="central">Sucursal</text>
+      <path class="lin" d="M663.8,516.2 L689.8,505.0"/>
+      <circle class="id" cx="693.8" cy="505.0" r="3.6"/>
+      <text class="att pk" x="701.8" y="505.0" text-anchor="start" dominant-baseline="central">IdSucursal</text>
+      <path class="lin" d="M663.8,520.0 L689.8,520.0"/>
+      <circle class="noid" cx="693.8" cy="520.0" r="3.6"/>
+      <text class="att" x="701.8" y="520.0" text-anchor="start" dominant-baseline="central">Nombre</text>
+      <path class="lin" d="M663.8,523.8 L689.8,535.0"/>
+      <circle class="noid" cx="693.8" cy="535.0" r="3.6"/>
+      <text class="att" x="701.8" y="535.0" text-anchor="start" dominant-baseline="central">Dirección</text>
+      <rect class="ent" x="314.7" y="732.0" width="90.6" height="36.0"/>
+      <text class="nent" x="360.0" y="750.0" text-anchor="middle" dominant-baseline="central">Préstamo</text>
+      <path class="lin" d="M314.7,746.2 L288.7,735.0"/>
+      <circle class="id" cx="284.7" cy="735.0" r="3.6"/>
+      <text class="att pk" x="276.7" y="735.0" text-anchor="end" dominant-baseline="central">Código</text>
+      <path class="lin" d="M314.7,750.0 L288.7,750.0"/>
+      <circle class="noid" cx="284.7" cy="750.0" r="3.6"/>
+      <text class="att" x="276.7" y="750.0" text-anchor="end" dominant-baseline="central">FechaPréstamo</text>
+      <path class="lin" d="M314.7,753.8 L288.7,765.0"/>
+      <circle class="noid" cx="284.7" cy="765.0" r="3.6"/>
+      <text class="att" x="276.7" y="765.0" text-anchor="end" dominant-baseline="central">FechaDevolución</text>
+      <rect class="ent" x="607.8" y="732.0" width="64.4" height="36.0"/>
+      <text class="nent" x="640.0" y="750.0" text-anchor="middle" dominant-baseline="central">Socio</text>
+      <path class="lin" d="M672.2,744.4 L698.2,727.5"/>
+      <circle class="id" cx="702.2" cy="727.5" r="3.6"/>
+      <text class="att pk" x="710.2" y="727.5" text-anchor="start" dominant-baseline="central">NroTarjeta</text>
+      <path class="lin" d="M672.2,748.1 L698.2,742.5"/>
+      <circle class="noid" cx="702.2" cy="742.5" r="3.6"/>
+      <text class="att" x="710.2" y="742.5" text-anchor="start" dominant-baseline="central">Nombre</text>
+      <path class="lin" d="M672.2,751.9 L698.2,757.5"/>
+      <circle class="noid" cx="702.2" cy="757.5" r="3.6"/>
+      <text class="att" x="710.2" y="757.5" text-anchor="start" dominant-baseline="central">Dirección</text>
+      <path class="lin" d="M672.2,755.6 L698.2,772.5"/>
+      <circle class="noid" cx="702.2" cy="772.5" r="3.6"/>
+      <text class="att" x="710.2" y="772.5" text-anchor="start" dominant-baseline="central">Teléfono</text>
+    </svg>
+  </div>
+
+  <span class="paso">Paso 3 &mdash; Pasar a tablas (Unidad 2, sección 1)</span>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>En el DER</th><th>Tipo</th><th>En las tablas</th></tr>
+      <tr><td class="lbl">Editorial publica Libro</td><td>1:N</td><td>FK <code>CodigoEditorial</code> en Libro</td></tr>
+      <tr><td class="lbl">Libro pertenece a Género</td><td>1:N</td><td>FK <code>CodigoGenero</code> en Libro</td></tr>
+      <tr><td class="lbl">Autor escribe Libro</td><td>N:M</td><td>Tabla <code>Autor_Libro</code>, PK compuesta</td></tr>
+      <tr><td class="lbl">Ejemplar (débil de Libro)</td><td>&mdash;</td><td>PK compuesta <code>(IdLibro, NumeroEjemplar)</code>; IdLibro también es FK</td></tr>
+      <tr><td class="lbl">Ejemplar asignado a Sucursal</td><td>1:N</td><td>FK <code>IdSucursal</code> en Ejemplar</td></tr>
+      <tr><td class="lbl">Socio pide Préstamo</td><td>1:N</td><td>FK <code>NumeroTarjeta</code> en Préstamo</td></tr>
+      <tr><td class="lbl">Préstamo incluye Ejemplar</td><td>N:M</td><td>Tabla <code>Prestamo_Detalle</code>: la FK al ejemplar lleva las <strong>dos</strong> columnas de su clave</td></tr>
+    </table>
+  </div>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Tablas en 3FN</span>
+    <pre class="codigo" data-lang="texto"><code>Editorial (Codigo (PK), Nombre, Direccion, Telefono)
+Genero (Codigo (PK), Descripcion)
+Autor (Codigo (PK), Nombre, Nacionalidad)
+Libro (IdLibro (PK), Titulo, CodigoGenero (FK), CodigoEditorial (FK))
+Autor_Libro (CodigoAutor (PK)(FK), IdLibro (PK)(FK))
+Sucursal (IdSucursal (PK), Nombre, Direccion)
+Ejemplar (IdLibro (PK)(FK), NumeroEjemplar (PK), IdSucursal (FK))
+Socio (NumeroTarjeta (PK), Nombre, Direccion, Telefono)
+Prestamo (Codigo (PK), FechaPrestamo, FechaDevolucion, NumeroTarjeta (FK))
+Prestamo_Detalle (CodigoPrestamo (PK)(FK), IdLibro (PK)(FK), NumeroEjemplar (PK)(FK))</code></pre>
+  </div>
+  <p>
+    "La cantidad de copias por sucursal" no se guarda: se cuenta con un <code>COUNT</code> de
+    Ejemplar agrupado por sucursal (Unidad 4). Si la fecha de devolución está vacía, el libro
+    todavía no volvió.
+  </p>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Errores y trampas (los de la clase)</span>
+    <ul>
+      <li>Poner el socio en el <strong>detalle</strong> del préstamo: el socio y la fecha van una sola vez, en la cabecera (Préstamo); el detalle solo dice qué ejemplares se llevó.</li>
+      <li>Si los libros de un mismo préstamo se pudieran devolver en fechas distintas, la fecha de devolución pasa al detalle.</li>
+      <li>La FK a una entidad débil lleva su clave entera: IdLibro <strong>y</strong> NumeroEjemplar.</li>
+      <li>Crear las tablas en orden (Género y Editorial antes que Libro) evita escribir una FK a una tabla que todavía no existe.</li>
+    </ul>
+  </div>
+</div>

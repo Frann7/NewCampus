@@ -28,6 +28,7 @@
       <tr><td class="lbl">Interrelación N:M</td><td>Una <strong>tabla intermedia</strong> con las PK de las dos entidades (las dos son FK, y juntas forman la PK).</td></tr>
       <tr><td class="lbl">Atributo de una interrelación (Horas, Costo)</td><td>Va donde quedó la interrelación: en la tabla intermedia si es N:M, junto a la FK si es 1:N o 1:1.</td></tr>
       <tr><td class="lbl">Entidad débil</td><td>Una tabla cuya PK incluye la PK de la entidad fuerte.</td></tr>
+      <tr><td class="lbl">Dos interrelaciones con la misma entidad (equipo local y visitante)</td><td>Dos FK a la misma tabla, cada una con su nombre: <code>IdEquipoLocal</code> e <code>IdEquipoVisitante</code>. No se hacen dos tablas de equipos.</td></tr>
       <tr><td class="lbl">Generalización</td><td>La forma recomendada por la cátedra: una tabla para el padre y una por cada hijo, con la PK del padre (PK y FK a la vez) y sus atributos propios.</td></tr>
     </table>
   </div>
@@ -243,6 +244,16 @@ Ejemplar (ISBN (PK)(FK), Numero (PK))</code></pre>
 Empleado (DNI (PK)(FK), Sueldo)
 Cliente (DNI (PK)(FK), LimiteCredito)</code></pre>
   <p>Es la forma que la cátedra marca como recomendada: sirve para cualquier cobertura y no repite datos.</p>
+
+  <h3>Ejemplo 7: dos FK a la misma tabla</h3>
+  <div class="caja caja-ejemplo"><p>En un partido juegan un equipo local y uno visitante (Guía 5, el mundial, resuelto en clase el 02/06).</p></div>
+  <pre class="codigo" data-lang="texto"><code>Equipo (Codigo (PK), Nombre, Grupo, Camiseta)
+Partido (Codigo (PK), Fecha, Resultado, CodEquipoLocal (FK), CodEquipoVisitante (FK))</code></pre>
+  <p>
+    Las dos FK apuntan a <code>Equipo</code>. En clase mostraron también la otra forma: una tabla
+    <code>Partido_Equipo (CodPartido (PK)(FK), CodEquipo (PK)(FK), EsLocal)</code>, con dos filas por
+    partido. Las dos valen; la de dos FK es la más directa cuando siempre son exactamente dos.
+  </p>
 
   <div class="caja caja-ojo">
     <span class="caja-tit">Errores y trampas</span>

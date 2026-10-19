@@ -1,0 +1,46 @@
+<div class="ej" data-examen="variante"
+     data-examen-ref="Clase 02/06: normalizar"
+     data-examen-nota="Resuelto como lo corrigieron en clase. En el parcial, después de pasar el DER a tablas, hay que normalizar.">
+  <span class="tag">Guía 4 · Ejercicio 4</span>
+  <h2>Normalizar: guías de envío</h2>
+  <div class="enunciado">
+    <p>Normalizar el siguiente conjunto de datos de una empresa de envíos.</p>
+    <pre class="codigo" data-lang="texto"><code>Guía (ID Guía, Número, Fecha, Empresa Origen, Nombre, Dirección, ID Ciudad, Empresa destino,
+      Nombre, Dirección, ID Ciudad, Paquetes)
+Ciudad (ID Ciudad, Nombre)
+Distancias (ID Ciudad Origen, ID Ciudad Destino, Kilómetros)
+Paquetes (ID Paquete, Descripción, Tipo, Valor Flete)
+Repartidor (ID Repartidor, Nombre, Apellido, ID Paquete entregado)</code></pre>
+  </div>
+
+  <span class="paso">Tabla por tabla</span>
+  <p>El método de la Unidad 2, sección 2: poner la PK, sacar lo que se repite, sacar lo que describe a otra cosa y borrar lo que ya se obtiene por otra FK.</p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Tabla</th><th>Qué está mal</th><th>Qué se hace</th></tr>
+      <tr><td class="lbl">Guía</td><td>Los datos de la empresa de origen y los de destino son de una <strong>empresa</strong>, y están repetidos dos veces; Paquetes tiene varios valores</td><td>Una sola tabla <strong>Empresa</strong> y dos FK a ella (IdEmpresaOrigen, IdEmpresaDestino); los paquetes, a una tabla intermedia Guia_Paquete</td></tr>
+      <tr><td class="lbl">Distancias</td><td>Nada: son dos FK a Ciudad, con los kilómetros</td><td>PK compuesta (IdCiudadOrigen, IdCiudadDestino)</td></tr>
+      <tr><td class="lbl">Repartidor</td><td>Con IdPaquete entregado, los datos del repartidor se repiten por cada paquete</td><td>Tabla intermedia <strong>Repartidor_Paquete</strong>, con la fecha de entrega</td></tr>
+    </table>
+  </div>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">En 3FN</span>
+    <pre class="codigo" data-lang="texto"><code>Ciudad (IdCiudad (PK), Nombre)
+Empresa (IdEmpresa (PK), Nombre, Direccion, IdCiudad (FK))
+Guia (IdGuia (PK), Numero, Fecha, IdEmpresaOrigen (FK), IdEmpresaDestino (FK))
+Paquete (IdPaquete (PK), Descripcion, Tipo, ValorFlete)
+Guia_Paquete (IdGuia (PK)(FK), IdPaquete (PK)(FK))
+Distancia (IdCiudadOrigen (PK)(FK), IdCiudadDestino (PK)(FK), Kilometros)
+Repartidor (IdRepartidor (PK), Nombre, Apellido)
+Repartidor_Paquete (IdRepartidor (PK)(FK), IdPaquete (PK)(FK), FechaEntrega)</code></pre>
+  </div>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Errores y trampas</span>
+    <ul>
+      <li>Empresa de origen y de destino <strong>no</strong> son dos tablas: es la misma entidad con dos papeles, y por eso dos FK a una sola tabla.</li>
+      <li>La fecha de entrega no figuraba en el enunciado: la sumaron en clase porque es un dato de la entrega (del par repartidor y paquete).</li>
+    </ul>
+  </div>
+</div>

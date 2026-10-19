@@ -15,18 +15,16 @@
       </summary>
       <div class="pd-cuerpo">
         <p>
-          Una <strong>transacción</strong> es un conjunto de operaciones sobre la base de datos que se
-          ejecutan como <strong>una sola unidad de trabajo</strong>: o se realizan todas, o no se
-          realiza ninguna. Lleva a la base de un estado consistente a otro. Si todo sale bien se
-          confirma (<code>COMMIT</code>) y los cambios quedan guardados; si algo falla se deshace
-          (<code>ROLLBACK</code>) y la base vuelve a como estaba al empezar (<code>BEGIN TRAN</code>).
+          Una <strong>transacción</strong> es una unidad de la ejecución de un programa. Puede incluir
+          distintos accesos a la base de datos: consultas, actualizaciones, ejecuciones de
+          procedimientos almacenados, vistas, etc. Empieza con una marca (<code>BEGIN TRAN</code>) y
+          termina con una confirmación (<code>COMMIT</code>) o una cancelación (<code>ROLLBACK</code>).
         </p>
-        <p>Propiedades (<strong>ACID</strong>):</p>
+        <p>Propiedades:</p>
         <ul>
-          <li><strong>Atomicidad:</strong> es indivisible; se ejecuta completa o no se ejecuta nada.</li>
-          <li><strong>Consistencia:</strong> deja la base en un estado válido, cumpliendo las restricciones de integridad.</li>
-          <li><strong>Aislamiento:</strong> las transacciones simultáneas no se interfieren; cada una trabaja como si estuviera sola.</li>
-          <li><strong>Durabilidad:</strong> una vez confirmada, los cambios son permanentes aunque falle el sistema.</li>
+          <li><strong>Atomicidad:</strong> la transacción se ve como una operación atómica: ocurre totalmente o no ocurre.</li>
+          <li><strong>Consistencia:</strong> su ejecución, aislada, conserva la consistencia de la base de datos.</li>
+          <li><strong>Aislamiento:</strong> el SGBD garantiza que dos transacciones que se ejecutan al mismo tiempo tengan el nivel de aislamiento correcto para que no haya inconsistencias; los datos se hacen efectivos en la base con el <code>COMMIT</code>.</li>
         </ul>
       </div>
     </details>
@@ -34,18 +32,18 @@
     <details class="parcial-desp pd-explicacion">
       <summary>
         <span class="pd-icono">&#9998;</span>
-        <span class="pd-txt"><b>Explicación detallada</b><small>El concepto desde cero, un ejemplo y las trampas</small></span>
+        <span class="pd-txt"><b>Explicación detallada</b><small>De dónde sale, un ejemplo y las trampas</small></span>
       </summary>
       <div class="pd-cuerpo">
         <h4>Qué evalúa</h4>
-        <p>Dos cosas: la <strong>definición</strong> (qué es una transacción) y las <strong>propiedades</strong> (las cuatro de ACID, cada una explicada).</p>
+        <p>Dos cosas: la <strong>definición</strong> y las <strong>propiedades</strong>, cada una explicada. Las dos salen de las diapositivas "Transacciones y concurrencia" de la cátedra (clase del 15/09), que traen tres propiedades.</p>
 
         <h4>La idea, con un ejemplo</h4>
         <p>
-          Algunas tareas necesitan varias sentencias. Cuando un turno de la clínica se atiende, hay
-          que registrar la consulta <strong>y</strong> pasar el turno a "Atendido". Si se hace la
-          primera y el sistema se cae antes de la segunda, queda una consulta para un turno que
-          figura como pendiente. La transacción las convierte en una sola cosa:
+          Cuando un turno de la clínica se atiende, hay que registrar la consulta <strong>y</strong>
+          pasar el turno a "Atendido". Si se hace la primera y el sistema se cae antes de la segunda,
+          queda una consulta para un turno que figura como pendiente. La transacción las convierte en
+          una sola cosa:
         </p>
         <pre class="codigo"><code>BEGIN TRAN;
 INSERT INTO Consulta (Numero, Diagnostico, Observaciones, Fecha, NumeroTurno)
@@ -53,21 +51,19 @@ VALUES (501, 'Otitis', 'Control en 7 días', '2026-10-14', 3020);
 UPDATE Turno SET Estado = 'Atendido' WHERE Numero = 3020;
 COMMIT;</code></pre>
 
-        <h4>Las cuatro propiedades sobre ese ejemplo</h4>
+        <h4>Las tres propiedades sobre ese ejemplo</h4>
         <div class="tabla-wrap">
           <table class="t full">
             <tr><th>Propiedad</th><th>En el ejemplo</th></tr>
             <tr><td class="lbl">Atomicidad</td><td>Si el <code>UPDATE</code> falla, el <code>INSERT</code> se deshace: no queda la consulta suelta.</td></tr>
-            <tr><td class="lbl">Consistencia</td><td>La consulta apunta a un turno que existe (la FK se cumple) y el turno queda en un estado válido.</td></tr>
-            <tr><td class="lbl">Aislamiento</td><td>Si en ese momento alguien lista los turnos pendientes, no ve el turno "a medias".</td></tr>
-            <tr><td class="lbl">Durabilidad</td><td>Después del <code>COMMIT</code>, aunque se corte la luz, la consulta y el estado nuevo quedan.</td></tr>
+            <tr><td class="lbl">Consistencia</td><td>Terminada, la base sigue siendo correcta: la consulta apunta a un turno que existe y el turno está "Atendido".</td></tr>
+            <tr><td class="lbl">Aislamiento</td><td>Si en ese momento alguien lista los turnos pendientes, no ve el cambio a medias: se hace efectivo con el <code>COMMIT</code>.</td></tr>
           </table>
         </div>
         <p>
-          Para ampliar, se puede nombrar a los módulos del SGBD que las cumplen (apunte de la
-          cátedra): el <strong>gestor de transacciones</strong>, el <strong>control de la
-          integridad</strong>, el <strong>planificador</strong> (concurrencia) y el <strong>gestor de
-          recuperación</strong>.
+          Otros libros suman una cuarta, <strong>durabilidad</strong> (lo confirmado queda guardado aunque
+          falle el sistema), y forman la sigla ACID. Se puede nombrar al final, pero la cátedra presenta
+          las tres.
         </p>
 
         <h4>Parecido en el campus</h4>
@@ -80,8 +76,7 @@ COMMIT;</code></pre>
 
         <h4>Trampas</h4>
         <ul>
-          <li>Nombrar las cuatro letras sin explicar cada una deja la respuesta a medias.</li>
-          <li>"Consistencia" no es "sin datos repetidos": es que se cumplan todas las reglas de integridad.</li>
+          <li>Nombrar las propiedades sin explicar cada una deja la respuesta a medias.</li>
           <li>No confundir con el "archivo de transacciones" del apunte de Archivos (los movimientos que actualizan un archivo maestro).</li>
         </ul>
       </div>

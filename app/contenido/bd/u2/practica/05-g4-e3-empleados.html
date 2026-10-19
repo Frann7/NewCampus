@@ -1,0 +1,56 @@
+<div class="ej" data-examen="variante"
+     data-examen-ref="Clase 02/06: normalizar"
+     data-examen-nota="Resuelto como lo corrigieron en clase. En el parcial, después de pasar el DER a tablas, hay que normalizar.">
+  <span class="tag">Guía 4 · Ejercicio 3</span>
+  <h2>Normalizar: empleados y sueldos</h2>
+  <div class="enunciado">
+    <p>Normalizar el siguiente conjunto de datos de personal.</p>
+    <pre class="codigo" data-lang="texto"><code>Empleados (ID Empleado, Nombre, Apellido, Fecha de Nacimiento, Dirección, Teléfonos,
+           ID Departamento, Nombre Departamento, ID Categoría, Nombre)
+Departamento (ID Departamento, Nombre, Descripción)
+Categorías (ID Categoría, Nombre, Descripción, Básico)
+Conceptos (ID Concepto, Descripción, Monto)
+Licencias (ID Licencia, ID Empleado, Nombre, Apellido, Fecha, Motivo)
+Sueldos (ID Sueldo, ID Empleado, Fecha de Pago, Importe Bruto, Importe Descuentos,
+         Importe Neto, ID Concepto, Monto)</code></pre>
+  </div>
+
+  <span class="paso">Tabla por tabla</span>
+  <p>El método de la Unidad 2, sección 2: poner la PK, sacar lo que se repite, sacar lo que describe a otra cosa y borrar lo que ya se obtiene por otra FK.</p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Tabla</th><th>Qué está mal</th><th>Qué se hace</th></tr>
+      <tr><td class="lbl">Empleados</td><td>Teléfonos tiene varios valores (rompe la 1FN); Nombre Departamento y el nombre de la categoría dependen de sus códigos (transitivas)</td><td>Tabla aparte para los teléfonos; se borran los dos nombres y quedan IdDepartamento e IdCategoria como FK</td></tr>
+      <tr><td class="lbl">Licencias</td><td>Nombre y Apellido son del empleado</td><td>Se borran; queda IdEmpleado como FK</td></tr>
+      <tr><td class="lbl">Sueldos</td><td>Un recibo tiene varios conceptos: IdConcepto y Monto se repiten por cada uno (grupo repetitivo)</td><td>Cabecera <strong>Sueldo</strong> y detalle <strong>Sueldo_Concepto</strong> (IdSueldo, IdConcepto, Monto)</td></tr>
+      <tr><td class="lbl">Departamento, Categorías, Conceptos</td><td>Nada</td><td>Quedan igual</td></tr>
+    </table>
+  </div>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">En 3FN</span>
+    <pre class="codigo" data-lang="texto"><code>Empleado (IdEmpleado (PK), Nombre, Apellido, FechaNacimiento, Direccion,
+          IdDepartamento (FK), IdCategoria (FK))
+Empleado_Telefono (IdEmpleado (PK)(FK), Telefono (PK))
+Departamento (IdDepartamento (PK), Nombre, Descripcion)
+Categoria (IdCategoria (PK), Nombre, Descripcion, Basico)
+Concepto (IdConcepto (PK), Descripcion, Monto)
+Licencia (IdLicencia (PK), IdEmpleado (FK), Fecha, Motivo)
+Sueldo (IdSueldo (PK), IdEmpleado (FK), FechaPago, ImporteBruto, ImporteDescuentos, ImporteNeto)
+Sueldo_Concepto (IdSueldo (PK)(FK), IdConcepto (PK)(FK), Monto)</code></pre>
+  </div>
+
+  <p>
+    En clase los teléfonos quedaron con un código propio: <code>Telefono (IdTelefono (PK), Numero,
+    IdEmpleado (FK))</code>. Las dos formas valen. Y el bruto, los descuentos y el neto se podrían
+    calcular sumando el detalle, pero se dejan en la cabecera porque quedan <strong>"congelados"</strong>:
+    una vez emitido el recibo, no cambian.
+  </p>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Errores y trampas</span>
+    <ul>
+      <li>El detalle del sueldo lleva el <strong>Monto</strong> de ese concepto en ese recibo, aunque Concepto tenga un monto: es el valor de ese mes.</li>
+    </ul>
+  </div>
+</div>

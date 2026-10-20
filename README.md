@@ -102,7 +102,7 @@ fórmulas (MathJax) y las tipografías. Tus datos no salen de tu máquina.
   preguntas de CMMI, Git, métricas, agentes de IA y calidad, de la más probable a la menos, cada una con la
   respuesta corta para aprender y la explicación desde cero), **9 casos cortos de CMMI** (cinco
   empresas para identificar el nivel, una por nivel, y cuatro para decir cómo subir al siguiente),
-  los parciales 2024 y 2025 resueltos y
+  los parciales 2024, 2025 y 2026 resueltos y
   autoevaluaciones **por temas**: se eligen las unidades (base, creacionales, estructurales, de
   comportamiento, calidad y CMMI, Git) y corre todas las preguntas de esos temas, con cuenta
   regresiva, nota sobre 100 y la explicación de cada una. Son 67 preguntas con la forma de las
@@ -259,6 +259,14 @@ Chrome (`chrome --headless --print-to-pdf`).
 `0.x.y-alpha` mientras esté en desarrollo. La `1.0.0` queda reservada para cuando esté terminado.
 La versión actual se lee al pie del menú lateral.
 
+* **0.54.0-alpha** — Ingeniería de Software II, para el recuperatorio: el **parcial 2026** resuelto
+  (el Composite con su UML, CMMI, métricas, PI y SPI, el ciclo de vida de una métrica, Strategy y
+  la arquitectura de SVN y Git), una sección nueva de teoría, **CMMI en una hoja** (niveles,
+  pistas, riesgos, acciones y cómo se responde), el cuadro de PI y SPI con objetivo, ámbito y
+  ejemplo, y diez diagramas nuevos en la teoría de calidad y Git (ciclo de vida de una métrica,
+  SVN y Git, cómo se definen los procesos y sus tres elementos, el diagnóstico de CMMI, el grafo de
+  la complejidad ciclomática, los comandos de Git y una rama con su merge), generados por
+  `fuentes/ing2/esquemas.py`.
 * **0.53.2-alpha** — Bases de Datos, Unidad 2: cómo se normaliza paso a paso, con la dependencia
   funcional y los dos ejemplos de la cátedra (el alquiler de películas y la factura), y cinco
   ejercicios nuevos resueltos como en clase: normalizar las tablas de la Guía 4 y la biblioteca de

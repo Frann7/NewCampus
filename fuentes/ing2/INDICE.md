@@ -20,6 +20,7 @@ uno). Primero el texto; el PDF solo en las páginas **⚠** o si algo no cierra
 | Archivo | Qué es |
 | :-- | :-- |
 | `EXAMENES/Parcial 2 2025.md` | Parcial del 8/10/2025, transcripto de las fotos. Teoría (50 pts): CMMI, Git, UML de 2 patrones, métrica. Práctica: patrones desde un enunciado y desde código PHP |
+| `EXAMENES/Parcial 2 2026.md` | Parcial del 14/10/2026, transcripto de las fotos (sin el nombre de la hoja). Práctica (60 pts): Composite en C++ con UML, CMMI (nivel y cómo subir), definir métricas y sus elementos. Teoría (40): PI vs. SPI, diagrama del ciclo de vida de una métrica, estructura de Strategy, arquitectura de SVN y Git |
 | `EXAMENES/Parcial 2 2024.md` | Parcial del 23/10/2024 (4 ejercicios, todos de patrones). ⚠ ej. 3: el diagrama (Usuario, Cliente, Farmacéutico, Medicamento) está en `EXAMENES\Parcial 2.jpg`. El código del ej. 4 (C++) sigue en la pág. 2 |
 
 ## Patrones de diseño

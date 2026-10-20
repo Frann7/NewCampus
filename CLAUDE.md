@@ -106,8 +106,9 @@ rioplatense con voseo) y **mantenedor** del campus (código, contenido, commits)
 
 ## Pendientes e ideas
 
-- **Ingeniería de Software II (parcial el miércoles 14/10/2026):** las 7 partes de
-  `docs/plan-ing2.md` están cargadas (6 unidades y los parciales 2024 y 2025 resueltos), más
+- **Ingeniería de Software II (rindió el 14/10/2026, sacó 38; viene el recuperatorio, fecha a
+  confirmar):** las 7 partes de
+  `docs/plan-ing2.md` están cargadas (6 unidades y los parciales 2024, 2025 y 2026 resueltos), más
   el banco de autoevaluación por temas (67 preguntas) y ocho ejercicios de parcial de
   patrones, con pasos de elegir y de escribir, el modo Practicar diagramas con los ocho diagramas para
   completar, y las 14 preguntas fundamentales de teoría (CMMI, Git, métricas, agentes de IA y calidad) y los 9 casos cortos de CMMI, como

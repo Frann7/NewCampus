@@ -124,6 +124,7 @@ Usá estas y no inventes otras, así el diseño se mantiene consistente:
 | `.escalera` + `.escalon` | niveles que se apoyan uno sobre otro (ver CMMI en `ing2/calidad`) |
 | `.pd-grafico.af` | un autómata finito; el SVG lo genera `fuentes/automatas.py` (ver `app/contenido/pyl/CLAUDE.md`) |
 | `.pd-grafico.der` | un diagrama entidad-relación; el SVG lo genera `fuentes/der.py` (ver `app/contenido/bd/CLAUDE.md`) |
+| `.pd-grafico.esq` | un esquema de Ing. II que no es de clases (ciclo de vida de una métrica, SVN y Git, diagnóstico de CMMI...); el SVG lo genera `fuentes/ing2/esquemas.py` |
 | `.flujo` + `.flujo-caja` + `.flujo-paso` | lugares por los que pasa algo y el comando que lo mueve (ver Git en `ing2/git`) |
 
 **El color tiene un significado y se usa siempre igual**, no para adornar: azul la explicación

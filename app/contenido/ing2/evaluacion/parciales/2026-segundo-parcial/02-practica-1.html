@@ -1,0 +1,359 @@
+<!-- ==================== PRÁCTICA 1 ==================== -->
+<section class="parcial-ej">
+  <div class="parcial-ej-cab">
+    <h2>Práctica 1</h2>
+    <span class="parcial-pts">35 puntos</span>
+    <span class="parcial-tema">Unidad 4B &middot; Composite en un código</span>
+  </div>
+
+  <p>
+    <strong>1-</strong> Dado el siguiente código identificar cual es el patrón que se está
+    implementando, mencionar cuales fueron los elementos que te ayudaron a identificar el mismo y
+    armar el diagrama en UML del mismo.
+  </p>
+  <pre class="codigo"><code>#include &lt;iostream&gt;
+#include &lt;vector&gt;
+#include &lt;algorithm&gt;
+class Graphic {
+public:
+    virtual ~Graphic() {}
+    virtual void Move(int x, int y) = 0;
+    virtual void Draw() const = 0; };
+class Dot : public Graphic {
+protected:
+    int x_;
+    int y_;
+public:
+    Dot(int x, int y) : x_(x), y_(y) {}
+    void Move(int x, int y) override {
+        x_ += x;
+        y_ += y;      }
+    void Draw() const override {
+        std::cout &lt;&lt; "Dibujando punto en ("
+        &lt;&lt; x_ &lt;&lt; ", " &lt;&lt; y_ &lt;&lt; ")\n";     }};
+
+class Circle : public Dot {
+private:
+    int radius_;
+public:
+    Circle(int x, int y, int radius)
+      : Dot(x, y), radius_(radius) {}
+    void Draw() const override {
+        std::cout &lt;&lt; "Dibujando circulo en ("
+        &lt;&lt; x_ &lt;&lt; ", " &lt;&lt; y_
+        &lt;&lt; ") con radio " &lt;&lt; radius_ &lt;&lt; "\n";
+}};
+
+class CompoundGraphic : public Graphic {
+private:
+    std::vector&lt;Graphic*&gt; children_;
+public:
+    void Add(Graphic* graphic) {
+        children_.push_back(graphic);     }
+    void Remove(Graphic* graphic) {
+        auto it = std::find(
+            children_.begin(),
+            children_.end(),
+            graphic          );
+        if (it != children_.end()) {
+            children_.erase(it);     }     }
+
+    void Move(int x, int y) override {
+        for (Graphic* graphic : children_) {
+            graphic-&gt;Move(x, y);      }     }
+
+    void Draw() const override {
+        std::cout &lt;&lt; "Dibujando grupo:\n";
+        for (const Graphic* graphic : children_) {
+            graphic-&gt;Draw();       }
+        std::cout &lt;&lt; "Fin del grupo\n";     }};
+
+class ImageEditor {
+private:
+    CompoundGraphic* all_;
+public:
+    ImageEditor() : all_(nullptr) {}
+    ~ImageEditor() {
+        delete all_;     }
+    void Load() {
+        all_ = new CompoundGraphic();
+        all_-&gt;Add(new Dot(1, 2));
+        all_-&gt;Add(new Circle(5, 3, 10));
+        std::cout &lt;&lt; "Imagen cargada.\n";     }
+    void DrawAll() {
+        if (all_ != nullptr) {
+            all_-&gt;Draw();     }     }
+
+    void MoveAll(int x, int y) {
+        if (all_ != nullptr) {
+            all_-&gt;Move(x, y);     }     }};
+
+int main() {
+    ImageEditor editor;
+    editor.Load();
+    std::cout &lt;&lt; "\nImagen original:\n";
+    editor.DrawAll();
+    std::cout &lt;&lt; "\nMoviendo todos los elementos...\n";
+    editor.MoveAll(10, 5);
+    std::cout &lt;&lt; "\nImagen después del movimiento:\n";
+    editor.DrawAll();
+    return 0;
+}</code></pre>
+
+  <div class="parcial-extras">
+    <details class="parcial-desp pd-resultados">
+      <summary>
+        <span class="pd-icono">&#10003;</span>
+        <span class="pd-txt"><b>Resultados</b><small>Solo la respuesta</small></span>
+      </summary>
+      <div class="pd-cuerpo">
+        <ol>
+          <li><strong>Qué patrón y por qué:</strong> "Es Composite, un patrón estructural que se usa cuando los objetos forman un árbol, con elementos simples y contenedores que agrupan elementos simples u otros contenedores. Acá los gráficos se agrupan: un grupo (<code>CompoundGraphic</code>) contiene puntos, círculos u otros grupos."</li>
+          <li>
+            <strong>Los elementos que ayudaron a identificarlo:</strong>
+            <ul>
+              <li><code>Graphic</code> solo declara <code>Move()</code> y <code>Draw()</code> (virtuales puros): es la interfaz común a todos.</li>
+              <li><code>CompoundGraphic</code> hereda de <code>Graphic</code> y a la vez guarda una lista de <code>Graphic</code> (<code>std::vector&lt;Graphic*&gt; children_</code>): una clase que guarda <strong>una lista de su propio tipo</strong>.</li>
+              <li>Tiene <code>Add()</code> y <code>Remove()</code> para agregar y quitar hijos.</li>
+              <li>Su <code>Move()</code> y su <code>Draw()</code> recorren la lista y le pasan el pedido a cada hijo (<code>graphic-&gt;Move(x, y)</code>).</li>
+              <li><code>ImageEditor</code> mueve y dibuja todo con una sola llamada al grupo (<code>all_-&gt;Move(x, y)</code>).</li>
+            </ul>
+          </li>
+          <li><strong>Cómo está aplicado:</strong> "<code>Graphic</code> es el componente (la interfaz común a todos los gráficos, con <code>Move</code> y <code>Draw</code>). <code>Dot</code> y <code>Circle</code> son hojas (los elementos simples, que no contienen a nadie): se mueven y se dibujan solos; <code>Circle</code> hereda de <code>Dot</code> y le suma el radio. <code>CompoundGraphic</code> es el compuesto (el contenedor): guarda una lista de <code>Graphic</code> y resuelve cada pedido pasándoselo a lo que contiene. <code>ImageEditor</code> es el cliente."</li>
+          <li><strong>Qué se gana:</strong> "El editor trata igual a un punto solo que a un grupo entero: <code>MoveAll(10, 5)</code> mueve todos los elementos con una sola llamada, y se pueden armar grupos dentro de grupos sin modificar el editor."</li>
+          <li>
+            <strong>El diagrama UML:</strong>
+            <div class="pd-grafico uml" data-g="composite-graficos">
+              <svg viewBox="26 -14 658.5 544" width="658.5" height="544" role="img" aria-label="Composite del código del parcial 2026: Graphic, Dot, Circle, CompoundGraphic e ImageEditor">
+                <polyline class="linea punteada" points="135.5,170 135.5,138.5 325.5,138.5 325.5,107"/>
+                <polygon class="hueca" points="325.5,94 332.5,107 318.5,107"/>
+                <polyline class="linea punteada" points="425.5,170 425.5,138.5 325.5,138.5 325.5,107"/>
+                <polygon class="hueca" points="325.5,94 332.5,107 318.5,107"/>
+                <polyline class="linea" points="105,360 105,334.5 135.5,334.5 135.5,309"/>
+                <polygon class="hueca" points="135.5,296 142.5,309 128.5,309"/>
+                <polyline class="linea" points="539,242.5 600,242.5 600,47 421,47"/>
+                <polygon class="hueca" points="521,242.5 530,236.5 539,242.5 530,248.5"/>
+                <text class="rotulo" x="606" y="144.75" text-anchor="start">children_</text>
+                <text class="rotulo" x="443" y="41" text-anchor="middle">*</text>
+                <polyline class="linea" points="437,390 437,352.5 425.5,352.5 425.5,315"/>
+                <polyline class="linea" points="430.5,325 425.5,315 420.5,325"/>
+                <g class="clase k-interfaz">
+                <rect class="caja" x="230" y="0" width="191" height="94" rx="3"/>
+                <rect class="cab" x="231" y="1" width="189" height="45" rx="2"/>
+                <text class="estereo" x="325.5" y="16">&#171;interface&#187;</text>
+                <text class="nombre" x="325.5" y="35">Graphic</text>
+                <line class="div" x1="230" y1="46" x2="421" y2="46"/>
+                <text class="miembro" x="240" y="64"><tspan class="v-pub">+</tspan> Move(x<tspan class="tp">: int</tspan>, y<tspan class="tp">: int</tspan>)</text>
+                <text class="miembro" x="240" y="83"><tspan class="v-pub">+</tspan> Draw()</text>
+                </g>
+                <g class="clase k-comun">
+                <rect class="caja" x="40" y="170" width="191" height="126" rx="3"/>
+                <rect class="cab" x="41" y="171" width="189" height="29" rx="2"/>
+                <text class="nombre" x="135.5" y="190">Dot</text>
+                <line class="div" x1="40" y1="200" x2="231" y2="200"/>
+                <text class="miembro" x="50" y="218"><tspan class="v-prot">#</tspan> x_<tspan class="tp">: int</tspan></text>
+                <text class="miembro" x="50" y="237"><tspan class="v-prot">#</tspan> y_<tspan class="tp">: int</tspan></text>
+                <line class="div" x1="40" y1="248" x2="231" y2="248"/>
+                <text class="miembro" x="50" y="266"><tspan class="v-pub">+</tspan> Move(x<tspan class="tp">: int</tspan>, y<tspan class="tp">: int</tspan>)</text>
+                <text class="miembro" x="50" y="285"><tspan class="v-pub">+</tspan> Draw()</text>
+                </g>
+                <g class="clase k-comun">
+                <rect class="caja" x="40" y="360" width="130" height="88" rx="3"/>
+                <rect class="cab" x="41" y="361" width="128" height="29" rx="2"/>
+                <text class="nombre" x="105" y="380">Circle</text>
+                <line class="div" x1="40" y1="390" x2="170" y2="390"/>
+                <text class="miembro" x="50" y="408"><tspan class="v-priv">-</tspan> radius_<tspan class="tp">: int</tspan></text>
+                <line class="div" x1="40" y1="419" x2="170" y2="419"/>
+                <text class="miembro" x="50" y="437"><tspan class="v-pub">+</tspan> Draw()</text>
+                </g>
+                <g class="clase k-comun destacada">
+                <rect class="caja" x="330" y="170" width="191" height="145" rx="3"/>
+                <rect class="cab" x="331" y="171" width="189" height="29" rx="2"/>
+                <text class="nombre" x="425.5" y="190">CompoundGraphic</text>
+                <line class="div" x1="330" y1="200" x2="521" y2="200"/>
+                <text class="miembro" x="340" y="218"><tspan class="v-priv">-</tspan> children_<tspan class="tp">: Graphic[]</tspan></text>
+                <line class="div" x1="330" y1="229" x2="521" y2="229"/>
+                <text class="miembro" x="340" y="247"><tspan class="v-pub">+</tspan> Add(g<tspan class="tp">: Graphic</tspan>)</text>
+                <text class="miembro" x="340" y="266"><tspan class="v-pub">+</tspan> Remove(g<tspan class="tp">: Graphic</tspan>)</text>
+                <text class="miembro" x="340" y="285"><tspan class="v-pub">+</tspan> Move(x<tspan class="tp">: int</tspan>, y<tspan class="tp">: int</tspan>)</text>
+                <text class="miembro" x="340" y="304"><tspan class="v-pub">+</tspan> Draw()</text>
+                </g>
+                <g class="clase k-comun">
+                <rect class="caja" x="330" y="390" width="214" height="126" rx="3"/>
+                <rect class="cab" x="331" y="391" width="212" height="29" rx="2"/>
+                <text class="nombre" x="437" y="410">ImageEditor</text>
+                <line class="div" x1="330" y1="420" x2="544" y2="420"/>
+                <text class="miembro" x="340" y="438"><tspan class="v-priv">-</tspan> all_<tspan class="tp">: CompoundGraphic</tspan></text>
+                <line class="div" x1="330" y1="449" x2="544" y2="449"/>
+                <text class="miembro" x="340" y="467"><tspan class="v-pub">+</tspan> Load()</text>
+                <text class="miembro" x="340" y="486"><tspan class="v-pub">+</tspan> DrawAll()</text>
+                <text class="miembro" x="340" y="505"><tspan class="v-pub">+</tspan> MoveAll(x<tspan class="tp">: int</tspan>, y<tspan class="tp">: int</tspan>)</text>
+                </g>
+              </svg>
+            </div>
+          </li>
+        </ol>
+      </div>
+    </details>
+
+    <details class="parcial-desp pd-explicacion">
+      <summary>
+        <span class="pd-icono">&#9998;</span>
+        <span class="pd-txt"><b>Explicación detallada</b><small>El concepto desde cero, el desarme de la consigna, la respuesta y las trampas</small></span>
+      </summary>
+      <div class="pd-cuerpo">
+        <h4>Qué evalúa</h4>
+        <p>
+          Reconocer un patrón por la <strong>forma</strong> del código, decir qué lo delata y pasar
+          el código a un diagrama de clases. Es la consigna de mayor puntaje: el UML vale tanto
+          como reconocerlo. El código es el ejemplo de Composite del apunte (el editor de
+          gráficos), escrito en C++.
+        </p>
+
+        <span class="paso">Paso 1 &mdash; Listar las clases</span>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Clase</th><th>¿Hereda?</th><th>Qué tiene</th></tr>
+            <tr><td><code>Graphic</code></td><td>No</td><td>Solo <code>Move()</code> y <code>Draw()</code>, los dos <code>= 0</code> (virtuales puros), y ningún atributo</td></tr>
+            <tr><td><code>Dot</code></td><td>De <code>Graphic</code></td><td><code>x_</code>, <code>y_</code> (protegidos); su <code>Move()</code> y su <code>Draw()</code> hacen el trabajo</td></tr>
+            <tr><td><code>Circle</code></td><td>De <code>Dot</code></td><td><code>radius_</code>; sobrescribe solo <code>Draw()</code></td></tr>
+            <tr><td><code>CompoundGraphic</code></td><td>De <code>Graphic</code></td><td><code>children_</code>, una lista de <code>Graphic*</code>; <code>Add()</code>, <code>Remove()</code>, y <code>Move()</code> y <code>Draw()</code> que recorren la lista</td></tr>
+            <tr><td><code>ImageEditor</code></td><td>No</td><td><code>all_</code>, un <code>CompoundGraphic*</code>; <code>Load()</code>, <code>DrawAll()</code>, <code>MoveAll()</code></td></tr>
+          </table>
+        </div>
+
+        <span class="paso">Paso 2 &mdash; Las preguntas para reconocer un código</span>
+        <ol>
+          <li><strong>¿Hay algo <code>static</code> y un constructor que no es público?</strong> No. No es Singleton.</li>
+          <li><strong>¿Alguna clase hereda de otra?</strong> Sí, varias. No es Facade.</li>
+          <li><strong>¿Hay métodos cuyo trabajo es devolver un <code>new</code> de otra clase?</strong> No (<code>Load()</code> crea objetos, pero no los devuelve). No es Factory Method ni Abstract Factory.</li>
+          <li><strong>La clase que guarda a otras, ¿qué guarda?</strong> <code>CompoundGraphic</code> guarda <strong>una lista de su propio tipo</strong>: es un <code>Graphic</code> que contiene <code>Graphic</code>. &rarr; <strong>Composite</strong>.</li>
+        </ol>
+        <p>
+          Se confirma con el resto: <code>Move()</code> y <code>Draw()</code> del grupo no hacen el
+          trabajo, se lo pasan a cada hijo con un <code>for</code>. Y como un hijo puede ser otro
+          grupo, el pedido baja por todo el árbol.
+        </p>
+
+        <span class="paso">Paso 3 &mdash; Las partes del patrón</span>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Parte</th><th>Qué es</th><th>En el código</th></tr>
+            <tr><td class="lbl">Componente</td><td>La interfaz común a todos</td><td><code>Graphic</code></td></tr>
+            <tr><td class="lbl">Hoja</td><td>El elemento simple, que no contiene a nadie</td><td><code>Dot</code> y <code>Circle</code></td></tr>
+            <tr><td class="lbl">Compuesto</td><td>El contenedor: guarda una lista de componentes y les pasa los pedidos</td><td><code>CompoundGraphic</code></td></tr>
+            <tr><td class="lbl">Cliente</td><td>El que usa todo a través del componente</td><td><code>ImageEditor</code></td></tr>
+          </table>
+        </div>
+
+        <span class="paso">Paso 4 &mdash; Pasarlo a UML</span>
+        <div class="pd-grafico uml" data-g="composite-graficos">
+          <svg viewBox="26 -14 658.5 544" width="658.5" height="544" role="img" aria-label="Composite del código del parcial 2026: Graphic, Dot, Circle, CompoundGraphic e ImageEditor">
+            <polyline class="linea punteada" points="135.5,170 135.5,138.5 325.5,138.5 325.5,107"/>
+            <polygon class="hueca" points="325.5,94 332.5,107 318.5,107"/>
+            <polyline class="linea punteada" points="425.5,170 425.5,138.5 325.5,138.5 325.5,107"/>
+            <polygon class="hueca" points="325.5,94 332.5,107 318.5,107"/>
+            <polyline class="linea" points="105,360 105,334.5 135.5,334.5 135.5,309"/>
+            <polygon class="hueca" points="135.5,296 142.5,309 128.5,309"/>
+            <polyline class="linea" points="539,242.5 600,242.5 600,47 421,47"/>
+            <polygon class="hueca" points="521,242.5 530,236.5 539,242.5 530,248.5"/>
+            <text class="rotulo" x="606" y="144.75" text-anchor="start">children_</text>
+            <text class="rotulo" x="443" y="41" text-anchor="middle">*</text>
+            <polyline class="linea" points="437,390 437,352.5 425.5,352.5 425.5,315"/>
+            <polyline class="linea" points="430.5,325 425.5,315 420.5,325"/>
+            <g class="clase k-interfaz">
+            <rect class="caja" x="230" y="0" width="191" height="94" rx="3"/>
+            <rect class="cab" x="231" y="1" width="189" height="45" rx="2"/>
+            <text class="estereo" x="325.5" y="16">&#171;interface&#187;</text>
+            <text class="nombre" x="325.5" y="35">Graphic</text>
+            <line class="div" x1="230" y1="46" x2="421" y2="46"/>
+            <text class="miembro" x="240" y="64"><tspan class="v-pub">+</tspan> Move(x<tspan class="tp">: int</tspan>, y<tspan class="tp">: int</tspan>)</text>
+            <text class="miembro" x="240" y="83"><tspan class="v-pub">+</tspan> Draw()</text>
+            </g>
+            <g class="clase k-comun">
+            <rect class="caja" x="40" y="170" width="191" height="126" rx="3"/>
+            <rect class="cab" x="41" y="171" width="189" height="29" rx="2"/>
+            <text class="nombre" x="135.5" y="190">Dot</text>
+            <line class="div" x1="40" y1="200" x2="231" y2="200"/>
+            <text class="miembro" x="50" y="218"><tspan class="v-prot">#</tspan> x_<tspan class="tp">: int</tspan></text>
+            <text class="miembro" x="50" y="237"><tspan class="v-prot">#</tspan> y_<tspan class="tp">: int</tspan></text>
+            <line class="div" x1="40" y1="248" x2="231" y2="248"/>
+            <text class="miembro" x="50" y="266"><tspan class="v-pub">+</tspan> Move(x<tspan class="tp">: int</tspan>, y<tspan class="tp">: int</tspan>)</text>
+            <text class="miembro" x="50" y="285"><tspan class="v-pub">+</tspan> Draw()</text>
+            </g>
+            <g class="clase k-comun">
+            <rect class="caja" x="40" y="360" width="130" height="88" rx="3"/>
+            <rect class="cab" x="41" y="361" width="128" height="29" rx="2"/>
+            <text class="nombre" x="105" y="380">Circle</text>
+            <line class="div" x1="40" y1="390" x2="170" y2="390"/>
+            <text class="miembro" x="50" y="408"><tspan class="v-priv">-</tspan> radius_<tspan class="tp">: int</tspan></text>
+            <line class="div" x1="40" y1="419" x2="170" y2="419"/>
+            <text class="miembro" x="50" y="437"><tspan class="v-pub">+</tspan> Draw()</text>
+            </g>
+            <g class="clase k-comun destacada">
+            <rect class="caja" x="330" y="170" width="191" height="145" rx="3"/>
+            <rect class="cab" x="331" y="171" width="189" height="29" rx="2"/>
+            <text class="nombre" x="425.5" y="190">CompoundGraphic</text>
+            <line class="div" x1="330" y1="200" x2="521" y2="200"/>
+            <text class="miembro" x="340" y="218"><tspan class="v-priv">-</tspan> children_<tspan class="tp">: Graphic[]</tspan></text>
+            <line class="div" x1="330" y1="229" x2="521" y2="229"/>
+            <text class="miembro" x="340" y="247"><tspan class="v-pub">+</tspan> Add(g<tspan class="tp">: Graphic</tspan>)</text>
+            <text class="miembro" x="340" y="266"><tspan class="v-pub">+</tspan> Remove(g<tspan class="tp">: Graphic</tspan>)</text>
+            <text class="miembro" x="340" y="285"><tspan class="v-pub">+</tspan> Move(x<tspan class="tp">: int</tspan>, y<tspan class="tp">: int</tspan>)</text>
+            <text class="miembro" x="340" y="304"><tspan class="v-pub">+</tspan> Draw()</text>
+            </g>
+            <g class="clase k-comun">
+            <rect class="caja" x="330" y="390" width="214" height="126" rx="3"/>
+            <rect class="cab" x="331" y="391" width="212" height="29" rx="2"/>
+            <text class="nombre" x="437" y="410">ImageEditor</text>
+            <line class="div" x1="330" y1="420" x2="544" y2="420"/>
+            <text class="miembro" x="340" y="438"><tspan class="v-priv">-</tspan> all_<tspan class="tp">: CompoundGraphic</tspan></text>
+            <line class="div" x1="330" y1="449" x2="544" y2="449"/>
+            <text class="miembro" x="340" y="467"><tspan class="v-pub">+</tspan> Load()</text>
+            <text class="miembro" x="340" y="486"><tspan class="v-pub">+</tspan> DrawAll()</text>
+            <text class="miembro" x="340" y="505"><tspan class="v-pub">+</tspan> MoveAll(x<tspan class="tp">: int</tspan>, y<tspan class="tp">: int</tspan>)</text>
+            </g>
+          </svg>
+        </div>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>En el código</th><th>En el diagrama</th></tr>
+            <tr><td><code>Graphic</code>: solo métodos <code>= 0</code>, sin atributos</td><td>Una <strong>interfaz</strong>, con el rótulo «interface»</td></tr>
+            <tr><td><code>class Dot : public Graphic</code> y <code>class CompoundGraphic : public Graphic</code></td><td>Línea <strong>punteada</strong> con triángulo vacío hacia <code>Graphic</code> (implementan la interfaz)</td></tr>
+            <tr><td><code>class Circle : public Dot</code></td><td>Línea <strong>continua</strong> con triángulo vacío hacia <code>Dot</code> (hereda de una clase)</td></tr>
+            <tr><td><code>std::vector&lt;Graphic*&gt; children_</code></td><td>El atributo <code>- children_: Graphic[]</code> y una agregación (rombo vacío del lado de <code>CompoundGraphic</code>) hacia <code>Graphic</code>, con <code>*</code></td></tr>
+            <tr><td><code>CompoundGraphic* all_</code> en <code>ImageEditor</code></td><td>El atributo <code>- all_: CompoundGraphic</code> y una flecha de <code>ImageEditor</code> a <code>CompoundGraphic</code></td></tr>
+            <tr><td><code>protected</code> / <code>private</code> / <code>public</code></td><td><code>#</code> / <code>-</code> / <code>+</code></td></tr>
+          </table>
+        </div>
+
+        <span class="paso">Paso 5 &mdash; Lo que muestra el programa</span>
+        <p>Compilado y corrido:</p>
+        <pre class="salida">Imagen cargada.
+
+Imagen original:
+Dibujando grupo:
+Dibujando punto en (1, 2)
+Dibujando circulo en (5, 3) con radio 10
+Fin del grupo
+
+Moviendo todos los elementos...
+
+Imagen después del movimiento:
+Dibujando grupo:
+Dibujando punto en (11, 7)
+Dibujando circulo en (15, 8) con radio 10
+Fin del grupo</pre>
+        <p>Una sola llamada, <code>MoveAll(10, 5)</code>, movió el punto y el círculo: el grupo le pasó el pedido a cada uno.</p>
+
+        <h4>Trampas</h4>
+        <ul>
+          <li><strong><code>Circle</code> no hereda de <code>Graphic</code> directo, sino de <code>Dot</code>:</strong> sigue siendo una hoja, porque no contiene a nadie. En el diagrama va colgada de <code>Dot</code>, con línea continua.</li>
+          <li><strong>No es Observer:</strong> Observer también guarda una lista, pero de <em>otra</em> interfaz (los suscriptores) y con un método para avisarles. Acá la lista es del mismo tipo que la clase.</li>
+          <li><strong>No olvidar la agregación:</strong> la flecha punteada de <code>CompoundGraphic</code> a <code>Graphic</code> sola no alcanza; lo que hace Composite es la segunda relación, el rombo con <code>*</code>.</li>
+          <li><strong>El cliente no es parte del componente:</strong> <code>ImageEditor</code> no hereda de nadie.</li>
+        </ul>
+      </div>
+    </details>
+  </div>
+</section>

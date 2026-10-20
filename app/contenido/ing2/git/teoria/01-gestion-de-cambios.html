@@ -1,4 +1,6 @@
-<div class="bloque">
+<div class="bloque" data-examen="igual"
+     data-examen-ref="Parcial 2026 · Teoría 4"
+     data-examen-nota="10 puntos: representar gráficamente la arquitectura de SVN y de Git, con los servidores centrales, los repositorios y dónde están las copias de trabajo. Son los dos esquemas de «Centralizados y distribuidos»; el parcial resuelto está en Evaluación.">
   <p class="kicker">Conceptos</p>
   <h2>1. Gestión de cambios y control de versiones</h2>
 
@@ -96,6 +98,44 @@
     <li><strong>SVN</strong> (Subversion, 2000): mejoró a CVS (commits atómicos), pero siguió siendo centralizado.</li>
     <li><strong>Git</strong> (2005, Linus Torvalds): introdujo el modelo <strong>distribuido</strong>.</li>
   </ul>
+
+  <h3>Cómo se dibuja cada uno: SVN y Git</h3>
+  <p>
+    Para dibujarlos hay que ubicar tres cosas: el <strong>servidor</strong>, los
+    <strong>repositorios</strong> (donde se guarda el historial de versiones) y las
+    <strong>copias de trabajo</strong> (los archivos que cada desarrollador edita en su
+    computadora). La diferencia entre los dos está en <strong>dónde está el repositorio</strong>.
+  </p>
+  <p>
+    <strong>SVN (centralizado).</strong> Hay un <strong>servidor central</strong> con el
+    <strong>único repositorio</strong>, que guarda todo el historial. Cada desarrollador tiene solo
+    una <strong>copia de trabajo</strong>, sin el historial: con <code>update</code> baja la última
+    versión y con <code>commit</code> sube sus cambios directo al servidor. Sin conexión al
+    servidor no puede confirmar cambios ni ver el historial.
+  </p>
+  <div class="pd-grafico esq" data-g="vcs-svn">
+    <svg viewBox="0 0 690 284" width="690" height="284" role="img" aria-label="SVN: un servidor central con el repositorio y copias de trabajo en cada desarrollador"><defs><marker id="pta-vcs-svn" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M1 1L9 5L1 9z" class="punta"/></marker></defs><rect class="servidor" x="195.0" y="0" width="300" height="82" rx="8"/><text class="tit" x="345.0" y="20">Servidor central</text><rect class="repo" x="225.0" y="30" width="240" height="42" rx="8"/><text class="en" x="345.0" y="48.0">Repositorio único</text><text class="en2" x="345.0" y="64.0">con todo el historial</text><rect class="dev" x="0" y="160" width="200" height="92" rx="8"/><text class="tit" x="100.0" y="180">Desarrollador 1</text><rect class="copia" x="15" y="192" width="170" height="46" rx="8"/><text class="en" x="100.0" y="212.0">Copia de trabajo</text><text class="en2" x="100.0" y="228.0">sin el historial</text><line class="flecha" x1="255.0" y1="86" x2="100.0" y2="156" marker-end="url(#pta-vcs-svn)" marker-start="url(#pta-vcs-svn)"/><rect class="dev" x="245" y="160" width="200" height="92" rx="8"/><text class="tit" x="345.0" y="180">Desarrollador 2</text><rect class="copia" x="260" y="192" width="170" height="46" rx="8"/><text class="en" x="345.0" y="212.0">Copia de trabajo</text><text class="en2" x="345.0" y="228.0">sin el historial</text><line class="flecha" x1="345.0" y1="86" x2="345.0" y2="156" marker-end="url(#pta-vcs-svn)" marker-start="url(#pta-vcs-svn)"/><rect class="dev" x="490" y="160" width="200" height="92" rx="8"/><text class="tit" x="590.0" y="180">Desarrollador 3</text><rect class="copia" x="505" y="192" width="170" height="46" rx="8"/><text class="en" x="590.0" y="212.0">Copia de trabajo</text><text class="en2" x="590.0" y="228.0">sin el historial</text><line class="flecha" x1="435.0" y1="86" x2="590.0" y2="156" marker-end="url(#pta-vcs-svn)" marker-start="url(#pta-vcs-svn)"/><text class="centro" x="345.0" y="276">commit sube los cambios · update los baja</text></svg>
+  </div>
+  <p>
+    <strong>Git (distribuido).</strong> Cada desarrollador tiene un <strong>repositorio local
+    completo</strong>, con todo el historial, y su <strong>copia de trabajo</strong>. El
+    <code>commit</code> se guarda en su repositorio local, sin conexión. El <strong>servidor
+    remoto</strong> (GitHub, por ejemplo) no es obligatorio: es un repositorio más, el que se usa
+    para compartir. Con <code>push</code> se suben los commits y con <code>pull</code> se bajan.
+  </p>
+  <div class="pd-grafico esq" data-g="vcs-git">
+    <svg viewBox="0 0 690 342" width="690" height="342" role="img" aria-label="Git: servidor remoto y, en cada desarrollador, repositorio local y copia de trabajo"><defs><marker id="pta-vcs-git" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M1 1L9 5L1 9z" class="punta"/></marker></defs><rect class="servidor" x="195.0" y="0" width="300" height="82" rx="8"/><text class="tit" x="345.0" y="20">Servidor remoto (GitHub)</text><rect class="repo" x="225.0" y="30" width="240" height="42" rx="8"/><text class="en" x="345.0" y="48.0">Repositorio remoto</text><text class="en2" x="345.0" y="64.0">lo que comparte el equipo</text><rect class="dev" x="0" y="160" width="200" height="150" rx="8"/><text class="tit" x="100.0" y="180">Desarrollador 1</text><rect class="repo" x="15" y="192" width="170" height="46" rx="8"/><text class="en" x="100.0" y="212.0">Repositorio local</text><text class="en2" x="100.0" y="228.0">historial completo</text><rect class="copia" x="15" y="252" width="170" height="46" rx="8"/><text class="en" x="100.0" y="272.0">Copia de trabajo</text><text class="en2" x="100.0" y="288.0">los archivos que edita</text><line class="flecha" x1="255.0" y1="86" x2="100.0" y2="156" marker-end="url(#pta-vcs-git)" marker-start="url(#pta-vcs-git)"/><rect class="dev" x="245" y="160" width="200" height="150" rx="8"/><text class="tit" x="345.0" y="180">Desarrollador 2</text><rect class="repo" x="260" y="192" width="170" height="46" rx="8"/><text class="en" x="345.0" y="212.0">Repositorio local</text><text class="en2" x="345.0" y="228.0">historial completo</text><rect class="copia" x="260" y="252" width="170" height="46" rx="8"/><text class="en" x="345.0" y="272.0">Copia de trabajo</text><text class="en2" x="345.0" y="288.0">los archivos que edita</text><line class="flecha" x1="345.0" y1="86" x2="345.0" y2="156" marker-end="url(#pta-vcs-git)" marker-start="url(#pta-vcs-git)"/><rect class="dev" x="490" y="160" width="200" height="150" rx="8"/><text class="tit" x="590.0" y="180">Desarrollador 3</text><rect class="repo" x="505" y="192" width="170" height="46" rx="8"/><text class="en" x="590.0" y="212.0">Repositorio local</text><text class="en2" x="590.0" y="228.0">historial completo</text><rect class="copia" x="505" y="252" width="170" height="46" rx="8"/><text class="en" x="590.0" y="272.0">Copia de trabajo</text><text class="en2" x="590.0" y="288.0">los archivos que edita</text><line class="flecha" x1="435.0" y1="86" x2="590.0" y2="156" marker-end="url(#pta-vcs-git)" marker-start="url(#pta-vcs-git)"/><text class="centro" x="345.0" y="334">push sube los commits · pull los baja</text></svg>
+  </div>
+  <p class="pd-pie">Celeste: un repositorio (tiene el historial). Verde: una copia de trabajo.</p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th></th><th>SVN</th><th>Git</th></tr>
+      <tr><td class="lbl">Servidor</td><td>Uno central, obligatorio</td><td>Uno remoto, para compartir (no es obligatorio)</td></tr>
+      <tr><td class="lbl">Repositorios</td><td>Uno solo, en el servidor</td><td>Uno en cada desarrollador, más el remoto</td></tr>
+      <tr><td class="lbl">Copias de trabajo</td><td>En cada desarrollador, sin historial</td><td>En cada desarrollador, junto a su repositorio local</td></tr>
+      <tr><td class="lbl">El commit va a...</td><td>El servidor (hace falta conexión)</td><td>El repositorio local (después, <code>push</code>)</td></tr>
+    </table>
+  </div>
 
   <hr class="sep">
 

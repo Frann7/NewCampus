@@ -127,7 +127,7 @@ window.Apuntes.registrarIndice({
         "id": "2026-cmmi-casos",
         "archivo": "examenes/ing2-2026-cmmi-casos.js",
         "titulo": "CMMI: 9 casos cortos",
-        "fecha": "Para el parcial del 14/10/2026",
+        "fecha": "Para el 2do parcial y el recuperatorio",
         "detalle": "5 empresas para identificar el nivel (una por nivel, desordenadas) y 4 para decir c\u00f3mo subir al siguiente",
         "temas": "CMMI \u00b7 diagn\u00f3stico \u00b7 riesgos \u00b7 acciones para subir de nivel",
         "tipo": "parcial"
@@ -136,9 +136,18 @@ window.Apuntes.registrarIndice({
         "id": "2026-preguntas-fundamentales",
         "archivo": "examenes/ing2-2026-preguntas-fundamentales.js",
         "titulo": "Preguntas fundamentales de teor\u00eda",
-        "fecha": "Para el parcial del 14/10/2026",
+        "fecha": "Para el 2do parcial y el recuperatorio",
         "detalle": "14 preguntas con la respuesta para aprender y la explicaci\u00f3n desde cero, de la m\u00e1s b\u00e1sica a la m\u00e1s espec\u00edfica",
         "temas": "CMMI \u00b7 Git \u00b7 M\u00e9tricas \u00b7 Agentes de IA \u00b7 Calidad \u00b7 Control de versiones \u00b7 Versionado sem\u00e1ntico",
+        "tipo": "parcial"
+      },
+      {
+        "id": "2026-segundo-parcial",
+        "archivo": "examenes/ing2-2026-segundo-parcial.js",
+        "titulo": "Parcial N\u00b02",
+        "fecha": "14/10/2026",
+        "detalle": "Pr\u00e1ctica (3 consignas, 60 puntos) y Teor\u00eda (4 preguntas, 40 puntos)",
+        "temas": "Composite \u00b7 CMMI \u00b7 M\u00e9tricas \u00b7 PI y SPI \u00b7 Ciclo de vida de una m\u00e9trica \u00b7 Strategy \u00b7 SVN y Git",
         "tipo": "parcial"
       }
     ],

@@ -11,8 +11,9 @@ El plan de carga, con lo que sube cada parte y lo que falta, está en `docs/plan
 - **Texto extraído:** `fuentes/ing2/` (raíz del repo), con su `INDICE.md`. Primero el texto; el PDF
   (`C:\Users\Fran\Desktop\SISTEMAS 3\ING 2\SEGUNDO CUATRIMESTRE\`) solo en las páginas ⚠, que son
   los diagramas. `fuentes/ing2/PATRONES/TEORIA/` está solo en esta PC (no en el repo).
-- **Parciales:** `fuentes/ing2/EXAMENES/` (2024 y 2025). Mandan sobre todo lo demás: qué se pide y
-  con qué palabras.
+- **Parciales:** `fuentes/ing2/EXAMENES/` (2024, 2025 y 2026). Mandan sobre todo lo demás: qué se
+  pide y con qué palabras. El de 2026 está transcripto de fotos de la hoja de un compañero: su
+  nombre y su DNI no se copian.
 - La unidad **Base** (`base`) no sale de un apunte de la cátedra: es lo mínimo de UML de clases y
   de C++ para poder leer el resto. Fran arranca de cero.
 
@@ -114,9 +115,17 @@ mismo `data-g`): un ejemplo que lo lee o lo pide lo **muestra de nuevo ahí**, n
 más arriba. Después de generarlos se mira **cómo quedaron**
 (captura): que no se pisen cajas ni líneas.
 
+Los esquemas que no son de clases (ciclo de vida de una métrica, SVN y Git, cómo se definen los
+procesos, los tres elementos de un proceso, el diagnóstico de CMMI, el grafo de la complejidad
+ciclomática, los comandos de Git, una rama con su merge) van en
+`<div class="pd-grafico esq" data-g="nombre"></div>` y los genera
+`python fuentes/ing2/esquemas.py`, con el mismo criterio: no se dibujan a mano, se corrigen en el
+script. Colores con significado: los niveles de CMMI y los lugares de Git con los de sus
+etiquetas; en SVN y Git, celeste el repositorio y verde la copia de trabajo.
+
 ## Evaluación
 
-- Parciales 2024 y 2025 en `evaluacion/parciales/`, una consigna por archivo, con `pd-resultados`
+- Parciales 2024, 2025 y 2026 en `evaluacion/parciales/`, una consigna por archivo, con `pd-resultados`
   (la respuesta modelo) y `pd-explicacion`. La cátedra no publicó respuestas: son propias, y así
   se avisa en la nota de cada parcial. Las respuestas modelo de patrones siguen el mismo criterio
   que la teoría: tres partes breves (qué patrón y por qué, cómo se aplica, qué se gana), con la
@@ -182,6 +191,11 @@ más arriba. Después de generarlos se mira **cómo quedaron**
   `operacionA`). Formato en `FORMATO.md` ("Diagrama para completar").
 
 ## Pendientes e ideas
+
+- **Recuperatorio del 2do parcial** (Fran sacó 38 en el del 14/10/2026: sabía el Composite, CMMI y
+  Strategy; le faltaron métricas, PI y SPI y los diagramas de teoría). El 19/10/2026 se cargó el
+  parcial 2026 resuelto, la sección "CMMI en una hoja" y los esquemas de teoría que faltaban. La
+  fecha del recuperatorio no se sabe todavía.
 
 - **Ejercicios de parcial que faltan** (plan acordado el 12/10/2026): la teoría quedó como
   preguntas fundamentales en Parciales (13/10/2026, decisión de Fran: para leer y aprender, no

@@ -477,6 +477,29 @@ D["adapter-graficos"] = dict(
     ],
 )
 
+D["composite-graficos"] = dict(
+    alt="Composite del código del parcial 2026: Graphic, Dot, Circle, CompoundGraphic e ImageEditor",
+    clases=[
+        dict(id="Graphic", x=230, y=0, estereo="interface",
+             mets=["+ Move(x: int, y: int)", "+ Draw()"]),
+        dict(id="Dot", x=40, y=170, attrs=["# x_: int", "# y_: int"],
+             mets=["+ Move(x: int, y: int)", "+ Draw()"]),
+        dict(id="Circle", x=40, y=360, attrs=["- radius_: int"], mets=["+ Draw()"]),
+        dict(id="CompoundGraphic", x=330, y=170, destacada=True,
+             attrs=["- children_: Graphic[]"],
+             mets=["+ Add(g: Graphic)", "+ Remove(g: Graphic)", "+ Move(x: int, y: int)", "+ Draw()"]),
+        dict(id="ImageEditor", x=330, y=390, attrs=["- all_: CompoundGraphic"],
+             mets=["+ Load()", "+ DrawAll()", "+ MoveAll(x: int, y: int)"]),
+    ],
+    rel=[
+        ("Dot", "Graphic", "realiza"),
+        ("CompoundGraphic", "Graphic", "realiza"),
+        ("Circle", "Dot", "herencia"),
+        ("CompoundGraphic", "Graphic", "agregacion", dict(sal="der", lle="der", por=600, rot="children_", m2="*")),
+        ("ImageEditor", "CompoundGraphic", "asociacion"),
+    ],
+)
+
 D["composite-empleados"] = dict(
     alt="Composite para los empleados y departamentos de una empresa",
     clases=[

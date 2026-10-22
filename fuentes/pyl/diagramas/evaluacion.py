@@ -221,10 +221,10 @@ D["p25-pares"] = dict(
 R25_ER = "(aa|(b|ab)(ab)*(b|aa))*(ε|(b|ab)(ab)*)"
 R25_POS = {"q0": (0, 1.4), "q1": (2.5, 0), "q2": (2.5, 2.8), "q3": (4.8, 1.4)}
 _t = [("q0", "q1", "a"), ("q1", "q0", "a"), ("q0", "q2", "b"), ("q2", "q0", "b"),
-      ("q2", "q1", "a"), ("q1", "q2", "b")]
+      ("q2", "q1", "a", {"t": 0.75}), ("q1", "q2", "b", {"t": 0.25})]
 D["r25-af"] = dict(
     estados=R25_POS, inicial="q0", finales=["q0", "q2"], er=R25_ER, sigma="abc",
-    trans=_t + [("q0", "q3", "c"), ("q1", "q3", "c"), ("q2", "q3", "c"),
+    trans=_t + [("q0", "q3", "c", {"t": 0.25}), ("q1", "q3", "c"), ("q2", "q3", "c"),
                 ("q3", "q3", "a", {"lazo": "der"}), ("q3", "q3", "b", {"lazo": "der"}), ("q3", "q3", "c", {"lazo": "der"})],
     alt="Autómata del ejercicio 1 del recuperatorio 2025",
 )

@@ -259,6 +259,10 @@ Chrome (`chrome --headless --print-to-pdf`).
 `0.x.y-alpha` mientras esté en desarrollo. La `1.0.0` queda reservada para cuando esté terminado.
 La versión actual se lee al pie del menú lateral.
 
+* **0.54.1-alpha** — Paradigmas y Lenguajes: el ejercicio 3 (diseñar un autómata) se responde
+  siempre con un **AFND**, en la práctica de la Unidad 4 y en los cinco parciales: sin estado
+  muerto (una flecha que falta es que la cadena muere, mostrado con un ejemplo) y adivinando donde
+  simplifica. La teoría de la U4 lo explica y suma la versión AFND de "termina con" y "contiene".
 * **0.54.0-alpha** — Ingeniería de Software II, para el recuperatorio: el **parcial 2026** resuelto
   (el Composite con su UML, CMMI, métricas, PI y SPI, el ciclo de vida de una métrica, Strategy y
   la arquitectura de SVN y Git), una sección nueva de teoría, **CMMI en una hoja** (niveles,

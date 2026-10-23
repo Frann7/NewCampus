@@ -62,7 +62,7 @@
             </g>
           </svg>
         </div>
-        <p>(Las flechas que faltan van a un estado muerto.)</p>
+        <p>AFND: desde q0 sale una rama por cada comienzo (el 0 de 01, o el 2). Sin estado muerto: donde falta una flecha la cadena muere y se rechaza (<code>10</code> muere en q0 con el 1).</p>
         <p>ER = <code>(01|2(0|1)*2)(0|1|2(0|1)*2)*</code></p>
       </div>
     </details>
@@ -70,7 +70,7 @@
     <details class="parcial-desp pd-explicacion">
       <summary>
         <span class="pd-icono">&#9998;</span>
-        <span class="pd-txt"><b>Explicación detallada</b><small>Qué recordar, los estados, la ER y el estado muerto</small></span>
+        <span class="pd-txt"><b>Explicación detallada</b><small>Qué recordar, los estados, la ER y las flechas que faltan</small></span>
       </summary>
       <div class="pd-cuerpo">
         <h4>Qué evalúa</h4>
@@ -101,8 +101,8 @@
 
         <span class="paso">Paso 2 &mdash; Transiciones</span>
         <ul>
-          <li>q0 &mdash;0&rarr; q1; q0 &mdash;2&rarr; q3 (empezó bien y ya hay un 2: impar); q0 &mdash;1&rarr; muerto.</li>
-          <li>q1 &mdash;1&rarr; q2 (completó 01, con cero 2: par); q1 &mdash;0, 2&rarr; muerto.</li>
+          <li>q0 &mdash;0&rarr; q1; q0 &mdash;2&rarr; q3 (empezó bien y ya hay un 2: impar); con 1 no hay flecha (la cadena muere).</li>
+          <li>q1 &mdash;1&rarr; q2 (completó 01, con cero 2: par); con 0 o con 2 no hay flecha.</li>
           <li>q2 &mdash;0, 1&rarr; q2 y q3 &mdash;0, 1&rarr; q3 (no cambian la paridad); q2 &mdash;2&rarr; q3 y q3 &mdash;2&rarr; q2.</li>
         </ul>
         <div class="pd-grafico af" data-g="p25-pares">
@@ -149,7 +149,14 @@
             </g>
           </svg>
         </div>
-        <p>Como la consigna acepta AFD o AFND, alcanza con este dibujo: las flechas que faltan (q0 con 1, q1 con 0 y con 2) van a un estado muerto, que para el AFD completo se agrega con lazo de 0, 1 y 2.</p>
+        <p>Es un AFND: q0 tiene una rama por comienzo (0 &rarr; q1 para el 01, 2 &rarr; q3), sin ε, y las dos ramas desembocan en la parte que cuenta la paridad. No hay nada más que adivinar. Las flechas que faltan (q0 con 1, q1 con 0 y con 2) hacen que la cadena muera:</p>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Cadena</th><th>Recorrido</th><th>Qué pasa</th></tr>
+            <tr><td><code>10</code></td><td>q0 &rarr;1 (no hay flecha)</td><td>Muere en q0: no empieza con 01 ni con 2</td></tr>
+            <tr><td><code>002</code></td><td>q0 &rarr;0 q1 &rarr;0 (no hay flecha)</td><td>Muere en q1: empezó con 0 pero no siguió con 1</td></tr>
+          </table>
+        </div>
 
         <span class="paso">Paso 3 &mdash; La ER, por piezas</span>
         <ul>
@@ -167,7 +174,7 @@
             <tr><td><code>22</code></td><td>q0 &rarr;2 q3 &rarr;2 q2</td><td>Sí</td></tr>
             <tr><td><code>201021</code></td><td>q0 &rarr;2 q3 &rarr; q3 &rarr; q3 &rarr; q3 &rarr;2 q2 &rarr; q2</td><td>Sí</td></tr>
             <tr><td><code>012</code></td><td>q0 &rarr; q1 &rarr; q2 &rarr;2 q3</td><td>No: un solo 2</td></tr>
-            <tr><td><code>10</code></td><td>q0 &rarr;1 muerto</td><td>No: empieza con 1</td></tr>
+            <tr><td><code>10</code></td><td>q0 &rarr;1 muere</td><td>No: empieza con 1</td></tr>
           </table>
         </div>
 

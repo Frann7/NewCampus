@@ -14,7 +14,7 @@
         <span class="pd-txt"><b>Resultados</b><small>Solo la respuesta</small></span>
       </summary>
       <div class="pd-cuerpo">
-        <p>AFD con todos los estados finales (las dos flechas que faltan, q3 con a y q6 con b, van a un estado muerto):</p>
+        <p>AFND con todos los estados finales. Rechaza por las <strong>flechas que faltan</strong>: q3 no tiene flecha con a y q6 no tiene flecha con b, así que <code>abba</code> muere en q3 y <code>baab</code> muere en q6.</p>
         <div class="pd-grafico af" data-g="r23-sin">
           <svg viewBox="-61 -53 508 346" width="508" height="346" role="img" aria-label="Diagrama de un autómata finito">
             <path class="arco" d="M15.2,108.6 L112.8,35.4"/>
@@ -103,7 +103,7 @@
       <div class="pd-cuerpo">
         <h4>Qué evalúa</h4>
         <p>
-          Diseñar un AFD de "no contiene" (Unidad 4, sección 2). Es el ejercicio 80 del Trabajo
+          Diseñar un AFND de "no contiene" (Unidad 4, sección 2). Es el ejercicio 80 del Trabajo
           Práctico I, tal cual. Pide solo el autómata, no la ER.
         </p>
 
@@ -111,7 +111,7 @@
         <p>
           El autómata recuerda <strong>cuánto de abba o de baab lleva armado</strong> al final de lo
           que leyó. Mientras no complete ninguna de las dos, la cadena está bien: todos esos estados
-          son finales. Si completa una, va al muerto.
+          son finales. Si completa una, la cadena <strong>muere</strong>: no hay flecha para la letra que la completa.
         </p>
         <ul>
           <li>Sí: ε, <code>a</code>, <code>abab</code>, <code>abbb</code>, <code>baaa</code>.</li>
@@ -141,10 +141,10 @@
             <tr><td class="lbl">q0</td><td>a &rarr; q1</td><td>b &rarr; q4</td></tr>
             <tr><td class="lbl">q1 (a)</td><td>aa &rarr; lo útil es "a" &rarr; q1</td><td>ab &rarr; q2</td></tr>
             <tr><td class="lbl">q2 (ab)</td><td>aba &rarr; lo útil es "ba" &rarr; q5</td><td>abb &rarr; q3</td></tr>
-            <tr><td class="lbl">q3 (abb)</td><td>abba &rarr; <strong>muerto</strong></td><td>abbb &rarr; lo útil es "b" &rarr; q4</td></tr>
+            <tr><td class="lbl">q3 (abb)</td><td>abba &rarr; <strong>sin flecha</strong> (muere)</td><td>abbb &rarr; lo útil es "b" &rarr; q4</td></tr>
             <tr><td class="lbl">q4 (b)</td><td>ba &rarr; q5</td><td>bb &rarr; lo útil es "b" &rarr; q4</td></tr>
             <tr><td class="lbl">q5 (ba)</td><td>baa &rarr; q6</td><td>bab &rarr; lo útil es "ab" &rarr; q2</td></tr>
-            <tr><td class="lbl">q6 (baa)</td><td>baaa &rarr; lo útil es "a" &rarr; q1</td><td>baab &rarr; <strong>muerto</strong></td></tr>
+            <tr><td class="lbl">q6 (baa)</td><td>baaa &rarr; lo útil es "a" &rarr; q1</td><td>baab &rarr; <strong>sin flecha</strong> (muere)</td></tr>
           </table>
         </div>
         <div class="pd-grafico af" data-g="r23-sin">
@@ -226,8 +226,24 @@
         </div>
         <div class="caja caja-resp">
           <span class="caja-tit">Respuesta</span>
-          <p>El AFD de arriba: q0 inicial, q0 a q6 finales, y las dos flechas que faltan (q3 con a, q6 con b) a un estado muerto. Como la consigna acepta AFD o AFND, se puede entregar sin dibujar el muerto, aclarándolo.</p>
+          <p>El AFND de arriba: q0 inicial y q0 a q6 finales. q3 no tiene flecha con a y q6 no tiene flecha con b: ahí mueren las cadenas que completan abba o baab.</p>
         </div>
+
+        <h4>Por qué no acepta todo si todos son finales</h4>
+        <p>
+          En un AFND, si llega un símbolo que no tiene flecha, la cadena <strong>muere</strong> ahí:
+          se rechaza sin llegar al final. Los estados finales solo cuentan para las cadenas que
+          terminan de leerse.
+        </p>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Cadena</th><th>Recorrido</th><th>Qué pasa</th></tr>
+            <tr><td><code>abba</code></td><td>q0 &rarr;a q1 &rarr;b q2 &rarr;b q3 &rarr;<strong>a</strong> ?</td><td>q3 no tiene flecha con a: <strong>muere, rechazada</strong></td></tr>
+            <tr><td><code>baab</code></td><td>q0 &rarr;b q4 &rarr;a q5 &rarr;a q6 &rarr;<strong>b</strong> ?</td><td>q6 no tiene flecha con b: <strong>muere, rechazada</strong></td></tr>
+            <tr><td><code>abab</code></td><td>q0 &rarr; q1 &rarr; q2 &rarr; q5 &rarr; q2</td><td>termina en q2, final: <strong>aceptada</strong></td></tr>
+          </table>
+        </div>
+        <p>Esas dos flechas que faltan son las únicas salidas a "prohibido". Como AFD habría que agregar un estado muerto y mandarlas ahí; como AFND no hace falta.</p>
 
         <h4>Control con cadenas</h4>
         <div class="tabla-wrap">
@@ -235,8 +251,8 @@
             <tr><th>Cadena</th><th>Recorrido</th><th>¿La acepta?</th></tr>
             <tr><td><code>abab</code></td><td>q0 &rarr; q1 &rarr; q2 &rarr; q5 &rarr; q2</td><td>Sí</td></tr>
             <tr><td><code>abbb</code></td><td>q0 &rarr; q1 &rarr; q2 &rarr; q3 &rarr; q4</td><td>Sí</td></tr>
-            <tr><td><code>babba</code></td><td>q0 &rarr; q4 &rarr; q5 &rarr; q2 &rarr; q3 &rarr; muerto</td><td>No: contiene abba</td></tr>
-            <tr><td><code>abaab</code></td><td>q0 &rarr; q1 &rarr; q2 &rarr; q5 &rarr; q6 &rarr; muerto</td><td>No: contiene baab</td></tr>
+            <tr><td><code>babba</code></td><td>q0 &rarr; q4 &rarr; q5 &rarr; q2 &rarr; q3, y la a no tiene flecha: muere</td><td>No: contiene abba</td></tr>
+            <tr><td><code>abaab</code></td><td>q0 &rarr; q1 &rarr; q2 &rarr; q5 &rarr; q6, y la b no tiene flecha: muere</td><td>No: contiene baab</td></tr>
           </table>
         </div>
 
@@ -255,6 +271,7 @@
             <li>Volver siempre a q0 al "fallar": desde q2 (ab) una a deja "ba", que es el comienzo de baab. Si volvés a q0, <code>abaab</code> quedaría aceptada.</li>
             <li>Hacer dos autómatas separados y "unirlos" con un AFND: eso da el <strong>o</strong> ("no contiene abba o no contiene baab"), que no es lo que piden.</li>
             <li>Olvidar que ε y las cadenas cortas también entran: el inicial es final.</li>
+            <li>En "no contiene" no hay nada que adivinar: el AFND es el AFD sin el estado muerto. Un AFND que "adivina" dónde está abba sirve para "contiene", no para "no contiene".</li>
           </ul>
         </div>
       </div>

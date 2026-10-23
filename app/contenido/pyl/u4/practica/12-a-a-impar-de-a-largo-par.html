@@ -41,17 +41,18 @@
   <div class="tabla-wrap">
     <table class="t">
       <tr><th>&delta;</th><th>a</th><th>b</th></tr>
-      <tr><td class="lbl">&rarr; q0</td><td>{q1}</td><td>∅</td></tr>
-      <tr><td class="lbl">q1</td><td>{q2}</td><td>{q3}</td></tr>
-      <tr><td class="lbl">q2</td><td>{q1}</td><td>{q4}</td></tr>
-      <tr><td class="lbl">q3</td><td>{q4}</td><td>{q1}</td></tr>
-      <tr><td class="lbl">q4</td><td>{q3, q5}</td><td>{q2}</td></tr>
-      <tr><td class="lbl">q5 *</td><td>∅</td><td>∅</td></tr>
+      <tr><td class="lbl">&rarr; q0</td><td>q1</td><td>&mdash;</td></tr>
+      <tr><td class="lbl">q1</td><td>q2</td><td>q3</td></tr>
+      <tr><td class="lbl">q2</td><td>q1</td><td>q4</td></tr>
+      <tr><td class="lbl">q3</td><td>q4</td><td>q1</td></tr>
+      <tr><td class="lbl">q4</td><td>{q3, q5}</td><td>q2</td></tr>
+      <tr><td class="lbl">q5 *</td><td>&mdash;</td><td>&mdash;</td></tr>
     </table>
   </div>
   <p>
-    Es un <strong>AFND</strong>: q4 tiene dos flechas con a, y las casillas vacías (∅) no llevan
-    flecha (si se pidiera AFD, irían a un estado muerto). Acepta si algún camino termina en q5.
+    Es un <strong>AFND</strong>: q4 tiene dos flechas con a. Acepta si algún camino termina en q5.
+    Sin estado muerto: una flecha que falta es que la cadena muere ahí. Con <code>baab</code>, q0
+    no tiene flecha con b, la cadena muere: rechazada.
   </p>
   <div class="pd-grafico af" data-g="u4-e12-af">
     <svg viewBox="-61 -52 588 281" width="588" height="281" role="img" aria-label="Diagrama de un autómata finito">
@@ -134,8 +135,8 @@
   <div class="tabla-wrap">
     <table class="t full">
       <tr><th>Cadena</th><th>Recorrido</th><th>¿La acepta?</th></tr>
-      <tr><td><code>aaba</code></td><td>q0 &rarr;a q1 &rarr;a q2 &rarr;b q4 &rarr;a q5</td><td>Sí. En la ER: <code>a</code> + <code>ab</code> + <code>a</code></td></tr>
-      <tr><td><code>aabbba</code></td><td>q0 &rarr;a q1 &rarr;a q2 &rarr;b q4 &rarr;b q2 &rarr;b q4 &rarr;a q5</td><td>Sí. En la ER: <code>a</code> + <code>ab</code> + <code>bb</code> + <code>a</code></td></tr>
+      <tr><td><code>aaba</code></td><td>hay un camino: q0 &rarr;a q1 &rarr;a q2 &rarr;b q4 &rarr;a q5</td><td>Sí. En la ER: <code>a</code> + <code>ab</code> + <code>a</code></td></tr>
+      <tr><td><code>aabbba</code></td><td>hay un camino: q0 &rarr;a q1 &rarr;a q2 &rarr;b q4 &rarr;b q2 &rarr;b q4 &rarr;a q5</td><td>Sí. En la ER: <code>a</code> + <code>ab</code> + <code>bb</code> + <code>a</code></td></tr>
       <tr><td><code>abba</code></td><td>q0 &rarr;a q1 &rarr;b q3 &rarr;b q1 &rarr;a q2</td><td>No: el medio <code>bb</code> no tiene a</td></tr>
       <tr><td><code>aaa</code></td><td>q0 &rarr;a q1 &rarr;a q2 &rarr;a q1</td><td>No: largo impar</td></tr>
     </table>

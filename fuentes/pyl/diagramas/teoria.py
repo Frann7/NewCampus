@@ -176,3 +176,12 @@ D["u4-ramas-junto"] = dict(
            ("I", "P", "b"), ("I", "I", "a", {"lazo": "der"}), ("q0", "I", "b")],
     alt="Las dos ramas juntas: R y U son el mismo estado (par), S y T también (impar)",
 )
+
+# las mismas formas en AFND (sección 2 de la U4)
+D["u4-termina-afnd"] = dict(
+    estados={"q0": (0, 0), "q1": (1.9, 0), "q2": (3.8, 0)}, inicial="q0", finales=["q2"],
+    er="(a|b)*ab", sigma="ab",
+    trans=[("q0", "q0", "a"), ("q0", "q0", "b"), ("q0", "q1", "a"), ("q1", "q2", "b")],
+    alt="AFND de las cadenas que terminan en ab",
+)
+D["u4-contiene-afnd"] = dict(D["u1-afnd-ab"], alt="AFND de las cadenas que contienen ab")

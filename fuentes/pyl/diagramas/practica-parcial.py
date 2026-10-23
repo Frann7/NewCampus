@@ -76,12 +76,11 @@ D["pp-min"] = dict(
 
 # =============================================================== ej. 3: terminan con z, impar de x
 D["pp-impar"] = dict(
-    estados={"q0": (0, 1.2), "q1": (2.2, 0), "q2": (2.2, 2.4)}, inicial="q0", finales=["q2"],
+    estados={"q0": (0, 0), "q1": (2.2, 0), "q2": (4.4, 0)}, inicial="q0", finales=["q2"],
     er="(y|z)*x(y|z|x(y|z)*x)*z", sigma="xyz",
     cumple=lambda w: w.endswith("z") and w.count("x") % 2 == 1,
-    trans=[("q0", "q0", "y", {"lazo": "abajo"}), ("q0", "q0", "z", {"lazo": "abajo"}), ("q0", "q1", "x"),
-           ("q1", "q0", "x"), ("q1", "q1", "y", {"lazo": "der"}), ("q1", "q2", "z"), ("q2", "q1", "y"),
-           ("q2", "q2", "z", {"lazo": "der"}), ("q2", "q0", "x")],
+    trans=[("q0", "q0", "y"), ("q0", "q0", "z"), ("q0", "q1", "x"), ("q1", "q0", "x"),
+           ("q1", "q1", "y"), ("q1", "q1", "z"), ("q1", "q2", "z")],
 )
 
 # ------------------------------------------------ la ER del ej. 3 contra su definición

@@ -15,15 +15,14 @@
 
   <span class="paso">Paso 2 &mdash; Qué tiene que recordar el autómata</span>
   <p>
-    Si lo último fue 1 (otro 1 lo arruina). Y un estado muerto para cuando ya apareció <code>11</code>:
-    de ahí no se sale. En un "no contiene", <strong>todos los estados vivos son finales</strong>.
+    Si lo último fue 1 (otro 1 lo arruina). En un "no contiene", <strong>todos los estados son
+    finales</strong>: la que no sirve no llega al final de la lectura.
   </p>
   <div class="tabla-wrap">
     <table class="t">
       <tr><th>Estado</th><th>Qué significa</th></tr>
       <tr><td class="lbl">q0</td><td>No leyó nada o lo último fue 0 (inicial y final).</td></tr>
       <tr><td class="lbl">q1</td><td>Lo último fue 1 (final).</td></tr>
-      <tr><td class="lbl">∅</td><td>Apareció <code>11</code>: muerto.</td></tr>
     </table>
   </div>
 
@@ -32,13 +31,13 @@
     <table class="t">
       <tr><th>&delta;</th><th>0</th><th>1</th></tr>
       <tr><td class="lbl">&rarr; q0 *</td><td>q0</td><td>q1</td></tr>
-      <tr><td class="lbl">q1 *</td><td>q0</td><td>∅</td></tr>
-      <tr><td class="lbl">∅</td><td>∅</td><td>∅</td></tr>
+      <tr><td class="lbl">q1 *</td><td>q0</td><td>&mdash;</td></tr>
     </table>
   </div>
   <p>
-    El dibujo va sin ∅: es un <strong>AFD incompleto</strong>. La flecha que falta (q1 con 1) va al
-    estado muerto.
+    Acá no hay nada que adivinar: el AFND es el AFD sin el estado muerto. Una flecha que falta es
+    que la cadena muere ahí: con <code>0110</code>, q1 no tiene flecha con 1, la cadena muere:
+    rechazada.
   </p>
   <div class="pd-grafico af" data-g="u4-e8-af">
     <svg viewBox="-61 -77 252 130" width="252" height="130" role="img" aria-label="Diagrama de un autómata finito">
@@ -77,7 +76,7 @@
 
   <div class="caja caja-resp">
     <span class="caja-tit">Respuesta</span>
-    <p><strong>AFD</strong> (incompleto, sin el estado muerto): el del dibujo, q0 inicial, q0 y q1 finales.</p>
+    <p><strong>AFND:</strong> el del dibujo, q0 inicial, q0 y q1 finales.</p>
     <p><strong>ER:</strong> <code>(0|10)*(ε|1)</code></p>
   </div>
 
@@ -87,7 +86,7 @@
       <tr><th>Cadena</th><th>Recorrido</th><th>¿La acepta?</th></tr>
       <tr><td><code>ε</code></td><td>se queda en q0</td><td>Sí</td></tr>
       <tr><td><code>1001</code></td><td>q0 &rarr;1 q1 &rarr;0 q0 &rarr;0 q0 &rarr;1 q1</td><td>Sí</td></tr>
-      <tr><td><code>0110</code></td><td>q0 &rarr;0 q0 &rarr;1 q1 &rarr;1 ∅ &rarr;0 ∅</td><td>No: tiene 11</td></tr>
+      <tr><td><code>0110</code></td><td>q0 &rarr;0 q0 &rarr;1 q1, y q1 no tiene flecha con 1: muere</td><td>No: tiene 11</td></tr>
     </table>
   </div>
 
@@ -96,7 +95,7 @@
     <ul>
       <li>Sin el <code>(ε|1)</code>, la ER deja afuera <code>1</code> y <code>01</code>.</li>
       <li>Si q1 no fuera final se perderían las que terminan en 1.</li>
-      <li>Atajo: el AF de "no contiene X" es el de "contiene X" con los finales dados vuelta (siempre que sea un AFD completo, con el muerto incluido).</li>
+      <li>Dar vuelta los finales del AF de "contiene 11" solo sirve con un AFD completo, muerto incluido (el muerto pasa a ser final); sin el muerto o con un AFND, no anda. Un "no contiene" se piensa directo, como acá.</li>
     </ul>
   </div>
 </div>

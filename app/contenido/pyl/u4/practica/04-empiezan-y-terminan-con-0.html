@@ -13,52 +13,49 @@
     <li>No: <code>ε</code> (no tiene primera letra), <code>1</code>, <code>01</code>, <code>10</code>, <code>101</code>.</li>
   </ul>
 
-  <span class="paso">Paso 2 &mdash; Qué tiene que recordar el autómata</span>
+  <span class="paso">Paso 2 &mdash; La idea: adivinar el último 0</span>
   <p>
-    Dos cosas: si <strong>empezó</strong> con 0 (si empezó con 1 ya no hay arreglo) y, de ahí en
-    adelante, si <strong>lo último</strong> fue 0.
+    Se arma igual que la ER <code>0|0(0|1)*0</code>: un 0 obligatorio al principio, después
+    cualquier cosa, y un 0 que el AFND <strong>adivina</strong> que es el último. Para la cadena
+    <code>0</code>, el primer 0 puede ser también el último: una flecha directa de q0 al final.
   </p>
   <div class="tabla-wrap">
     <table class="t">
       <tr><th>Estado</th><th>Qué significa</th></tr>
       <tr><td class="lbl">q0</td><td>No leyó nada (inicial).</td></tr>
-      <tr><td class="lbl">q1</td><td>Empezó con 0 y lo último fue 0 (final).</td></tr>
-      <tr><td class="lbl">q2</td><td>Empezó con 0 y lo último fue 1.</td></tr>
-      <tr><td class="lbl">∅</td><td>Empezó con 1: muerto, no acepta nunca más.</td></tr>
+      <tr><td class="lbl">q1</td><td>Leyó el 0 del principio; ahora, cualquier cosa del medio.</td></tr>
+      <tr><td class="lbl">q2</td><td>Leyó el 0 del final (final; no sale nada).</td></tr>
     </table>
   </div>
 
   <span class="paso">Paso 3 &mdash; Transiciones y dibujo</span>
+  <p>Con 0, q0 y q1 tienen dos flechas cada uno: eso lo hace AFND. "&mdash;" es que no hay flecha.</p>
   <div class="tabla-wrap">
     <table class="t">
       <tr><th>&delta;</th><th>0</th><th>1</th></tr>
-      <tr><td class="lbl">&rarr; q0</td><td>q1</td><td>∅</td></tr>
-      <tr><td class="lbl">q1 *</td><td>q1</td><td>q2</td></tr>
-      <tr><td class="lbl">q2</td><td>q1</td><td>q2</td></tr>
-      <tr><td class="lbl">∅</td><td>∅</td><td>∅</td></tr>
+      <tr><td class="lbl">&rarr; q0</td><td>{q1, q2}</td><td>&mdash;</td></tr>
+      <tr><td class="lbl">q1</td><td>{q1, q2}</td><td>q1</td></tr>
+      <tr><td class="lbl">q2 *</td><td>&mdash;</td><td>&mdash;</td></tr>
     </table>
   </div>
   <p>
-    El dibujo va sin ∅: es un <strong>AFD incompleto</strong>. La flecha que falta (q0 con 1) va
-    al estado muerto. Como la consigna dice "AFD o AFND", se puede entregar así.
+    Sin estado muerto: una flecha que falta es que la cadena muere ahí. Con <code>10</code>: q0
+    no tiene flecha con 1, la cadena muere: rechazada.
   </p>
   <div class="pd-grafico af" data-g="u4-e4-af">
-    <svg viewBox="-61 -77 433 130" width="433" height="130" role="img" aria-label="Diagrama de un autómata finito">
+    <svg viewBox="-61 -77 412 184" width="412" height="184" role="img" aria-label="Diagrama de un autómata finito">
       <path class="arco" d="M19.0,0.0 L141.0,0.0"/>
       <path class="punta" d="M141.0,0.0 L132.0,4.5 L132.0,-4.5 Z"/>
       <text class="rot" x="80.0" y="-10.0" text-anchor="middle" dominant-baseline="central">0</text>
       <path class="arco" d="M151.1,-16.8 C120.0,-51.2 200.0,-51.2 168.9,-16.8"/>
       <path class="punta" d="M168.9,-16.8 L171.6,-26.5 L178.3,-20.4 Z"/>
-      <text class="rot" x="160.0" y="-56.0" text-anchor="middle" dominant-baseline="central">0</text>
-      <path class="arco" d="M177.3,-7.8 Q240.0,-36.0 302.7,-7.8"/>
-      <path class="punta" d="M302.7,-7.8 L292.6,-7.4 L296.3,-15.6 Z"/>
-      <text class="rot" x="240.0" y="-31.9" text-anchor="middle" dominant-baseline="central">1</text>
-      <path class="arco" d="M311.1,-16.8 C280.0,-51.2 360.0,-51.2 328.9,-16.8"/>
-      <path class="punta" d="M328.9,-16.8 L331.6,-26.5 L338.3,-20.4 Z"/>
-      <text class="rot" x="320.0" y="-56.0" text-anchor="middle" dominant-baseline="central">1</text>
-      <path class="arco" d="M302.7,7.8 Q240.0,36.0 177.3,7.8"/>
-      <path class="punta" d="M177.3,7.8 L187.4,7.4 L183.7,15.6 Z"/>
-      <text class="rot" x="240.0" y="31.9" text-anchor="middle" dominant-baseline="central">0</text>
+      <text class="rot" x="160.0" y="-56.0" text-anchor="middle" dominant-baseline="central">0, 1</text>
+      <path class="arco" d="M179.0,0.0 L301.0,0.0"/>
+      <path class="punta" d="M301.0,0.0 L292.0,4.5 L292.0,-4.5 Z"/>
+      <text class="rot" x="240.0" y="-10.0" text-anchor="middle" dominant-baseline="central">0</text>
+      <path class="arco" d="M14.3,12.5 Q160.0,140.0 305.7,12.5"/>
+      <path class="punta" d="M305.7,12.5 L301.9,21.8 L296.0,15.1 Z"/>
+      <text class="rot" x="160.0" y="86.3" text-anchor="middle" dominant-baseline="central">0</text>
       <path class="arco" d="M-49.0,0.0 L-19.0,0.0"/>
       <path class="punta" d="M-19.0,0.0 L-28.0,4.5 L-28.0,-4.5 Z"/>
       <g class="estado">
@@ -67,11 +64,11 @@
       </g>
       <g class="estado">
         <circle class="borde" cx="160.0" cy="0.0" r="19"/>
-        <circle class="borde" cx="160.0" cy="0.0" r="15"/>
         <text class="nom" x="160.0" y="0.0" text-anchor="middle" dominant-baseline="central">q1</text>
       </g>
       <g class="estado">
         <circle class="borde" cx="320.0" cy="0.0" r="19"/>
+        <circle class="borde" cx="320.0" cy="0.0" r="15"/>
         <text class="nom" x="320.0" y="0.0" text-anchor="middle" dominant-baseline="central">q2</text>
       </g>
     </svg>
@@ -86,7 +83,7 @@
 
   <div class="caja caja-resp">
     <span class="caja-tit">Respuesta</span>
-    <p><strong>AFD</strong> (incompleto, sin el estado muerto): el del dibujo, q0 inicial y q1 final.</p>
+    <p><strong>AFND:</strong> el del dibujo, q0 inicial y q2 final.</p>
     <p><strong>ER:</strong> <code>0|0(0|1)*0</code></p>
   </div>
 
@@ -94,19 +91,19 @@
   <div class="tabla-wrap">
     <table class="t full">
       <tr><th>Cadena</th><th>Recorrido</th><th>¿La acepta?</th></tr>
-      <tr><td><code>0</code></td><td>q0 &rarr;0 q1</td><td>Sí</td></tr>
-      <tr><td><code>0110</code></td><td>q0 &rarr;0 q1 &rarr;1 q2 &rarr;1 q2 &rarr;0 q1</td><td>Sí</td></tr>
-      <tr><td><code>01</code></td><td>q0 &rarr;0 q1 &rarr;1 q2</td><td>No: termina en 1</td></tr>
-      <tr><td><code>10</code></td><td>q0 &rarr;1 ∅ &rarr;0 ∅</td><td>No: empieza con 1</td></tr>
+      <tr><td><code>0</code></td><td>hay un camino: q0 &rarr;0 q2</td><td>Sí</td></tr>
+      <tr><td><code>0110</code></td><td>hay un camino: q0 &rarr;0 q1 &rarr;1 q1 &rarr;1 q1 &rarr;0 q2</td><td>Sí</td></tr>
+      <tr><td><code>01</code></td><td>q0 &rarr;0 q2 muere con el 1; el otro, q0 &rarr;0 q1 &rarr;1 q1, termina en q1</td><td>No: q1 no es final</td></tr>
+      <tr><td><code>10</code></td><td>q0 no tiene flecha con 1: muere</td><td>No: empieza con 1</td></tr>
     </table>
   </div>
 
   <div class="caja caja-ojo">
     <span class="caja-tit">Errores y trampas</span>
     <ul>
-      <li><code>0(0|1)*0</code> solo deja afuera a <code>0</code>. Siempre probar las cadenas de una letra.</li>
+      <li><code>0(0|1)*0</code> solo deja afuera a <code>0</code>. Siempre probar las cadenas de una letra: en el AFND, sin la flecha q0 &rarr;0 q2 pasa lo mismo.</li>
       <li>Si q0 fuera final se aceptaría <code>ε</code>, que no empieza con nada.</li>
-      <li>Hacen falta q1 y q2 separados: "lo último fue 0" o "fue 1" decide si se acepta.</li>
+      <li>Hacer q1 final para aceptar <code>0</code>: también aceptaría <code>01</code>. q1 es "cualquier cosa del medio", nunca un final.</li>
     </ul>
   </div>
 </div>

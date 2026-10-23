@@ -13,53 +13,55 @@
     <li>No: <code>ε</code>, <code>0</code>, <code>00</code>, <code>0100</code>, <code>1001001</code>.</li>
   </ul>
 
-  <span class="paso">Paso 2 &mdash; Qué tiene que recordar el autómata</span>
-  <p>Cuántos ceros seguidos lleva (0, 1 o 2), o si ya vio los tres.</p>
+  <span class="paso">Paso 2 &mdash; La idea: adivinar dónde empieza el 000</span>
+  <p>
+    Se arma igual que la ER: q0 con lazo de todo (lo de antes), el camino 0, 0, 0 y un final con
+    lazo de todo (lo de después). En algún 0, el AFND <strong>adivina</strong> que ahí empieza el
+    <code>000</code>.
+  </p>
   <div class="tabla-wrap">
     <table class="t">
       <tr><th>Estado</th><th>Qué significa</th></tr>
-      <tr><td class="lbl">q0</td><td>Ningún cero seguido: no leyó nada o lo último fue 1 (inicial).</td></tr>
-      <tr><td class="lbl">q1</td><td>Lo último fue un 0.</td></tr>
-      <tr><td class="lbl">q2</td><td>Lo último fue <code>00</code>.</td></tr>
-      <tr><td class="lbl">q3</td><td>Ya apareció <code>000</code> (final). Pase lo que pase después, se acepta.</td></tr>
+      <tr><td class="lbl">q0</td><td>Leyendo lo de antes, cualquier cosa (inicial).</td></tr>
+      <tr><td class="lbl">q1</td><td>Leyó el primer 0 del 000.</td></tr>
+      <tr><td class="lbl">q2</td><td>Leyó <code>00</code>.</td></tr>
+      <tr><td class="lbl">q3</td><td>Ya apareció <code>000</code> (final). Lo de después, cualquier cosa.</td></tr>
     </table>
   </div>
 
   <span class="paso">Paso 3 &mdash; Transiciones y dibujo</span>
-  <p>Un 0 avanza un estado; un 1 corta la racha y vuelve a q0. En q3 ya se cumplió: lazo con todo.</p>
+  <p>q0 con 0 tiene dos flechas (se queda o empieza el 000): eso lo hace AFND. "&mdash;" es que no hay flecha.</p>
   <div class="tabla-wrap">
     <table class="t">
       <tr><th>&delta;</th><th>0</th><th>1</th></tr>
-      <tr><td class="lbl">&rarr; q0</td><td>q1</td><td>q0</td></tr>
-      <tr><td class="lbl">q1</td><td>q2</td><td>q0</td></tr>
-      <tr><td class="lbl">q2</td><td>q3</td><td>q0</td></tr>
+      <tr><td class="lbl">&rarr; q0</td><td>{q0, q1}</td><td>q0</td></tr>
+      <tr><td class="lbl">q1</td><td>q2</td><td>&mdash;</td></tr>
+      <tr><td class="lbl">q2</td><td>q3</td><td>&mdash;</td></tr>
       <tr><td class="lbl">q3 *</td><td>q3</td><td>q3</td></tr>
     </table>
   </div>
-  <p>AFD completo, sin estado muerto.</p>
+  <p>
+    Sin estado muerto: una flecha que falta es que la cadena muere ahí. Con <code>0100</code>, el
+    camino q0 &rarr;0 q1 muere con el 1 (q1 no tiene flecha con 1), y los que adivinan en los
+    últimos ceros terminan en q1 o q2: ninguno llega a q3, rechazada.
+  </p>
   <div class="pd-grafico af" data-g="u4-e6-af">
-    <svg viewBox="-61 -77 586 169" width="586" height="169" role="img" aria-label="Diagrama de un autómata finito">
+    <svg viewBox="-61 -77 545 108" width="545" height="108" role="img" aria-label="Diagrama de un autómata finito">
       <path class="arco" d="M-8.9,-16.8 C-40.0,-51.2 40.0,-51.2 8.9,-16.8"/>
       <path class="punta" d="M8.9,-16.8 L11.6,-26.5 L18.3,-20.4 Z"/>
-      <text class="rot" x="0.0" y="-56.0" text-anchor="middle" dominant-baseline="central">1</text>
-      <path class="arco" d="M17.0,-8.5 Q72.0,-36.0 127.0,-8.5"/>
-      <path class="punta" d="M127.0,-8.5 L116.9,-8.5 L121.0,-16.5 Z"/>
-      <text class="rot" x="72.0" y="-32.2" text-anchor="middle" dominant-baseline="central">0</text>
-      <path class="arco" d="M127.0,8.5 Q72.0,36.0 17.0,8.5"/>
-      <path class="punta" d="M17.0,8.5 L27.1,8.5 L23.0,16.5 Z"/>
-      <text class="rot" x="72.0" y="32.2" text-anchor="middle" dominant-baseline="central">1</text>
+      <text class="rot" x="0.0" y="-56.0" text-anchor="middle" dominant-baseline="central">0, 1</text>
+      <path class="arco" d="M19.0,0.0 L125.0,0.0"/>
+      <path class="punta" d="M125.0,0.0 L116.0,4.5 L116.0,-4.5 Z"/>
+      <text class="rot" x="72.0" y="-10.0" text-anchor="middle" dominant-baseline="central">0</text>
       <path class="arco" d="M163.0,0.0 L269.0,0.0"/>
       <path class="punta" d="M269.0,0.0 L260.0,4.5 L260.0,-4.5 Z"/>
       <text class="rot" x="216.0" y="-10.0" text-anchor="middle" dominant-baseline="central">0</text>
-      <path class="arco" d="M272.9,11.5 Q144.0,110.0 15.1,11.5"/>
-      <path class="punta" d="M15.1,11.5 L25.0,13.4 L19.5,20.6 Z"/>
-      <text class="rot" x="144.0" y="70.8" text-anchor="middle" dominant-baseline="central">1</text>
       <path class="arco" d="M307.0,0.0 L413.0,0.0"/>
       <path class="punta" d="M413.0,0.0 L404.0,4.5 L404.0,-4.5 Z"/>
       <text class="rot" x="360.0" y="-10.0" text-anchor="middle" dominant-baseline="central">0</text>
-      <path class="arco" d="M448.8,-8.9 C483.2,-40.0 483.2,40.0 448.8,8.9"/>
-      <path class="punta" d="M448.8,8.9 L458.5,11.6 L452.4,18.3 Z"/>
-      <text class="rot" x="498.2" y="0.0" text-anchor="middle" dominant-baseline="central">0, 1</text>
+      <path class="arco" d="M423.1,-16.8 C392.0,-51.2 472.0,-51.2 440.9,-16.8"/>
+      <path class="punta" d="M440.9,-16.8 L443.6,-26.5 L450.3,-20.4 Z"/>
+      <text class="rot" x="432.0" y="-56.0" text-anchor="middle" dominant-baseline="central">0, 1</text>
       <path class="arco" d="M-49.0,0.0 L-19.0,0.0"/>
       <path class="punta" d="M-19.0,0.0 L-28.0,4.5 L-28.0,-4.5 Z"/>
       <g class="estado">
@@ -91,7 +93,7 @@
 
   <div class="caja caja-resp">
     <span class="caja-tit">Respuesta</span>
-    <p><strong>AFD:</strong> el del dibujo (q0 inicial, q3 final).</p>
+    <p><strong>AFND:</strong> el del dibujo (q0 inicial con lazo 0, 1; q0 &rarr;0 q1 &rarr;0 q2 &rarr;0 q3; q3 final con lazo 0, 1).</p>
     <p><strong>ER:</strong> <code>(0|1)*000(0|1)*</code></p>
   </div>
 
@@ -99,16 +101,17 @@
   <div class="tabla-wrap">
     <table class="t full">
       <tr><th>Cadena</th><th>Recorrido</th><th>¿La acepta?</th></tr>
-      <tr><td><code>1000</code></td><td>q0 &rarr;1 q0 &rarr;0 q1 &rarr;0 q2 &rarr;0 q3</td><td>Sí</td></tr>
-      <tr><td><code>00010</code></td><td>q0 &rarr;0 q1 &rarr;0 q2 &rarr;0 q3 &rarr;1 q3 &rarr;0 q3</td><td>Sí</td></tr>
-      <tr><td><code>0100</code></td><td>q0 &rarr;0 q1 &rarr;1 q0 &rarr;0 q1 &rarr;0 q2</td><td>No: nunca hay tres seguidos</td></tr>
+      <tr><td><code>1000</code></td><td>hay un camino: q0 &rarr;1 q0 &rarr;0 q1 &rarr;0 q2 &rarr;0 q3</td><td>Sí</td></tr>
+      <tr><td><code>00010</code></td><td>hay un camino: q0 &rarr;0 q1 &rarr;0 q2 &rarr;0 q3 &rarr;1 q3 &rarr;0 q3</td><td>Sí</td></tr>
+      <tr><td><code>0100</code></td><td>el que adivina en el primer 0 muere con el 1; los demás terminan en q0, q1 o q2</td><td>No: nunca hay tres seguidos</td></tr>
     </table>
   </div>
 
   <div class="caja caja-ojo">
     <span class="caja-tit">Errores y trampas</span>
     <ul>
-      <li>"Contiene" y "termina con" se diferencian en el último estado: acá q3 no sale nunca (ya cumplió); en "termina con" q3 tiene que poder salir.</li>
+      <li>En el AFND de "contiene" no hacen falta flechas de vuelta (q1 con 1 a q0, etc.): el lazo de q0 ya espera.</li>
+      <li>"Contiene" y "termina con" se diferencian en el final: acá q3 lleva lazo con todo (lo de después); en "termina con", del final no sale nada.</li>
       <li>"Tres ceros consecutivos" no es "tres ceros": <code>1001001</code> tiene tres ceros y no entra.</li>
     </ul>
   </div>

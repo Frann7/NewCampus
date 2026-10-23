@@ -13,61 +13,52 @@
     <li>No: <code>ε</code>, <code>a</code>, <code>ab</code>, <code>bb</code>, <code>abba</code>.</li>
   </ul>
 
-  <span class="paso">Paso 2 &mdash; Qué tiene que recordar el autómata</span>
-  <p>Cuánto lleva armado del final <code>abb</code>: nada, <code>a</code>, <code>ab</code> o <code>abb</code>.</p>
+  <span class="paso">Paso 2 &mdash; La idea: adivinar dónde empieza el final</span>
+  <p>
+    q0 lee cualquier cosa con un lazo y, en alguna <code>a</code>, el AFND <strong>adivina</strong>
+    que ahí empieza el <code>abb</code> del final y sigue el camino a, b, b. Si adivinó mal, ese
+    camino muere; el lazo de q0 ya siguió leyendo por otro.
+  </p>
   <div class="tabla-wrap">
     <table class="t">
       <tr><th>Estado</th><th>Qué significa</th></tr>
-      <tr><td class="lbl">q0</td><td>Lo último leído no sirve como comienzo de abb (inicial).</td></tr>
-      <tr><td class="lbl">q1</td><td>Lo último fue <code>a</code>.</td></tr>
-      <tr><td class="lbl">q2</td><td>Lo último fue <code>ab</code>.</td></tr>
-      <tr><td class="lbl">q3</td><td>Lo último fue <code>abb</code> (final).</td></tr>
+      <tr><td class="lbl">q0</td><td>Leyendo lo de adelante, cualquier cosa (inicial).</td></tr>
+      <tr><td class="lbl">q1</td><td>Leyó la <code>a</code> de abb.</td></tr>
+      <tr><td class="lbl">q2</td><td>Leyó <code>ab</code>.</td></tr>
+      <tr><td class="lbl">q3</td><td>Leyó <code>abb</code> (final; no sale nada).</td></tr>
     </table>
   </div>
 
   <span class="paso">Paso 3 &mdash; Transiciones y dibujo</span>
-  <p>Las que avanzan son obvias (a, b, b). Las otras se piensan con "¿qué me sirve de lo último que leí?":</p>
-  <ul>
-    <li>Con <code>a</code>, desde cualquier estado se va a q1: una <code>a</code> siempre puede ser el comienzo de <code>abb</code>.</li>
-    <li>q0 con <code>b</code>: una b sola no sirve, se queda en q0.</li>
-    <li>q3 con <code>b</code>: lo último es <code>bbb</code>, nada sirve: vuelve a q0.</li>
-  </ul>
+  <p>q0 con <code>a</code> tiene dos flechas (se queda o empieza el final): eso lo hace AFND. "&mdash;" es que no hay flecha.</p>
   <div class="tabla-wrap">
     <table class="t">
       <tr><th>&delta;</th><th>a</th><th>b</th></tr>
-      <tr><td class="lbl">&rarr; q0</td><td>q1</td><td>q0</td></tr>
-      <tr><td class="lbl">q1</td><td>q1</td><td>q2</td></tr>
-      <tr><td class="lbl">q2</td><td>q1</td><td>q3</td></tr>
-      <tr><td class="lbl">q3 *</td><td>q1</td><td>q0</td></tr>
+      <tr><td class="lbl">&rarr; q0</td><td>{q0, q1}</td><td>q0</td></tr>
+      <tr><td class="lbl">q1</td><td>&mdash;</td><td>q2</td></tr>
+      <tr><td class="lbl">q2</td><td>&mdash;</td><td>q3</td></tr>
+      <tr><td class="lbl">q3 *</td><td>&mdash;</td><td>&mdash;</td></tr>
     </table>
   </div>
-  <p>AFD completo, sin estado muerto.</p>
+  <p>
+    Sin estado muerto: una flecha que falta es que la cadena muere ahí. Con <code>abba</code>, el
+    camino q0 &rarr;a q1 &rarr;b q2 &rarr;b q3 muere con la última a (q3 no tiene flecha con a); el
+    que se queda en q0 termina en q0, que no es final: rechazada.
+  </p>
   <div class="pd-grafico af" data-g="u4-e5-af">
-    <svg viewBox="-61 -77 380 260" width="380" height="260" role="img" aria-label="Diagrama de un autómata finito">
+    <svg viewBox="-61 -77 524 108" width="524" height="108" role="img" aria-label="Diagrama de un autómata finito">
       <path class="arco" d="M-8.9,-16.8 C-40.0,-51.2 40.0,-51.2 8.9,-16.8"/>
       <path class="punta" d="M8.9,-16.8 L11.6,-26.5 L18.3,-20.4 Z"/>
-      <text class="rot" x="0.0" y="-56.0" text-anchor="middle" dominant-baseline="central">b</text>
+      <text class="rot" x="0.0" y="-56.0" text-anchor="middle" dominant-baseline="central">a, b</text>
       <path class="arco" d="M19.0,0.0 L125.0,0.0"/>
       <path class="punta" d="M125.0,0.0 L116.0,4.5 L116.0,-4.5 Z"/>
       <text class="rot" x="72.0" y="-10.0" text-anchor="middle" dominant-baseline="central">a</text>
-      <path class="arco" d="M135.1,-16.8 C104.0,-51.2 184.0,-51.2 152.9,-16.8"/>
-      <path class="punta" d="M152.9,-16.8 L155.6,-26.5 L162.3,-20.4 Z"/>
-      <text class="rot" x="144.0" y="-56.0" text-anchor="middle" dominant-baseline="central">a</text>
-      <path class="arco" d="M161.0,-8.5 Q216.0,-36.0 271.0,-8.5"/>
-      <path class="punta" d="M271.0,-8.5 L260.9,-8.5 L265.0,-16.5 Z"/>
-      <text class="rot" x="216.0" y="-32.2" text-anchor="middle" dominant-baseline="central">b</text>
-      <path class="arco" d="M271.0,8.5 Q216.0,36.0 161.0,8.5"/>
-      <path class="punta" d="M161.0,8.5 L171.1,8.5 L167.0,16.5 Z"/>
-      <text class="rot" x="216.0" y="32.2" text-anchor="middle" dominant-baseline="central">a</text>
-      <path class="arco" d="M288.0,19.0 L288.0,133.0"/>
-      <path class="punta" d="M288.0,133.0 L283.5,124.0 L292.5,124.0 Z"/>
-      <text class="rot" x="274.2" y="76.0" text-anchor="middle" dominant-baseline="central">b</text>
-      <path class="arco" d="M274.9,138.2 L157.1,13.8"/>
-      <path class="punta" d="M157.1,13.8 L166.5,17.2 L160.0,23.4 Z"/>
-      <text class="rot" x="225.3" y="67.2" text-anchor="middle" dominant-baseline="central">a</text>
-      <path class="arco" d="M271.2,143.1 L16.8,8.9"/>
-      <path class="punta" d="M16.8,8.9 L26.9,9.1 L22.7,17.0 Z"/>
-      <text class="rot" x="149.5" y="65.6" text-anchor="middle" dominant-baseline="central">b</text>
+      <path class="arco" d="M163.0,0.0 L269.0,0.0"/>
+      <path class="punta" d="M269.0,0.0 L260.0,4.5 L260.0,-4.5 Z"/>
+      <text class="rot" x="216.0" y="-10.0" text-anchor="middle" dominant-baseline="central">b</text>
+      <path class="arco" d="M307.0,0.0 L413.0,0.0"/>
+      <path class="punta" d="M413.0,0.0 L404.0,4.5 L404.0,-4.5 Z"/>
+      <text class="rot" x="360.0" y="-10.0" text-anchor="middle" dominant-baseline="central">b</text>
       <path class="arco" d="M-49.0,0.0 L-19.0,0.0"/>
       <path class="punta" d="M-19.0,0.0 L-28.0,4.5 L-28.0,-4.5 Z"/>
       <g class="estado">
@@ -83,9 +74,9 @@
         <text class="nom" x="288.0" y="0.0" text-anchor="middle" dominant-baseline="central">q2</text>
       </g>
       <g class="estado">
-        <circle class="borde" cx="288.0" cy="152.0" r="19"/>
-        <circle class="borde" cx="288.0" cy="152.0" r="15"/>
-        <text class="nom" x="288.0" y="152.0" text-anchor="middle" dominant-baseline="central">q3</text>
+        <circle class="borde" cx="432.0" cy="0.0" r="19"/>
+        <circle class="borde" cx="432.0" cy="0.0" r="15"/>
+        <text class="nom" x="432.0" y="0.0" text-anchor="middle" dominant-baseline="central">q3</text>
       </g>
     </svg>
   </div>
@@ -98,7 +89,7 @@
 
   <div class="caja caja-resp">
     <span class="caja-tit">Respuesta</span>
-    <p><strong>AFD:</strong> el del dibujo (q0 inicial, q3 final).</p>
+    <p><strong>AFND:</strong> el del dibujo (q0 inicial con lazo a, b; q0 &rarr;a q1 &rarr;b q2 &rarr;b q3; q3 final).</p>
     <p><strong>ER:</strong> <code>(a|b)*abb</code></p>
   </div>
 
@@ -106,18 +97,18 @@
   <div class="tabla-wrap">
     <table class="t full">
       <tr><th>Cadena</th><th>Recorrido</th><th>¿La acepta?</th></tr>
-      <tr><td><code>babb</code></td><td>q0 &rarr;b q0 &rarr;a q1 &rarr;b q2 &rarr;b q3</td><td>Sí</td></tr>
-      <tr><td><code>aabb</code></td><td>q0 &rarr;a q1 &rarr;a q1 &rarr;b q2 &rarr;b q3</td><td>Sí</td></tr>
-      <tr><td><code>abba</code></td><td>q0 &rarr;a q1 &rarr;b q2 &rarr;b q3 &rarr;a q1</td><td>No: termina en a</td></tr>
+      <tr><td><code>babb</code></td><td>hay un camino: q0 &rarr;b q0 &rarr;a q1 &rarr;b q2 &rarr;b q3</td><td>Sí</td></tr>
+      <tr><td><code>aabb</code></td><td>hay un camino: q0 &rarr;a q0 &rarr;a q1 &rarr;b q2 &rarr;b q3 (adivina en la segunda a)</td><td>Sí</td></tr>
+      <tr><td><code>abba</code></td><td>el que llega a q3 muere con la última a; los demás terminan en q0 o en q1</td><td>No: termina en a</td></tr>
     </table>
   </div>
 
   <div class="caja caja-ojo">
     <span class="caja-tit">Errores y trampas</span>
     <ul>
-      <li>Mandar todo lo que "no sigue el patrón" a q0: q1 con <code>a</code> se queda en q1 (la segunda a es el nuevo comienzo); si fuera a q0, <code>aabb</code> no se aceptaría.</li>
-      <li>q3 no es un final "para siempre": la cadena puede seguir, y q3 necesita sus dos flechas.</li>
-      <li>Si alcanza con un AFND: q0 con lazo a, b y el camino q0 &rarr;a q1 &rarr;b q2 &rarr;b q3, con q3 sin flechas que salgan. Es más corto, pero hay que decir que es AFND.</li>
+      <li>En el AFND de "termina con" no hacen falta flechas de vuelta: el lazo de q0 ya espera. Si se adivina mal, ese camino muere y listo.</li>
+      <li>Ponerle a q3 un lazo con a, b lo convierte en "contiene abb": aceptaría <code>abba</code>. En "termina con", del final no sale nada.</li>
+      <li>Sin el lazo de q0 solo se acepta la cadena <code>abb</code>.</li>
     </ul>
   </div>
 </div>

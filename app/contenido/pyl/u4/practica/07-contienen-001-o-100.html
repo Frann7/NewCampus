@@ -31,21 +31,23 @@
   </div>
 
   <span class="paso">Paso 3 &mdash; Transiciones y dibujo</span>
-  <p>En un AFND cada casilla es un <strong>conjunto</strong> de estados (∅ si no hay flecha):</p>
+  <p>Cada casilla es el <strong>conjunto</strong> de estados a los que puede ir; "&mdash;" si no hay flecha:</p>
   <div class="tabla-wrap">
     <table class="t">
       <tr><th>&delta;</th><th>0</th><th>1</th></tr>
       <tr><td class="lbl">&rarr; q0</td><td>{q0, q1}</td><td>{q0, q3}</td></tr>
-      <tr><td class="lbl">q1</td><td>{q2}</td><td>∅</td></tr>
-      <tr><td class="lbl">q2</td><td>∅</td><td>{q5}</td></tr>
-      <tr><td class="lbl">q3</td><td>{q4}</td><td>∅</td></tr>
-      <tr><td class="lbl">q4</td><td>{q5}</td><td>∅</td></tr>
-      <tr><td class="lbl">q5 *</td><td>{q5}</td><td>{q5}</td></tr>
+      <tr><td class="lbl">q1</td><td>q2</td><td>&mdash;</td></tr>
+      <tr><td class="lbl">q2</td><td>&mdash;</td><td>q5</td></tr>
+      <tr><td class="lbl">q3</td><td>q4</td><td>&mdash;</td></tr>
+      <tr><td class="lbl">q4</td><td>q5</td><td>&mdash;</td></tr>
+      <tr><td class="lbl">q5 *</td><td>q5</td><td>q5</td></tr>
     </table>
   </div>
   <p>
     Es AFND porque q0 tiene dos flechas con el mismo símbolo. Acepta si <strong>algún</strong>
-    camino termina en q5.
+    camino termina en q5. Sin estado muerto: una flecha que falta es que la cadena muere ahí.
+    Con <code>01</code>, el camino q0 &rarr;0 q1 muere con el 1 (q1 no tiene flecha con 1) y los
+    otros terminan en q0 o q3: rechazada.
   </p>
   <div class="pd-grafico af" data-g="u4-e7-af">
     <svg viewBox="-61 -31 586 222" width="586" height="222" role="img" aria-label="Diagrama de un autómata finito">
@@ -117,12 +119,11 @@
   </div>
 
   <h3>Probamos con cadenas</h3>
-  <p>En un AFND se muestra el camino que llega al final (si hay uno).</p>
   <div class="tabla-wrap">
     <table class="t full">
       <tr><th>Cadena</th><th>Recorrido</th><th>¿La acepta?</th></tr>
-      <tr><td><code>1001</code></td><td>q0 &rarr;1 q3 &rarr;0 q4 &rarr;0 q5 &rarr;1 q5</td><td>Sí</td></tr>
-      <tr><td><code>01001</code></td><td>q0 &rarr;0 q0 &rarr;1 q0 &rarr;0 q1 &rarr;0 q2 &rarr;1 q5</td><td>Sí</td></tr>
+      <tr><td><code>1001</code></td><td>hay un camino: q0 &rarr;1 q3 &rarr;0 q4 &rarr;0 q5 &rarr;1 q5</td><td>Sí</td></tr>
+      <tr><td><code>01001</code></td><td>hay un camino: q0 &rarr;0 q0 &rarr;1 q0 &rarr;0 q1 &rarr;0 q2 &rarr;1 q5</td><td>Sí</td></tr>
       <tr><td><code>0101</code></td><td>ningún camino llega a q5: los que salen de q0 se cortan antes (no hay 001 ni 100)</td><td>No</td></tr>
     </table>
   </div>
@@ -132,7 +133,7 @@
     <ul>
       <li>Sin el lazo de q0 solo se aceptan cadenas que <strong>empiezan</strong> con 001 o 100.</li>
       <li><code>(0|1)*001|100(0|1)*</code> sin paréntesis es otra cosa: el <code>|</code> es lo último que se aplica y parte la ER en "termina con 001" o "empieza con 100".</li>
-      <li>Si la consigna pidiera AFD, se pasa este AFND por subconjuntos (como en la Unidad 3).</li>
+      <li>No hacen falta flechas de vuelta ni transiciones ε para separar las ramas: las dos salen de q0 con su primer símbolo, y el lazo de q0 ya espera.</li>
     </ul>
   </div>
 </div>

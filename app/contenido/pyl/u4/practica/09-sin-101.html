@@ -14,14 +14,13 @@
   </ul>
 
   <span class="paso">Paso 2 &mdash; Qué tiene que recordar el autómata</span>
-  <p>Cuánto lleva armado de <code>101</code>: nada, <code>1</code> o <code>10</code>. Más el muerto, cuando ya apareció.</p>
+  <p>Cuánto lleva armado de <code>101</code>: nada, <code>1</code> o <code>10</code>. Si se forma, la cadena muere.</p>
   <div class="tabla-wrap">
     <table class="t">
       <tr><th>Estado</th><th>Qué significa</th></tr>
       <tr><td class="lbl">q0</td><td>Nada armado: no leyó nada, o lo último fue un 0 que no sirve (como el de <code>100</code>). Inicial y final.</td></tr>
       <tr><td class="lbl">q1</td><td>Lo último fue <code>1</code> (final).</td></tr>
       <tr><td class="lbl">q2</td><td>Lo último fue <code>10</code> (final).</td></tr>
-      <tr><td class="lbl">∅</td><td>Apareció <code>101</code>: muerto.</td></tr>
     </table>
   </div>
 
@@ -29,20 +28,20 @@
   <ul>
     <li>q1 con <code>1</code>: lo último es <code>11</code>; el segundo 1 puede ser el comienzo de 101: se queda en q1.</li>
     <li>q2 con <code>0</code>: lo último es <code>100</code>; el <code>00</code> no sirve para nada: vuelve a q0.</li>
-    <li>q2 con <code>1</code>: se formó 101: muerto.</li>
+    <li>q2 con <code>1</code>: se formó 101: no hay flecha.</li>
   </ul>
   <div class="tabla-wrap">
     <table class="t">
       <tr><th>&delta;</th><th>0</th><th>1</th></tr>
       <tr><td class="lbl">&rarr; q0 *</td><td>q0</td><td>q1</td></tr>
       <tr><td class="lbl">q1 *</td><td>q2</td><td>q1</td></tr>
-      <tr><td class="lbl">q2 *</td><td>q0</td><td>∅</td></tr>
-      <tr><td class="lbl">∅</td><td>∅</td><td>∅</td></tr>
+      <tr><td class="lbl">q2 *</td><td>q0</td><td>&mdash;</td></tr>
     </table>
   </div>
   <p>
-    El dibujo va sin ∅: es un <strong>AFD incompleto</strong>. La flecha que falta (q2 con 1) va al
-    estado muerto.
+    Acá no hay nada que adivinar: el AFND es el AFD sin el estado muerto. Una flecha que falta es
+    que la cadena muere ahí: con <code>0101</code>, q2 no tiene flecha con 1, la cadena muere:
+    rechazada.
   </p>
   <div class="pd-grafico af" data-g="u4-e9-af">
     <svg viewBox="-61 -77 412 163" width="412" height="163" role="img" aria-label="Diagrama de un autómata finito">
@@ -92,7 +91,7 @@
 
   <div class="caja caja-resp">
     <span class="caja-tit">Respuesta</span>
-    <p><strong>AFD</strong> (incompleto, sin el estado muerto): el del dibujo, q0 inicial, todos finales.</p>
+    <p><strong>AFND:</strong> el del dibujo, q0 inicial, todos finales.</p>
     <p><strong>ER:</strong> <code>(0|11*00)*(ε|11*(ε|0))</code></p>
   </div>
 
@@ -102,7 +101,7 @@
       <tr><th>Cadena</th><th>Recorrido</th><th>¿La acepta?</th></tr>
       <tr><td><code>1001</code></td><td>q0 &rarr;1 q1 &rarr;0 q2 &rarr;0 q0 &rarr;1 q1</td><td>Sí. En la ER: <code>100</code> + <code>1</code></td></tr>
       <tr><td><code>110</code></td><td>q0 &rarr;1 q1 &rarr;1 q1 &rarr;0 q2</td><td>Sí. En la ER: final <code>11*0</code></td></tr>
-      <tr><td><code>0101</code></td><td>q0 &rarr;0 q0 &rarr;1 q1 &rarr;0 q2 &rarr;1 ∅</td><td>No: tiene 101</td></tr>
+      <tr><td><code>0101</code></td><td>q0 &rarr;0 q0 &rarr;1 q1 &rarr;0 q2, y q2 no tiene flecha con 1: muere</td><td>No: tiene 101</td></tr>
     </table>
   </div>
 

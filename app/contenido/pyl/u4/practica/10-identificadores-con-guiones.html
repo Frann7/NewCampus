@@ -30,7 +30,6 @@
       <tr><td class="lbl">q0</td><td>No leyó nada (inicial).</td></tr>
       <tr><td class="lbl">q1</td><td>Empezó con letra y lo último no es guion: identificador válido hasta acá (final).</td></tr>
       <tr><td class="lbl">q2</td><td>Lo último fue un guion: no puede terminar acá ni leer otro guion.</td></tr>
-      <tr><td class="lbl">∅</td><td>Empezó con dígito o guion, o hubo dos guiones: muerto.</td></tr>
     </table>
   </div>
 
@@ -38,15 +37,15 @@
   <div class="tabla-wrap">
     <table class="t">
       <tr><th>&delta;</th><th>L</th><th>D</th><th>G</th></tr>
-      <tr><td class="lbl">&rarr; q0</td><td>q1</td><td>∅</td><td>∅</td></tr>
+      <tr><td class="lbl">&rarr; q0</td><td>q1</td><td>&mdash;</td><td>&mdash;</td></tr>
       <tr><td class="lbl">q1 *</td><td>q1</td><td>q1</td><td>q2</td></tr>
-      <tr><td class="lbl">q2</td><td>q1</td><td>q1</td><td>∅</td></tr>
-      <tr><td class="lbl">∅</td><td>∅</td><td>∅</td><td>∅</td></tr>
+      <tr><td class="lbl">q2</td><td>q1</td><td>q1</td><td>&mdash;</td></tr>
     </table>
   </div>
   <p>
-    El dibujo va sin ∅: es un <strong>AFD incompleto</strong>. Las flechas que faltan (q0 con D y
-    con G, q2 con G) van al estado muerto.
+    Acá no hay nada que adivinar: el AFND es el AFD sin el estado muerto. Una flecha que falta es
+    que la cadena muere ahí: con <code>DL</code> (1a), q0 no tiene flecha con D, la cadena muere:
+    rechazada. Lo mismo q0 con G y q2 con G.
   </p>
   <div class="pd-grafico af" data-g="u4-e10-af">
     <svg viewBox="-61 -77 412 130" width="412" height="130" role="img" aria-label="Diagrama de un autómata finito">
@@ -91,7 +90,7 @@
   <div class="caja caja-resp">
     <span class="caja-tit">Respuesta</span>
     <p>L = letra, D = dígito, G = guion.</p>
-    <p><strong>AFD</strong> (incompleto, sin el estado muerto): el del dibujo, q0 inicial y q1 final.</p>
+    <p><strong>AFND:</strong> el del dibujo, q0 inicial y q1 final.</p>
     <p><strong>ER:</strong> <code>L(L|D|G(L|D))*</code></p>
   </div>
 
@@ -101,8 +100,8 @@
       <tr><th>Cadena</th><th>Recorrido</th><th>¿La acepta?</th></tr>
       <tr><td><code>LLGLLLD</code> (mi-var2)</td><td>q0 &rarr;L q1 &rarr;L q1 &rarr;G q2 &rarr;L q1 &rarr;L q1 &rarr;L q1 &rarr;D q1</td><td>Sí</td></tr>
       <tr><td><code>LG</code> (a-)</td><td>q0 &rarr;L q1 &rarr;G q2</td><td>No: q2 no es final</td></tr>
-      <tr><td><code>LGGL</code> (a--b)</td><td>q0 &rarr;L q1 &rarr;G q2 &rarr;G ∅ &rarr;L ∅</td><td>No: dos guiones</td></tr>
-      <tr><td><code>DL</code> (1a)</td><td>q0 &rarr;D ∅ &rarr;L ∅</td><td>No: empieza con dígito</td></tr>
+      <tr><td><code>LGGL</code> (a--b)</td><td>q0 &rarr;L q1 &rarr;G q2, y q2 no tiene flecha con G: muere</td><td>No: dos guiones</td></tr>
+      <tr><td><code>DL</code> (1a)</td><td>q0 no tiene flecha con D: muere</td><td>No: empieza con dígito</td></tr>
     </table>
   </div>
 

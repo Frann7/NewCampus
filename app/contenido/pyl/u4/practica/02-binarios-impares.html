@@ -17,40 +17,42 @@
     <li>No: <code>ε</code> (no es un número), <code>0</code>, <code>10</code> (2), <code>110</code> (6).</li>
   </ul>
 
-  <span class="paso">Paso 2 &mdash; Qué tiene que recordar el autómata</span>
-  <p>Solo si el último dígito que leyó fue 1.</p>
+  <span class="paso">Paso 2 &mdash; La idea: adivinar el último dígito</span>
+  <p>
+    Es un "termina con 1". El AFND se queda en q0 leyendo cualquier cosa y, cuando lee un 1,
+    <strong>adivina</strong> que es el último y pasa a q1. Si adivinó mal (viene otro dígito), ese
+    camino muere; mientras tanto el lazo de q0 siguió leyendo por otro camino.
+  </p>
   <div class="tabla-wrap">
     <table class="t">
       <tr><th>Estado</th><th>Qué significa</th></tr>
-      <tr><td class="lbl">q0</td><td>No leyó nada o lo último fue 0 (inicial).</td></tr>
-      <tr><td class="lbl">q1</td><td>Lo último fue 1 (final).</td></tr>
+      <tr><td class="lbl">q0</td><td>Leyendo lo de adelante, cualquier cosa (inicial).</td></tr>
+      <tr><td class="lbl">q1</td><td>Leyó el 1 del final (final; no sale nada).</td></tr>
     </table>
   </div>
 
   <span class="paso">Paso 3 &mdash; Transiciones y dibujo</span>
-  <p>Un 0 lleva siempre a q0 y un 1 siempre a q1, venga de donde venga.</p>
+  <p>q0 con 1 tiene dos flechas (se queda o pasa a q1): eso lo hace AFND. En la tabla, cada casilla es el conjunto de estados a los que puede ir, y "&mdash;" si no hay flecha.</p>
   <div class="tabla-wrap">
     <table class="t">
       <tr><th>&delta;</th><th>0</th><th>1</th></tr>
-      <tr><td class="lbl">&rarr; q0</td><td>q0</td><td>q1</td></tr>
-      <tr><td class="lbl">q1 *</td><td>q0</td><td>q1</td></tr>
+      <tr><td class="lbl">&rarr; q0</td><td>q0</td><td>{q0, q1}</td></tr>
+      <tr><td class="lbl">q1 *</td><td>&mdash;</td><td>&mdash;</td></tr>
     </table>
   </div>
-  <p>AFD completo, sin estado muerto.</p>
+  <p>
+    Sin estado muerto: una flecha que falta es que la cadena muere ahí. Con <code>10</code>, el
+    camino q0 &rarr;1 q1 muere (q1 no tiene flecha con 0) y el otro, q0 &rarr;1 q0 &rarr;0 q0,
+    termina en q0, que no es final: rechazada.
+  </p>
   <div class="pd-grafico af" data-g="u4-e2-af">
-    <svg viewBox="-61 -77 273 130" width="273" height="130" role="img" aria-label="Diagrama de un autómata finito">
+    <svg viewBox="-61 -77 252 108" width="252" height="108" role="img" aria-label="Diagrama de un autómata finito">
       <path class="arco" d="M-8.9,-16.8 C-40.0,-51.2 40.0,-51.2 8.9,-16.8"/>
       <path class="punta" d="M8.9,-16.8 L11.6,-26.5 L18.3,-20.4 Z"/>
-      <text class="rot" x="0.0" y="-56.0" text-anchor="middle" dominant-baseline="central">0</text>
-      <path class="arco" d="M17.3,-7.8 Q80.0,-36.0 142.7,-7.8"/>
-      <path class="punta" d="M142.7,-7.8 L132.6,-7.4 L136.3,-15.6 Z"/>
-      <text class="rot" x="80.0" y="-31.9" text-anchor="middle" dominant-baseline="central">1</text>
-      <path class="arco" d="M151.1,-16.8 C120.0,-51.2 200.0,-51.2 168.9,-16.8"/>
-      <path class="punta" d="M168.9,-16.8 L171.6,-26.5 L178.3,-20.4 Z"/>
-      <text class="rot" x="160.0" y="-56.0" text-anchor="middle" dominant-baseline="central">1</text>
-      <path class="arco" d="M142.7,7.8 Q80.0,36.0 17.3,7.8"/>
-      <path class="punta" d="M17.3,7.8 L27.4,7.4 L23.7,15.6 Z"/>
-      <text class="rot" x="80.0" y="31.9" text-anchor="middle" dominant-baseline="central">0</text>
+      <text class="rot" x="0.0" y="-56.0" text-anchor="middle" dominant-baseline="central">0, 1</text>
+      <path class="arco" d="M19.0,0.0 L141.0,0.0"/>
+      <path class="punta" d="M141.0,0.0 L132.0,4.5 L132.0,-4.5 Z"/>
+      <text class="rot" x="80.0" y="-10.0" text-anchor="middle" dominant-baseline="central">1</text>
       <path class="arco" d="M-49.0,0.0 L-19.0,0.0"/>
       <path class="punta" d="M-19.0,0.0 L-28.0,4.5 L-28.0,-4.5 Z"/>
       <g class="estado">
@@ -73,7 +75,7 @@
 
   <div class="caja caja-resp">
     <span class="caja-tit">Respuesta</span>
-    <p><strong>AFD:</strong> el del dibujo (q0 inicial, q1 final).</p>
+    <p><strong>AFND:</strong> el del dibujo (q0 inicial con lazo 0, 1; q0 &rarr;1 q1; q1 final).</p>
     <p><strong>ER:</strong> <code>(0|1)*1</code></p>
   </div>
 
@@ -81,8 +83,8 @@
   <div class="tabla-wrap">
     <table class="t full">
       <tr><th>Cadena</th><th>Recorrido</th><th>¿La acepta?</th></tr>
-      <tr><td><code>101</code></td><td>q0 &rarr;1 q1 &rarr;0 q0 &rarr;1 q1</td><td>Sí: es 5</td></tr>
-      <tr><td><code>110</code></td><td>q0 &rarr;1 q1 &rarr;1 q1 &rarr;0 q0</td><td>No: es 6</td></tr>
+      <tr><td><code>101</code></td><td>hay un camino: q0 &rarr;1 q0 &rarr;0 q0 &rarr;1 q1</td><td>Sí: es 5</td></tr>
+      <tr><td><code>110</code></td><td>los que pasan a q1 mueren con el dígito siguiente; el único que llega al final es q0 &rarr;1 q0 &rarr;1 q0 &rarr;0 q0</td><td>No: termina en q0, que no es final</td></tr>
       <tr><td><code>ε</code></td><td>se queda en q0</td><td>No: q0 no es final</td></tr>
     </table>
   </div>
@@ -91,7 +93,7 @@
     <span class="caja-tit">Errores y trampas</span>
     <ul>
       <li><code>1(0|1)*1</code> deja afuera al <code>1</code>, que es impar.</li>
-      <li>El autómata no sabe cuál es el último dígito hasta que se termina la cadena: por eso q1 tiene que poder volver a q0 con un 0.</li>
+      <li>Ponerle a q1 un lazo con 0, 1 lo convierte en "contiene un 1": aceptaría <code>10</code>. En un "termina con", del final no sale nada.</li>
       <li>Los ceros a la izquierda (<code>0111</code>) se aceptan: sigue siendo el 7. Si no se quisieran, la cadena tendría que empezar con 1 y sería otro autómata.</li>
     </ul>
   </div>

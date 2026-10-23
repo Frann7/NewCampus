@@ -41,8 +41,13 @@ Las reglas generales están en `docs/contenido.md` (raíz del repo); acá va sol
   intermedios de a uno con la regla α β* γ y juntar paralelas con `|`. En cada paso se dibuja el
   autómata que queda: la transición nueva en verde (`nueva`) y el estado que sigue en celeste
   (`marcados`).
-- **Estado muerto:** en las tablas va siempre (`∅`); en los dibujos del AFD mínimo también, punteado.
-  Cuando la consigna dice "AFD o AFND" se puede dibujar sin él, y se aclara.
+- **Estado muerto:** en las tablas de ER → AFD va siempre (`∅`); en los dibujos del AFD mínimo
+  también, punteado.
+- **Ejercicio 3 (diseñar): siempre AFND** (pedido de Fran, 22/10/2026), en la teoría de la U4, su
+  práctica y los parciales. Sin estado muerto: una flecha que falta = la cadena muere (cada
+  ejercicio lo muestra con una cadena concreta). Donde el no determinismo simplifica (contiene,
+  termina con, un "o") se adivina; donde no hay nada que adivinar, el AFND es el AFD sin el muerto
+  y se dice en una línea. Sin ε.
 - `00-intro.html` de cada unidad: título, bajada y "Cómo leer esta unidad" (`data-abierta`):
   qué ejercicio del parcial es y cuántos puntos vale.
 

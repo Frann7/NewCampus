@@ -259,6 +259,10 @@ Chrome (`chrome --headless --print-to-pdf`).
 `0.x.y-alpha` mientras esté en desarrollo. La `1.0.0` queda reservada para cuando esté terminado.
 La versión actual se lee al pie del menú lateral.
 
+* **0.54.2-alpha** — Bases de Datos, parcial 2025: el ejercicio 3 trae un repaso de los tipos de
+  atributo (multivaluado y compuesto, dibujados como la cátedra), de dónde va cada clave según la
+  relación y qué quiere decir (PK)(FK); los ejercicios 4 y 5 explican SQL desde cero, palabra por
+  palabra, con cada consulta armada de a una pieza sobre datos de ejemplo y su resultado.
 * **0.54.1-alpha** — Paradigmas y Lenguajes: el ejercicio 3 (diseñar un autómata) se responde
   siempre con un **AFND**, en la práctica de la Unidad 4 y en los cinco parciales: sin estado
   muerto (una flecha que falta es que la cadena muere, mostrado con un ejemplo) y adivinando donde
@@ -271,10 +275,6 @@ La versión actual se lee al pie del menú lateral.
   SVN y Git, cómo se definen los procesos y sus tres elementos, el diagnóstico de CMMI, el grafo de
   la complejidad ciclomática, los comandos de Git y una rama con su merge), generados por
   `fuentes/ing2/esquemas.py`.
-* **0.53.3-alpha** — Bases de Datos, parcial 2025: el ejercicio 3 trae un repaso de los tipos de
-  atributo (multivaluado y compuesto, dibujados como la cátedra), de dónde va cada clave según la
-  relación y qué quiere decir (PK)(FK); los ejercicios 4 y 5 explican SQL desde cero, palabra por
-  palabra, con cada consulta armada de a una pieza sobre datos de ejemplo y su resultado.
 * **0.53.2-alpha** — Bases de Datos, Unidad 2: cómo se normaliza paso a paso, con la dependencia
   funcional y los dos ejemplos de la cátedra (el alquiler de películas y la factura), y cinco
   ejercicios nuevos resueltos como en clase: normalizar las tablas de la Guía 4 y la biblioteca de

@@ -185,3 +185,10 @@ D["g5-biblioteca"] = dict(
         dict(id="pide", x=500, y=750, une=[("Socio", "(0,n)"), ("Préstamo", "(1,1)")]),
     ],
 )
+
+# ---------- Los tipos de atributo, como los dibuja la cátedra (02-DER_Extendido) ----------
+D["atributos"] = dict(
+    titulo="Persona con un atributo multivaluado y uno compuesto",
+    ent=[dict(id="Persona", x=0, y=0, lado="der",
+              attrs=["*DNI", "Nombre", "+Teléfonos", ("Dirección", ["Calle", "Número", "Dpto."])])],
+)

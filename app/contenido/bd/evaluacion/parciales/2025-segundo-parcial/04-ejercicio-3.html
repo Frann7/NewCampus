@@ -326,6 +326,80 @@ Consulta_Tratamiento (NumeroConsulta (PK)(FK), CodigoTratamiento (PK)(FK), Costo
           </svg>
         </div>
 
+        <h4>Repaso antes de empezar</h4>
+        <p>
+          <strong>No hace falta redibujar el DER:</strong> ya viene dado y la consigna pide las tablas.
+          Se lee el diagrama, se reconoce qué tipo es cada atributo y cada relación, y se escribe el
+          modelo relacional.
+        </p>
+
+        <span class="paso">Los tipos de atributo (apunte "DER Extendido" de la cátedra)</span>
+        <div class="pd-grafico der" data-g="atributos">
+          <svg viewBox="-49 -38 272 90" width="272" height="90" style="min-width:218px" role="img" aria-label="Persona con un atributo multivaluado y uno compuesto">
+            <rect class="ent" x="-41.4" y="-18.0" width="82.9" height="36.0"/>
+            <text class="nent" x="0.0" y="0.0" text-anchor="middle" dominant-baseline="central">Persona</text>
+            <path class="lin" d="M41.4,-5.6 L67.4,-22.5"/>
+            <circle class="id" cx="71.4" cy="-22.5" r="3.6"/>
+            <text class="att pk" x="79.4" y="-22.5" text-anchor="start" dominant-baseline="central">DNI</text>
+            <path class="lin" d="M41.4,-1.9 L67.4,-7.5"/>
+            <circle class="noid" cx="71.4" cy="-7.5" r="3.6"/>
+            <text class="att" x="79.4" y="-7.5" text-anchor="start" dominant-baseline="central">Nombre</text>
+            <path class="lin" d="M41.4,1.9 L67.4,7.5"/>
+            <circle class="noid" cx="71.4" cy="7.5" r="3.6"/>
+            <circle class="noid" cx="71.4" cy="7.5" r="1.6"/>
+            <text class="att" x="79.4" y="7.5" text-anchor="start" dominant-baseline="central">Teléfonos</text>
+            <path class="lin" d="M41.4,5.6 L67.4,22.5"/>
+            <circle class="noid" cx="71.4" cy="22.5" r="3.6"/>
+            <text class="att" x="79.4" y="22.5" text-anchor="start" dominant-baseline="central">Dirección</text>
+            <path class="lin" d="M140.7,22.5 L160.7,9.5"/>
+            <circle class="noid" cx="164.7" cy="9.5" r="3.6"/>
+            <text class="att" x="172.7" y="9.5" text-anchor="start" dominant-baseline="central">Calle</text>
+            <path class="lin" d="M140.7,22.5 L160.7,22.5"/>
+            <circle class="noid" cx="164.7" cy="22.5" r="3.6"/>
+            <text class="att" x="172.7" y="22.5" text-anchor="start" dominant-baseline="central">Número</text>
+            <path class="lin" d="M140.7,22.5 L160.7,35.5"/>
+            <circle class="noid" cx="164.7" cy="35.5" r="3.6"/>
+            <text class="att" x="172.7" y="35.5" text-anchor="start" dominant-baseline="central">Dpto.</text>
+          </svg>
+        </div>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Tipo</th><th>Cómo se dibuja</th><th>Cómo se reconoce en el texto</th><th>Qué se hace en las tablas</th></tr>
+            <tr><td class="lbl">Identificador</td><td>Círculo lleno</td><td>"único", "se identifica por", "no hay dos con el mismo"</td><td>Es la <strong>PK</strong></td></tr>
+            <tr><td class="lbl">Simple</td><td>Círculo vacío</td><td>Un solo dato: nombre, fecha, peso</td><td>Una columna</td></tr>
+            <tr><td class="lbl">Multivaluado</td><td>Círculo <strong>doble</strong> (uno adentro del otro)</td><td>Va en plural: "teléfonos", "emails", "clubes a los que perteneció"</td><td><strong>Tabla aparte</strong> con la PK de la entidad y el valor; la PK es el par: <code>Persona_Telefonos (DNI (PK)(FK), Numero (PK))</code></td></tr>
+            <tr><td class="lbl">Compuesto</td><td>Círculo con <strong>ramas</strong> a sus partes</td><td>"dirección completa (calle, número, piso)"</td><td>Cada parte es una columna: <code>Calle, Numero, Dpto</code>; el compuesto en sí desaparece</td></tr>
+          </table>
+        </div>
+        <p>
+          En el DER de este parcial, <strong>Teléfonos</strong> aparece como un atributo más: lo delata
+          el plural, y el texto lo confirma ("teléfonos"). En la notación de la cátedra iría con
+          círculo doble.
+        </p>
+
+        <span class="paso">Dónde va cada clave, según la relación</span>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Relación</th><th>Cómo se ve</th><th>Qué se hace</th><th>En este parcial</th></tr>
+            <tr><td class="lbl">1:N</td><td>(1,1) de un lado, (1,N) del otro</td><td>No hay tabla nueva: la PK del lado (1,N) va como <strong>FK</strong> a la tabla del lado <strong>(1,1)</strong></td><td>Animal lleva <code>Documento</code> del propietario</td></tr>
+            <tr><td class="lbl">1:1</td><td>(1,1) de los dos lados</td><td>La FK va a la tabla que <strong>siempre</strong> tiene pareja (la que depende de la otra)</td><td>Consulta lleva <code>NumeroTurno</code></td></tr>
+            <tr><td class="lbl">N:M</td><td>(1,N) de los dos lados</td><td><strong>Tabla nueva</strong> con las PK de las dos entidades; juntas son su PK</td><td><code>Turno_Servicio</code>, <code>Consulta_Tratamiento</code></td></tr>
+            <tr><td class="lbl">Atributo en el rombo</td><td>Un atributo colgado de la relación</td><td>Va donde quedó la relación: en la tabla nueva si es N:M, junto a la FK si es 1:N</td><td><code>Costo</code> en Consulta_Tratamiento</td></tr>
+          </table>
+        </div>
+
+        <span class="paso">Qué quiere decir (PK)(FK) en la misma columna</span>
+        <p>
+          Que esa columna <strong>es parte de la clave de esta tabla</strong> y, a la vez,
+          <strong>apunta a la PK de otra</strong>. Pasa siempre en tres casos:
+        </p>
+        <ul>
+          <li><strong>Tablas de una N:M:</strong> en <code>Turno_Servicio (NumeroTurno (PK)(FK), CodigoServicio (PK)(FK))</code> cada columna es la mitad de la PK y además referencia a Turno y a Servicio.</li>
+          <li><strong>Tablas de un multivaluado:</strong> en <code>Propietario_Telefonos (Documento (PK)(FK), Telefono (PK))</code>, Documento es parte de la clave y apunta a Propietario; Telefono es solo PK.</li>
+          <li><strong>Entidad débil e hijo de una generalización:</strong> la PK es la del "padre", así que también es FK (<code>Ejemplar (IdLibro (PK)(FK), NumeroEjemplar (PK))</code>).</li>
+        </ul>
+        <p>En SQL esa columna aparece dos veces en las claves: adentro del <code>PRIMARY KEY (...)</code> y en su propio <code>FOREIGN KEY ... REFERENCES</code> (Unidad 3).</p>
+
         <span class="paso">Paso 1 &mdash; Una tabla por entidad</span>
         <p>Siete: Propietario, Animal, Servicio, Turno, Veterinario, Consulta y Tratamiento. El identificador de cada una (círculo lleno) es su PK.</p>
 

@@ -32,39 +32,72 @@
     <details class="parcial-desp pd-explicacion">
       <summary>
         <span class="pd-icono">&#9998;</span>
-        <span class="pd-txt"><b>Explicación detallada</b><small>Columna por columna, las claves y las trampas</small></span>
+        <span class="pd-txt"><b>Explicación detallada</b><small>SQL desde cero: cada palabra, para qué sirve y cómo se arma la tabla</small></span>
       </summary>
       <div class="pd-cuerpo">
-        <h4>Qué evalúa</h4>
+        <h4>Qué pide</h4>
         <p>
-          Escribir un <code>CREATE TABLE</code> (Unidad 3) con tipos razonables y, sobre todo, con
-          <strong>sus claves</strong>: la PK y la FK al propietario. Sale de la tabla del ejercicio 3:
+          Escribir, en el lenguaje SQL, la orden que le dice a la base de datos "creá esta tabla, con
+          estas columnas y estas claves". Sale de la tabla Animal del ejercicio 3:
         </p>
         <pre class="codigo" data-lang="texto"><code>Animal (NumeroHC (PK), Nombre, Raza, Sexo, FechaNac, Peso, Documento (FK))
 Propietario (Documento (PK), Nombre, Direccion, IdCiudad (FK))</code></pre>
 
-        <span class="paso">Paso 1 &mdash; El tipo de cada columna</span>
+        <h4>Las palabras que se usan, una por una</h4>
+        <p>Una orden de SQL se llama <strong>sentencia</strong>. Se escribe con palabras fijas del lenguaje (en mayúscula, por costumbre) y los nombres que uno inventa (la tabla, las columnas).</p>
         <div class="tabla-wrap">
           <table class="t full">
-            <tr><th>Columna</th><th>Del enunciado</th><th>Tipo</th></tr>
-            <tr><td class="lbl">NumeroHC</td><td>"número de historia clínica (único)": entero, y es la PK</td><td><code>INT NOT NULL</code></td></tr>
-            <tr><td class="lbl">Nombre</td><td>Texto; todo animal tiene nombre</td><td><code>VARCHAR(50) NOT NULL</code></td></tr>
-            <tr><td class="lbl">Raza</td><td>Texto</td><td><code>VARCHAR(50)</code></td></tr>
-            <tr><td class="lbl">Sexo</td><td>Una letra: M o H</td><td><code>CHAR(1)</code></td></tr>
-            <tr><td class="lbl">FechaNac</td><td>"fecha de nacimiento": fecha sin hora</td><td><code>DATE</code></td></tr>
-            <tr><td class="lbl">Peso</td><td>Kilos con decimales (hasta 999,99)</td><td><code>DECIMAL(5,2)</code></td></tr>
-            <tr><td class="lbl">Documento</td><td>El propietario. "DNI o CUIT": texto, para que entren los guiones. Mismo tipo que <code>Propietario.Documento</code>, y obligatorio: el animal tiene (1,1) en "es dueño"</td><td><code>VARCHAR(13) NOT NULL</code></td></tr>
+            <tr><th>Palabra</th><th>Qué significa</th><th>Ejemplo</th></tr>
+            <tr><td class="lbl"><code>CREATE TABLE</code></td><td>"Crear tabla". Después va el nombre de la tabla y, entre paréntesis, todo lo que tiene</td><td><code>CREATE TABLE Animal ( ... );</code></td></tr>
+            <tr><td class="lbl">columna</td><td>Cada línea de adentro es una columna: primero su <strong>nombre</strong>, después su <strong>tipo de dato</strong></td><td><code>Nombre VARCHAR(50)</code></td></tr>
+            <tr><td class="lbl"><code>INT</code></td><td>Número entero (sin coma)</td><td>Un número de historia clínica: <code>NumeroHC INT</code></td></tr>
+            <tr><td class="lbl"><code>VARCHAR(n)</code></td><td>Texto de <strong>hasta</strong> n letras</td><td><code>Nombre VARCHAR(50)</code>: un nombre de hasta 50 letras</td></tr>
+            <tr><td class="lbl"><code>CHAR(n)</code></td><td>Texto de <strong>exactamente</strong> n letras</td><td><code>Sexo CHAR(1)</code>: una sola letra, M o H</td></tr>
+            <tr><td class="lbl"><code>DATE</code></td><td>Una fecha (año, mes, día)</td><td><code>FechaNac DATE</code></td></tr>
+            <tr><td class="lbl"><code>DECIMAL(p,s)</code></td><td>Número con coma: <code>p</code> dígitos en total, <code>s</code> después de la coma</td><td><code>Peso DECIMAL(5,2)</code>: hasta 999,99 kilos</td></tr>
+            <tr><td class="lbl"><code>NOT NULL</code></td><td>"No nulo": la columna <strong>no puede quedar vacía</strong>. Si no se pone, sí puede</td><td><code>Nombre VARCHAR(50) NOT NULL</code></td></tr>
+            <tr><td class="lbl"><code>CONSTRAINT</code></td><td>"Restricción": una regla de la tabla con un nombre propio. Las claves se escriben así</td><td><code>CONSTRAINT PK_Animal ...</code></td></tr>
+            <tr><td class="lbl"><code>PRIMARY KEY (col)</code></td><td>"Clave primaria": esa columna identifica cada fila; no se repite ni queda vacía</td><td><code>PRIMARY KEY (NumeroHC)</code></td></tr>
+            <tr><td class="lbl"><code>FOREIGN KEY (col)</code></td><td>"Clave foránea": esa columna apunta a otra tabla</td><td><code>FOREIGN KEY (Documento)</code></td></tr>
+            <tr><td class="lbl"><code>REFERENCES Tabla(col)</code></td><td>A qué tabla y a qué columna apunta la FK. El valor tiene que existir ahí</td><td><code>REFERENCES Propietario(Documento)</code></td></tr>
+            <tr><td class="lbl"><code>,</code> y <code>;</code></td><td>La coma separa las líneas de adentro (la última no lleva); el punto y coma cierra la sentencia</td><td>&mdash;</td></tr>
           </table>
         </div>
 
-        <span class="paso">Paso 2 &mdash; Las claves</span>
-        <pre class="codigo" data-desde="9"><code>  CONSTRAINT PK_Animal PRIMARY KEY (NumeroHC),
-  CONSTRAINT FK_Animal_Propietario FOREIGN KEY (Documento) REFERENCES Propietario(Documento)</code></pre>
-        <ul>
-          <li><code>CONSTRAINT PK_Animal PRIMARY KEY (NumeroHC)</code>: la PK con nombre propio, como la escriben los profes; no se repite y no queda vacía.</li>
-          <li><code>FOREIGN KEY ... REFERENCES Propietario(Documento)</code>: no se puede cargar un animal de un dueño que no existe.</li>
-        </ul>
+        <h4>Armarla de a una pieza</h4>
+        <span class="paso">Pieza 1 &mdash; El esqueleto</span>
+        <pre class="codigo"><code>CREATE TABLE Animal (
+);</code></pre>
+        <p>"Creá la tabla Animal". Todo lo que tenga va entre los paréntesis.</p>
 
+        <span class="paso">Pieza 2 &mdash; Las columnas: nombre y tipo de cada atributo</span>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Atributo</th><th>Qué es</th><th>Se escribe</th></tr>
+            <tr><td class="lbl">NumeroHC</td><td>"número de historia clínica (único)": entero; es la PK, no puede faltar</td><td><code>NumeroHC INT NOT NULL</code></td></tr>
+            <tr><td class="lbl">Nombre</td><td>Texto; todo animal tiene nombre</td><td><code>Nombre VARCHAR(50) NOT NULL</code></td></tr>
+            <tr><td class="lbl">Raza</td><td>Texto; puede no saberse</td><td><code>Raza VARCHAR(50)</code></td></tr>
+            <tr><td class="lbl">Sexo</td><td>Una letra</td><td><code>Sexo CHAR(1)</code></td></tr>
+            <tr><td class="lbl">FechaNac</td><td>Una fecha</td><td><code>FechaNac DATE</code></td></tr>
+            <tr><td class="lbl">Peso</td><td>Kilos con decimales</td><td><code>Peso DECIMAL(5,2)</code></td></tr>
+            <tr><td class="lbl">Documento</td><td>El dueño (la FK). "DNI o CUIT": texto, para que entren los guiones. Obligatorio: todo animal tiene dueño (en el DER, (1,1))</td><td><code>Documento VARCHAR(13) NOT NULL</code></td></tr>
+          </table>
+        </div>
+
+        <span class="paso">Pieza 3 &mdash; La clave primaria</span>
+        <pre class="codigo"><code>CONSTRAINT PK_Animal PRIMARY KEY (NumeroHC)</code></pre>
+        <p>Se lee: "una regla llamada PK_Animal: la clave primaria es NumeroHC". El nombre (<code>PK_</code> + la tabla) lo elige uno; los profes piden ponérselo.</p>
+
+        <span class="paso">Pieza 4 &mdash; La clave foránea</span>
+        <pre class="codigo"><code>CONSTRAINT FK_Animal_Propietario FOREIGN KEY (Documento) REFERENCES Propietario(Documento)</code></pre>
+        <p>
+          Se lee: "una regla llamada FK_Animal_Propietario: la columna Documento de esta tabla apunta a
+          la columna Documento de la tabla Propietario". Desde ahí, la base no deja cargar un animal
+          con un documento que no exista entre los propietarios. Por eso <strong>Propietario tiene
+          que estar creada antes</strong>.
+        </p>
+
+        <span class="paso">Pieza 5 &mdash; Todo junto</span>
         <div class="caja caja-resp">
           <span class="caja-tit">Resolución</span>
           <pre class="codigo"><code>CREATE TABLE Animal (
@@ -79,13 +112,14 @@ Propietario (Documento (PK), Nombre, Direccion, IdCiudad (FK))</code></pre>
   CONSTRAINT FK_Animal_Propietario FOREIGN KEY (Documento) REFERENCES Propietario(Documento)
 );</code></pre>
         </div>
+        <p>Una coma al final de cada línea, menos la última; y el <code>;</code> después del paréntesis de cierre.</p>
 
         <h4>Parecido en el campus</h4>
         <div class="tabla-wrap">
           <table class="t full">
             <tr><th>Dónde</th><th>Qué tiene igual</th><th>Qué cambia</th></tr>
             <tr><td>Unidad 3, práctica: la tabla de Embarcaciones</td><td>Una tabla sola, con PK y FK</td><td>Tiene tres FK y un UNIQUE</td></tr>
-            <tr><td>Unidad 3, teoría, sección 2, ejemplo 1</td><td>Una tabla con una FK (Especie)</td><td>&mdash;</td></tr>
+            <tr><td>Unidad 3, teoría, sección 2</td><td>Todas las claves y restricciones, con más ejemplos</td><td>&mdash;</td></tr>
           </table>
         </div>
 
@@ -93,6 +127,7 @@ Propietario (Documento (PK), Nombre, Direccion, IdCiudad (FK))</code></pre>
         <ul>
           <li>"Con sus claves correspondientes": sin la <code>FOREIGN KEY</code> la respuesta queda incompleta.</li>
           <li>El tipo de <code>Documento</code> tiene que ser el mismo que el de la PK de Propietario.</li>
+          <li>Una coma de más antes del <code>)</code> final es el error de sintaxis más común.</li>
           <li>El peso en <code>INT</code> pierde los decimales; el sexo como <code>VARCHAR(20)</code> no está mal, pero <code>CHAR(1)</code> es lo justo.</li>
         </ul>
       </div>

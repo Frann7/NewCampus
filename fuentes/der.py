@@ -22,8 +22,9 @@ Un diagrama:
     )
 
 Entidad: `id` (y `nombre` si se lee distinto), `x`, `y` (el centro), `attrs`
-(un `*` adelante marca el identificador), `lado` de los atributos (der, izq,
-arriba, abajo) y `w` (ancho mínimo).
+(un `*` adelante marca el identificador y un `+`, un multivaluado, con círculo
+doble; un compuesto va como ("Dirección", ["Calle", "Número"]), con sus ramas),
+`lado` de los atributos (der, izq, arriba, abajo) y `w` (ancho mínimo).
 Interrelación: `id`, `x`, `y`, `nombre` (por defecto el id), `une` = lista de
 (entidad, cardinalidad) o (entidad, cardinalidad, [puntos intermedios]) para
 una línea con codos, `attrs` y `lado` como en la entidad.
@@ -92,8 +93,12 @@ def atributos(L, cx, cy, mw, mh, attrs, lado):
     """Chupetines: una línea del borde a cada círculo, y el nombre al lado."""
     n = len(attrs)
     for k, a in enumerate(attrs):
+        partes = None
+        if isinstance(a, tuple):            # compuesto: ("Dirección", ["Calle", "Número"])
+            a, partes = a
         clave = a.startswith("*")
-        nombre = a.lstrip("*")
+        multi = a.startswith("+")            # multivaluado: círculo doble
+        nombre = a.lstrip("*+")
         if lado in ("der", "izq"):
             s = 1 if lado == "der" else -1
             yi = cy + (k - (n - 1) / 2) * PASO_A
@@ -109,8 +114,21 @@ def atributos(L, cx, cy, mw, mh, attrs, lado):
             xc = xi
             tx, ty, ancla = xi + 8, yi, "start"
         L.partes.append(f'<circle class="{"id" if clave else "noid"}" cx="{xc:.1f}" cy="{yi:.1f}" r="3.6"/>')
+        if multi:
+            L.partes.append(f'<circle class="noid" cx="{xc:.1f}" cy="{yi:.1f}" r="1.6"/>')
         L.ver(xc - 4, yi - 4)
         L.texto(tx, ty, nombre, "att" + (" pk" if clave else ""), ancla)
+        if partes:
+            d = 1 if ancla == "start" else -1
+            xr = tx + d * (ancho_texto(nombre) + 4)
+            m = len(partes)
+            for j, sub in enumerate(partes):
+                ys = yi + (j - (m - 1) / 2) * 13
+                xs = xr + d * 24
+                L.linea([(xr, yi), (xs - d * 4, ys)])
+                L.partes.append(f'<circle class="noid" cx="{xs:.1f}" cy="{ys:.1f}" r="3.6"/>')
+                L.ver(xs - 4, ys - 4)
+                L.texto(xs + d * 8, ys, sub, "att", ancla)
 
 
 def svg(d):

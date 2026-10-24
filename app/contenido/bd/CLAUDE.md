@@ -60,7 +60,8 @@ fuentes/bd/diagramas/der.py` mete los SVG.
 
 - `"evaluacion": {"tipo": "simple"}` sin banco de preguntas. Parciales: el 2025 resuelto, las 7
   preguntas fundamentales de teoría y dos parciales de práctica inventados (gimnasio, hotel), con
-  un inciso d) de `LEFT JOIN`. Finales: los dos, resueltos (los DER se resuelven con el modelo
+  un inciso d) de `LEFT JOIN`. En el parcial 2025, los ejercicios 4 y 5 explican SQL desde cero
+  (pedido de Fran: nunca vio SQL y quiere entenderlo desde ahí, sin leer la teoría). Finales: los dos, resueltos (los DER se resuelven con el modelo
   relacional, sin dibujarlos).
 - Marcas: ★ en lo tomado tal cual en un parcial; ◈ en las variantes y en lo que avisaron en clase
   (fechas, `LEFT JOIN`).

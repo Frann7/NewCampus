@@ -16,6 +16,36 @@
   </div>
   <p>Una tabla con PK de un solo atributo cumple la 2FN sola.</p>
 
+  <h3>Cómo encontrar una dependencia transitiva</h3>
+  <p>Dentro de una tabla, tomá un atributo que <strong>no es la clave</strong> y preguntate:</p>
+  <div class="caja caja-formula">
+    <p><strong>"Si sé este dato, ¿ya sé también este otro, sin mirar la clave?"</strong></p>
+  </div>
+  <p>
+    Si la respuesta es <strong>sí</strong>, hay una dependencia transitiva: Clave &rarr; A &rarr; B
+    (B depende de la clave "de rebote", a través de A). Se arregla llevando A y B a una tabla nueva
+    con clave A, y dejando A como FK en la original.
+  </p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Tabla</th><th>La pregunta</th><th>¿Transitiva?</th><th>Cómo queda</th></tr>
+      <tr><td class="lbl">Alumno (Legajo, Nombre, CodigoCarrera, NombreCarrera)</td><td>¿Si sé el código de carrera, sé su nombre?</td><td><span class="et mal">Sí</span>: el 25 es siempre "Lic. en Sistemas"</td><td><code>Alumno (Legajo (PK), Nombre, CodigoCarrera (FK))</code> y <code>Carrera (CodigoCarrera (PK), NombreCarrera)</code></td></tr>
+      <tr><td class="lbl">Empleado (Legajo, Nombre, IdDepto, PisoDepto)</td><td>¿Si sé el departamento, sé en qué piso está?</td><td><span class="et mal">Sí</span>: el depto 3 está siempre en el piso 2</td><td><code>Departamento (IdDepto (PK), PisoDepto)</code>; en Empleado queda IdDepto (FK)</td></tr>
+      <tr><td class="lbl">Libro (ISBN, Titulo, Editorial, DireccionEditorial)</td><td>¿Si sé la editorial, sé su dirección?</td><td><span class="et mal">Sí</span>: la dirección es de la editorial</td><td><code>Editorial (IdEditorial (PK), Nombre, Direccion)</code>; en Libro queda IdEditorial (FK)</td></tr>
+      <tr><td class="lbl">Animal (NumeroHC, Nombre, Raza, Sexo, Peso)</td><td>¿Si sé la raza, sé el peso?</td><td><span class="et ok">No</span>: hay caniches de 4 kg y de 7 kg</td><td>Queda igual: está en 3FN</td></tr>
+      <tr><td class="lbl">Persona (DNI, Nombre, Calle, Numero)</td><td>¿Si sé la calle, sé el número?</td><td><span class="et ok">No</span>: en una calle viven muchos</td><td>Queda igual</td></tr>
+    </table>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">La trampa</span>
+    <p>
+      No es transitiva por el solo hecho de que un dato <strong>se repita</strong> en varias filas
+      (muchos animales son caniches). Lo que importa es si ese dato <strong>te da otro dato</strong>.
+      La raza sola no da nada: queda como columna. Iría a su tabla solo si el enunciado le diera
+      atributos propios ("de cada raza se conoce su tamaño y su origen").
+    </p>
+  </div>
+
   <h3>Ejemplo 1: la trampa de Ciudad, Provincia y País</h3>
   <div class="caja caja-ejemplo">
     <p>Propietario (Documento (PK), Nombre, Direccion, Ciudad, Provincia, Pais). ¿Está en 3FN?</p>
@@ -23,7 +53,7 @@
   <ul>
     <li><strong>1FN:</strong> sí, cada celda tiene un valor.</li>
     <li><strong>2FN:</strong> sí, la PK es de un solo atributo.</li>
-    <li><strong>3FN:</strong> <strong>no</strong>. La provincia no depende de la persona: depende de la ciudad (Paraná &rarr; Entre Ríos), y el país depende de la provincia. Es una cadena Documento &rarr; Ciudad &rarr; Provincia &rarr; País: dependencias <strong>transitivas</strong>.</li>
+    <li><strong>3FN:</strong> <strong>no</strong>. Con la pregunta de arriba: ¿si sé la ciudad, sé la provincia? Sí. ¿Si sé la provincia, sé el país? Sí. La provincia no depende de la persona: depende de la ciudad (Paraná &rarr; Entre Ríos), y el país depende de la provincia. Es una cadena Documento &rarr; Ciudad &rarr; Provincia &rarr; País: dependencias <strong>transitivas</strong>.</li>
   </ul>
   <p>Se separa cada eslabón en su tabla:</p>
   <pre class="codigo" data-lang="texto"><code>Pais (IdPais (PK), Nombre)

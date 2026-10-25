@@ -7,10 +7,12 @@
 
   <p><strong>Ejercicio 5:</strong> Utilizando sentencias SQL, realice los scripts correspondientes para generar cada uno de los siguientes listados:</p>
   <ol class="parcial-incisos">
-    <li>Listado de reservas pendientes, ordenado por fecha y hora (más antiguas primero), mostrando número de reserva, fecha, hora, nombre del socio, nombre de la clase y nombre del profesor.</li>
-    <li>Listado de cantidad de reservas pendientes por socio, ordenado por país, provincia, ciudad y nombre del socio. Se debe mostrar: País, Provincia, Ciudad, Nombre del Socio, Cantidad de Reservas Pendientes.</li>
+    <li>Listado de reservas pendientes, ordenado por fecha y hora de la reserva (más antiguas primero), mostrando número de reserva, fecha, hora, nombre del socio, nombre de la clase y nombre del profesor.</li>
+    <li>Listado de cantidad de reservas pendientes por socio, ordenado por provincia, ciudad y nombre del socio. Se debe mostrar: País, Provincia, Ciudad, Nombre del Socio, Cantidad de Reservas Pendientes.</li>
     <li>Listado de socios ordenados por total pagado durante los últimos 12 meses, agrupado por año y mes. Mostrar: Año, Mes, Nombre del Socio, Total Pagado.</li>
-    <li>Listado de clases con la cantidad de reservas que tiene cada una, incluyendo las clases que no tienen ninguna.</li>
+    <li>Listado de clases con el nombre del profesor y la cantidad de reservas de cada una, incluyendo las clases que no tienen ninguna, ordenado de mayor a menor cantidad.</li>
+    <li>Listado de los pagos de los últimos 30 días, del más reciente al más antiguo, mostrando número de pago, fecha, nombre del socio y cuántos días pasaron desde el pago.</li>
+    <li>Mostrar el código, el nombre y el profesor de la clase con más reservas.</li>
   </ol>
 
   <div class="parcial-extras">
@@ -46,7 +48,7 @@ INNER JOIN Pais pa ON pa.IdPais = pv.IdPais
 INNER JOIN Reserva r ON r.DNI = s.DNI
 WHERE r.Estado = 'Pendiente'
 GROUP BY pa.Nombre, pv.Nombre, ci.Nombre, s.DNI, s.Nombre
-ORDER BY pa.Nombre, pv.Nombre, ci.Nombre, s.Nombre;</code></pre>
+ORDER BY pv.Nombre, ci.Nombre, s.Nombre;</code></pre>
         <p><strong>c)</strong></p>
         <pre class="codigo"><code>SELECT YEAR(p.Fecha) AS Anio,
        MONTH(p.Fecha) AS Mes,
@@ -59,21 +61,50 @@ WHERE p.Fecha &gt;= DATEADD(MONTH, -12, GETDATE())
 GROUP BY YEAR(p.Fecha), MONTH(p.Fecha), s.DNI, s.Nombre
 ORDER BY TotalPagado DESC;</code></pre>
         <p><strong>d)</strong></p>
-        <pre class="codigo"><code>SELECT c.Codigo, c.Nombre, COUNT(r.Numero) AS CantidadReservas
+        <pre class="codigo"><code>SELECT c.Codigo,
+       c.Nombre AS Clase,
+       pr.Nombre AS Profesor,
+       COUNT(r.Numero) AS CantidadReservas
 FROM Clase c
+INNER JOIN Profesor pr ON pr.Legajo = c.Legajo
 LEFT JOIN Reserva r ON r.CodigoClase = c.Codigo
-GROUP BY c.Codigo, c.Nombre;</code></pre>
+GROUP BY c.Codigo, c.Nombre, pr.Nombre
+ORDER BY CantidadReservas DESC;</code></pre>
+        <p><strong>e)</strong></p>
+        <pre class="codigo"><code>SELECT p.Numero AS NroPago,
+       p.Fecha,
+       s.Nombre AS Socio,
+       DATEDIFF(DAY, p.Fecha, GETDATE()) AS DiasDesdeElPago
+FROM Pago p
+INNER JOIN Socio s ON s.DNI = p.DNI
+WHERE DATEDIFF(DAY, p.Fecha, GETDATE()) &lt;= 30
+ORDER BY p.Fecha DESC;</code></pre>
+        <p><strong>f)</strong></p>
+        <pre class="codigo"><code>SELECT c.Codigo,
+       c.Nombre AS Clase,
+       pr.Nombre AS Profesor
+FROM Clase c
+INNER JOIN Profesor pr ON pr.Legajo = c.Legajo
+WHERE c.Codigo = (SELECT TOP 1 r.CodigoClase
+                  FROM Reserva r
+                  GROUP BY r.CodigoClase
+                  ORDER BY COUNT(*) DESC);</code></pre>
       </div>
     </details>
 
     <details class="parcial-desp pd-explicacion">
       <summary>
         <span class="pd-icono">&#9998;</span>
-        <span class="pd-txt"><b>Explicación detallada</b><small>Los cinco pasos de la receta en cada listado</small></span>
+        <span class="pd-txt"><b>Explicación detallada</b><small>Cada listado renglón por renglón</small></span>
       </summary>
       <div class="pd-cuerpo">
         <h4>Qué evalúa</h4>
-        <p>Los tres listados de la receta (Unidad 4, sección 7), sobre las tablas del ejercicio 3.</p>
+        <p>
+          Los tres primeros son los mismos tres listados del parcial 2025, con otro caso. Los otros
+          tres son las formas que los profes mostraron en clase y avisaron que pueden tomar:
+          <code>LEFT JOIN</code> (d), fechas con <code>DATEDIFF</code> (e) y una subconsulta (f).
+          Las tablas son las del ejercicio 3:
+        </p>
         <pre class="codigo" data-lang="texto"><code>Pais (IdPais (PK), Nombre)
 Provincia (IdProvincia (PK), Nombre, IdPais (FK))
 Ciudad (IdCiudad (PK), Nombre, IdProvincia (FK))
@@ -86,12 +117,14 @@ Reserva (Numero (PK), FechaHora, Estado, DNI (FK), CodigoClase (FK))
 Pago (Numero (PK), Fecha, DNI (FK))
 Concepto (Codigo (PK), Descripcion)
 Pago_Concepto (NumeroPago (PK)(FK), CodigoConcepto (PK)(FK), Importe)</code></pre>
-        <h4>a) Reservas pendientes</h4>
-        <ul>
-          <li><strong>Columnas:</strong> número, fecha y hora (Reserva, con <code>CAST</code>), socio (Socio), clase (Clase) y profesor (Profesor).</li>
-          <li><strong>Camino:</strong> Reserva &rarr; Socio; Reserva &rarr; Clase &rarr; Profesor. El profesor no está en la reserva: se llega por la clase.</li>
-          <li><strong>Filtro:</strong> <code>r.Estado = 'Pendiente'</code>. <strong>Orden:</strong> <code>r.FechaHora ASC</code>.</li>
-        </ul>
+        <p>
+          Todos se arman igual: qué columnas se muestran (<code>SELECT</code>), de qué tabla se
+          arranca (<code>FROM</code>), cómo se llega a las demás (cada <code>JOIN</code> une una FK
+          con la PK a la que apunta), qué filas quedan (<code>WHERE</code>), cómo se agrupa
+          (<code>GROUP BY</code>) y en qué orden sale (<code>ORDER BY</code>).
+        </p>
+
+        <h4>a) Reservas pendientes, renglón por renglón</h4>
         <pre class="codigo"><code>SELECT r.Numero AS NroReserva,
        CAST(r.FechaHora AS DATE) AS Fecha,
        CAST(r.FechaHora AS TIME) AS Hora,
@@ -104,12 +137,20 @@ INNER JOIN Clase c ON c.Codigo = r.CodigoClase
 INNER JOIN Profesor pr ON pr.Legajo = c.Legajo
 WHERE r.Estado = 'Pendiente'
 ORDER BY r.FechaHora ASC;</code></pre>
-        <h4>b) Cantidad por socio</h4>
-        <ul>
-          <li><strong>Camino:</strong> Pais &larr; Provincia &larr; Ciudad &larr; Socio &rarr; Reserva. Acá el socio reserva directo (en la veterinaria había que pasar por el animal).</li>
-          <li><strong>Filtro</strong> en el <code>WHERE</code>; <code>COUNT(r.Numero)</code>; al <code>GROUP BY</code> todo lo demás más el DNI.</li>
-          <li><strong>Orden:</strong> esta vez la consigna incluye el país: <code>ORDER BY</code> país, provincia, ciudad y nombre.</li>
-        </ul>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Renglón</th><th>Qué hace</th></tr>
+            <tr><td class="lbl"><code>SELECT</code> (renglones 1 a 6)</td><td>Las seis columnas que pide. <code>CAST(... AS DATE)</code> y <code>CAST(... AS TIME)</code> separan la fecha y la hora, que están juntas en <code>FechaHora</code> (<code>DATETIME</code>). Socio, Clase y Profesor tienen todas una columna Nombre: el alias (<code>s.</code>, <code>c.</code>, <code>pr.</code>) dice de cuál</td></tr>
+            <tr><td class="lbl"><code>FROM Reserva r</code></td><td>Se arranca por lo que se lista: las reservas</td></tr>
+            <tr><td class="lbl"><code>INNER JOIN Socio s ON s.DNI = r.DNI</code></td><td>La reserva tiene el DNI del socio (FK); con él se busca el socio</td></tr>
+            <tr><td class="lbl"><code>INNER JOIN Clase c ON c.Codigo = r.CodigoClase</code></td><td>La reserva tiene el código de la clase (FK); con él se busca la clase</td></tr>
+            <tr><td class="lbl"><code>INNER JOIN Profesor pr ON pr.Legajo = c.Legajo</code></td><td>La reserva no sabe quién es el profesor: lo sabe la <strong>clase</strong> (su Legajo). Por eso se une desde <code>c</code>, igual que en 2025 el dueño se buscaba desde el animal</td></tr>
+            <tr><td class="lbl"><code>WHERE r.Estado = 'Pendiente'</code></td><td>Solo las reservas pendientes</td></tr>
+            <tr><td class="lbl"><code>ORDER BY r.FechaHora ASC</code></td><td>"Más antiguas primero": de la fecha más vieja a la más nueva</td></tr>
+          </table>
+        </div>
+
+        <h4>b) Cantidad de reservas pendientes por socio, renglón por renglón</h4>
         <pre class="codigo"><code>SELECT pa.Nombre AS Pais,
        pv.Nombre AS Provincia,
        ci.Nombre AS Ciudad,
@@ -122,13 +163,23 @@ INNER JOIN Pais pa ON pa.IdPais = pv.IdPais
 INNER JOIN Reserva r ON r.DNI = s.DNI
 WHERE r.Estado = 'Pendiente'
 GROUP BY pa.Nombre, pv.Nombre, ci.Nombre, s.DNI, s.Nombre
-ORDER BY pa.Nombre, pv.Nombre, ci.Nombre, s.Nombre;</code></pre>
-        <h4>c) Total pagado por año y mes</h4>
-        <ul>
-          <li><strong>Camino:</strong> Socio &rarr; Pago &rarr; Pago_Concepto (donde está el Importe).</li>
-          <li><strong>Filtro:</strong> <code>p.Fecha &gt;= DATEADD(MONTH, -12, GETDATE())</code>.</li>
-          <li><code>SUM(pc.Importe)</code>, y <code>GROUP BY</code> el año, el mes y el socio. <strong>Orden:</strong> por total, de mayor a menor.</li>
-        </ul>
+ORDER BY pv.Nombre, ci.Nombre, s.Nombre;</code></pre>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Renglón</th><th>Qué hace</th></tr>
+            <tr><td class="lbl"><code>SELECT</code> (renglones 1 a 5)</td><td>País, provincia, ciudad y socio, y <code>COUNT(r.Numero)</code>, que cuenta las reservas de cada grupo</td></tr>
+            <tr><td class="lbl"><code>FROM Socio s</code></td><td>"Por socio": se arranca por el socio. De la ubicación solo tiene su <code>IdCiudad</code></td></tr>
+            <tr><td class="lbl"><code>INNER JOIN Ciudad ci ON ci.IdCiudad = s.IdCiudad</code></td><td>Con el IdCiudad del socio se busca su ciudad</td></tr>
+            <tr><td class="lbl"><code>INNER JOIN Provincia pv ON pv.IdProvincia = ci.IdProvincia</code></td><td>El número de provincia lo tiene la <strong>ciudad</strong>: se une desde <code>ci</code></td></tr>
+            <tr><td class="lbl"><code>INNER JOIN Pais pa ON pa.IdPais = pv.IdPais</code></td><td>El número de país lo tiene la <strong>provincia</strong>: se une desde <code>pv</code></td></tr>
+            <tr><td class="lbl"><code>INNER JOIN Reserva r ON r.DNI = s.DNI</code></td><td>Las reservas de cada socio, una fila por reserva. Acá el socio reserva directo (en la veterinaria había que pasar por el animal)</td></tr>
+            <tr><td class="lbl"><code>WHERE r.Estado = 'Pendiente'</code></td><td>Quedan solo las reservas pendientes</td></tr>
+            <tr><td class="lbl"><code>GROUP BY ...</code></td><td>Junta en una fila las reservas del mismo socio, y el <code>COUNT</code> cuenta cuántas eran. Va todo lo que está en el <code>SELECT</code> fuera del <code>COUNT</code>, más <code>s.DNI</code> para que dos socios con el mismo nombre no se junten</td></tr>
+            <tr><td class="lbl"><code>ORDER BY pv.Nombre, ci.Nombre, s.Nombre</code></td><td>Por provincia; si empatan, por ciudad; si empatan, por nombre. El país se muestra pero no se pide en el orden</td></tr>
+          </table>
+        </div>
+
+        <h4>c) Total pagado por socio, año y mes, renglón por renglón</h4>
         <pre class="codigo"><code>SELECT YEAR(p.Fecha) AS Anio,
        MONTH(p.Fecha) AS Mes,
        s.Nombre AS Socio,
@@ -139,19 +190,110 @@ INNER JOIN Pago_Concepto pc ON pc.NumeroPago = p.Numero
 WHERE p.Fecha &gt;= DATEADD(MONTH, -12, GETDATE())
 GROUP BY YEAR(p.Fecha), MONTH(p.Fecha), s.DNI, s.Nombre
 ORDER BY TotalPagado DESC;</code></pre>
-        <h4>d) La consulta con LEFT JOIN</h4>
-        <ul>
-          <li>"Incluyendo las clases que no tienen ninguna": <code>LEFT JOIN</code> desde Clase (Unidad 4, sección 2). Los profes avisaron que probablemente haya una así.</li>
-          <li><code>COUNT(r.Numero)</code>, de la tabla de la derecha: la clase sin reservas da 0. Con <code>COUNT(*)</code> daría 1.</li>
-        </ul>
-        <pre class="codigo"><code>SELECT c.Codigo, c.Nombre, COUNT(r.Numero) AS CantidadReservas
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Renglón</th><th>Qué hace</th></tr>
+            <tr><td class="lbl"><code>SELECT</code> (renglones 1 a 4)</td><td><code>YEAR</code> y <code>MONTH</code> sacan el año y el mes de la fecha del pago. <code>SUM(pc.Importe)</code> suma los importes de cada grupo</td></tr>
+            <tr><td class="lbl"><code>FROM Socio s</code></td><td>Se arranca por el socio</td></tr>
+            <tr><td class="lbl"><code>INNER JOIN Pago p ON p.DNI = s.DNI</code></td><td>Los pagos de cada socio (el pago tiene el DNI como FK)</td></tr>
+            <tr><td class="lbl"><code>INNER JOIN Pago_Concepto pc ON pc.NumeroPago = p.Numero</code></td><td>El total de un pago no está guardado: está el importe de cada concepto, en la tabla intermedia. Una fila por concepto pagado</td></tr>
+            <tr><td class="lbl"><code>WHERE p.Fecha &gt;= DATEADD(MONTH, -12, GETDATE())</code></td><td>"Últimos 12 meses": <code>DATEADD(MONTH, -12, GETDATE())</code> es la fecha de hoy menos 12 meses; quedan los pagos de esa fecha en adelante</td></tr>
+            <tr><td class="lbl"><code>GROUP BY ...</code></td><td>Un grupo por año, mes y socio: el <code>SUM</code> da cuánto pagó cada socio en cada mes. Van <code>YEAR(p.Fecha)</code> y <code>MONTH(p.Fecha)</code> escritos igual que en el <code>SELECT</code></td></tr>
+            <tr><td class="lbl"><code>ORDER BY TotalPagado DESC</code></td><td>"Ordenados por total pagado": del que más pagó al que menos. Se puede ordenar por el alias de la columna</td></tr>
+          </table>
+        </div>
+
+        <h4>d) Clases con su cantidad de reservas, con LEFT JOIN</h4>
+        <pre class="codigo"><code>SELECT c.Codigo,
+       c.Nombre AS Clase,
+       pr.Nombre AS Profesor,
+       COUNT(r.Numero) AS CantidadReservas
 FROM Clase c
+INNER JOIN Profesor pr ON pr.Legajo = c.Legajo
 LEFT JOIN Reserva r ON r.CodigoClase = c.Codigo
-GROUP BY c.Codigo, c.Nombre;</code></pre>
+GROUP BY c.Codigo, c.Nombre, pr.Nombre
+ORDER BY CantidadReservas DESC;</code></pre>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Renglón</th><th>Qué hace</th></tr>
+            <tr><td class="lbl"><code>SELECT</code> (renglones 1 a 4)</td><td>La clase, su profesor y <code>COUNT(r.Numero)</code>: la cantidad de reservas</td></tr>
+            <tr><td class="lbl"><code>FROM Clase c</code></td><td>"Incluyendo las clases que no tienen ninguna": se arranca por la tabla de la que se quieren <strong>todas</strong> las filas</td></tr>
+            <tr><td class="lbl"><code>INNER JOIN Profesor pr ON pr.Legajo = c.Legajo</code></td><td>El profesor de cada clase. Puede ser <code>INNER</code>: toda clase tiene profesor, así que no se pierde ninguna</td></tr>
+            <tr><td class="lbl"><code>LEFT JOIN Reserva r ON r.CodigoClase = c.Codigo</code></td><td>Las reservas de cada clase. Con <code>INNER JOIN</code>, la clase sin reservas no tendría pareja y desaparecería. Con <code>LEFT JOIN</code> se queda igual, con las columnas de Reserva en NULL</td></tr>
+            <tr><td class="lbl"><code>GROUP BY c.Codigo, c.Nombre, pr.Nombre</code></td><td>Un grupo por clase (el código es la PK). <code>pr.Nombre</code> va porque está en el <code>SELECT</code></td></tr>
+            <tr><td class="lbl"><code>ORDER BY CantidadReservas DESC</code></td><td>De la que tiene más reservas a la que tiene menos</td></tr>
+          </table>
+        </div>
+        <ul>
+          <li><strong>Se cuenta una columna de la tabla de la derecha</strong> (<code>r.Numero</code>): <code>COUNT</code> no cuenta los NULL, así que la clase sin reservas da 0. Con <code>COUNT(*)</code> daría 1, porque la fila existe igual.</li>
+          <li><strong>Cómo darse cuenta de que va <code>LEFT JOIN</code>:</strong> la consigna dice "incluyendo los que no tienen", "aunque no tengan", "también los que tienen cero".</li>
+        </ul>
+
+        <h4>e) Pagos de los últimos 30 días, con DATEDIFF</h4>
+        <pre class="codigo"><code>SELECT p.Numero AS NroPago,
+       p.Fecha,
+       s.Nombre AS Socio,
+       DATEDIFF(DAY, p.Fecha, GETDATE()) AS DiasDesdeElPago
+FROM Pago p
+INNER JOIN Socio s ON s.DNI = p.DNI
+WHERE DATEDIFF(DAY, p.Fecha, GETDATE()) &lt;= 30
+ORDER BY p.Fecha DESC;</code></pre>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Renglón</th><th>Qué hace</th></tr>
+            <tr><td class="lbl"><code>SELECT</code> (renglones 1 a 4)</td><td><code>DATEDIFF(DAY, p.Fecha, GETDATE())</code> cuenta los días que hay entre la fecha del pago y hoy: un pago de hace una semana da 7</td></tr>
+            <tr><td class="lbl"><code>FROM Pago p</code></td><td>Se listan pagos: se arranca por Pago</td></tr>
+            <tr><td class="lbl"><code>INNER JOIN Socio s ON s.DNI = p.DNI</code></td><td>El nombre del socio que hizo cada pago</td></tr>
+            <tr><td class="lbl"><code>WHERE DATEDIFF(DAY, p.Fecha, GETDATE()) &lt;= 30</code></td><td>Quedan los pagos de hace 30 días o menos. Es la misma cuenta del <code>SELECT</code>, usada para filtrar</td></tr>
+            <tr><td class="lbl"><code>ORDER BY p.Fecha DESC</code></td><td>"Del más reciente al más antiguo": de la fecha más nueva a la más vieja</td></tr>
+          </table>
+        </div>
+        <ul>
+          <li><strong><code>DATEDIFF(unidad, desde, hasta)</code></strong>: la fecha vieja va primero y la de hoy después. Al revés da negativo.</li>
+          <li>La unidad cambia según lo que pidan: <code>DAY</code> para días, <code>MONTH</code> para meses, <code>YEAR</code> para años (antigüedad o edad).</li>
+          <li>No hay <code>GROUP BY</code>: cada fila es un pago y no se cuenta ni se suma nada.</li>
+        </ul>
+
+        <h4>f) La clase con más reservas, con una subconsulta</h4>
+        <pre class="codigo"><code>SELECT c.Codigo,
+       c.Nombre AS Clase,
+       pr.Nombre AS Profesor
+FROM Clase c
+INNER JOIN Profesor pr ON pr.Legajo = c.Legajo
+WHERE c.Codigo = (SELECT TOP 1 r.CodigoClase
+                  FROM Reserva r
+                  GROUP BY r.CodigoClase
+                  ORDER BY COUNT(*) DESC);</code></pre>
+        <p>Se lee de adentro hacia afuera: primero se resuelve la consulta de adentro, su resultado ocupa ese lugar, y después corre la de afuera.</p>
+        <span class="paso">Paso 1 &mdash; La de adentro, sola</span>
+        <pre class="codigo"><code>SELECT TOP 1 r.CodigoClase
+FROM Reserva r
+GROUP BY r.CodigoClase
+ORDER BY COUNT(*) DESC;</code></pre>
+        <p>
+          Agrupa las reservas por clase, las ordena de la que tiene más a la que tiene menos, y
+          <code>TOP 1</code> se queda con la primera. Devuelve <strong>un solo valor</strong>: el
+          código de la clase con más reservas (por ejemplo, 3).
+        </p>
+        <span class="paso">Paso 2 &mdash; Ese valor reemplaza a la subconsulta</span>
+        <pre class="codigo"><code>SELECT c.Codigo, c.Nombre AS Clase, pr.Nombre AS Profesor
+FROM Clase c
+INNER JOIN Profesor pr ON pr.Legajo = c.Legajo
+WHERE c.Codigo = 3;</code></pre>
+        <p>Queda una consulta común: la clase de código 3, con su profesor.</p>
+        <ul>
+          <li><strong>Por qué no se escribe el 3 a mano:</strong> no se sabe de antemano cuál es. Si mañana otra clase pasa a tener más reservas, la subconsulta la encuentra sola. Es lo mismo que usar <code>YEAR(GETDATE())</code> en vez de escribir el año.</li>
+          <li><strong>Con <code>=</code>, la subconsulta tiene que devolver un solo valor:</strong> por eso el <code>TOP 1</code>. Si puede devolver varios, va <code>IN</code> en vez de <code>=</code>.</li>
+          <li><strong>Cuándo se usa:</strong> cuando piden "el que más" o "el que menos". Para "el que menos", <code>ORDER BY COUNT(*) ASC</code>.</li>
+        </ul>
+
         <h4>Trampas</h4>
         <ul>
           <li>En a), el profesor se trae pasando por Clase: no hay FK de Reserva a Profesor.</li>
+          <li>En b), el orden es por provincia, ciudad y socio, sin el país, aunque el país se muestre.</li>
           <li>En c), el total de un pago no está guardado: se suma el detalle (Pago_Concepto).</li>
+          <li>En d), con <code>INNER JOIN</code> a Reserva, o con <code>COUNT(*)</code>, la respuesta queda mal aunque la consulta ande.</li>
+          <li>En e), "últimos 30 días" con <code>YEAR</code> o <code>MONTH</code> no sirve: hace falta contar días.</li>
         </ul>
       </div>
     </details>

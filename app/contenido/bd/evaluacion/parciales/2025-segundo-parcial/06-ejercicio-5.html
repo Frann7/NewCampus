@@ -134,6 +134,15 @@ Consulta_Tratamiento (NumeroConsulta (PK)(FK), CodigoTratamiento (PK)(FK), Costo
           <code>IdCiudad</code> (FK). Por eso cada una de esas tablas tiene su propia columna
           <code>Nombre</code>.
         </p>
+        <p>
+          Es la regla de la 3FN aplicada adentro de una sola entidad: la provincia no depende del
+          documento del cliente sino de su ciudad (si es Paraná, es Entre Ríos), y el país de la
+          provincia: Documento &rarr; Ciudad &rarr; Provincia &rarr; País. Es lo mismo que en la factura
+          del apunte, donde el nombre del cliente se saca de la factura porque depende del código de
+          cliente. La resolución del 1er parcial 2025 de la cátedra también separa la localidad en su
+          tabla. Si se dejaran como columnas de Propietario, en esta consulta no harían falta esos tres
+          JOIN: <code>SELECT p.Pais, p.Provincia, p.Ciudad, ...</code>.
+        </p>
 
         <h4>Datos de ejemplo (los mismos de la base de prueba)</h4>
         <div class="tabla-wrap">
@@ -271,6 +280,16 @@ ORDER BY pr.Nombre, ci.Nombre, p.Nombre;</code></pre>
             <tr><td>Argentina</td><td>Santa Fe</td><td>Rosario</td><td>Luis Paz</td><td>1</td></tr>
           </table>
         </div>
+        <p><strong>COUNT con y sin GROUP BY.</strong> No siempre van juntos:</p>
+        <pre class="codigo"><code>SELECT COUNT(*) FROM Turno;                         -- 6: todas las filas, un solo número
+SELECT Estado, COUNT(*) FROM Turno GROUP BY Estado; -- Atendido 2, Pendiente 3, Cancelado 1</code></pre>
+        <p>
+          El <code>COUNT</code> "sabe" qué contar por el orden en que se ejecuta la consulta: el
+          <code>GROUP BY</code> separa las filas en montones <strong>antes</strong> del
+          <code>SELECT</code>, así que cuando llega al <code>COUNT</code> cuenta cada montón por
+          separado. Sin <code>GROUP BY</code>, todo es un solo montón. Se usa cuando la consigna dice
+          "<strong>por</strong> cliente", "<strong>de cada</strong>...".
+        </p>
         <ul>
           <li><strong>La regla de oro del GROUP BY:</strong> toda columna del <code>SELECT</code> que no está adentro de <code>COUNT</code> o <code>SUM</code> tiene que estar en el <code>GROUP BY</code>; si no, SQL no sabe qué mostrar de cada grupo y da error. <code>p.Documento</code> se agrega aunque no se muestre, para que dos clientes con el mismo nombre no se junten.</li>
           <li>Acá no se une con Turno_Servicio: el turno 102 tiene dos servicios y Luis saldría con 2. Se cuentan <strong>turnos</strong>.</li>

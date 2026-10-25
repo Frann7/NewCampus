@@ -63,8 +63,8 @@ window.Apuntes.registrarIndice({
         "archivo": "examenes/bd-2026-parcial-de-practica-1.js",
         "titulo": "Parcial de pr\u00e1ctica 1",
         "fecha": "Inventado, con la forma del 2025",
-        "detalle": "5 ejercicios sobre un gimnasio, resueltos",
-        "temas": "\u00bfQu\u00e9 es SQL? \u00b7 Claves \u00b7 DER \u2192 3FN \u00b7 CREATE TABLE \u00b7 Listados con JOIN, LEFT JOIN, COUNT y SUM",
+        "detalle": "5 ejercicios sobre un gimnasio, resueltos (6 listados)",
+        "temas": "\u00bfQu\u00e9 es SQL? \u00b7 Claves \u00b7 DER \u2192 3FN \u00b7 CREATE TABLE \u00b7 Listados con JOIN, LEFT JOIN, COUNT, SUM, DATEDIFF y subconsulta",
         "tipo": "parcial"
       },
       {

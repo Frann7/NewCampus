@@ -67,7 +67,7 @@ ORDER BY TotalFacturado DESC;</code></pre>
     <details class="parcial-desp pd-explicacion">
       <summary>
         <span class="pd-icono">&#9998;</span>
-        <span class="pd-txt"><b>Explicación detallada</b><small>SQL desde cero: cada palabra, el orden y cada consulta armada paso a paso con datos</small></span>
+        <span class="pd-txt"><b>Explicación detallada</b><small>SQL desde cero: cada palabra y cada consulta renglón por renglón, con datos</small></span>
       </summary>
       <div class="pd-cuerpo">
         <h4>Qué pide</h4>
@@ -125,97 +125,70 @@ Consulta_Tratamiento (NumeroConsulta (PK)(FK), CodigoTratamiento (PK)(FK), Costo
         </div>
         <p>Por eso conviene <strong>pensarla en el orden de la derecha</strong>: primero de qué tablas salen los datos, después qué filas, después qué se muestra.</p>
 
-        <h4>Datos de ejemplo (para ver qué hace cada paso)</h4>
-        <div class="tabla-wrap">
-          <table class="t">
-            <tr><th colspan="4">Propietario</th></tr>
-            <tr><th>Documento</th><th>Nombre</th><th>IdCiudad</th><th>(ciudad &middot; provincia)</th></tr>
-            <tr><td>20-111</td><td>Ana Gómez</td><td>1</td><td>Paraná &middot; Entre Ríos</td></tr>
-            <tr><td>20-222</td><td>Luis Paz</td><td>3</td><td>Rosario &middot; Santa Fe</td></tr>
-            <tr><td>20-333</td><td>Eva Ruiz</td><td>2</td><td>Oro Verde &middot; Entre Ríos</td></tr>
-          </table>
-        </div>
-        <div class="tabla-wrap">
-          <table class="t">
-            <tr><th colspan="3">Animal</th><th></th><th colspan="2">Servicio</th></tr>
-            <tr><th>NumeroHC</th><th>Nombre</th><th>Documento</th><th></th><th>Codigo</th><th>Descripcion</th></tr>
-            <tr><td>10</td><td>Toby</td><td>20-111</td><td></td><td>1</td><td>Consulta</td></tr>
-            <tr><td>11</td><td>Mora</td><td>20-111</td><td></td><td>2</td><td>Vacunación</td></tr>
-            <tr><td>12</td><td>Rex</td><td>20-222</td><td></td><td></td><td></td></tr>
-            <tr><td>13</td><td>Luna</td><td>20-333</td><td></td><td></td><td></td></tr>
-          </table>
-        </div>
-        <div class="tabla-wrap">
-          <table class="t">
-            <tr><th colspan="4">Turno</th><th></th><th colspan="2">Turno_Servicio</th></tr>
-            <tr><th>Numero</th><th>FechaHora</th><th>Estado</th><th>NumeroHC</th><th></th><th>NumeroTurno</th><th>CodigoServicio</th></tr>
-            <tr><td>99</td><td>2025-08-10 15:00</td><td>Atendido</td><td>12</td><td></td><td>99</td><td>1</td></tr>
-            <tr><td>100</td><td>2026-10-20 09:00</td><td>Atendido</td><td>10</td><td></td><td>100</td><td>1</td></tr>
-            <tr><td>101</td><td>2026-10-27 10:30</td><td>Pendiente</td><td>11</td><td></td><td>101</td><td>2</td></tr>
-            <tr><td>102</td><td>2026-10-25 16:00</td><td>Pendiente</td><td>12</td><td></td><td>102</td><td>1</td></tr>
-            <tr><td>103</td><td>2026-10-28 11:00</td><td>Pendiente</td><td>10</td><td></td><td>102</td><td>2</td></tr>
-            <tr><td>104</td><td>2026-10-26 08:00</td><td>Cancelado</td><td>13</td><td></td><td>103</td><td>1</td></tr>
-            <tr><td></td><td></td><td></td><td></td><td></td><td>104</td><td>1</td></tr>
-          </table>
-        </div>
-        <div class="tabla-wrap">
-          <table class="t">
-            <tr><th colspan="3">Consulta</th><th></th><th colspan="3">Consulta_Tratamiento</th></tr>
-            <tr><th>Numero</th><th>Fecha</th><th>NumeroTurno</th><th></th><th>NumeroConsulta</th><th>CodigoTratamiento</th><th>Costo</th></tr>
-            <tr><td>499</td><td>2025-08-10</td><td>99</td><td></td><td>499</td><td>3</td><td>12000</td></tr>
-            <tr><td>500</td><td>2026-10-20</td><td>100</td><td></td><td>500</td><td>1</td><td>8000</td></tr>
-            <tr><td></td><td></td><td></td><td></td><td>500</td><td>2</td><td>5000</td></tr>
-          </table>
-        </div>
-
-        <h4>a) Turnos pendientes, armada de a una pieza</h4>
-        <span class="paso">Pieza 1 &mdash; De qué tabla y qué filas: FROM y WHERE</span>
-        <pre class="codigo"><code>FROM Turno t
-WHERE t.Estado = 'Pendiente'</code></pre>
-        <p>"De la tabla Turno (que voy a llamar <code>t</code>), quedate con las filas cuyo Estado es 'Pendiente'". Quedan 101, 102 y 103.</p>
-
-        <span class="paso">Pieza 2 &mdash; Traer el animal: el primer JOIN</span>
-        <pre class="codigo"><code>INNER JOIN Animal a ON a.NumeroHC = t.NumeroHC</code></pre>
+        <h4>Antes de empezar: dónde quedaron País, Provincia y Ciudad</h4>
         <p>
-          El turno solo tiene el <strong>número</strong> del animal (su FK). El nombre está en la tabla
-          Animal. El JOIN pega a cada turno la fila de Animal cuyo NumeroHC es igual al del turno:
-          101 &rarr; Mora, 102 &rarr; Rex, 103 &rarr; Toby.
+          En el <strong>DER</strong>, País, Provincia y Ciudad aparecen como atributos del propietario.
+          Pero en el <strong>ejercicio 3</strong>, al normalizar a 3FN, se sacaron a <strong>tablas
+          propias</strong> (la provincia depende de la ciudad y el país de la provincia: dependencia
+          transitiva). Propietario se quedó solo con el <strong>número</strong> de su ciudad,
+          <code>IdCiudad</code> (FK). Por eso cada una de esas tablas tiene su propia columna
+          <code>Nombre</code>.
         </p>
 
-        <span class="paso">Pieza 3 &mdash; Traer el cliente: otro JOIN, desde el animal</span>
-        <pre class="codigo"><code>INNER JOIN Propietario p ON p.Documento = a.Documento</code></pre>
-        <p>El turno no sabe quién es el dueño; el animal sí (su FK Documento). Por eso se une desde <code>a</code>: Mora &rarr; Ana, Rex &rarr; Luis, Toby &rarr; Ana.</p>
+        <h4>Datos de ejemplo (los mismos de la base de prueba)</h4>
+        <div class="tabla-wrap">
+          <table class="t">
+            <tr><th colspan="4">Propietario</th><th></th><th colspan="3">Ciudad</th></tr>
+            <tr><th>Documento</th><th>Nombre</th><th>Direccion</th><th>IdCiudad</th><th></th><th>IdCiudad</th><th>Nombre</th><th>IdProvincia</th></tr>
+            <tr><td>20-111</td><td>Ana Gómez</td><td>Urquiza 100</td><td>1</td><td></td><td>1</td><td>Paraná</td><td>1</td></tr>
+            <tr><td>20-222</td><td>Luis Paz</td><td>San Martín 50</td><td>3</td><td></td><td>2</td><td>Oro Verde</td><td>1</td></tr>
+            <tr><td>20-333</td><td>Eva Ruiz</td><td>Ruta 11 km 10</td><td>2</td><td></td><td>3</td><td>Rosario</td><td>2</td></tr>
+          </table>
+        </div>
+        <div class="tabla-wrap">
+          <table class="t">
+            <tr><th colspan="3">Provincia</th><th></th><th colspan="2">Pais</th><th></th><th colspan="2">Servicio</th></tr>
+            <tr><th>IdProvincia</th><th>Nombre</th><th>IdPais</th><th></th><th>IdPais</th><th>Nombre</th><th></th><th>Codigo</th><th>Descripcion</th></tr>
+            <tr><td>1</td><td>Entre Ríos</td><td>1</td><td></td><td>1</td><td>Argentina</td><td></td><td>1</td><td>Consulta</td></tr>
+            <tr><td>2</td><td>Santa Fe</td><td>1</td><td></td><td></td><td></td><td></td><td>2</td><td>Vacunación</td></tr>
+          </table>
+        </div>
+        <div class="tabla-wrap">
+          <table class="t">
+            <tr><th colspan="3">Animal</th><th></th><th colspan="4">Turno</th></tr>
+            <tr><th>NumeroHC</th><th>Nombre</th><th>Documento</th><th></th><th>Numero</th><th>FechaHora</th><th>Estado</th><th>NumeroHC</th></tr>
+            <tr><td>10</td><td>Toby</td><td>20-111</td><td></td><td>99</td><td>2025-08-10 15:00</td><td>Atendido</td><td>12</td></tr>
+            <tr><td>11</td><td>Mora</td><td>20-111</td><td></td><td>100</td><td>2026-10-20 09:00</td><td>Atendido</td><td>10</td></tr>
+            <tr><td>12</td><td>Rex</td><td>20-222</td><td></td><td>101</td><td>2026-10-27 10:30</td><td>Pendiente</td><td>11</td></tr>
+            <tr><td>13</td><td>Luna</td><td>20-333</td><td></td><td>102</td><td>2026-10-25 16:00</td><td>Pendiente</td><td>12</td></tr>
+            <tr><td></td><td></td><td></td><td></td><td>103</td><td>2026-10-28 11:00</td><td>Pendiente</td><td>10</td></tr>
+            <tr><td></td><td></td><td></td><td></td><td>104</td><td>2026-10-26 08:00</td><td>Cancelado</td><td>13</td></tr>
+          </table>
+        </div>
+        <div class="tabla-wrap">
+          <table class="t">
+            <tr><th colspan="2">Turno_Servicio</th><th></th><th colspan="3">Consulta</th><th></th><th colspan="3">Consulta_Tratamiento</th></tr>
+            <tr><th>NumeroTurno</th><th>CodigoServicio</th><th></th><th>Numero</th><th>Fecha</th><th>NumeroTurno</th><th></th><th>NumeroConsulta</th><th>CodigoTratamiento</th><th>Costo</th></tr>
+            <tr><td>99</td><td>1</td><td></td><td>499</td><td>2025-08-10</td><td>99</td><td></td><td>499</td><td>3</td><td>12000</td></tr>
+            <tr><td>100</td><td>1</td><td></td><td>500</td><td>2026-10-20</td><td>100</td><td></td><td>500</td><td>1</td><td>8000</td></tr>
+            <tr><td>101</td><td>2</td><td></td><td></td><td></td><td></td><td></td><td>500</td><td>2</td><td>5000</td></tr>
+            <tr><td>102</td><td>1</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td>102</td><td>2</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td>103</td><td>1</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td>104</td><td>1</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+          </table>
+        </div>
 
-        <span class="paso">Pieza 4 &mdash; Traer el servicio: dos JOIN, por la tabla intermedia</span>
-        <pre class="codigo"><code>INNER JOIN Turno_Servicio ts ON ts.NumeroTurno = t.Numero
-INNER JOIN Servicio s ON s.Codigo = ts.CodigoServicio</code></pre>
-        <p>
-          Turno y Servicio son N:M, así que no hay FK directa: se pasa por Turno_Servicio (qué servicios
-          tiene cada turno) y de ahí a Servicio (el nombre). El turno 102 tiene dos servicios, así que
-          sale <strong>dos veces</strong>, una por servicio.
-        </p>
+        <h4>Cómo se lee un INNER JOIN</h4>
+        <pre class="codigo"><code>INNER JOIN Ciudad ci ON ci.IdCiudad = p.IdCiudad</code></pre>
+        <ul>
+          <li><code>INNER JOIN Ciudad ci</code>: "sumá la tabla Ciudad, y la llamo <code>ci</code>".</li>
+          <li><code>ON ci.IdCiudad = p.IdCiudad</code>: "a cada fila pegale la ciudad cuyo IdCiudad es igual al IdCiudad que ya tiene". A la izquierda va la tabla <strong>nueva</strong>; a la derecha, una que <strong>ya está</strong> unida y que tiene el número para buscarla.</li>
+          <li>Los JOIN son una <strong>cadena</strong>: cada uno usa un número que trajo el anterior. Propietario tiene el número de ciudad; la ciudad, el de provincia; la provincia, el de país.</li>
+        </ul>
 
-        <span class="paso">Pieza 5 &mdash; Qué se muestra: SELECT</span>
+        <h4>a) Turnos pendientes, renglón por renglón</h4>
         <pre class="codigo"><code>SELECT t.Numero AS NroTurno,
-       CAST(t.FechaHora AS DATE) AS Fecha,
-       CAST(t.FechaHora AS TIME) AS Hora,
-       p.Nombre AS Cliente,
-       a.Nombre AS Animal,
-       s.Descripcion AS Servicio</code></pre>
-        <p>
-          Las seis columnas que pide la consigna. Fecha y hora están juntas en FechaHora: con
-          <code>CAST</code> se separan. Como Propietario y Animal tienen las dos una columna Nombre,
-          hay que decir de cuál (<code>p.Nombre</code>, <code>a.Nombre</code>) y renombrarlas con
-          <code>AS</code>.
-        </p>
-
-        <span class="paso">Pieza 6 &mdash; El orden: ORDER BY</span>
-        <pre class="codigo"><code>ORDER BY t.FechaHora ASC;</code></pre>
-        <p>"Más antiguos primero" = de la fecha más chica a la más grande: <code>ASC</code>. FechaHora ya tiene fecha y hora, así que ordena por las dos.</p>
-
-        <div class="caja caja-resp">
-          <span class="caja-tit">a) Todo junto, en el orden en que se escribe</span>
-          <pre class="codigo"><code>SELECT t.Numero AS NroTurno,
        CAST(t.FechaHora AS DATE) AS Fecha,
        CAST(t.FechaHora AS TIME) AS Hora,
        p.Nombre AS Cliente,
@@ -228,6 +201,18 @@ INNER JOIN Turno_Servicio ts ON ts.NumeroTurno = t.Numero
 INNER JOIN Servicio s ON s.Codigo = ts.CodigoServicio
 WHERE t.Estado = 'Pendiente'
 ORDER BY t.FechaHora ASC;</code></pre>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Renglón</th><th>Qué hace, con los datos de ejemplo</th></tr>
+            <tr><td class="lbl"><code>SELECT</code> (renglones 1 a 6)</td><td>Las seis columnas que se van a mostrar. Se resuelve al final, cuando ya están todas las tablas unidas. <code>t.Numero</code> = la columna Numero de la tabla <code>t</code>; <code>AS NroTurno</code> = así se llama en el resultado. <code>CAST(... AS DATE)</code> y <code>AS TIME</code> separan la fecha y la hora de FechaHora. <code>p.Nombre</code> y <code>a.Nombre</code>: Propietario y Animal tienen las dos una columna Nombre; el alias dice cuál</td></tr>
+            <tr><td class="lbl"><code>FROM Turno t</code></td><td>Se empieza por la tabla Turno, con el apodo <code>t</code>: las 6 filas de turnos</td></tr>
+            <tr><td class="lbl"><code>INNER JOIN Animal a ON a.NumeroHC = t.NumeroHC</code></td><td>El turno tiene el número del animal (NumeroHC); con él se busca el animal. Turno 101 tiene NumeroHC 11 &rarr; Mora. 102 &rarr; Rex. 103 &rarr; Toby</td></tr>
+            <tr><td class="lbl"><code>INNER JOIN Propietario p ON p.Documento = a.Documento</code></td><td>El turno no sabe quién es el dueño; el <strong>animal</strong> sí (su Documento). Por eso se une desde <code>a</code>: Mora tiene Documento 20-111 &rarr; Ana Gómez</td></tr>
+            <tr><td class="lbl"><code>INNER JOIN Turno_Servicio ts ON ts.NumeroTurno = t.Numero</code></td><td>Qué servicios tiene cada turno (es N:M: se pasa por la tabla intermedia). El 102 tiene dos filas ahí (servicios 1 y 2), así que desde acá el turno 102 aparece <strong>dos veces</strong></td></tr>
+            <tr><td class="lbl"><code>INNER JOIN Servicio s ON s.Codigo = ts.CodigoServicio</code></td><td>Con el código de servicio se busca su nombre: 1 &rarr; Consulta, 2 &rarr; Vacunación</td></tr>
+            <tr><td class="lbl"><code>WHERE t.Estado = 'Pendiente'</code></td><td>Se quedan solo las filas de turnos pendientes: 101, 102 (dos veces) y 103</td></tr>
+            <tr><td class="lbl"><code>ORDER BY t.FechaHora ASC</code></td><td>De la fecha más vieja a la más nueva: 102 (25/10), 101 (27/10), 103 (28/10)</td></tr>
+          </table>
         </div>
         <div class="tabla-wrap">
           <table class="t">
@@ -239,48 +224,8 @@ ORDER BY t.FechaHora ASC;</code></pre>
           </table>
         </div>
 
-        <h4>b) Cantidad de turnos pendientes por cliente</h4>
-        <span class="paso">Pieza 1 &mdash; Las tablas: del cliente hasta sus turnos, y hasta su país</span>
-        <pre class="codigo"><code>FROM Propietario p
-INNER JOIN Ciudad ci ON ci.IdCiudad = p.IdCiudad
-INNER JOIN Provincia pr ON pr.IdProvincia = ci.IdProvincia
-INNER JOIN Pais pa ON pa.IdPais = pr.IdPais
-INNER JOIN Animal a ON a.Documento = p.Documento
-INNER JOIN Turno t ON t.NumeroHC = a.NumeroHC
-WHERE t.Estado = 'Pendiente'</code></pre>
-        <p>
-          Se sigue el camino de las FK: el propietario tiene su ciudad, la ciudad su provincia, la
-          provincia su país; y por otro lado, el propietario tiene animales y los animales tienen turnos.
-          Con el <code>WHERE</code> quedan una fila por turno pendiente:
-        </p>
-        <div class="tabla-wrap">
-          <table class="t">
-            <tr><th>Pais</th><th>Provincia</th><th>Ciudad</th><th>Cliente</th><th>Turno</th></tr>
-            <tr><td>Argentina</td><td>Entre Ríos</td><td>Paraná</td><td>Ana Gómez</td><td>101</td></tr>
-            <tr><td>Argentina</td><td>Santa Fe</td><td>Rosario</td><td>Luis Paz</td><td>102</td></tr>
-            <tr><td>Argentina</td><td>Entre Ríos</td><td>Paraná</td><td>Ana Gómez</td><td>103</td></tr>
-          </table>
-        </div>
-        <p>Eva no aparece: su único turno (104) está cancelado.</p>
-
-        <span class="paso">Pieza 2 &mdash; Contar por cliente: GROUP BY y COUNT</span>
-        <pre class="codigo"><code>SELECT pa.Nombre AS Pais, pr.Nombre AS Provincia, ci.Nombre AS Ciudad,
-       p.Nombre AS Cliente, COUNT(t.Numero) AS CantidadTurnosPendientes
-...
-GROUP BY pa.Nombre, pr.Nombre, ci.Nombre, p.Documento, p.Nombre</code></pre>
-        <ul>
-          <li>"Por cliente" significa <strong>una fila por cliente</strong>: el <code>GROUP BY</code> junta las dos filas de Ana en una, y <code>COUNT(t.Numero)</code> cuenta cuántas había (2).</li>
-          <li><strong>La regla de oro:</strong> toda columna del <code>SELECT</code> que no está adentro de <code>COUNT</code> o <code>SUM</code> tiene que estar en el <code>GROUP BY</code>. Si falta una, da error.</li>
-          <li><code>p.Documento</code> se agrega aunque no se muestre: así dos clientes con el mismo nombre no se juntan.</li>
-        </ul>
-
-        <span class="paso">Pieza 3 &mdash; El orden que pide</span>
-        <pre class="codigo"><code>ORDER BY pr.Nombre, ci.Nombre, p.Nombre;</code></pre>
-        <p>Por provincia; si empatan, por ciudad; si empatan, por nombre.</p>
-
-        <div class="caja caja-resp">
-          <span class="caja-tit">b) Todo junto</span>
-          <pre class="codigo"><code>SELECT pa.Nombre AS Pais,
+        <h4>b) Cantidad de turnos pendientes por cliente, renglón por renglón</h4>
+        <pre class="codigo"><code>SELECT pa.Nombre AS Pais,
        pr.Nombre AS Provincia,
        ci.Nombre AS Ciudad,
        p.Nombre AS Cliente,
@@ -294,7 +239,31 @@ INNER JOIN Turno t ON t.NumeroHC = a.NumeroHC
 WHERE t.Estado = 'Pendiente'
 GROUP BY pa.Nombre, pr.Nombre, ci.Nombre, p.Documento, p.Nombre
 ORDER BY pr.Nombre, ci.Nombre, p.Nombre;</code></pre>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Renglón</th><th>Qué hace, con los datos de ejemplo</th></tr>
+            <tr><td class="lbl"><code>SELECT</code> (renglones 1 a 5)</td><td>Lo que se muestra, al final. <code>pa.Nombre</code> es el nombre del <strong>país</strong> (la columna Nombre de la tabla Pais), <code>pr.Nombre</code> el de la provincia, <code>ci.Nombre</code> el de la ciudad y <code>p.Nombre</code> el del cliente. <code>COUNT(t.Numero)</code> cuenta turnos (ver GROUP BY)</td></tr>
+            <tr><td class="lbl"><code>FROM Propietario p</code></td><td>Se empieza por los clientes: Ana, Luis y Eva. De la ubicación, cada uno solo tiene su <code>IdCiudad</code>: Ana 1, Luis 3, Eva 2</td></tr>
+            <tr><td class="lbl"><code>INNER JOIN Ciudad ci ON ci.IdCiudad = p.IdCiudad</code></td><td>Con el IdCiudad del cliente se busca su ciudad. Ana (1) &rarr; Paraná, que tiene IdProvincia 1. Luis (3) &rarr; Rosario, IdProvincia 2</td></tr>
+            <tr><td class="lbl"><code>INNER JOIN Provincia pr ON pr.IdProvincia = ci.IdProvincia</code></td><td>El cliente no tiene número de provincia: lo tiene la <strong>ciudad</strong>. Por eso se une desde <code>ci</code>. Paraná (1) &rarr; Entre Ríos, que tiene IdPais 1</td></tr>
+            <tr><td class="lbl"><code>INNER JOIN Pais pa ON pa.IdPais = pr.IdPais</code></td><td>El número de país lo tiene la <strong>provincia</strong>: Entre Ríos (1) &rarr; Argentina. Ahora cada cliente tiene su ciudad, provincia y país</td></tr>
+            <tr><td class="lbl"><code>INNER JOIN Animal a ON a.Documento = p.Documento</code></td><td>Los animales de cada cliente: Ana &rarr; Toby y Mora; Luis &rarr; Rex; Eva &rarr; Luna. Una fila por animal</td></tr>
+            <tr><td class="lbl"><code>INNER JOIN Turno t ON t.NumeroHC = a.NumeroHC</code></td><td>Los turnos de cada animal. Una fila por turno: Toby 100 y 103, Mora 101, Rex 99 y 102, Luna 104</td></tr>
+            <tr><td class="lbl"><code>WHERE t.Estado = 'Pendiente'</code></td><td>Quedan solo los pendientes: 101 y 103 (de Ana) y 102 (de Luis). Eva desaparece: su único turno está cancelado</td></tr>
+            <tr><td class="lbl"><code>GROUP BY ...</code></td><td>Junta en <strong>una sola fila</strong> las que son del mismo cliente: las dos de Ana quedan en un grupo y la de Luis en otro. <code>COUNT(t.Numero)</code> cuenta cuántas filas tenía cada grupo: Ana 2, Luis 1</td></tr>
+            <tr><td class="lbl"><code>ORDER BY pr.Nombre, ci.Nombre, p.Nombre</code></td><td>Por provincia (Entre Ríos antes que Santa Fe); si empatan, por ciudad; si empatan, por nombre</td></tr>
+          </table>
         </div>
+        <p>Lo que queda después del <code>WHERE</code>, antes de agrupar:</p>
+        <div class="tabla-wrap">
+          <table class="t">
+            <tr><th>Pais</th><th>Provincia</th><th>Ciudad</th><th>Cliente</th><th>Turno</th></tr>
+            <tr><td>Argentina</td><td>Entre Ríos</td><td>Paraná</td><td>Ana Gómez</td><td>101</td></tr>
+            <tr><td>Argentina</td><td>Santa Fe</td><td>Rosario</td><td>Luis Paz</td><td>102</td></tr>
+            <tr><td>Argentina</td><td>Entre Ríos</td><td>Paraná</td><td>Ana Gómez</td><td>103</td></tr>
+          </table>
+        </div>
+        <p>El resultado, después de agrupar y contar:</p>
         <div class="tabla-wrap">
           <table class="t">
             <tr><th>Pais</th><th>Provincia</th><th>Ciudad</th><th>Cliente</th><th>CantidadTurnosPendientes</th></tr>
@@ -302,51 +271,13 @@ ORDER BY pr.Nombre, ci.Nombre, p.Nombre;</code></pre>
             <tr><td>Argentina</td><td>Santa Fe</td><td>Rosario</td><td>Luis Paz</td><td>1</td></tr>
           </table>
         </div>
-        <p>
-          Acá no se une con Turno_Servicio: el turno 102 tiene dos servicios y contaría doble (Luis
-          saldría con 2). Se cuentan <strong>turnos</strong>.
-        </p>
-
-        <h4>c) Total facturado por cliente, año y mes</h4>
-        <span class="paso">Pieza 1 &mdash; Las tablas: del cliente hasta los costos</span>
-        <pre class="codigo"><code>FROM Propietario p
-INNER JOIN Animal a ON a.Documento = p.Documento
-INNER JOIN Turno t ON t.NumeroHC = a.NumeroHC
-INNER JOIN Consulta co ON co.NumeroTurno = t.Numero
-INNER JOIN Consulta_Tratamiento ct ON ct.NumeroConsulta = co.Numero</code></pre>
-        <p>El costo de cada tratamiento está en Consulta_Tratamiento; para llegar desde el cliente: Propietario &rarr; Animal &rarr; Turno &rarr; Consulta &rarr; Consulta_Tratamiento. Da una fila por tratamiento aplicado:</p>
-        <div class="tabla-wrap">
-          <table class="t">
-            <tr><th>Cliente</th><th>co.Fecha</th><th>ct.Costo</th></tr>
-            <tr><td>Luis Paz</td><td>2025-08-10</td><td>12000</td></tr>
-            <tr><td>Ana Gómez</td><td>2026-10-20</td><td>8000</td></tr>
-            <tr><td>Ana Gómez</td><td>2026-10-20</td><td>5000</td></tr>
-          </table>
-        </div>
-
-        <span class="paso">Pieza 2 &mdash; Los últimos 12 meses: WHERE con fechas</span>
-        <pre class="codigo"><code>WHERE co.Fecha &gt;= DATEADD(MONTH, -12, GETDATE())</code></pre>
-        <p>
-          <code>GETDATE()</code> es hoy (24/10/2026); <code>DATEADD(MONTH, -12, ...)</code> lo corre 12
-          meses para atrás: 24/10/2025. Quedan las consultas de esa fecha en adelante: la de Luis (agosto
-          de 2025) se va.
-        </p>
-
-        <span class="paso">Pieza 3 &mdash; Sumar por cliente, año y mes: GROUP BY y SUM</span>
-        <pre class="codigo"><code>SELECT YEAR(co.Fecha) AS Anio, MONTH(co.Fecha) AS Mes,
-       p.Nombre AS Cliente, SUM(ct.Costo) AS TotalFacturado
-...
-GROUP BY YEAR(co.Fecha), MONTH(co.Fecha), p.Documento, p.Nombre
-ORDER BY TotalFacturado DESC;</code></pre>
         <ul>
-          <li><code>YEAR</code> y <code>MONTH</code> sacan el año y el mes de la fecha; el <code>GROUP BY</code> junta las filas del mismo cliente en el mismo año y mes, y <code>SUM</code> suma sus costos: 8000 + 5000 = 13000.</li>
-          <li>En el <code>GROUP BY</code> va <code>YEAR(co.Fecha)</code> entero, no el apodo <code>Anio</code>: los apodos del <code>SELECT</code> se pueden usar en el <code>ORDER BY</code>, pero no en el <code>GROUP BY</code>.</li>
-          <li>"Ordenados por total facturado": de mayor a menor, <code>DESC</code>.</li>
+          <li><strong>La regla de oro del GROUP BY:</strong> toda columna del <code>SELECT</code> que no está adentro de <code>COUNT</code> o <code>SUM</code> tiene que estar en el <code>GROUP BY</code>; si no, SQL no sabe qué mostrar de cada grupo y da error. <code>p.Documento</code> se agrega aunque no se muestre, para que dos clientes con el mismo nombre no se junten.</li>
+          <li>Acá no se une con Turno_Servicio: el turno 102 tiene dos servicios y Luis saldría con 2. Se cuentan <strong>turnos</strong>.</li>
         </ul>
 
-        <div class="caja caja-resp">
-          <span class="caja-tit">c) Todo junto</span>
-          <pre class="codigo"><code>SELECT YEAR(co.Fecha) AS Anio,
+        <h4>c) Total facturado por cliente, año y mes, renglón por renglón</h4>
+        <pre class="codigo"><code>SELECT YEAR(co.Fecha) AS Anio,
        MONTH(co.Fecha) AS Mes,
        p.Nombre AS Cliente,
        SUM(ct.Costo) AS TotalFacturado
@@ -358,6 +289,18 @@ INNER JOIN Consulta_Tratamiento ct ON ct.NumeroConsulta = co.Numero
 WHERE co.Fecha &gt;= DATEADD(MONTH, -12, GETDATE())
 GROUP BY YEAR(co.Fecha), MONTH(co.Fecha), p.Documento, p.Nombre
 ORDER BY TotalFacturado DESC;</code></pre>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Renglón</th><th>Qué hace, con los datos de ejemplo</th></tr>
+            <tr><td class="lbl"><code>SELECT</code> (renglones 1 a 4)</td><td><code>YEAR(co.Fecha)</code> y <code>MONTH(co.Fecha)</code>: el año y el mes de la fecha de la consulta, como números. <code>SUM(ct.Costo)</code> suma los costos de cada grupo</td></tr>
+            <tr><td class="lbl"><code>FROM Propietario p</code></td><td>Se empieza por los clientes</td></tr>
+            <tr><td class="lbl"><code>INNER JOIN Animal a</code> y <code>INNER JOIN Turno t</code></td><td>Igual que en b): cada cliente con sus animales y cada animal con sus turnos</td></tr>
+            <tr><td class="lbl"><code>INNER JOIN Consulta co ON co.NumeroTurno = t.Numero</code></td><td>La consulta de cada turno atendido (la consulta tiene el número de turno). Solo los turnos 99 y 100 tienen consulta: 499 (de Rex, de Luis) y 500 (de Toby, de Ana)</td></tr>
+            <tr><td class="lbl"><code>INNER JOIN Consulta_Tratamiento ct ON ct.NumeroConsulta = co.Numero</code></td><td>Los tratamientos de cada consulta, con su costo: la 499 tiene uno (12000) y la 500 tiene dos (8000 y 5000)</td></tr>
+            <tr><td class="lbl"><code>WHERE co.Fecha &gt;= DATEADD(MONTH, -12, GETDATE())</code></td><td><code>GETDATE()</code> es hoy (24/10/2026); <code>DATEADD(MONTH, -12, ...)</code> lo corre 12 meses para atrás: 24/10/2025. Se quedan las consultas de esa fecha en adelante: la de Luis (10/08/2025) se va</td></tr>
+            <tr><td class="lbl"><code>GROUP BY YEAR(...), MONTH(...), p.Documento, p.Nombre</code></td><td>Junta las filas del mismo cliente en el mismo año y mes: las dos de Ana (octubre 2026). <code>SUM</code> suma 8000 + 5000 = 13000. Va <code>YEAR(co.Fecha)</code> entero, no el apodo <code>Anio</code>: los apodos sirven en el <code>ORDER BY</code>, no en el <code>GROUP BY</code></td></tr>
+            <tr><td class="lbl"><code>ORDER BY TotalFacturado DESC</code></td><td>De mayor a menor total</td></tr>
+          </table>
         </div>
         <div class="tabla-wrap">
           <table class="t">

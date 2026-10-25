@@ -259,6 +259,10 @@ Chrome (`chrome --headless --print-to-pdf`).
 `0.x.y-alpha` mientras esté en desarrollo. La `1.0.0` queda reservada para cuando esté terminado.
 La versión actual se lee al pie del menú lateral.
 
+* **0.54.3-alpha** — Bases de Datos, parcial 2025, ejercicio 5: cada consulta se explica renglón
+  por renglón en el mismo orden en que está escrita, con lo que hace cada uno sobre los datos de
+  ejemplo, y antes se aclara que País, Provincia y Ciudad son tablas propias (por la 3FN) y cómo se
+  encadenan los JOIN.
 * **0.54.2-alpha** — Bases de Datos, parcial 2025: el ejercicio 3 trae un repaso de los tipos de
   atributo (multivaluado y compuesto, dibujados como la cátedra), de dónde va cada clave según la
   relación y qué quiere decir (PK)(FK); los ejercicios 4 y 5 explican SQL desde cero, palabra por

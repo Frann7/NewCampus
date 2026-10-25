@@ -6,7 +6,7 @@ D["p25-vet"] = dict(
     titulo="DER de la clínica veterinaria",
     ent=[
         dict(id="Propietario", x=200, y=60, lado="izq",
-             attrs=["Nombre", "*Documento", "Teléfonos", "Dirección", "Ciudad", "Provincia", "País"]),
+             attrs=["Nombre", "*Documento", "+Teléfonos", "Dirección", "Ciudad", "Provincia", "País"]),
         dict(id="Animal", x=200, y=290, lado="izq",
              attrs=["*NúmeroHC", "Nombre", "Raza", "Sexo", "FechaNac", "Peso"]),
         dict(id="Servicios", x=460, y=60, lado="izq", attrs=["*Código", "Descripción"]),
@@ -121,7 +121,7 @@ D["pp1-gimnasio"] = dict(
     ent=[
         dict(id="Membresía", x=200, y=60, lado="izq", attrs=["*Código", "Descripción", "PrecioMensual"]),
         dict(id="Socio", x=200, y=290, lado="izq",
-             attrs=["*DNI", "Nombre", "Teléfonos", "Dirección", "Ciudad", "Provincia", "País"]),
+             attrs=["*DNI", "Nombre", "+Teléfonos", "Dirección", "Ciudad", "Provincia", "País"]),
         dict(id="Clase", x=460, y=60, lado="arriba", attrs=["*Código", "Nombre", "Día", "Hora"]),
         dict(id="Profesor", x=720, y=60, lado="der", attrs=["*Legajo", "Nombre"]),
         dict(id="Reserva", x=460, y=290, lado="abajo", attrs=["*Número", "FechaHora", "Estado"]),
@@ -144,7 +144,7 @@ D["pp2-hotel"] = dict(
     titulo="DER del hotel",
     ent=[
         dict(id="Huésped", x=200, y=60, lado="izq",
-             attrs=["*Documento", "Nombre", "Emails", "Ciudad", "Provincia", "País"]),
+             attrs=["*Documento", "Nombre", "+Emails", "Ciudad", "Provincia", "País"]),
         dict(id="Reserva", x=200, y=290, lado="izq",
              attrs=["*Número", "FechaIngreso", "FechaEgreso", "Estado"]),
         dict(id="Habitación", x=540, y=290, lado="abajo", attrs=["*Número", "Piso"]),

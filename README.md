@@ -23,8 +23,10 @@ fórmulas (MathJax) y las tipografías. Tus datos no salen de tu máquina.
   con teoría corta, muchos ejemplos y cada autómata dibujado paso a paso. Bases de Datos
   (2do parcial: SQL): la teoría que toman (DDL y DML, transacción, claves), del DER a las tablas
   en 3FN, `CREATE TABLE` y consultas con `JOIN`, `GROUP BY` y fechas, con el código SQL
-  coloreado y los diagramas entidad-relación dibujados con la notación de la cátedra; el resto
-  de las materias de tercer año ya están en el menú como "pronto".
+  coloreado y los diagramas entidad-relación dibujados con la notación de la cátedra.
+  Sistemas Operativos (Práctica) tiene, por ahora, solo Evaluación: en el menú, su única entrada
+  lleva directo a los parciales. El resto de las materias de tercer año ya están en el menú como
+  "pronto".
 * **Evaluación**: **parciales y finales** de la cátedra transcriptos, en dos listas. Algunos traen
   cada ejercicio con resultados y explicación detallada desplegables; otros están solo transcriptos,
   para usarlos como práctica. Y **autoevaluaciones** que armás vos, con su informe final. Primero
@@ -259,6 +261,12 @@ Chrome (`chrome --headless --print-to-pdf`).
 `0.x.y-alpha` mientras esté en desarrollo. La `1.0.0` queda reservada para cuando esté terminado.
 La versión actual se lee al pie del menú lateral.
 
+* **0.55.0-alpha** — Sistemas Operativos (Práctica), solo Evaluación: el **primer parcial 2026** y
+  el **segundo parcial 2025** (20 preguntas del Aula Virtual cada uno, con sus capturas de htop,
+  lscpu, df y RAID) resueltos pregunta por pregunta, y un **segundo parcial probable** de 20
+  preguntas nuevas con la misma forma (dibujos de RAID 4, 6 y 10 y de htop, salidas de free, lscpu
+  y df). Una materia que tiene evaluaciones pero no apuntes ya no queda como "pronto": su entrada
+  del menú abre la Evaluación.
 * **0.54.3-alpha** — Bases de Datos, parcial 2025, ejercicio 5: cada consulta se explica renglón
   por renglón en el mismo orden en que está escrita, con lo que hace cada uno sobre los datos de
   ejemplo, y antes se aclara que País, Provincia y Ciudad son tablas propias (por la 3FN) y cómo se

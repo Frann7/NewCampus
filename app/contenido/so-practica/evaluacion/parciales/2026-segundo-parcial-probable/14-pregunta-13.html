@@ -1,0 +1,68 @@
+<!-- ==================== PREGUNTA 13 ==================== -->
+<section class="parcial-ej">
+  <div class="parcial-ej-cab">
+    <h2>Pregunta 13</h2>
+    <span class="parcial-pts">5 pts</span>
+    <span class="parcial-tema">Clase 18 &middot; Tabla de particiones GPT</span>
+  </div>
+
+  <p><em>Seleccione una o más de una:</em></p>
+  <p>Seleccione las opciones correctas sobre la estructura de un disco con tabla de particiones GPT (3 opciones):</p>
+  <ol class="parcial-incisos">
+    <li>El primer sector (LBA 0) está reservado para mantener la compatibilidad con MBR y se llama "MBR protector".</li>
+    <li>La cabecera GPT primaria comienza en el segundo bloque lógico (LBA 1).</li>
+    <li>La cabecera secundaria se encuentra en el último sector del disco y sirve para recuperar la información si la primaria se daña.</li>
+    <li>La GPT secundaria tiene un contenido distinto de la primaria.</li>
+    <li>Cada entrada de partición de GPT ocupa 16 bytes.</li>
+    <li>La cabecera GPT primaria se encuentra en el sector 0.</li>
+  </ol>
+
+  <div class="parcial-extras">
+    <details class="parcial-desp pd-resultados">
+      <summary>
+        <span class="pd-icono">&#10003;</span>
+        <span class="pd-txt"><b>Resultados</b><small>Solo la respuesta</small></span>
+      </summary>
+      <div class="pd-cuerpo">
+        <p><strong>Correctas: a, b, c.</strong></p>
+      </div>
+    </details>
+
+    <details class="parcial-desp pd-explicacion">
+      <summary>
+        <span class="pd-icono">&#9998;</span>
+        <span class="pd-txt"><b>Explicación detallada</b><small>De dónde sale, opción por opción y las trampas</small></span>
+      </summary>
+      <div class="pd-cuerpo">
+        <h4>Por qué puede entrar</h4>
+        <p>Del tema particiones tomaron cuántas particiones admite GPT y el límite de MBR (primer parcial), y el esquema con <code>df</code> (2025). La estructura de GPT, que la clase 18 explica sector por sector, no salió.</p>
+
+        <h4>Cómo está armado un disco GPT (Clase 18, diapositiva 11)</h4>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Dónde</th><th>Qué hay</th></tr>
+            <tr><td>LBA 0</td><td><strong>MBR protector</strong>: por compatibilidad con MBR</td></tr>
+            <tr><td>LBA 1</td><td><strong>Cabecera GPT primaria</strong>: GUID del disco, dónde está la tabla, dónde está la cabecera secundaria, sumas CRC32, cantidad de entradas</td></tr>
+            <tr><td>LBA 2 a 33</td><td><strong>Tabla primaria</strong>: 128 entradas de <strong>128 bytes</strong> (GUID de tipo, GUID único, primer y último LBA, atributos, nombre)</td></tr>
+            <tr><td>LBA 34 en adelante</td><td>Las particiones</td></tr>
+            <tr><td>LBA &minus;33 a &minus;2</td><td><strong>GPT secundaria</strong>: idéntica a la primaria, de respaldo</td></tr>
+            <tr><td>LBA &minus;1 (último sector)</td><td><strong>Cabecera secundaria</strong></td></tr>
+          </table>
+        </div>
+
+        <h4>Opción por opción</h4>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th></th><th>Opción</th><th>¿Va?</th><th>Por qué</th></tr>
+            <tr><td class="lbl">a)</td><td>LBA 0 = MBR protector</td><td><strong>Sí</strong></td><td></td></tr>
+            <tr><td class="lbl">b)</td><td>Cabecera primaria en LBA 1</td><td><strong>Sí</strong></td><td></td></tr>
+            <tr><td class="lbl">c)</td><td>Cabecera secundaria en el último sector</td><td><strong>Sí</strong></td><td></td></tr>
+            <tr><td class="lbl">d)</td><td>Secundaria distinta</td><td><strong>No</strong></td><td>Es <strong>idéntica</strong>: es el respaldo.</td></tr>
+            <tr><td class="lbl">e)</td><td>Entradas de 16 bytes</td><td><strong>No</strong></td><td>Las de GPT son de 128 bytes; 16 bytes son las entradas de MBR.</td></tr>
+            <tr><td class="lbl">f)</td><td>Cabecera en el sector 0</td><td><strong>No</strong></td><td>En el 0 está el MBR protector; la cabecera está en el 1.</td></tr>
+          </table>
+        </div>
+      </div>
+    </details>
+  </div>
+</section>

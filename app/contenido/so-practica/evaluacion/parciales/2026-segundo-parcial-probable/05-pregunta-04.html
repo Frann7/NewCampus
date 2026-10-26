@@ -1,0 +1,66 @@
+<!-- ==================== PREGUNTA 4 ==================== -->
+<section class="parcial-ej">
+  <div class="parcial-ej-cab">
+    <h2>Pregunta 4</h2>
+    <span class="parcial-pts">5 pts</span>
+    <span class="parcial-tema">Clase 15 &middot; Swappiness</span>
+  </div>
+
+  <p><em>Seleccione una o más de una:</em></p>
+  <p>Seleccione las opciones correctas sobre el swappiness (3 opciones):</p>
+  <ol class="parcial-incisos">
+    <li>Puede tomar valores desde 0 hasta 100.</li>
+    <li>El valor por defecto en la mayoría de las distribuciones suele ser 60.</li>
+    <li>Ejecutando echo 10 &gt; /proc/sys/vm/swappiness el valor cambia mientras el sistema esté activo.</li>
+    <li>Para que el cambio sea persistente entre reinicios se modifica el archivo /etc/fstab.</li>
+    <li>Con el valor 100 el núcleo intenta no hacer intercambio.</li>
+    <li>Se consulta con el comando swapon -a.</li>
+  </ol>
+
+  <div class="parcial-extras">
+    <details class="parcial-desp pd-resultados">
+      <summary>
+        <span class="pd-icono">&#10003;</span>
+        <span class="pd-txt"><b>Resultados</b><small>Solo la respuesta</small></span>
+      </summary>
+      <div class="pd-cuerpo">
+        <p><strong>Correctas: a, b, c.</strong></p>
+      </div>
+    </details>
+
+    <details class="parcial-desp pd-explicacion">
+      <summary>
+        <span class="pd-icono">&#9998;</span>
+        <span class="pd-txt"><b>Explicación detallada</b><small>De dónde sale, opción por opción y las trampas</small></span>
+      </summary>
+      <div class="pd-cuerpo">
+        <h4>Por qué puede entrar</h4>
+        <p>Es una diapositiva entera de la clase 15 (con el gráfico de 0, 35, 60 y 100) y no salió en 2025.</p>
+
+        <h4>Qué es</h4>
+        <p>
+          Una propiedad del núcleo Linux que ajusta el equilibrio entre usar la <strong>swap</strong> y la
+          <strong>RAM</strong>. Va de <strong>0</strong> (el núcleo intenta <strong>no</strong> hacer intercambio)
+          a <strong>100</strong> (intenta mantener la RAM lo más libre posible, pasando al disco todo lo que no se
+          usa en cada momento). Por defecto suele ser <strong>60</strong>.
+        </p>
+        <pre class="codigo" data-lang="texto">cat /proc/sys/vm/swappiness        # ver el valor
+echo 10 &gt; /proc/sys/vm/swappiness  # cambiarlo (como root), hasta reiniciar
+vm.swappiness=10                   # en /etc/sysctl.conf: queda para siempre</pre>
+
+        <h4>Opción por opción</h4>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th></th><th>Opción</th><th>¿Va?</th><th>Por qué</th></tr>
+            <tr><td class="lbl">a)</td><td>De 0 a 100</td><td><strong>Sí</strong></td><td></td></tr>
+            <tr><td class="lbl">b)</td><td>Por defecto 60</td><td><strong>Sí</strong></td><td></td></tr>
+            <tr><td class="lbl">c)</td><td><code>echo 10 &gt; &hellip;</code> dura mientras el sistema esté activo</td><td><strong>Sí</strong></td><td>Es lo que dice la clase: al reiniciar vuelve al valor anterior.</td></tr>
+            <tr><td class="lbl">d)</td><td>Persistente en /etc/fstab</td><td><strong>No</strong></td><td>Se pone <code>vm.swappiness</code> en <code>/etc/sysctl.conf</code>. <code>fstab</code> es la tabla de montaje.</td></tr>
+            <tr><td class="lbl">e)</td><td>100 = no hacer intercambio</td><td><strong>No</strong></td><td>Es al revés: eso es 0.</td></tr>
+            <tr><td class="lbl">f)</td><td>Se consulta con swapon -a</td><td><strong>No</strong></td><td><code>swapon -a</code> habilita todas las swap; el valor se ve con <code>cat /proc/sys/vm/swappiness</code>.</td></tr>
+          </table>
+        </div>
+      </div>
+    </details>
+  </div>
+</section>

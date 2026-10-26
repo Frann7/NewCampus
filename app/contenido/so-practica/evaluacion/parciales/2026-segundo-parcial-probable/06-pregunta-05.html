@@ -1,0 +1,48 @@
+<!-- ==================== PREGUNTA 5 ==================== -->
+<section class="parcial-ej">
+  <div class="parcial-ej-cab">
+    <h2>Pregunta 5</h2>
+    <span class="parcial-pts">5 pts</span>
+    <span class="parcial-tema">Clase 15 &middot; Swap de tipo archivo</span>
+  </div>
+
+  <p><em>Seleccione una:</em></p>
+  <p>Para incorporar una SWAP de tipo archivo alcanza con crear el archivo con el comando dd y luego ejecutar swapon sobre él, sin necesidad de darle formato.</p>
+  <p>&#9675; Verdadero &nbsp;&nbsp; &#9675; Falso</p>
+
+  <div class="parcial-extras">
+    <details class="parcial-desp pd-resultados">
+      <summary>
+        <span class="pd-icono">&#10003;</span>
+        <span class="pd-txt"><b>Resultados</b><small>Solo la respuesta</small></span>
+      </summary>
+      <div class="pd-cuerpo">
+        <p><strong>Falso.</strong></p>
+      </div>
+    </details>
+
+    <details class="parcial-desp pd-explicacion">
+      <summary>
+        <span class="pd-icono">&#9998;</span>
+        <span class="pd-txt"><b>Explicación detallada</b><small>De dónde sale, opción por opción y las trampas</small></span>
+      </summary>
+      <div class="pd-cuerpo">
+        <h4>Por qué puede entrar</h4>
+        <p>En 2025 preguntaron si puede haber una swap de tipo archivo; lo que no tomaron es <strong>cómo</strong> se crea, que es la práctica 3.</p>
+
+        <h4>Por qué es falso</h4>
+        <p>
+          El archivo que crea <code>dd</code> está lleno de ceros (<code>if=/dev/zero</code>): todavía no es swap.
+          Hay que darle formato con <strong><code>mkswap /var/swap</code></strong> antes del
+          <code>swapon /var/swap</code>; si no, <code>swapon</code> da error. Y en el medio, por seguridad,
+          <code>chmod 600 /var/swap</code>.
+        </p>
+        <pre class="codigo" data-lang="texto">dd if=/dev/zero of=/var/swap bs=4096k count=256
+chmod 600 /var/swap
+mkswap /var/swap
+swapon /var/swap</pre>
+        <p>Es lo mismo que con un disco: una partición nueva necesita formato (<code>mkfs</code>) antes de montarse.</p>
+      </div>
+    </details>
+  </div>
+</section>

@@ -149,7 +149,8 @@ window.NC = window.NC || {};
     var panes = window.Apuntes.indice.panes || {};
     if (s.tab === EVALUACION) {
       var prefijo = s.materia + "/";
-      return Object.keys(panes).some(function (k) { return k.indexOf(prefijo) === 0; });
+      return tieneEvaluacion(s.materia) ||
+        Object.keys(panes).some(function (k) { return k.indexOf(prefijo) === 0; });
     }
     return Object.prototype.hasOwnProperty.call(panes, paneId(s));
   }
@@ -1306,13 +1307,23 @@ window.NC = window.NC || {};
     return (window.Apuntes.indice || {}).materias || [];
   }
 
+  // Parciales, finales o banco de preguntas cargados para esa materia
+  function tieneEvaluacion(clave) {
+    var ind = window.Apuntes.indice || {};
+    return !!(((ind.examenes || {})[clave] || []).length ||
+              Object.keys((ind.preguntas || {})[clave] || {}).length);
+  }
+
+  // Una materia con evaluaciones pero sin apuntes (SO Practica) no queda en
+  // "pronto": su lista tiene una sola entrada, que lleva a la Evaluacion.
   function construirMenu() {
     var caja = $("#materias");
     if (!caja) { return; }
     caja.innerHTML = "";
 
     materiasDelIndice().forEach(function (m) {
-      var disponible = !!(m.unidades && m.unidades.length);
+      var soloEvaluacion = !(m.unidades && m.unidades.length) && tieneEvaluacion(m.clave);
+      var disponible = !!(m.unidades && m.unidades.length) || soloEvaluacion;
 
       var bloque = document.createElement("div");
       bloque.className = "materia";
@@ -1366,6 +1377,18 @@ window.NC = window.NC || {};
           li.appendChild(bu);
           lista.appendChild(li);
         });
+        if (soloEvaluacion) {
+          var liEv = document.createElement("li");
+          var bEv = document.createElement("button");
+          bEv.type = "button";
+          bEv.setAttribute("data-evaluacion", "1");
+          var numEv = document.createElement("span");
+          numEv.className = "u-num";
+          numEv.textContent = "Evaluación";
+          bEv.appendChild(numEv);
+          liEv.appendChild(bEv);
+          lista.appendChild(liEv);
+        }
         bloque.appendChild(lista);
       }
 
@@ -1490,8 +1513,10 @@ window.NC = window.NC || {};
 
     // unidades del sidebar
     $$(".unidades button").forEach(function (b) {
-      b.classList.toggle("is-active", !esGlobal(state.tab) &&
-        b.getAttribute("data-unidad") === state.unidad &&
+      var esEval = b.hasAttribute("data-evaluacion");
+      b.classList.toggle("is-active",
+        (esEval ? state.tab === EVALUACION
+                : !esGlobal(state.tab) && b.getAttribute("data-unidad") === state.unidad) &&
         b.closest(".materia").getAttribute("data-materia") === state.materia);
     });
 
@@ -1573,6 +1598,10 @@ window.NC = window.NC || {};
 
     $$(".unidades button").forEach(function (b) {
       b.addEventListener("click", function () {
+        if (b.hasAttribute("data-evaluacion")) {
+          ir({ materia: b.closest(".materia").getAttribute("data-materia"), unidad: "", tab: EVALUACION });
+          return;
+        }
         // desde Evaluacion o Calendario, elegir una unidad lleva a su teoria
         ir({
           materia: b.closest(".materia").getAttribute("data-materia"),

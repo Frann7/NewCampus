@@ -1,0 +1,80 @@
+<!-- ==================== PREGUNTA 6 ==================== -->
+<section class="parcial-ej">
+  <div class="parcial-ej-cab">
+    <h2>Pregunta 6</h2>
+    <span class="parcial-pts">5 pts</span>
+    <span class="parcial-tema">Clase 16 &middot; RAM con free</span>
+  </div>
+
+  <p><em>Seleccione una o más de una:</em></p>
+  <p>Utilizando la siguiente imagen seleccione las 3 opciones correctas.</p>
+  <div class="parcial-fig"><pre class="salida">usuario@PC:~$ free -hw
+               total       usado       libre  compartido     búferes       caché  disponible
+Memoria:        15Gi       4,2Gi       5,9Gi       412Mi        98Mi       5,1Gi        10Gi
+Swap:          2,0Gi       512Mi       1,5Gi</pre></div>
+  <ol class="parcial-incisos">
+    <li>El equipo está utilizando la memoria Swap.</li>
+    <li>La memoria RAM total es de 15 GiB y la usada es de 4,2 GiB.</li>
+    <li>La caché ocupa 5,1 GiB y se puede liberar con: sync; echo 1 &gt; /proc/sys/vm/drop_caches</li>
+    <li>La Swap tiene 2 GiB libres.</li>
+    <li>Los búferes ocupan 412 MiB.</li>
+    <li>La memoria disponible es igual a la memoria libre.</li>
+  </ol>
+
+  <div class="parcial-extras">
+    <details class="parcial-desp pd-resultados">
+      <summary>
+        <span class="pd-icono">&#10003;</span>
+        <span class="pd-txt"><b>Resultados</b><small>Solo la respuesta</small></span>
+      </summary>
+      <div class="pd-cuerpo">
+        <p><strong>Correctas: a, b, c.</strong></p>
+      </div>
+    </details>
+
+    <details class="parcial-desp pd-explicacion">
+      <summary>
+        <span class="pd-icono">&#9998;</span>
+        <span class="pd-txt"><b>Explicación detallada</b><small>De dónde sale, opción por opción y las trampas</small></span>
+      </summary>
+      <div class="pd-cuerpo">
+        <h4>Por qué puede entrar</h4>
+        <p>En 2025 la pregunta de RAM fue con la barra de htop. La clase 16 trabaja igual con <code>free -wm</code> (prácticas 2 y 3) y con el borrado de la caché: misma pregunta, otra captura.</p>
+
+        <h4>Cómo se lee free -hw</h4>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Columna</th><th>Qué es</th><th>Acá</th></tr>
+            <tr><td>total</td><td>La RAM instalada (o la swap total)</td><td>15 GiB / 2 GiB</td></tr>
+            <tr><td>usado</td><td>La que usan los procesos</td><td>4,2 GiB / 512 MiB de swap</td></tr>
+            <tr><td>libre</td><td>Sin usar para nada</td><td>5,9 GiB / 1,5 GiB de swap</td></tr>
+            <tr><td>compartido</td><td>Memoria compartida entre procesos (y <code>tmpfs</code>)</td><td>412 MiB</td></tr>
+            <tr><td>búferes</td><td>Transferencias temporales entre dispositivos</td><td>98 MiB</td></tr>
+            <tr><td>caché</td><td>Copias de archivos leídos; se libera si hace falta</td><td>5,1 GiB</td></tr>
+            <tr><td>disponible</td><td>Lo que se podría dar a un programa nuevo: lo libre más la caché que se puede liberar</td><td>10 GiB</td></tr>
+          </table>
+        </div>
+        <p><code>-h</code> = unidades legibles; <code>-w</code> = búferes y caché en columnas separadas.</p>
+
+        <h4>Opción por opción</h4>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th></th><th>Opción</th><th>¿Va?</th><th>Por qué</th></tr>
+            <tr><td class="lbl">a)</td><td>Está usando swap</td><td><strong>Sí</strong></td><td>Swap usada: 512 MiB.</td></tr>
+            <tr><td class="lbl">b)</td><td>15 GiB total, 4,2 GiB usada</td><td><strong>Sí</strong></td><td>Fila Memoria, columnas total y usado.</td></tr>
+            <tr><td class="lbl">c)</td><td>Caché de 5,1 GiB, se libera con drop_caches</td><td><strong>Sí</strong></td><td>Práctica 3 de la clase 16: <code>echo 1</code> borra el PageCache (2 = dentries e inodos, 3 = todo). Antes, <code>sync</code> baja al disco lo pendiente.</td></tr>
+            <tr><td class="lbl">d)</td><td>Swap con 2 GiB libres</td><td><strong>No</strong></td><td>2 GiB es el total; libres hay 1,5 GiB.</td></tr>
+            <tr><td class="lbl">e)</td><td>Búferes 412 MiB</td><td><strong>No</strong></td><td>412 MiB es la columna compartido; búferes son 98 MiB.</td></tr>
+            <tr><td class="lbl">f)</td><td>Disponible = libre</td><td><strong>No</strong></td><td>Disponible (10 GiB) suma la caché liberable; libre es 5,9 GiB.</td></tr>
+          </table>
+        </div>
+
+        <h4>Trampas</h4>
+        <ul>
+          <li>Leer la columna de al lado: compartido y búferes están pegadas.</li>
+          <li>Mucha caché no es un problema: Linux usa la RAM que sobra como caché y la devuelve cuando hace falta.</li>
+        </ul>
+      </div>
+    </details>
+  </div>
+</section>

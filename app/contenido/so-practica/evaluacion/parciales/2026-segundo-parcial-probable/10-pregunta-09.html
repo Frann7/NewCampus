@@ -1,0 +1,82 @@
+<!-- ==================== PREGUNTA 9 ==================== -->
+<section class="parcial-ej">
+  <div class="parcial-ej-cab">
+    <h2>Pregunta 9</h2>
+    <span class="parcial-pts">5 pts</span>
+    <span class="parcial-tema">Clase 18 &middot; Esquema de particionado (df)</span>
+  </div>
+
+  <p><em>Seleccione una o más de una:</em></p>
+  <p>De este esquema de particionado, seleccione las opciones correctas (seleccione 3 opciones):</p>
+  <div class="parcial-fig"><pre class="salida">usuario@PC:~$ sudo df -hT
+S.ficheros     Tipo     Tamaño Usados  Disp Uso% Montado en
+udev           devtmpfs   7,7G      0  7,7G   0% /dev
+tmpfs          tmpfs      1,6G   2,1M  1,6G   1% /run
+/dev/sda2      ext4        49G    21G   26G  45% /
+tmpfs          tmpfs      7,8G    84M  7,7G   2% /dev/shm
+/dev/sda3      xfs         20G   9,8G   10G  49% /var
+/dev/sdb1      ext4       916G   550G  320G  64% /home
+/dev/loop0     squashfs    64M    64M     0 100% /snap/core20/1634
+/dev/loop1     squashfs    92M    92M     0 100% /snap/gtk-common-themes/1535
+/dev/sda1      vfat       511M   6,1M  505M   2% /boot/efi
+tmpfs          tmpfs      1,6G    28K  1,6G   1% /run/user/1000</pre></div>
+  <ol class="parcial-incisos">
+    <li>El equipo tiene 2 dispositivos de almacenamiento</li>
+    <li>La partición / se encuentra en un dispositivo de almacenamiento de tecnología M2 (NVMe)</li>
+    <li>La partición /var utiliza el filesystem XFS</li>
+    <li>La partición /home se encuentra en un dispositivo distinto al de la partición /</li>
+    <li>El equipo tiene 4 dispositivos de almacenamiento: sda, sdb, loop0 y loop1</li>
+    <li>La partición / se encuentra un 64% utilizada</li>
+  </ol>
+
+  <div class="parcial-extras">
+    <details class="parcial-desp pd-resultados">
+      <summary>
+        <span class="pd-icono">&#10003;</span>
+        <span class="pd-txt"><b>Resultados</b><small>Solo la respuesta</small></span>
+      </summary>
+      <div class="pd-cuerpo">
+        <p><strong>Correctas: a, c, d.</strong></p>
+      </div>
+    </details>
+
+    <details class="parcial-desp pd-explicacion">
+      <summary>
+        <span class="pd-icono">&#9998;</span>
+        <span class="pd-txt"><b>Explicación detallada</b><small>De dónde sale, opción por opción y las trampas</small></span>
+      </summary>
+      <div class="pd-cuerpo">
+        <h4>Por qué puede entrar</h4>
+        <p>Es la pregunta 11 de 2025 con otro esquema: acá sí hay <code>/var</code> y <code>/home</code> en particiones aparte, y no hay disco M2.</p>
+
+        <h4>Cómo se lee</h4>
+        <ul>
+          <li>Se descartan <code>udev</code>, <code>tmpfs</code> (en memoria) y <code>/dev/loop*</code> (snaps).</li>
+          <li>Quedan <code>/dev/sda1</code>, <code>sda2</code>, <code>sda3</code> (primer disco SATA/SCSI) y <code>/dev/sdb1</code> (segundo disco): <strong>2 discos</strong>.</li>
+        </ul>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Partición</th><th>Tipo</th><th>Montada en</th><th>Uso</th></tr>
+            <tr><td><code>/dev/sda1</code></td><td>vfat</td><td><code>/boot/efi</code> (partición EFI: el disco usa GPT y UEFI)</td><td>2 %</td></tr>
+            <tr><td><code>/dev/sda2</code></td><td>ext4</td><td><code>/</code></td><td>45 %</td></tr>
+            <tr><td><code>/dev/sda3</code></td><td>xfs</td><td><code>/var</code></td><td>49 %</td></tr>
+            <tr><td><code>/dev/sdb1</code></td><td>ext4</td><td><code>/home</code></td><td>64 %</td></tr>
+          </table>
+        </div>
+
+        <h4>Opción por opción</h4>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th></th><th>Opción</th><th>¿Va?</th><th>Por qué</th></tr>
+            <tr><td class="lbl">a)</td><td>2 dispositivos</td><td><strong>Sí</strong></td><td>sda y sdb.</td></tr>
+            <tr><td class="lbl">b)</td><td>/ en M2 (NVMe)</td><td><strong>No</strong></td><td>Un M2 se llamaría <code>/dev/nvme0n1pX</code>; <code>/</code> está en <code>sda2</code>.</td></tr>
+            <tr><td class="lbl">c)</td><td>/var en XFS</td><td><strong>Sí</strong></td><td><code>/dev/sda3 xfs &hellip; /var</code>.</td></tr>
+            <tr><td class="lbl">d)</td><td>/home en otro disco que /</td><td><strong>Sí</strong></td><td><code>/home</code> en sdb, <code>/</code> en sda.</td></tr>
+            <tr><td class="lbl">e)</td><td>4 dispositivos con los loop</td><td><strong>No</strong></td><td>Los loop son paquetes snap montados, no discos.</td></tr>
+            <tr><td class="lbl">f)</td><td>/ al 64 %</td><td><strong>No</strong></td><td><code>/</code> está al 45 %; 64 % es <code>/home</code>.</td></tr>
+          </table>
+        </div>
+      </div>
+    </details>
+  </div>
+</section>

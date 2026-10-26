@@ -1,0 +1,68 @@
+<!-- ==================== PREGUNTA 1 ==================== -->
+<section class="parcial-ej">
+  <div class="parcial-ej-cab">
+    <h2>Pregunta 1</h2>
+    <span class="parcial-pts">5 pts</span>
+    <span class="parcial-tema">Clase 10 &middot; Crontab</span>
+  </div>
+
+  <p><em>Seleccione una:</em></p>
+  <p>A continuación se muestra una tarea del cron de nuestro sistema:<br><br><strong>*/10 * * * * /home/aramburu/scripts/script.sh</strong><br><br>Indique con que frecuencia se ejecutaría el script.sh:</p>
+  <ol class="parcial-incisos">
+    <li>Cada 10 días</li>
+    <li>Todos los días a las 10 AM</li>
+    <li>Cada 10 horas</li>
+    <li>Cada 10 minutos</li>
+  </ol>
+
+  <div class="parcial-extras">
+    <details class="parcial-desp pd-resultados">
+      <summary>
+        <span class="pd-icono">&#10003;</span>
+        <span class="pd-txt"><b>Resultados</b><small>Solo la respuesta</small></span>
+      </summary>
+      <div class="pd-cuerpo">
+        <p><strong>Correcta: d</strong> &mdash; cada 10 minutos.</p>
+      </div>
+    </details>
+
+    <details class="parcial-desp pd-explicacion">
+      <summary>
+        <span class="pd-icono">&#9998;</span>
+        <span class="pd-txt"><b>Explicación detallada</b><small>De dónde sale, opción por opción y las trampas</small></span>
+      </summary>
+      <div class="pd-cuerpo">
+        <h4>Cómo se lee una línea del crontab</h4>
+        <p>Cinco campos de tiempo y después el comando:</p>
+        <pre class="codigo" data-lang="texto">minuto  hora  día-del-mes  mes  día-de-la-semana   comando
+ */10    *        *         *          *          /home/aramburu/scripts/script.sh</pre>
+        <ul>
+          <li><code>*</code> = todos los valores.</li>
+          <li><code>*/10</code> = "cada 10" de ese campo. Está en el campo <strong>minuto</strong>: cada 10 minutos.</li>
+          <li><code>9,20</code> = a las 9 y a las 20; <code>9-20</code> = de 9 a 20; <code>1-5</code> en día de la semana = lunes a viernes.</li>
+        </ul>
+
+        <h4>Los ejemplos de la clase 10 (diapositiva 17)</h4>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Línea</th><th>Cuándo</th></tr>
+            <tr><td><code>* * * * *</code></td><td>Cada minuto</td></tr>
+            <tr><td><code>0 * * * *</code></td><td>Cada hora, en el minuto 0</td></tr>
+            <tr><td><code>0 4 * * *</code></td><td>Todos los días a las 4</td></tr>
+            <tr><td><code>*/10 * * * *</code></td><td>Cada 10 minutos</td></tr>
+            <tr><td><code>0 9,20 * * *</code></td><td>A las 9 y a las 20 (dos veces por día)</td></tr>
+            <tr><td><code>0 9-20 * * *</code></td><td>Cada hora de 9 a 20</td></tr>
+            <tr><td><code>0 9-20 * * 1-5</code></td><td>Cada hora de 9 a 20, de lunes a viernes</td></tr>
+          </table>
+        </div>
+
+        <h4>Trampas</h4>
+        <ul>
+          <li>"Todos los días a las 10" sería <code>0 10 * * *</code> (minuto 0, hora 10).</li>
+          <li>"Cada 10 horas" sería <code>0 */10 * * *</code>: el <code>*/10</code> en el segundo campo.</li>
+          <li>Las tareas se editan con <code>crontab -e</code> y se listan con <code>crontab -l</code>.</li>
+        </ul>
+      </div>
+    </details>
+  </div>
+</section>

@@ -1,0 +1,48 @@
+<!-- ==================== PREGUNTA 7 ==================== -->
+<section class="parcial-ej">
+  <div class="parcial-ej-cab">
+    <h2>Pregunta 7</h2>
+    <span class="parcial-pts">5 pts</span>
+    <span class="parcial-tema">Clase 15 &middot; Swap</span>
+  </div>
+
+  <p><em>Seleccione una:</em></p>
+  <p>Puedo tener mas de una SWAP definida en mi sistema, por ejemplo una SWAP de tipo partición y otra de tipo archivo, estableciendo prioridades a cada una de ellas.</p>
+  <p>&#9675; Verdadero &nbsp;&nbsp; &#9675; Falso</p>
+
+  <div class="parcial-extras">
+    <details class="parcial-desp pd-resultados">
+      <summary>
+        <span class="pd-icono">&#10003;</span>
+        <span class="pd-txt"><b>Resultados</b><small>Solo la respuesta</small></span>
+      </summary>
+      <div class="pd-cuerpo">
+        <p><strong>Verdadero.</strong></p>
+      </div>
+    </details>
+
+    <details class="parcial-desp pd-explicacion">
+      <summary>
+        <span class="pd-icono">&#9998;</span>
+        <span class="pd-txt"><b>Explicación detallada</b><small>De dónde sale, opción por opción y las trampas</small></span>
+      </summary>
+      <div class="pd-cuerpo">
+        <h4>Qué evalúa</h4>
+        <p>Que la swap puede ser partición o archivo, que puede haber varias y que cada una tiene prioridad.</p>
+
+        <h4>Por qué es verdadero</h4>
+        <ul>
+          <li>La swap se configura como <strong>partición</strong> dedicada (lo recomendado) o como <strong>archivo</strong> dentro de un sistema de archivos (wiki de Debian, diapositiva 8).</li>
+          <li>Desde el núcleo 2.4, Linux maneja hasta <strong>32</strong> áreas de intercambio a la vez.</li>
+          <li><code>swapon</code> lista cada swap con su tamaño y su <strong>prioridad</strong>; se usa primero la de prioridad más alta (se fija con <code>swapon -p</code> o con <code>pri=</code> en <code>/etc/fstab</code>).</li>
+          <li>La práctica 3 hace justamente esto: al equipo que ya tiene una partición swap le suma un <strong>archivo</strong> de 1 GB:</li>
+        </ul>
+        <pre class="codigo" data-lang="texto">dd if=/dev/zero of=/var/swap bs=4096k count=256   # archivo de 1 GB
+chmod 600 /var/swap                                # permisos limitados
+mkswap /var/swap                                   # formato de swap
+swapon /var/swap                                   # se incorpora</pre>
+        <p>Después, <code>swapon</code> muestra las dos (la partición y el archivo).</p>
+      </div>
+    </details>
+  </div>
+</section>

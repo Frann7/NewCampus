@@ -1,0 +1,60 @@
+<!-- ==================== PREGUNTA 7 ==================== -->
+<section class="parcial-ej">
+  <div class="parcial-ej-cab">
+    <h2>Pregunta 7</h2>
+    <span class="parcial-pts">5 pts</span>
+    <span class="parcial-tema">Clase 7 &middot; Procesos y señales</span>
+  </div>
+
+  <p>Si quiero enviarle una señal SIGKILL con el comando kill para detener solamente el programa htop, como seria el comando.</p>
+  <div class="parcial-fig"><img src="img/so-practica/2026-primer-parcial/htop-kill.png" alt="htop: la fila de htop tiene PPID 1768 y PID 22846"></div>
+  <p>Respuesta: ______________________</p>
+
+  <div class="parcial-extras">
+    <details class="parcial-desp pd-resultados">
+      <summary>
+        <span class="pd-icono">&#10003;</span>
+        <span class="pd-txt"><b>Resultados</b><small>Solo la respuesta</small></span>
+      </summary>
+      <div class="pd-cuerpo">
+        <p><strong><code>kill -9 22846</code></strong> (también vale <code>kill -SIGKILL 22846</code>).</p>
+      </div>
+    </details>
+
+    <details class="parcial-desp pd-explicacion">
+      <summary>
+        <span class="pd-icono">&#9998;</span>
+        <span class="pd-txt"><b>Explicación detallada</b><small>De dónde sale, opción por opción y las trampas</small></span>
+      </summary>
+      <div class="pd-cuerpo">
+        <h4>Qué evalúa</h4>
+        <p>Encontrar el <strong>PID</strong> del proceso en htop y escribir <code>kill</code> con la señal SIGKILL.</p>
+
+        <h4>Paso a paso</h4>
+        <ol>
+          <li>Buscar la fila cuya columna <em>Command</em> es <code>htop</code>: <code>1768  22846 exequiel &hellip; htop</code>.</li>
+          <li>Las dos primeras columnas son <strong>PPID</strong> (1768, el padre) y <strong>PID</strong> (22846, el proceso). <code>kill</code> va con el <strong>PID</strong>.</li>
+          <li>SIGKILL es la señal <strong>9</strong>: <code>kill -9 22846</code>.</li>
+        </ol>
+
+        <h4>Las señales de la clase 7</h4>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>N.º</th><th>Señal</th><th>Qué hace</th></tr>
+            <tr><td>15</td><td>SIGTERM</td><td>Pide la terminación (el proceso puede cerrar ordenado). Es la que manda <code>kill</code> sin número</td></tr>
+            <tr><td>9</td><td>SIGKILL</td><td>Termina el proceso <strong>en forma inmediata</strong></td></tr>
+            <tr><td>2</td><td>SIGINT</td><td>Lo mismo que Ctrl + C</td></tr>
+            <tr><td>20</td><td>SIGTSTP</td><td>Lo mismo que Ctrl + Z (lo detiene)</td></tr>
+            <tr><td>19</td><td>SIGCONT</td><td>Reanuda un proceso detenido</td></tr>
+          </table>
+        </div>
+
+        <h4>Trampas</h4>
+        <ul>
+          <li>Usar el PPID (1768) mataría al <strong>padre</strong> (la terminal), no solo a htop.</li>
+          <li><code>killall -9 htop</code> también lo mata, pero la consigna pide <code>kill</code> (con PID).</li>
+        </ul>
+      </div>
+    </details>
+  </div>
+</section>

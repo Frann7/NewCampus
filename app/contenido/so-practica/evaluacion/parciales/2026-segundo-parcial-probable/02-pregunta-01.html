@@ -1,0 +1,78 @@
+<!-- ==================== PREGUNTA 1 ==================== -->
+<section class="parcial-ej">
+  <div class="parcial-ej-cab">
+    <h2>Pregunta 1</h2>
+    <span class="parcial-pts">5 pts</span>
+    <span class="parcial-tema">Clase 14 &middot; Logs</span>
+  </div>
+
+  <p>Identifique los siguientes archivos de registros del S.O GNU/Linux. Seleccione la opción correcta para cada uno de ellos.</p>
+  <div class="tabla-wrap">
+    <table class="t parcial-tabla">
+      <tr><td><code>btmp</code></td><td class="vacia">Elegir&hellip;</td></tr>
+      <tr><td><code>wtmp</code></td><td class="vacia">Elegir&hellip;</td></tr>
+      <tr><td><code>daemon.log</code></td><td class="vacia">Elegir&hellip;</td></tr>
+      <tr><td><code>mail.log</code></td><td class="vacia">Elegir&hellip;</td></tr>
+      <tr><td><code>user.log</code></td><td class="vacia">Elegir&hellip;</td></tr>
+    </table>
+  </div>
+  <p>Opciones del desplegable:</p>
+  <ul>
+    <li>Contiene todos los mensajes de las aplicaciones de usuario.</li>
+    <li>Registra los accesos fallidos al sistema.</li>
+    <li>Contiene los mensajes de la facility daemon.</li>
+    <li>Registra los accesos al sistema.</li>
+    <li>Contiene todos los mensajes relativos al funcionamiento del servicio de correo.</li>
+  </ul>
+
+  <div class="parcial-extras">
+    <details class="parcial-desp pd-resultados">
+      <summary>
+        <span class="pd-icono">&#10003;</span>
+        <span class="pd-txt"><b>Resultados</b><small>Solo la respuesta</small></span>
+      </summary>
+      <div class="pd-cuerpo">
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Archivo</th><th>Opción correcta</th></tr>
+            <tr><td><code>btmp</code></td><td>Registra los accesos fallidos al sistema.</td></tr>
+            <tr><td><code>wtmp</code></td><td>Registra los accesos al sistema.</td></tr>
+            <tr><td><code>daemon.log</code></td><td>Contiene los mensajes de la facility daemon.</td></tr>
+            <tr><td><code>mail.log</code></td><td>Contiene todos los mensajes relativos al funcionamiento del servicio de correo.</td></tr>
+            <tr><td><code>user.log</code></td><td>Contiene todos los mensajes de las aplicaciones de usuario.</td></tr>
+          </table>
+        </div>
+      </div>
+    </details>
+
+    <details class="parcial-desp pd-explicacion">
+      <summary>
+        <span class="pd-icono">&#9998;</span>
+        <span class="pd-txt"><b>Explicación detallada</b><small>De dónde sale, opción por opción y las trampas</small></span>
+      </summary>
+      <div class="pd-cuerpo">
+        <h4>Por qué puede entrar</h4>
+        <p>En 2025 tomaron <code>auth.log</code>, <code>syslog</code>, <code>messages</code> y <code>kern.log</code>, la primera diapositiva de <code>/var/log</code>. Lo que queda es la segunda: el mismo formato de emparejar con los otros archivos.</p>
+
+        <h4>La segunda diapositiva de /var/log (Clase 14, diapositiva 14)</h4>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Archivo</th><th>Qué guarda</th><th>Cómo acordártelo</th></tr>
+            <tr><td><code>mail.log</code></td><td>El servicio de correo (y <code>mail.info</code>, <code>mail.err</code>, <code>mail.warn</code> por <em>facility</em>)</td><td>mail</td></tr>
+            <tr><td><code>user.log</code></td><td>Las aplicaciones de usuario</td><td>user</td></tr>
+            <tr><td><code>lpr.log</code></td><td>El servicio de impresión</td><td>lpr = <em>line printer</em></td></tr>
+            <tr><td><code>daemon.log</code></td><td>La <em>facility</em> daemon (servicios en segundo plano)</td><td>daemon</td></tr>
+            <tr><td><code>btmp</code></td><td>Los accesos <strong>fallidos</strong></td><td><strong>b</strong> de <em>bad</em></td></tr>
+            <tr><td><code>wtmp</code></td><td>Los accesos al sistema</td><td><strong>w</strong> de <em>who</em></td></tr>
+          </table>
+        </div>
+        <p><code>btmp</code> y <code>wtmp</code> son <strong>binarios</strong>, a diferencia de los demás: no se leen con <code>cat</code>, sino con <code>utmpdump /var/log/btmp | more</code>.</p>
+
+        <h4>Trampas</h4>
+        <ul>
+          <li>Confundir <code>btmp</code> y <code>wtmp</code>: el fallido es el de la <strong>b</strong>.</li>
+        </ul>
+      </div>
+    </details>
+  </div>
+</section>

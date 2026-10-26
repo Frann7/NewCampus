@@ -264,6 +264,35 @@ window.Apuntes.registrarIndice({
         "temas": "AF \u2192 ER \u00b7 ER \u2192 AFD m\u00ednimo \u00b7 AF y ER: termina con z, impar de x",
         "tipo": "parcial"
       }
+    ],
+    "so-practica": [
+      {
+        "id": "2025-segundo-parcial",
+        "archivo": "examenes/so-practica-2025-segundo-parcial.js",
+        "titulo": "Segundo parcial",
+        "fecha": "2025",
+        "detalle": "20 preguntas del Aula Virtual, 5 puntos cada una: opci\u00f3n m\u00faltiple, verdadero o falso y emparejar",
+        "temas": "Logs \u00b7 Swap \u00b7 RAM y cach\u00e9 \u00b7 Sistemas de archivos \u00b7 Particiones \u00b7 RAID \u00b7 Escritorio remoto",
+        "tipo": "parcial"
+      },
+      {
+        "id": "2026-primer-parcial",
+        "archivo": "examenes/so-practica-2026-primer-parcial.js",
+        "titulo": "Primer parcial",
+        "fecha": "2026",
+        "detalle": "20 preguntas del Aula Virtual, 5 puntos cada una: opci\u00f3n m\u00faltiple, verdadero o falso, emparejar y respuesta corta",
+        "temas": "Virtualizaci\u00f3n \u00b7 Arranque, MBR y GPT \u00b7 Comandos \u00b7 Usuarios y permisos \u00b7 Procesos \u00b7 Cron \u00b7 Paquetes",
+        "tipo": "parcial"
+      },
+      {
+        "id": "2026-segundo-parcial-probable",
+        "archivo": "examenes/so-practica-2026-segundo-parcial-probable.js",
+        "titulo": "Segundo parcial probable",
+        "fecha": "2026",
+        "detalle": "20 preguntas inventadas con la forma del parcial 2025, sin repetir ninguna del 2025 ni del primer parcial",
+        "temas": "Logs \u00b7 Swap y swappiness \u00b7 RAM y cach\u00e9 \u00b7 Directorios y montaje \u00b7 MBR y GPT por dentro \u00b7 RAID 4, 6 y 10 \u00b7 Escritorio remoto",
+        "tipo": "parcial"
+      }
     ]
   },
   "preguntas": {
@@ -560,7 +589,10 @@ window.Apuntes.registrarIndice({
       "clave": "so-practica",
       "nombre": "Sistemas Operativos \u2014 Practica",
       "corto": "SO Pr\u00e1ctica",
-      "unidades": []
+      "unidades": [],
+      "evaluacion": {
+        "tipo": "simple"
+      }
     },
     {
       "clave": "pyl",

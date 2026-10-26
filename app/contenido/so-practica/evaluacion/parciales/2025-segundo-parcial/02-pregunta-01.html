@@ -1,0 +1,79 @@
+<!-- ==================== PREGUNTA 1 ==================== -->
+<section class="parcial-ej">
+  <div class="parcial-ej-cab">
+    <h2>Pregunta 1</h2>
+    <span class="parcial-pts">5 pts</span>
+    <span class="parcial-tema">Clase 14 &middot; Logs</span>
+  </div>
+
+  <p>Identifique los siguientes archivos de registros del S.O GNU/Linux. Seleccione la opción correcta para cada uno de ellos.</p>
+  <div class="tabla-wrap">
+    <table class="t parcial-tabla">
+      <tr><td><code>auth.log</code></td><td class="vacia">Elegir&hellip;</td></tr>
+      <tr><td><code>syslog</code></td><td class="vacia">Elegir&hellip;</td></tr>
+      <tr><td><code>messages</code></td><td class="vacia">Elegir&hellip;</td></tr>
+      <tr><td><code>kern.log</code></td><td class="vacia">Elegir&hellip;</td></tr>
+    </table>
+  </div>
+  <p>Opciones del desplegable:</p>
+  <ul>
+    <li>Contiene todos los mensajes del núcleo.</li>
+    <li>Contiene los mensajes de autenticación.</li>
+    <li>Contiene los mensajes del núcleo de los niveles 4-6 (warning, notice e info).</li>
+    <li>Contiene todos los mensajes, excepto los de autenticación.</li>
+  </ul>
+
+  <div class="parcial-extras">
+    <details class="parcial-desp pd-resultados">
+      <summary>
+        <span class="pd-icono">&#10003;</span>
+        <span class="pd-txt"><b>Resultados</b><small>Solo la respuesta</small></span>
+      </summary>
+      <div class="pd-cuerpo">
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Archivo</th><th>Opción correcta</th></tr>
+            <tr><td><code>auth.log</code></td><td>Contiene los mensajes de autenticación.</td></tr>
+            <tr><td><code>syslog</code></td><td>Contiene todos los mensajes, excepto los de autenticación.</td></tr>
+            <tr><td><code>messages</code></td><td>Contiene los mensajes del núcleo de los niveles 4-6 (warning, notice e info).</td></tr>
+            <tr><td><code>kern.log</code></td><td>Contiene todos los mensajes del núcleo.</td></tr>
+          </table>
+        </div>
+      </div>
+    </details>
+
+    <details class="parcial-desp pd-explicacion">
+      <summary>
+        <span class="pd-icono">&#9998;</span>
+        <span class="pd-txt"><b>Explicación detallada</b><small>De dónde sale, opción por opción y las trampas</small></span>
+      </summary>
+      <div class="pd-cuerpo">
+        <h4>Qué evalúa</h4>
+        <p>Los archivos de registro más importantes de <code>/var/log</code>, con la frase exacta de la diapositiva. En el Aula Virtual es de emparejar: cada desplegable trae todas las descripciones mezcladas.</p>
+
+        <h4>La lista de la cátedra (Clase 14, diapositivas 13 y 14)</h4>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Archivo</th><th>Qué guarda</th><th>Cómo acordártelo</th></tr>
+            <tr><td><code>syslog</code></td><td>Todos los mensajes, <strong>excepto</strong> los de autenticación</td><td>El "general" del sistema</td></tr>
+            <tr><td><code>auth.log</code></td><td>Los mensajes de autenticación</td><td><em>auth</em> = autenticación: <code>su</code>, <code>sudo</code>, logins, <code>adduser</code></td></tr>
+            <tr><td><code>kern.log</code></td><td><strong>Todos</strong> los mensajes del núcleo</td><td><em>kern</em> = kernel</td></tr>
+            <tr><td><code>messages</code></td><td>Mensajes del núcleo de niveles 4-6 (<em>warning</em>, <em>notice</em>, <em>info</em>)</td><td>Solo los avisos, no todo</td></tr>
+            <tr><td><code>daemon.log</code></td><td>Los de la <em>facility</em> daemon</td><td>Servicios</td></tr>
+            <tr><td><code>mail.log</code>, <code>user.log</code>, <code>lpr.log</code></td><td>Correo, aplicaciones de usuario, impresión</td><td></td></tr>
+            <tr><td><code>btmp</code> / <code>wtmp</code></td><td>Accesos fallidos / accesos al sistema. Son <strong>binarios</strong>: se leen con <code>utmpdump</code></td><td></td></tr>
+          </table>
+        </div>
+
+        <h4>Cómo se vio en el laboratorio</h4>
+        <p>En la práctica 1 se dejó <code>tail -f -n 18 /var/log/auth.log</code> en una terminal y en otra se probó <code>su root</code> con una contraseña mal: el intento fallido aparece en <code>auth.log</code>. En la práctica 2, el usuario creado con <code>adduser prueba</code> también queda en <code>auth.log</code>.</p>
+
+        <h4>Trampas</h4>
+        <ul>
+          <li><code>kern.log</code> y <code>messages</code> hablan los dos del núcleo: <code>kern.log</code> es <strong>todo</strong>; <code>messages</code>, solo los niveles 4 a 6.</li>
+          <li><code>syslog</code> tiene "todo" <strong>menos</strong> la autenticación, que va aparte a <code>auth.log</code>.</li>
+        </ul>
+      </div>
+    </details>
+  </div>
+</section>

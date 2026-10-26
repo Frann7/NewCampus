@@ -1,0 +1,78 @@
+<!-- ==================== PREGUNTA 11 ==================== -->
+<section class="parcial-ej">
+  <div class="parcial-ej-cab">
+    <h2>Pregunta 11</h2>
+    <span class="parcial-pts">5 pts</span>
+    <span class="parcial-tema">Clase 18 &middot; Esquema de particionado (df)</span>
+  </div>
+
+  <p><em>Seleccione una o más de una:</em></p>
+  <p>De este esquema de particionado, seleccione las opciones correctas (seleccione 3 opciones):</p>
+  <div class="parcial-fig"><img src="img/so-practica/2025-segundo-parcial/df.png" alt="Salida de sudo df -Th con /dev/nvme0n1p2 ext4 218G 70% en /, /dev/sdb5, /dev/sda5 y /dev/sda2"></div>
+  <ol class="parcial-incisos">
+    <li>El equipo tiene 3 dispositivos de almacenamiento</li>
+    <li>La partición / se encuentra en un dispositivo de almacenamiento de tecnología M2 (NVMe)</li>
+    <li>La partición /  tiene el filesystem Ext4 y se encuentra un 70% utilizado</li>
+    <li>La imagen tiene en particiones distintas el HOME, VAR y ROOT.</li>
+    <li>La partición HOME tiene asignado 200GB</li>
+    <li>La partición /VAR utiliza el filesystem Ext4</li>
+  </ol>
+
+  <div class="parcial-extras">
+    <details class="parcial-desp pd-resultados">
+      <summary>
+        <span class="pd-icono">&#10003;</span>
+        <span class="pd-txt"><b>Resultados</b><small>Solo la respuesta</small></span>
+      </summary>
+      <div class="pd-cuerpo">
+        <p><strong>Correctas: a, b, c.</strong></p>
+      </div>
+    </details>
+
+    <details class="parcial-desp pd-explicacion">
+      <summary>
+        <span class="pd-icono">&#9998;</span>
+        <span class="pd-txt"><b>Explicación detallada</b><small>De dónde sale, opción por opción y las trampas</small></span>
+      </summary>
+      <div class="pd-cuerpo">
+        <h4>Qué evalúa</h4>
+        <p>Leer <code>df -Th</code> (columnas: sistema de archivos, <strong>tipo</strong>, tamaño, usados, disponible, uso %, <strong>montado en</strong>) y reconocer los dispositivos por su nombre en <code>/dev</code> (Clase 17, diapositiva 18).</p>
+
+        <h4>Cómo se lee</h4>
+        <ul>
+          <li><code>udev</code>, <code>tmpfs</code>: sistemas de archivos en memoria, <strong>no</strong> son discos.</li>
+          <li><code>/dev/loop0</code> &hellip; <code>/dev/loop13</code> (<code>squashfs</code>, 100 %): los paquetes <strong>snap</strong> montados. Tampoco son discos.</li>
+          <li>Lo que queda son particiones de discos de verdad: <code>/dev/nvme0n1p2</code>, <code>/dev/sdb5</code>, <code>/dev/sda5</code> y <code>/dev/sda2</code>.</li>
+        </ul>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Nombre</th><th>Cómo se lee</th><th>Disco</th></tr>
+            <tr><td><code>/dev/nvme0n1p2</code></td><td>nvme = dispositivo M2; n1 = disco 1; p2 = partición 2</td><td>nvme0n1</td></tr>
+            <tr><td><code>/dev/sdb5</code></td><td>sd = SCSI/SATA/USB; b = segundo disco; 5 = partición 5</td><td>sdb</td></tr>
+            <tr><td><code>/dev/sda5</code>, <code>/dev/sda2</code></td><td>a = primer disco; particiones 5 y 2</td><td>sda</td></tr>
+          </table>
+        </div>
+        <p>Son <strong>tres discos</strong>: nvme0n1, sda y sdb.</p>
+
+        <h4>Opción por opción</h4>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th></th><th>Opción</th><th>¿Va?</th><th>Por qué</th></tr>
+            <tr><td class="lbl">a)</td><td>3 dispositivos</td><td><strong>Sí</strong></td><td>nvme0n1, sda y sdb (los loop y tmpfs no cuentan).</td></tr>
+            <tr><td class="lbl">b)</td><td>/ en un M2 (NVMe)</td><td><strong>Sí</strong></td><td><code>/dev/nvme0n1p2 &hellip; /</code>.</td></tr>
+            <tr><td class="lbl">c)</td><td>/ en ext4 y al 70 %</td><td><strong>Sí</strong></td><td>Tipo ext4, Uso% 70 %.</td></tr>
+            <tr><td class="lbl">d)</td><td>HOME, VAR y ROOT en particiones distintas</td><td><strong>No</strong></td><td>No hay nada montado en <code>/home</code> ni en <code>/var</code>: están dentro de <code>/</code>.</td></tr>
+            <tr><td class="lbl">e)</td><td>HOME con 200 GB</td><td><strong>No</strong></td><td>No hay partición <code>/home</code>. El 218G es la de <code>/</code>.</td></tr>
+            <tr><td class="lbl">f)</td><td>/VAR en ext4</td><td><strong>No</strong></td><td>No hay partición <code>/var</code>.</td></tr>
+          </table>
+        </div>
+
+        <h4>Trampas</h4>
+        <ul>
+          <li>Contar los <code>loop</code> como discos: son snaps.</li>
+          <li>Que <code>/home</code> exista como carpeta no quiere decir que sea una partición: lo es solo si aparece en la columna "Montado en".</li>
+        </ul>
+      </div>
+    </details>
+  </div>
+</section>

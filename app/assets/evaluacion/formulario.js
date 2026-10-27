@@ -288,7 +288,7 @@
     form.elements.minutos.value = cfg.minutos;
 
     // Temas: las unidades del menu que tienen preguntas (todas marcadas)
-    var conPreguntas = E.unidades(materia).filter(function (u) { return E.banco.todas(materia, [u.id]) > 0; });
+    var conPreguntas = E.temas(materia).filter(function (u) { return E.banco.todas(materia, [u.id]) > 0; });
     var porTemas = conPreguntas.length > 1;
     function elegidas() {
       return Array.prototype.filter.call(form.querySelectorAll('[name="unidad"]'), function (i) { return i.checked; })
@@ -376,7 +376,7 @@
         var n = E.banco.todas(materia, [u.id]);
         cajaUnidades.appendChild(h("label", { class: "ae-chip" }, [
           h("input", { type: "checkbox", name: "unidad", value: u.id, checked: true }),
-          h("span", {}, [h("b", {}, u.num), h("small", {}, u.nombre + " · " + n)])
+          h("span", {}, [h("b", {}, u.num), h("small", {}, u.nombre ? u.nombre + " · " + n : n + " preguntas")])
         ]));
       });
       cajaUnidades.addEventListener("change", contar);

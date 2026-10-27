@@ -1,0 +1,30 @@
+<article class="preg" data-id="so-prob-05" data-etapa="1" data-formato="opcion" data-origen="parcial">
+  <div class="p-enunciado">
+    <p><em>Seleccione una:</em></p>
+    <p>Para incorporar una SWAP de tipo archivo alcanza con crear el archivo con el comando dd y luego ejecutar swapon sobre él, sin necesidad de darle formato.</p>
+    <p class="p-fuente">Segundo parcial probable &middot; preg. 5</p>
+  </div>
+  <ul class="p-opciones">
+    <li>Verdadero</li>
+    <li data-correcta>Falso</li>
+  </ul>
+  <div class="p-explicacion">
+    <p><strong>Falso.</strong></p>
+
+        <h4>Por qué puede entrar</h4>
+        <p>En 2025 preguntaron si puede haber una swap de tipo archivo; lo que no tomaron es <strong>cómo</strong> se crea, que es la práctica 3.</p>
+
+        <h4>Por qué es falso</h4>
+        <p>
+          El archivo que crea <code>dd</code> está lleno de ceros (<code>if=/dev/zero</code>): todavía no es swap.
+          Hay que darle formato con <strong><code>mkswap /var/swap</code></strong> antes del
+          <code>swapon /var/swap</code>; si no, <code>swapon</code> da error. Y en el medio, por seguridad,
+          <code>chmod 600 /var/swap</code>.
+        </p>
+        <pre class="codigo" data-lang="texto">dd if=/dev/zero of=/var/swap bs=4096k count=256
+chmod 600 /var/swap
+mkswap /var/swap
+swapon /var/swap</pre>
+        <p>Es lo mismo que con un disco: una partición nueva necesita formato (<code>mkfs</code>) antes de montarse.</p>
+  </div>
+</article>

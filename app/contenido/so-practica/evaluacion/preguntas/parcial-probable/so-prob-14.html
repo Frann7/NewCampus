@@ -1,0 +1,38 @@
+<article class="preg" data-id="so-prob-14" data-etapa="1" data-formato="completar" data-origen="parcial">
+  <div class="p-enunciado">
+    <p>Seleccione la opción correcta para cada parte del MBR (<em>Master Boot Record</em>):</p>
+    <p><code>446 bytes</code> <span class="p-hueco"><span>Firma de arranque (boot signature).</span><span>Tamaño total del MBR (el primer sector del disco).</span><span data-correcta>Área del código de arranque (gestor de arranque).</span><span>Tabla de particiones primarias.</span></span></p>
+    <p><code>4 entradas de 16 bytes</code> <span class="p-hueco"><span>Firma de arranque (boot signature).</span><span>Tamaño total del MBR (el primer sector del disco).</span><span>Área del código de arranque (gestor de arranque).</span><span data-correcta>Tabla de particiones primarias.</span></span></p>
+    <p><code>2 bytes (55h AAh)</code> <span class="p-hueco"><span data-correcta>Firma de arranque (boot signature).</span><span>Tamaño total del MBR (el primer sector del disco).</span><span>Área del código de arranque (gestor de arranque).</span><span>Tabla de particiones primarias.</span></span></p>
+    <p><code>512 bytes</code> <span class="p-hueco"><span>Firma de arranque (boot signature).</span><span data-correcta>Tamaño total del MBR (el primer sector del disco).</span><span>Área del código de arranque (gestor de arranque).</span><span>Tabla de particiones primarias.</span></span></p>
+    <p class="p-fuente">Segundo parcial probable &middot; preg. 14</p>
+  </div>
+  <div class="p-explicacion">
+    <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Parte</th><th>Opción correcta</th></tr>
+            <tr><td>446 bytes</td><td>Área del código de arranque (gestor de arranque).</td></tr>
+            <tr><td>4 entradas de 16 bytes</td><td>Tabla de particiones primarias.</td></tr>
+            <tr><td>2 bytes (55h AAh)</td><td>Firma de arranque (boot signature).</td></tr>
+            <tr><td>512 bytes</td><td>Tamaño total del MBR (el primer sector del disco).</td></tr>
+          </table>
+        </div>
+
+        <h4>Por qué puede entrar</h4>
+        <p>La tabla de la estructura del MBR está en la clase 18 y fue la actividad extra áulica (copiar el MBR con <code>dd</code> y leerlo en hexadecimal). No salió en ningún parcial.</p>
+
+        <h4>El MBR por dentro (Clase 18, diapositiva 7)</h4>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Dirección</th><th>Tamaño</th><th>Qué es</th></tr>
+            <tr><td>0 a 445</td><td>446 bytes</td><td>Código de arranque (<em>bootstrap</em>): lo que ejecuta la BIOS, el gestor de arranque</td></tr>
+            <tr><td>446 a 509</td><td>4 &times; 16 = 64 bytes</td><td>Tabla de particiones: una entrada por partición primaria</td></tr>
+            <tr><td>510 y 511</td><td>2 bytes</td><td>Firma <code>55h AAh</code>: dice que el sector es un MBR válido</td></tr>
+            <tr><td>Total</td><td>446 + 64 + 2 = <strong>512</strong></td><td>El sector 0</td></tr>
+          </table>
+        </div>
+        <p>Cada entrada de 16 bytes: marca de arrancable (<code>0x80</code> = activa), CHS de inicio, <strong>tipo</strong> de partición (<code>0x07</code> NTFS, <code>0x0b</code> FAT32, <code>0x83</code> Linux&hellip;), CHS de fin, <strong>LBA de inicio</strong> (4 bytes) y <strong>tamaño en sectores</strong> (4 bytes). Esos 4 bytes son el límite de 2 TiB.</p>
+        <p>Por eso hay <strong>4 primarias</strong> como máximo (o 3 y una extendida con lógicas adentro).</p>
+        <pre class="codigo" data-lang="texto">dd if=/dev/sda of=backupMBR bs=512 count=1   # copia del MBR (actividad de la clase 18)</pre>
+  </div>
+</article>

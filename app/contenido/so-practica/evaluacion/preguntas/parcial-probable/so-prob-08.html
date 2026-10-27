@@ -1,0 +1,67 @@
+<article class="preg" data-id="so-prob-08" data-etapa="1" data-formato="multiple" data-origen="parcial">
+  <div class="p-enunciado">
+    <p><em>Seleccione una o más de una:</em></p>
+    <p>Seleccione las opciones correctas utilizando la siguiente imagen (4 opciones):</p>
+    <div class="parcial-fig"><pre class="salida">usuario@PC:~$ lscpu
+Arquitectura:                        x86_64
+modo(s) de operación de las CPUs:    32-bit, 64-bit
+CPU(s):                              12
+Lista de la(s) CPU(s) en línea:      0-11
+Hilo(s) de procesamiento por núcleo: 2
+Núcleo(s) por «socket»:              6
+«Socket(s)»:                         1
+ID de fabricante:                    AuthenticAMD
+Nombre del modelo:                   AMD Ryzen 5 5600X 6-Core Processor
+CPU MHz máx.:                        4650,0000
+Virtualización:                      AMD-V
+Caché L1d:                           192 KiB
+Caché L1i:                           192 KiB
+Caché L2:                            3 MiB
+Caché L3:                            32 MiB</pre></div>
+    <p class="p-fuente">Segundo parcial probable &middot; preg. 8</p>
+  </div>
+  <ul class="p-opciones">
+    <li>El CPU tiene 12 núcleos y 24 hilos</li>
+    <li data-correcta>El CPU es AMD</li>
+    <li data-correcta>La memoria cache L3 es de 32 MiB y es compartida por todos los núcleos</li>
+    <li data-correcta>La memoria cache L2 es de 512 KiB por núcleo</li>
+    <li>La memoria cache L1 es de 192 KiB en total</li>
+    <li data-correcta>El CPU tiene 6 núcleos y 12 hilos</li>
+    <li>El CPU tiene la virtualización VT-x</li>
+  </ul>
+  <div class="p-explicacion">
+    <p><strong>Correctas:</strong></p>
+    <ul><li>El CPU es AMD</li><li>La memoria cache L3 es de 32 MiB y es compartida por todos los núcleos</li><li>La memoria cache L2 es de 512 KiB por núcleo</li><li>El CPU tiene 6 núcleos y 12 hilos</li></ul>
+
+        <h4>Por qué puede entrar</h4>
+        <p>Es la pregunta 10 de 2025 con otro procesador: la cuenta es la misma (dividir por los núcleos), pero cambian los números y el fabricante.</p>
+
+        <h4>Las cuentas</h4>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Renglón</th><th>Valor</th><th>Qué se saca</th></tr>
+            <tr><td>Núcleo(s) por «socket» &times; «Socket(s)»</td><td>6 &times; 1</td><td>6 núcleos</td></tr>
+            <tr><td>Hilo(s) por núcleo</td><td>2</td><td>12 hilos (= <code>CPU(s): 12</code>)</td></tr>
+            <tr><td>ID de fabricante</td><td>AuthenticAMD</td><td>AMD (Intel diría GenuineIntel)</td></tr>
+            <tr><td>Caché L1d + L1i</td><td>192 + 192 KiB</td><td>L1 total 384 KiB; 32 + 32 KiB por núcleo</td></tr>
+            <tr><td>Caché L2</td><td>3 MiB</td><td>3 MiB = 3072 KiB; / 6 = <strong>512 KiB por núcleo</strong></td></tr>
+            <tr><td>Caché L3</td><td>32 MiB</td><td>Compartida</td></tr>
+            <tr><td>Virtualización</td><td>AMD-V</td><td>La de AMD; VT-x es la de Intel</td></tr>
+          </table>
+        </div>
+
+        <h4>Opción por opción</h4>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Opción</th><th>¿Va?</th><th>Por qué</th></tr>
+            <tr><td>12 núcleos y 24 hilos</td><td><strong>No</strong></td><td>CPU(s) = 12 son hilos.</td></tr>
+            <tr><td>Es AMD</td><td><strong>Sí</strong></td><td></td></tr>
+            <tr><td>L3 de 32 MiB compartida</td><td><strong>Sí</strong></td><td>L1 y L2 son por núcleo; L3, compartida.</td></tr>
+            <tr><td>L2 de 512 KiB por núcleo</td><td><strong>Sí</strong></td><td>3 MiB / 6.</td></tr>
+            <tr><td>L1 de 192 KiB en total</td><td><strong>No</strong></td><td>Eso es solo L1d; con L1i son 384 KiB.</td></tr>
+            <tr><td>6 núcleos y 12 hilos</td><td><strong>Sí</strong></td><td></td></tr>
+            <tr><td>VT-x</td><td><strong>No</strong></td><td>Dice AMD-V.</td></tr>
+          </table>
+        </div>
+  </div>
+</article>

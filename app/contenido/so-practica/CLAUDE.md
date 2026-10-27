@@ -15,8 +15,10 @@ Las reglas generales están en `docs/contenido.md` (raíz del repo); acá va sol
   - `2025-segundo-parcial`: `Parcial SO Practica 2.pdf` (cuestionario en blanco).
   - `2026-segundo-parcial-probable`: inventado, misma forma que el 2025, **sin repetir ninguna
     pregunta** del 2025 ni del primer parcial. Si aparece otro parcial real, revisar que no se pise.
-- **Autoevaluación** (`evaluacion/preguntas/parcial-2025/`, ids `so-p2025-NN`): las 20 del segundo
-  parcial 2025 en formato cuestionario (`data-etapa="1"`; emparejar = `completar` con desplegables).
+- **Autoevaluación** (`evaluacion/preguntas/parcial-2025/`, ids `so-p2025-NN`, y
+  `parcial-probable/`, ids `so-prob-NN`): las 20 de cada parcial en formato cuestionario. Cada
+  carpeta es un tema del formulario, con el nombre de su `p-fuente` (`E.temas`, `banco.carpetas`). `data-etapa="1"`; emparejar =
+  `completar` con desplegables.
   Las armó un script desde el parcial (no quedó en el repo): si se corrige una pregunta del parcial,
   corregirla también acá. Las opciones se mezclan al sortear, así que la explicación nombra cada
   opción por su texto, nunca por la letra.

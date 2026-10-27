@@ -279,6 +279,14 @@
     // op1 (1ra etapa): { hoja, urgente } -> sin completar / solo las urgentes.
     // Cuantas preguntas tiene la evaluacion simple (todas, ver todasEnOrden).
     todas: function (materia, unidades) { return todasEnOrden(materia, unidades).length; },
+    // Las carpetas del banco, para una materia sin unidades en el menu (SO Practica):
+    // cada una se llama como la fuente de sus preguntas ("Segundo parcial 2025").
+    carpetas: function (materia) {
+      var vistas = {};
+      return todasEnOrden(materia).filter(function (p) {
+        return vistas[p.unidad] ? false : (vistas[p.unidad] = true);
+      }).map(function (p) { return { id: p.unidad, num: p.fuente.split(" · ")[0], nombre: "" }; });
+    },
     // Los ejercicios de parcial de la evaluacion simple (ver ejerciciosEnOrden).
     ejercicios: function (materia) { return ejerciciosEnOrden(materia); },
     diagramas: function (materia) { return diagramasDe(materia); },

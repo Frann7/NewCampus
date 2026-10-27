@@ -14,7 +14,9 @@
   que sus preguntas no llevan chip de unidad). `E.configMateria`, `E.esSimple` en `nucleo.js`.
   Si el banco tiene preguntas en **más de una unidad del menú** (Ing. de Software II:
   `preguntas/<unidad>/`, ids `ing2-u4a-01`...), el formulario suma el paso **Temas**: un chip por
-  unidad con su cantidad de preguntas, todos marcados. Lo elegido va en `config.unidades` (vacío =
+  unidad con su cantidad de preguntas, todos marcados. Una materia sin unidades en el menú (SO
+  Práctica) usa como temas las carpetas de su banco, nombradas por la `p-fuente` de sus preguntas
+  (`E.temas`, `banco.carpetas`). Lo elegido va en `config.unidades` (vacío =
   todos) y `banco.todas(materia, unidades)` / `seleccionar` filtran por ahí. Una materia **sin
   banco de preguntas** no muestra la sección Autoevaluación: solo sus parciales.
   Si el banco de una materia simple tiene además **ejercicios de parcial** (`data-tipo="ejercicio"`

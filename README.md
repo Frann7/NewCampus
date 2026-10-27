@@ -25,8 +25,8 @@ fórmulas (MathJax) y las tipografías. Tus datos no salen de tu máquina.
   en 3FN, `CREATE TABLE` y consultas con `JOIN`, `GROUP BY` y fechas, con el código SQL
   coloreado y los diagramas entidad-relación dibujados con la notación de la cátedra.
   Sistemas Operativos (Práctica) tiene, por ahora, solo Evaluación: en el menú, su única entrada
-  lleva directo a los parciales y a una autoevaluación con las 20 preguntas del segundo parcial
-  2025. El resto de las materias de tercer año ya están en el menú como
+  lleva directo a los parciales y a una autoevaluación con las preguntas del segundo parcial 2025
+  y del probable (se elige cuál o los dos). El resto de las materias de tercer año ya están en el menú como
   "pronto".
 * **Evaluación**: **parciales y finales** de la cátedra transcriptos, en dos listas. Algunos traen
   cada ejercicio con resultados y explicación detallada desplegables; otros están solo transcriptos,
@@ -262,6 +262,9 @@ Chrome (`chrome --headless --print-to-pdf`).
 `0.x.y-alpha` mientras esté en desarrollo. La `1.0.0` queda reservada para cuando esté terminado.
 La versión actual se lee al pie del menú lateral.
 
+* **0.57.0-alpha** — SO Práctica: la autoevaluación suma las 20 preguntas del **segundo parcial
+  probable**, y en el formulario se elige con qué parcial practicar (o los dos). En una materia
+  sin unidades, los temas para elegir son las carpetas de su banco, con el nombre del parcial.
 * **0.56.0-alpha** — SO Práctica: **autoevaluación** con las 20 preguntas del segundo parcial 2025
   como cuestionario del Aula Virtual (opción múltiple, V/F y emparejar con desplegables, con sus
   capturas), nota sobre 100 y la explicación de cada una en la revisión. Arreglado: en una materia

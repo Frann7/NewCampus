@@ -1,0 +1,47 @@
+<article class="preg" data-id="so-prob-03" data-etapa="1" data-formato="completar" data-origen="parcial">
+  <div class="p-enunciado">
+    <p>Seleccione la opción correcta para cada comando:</p>
+    <p><code>mkswap /var/swap</code> <span class="p-hueco"><span>Muestra el valor configurado del swappiness.</span><span>Lista las swap disponibles y el tipo (archivo/partición).</span><span>Establece permisos limitados al archivo de swap (por seguridad).</span><span data-correcta>Establece el formato de swap al archivo.</span><span>Muestra la utilización de la memoria RAM y de la swap.</span></span></p>
+    <p><code>swapon -s</code> <span class="p-hueco"><span>Muestra el valor configurado del swappiness.</span><span data-correcta>Lista las swap disponibles y el tipo (archivo/partición).</span><span>Establece permisos limitados al archivo de swap (por seguridad).</span><span>Establece el formato de swap al archivo.</span><span>Muestra la utilización de la memoria RAM y de la swap.</span></span></p>
+    <p><code>free -h</code> <span class="p-hueco"><span>Muestra el valor configurado del swappiness.</span><span>Lista las swap disponibles y el tipo (archivo/partición).</span><span>Establece permisos limitados al archivo de swap (por seguridad).</span><span>Establece el formato de swap al archivo.</span><span data-correcta>Muestra la utilización de la memoria RAM y de la swap.</span></span></p>
+    <p><code>cat /proc/sys/vm/swappiness</code> <span class="p-hueco"><span data-correcta>Muestra el valor configurado del swappiness.</span><span>Lista las swap disponibles y el tipo (archivo/partición).</span><span>Establece permisos limitados al archivo de swap (por seguridad).</span><span>Establece el formato de swap al archivo.</span><span>Muestra la utilización de la memoria RAM y de la swap.</span></span></p>
+    <p><code>chmod 600 /var/swap</code> <span class="p-hueco"><span>Muestra el valor configurado del swappiness.</span><span>Lista las swap disponibles y el tipo (archivo/partición).</span><span data-correcta>Establece permisos limitados al archivo de swap (por seguridad).</span><span>Establece el formato de swap al archivo.</span><span>Muestra la utilización de la memoria RAM y de la swap.</span></span></p>
+    <p class="p-fuente">Segundo parcial probable &middot; preg. 3</p>
+  </div>
+  <div class="p-explicacion">
+    <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Comando</th><th>Opción correcta</th></tr>
+            <tr><td><code>mkswap /var/swap</code></td><td>Establece el formato de swap al archivo.</td></tr>
+            <tr><td><code>swapon -s</code></td><td>Lista las swap disponibles y el tipo (archivo/partición).</td></tr>
+            <tr><td><code>free -h</code></td><td>Muestra la utilización de la memoria RAM y de la swap.</td></tr>
+            <tr><td><code>cat /proc/sys/vm/swappiness</code></td><td>Muestra el valor configurado del swappiness.</td></tr>
+            <tr><td><code>chmod 600 /var/swap</code></td><td>Establece permisos limitados al archivo de swap (por seguridad).</td></tr>
+          </table>
+        </div>
+
+        <h4>Por qué puede entrar</h4>
+        <p>En 2025 emparejaron <code>swapoff -a</code>, <code>swapon -a</code> y <code>swapon</code>. Los demás comandos de la clase 15 son los de la práctica 3 (swap de tipo archivo) y los de mirar la swap.</p>
+
+        <h4>Los comandos, en el orden de la práctica 3</h4>
+        <pre class="codigo" data-lang="texto">swapon                                            # 1. listar las swap que hay
+dd if=/dev/zero of=/var/swap bs=4096k count=256   # 2. crear un archivo de 1 GB (4 MB x 256)
+chmod 600 /var/swap                               #    permisos: solo root lee y escribe
+mkswap /var/swap                                  # 3. darle formato de swap
+swapon /var/swap                                  #    incorporarlo
+swapon -s                                         # 4. ver las swap y su tipo</pre>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Comando</th><th>Qué hace</th></tr>
+            <tr><td><code>swapon</code></td><td>Lista las swap con tamaño y prioridad</td></tr>
+            <tr><td><code>swapon -s</code></td><td>Lista las swap y el <strong>tipo</strong> (archivo / partición)</td></tr>
+            <tr><td><code>free -h</code></td><td>Uso de RAM y swap en unidades legibles (<code>-m</code> en MB, <code>-t</code> totales, <code>-w</code> separa búferes y caché, <code>-s 2</code> cada 2 segundos)</td></tr>
+            <tr><td><code>cat /proc/sys/vm/swappiness</code></td><td>El swappiness actual</td></tr>
+          </table>
+        </div>
+        <h4>Trampas</h4>
+        <ul>
+          <li><code>600</code> = <code>rw- --- ---</code>: lectura y escritura solo para el dueño (root). No es "formato".</li>
+        </ul>
+  </div>
+</article>

@@ -1,0 +1,62 @@
+<article class="preg" data-id="so-prob-09" data-etapa="1" data-formato="multiple" data-origen="parcial">
+  <div class="p-enunciado">
+    <p><em>Seleccione una o más de una:</em></p>
+    <p>De este esquema de particionado, seleccione las opciones correctas (seleccione 3 opciones):</p>
+    <div class="parcial-fig"><pre class="salida">usuario@PC:~$ sudo df -hT
+S.ficheros     Tipo     Tamaño Usados  Disp Uso% Montado en
+udev           devtmpfs   7,7G      0  7,7G   0% /dev
+tmpfs          tmpfs      1,6G   2,1M  1,6G   1% /run
+/dev/sda2      ext4        49G    21G   26G  45% /
+tmpfs          tmpfs      7,8G    84M  7,7G   2% /dev/shm
+/dev/sda3      xfs         20G   9,8G   10G  49% /var
+/dev/sdb1      ext4       916G   550G  320G  64% /home
+/dev/loop0     squashfs    64M    64M     0 100% /snap/core20/1634
+/dev/loop1     squashfs    92M    92M     0 100% /snap/gtk-common-themes/1535
+/dev/sda1      vfat       511M   6,1M  505M   2% /boot/efi
+tmpfs          tmpfs      1,6G    28K  1,6G   1% /run/user/1000</pre></div>
+    <p class="p-fuente">Segundo parcial probable &middot; preg. 9</p>
+  </div>
+  <ul class="p-opciones">
+    <li data-correcta>El equipo tiene 2 dispositivos de almacenamiento</li>
+    <li>La partición / se encuentra en un dispositivo de almacenamiento de tecnología M2 (NVMe)</li>
+    <li data-correcta>La partición /var utiliza el filesystem XFS</li>
+    <li data-correcta>La partición /home se encuentra en un dispositivo distinto al de la partición /</li>
+    <li>El equipo tiene 4 dispositivos de almacenamiento: sda, sdb, loop0 y loop1</li>
+    <li>La partición / se encuentra un 64% utilizada</li>
+  </ul>
+  <div class="p-explicacion">
+    <p><strong>Correctas:</strong></p>
+    <ul><li>El equipo tiene 2 dispositivos de almacenamiento</li><li>La partición /var utiliza el filesystem XFS</li><li>La partición /home se encuentra en un dispositivo distinto al de la partición /</li></ul>
+
+        <h4>Por qué puede entrar</h4>
+        <p>Es la pregunta 11 de 2025 con otro esquema: acá sí hay <code>/var</code> y <code>/home</code> en particiones aparte, y no hay disco M2.</p>
+
+        <h4>Cómo se lee</h4>
+        <ul>
+          <li>Se descartan <code>udev</code>, <code>tmpfs</code> (en memoria) y <code>/dev/loop*</code> (snaps).</li>
+          <li>Quedan <code>/dev/sda1</code>, <code>sda2</code>, <code>sda3</code> (primer disco SATA/SCSI) y <code>/dev/sdb1</code> (segundo disco): <strong>2 discos</strong>.</li>
+        </ul>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Partición</th><th>Tipo</th><th>Montada en</th><th>Uso</th></tr>
+            <tr><td><code>/dev/sda1</code></td><td>vfat</td><td><code>/boot/efi</code> (partición EFI: el disco usa GPT y UEFI)</td><td>2 %</td></tr>
+            <tr><td><code>/dev/sda2</code></td><td>ext4</td><td><code>/</code></td><td>45 %</td></tr>
+            <tr><td><code>/dev/sda3</code></td><td>xfs</td><td><code>/var</code></td><td>49 %</td></tr>
+            <tr><td><code>/dev/sdb1</code></td><td>ext4</td><td><code>/home</code></td><td>64 %</td></tr>
+          </table>
+        </div>
+
+        <h4>Opción por opción</h4>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Opción</th><th>¿Va?</th><th>Por qué</th></tr>
+            <tr><td>2 dispositivos</td><td><strong>Sí</strong></td><td>sda y sdb.</td></tr>
+            <tr><td>/ en M2 (NVMe)</td><td><strong>No</strong></td><td>Un M2 se llamaría <code>/dev/nvme0n1pX</code>; <code>/</code> está en <code>sda2</code>.</td></tr>
+            <tr><td>/var en XFS</td><td><strong>Sí</strong></td><td><code>/dev/sda3 xfs &hellip; /var</code>.</td></tr>
+            <tr><td>/home en otro disco que /</td><td><strong>Sí</strong></td><td><code>/home</code> en sdb, <code>/</code> en sda.</td></tr>
+            <tr><td>4 dispositivos con los loop</td><td><strong>No</strong></td><td>Los loop son paquetes snap montados, no discos.</td></tr>
+            <tr><td>/ al 64 %</td><td><strong>No</strong></td><td><code>/</code> está al 45 %; 64 % es <code>/home</code>.</td></tr>
+          </table>
+        </div>
+  </div>
+</article>

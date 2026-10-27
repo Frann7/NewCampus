@@ -314,7 +314,8 @@ window.Apuntes.registrarIndice({
       "u7": "preguntas/pye-u7.js"
     },
     "so-practica": {
-      "parcial-2025": "preguntas/so-practica-parcial-2025.js"
+      "parcial-2025": "preguntas/so-practica-parcial-2025.js",
+      "parcial-probable": "preguntas/so-practica-parcial-probable.js"
     }
   },
   "materias": [

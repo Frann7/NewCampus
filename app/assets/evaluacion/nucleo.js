@@ -191,8 +191,15 @@ window.NC.eval = window.NC.eval || {};
     });
   };
 
+  // Los temas que se eligen en la evaluacion simple: las unidades del menu o,
+  // si la materia no tiene, las carpetas de su banco.
+  E.temas = function (materia) {
+    var us = E.unidades(materia);
+    return us.length ? us : E.banco.carpetas(materia);
+  };
+
   E.numeroDeUnidad = function (materia, id) {
-    var u = E.unidades(materia).filter(function (x) { return x.id === id; })[0];
+    var u = E.temas(materia).filter(function (x) { return x.id === id; })[0];
     return u ? u.num : id;
   };
 

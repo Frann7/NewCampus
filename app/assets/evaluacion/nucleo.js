@@ -181,7 +181,7 @@ window.NC.eval = window.NC.eval || {};
   /* ---------- materia y unidades (se leen del menu lateral: una sola fuente) ---------- */
 
   E.unidades = function (materia) {
-    var botones = document.querySelectorAll('.materia[data-materia="' + materia + '"] .unidades button');
+    var botones = document.querySelectorAll('.materia[data-materia="' + materia + '"] .unidades button:not([data-evaluacion])');
     return Array.prototype.map.call(botones, function (b) {
       return {
         id: b.getAttribute("data-unidad"),

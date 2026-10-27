@@ -1,0 +1,54 @@
+<article class="preg" data-id="so-p2025-08" data-etapa="1" data-formato="multiple" data-origen="parcial">
+  <div class="p-enunciado">
+    <p><em>Seleccione una o más de una:</em></p>
+    <p>Utilizando la siguiente imagen seleccione las 3 opciones correcta.</p>
+    <div class="parcial-fig"><img src="img/so-practica/2025-segundo-parcial/htop.png" alt="Barras Mem y Swp de htop: 6.38G/31.2G y 0K/16.8G"></div>
+    <p class="p-fuente">Segundo parcial 2025 &middot; preg. 8</p>
+  </div>
+  <ul class="p-opciones">
+    <li>El equipo utilizó la memoria Swap</li>
+    <li>La memoria RAM tiene 6.38 GB ocupada, lo que es la suma de: used, shared y buffers.</li>
+    <li data-correcta>El color Naranja de la barra Mem representa la cache, el Violeta el shared y el Azul el buffers</li>
+    <li data-correcta>El equipo tiene 16.8GB de Memoria Swap</li>
+    <li data-correcta>El color Verde de la barra Mem representa la memoria used (utilizado) y en este momento tiene 6.38 GB</li>
+  </ul>
+  <div class="p-explicacion">
+    <p><strong>Correctas:</strong></p>
+    <ul><li>El color Naranja de la barra Mem representa la cache, el Violeta el shared y el Azul el buffers</li><li>El equipo tiene 16.8GB de Memoria Swap</li><li>El color Verde de la barra Mem representa la memoria used (utilizado) y en este momento tiene 6.38 GB</li></ul>
+
+        <h4>Qué evalúa</h4>
+        <p>Leer la barra de memoria de <code>htop</code>: qué es cada color y qué número es cada cosa. Es la misma captura de la clase 16 (diapositivas 8 y 10).</p>
+
+        <h4>Cómo se lee</h4>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Parte de la barra</th><th>Qué es</th></tr>
+            <tr><td>Verde</td><td><strong>used</strong>: la memoria usada por los procesos</td></tr>
+            <tr><td>Azul</td><td><strong>buffers</strong>: almacenamiento temporal de transferencias entre dispositivos</td></tr>
+            <tr><td>Violeta</td><td><strong>shared</strong>: memoria compartida entre procesos (y lo de <code>tmpfs</code>)</td></tr>
+            <tr><td>Naranja / amarillo</td><td><strong>cache</strong>: copias de archivos leídos, para servirlos más rápido</td></tr>
+            <tr><td><code>6.38G/31.2G</code> (Mem)</td><td>used / total: 6,38 GB usados de 31,2 GB</td></tr>
+            <tr><td><code>0K/16.8G</code> (Swp)</td><td>swap usada / swap total: 0 usados de 16,8 GB</td></tr>
+          </table>
+        </div>
+        <p>La leyenda de htop (F1) lo dice igual: <code>Memory bar: [used/buffers/shared/cache  used/total]</code>. Y el <code>free -hw</code> de la misma PC da <em>usado 6,4Gi</em>: el número de htop es solo el verde.</p>
+
+        <h4>Opción por opción</h4>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Opción</th><th>¿Va?</th><th>Por qué</th></tr>
+            <tr><td>Utilizó la swap</td><td><strong>No</strong></td><td><code>Swp 0K/16.8G</code>: usada 0. La barra Swp está vacía.</td></tr>
+            <tr><td>6,38 GB = used + shared + buffers</td><td><strong>No</strong></td><td>6,38 GB es <strong>solo used</strong> (el verde). htop muestra used/total, sin sumar buffers ni shared.</td></tr>
+            <tr><td>Naranja cache, violeta shared, azul buffers</td><td><strong>Sí</strong></td><td>Es la leyenda de la barra Mem.</td></tr>
+            <tr><td>Tiene 16,8 GB de swap</td><td><strong>Sí</strong></td><td>El total de la barra Swp.</td></tr>
+            <tr><td>Verde = used, 6,38 GB</td><td><strong>Sí</strong></td><td>Verde es used, y el número de la derecha es used/total.</td></tr>
+          </table>
+        </div>
+
+        <h4>Trampas</h4>
+        <ul>
+          <li>El número de la derecha <strong>no</strong> es todo lo pintado: la caché ocupa mucho de la barra pero no cuenta como "usada" (se libera si hace falta).</li>
+          <li>En Swp, el primer número es lo usado y el segundo el total.</li>
+        </ul>
+  </div>
+</article>

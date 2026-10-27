@@ -1,0 +1,59 @@
+<article class="preg" data-id="so-p2025-10" data-etapa="1" data-formato="multiple" data-origen="parcial">
+  <div class="p-enunciado">
+    <p><em>Seleccione una o más de una:</em></p>
+    <p>Seleccione las opciones correctas utilizando la siguiente imagen:</p>
+    <div class="parcial-fig"><img src="img/so-practica/2025-segundo-parcial/lscpu.png" alt="Salida de lscpu: Intel Core i5-10400F, 12 CPU, 2 hilos por núcleo, 6 núcleos por socket, L1d 192 KiB, L1i 192 KiB, L2 1,5 MiB, L3 12 MiB"></div>
+    <p class="p-fuente">Segundo parcial 2025 &middot; preg. 10</p>
+  </div>
+  <ul class="p-opciones">
+    <li>El CPU tiene 12 núcleos y 24 hilos</li>
+    <li>El CPU es AMD</li>
+    <li data-correcta>La memoria cache L3 es 12Mib</li>
+    <li>La memoria cache L1 es 1Mib total</li>
+    <li>La memoria cache L2 es de 500Kib</li>
+    <li data-correcta>La memoria cache L1d es de 32Kib por núcleo</li>
+    <li data-correcta>El CPU tiene 6 núcleos y 12 hilos</li>
+  </ul>
+  <div class="p-explicacion">
+    <p><strong>Correctas:</strong></p>
+    <ul><li>La memoria cache L3 es 12Mib</li><li>La memoria cache L1d es de 32Kib por núcleo</li><li>El CPU tiene 6 núcleos y 12 hilos</li></ul>
+
+        <h4>Qué evalúa</h4>
+        <p>Leer <code>lscpu</code>: núcleos, hilos, fabricante y caché L1, L2 y L3. Es la PC del profe (clase 16, diapositiva 7, y la tabla de la diapositiva 18).</p>
+
+        <h4>Las cuentas</h4>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Renglón</th><th>Valor</th><th>Qué se saca</th></tr>
+            <tr><td>Núcleo(s) por «socket» &times; «Socket(s)»</td><td>6 &times; 1</td><td><strong>6 núcleos</strong> físicos</td></tr>
+            <tr><td>Hilo(s) de procesamiento por núcleo</td><td>2</td><td>6 &times; 2 = <strong>12 hilos</strong> (es el <code>CPU(s): 12</code>)</td></tr>
+            <tr><td>ID de fabricante / Nombre del modelo</td><td>GenuineIntel / i5-10400F</td><td>Es <strong>Intel</strong></td></tr>
+            <tr><td>Caché L1d</td><td>192 KiB</td><td>192 / 6 = <strong>32 KiB por núcleo</strong> (datos)</td></tr>
+            <tr><td>Caché L1i</td><td>192 KiB</td><td>32 KiB por núcleo (instrucciones). L1 total = 192 + 192 = 384 KiB</td></tr>
+            <tr><td>Caché L2</td><td>1,5 MiB</td><td>1,5 MiB / 6 = 256 KiB por núcleo</td></tr>
+            <tr><td>Caché L3</td><td>12 MiB</td><td><strong>Compartida</strong> por todos los núcleos</td></tr>
+          </table>
+        </div>
+        <p>Como dice la clase: <strong>L1 y L2 son por núcleo</strong> (lo que muestra <code>lscpu</code> es la suma de todos), <strong>L3 es compartida</strong>.</p>
+
+        <h4>Opción por opción</h4>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Opción</th><th>¿Va?</th><th>Por qué</th></tr>
+            <tr><td>12 núcleos y 24 hilos</td><td><strong>No</strong></td><td>Confunde CPU(s) = 12 (hilos) con núcleos. Son 6 núcleos.</td></tr>
+            <tr><td>Es AMD</td><td><strong>No</strong></td><td>GenuineIntel, Intel Core i5.</td></tr>
+            <tr><td>L3 de 12 MiB</td><td><strong>Sí</strong></td><td>Renglón Caché L3.</td></tr>
+            <tr><td>L1 de 1 MiB total</td><td><strong>No</strong></td><td>L1 total = 192 + 192 = 384 KiB.</td></tr>
+            <tr><td>L2 de 500 KiB</td><td><strong>No</strong></td><td>L2 total 1,5 MiB; por núcleo 256 KiB. Ninguno da 500.</td></tr>
+            <tr><td>L1d de 32 KiB por núcleo</td><td><strong>Sí</strong></td><td>192 KiB / 6 núcleos.</td></tr>
+            <tr><td>6 núcleos y 12 hilos</td><td><strong>Sí</strong></td><td>6 por socket, 1 socket, 2 hilos por núcleo.</td></tr>
+          </table>
+        </div>
+
+        <h4>Trampas</h4>
+        <ul>
+          <li><code>CPU(s)</code> cuenta <strong>hilos</strong> (CPU lógicas), no núcleos.</li>
+          <li>Los valores de L1 y L2 que muestra <code>lscpu</code> son el total de todos los núcleos: para "por núcleo" se divide.</li>
+        </ul>
+  </div>
+</article>

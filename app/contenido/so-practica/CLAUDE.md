@@ -15,6 +15,11 @@ Las reglas generales están en `docs/contenido.md` (raíz del repo); acá va sol
   - `2025-segundo-parcial`: `Parcial SO Practica 2.pdf` (cuestionario en blanco).
   - `2026-segundo-parcial-probable`: inventado, misma forma que el 2025, **sin repetir ninguna
     pregunta** del 2025 ni del primer parcial. Si aparece otro parcial real, revisar que no se pise.
+- **Autoevaluación** (`evaluacion/preguntas/parcial-2025/`, ids `so-p2025-NN`): las 20 del segundo
+  parcial 2025 en formato cuestionario (`data-etapa="1"`; emparejar = `completar` con desplegables).
+  Las armó un script desde el parcial (no quedó en el repo): si se corrige una pregunta del parcial,
+  corregirla también acá. Las opciones se mezclan al sortear, así que la explicación nombra cada
+  opción por su texto, nunca por la letra.
 - **Imágenes** en `app/img/so-practica/<parcial>/`, recortadas de las capturas sin las respuestas
   marcadas por Fran. En `cat.png` el hash de la contraseña del profe está difuminado (repo público).
   Los dibujos del probable (RAID y htop) son SVG en línea; los generó un script que no quedó en el

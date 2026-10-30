@@ -1,0 +1,62 @@
+<!-- ==================== 14 · GIT: RAMAS Y MERGE ==================== -->
+<section class="parcial-ej">
+  <div class="parcial-ej-cab">
+    <h2>14. Git: ramas y merge</h2>
+    <span class="parcial-tema">Unidad 6 &middot; Git</span>
+  </div>
+
+  <p>
+    Un desarrollador está en la rama principal, <code>main</code>, y tiene que programar el inicio
+    de sesión en una rama nueva, <code>login</code>. Represente gráficamente la rama y su
+    integración, e indique los comandos para crearla, confirmar en ella todos los cambios del
+    directorio de trabajo, integrarla en <code>main</code> y dejar <code>main</code> actualizada en
+    el remoto.
+  </p>
+
+  <div class="parcial-extras">
+    <details class="parcial-desp pd-resultados">
+      <summary>
+        <span class="pd-icono">&#10003;</span>
+        <span class="pd-txt"><b>Respuesta</b><small>Para aprender y escribir en la hoja</small></span>
+      </summary>
+      <div class="pd-cuerpo">
+        <div class="pd-grafico esq" data-g="git-ramas">
+    <svg viewBox="0 0 600 160" width="600" height="160" role="img" aria-label="Una rama que sale de main, suma dos commits y vuelve con un merge"><defs><marker id="pta-git-ramas" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M1 1L9 5L1 9z" class="punta"/></marker></defs><line class="flecha" x1="104.0" y1="40.0" x2="173.0" y2="40.0" marker-end="url(#pta-git-ramas)"/><line class="flecha" x1="204.0" y1="40.0" x2="323.0" y2="40.0" marker-end="url(#pta-git-ramas)"/><line class="flecha" x1="354.0" y1="40.0" x2="463.0" y2="40.0" marker-end="url(#pta-git-ramas)"/><line class="flecha rama" x1="199.3" y1="50.5" x2="258.7" y2="117.3" marker-end="url(#pta-git-ramas)"/><line class="flecha rama" x1="284.0" y1="130.0" x2="363.0" y2="130.0" marker-end="url(#pta-git-ramas)"/><line class="flecha rama" x1="390.4" y1="120.6" x2="467.4" y2="51.4" marker-end="url(#pta-git-ramas)"/><circle class="commit" cx="90" cy="40" r="14"/><text class="cid" x="90" y="44">C1</text><circle class="commit" cx="190" cy="40" r="14"/><text class="cid" x="190" y="44">C2</text><circle class="commit" cx="340" cy="40" r="14"/><text class="cid" x="340" y="44">C3</text><circle class="commit rama" cx="270" cy="130" r="14"/><text class="cid" x="270" y="134">F1</text><circle class="commit rama" cx="380" cy="130" r="14"/><text class="cid" x="380" y="134">F2</text><circle class="commit merge" cx="480" cy="40" r="14"/><text class="cid" x="480" y="44">M</text><text class="rama-n izq" x="20" y="45">main</text><text class="rama-n der" x="250" y="135">funcion</text><text class="cmd" x="125" y="100">git checkout -b funcion</text><text class="cmd izq" x="445" y="100">git merge funcion</text></svg>
+  </div>
+        <p class="pd-pie">En el dibujo la rama se llama <code>funcion</code>; acá sería <code>login</code>.</p>
+        <ol>
+          <li>Crear la rama y pasarse a ella: <code>git checkout -b login</code></li>
+          <li>Preparar todos los cambios: <code>git add .</code></li>
+          <li>Confirmarlos: <code>git commit -m "Agrega el inicio de sesión"</code></li>
+          <li>Volver a la principal: <code>git checkout main</code></li>
+          <li>Integrar la rama: <code>git merge login</code></li>
+          <li>Subir <code>main</code> al remoto: <code>git push origin main</code></li>
+        </ol>
+      </div>
+    </details>
+
+    <details class="parcial-desp pd-explicacion">
+      <summary>
+        <span class="pd-icono">&#9998;</span>
+        <span class="pd-txt"><b>Explicación desde cero</b><small>Parte por parte</small></span>
+      </summary>
+      <div class="pd-cuerpo">
+        <h4>Qué es cada cosa</h4>
+        <ul>
+          <li><strong>Rama:</strong> una versión paralela del proyecto, para trabajar sin afectar la principal.</li>
+          <li><strong>Merge:</strong> combinar los cambios de una rama en otra. Se hace <strong>parado en la rama que recibe</strong>: por eso primero <code>git checkout main</code>.</li>
+          <li><strong>Pull request:</strong> el pedido, en GitHub, para que revisen e integren una rama; no es un comando.</li>
+        </ul>
+        <h4>Si aparece un conflicto</h4>
+        <p>
+          Pasa cuando las dos ramas cambiaron las mismas líneas: Git marca el archivo con
+          <code>&lt;&lt;&lt;&lt;&lt;&lt;&lt;</code>, <code>=======</code> y
+          <code>&gt;&gt;&gt;&gt;&gt;&gt;&gt;</code>. Se edita dejando la versión correcta, se borra
+          lo marcado y se cierra con <code>git add</code> y <code>git commit</code>.
+        </p>
+        <h4>Trampa</h4>
+        <p>El orden importa: si se hace <code>git merge login</code> estando en <code>login</code>, no pasa nada en <code>main</code>.</p>
+      </div>
+    </details>
+  </div>
+</section>

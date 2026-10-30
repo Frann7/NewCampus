@@ -1,0 +1,204 @@
+<!-- ==================== 15 · PATRONES: RECONOCERLO EN UN CÓDIGO ==================== -->
+<section class="parcial-ej">
+  <div class="parcial-ej-cab">
+    <h2>15. Patrones: reconocerlo en un código</h2>
+    <span class="parcial-tema">Unidad 4B &middot; Facade en un código</span>
+  </div>
+
+  <p>
+    Dado el siguiente código identificar cual es el patrón que se está implementando, mencionar
+    cuales fueron los elementos que te ayudaron a identificar el mismo y armar el diagrama en UML
+    del mismo.
+  </p>
+  <pre class="codigo"><code>#include &lt;iostream&gt;
+#include &lt;string&gt;
+class Sala {
+public:
+    bool HayLugar(const std::string&amp; asiento) const {
+        std::cout &lt;&lt; "Sala: el asiento " &lt;&lt; asiento &lt;&lt; " esta libre\n";
+        return true;   }
+    void Reservar(const std::string&amp; asiento) {
+        std::cout &lt;&lt; "Sala: asiento " &lt;&lt; asiento &lt;&lt; " reservado\n";   }};
+
+class Boleteria {
+public:
+    void Cobrar(double monto) {
+        std::cout &lt;&lt; "Boleteria: se cobraron $" &lt;&lt; monto &lt;&lt; "\n";   }};
+
+class Impresora {
+public:
+    void Imprimir(const std::string&amp; pelicula,
+                  const std::string&amp; asiento) {
+        std::cout &lt;&lt; "Impresora: entrada de " &lt;&lt; pelicula
+                  &lt;&lt; ", asiento " &lt;&lt; asiento &lt;&lt; "\n";   }};
+
+class Cine {
+private:
+    Sala* sala_;
+    Boleteria* boleteria_;
+    Impresora* impresora_;
+public:
+    Cine() {
+        sala_ = new Sala();
+        boleteria_ = new Boleteria();
+        impresora_ = new Impresora();   }
+    ~Cine() {
+        delete sala_;
+        delete boleteria_;
+        delete impresora_;   }
+    void ComprarEntrada(const std::string&amp; pelicula,
+                        const std::string&amp; asiento) {
+        std::cout &lt;&lt; "Comprando entrada...\n";
+        if (sala_-&gt;HayLugar(asiento)) {
+            sala_-&gt;Reservar(asiento);
+            boleteria_-&gt;Cobrar(4500);
+            impresora_-&gt;Imprimir(pelicula, asiento);   }   }};
+
+int main() {
+    Cine* cine = new Cine();
+    cine-&gt;ComprarEntrada("Toy Story 5", "F7");
+    delete cine;
+    return 0;
+}</code></pre>
+
+  <div class="parcial-extras">
+    <details class="parcial-desp pd-resultados">
+      <summary>
+        <span class="pd-icono">&#10003;</span>
+        <span class="pd-txt"><b>Respuesta</b><small>Para aprender y escribir en la hoja</small></span>
+      </summary>
+      <div class="pd-cuerpo">
+        <ol>
+          <li><strong>Qué patrón y por qué:</strong> "Es Facade, un patrón estructural que se usa cuando para hacer una tarea hay que coordinar varias clases de un subsistema. Acá comprar una entrada obliga a usar tres clases en orden: ver si hay lugar y reservar (<code>Sala</code>), cobrar (<code>Boleteria</code>) e imprimir (<code>Impresora</code>)."</li>
+          <li>
+            <strong>Los elementos que ayudaron a identificarlo:</strong>
+            <ul>
+              <li><strong>Ninguna clase hereda de otra:</strong> no hay interfaz común, así que no puede ser Composite, Adapter, Observer ni Strategy.</li>
+              <li><code>Cine</code> <strong>guarda un objeto de cada una</strong> de las otras tres clases (<code>sala_</code>, <code>boleteria_</code>, <code>impresora_</code>), y las crea en su constructor.</li>
+              <li><code>Cine</code> tiene <strong>un solo método</strong>, <code>ComprarEntrada()</code>, que llama a las tres <strong>en el orden correcto</strong>.</li>
+              <li><code>main</code> hace <strong>una sola llamada</strong> y no conoce ni a <code>Sala</code>, ni a <code>Boleteria</code>, ni a <code>Impresora</code>.</li>
+            </ul>
+          </li>
+          <li><strong>Cómo está aplicado:</strong> "<code>Sala</code>, <code>Boleteria</code> e <code>Impresora</code> son el subsistema (las clases que ya existían y hacen el trabajo). <code>Cine</code> es la fachada (la que da una entrada simple): guarda un objeto de cada una y ofrece <code>ComprarEntrada()</code>, que por dentro las llama en orden. <code>main</code> es el cliente."</li>
+          <li><strong>Qué se gana:</strong> "El cliente depende solo de la fachada: compra la entrada con una llamada y no necesita conocer el subsistema."</li>
+          <li>
+            <strong>El diagrama UML:</strong>
+            <div class="pd-grafico uml" data-g="facade-cine">
+              <svg viewBox="-14 6 832 264" width="832" height="264" role="img" aria-label="Facade del ejemplo del cine: Cine coordina Sala, Boleteria e Impresora">
+                <polyline class="linea" points="144,138 157,138 157,138 170,138"/>
+                <polyline class="linea" points="160,143 170,138 160,133"/>
+                <polyline class="linea" points="460,98 510,98 510,59 560,59"/>
+                <polyline class="linea" points="550,64 560,59 550,54"/>
+                <polyline class="linea" points="460,147.5 510,147.5 510,147.5 560,147.5"/>
+                <polyline class="linea" points="550,152.5 560,147.5 550,142.5"/>
+                <polyline class="linea" points="460,178 510,178 510,226.5 560,226.5"/>
+                <polyline class="linea" points="550,231.5 560,226.5 550,221.5"/>
+                <g class="clase k-comun">
+                <rect class="caja sola" x="0" y="123" width="144" height="30" rx="3"/>
+                <text class="nombre" x="72" y="143">main (cliente)</text>
+                </g>
+                <g class="clase k-comun destacada">
+                <rect class="caja" x="170" y="75" width="290" height="126" rx="3"/>
+                <rect class="cab" x="171" y="76" width="288" height="29" rx="2"/>
+                <text class="nombre" x="315" y="95">Cine</text>
+                <line class="div" x1="170" y1="105" x2="460" y2="105"/>
+                <text class="miembro" x="180" y="123"><tspan class="v-priv">-</tspan> sala_<tspan class="tp">: Sala</tspan></text>
+                <text class="miembro" x="180" y="142"><tspan class="v-priv">-</tspan> boleteria_<tspan class="tp">: Boleteria</tspan></text>
+                <text class="miembro" x="180" y="161"><tspan class="v-priv">-</tspan> impresora_<tspan class="tp">: Impresora</tspan></text>
+                <line class="div" x1="170" y1="172" x2="460" y2="172"/>
+                <text class="miembro" x="180" y="190"><tspan class="v-pub">+</tspan> ComprarEntrada(pelicula, asiento)</text>
+                </g>
+                <g class="clase k-comun">
+                <rect class="caja" x="560" y="20" width="214" height="78" rx="3"/>
+                <rect class="cab" x="561" y="21" width="212" height="29" rx="2"/>
+                <text class="nombre" x="667" y="40">Sala</text>
+                <line class="div" x1="560" y1="50" x2="774" y2="50"/>
+                <text class="miembro" x="570" y="68"><tspan class="v-pub">+</tspan> HayLugar(asiento)<tspan class="tp">: bool</tspan></text>
+                <text class="miembro" x="570" y="87"><tspan class="v-pub">+</tspan> Reservar(asiento)</text>
+                </g>
+                <g class="clase k-comun">
+                <rect class="caja" x="560" y="118" width="199" height="59" rx="3"/>
+                <rect class="cab" x="561" y="119" width="197" height="29" rx="2"/>
+                <text class="nombre" x="659.5" y="138">Boleteria</text>
+                <line class="div" x1="560" y1="148" x2="759" y2="148"/>
+                <text class="miembro" x="570" y="166"><tspan class="v-pub">+</tspan> Cobrar(monto<tspan class="tp">: double</tspan>)</text>
+                </g>
+                <g class="clase k-comun">
+                <rect class="caja" x="560" y="197" width="244" height="59" rx="3"/>
+                <rect class="cab" x="561" y="198" width="242" height="29" rx="2"/>
+                <text class="nombre" x="682" y="217">Impresora</text>
+                <line class="div" x1="560" y1="227" x2="804" y2="227"/>
+                <text class="miembro" x="570" y="245"><tspan class="v-pub">+</tspan> Imprimir(pelicula, asiento)</text>
+                </g>
+              </svg>
+            </div>
+          </li>
+        </ol>
+      </div>
+    </details>
+
+    <details class="parcial-desp pd-explicacion">
+      <summary>
+        <span class="pd-icono">&#9998;</span>
+        <span class="pd-txt"><b>Explicación desde cero</b><small>Parte por parte</small></span>
+      </summary>
+      <div class="pd-cuerpo">
+        <h4>Cómo se responde esta consigna</h4>
+        <p>
+          Es la Práctica 1 del parcial 2026 con otro patrón. Tiene tres pedidos y la respuesta
+          los cubre en orden: <strong>qué patrón</strong> (con su definición), <strong>qué
+          elementos lo delatan</strong> (cosas que se ven en el código: herencias, atributos,
+          métodos, quién llama a quién) y <strong>el UML</strong>. Se cierra con cómo está aplicado
+          y qué se gana.
+        </p>
+
+        <span class="paso">Paso 1 &mdash; Listar las clases</span>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Clase</th><th>¿Hereda?</th><th>Qué tiene</th></tr>
+            <tr><td><code>Sala</code></td><td>No</td><td><code>HayLugar()</code>, <code>Reservar()</code></td></tr>
+            <tr><td><code>Boleteria</code></td><td>No</td><td><code>Cobrar()</code></td></tr>
+            <tr><td><code>Impresora</code></td><td>No</td><td><code>Imprimir()</code></td></tr>
+            <tr><td><code>Cine</code></td><td>No</td><td>Un puntero a cada una de las otras tres, creados en el constructor y borrados en el destructor; un solo método, <code>ComprarEntrada()</code></td></tr>
+          </table>
+        </div>
+
+        <span class="paso">Paso 2 &mdash; Las cuatro preguntas para reconocer un código</span>
+        <ol>
+          <li><strong>¿Hay algo <code>static</code> y un constructor que no es público?</strong> No: no es Singleton.</li>
+          <li><strong>¿Alguna clase hereda de otra?</strong> <strong>Ninguna</strong> &rarr; <strong>Facade</strong>.</li>
+        </ol>
+        <p>
+          Se confirma con el resto: una clase que guarda a varias clases sueltas y distintas, y un
+          método que las coordina. Si hubiera herencia, se seguiría con las otras dos preguntas
+          (¿hay métodos que devuelven un <code>new</code>?, ¿qué guarda la clase que guarda a
+          otras?).
+        </p>
+
+        <span class="paso">Paso 3 &mdash; Pasarlo a UML</span>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>En el código</th><th>En el diagrama</th></tr>
+            <tr><td><code>Sala* sala_;</code> (y los otros dos) en <code>Cine</code></td><td>El atributo <code>- sala_: Sala</code> y una flecha de <code>Cine</code> a <code>Sala</code>; lo mismo con las otras dos</td></tr>
+            <tr><td><code>Cine</code> como la clase principal</td><td>En el medio, entre el cliente y el subsistema</td></tr>
+            <tr><td><code>main</code> crea un <code>Cine</code> y lo usa</td><td>El cliente, con una flecha hacia <code>Cine</code></td></tr>
+            <tr><td>Ninguna herencia</td><td>Ningún triángulo</td></tr>
+          </table>
+        </div>
+
+        <span class="paso">Paso 4 &mdash; Lo que muestra el programa</span>
+        <pre class="salida">Comprando entrada...
+Sala: el asiento F7 esta libre
+Sala: asiento F7 reservado
+Boleteria: se cobraron $4500
+Impresora: entrada de Toy Story 5, asiento F7</pre>
+
+        <h4>Trampas</h4>
+        <ul>
+          <li><strong>No es Adapter:</strong> el adaptador hereda de la interfaz que usa el cliente y guarda <em>una</em> clase; la fachada no hereda de nadie y guarda <em>varias</em>.</li>
+          <li><strong>"Los elementos" son cosas del código,</strong> no la definición del patrón: herencias, atributos, métodos y quién llama a quién.</li>
+        </ul>
+      </div>
+    </details>
+  </div>
+</section>

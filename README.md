@@ -101,8 +101,9 @@ fórmulas (MathJax) y las tipografías. Tus datos no salen de tu máquina.
   ese parcial entero como en el Aula Virtual (las 20 preguntas en orden, con cuenta regresiva de
   40 minutos que se puede cambiar, nota sobre 100 y la revisión explicada). Sin etapas, modos ni
   elección de clases.
-* **Evaluación de Ingeniería de Software II**: las **preguntas fundamentales de teoría** (14
-  preguntas de CMMI, Git, métricas, agentes de IA y calidad, de la más probable a la menos, cada una con la
+* **Evaluación de Ingeniería de Software II**: las **preguntas fundamentales de teoría** (15
+  preguntas con la forma del parcial 2026: definir, cuadro comparativo y representar gráficamente,
+  de CMMI, mejora de procesos, calidad, métricas y Git, más Facade en un código; cada una con la
   respuesta corta para aprender y la explicación desde cero), **9 casos cortos de CMMI** (cinco
   empresas para identificar el nivel, una por nivel, y cuatro para decir cómo subir al siguiente),
   los parciales 2024, 2025 y 2026 resueltos y
@@ -262,6 +263,14 @@ Chrome (`chrome --headless --print-to-pdf`).
 `0.x.y-alpha` mientras esté en desarrollo. La `1.0.0` queda reservada para cuando esté terminado.
 La versión actual se lee al pie del menú lateral.
 
+* **0.58.0-alpha** — Ingeniería de Software II: las **preguntas fundamentales de teoría**, rehechas
+  para el recuperatorio. Quince, con la forma de las del parcial 2026 (definir, cuadro comparativo,
+  representar gráficamente): CMMI (los cinco niveles y un caso para identificar el nivel y
+  llevarlo al siguiente, explicado desde las definiciones), PI, BPI y SPI, los elementos de un
+  proceso, proyecto de mejora contra proyecto de software, calidad, métricas (elementos, ciclo de
+  vida, tipos y complejidad ciclomática), gestión de cambios, SVN y Git, los tres estados, ramas y
+  merge, y al final Facade en un código resuelto como la Práctica 1 de 2026. Salen las preguntas
+  sueltas de agentes de IA y de versionado semántico.
 * **0.57.0-alpha** — SO Práctica: la autoevaluación suma las 20 preguntas del **segundo parcial
   probable**, y en el formulario se elige con qué parcial practicar (o los dos). En una materia
   sin unidades, los temas para elegir son las carpetas de su banco, con el nombre del parcial.

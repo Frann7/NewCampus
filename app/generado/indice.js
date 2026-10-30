@@ -137,8 +137,8 @@ window.Apuntes.registrarIndice({
         "archivo": "examenes/ing2-2026-preguntas-fundamentales.js",
         "titulo": "Preguntas fundamentales de teor\u00eda",
         "fecha": "Para el 2do parcial y el recuperatorio",
-        "detalle": "14 preguntas con la respuesta para aprender y la explicaci\u00f3n desde cero, de la m\u00e1s b\u00e1sica a la m\u00e1s espec\u00edfica",
-        "temas": "CMMI \u00b7 Git \u00b7 M\u00e9tricas \u00b7 Agentes de IA \u00b7 Calidad \u00b7 Control de versiones \u00b7 Versionado sem\u00e1ntico",
+        "detalle": "15 preguntas con la forma del parcial 2026 (definir, cuadro comparativo, representar gr\u00e1ficamente) y un patr\u00f3n en un c\u00f3digo, con la respuesta y la explicaci\u00f3n desde cero",
+        "temas": "CMMI \u00b7 Mejora de procesos \u00b7 Calidad \u00b7 M\u00e9tricas \u00b7 Gesti\u00f3n de cambios y Git \u00b7 Facade en un c\u00f3digo",
         "tipo": "parcial"
       },
       {

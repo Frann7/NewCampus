@@ -477,6 +477,25 @@ D["adapter-graficos"] = dict(
     ],
 )
 
+D["facade-cine"] = dict(
+    alt="Facade del ejemplo del cine: Cine coordina Sala, Boleteria e Impresora",
+    clases=[
+        dict(id="main", nombre="main (cliente)", x=0, y=123),
+        dict(id="Cine", x=170, y=75, destacada=True,
+             attrs=["- sala_: Sala", "- boleteria_: Boleteria", "- impresora_: Impresora"],
+             mets=["+ ComprarEntrada(pelicula, asiento)"]),
+        dict(id="Sala", x=560, y=20, mets=["+ HayLugar(asiento): bool", "+ Reservar(asiento)"]),
+        dict(id="Boleteria", x=560, y=118, mets=["+ Cobrar(monto: double)"]),
+        dict(id="Impresora", x=560, y=197, mets=["+ Imprimir(pelicula, asiento)"]),
+    ],
+    rel=[
+        ("main", "Cine", "asociacion"),
+        ("Cine", "Sala", "asociacion", dict(sal="der", lle="izq", d1=-40, medio=0.5)),
+        ("Cine", "Boleteria", "asociacion", dict(sal="der", lle="izq")),
+        ("Cine", "Impresora", "asociacion", dict(sal="der", lle="izq", d1=40, medio=0.5)),
+    ],
+)
+
 D["composite-graficos"] = dict(
     alt="Composite del código del parcial 2026: Graphic, Dot, Circle, CompoundGraphic e ImageEditor",
     clases=[

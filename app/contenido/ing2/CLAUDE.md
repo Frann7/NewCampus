@@ -132,18 +132,22 @@ etiquetas; en SVN y Git, celeste el repositorio y verde la copia de trabajo.
   frase del enunciado, cada parte del patrón explicada y todo dicho con el caso. Cuando la
   consigna pide "el propósito dentro del sistema", se dice para qué le sirve a esa empresa.
 - **Preguntas fundamentales de teoría** en `evaluacion/parciales/2026-preguntas-fundamentales/`:
-  no es un parcial, pero va como una tarjeta más de Parciales (la primera, por el nombre de la
-  carpeta). Catorce preguntas de las unidades 5 y 6, **ordenadas para leerlas de corrido arrancando de cero**:
-  por tema (CMMI, Git, métricas, el resto) y, dentro de cada tema, primero la que explica la base
-  y después las que la usan (los cinco niveles antes que diagnosticar). El número del archivo es
-  el orden; lo que el parcial 2025 tomó tal cual va al final. **Un solo nombre para cada cosa**
-  en todas las explicaciones (los niveles se llaman siempre Inicial, Gestionado, Definido,
-  Cuantitativamente gestionado y En optimización continua; nada de reglas con otras palabras):
-  Fran se perdió cuando una explicación los nombró distinto que la anterior (13/10/2026), con
-  otros casos que los de los parciales. Cada una lleva `pd-resultados` con el rótulo "Respuesta"
-  (corta, de 4 a 8 renglones, para memorizar y escribir, pero **completa**: responde cada parte de la consigna, en su orden) y `pd-explicacion` con "Explicación
-  desde cero" (rápida, sin dar nada por sabido, con las trampas al final). Todo sale de la teoría
-  de la unidad: si el apunte cambia, se revisan.
+  no es un parcial, pero va como una tarjeta más de Parciales. Rehecha el 29/10/2026 a pedido de
+  Fran, para el recuperatorio: **toda la teoría en preguntas con la forma de las del parcial 2026**
+  (definir, cuadro comparativo, representar gráficamente). Quince, por tema y de lo básico a lo
+  específico: CMMI (los cinco niveles con el ejemplo del apunte, y un caso de nivel 2 para
+  identificar y llevar al siguiente, explicado desde las definiciones), mejora de procesos (PI,
+  BPI y SPI; los tres elementos; proyecto de mejora contra proyecto de software), calidad, métricas
+  (definición y elementos con un ejemplo, ciclo de vida, tipos, complejidad ciclomática), gestión
+  de cambios y Git (los cuatro conceptos, SVN y Git, los tres estados, ramas y merge) y al final
+  Facade en un código, resuelto como la Práctica 1 de 2026. **Sin** agentes de IA ni versionado
+  semántico como preguntas sueltas (decisión de Fran). Todo cuadro o diagrama que esté en la teoría
+  va en la respuesta. **Un solo nombre para cada cosa** (los niveles se llaman siempre Inicial,
+  Gestionado, Definido, Cuantitativamente gestionado y En optimización continua). Cada una lleva
+  `pd-resultados` con el rótulo "Respuesta" (corta, pero completa: responde cada parte de la
+  consigna, en su orden) y `pd-explicacion` con "Explicación desde cero" (rápida, sin dar nada por
+  sabido, con las trampas al final). Todo sale de la teoría de la unidad: si el apunte cambia, se
+  revisan.
 - **CMMI: 9 casos cortos** en `evaluacion/parciales/2026-cmmi-casos/` (otra tarjeta de Parciales,
   pedida por Fran el 13/10/2026 para cubrir las dos formas de consigna): casos 1 a 5, una empresa
   en cada nivel para identificarlo, justificar y decir los riesgos; casos 6 a 9, uno por escalón
@@ -152,7 +156,7 @@ etiquetas; en SVN y Git, celeste el repositorio y verde la copia de trabajo.
   teoría de calidad; el riesgo del Nivel 5 (dejar de sostener la mejora) es deducción, el apunte no
   lo da. **El riesgo de no avanzar se escribe siempre igual**, en una oración: "Como no [lo que
   define al nivel siguiente], [qué le pasa por no tenerlo]" (pedido de Fran, 13/10/2026: le costaba
-  armarlo desde las definiciones). Las cuatro oraciones están en la pregunta fundamental 2.
+  armarlo desde las definiciones). Las cuatro oraciones están en "CMMI en una hoja" (sección 7 de calidad).
 - **Banco de autoevaluación** en `evaluacion/preguntas/<unidad>/` (una carpeta por unidad del
   menú, un archivo por pregunta, ids `ing2-u0-NN`, `ing2-u4a-NN`, `ing2-u4b-NN`, `ing2-u4c-NN`,
   `ing2-u5-NN`, `ing2-u6-NN`: el orden alfabético de los ids es el orden en que salen). Evaluación

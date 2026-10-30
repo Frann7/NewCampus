@@ -10,7 +10,7 @@ En cada fragmento de `app/contenido/ing2`, el contenido de
 - `ciclo-metrica`: el ciclo de vida de las métricas (SWEBOK), seis fases en un anillo.
 - `definir-procesos` y `elementos-proceso`: cómo se definen los procesos y sus tres elementos.
 - `cmmi-diagnostico`: el método de las cuatro preguntas para ubicar el nivel.
-- `grafo-par`: el grafo de control del ejemplo de complejidad ciclomática.
+- `grafo-par` y `grafo-tarifa`: grafos de control para la complejidad ciclomática.
 - `git-comandos` y `git-ramas`: adónde mueve cada comando, y una rama con su merge.
 - `vcs-svn` y `vcs-git`: dónde están el servidor, los repositorios y las copias de trabajo
   en un control de versiones centralizado (SVN) y en uno distribuido (Git).
@@ -219,6 +219,23 @@ def grafo_par():
     return svg(nombre, 560, 242, "Grafo de control de una función con un if: cuatro nodos y cuatro aristas", o)
 
 
+def grafo_tarifa():
+    nombre = "grafo-tarifa"
+    m = f'marker-end="url(#pta-{nombre})"'
+    nodos = [(200, 0, 170, "¿más de 20 kg?"), (20, 90, 150, "tarifa pesada"), (330, 90, 170, "¿más de 5 kg?"),
+             (230, 180, 140, "tarifa media"), (430, 180, 140, "tarifa común"), (180, 280, 180, "mostrar el precio")]
+    o = ""
+    for x, y, w, t in nodos:
+        o += f'<rect class="nodo" x="{x}" y="{y}" width="{w}" height="40" rx="20"/>' + texto(x + w / 2, y + 25, t, "en")
+    for x1, y1, x2, y2 in [(255, 42, 95, 86), (315, 42, 415, 86), (395, 132, 300, 176), (435, 132, 500, 176),
+                           (95, 132, 220, 276), (300, 222, 270, 276), (500, 222, 320, 276)]:
+        o += f'<line class="flecha" x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}" {m}/>'
+    o += texto(165, 60, "sí", "rot") + texto(375, 60, "no", "rot")
+    o += texto(330, 150, "sí", "rot") + texto(485, 150, "no", "rot")
+    o += texto(270, 345, "N = 6 nodos · E = 7 aristas", "centro")
+    return svg(nombre, 590, 352, "Grafo de control de la función de la tarifa: seis nodos y siete aristas", o)
+
+
 # ---------- Git: adónde mueve cada comando ----------
 
 LUGARES = [
@@ -284,6 +301,7 @@ D = {
     "elementos-proceso": elementos_proceso(),
     "cmmi-diagnostico": cmmi_diagnostico(),
     "grafo-par": grafo_par(),
+    "grafo-tarifa": grafo_tarifa(),
     "git-comandos": git_comandos(),
     "git-ramas": git_ramas(),
     "vcs-svn": vcs("vcs-svn", False),

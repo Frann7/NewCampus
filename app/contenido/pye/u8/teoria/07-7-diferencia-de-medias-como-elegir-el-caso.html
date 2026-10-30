@@ -1,0 +1,172 @@
+<div class="bloque">
+  <p class="kicker">Dos poblaciones</p>
+  <h2>7. Diferencia de medias: cómo elegir el caso</h2>
+
+  <h3>Cuándo se usa</h3>
+  <p>
+    Cuando hay <strong>dos grupos</strong> y se quiere comparar sus medias: dos servidores, dos
+    arquitecturas, dos regiones. Se piden "un intervalo para la diferencia de medias \(\mu_1 - \mu_2\)",
+    "¿hay diferencia significativa entre&hellip;?". Las muestras son <strong>independientes</strong>:
+    cada una sale de su población y lo que pasa en una no tiene que ver con la otra.
+  </p>
+
+  <h3>La forma del intervalo</h3>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Siempre lo mismo: diferencia de las medias muestrales \(\pm\) error</span>
+    <p>\[ (\bar{x}_1 - \bar{x}_2) - E &lt; \mu_1 - \mu_2 &lt; (\bar{x}_1 - \bar{x}_2) + E \]</p>
+    <p>Lo que cambia según el caso es <strong>cómo se calcula \(E\)</strong> (secciones 8, 9 y 10).</p>
+  </div>
+
+  <h4>Qué significa cada letra</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Símbolo</th><th>Qué es</th></tr>
+      <tr><td>\(\mu_1\), \(\mu_2\)</td><td>las medias de las dos poblaciones (desconocidas)</td></tr>
+      <tr><td>\(\bar{x}_1\), \(\bar{x}_2\)</td><td>las medias de las dos muestras</td></tr>
+      <tr><td>\(n_1\), \(n_2\)</td><td>los tamaños de las dos muestras (pueden ser distintos)</td></tr>
+      <tr><td>\(S_1^2\), \(S_2^2\)</td><td>las varianzas de las dos muestras (si dan el desvío, se eleva al cuadrado)</td></tr>
+      <tr><td>\(\sigma_1^2\), \(\sigma_2^2\)</td><td>las varianzas de las poblaciones, si se conocen</td></tr>
+    </table>
+  </div>
+
+  <h3>La idea de los tres casos, en palabras</h3>
+  <p>
+    La cuenta del error depende de <strong>cuánto sabemos</strong> de las dos poblaciones, igual que en la
+    sección 3 con un solo grupo:
+  </p>
+  <ul>
+    <li>Si conocemos los desvíos de las poblaciones, o tenemos <strong>muchos datos</strong> en los dos grupos: <strong>caso Z</strong>, con la tabla \(Z\) de siempre.</li>
+    <li>Si hay <strong>pocos datos</strong>: se usa la \(t\) (la campana más ancha de la sección 3). Y acá hay dos variantes, según si los dos grupos tienen una <strong>dispersión parecida</strong> o no:
+      <ul>
+        <li>Parecida: se suponen iguales y se "juntan" las dos varianzas en una sola. En inglés, <em>pooled</em> ("juntado", como un pozo común). Es el <strong>caso pooled</strong>.</li>
+        <li>Muy distinta: cada varianza va por separado. Es el <strong>caso Welch</strong> (por el apellido de quien armó la fórmula).</li>
+      </ul>
+    </li>
+  </ul>
+  <p>
+    ¿Cuándo es "parecida"? La cátedra usa una regla práctica, la <strong>regla empírica</strong> ("empírica"
+    = sale de la experiencia, no de una demostración): si una varianza es <strong>más de 3 veces</strong>
+    la otra, se consideran distintas. "gl" abrevia <strong>grados de libertad</strong> (sección 3).
+  </p>
+
+  <h3>El diagrama de decisión de la cátedra</h3>
+  <p>Se recorre de arriba hacia abajo, contestando una pregunta por vez:</p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Pregunta</th><th>Si es que sí</th><th>Si es que no</th></tr>
+      <tr><td class="lbl">1. ¿Se conocen las varianzas de las poblaciones \(\sigma_1^2\) y \(\sigma_2^2\)?</td><td><span class="et ok">Caso Z con \(\sigma\)</span> (sección 8)</td><td>pasar a la 2</td></tr>
+      <tr><td class="lbl">2. ¿Las dos muestras son grandes (\(n_1 \geq 30\) y \(n_2 \geq 30\))?</td><td><span class="et ok">Caso Z con \(S_1^2\), \(S_2^2\)</span> (sección 8)</td><td>muestras chicas (alcanza con que una sea menor a 30), poblaciones normales: pasar a la 3</td></tr>
+      <tr><td class="lbl">3. ¿Las varianzas se pueden suponer iguales? \(\dfrac{S^2_{mayor}}{S^2_{menor}} \leq 3\)</td><td><span class="et dato">Pooled</span>, \(t\) con \(n_1 + n_2 - 2\) gl (sección 9)</td><td><span class="et ojo">Welch</span>, \(t\) con \(\nu\) aproximado (sección 10)</td></tr>
+    </table>
+  </div>
+
+  <h3>La regla empírica de las varianzas</h3>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Regla empírica (cátedra)</span>
+    <p>\[ \frac{S^2_{mayor}}{S^2_{menor}} \leq 3 \;\Rightarrow\; \text{varianzas supuestas iguales (pooled)} \qquad\qquad \frac{S^2_{mayor}}{S^2_{menor}} &gt; 3 \;\Rightarrow\; \text{no supuestas iguales (Welch)} \]</p>
+  </div>
+  <ul>
+    <li>Se divide la <strong>varianza más grande</strong> por la <strong>más chica</strong>, así el cociente siempre da 1 o más.</li>
+    <li>Son <strong>varianzas</strong>: si te dan desvíos, elevalos al cuadrado antes de dividir.</li>
+    <li>Si el enunciado ya dice "suponiendo varianzas iguales" (o "distintas"), se usa lo que dice y la regla queda solo como control.</li>
+  </ul>
+
+  <h3>Cómo se concluye: ¿el intervalo incluye el 0?</h3>
+  <p>
+    Si las dos medias fueran iguales, \(\mu_1 - \mu_2 = 0\). Entonces se mira el 0:
+  </p>
+  <p>
+    <strong>"Diferencia significativa"</strong> quiere decir una diferencia que <strong>no se explica por
+    el azar</strong> de haber sacado esas muestras. Dos cucharadas de la misma olla nunca dan exactamente
+    igual (sección 1); si las medias muestrales difieren un poco, puede ser solo eso. Si el intervalo deja
+    afuera al 0, la diferencia es demasiado grande para ser casualidad: las poblaciones son distintas de
+    verdad.
+  </p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>El intervalo para \(\mu_1 - \mu_2\)</th><th>Qué se concluye</th></tr>
+      <tr><td>incluye el 0 (un límite negativo y el otro positivo)</td><td><span class="et">No hay diferencia significativa</span> entre las medias: con esa confianza, podrían ser iguales.</td></tr>
+      <tr><td>todo positivo (no incluye el 0)</td><td><span class="et ok">Hay diferencia significativa</span> y \(\mu_1 &gt; \mu_2\).</td></tr>
+      <tr><td>todo negativo (no incluye el 0)</td><td><span class="et ok">Hay diferencia significativa</span> y \(\mu_1 &lt; \mu_2\) (la mayor es la 2).</td></tr>
+    </table>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Ojo con el orden de la resta</span>
+    <p>
+      Fijate qué pide el enunciado: \(\mu_1 - \mu_2\) o \(\mu_2 - \mu_1\), y quién es "1" y quién es "2".
+      Si restás al revés, el intervalo da con los signos cambiados y dados vuelta: \((a\ ;\ b)\) para
+      \(\mu_2 - \mu_1\) es \((-b\ ;\ -a)\) para \(\mu_1 - \mu_2\). La conclusión ("cuál es mayor") no
+      cambia, pero el intervalo escrito sí, y tiene que ser el que pidieron. (En el Ejemplo 4 de la
+      cátedra, sección 9, la resta está al revés.)
+    </p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; Elegir el caso en cuatro situaciones</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>¿Qué caso de diferencia de medias corresponde en cada situación?</p>
+    <ol type="a">
+      <li>Dos servidores: 40 y 50 cargas de una página, con desvíos muestrales de 45 y 38 ms.</li>
+      <li>Dos versiones de una app: el consumo de memoria tiene desvío <strong>conocido</strong> de 12 MB y 15 MB (por el historial); muestras de 36 y 49 ejecuciones.</li>
+      <li>Dos arquitecturas de bases de datos: 25 y 18 peticiones, varianzas muestrales 85 y 65 ms², tiempos normales.</li>
+      <li>Dos frameworks: 10 y 12 mediciones, desvíos muestrales 10 y 4 ms, tiempos normales.</li>
+    </ol>
+  </div>
+
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Situación</th><th>¿\(\sigma\) conocidas?</th><th>¿Las dos \(\geq 30\)?</th><th>Regla empírica</th><th>Caso</th></tr>
+      <tr><td>a)</td><td>no (desvíos muestrales)</td><td>sí (40 y 50)</td><td>no hace falta</td><td><span class="et ok">Z con \(S\)</span></td></tr>
+      <tr><td>b)</td><td>sí</td><td>no hace falta</td><td>no hace falta</td><td><span class="et ok">Z con \(\sigma\)</span></td></tr>
+      <tr><td>c)</td><td>no</td><td>no (25 y 18)</td><td>\(85 / 65 = 1{,}31 \leq 3\)</td><td><span class="et dato">Pooled</span></td></tr>
+      <tr><td>d)</td><td>no</td><td>no (10 y 12)</td><td>\(10^2 / 4^2 = 100 / 16 = 6{,}25 &gt; 3\)</td><td><span class="et ojo">Welch</span></td></tr>
+    </table>
+  </div>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>a) Z con \(S\). b) Z con \(\sigma\). c) Pooled (\(t\) con \(25 + 18 - 2 = 41\) gl). d) Welch. Las cuatro se resuelven enteras en las secciones 8, 9 y 10.</p>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">La trampa de la d)</span>
+    <p>
+      Si dividís los <strong>desvíos</strong> en vez de las varianzas: \(10 / 4 = 2{,}5 \leq 3\), y elegís
+      pooled, mal. La regla es con varianzas: \(100 / 16 = 6{,}25\). Lo mismo en el Ejemplo 5 de la
+      cátedra: \(10{,}56 / 4{,}27 = 2{,}47\), pero \(10{,}56^2 / 4{,}27^2 = 6{,}12 &gt; 3\) (Welch).
+    </p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; Leer la conclusión de un intervalo</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>
+      Se compara el tiempo medio de respuesta de dos servidores (1 y 2). Para cada intervalo del
+      95&nbsp;% para \(\mu_1 - \mu_2\) (en ms), escribí la conclusión: a) \((7{,}52\ ;\ 42{,}48)\);
+      b) \((-8{,}82\ ;\ 0{,}82)\); c) \((-123{,}92\ ;\ -114{,}20)\). d) Si el c) se hubiera calculado como
+      \(\mu_2 - \mu_1\), ¿cómo quedaría?
+    </p>
+  </div>
+
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Intervalo</th><th>¿Incluye el 0?</th><th>Signo</th><th>Qué significa</th></tr>
+      <tr><td>a) \((7{,}52\ ;\ 42{,}48)\)</td><td>no</td><td>todo positivo</td><td>\(\mu_1 - \mu_2 &gt; 0\): \(\mu_1 &gt; \mu_2\)</td></tr>
+      <tr><td>b) \((-8{,}82\ ;\ 0{,}82)\)</td><td>sí (\(-8{,}82 &lt; 0 &lt; 0{,}82\))</td><td>cambia de signo</td><td>la diferencia podría ser 0</td></tr>
+      <tr><td>c) \((-123{,}92\ ;\ -114{,}20)\)</td><td>no</td><td>todo negativo</td><td>\(\mu_1 - \mu_2 &lt; 0\): \(\mu_1 &lt; \mu_2\)</td></tr>
+    </table>
+  </div>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <ul>
+      <li>a) No incluye el 0 y es positivo: con un 95&nbsp;% de confianza hay diferencia significativa, y el servidor 1 tarda en promedio más que el 2, entre 7,52 y 42,48 ms más.</li>
+      <li>b) Incluye el 0: con un 95&nbsp;% de confianza no hay diferencia significativa entre los tiempos medios de los dos servidores.</li>
+      <li>c) No incluye el 0 y es negativo: hay diferencia significativa, y el servidor 2 tarda en promedio más que el 1, entre 114,20 y 123,92 ms más.</li>
+      <li>d) Para \(\mu_2 - \mu_1\) se cambian los signos y se da vuelta el orden: \((114{,}20\ ;\ 123{,}92)\). La conclusión es la misma (el 2 tarda más).</li>
+    </ul>
+  </div>
+</div>

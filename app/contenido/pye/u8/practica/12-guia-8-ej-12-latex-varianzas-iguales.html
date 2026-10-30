@@ -1,0 +1,165 @@
+<div class="ej">
+  <span class="tag">Guía 8 &middot; Ej. 12 &middot; IC para \(\mu_1 - \mu_2\), varianzas iguales (pooled)</span>
+  <h2>Tiempo de secado: látex Nogopaint contra Alba</h2>
+  <div class="enunciado">
+    <p>
+      Se considera usar dos marcas diferentes de pintura látex. El tiempo de secado, en horas, se mide
+      en 15 pequeñas muestras de uso de cada una de las dos pinturas. Los tiempos de secado obtenidos
+      son los siguientes:
+    </p>
+    <p>- Látex Alba: 3.5, 2.7, 3.9, 4.2, 3.6, 2.7, 3.3, 5.2, 4.2, 2.9, 4.4, 5.2, 4.0, 4.1, 3.4.</p>
+    <p>- Látex Nogopaint: 4.7, 3.9, 4.5, 5.5, 4.0, 5.3, 4.3, 6.0, 5.2, 3.7, 5.5, 6.2, 5.1, 5.4, 4.8.</p>
+    <p>
+      Suponga que los tiempos de secado en ambas marcas siguen distribuciones normales con variancias
+      iguales. Encuentre un intervalo del 95% de confianza para la diferencia de tiempos promedios de
+      secado entre Nogopaint y Alba. ¿Qué marca de látex brinda tiempo de secado más rápido?
+    </p>
+  </div>
+
+  <span class="paso">Qué se estima y en qué orden</span>
+  <p>
+    "La diferencia ... entre Nogopaint y Alba" fija el orden: <strong>población 1 = Nogopaint,
+    población 2 = Alba</strong>, y se estima \(\mu_1 - \mu_2 = \mu_N - \mu_A\). Conviene numerar
+    siempre en el orden en que lo pide el enunciado: así el signo del intervalo se lee directo.
+  </p>
+
+  <span class="paso">Qué caso es (el árbol de decisión)</span>
+  <ul>
+    <li>¿\(\sigma_1^2\) y \(\sigma_2^2\) conocidas? <strong>No</strong>: solo hay datos.</li>
+    <li>¿\(n_1\) y \(n_2\) \(\geq 30\)? <strong>No</strong>: 15 y 15. Muestras chicas &rarr; \(t\) (con poblaciones normales, que el enunciado asegura).</li>
+    <li>
+      ¿Varianzas iguales o distintas? Acá no hay que averiguarlo: el enunciado dice
+      <strong>"con variancias iguales"</strong>, y eso manda. (Igual, como control, la regla empírica
+      da \(0{,}6074/0{,}5683 = 1{,}07 \leq 3\): coincide.)
+    </li>
+  </ul>
+  <p>&rarr; <strong>\(t\) con varianza combinada</strong> (caso <strong>pooled</strong>, del inglés "juntado": se juntan las dos muestras para estimar una sola varianza), \(\nu = n_1 + n_2 - 2\).</p>
+  <p>
+    <strong>Por qué se combinan:</strong> si las dos poblaciones tienen la misma varianza, \(S_1^2\) y
+    \(S_2^2\) estiman el mismo número. En vez de usarlas por separado, se promedian (pesando cada una
+    por sus grados de libertad) en una sola estimación mejor, \(S_p^2\), hecha con los 30 datos.
+  </p>
+  <div class="caja caja-formula">
+    <span class="caja-tit">IC para \(\mu_1 - \mu_2\), muestras chicas y varianzas iguales</span>
+    <p>\[ (\bar{x}_1 - \bar{x}_2) \pm t_{(\alpha/2;\ n_1+n_2-2)}\; S_p\sqrt{\frac{1}{n_1} + \frac{1}{n_2}} \]</p>
+    <p>\[ S_p^2 = \frac{(n_1-1)S_1^2 + (n_2-1)S_2^2}{n_1+n_2-2} \]</p>
+  </div>
+
+  <span class="paso">Desarme del enunciado</span>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Traducción</th><th>Cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"diferencia ... entre Nogopaint y Alba"</td><td>el orden de la resta</td><td>&mdash;</td><td>1 = Nogopaint, 2 = Alba</td></tr>
+      <tr><td>los 15 datos de Nogopaint</td><td>muestra 1, chica</td><td>calculadora</td><td>\(n_1 = 15\), \(\bar{x}_1\), \(S_1\)</td></tr>
+      <tr><td>los 15 datos de Alba</td><td>muestra 2, chica</td><td>calculadora</td><td>\(n_2 = 15\), \(\bar{x}_2\), \(S_2\)</td></tr>
+      <tr><td>"distribuciones normales con variancias iguales"</td><td>requisito de la \(t\) y caso pooled</td><td>&mdash;</td><td>\(S_p\)</td></tr>
+      <tr><td>"95%"</td><td>afuera 5&nbsp;%, 2,5&nbsp;% por cola</td><td>\(\nu = 15 + 15 - 2 = 28\)</td><td>\(t_{(0{,}025;\ 28)}\)</td></tr>
+    </table>
+  </div>
+  <p>
+    <strong>Qué son \(\alpha\) y \(\alpha/2\), en criollo:</strong> el 95&nbsp;% de confianza es
+    qué tan seguido acierta el método: de cada 100 intervalos armados así, 95 atrapan la diferencia real.
+    \(\alpha = 1 - 0{,}95 = 0{,}05\) es lo contrario, la chance de que el intervalo <em>no</em>
+    acierte. Esa parte se reparte mitad en cada punta de la campana (valores demasiado altos y
+    demasiado bajos): \(\alpha/2 = 0{,}025\) de cada lado. El valor de tabla que se busca es el que deja
+    justo 0,025 afuera a la derecha.
+  </p>
+  <p>
+    <strong>Error estándar de la diferencia, en criollo:</strong> si se repitiera el muestreo con
+    otras unidades, \(\bar{x}_1 - \bar{x}_2\) daría otro número. El error estándar (la raíz de la
+    fórmula) mide cuánto se mueve esa diferencia de una muestra a otra por puro azar. El margen es
+    "cuántos errores estándar me alejo para cada lado".
+  </p>
+
+  <span class="paso">Paso 1 &mdash; Media y desvío de cada muestra</span>
+  <p>Fórmulas:</p>
+  <p>\[ \bar{x} = \frac{\sum x}{n} \qquad S = \sqrt{\frac{\sum (x - \bar{x})^{2}}{n - 1}} \]</p>
+  <ul>
+    <li>Nogopaint: \(\bar{x}_1 = \dfrac{74{,}1}{15} = 4{,}94\) h; \(S_1 = 0{,}7538\) h; \(S_1^2 = 0{,}5683\)</li>
+    <li>Alba: \(\bar{x}_2 = \dfrac{57{,}3}{15} = 3{,}82\) h; \(S_2 = 0{,}7794\) h; \(S_2^2 = 0{,}6074\)</li>
+  </ul>
+  <div class="caja caja-calc">
+    <span class="caja-tit">En la calculadora (una muestra por vez)</span>
+    <ul>
+      <li>
+        <strong>fx-82 / fx-95:</strong> <code>MODE</code> &rarr; <code>SD</code>; borrar con
+        <code>SHIFT</code> <code>MODE</code> <code>1</code> (Scl) <code>=</code>; cargar cada dato con
+        <code>M+</code>; leer con <code>SHIFT</code> <code>2</code> (S-VAR): \(\bar{x}\) y
+        \(x\sigma_{n-1}\).
+      </li>
+      <li>
+        <strong>fx-82 PLUS / fx-570:</strong> <code>MODE</code> &rarr; <code>STAT</code> &rarr;
+        <code>1-VAR</code>; cargar cada dato con <code>=</code>; <code>AC</code>, <code>SHIFT</code>
+        <code>STAT</code> &rarr; <code>VAR</code>: \(\bar{x}\) y \(sx\).
+      </li>
+    </ul>
+    <p>
+      Se cargan los 15 de Nogopaint, se anotan \(\bar{x}_1 = 4{,}94\) y \(S_1 = 0{,}753847\ldots\);
+      después se <strong>borra todo</strong> (Scl, o volver a entrar a <code>1-VAR</code>) y se cargan
+      los 15 de Alba: \(\bar{x}_2 = 3{,}82\) y \(S_2 = 0{,}779377\ldots\)
+    </p>
+    <p>
+      El desvío que va es \(sx\) (\(x\sigma_{n-1}\)), no \(\sigma x\) (\(x\sigma_n\)), que daría
+      0,7283 y 0,7529. Controlá que \(n\) diga 15 en cada carga.
+    </p>
+  </div>
+
+  <span class="paso">Paso 2 &mdash; La varianza combinada</span>
+  <p>Fórmula:</p>
+  <p>\[ S_p^2 = \frac{(n_1-1)S_1^2 + (n_2-1)S_2^2}{n_1+n_2-2} \]</p>
+  <p>\[ S_p^2 = \frac{14 \times 0{,}5683 + 14 \times 0{,}6074}{28} = \frac{7{,}956 + 8{,}504}{28} = \frac{16{,}460}{28} = 0{,}5879 \]</p>
+  <p>\[ S_p = \sqrt{0{,}5879} = 0{,}7667 \text{ h} \]</p>
+  <p>
+    Control: \(S_p\) tiene que quedar entre \(S_1\) y \(S_2\) (es un promedio): 0,7538 &lt; 0,7667 &lt;
+    0,7794. Cierra.
+  </p>
+
+  <p>
+    <strong>Grados de libertad, en criollo:</strong> la \(t\) no es una sola campana sino una
+    familia: con pocos datos es más ancha (hay más incertidumbre) y con muchos se parece a la normal.
+    Los grados de libertad \(\nu\) dicen cuál de esas campanas usar, o sea en qué <strong>fila</strong>
+    de la tabla entrar. En el caso pooled son todos los datos menos 2 (uno por cada media calculada):
+    \(\nu = 15 + 15 - 2 = 28\).
+  </p>
+  <span class="paso">Paso 3 &mdash; \(t\) de la tabla A.4</span>
+  <ul>
+    <li>fila \(\nu = n_1 + n_2 - 2 = 28\)</li>
+    <li>columna \(\alpha/2 = 0{,}025\)</li>
+  </ul>
+  <p>\[ t_{(0{,}025;\ 28)} = 2{,}048 \]</p>
+
+  <span class="paso">Paso 4 &mdash; Margen</span>
+  <p>Fórmula:</p>
+  <p>\[ E = t_{(\alpha/2;\ n_1+n_2-2)}\; S_p\sqrt{\frac{1}{n_1} + \frac{1}{n_2}} \]</p>
+  <ul>
+    <li>\(\sqrt{\dfrac{1}{15} + \dfrac{1}{15}} = \sqrt{0{,}1333} = 0{,}3651\)</li>
+    <li>\(S_p \times 0{,}3651 = 0{,}7667 \times 0{,}3651 = 0{,}2800\) h (error estándar de la diferencia)</li>
+  </ul>
+  <p>\[ E = 2{,}048 \times 0{,}2800 = 0{,}5734 \text{ h} \]</p>
+
+  <span class="paso">Paso 5 &mdash; Armar el intervalo</span>
+  <p>Fórmula:</p>
+  <p>\[ (\bar{x}_1 - \bar{x}_2) \pm t_{(\alpha/2;\ n_1+n_2-2)}\; S_p\sqrt{\frac{1}{n_1} + \frac{1}{n_2}} \]</p>
+  <p>\[ \bar{x}_1 - \bar{x}_2 = 4{,}94 - 3{,}82 = 1{,}12 \]</p>
+  <p>\[ 1{,}12 - 0{,}5734 &lt; \mu_N - \mu_A &lt; 1{,}12 + 0{,}5734 \]</p>
+  <p>\[ \mathbf{0{,}55 &lt; \mu_N - \mu_A &lt; 1{,}69} \]</p>
+
+  <span class="paso">Paso 6 &mdash; ¿Incluye el 0?</span>
+  <ul>
+    <li><strong>No</strong>: los dos extremos son positivos. Hay diferencia significativa entre los tiempos medios de secado.</li>
+    <li>
+      Positivo significa \(\mu_N &gt; \mu_A\): Nogopaint tarda <strong>más</strong> en secar (entre 0,55 y
+      1,69 horas más, en promedio). La que seca más rápido es <strong>Alba</strong>.
+    </li>
+  </ul>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>
+      \(IC_{95\%}(\mu_N - \mu_A) = (\,0{,}55\ ;\ 1{,}69\,)\) horas. El 0 no está en el intervalo y los
+      extremos son positivos: con 95&nbsp;% de confianza, Nogopaint tarda en promedio entre 0,55 y
+      1,69 h más en secar. El látex que brinda secado más rápido es <strong>Alba</strong>.
+    </p>
+    <p><strong>Resolución 2023 de la cátedra:</strong> \(0{,}55 &lt; \mu_1 - \mu_2 &lt; 1{,}69\), seca más rápido Alba. Coincide.</p>
+  </div>
+</div>

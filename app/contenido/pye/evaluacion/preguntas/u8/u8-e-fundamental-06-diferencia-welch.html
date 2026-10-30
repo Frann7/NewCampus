@@ -1,0 +1,296 @@
+<article class="preg" data-id="u8-e-fundamental-06-diferencia-welch" data-tipo="ejercicio" data-origen="parcial" data-fundamental="06">
+  <div class="p-enunciado">
+    <p>
+      Un equipo de DevOps compara el tiempo de despliegue (en minutos) de dos pipelines de
+      integración continua. <strong>Pipeline 1:</strong> en \(n_1 = 10\) despliegues el tiempo medio
+      fue \(\bar{x}_1 = 18{,}4\) min, con un desvío estándar muestral \(S_1 = 4{,}5\) min.
+      <strong>Pipeline 2:</strong> en \(n_2 = 12\) despliegues, \(\bar{x}_2 = 15{,}6\) min y
+      \(S_2 = 2{,}1\) min. Las muestras son independientes y los tiempos se distribuyen normalmente.
+      Se pide:
+    </p>
+    <p><strong>a)</strong> Con la regla empírica, decida si se pueden suponer iguales las varianzas poblacionales.</p>
+    <p><strong>b)</strong> Calcule los grados de libertad de la \(t\).</p>
+    <p><strong>c)</strong> Construya un intervalo de confianza del 95&nbsp;% para \(\mu_1 - \mu_2\).</p>
+    <p><strong>d)</strong> ¿Se puede afirmar que un pipeline es más lento que el otro?</p>
+    <p class="p-fuente">Fundamental · basado en el Ejemplo 5 de Estimación parte 2 de la cátedra (varianzas no supuestas iguales, Welch; entra en el 3er parcial)</p>
+  </div>
+  <div class="p-explicacion">
+    <p>Muestras chicas, normales, varianzas desconocidas; regla empírica &gt; 3 &rarr; Welch.</p>
+    <div class="tabla-wrap">
+      <table class="t full">
+        <tr><th>Inciso</th><th>Planteo</th><th>Resultado</th></tr>
+        <tr><td class="lbl">a) Regla empírica</td><td>\(\frac{4{,}5^{2}}{2{,}1^{2}} = \frac{20{,}25}{4{,}41} = 4{,}59 > 3\)</td><td>varianzas no supuestas iguales: <strong>Welch</strong></td></tr>
+        <tr><td class="lbl">b) Grados de libertad</td><td>\(\nu = \frac{(2{,}025 + 0{,}3675)^{2}}{\frac{2{,}025^{2}}{9} + \frac{0{,}3675^{2}}{11}} = 12{,}23\)</td><td>\(\nu = \mathbf{12}\)</td></tr>
+        <tr><td class="lbl">c) IC 95&nbsp;%</td><td>\(2{,}8 \pm 2{,}179 \cdot \sqrt{2{,}025 + 0{,}3675} = 2{,}8 \pm 3{,}37\)</td><td>\([\mathbf{-0{,}57}\ ;\ \mathbf{6{,}17}]\) min</td></tr>
+        <tr><td class="lbl">d) Conclusión</td><td>¿incluye el 0?</td><td>Sí: <strong>no</strong> hay diferencia significativa</td></tr>
+      </table>
+    </div>
+  </div>
+  <div class="p-rta" data-inciso="a"><p>\(S_1^{2} = 4{,}5^{2} = 20{,}25\) y \(S_2^{2} = 2{,}1^{2} = 4{,}41\). Regla empírica: \(\frac{20{,}25}{4{,}41} = 4{,}59 > 3\): las varianzas no se suponen iguales, se usa la \(t\) de Welch.</p></div>
+  <div class="p-rta" data-inciso="b"><p>\(\nu = \dfrac{\left(\frac{S_1^{2}}{n_1} + \frac{S_2^{2}}{n_2}\right)^{2}}{\frac{(S_1^{2}/n_1)^{2}}{n_1 - 1} + \frac{(S_2^{2}/n_2)^{2}}{n_2 - 1}} = \dfrac{(2{,}025 + 0{,}3675)^{2}}{\frac{2{,}025^{2}}{9} + \frac{0{,}3675^{2}}{11}} = \dfrac{5{,}7241}{0{,}4679} = 12{,}23 \approx 12\) grados de libertad.</p></div>
+  <div class="p-rta" data-inciso="c"><p>\(t_{(0{,}025;\ 12)} = 2{,}179\). \(IC_{95\%}(\mu_1 - \mu_2) = (18{,}4 - 15{,}6) \pm 2{,}179\sqrt{\frac{20{,}25}{10} + \frac{4{,}41}{12}} = 2{,}8 \pm 3{,}37 = [-0{,}57\ ;\ 6{,}17]\) min.</p></div>
+  <div class="p-rta" data-inciso="d"><p>El intervalo incluye el 0: con 95&nbsp;% de confianza no se puede afirmar que haya diferencia significativa entre los tiempos medios de despliegue de los dos pipelines, aunque en las muestras el pipeline 1 haya tardado más.</p></div>
+  <div class="p-datos">
+    <p><strong>Variables:</strong> \(X_1\), \(X_2\) = tiempo de despliegue (min) con el pipeline 1 y con el 2. Normales, muestras independientes.</p>
+    <div class="tabla-wrap">
+      <table class="t full">
+        <tr><th>Medida</th><th>Pipeline 1</th><th>Pipeline 2</th></tr>
+        <tr><td>\(n\)</td><td>10</td><td>12</td></tr>
+        <tr><td>\(\bar{x}\) (min)</td><td>18,4</td><td>15,6</td></tr>
+        <tr><td>\(S\) (min) &mdash; ojo, son <em>desvíos</em></td><td>4,5</td><td>2,1</td></tr>
+      </table>
+    </div>
+    <p>Confianza 95&nbsp;% &rarr; \(\alpha/2 = 0{,}025\). Varianzas poblacionales desconocidas.</p>
+    <p><strong>Planteo en la hoja:</strong> \(X_1\), \(X_2\): tiempos de despliegue, v.a. continuas normales, independientes &middot; \(\sigma^{2}\) desconocidas, \(n_1, n_2 &lt; 30\) &rArr; regla empírica &rArr; Welch: \((\bar{x}_1 - \bar{x}_2) \pm t_{(\alpha/2;\ \nu)}\sqrt{\frac{S_1^{2}}{n_1} + \frac{S_2^{2}}{n_2}}\)</p>
+  </div>
+  <ol class="p-pasos">
+    <li data-inciso="a" data-nivel="principiante" data-respuesta="20,25" data-tolerancia="0,01">
+      <div class="p-consigna"><p>a) La regla empírica usa varianzas, y el enunciado da desvíos. ¿Cuánto vale \(S_1^{2} = 4{,}5^{2}\)?</p></div>
+      <div class="p-anotar">\(S_1^{2} = 4{,}5^{2} = 20{,}25\) min²</div>
+      <div class="p-pista"><p>\(4{,}5 \cdot 4{,}5\).</p></div>
+      <div class="p-explicacion"><p>\(S_1^{2} = 20{,}25\) min².</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> pasar el desvío a varianza.</p>
+        <ol>
+          <li>La varianza es el desvío al cuadrado: \(4{,}5^{2} = 20{,}25\) min².</li>
+        </ol>
+        <p><strong>Qué significa:</strong> es la varianza de la muestra del pipeline 1.</p>
+      </div>
+    </li>
+    <li data-inciso="a" data-nivel="principiante" data-respuesta="4,41" data-tolerancia="0,01">
+      <div class="p-consigna"><p>a) ¿Cuánto vale \(S_2^{2} = 2{,}1^{2}\)?</p></div>
+      <div class="p-anotar">\(S_2^{2} = 2{,}1^{2} = 4{,}41\) min²</div>
+      <div class="p-pista"><p>\(2{,}1 \cdot 2{,}1\).</p></div>
+      <div class="p-explicacion"><p>\(S_2^{2} = 4{,}41\) min².</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> la varianza de la muestra del pipeline 2.</p>
+        <ol>
+          <li>\(2{,}1^{2} = 4{,}41\) min².</li>
+        </ol>
+        <p><strong>Qué significa:</strong> el pipeline 2 es mucho más parejo que el 1.</p>
+      </div>
+    </li>
+    <li data-inciso="a" data-nivel="avanzado" data-respuesta="4,59" data-tolerancia="0,01">
+      <div class="p-consigna"><p>a) ¿Cuánto da la regla empírica \(\frac{S^{2}_{mayor}}{S^{2}_{menor}}\)?</p></div>
+      <div class="p-anotar">\(\frac{S^{2}_{mayor}}{S^{2}_{menor}} = \frac{20{,}25}{4{,}41} = 4{,}59\)</div>
+      <div class="p-pista"><p>Con las varianzas: 20,25 y 4,41. Si dividís los desvíos, da otra cosa.</p></div>
+      <div class="p-explicacion"><p>\(\frac{20{,}25}{4{,}41} = 4{,}592\).</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> el cociente de varianzas.</p>
+        <ol>
+          <li>Varianzas: \(S_1^{2} = 20{,}25\), \(S_2^{2} = 4{,}41\). La mayor arriba.</li>
+          <li>\(\frac{20{,}25}{4{,}41} = 4{,}59\).</li>
+          <li>Ojo: con los desvíos daría \(\frac{4{,}5}{2{,}1} = 2{,}14\), que llevaría a la decisión equivocada.</li>
+        </ol>
+        <p><strong>Qué significa:</strong> una varianza es más de 4 veces la otra.</p>
+      </div>
+    </li>
+    <li data-inciso="a" data-nivel="avanzado">
+      <div class="p-consigna"><p>a) Con \(\frac{S^{2}_{mayor}}{S^{2}_{menor}} = 4{,}59\), ¿qué caso corresponde?</p></div>
+      <div class="p-anotar">\(4{,}59 > 3\) &rArr; varianzas no supuestas iguales &rArr; \(t\) de Welch con \(\nu\) aproximado</div>
+      <ul class="p-opciones">
+        <li data-correcta>Varianzas no supuestas iguales (\(4{,}59 > 3\)): \(t\) de Welch, con \(\nu\) aproximado</li>
+        <li>Varianzas supuestas iguales: pooled con \(n_1 + n_2 - 2 = 20\) gl</li>
+        <li>\(z\) con \(S_1^{2}\) y \(S_2^{2}\)</li>
+      </ul>
+      <div class="p-pista"><p>El corte es 3.</p></div>
+      <div class="p-explicacion"><p>\(> 3\) &rarr; Welch.</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> decidir el caso con la regla empírica.</p>
+        <ol>
+          <li>Muestras chicas (10 y 12), normales, \(\sigma^{2}\) desconocidas: se aplica la regla.</li>
+          <li>\(4{,}59 > 3\): no se pueden suponer iguales; no se combinan, cada una va por separado.</li>
+        </ol>
+        <p><strong>Qué significa:</strong> \(IC = (\bar{x}_1 - \bar{x}_2) \pm t_{(\alpha/2;\ \nu)}\sqrt{\frac{S_1^{2}}{n_1} + \frac{S_2^{2}}{n_2}}\), con \(\nu\) de Welch-Satterthwaite.</p>
+      </div>
+    </li>
+    <li data-inciso="b" data-nivel="principiante" data-respuesta="2,025" data-tolerancia="0,001">
+      <div class="p-consigna"><p>b) Los grados de libertad de Welch usan \(\frac{S_1^{2}}{n_1}\) y \(\frac{S_2^{2}}{n_2}\). ¿Cuánto vale \(\frac{S_1^{2}}{n_1} = \frac{20{,}25}{10}\)?</p></div>
+      <div class="p-anotar">\(\frac{S_1^{2}}{n_1} = \frac{20{,}25}{10} = 2{,}025\)</div>
+      <div class="p-pista"><p>Dividir por 10.</p></div>
+      <div class="p-explicacion"><p>\(2{,}025\).</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> el primer término, que se usa en \(\nu\) y en el error.</p>
+        <ol>
+          <li>\(\frac{20{,}25}{10} = 2{,}025\).</li>
+        </ol>
+        <p><strong>Qué significa:</strong> es la varianza de \(\bar{X}_1\).</p>
+      </div>
+    </li>
+    <li data-inciso="b" data-nivel="principiante" data-respuesta="0,3675" data-tolerancia="0,0005">
+      <div class="p-consigna"><p>b) ¿Cuánto vale \(\frac{S_2^{2}}{n_2} = \frac{4{,}41}{12}\)?</p></div>
+      <div class="p-anotar">\(\frac{S_2^{2}}{n_2} = \frac{4{,}41}{12} = 0{,}3675\)</div>
+      <div class="p-pista"><p>Dividir por 12.</p></div>
+      <div class="p-explicacion"><p>\(0{,}3675\).</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> el segundo término.</p>
+        <ol>
+          <li>\(\frac{4{,}41}{12} = 0{,}3675\).</li>
+        </ol>
+        <p><strong>Qué significa:</strong> es la varianza de \(\bar{X}_2\).</p>
+      </div>
+    </li>
+    <li data-inciso="b" data-nivel="principiante" data-respuesta="5,7241" data-tolerancia="0,002">
+      <div class="p-consigna"><p>b) El numerador de \(\nu\) es \(\left(\frac{S_1^{2}}{n_1} + \frac{S_2^{2}}{n_2}\right)^{2} = (2{,}025 + 0{,}3675)^{2}\). ¿Cuánto da?</p></div>
+      <div class="p-anotar">\((2{,}025 + 0{,}3675)^{2} = 2{,}3925^{2} = 5{,}7241\)</div>
+      <div class="p-pista"><p>Primero la suma (2,3925), después al cuadrado.</p></div>
+      <div class="p-explicacion"><p>\(2{,}3925^{2} = 5{,}7241\).</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> el numerador de la fórmula de Welch-Satterthwaite.</p>
+        <ol>
+          <li>Suma: \(2{,}025 + 0{,}3675 = 2{,}3925\).</li>
+          <li>Al cuadrado: \(5{,}7241\).</li>
+        </ol>
+        <p><strong>Qué significa:</strong> 2,3925 es la varianza de \(\bar{X}_1 - \bar{X}_2\); se reutiliza en el error.</p>
+      </div>
+    </li>
+    <li data-inciso="b" data-nivel="principiante" data-respuesta="0,4679" data-tolerancia="0,0005">
+      <div class="p-consigna"><p>b) El denominador de \(\nu\) es \(\frac{(S_1^{2}/n_1)^{2}}{n_1 - 1} + \frac{(S_2^{2}/n_2)^{2}}{n_2 - 1} = \frac{2{,}025^{2}}{9} + \frac{0{,}3675^{2}}{11}\). ¿Cuánto da?</p></div>
+      <div class="p-anotar">\(\frac{2{,}025^{2}}{9} + \frac{0{,}3675^{2}}{11} = 0{,}45563 + 0{,}01228 = 0{,}4679\)</div>
+      <div class="p-pista"><p>\(2{,}025^{2} = 4{,}1006\); \(0{,}3675^{2} = 0{,}13506\).</p></div>
+      <div class="p-explicacion"><p>\(0{,}45563 + 0{,}01228 = 0{,}4679\).</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> el denominador de Welch-Satterthwaite.</p>
+        <ol>
+          <li>\(\frac{2{,}025^{2}}{10 - 1} = \frac{4{,}1006}{9} = 0{,}45563\).</li>
+          <li>\(\frac{0{,}3675^{2}}{12 - 1} = \frac{0{,}13506}{11} = 0{,}01228\).</li>
+          <li>Suma: \(0{,}4679\).</li>
+        </ol>
+        <p><strong>Qué significa:</strong> casi todo viene del pipeline 1, el de más varianza.</p>
+      </div>
+    </li>
+    <li data-inciso="b" data-nivel="medio" data-respuesta="12,23" data-tolerancia="0,02">
+      <div class="p-consigna"><p>b) ¿Cuánto vale \(\nu = \dfrac{\left(\frac{S_1^{2}}{n_1} + \frac{S_2^{2}}{n_2}\right)^{2}}{\frac{(S_1^{2}/n_1)^{2}}{n_1 - 1} + \frac{(S_2^{2}/n_2)^{2}}{n_2 - 1}}\), sin redondear?</p></div>
+      <div class="p-anotar">\(\nu = \frac{5{,}7241}{0{,}4679} = 12{,}23\)</div>
+      <div class="p-pista"><p>Numerador 5,7241; denominador 0,4679.</p></div>
+      <div class="p-explicacion"><p>\(\nu = \frac{5{,}7241}{0{,}4679} = 12{,}233\).</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> los grados de libertad aproximados de Welch.</p>
+        <ol>
+          <li><strong>La fórmula (Welch-Satterthwaite).</strong> \(\nu = \dfrac{\left(\frac{S_1^{2}}{n_1} + \frac{S_2^{2}}{n_2}\right)^{2}}{\frac{(S_1^{2}/n_1)^{2}}{n_1 - 1} + \frac{(S_2^{2}/n_2)^{2}}{n_2 - 1}}\).</li>
+          <li><strong>Los números.</strong> \(\frac{(2{,}025 + 0{,}3675)^{2}}{\frac{2{,}025^{2}}{9} + \frac{0{,}3675^{2}}{11}} = \frac{5{,}7241}{0{,}4679}\).</li>
+          <li><strong>La cuenta.</strong> \(12{,}23\).</li>
+        </ol>
+        <p><strong>Qué significa:</strong> menos que los 20 de la pooled: al no combinar varianzas se pierde información.</p>
+      </div>
+    </li>
+    <li data-inciso="b" data-nivel="avanzado" data-respuesta="12" data-tolerancia="0">
+      <div class="p-consigna"><p>b) \(\nu = 12{,}23\) no es entero. ¿Con cuántos grados de libertad se entra a la tabla?</p></div>
+      <div class="p-anotar">\(\nu = 12{,}23 \approx 12\)</div>
+      <div class="p-pista"><p>Se redondea al entero más cercano (truncar hacia abajo es lo más conservador).</p></div>
+      <div class="p-explicacion"><p>\(\nu = 12\).</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> la fila de la tabla \(t\).</p>
+        <ol>
+          <li><strong>El valor.</strong> \(\nu = \frac{5{,}7241}{0{,}4679} = 12{,}23\).</li>
+          <li><strong>El redondeo.</strong> La cátedra redondea al entero más cercano; truncar hacia abajo es lo más conservador. Acá las dos dan 12.</li>
+        </ol>
+        <p><strong>Qué significa:</strong> se usa la \(t\) con 12 grados de libertad.</p>
+      </div>
+    </li>
+    <li data-inciso="c" data-nivel="medio" data-respuesta="2,179" data-tolerancia="0,001">
+      <div class="p-consigna"><p>c) ¿Cuánto vale \(t_{(0{,}025;\ 12)}\)?</p></div>
+      <div class="p-anotar">\(t_{(0{,}025;\ 12)} = 2{,}179\)</div>
+      <div class="p-pista"><p>Fila 12, columna 0,025.</p></div>
+      <div class="p-explicacion"><p>\(t_{(0{,}025;\ 12)} = 2{,}179\).</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> el valor de tabla.</p>
+        <ol>
+          <li>95&nbsp;%: \(\alpha/2 = 0{,}025\); \(\nu = 12\).</li>
+          <li>Tabla \(t\), fila 12, columna 0,025: 2,179.</li>
+        </ol>
+        <p><strong>Qué significa:</strong> entre \(-2{,}179\) y \(2{,}179\) queda el 95&nbsp;%.</p>
+      </div>
+    </li>
+    <li data-inciso="c" data-nivel="principiante" data-respuesta="1,5468" data-tolerancia="0,001">
+      <div class="p-consigna"><p>c) El error estándar es \(\sqrt{\frac{S_1^{2}}{n_1} + \frac{S_2^{2}}{n_2}} = \sqrt{2{,}025 + 0{,}3675}\). ¿Cuánto vale?</p></div>
+      <div class="p-anotar">\(\sqrt{2{,}3925} = 1{,}5468\) min</div>
+      <div class="p-pista"><p>Raíz de 2,3925.</p></div>
+      <div class="p-explicacion"><p>\(\sqrt{2{,}3925} = 1{,}5468\) min.</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> el desvío estimado de \(\bar{X}_1 - \bar{X}_2\).</p>
+        <ol>
+          <li>\(\frac{S_1^{2}}{n_1} + \frac{S_2^{2}}{n_2} = 2{,}025 + 0{,}3675 = 2{,}3925\).</li>
+          <li>\(\sqrt{2{,}3925} = 1{,}5468\) min.</li>
+        </ol>
+        <p><strong>Qué significa:</strong> la diferencia de promedios varía típicamente 1,55 min de muestra en muestra.</p>
+      </div>
+    </li>
+    <li data-inciso="c" data-nivel="medio" data-respuesta="3,37" data-tolerancia="0,005">
+      <div class="p-consigna"><p>c) El error es \(e = t_{(0{,}025;\ 12)}\sqrt{\frac{S_1^{2}}{n_1} + \frac{S_2^{2}}{n_2}} = 2{,}179 \cdot \sqrt{\frac{20{,}25}{10} + \frac{4{,}41}{12}}\). ¿Cuánto vale?</p></div>
+      <div class="p-anotar">\(e = 2{,}179 \cdot 1{,}5468 = 3{,}37\) min</div>
+      <div class="p-pista"><p>El error estándar es 1,5468.</p></div>
+      <div class="p-explicacion"><p>\(e = 2{,}179 \cdot 1{,}5468 = 3{,}3704\) min.</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> cuánto se suma y se resta a \(\bar{x}_1 - \bar{x}_2\).</p>
+        <ol>
+          <li><strong>La fórmula.</strong> \(e = t_{(\alpha/2;\ \nu)}\sqrt{\frac{S_1^{2}}{n_1} + \frac{S_2^{2}}{n_2}}\).</li>
+          <li><strong>La cuenta.</strong> \(2{,}179 \cdot 1{,}5468 = 3{,}3704\) min.</li>
+        </ol>
+        <p><strong>Qué significa:</strong> el error (3,37) es mayor que la diferencia observada: ya anticipa que el intervalo va a cruzar el 0.</p>
+      </div>
+    </li>
+    <li data-inciso="c" data-nivel="principiante" data-respuesta="2,8" data-tolerancia="0,01">
+      <div class="p-consigna"><p>c) El intervalo se centra en \(\bar{x}_1 - \bar{x}_2\). ¿Cuánto vale?</p></div>
+      <div class="p-anotar">\(\bar{x}_1 - \bar{x}_2 = 18{,}4 - 15{,}6 = 2{,}8\) min</div>
+      <div class="p-pista"><p>Pipeline 1 menos pipeline 2.</p></div>
+      <div class="p-explicacion"><p>\(18{,}4 - 15{,}6 = 2{,}8\) min.</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> el estimador puntual de \(\mu_1 - \mu_2\).</p>
+        <ol>
+          <li>En el orden del enunciado: \(18{,}4 - 15{,}6 = 2{,}8\) min.</li>
+        </ol>
+        <p><strong>Qué significa:</strong> en las muestras, el pipeline 1 tardó 2,8 min más en promedio.</p>
+      </div>
+    </li>
+    <li data-inciso="c" data-nivel="avanzado" data-respuesta="-0,57" data-tolerancia="0,01">
+      <div class="p-consigna"><p>c) ¿Cuánto vale el límite inferior del intervalo del 95&nbsp;% para \(\mu_1 - \mu_2\)?</p></div>
+      <div class="p-anotar">\(LI = (\bar{x}_1 - \bar{x}_2) - t_{(0{,}025;\ 12)}\sqrt{\frac{S_1^{2}}{n_1} + \frac{S_2^{2}}{n_2}} = 2{,}8 - 3{,}37 = -0{,}57\) min</div>
+      <div class="p-pista"><p>\(2{,}8 - e\). Puede dar negativo.</p></div>
+      <div class="p-explicacion"><p>\(2{,}8 - 3{,}3704 = -0{,}5704 \approx -0{,}57\) min.</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> el extremo de abajo.</p>
+        <ol>
+          <li><strong>La fórmula.</strong> \(LI = (\bar{x}_1 - \bar{x}_2) - t_{(\alpha/2;\ \nu)}\sqrt{\frac{S_1^{2}}{n_1} + \frac{S_2^{2}}{n_2}}\).</li>
+          <li><strong>Los números.</strong> \(2{,}8\); \(e = 2{,}179 \cdot \sqrt{2{,}3925} = 3{,}3704\).</li>
+          <li><strong>La cuenta.</strong> \(2{,}8 - 3{,}3704 = -0{,}57\) min.</li>
+        </ol>
+        <p><strong>Qué significa:</strong> un límite negativo quiere decir que \(\mu_2\) podría ser mayor que \(\mu_1\).</p>
+      </div>
+    </li>
+    <li data-inciso="c" data-nivel="avanzado" data-respuesta="6,17" data-tolerancia="0,01">
+      <div class="p-consigna"><p>c) ¿Cuánto vale el límite superior del intervalo del 95&nbsp;% para \(\mu_1 - \mu_2\)?</p></div>
+      <div class="p-anotar">\(LS = 2{,}8 + 3{,}37 = 6{,}17\) min &nbsp;&rArr;&nbsp; \(IC_{95\%}(\mu_1 - \mu_2) = [-0{,}57\ ;\ 6{,}17]\) min</div>
+      <div class="p-pista"><p>\(2{,}8 + e\).</p></div>
+      <div class="p-explicacion"><p>\(2{,}8 + 3{,}3704 = 6{,}1704 \approx 6{,}17\) min.</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> el extremo de arriba.</p>
+        <ol>
+          <li><strong>La fórmula.</strong> \(LS = (\bar{x}_1 - \bar{x}_2) + t_{(\alpha/2;\ \nu)}\sqrt{\frac{S_1^{2}}{n_1} + \frac{S_2^{2}}{n_2}}\), con \(e = 3{,}3704\).</li>
+          <li><strong>La cuenta.</strong> \(2{,}8 + 3{,}3704 = 6{,}17\) min.</li>
+        </ol>
+        <p><strong>Qué significa:</strong> \(IC_{95\%}(\mu_1 - \mu_2) = [-0{,}57\ ;\ 6{,}17]\) min.</p>
+      </div>
+    </li>
+    <li data-inciso="d" data-nivel="avanzado">
+      <div class="p-consigna"><p>d) Con \(IC_{95\%}(\mu_1 - \mu_2) = [-0{,}57\ ;\ 6{,}17]\) min, ¿se puede afirmar que un pipeline es más lento?</p></div>
+      <div class="p-anotar">\(0 \in [-0{,}57\ ;\ 6{,}17]\) &rArr; no hay diferencia significativa entre los tiempos medios</div>
+      <ul class="p-opciones">
+        <li data-correcta>No: el intervalo incluye el 0, así que no hay diferencia significativa entre los tiempos medios de despliegue</li>
+        <li>Sí: el pipeline 1 es más lento, porque casi todo el intervalo es positivo</li>
+        <li>Sí: el pipeline 1 es más lento, porque \(\bar{x}_1 = 18{,}4 > \bar{x}_2 = 15{,}6\)</li>
+        <li>Sí: el pipeline 2 es más lento, porque el límite inferior es negativo</li>
+      </ul>
+      <div class="p-pista"><p>¿El 0 está entre −0,57 y 6,17?</p></div>
+      <div class="p-explicacion"><p>Incluye el 0: no se puede afirmar que haya diferencia (como en el Ejemplo 5 de la cátedra).</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> la conclusión.</p>
+        <ol>
+          <li><strong>El 0.</strong> \(-0{,}57 &lt; 0 &lt; 6{,}17\): el 0 está adentro. &ldquo;Medias iguales&rdquo; es un valor creíble.</li>
+          <li><strong>Por qué no las otras.</strong> No importa cuánto del intervalo quede de cada lado; y la diferencia de las muestras (2,8 min) puede deberse al azar, sobre todo con un pipeline 1 tan variable.</li>
+        </ol>
+        <p><strong>Qué significa:</strong> con 95&nbsp;% de confianza, no se puede afirmar que haya diferencia significativa entre los tiempos medios de despliegue de los dos pipelines.</p>
+      </div>
+    </li>
+  </ol>
+</article>

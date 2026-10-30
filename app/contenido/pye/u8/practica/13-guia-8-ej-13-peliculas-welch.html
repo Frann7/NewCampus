@@ -1,0 +1,186 @@
+<div class="ej">
+  <span class="tag">Guía 8 &middot; Ej. 13 &middot; IC para \(\mu_1 - \mu_2\), varianzas distintas (Welch)</span>
+  <h2>Duración de las películas en dos sitios web</h2>
+  <div class="enunciado">
+    <p>Los siguientes datos representan los tiempos de duración de muestras de distintas películas disponibles en dos sitios web.</p>
+    <div class="tabla-wrap">
+      <table class="t">
+        <tr><th>Website</th><th>Duración (minutos)</th></tr>
+        <tr><td>A</td><td>103, 94, 110, 87, 98</td></tr>
+        <tr><td>B</td><td>97, 82, 123, 92, 175, 88, 118</td></tr>
+      </table>
+    </div>
+    <p>
+      Determine un intervalo de confianza del 90% para la diferencia entre las duraciones promedios de
+      las películas disponibles en los sitios web tomados. Suponga que los tiempos de duración se
+      distribuyen de forma aproximadamente normal con variancias diferentes. ¿Considera que hay
+      diferencias significativas en los tiempos de duración promedio de las películas de cada sitio?
+    </p>
+  </div>
+
+  <span class="paso">Qué se estima y en qué orden</span>
+  <p>
+    Se toma el orden de la tabla: <strong>población 1 = sitio A, población 2 = sitio B</strong>, y se
+    estima \(\mu_A - \mu_B\). La pregunta final es solo si hay diferencia, así que el orden no cambia
+    la conclusión.
+  </p>
+
+  <span class="paso">Qué caso es (el árbol de decisión)</span>
+  <ul>
+    <li>¿\(\sigma_1^2\) y \(\sigma_2^2\) conocidas? <strong>No</strong>: solo hay datos.</li>
+    <li>¿\(n_1\) y \(n_2\) \(\geq 30\)? <strong>No</strong>: 5 y 7. Muestras chicas &rarr; \(t\) (poblaciones aproximadamente normales, lo dice el enunciado).</li>
+    <li>
+      ¿Varianzas iguales o distintas? El enunciado dice <strong>"con variancias diferentes"</strong>, y
+      eso manda. (Como control, la regla empírica da \(1035{,}90/76{,}30 = 13{,}6 &gt; 3\): también
+      diría distintas.)
+    </li>
+  </ul>
+  <p>&rarr; <strong>\(t\) de Welch</strong>: cada varianza va por separado y los grados de libertad salen de una fórmula.</p>
+  <p>
+    <strong>Por qué no se combinan:</strong> si las varianzas de las poblaciones son distintas,
+    \(S_1^2\) y \(S_2^2\) estiman números distintos y promediarlas no tiene sentido. Cada una se
+    divide por su \(n\) (como en el caso \(z\)), pero como las muestras son chicas se usa \(t\), con un
+    \(\nu\) aproximado que se calcula con las mismas varianzas.
+  </p>
+  <div class="caja caja-formula">
+    <span class="caja-tit">IC para \(\mu_1 - \mu_2\), muestras chicas y varianzas distintas</span>
+    <p>\[ (\bar{x}_1 - \bar{x}_2) \pm t_{(\alpha/2;\ \nu)}\sqrt{\frac{S_1^2}{n_1} + \frac{S_2^2}{n_2}} \]</p>
+    <p>\[ \nu = \frac{\left(\dfrac{S_1^2}{n_1} + \dfrac{S_2^2}{n_2}\right)^2}{\dfrac{(S_1^2/n_1)^2}{n_1-1} + \dfrac{(S_2^2/n_2)^2}{n_2-1}} \]</p>
+    <p>\(\nu\) casi nunca da entero: se redondea al entero más cercano para entrar a la tabla.</p>
+  </div>
+
+  <span class="paso">Desarme del enunciado</span>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Traducción</th><th>Cuenta</th><th>A dónde va</th></tr>
+      <tr><td>fila A: 5 duraciones</td><td>muestra 1, chica</td><td>calculadora</td><td>\(n_1 = 5\), \(\bar{x}_1\), \(S_1\)</td></tr>
+      <tr><td>fila B: 7 duraciones</td><td>muestra 2, chica</td><td>calculadora</td><td>\(n_2 = 7\), \(\bar{x}_2\), \(S_2\)</td></tr>
+      <tr><td>"aproximadamente normal con variancias diferentes"</td><td>requisito de la \(t\) y caso Welch</td><td>&mdash;</td><td>\(\nu\) de Welch</td></tr>
+      <tr><td>"90%"</td><td>afuera 10&nbsp;%, 5&nbsp;% por cola</td><td>\(\alpha/2 = 0{,}05\)</td><td>\(t_{(0{,}05;\ \nu)}\)</td></tr>
+      <tr><td>"¿hay diferencias significativas?"</td><td>¿el 0 está en el intervalo?</td><td>&mdash;</td><td>conclusión</td></tr>
+    </table>
+  </div>
+  <p>
+    <strong>Qué son \(\alpha\) y \(\alpha/2\), en criollo:</strong> el 90&nbsp;% de confianza es
+    qué tan seguido acierta el método: de cada 100 intervalos armados así, 90 atrapan la diferencia real.
+    \(\alpha = 1 - 0{,}90 = 0{,}10\) es lo contrario, la chance de que el intervalo <em>no</em>
+    acierte. Esa parte se reparte mitad en cada punta de la campana (valores demasiado altos y
+    demasiado bajos): \(\alpha/2 = 0{,}05\) de cada lado. El valor de tabla que se busca es el que deja
+    justo 0,05 afuera a la derecha.
+  </p>
+  <p>
+    <strong>Error estándar de la diferencia, en criollo:</strong> si se repitiera el muestreo con
+    otras unidades, \(\bar{x}_1 - \bar{x}_2\) daría otro número. El error estándar (la raíz de la
+    fórmula) mide cuánto se mueve esa diferencia de una muestra a otra por puro azar. El margen es
+    "cuántos errores estándar me alejo para cada lado".
+  </p>
+
+  <span class="paso">Paso 1 &mdash; Media y desvío de cada muestra</span>
+  <p>Fórmulas:</p>
+  <p>\[ \bar{x} = \frac{\sum x}{n} \qquad S = \sqrt{\frac{\sum (x - \bar{x})^{2}}{n - 1}} \]</p>
+  <ul>
+    <li>Sitio A: \(\bar{x}_1 = \dfrac{492}{5} = 98{,}4\) min; \(S_1 = 8{,}735\) min; \(S_1^2 = 76{,}30\)</li>
+    <li>Sitio B: \(\bar{x}_2 = \dfrac{775}{7} = 110{,}714\) min; \(S_2 = 32{,}185\) min; \(S_2^2 = 1035{,}90\)</li>
+  </ul>
+  <div class="caja caja-calc">
+    <span class="caja-tit">En la calculadora (una muestra por vez)</span>
+    <ul>
+      <li>
+        <strong>fx-82 / fx-95:</strong> <code>MODE</code> &rarr; <code>SD</code>; borrar con
+        <code>SHIFT</code> <code>MODE</code> <code>1</code> (Scl) <code>=</code>; cargar cada dato con
+        <code>M+</code>; leer con <code>SHIFT</code> <code>2</code> (S-VAR): \(\bar{x}\) y
+        \(x\sigma_{n-1}\).
+      </li>
+      <li>
+        <strong>fx-82 PLUS / fx-570:</strong> <code>MODE</code> &rarr; <code>STAT</code> &rarr;
+        <code>1-VAR</code>; cargar cada dato con <code>=</code>; <code>AC</code>, <code>SHIFT</code>
+        <code>STAT</code> &rarr; <code>VAR</code>: \(\bar{x}\) y \(sx\).
+      </li>
+    </ul>
+    <p>
+      Sitio A (5 datos): \(\bar{x}_1 = 98{,}4\), \(S_1 = 8{,}734987\ldots\) Se borra todo y se cargan
+      los 7 de B: \(\bar{x}_2 = 110{,}714285\ldots\), \(S_2 = 32{,}185474\ldots\)
+    </p>
+    <p>
+      Para la fórmula hace falta \(S^2\): elevá al cuadrado el \(sx\) que da la calculadora
+      (\(8{,}735^2 = 76{,}30\); \(32{,}185^2 = 1035{,}90\)). No usar \(\sigma x\) (\(x\sigma_n\)), que
+      daría 7,81 y 29,80.
+    </p>
+  </div>
+
+  <span class="paso">Paso 2 &mdash; Cada varianza sobre su \(n\)</span>
+  <ul>
+    <li>\(\dfrac{S_1^2}{n_1} = \dfrac{76{,}30}{5} = 15{,}26\)</li>
+    <li>\(\dfrac{S_2^2}{n_2} = \dfrac{1035{,}90}{7} = 147{,}986\)</li>
+    <li>Suma: \(15{,}26 + 147{,}986 = 163{,}246\)</li>
+  </ul>
+  <p>Estos tres números se usan dos veces: en los grados de libertad y en el margen.</p>
+
+  <span class="paso">Paso 3 &mdash; Grados de libertad de Welch</span>
+  <p>
+    <strong>Grados de libertad, en criollo:</strong> la \(t\) no es una sola campana sino una
+    familia: con pocos datos es más ancha (hay más incertidumbre) y con muchos se parece a la normal.
+    Los grados de libertad \(\nu\) dicen cuál de esas campanas usar, o sea en qué <strong>fila</strong>
+    de la tabla entrar. En Welch no salen de una resta sino de la fórmula de abajo, que tiene en cuenta cuánto
+    aporta cada muestra.
+  </p>
+  <p>Fórmula:</p>
+  <p>\[ \nu = \frac{\left(\dfrac{S_1^2}{n_1} + \dfrac{S_2^2}{n_2}\right)^2}{\dfrac{(S_1^2/n_1)^2}{n_1-1} + \dfrac{(S_2^2/n_2)^2}{n_2-1}} \]</p>
+  <ul>
+    <li>Numerador: \(163{,}246^2 = 26649{,}4\)</li>
+    <li>Primer término de abajo: \(\dfrac{15{,}26^2}{5 - 1} = \dfrac{232{,}87}{4} = 58{,}22\)</li>
+    <li>Segundo término de abajo: \(\dfrac{147{,}986^2}{7 - 1} = \dfrac{21899{,}97}{6} = 3650{,}00\)</li>
+  </ul>
+  <p>\[ \nu = \frac{26649{,}4}{58{,}22 + 3650{,}00} = \frac{26649{,}4}{3708{,}22} = 7{,}19 \;\Longrightarrow\; \nu = 7 \]</p>
+  <p>
+    Fijate que da muy cerca de \(n_2 - 1 = 6\): cuando una de las dos muestras tiene una varianza
+    mucho más grande, \(\nu\) se acerca a los grados de libertad de esa muestra.
+  </p>
+
+  <span class="paso">Paso 4 &mdash; \(t\) de la tabla A.4</span>
+  <ul>
+    <li>fila \(\nu = 7\)</li>
+    <li>columna \(\alpha/2 = 0{,}05\)</li>
+  </ul>
+  <p>\[ t_{(0{,}05;\ 7)} = 1{,}895 \]</p>
+
+  <span class="paso">Paso 5 &mdash; Margen y diferencia de medias</span>
+  <p>Fórmula del margen:</p>
+  <p>\[ E = t_{(\alpha/2;\ \nu)}\sqrt{\frac{S_1^2}{n_1} + \frac{S_2^2}{n_2}} \]</p>
+  <p>\[ E = 1{,}895 \times \sqrt{163{,}246} = 1{,}895 \times 12{,}777 = 24{,}212 \text{ min} \]</p>
+  <p>\[ \bar{x}_1 - \bar{x}_2 = 98{,}4 - 110{,}714 = -12{,}314 \text{ min} \]</p>
+
+  <span class="paso">Paso 6 &mdash; Armar el intervalo</span>
+  <p>Fórmula:</p>
+  <p>\[ (\bar{x}_1 - \bar{x}_2) \pm t_{(\alpha/2;\ \nu)}\sqrt{\frac{S_1^2}{n_1} + \frac{S_2^2}{n_2}} \]</p>
+  <p>\[ -12{,}314 - 24{,}212 &lt; \mu_A - \mu_B &lt; -12{,}314 + 24{,}212 \]</p>
+  <p>\[ \mathbf{-36{,}53 &lt; \mu_A - \mu_B &lt; 11{,}90} \]</p>
+
+  <span class="paso">Paso 7 &mdash; ¿Incluye el 0?</span>
+  <ul>
+    <li>
+      <strong>Sí</strong>: el intervalo va de un negativo a un positivo, así que el 0 está adentro.
+      Que la diferencia valga 0 (duraciones medias iguales) es compatible con los datos.
+    </li>
+    <li>
+      Por eso <strong>no hay diferencia significativa</strong>, aunque las medias muestrales difieran
+      en 12 minutos: con muestras tan chicas y tanta dispersión en B (hay una película de 175 min),
+      esa diferencia puede ser puro azar del muestreo.
+    </li>
+  </ul>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>
+      \(IC_{90\%}(\mu_A - \mu_B) = (\,-36{,}53\ ;\ 11{,}90\,)\) minutos. Como el 0 está en el intervalo,
+      con 90&nbsp;% de confianza <strong>no hay diferencias significativas</strong> entre las
+      duraciones promedio de las películas de los dos sitios.
+    </p>
+    <p>
+      <strong>Resolución 2023 de la cátedra:</strong> \(-36{,}427 &lt; \mu_1 - \mu_2 &lt; 11{,}798\),
+      sin diferencia significativa. La conclusión coincide; los extremos difieren en décimas porque
+      R usa \(\nu = 7{,}19\) sin redondear (\(t = 1{,}887\)) y con la tabla se usa \(\nu = 7\)
+      (\(t = 1{,}895\)).
+    </p>
+  </div>
+</div>

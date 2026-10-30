@@ -1,0 +1,130 @@
+<div class="bloque">
+  <p class="kicker">Cuántos datos hacen falta</p>
+  <h2>5. Tamaño de muestra a partir del error</h2>
+
+  <h3>Cuándo se usa</h3>
+  <p>
+    Cuando el enunciado da el error y pregunta por \(n\): "¿de qué tamaño debe ser la muestra para que el
+    error de estimación no supere 0,5 ms con un 95&nbsp;% de confianza?", "¿cuántas mediciones hay que
+    tomar para estimar la media con un error máximo de&hellip;?". Es la misma fórmula del error de la
+    sección 2, pero despejando \(n\).
+  </p>
+
+  <h3>Fórmula</h3>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Tamaño de muestra para estimar \(\mu\)</span>
+    <p>\[ n = \left(\frac{z_{\alpha/2}\cdot\sigma}{E}\right)^{2} \qquad\text{y se redondea siempre para arriba} \]</p>
+  </div>
+
+  <h4>Qué significa cada letra</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Símbolo</th><th>Qué es</th><th>Cómo lo reconocés</th></tr>
+      <tr><td>\(E\)</td><td>el error máximo que se acepta (la mitad del ancho del intervalo)</td><td>"que el error no supere", "con un error máximo de", "a menos de 0,5 ms de la media real"</td></tr>
+      <tr><td>\(\sigma\)</td><td>el desvío (de la población, o el de una muestra anterior)</td><td>"se sabe que el desvío es"</td></tr>
+      <tr><td>\(z_{\alpha/2}\)</td><td>el valor de la tabla \(Z\) para esa confianza</td><td>95&nbsp;% &rarr; 1,96; 90&nbsp;% &rarr; 1,645</td></tr>
+      <tr><td>\(n\)</td><td>lo que se busca</td><td>"¿de qué tamaño debe ser la muestra?"</td></tr>
+    </table>
+  </div>
+
+  <h4>De dónde sale</h4>
+  <p>Del error de la media (sección 2), despejando \(n\) paso a paso:</p>
+  <p>\[ E = z_{\alpha/2}\,\frac{\sigma}{\sqrt{n}} \;\Longrightarrow\; \sqrt{n} = \frac{z_{\alpha/2}\,\sigma}{E} \;\Longrightarrow\; n = \left(\frac{z_{\alpha/2}\,\sigma}{E}\right)^{2} \]</p>
+  <p>(se pasa \(\sqrt{n}\) multiplicando y \(E\) dividiendo, y después se eleva al cuadrado para sacar la raíz).</p>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Por qué siempre para arriba</span>
+    <p>
+      \(n\) es una cantidad de datos: tiene que ser entero. Si da 245,86 y tomás 245, el error queda
+      apenas <strong>más grande</strong> que el pedido (no se cumple). Con 246 queda apenas más chico
+      (sí se cumple). Por eso se redondea para arriba <strong>aunque el decimal sea chico</strong>
+      (152,21 &rarr; 153).
+    </p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; El microservicio, con un error de 0,5 ms</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>
+      El tiempo de respuesta de un microservicio de autenticación tiene un desvío de <strong>4 ms</strong>.
+      ¿Cuántas peticiones hay que medir para estimar el tiempo medio de respuesta con un error de
+      estimación de, a lo sumo, <strong>0,5 ms</strong>, con un <strong>95&nbsp;%</strong> de confianza?
+    </p>
+  </div>
+
+  <h4>Por qué este modelo</h4>
+  <ul>
+    <li>Dan el error y preguntan cuántos datos: es <strong>tamaño de muestra</strong> para una media.</li>
+    <li>Se usa \(z\): el resultado va a ser grande (\(n \geq 30\)), así que la \(z\) vale.</li>
+  </ul>
+
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"tiene un desvío de 4 ms"</td><td>desvío</td><td>&mdash;</td><td>\(\sigma = 4\)</td></tr>
+      <tr><td>"error de estimación de, a lo sumo, 0,5 ms"</td><td>error máximo</td><td>&mdash;</td><td>\(E = 0{,}5\)</td></tr>
+      <tr><td>"95&nbsp;%"</td><td>confianza</td><td>\(F(z) = 0{,}975\)</td><td>\(z_{\alpha/2} = 1{,}96\)</td></tr>
+      <tr><td>"¿cuántas peticiones?"</td><td>lo que se busca</td><td>&mdash;</td><td>\(n\)</td></tr>
+    </table>
+  </div>
+
+  <p><strong>Paso 1 &mdash; Fórmula.</strong></p>
+  <p>\[ n = \left(\frac{z_{\alpha/2}\cdot\sigma}{E}\right)^{2} \]</p>
+  <p><strong>Paso 2 &mdash; Reemplazar</strong> (primero lo de adentro del paréntesis, después al cuadrado):</p>
+  <p>\[ n = \left(\frac{1{,}96 \cdot 4}{0{,}5}\right)^{2} = \left(\frac{7{,}84}{0{,}5}\right)^{2} = 15{,}68^{2} = 245{,}86 \]</p>
+  <p><strong>Paso 3 &mdash; Redondear para arriba:</strong> \(n = 246\).</p>
+  <p><strong>Paso 4 &mdash; Comprobar</strong> (opcional): con 246, \(E = 1{,}96 \cdot \dfrac{4}{\sqrt{246}} = 1{,}96 \cdot 0{,}2550 = 0{,}49986\), apenas menos que 0,5. Cumple.</p>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>Hay que medir <strong>246 peticiones</strong> para que, con un 95&nbsp;% de confianza, el error al estimar el tiempo medio de respuesta no supere 0,5 ms.</p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; La máquina de refrescos, al 90&nbsp;%</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>
+      Una máquina de refrescos despacha un contenido que se distribuye normal con desviación estándar
+      de <strong>0,15 litros</strong>. ¿Cuántos refrescos hay que medir para estimar el contenido medio
+      con un error máximo de <strong>0,02 litros</strong> y un <strong>90&nbsp;%</strong> de confianza?
+    </p>
+  </div>
+
+  <h4>Por qué este modelo</h4>
+  <ul>
+    <li>Dan el error máximo y preguntan cuántos datos: <strong>tamaño de muestra</strong>.</li>
+    <li>\(\sigma\) es conocida (de la población) y la población es normal: \(z\).</li>
+  </ul>
+
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"desviación estándar de 0,15 litros"</td><td>desvío de la población</td><td>&mdash;</td><td>\(\sigma = 0{,}15\)</td></tr>
+      <tr><td>"error máximo de 0,02 litros"</td><td>error</td><td>&mdash;</td><td>\(E = 0{,}02\)</td></tr>
+      <tr><td>"90&nbsp;%"</td><td>confianza</td><td>\(\alpha/2 = 0{,}05\), \(F(z) = 0{,}95\)</td><td>\(z_{\alpha/2} = 1{,}645\)</td></tr>
+    </table>
+  </div>
+
+  <p><strong>Paso 1 &mdash; Fórmula.</strong></p>
+  <p>\[ n = \left(\frac{z_{\alpha/2}\cdot\sigma}{E}\right)^{2} \]</p>
+  <p><strong>Paso 2 &mdash; Reemplazar:</strong></p>
+  <p>\[ n = \left(\frac{1{,}645 \cdot 0{,}15}{0{,}02}\right)^{2} = \left(\frac{0{,}24675}{0{,}02}\right)^{2} = 12{,}3375^{2} = 152{,}21 \]</p>
+  <p><strong>Paso 3 &mdash; Redondear para arriba:</strong> 152,21 &rarr; \(n = 153\) (aunque el decimal sea ,21: con 152 el error pasaría de 0,02).</p>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>Hay que medir <strong>153 refrescos</strong> para estimar el contenido medio con un error de a lo sumo 0,02 litros, con un 90&nbsp;% de confianza.</p>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Errores típicos</span>
+    <ul>
+      <li>Olvidarse del cuadrado (daría 12,34 refrescos).</li>
+      <li>Si dan la <strong>varianza</strong>, sacarle la raíz antes: en la fórmula va el desvío.</li>
+      <li>Redondear para abajo.</li>
+    </ul>
+  </div>
+</div>

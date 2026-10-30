@@ -7,7 +7,7 @@ texto; el PDF solo en las páginas ⚠ o si algo no cierra. Para mirar una pági
 
 Entre paréntesis, las páginas ⚠ de cada archivo.
 
-## 2do parcial (U4 a U7) — el alcance actual
+## 2do parcial (U4 a U7)
 
 | Unidad | Archivo | Qué es |
 | :-- | :-- | :-- |
@@ -41,11 +41,27 @@ Entre paréntesis, las páginas ⚠ de cada archivo.
 | U4–U7 | `PARCIAL 2/Respuestas.md` | Respuestas de la guía integradora (z sin redondear) |
 | U6–U7 | `PARCIAL 2/Guia_distribucion_t_Student_yRtas.md` | Guía de t de Student (valores críticos, IC, PH) con respuestas |
 
+## 3er parcial (U8, Estimación) — el alcance actual
+
+La profe (2026): entran **solo** `Estimacion_Parte 1` y `Estimacion_Parte 2`. Los demás archivos de
+la carpeta son de años anteriores y traen temas que este año no entran (varianzas, tolerancia, predicción).
+
+| Archivo (en `PARCIAL 3/UNIDAD 8/`) | Qué es |
+| :-- | :-- |
+| `Estimacion_Parte 1.md` | Diapositivas 2026: estimadores, TLC, IC para μ (Z y t), IC para π, ejemplos 1–3 (3 ⚠) |
+| `Estimacion_Parte 2.md` | Diapositivas 2026: IC para μ₁ − μ₂ (Z, pooled, Welch, regla empírica), ejemplos 4–5 (6 ⚠) |
+| `GUIA Estimación de parámetros.md` | Guía, 24 ejercicios: μ (1–9), μ₁ − μ₂ (10–15), varianzas (16–19, no entran), π (20–21), diferencia de proporciones (22–24, no entran) |
+| `Resolución de Guia 8 Estimación de parámetros - 2023.md` | Resultados de esa guía (2023, con R) |
+| `GUÍA 8A.md`, `Ejemplos Guía 8A.md` | TP 8A viejo (IC, tolerancia, predicción) y sus ejemplos |
+| `Tema 8_Parte A.md`, `Tema 8_Parte B.md` | Diapositivas viejas del tema 8 (incluyen varianzas) |
+| `Resumen formulas y funciones (1).md` | Fórmulas y funciones de R del tema 8 |
+
 ## Exámenes
 
 | Archivo | Qué es |
 | :-- | :-- |
 | `PARCIAL 2/Parcial 2 2025.jpg` (imagen, sin `.md`) | 2do parcial 2025. Ya transcripto en `app/contenido/pye/evaluacion/parciales/2025-segundo-parcial/` |
+| `PARCIAL 3/Parcial 3 2025.jpg` (imagen, sin `.md`) | 3er parcial 29/10/2025: IC para μ con Z y prueba de hipótesis. Transcripto en `app/contenido/pye/evaluacion/parciales/2025-tercer-parcial/` |
 | `PARCIALES/parcial 2 2023.md` | 2do parcial 23/08/2023: conjunta discreta, continua, normal, hipergeométrica, Poisson, binomial (1 ⚠: tabla del ej. 1) |
 | `PARCIALES/Final 1.md` | Final 26/11/2025: conjunta continua, normal, IC y PH con t, Bayes |
 | `PARCIALES/Final 2.md` | Final 10/12/2025: urnas, conjunta continua, normal, IC con σ conocido, PH |

@@ -11,7 +11,9 @@ fórmulas (MathJax) y las tipografías. Tus datos no salen de tu máquina.
 ## Qué tiene hasta ahora
 
 * **Apuntes por materia y unidad**, con pestañas de **Teoría** y **Práctica**.
-  Con contenido, por ahora, Probabilidad y Estadística (unidades 4 a 7) y Programación Avanzada,
+  Con contenido, por ahora, Probabilidad y Estadística (unidades 4 a 7, y la 8, Estimación, para
+  el 3er parcial: intervalos de confianza para la media, una proporción y la diferencia de medias)
+  y Programación Avanzada,
   que va por **clases** (1 a 6: PHP, arreglos y cadenas, HTML y formularios, JavaScript y API REST,
   sesiones, mysqli), con el código de cada ejemplo, qué hace cada línea y qué imprime. Empezó
   Ingeniería de Software II (2do parcial): una unidad base (cómo se lee y se dibuja un diagrama
@@ -263,6 +265,13 @@ Chrome (`chrome --headless --print-to-pdf`).
 `0.x.y-alpha` mientras esté en desarrollo. La `1.0.0` queda reservada para cuando esté terminado.
 La versión actual se lee al pie del menú lateral.
 
+* **0.60.0-alpha** — Probabilidad y Estadística, **Unidad 8: Estimación** (3er parcial), con lo que
+  dijo la profe que entra (Estimación partes 1 y 2): estimadores y sus propiedades, intervalo de
+  confianza para la media con Z o t, datos sueltos con la calculadora, tamaño de muestra,
+  intervalo para una proporción y para la diferencia de medias (muestras grandes, pooled y Welch,
+  con la regla empírica). La guía resuelta (sin los ejercicios de varianzas ni de diferencia de
+  proporciones, que no entran), el Tercer Parcial 2025 resuelto, un tercer parcial probable y el
+  banco de autoevaluación de la unidad (urgentes, teoría y ejercicios fundamentales).
 * **0.59.0-alpha** — Ingeniería de Software II: los **diagramas del apunte**, redibujados iguales y
   rotulados. Se suman los que faltaban (el progreso lineal de CMMI, la ficha de una métrica y el
   mapa de proceso, producto y proyecto, versionado, deltas e instantáneas, las tres secciones de

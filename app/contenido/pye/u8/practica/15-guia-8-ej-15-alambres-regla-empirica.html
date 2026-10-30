@@ -1,0 +1,185 @@
+<div class="ej">
+  <span class="tag">Guía 8 &middot; Ej. 15 &middot; IC para \(\mu_1 - \mu_2\) con regla empírica</span>
+  <h2>¿El alambre A tiene más resistencia que el B?</h2>
+  <div class="enunciado">
+    <p>
+      Se afirma que la resistencia del alambre A es mayor que la del alambre B. Un experimento sobre
+      los alambres muestra los siguientes resultados (en ohms):
+    </p>
+    <p>- Alambre A: 0.140, 0.138, 0.143, 0.142, 0.144, 0.137.</p>
+    <p>- Alambre B: 0.135, 0.140, 0.136, 0.142, 0.138, 0.140.</p>
+    <p>
+      ¿Qué conclusiones extrae? Justifique su respuesta obteniendo un intervalo del 95% de confianza
+      adecuado para la diferencia de resistencias promedios reales de los dos tipos de alambre,
+      averiguando previamente si las varianzas poblacionales pueden asumirse iguales o no.
+    </p>
+  </div>
+
+  <span class="paso">Qué se estima y en qué orden</span>
+  <p>
+    La afirmación es "A mayor que B", así que conviene restar en ese orden: <strong>1 = alambre A,
+    2 = alambre B</strong>, y estimar \(\mu_A - \mu_B\). Si la afirmación fuera cierta, el intervalo
+    tendría que quedar <strong>todo positivo</strong> (sin el 0 adentro).
+  </p>
+  <p>
+    La idea: se calcula cuánto difieren los promedios de estas dos muestras, \(\bar{x}_1 -
+    \bar{x}_2\), y se le suma y resta un margen que cubre lo que esa diferencia puede variar por azar
+    de una muestra a otra.
+  </p>
+
+  <span class="paso">Qué caso es (el árbol de decisión)</span>
+  <ul>
+    <li>¿\(\sigma_1^2\) y \(\sigma_2^2\) conocidas? <strong>No</strong>: solo hay datos.</li>
+    <li>
+      ¿\(n_1\) y \(n_2\) \(\geq 30\)? <strong>No</strong>: 6 y 6. Muestras chicas &rarr; \(t\). El
+      enunciado no dice que las resistencias sean normales; hay que <strong>suponerlo</strong> (es el
+      requisito de la \(t\)), igual que hizo la cátedra.
+    </li>
+    <li>¿Varianzas iguales o distintas? No lo dice: se averigua con la <strong>regla empírica</strong> (paso 2).</li>
+  </ul>
+
+  <span class="paso">Desarme del enunciado</span>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Traducción</th><th>Cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"se afirma que la resistencia del alambre A es mayor"</td><td>lo que hay que confirmar o no</td><td>&mdash;</td><td>1 = A, 2 = B</td></tr>
+      <tr><td>los 6 datos de A</td><td>muestra 1, chica</td><td>calculadora</td><td>\(n_1 = 6\), \(\bar{x}_1\), \(S_1\)</td></tr>
+      <tr><td>los 6 datos de B</td><td>muestra 2, chica</td><td>calculadora</td><td>\(n_2 = 6\), \(\bar{x}_2\), \(S_2\)</td></tr>
+      <tr><td>"95% de confianza"</td><td>falla el 5&nbsp;%, 2,5&nbsp;% en cada punta</td><td>\(\alpha = 0{,}05\); \(\alpha/2 = 0{,}025\)</td><td>\(t_{(0{,}025;\ \nu)}\)</td></tr>
+      <tr><td>"averiguando ... si las varianzas pueden asumirse iguales"</td><td>regla empírica</td><td>\(S^2_{mayor}/S^2_{menor}\)</td><td>pooled o Welch</td></tr>
+    </table>
+  </div>
+  <p>
+    <strong>Qué son \(\alpha\) y \(\alpha/2\), en criollo:</strong> el 95&nbsp;% de confianza es qué
+    tan seguido acierta el método. \(\alpha = 1 - 0{,}95 = 0{,}05\) es la chance de que el intervalo
+    <em>no</em> atrape la diferencia real. Ese 5&nbsp;% se reparte mitad en cada punta de la campana:
+    \(\alpha/2 = 0{,}025\) de cada lado. Por eso en la tabla se entra por la columna 0,025.
+  </p>
+
+  <span class="paso">Paso 1 &mdash; Media y desvío de cada muestra</span>
+  <p>\[ \bar{x} = \frac{\sum x}{n} \qquad S = \sqrt{\frac{\sum (x - \bar{x})^{2}}{n - 1}} \]</p>
+  <ul>
+    <li>Alambre A: \(\bar{x}_1 = \dfrac{0{,}844}{6} = 0{,}14067\) ohm; \(S_1 = 0{,}0028048\) ohm</li>
+    <li>Alambre B: \(\bar{x}_2 = \dfrac{0{,}831}{6} = 0{,}13850\) ohm; \(S_2 = 0{,}0026646\) ohm</li>
+  </ul>
+  <div class="caja caja-calc">
+    <span class="caja-tit">En la calculadora (una muestra por vez)</span>
+    <ul>
+      <li>
+        <strong>fx-82 / fx-95:</strong> <code>MODE</code> &rarr; <code>SD</code>; borrar con
+        <code>SHIFT</code> <code>MODE</code> <code>1</code> (Scl) <code>=</code>; cargar cada dato con
+        <code>M+</code>; leer con <code>SHIFT</code> <code>2</code> (S-VAR): \(\bar{x}\) y
+        \(x\sigma_{n-1}\).
+      </li>
+      <li>
+        <strong>fx-82 PLUS / fx-570:</strong> <code>MODE</code> &rarr; <code>STAT</code> &rarr;
+        <code>1-VAR</code>; cargar cada dato con <code>=</code>; <code>AC</code>, <code>SHIFT</code>
+        <code>STAT</code> &rarr; <code>VAR</code>: \(\bar{x}\) y \(sx\).
+      </li>
+    </ul>
+    <p>
+      Alambre A: \(\bar{x}_1 = 0{,}1406666\ldots\), \(S_1 = 2{,}8047\ldots \times 10^{-3}\). Se borra
+      todo y se cargan los 6 de B: \(\bar{x}_2 = 0{,}1385\), \(S_2 = 2{,}6645\ldots \times 10^{-3}\).
+    </p>
+    <p>
+      La calculadora muestra el desvío en notación científica: \(2{,}8047 \times 10^{-3}\) quiere
+      decir \(0{,}0028047\) (la coma se corre 3 lugares a la izquierda). No usar \(\sigma x\)
+      (\(x\sigma_n\)).
+    </p>
+  </div>
+  <p>Las varianzas (desvíos al cuadrado) son números muy chicos; se escriben en notación científica:</p>
+  <ul>
+    <li>\(S_1^2 = 0{,}0028048^2 = 0{,}000007867 = 7{,}867 \times 10^{-6}\)</li>
+    <li>\(S_2^2 = 0{,}0026646^2 = 0{,}000007100 = 7{,}100 \times 10^{-6}\)</li>
+  </ul>
+
+  <span class="paso">Paso 2 &mdash; ¿Varianzas iguales? Regla empírica</span>
+  <p>
+    <strong>Para qué:</strong> con muestras chicas hay dos fórmulas. Si las dos poblaciones tienen la
+    misma dispersión, se juntan las dos muestras para estimar esa dispersión común (caso
+    <strong>pooled</strong>, "juntado"); si no, cada varianza va por separado (caso Welch). La regla
+    empírica compara las dos varianzas muestrales, la grande sobre la chica:
+  </p>
+  <p>\[ RV = \frac{S^2_{mayor}}{S^2_{menor}} \qquad \begin{cases} RV \leq 3 &amp; \Rightarrow \text{se suponen iguales (pooled)} \\ RV &gt; 3 &amp; \Rightarrow \text{no se suponen iguales (Welch)} \end{cases} \]</p>
+  <p>\[ RV = \frac{7{,}867 \times 10^{-6}}{7{,}100 \times 10^{-6}} = \frac{7{,}867}{7{,}100} = 1{,}11 \]</p>
+  <p>(Los \(10^{-6}\) se cancelan.) \(1{,}11 \leq 3\) &rarr; varianzas <strong>iguales</strong>: va <strong>pooled</strong>.</p>
+  <div class="caja caja-formula">
+    <span class="caja-tit">IC para \(\mu_1 - \mu_2\), muestras chicas y varianzas iguales</span>
+    <p>\[ (\bar{x}_1 - \bar{x}_2) \pm t_{(\alpha/2;\ n_1+n_2-2)}\; S_p\sqrt{\frac{1}{n_1} + \frac{1}{n_2}} \]</p>
+    <p>\[ S_p^2 = \frac{(n_1-1)S_1^2 + (n_2-1)S_2^2}{n_1+n_2-2} \]</p>
+  </div>
+
+  <span class="paso">Paso 3 &mdash; La varianza combinada \(S_p^2\)</span>
+  <p>
+    Es el promedio de las dos varianzas, pesando cada una por \(n - 1\) (cuántos datos aportó). Como
+    acá \(n_1 = n_2\), queda el promedio común de las dos.
+  </p>
+  <p>\[ S_p^2 = \frac{(n_1-1)S_1^2 + (n_2-1)S_2^2}{n_1+n_2-2} \]</p>
+  <p>\[ S_p^2 = \frac{5 \times 7{,}867 \times 10^{-6} + 5 \times 7{,}100 \times 10^{-6}}{10} = \frac{74{,}83 \times 10^{-6}}{10} = 7{,}483 \times 10^{-6} \]</p>
+  <p>\[ S_p = \sqrt{7{,}483 \times 10^{-6}} = 0{,}0027356 \text{ ohm} \]</p>
+
+  <span class="paso">Paso 4 &mdash; \(t\) de la tabla A.4</span>
+  <p>
+    <strong>Grados de libertad, en criollo:</strong> la \(t\) es una familia de campanas, más anchas
+    cuantos menos datos hay; \(\nu\) dice cuál usar (la <strong>fila</strong> de la tabla). En el caso
+    pooled son los datos de las dos muestras menos 2 (uno por cada media que se calculó):
+    \(\nu = 6 + 6 - 2 = 10\).
+  </p>
+  <ul>
+    <li>fila \(\nu = 10\)</li>
+    <li>columna \(\alpha/2 = 0{,}025\)</li>
+  </ul>
+  <p>\[ t_{(0{,}025;\ 10)} = 2{,}228 \]</p>
+
+  <span class="paso">Paso 5 &mdash; Margen</span>
+  <p>
+    \(S_p\sqrt{1/n_1 + 1/n_2}\) es el <strong>error estándar de la diferencia</strong>: cuánto puede
+    moverse \(\bar{x}_1 - \bar{x}_2\) de una muestra a otra por puro azar. El margen es ese error
+    estándar por el \(t\) de tabla.
+  </p>
+  <p>\[ E = t_{(\alpha/2;\ n_1+n_2-2)}\; S_p\sqrt{\frac{1}{n_1} + \frac{1}{n_2}} \]</p>
+  <ul>
+    <li>\(\sqrt{\dfrac{1}{6} + \dfrac{1}{6}} = \sqrt{0{,}3333} = 0{,}5774\)</li>
+    <li>\(S_p \times 0{,}5774 = 0{,}0027356 \times 0{,}5774 = 0{,}0015794\)</li>
+  </ul>
+  <p>\[ E = 2{,}228 \times 0{,}0015794 = 0{,}0035189 \text{ ohm} \]</p>
+
+  <span class="paso">Paso 6 &mdash; Armar el intervalo</span>
+  <p>Fórmula:</p>
+  <p>\[ (\bar{x}_1 - \bar{x}_2) \pm t_{(\alpha/2;\ n_1+n_2-2)}\; S_p\sqrt{\frac{1}{n_1} + \frac{1}{n_2}} \]</p>
+  <p>\[ \bar{x}_1 - \bar{x}_2 = 0{,}14067 - 0{,}13850 = 0{,}0021667 \]</p>
+  <p>\[ 0{,}0021667 - 0{,}0035189 &lt; \mu_A - \mu_B &lt; 0{,}0021667 + 0{,}0035189 \]</p>
+  <p>\[ \mathbf{-0{,}0014 &lt; \mu_A - \mu_B &lt; 0{,}0057} \]</p>
+
+  <span class="paso">Paso 7 &mdash; ¿Incluye el 0? ¿Qué se concluye?</span>
+  <ul>
+    <li>
+      <strong>Sí</strong> incluye el 0: el extremo izquierdo es negativo y el derecho positivo. Una
+      diferencia nula es compatible con los datos.
+    </li>
+    <li>
+      Entonces <strong>no hay diferencia significativa</strong> entre las resistencias medias. Que en
+      la muestra A haya dado un poco más (0,1407 contra 0,1385) puede ser azar.
+    </li>
+    <li>
+      La afirmación "A es mayor que B" <strong>no queda respaldada</strong>: para eso el intervalo
+      tendría que ser todo positivo.
+    </li>
+  </ul>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>
+      Regla empírica: \(RV = 1{,}11 \leq 3\), varianzas iguales (pooled, \(\nu = 10\)).
+      \(IC_{95\%}(\mu_A - \mu_B) = (\,-0{,}0014\ ;\ 0{,}0057\,)\) ohm. Como el 0 está en el intervalo,
+      con 95&nbsp;% de confianza no hay diferencia significativa entre las resistencias medias:
+      <strong>no se puede afirmar que el alambre A sea más resistente que el B</strong>.
+    </p>
+    <p>
+      <strong>Resolución 2023 de la cátedra:</strong> \(-0{,}0014 &lt; \mu_1 - \mu_2 &lt; 0{,}0057\),
+      varianzas iguales, misma conclusión. Coincide. (La hoja dice "con un 90&nbsp;% de confianza" en
+      la conclusión, pero es un error de tipeo: el intervalo es del 95&nbsp;%, como pide el
+      enunciado.)
+    </p>
+  </div>
+</div>

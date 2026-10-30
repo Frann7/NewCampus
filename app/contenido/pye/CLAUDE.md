@@ -7,14 +7,21 @@ solo lo propio de PyE. Si se toca el banco de preguntas: `evaluacion/preguntas/F
 ## Fuentes y alcance
 
 - **Alcance:** cada unidad sale **solo de los PDF de esa unidad**:
-  `C:\Users\Fran\Desktop\SISTEMAS 3\PYE\PARCIAL 2\UNIDAD N\`. La prueba de hipótesis es U8/9, no
-  U7. Otros materiales: `PYE\PARCIAL 2\guia_integradoras_parcial_2.pdf`, `Respuestas.pdf`,
+  `C:\Users\Fran\Desktop\SISTEMAS 3\PYE\PARCIAL 2\UNIDAD N\`. La prueba de hipótesis no es U7.
+- **3er parcial (U8, Estimación):** la profe dijo (2026) que entran **solo** `PARCIAL 3\UNIDAD 8\
+  Estimacion_Parte 1.pdf` y `Estimacion_Parte 2.pdf` (IC para μ, π y μ₁ − μ₂). No entran prueba de
+  hipótesis, IC de varianzas, diferencia de proporciones, tolerancia ni predicción, aunque estén
+  en la guía o en el Parcial 3 2025. Regla de Z o t de la profe: n ≥ 30 → Z (con σ o con S);
+  n < 30 → t (ν = n − 1); σ conocida → Z. Las preguntas del banco `u8` llevan
+  `data-origen="parcial"` aunque el tema no se haya tomado (es para el 3er parcial).
+- Otros materiales del 2do parcial: `PYE\PARCIAL 2\guia_integradoras_parcial_2.pdf`, `Respuestas.pdf`,
   `Guia_distribucion_t_Student_yRtas.pdf`, `Parcial 2 2025.jpg`, y finales en `PYE\PARCIALES\`.
 - **Texto extraído:** cada PDF está en texto en `fuentes/pye/` (raíz del repo), con la misma ruta
   que en `SISTEMAS 3\PYE\` y `.md` en vez de `.pdf`; `fuentes/pye/INDICE.md` dice qué es cada uno.
   **Primero el texto extraído** (con la tabla de arriba de cada `.md` o Grep, se lee solo el rango
   de `<!-- página N -->` que hace falta); **el PDF solo en las páginas marcadas ⚠ o si algo no
-  cierra**. Las imágenes (`Parcial 2 2025.jpg` y las de PARCIAL 1) no tienen texto: se miran.
+  cierra**. Las imágenes (`Parcial 2 2025.jpg`, `PARCIAL 3\Parcial 3 2025.jpg` y las de PARCIAL 1)
+  no tienen texto: se miran.
 - **Distribuciones que entran** (dicho por la profe, 30/09/2026): discretas uniforme, binomial,
   binomial negativa, Poisson, geométrica, hipergeométrica; continuas uniforme, normal,
   t de Student, exponencial.

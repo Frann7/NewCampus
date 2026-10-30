@@ -1,0 +1,213 @@
+<!-- ==================== EJERCICIO 3 ==================== -->
+<section class="parcial-ej">
+  <div class="parcial-ej-cab">
+    <h2>Ejercicio 3</h2>
+    <span class="parcial-pts">20 puntos</span>
+    <span class="parcial-tema">Unidad 8 &middot; IC para una proporción y ancho del intervalo</span>
+  </div>
+
+  <p>
+    Después de optimizar los índices de la base de datos de producción, un administrador registró una
+    muestra aleatoria de 400 consultas y encontró que 52 tardaron más de 200 ms (consultas lentas).
+  </p>
+
+  <ol class="parcial-incisos">
+    <li>Construya un intervalo de confianza del 95&nbsp;% para la proporción de consultas lentas.</li>
+    <li>Antes de la optimización, el 20&nbsp;% de las consultas eran lentas. Con el intervalo del inciso anterior, ¿se puede afirmar que la optimización cambió esa proporción? Justifique.</li>
+    <li>
+      Sin rehacer el ejercicio, indique qué le pasa al ancho del intervalo del inciso a) en cada caso, y verifíquelo con las cuentas:
+      <ol class="parcial-sub-incisos">
+        <li>si se pide un 99&nbsp;% de confianza con la misma muestra;</li>
+        <li>si se registran 1600 consultas y se obtiene la misma proporción muestral, al 95&nbsp;%.</li>
+      </ol>
+    </li>
+  </ol>
+
+  <div class="parcial-extras">
+    <details class="parcial-desp pd-resultados">
+      <summary>
+        <span class="pd-icono">&#10003;</span>
+        <span class="pd-txt"><b>Resultados</b><small>Solo las respuestas, sin procedimiento</small></span>
+      </summary>
+      <div class="pd-cuerpo">
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Inciso</th><th>Resultado</th></tr>
+            <tr>
+              <td class="lbl">a) IC 95&nbsp;% para \(\pi\)</td>
+              <td>\(\hat{p} = 0{,}13\), \(E = 0{,}0330\) &nbsp;&middot;&nbsp; \(\text{IC}_{95\%}(\pi) = (0{,}0970\ ;\ 0{,}1630)\): entre el 9,7&nbsp;% y el 16,3&nbsp;% de las consultas son lentas</td>
+            </tr>
+            <tr>
+              <td class="lbl">b) ¿Cambió?</td>
+              <td><strong>Sí:</strong> 0,20 queda afuera del intervalo, por arriba. La proporción de consultas lentas bajó.</td>
+            </tr>
+            <tr>
+              <td class="lbl">c) I) 99&nbsp;%</td>
+              <td>Más <strong>ancho</strong>: \(E = 0{,}0433\), \(\text{IC}_{99\%}(\pi) = (0{,}0867\ ;\ 0{,}1733)\)</td>
+            </tr>
+            <tr>
+              <td class="lbl">c) II) \(n = 1600\)</td>
+              <td>Más <strong>angosto</strong>, la mitad: \(E = 0{,}0165\), \(\text{IC}_{95\%}(\pi) = (0{,}1135\ ;\ 0{,}1465)\)</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </details>
+
+    <details class="parcial-desp pd-explicacion">
+      <summary>
+        <span class="pd-icono">&#9998;</span>
+        <span class="pd-txt"><b>Explicación detallada</b><small>Desde cero: teoría, desarme del enunciado, resolución y comparación con la guía</small></span>
+      </summary>
+      <div class="pd-cuerpo">
+
+        <div class="caja caja-ejemplo">
+          <span class="caja-tit">El enunciado, otra vez</span>
+          <p>
+            Tras optimizar los índices, de 400 consultas al azar 52 tardaron más de 200 ms. Piden: a) IC del
+            95&nbsp;% para la proporción de consultas lentas; b) si cambió respecto del 20&nbsp;% de antes;
+            c) qué pasa con el ancho del intervalo al pasar a 99&nbsp;% y al tomar 1600 consultas.
+          </p>
+        </div>
+
+        <h4>¿De qué tema es?</h4>
+        <p>
+          <strong>Estimación, parte 1</strong>: intervalo de confianza para una <strong>proporción</strong>
+          \(\pi\), y cómo cambia el error de estimación con la confianza y con \(n\).
+        </p>
+
+        <h4>Los conceptos que hacen falta, desde cero</h4>
+
+        <div class="caja caja-formula">
+          <span class="caja-tit">1. Proporción muestral</span>
+          <p>\[ \hat{p} = \frac{\text{cantidad de éxitos}}{n} \qquad\qquad \hat{q} = 1 - \hat{p} \]</p>
+          <p>
+            \(\pi\) es la proporción en <em>todas</em> las consultas (desconocida); \(\hat{p}\), la de la
+            muestra, es su estimador. &ldquo;Éxito&rdquo; es lo que se cuenta, aunque sea algo malo (acá, una
+            consulta lenta).
+          </p>
+        </div>
+
+        <div class="caja caja-formula">
+          <span class="caja-tit">2. Intervalo de confianza para \(\pi\) (muestras grandes)</span>
+          <p>\[ \hat{p} - z_{\alpha/2}\sqrt{\frac{\hat{p}\,\hat{q}}{n}} \;&lt;\; \pi \;&lt;\; \hat{p} + z_{\alpha/2}\sqrt{\frac{\hat{p}\,\hat{q}}{n}} \qquad\qquad E = z_{\alpha/2}\sqrt{\frac{\hat{p}\,\hat{q}}{n}} \]</p>
+          <p>
+            Es la misma idea que para la media: centro \(\hat{p}\) y un margen \(E\). La raíz es el error
+            estándar de \(\hat{p}\). Siempre con \(z\) (90&nbsp;% &rarr; 1,645; 95&nbsp;% &rarr; 1,96;
+            99&nbsp;% &rarr; 2,576), porque es para muestras grandes.
+          </p>
+        </div>
+
+        <div class="caja caja-formula">
+          <span class="caja-tit">3. De qué depende el ancho del intervalo</span>
+          <p>El ancho es \(2E\), y en \(E\) hay dos perillas:</p>
+          <ul>
+            <li><strong>La confianza</strong> está en \(z\): más confianza &rarr; \(z\) más grande &rarr; intervalo más <strong>ancho</strong> (para acertar más seguido, hay que abarcar más).</li>
+            <li><strong>El tamaño de muestra</strong> está abajo, dentro de la raíz: más datos &rarr; intervalo más <strong>angosto</strong>. Como es \(\sqrt{n}\), multiplicar \(n\) por 4 divide \(E\) por \(\sqrt{4} = 2\).</li>
+          </ul>
+          <p>Vale igual para el intervalo de la media (\(E = z\,\sigma/\sqrt{n}\)).</p>
+        </div>
+
+        <h4>Desarme del enunciado</h4>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Frase del enunciado</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+            <tr><td>&ldquo;una muestra aleatoria de 400 consultas&rdquo;</td><td>tamaño de muestra, grande</td><td>&mdash;</td><td>\(n = 400\)</td></tr>
+            <tr><td>&ldquo;52 tardaron más de 200 ms&rdquo;</td><td>los éxitos (consultas lentas)</td><td>\(52 \div 400\)</td><td>\(\hat{p} = 0{,}13\); \(\hat{q} = 0{,}87\)</td></tr>
+            <tr><td>&ldquo;95&nbsp;%&rdquo;</td><td>\(\alpha = 0{,}05\)</td><td>\(\alpha/2 = 0{,}025\)</td><td>\(z = 1{,}96\)</td></tr>
+            <tr><td>&ldquo;el 20&nbsp;% de las consultas eran lentas&rdquo;</td><td>proporción de antes: el valor a comparar</td><td>\(20 \div 100\)</td><td>\(\pi_0 = 0{,}20\)</td></tr>
+            <tr><td>&ldquo;99&nbsp;% de confianza&rdquo; (c I)</td><td>\(\alpha/2 = 0{,}005\)</td><td>&mdash;</td><td>\(z = 2{,}576\)</td></tr>
+            <tr><td>&ldquo;1600 consultas &hellip; misma proporción&rdquo; (c II)</td><td>\(n\) cuatro veces más grande</td><td>\(1600 \div 400 = 4\)</td><td>\(n = 1600\), \(\hat{p} = 0{,}13\)</td></tr>
+          </table>
+        </div>
+
+        <span class="paso">Inciso a &mdash; Intervalo del 95&nbsp;% para \(\pi\)</span>
+        <p>\[ \hat{p} = \frac{52}{400} = 0{,}13 \qquad\qquad \hat{q} = 1 - 0{,}13 = 0{,}87 \]</p>
+        <p>Fórmula:</p>
+        <p>\[ \hat{p} - z_{\alpha/2}\sqrt{\frac{\hat{p}\,\hat{q}}{n}} \;&lt;\; \pi \;&lt;\; \hat{p} + z_{\alpha/2}\sqrt{\frac{\hat{p}\,\hat{q}}{n}} \]</p>
+        <p>Error estándar:</p>
+        <p>\[ \sqrt{\frac{0{,}13 \times 0{,}87}{400}} = \sqrt{\frac{0{,}1131}{400}} = \sqrt{0{,}00028275} = 0{,}016815 \]</p>
+        <p>Error de estimación:</p>
+        <p>\[ E = 1{,}96 \times 0{,}016815 = 0{,}0330 \]</p>
+        <p>Intervalo:</p>
+        <p>\[ 0{,}13 - 0{,}0330 \;&lt;\; \pi \;&lt;\; 0{,}13 + 0{,}0330 \]</p>
+        <p>\[ 0{,}0970 \;&lt;\; \pi \;&lt;\; 0{,}1630 \]</p>
+        <div class="caja caja-resp">
+          <span class="caja-tit">Respuesta a</span>
+          <p>\(\text{IC}_{95\%}(\pi) = (0{,}0970\ ;\ 0{,}1630)\).</p>
+          <p>
+            Con un 95&nbsp;% de confianza, entre el 9,7&nbsp;% y el 16,3&nbsp;% de todas las consultas a la
+            base de producción son lentas. (Es una proporción: sin unidades.)
+          </p>
+        </div>
+
+        <span class="paso">Inciso b &mdash; ¿Cambió la proporción del 20&nbsp;%?</span>
+        <p>\[ \pi_0 = 0{,}20 \qquad\qquad \text{IC}_{95\%}(\pi) = (0{,}0970\ ;\ 0{,}1630) \qquad\qquad 0{,}20 &gt; 0{,}1630 \]</p>
+        <ul>
+          <li>0,20 queda <strong>afuera</strong> del intervalo, por arriba.</li>
+          <li>Todos los valores creíbles de la proporción actual son menores que 0,20.</li>
+        </ul>
+        <div class="caja caja-resp">
+          <span class="caja-tit">Respuesta b</span>
+          <p>
+            <strong>Sí.</strong> Con un 95&nbsp;% de confianza, la proporción de consultas lentas después de
+            la optimización es <strong>menor</strong> que el 20&nbsp;% de antes: la optimización la bajó.
+          </p>
+        </div>
+
+        <span class="paso">Inciso c &mdash; Qué pasa con el ancho</span>
+        <p>Fórmula (las dos perillas son \(z\) y \(n\)):</p>
+        <p>\[ E = z_{\alpha/2}\sqrt{\frac{\hat{p}\,\hat{q}}{n}} \]</p>
+
+        <h4>I) 99&nbsp;% de confianza, misma muestra</h4>
+        <p>Sube \(z\) de 1,96 a 2,576 y lo demás queda igual: el intervalo se <strong>ensancha</strong>.</p>
+        <p>\[ E = 2{,}576 \times 0{,}016815 = 0{,}0433 \]</p>
+        <p>\[ 0{,}13 - 0{,}0433 \;&lt;\; \pi \;&lt;\; 0{,}13 + 0{,}0433 \quad\Rightarrow\quad 0{,}0867 \;&lt;\; \pi \;&lt;\; 0{,}1733 \]</p>
+        <p>Ancho: \(2 \times 0{,}0433 = 0{,}0866\), contra \(2 \times 0{,}0330 = 0{,}0659\) al 95&nbsp;%.</p>
+
+        <h4>II) 1600 consultas, misma \(\hat{p}\), 95&nbsp;%</h4>
+        <p>\(n\) se multiplica por 4, así que \(E\) se divide por \(\sqrt{4} = 2\): el intervalo queda a la <strong>mitad</strong> de ancho.</p>
+        <p>\[ E = 1{,}96\sqrt{\frac{0{,}13 \times 0{,}87}{1600}} = 1{,}96 \times 0{,}0084076 = 0{,}0165 \]</p>
+        <p>\[ 0{,}13 - 0{,}0165 \;&lt;\; \pi \;&lt;\; 0{,}13 + 0{,}0165 \quad\Rightarrow\quad 0{,}1135 \;&lt;\; \pi \;&lt;\; 0{,}1465 \]</p>
+        <p>Ancho: \(0{,}0330\), la mitad de \(0{,}0659\). &#10003;</p>
+
+        <div class="caja caja-resp">
+          <span class="caja-tit">Respuesta c</span>
+          <p>I) Al 99&nbsp;% el intervalo es <strong>más ancho</strong>: (0,0867 ; 0,1733). Más confianza cuesta precisión.</p>
+          <p>II) Con 1600 consultas es <strong>más angosto</strong>, la mitad: (0,1135 ; 0,1465). Más datos dan más precisión.</p>
+        </div>
+
+        <h4>Parecido en la guía</h4>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Ejercicio</th><th>Qué tiene igual</th><th>Qué cambia</th></tr>
+            <tr>
+              <td class="lbl">Guía de Estimación, Ejercicios 20 y 21<br><em>Trastorno sanguíneo, viviendas con petróleo</em></td>
+              <td>IC para una proporción a partir de &ldquo;tantos de tantos&rdquo;.</td>
+              <td>Allá al 99&nbsp;%; acá al 95&nbsp;% y después se compara con un valor.</td>
+            </tr>
+            <tr>
+              <td class="lbl">Teoría, Ejemplo 3<br><em>Estudiantes con computadora portátil</em></td>
+              <td>IC del 95&nbsp;% para \(\pi\) con \(n = 300\).</td>
+              <td>Allá la proporción viene dada en porcentaje (80&nbsp;%).</td>
+            </tr>
+            <tr>
+              <td class="lbl">Guía de Estimación, Ejercicio 2 c y d<br><em>Estaturas</em></td>
+              <td>Repetir el intervalo con otras confianzas y ver qué pasa con el error.</td>
+              <td>Allá es para la media.</td>
+            </tr>
+          </table>
+        </div>
+
+        <div class="caja caja-ojo">
+          <span class="caja-tit">Las trampas de este ejercicio</span>
+          <ol>
+            <li><strong>Usar 52 en la fórmula.</strong> Va la proporción \(\hat{p} = 0{,}13\), no la cantidad.</li>
+            <li><strong>Sacar la raíz solo del numerador.</strong> La raíz abarca \(\hat{p}\,\hat{q}/n\) entero.</li>
+            <li><strong>Pensar que con 4 veces más datos el error baja 4 veces.</strong> Baja 2 veces, por la raíz.</li>
+          </ol>
+        </div>
+      </div>
+    </details>
+  </div>
+</section>

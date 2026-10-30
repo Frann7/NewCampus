@@ -1,0 +1,194 @@
+<div class="bloque">
+  <p class="kicker">Diferencia de medias &middot; muestras chicas, varianzas iguales</p>
+  <h2>9. Diferencia de medias: caso pooled</h2>
+
+  <h3>Cuándo se usa</h3>
+  <ul>
+    <li>Al menos una de las muestras es <strong>chica</strong> (menos de 30 datos) y no se conocen las varianzas de las poblaciones.</li>
+    <li>Las dos variables son <strong>normales</strong> (lo dice el enunciado: "suponiendo que se distribuye normalmente").</li>
+    <li>Las varianzas se pueden <strong>suponer iguales</strong>: o lo dice el enunciado, o la regla empírica da \(S^2_{mayor}/S^2_{menor} \leq 3\) (sección 7).</li>
+  </ul>
+
+  <h3>La idea: juntar las dos varianzas en una</h3>
+  <p>
+    <em>Pooled</em> en inglés quiere decir "juntado", como un pozo común donde se pone la plata de
+    todos. Si suponemos que las dos poblaciones tienen <strong>la misma</strong> varianza, tenemos dos
+    estimaciones de ese mismo número (\(S_1^2\) y \(S_2^2\)). En vez de quedarnos con una, las
+    <strong>promediamos</strong>, dándole más peso a la muestra que tiene más datos (es más confiable).
+    Ese promedio es \(S_p^2\), la varianza "pooled".
+  </p>
+  <p>
+    Como las muestras son chicas, en lugar de la \(Z\) se usa la <strong>\(t\)</strong> (sección 3), con
+    \(n_1 + n_2 - 2\) grados de libertad: los datos de las dos muestras juntas, menos 1 por cada media que
+    tuvimos que calcular.
+  </p>
+
+  <h3>Fórmulas</h3>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Varianza pooled</span>
+    <p>\[ S_p^2 = \frac{(n_1 - 1)\,S_1^2 + (n_2 - 1)\,S_2^2}{n_1 + n_2 - 2} \qquad\qquad S_p = \sqrt{S_p^2} \]</p>
+  </div>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Intervalo para \(\mu_1 - \mu_2\)</span>
+    <p>\[ (\bar{x}_1 - \bar{x}_2) - t_{(\alpha/2;\ \nu)}\, S_p\sqrt{\frac{1}{n_1} + \frac{1}{n_2}} &lt; \mu_1 - \mu_2 &lt; (\bar{x}_1 - \bar{x}_2) + t_{(\alpha/2;\ \nu)}\, S_p\sqrt{\frac{1}{n_1} + \frac{1}{n_2}} \qquad \nu = n_1 + n_2 - 2 \]</p>
+  </div>
+
+  <h4>Qué significa cada letra</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Símbolo</th><th>Qué es</th></tr>
+      <tr><td>\(S_1^2\), \(S_2^2\)</td><td>las varianzas de cada muestra (si dan desvíos, al cuadrado)</td></tr>
+      <tr><td>\(n_1 - 1\), \(n_2 - 1\)</td><td>el peso de cada varianza en el promedio: más datos, más peso</td></tr>
+      <tr><td>\(S_p^2\)</td><td>la varianza común estimada con las dos muestras juntas</td></tr>
+      <tr><td>\(S_p\)</td><td>su raíz: el desvío común (es lo que va en el intervalo)</td></tr>
+      <tr><td>\(\nu = n_1 + n_2 - 2\)</td><td>los grados de libertad para buscar en la tabla \(t\)</td></tr>
+      <tr><td>\(t_{(\alpha/2;\ \nu)}\)</td><td>tabla \(t\): fila \(\nu\), columna \(\alpha/2\)</td></tr>
+    </table>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Si la tabla no tiene esa fila</span>
+    <p>
+      Las tablas \(t\) suelen saltar de 30 a 40, 60 y 120. Con \(\nu = 41\) se usa la fila más cercana,
+      40 (\(t = 2{,}021\); el valor exacto para 41 es 2,020: da prácticamente lo mismo).
+    </p>
+  </div>
+
+  <h3>La receta</h3>
+  <ol>
+    <li>Regla empírica (si el enunciado no dice nada de las varianzas): \(S^2_{mayor}/S^2_{menor} \leq 3\).</li>
+    <li>\(S_p^2\) y \(S_p\).</li>
+    <li>\(\nu = n_1 + n_2 - 2\) y el valor de la tabla \(t\).</li>
+    <li>Error: \(E = t \cdot S_p \cdot \sqrt{1/n_1 + 1/n_2}\).</li>
+    <li>Intervalo \((\bar{x}_1 - \bar{x}_2) \pm E\), en el orden que pide el enunciado, y conclusión (¿incluye el 0?).</li>
+  </ol>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; Emisiones de carbono (Ejemplo 4 de la cátedra)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>
+      En una investigación sobre las emisiones de carbono a la atmósfera producto de incendios forestales,
+      se determinó el carbono total (en tn/ha) liberado por incendios en la región del Parque Chaqueño y
+      en la Selva Misionera durante el año 2008. En la primera región, la determinación sobre
+      <strong>26 incendios</strong> proporcionó un valor promedio de \(\bar{x}_1 = 110{,}45\) tn/ha y una
+      varianza de \(S_1^2 = 63\) (tn/ha)². En la segunda región se evaluaron <strong>16 incendios</strong> y
+      los valores encontrados para la media y la varianza fueron \(\bar{x}_2 = 229{,}51\) tn/ha y
+      \(S_2^2 = 48\) (tn/ha)². Suponiendo que la variable contenido de carbono se distribuye
+      <strong>normalmente</strong>, se desea construir un intervalo de confianza del
+      <strong>95&nbsp;%</strong> para la diferencia de medias poblacionales \(\mu_1 - \mu_2\).
+    </p>
+  </div>
+
+  <h4>Por qué este modelo</h4>
+  <ul>
+    <li>Dos regiones independientes, se comparan sus medias: <strong>diferencia de medias</strong>.</li>
+    <li>¿Varianzas de la población conocidas? No: son las de las muestras.</li>
+    <li>¿Las dos \(\geq 30\)? No: 26 y 16. Muestras chicas, variable normal.</li>
+    <li>Regla empírica: \(\dfrac{S^2_{mayor}}{S^2_{menor}} = \dfrac{63}{48} = 1{,}31 \leq 3\) &rarr; varianzas supuestas iguales &rarr; <strong>pooled</strong>.</li>
+  </ul>
+
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"Parque Chaqueño &hellip; 26 incendios &hellip; 110,45"</td><td>muestra 1</td><td>\(n_1 - 1 = 25\)</td><td>\(n_1 = 26\), \(\bar{x}_1 = 110{,}45\)</td></tr>
+      <tr><td>"una varianza de \(S_1^2 = 63\)"</td><td>varianza de la muestra 1 (ya al cuadrado)</td><td>&mdash;</td><td>\(S_1^2 = 63\)</td></tr>
+      <tr><td>"Selva Misionera &hellip; 16 incendios &hellip; 229,51"</td><td>muestra 2</td><td>\(n_2 - 1 = 15\)</td><td>\(n_2 = 16\), \(\bar{x}_2 = 229{,}51\)</td></tr>
+      <tr><td>"\(S_2^2 = 48\)"</td><td>varianza de la muestra 2</td><td>&mdash;</td><td>\(S_2^2 = 48\)</td></tr>
+      <tr><td>"\(\mu_1 - \mu_2\)"</td><td>Chaqueño menos Misionera</td><td>\(110{,}45 - 229{,}51\)</td><td>\(\bar{x}_1 - \bar{x}_2 = -119{,}06\)</td></tr>
+      <tr><td>"95&nbsp;%"</td><td>confianza</td><td>\(\alpha/2 = 0{,}025\); \(\nu = 26 + 16 - 2 = 40\)</td><td>tabla \(t\): fila 40, columna 0,025 &rarr; 2,021</td></tr>
+    </table>
+  </div>
+
+  <p><strong>Paso 1 &mdash; Varianza pooled.</strong> Fórmula:</p>
+  <p>\[ S_p^2 = \frac{(n_1 - 1)\,S_1^2 + (n_2 - 1)\,S_2^2}{n_1 + n_2 - 2} \]</p>
+  <p>\[ S_p^2 = \frac{25 \cdot 63 + 15 \cdot 48}{40} = \frac{1575 + 720}{40} = \frac{2295}{40} = 57{,}375 \qquad S_p = \sqrt{57{,}375} = 7{,}5746 \]</p>
+  <p>(Fijate que 57,375 queda entre 48 y 63, más cerca de 63: la muestra 1 tiene más datos y pesa más.)</p>
+
+  <p><strong>Paso 2 &mdash; Fórmula del intervalo.</strong></p>
+  <p>\[ (\bar{x}_1 - \bar{x}_2) - t_{(\alpha/2;\ \nu)}\, S_p\sqrt{\frac{1}{n_1} + \frac{1}{n_2}} &lt; \mu_1 - \mu_2 &lt; (\bar{x}_1 - \bar{x}_2) + t_{(\alpha/2;\ \nu)}\, S_p\sqrt{\frac{1}{n_1} + \frac{1}{n_2}} \]</p>
+  <p><strong>Paso 3 &mdash; La raíz de los \(1/n\):</strong></p>
+  <p>\[ \sqrt{\frac{1}{26} + \frac{1}{16}} = \sqrt{0{,}03846 + 0{,}0625} = \sqrt{0{,}10096} = 0{,}31774 \]</p>
+  <p><strong>Paso 4 &mdash; El error:</strong></p>
+  <p>\[ E = 2{,}021 \cdot 7{,}5746 \cdot 0{,}31774 = 4{,}864 \]</p>
+  <p><strong>Paso 5 &mdash; Reemplazar</strong> (la diferencia es negativa):</p>
+  <p>\[ -119{,}06 - 4{,}864 &lt; \mu_1 - \mu_2 &lt; -119{,}06 + 4{,}864 \quad\Longrightarrow\quad -123{,}92 &lt; \mu_1 - \mu_2 &lt; -114{,}20 \]</p>
+  <p><strong>Paso 6 &mdash; ¿Incluye el 0?</strong> No, y es todo negativo: \(\mu_1 &lt; \mu_2\).</p>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>
+      \(IC_{95\%}(\mu_1 - \mu_2) = (-123{,}92\ ;\ -114{,}20)\) tn/ha. El intervalo no incluye el 0: con un
+      95&nbsp;% de confianza hay diferencia significativa entre las emisiones medias, y la Selva Misionera
+      libera en promedio entre 114,20 y 123,92 tn/ha más de carbono que el Parque Chaqueño.
+    </p>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">La diapositiva resta al revés</span>
+    <p>
+      El enunciado pide \(\mu_1 - \mu_2\) (Chaqueño &minus; Misionera), pero la cátedra calcula
+      \(229{,}51 - 110{,}45\) (Misionera &minus; Chaqueño) y da \((114{,}19\ ;\ 123{,}93)\): ese es el intervalo
+      de \(\mu_2 - \mu_1\). Para lo que pide el enunciado los signos se cambian y el orden se da vuelta.
+      La conclusión es la misma (la Selva Misionera emite más). La diferencia de un centésimo
+      (114,19 contra 114,20) es porque la cátedra redondeó \(S_p^2\) a 57,4.
+    </p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; Arquitectura SQL contra NoSQL (ejercicio de la pág. 15 de la cátedra)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>
+      En un estudio de rendimiento sobre infraestructura web, se comparó el tiempo de respuesta (en
+      milisegundos) de dos arquitecturas de bases de datos al procesar peticiones concurrentes a una API.
+      Arquitectura SQL: una muestra de \(n_1 = 25\) peticiones registró un tiempo medio de respuesta de
+      \(\bar{x}_1 = 142{,}5\) ms y una varianza muestral de \(S_1^2 = 85\) ms². Arquitectura NoSQL: una
+      muestra de \(n_2 = 18\) peticiones registró un tiempo medio de \(\bar{x}_2 = 118{,}2\) ms y una
+      varianza muestral de \(S_2^2 = 65\) ms². Suponiendo que la variable tiempo de respuesta se distribuye
+      <strong>normalmente</strong> en ambas arquitecturas y que las <strong>varianzas poblacionales son
+      iguales</strong> (\(\sigma_1^2 = \sigma_2^2\)), construya un intervalo de confianza del
+      <strong>95&nbsp;%</strong> para la diferencia de medias poblacionales \(\mu_1 - \mu_2\).
+    </p>
+  </div>
+
+  <h4>Por qué este modelo</h4>
+  <ul>
+    <li>Dos arquitecturas independientes, se comparan sus tiempos medios: <strong>diferencia de medias</strong>.</li>
+    <li>Muestras chicas (25 y 18) y variable normal.</li>
+    <li>El enunciado <strong>dice</strong> que las varianzas son iguales: <strong>pooled</strong>. (La regla empírica lo confirma: \(85/65 = 1{,}31 \leq 3\).)</li>
+  </ul>
+
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"SQL: \(n_1 = 25\) &hellip; 142,5 ms &hellip; 85 ms²"</td><td>muestra 1</td><td>\(n_1 - 1 = 24\)</td><td>\(n_1 = 25\), \(\bar{x}_1 = 142{,}5\), \(S_1^2 = 85\)</td></tr>
+      <tr><td>"NoSQL: \(n_2 = 18\) &hellip; 118,2 ms &hellip; 65 ms²"</td><td>muestra 2</td><td>\(n_2 - 1 = 17\)</td><td>\(n_2 = 18\), \(\bar{x}_2 = 118{,}2\), \(S_2^2 = 65\)</td></tr>
+      <tr><td>"varianzas poblacionales iguales"</td><td>caso pooled</td><td>&mdash;</td><td>\(S_p^2\)</td></tr>
+      <tr><td>"\(\mu_1 - \mu_2\)"</td><td>SQL menos NoSQL</td><td>\(142{,}5 - 118{,}2\)</td><td>\(\bar{x}_1 - \bar{x}_2 = 24{,}3\)</td></tr>
+      <tr><td>"95&nbsp;%"</td><td>confianza</td><td>\(\nu = 25 + 18 - 2 = 41\)</td><td>tabla \(t\): fila 40 (la más cercana), columna 0,025 &rarr; 2,021</td></tr>
+    </table>
+  </div>
+
+  <p><strong>Paso 1 &mdash; Varianza pooled.</strong> Fórmula:</p>
+  <p>\[ S_p^2 = \frac{(n_1 - 1)\,S_1^2 + (n_2 - 1)\,S_2^2}{n_1 + n_2 - 2} \]</p>
+  <p>\[ S_p^2 = \frac{24 \cdot 85 + 17 \cdot 65}{41} = \frac{2040 + 1105}{41} = \frac{3145}{41} = 76{,}71 \qquad S_p = \sqrt{76{,}71} = 8{,}758 \]</p>
+  <p><strong>Paso 2 &mdash; Fórmula del intervalo.</strong></p>
+  <p>\[ (\bar{x}_1 - \bar{x}_2) - t_{(\alpha/2;\ \nu)}\, S_p\sqrt{\frac{1}{n_1} + \frac{1}{n_2}} &lt; \mu_1 - \mu_2 &lt; (\bar{x}_1 - \bar{x}_2) + t_{(\alpha/2;\ \nu)}\, S_p\sqrt{\frac{1}{n_1} + \frac{1}{n_2}} \]</p>
+  <p><strong>Paso 3 &mdash; La raíz de los \(1/n\):</strong></p>
+  <p>\[ \sqrt{\frac{1}{25} + \frac{1}{18}} = \sqrt{0{,}04 + 0{,}05556} = \sqrt{0{,}09556} = 0{,}30912 \]</p>
+  <p><strong>Paso 4 &mdash; El error:</strong></p>
+  <p>\[ E = 2{,}021 \cdot 8{,}758 \cdot 0{,}30912 = 5{,}47 \]</p>
+  <p><strong>Paso 5 &mdash; Reemplazar:</strong></p>
+  <p>\[ 24{,}3 - 5{,}47 &lt; \mu_1 - \mu_2 &lt; 24{,}3 + 5{,}47 \quad\Longrightarrow\quad 18{,}83 &lt; \mu_1 - \mu_2 &lt; 29{,}77 \]</p>
+  <p><strong>Paso 6 &mdash; ¿Incluye el 0?</strong> No, y es todo positivo: \(\mu_1 &gt; \mu_2\).</p>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>
+      \(IC_{95\%}(\mu_1 - \mu_2) = (18{,}83\ ;\ 29{,}77)\) ms. El intervalo no incluye el 0: con un 95&nbsp;% de
+      confianza hay diferencia significativa, y la arquitectura SQL tarda en promedio entre 18,83 y
+      29,77 ms más que la NoSQL. (Con el \(t\) exacto de 41 grados de libertad, 2,020, da lo mismo.)
+    </p>
+  </div>
+</div>

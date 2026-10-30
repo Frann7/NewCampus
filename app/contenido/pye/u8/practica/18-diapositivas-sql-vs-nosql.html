@@ -1,0 +1,138 @@
+<div class="ej">
+  <span class="tag">Diapositivas &middot; Estimación parte 2 &middot; IC para \(\mu_1 - \mu_2\), varianzas iguales</span>
+  <h2>Tiempo de respuesta: SQL contra NoSQL</h2>
+  <div class="enunciado">
+    <p>
+      En un estudio de rendimiento sobre infraestructura web, se comparó el tiempo de respuesta (en
+      milisegundos) de dos arquitecturas de bases de datos (Arquitectura SQL y Arquitectura NoSQL) al
+      procesar peticiones concurrentes a una API.
+    </p>
+    <p>
+      Arquitectura SQL: una muestra de \(n_1 = 25\) peticiones registró un tiempo medio de respuesta de
+      \(\bar{x}_1 = 142{,}5\) ms y una varianza muestral de \(S_1^2 = 85\) ms².
+    </p>
+    <p>
+      Arquitectura NoSQL: una muestra de \(n_2 = 18\) peticiones registró un tiempo medio de respuesta
+      de \(\bar{x}_2 = 118{,}2\) ms y una varianza muestral de \(S_2^2 = 65\) ms².
+    </p>
+    <p>
+      Suponiendo que la variable tiempo de respuesta se distribuye normalmente en ambas arquitecturas
+      y que las varianzas poblacionales son iguales (\(\sigma_1^2 = \sigma_2^2\)), construya un
+      intervalo de confianza del 95% para la diferencia de medias poblacionales de tiempo de respuesta
+      (\(\mu_1 - \mu_2\)).
+    </p>
+  </div>
+
+  <span class="paso">Qué se estima y en qué orden</span>
+  <p>
+    El enunciado ya numera: <strong>1 = SQL, 2 = NoSQL</strong>, y pide \(\mu_1 - \mu_2\). La
+    estimación puntual es \(\bar{x}_1 - \bar{x}_2\); el intervalo le suma y resta un margen que cubre
+    lo que esa diferencia puede cambiar de una muestra a otra. Si el 0 queda afuera, las
+    arquitecturas difieren de verdad.
+  </p>
+
+  <span class="paso">Qué caso es (el árbol de decisión)</span>
+  <ul>
+    <li>¿\(\sigma_1^2\) y \(\sigma_2^2\) conocidas? <strong>No</strong>: 85 y 65 son varianzas <em>muestrales</em> (\(S^2\)).</li>
+    <li>¿\(n_1\) y \(n_2\) \(\geq 30\)? <strong>No</strong>: 25 y 18. Muestras chicas &rarr; \(t\) (los tiempos son normales, lo dice el enunciado).</li>
+    <li>
+      ¿Varianzas iguales? El enunciado lo dice: <strong>"las varianzas poblacionales son
+      iguales"</strong>. (Como control, la regla empírica da \(85/65 = 1{,}31 \leq 3\): coincide.)
+    </li>
+  </ul>
+  <p>
+    &rarr; <strong>caso pooled</strong> ("juntado"): como las dos poblaciones tienen la misma
+    dispersión, se juntan las dos muestras para estimarla con una sola varianza, \(S_p^2\), hecha con
+    los 43 datos.
+  </p>
+  <div class="caja caja-formula">
+    <span class="caja-tit">IC para \(\mu_1 - \mu_2\), muestras chicas y varianzas iguales</span>
+    <p>\[ (\bar{x}_1 - \bar{x}_2) \pm t_{(\alpha/2;\ n_1+n_2-2)}\; S_p\sqrt{\frac{1}{n_1} + \frac{1}{n_2}} \]</p>
+    <p>\[ S_p^2 = \frac{(n_1-1)S_1^2 + (n_2-1)S_2^2}{n_1+n_2-2} \]</p>
+  </div>
+
+  <span class="paso">Desarme del enunciado</span>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Traducción</th><th>Cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"SQL: una muestra de 25 peticiones"</td><td>muestra 1</td><td>&mdash;</td><td>\(n_1 = 25\)</td></tr>
+      <tr><td>"tiempo medio de 142,5 ms"</td><td>media de la muestra 1</td><td>&mdash;</td><td>\(\bar{x}_1 = 142{,}5\)</td></tr>
+      <tr><td>"varianza muestral de 85 ms²"</td><td>ya viene al cuadrado: no hay que elevar</td><td>&mdash;</td><td>\(S_1^2 = 85\)</td></tr>
+      <tr><td>"NoSQL: una muestra de 18 peticiones"</td><td>muestra 2</td><td>&mdash;</td><td>\(n_2 = 18\)</td></tr>
+      <tr><td>"tiempo medio de 118,2 ms"</td><td>media de la muestra 2</td><td>&mdash;</td><td>\(\bar{x}_2 = 118{,}2\)</td></tr>
+      <tr><td>"varianza muestral de 65 ms²"</td><td>varianza de la muestra 2</td><td>&mdash;</td><td>\(S_2^2 = 65\)</td></tr>
+      <tr><td>"varianzas poblacionales iguales"</td><td>caso pooled</td><td>\(\nu = 25 + 18 - 2 = 41\)</td><td>\(S_p\)</td></tr>
+      <tr><td>"95%"</td><td>falla el 5&nbsp;%, 2,5&nbsp;% en cada punta</td><td>\(\alpha = 0{,}05\); \(\alpha/2 = 0{,}025\)</td><td>\(t_{(0{,}025;\ 41)}\)</td></tr>
+    </table>
+  </div>
+  <p>
+    <strong>Qué son \(\alpha\) y \(\alpha/2\), en criollo:</strong> el 95&nbsp;% de confianza es qué
+    tan seguido acierta el método. \(\alpha = 1 - 0{,}95 = 0{,}05\) es la chance de que el intervalo
+    <em>no</em> atrape la diferencia real; se reparte mitad en cada punta de la campana, \(\alpha/2 =
+    0{,}025\) de cada lado. Por eso se entra a la tabla por la columna 0,025.
+  </p>
+
+  <span class="paso">Paso 1 &mdash; La varianza combinada \(S_p^2\)</span>
+  <p>
+    Es el promedio de las dos varianzas, pesando cada una por \(n - 1\): la muestra de SQL (25
+    peticiones) pesa más que la de NoSQL (18).
+  </p>
+  <p>\[ S_p^2 = \frac{(n_1-1)S_1^2 + (n_2-1)S_2^2}{n_1+n_2-2} \]</p>
+  <p>\[ S_p^2 = \frac{24 \times 85 + 17 \times 65}{41} = \frac{2040 + 1105}{41} = \frac{3145}{41} = 76{,}71 \]</p>
+  <p>\[ S_p = \sqrt{76{,}71} = 8{,}758 \text{ ms} \]</p>
+  <p>Control: 76,71 queda entre 65 y 85, más cerca de 85 (la muestra más grande). Cierra.</p>
+
+  <span class="paso">Paso 2 &mdash; \(t\) de la tabla A.4</span>
+  <p>
+    <strong>Grados de libertad, en criollo:</strong> la \(t\) es una familia de campanas, más anchas
+    cuantos menos datos hay; \(\nu\) dice cuál usar (la <strong>fila</strong> de la tabla). En el caso
+    pooled son todos los datos menos 2 (uno por cada media calculada): \(\nu = 25 + 18 - 2 = 41\).
+  </p>
+  <p>
+    La tabla salta de la fila 40 a la 60: no tiene 41. Se usa la fila más cercana, 40 (columna
+    0,025):
+  </p>
+  <p>\[ t_{(0{,}025;\ 40)} = 2{,}021 \]</p>
+  <p>(El valor exacto para 41 es 2,020: la diferencia no se nota en el resultado.)</p>
+
+  <span class="paso">Paso 3 &mdash; Error estándar y margen</span>
+  <p>
+    \(S_p\sqrt{1/n_1 + 1/n_2}\) es el <strong>error estándar de la diferencia</strong>: cuánto se
+    movería \(\bar{x}_1 - \bar{x}_2\) si se repitiera el experimento con otras peticiones.
+  </p>
+  <p>\[ E = t_{(\alpha/2;\ n_1+n_2-2)}\; S_p\sqrt{\frac{1}{n_1} + \frac{1}{n_2}} \]</p>
+  <ul>
+    <li>\(\sqrt{\dfrac{1}{25} + \dfrac{1}{18}} = \sqrt{0{,}04 + 0{,}05556} = \sqrt{0{,}09556} = 0{,}3091\)</li>
+    <li>\(S_p \times 0{,}3091 = 8{,}758 \times 0{,}3091 = 2{,}7074\) ms (error estándar)</li>
+  </ul>
+  <p>\[ E = 2{,}021 \times 2{,}7074 = 5{,}472 \text{ ms} \]</p>
+
+  <span class="paso">Paso 4 &mdash; Armar el intervalo</span>
+  <p>Fórmula:</p>
+  <p>\[ (\bar{x}_1 - \bar{x}_2) \pm t_{(\alpha/2;\ n_1+n_2-2)}\; S_p\sqrt{\frac{1}{n_1} + \frac{1}{n_2}} \]</p>
+  <p>\[ \bar{x}_1 - \bar{x}_2 = 142{,}5 - 118{,}2 = 24{,}3 \text{ ms} \]</p>
+  <p>\[ 24{,}3 - 5{,}472 &lt; \mu_1 - \mu_2 &lt; 24{,}3 + 5{,}472 \]</p>
+  <p>\[ \mathbf{18{,}83 &lt; \mu_1 - \mu_2 &lt; 29{,}77} \]</p>
+
+  <span class="paso">Paso 5 &mdash; ¿Incluye el 0?</span>
+  <ul>
+    <li><strong>No</strong>: los dos extremos son positivos. Hay diferencia significativa entre los tiempos medios de respuesta.</li>
+    <li>
+      Positivo significa \(\mu_1 &gt; \mu_2\): SQL tarda <strong>más</strong> que NoSQL, entre 18,83 y
+      29,77 ms más por petición en promedio. NoSQL responde más rápido.
+    </li>
+  </ul>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>
+      \(IC_{95\%}(\mu_1 - \mu_2) = (\,18{,}83\ ;\ 29{,}77\,)\) ms. Con 95&nbsp;% de confianza, el tiempo
+      medio de respuesta de la arquitectura SQL supera al de NoSQL en entre 18,83 y 29,77 ms: NoSQL
+      es más rápida.
+    </p>
+    <p>
+      Las diapositivas dejan este ejercicio sin resolver, así que no hay resultado oficial. Verificado
+      aparte con software (\(t = 2{,}020\) con \(\nu = 41\)): \((18{,}83\ ;\ 29{,}77)\), igual.
+    </p>
+  </div>
+</div>

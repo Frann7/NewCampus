@@ -1,0 +1,214 @@
+<div class="bloque">
+  <p class="kicker">Las palabras de la unidad</p>
+  <h2>1. Parámetro, estadístico y estimador</h2>
+
+  <h3>Cuándo se usa</h3>
+  <p>
+    Siempre: son las palabras con las que la cátedra arma todos los enunciados de la unidad. Además
+    pueden pedir, como pregunta de teoría, "qué es un estimador" o "qué propiedades tiene el mejor
+    estimador".
+  </p>
+
+  <h3>La idea, con una olla de sopa</h3>
+  <p>
+    Para saber si una olla de sopa está bien de sal no te la tomás entera: revolvés, probás
+    <strong>una cucharada</strong> y con eso decidís por toda la olla. Toda la unidad es eso:
+  </p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>En la sopa</th><th>En estadística</th><th>En un problema de sistemas</th></tr>
+      <tr><td>la olla entera</td><td><strong>población</strong>: todos los elementos que nos interesan</td><td>todas las peticiones que recibe un servidor</td></tr>
+      <tr><td>la cucharada</td><td><strong>muestra</strong>: los pocos que medimos de verdad (elegidos al azar, "revolviendo")</td><td>64 peticiones que se midieron</td></tr>
+      <tr><td>qué tan salada está la olla</td><td><strong>parámetro</strong>: el número de la población que queremos saber</td><td>el tiempo medio de <em>todas</em> las peticiones, \(\mu\)</td></tr>
+      <tr><td>qué tan salada está la cucharada</td><td><strong>estadístico</strong>: el mismo número, pero calculado en la muestra</td><td>el promedio de las 64, \(\bar{x}\)</td></tr>
+      <tr><td>"la olla debe estar igual que la cucharada"</td><td><strong>estimar</strong>: usar el estadístico para adivinar el parámetro</td><td>"el tiempo medio debe andar por 22 ms"</td></tr>
+    </table>
+  </div>
+  <p>
+    Otra cucharada no va a tener exactamente la misma sal que la primera: ahí está todo el problema de
+    la unidad. Por eso, además de adivinar, vamos a decir <strong>cuánto nos podemos estar
+    equivocando</strong>.
+  </p>
+
+  <h3>Las tres palabras</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Palabra</th><th>Qué es</th><th>Cómo se escribe</th><th>¿Cambia?</th></tr>
+      <tr><td class="lbl">Parámetro</td><td>Un número que describe a <strong>toda la población</strong>. Casi siempre no lo conocemos.</td><td>Letra griega: \(\mu\), \(\sigma\), \(\pi\). Para hablar de "cualquier parámetro" se usa \(\theta\) (theta).</td><td>No: es <strong>fijo</strong></td></tr>
+      <tr><td class="lbl">Estadístico</td><td>Una cuenta hecha con los datos de <strong>una muestra</strong>.</td><td>\(\hat{\theta} = f(x_1, x_2, \ldots, x_n)\): \(\bar{x}\), \(S\), \(\hat{p}\)</td><td>Sí: cada muestra da otro valor</td></tr>
+      <tr><td class="lbl">Estimador</td><td>Un estadístico que se usa para <strong>adivinar un parámetro</strong>.</td><td>Con "sombrero": \(\hat{\mu} = \bar{x}\)</td><td>Sí (es un estadístico)</td></tr>
+    </table>
+  </div>
+
+  <h4>Cada parámetro con su estimador (tabla de la cátedra)</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Parámetro (población)</th><th>Se estima con (muestra)</th></tr>
+      <tr><td>media poblacional \(\mu\)</td><td>media muestral \(\bar{x}\)</td></tr>
+      <tr><td>proporción poblacional \(\pi\)</td><td>proporción muestral \(\hat{p}\) (éxitos / \(n\))</td></tr>
+      <tr><td>desvío poblacional \(\sigma\)</td><td>desvío muestral \(S\)</td></tr>
+      <tr><td>varianza poblacional \(\sigma^2\)</td><td>varianza muestral \(S^2\)</td></tr>
+    </table>
+  </div>
+
+  <h3>Por qué un estadístico es una variable aleatoria</h3>
+  <p>
+    Si tomás otra muestra, salen otros datos, y entonces otro \(\bar{x}\). Antes de sacar la muestra no
+    sabés qué valor te va a dar: es un número que depende del azar, o sea, una <strong>variable
+    aleatoria</strong>. Por eso tiene su propia distribución, que se llama <strong>distribución
+    muestral</strong> (con media y varianza propias). El parámetro, en cambio, es uno solo y no se mueve.
+  </p>
+
+  <h3>Estimación puntual</h3>
+  <p>
+    Es dar <strong>un solo número</strong> como estimación del parámetro: "estimo que la media es 22".
+    Ese número es el valor del estimador en tu muestra. El problema: casi nunca va a coincidir
+    exactamente con el parámetro. Por eso después (sección 2) se da un <strong>intervalo</strong>.
+  </p>
+
+  <h3>Las propiedades del mejor estimador</h3>
+  <p>
+    No cualquier cuenta sirve para estimar. Pensalo como alguien tirando dardos a un blanco: el centro
+    del blanco es el parámetro y cada dardo es lo que da el estimador con una muestra distinta.
+  </p>
+  <ul>
+    <li>Un buen tirador tira <strong>centrado</strong>: algunos dardos caen arriba y otros abajo, pero en promedio dan en el centro. Eso es <strong>insesgado</strong> ("sesgo" es un error para un lado, siempre el mismo, como una mira torcida).</li>
+    <li>Además, los dardos caen <strong>juntitos</strong>, no desparramados. Eso es <strong>eficiente</strong>.</li>
+    <li>Si se acerca al blanco (más datos), le pega cada vez más cerca. Eso es <strong>consistente</strong>.</li>
+    <li>Y usa toda la información que tiene, no tira con un ojo cerrado. Eso es <strong>suficiente</strong>.</li>
+  </ul>
+  <p>
+    En símbolos, "en promedio" es la <strong>esperanza</strong> \(E(\ )\) de la Unidad 4 (el promedio a la
+    larga, si se repitiera muchas veces). La cátedra lo pide así:
+  </p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Propiedad</th><th>Qué quiere decir</th><th>Ejemplo concreto</th></tr>
+      <tr><td class="lbl">Insesgado</td><td>\(E(\hat{\theta}) = \theta\): <strong>en promedio</strong> le pega al parámetro; no lo sobreestima ni lo subestima.</td><td>\(E(\bar{x}) = \mu\). \(S^2\) (dividido por \(n-1\)) es insesgado; dividido por \(n\) se queda corto (ejemplo 2).</td></tr>
+      <tr><td class="lbl">Eficiente</td><td>Entre todos los insesgados, el de <strong>menor varianza</strong> (el que menos se mueve de muestra en muestra).</td><td>Para estimar \(\mu\), "el primer dato \(x_1\)" también es insesgado, pero varía \(\sigma^2\); \(\bar{x}\) varía \(\sigma^2/n\), mucho menos.</td></tr>
+      <tr><td class="lbl">Consistente</td><td>A medida que \(n\) crece, el estimador se acerca al parámetro.</td><td>El desvío de \(\bar{x}\) es \(\sigma/\sqrt{n}\): con \(\sigma = 10\), vale 5 si \(n = 4\), 2 si \(n = 25\) y 1 si \(n = 100\).</td></tr>
+      <tr><td class="lbl">Suficiente</td><td>Usa <strong>toda</strong> la información de la muestra.</td><td>\(\bar{x}\) usa todos los datos; "el promedio entre el más chico y el más grande" usa solo dos.</td></tr>
+    </table>
+  </div>
+  <p>
+    Con esas propiedades, los <strong>mejores estimadores puntuales</strong> son los de la tabla de
+    arriba: \(\hat{\mu} = \bar{x}\), \(\hat{\sigma}^2 = S^2\), \(\hat{\pi} = \hat{p}\).
+  </p>
+
+  <h3>El Teorema del Límite Central (por qué se usa Z)</h3>
+  <p>
+    Para armar un intervalo hace falta saber <strong>cómo se distribuye el estimador</strong>. El TLC lo
+    resuelve para la media:
+  </p>
+  <div class="caja caja-formula">
+    <span class="caja-tit">TLC (como lo enuncia la cátedra)</span>
+    <p>
+      Si se toman muestras de \(n\) observaciones de una población (aunque no sea normal) con media
+      \(\mu\) y desvío \(\sigma\), cuando \(n\) es grande la media muestral \(\bar{x}\) es
+      <strong>aproximadamente normal</strong>, con
+    </p>
+    <p>\[ E(\bar{x}) = \mu \qquad\qquad V(\bar{x}) = \frac{\sigma^2}{n} \qquad\qquad \sigma_{\bar{x}} = \frac{\sigma}{\sqrt{n}} \]</p>
+    <p>La aproximación mejora a medida que \(n\) crece.</p>
+  </div>
+  <p>
+    Dicho con palabras comunes: si sacás muchas muestras y anotás el promedio de cada una, esos
+    <strong>promedios</strong> forman una campana normal, aunque los datos sueltos no tengan forma de
+    campana. La campana de los promedios está centrada en la media real \(\mu\) y es <strong>más
+    angosta</strong> que la de los datos (desvío \(\sigma/\sqrt{n}\) en vez de \(\sigma\)): un promedio de
+    muchos datos se aleja menos de \(\mu\) que un dato suelto, porque los datos altos y bajos se compensan.
+  </p>
+  <p>
+    Como \(\bar{x}\) es normal, se puede estandarizar igual que en la Unidad 6 y usar la tabla \(Z\):
+    \(Z = \dfrac{\bar{x} - \mu}{\sigma/\sqrt{n}}\). De ahí salen todas las fórmulas de la unidad. "Grande"
+    para la cátedra es \(n \geq 30\).
+  </p>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; Reconocer parámetro y estadístico (Ejemplo 1 de la cátedra)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>
+      Para estimar el tiempo medio de respuesta de un microservicio de autenticación, se registró el
+      tiempo de una muestra aleatoria de <strong>64 peticiones</strong>. La media de la muestra fue de
+      <strong>22 ms</strong> con una desviación estándar muestral de <strong>4 ms</strong>. ¿Cuál es el
+      parámetro? ¿Cuáles son los estadísticos? ¿Cuál es la estimación puntual?
+    </p>
+  </div>
+
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"el tiempo medio de respuesta" (de todas las peticiones)</td><td>lo que se quiere conocer: un número de la población</td><td>&mdash;</td><td>parámetro \(\mu\) (desconocido)</td></tr>
+      <tr><td>"64 peticiones"</td><td>tamaño de la muestra</td><td>&mdash;</td><td>\(n = 64\)</td></tr>
+      <tr><td>"la media de la muestra fue de 22 ms"</td><td>un estadístico</td><td>&mdash;</td><td>\(\bar{x} = 22\)</td></tr>
+      <tr><td>"desviación estándar muestral de 4 ms"</td><td>otro estadístico</td><td>&mdash;</td><td>\(S = 4\)</td></tr>
+    </table>
+  </div>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>
+      Parámetro: \(\mu\), el tiempo medio de respuesta de <strong>todas</strong> las peticiones
+      (no se conoce). Estadísticos: \(\bar{x} = 22\) ms y \(S = 4\) ms. Estimación puntual de \(\mu\):
+      \(\hat{\mu} = \bar{x} = 22\) ms (y de \(\sigma\): \(\hat{\sigma} = S = 4\) ms).
+    </p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; Ver con números que \(\bar{x}\) es variable aleatoria e insesgado</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>
+      Una población chiquita tiene tres valores: <strong>2, 4 y 6</strong>. Se sacan muestras de
+      <strong>2 datos con reposición</strong>. Mostrar que \(\bar{x}\) cambia de muestra en muestra, que
+      en promedio da \(\mu\), y que \(S^2\) (con \(n - 1\)) en promedio da \(\sigma^2\), mientras que
+      dividir por \(n\) se queda corto.
+    </p>
+  </div>
+
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"tres valores: 2, 4 y 6"</td><td>la población entera (acá la conocemos, para poder comparar)</td><td>\(\mu = \frac{2+4+6}{3}\); \(\sigma^2 = \frac{(-2)^2 + 0^2 + 2^2}{3}\)</td><td>\(\mu = 4\), \(\sigma^2 = 2{,}667\)</td></tr>
+      <tr><td>"muestras de 2 datos con reposición"</td><td>todas las muestras posibles</td><td>\(3 \cdot 3\)</td><td>9 muestras</td></tr>
+    </table>
+  </div>
+
+  <p><strong>Paso 1 &mdash; Todas las muestras.</strong> Para cada una, \(\bar{x} = \frac{a+b}{2}\), \(S^2 = \frac{(a-\bar{x})^2 + (b-\bar{x})^2}{2-1}\) y la versión dividida por \(n\) (la mitad de \(S^2\)):</p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Muestra</th><th>\(\bar{x}\)</th><th>\(S^2\) (÷ \(n-1\))</th><th>÷ \(n\)</th></tr>
+      <tr><td>2, 2</td><td>2</td><td>0</td><td>0</td></tr>
+      <tr><td>2, 4</td><td>3</td><td>2</td><td>1</td></tr>
+      <tr><td>2, 6</td><td>4</td><td>8</td><td>4</td></tr>
+      <tr><td>4, 2</td><td>3</td><td>2</td><td>1</td></tr>
+      <tr><td>4, 4</td><td>4</td><td>0</td><td>0</td></tr>
+      <tr><td>4, 6</td><td>5</td><td>2</td><td>1</td></tr>
+      <tr><td>6, 2</td><td>4</td><td>8</td><td>4</td></tr>
+      <tr><td>6, 4</td><td>5</td><td>2</td><td>1</td></tr>
+      <tr><td>6, 6</td><td>6</td><td>0</td><td>0</td></tr>
+      <tr><th>Promedio</th><th>36 / 9 = 4</th><th>24 / 9 = 2,667</th><th>12 / 9 = 1,333</th></tr>
+    </table>
+  </div>
+  <p>
+    <strong>Paso 2 &mdash; Leer la columna de \(\bar{x}\).</strong> Según la muestra, \(\bar{x}\) da 2, 3, 4, 5
+    o 6: es una <strong>variable aleatoria</strong>. Pero el promedio de todos sus valores es 4, igual a
+    \(\mu\): \(E(\bar{x}) = \mu\), es <strong>insesgado</strong>.
+  </p>
+  <p>
+    <strong>Paso 3 &mdash; Leer las columnas de la varianza.</strong> \(S^2\) en promedio da 2,667, igual a
+    \(\sigma^2\): insesgado. La versión dividida por \(n\) da 1,333: <strong>subestima</strong>. Por eso
+    la varianza muestral se divide por \(n - 1\), y por eso en la calculadora se usa
+    \(x\sigma_{n-1}\) (sección 4).
+  </p>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>
+      \(\bar{x}\) cambia de muestra en muestra (de 2 a 6), pero en promedio vale 4 = \(\mu\). \(S^2\) en
+      promedio vale 2,667 = \(\sigma^2\); dividir por \(n\) da 1,333, la mitad: ese estimador está sesgado.
+    </p>
+  </div>
+</div>

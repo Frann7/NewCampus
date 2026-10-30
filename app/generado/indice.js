@@ -39,6 +39,8 @@ window.Apuntes.registrarIndice({
     "pye/u6/teoria": "panes/pye-u6-teoria.js",
     "pye/u7/practica": "panes/pye-u7-practica.js",
     "pye/u7/teoria": "panes/pye-u7-teoria.js",
+    "pye/u8/practica": "panes/pye-u8-practica.js",
+    "pye/u8/teoria": "panes/pye-u8-teoria.js",
     "pyl/u1/teoria": "panes/pyl-u1-teoria.js",
     "pyl/u2/practica": "panes/pyl-u2-practica.js",
     "pyl/u2/teoria": "panes/pyl-u2-teoria.js",
@@ -182,6 +184,24 @@ window.Apuntes.registrarIndice({
         "tipo": "parcial"
       },
       {
+        "id": "2025-tercer-parcial",
+        "archivo": "examenes/pye-2025-tercer-parcial.js",
+        "titulo": "Tercer Parcial",
+        "fecha": "29/10/2025",
+        "detalle": "2 ejercicios \u00b7 100 puntos",
+        "temas": "IC para la media con Z \u00b7 Decidir con el IC \u00b7 Media y desv\u00edo con calculadora \u00b7 IC para la media con t",
+        "tipo": "parcial"
+      },
+      {
+        "id": "2026-tercer-parcial-probable",
+        "archivo": "examenes/pye-2026-tercer-parcial-probable.js",
+        "titulo": "Tercer Parcial - probable",
+        "fecha": "2026",
+        "detalle": "4 ejercicios \u00b7 100 puntos \u00b7 inventado",
+        "temas": "IC para la media con Z y tama\u00f1o de muestra \u00b7 IC con t y calculadora \u00b7 IC para una proporci\u00f3n \u00b7 Diferencia de medias (Welch) \u00b7 Propiedades de los estimadores",
+        "tipo": "parcial"
+      },
+      {
         "id": "2025-11-26-final",
         "archivo": "examenes/pye-2025-11-26-final.js",
         "titulo": "Final Regulares",
@@ -311,7 +331,8 @@ window.Apuntes.registrarIndice({
       "u4": "preguntas/pye-u4.js",
       "u5": "preguntas/pye-u5.js",
       "u6": "preguntas/pye-u6.js",
-      "u7": "preguntas/pye-u7.js"
+      "u7": "preguntas/pye-u7.js",
+      "u8": "preguntas/pye-u8.js"
     },
     "so-practica": {
       "parcial-2025": "preguntas/so-practica-parcial-2025.js",
@@ -343,6 +364,11 @@ window.Apuntes.registrarIndice({
           "clave": "u7",
           "num": "Unidad 7",
           "nombre": "Distribuciones Muestrales y Estimacion"
+        },
+        {
+          "clave": "u8",
+          "num": "Unidad 8",
+          "nombre": "Estimacion (3er parcial)"
         }
       ],
       "pdf": [
@@ -384,6 +410,10 @@ window.Apuntes.registrarIndice({
           "tablas"
         ],
         "u7": [
+          "tablas",
+          "icph"
+        ],
+        "u8": [
           "tablas",
           "icph"
         ],

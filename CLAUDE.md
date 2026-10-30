@@ -2,7 +2,7 @@
 
 Campus de estudio personal de Fran (Abasto Franco), estudiante de la Licenciatura en Sistemas
 de Información (UADER, FCyT). Hoy tiene seis materias cargadas: **Probabilidad y Estadística (PyE)**,
-unidades 4 a 7 (2do parcial), **Programación Avanzada (PA)**, clases 1 a 6, **Ingeniería de
+unidades 4 a 7 (2do parcial) y 8 (Estimación, 3er parcial), **Programación Avanzada (PA)**, clases 1 a 6, **Ingeniería de
 Software II**, **Paradigmas y Lenguajes (PyL)**, el parcial de autómatas, y **Bases de Datos
 (BD)**, el 2do parcial de SQL, y **SO Práctica**, solo los parciales (cada materia tiene
 su `CLAUDE.md` en `app/contenido/<materia>/`). Repo público: https://github.com/Frann7/NewCampus (rama `main`).
@@ -106,6 +106,10 @@ rioplatense con voseo) y **mantenedor** del campus (código, contenido, commits)
 
 ## Pendientes e ideas
 
+- **PyE, 3er parcial (Estimación, fecha a confirmar, ~1/11/2026):** cargada la U8 (teoría,
+  guía resuelta, Tercer Parcial 2025, uno probable y banco `u8`). Fran arranca de cero: explicar
+  con palabras comunes. Falta sumar la hoja de fórmulas que la profe dijo que va a subir.
+  Pendiente confirmar con la profe: n = 30 justo (Z o t) y σ conocida con n < 30.
 - **Ingeniería de Software II (rindió el 14/10/2026, sacó 38; viene el recuperatorio, fecha a
   confirmar):** las 7 partes de
   `docs/plan-ing2.md` están cargadas (6 unidades y los parciales 2024, 2025 y 2026 resueltos), más

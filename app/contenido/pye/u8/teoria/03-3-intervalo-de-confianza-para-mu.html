@@ -1,0 +1,325 @@
+<div class="bloque" data-examen="igual" data-examen-ref="Parcial 3 2025 · ej. 1" data-examen-nota="Máquina de refrescos con σ = 0,15 conocida y n = 35: intervalo del 95 % para la media y concluir (a). El b) (¿es aceptable el funcionamiento?) allá se planteó como prueba de hipótesis, que este año no entra: se contesta mirando si 2,25 queda dentro del intervalo.">
+  <p class="kicker">Lo que seguro sale</p>
+  <h2>3. Intervalo de confianza para la media \(\mu\)</h2>
+
+  <h3>Cuándo se usa</h3>
+  <p>
+    Cuando piden un intervalo para "el tiempo medio", "el costo medio", "la media de todos los
+    refrescos que sirve la máquina": un promedio de <strong>una</strong> población, con datos de
+    <strong>una</strong> muestra.
+  </p>
+
+  <h3>La \(t\) de Student: qué es y por qué hace falta</h3>
+  <p>
+    Si no conocemos \(\sigma\), usamos \(S\) en su lugar. Pero \(S\) también sale de la muestra, así que
+    también puede estar errado: ahora hay <strong>dos cosas inciertas</strong> (\(\bar{x}\) y \(S\)) en vez
+    de una. Con pocos datos eso pesa, y la campana \(Z\) queda "demasiado optimista". Para compensarlo se
+    usa otra campana: la <strong>\(t\) de Student</strong>. Es parecida a la \(Z\) (simétrica, centrada en
+    0) pero <strong>más ancha</strong>, con más área en las puntas: da valores de tabla más grandes y por
+    lo tanto intervalos más anchos, más prudentes.
+  </p>
+  <p>
+    En símbolos: si la variable es normal, \(T = \dfrac{\bar{x} - \mu}{S/\sqrt{n}}\) tiene distribución
+    \(t\) de Student con \(\nu = n - 1\) grados de libertad.
+  </p>
+
+  <h4>Qué son los grados de libertad</h4>
+  <p>
+    No hay una sola \(t\): hay una por cada tamaño de muestra, y se distinguen por un número llamado
+    <strong>grados de libertad</strong> (\(\nu\), se lee "nu"). Es la cantidad de datos que quedan
+    "libres" después de usar la muestra para calcular la media.
+  </p>
+  <p>
+    Ejemplo cotidiano: tres amigos gastaron en promedio 100 pesos, o sea 300 pesos entre los tres. Si el primero
+    gastó 80 y el segundo 150, el tercero <strong>no puede</strong> haber gastado cualquier cosa: gastó
+    \(300 - 80 - 150 = 70\). Una vez fijada la media, solo 2 de los 3 datos pueden variar libremente:
+    \(\nu = n - 1 = 2\). Por eso \(S\) se calcula dividiendo por \(n - 1\) y la \(t\) se busca con
+    \(\nu = n - 1\).
+  </p>
+  <p>
+    Cuantos más grados de libertad (más datos), más información, más angosta la \(t\) y más se parece a
+    la \(Z\). Con 30 o más ya son casi iguales: por eso la profe dice que con \(n \geq 30\) se usa \(Z\).
+  </p>
+
+  <h3>Z o t: la regla</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Situación</th><th>Se usa</th><th>Con qué desvío</th></tr>
+      <tr><td>\(n \geq 30\) (conozcas o no \(\sigma\))</td><td><strong>\(Z\)</strong></td><td>\(\sigma\) si la dan; si no, \(S\)</td></tr>
+      <tr><td>\(n &lt; 30\), \(\sigma\) desconocida, población normal</td><td><strong>\(t\)</strong> con \(\nu = n - 1\)</td><td>\(S\)</td></tr>
+      <tr><td>\(n &lt; 30\), \(\sigma\) <strong>conocida</strong>, población normal</td><td><strong>\(Z\)</strong></td><td>\(\sigma\)</td></tr>
+    </table>
+  </div>
+  <p>
+    La profe lo dijo así: "si \(n &gt; 30\), conozca o no el desvío, pueden usar \(Z\) porque la \(t\) para
+    valores grandes se aproxima a la \(Z\). Si \(n &lt; 30\) usan la \(t\)." (Las diapositivas dicen
+    \(n \geq 30\); con \(n = 30\) justo, las dos dan casi lo mismo.) La tercera fila es una aclaración:
+    si el desvío es de la población y la población es normal, \(\bar{x}\) es normal exacta y no hace
+    falta la \(t\); así lo resuelve la cátedra en la guía.
+  </p>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">¿Cómo sé si el desvío es \(\sigma\) o \(S\)?</span>
+    <p>
+      <strong>\(\sigma\) (conocida):</strong> "la población tiene un desvío de", "se sabe que", "la máquina
+      está ajustada con desviación", "por estudios anteriores". <strong>\(S\):</strong> "desviación
+      estándar <strong>muestral</strong>", "la muestra tuvo un desvío de", o hay que calcularlo con los
+      datos. Si te dan la <strong>varianza</strong>, sacá la raíz antes de empezar.
+    </p>
+  </div>
+
+  <h3>Fórmulas</h3>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Con Z (\(n \geq 30\), o \(\sigma\) conocida y población normal)</span>
+    <p>\[ \bar{x} - z_{\alpha/2}\,\frac{S}{\sqrt{n}} &lt; \mu &lt; \bar{x} + z_{\alpha/2}\,\frac{S}{\sqrt{n}} \]</p>
+    <p>(si conocés \(\sigma\), va \(\sigma\) en lugar de \(S\))</p>
+  </div>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Con t (\(n &lt; 30\), \(\sigma\) desconocida, población normal)</span>
+    <p>\[ \bar{x} - t_{(\alpha/2;\ \nu)}\,\frac{S}{\sqrt{n}} &lt; \mu &lt; \bar{x} + t_{(\alpha/2;\ \nu)}\,\frac{S}{\sqrt{n}} \qquad \nu = n - 1 \]</p>
+  </div>
+
+  <h4>Qué significa cada letra</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Símbolo</th><th>Qué es</th><th>Cómo lo reconocés</th></tr>
+      <tr><td>\(\bar{x}\)</td><td>media de la muestra</td><td>"la media de la muestra fue", o se calcula con los datos</td></tr>
+      <tr><td>\(S\) / \(\sigma\)</td><td>desvío de la muestra / de la población</td><td>ver la caja de arriba</td></tr>
+      <tr><td>\(n\)</td><td>tamaño de la muestra</td><td>"una muestra de 35 refrescos"</td></tr>
+      <tr><td>\(z_{\alpha/2}\)</td><td>valor de la tabla \(Z\) que deja \(\alpha/2\) a la derecha</td><td>95&nbsp;% &rarr; 1,96 (sección 2)</td></tr>
+      <tr><td>\(\nu\)</td><td>grados de libertad de la \(t\)</td><td>\(\nu = n - 1\): con 16 datos, \(\nu = 15\)</td></tr>
+      <tr><td>\(t_{(\alpha/2;\ \nu)}\)</td><td>valor de la tabla \(t\) que deja \(\alpha/2\) a la derecha con \(\nu\) grados de libertad</td><td>99&nbsp;% y \(\nu = 15\) &rarr; 2,947</td></tr>
+    </table>
+  </div>
+
+  <h4>Cómo se lee la tabla t</h4>
+  <p>
+    Al revés que la \(Z\): las <strong>filas</strong> son los grados de libertad \(\nu\), las
+    <strong>columnas</strong> el área que queda <strong>a la derecha</strong>, y adentro está el valor de
+    \(t\). Para un intervalo se entra con la columna \(\alpha/2\). Un pedazo:
+  </p>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th>\(\nu\)</th><th>0,05</th><th>0,025</th><th>0,005</th></tr>
+      <tr><th>4</th><td>2,132</td><td>2,776</td><td>4,604</td></tr>
+      <tr><th>14</th><td>1,761</td><td>2,145</td><td>2,977</td></tr>
+      <tr><th>15</th><td>1,753</td><td>2,131</td><td><strong>2,947</strong></td></tr>
+    </table>
+  </div>
+  <p>Ejemplo: 99&nbsp;% &rarr; \(\alpha = 0{,}01\) &rarr; columna \(\alpha/2 = 0{,}005\); con \(n = 16\), fila \(\nu = 15\): \(t = 2{,}947\).</p>
+
+  <h3>La receta</h3>
+  <ol>
+    <li><strong>Elegir Z o t</strong> con la tabla de arriba (mirando \(n\) y de quién es el desvío).</li>
+    <li><strong>Valor de tabla:</strong> \(z_{\alpha/2}\) o \(t_{(\alpha/2;\ \nu)}\).</li>
+    <li><strong>Error:</strong> \(E = (\text{valor de tabla}) \cdot \dfrac{\text{desvío}}{\sqrt{n}}\).</li>
+    <li><strong>Intervalo:</strong> \((\bar{x} - E\ ;\ \bar{x} + E)\), y la <strong>conclusión en contexto</strong>.</li>
+  </ol>
+
+  <h3>Usar el intervalo para decidir si un valor es aceptable</h3>
+  <p>
+    Si te preguntan "¿se puede aceptar que la media es 2,25?" o "¿la máquina funciona bien?", mirá si
+    ese valor <strong>cae dentro</strong> del intervalo:
+  </p>
+  <ul>
+    <li><strong>Adentro:</strong> el valor es compatible con los datos (con esa confianza). Se acepta.</li>
+    <li><strong>Afuera:</strong> con esa confianza, la media real no es ese valor. No se acepta.</li>
+  </ul>
+  <p>
+    El "nivel de significancia 0,05" del enunciado es el \(\alpha\): se usa el intervalo del
+    \(1 - 0{,}05 = 95\)&nbsp;%.
+  </p>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; Con Z y \(S\), \(n \geq 30\) (Ejemplo 1 de la cátedra)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>
+      Para estimar el tiempo medio de respuesta (latencia) en las peticiones a un microservicio de
+      autenticación, se registró el tiempo de procesamiento de una muestra aleatoria de
+      <strong>64 peticiones</strong> HTTP. La media de la muestra fue de <strong>22 ms</strong> con una
+      desviación estándar muestral de <strong>4 ms</strong>. Construya un intervalo de confianza del
+      <strong>95&nbsp;%</strong> para el tiempo medio poblacional \(\mu\) de respuesta del servidor.
+    </p>
+  </div>
+
+  <h4>Por qué este modelo</h4>
+  <ul>
+    <li>Piden un intervalo para una <strong>media</strong> ("tiempo medio poblacional") de una sola población.</li>
+    <li>\(n = 64 \geq 30\): se usa <strong>\(Z\)</strong>, aunque el desvío sea muestral.</li>
+    <li>El desvío es "muestral": va \(S = 4\) en la fórmula.</li>
+  </ul>
+
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"64 peticiones"</td><td>tamaño de muestra, \(\geq 30\)</td><td>\(\sqrt{64} = 8\)</td><td>\(n = 64\) &rarr; \(Z\)</td></tr>
+      <tr><td>"la media de la muestra fue de 22 ms"</td><td>media muestral</td><td>&mdash;</td><td>\(\bar{x} = 22\)</td></tr>
+      <tr><td>"desviación estándar muestral de 4 ms"</td><td>desvío de la muestra</td><td>&mdash;</td><td>\(S = 4\)</td></tr>
+      <tr><td>"95&nbsp;%"</td><td>confianza</td><td>\(\alpha = 0{,}05\), \(F(z) = 0{,}975\)</td><td>\(z_{\alpha/2} = 1{,}96\)</td></tr>
+    </table>
+  </div>
+
+  <p><strong>Paso 1 &mdash; Fórmula.</strong></p>
+  <p>\[ \bar{x} - z_{\alpha/2}\,\frac{S}{\sqrt{n}} &lt; \mu &lt; \bar{x} + z_{\alpha/2}\,\frac{S}{\sqrt{n}} \]</p>
+  <p><strong>Paso 2 &mdash; El error.</strong> Primero \(S/\sqrt{n}\) (el desvío de la media) y después por \(z\):</p>
+  <p>\[ E = 1{,}96 \cdot \frac{4}{\sqrt{64}} = 1{,}96 \cdot \frac{4}{8} = 1{,}96 \cdot 0{,}5 = 0{,}98 \]</p>
+  <p><strong>Paso 3 &mdash; Reemplazar.</strong></p>
+  <p>\[ 22 - 0{,}98 &lt; \mu &lt; 22 + 0{,}98 \quad\Longrightarrow\quad 21{,}02 &lt; \mu &lt; 22{,}98 \]</p>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>
+      \(IC_{95\%}(\mu) = (21{,}02\ ;\ 22{,}98)\) ms. Se tiene un 95&nbsp;% de confianza de que el verdadero
+      tiempo medio de respuesta de las peticiones al microservicio de autenticación está entre 21,02 y
+      22,98 ms. Coincide con la cátedra.
+    </p>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Error de la diapositiva</span>
+    <p>La conclusión de la cátedra dice "microsegundos": son <strong>milisegundos</strong> (ms), como en el enunciado.</p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; Con t, \(n &lt; 30\) (Ejemplo 2 de la cátedra)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>
+      El área de Business Analytics de un sitio de comercio electrónico analizó el costo de comisión
+      operativa (en dólares) por cada microtransacción procesada en su pasarela de pagos. Una muestra
+      aleatoria de <strong>16 transacciones</strong> arrojó un costo medio muestral de
+      <strong>0,02 USD</strong> con una desviación estándar muestral de <strong>0,01 USD</strong>.
+      Suponga que el costo por transacción sigue una distribución aproximadamente
+      <strong>normal</strong> y construya un intervalo de confianza del <strong>99&nbsp;%</strong> para la
+      media poblacional del costo por transacción.
+    </p>
+  </div>
+
+  <h4>Por qué este modelo</h4>
+  <ul>
+    <li>Piden un intervalo para una <strong>media</strong> de una población.</li>
+    <li>\(n = 16 &lt; 30\) y el desvío es <strong>muestral</strong> (\(\sigma\) desconocida): no se puede usar \(Z\).</li>
+    <li>La variable es <strong>normal</strong> (lo dice el enunciado): se puede usar la <strong>\(t\)</strong>, con \(\nu = 16 - 1 = 15\).</li>
+  </ul>
+
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"16 transacciones"</td><td>tamaño de muestra, \(&lt; 30\)</td><td>\(\nu = 16 - 1\); \(\sqrt{16} = 4\)</td><td>\(n = 16\), \(\nu = 15\)</td></tr>
+      <tr><td>"costo medio muestral de 0,02"</td><td>media muestral</td><td>&mdash;</td><td>\(\bar{x} = 0{,}02\)</td></tr>
+      <tr><td>"desviación estándar muestral de 0,01"</td><td>desvío de la muestra</td><td>&mdash;</td><td>\(S = 0{,}01\)</td></tr>
+      <tr><td>"aproximadamente normal"</td><td>condición para usar la \(t\)</td><td>&mdash;</td><td>vale la \(t\)</td></tr>
+      <tr><td>"99&nbsp;%"</td><td>confianza</td><td>\(\alpha = 0{,}01\), \(\alpha/2 = 0{,}005\)</td><td>tabla \(t\): fila 15, columna 0,005 &rarr; \(t = 2{,}947\)</td></tr>
+    </table>
+  </div>
+
+  <p><strong>Paso 1 &mdash; Fórmula.</strong></p>
+  <p>\[ \bar{x} - t_{(\alpha/2;\ \nu)}\,\frac{S}{\sqrt{n}} &lt; \mu &lt; \bar{x} + t_{(\alpha/2;\ \nu)}\,\frac{S}{\sqrt{n}} \]</p>
+  <p><strong>Paso 2 &mdash; Valor de tabla.</strong> Tabla \(t\), fila \(\nu = 15\), columna \(0{,}005\): \(t_{(0{,}005;\ 15)} = 2{,}947\). (Con \(Z\) al 99&nbsp;% hubiera sido 2,576: la \(t\) da más porque es más ancha.)</p>
+  <p><strong>Paso 3 &mdash; El error.</strong></p>
+  <p>\[ E = 2{,}947 \cdot \frac{0{,}01}{\sqrt{16}} = 2{,}947 \cdot \frac{0{,}01}{4} = 2{,}947 \cdot 0{,}0025 = 0{,}0074 \]</p>
+  <p><strong>Paso 4 &mdash; Reemplazar.</strong></p>
+  <p>\[ 0{,}02 - 0{,}0074 &lt; \mu &lt; 0{,}02 + 0{,}0074 \quad\Longrightarrow\quad 0{,}0126 &lt; \mu &lt; 0{,}0274 \]</p>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>
+      \(IC_{99\%}(\mu) = (0{,}0126\ ;\ 0{,}0274)\) USD. Se tiene un 99&nbsp;% de confianza de que el costo
+      medio de comisión por microtransacción está entre 0,0126 y 0,0274 dólares.
+    </p>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Diferencias con la diapositiva</span>
+    <p>
+      La cátedra da \((0{,}012\ ;\ 0{,}027)\): son los mismos límites cortados a tres decimales (con más
+      decimales, 0,0126 y 0,0274). Y la conclusión dice "microsegundos": son <strong>dólares</strong>.
+    </p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 3 &mdash; Tercer Parcial 29/10/2025, ejercicio 1</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>
+      Una máquina de refrescos está ajustada de tal manera que el contenido de líquido despachado se
+      distribuye aproximadamente <strong>normal</strong> con una media de <strong>2,25 litros</strong> y
+      desviación estándar igual a <strong>0,15 litros</strong>. Se toma una muestra de
+      <strong>35 refrescos</strong> cuya media fue de <strong>2,19 litros</strong>. Se pide:
+    </p>
+    <p>a) Construya un intervalo de confianza del <strong>95&nbsp;%</strong> para la media de todos los refrescos que sirve esta máquina. Concluya.</p>
+    <p>b) La empresa desea comprobar el buen funcionamiento de la máquina; teniendo en cuenta los datos de la muestra, ¿es aceptable el funcionamiento de la misma al nivel de significancia de 0,05?</p>
+    <p>c) ¿Son consistentes los métodos estadísticos utilizados en el ítem a y b?</p>
+  </div>
+
+  <h4>Por qué este modelo</h4>
+  <ul>
+    <li>Piden un intervalo para "la media de todos los refrescos": una media de una población.</li>
+    <li>El 0,15 es el desvío de la <strong>población</strong> ("se distribuye normal con media 2,25 y desviación 0,15"): \(\sigma\) <strong>conocida</strong>.</li>
+    <li>\(n = 35 \geq 30\) (y además la población es normal): <strong>\(Z\) con \(\sigma\)</strong>.</li>
+    <li>El 2,25 <strong>no se usa en la cuenta</strong> del intervalo: es el valor que la máquina debería dar, y se usa en el b) para comparar.</li>
+  </ul>
+
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"desviación estándar igual a 0,15 litros" (de lo que despacha la máquina)</td><td>desvío de la población</td><td>&mdash;</td><td>\(\sigma = 0{,}15\)</td></tr>
+      <tr><td>"una media de 2,25 litros" (cómo está ajustada)</td><td>el valor que se quiere controlar</td><td>&mdash;</td><td>para el b)</td></tr>
+      <tr><td>"muestra de 35 refrescos"</td><td>tamaño de muestra, \(\geq 30\)</td><td>\(\sqrt{35} = 5{,}9161\)</td><td>\(n = 35\)</td></tr>
+      <tr><td>"cuya media fue de 2,19 litros"</td><td>media muestral</td><td>&mdash;</td><td>\(\bar{x} = 2{,}19\)</td></tr>
+      <tr><td>"95&nbsp;%"</td><td>confianza</td><td>\(\alpha = 0{,}05\), \(F(z) = 0{,}975\)</td><td>\(z_{\alpha/2} = 1{,}96\)</td></tr>
+      <tr><td>"nivel de significancia de 0,05"</td><td>\(\alpha\) del b)</td><td>\(1 - 0{,}05\)</td><td>mismo intervalo del 95&nbsp;%</td></tr>
+    </table>
+  </div>
+
+  <h4>a) El intervalo</h4>
+  <p><strong>Paso 1 &mdash; Fórmula</strong> (con \(\sigma\), porque es conocida):</p>
+  <p>\[ \bar{x} - z_{\alpha/2}\,\frac{\sigma}{\sqrt{n}} &lt; \mu &lt; \bar{x} + z_{\alpha/2}\,\frac{\sigma}{\sqrt{n}} \]</p>
+  <p><strong>Paso 2 &mdash; El desvío de la media:</strong></p>
+  <p>\[ \frac{\sigma}{\sqrt{n}} = \frac{0{,}15}{\sqrt{35}} = \frac{0{,}15}{5{,}9161} = 0{,}02535 \]</p>
+  <p><strong>Paso 3 &mdash; El error:</strong></p>
+  <p>\[ E = 1{,}96 \cdot 0{,}02535 = 0{,}0497 \]</p>
+  <p><strong>Paso 4 &mdash; Reemplazar:</strong></p>
+  <p>\[ 2{,}19 - 0{,}0497 &lt; \mu &lt; 2{,}19 + 0{,}0497 \quad\Longrightarrow\quad 2{,}140 &lt; \mu &lt; 2{,}240 \]</p>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta a)</span>
+    <p>
+      \(IC_{95\%}(\mu) = (2{,}140\ ;\ 2{,}240)\) litros. Se tiene un 95&nbsp;% de confianza de que el contenido
+      medio de todos los refrescos que sirve la máquina está entre 2,140 y 2,240 litros.
+    </p>
+  </div>
+
+  <h4>b) ¿Es aceptable el funcionamiento?</h4>
+  <p>
+    La máquina funciona bien si la media real es 2,25 litros (para eso está ajustada). Nivel de
+    significancia 0,05 &rarr; confianza del 95&nbsp;%: es el intervalo del a). Se mira si 2,25 está adentro:
+  </p>
+  <p>\[ 2{,}25 \notin (2{,}140\ ;\ 2{,}240) \qquad (2{,}25 &gt; 2{,}240) \]</p>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta b)</span>
+    <p>
+      El valor 2,25 queda <strong>afuera</strong> (por arriba) del intervalo del 95&nbsp;%. Con un 95&nbsp;% de
+      confianza, la media real no es 2,25 litros: la máquina está despachando <strong>menos</strong> de lo
+      que debería. El funcionamiento <strong>no es aceptable</strong>; hay que reajustarla.
+    </p>
+  </div>
+
+  <h4>c) ¿Son consistentes?</h4>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta c)</span>
+    <p>
+      Sí: el intervalo del 95&nbsp;% y la decisión al nivel 0,05 usan el mismo \(\alpha = 0{,}05\), así que
+      dicen lo mismo. El intervalo no contiene a 2,25 y por eso no se acepta que la media sea 2,25.
+    </p>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Sobre el b) y el c) del 2025</span>
+    <p>
+      En 2025 el b) se resolvía con una prueba de hipótesis, que este año no entra. Con lo que entra
+      se contesta como arriba: mirando si el valor queda dentro del intervalo. Si lo vuelven a tomar,
+      escribí siempre qué valor comparás, si queda adentro o afuera, y qué significa para la máquina.
+    </p>
+  </div>
+</div>

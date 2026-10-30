@@ -1,0 +1,242 @@
+<!-- ==================== EJERCICIO 2 ==================== -->
+<section class="parcial-ej">
+  <div class="parcial-ej-cab">
+    <h2>Ejercicio 2</h2>
+    <span class="parcial-pts">26 puntos</span>
+    <span class="parcial-tema">Unidad 8 &middot; IC para la media con t (datos sueltos)</span>
+  </div>
+
+  <p>
+    Un equipo de DevOps mide el tiempo (en segundos) que tarda el pipeline de integración continua en
+    desplegar un microservicio. En 10 despliegues elegidos al azar obtuvo: 41.2, 38.5, 44.0, 39.8,
+    42.7, 40.1, 43.5, 37.9, 41.8, 40.5. Suponga que el tiempo de despliegue se distribuye normalmente.
+  </p>
+
+  <ol class="parcial-incisos">
+    <li>Calcule la media y el desvío estándar muestral de los tiempos de despliegue.</li>
+    <li>Construya un intervalo de confianza del 95&nbsp;% para el tiempo medio de despliegue. El proveedor de la plataforma informa un tiempo medio de 40 segundos: ¿es compatible con los datos? Justifique.</li>
+    <li>¿Por qué en este ejercicio se usa la distribución \(t\) de Student y no \(Z\)? Explique qué significa, en este contexto, el 95&nbsp;% de confianza.</li>
+  </ol>
+
+  <div class="parcial-extras">
+    <details class="parcial-desp pd-resultados">
+      <summary>
+        <span class="pd-icono">&#10003;</span>
+        <span class="pd-txt"><b>Resultados</b><small>Solo las respuestas, sin procedimiento</small></span>
+      </summary>
+      <div class="pd-cuerpo">
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Inciso</th><th>Resultado</th></tr>
+            <tr>
+              <td class="lbl">a) Media y desvío</td>
+              <td>\(\bar{x} = 41\) s &nbsp;&middot;&nbsp; \(S = 2{,}0325\) s</td>
+            </tr>
+            <tr>
+              <td class="lbl">b) IC 95&nbsp;% para \(\mu\)</td>
+              <td>\(t_{(0{,}025;\ 9)} = 2{,}262\), \(E = 1{,}454\) s &nbsp;&middot;&nbsp;
+                  \(\text{IC}_{95\%}(\mu) = (39{,}55\ ;\ 42{,}45)\) s. El 40 queda <strong>adentro</strong>:
+                  es compatible con los datos.</td>
+            </tr>
+            <tr>
+              <td class="lbl">c) Teoría</td>
+              <td>\(t\) porque \(n = 10 &lt; 30\), \(\sigma\) desconocida (se usa \(S\)) y la población es normal.
+                  95&nbsp;%: de cada 100 intervalos armados así con muestras de 10 despliegues, unos 95
+                  contienen el verdadero tiempo medio.</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </details>
+
+    <details class="parcial-desp pd-explicacion">
+      <summary>
+        <span class="pd-icono">&#9998;</span>
+        <span class="pd-txt"><b>Explicación detallada</b><small>Desde cero: teoría, desarme del enunciado, resolución y comparación con la guía</small></span>
+      </summary>
+      <div class="pd-cuerpo">
+
+        <div class="caja caja-ejemplo">
+          <span class="caja-tit">El enunciado, otra vez</span>
+          <p>
+            Tiempos de despliegue de un microservicio en 10 corridas del pipeline (en segundos): 41,2;
+            38,5; 44,0; 39,8; 42,7; 40,1; 43,5; 37,9; 41,8; 40,5. Población normal. Piden: a) media y
+            desvío muestral; b) IC del 95&nbsp;% y si el tiempo medio de 40 s que informa el proveedor es
+            compatible; c) por qué \(t\) y qué significa el 95&nbsp;%.
+          </p>
+        </div>
+
+        <h4>¿De qué tema es?</h4>
+        <p>
+          <strong>Estimación, parte 1</strong>: intervalo de confianza para \(\mu\) con muestra chica
+          (\(t\) de Student), con los datos sueltos en el enunciado. La profe avisó que esto puede venir
+          así: hay que sacar media y desvío con la calculadora.
+        </p>
+
+        <h4>Los conceptos que hacen falta, desde cero</h4>
+
+        <div class="caja caja-formula">
+          <span class="caja-tit">1. Media y desvío de una muestra</span>
+          <p>\[ \bar{x} = \frac{\sum x_i}{n} \qquad\qquad S = \sqrt{\frac{n\sum x_i^{2} - \left(\sum x_i\right)^{2}}{n\,(n-1)}} \]</p>
+          <p>
+            \(S\) divide por \(n - 1\): es el desvío <strong>muestral</strong>. En la calculadora es
+            \(x\sigma_{n-1}\) (o \(sx\)), nunca \(x\sigma_n\).
+          </p>
+        </div>
+
+        <div class="caja caja-formula">
+          <span class="caja-tit">2. Intervalo de confianza para \(\mu\) con \(t\)</span>
+          <p>\[ \bar{x} - t_{(\alpha/2;\ \nu)}\,\frac{S}{\sqrt{n}} \;&lt;\; \mu \;&lt;\; \bar{x} + t_{(\alpha/2;\ \nu)}\,\frac{S}{\sqrt{n}} \qquad \nu = n - 1 \]</p>
+          <p>
+            Se usa cuando \(n &lt; 30\), \(\sigma\) es desconocida y la población es normal.
+            \(t_{(\alpha/2;\ \nu)}\) es el valor de la \(t\) con \(\nu\) grados de libertad que deja
+            \(\alpha/2\) a la derecha: en la tabla, fila \(\nu\), columna \(\alpha/2\).
+          </p>
+        </div>
+
+        <div class="caja caja-formula">
+          <span class="caja-tit">3. Decidir con el intervalo</span>
+          <p>
+            Un valor <strong>adentro</strong> del intervalo es compatible con los datos (creíble como
+            \(\mu\)); uno <strong>afuera</strong>, no.
+          </p>
+        </div>
+
+        <h4>Desarme del enunciado</h4>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Frase del enunciado</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+            <tr><td>&ldquo;tiempo (en segundos) que tarda &hellip; en desplegar&rdquo;</td><td>la variable</td><td>&mdash;</td><td>\(X\): tiempo de un despliegue (s) &rarr; v.a. continua</td></tr>
+            <tr><td>&ldquo;10 despliegues elegidos al azar: 41.2, &hellip;, 40.5&rdquo;</td><td>datos sueltos</td><td>calculadora</td><td>\(n = 10\), \(\bar{x}\), \(S\)</td></tr>
+            <tr><td>&ldquo;se distribuye normalmente&rdquo;</td><td>requisito de la \(t\)</td><td>&mdash;</td><td>justificación</td></tr>
+            <tr><td>(no dan \(\sigma\))</td><td>\(\sigma\) desconocida</td><td>&mdash;</td><td>con \(n &lt; 30\): \(t\)</td></tr>
+            <tr><td>&ldquo;95&nbsp;%&rdquo;</td><td>\(\alpha = 0{,}05\)</td><td>\(\alpha/2 = 0{,}025\); \(\nu = 10 - 1 = 9\)</td><td>\(t_{(0{,}025;\ 9)} = 2{,}262\)</td></tr>
+            <tr><td>&ldquo;informa un tiempo medio de 40 segundos&rdquo;</td><td>valor a controlar</td><td>&mdash;</td><td>\(\mu_0 = 40\)</td></tr>
+          </table>
+        </div>
+
+        <span class="paso">Inciso a &mdash; Media y desvío muestral</span>
+
+        <div class="caja caja-calc">
+          <span class="caja-tit">En la calculadora (modo estadístico, como indica la cátedra)</span>
+          <p>
+            <strong>fx-82MS / fx-350MS (o parecidas):</strong> MODE &rarr; SD. Limpiar la memoria: SHIFT
+            MODE (CLR) &rarr; 1 (Scl) &rarr; =. Cargar cada dato seguido de M+:
+            <code>41.2 M+ 38.5 M+ 44 M+ &hellip; 40.5 M+</code>. Después SHIFT 2 (S-VAR): la opción
+            \(\bar{x}\) da <code>41</code>; la opción <strong>\(x\sigma_{n-1}\)</strong> da
+            <code>2.032513496</code>.
+          </p>
+          <p>
+            <strong>fx-82ES PLUS / fx-570 (o parecidas):</strong> SHIFT MODE &rarr; &darr; &rarr; STAT
+            &rarr; OFF (frecuencia apagada: datos sin agrupar). MODE &rarr; STAT &rarr; 1-VAR. Cargar cada
+            dato con =, y AC al terminar. SHIFT STAT (1) &rarr; VAR: \(\bar{x}\) = <code>41</code>,
+            <strong>\(sx\)</strong> = <code>2.032513496</code>.
+          </p>
+          <p>
+            Ojo: \(x\sigma_n\) (o \(\sigma x\)) da <code>1.928211607</code>, que divide por \(n\): no es la
+            que va. Antes de leer, contá que haya 10 datos cargados (\(n = 10\)).
+          </p>
+        </div>
+
+        <p>Control a mano: en SUM, \(\sum x = 410\) y \(\sum x^{2} = 16847{,}18\).</p>
+        <p>Fórmula de la media:</p>
+        <p>\[ \bar{x} = \frac{\sum x_i}{n} = \frac{410}{10} = 41 \text{ s} \]</p>
+        <p>Fórmula del desvío:</p>
+        <p>\[ S = \sqrt{\frac{n\sum x_i^{2} - \left(\sum x_i\right)^{2}}{n\,(n-1)}} = \sqrt{\frac{10 \cdot 16847{,}18 - 410^{2}}{10 \cdot 9}} = \sqrt{\frac{168471{,}8 - 168100}{90}} = \sqrt{\frac{371{,}8}{90}} = \sqrt{4{,}1311} = 2{,}0325 \text{ s} \]</p>
+
+        <div class="caja caja-resp">
+          <span class="caja-tit">Respuesta a</span>
+          <p>\(\bar{x} = 41\) segundos y \(S = 2{,}0325\) segundos.</p>
+        </div>
+
+        <span class="paso">Inciso b &mdash; Intervalo del 95&nbsp;% y el valor de 40 s</span>
+        <p>Grados de libertad y valor de tabla:</p>
+        <p>\[ \nu = n - 1 = 10 - 1 = 9 \qquad\qquad t_{(0{,}025;\ 9)} = 2{,}262 \]</p>
+        <p>Fórmula:</p>
+        <p>\[ \bar{x} - t_{(\alpha/2;\ \nu)}\,\frac{S}{\sqrt{n}} \;&lt;\; \mu \;&lt;\; \bar{x} + t_{(\alpha/2;\ \nu)}\,\frac{S}{\sqrt{n}} \]</p>
+        <p>Error estándar:</p>
+        <p>\[ \frac{S}{\sqrt{n}} = \frac{2{,}0325}{\sqrt{10}} = \frac{2{,}0325}{3{,}1623} = 0{,}6427 \]</p>
+        <p>Error de estimación:</p>
+        <p>\[ E = 2{,}262 \times 0{,}6427 = 1{,}454 \]</p>
+        <p>Intervalo:</p>
+        <p>\[ 41 - 1{,}454 \;&lt;\; \mu \;&lt;\; 41 + 1{,}454 \]</p>
+        <p>\[ 39{,}55 \;&lt;\; \mu \;&lt;\; 42{,}45 \]</p>
+
+        <p>Ahora el valor del proveedor:</p>
+        <p>\[ \mu_0 = 40 \qquad\qquad 39{,}55 &lt; 40 &lt; 42{,}45 \]</p>
+
+        <div class="caja caja-resp">
+          <span class="caja-tit">Respuesta b</span>
+          <p>\(\text{IC}_{95\%}(\mu) = (39{,}55\ ;\ 42{,}45)\) segundos.</p>
+          <p>
+            Con un 95&nbsp;% de confianza, el tiempo medio de despliegue está entre 39,55 y 42,45 s. El
+            40 queda <strong>adentro</strong>: el tiempo medio informado por el proveedor <strong>es
+            compatible</strong> con los datos (la diferencia entre 41 y 40 puede deberse a la muestra).
+          </p>
+        </div>
+
+        <span class="paso">Inciso c &mdash; Por qué \(t\) y qué significa el 95&nbsp;%</span>
+        <h4>Por qué \(t\) y no \(Z\)</h4>
+        <ul>
+          <li>La muestra es chica: \(n = 10 &lt; 30\).</li>
+          <li>No se conoce \(\sigma\): en su lugar va \(S\), calculado con los mismos 10 datos, que también varía de muestra en muestra.</li>
+          <li>La población es normal (lo dice el enunciado), que es el requisito para que \(\frac{\bar{X} - \mu}{S/\sqrt{n}}\) siga una \(t\) con \(\nu = n - 1\).</li>
+          <li>La \(t\) tiene colas más pesadas que la normal: \(t_{(0{,}025;\ 9)} = 2{,}262\) contra \(z = 1{,}96\). El intervalo sale más ancho para compensar la incertidumbre de estimar \(\sigma\) con pocos datos.</li>
+        </ul>
+        <h4>Qué significa el 95&nbsp;% de confianza</h4>
+        <p>
+          Si se repitiera muchas veces el procedimiento (tomar 10 despliegues al azar y armar el
+          intervalo), el 95&nbsp;% de esos intervalos contendría al verdadero tiempo medio de despliegue
+          \(\mu\), y el 5&nbsp;% no.
+        </p>
+        <div class="caja caja-resp">
+          <span class="caja-tit">Respuesta c</span>
+          <p>
+            Se usa \(t\) porque \(n &lt; 30\), \(\sigma\) es desconocida y la población es normal. El
+            95&nbsp;% es la confianza en el método: de cada 100 intervalos armados así, unos 95 atrapan el
+            verdadero tiempo medio de despliegue.
+          </p>
+        </div>
+        <div class="caja caja-ojo">
+          <span class="caja-tit">Lo que no hay que decir</span>
+          <p>
+            &ldquo;Hay un 95&nbsp;% de probabilidad de que \(\mu\) esté entre 39,55 y 42,45&rdquo;. \(\mu\) es
+            un número fijo: o está o no está. El 95&nbsp;% es del procedimiento, por eso se dice
+            &ldquo;confianza&rdquo; y no &ldquo;probabilidad&rdquo;.
+          </p>
+        </div>
+
+        <h4>Parecido en la guía</h4>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Ejercicio</th><th>Qué tiene igual</th><th>Qué cambia</th></tr>
+            <tr>
+              <td class="lbl">Guía de Estimación, Ejercicio 7<br><em>Diámetros de piezas</em></td>
+              <td>Datos sueltos, media y \(S\) con la calculadora, IC con \(t\).</td>
+              <td>Allá son 9 datos al 99&nbsp;%.</td>
+            </tr>
+            <tr>
+              <td class="lbl">Guía de Estimación, Ejercicio 8<br><em>Secado de pintura</em></td>
+              <td>Datos sueltos, población normal, IC del 95&nbsp;% con \(t\).</td>
+              <td>Allá son 15 datos (\(\nu = 14\)).</td>
+            </tr>
+            <tr>
+              <td class="lbl">Tercer Parcial 2025, Ejercicio 2<br><em>Satisfacción con una interfaz</em></td>
+              <td>Datos sueltos en el enunciado y un valor de referencia para comparar.</td>
+              <td>Allá estaba planteado como prueba de hipótesis.</td>
+            </tr>
+          </table>
+        </div>
+
+        <div class="caja caja-ojo">
+          <span class="caja-tit">Las trampas de este ejercicio</span>
+          <ol>
+            <li><strong>\(x\sigma_n\) en vez de \(x\sigma_{n-1}\).</strong></li>
+            <li><strong>\(\nu = 10\).</strong> Son \(n - 1 = 9\) grados de libertad: \(t = 2{,}262\).</li>
+            <li><strong>Decir que &ldquo;\(\mu = 40\)&rdquo;.</strong> Que 40 esté adentro solo dice que es <em>compatible</em>; también lo son 41 o 42.</li>
+          </ol>
+        </div>
+      </div>
+    </details>
+  </div>
+</section>

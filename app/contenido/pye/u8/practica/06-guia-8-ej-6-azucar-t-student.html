@@ -1,0 +1,106 @@
+<div class="ej" data-examen="variante" data-examen-ref="Parcial 3 2025 · ej. 2" data-examen-nota="En el parcial venían 15 datos sueltos (satisfacción) y primero había que sacar la media y S con la calculadora; con esos números, el IC del 95 % lleva t(0,025; 14) = 2,145. Acá la media y S ya vienen dadas (n = 20): mismo intervalo con t.">
+  <span class="tag">Guía 8 &middot; Ej. 6 &middot; IC para \(\mu\) con \(t\) de Student</span>
+  <h2>Contenido medio de azúcar en barras de cereal</h2>
+  <div class="enunciado">
+    <p>
+      En una muestra aleatoria de 20 barras de cereales similares, de la misma marca y variedad, el
+      contenido promedio de azúcar fue de 11.3 gramos con una desviación estándar de 2.45 gramos.
+      Suponiendo que el contenido de azúcar está distribuido normalmente, construya un intervalo del
+      95% de confianza para el contenido medio de azúcar para barras de esta marca y variedad.
+    </p>
+  </div>
+
+  <span class="paso">Qué método y por qué</span>
+  <p>
+    Se quiere \(\mu\), el contenido medio de azúcar de <strong>todas</strong> las barras de esa marca
+    y variedad. Se estima con un <strong>intervalo de confianza</strong>: \(\bar{x}\) más y menos un
+    margen \(E\), el error de estimación.
+  </p>
+  <p><strong>¿Z o t?</strong></p>
+  <ul>
+    <li>\(n = 20 &lt; 30\): muestra chica.</li>
+    <li>Los 2,45 g son el desvío <strong>de la muestra</strong> (\(S\)): \(\sigma\) desconocida.</li>
+    <li>El enunciado dice que el contenido de azúcar es <strong>normal</strong>: es el requisito para usar \(t\).</li>
+  </ul>
+  <p>Muestra chica y \(\sigma\) desconocida &rarr; <strong>\(t\) de Student con \(\nu = n - 1\)</strong>.</p>
+  <p>
+    <strong>Por qué \(t\) y no \(z\):</strong> \(z\) sirve cuando en el denominador está \(\sigma\),
+    un número fijo. Acá va \(S\), que se calcula con la misma muestra y cambia de muestra en muestra;
+    con 20 datos esa variación pesa. El cociente \(\frac{\bar{X} - \mu}{S/\sqrt{n}}\) sigue una
+    \(t\) de Student: campana centrada en 0 con colas más pesadas, que da valores de tabla más grandes
+    que \(z\) (intervalo más ancho, para compensar la incertidumbre de \(S\)). Los <strong>grados de
+    libertad</strong> \(\nu = n - 1\) dicen cuál \(t\) usar.
+  </p>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Intervalo para \(\mu\) con \(n &lt; 30\) y \(\sigma\) desconocida</span>
+    <p>\[ \bar{x} \pm t_{(\alpha/2;\ \nu)}\,\frac{S}{\sqrt{n}} \qquad E = t_{(\alpha/2;\ \nu)}\,\frac{S}{\sqrt{n}} \qquad \nu = n - 1 \]</p>
+  </div>
+
+  <span class="paso">Desarme del enunciado</span>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Traducción</th><th>Cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"muestra aleatoria de 20 barras"</td><td>muestra chica</td><td>\(\nu = 20 - 1 = 19\)</td><td>\(n = 20\)</td></tr>
+      <tr><td>"contenido promedio de azúcar fue de 11.3 gramos"</td><td>media de la muestra</td><td>&mdash;</td><td>\(\bar{x} = 11{,}3\)</td></tr>
+      <tr><td>"con una desviación estándar de 2.45 gramos"</td><td>desvío de la muestra: \(\sigma\) desconocida</td><td>&mdash;</td><td>\(S = 2{,}45\)</td></tr>
+      <tr><td>"distribuido normalmente"</td><td>requisito de la \(t\)</td><td>&mdash;</td><td>justificación</td></tr>
+      <tr><td>"95% de confianza"</td><td>afuera 5&nbsp;%, 2,5&nbsp;% por cola</td><td>\(\alpha = 0{,}05\); \(\alpha/2 = 0{,}025\)</td><td>\(t_{(0{,}025;\ 19)}\)</td></tr>
+    </table>
+  </div>
+  <p>
+    <strong>Qué son \(\alpha\) y \(\alpha/2\), en criollo:</strong> el 95&nbsp;% de confianza es
+    qué tan seguido acierta el método: de cada 100 intervalos armados así, 95 atrapan el contenido medio real.
+    \(\alpha = 1 - 0{,}95 = 0{,}05\) es lo contrario, la chance de que el intervalo <em>no</em>
+    acierte. Esa parte se reparte mitad en cada punta de la campana (valores demasiado altos y
+    demasiado bajos): \(\alpha/2 = 0{,}025\) de cada lado. El valor de tabla que se busca es el que deja
+    justo 0,025 afuera a la derecha.
+  </p>
+  <p>
+    <strong>Error estándar, en criollo:</strong> el promedio de una muestra no da siempre lo mismo;
+    cambia según qué casos tocaron. El error estándar (\(S/\sqrt{n}\), o \(\sigma/\sqrt{n}\) si se
+    conoce \(\sigma\)) mide cuánto se mueve ese promedio de una muestra a otra, y es más chico cuanto
+    más grande es \(n\). El margen \(E\) es "cuántos errores estándar me alejo para cada lado".
+  </p>
+
+  <p>
+    <strong>Grados de libertad, en criollo:</strong> la \(t\) no es una sola campana sino una
+    familia: con pocos datos es más ancha (hay más incertidumbre) y con muchos se parece a la normal.
+    Los grados de libertad \(\nu\) dicen cuál de esas campanas usar, o sea en qué <strong>fila</strong>
+    de la tabla entrar. Con una sola muestra son \(n - 1\): se pierde uno porque la media se calculó con los
+    mismos datos.
+  </p>
+  <span class="paso">Paso 1 &mdash; \(t\) de la tabla A.4</span>
+  <p>
+    Filas: grados de libertad. Columnas: área a la <strong>derecha</strong> de \(t\). Se entra por
+    la columna \(\alpha/2\), el área de la cola derecha:
+  </p>
+  <ul>
+    <li>fila \(\nu = 19\)</li>
+    <li>columna \(0{,}025\)</li>
+  </ul>
+  <p>\[ t_{(0{,}025;\ 19)} = 2{,}093 \]</p>
+
+  <span class="paso">Paso 2 &mdash; Error estándar y error de estimación</span>
+  <p>Fórmula:</p>
+  <p>\[ E = t_{(\alpha/2;\ \nu)}\,\frac{S}{\sqrt{n}} \]</p>
+  <ul>
+    <li>\(\sqrt{n} = \sqrt{20} = 4{,}4721\)</li>
+    <li>\(\dfrac{S}{\sqrt{n}} = \dfrac{2{,}45}{4{,}4721} = 0{,}5478\) g (error estándar estimado)</li>
+  </ul>
+  <p>\[ E = 2{,}093 \times 0{,}5478 = 1{,}1466 \text{ g} \]</p>
+
+  <span class="paso">Paso 3 &mdash; Armar el intervalo</span>
+  <p>Fórmula:</p>
+  <p>\[ \bar{x} - E &lt; \mu &lt; \bar{x} + E \]</p>
+  <p>\[ 11{,}3 - 1{,}1466 &lt; \mu &lt; 11{,}3 + 1{,}1466 \]</p>
+  <p>\[ \mathbf{10{,}15 &lt; \mu &lt; 12{,}45} \]</p>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>
+      \(IC_{95\%}(\mu) = (\,10{,}15\ ;\ 12{,}45\,)\) gramos. Con 95&nbsp;% de confianza, el contenido
+      medio de azúcar de las barras de esta marca y variedad está entre 10,15 y 12,45 gramos.
+    </p>
+    <p><strong>Resolución 2023 de la cátedra:</strong> \(10{,}15 &lt; \mu &lt; 12{,}45\). Coincide.</p>
+  </div>
+</div>

@@ -1,0 +1,199 @@
+<div class="bloque">
+  <p class="kicker">La base de todo</p>
+  <h2>2. La idea del intervalo de confianza</h2>
+
+  <h3>Cuándo se usa</h3>
+  <p>
+    Cada vez que piden "construya un intervalo de confianza del 95&nbsp;%", "estime con un 99&nbsp;% de
+    confianza", "entre qué valores está la media real". En vez de un número solo (que casi nunca le
+    pega exacto al parámetro), se da un <strong>rango</strong> y se dice <strong>cuánta confianza</strong>
+    le tenemos.
+  </p>
+
+  <h3>La idea, sin fórmulas</h3>
+  <p>
+    Ya lo viste en las encuestas antes de una elección: "el candidato tiene el 40&nbsp;% de intención de
+    voto, con un <strong>margen de error</strong> de 3 puntos". Quieren decir que no saben el número
+    exacto de todo el país (encuestaron a unos pocos), pero que el verdadero está, muy probablemente,
+    entre 37&nbsp;% y 43&nbsp;%. Eso es un <strong>intervalo de confianza</strong>:
+  </p>
+  <ul>
+    <li>un <strong>centro</strong>: lo que dio la muestra (el 40&nbsp;%);</li>
+    <li>un <strong>margen de error</strong> para cada lado (los 3 puntos): en esta unidad se llama <strong>error de estimación</strong>, \(E\);</li>
+    <li>y cuánta <strong>confianza</strong> le tenemos al método con que se armó: por ejemplo, 95&nbsp;%.</li>
+  </ul>
+  <p>
+    Otra forma de verlo: tirar una <strong>red</strong> en vez de un arpón. Con un arpón (un solo número)
+    casi nunca le pegás exacto al pez; con una red (un rango) es mucho más probable atraparlo. Cuanto más
+    seguro querés estar de atraparlo, más grande tiene que ser la red: <strong>más confianza, intervalo
+    más ancho</strong>.
+  </p>
+  <p>
+    ¿Y lo que falta para el 100&nbsp;%? Si el método acierta el 95&nbsp;% de las veces, falla el 5&nbsp;%.
+    Ese 5&nbsp;% se llama \(\alpha\) (alfa), o <strong>nivel de significancia</strong>: la probabilidad
+    de que el intervalo <strong>no</strong> atrape al parámetro. Puede fallar por dos lados (el intervalo
+    quedó todo por arriba del valor real, o todo por abajo), y por eso \(\alpha\) se reparte mitad y mitad:
+    \(\alpha/2\) para cada lado.
+  </p>
+
+  <h3>Las piezas</h3>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Forma de todos los intervalos de la unidad</span>
+    <p>\[ \text{estimación puntual} \pm E \qquad\text{o sea}\qquad (\ LI\ ;\ LS\ ) = (\ \hat{\theta} - E\ ;\ \hat{\theta} + E\ ) \]</p>
+    <p>\[ P(\ LI &lt; \theta &lt; LS\ ) = 1 - \alpha \]</p>
+  </div>
+
+  <h4>Qué significa cada letra</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Símbolo</th><th>Qué es</th><th>Ejemplo</th></tr>
+      <tr><td>\(1 - \alpha\)</td><td><strong>nivel de confianza</strong>, lo da el enunciado</td><td>"95&nbsp;%" &rarr; \(1 - \alpha = 0{,}95\)</td></tr>
+      <tr><td>\(\alpha\)</td><td><strong>significancia</strong>: lo que le falta a la confianza para llegar a 1</td><td>\(\alpha = 1 - 0{,}95 = 0{,}05\)</td></tr>
+      <tr><td>\(\alpha/2\)</td><td>el área que queda <strong>en cada cola</strong> (el \(\alpha\) se reparte mitad y mitad)</td><td>\(0{,}05 / 2 = 0{,}025\)</td></tr>
+      <tr><td>\(z_{\alpha/2}\)</td><td>el valor de \(z\) que deja un área \(\alpha/2\) <strong>a la derecha</strong></td><td>\(z_{0{,}025} = 1{,}96\)</td></tr>
+      <tr><td>\(E\)</td><td><strong>error de estimación</strong>: la mitad del ancho del intervalo; lo máximo que esperamos errarle, con esa confianza</td><td>\(E = z_{\alpha/2} \cdot \dfrac{\sigma}{\sqrt{n}}\) para la media</td></tr>
+      <tr><td>\(LI\), \(LS\)</td><td>límite inferior y superior</td><td>\(\bar{x} - E\) y \(\bar{x} + E\)</td></tr>
+    </table>
+  </div>
+
+  <h4>De dónde sale</h4>
+  <p>
+    Por el TLC (sección 1), \(Z = \dfrac{\bar{x} - \mu}{\sigma/\sqrt{n}}\) es normal estándar. En la campana
+    de la \(Z\), el área del medio entre \(-z_{\alpha/2}\) y \(z_{\alpha/2}\) es \(1 - \alpha\) (en cada
+    punta queda \(\alpha/2\)):
+  </p>
+  <p>\[ P\left(-z_{\alpha/2} &lt; \frac{\bar{x} - \mu}{\sigma/\sqrt{n}} &lt; z_{\alpha/2}\right) = 1 - \alpha \]</p>
+  <p>Despejando \(\mu\) del medio (multiplicar por \(\sigma/\sqrt{n}\), restar \(\bar{x}\) y dar vuelta los signos) queda:</p>
+  <p>\[ P\left(\bar{x} - z_{\alpha/2}\frac{\sigma}{\sqrt{n}} &lt; \mu &lt; \bar{x} + z_{\alpha/2}\frac{\sigma}{\sqrt{n}}\right) = 1 - \alpha \]</p>
+
+  <h3>Cómo sale \(z_{\alpha/2}\) de la tabla</h3>
+  <p>
+    La tabla \(Z\) de la cátedra da el área <strong>a la izquierda</strong>, \(F(z)\). Si a la derecha de
+    \(z_{\alpha/2}\) queda \(\alpha/2\), a la izquierda queda \(1 - \alpha/2\). Entonces:
+  </p>
+  <ol>
+    <li>\(\alpha = 1 - \text{confianza}\).</li>
+    <li>Se busca <strong>adentro</strong> de la tabla el área \(F(z) = 1 - \alpha/2\).</li>
+    <li>Se lee el \(z\) en el borde (fila + columna). Si no está exacto, el más cercano.</li>
+  </ol>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Confianza</th><th>\(\alpha\)</th><th>\(\alpha/2\)</th><th>Se busca \(F(z)\)</th><th>\(z_{\alpha/2}\)</th></tr>
+      <tr><td>90&nbsp;%</td><td>0,10</td><td>0,05</td><td>0,95</td><td>1,645</td></tr>
+      <tr><td>95&nbsp;%</td><td>0,05</td><td>0,025</td><td>0,975</td><td>1,96</td></tr>
+      <tr><td>98&nbsp;%</td><td>0,02</td><td>0,01</td><td>0,99</td><td>2,33</td></tr>
+      <tr><td>99&nbsp;%</td><td>0,01</td><td>0,005</td><td>0,995</td><td>2,576</td></tr>
+    </table>
+  </div>
+  <p>
+    El 1,645 y el 2,576 son los que pone la cátedra: en la tabla, 0,95 queda justo entre 1,64 y 1,65, y
+    0,995 entre 2,57 y 2,58.
+  </p>
+
+  <h3>Qué significa "95&nbsp;% de confianza"</h3>
+  <p>
+    Si se repitiera <strong>muchas veces</strong> el procedimiento (sacar una muestra, calcular \(\bar{x}\),
+    armar el intervalo), el <strong>95&nbsp;%</strong> de esos intervalos contendría a la verdadera
+    \(\mu\), y solo el 5&nbsp;% (\(\alpha\)) no la contendría. La confianza es del
+    <strong>método</strong>, no de un intervalo en particular.
+  </p>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">La interpretación incorrecta típica</span>
+    <p>
+      "Hay una probabilidad de 0,95 de que \(\mu\) esté entre 21,02 y 22,98." Está mal: \(\mu\) es un
+      número fijo (sección 1). Una vez armado el intervalo, \(\mu\) está adentro o no está; lo que
+      tiene el 95&nbsp;% es el método. Por eso la conclusión se escribe con la palabra
+      <strong>confianza</strong>: "Se tiene un 95&nbsp;% de confianza de que la media real de
+      [la población, en palabras del problema] está entre 21,02 y 22,98 ms."
+    </p>
+  </div>
+
+  <h3>Cómo cambia el ancho</h3>
+  <ul>
+    <li><strong>Más confianza &rarr; intervalo más ancho.</strong> Para estar más seguro de atrapar a \(\mu\), hay que abrir más la red: \(z_{\alpha/2}\) crece.</li>
+    <li><strong>Más datos (\(n\) más grande) &rarr; intervalo más angosto.</strong> \(n\) está abajo, en \(\sqrt{n}\): para achicar el error a la mitad hay que <strong>cuadruplicar</strong> \(n\).</li>
+    <li><strong>Más desvío &rarr; más ancho.</strong> Datos más dispersos, estimación menos precisa.</li>
+  </ul>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; Sacar \(z_{\alpha/2}\) para una confianza que no está en la lista</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>Se quiere un intervalo con <strong>92&nbsp;%</strong> de confianza. ¿Qué valor de \(z_{\alpha/2}\) se usa?</p>
+  </div>
+
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"92&nbsp;% de confianza"</td><td>\(1 - \alpha\)</td><td>\(\alpha = 1 - 0{,}92\)</td><td>\(\alpha = 0{,}08\)</td></tr>
+      <tr><td>(cada cola)</td><td>\(\alpha/2\)</td><td>\(0{,}08 / 2\)</td><td>\(\alpha/2 = 0{,}04\)</td></tr>
+      <tr><td>(lo que se busca en la tabla)</td><td>área a la izquierda</td><td>\(1 - 0{,}04\)</td><td>\(F(z) = 0{,}96\)</td></tr>
+    </table>
+  </div>
+  <p><strong>Paso 1 &mdash; Buscar 0,96 adentro de la tabla Z.</strong> Aparecen \(F(1{,}75) = 0{,}9599\) y \(F(1{,}76) = 0{,}9608\). El más cercano a 0,96 es 0,9599.</p>
+  <p><strong>Paso 2 &mdash; Leer el borde:</strong> fila 1,7 y columna 0,05 &rarr; \(z = 1{,}75\).</p>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>\(z_{\alpha/2} = z_{0{,}04} = 1{,}75\).</p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; El ancho según la confianza y según \(n\)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>
+      En el microservicio de autenticación (64 peticiones, media 22 ms, desvío 4 ms), el intervalo del
+      95&nbsp;% fue \((21{,}02\ ;\ 22{,}98)\). a) ¿Cuánto vale el error de estimación? b) ¿Cómo queda
+      el intervalo al 90&nbsp;% y al 99&nbsp;%? c) ¿Y al 95&nbsp;% con 36 y con 256 peticiones (misma
+      media y desvío)?
+    </p>
+  </div>
+
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"64 peticiones"</td><td>tamaño de muestra, \(\geq 30\)</td><td>\(\sqrt{64} = 8\)</td><td>\(n = 64\), se usa \(z\)</td></tr>
+      <tr><td>"media 22 ms", "desvío 4 ms"</td><td>de la muestra</td><td>&mdash;</td><td>\(\bar{x} = 22\), \(S = 4\)</td></tr>
+      <tr><td>"intervalo del 95&nbsp;% \((21{,}02 ; 22{,}98)\)"</td><td>\(LI\) y \(LS\)</td><td>&mdash;</td><td>para sacar \(E\)</td></tr>
+    </table>
+  </div>
+
+  <h4>a) El error, a partir del intervalo</h4>
+  <p>El error es la mitad del ancho (y el centro es \(\bar{x}\)):</p>
+  <p>\[ E = \frac{LS - LI}{2} = \frac{22{,}98 - 21{,}02}{2} = \frac{1{,}96}{2} = 0{,}98 \qquad\qquad \bar{x} = \frac{LI + LS}{2} = \frac{21{,}02 + 22{,}98}{2} = 22 \]</p>
+  <p>Y coincide con la fórmula: \(E = z_{\alpha/2} \cdot \dfrac{S}{\sqrt{n}} = 1{,}96 \cdot \dfrac{4}{8} = 0{,}98\).</p>
+
+  <h4>b) Otra confianza, mismos datos</h4>
+  <p>Fórmula: \(E = z_{\alpha/2} \cdot \dfrac{S}{\sqrt{n}}\), con \(\dfrac{S}{\sqrt{n}} = \dfrac{4}{8} = 0{,}5\).</p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Confianza</th><th>\(z_{\alpha/2}\)</th><th>\(E = z \cdot 0{,}5\)</th><th>Intervalo</th></tr>
+      <tr><td>90&nbsp;%</td><td>1,645</td><td>0,82</td><td>\((21{,}18\ ;\ 22{,}82)\)</td></tr>
+      <tr><td>95&nbsp;%</td><td>1,96</td><td>0,98</td><td>\((21{,}02\ ;\ 22{,}98)\)</td></tr>
+      <tr><td>99&nbsp;%</td><td>2,576</td><td>1,29</td><td>\((20{,}71\ ;\ 23{,}29)\)</td></tr>
+    </table>
+  </div>
+
+  <h4>c) Otro \(n\), al 95&nbsp;%</h4>
+  <p>Fórmula: \(E = 1{,}96 \cdot \dfrac{4}{\sqrt{n}}\).</p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>\(n\)</th><th>\(\sqrt{n}\)</th><th>\(E\)</th><th>Intervalo</th></tr>
+      <tr><td>36</td><td>6</td><td>\(1{,}96 \cdot 4/6 = 1{,}31\)</td><td>\((20{,}69\ ;\ 23{,}31)\)</td></tr>
+      <tr><td>64</td><td>8</td><td>\(1{,}96 \cdot 4/8 = 0{,}98\)</td><td>\((21{,}02\ ;\ 22{,}98)\)</td></tr>
+      <tr><td>256</td><td>16</td><td>\(1{,}96 \cdot 4/16 = 0{,}49\)</td><td>\((21{,}51\ ;\ 22{,}49)\)</td></tr>
+    </table>
+  </div>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>
+      a) \(E = 0{,}98\) ms. b) Al subir la confianza el intervalo se ensancha (de 1,64 ms de ancho al
+      90&nbsp;% a 2,58 ms al 99&nbsp;%). c) Al subir \(n\) se angosta: de 64 a 256 datos (4 veces más)
+      el error baja de 0,98 a 0,49 (a la mitad).
+    </p>
+  </div>
+</div>

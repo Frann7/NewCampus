@@ -1,0 +1,258 @@
+<article class="preg" data-id="u8-e-fundamental-05-diferencia-pooled" data-tipo="ejercicio" data-origen="parcial" data-fundamental="05">
+  <div class="p-enunciado">
+    <p>
+      Se comparó el tiempo de respuesta (en ms) de dos versiones de una API que atienden la misma
+      consulta. <strong>API REST (1):</strong> una muestra de \(n_1 = 12\) peticiones dio un tiempo
+      medio de \(\bar{x}_1 = 148{,}3\) ms y una varianza muestral de \(S_1^{2} = 90\) ms².
+      <strong>API GraphQL (2):</strong> una muestra de \(n_2 = 10\) peticiones dio
+      \(\bar{x}_2 = 136{,}1\) ms y \(S_2^{2} = 60\) ms². Las muestras son independientes y el tiempo
+      de respuesta se distribuye normalmente en ambas versiones. Se pide:
+    </p>
+    <p><strong>a)</strong> Con la regla empírica, decida si se pueden suponer iguales las varianzas poblacionales.</p>
+    <p><strong>b)</strong> Construya un intervalo de confianza del 95&nbsp;% para la diferencia de medias \(\mu_1 - \mu_2\).</p>
+    <p><strong>c)</strong> ¿Hay diferencia significativa entre los tiempos medios de respuesta? Si la hay, ¿cuál versión es más lenta?</p>
+    <p class="p-fuente">Fundamental · basado en el Ejemplo 4 y el ejercicio de la pág. 15 de Estimación parte 2 de la cátedra (entra en el 3er parcial)</p>
+  </div>
+  <div class="p-explicacion">
+    <p>Muestras chicas, normales, varianzas desconocidas: regla empírica &rarr; pooled.</p>
+    <div class="tabla-wrap">
+      <table class="t full">
+        <tr><th>Inciso</th><th>Planteo</th><th>Resultado</th></tr>
+        <tr><td class="lbl">a) Regla empírica</td><td>\(\frac{S^{2}_{mayor}}{S^{2}_{menor}} = \frac{90}{60} = 1{,}5 \leq 3\)</td><td>varianzas supuestas iguales: <strong>pooled</strong></td></tr>
+        <tr><td class="lbl">b) IC 95&nbsp;%</td><td>\(S_p^{2} = \frac{11 \cdot 90 + 9 \cdot 60}{20} = 76{,}5\); \(12{,}2 \pm 2{,}086 \cdot 8{,}746 \cdot \sqrt{\frac{1}{12} + \frac{1}{10}} = 12{,}2 \pm 7{,}81\)</td><td>\([\mathbf{4{,}39}\ ;\ \mathbf{20{,}01}]\) ms</td></tr>
+        <tr><td class="lbl">c) Conclusión</td><td>¿incluye el 0?</td><td>No: hay diferencia significativa; la API REST es más lenta</td></tr>
+      </table>
+    </div>
+  </div>
+  <div class="p-rta" data-inciso="a"><p>Regla empírica: \(\frac{S^{2}_{mayor}}{S^{2}_{menor}} = \frac{90}{60} = 1{,}5 \leq 3\): se suponen varianzas poblacionales iguales y se usa la varianza combinada (pooled).</p></div>
+  <div class="p-rta" data-inciso="b"><p>\(S_p^{2} = \frac{(n_1 - 1)S_1^{2} + (n_2 - 1)S_2^{2}}{n_1 + n_2 - 2} = \frac{11 \cdot 90 + 9 \cdot 60}{20} = 76{,}5\), \(S_p = 8{,}746\); \(t_{(0{,}025;\ 20)} = 2{,}086\). \(IC_{95\%}(\mu_1 - \mu_2) = 12{,}2 \pm 2{,}086 \cdot 8{,}746 \cdot \sqrt{\frac{1}{12} + \frac{1}{10}} = [4{,}39\ ;\ 20{,}01]\) ms.</p></div>
+  <div class="p-rta" data-inciso="c"><p>El intervalo no incluye el 0: con 95&nbsp;% de confianza hay diferencia significativa entre los tiempos medios. Como es todo positivo, \(\mu_1 > \mu_2\): la API REST es más lenta, entre 4,39 y 20,01 ms en promedio.</p></div>
+  <div class="p-datos">
+    <p><strong>Variables:</strong> \(X_1\) = tiempo de respuesta (ms) de una petición a la API REST; \(X_2\) = ídem a la API GraphQL. Normales, muestras independientes.</p>
+    <div class="tabla-wrap">
+      <table class="t full">
+        <tr><th>Medida</th><th>API REST (1)</th><th>API GraphQL (2)</th></tr>
+        <tr><td>\(n\)</td><td>12</td><td>10</td></tr>
+        <tr><td>\(\bar{x}\) (ms)</td><td>148,3</td><td>136,1</td></tr>
+        <tr><td>\(S^{2}\) (ms²)</td><td>90</td><td>60</td></tr>
+      </table>
+    </div>
+    <p>Confianza 95&nbsp;% &rarr; \(\alpha/2 = 0{,}025\). Varianzas poblacionales desconocidas.</p>
+    <p><strong>Planteo en la hoja:</strong> \(X_1\), \(X_2\): tiempos de respuesta, v.a. continuas normales, independientes &middot; \(\sigma_1^{2}, \sigma_2^{2}\) desconocidas, \(n_1, n_2 &lt; 30\) &rArr; regla empírica &rArr; pooled: \((\bar{x}_1 - \bar{x}_2) \pm t_{(\alpha/2;\ n_1 + n_2 - 2)} \cdot S_p\sqrt{\frac{1}{n_1} + \frac{1}{n_2}}\)</p>
+  </div>
+  <ol class="p-pasos">
+    <li data-inciso="a" data-nivel="medio">
+      <div class="p-consigna"><p>a) Según el diagrama de decisión de la cátedra, ¿por qué hay que aplicar la regla empírica?</p></div>
+      <ul class="p-opciones">
+        <li data-correcta>Porque las varianzas poblacionales son desconocidas y las muestras son chicas (\(n_1 = 12\), \(n_2 = 10\), menores que 30)</li>
+        <li>Porque las varianzas poblacionales son conocidas</li>
+        <li>Porque las muestras son grandes</li>
+        <li>La regla empírica se aplica siempre que se comparan dos medias</li>
+      </ul>
+      <div class="p-pista"><p>El diagrama pregunta primero por las \(\sigma^{2}\) y después por los tamaños.</p></div>
+      <div class="p-explicacion"><p>\(\sigma^{2}\) desconocidas y muestras chicas: la rama de la regla empírica.</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> ubicar el caso en el diagrama.</p>
+        <ol>
+          <li>¿\(\sigma_1^{2}\), \(\sigma_2^{2}\) conocidas? No: solo hay \(S_1^{2}\) y \(S_2^{2}\).</li>
+          <li>¿\(n_1\) y \(n_2 \geq 30\)? No: 12 y 10. Si lo fueran, iría \(z\) con \(S_1^{2}\), \(S_2^{2}\).</li>
+          <li>Muestras chicas de poblaciones normales: se decide entre pooled y Welch con la regla empírica.</li>
+        </ol>
+        <p><strong>Qué significa:</strong> hay que comparar las varianzas de las muestras.</p>
+      </div>
+    </li>
+    <li data-inciso="a" data-nivel="avanzado" data-respuesta="1,5" data-tolerancia="0,01">
+      <div class="p-consigna"><p>a) La regla empírica es \(\frac{S^{2}_{mayor}}{S^{2}_{menor}}\). ¿Cuánto da?</p></div>
+      <div class="p-anotar">\(\frac{S^{2}_{mayor}}{S^{2}_{menor}} = \frac{90}{60} = 1{,}5\)</div>
+      <div class="p-pista"><p>Arriba la varianza más grande: 90; abajo la más chica: 60.</p></div>
+      <div class="p-explicacion"><p>\(\frac{90}{60} = 1{,}5\).</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> el cociente de varianzas de la regla empírica.</p>
+        <ol>
+          <li>Se usan las <strong>varianzas</strong> (no los desvíos): \(S_1^{2} = 90\), \(S_2^{2} = 60\).</li>
+          <li>La mayor arriba: \(\frac{90}{60} = 1{,}5\).</li>
+        </ol>
+        <p><strong>Qué significa:</strong> una varianza es 1,5 veces la otra: diferencia chica.</p>
+      </div>
+    </li>
+    <li data-inciso="a" data-nivel="avanzado">
+      <div class="p-consigna"><p>a) Con \(\frac{S^{2}_{mayor}}{S^{2}_{menor}} = 1{,}5\), ¿qué caso corresponde?</p></div>
+      <div class="p-anotar">\(1{,}5 \leq 3\) &rArr; varianzas supuestas iguales &rArr; pooled, \(\nu = n_1 + n_2 - 2\)</div>
+      <ul class="p-opciones">
+        <li data-correcta>Varianzas supuestas iguales (\(1{,}5 \leq 3\)): \(t\) con varianza pooled y \(n_1 + n_2 - 2\) grados de libertad</li>
+        <li>Varianzas no supuestas iguales: \(t\) de Welch</li>
+        <li>\(z\) con \(S_1^{2}\) y \(S_2^{2}\)</li>
+      </ul>
+      <div class="p-pista"><p>El corte de la regla es 3.</p></div>
+      <div class="p-explicacion"><p>\(\leq 3\) &rarr; pooled; \(> 3\) &rarr; Welch.</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> decidir el caso con la regla.</p>
+        <ol>
+          <li>Regla de la cátedra: \(\frac{S^{2}_{mayor}}{S^{2}_{menor}} \leq 3\) &rarr; varianzas supuestas iguales; \(> 3\) &rarr; no supuestas iguales.</li>
+          <li>\(1{,}5 \leq 3\): se suponen iguales y se combinan las dos varianzas en una sola, \(S_p^{2}\).</li>
+        </ol>
+        <p><strong>Qué significa:</strong> \(IC = (\bar{x}_1 - \bar{x}_2) \pm t_{(\alpha/2;\ n_1 + n_2 - 2)} \cdot S_p\sqrt{\frac{1}{n_1} + \frac{1}{n_2}}\).</p>
+      </div>
+    </li>
+    <li data-inciso="b" data-nivel="principiante" data-respuesta="12,2" data-tolerancia="0,01">
+      <div class="p-consigna"><p>b) El intervalo se centra en \(\bar{x}_1 - \bar{x}_2\). ¿Cuánto vale?</p></div>
+      <div class="p-anotar">\(\bar{x}_1 - \bar{x}_2 = 148{,}3 - 136{,}1 = 12{,}2\) ms</div>
+      <div class="p-pista"><p>En el orden que pide el enunciado: \(\mu_1 - \mu_2\), REST menos GraphQL.</p></div>
+      <div class="p-explicacion"><p>\(148{,}3 - 136{,}1 = 12{,}2\) ms.</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> el estimador puntual de \(\mu_1 - \mu_2\).</p>
+        <ol>
+          <li>Se resta en el orden del enunciado: \(\bar{x}_1 - \bar{x}_2\). (En el Ejemplo 4 la cátedra restó al revés: ojo con eso, cambia el signo del intervalo.)</li>
+          <li>\(148{,}3 - 136{,}1 = 12{,}2\) ms.</li>
+        </ol>
+        <p><strong>Qué significa:</strong> en las muestras, REST tardó 12,2 ms más en promedio.</p>
+      </div>
+    </li>
+    <li data-inciso="b" data-nivel="principiante" data-respuesta="1530" data-tolerancia="0,5">
+      <div class="p-consigna"><p>b) La varianza pooled es \(S_p^{2} = \frac{(n_1 - 1)S_1^{2} + (n_2 - 1)S_2^{2}}{n_1 + n_2 - 2}\). Primero el numerador: \(11 \cdot 90 + 9 \cdot 60\). ¿Cuánto da?</p></div>
+      <div class="p-anotar">\((n_1 - 1)S_1^{2} + (n_2 - 1)S_2^{2} = 11 \cdot 90 + 9 \cdot 60 = 990 + 540 = 1530\)</div>
+      <div class="p-pista"><p>\(11 \cdot 90 = 990\) y \(9 \cdot 60 = 540\).</p></div>
+      <div class="p-explicacion"><p>\(990 + 540 = 1530\).</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> el numerador de \(S_p^{2}\).</p>
+        <ol>
+          <li>Cada varianza se pondera por sus grados de libertad: \((12 - 1) \cdot 90 = 990\); \((10 - 1) \cdot 60 = 540\).</li>
+          <li>Suma: 1530.</li>
+        </ol>
+        <p><strong>Qué significa:</strong> la muestra más grande pesa un poco más en la varianza combinada.</p>
+      </div>
+    </li>
+    <li data-inciso="b" data-nivel="medio" data-respuesta="76,5" data-tolerancia="0,05">
+      <div class="p-consigna"><p>b) ¿Cuánto vale la varianza pooled \(S_p^{2} = \frac{(n_1 - 1)S_1^{2} + (n_2 - 1)S_2^{2}}{n_1 + n_2 - 2} = \frac{11 \cdot 90 + 9 \cdot 60}{12 + 10 - 2}\)?</p></div>
+      <div class="p-anotar">\(S_p^{2} = \frac{1530}{20} = 76{,}5\) ms²</div>
+      <div class="p-pista"><p>Numerador 1530; denominador \(12 + 10 - 2 = 20\).</p></div>
+      <div class="p-explicacion"><p>\(S_p^{2} = \frac{1530}{20} = 76{,}5\) ms².</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> la estimación combinada de la varianza común.</p>
+        <ol>
+          <li><strong>La fórmula.</strong> \(S_p^{2} = \frac{(n_1 - 1)S_1^{2} + (n_2 - 1)S_2^{2}}{n_1 + n_2 - 2}\).</li>
+          <li><strong>La cuenta.</strong> \(\frac{990 + 540}{20} = 76{,}5\) ms².</li>
+        </ol>
+        <p><strong>Qué significa:</strong> queda entre 60 y 90, más cerca de 90 porque esa muestra es más grande. Control: siempre queda entre las dos varianzas.</p>
+      </div>
+    </li>
+    <li data-inciso="b" data-nivel="principiante" data-respuesta="8,746" data-tolerancia="0,005">
+      <div class="p-consigna"><p>b) En el intervalo va el desvío pooled \(S_p = \sqrt{S_p^{2}} = \sqrt{76{,}5}\). ¿Cuánto vale?</p></div>
+      <div class="p-anotar">\(S_p = \sqrt{76{,}5} = 8{,}746\) ms</div>
+      <div class="p-pista"><p>Raíz de 76,5.</p></div>
+      <div class="p-explicacion"><p>\(\sqrt{76{,}5} = 8{,}7464\) ms.</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> el desvío combinado.</p>
+        <ol>
+          <li>\(S_p = \sqrt{76{,}5} = 8{,}7464\) ms.</li>
+        </ol>
+        <p><strong>Qué significa:</strong> es el desvío común estimado de las dos poblaciones.</p>
+      </div>
+    </li>
+    <li data-inciso="b" data-nivel="medio" data-respuesta="20" data-tolerancia="0">
+      <div class="p-consigna"><p>b) Con varianza pooled, ¿cuántos grados de libertad tiene la \(t\)?</p></div>
+      <div class="p-anotar">\(\nu = n_1 + n_2 - 2 = 12 + 10 - 2 = 20\)</div>
+      <div class="p-pista"><p>\(\nu = n_1 + n_2 - 2\).</p></div>
+      <div class="p-explicacion"><p>\(12 + 10 - 2 = 20\).</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> la fila de la tabla \(t\).</p>
+        <ol>
+          <li>Cada muestra aporta \(n - 1\) grados de libertad: \(11 + 9 = 20\).</li>
+        </ol>
+        <p><strong>Qué significa:</strong> se entra a la tabla por la fila 20.</p>
+      </div>
+    </li>
+    <li data-inciso="b" data-nivel="medio" data-respuesta="2,086" data-tolerancia="0,001">
+      <div class="p-consigna"><p>b) ¿Cuánto vale \(t_{(0{,}025;\ 20)}\)?</p></div>
+      <div class="p-anotar">\(t_{(0{,}025;\ 20)} = 2{,}086\)</div>
+      <div class="p-pista"><p>Fila 20, columna 0,025.</p></div>
+      <div class="p-explicacion"><p>\(t_{(0{,}025;\ 20)} = 2{,}086\).</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> el valor de tabla.</p>
+        <ol>
+          <li>95&nbsp;%: \(\alpha/2 = 0{,}025\). \(\nu = 20\).</li>
+          <li>Tabla \(t\): fila 20, columna 0,025 &rarr; 2,086.</li>
+        </ol>
+        <p><strong>Qué significa:</strong> entre \(-2{,}086\) y \(2{,}086\) queda el 95&nbsp;% de la \(t\) con 20 gl.</p>
+      </div>
+    </li>
+    <li data-inciso="b" data-nivel="principiante" data-respuesta="0,4282" data-tolerancia="0,0005">
+      <div class="p-consigna"><p>b) ¿Cuánto vale \(\sqrt{\frac{1}{n_1} + \frac{1}{n_2}} = \sqrt{\frac{1}{12} + \frac{1}{10}}\)?</p></div>
+      <div class="p-anotar">\(\sqrt{\frac{1}{12} + \frac{1}{10}} = \sqrt{0{,}18333} = 0{,}4282\)</div>
+      <div class="p-pista"><p>\(\frac{1}{12} = 0{,}08333\); \(\frac{1}{10} = 0{,}1\).</p></div>
+      <div class="p-explicacion"><p>\(\sqrt{0{,}18333} = 0{,}4282\).</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> el factor de los tamaños.</p>
+        <ol>
+          <li>\(\frac{1}{12} + \frac{1}{10} = 0{,}08333 + 0{,}1 = 0{,}18333\).</li>
+          <li>\(\sqrt{0{,}18333} = 0{,}4282\).</li>
+        </ol>
+        <p><strong>Qué significa:</strong> el error estándar de \(\bar{x}_1 - \bar{x}_2\) es \(S_p \cdot 0{,}4282 = 3{,}745\) ms.</p>
+      </div>
+    </li>
+    <li data-inciso="b" data-nivel="medio" data-respuesta="7,81" data-tolerancia="0,01">
+      <div class="p-consigna"><p>b) El error es \(e = t_{(0{,}025;\ 20)} \cdot S_p\sqrt{\frac{1}{n_1} + \frac{1}{n_2}} = 2{,}086 \cdot 8{,}746 \cdot \sqrt{\frac{1}{12} + \frac{1}{10}}\). ¿Cuánto vale?</p></div>
+      <div class="p-anotar">\(e = 2{,}086 \cdot 8{,}746 \cdot 0{,}4282 = 7{,}81\) ms</div>
+      <div class="p-pista"><p>\(8{,}746 \cdot 0{,}4282 = 3{,}745\); por 2,086.</p></div>
+      <div class="p-explicacion"><p>\(e = 2{,}086 \cdot 3{,}745 = 7{,}812\) ms.</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> cuánto se suma y se resta a 12,2.</p>
+        <ol>
+          <li><strong>La fórmula.</strong> \(e = t_{(\alpha/2;\ n_1 + n_2 - 2)} \cdot S_p\sqrt{\frac{1}{n_1} + \frac{1}{n_2}}\).</li>
+          <li><strong>Los números.</strong> \(t = 2{,}086\); \(S_p = 8{,}7464\); \(\sqrt{\frac{1}{12} + \frac{1}{10}} = 0{,}4282\).</li>
+          <li><strong>La cuenta.</strong> \(2{,}086 \cdot 8{,}7464 \cdot 0{,}4282 = 7{,}812\) ms.</li>
+        </ol>
+        <p><strong>Qué significa:</strong> con 95&nbsp;% de confianza, la diferencia real no se aleja más de 7,81 ms de 12,2.</p>
+      </div>
+    </li>
+    <li data-inciso="b" data-nivel="avanzado" data-respuesta="4,39" data-tolerancia="0,01">
+      <div class="p-consigna"><p>b) ¿Cuánto vale el límite inferior del intervalo del 95&nbsp;% para \(\mu_1 - \mu_2\)?</p></div>
+      <div class="p-anotar">\(LI = (\bar{x}_1 - \bar{x}_2) - t \cdot S_p\sqrt{\frac{1}{n_1} + \frac{1}{n_2}} = 12{,}2 - 7{,}81 = 4{,}39\) ms</div>
+      <div class="p-pista"><p>\((\bar{x}_1 - \bar{x}_2) - e\), con \(\bar{x}_1 - \bar{x}_2 = 12{,}2\).</p></div>
+      <div class="p-explicacion"><p>\(12{,}2 - 7{,}812 = 4{,}388 \approx 4{,}39\) ms.</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> el extremo de abajo.</p>
+        <ol>
+          <li><strong>La fórmula.</strong> \(LI = (\bar{x}_1 - \bar{x}_2) - t_{(\alpha/2;\ n_1 + n_2 - 2)} \cdot S_p\sqrt{\frac{1}{n_1} + \frac{1}{n_2}}\).</li>
+          <li><strong>Los números.</strong> \(12{,}2\); \(e = 2{,}086 \cdot 8{,}7464 \cdot 0{,}4282 = 7{,}812\).</li>
+          <li><strong>La cuenta.</strong> \(12{,}2 - 7{,}812 = 4{,}39\) ms.</li>
+        </ol>
+        <p><strong>Qué significa:</strong> con 95&nbsp;% de confianza, REST tarda al menos 4,39 ms más en promedio.</p>
+      </div>
+    </li>
+    <li data-inciso="b" data-nivel="avanzado" data-respuesta="20,01" data-tolerancia="0,01">
+      <div class="p-consigna"><p>b) ¿Cuánto vale el límite superior del intervalo del 95&nbsp;% para \(\mu_1 - \mu_2\)?</p></div>
+      <div class="p-anotar">\(LS = 12{,}2 + 7{,}81 = 20{,}01\) ms &nbsp;&rArr;&nbsp; \(IC_{95\%}(\mu_1 - \mu_2) = [4{,}39\ ;\ 20{,}01]\) ms</div>
+      <div class="p-pista"><p>\((\bar{x}_1 - \bar{x}_2) + e\).</p></div>
+      <div class="p-explicacion"><p>\(12{,}2 + 7{,}812 = 20{,}012 \approx 20{,}01\) ms.</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> el extremo de arriba.</p>
+        <ol>
+          <li><strong>La fórmula.</strong> \(LS = (\bar{x}_1 - \bar{x}_2) + t_{(\alpha/2;\ n_1 + n_2 - 2)} \cdot S_p\sqrt{\frac{1}{n_1} + \frac{1}{n_2}}\), con \(e = 7{,}812\).</li>
+          <li><strong>La cuenta.</strong> \(12{,}2 + 7{,}812 = 20{,}01\) ms.</li>
+        </ol>
+        <p><strong>Qué significa:</strong> \(IC_{95\%}(\mu_1 - \mu_2) = [4{,}39\ ;\ 20{,}01]\) ms.</p>
+      </div>
+    </li>
+    <li data-inciso="c" data-nivel="avanzado">
+      <div class="p-consigna"><p>c) Con \(IC_{95\%}(\mu_1 - \mu_2) = [4{,}39\ ;\ 20{,}01]\) ms, ¿qué se concluye?</p></div>
+      <div class="p-anotar">\(0 \notin [4{,}39\ ;\ 20{,}01]\) &rArr; hay diferencia significativa; todo positivo &rArr; \(\mu_1 > \mu_2\): REST es más lenta</div>
+      <ul class="p-opciones">
+        <li data-correcta>El intervalo no incluye el 0: hay diferencia significativa, y como es todo positivo, \(\mu_1 > \mu_2\): la API REST es más lenta</li>
+        <li>El intervalo no incluye el 0: no hay diferencia significativa</li>
+        <li>Hay diferencia significativa y la API GraphQL es más lenta</li>
+        <li>No se puede concluir porque las muestras son chicas</li>
+      </ul>
+      <div class="p-pista"><p>\(\mu_1 - \mu_2 = 0\) es &ldquo;medias iguales&rdquo;. ¿Está el 0 en el intervalo?</p></div>
+      <div class="p-explicacion"><p>Sin el 0 adentro hay diferencia; el signo positivo dice que \(\mu_1\) es la mayor.</p></div>
+      <div class="p-resolucion">
+        <p><strong>Qué se pide:</strong> la conclusión, como en los ejemplos de la cátedra.</p>
+        <ol>
+          <li><strong>El 0.</strong> \(\mu_1 - \mu_2 = 0\) significa que no hay diferencia. El intervalo va de 4,39 a 20,01: no incluye el 0.</li>
+          <li><strong>El signo.</strong> Todo el intervalo es positivo: \(\mu_1 - \mu_2 > 0\), o sea \(\mu_1 > \mu_2\). La versión 1 es REST.</li>
+        </ol>
+        <p><strong>Qué significa:</strong> con 95&nbsp;% de confianza, la API REST tiene un tiempo medio de respuesta significativamente mayor, entre 4,39 y 20,01 ms más que GraphQL.</p>
+      </div>
+    </li>
+  </ol>
+</article>

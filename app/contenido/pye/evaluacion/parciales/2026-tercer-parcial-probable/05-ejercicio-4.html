@@ -1,0 +1,241 @@
+<!-- ==================== EJERCICIO 4 ==================== -->
+<section class="parcial-ej">
+  <div class="parcial-ej-cab">
+    <h2>Ejercicio 4</h2>
+    <span class="parcial-pts">26 puntos</span>
+    <span class="parcial-tema">Unidad 8 &middot; IC para la diferencia de medias (muestras chicas)</span>
+  </div>
+
+  <p>
+    Se comparan los tiempos de respuesta (en ms) de un servicio de consultas instalado en dos
+    servidores: el servidor A usa caché Redis y el servidor B no usa caché. En el servidor A se midieron
+    12 peticiones, con un tiempo medio de 85,3 ms y un desvío estándar de 6,2 ms. En el servidor B se
+    midieron 10 peticiones, con un tiempo medio de 97,8 ms y un desvío estándar de 14,5 ms. Suponga que
+    en ambos servidores el tiempo de respuesta se distribuye normalmente y que las muestras son
+    independientes.
+  </p>
+
+  <ol class="parcial-incisos">
+    <li>¿Pueden suponerse iguales las varianzas poblacionales? Justifique con la regla empírica.</li>
+    <li>Construya un intervalo de confianza del 95&nbsp;% para la diferencia de los tiempos medios \(\mu_A - \mu_B\).</li>
+    <li>¿Hay una diferencia significativa entre los tiempos medios de respuesta? ¿Qué servidor responde más rápido?</li>
+  </ol>
+
+  <div class="parcial-extras">
+    <details class="parcial-desp pd-resultados">
+      <summary>
+        <span class="pd-icono">&#10003;</span>
+        <span class="pd-txt"><b>Resultados</b><small>Solo las respuestas, sin procedimiento</small></span>
+      </summary>
+      <div class="pd-cuerpo">
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Inciso</th><th>Resultado</th></tr>
+            <tr>
+              <td class="lbl">a) Regla empírica</td>
+              <td>\(S_B^{2}/S_A^{2} = 210{,}25 / 38{,}44 = 5{,}47 &gt; 3\) &rarr; <strong>no</strong> se suponen iguales: Welch</td>
+            </tr>
+            <tr>
+              <td class="lbl">b) IC 95&nbsp;% para \(\mu_A - \mu_B\)</td>
+              <td>\(\nu = 11{,}73 \approx 12\), \(t_{(0{,}025;\ 12)} = 2{,}179\), \(E = 10{,}73\) &nbsp;&middot;&nbsp;
+                  \(\text{IC}_{95\%}(\mu_A - \mu_B) = (-23{,}23\ ;\ -1{,}77)\) ms</td>
+            </tr>
+            <tr>
+              <td class="lbl">c) Conclusión</td>
+              <td>El intervalo <strong>no incluye el 0</strong>: hay diferencia significativa. Es todo negativo:
+                  \(\mu_A &lt; \mu_B\), el servidor <strong>A (con caché)</strong> responde más rápido, entre 1,77 y 23,23 ms menos en promedio.</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </details>
+
+    <details class="parcial-desp pd-explicacion">
+      <summary>
+        <span class="pd-icono">&#9998;</span>
+        <span class="pd-txt"><b>Explicación detallada</b><small>Desde cero: teoría, desarme del enunciado, resolución y comparación con la guía</small></span>
+      </summary>
+      <div class="pd-cuerpo">
+
+        <div class="caja caja-ejemplo">
+          <span class="caja-tit">El enunciado, otra vez</span>
+          <p>
+            Servidor A (con caché Redis): 12 peticiones, media 85,3 ms, desvío 6,2 ms. Servidor B (sin
+            caché): 10 peticiones, media 97,8 ms, desvío 14,5 ms. Normales e independientes. Piden: a) si
+            las varianzas pueden suponerse iguales (regla empírica); b) IC del 95&nbsp;% para
+            \(\mu_A - \mu_B\); c) si hay diferencia significativa y qué servidor es más rápido.
+          </p>
+        </div>
+
+        <h4>¿De qué tema es?</h4>
+        <p>
+          <strong>Estimación, parte 2</strong>: intervalo de confianza para la <strong>diferencia de
+          medias</strong> de dos poblaciones con muestras independientes y chicas.
+        </p>
+
+        <h4>Los conceptos que hacen falta, desde cero</h4>
+
+        <div class="caja caja-formula">
+          <span class="caja-tit">1. Qué fórmula usar (diagrama de decisión de la cátedra)</span>
+          <ul>
+            <li>¿\(\sigma_1^{2}\) y \(\sigma_2^{2}\) conocidas? &rarr; \(Z\) con las \(\sigma^{2}\).</li>
+            <li>Desconocidas y \(n_1, n_2 \geq 30\) &rarr; \(Z\) con \(S_1^{2}\) y \(S_2^{2}\).</li>
+            <li>Desconocidas, muestras chicas y poblaciones normales &rarr; \(t\), y para saber cuál se usa la <strong>regla empírica</strong>:</li>
+          </ul>
+          <p>\[ \frac{S^{2}_{\text{mayor}}}{S^{2}_{\text{menor}}} \leq 3 \;\Rightarrow\; \text{varianzas supuestas iguales (pooled)} \qquad\qquad \frac{S^{2}_{\text{mayor}}}{S^{2}_{\text{menor}}} &gt; 3 \;\Rightarrow\; \text{no supuestas iguales (Welch)} \]</p>
+          <p>Si el enunciado ya dice &ldquo;varianzas iguales&rdquo; o &ldquo;diferentes&rdquo;, se usa eso sin la regla.</p>
+        </div>
+
+        <div class="caja caja-formula">
+          <span class="caja-tit">2. Welch: varianzas no supuestas iguales</span>
+          <p>\[ (\bar{x}_1 - \bar{x}_2) \pm t_{(\alpha/2;\ \nu)}\sqrt{\frac{S_1^{2}}{n_1} + \frac{S_2^{2}}{n_2}} \]</p>
+          <p>con los grados de libertad de Welch-Satterthwaite:</p>
+          <p>\[ \nu = \frac{\left(\dfrac{S_1^{2}}{n_1} + \dfrac{S_2^{2}}{n_2}\right)^{2}}{\dfrac{\left(S_1^{2}/n_1\right)^{2}}{n_1 - 1} + \dfrac{\left(S_2^{2}/n_2\right)^{2}}{n_2 - 1}} \]</p>
+          <p>
+            \(\nu\) casi nunca da entero: se redondea al entero más cercano (truncar hacia abajo es lo más
+            conservador; en este ejercicio da la misma conclusión).
+          </p>
+        </div>
+
+        <div class="caja caja-formula">
+          <span class="caja-tit">3. Pooled, para comparar (cuando el cociente es \(\leq 3\))</span>
+          <p>\[ (\bar{x}_1 - \bar{x}_2) \pm t_{(\alpha/2;\ n_1+n_2-2)}\, S_p\sqrt{\frac{1}{n_1} + \frac{1}{n_2}} \qquad S_p^{2} = \frac{(n_1-1)S_1^{2} + (n_2-1)S_2^{2}}{n_1+n_2-2} \]</p>
+          <p>Acá no se usa: está para que veas la diferencia.</p>
+        </div>
+
+        <div class="caja caja-formula">
+          <span class="caja-tit">4. Cómo se concluye con un IC para \(\mu_1 - \mu_2\)</span>
+          <ul>
+            <li>Si el intervalo <strong>incluye el 0</strong>: puede que las medias sean iguales &rarr; no hay diferencia significativa.</li>
+            <li>Si <strong>no incluye el 0</strong>: hay diferencia significativa. Todo positivo &rarr; \(\mu_1 &gt; \mu_2\); todo negativo &rarr; \(\mu_1 &lt; \mu_2\).</li>
+          </ul>
+        </div>
+
+        <h4>Desarme del enunciado</h4>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Frase del enunciado</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+            <tr><td>&ldquo;servidor A &hellip; 12 peticiones&rdquo;</td><td>muestra 1 (chica)</td><td>&mdash;</td><td>\(n_A = 12\)</td></tr>
+            <tr><td>&ldquo;tiempo medio de 85,3 ms&rdquo;</td><td>media de A</td><td>&mdash;</td><td>\(\bar{x}_A = 85{,}3\)</td></tr>
+            <tr><td>&ldquo;desvío estándar de 6,2 ms&rdquo;</td><td>es el <strong>desvío</strong>: hay que elevarlo al cuadrado</td><td>\(6{,}2^{2}\)</td><td>\(S_A^{2} = 38{,}44\)</td></tr>
+            <tr><td>&ldquo;servidor B &hellip; 10 peticiones&rdquo;</td><td>muestra 2 (chica)</td><td>&mdash;</td><td>\(n_B = 10\)</td></tr>
+            <tr><td>&ldquo;tiempo medio de 97,8 ms&rdquo;</td><td>media de B</td><td>&mdash;</td><td>\(\bar{x}_B = 97{,}8\)</td></tr>
+            <tr><td>&ldquo;desvío estándar de 14,5 ms&rdquo;</td><td>desvío de B</td><td>\(14{,}5^{2}\)</td><td>\(S_B^{2} = 210{,}25\)</td></tr>
+            <tr><td>&ldquo;se distribuye normalmente &hellip; independientes&rdquo;</td><td>requisitos para usar \(t\)</td><td>&mdash;</td><td>justificación</td></tr>
+            <tr><td>&ldquo;95&nbsp;%&rdquo;</td><td>\(\alpha = 0{,}05\)</td><td>\(\alpha/2 = 0{,}025\)</td><td>\(t_{(0{,}025;\ \nu)}\)</td></tr>
+            <tr><td>&ldquo;\(\mu_A - \mu_B\)&rdquo;</td><td>el orden de la resta</td><td>&mdash;</td><td>\(\bar{x}_A - \bar{x}_B\)</td></tr>
+          </table>
+        </div>
+
+        <span class="paso">Inciso a &mdash; ¿Varianzas iguales? Regla empírica</span>
+        <p>Primero se pasan los desvíos a varianzas:</p>
+        <p>\[ S_A^{2} = 6{,}2^{2} = 38{,}44 \qquad\qquad S_B^{2} = 14{,}5^{2} = 210{,}25 \]</p>
+        <p>Fórmula (la mayor arriba):</p>
+        <p>\[ \frac{S^{2}_{\text{mayor}}}{S^{2}_{\text{menor}}} = \frac{210{,}25}{38{,}44} = 5{,}47 &gt; 3 \]</p>
+        <div class="caja caja-resp">
+          <span class="caja-tit">Respuesta a</span>
+          <p>
+            <strong>No</strong> pueden suponerse iguales: el cociente de varianzas da 5,47, mayor que 3.
+            Como además las muestras son chicas (\(12\) y \(10\), menos de 30) y las poblaciones normales,
+            se usa la \(t\) de <strong>Welch</strong>.
+          </p>
+        </div>
+        <div class="caja caja-ojo">
+          <span class="caja-tit">La trampa del desvío</span>
+          <p>
+            Con los desvíos el cociente da \(14{,}5 / 6{,}2 = 2{,}34 \leq 3\), y uno se iría a pooled por
+            error. La regla es con <strong>varianzas</strong>: siempre elevar al cuadrado primero.
+          </p>
+        </div>
+
+        <span class="paso">Inciso b &mdash; Intervalo del 95&nbsp;% para \(\mu_A - \mu_B\)</span>
+        <p>Fórmula (Welch):</p>
+        <p>\[ (\bar{x}_A - \bar{x}_B) \pm t_{(\alpha/2;\ \nu)}\sqrt{\frac{S_A^{2}}{n_A} + \frac{S_B^{2}}{n_B}} \]</p>
+
+        <h4>Las dos fracciones (se usan dos veces: conviene sacarlas primero)</h4>
+        <p>\[ \frac{S_A^{2}}{n_A} = \frac{38{,}44}{12} = 3{,}2033 \qquad\qquad \frac{S_B^{2}}{n_B} = \frac{210{,}25}{10} = 21{,}025 \]</p>
+        <p>\[ \frac{S_A^{2}}{n_A} + \frac{S_B^{2}}{n_B} = 3{,}2033 + 21{,}025 = 24{,}2283 \qquad\qquad \sqrt{24{,}2283} = 4{,}9222 \]</p>
+
+        <h4>Los grados de libertad</h4>
+        <p>Fórmula:</p>
+        <p>\[ \nu = \frac{\left(\dfrac{S_A^{2}}{n_A} + \dfrac{S_B^{2}}{n_B}\right)^{2}}{\dfrac{\left(S_A^{2}/n_A\right)^{2}}{n_A - 1} + \dfrac{\left(S_B^{2}/n_B\right)^{2}}{n_B - 1}} \]</p>
+        <p>Numerador: \(24{,}2283^{2} = 587{,}01\). Denominador, término por término:</p>
+        <p>\[ \frac{3{,}2033^{2}}{11} = \frac{10{,}2613}{11} = 0{,}9328 \qquad\qquad \frac{21{,}025^{2}}{9} = \frac{442{,}05}{9} = 49{,}1167 \]</p>
+        <p>\[ \nu = \frac{587{,}01}{0{,}9328 + 49{,}1167} = \frac{587{,}01}{50{,}0496} = 11{,}73 \;\approx\; 12 \]</p>
+        <p>Valor de tabla (fila 12, área 0,025 a la derecha):</p>
+        <p>\[ t_{(0{,}025;\ 12)} = 2{,}179 \]</p>
+
+        <h4>El intervalo</h4>
+        <p>\[ \bar{x}_A - \bar{x}_B = 85{,}3 - 97{,}8 = -12{,}5 \]</p>
+        <p>\[ E = 2{,}179 \times 4{,}9222 = 10{,}73 \]</p>
+        <p>\[ -12{,}5 - 10{,}73 \;&lt;\; \mu_A - \mu_B \;&lt;\; -12{,}5 + 10{,}73 \]</p>
+        <p>\[ -23{,}23 \;&lt;\; \mu_A - \mu_B \;&lt;\; -1{,}77 \]</p>
+
+        <div class="caja caja-resp">
+          <span class="caja-tit">Respuesta b</span>
+          <p>\(\text{IC}_{95\%}(\mu_A - \mu_B) = (-23{,}23\ ;\ -1{,}77)\) ms.</p>
+        </div>
+        <div class="caja caja-ojo">
+          <span class="caja-tit">Si truncás \(\nu\) a 11</span>
+          <p>
+            \(t_{(0{,}025;\ 11)} = 2{,}201\), \(E = 10{,}83\) y el intervalo queda \((-23{,}33\ ;\ -1{,}67)\).
+            Apenas más ancho, y la conclusión es la misma. Cualquiera de los dos criterios está bien si se
+            dice cuál se usó.
+          </p>
+        </div>
+
+        <span class="paso">Inciso c &mdash; ¿Diferencia significativa? ¿Cuál es más rápido?</span>
+        <ul>
+          <li>El intervalo \((-23{,}23\ ;\ -1{,}77)\) <strong>no incluye el 0</strong>: hay diferencia significativa entre las medias.</li>
+          <li>Es <strong>todo negativo</strong>: \(\mu_A - \mu_B &lt; 0\), o sea \(\mu_A &lt; \mu_B\).</li>
+          <li>Tiempo de respuesta menor = más rápido.</li>
+        </ul>
+        <div class="caja caja-resp">
+          <span class="caja-tit">Respuesta c</span>
+          <p>
+            Con un 95&nbsp;% de confianza <strong>hay diferencia significativa</strong>: el servidor
+            <strong>A, con caché Redis</strong>, responde más rápido, entre 1,77 y 23,23 ms menos en
+            promedio que el servidor B.
+          </p>
+        </div>
+
+        <h4>Parecido en la guía</h4>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Ejercicio</th><th>Qué tiene igual</th><th>Qué cambia</th></tr>
+            <tr>
+              <td class="lbl">Teoría, Ejemplo 5<br><em>Sedimentos en dos lugares</em></td>
+              <td>Regla empírica que da más de 3 (6,12) &rarr; Welch, con \(\nu \approx 19\).</td>
+              <td>Allá los datos vienen sueltos y el IC incluye el 0 (no hay diferencia).</td>
+            </tr>
+            <tr>
+              <td class="lbl">Guía de Estimación, Ejercicios 14 y 15<br><em>Dietas para cerdos, resistencia de alambres</em></td>
+              <td>&ldquo;Averiguando previamente si las varianzas pueden asumirse iguales&rdquo;: regla empírica y después el IC.</td>
+              <td>Allá con datos sueltos (calculadora para cada grupo).</td>
+            </tr>
+            <tr>
+              <td class="lbl">Guía de Estimación, Ejercicio 13<br><em>Duración de películas</em></td>
+              <td>Welch y concluir si hay diferencia significativa.</td>
+              <td>Allá el enunciado ya dice &ldquo;variancias diferentes&rdquo;.</td>
+            </tr>
+            <tr>
+              <td class="lbl">Teoría, Ejemplo 4<br><em>Emisiones de carbono</em></td>
+              <td>Diferencia de medias con muestras chicas, \(\bar{x}\) y \(S^{2}\) dados.</td>
+              <td>Allá el cociente da 1,31 &le; 3: pooled.</td>
+            </tr>
+          </table>
+        </div>
+
+        <div class="caja caja-ojo">
+          <span class="caja-tit">Las trampas de este ejercicio</span>
+          <ol>
+            <li><strong>Regla empírica con desvíos.</strong> Siempre con varianzas (desvío al cuadrado).</li>
+            <li><strong>Restar al revés.</strong> Piden \(\mu_A - \mu_B\): \(85{,}3 - 97{,}8 = -12{,}5\). Si restás al revés, el intervalo sale con los signos cambiados y la conclusión se lee al revés.</li>
+            <li><strong>Usar \(n_A + n_B - 2 = 20\) grados de libertad.</strong> Esos son los de pooled; en Welch se calcula \(\nu\).</li>
+            <li><strong>Concluir solo &ldquo;no incluye el 0&rdquo;.</strong> Piden además cuál es más rápido: lo dice el signo.</li>
+          </ol>
+        </div>
+      </div>
+    </details>
+  </div>
+</section>

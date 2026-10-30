@@ -263,6 +263,13 @@ Chrome (`chrome --headless --print-to-pdf`).
 `0.x.y-alpha` mientras esté en desarrollo. La `1.0.0` queda reservada para cuando esté terminado.
 La versión actual se lee al pie del menú lateral.
 
+* **0.59.0-alpha** — Ingeniería de Software II: los **diagramas del apunte**, redibujados iguales y
+  rotulados. Se suman los que faltaban (el progreso lineal de CMMI, la ficha de una métrica y el
+  mapa de proceso, producto y proyecto, versionado, deltas e instantáneas, las tres secciones de
+  Git), se rehacen como en el apunte los que había dibujado distinto (pirámide de CMMI, las tres
+  dimensiones de un proceso, ramas y merge, SVN y Git) y los cuadros de mejora contra desarrollo
+  pasan a ser los dos del apunte. Debajo de cada esquema, un rótulo dice de qué apunte y página
+  sale, o que no está en el apunte.
 * **0.58.0-alpha** — Ingeniería de Software II: las **preguntas fundamentales de teoría**, rehechas
   para el recuperatorio. Quince, con la forma de las del parcial 2026 (definir, cuadro comparativo,
   representar gráficamente): CMMI (los cinco niveles y un caso para identificar el nivel y

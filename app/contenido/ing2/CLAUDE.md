@@ -115,13 +115,21 @@ mismo `data-g`): un ejemplo que lo lee o lo pide lo **muestra de nuevo ahí**, n
 más arriba. Después de generarlos se mira **cómo quedaron**
 (captura): que no se pisen cajas ni líneas.
 
-Los esquemas que no son de clases (ciclo de vida de una métrica, SVN y Git, cómo se definen los
-procesos, los tres elementos de un proceso, el diagnóstico de CMMI, el grafo de la complejidad
-ciclomática, los comandos de Git, una rama con su merge) van en
-`<div class="pd-grafico esq" data-g="nombre"></div>` y los genera
-`python fuentes/ing2/esquemas.py`, con el mismo criterio: no se dibujan a mano, se corrigen en el
-script. Colores con significado: los niveles de CMMI y los lugares de Git con los de sus
-etiquetas; en SVN y Git, celeste el repositorio y verde la copia de trabajo.
+Los esquemas que no son de clases van en `<div class="pd-grafico esq" data-g="nombre"></div>` y
+los genera `python fuentes/ing2/esquemas.py`, con el mismo criterio: no se dibujan a mano, se
+corrigen en el script. **Primero los diagramas del apunte** (pedido de Fran, 29/10/2026: "no
+creamos diagramas, eso no es la idea"): si el apunte trae un diagrama de un tema, se usa ese,
+**redibujado igual** (mismas cajas, textos y flechas; si está en inglés, con la traducción entre
+paréntesis), no uno inventado. El script le pone debajo a cada esquema un **rótulo de origen**:
+"Diagrama del apunte de ..., pág. N" (página impresa) en verde, o "No está en el apunte: ..." en
+ámbar para los propios (ciclo de vida de una métrica, pasos para definir procesos, diagnóstico de
+CMMI, grafos de complejidad, comandos de Git hasta el remoto). Un cuadro del apunte que se copia
+lleva el mismo rótulo a mano (`<p class="pd-pie esq-origen apunte">`). Los diagramas que trae
+cada apunte (revisados página por página el 29/10/2026, imágenes y figuras dibujadas):
+Calidad de software, pág. 12 (proceso con sus tres dimensiones) y 21 (pirámide y progreso
+lineal de CMMI); Métricas, pág. 4 (la ficha con el ejemplo y el mapa proceso/producto/proyecto);
+Gestión de cambios, pág. 5 (versionado; ramas y merge), 9 (SVN y Git), 12 (deltas e
+instantáneas), 14 (las tres secciones) y 22 (SemVer, que va como tabla).
 
 ## Evaluación
 

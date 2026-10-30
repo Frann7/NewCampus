@@ -1,0 +1,104 @@
+<!-- ==================== 19 · VERSIONADO SEMÁNTICO Y GESTORES DE DEPENDENCIAS ==================== -->
+<section class="parcial-ej">
+  <div class="parcial-ej-cab">
+    <h2>19. Versionado semántico y gestores de dependencias</h2>
+    <span class="parcial-tema">Unidad 6 &middot; Versiones</span>
+  </div>
+
+  <p>
+    Explique el versionado semántico (SemVer): qué indica cada parte del número y qué son las
+    etiquetas alpha, beta y pre-release. ¿Cómo se indica en un gestor de dependencias qué versiones
+    de una librería se aceptan? Compare npm, Composer y pip.
+  </p>
+
+  <div class="parcial-extras">
+    <details class="parcial-desp pd-resultados">
+      <summary>
+        <span class="pd-icono">&#10003;</span>
+        <span class="pd-txt"><b>Respuesta</b><small>Para aprender y escribir en la hoja</small></span>
+      </summary>
+      <div class="pd-cuerpo">
+        <p>
+          <strong>Versionado semántico (SemVer):</strong> el estándar más usado para numerar versiones.
+          El número tiene la forma <strong>MAYOR.MENOR.PARCHE</strong> y avisa qué tipo de cambio hubo.
+        </p>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Parte</th><th>Se incrementa cuando...</th><th>Ejemplo</th></tr>
+            <tr><td class="lbl">MAYOR</td><td>se hace un cambio <strong>incompatible</strong> con lo anterior (en el API).</td><td>1.4.2 &rarr; <strong>2</strong>.0.0</td></tr>
+            <tr><td class="lbl">MENOR</td><td>se <strong>agrega funcionalidad</strong> compatible con las versiones anteriores.</td><td>1.4.2 &rarr; 1.<strong>5</strong>.0</td></tr>
+            <tr><td class="lbl">PARCHE</td><td>se <strong>corrigen errores</strong>, de forma compatible.</td><td>1.4.2 &rarr; 1.4.<strong>3</strong></td></tr>
+          </table>
+        </div>
+        <p>
+          Al subir un número, los de su derecha vuelven a 0. La <strong>0.y.z</strong> es desarrollo
+          inicial (todo puede cambiar) y la <strong>1.0.0</strong>, la primera versión estable.
+        </p>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Etiqueta</th><th>Qué es</th><th>Para quién</th></tr>
+            <tr><td class="lbl">Alpha</td><td>Versión <strong>inicial en desarrollo</strong>: incompleta, inestable, con errores.</td><td>Un grupo reducido de testers o desarrolladores</td></tr>
+            <tr><td class="lbl">Beta</td><td>Tiene <strong>la mayoría de las funcionalidades</strong>, pero puede tener fallos o problemas de rendimiento.</td><td>Un público más amplio (<em>beta testers</em>)</td></tr>
+            <tr><td class="lbl">Pre-release</td><td>Versión <strong>candidata</strong> (<em>Release Candidate</em>), casi terminada: solo errores menores.</td><td>Usuarios avanzados o testers</td></tr>
+          </table>
+        </div>
+        <p><strong>Gestores de dependencias:</strong> se indica qué versiones de la librería se aceptan con símbolos o rangos:</p>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Símbolo</th><th>Acepta</th></tr>
+            <tr><td class="lbl"><code>^1.2.3</code></td><td>Actualizaciones de MENOR y PARCHE (&gt;=1.2.3 &lt;2.0.0)</td></tr>
+            <tr><td class="lbl"><code>~1.2.3</code></td><td>Solo de PARCHE (&gt;=1.2.3 &lt;1.3.0)</td></tr>
+            <tr><td class="lbl"><code>1.2.*</code></td><td>Cualquier PARCHE de la misma MENOR</td></tr>
+            <tr><td class="lbl"><code>&gt;=1.0, &lt;2.0</code></td><td>Un rango explícito</td></tr>
+            <tr><td class="lbl"><code>*</code></td><td>Cualquier versión</td></tr>
+          </table>
+        </div>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Gestor</th><th>Lenguaje</th><th>Archivo</th><th>Símbolos</th><th>Particularidad</th></tr>
+            <tr><td class="lbl">npm</td><td>JavaScript / Node.js</td><td><code>package.json</code></td><td><code>^</code>, <code>~</code>, <code>*</code>, rangos</td><td>El más estricto con SemVer; por defecto respeta <code>^</code></td></tr>
+            <tr><td class="lbl">Composer</td><td>PHP</td><td><code>composer.json</code></td><td><code>^</code>, <code>~</code>, <code>*</code>, rangos</td><td>Sigue SemVer, con más flexibilidad</td></tr>
+            <tr><td class="lbl">pip</td><td>Python</td><td><code>requirements.txt</code> / <code>pyproject.toml</code></td><td><code>==</code>, <code>&gt;=</code>, <code>&lt;=</code>, <code>~=</code></td><td>Más manual: muchas librerías viejas no siguen SemVer</td></tr>
+          </table>
+        </div>
+        <p class="pd-pie esq-origen apunte">Cuadro del apunte de Gestión de cambios, pág. 26.</p>
+        <p>
+          <strong>Con Git</strong>, la versión se marca con un tag: <code>git tag -a v1.0.0 -m "Primera
+          versión estable"</code>, se sube con <code>git push origin v1.0.0</code> y se listan con
+          <code>git tag</code>.
+        </p>
+      </div>
+    </details>
+
+    <details class="parcial-desp pd-explicacion">
+      <summary>
+        <span class="pd-icono">&#9998;</span>
+        <span class="pd-txt"><b>Explicación desde cero</b><small>Parte por parte</small></span>
+      </summary>
+      <div class="pd-cuerpo">
+        <h4>Un ejemplo: ¿qué versión sigue a la 2.3.4?</h4>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Cambio</th><th>Sube</th><th>Versión nueva</th></tr>
+            <tr><td>Se corrige un error en el cálculo de un total</td><td>PARCHE</td><td><strong>2.3.5</strong></td></tr>
+            <tr><td>Se agrega un reporte nuevo; lo demás sigue igual</td><td>MENOR, y el PARCHE vuelve a 0</td><td><strong>2.4.0</strong></td></tr>
+            <tr><td>Los programas que lo usaban dejan de funcionar</td><td>MAYOR, y los otros dos vuelven a 0</td><td><strong>3.0.0</strong></td></tr>
+          </table>
+        </div>
+        <h4>El ^ y el ~, en una línea</h4>
+        <p>
+          <code>^</code> deja fijo solo el MAYOR (acepta todo lo compatible); <code>~</code> deja fijos
+          el MAYOR y el MENOR (acepta solo arreglos). Por eso <code>^1.2.3</code> acepta 1.9.0 y
+          <code>~1.2.3</code> no.
+        </p>
+        <h4>Trampas</h4>
+        <ul>
+          <li>Olvidarse de reiniciar: de 2.3.4, agregar una función da 2.4.0, no 2.4.4.</li>
+          <li>No son decimales: después de 1.9.0 viene 1.10.0.</li>
+          <li>Decide la <strong>compatibilidad</strong>, no el tamaño del cambio: una línea que rompe a quienes lo usan sube el MAYOR.</li>
+          <li>Una versión con etiqueta es <strong>anterior</strong> a la normal: 1.0.0-alpha &lt; 1.0.0.</li>
+        </ul>
+      </div>
+    </details>
+  </div>
+</section>

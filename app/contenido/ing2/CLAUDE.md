@@ -142,18 +142,18 @@ instantáneas), 14 (las tres secciones) y 22 (SemVer, que va como tabla).
 - **Preguntas fundamentales de teoría** en `evaluacion/parciales/2026-preguntas-fundamentales/`:
   no es un parcial, pero va como una tarjeta más de Parciales. Rehecha el 29/10/2026 a pedido de
   Fran, para el recuperatorio: **toda la teoría en preguntas con la forma de las del parcial 2026**
-  (definir, cuadro comparativo, representar gráficamente). Veinte, por tema y de lo básico a lo
+  (definir, cuadro comparativo, representar gráficamente). Veintiuno, por tema y de lo básico a lo
   específico: CMMI (los cinco niveles con el ejemplo del apunte, y un caso de nivel 2 para
   identificar y llevar al siguiente, explicado desde las definiciones), mejora de procesos (PI,
   BPI y SPI; los tres elementos; proyecto de mejora contra proyecto de software), calidad, métricas
   (definición y elementos con un ejemplo, ciclo de vida, tipos, complejidad ciclomática), gestión
   de cambios y Git (los cuatro conceptos, SVN y Git, los tres estados, ramas y merge, y desde el
   30/10/2026 por qué usar control de versiones y su evolución, características de Git, claves SSH
-  con init, clone y ramas, y conflictos de merge: el profe dijo que de teoría estudien Git), los ocho patrones con su propósito
+  con init, clone y ramas, conflictos de merge y versionado semántico con gestores de dependencias: el profe dijo
+  que de teoría estudien Git), los ocho patrones con su propósito
   y su estructura (la misma descripción, diagrama y tabla de partes de la teoría; en la teoría
   pueden pedir cualquiera) y al final
-  Facade en un código, resuelto como la Práctica 1 de 2026. **Sin** agentes de IA ni versionado
-  semántico como preguntas sueltas (decisión de Fran). Todo cuadro o diagrama que esté en la teoría
+  Facade en un código, resuelto como la Práctica 1 de 2026. **Sin** agentes de IA como pregunta suelta (decisión de Fran). Todo cuadro o diagrama que esté en la teoría
   va en la respuesta. **Un solo nombre para cada cosa** (los niveles se llaman siempre Inicial,
   Gestionado, Definido, Cuantitativamente gestionado y En optimización continua). Cada una lleva
   `pd-resultados` con el rótulo "Respuesta" (corta, pero completa: responde cada parte de la
@@ -221,8 +221,8 @@ instantáneas), 14 (las tres secciones) y 22 (SemVer, que va como tabla).
   También quedó propuesto un estilo "como en el parcial" (escribir en la hoja y autocorregirse
   contra la respuesta modelo). En esta PC no hay `php`: un código en PHP no se puede correr acá.
 
-- De los apuntes quedó en un párrafo o afuera lo que nunca se tomó: gestores de
-  dependencias, la especificación completa de SemVer, los "juegos" de complejidad ciclomática
+- De los apuntes quedó en un párrafo o afuera lo que nunca se tomó: la especificación completa de SemVer (va lo
+  principal en la pregunta 19), integración continua y Git Flow (el apunte solo los nombra), los "juegos" de complejidad ciclomática
   (su código está en imagen) y Docker (confirmado que no entra).
 - De las guías de patrones quedaron sin resolver por separado los ejercicios que repiten otro
   (Práctica 03 ej. 1 a 3, Guía 1 ej. 1 y 6, `practica 2` ej. 6): están mencionados dentro del

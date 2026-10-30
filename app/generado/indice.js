@@ -137,7 +137,7 @@ window.Apuntes.registrarIndice({
         "archivo": "examenes/ing2-2026-preguntas-fundamentales.js",
         "titulo": "Preguntas fundamentales de teor\u00eda",
         "fecha": "Para el 2do parcial y el recuperatorio",
-        "detalle": "15 preguntas con la forma del parcial 2026 (definir, cuadro comparativo, representar gr\u00e1ficamente) y un patr\u00f3n en un c\u00f3digo, con la respuesta y la explicaci\u00f3n desde cero",
+        "detalle": "19 preguntas con la forma del parcial 2026 (definir, cuadro comparativo, representar gr\u00e1ficamente) y un patr\u00f3n en un c\u00f3digo, con la respuesta y la explicaci\u00f3n desde cero",
         "temas": "CMMI \u00b7 Mejora de procesos \u00b7 Calidad \u00b7 M\u00e9tricas \u00b7 Gesti\u00f3n de cambios y Git \u00b7 Facade en un c\u00f3digo",
         "tipo": "parcial"
       },
@@ -384,6 +384,10 @@ window.Apuntes.registrarIndice({
           "tablas"
         ],
         "u7": [
+          "tablas",
+          "icph"
+        ],
+        "u8": [
           "tablas",
           "icph"
         ],

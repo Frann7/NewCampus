@@ -1,0 +1,93 @@
+<!-- ==================== 17 · GIT: CLAVES SSH, REPOSITORIO Y RAMAS ==================== -->
+<section class="parcial-ej">
+  <div class="parcial-ej-cab">
+    <h2>17. Git: claves SSH, repositorio y ramas</h2>
+    <span class="parcial-tema">Unidad 6 &middot; Git</span>
+  </div>
+
+  <p>
+    Explique qué es un par de claves SSH y para qué se usa con GitHub o GitLab. Indique los comandos
+    para configurar Git por primera vez, obtener un repositorio de las dos formas posibles y manejar
+    ramas. ¿Para qué sirve el archivo <code>.gitignore</code>?
+  </p>
+
+  <div class="parcial-extras">
+    <details class="parcial-desp pd-resultados">
+      <summary>
+        <span class="pd-icono">&#10003;</span>
+        <span class="pd-txt"><b>Respuesta</b><small>Para aprender y escribir en la hoja</small></span>
+      </summary>
+      <div class="pd-cuerpo">
+        <p>
+          <strong>Claves SSH:</strong> un par de claves, una <strong>pública</strong> y una
+          <strong>privada</strong>, para autenticarse de forma segura en servidores y plataformas de
+          control de versiones (GitHub, GitLab, Bitbucket) sin escribir usuario y contraseña en cada
+          acción.
+        </p>
+        <ul>
+          <li><strong>Pública:</strong> se puede compartir; se sube a la plataforma (en GitHub, Configuración &rarr; Claves SSH y GPG).</li>
+          <li><strong>Privada:</strong> secreta, queda en la computadora de uno; con ella se autentica al conectarse.</li>
+          <li>Se generan con <code>ssh-keygen -b 2048 -t rsa -C "usuario"</code> (Linux o Mac; en Windows, con PuTTYgen), de al menos 2048 bits, idealmente 4096. Quedan dos archivos: <code>id_rsa</code> (privada) e <code>id_rsa.pub</code> (pública).</li>
+        </ul>
+        <p><strong>Configurar Git por primera vez</strong> (la identidad que firma los commits):</p>
+        <pre class="codigo"><code>git config --global user.name "John Doe"
+git config --global user.email johndoe@example.com</code></pre>
+        <p><strong>Obtener un repositorio:</strong></p>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Comando</th><th>Cuándo</th><th>Qué hace</th></tr>
+            <tr><td class="lbl"><code>git init</code></td><td>Un proyecto que ya está en la computadora y todavía no usa Git</td><td>Crea el subdirectorio <code>.git</code> con todo lo que necesita el repositorio</td></tr>
+            <tr><td class="lbl"><code>git clone [url]</code></td><td>Un repositorio que ya existe en un servidor</td><td>Crea la carpeta, inicializa su <code>.git</code>, descarga toda la información y saca una copia de trabajo de la última versión</td></tr>
+          </table>
+        </div>
+        <p><strong>Manejar ramas:</strong></p>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Para</th><th>Comando</th></tr>
+            <tr><td class="lbl">Crear una rama y cambiarse a ella</td><td><code>git checkout -b nombre-de-la-rama</code></td></tr>
+            <tr><td class="lbl">Ver las ramas</td><td><code>git branch</code></td></tr>
+            <tr><td class="lbl">Cambiarse de rama</td><td><code>git checkout nombre-de-la-rama</code></td></tr>
+            <tr><td class="lbl">Subir la rama al remoto</td><td><code>git push -u origin nombre-de-la-rama</code></td></tr>
+            <tr><td class="lbl">Borrar una rama local</td><td><code>git branch -d nombre-de-la-rama</code></td></tr>
+            <tr><td class="lbl">Borrar una rama remota</td><td><code>git push origin --delete nombre-de-la-rama</code> (no toca la local)</td></tr>
+          </table>
+        </div>
+        <p>
+          <strong><code>.gitignore</code>:</strong> un archivo con patrones de los archivos que Git no
+          tiene que seguir ni mostrar como no rastreados, como los que se generan solos (trazas,
+          archivos de compilación). Por ejemplo, <code>*.[oa]</code> ignora los <code>.o</code> y los
+          <code>.a</code>, y <code>*~</code> los que terminan en <code>~</code>.
+        </p>
+      </div>
+    </details>
+
+    <details class="parcial-desp pd-explicacion">
+      <summary>
+        <span class="pd-icono">&#9998;</span>
+        <span class="pd-txt"><b>Explicación desde cero</b><small>Parte por parte</small></span>
+      </summary>
+      <div class="pd-cuerpo">
+        <h4>La clave SSH, con una imagen</h4>
+        <p>
+          La pública es como un candado que le dejás a GitHub; la privada, la única llave que lo
+          abre, y nunca sale de tu computadora. Cuando te conectás, GitHub comprueba que tenés la
+          llave de ese candado y te deja pasar sin pedir contraseña.
+        </p>
+        <h4>El orden en que se usa todo</h4>
+        <ol>
+          <li>Generar las claves y subir la pública a GitHub (una vez).</li>
+          <li>Configurar nombre y email con <code>git config</code> (una vez).</li>
+          <li>Obtener el repositorio: <code>git init</code> si el proyecto es tuyo y nuevo, <code>git clone</code> si ya existe.</li>
+          <li>Trabajar en una rama: <code>git checkout -b</code>, <code>git add</code>, <code>git commit</code>, <code>git push -u origin</code>.</li>
+        </ol>
+        <h4>Trampas</h4>
+        <ul>
+          <li>La clave que se sube es la <strong>pública</strong> (<code>.pub</code>). La privada no se comparte nunca.</li>
+          <li><code>git init</code> no descarga nada: arranca un repositorio vacío. El que descarga es <code>git clone</code>.</li>
+          <li><code>git checkout -b</code> crea la rama <strong>y</strong> se cambia a ella; <code>git checkout</code> solo se cambia a una que ya existe.</li>
+          <li>Borrar la rama remota no borra la local, ni al revés.</li>
+        </ul>
+      </div>
+    </details>
+  </div>
+</section>

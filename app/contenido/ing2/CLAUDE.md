@@ -142,14 +142,16 @@ instantáneas), 14 (las tres secciones) y 22 (SemVer, que va como tabla).
 - **Preguntas fundamentales de teoría** en `evaluacion/parciales/2026-preguntas-fundamentales/`:
   no es un parcial, pero va como una tarjeta más de Parciales. Rehecha el 29/10/2026 a pedido de
   Fran, para el recuperatorio: **toda la teoría en preguntas con la forma de las del parcial 2026**
-  (definir, cuadro comparativo, representar gráficamente). Diecinueve, por tema y de lo básico a lo
+  (definir, cuadro comparativo, representar gráficamente). Veinte, por tema y de lo básico a lo
   específico: CMMI (los cinco niveles con el ejemplo del apunte, y un caso de nivel 2 para
   identificar y llevar al siguiente, explicado desde las definiciones), mejora de procesos (PI,
   BPI y SPI; los tres elementos; proyecto de mejora contra proyecto de software), calidad, métricas
   (definición y elementos con un ejemplo, ciclo de vida, tipos, complejidad ciclomática), gestión
   de cambios y Git (los cuatro conceptos, SVN y Git, los tres estados, ramas y merge, y desde el
   30/10/2026 por qué usar control de versiones y su evolución, características de Git, claves SSH
-  con init, clone y ramas, y conflictos de merge: el profe dijo que de teoría estudien Git) y al final
+  con init, clone y ramas, y conflictos de merge: el profe dijo que de teoría estudien Git), los ocho patrones con su propósito
+  y su estructura (la misma descripción, diagrama y tabla de partes de la teoría; en la teoría
+  pueden pedir cualquiera) y al final
   Facade en un código, resuelto como la Práctica 1 de 2026. **Sin** agentes de IA ni versionado
   semántico como preguntas sueltas (decisión de Fran). Todo cuadro o diagrama que esté en la teoría
   va en la respuesta. **Un solo nombre para cada cosa** (los niveles se llaman siempre Inicial,

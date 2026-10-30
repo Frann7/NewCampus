@@ -1,0 +1,588 @@
+<!-- ==================== 19 · PATRONES: PROPÓSITO Y ESTRUCTURA DE LOS OCHO ==================== -->
+<section class="parcial-ej">
+  <div class="parcial-ej-cab">
+    <h2>19. Patrones: propósito y estructura de los ocho</h2>
+    <span class="parcial-tema">Unidades 4 y 5 &middot; Patrones</span>
+  </div>
+
+  <p>
+    Represente la estructura del patrón (con sus clases, atributos y métodos) y defina su
+    propósito. Puede tocar cualquiera de los ocho de la cátedra: Singleton, Factory Method,
+    Abstract Factory, Adapter, Composite, Facade, Observer o Strategy.
+  </p>
+
+  <div class="parcial-extras">
+    <details class="parcial-desp pd-resultados">
+      <summary>
+        <span class="pd-icono">&#10003;</span>
+        <span class="pd-txt"><b>Respuesta</b><small>Para aprender y escribir en la hoja</small></span>
+      </summary>
+      <div class="pd-cuerpo">
+        <p>Cada uno con su propósito (cuándo se usa, cómo funciona y qué se gana), su diagrama y qué es cada parte. Es lo mismo que la sección Estructura de su teoría.</p>
+        <h4>1. Singleton <span class="et">Creacional</span></h4>
+        <p><strong>Propósito:</strong> Singleton es un patrón creacional que se usa cuando una clase debe tener una única instancia disponible para todo el programa. La clase oculta su constructor y ofrece un método estático que crea el objeto la primera vez y devuelve siempre el mismo. Así todo el programa usa el mismo objeto, a través de un único punto de acceso.</p>
+        <div class="pd-grafico uml" data-g="singleton">
+          <svg viewBox="-14 -14 478 135" width="478" height="135" role="img" aria-label="Estructura del patrón Singleton">
+            <polyline class="linea punteada" points="90,37 140,37 140,37 190,37"/>
+            <polyline class="linea" points="180,42 190,37 180,32"/>
+            <text class="rotulo" x="140" y="31" text-anchor="middle">usa</text>
+            <g class="clase k-comun">
+            <rect class="caja sola" x="0" y="22" width="90" height="30" rx="3"/>
+            <text class="nombre" x="45" y="42">Cliente</text>
+            </g>
+            <g class="clase k-comun destacada">
+            <rect class="caja" x="190" y="0" width="260" height="107" rx="3"/>
+            <rect class="cab" x="191" y="1" width="258" height="29" rx="2"/>
+            <text class="nombre" x="320" y="20">Singleton</text>
+            <line class="div" x1="190" y1="30" x2="450" y2="30"/>
+            <text class="miembro estatico" x="200" y="48"><tspan class="v-priv">-</tspan> instancia<tspan class="tp">: Singleton</tspan></text>
+            <line class="div" x1="190" y1="59" x2="450" y2="59"/>
+            <text class="miembro" x="200" y="77"><tspan class="v-priv">-</tspan> Singleton()</text>
+            <text class="miembro estatico" x="200" y="96"><tspan class="v-pub">+</tspan> obtenerInstancia()<tspan class="tp">: Singleton</tspan></text>
+            </g>
+          </svg>
+        </div>
+        <div class="tabla-wrap">
+          <table class="t full">
+      <tr><th>Parte</th><th>Qué es</th><th>Cómo se ve en el diagrama</th></tr>
+      <tr><td class="lbl">Atributo <code>instancia</code></td><td>Donde la clase guarda su único objeto. Es de su mismo tipo.</td><td><strong>Privado</strong> (<code>-</code>) y <strong>estático</strong> (subrayado)</td></tr>
+      <tr><td class="lbl">Constructor <code>Singleton()</code></td><td>Lo que crea el objeto. Al ser privado, desde afuera no se puede usar.</td><td><strong>Privado</strong> (<code>-</code>)</td></tr>
+      <tr><td class="lbl">Método <code>obtenerInstancia()</code></td><td>La única puerta. Crea el objeto si todavía no existe y lo devuelve. En los códigos se llama <code>getInstance()</code>.</td><td><strong>Público</strong> (<code>+</code>) y <strong>estático</strong> (subrayado)</td></tr>
+      <tr><td class="lbl">Cliente</td><td>Cualquier clase que necesite el objeto. Lo pide con <code>Singleton::obtenerInstancia()</code>.</td><td>Flecha punteada hacia el Singleton</td></tr>
+    </table>
+        </div>
+        <h4>2. Factory Method <span class="et">Creacional</span></h4>
+        <p><strong>Propósito:</strong> Factory Method es un patrón creacional que se usa cuando una clase no puede saber de antemano qué tipo exacto de objeto tiene que crear. La creación se saca a un método, el método fábrica: lo declara la clase base (el creador) y lo sobrescribe cada subclase (un creador concreto) para devolver su objeto (el producto). Así se agregan tipos nuevos sin modificar el código que los usa.</p>
+        <div class="pd-grafico uml" data-g="factory">
+          <svg viewBox="-14 -14 798 237" width="798" height="237" role="img" aria-label="Estructura del patrón Factory Method">
+            <polyline class="linea" points="81,150 81,128.5 163.5,128.5 163.5,107"/>
+            <polygon class="hueca" points="163.5,94 170.5,107 156.5,107"/>
+            <polyline class="linea" points="261,150 261,128.5 163.5,128.5 163.5,107"/>
+            <polygon class="hueca" points="163.5,94 170.5,107 156.5,107"/>
+            <polyline class="linea punteada" points="505,150 505,119 595,119 595,88"/>
+            <polygon class="hueca" points="595,75 602,88 588,88"/>
+            <polyline class="linea punteada" points="685,150 685,119 595,119 595,88"/>
+            <polygon class="hueca" points="595,75 602,88 588,88"/>
+            <polyline class="linea punteada" points="278,37.5 394.5,37.5 394.5,37.5 511,37.5"/>
+            <polyline class="linea" points="501,42.5 511,37.5 501,32.5"/>
+            <text class="rotulo" x="394.5" y="31.5" text-anchor="middle">crea</text>
+            <g class="clase k-abstracta destacada">
+            <rect class="caja" x="49" y="0" width="229" height="94" rx="3"/>
+            <rect class="cab" x="50" y="1" width="227" height="45" rx="2"/>
+            <text class="estereo" x="163.5" y="16">&#171;abstract&#187;</text>
+            <text class="nombre abstracta" x="163.5" y="35">Creador</text>
+            <line class="div" x1="49" y1="46" x2="278" y2="46"/>
+            <text class="miembro" x="59" y="64"><tspan class="v-pub">+</tspan> algunaOperacion()<tspan class="tp">: void</tspan></text>
+            <text class="miembro abstracto" x="59" y="83"><tspan class="v-pub">+</tspan> crearProducto()<tspan class="tp">: Producto</tspan></text>
+            </g>
+            <g class="clase k-comun">
+            <rect class="caja" x="0" y="150" width="162" height="59" rx="3"/>
+            <rect class="cab" x="1" y="151" width="160" height="29" rx="2"/>
+            <text class="nombre" x="81" y="170">CreadorConcretoA</text>
+            <line class="div" x1="0" y1="180" x2="162" y2="180"/>
+            <text class="miembro" x="10" y="198"><tspan class="v-pub">+</tspan> crearProducto()</text>
+            </g>
+            <g class="clase k-comun">
+            <rect class="caja" x="180" y="150" width="162" height="59" rx="3"/>
+            <rect class="cab" x="181" y="151" width="160" height="29" rx="2"/>
+            <text class="nombre" x="261" y="170">CreadorConcretoB</text>
+            <line class="div" x1="180" y1="180" x2="342" y2="180"/>
+            <text class="miembro" x="190" y="198"><tspan class="v-pub">+</tspan> crearProducto()</text>
+            </g>
+            <g class="clase k-interfaz">
+            <rect class="caja" x="511" y="0" width="168" height="75" rx="3"/>
+            <rect class="cab" x="512" y="1" width="166" height="45" rx="2"/>
+            <text class="estereo" x="595" y="16">&#171;interface&#187;</text>
+            <text class="nombre" x="595" y="35">Producto</text>
+            <line class="div" x1="511" y1="46" x2="679" y2="46"/>
+            <text class="miembro" x="521" y="64"><tspan class="v-pub">+</tspan> hacerAlgo()<tspan class="tp">: void</tspan></text>
+            </g>
+            <g class="clase k-comun">
+            <rect class="caja" x="420" y="150" width="170" height="59" rx="3"/>
+            <rect class="cab" x="421" y="151" width="168" height="29" rx="2"/>
+            <text class="nombre" x="505" y="170">ProductoConcretoA</text>
+            <line class="div" x1="420" y1="180" x2="590" y2="180"/>
+            <text class="miembro" x="430" y="198"><tspan class="v-pub">+</tspan> hacerAlgo()</text>
+            </g>
+            <g class="clase k-comun">
+            <rect class="caja" x="600" y="150" width="170" height="59" rx="3"/>
+            <rect class="cab" x="601" y="151" width="168" height="29" rx="2"/>
+            <text class="nombre" x="685" y="170">ProductoConcretoB</text>
+            <line class="div" x1="600" y1="180" x2="770" y2="180"/>
+            <text class="miembro" x="610" y="198"><tspan class="v-pub">+</tspan> hacerAlgo()</text>
+            </g>
+          </svg>
+        </div>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Parte</th><th>Qué es</th></tr>
+            <tr><td class="lbl">Producto (<em>Product</em>)</td><td>El <strong>tipo común</strong> de todos los objetos que se pueden crear. En la estructura general es una <strong>interfaz</strong>; si los productos comparten atributos, es una clase abstracta (está explicado debajo de esta tabla).</td></tr>
+            <tr><td class="lbl">Productos Concretos</td><td>Las distintas implementaciones de esa interfaz.</td></tr>
+            <tr><td class="lbl">Creador (<em>Creator</em>)</td><td>La clase que <strong>declara el método fábrica</strong>, que devuelve un Producto. Además tiene su propia lógica, que usa el producto sin saber cuál es.</td></tr>
+            <tr><td class="lbl">Creadores Concretos</td><td>Las subclases que <strong>sobrescriben el método fábrica</strong> para devolver un producto concreto.</td></tr>
+          </table>
+        </div>
+        <h4>3. Abstract Factory <span class="et">Creacional</span></h4>
+        <p><strong>Propósito:</strong> Abstract Factory es un patrón creacional que se usa cuando hay que crear familias de objetos relacionados, que tienen que combinar entre sí. Una fábrica abstracta declara un método de creación por cada producto, y hay una fábrica concreta por cada familia, que crea todos los productos de esa familia. Así nunca se mezclan productos de familias distintas, y una familia nueva se agrega sin modificar el código que las usa.</p>
+        <div class="pd-grafico uml" data-g="abstract">
+          <svg viewBox="-64 -14 743 477" width="743" height="477" role="img" aria-label="Estructura del patrón Abstract Factory">
+            <polyline class="linea" points="122,59 122,104.5 122,104.5 122,150"/>
+            <polyline class="linea" points="117,140 122,150 127,140"/>
+            <polyline class="linea punteada" points="31,330 31,293.5 122,293.5 122,257"/>
+            <polygon class="hueca" points="122,244 129,257 115,257"/>
+            <polyline class="linea punteada" points="211,330 211,293.5 122,293.5 122,257"/>
+            <polygon class="hueca" points="122,244 129,257 115,257"/>
+            <polyline class="linea punteada" points="450,130 450,109 525.5,109 525.5,88"/>
+            <polygon class="hueca" points="525.5,75 532.5,88 518.5,88"/>
+            <polyline class="linea punteada" points="600,130 600,109 525.5,109 525.5,88"/>
+            <polygon class="hueca" points="525.5,75 532.5,88 518.5,88"/>
+            <polyline class="linea punteada" points="450,390 450,369 525.5,369 525.5,348"/>
+            <polygon class="hueca" points="525.5,335 532.5,348 518.5,348"/>
+            <polyline class="linea punteada" points="600,390 600,369 525.5,369 525.5,348"/>
+            <polygon class="hueca" points="525.5,335 532.5,348 518.5,348"/>
+            <polyline class="linea punteada" points="244,185 340,185 340,37.5 430,37.5"/>
+            <polyline class="linea" points="420,42.5 430,37.5 420,32.5"/>
+            <text class="rotulo" x="346" y="111.25" text-anchor="start">crea</text>
+            <polyline class="linea punteada" points="244,209 340,209 340,297.5 430,297.5"/>
+            <polyline class="linea" points="420,302.5 430,297.5 420,292.5"/>
+            <g class="clase k-comun">
+            <rect class="caja" x="8" y="0" width="229" height="59" rx="3"/>
+            <rect class="cab" x="9" y="1" width="227" height="29" rx="2"/>
+            <text class="nombre" x="122.5" y="20">Cliente</text>
+            <line class="div" x1="8" y1="30" x2="237" y2="30"/>
+            <text class="miembro" x="18" y="48"><tspan class="v-priv">-</tspan> fabrica<tspan class="tp">: FabricaAbstracta</tspan></text>
+            </g>
+            <g class="clase k-interfaz destacada">
+            <rect class="caja" x="0" y="150" width="244" height="94" rx="3"/>
+            <rect class="cab" x="1" y="151" width="242" height="45" rx="2"/>
+            <text class="estereo" x="122" y="166">&#171;interface&#187;</text>
+            <text class="nombre" x="122" y="185">FabricaAbstracta</text>
+            <line class="div" x1="0" y1="196" x2="244" y2="196"/>
+            <text class="miembro" x="10" y="214"><tspan class="v-pub">+</tspan> crearProductoA()<tspan class="tp">: ProductoA</tspan></text>
+            <text class="miembro" x="10" y="233"><tspan class="v-pub">+</tspan> crearProductoB()<tspan class="tp">: ProductoB</tspan></text>
+            </g>
+            <g class="clase k-comun">
+            <rect class="caja" x="-50" y="330" width="162" height="78" rx="3"/>
+            <rect class="cab" x="-49" y="331" width="160" height="29" rx="2"/>
+            <text class="nombre" x="31" y="350">FabricaConcreta1</text>
+            <line class="div" x1="-50" y1="360" x2="112" y2="360"/>
+            <text class="miembro" x="-40" y="378"><tspan class="v-pub">+</tspan> crearProductoA()</text>
+            <text class="miembro" x="-40" y="397"><tspan class="v-pub">+</tspan> crearProductoB()</text>
+            </g>
+            <g class="clase k-comun">
+            <rect class="caja" x="130" y="330" width="162" height="78" rx="3"/>
+            <rect class="cab" x="131" y="331" width="160" height="29" rx="2"/>
+            <text class="nombre" x="211" y="350">FabricaConcreta2</text>
+            <line class="div" x1="130" y1="360" x2="292" y2="360"/>
+            <text class="miembro" x="140" y="378"><tspan class="v-pub">+</tspan> crearProductoA()</text>
+            <text class="miembro" x="140" y="397"><tspan class="v-pub">+</tspan> crearProductoB()</text>
+            </g>
+            <g class="clase k-interfaz">
+            <rect class="caja" x="430" y="0" width="191" height="75" rx="3"/>
+            <rect class="cab" x="431" y="1" width="189" height="45" rx="2"/>
+            <text class="estereo" x="525.5" y="16">&#171;interface&#187;</text>
+            <text class="nombre" x="525.5" y="35">ProductoA</text>
+            <line class="div" x1="430" y1="46" x2="621" y2="46"/>
+            <text class="miembro" x="440" y="64"><tspan class="v-pub">+</tspan> operacionA()<tspan class="tp">: string</tspan></text>
+            </g>
+            <g class="clase k-comun">
+            <rect class="caja" x="385" y="130" width="130" height="59" rx="3"/>
+            <rect class="cab" x="386" y="131" width="128" height="29" rx="2"/>
+            <text class="nombre" x="450" y="150">ProductoA1</text>
+            <line class="div" x1="385" y1="160" x2="515" y2="160"/>
+            <text class="miembro" x="395" y="178"><tspan class="v-pub">+</tspan> operacionA()</text>
+            </g>
+            <g class="clase k-comun">
+            <rect class="caja" x="535" y="130" width="130" height="59" rx="3"/>
+            <rect class="cab" x="536" y="131" width="128" height="29" rx="2"/>
+            <text class="nombre" x="600" y="150">ProductoA2</text>
+            <line class="div" x1="535" y1="160" x2="665" y2="160"/>
+            <text class="miembro" x="545" y="178"><tspan class="v-pub">+</tspan> operacionA()</text>
+            </g>
+            <g class="clase k-interfaz">
+            <rect class="caja" x="430" y="260" width="191" height="75" rx="3"/>
+            <rect class="cab" x="431" y="261" width="189" height="45" rx="2"/>
+            <text class="estereo" x="525.5" y="276">&#171;interface&#187;</text>
+            <text class="nombre" x="525.5" y="295">ProductoB</text>
+            <line class="div" x1="430" y1="306" x2="621" y2="306"/>
+            <text class="miembro" x="440" y="324"><tspan class="v-pub">+</tspan> operacionB()<tspan class="tp">: string</tspan></text>
+            </g>
+            <g class="clase k-comun">
+            <rect class="caja" x="385" y="390" width="130" height="59" rx="3"/>
+            <rect class="cab" x="386" y="391" width="128" height="29" rx="2"/>
+            <text class="nombre" x="450" y="410">ProductoB1</text>
+            <line class="div" x1="385" y1="420" x2="515" y2="420"/>
+            <text class="miembro" x="395" y="438"><tspan class="v-pub">+</tspan> operacionB()</text>
+            </g>
+            <g class="clase k-comun">
+            <rect class="caja" x="535" y="390" width="130" height="59" rx="3"/>
+            <rect class="cab" x="536" y="391" width="128" height="29" rx="2"/>
+            <text class="nombre" x="600" y="410">ProductoB2</text>
+            <line class="div" x1="535" y1="420" x2="665" y2="420"/>
+            <text class="miembro" x="545" y="438"><tspan class="v-pub">+</tspan> operacionB()</text>
+            </g>
+          </svg>
+        </div>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Parte</th><th>Qué es</th></tr>
+            <tr><td class="lbl">Productos Abstractos</td><td>Una interfaz por cada tipo de producto de la familia.</td></tr>
+            <tr><td class="lbl">Productos Concretos</td><td>Las implementaciones de cada producto, una por variante.</td></tr>
+            <tr><td class="lbl">Fábrica Abstracta (<em>Abstract Factory</em>)</td><td>La interfaz con <strong>un método de creación por cada producto abstracto</strong>.</td></tr>
+            <tr><td class="lbl">Fábricas Concretas</td><td>Una por variante. Cada una crea <strong>solo</strong> los productos de su variante.</td></tr>
+            <tr><td class="lbl">Cliente</td><td>Usa la fábrica y los productos <strong>solo a través de las interfaces</strong>.</td></tr>
+          </table>
+        </div>
+        <h4>4. Adapter <span class="et dato">Estructural</span></h4>
+        <p><strong>Propósito:</strong> Adapter es un patrón estructural que se usa cuando hay que hacer trabajar juntas dos clases con interfaces incompatibles, sin modificar ninguna. Se agrega una clase en el medio, el adaptador, que cumple la interfaz que el cliente ya usa y por dentro traduce cada llamada a la otra clase. Así el cliente usa la clase nueva igual que a las que ya conocía.</p>
+        <div class="pd-grafico uml" data-g="adapter">
+          <svg viewBox="-14 -14 773 266" width="773" height="266" role="img" aria-label="Estructura del patrón Adapter (adaptador de objetos)">
+            <polyline class="linea" points="90,25 140,25 140,25 190,25"/>
+            <polyline class="linea" points="180,30 190,25 180,20"/>
+            <polyline class="linea punteada" points="266.5,150 266.5,119 266.5,119 266.5,88"/>
+            <polygon class="hueca" points="266.5,75 273.5,88 259.5,88"/>
+            <polyline class="linea" points="346,189.5 408,189.5 408,189.5 470,189.5"/>
+            <polyline class="linea" points="460,194.5 470,189.5 460,184.5"/>
+            <g class="clase k-comun">
+            <rect class="caja sola" x="0" y="10" width="90" height="30" rx="3"/>
+            <text class="nombre" x="45" y="30">Cliente</text>
+            </g>
+            <g class="clase k-interfaz">
+            <rect class="caja" x="190" y="0" width="153" height="75" rx="3"/>
+            <rect class="cab" x="191" y="1" width="151" height="45" rx="2"/>
+            <text class="estereo" x="266.5" y="16">&#171;interface&#187;</text>
+            <text class="nombre" x="266.5" y="35">InterfazCliente</text>
+            <line class="div" x1="190" y1="46" x2="343" y2="46"/>
+            <text class="miembro" x="200" y="64"><tspan class="v-pub">+</tspan> metodo(datos)</text>
+            </g>
+            <g class="clase k-comun destacada">
+            <rect class="caja" x="170" y="150" width="176" height="88" rx="3"/>
+            <rect class="cab" x="171" y="151" width="174" height="29" rx="2"/>
+            <text class="nombre" x="258" y="170">Adaptador</text>
+            <line class="div" x1="170" y1="180" x2="346" y2="180"/>
+            <text class="miembro" x="180" y="198"><tspan class="v-priv">-</tspan> adaptado<tspan class="tp">: Servicio</tspan></text>
+            <line class="div" x1="170" y1="209" x2="346" y2="209"/>
+            <text class="miembro" x="180" y="227"><tspan class="v-pub">+</tspan> metodo(datos)</text>
+            </g>
+            <g class="clase k-comun">
+            <rect class="caja" x="470" y="160" width="275" height="59" rx="3"/>
+            <rect class="cab" x="471" y="161" width="273" height="29" rx="2"/>
+            <text class="nombre" x="607.5" y="180">Servicio</text>
+            <line class="div" x1="470" y1="190" x2="745" y2="190"/>
+            <text class="miembro" x="480" y="208"><tspan class="v-pub">+</tspan> metodoServicio(datosEspeciales)</text>
+            </g>
+          </svg>
+        </div>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Parte</th><th>Qué es</th></tr>
+            <tr><td class="lbl">Cliente</td><td>El código que ya existe y funciona.</td></tr>
+            <tr><td class="lbl">Interfaz con el Cliente (<em>Target</em>)</td><td>La interfaz que el cliente <strong>espera</strong>: lo que sabe usar.</td></tr>
+            <tr><td class="lbl">Servicio (<em>Adaptee</em>)</td><td>La clase útil pero <strong>incompatible</strong>. No se modifica, y ni se entera de que existe un adaptador.</td></tr>
+            <tr><td class="lbl">Adaptador (<em>Adapter</em>)</td><td><strong>Cumple</strong> la interfaz del cliente y <strong>guarda</strong> un objeto del servicio. Cuando el cliente lo llama, traduce el pedido y se lo pasa al servicio.</td></tr>
+          </table>
+        </div>
+        <h4>5. Composite <span class="et dato">Estructural</span></h4>
+        <p><strong>Propósito:</strong> Composite es un patrón estructural que se usa cuando los objetos forman un árbol, con elementos simples y contenedores que agrupan elementos simples u otros contenedores. Todos cumplen una misma interfaz, y el contenedor guarda una lista de esa interfaz y resuelve cada pedido pasándoselo a lo que contiene. Así el cliente trata igual a un elemento solo que a un grupo entero.</p>
+        <div class="pd-grafico uml" data-g="composite">
+          <svg viewBox="-14 -14 642.5 304" width="642.5" height="304" role="img" aria-label="Estructura del patrón Composite">
+            <polyline class="linea" points="90,25 162.5,25 162.5,25 235,25"/>
+            <polyline class="linea" points="225,30 235,25 225,20"/>
+            <polyline class="linea punteada" points="197.5,150 197.5,119 292.5,119 292.5,88"/>
+            <polygon class="hueca" points="292.5,75 299.5,88 285.5,88"/>
+            <polyline class="linea punteada" points="407,150 407,119 292.5,119 292.5,88"/>
+            <polygon class="hueca" points="292.5,75 299.5,88 285.5,88"/>
+            <polyline class="linea" points="532,213 570,213 570,37.5 350,37.5"/>
+            <polygon class="hueca" points="514,213 523,207 532,213 523,219"/>
+            <text class="rotulo" x="576" y="125.25" text-anchor="start">hijos</text>
+            <text class="rotulo" x="372" y="31.5" text-anchor="middle">*</text>
+            <g class="clase k-comun">
+            <rect class="caja sola" x="0" y="10" width="90" height="30" rx="3"/>
+            <text class="nombre" x="45" y="30">Cliente</text>
+            </g>
+            <g class="clase k-interfaz">
+            <rect class="caja" x="235" y="0" width="115" height="75" rx="3"/>
+            <rect class="cab" x="236" y="1" width="113" height="45" rx="2"/>
+            <text class="estereo" x="292.5" y="16">&#171;interface&#187;</text>
+            <text class="nombre" x="292.5" y="35">Componente</text>
+            <line class="div" x1="235" y1="46" x2="350" y2="46"/>
+            <text class="miembro" x="245" y="64"><tspan class="v-pub">+</tspan> ejecutar()</text>
+            </g>
+            <g class="clase k-comun">
+            <rect class="caja" x="140" y="150" width="115" height="59" rx="3"/>
+            <rect class="cab" x="141" y="151" width="113" height="29" rx="2"/>
+            <text class="nombre" x="197.5" y="170">Hoja</text>
+            <line class="div" x1="140" y1="180" x2="255" y2="180"/>
+            <text class="miembro" x="150" y="198"><tspan class="v-pub">+</tspan> ejecutar()</text>
+            </g>
+            <g class="clase k-comun destacada">
+            <rect class="caja" x="300" y="150" width="214" height="126" rx="3"/>
+            <rect class="cab" x="301" y="151" width="212" height="29" rx="2"/>
+            <text class="nombre" x="407" y="170">Compuesto</text>
+            <line class="div" x1="300" y1="180" x2="514" y2="180"/>
+            <text class="miembro" x="310" y="198"><tspan class="v-priv">-</tspan> hijos<tspan class="tp">: Componente[]</tspan></text>
+            <line class="div" x1="300" y1="209" x2="514" y2="209"/>
+            <text class="miembro" x="310" y="227"><tspan class="v-pub">+</tspan> agregar(c<tspan class="tp">: Componente</tspan>)</text>
+            <text class="miembro" x="310" y="246"><tspan class="v-pub">+</tspan> eliminar(c<tspan class="tp">: Componente</tspan>)</text>
+            <text class="miembro" x="310" y="265"><tspan class="v-pub">+</tspan> ejecutar()</text>
+            </g>
+          </svg>
+        </div>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Parte</th><th>Qué es</th></tr>
+            <tr><td class="lbl">Componente (<em>Component</em>)</td><td>La <strong>interfaz común</strong> a los elementos simples y a los compuestos. Declara la operación que todos saben hacer.</td></tr>
+            <tr><td class="lbl">Hoja (<em>Leaf</em>)</td><td>El elemento <strong>simple</strong>: no tiene nada adentro. Hace el trabajo real.</td></tr>
+            <tr><td class="lbl">Compuesto o Contenedor (<em>Composite</em>)</td><td>El elemento que <strong>tiene hijos</strong>. Guarda una lista de Componentes (no sabe si son hojas u otros compuestos), tiene métodos para agregar y quitar, y <strong>delega el trabajo en sus hijos</strong>.</td></tr>
+            <tr><td class="lbl">Cliente</td><td>Trabaja con todos a través de la interfaz Componente.</td></tr>
+          </table>
+        </div>
+        <h4>6. Facade <span class="et dato">Estructural</span></h4>
+        <p><strong>Propósito:</strong> Facade es un patrón estructural que se usa cuando para hacer una tarea hay que coordinar varias clases de un subsistema. Una clase nueva, la fachada, guarda un objeto de cada una y ofrece una operación simple, que por dentro las llama en el orden correcto. Así el cliente depende solo de la fachada y no necesita conocer el subsistema.</p>
+        <div class="pd-grafico uml" data-g="facade">
+          <svg viewBox="-14 -14 628 257" width="628" height="257" role="img" aria-label="Estructura del patrón Facade">
+            <polyline class="linea" points="90,100 130,100 130,100 170,100"/>
+            <polyline class="linea" points="160,105 170,100 160,95"/>
+            <polyline class="linea" points="338,78 404,78 404,29.5 470,29.5"/>
+            <polyline class="linea" points="460,34.5 470,29.5 460,24.5"/>
+            <polyline class="linea" points="338,114.5 404,114.5 404,114.5 470,114.5"/>
+            <polyline class="linea" points="460,119.5 470,114.5 460,109.5"/>
+            <polyline class="linea" points="338,138 404,138 404,199.5 470,199.5"/>
+            <polyline class="linea" points="460,204.5 470,199.5 460,194.5"/>
+            <g class="clase k-comun">
+            <rect class="caja sola" x="0" y="85" width="90" height="30" rx="3"/>
+            <text class="nombre" x="45" y="105">Cliente</text>
+            </g>
+            <g class="clase k-comun destacada">
+            <rect class="caja" x="170" y="45" width="168" height="126" rx="3"/>
+            <rect class="cab" x="171" y="46" width="166" height="29" rx="2"/>
+            <text class="nombre" x="254" y="65">Fachada</text>
+            <line class="div" x1="170" y1="75" x2="338" y2="75"/>
+            <text class="miembro" x="180" y="93"><tspan class="v-priv">-</tspan> a<tspan class="tp">: ClaseA</tspan></text>
+            <text class="miembro" x="180" y="112"><tspan class="v-priv">-</tspan> b<tspan class="tp">: ClaseB</tspan></text>
+            <text class="miembro" x="180" y="131"><tspan class="v-priv">-</tspan> c<tspan class="tp">: ClaseC</tspan></text>
+            <line class="div" x1="170" y1="142" x2="338" y2="142"/>
+            <text class="miembro" x="180" y="160"><tspan class="v-pub">+</tspan> operacionSimple()</text>
+            </g>
+            <g class="clase k-comun">
+            <rect class="caja" x="470" y="0" width="130" height="59" rx="3"/>
+            <rect class="cab" x="471" y="1" width="128" height="29" rx="2"/>
+            <text class="nombre" x="535" y="20">ClaseA</text>
+            <line class="div" x1="470" y1="30" x2="600" y2="30"/>
+            <text class="miembro" x="480" y="48"><tspan class="v-pub">+</tspan> operacionA()</text>
+            </g>
+            <g class="clase k-comun">
+            <rect class="caja" x="470" y="85" width="130" height="59" rx="3"/>
+            <rect class="cab" x="471" y="86" width="128" height="29" rx="2"/>
+            <text class="nombre" x="535" y="105">ClaseB</text>
+            <line class="div" x1="470" y1="115" x2="600" y2="115"/>
+            <text class="miembro" x="480" y="133"><tspan class="v-pub">+</tspan> operacionB()</text>
+            </g>
+            <g class="clase k-comun">
+            <rect class="caja" x="470" y="170" width="130" height="59" rx="3"/>
+            <rect class="cab" x="471" y="171" width="128" height="29" rx="2"/>
+            <text class="nombre" x="535" y="190">ClaseC</text>
+            <line class="div" x1="470" y1="200" x2="600" y2="200"/>
+            <text class="miembro" x="480" y="218"><tspan class="v-pub">+</tspan> operacionC()</text>
+            </g>
+          </svg>
+        </div>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Parte</th><th>Qué es</th></tr>
+            <tr><td class="lbl">Fachada (<em>Facade</em>)</td><td>La clase que da acceso simple al subsistema. <strong>Guarda</strong> (o crea) los objetos del subsistema y sabe a quién pedirle cada cosa y en qué orden.</td></tr>
+            <tr><td class="lbl">Subsistema Complejo</td><td>Las clases que hacen el trabajo real. <strong>No saben que la fachada existe</strong>: no tienen ninguna referencia a ella.</td></tr>
+            <tr><td class="lbl">Cliente</td><td>Usa la fachada en vez de llamar directo a las clases del subsistema.</td></tr>
+          </table>
+        </div>
+        <h4>7. Observer <span class="et vio">De comportamiento</span></h4>
+        <p><strong>Propósito:</strong> Observer es un patrón de comportamiento que se usa cuando un cambio en un objeto se tiene que avisar a otros, y no se sabe de antemano cuántos ni cuáles son. El objeto que cambia, el notificador, guarda una lista de suscriptores y les avisa a todos; cada uno se puede suscribir o dar de baja cuando quiera. Así se suman interesados nuevos sin modificar al notificador.</p>
+        <div class="pd-grafico uml" data-g="observer">
+          <svg viewBox="-14 -14 759 267" width="759" height="267" role="img" aria-label="Estructura del patrón Observer">
+            <polyline class="linea" points="255,57.5 337.5,57.5 337.5,57.5 420,57.5"/>
+            <polygon class="hueca" points="237,57.5 246,51.5 255,57.5 246,63.5"/>
+            <text class="rotulo" x="398" y="51.5" text-anchor="middle">*</text>
+            <polyline class="linea punteada" points="425.5,180 425.5,144 515.5,144 515.5,108"/>
+            <polygon class="hueca" points="515.5,95 522.5,108 508.5,108"/>
+            <polyline class="linea punteada" points="635.5,180 635.5,144 515.5,144 515.5,108"/>
+            <polygon class="hueca" points="515.5,95 522.5,108 508.5,108"/>
+            <g class="clase k-comun destacada">
+            <rect class="caja" x="0" y="0" width="237" height="126" rx="3"/>
+            <rect class="cab" x="1" y="1" width="235" height="29" rx="2"/>
+            <text class="nombre" x="118.5" y="20">Notificador</text>
+            <line class="div" x1="0" y1="30" x2="237" y2="30"/>
+            <text class="miembro" x="10" y="48"><tspan class="v-priv">-</tspan> suscriptores<tspan class="tp">: Suscriptor[]</tspan></text>
+            <line class="div" x1="0" y1="59" x2="237" y2="59"/>
+            <text class="miembro" x="10" y="77"><tspan class="v-pub">+</tspan> suscribir(s<tspan class="tp">: Suscriptor</tspan>)</text>
+            <text class="miembro" x="10" y="96"><tspan class="v-pub">+</tspan> desuscribir(s<tspan class="tp">: Suscriptor</tspan>)</text>
+            <text class="miembro" x="10" y="115"><tspan class="v-pub">+</tspan> notificar()</text>
+            </g>
+            <g class="clase k-interfaz">
+            <rect class="caja" x="420" y="20" width="191" height="75" rx="3"/>
+            <rect class="cab" x="421" y="21" width="189" height="45" rx="2"/>
+            <text class="estereo" x="515.5" y="36">&#171;interface&#187;</text>
+            <text class="nombre" x="515.5" y="55">Suscriptor</text>
+            <line class="div" x1="420" y1="66" x2="611" y2="66"/>
+            <text class="miembro" x="430" y="84"><tspan class="v-pub">+</tspan> actualizar(contexto)</text>
+            </g>
+            <g class="clase k-comun">
+            <rect class="caja" x="330" y="180" width="191" height="59" rx="3"/>
+            <rect class="cab" x="331" y="181" width="189" height="29" rx="2"/>
+            <text class="nombre" x="425.5" y="200">SuscriptorConcretoA</text>
+            <line class="div" x1="330" y1="210" x2="521" y2="210"/>
+            <text class="miembro" x="340" y="228"><tspan class="v-pub">+</tspan> actualizar(contexto)</text>
+            </g>
+            <g class="clase k-comun">
+            <rect class="caja" x="540" y="180" width="191" height="59" rx="3"/>
+            <rect class="cab" x="541" y="181" width="189" height="29" rx="2"/>
+            <text class="nombre" x="635.5" y="200">SuscriptorConcretoB</text>
+            <line class="div" x1="540" y1="210" x2="731" y2="210"/>
+            <text class="miembro" x="550" y="228"><tspan class="v-pub">+</tspan> actualizar(contexto)</text>
+            </g>
+          </svg>
+        </div>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Parte</th><th>Qué es</th></tr>
+            <tr><td class="lbl">Notificador (<em>Publisher</em> / <em>Subject</em>)</td><td>El objeto observado. Guarda la <strong>lista de suscriptores</strong> y tiene los métodos para suscribir, desuscribir y notificar. Cuando le pasa algo, llama a <code>notificar()</code>.</td></tr>
+            <tr><td class="lbl">Suscriptor (<em>Subscriber</em> / <em>Observer</em>)</td><td>La <strong>interfaz</strong> de los que quieren enterarse. Tiene un método, <code>actualizar()</code> (en los códigos, <code>Update</code>).</td></tr>
+            <tr><td class="lbl">Suscriptores Concretos</td><td>Cada clase que reacciona al aviso, a su manera.</td></tr>
+            <tr><td class="lbl">Cliente</td><td>El código que crea a unos y otros y anota a los suscriptores en el notificador.</td></tr>
+          </table>
+        </div>
+        <h4>8. Strategy <span class="et vio">De comportamiento</span></h4>
+        <p><strong>Propósito:</strong> Strategy es un patrón de comportamiento que se usa cuando hay varias formas de hacer una misma tarea y se quiere poder cambiar de una a otra mientras el programa corre. Cada forma va en su propia clase, todas con la misma interfaz, y el contexto guarda una y le delega la tarea. Así se agregan formas nuevas sin modificar el contexto.</p>
+        <div class="pd-grafico uml" data-g="strategy">
+          <svg viewBox="-14 -14 755 257" width="755" height="257" role="img" aria-label="Estructura del patrón Strategy">
+            <polyline class="linea" points="300,49.5 360,49.5 360,49.5 420,49.5"/>
+            <polygon class="hueca" points="282,49.5 291,43.5 300,49.5 291,55.5"/>
+            <polyline class="linea punteada" points="423.5,170 423.5,135 496.5,135 496.5,100"/>
+            <polygon class="hueca" points="496.5,87 503.5,100 489.5,100"/>
+            <polyline class="linea punteada" points="633.5,170 633.5,135 496.5,135 496.5,100"/>
+            <polygon class="hueca" points="496.5,87 503.5,100 489.5,100"/>
+            <g class="clase k-comun destacada">
+            <rect class="caja" x="0" y="0" width="282" height="107" rx="3"/>
+            <rect class="cab" x="1" y="1" width="280" height="29" rx="2"/>
+            <text class="nombre" x="141" y="20">Contexto</text>
+            <line class="div" x1="0" y1="30" x2="282" y2="30"/>
+            <text class="miembro" x="10" y="48"><tspan class="v-priv">-</tspan> estrategia<tspan class="tp">: Estrategia</tspan></text>
+            <line class="div" x1="0" y1="59" x2="282" y2="59"/>
+            <text class="miembro" x="10" y="77"><tspan class="v-pub">+</tspan> cambiarEstrategia(e<tspan class="tp">: Estrategia</tspan>)</text>
+            <text class="miembro" x="10" y="96"><tspan class="v-pub">+</tspan> hacerAlgo()</text>
+            </g>
+            <g class="clase k-interfaz">
+            <rect class="caja" x="420" y="12" width="153" height="75" rx="3"/>
+            <rect class="cab" x="421" y="13" width="151" height="45" rx="2"/>
+            <text class="estereo" x="496.5" y="28">&#171;interface&#187;</text>
+            <text class="nombre" x="496.5" y="47">Estrategia</text>
+            <line class="div" x1="420" y1="58" x2="573" y2="58"/>
+            <text class="miembro" x="430" y="76"><tspan class="v-pub">+</tspan> ejecutar(datos)</text>
+            </g>
+            <g class="clase k-comun">
+            <rect class="caja" x="330" y="170" width="187" height="59" rx="3"/>
+            <rect class="cab" x="331" y="171" width="185" height="29" rx="2"/>
+            <text class="nombre" x="423.5" y="190">EstrategiaConcretaA</text>
+            <line class="div" x1="330" y1="200" x2="517" y2="200"/>
+            <text class="miembro" x="340" y="218"><tspan class="v-pub">+</tspan> ejecutar(datos)</text>
+            </g>
+            <g class="clase k-comun">
+            <rect class="caja" x="540" y="170" width="187" height="59" rx="3"/>
+            <rect class="cab" x="541" y="171" width="185" height="29" rx="2"/>
+            <text class="nombre" x="633.5" y="190">EstrategiaConcretaB</text>
+            <line class="div" x1="540" y1="200" x2="727" y2="200"/>
+            <text class="miembro" x="550" y="218"><tspan class="v-pub">+</tspan> ejecutar(datos)</text>
+            </g>
+          </svg>
+        </div>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Parte</th><th>Qué es</th></tr>
+            <tr><td class="lbl">Contexto (<em>Context</em>)</td><td>La clase que necesita hacer la tarea. <strong>Guarda una referencia a una estrategia</strong> y le delega el trabajo. Tiene un método para <strong>cambiarla</strong>. No sabe cuál estrategia concreta tiene.</td></tr>
+            <tr><td class="lbl">Estrategia (<em>Strategy</em>)</td><td>La <strong>interfaz</strong> común a todas las formas de hacer la tarea. Un solo método: el que ejecuta el algoritmo.</td></tr>
+            <tr><td class="lbl">Estrategias Concretas</td><td>Cada variante del algoritmo.</td></tr>
+            <tr><td class="lbl">Cliente</td><td><strong>Elige</strong> la estrategia concreta y se la pasa al contexto.</td></tr>
+          </table>
+        </div>
+      </div>
+    </details>
+
+    <details class="parcial-desp pd-explicacion">
+      <summary>
+        <span class="pd-icono">&#9998;</span>
+        <span class="pd-txt"><b>Explicación desde cero</b><small>Cómo dibujar cada uno de memoria</small></span>
+      </summary>
+      <div class="pd-cuerpo">
+        <h4>El propósito, siempre en tres oraciones</h4>
+        <p>Cuándo se usa, cómo funciona y qué se gana ("Así..."). Si te acordás de esas tres partes, el propósito sale solo.</p>
+        <h4>El diagrama de cada uno, de memoria</h4>
+        <p><strong>Singleton:</strong> una sola clase con tres cosas: el atributo <code>instancia</code> privado y estático, el constructor privado y <code>obtenerInstancia()</code> público y estático. No pueden faltar los dos subrayados y los dos signos menos.</p>
+        <p><strong>Factory Method:</strong> <strong>dos familias en paralelo</strong>. </p>
+        <ul>
+    <li>A la izquierda, la de los <strong>creadores</strong>: uno abstracto arriba y los concretos abajo.</li>
+    <li>A la derecha, la de los <strong>productos</strong>: la interfaz arriba y los concretos abajo.</li>
+    <li>Una flecha punteada <strong>"crea"</strong> del Creador al Producto.</li>
+    <li>
+      Va <strong>un creador concreto por cada producto concreto</strong>. En los creadores concretos
+      el método se repite (lo sobrescriben); alcanza con poner el tipo que devuelve una sola vez,
+      en el de arriba.
+    </li>
+  </ul>
+        <p><strong>Abstract Factory:</strong>  </p>
+        <ul>
+    <li><strong>A la izquierda, las fábricas:</strong> la interfaz arriba y una fábrica concreta por variante abajo.</li>
+    <li><strong>A la derecha, los productos:</strong> una interfaz por producto, cada una con sus concretos abajo.</li>
+    <li>
+      Las flechas punteadas <strong>"crea"</strong> salen de la fábrica hacia <strong>cada</strong>
+      interfaz de producto: los métodos de la fábrica devuelven el producto abstracto, aunque por
+      dentro cada fábrica concreta haga el <code>new</code> del concreto de su variante
+      (<code>FabricaConcreta1</code> crea <code>ProductoA1</code> y <code>ProductoB1</code>).
+    </li>
+    <li>El <strong>Cliente</strong> guarda una fábrica (flecha continua hacia la interfaz).</li>
+  </ul>
+        <p><strong>Adapter:</strong> <strong>el adaptador tiene dos flechas</strong>. </p>
+        <ul>
+    <li>Una <strong>punteada con triángulo hacia arriba</strong>: cumple la interfaz que el cliente conoce.</li>
+    <li>Una <strong>continua hacia el costado</strong>: guarda al servicio (por eso tiene un atributo de ese tipo).</li>
+    <li>El Cliente apunta a la <strong>interfaz</strong>, nunca al Adaptador ni al Servicio.</li>
+  </ul>
+        <p><strong>Composite:</strong> <strong>un triángulo y una vuelta</strong>. </p>
+        <ul>
+    <li>Arriba la interfaz <strong>Componente</strong>; abajo, <strong>Hoja</strong> y <strong>Compuesto</strong>, los dos cumpliéndola.</li>
+    <li>
+      Del <strong>Compuesto sale un rombo vacío que vuelve al Componente</strong>, con un
+      <code>*</code>: el compuesto <em>tiene muchos</em> componentes. <strong>Esa flecha que vuelve
+      hacia arriba es la firma del patrón</strong>: es lo que permite cajas dentro de cajas.
+    </li>
+    <li>Solo el Compuesto tiene <code>agregar()</code> y <code>eliminar()</code>.</li>
+  </ul>
+        <p><strong>Facade:</strong> <strong>un abanico</strong>. </p>
+        <ul>
+    <li>El Cliente apunta a la Fachada, y <strong>de la Fachada salen flechas a cada clase del subsistema</strong>.</li>
+    <li>
+      <strong>No hay ninguna interfaz ni herencia.</strong> Es el único de los ocho patrones cuyo
+      diagrama no tiene triángulos: las clases del subsistema no tienen nada en común entre sí.
+    </li>
+    <li>Las flechas van <strong>solo de la fachada hacia el subsistema</strong>, nunca al revés.</li>
+  </ul>
+        <p><strong>Observer:</strong>  </p>
+        <ul>
+    <li>A la izquierda el <strong>Notificador</strong>, con la lista y sus <strong>tres métodos</strong>: suscribir, desuscribir, notificar.</li>
+    <li>Un <strong>rombo vacío</strong> del Notificador a la interfaz <strong>Suscriptor</strong>, con un <code>*</code>: tiene muchos.</li>
+    <li>Debajo de la interfaz, los <strong>suscriptores concretos</strong>, con línea punteada.</li>
+  </ul>
+        <p><strong>Strategy:</strong>  </p>
+        <ul>
+    <li>A la izquierda el <strong>Contexto</strong>, con el atributo <code>estrategia</code> y el método para cambiarla.</li>
+    <li>Un <strong>rombo vacío</strong> del Contexto a la interfaz <strong>Estrategia</strong> (también se acepta una flecha simple): el contexto <em>tiene una</em> estrategia. <strong>Sin asterisco</strong>: es una sola por vez.</li>
+    <li>Debajo de la interfaz, las <strong>estrategias concretas</strong>, con línea punteada.</li>
+  </ul>
+        <h4>Trampas</h4>
+        <ul>
+          <li>Observer y Strategy se dibujan casi igual: Observer tiene una <strong>lista</strong> (<code>*</code>) y suscribir, desuscribir y notificar; Strategy, <strong>una sola</strong> estrategia y un método para cambiarla.</li>
+          <li>Facade es el único sin interfaz ni herencia: no lleva triángulos.</li>
+          <li>Factory Method tiene <strong>un</strong> método fábrica; Abstract Factory, <strong>uno por cada producto</strong> de la familia.</li>
+        </ul>
+      </div>
+    </details>
+  </div>
+</section>

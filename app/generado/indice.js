@@ -387,10 +387,6 @@ window.Apuntes.registrarIndice({
           "tablas",
           "icph"
         ],
-        "u8": [
-          "tablas",
-          "icph"
-        ],
         "evaluacion": [
           "resumen",
           "tablas",

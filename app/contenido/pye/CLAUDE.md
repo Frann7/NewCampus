@@ -12,7 +12,7 @@ solo lo propio de PyE. Si se toca el banco de preguntas: `evaluacion/preguntas/F
   Estimacion_Parte 1.pdf` y `Estimacion_Parte 2.pdf` (IC para μ, π y μ₁ − μ₂). No entran prueba de
   hipótesis, IC de varianzas, diferencia de proporciones, tolerancia ni predicción, aunque estén
   en la guía o en el Parcial 3 2025. Regla de Z o t de la profe: n ≥ 30 → Z (con σ o con S);
-  n < 30 → t (ν = n − 1); σ conocida → Z. Las preguntas del banco `u8` llevan
+  n < 30 → t (ν = n − 1) aunque den σ (Fran decidió seguir el mensaje de la profe; con σ, va σ en la fórmula). En diferencia de medias, σ₁ y σ₂ conocidas → Z, como el diagrama de la parte 2. Las preguntas del banco `u8` llevan
   `data-origen="parcial"` aunque el tema no se haya tomado (es para el 3er parcial).
 - Otros materiales del 2do parcial: `PYE\PARCIAL 2\guia_integradoras_parcial_2.pdf`, `Respuestas.pdf`,
   `Guia_distribucion_t_Student_yRtas.pdf`, `Parcial 2 2025.jpg`, y finales en `PYE\PARCIALES\`.

@@ -109,7 +109,7 @@ rioplatense con voseo) y **mantenedor** del campus (código, contenido, commits)
 - **PyE, 3er parcial (Estimación, fecha a confirmar, ~1/11/2026):** cargada la U8 (teoría,
   guía resuelta, Tercer Parcial 2025, uno probable y banco `u8`). Fran arranca de cero: explicar
   con palabras comunes. Falta sumar la hoja de fórmulas que la profe dijo que va a subir.
-  Z o t (resuelto con las diapositivas): n ≥ 30 → Z; σ conocida → Z; n < 30 con S → t.
+  Z o t: n ≥ 30 → Z; n < 30 → t aunque den σ (lo decidió Fran siguiendo el mensaje de la profe).
 - **Ingeniería de Software II (rindió el 14/10/2026, sacó 38; viene el recuperatorio, fecha a
   confirmar):** las 7 partes de
   `docs/plan-ing2.md` están cargadas (6 unidades y los parciales 2024, 2025 y 2026 resueltos), más

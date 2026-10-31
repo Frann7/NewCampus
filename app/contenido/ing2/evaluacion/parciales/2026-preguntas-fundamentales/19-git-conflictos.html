@@ -17,35 +17,15 @@
         <span class="pd-txt"><b>Respuesta</b><small>Para aprender y escribir en la hoja</small></span>
       </summary>
       <div class="pd-cuerpo">
-        <p>
-          Al hacer un merge (parado en la rama de destino, <code>git merge otra-rama</code>), si los
-          cambios de las dos ramas no se superponen, Git lo hace solo. Hay <strong>conflicto</strong>
-          cuando las dos ramas modificaron las <strong>mismas líneas de los mismos archivos</strong>:
-          Git avisa en la terminal y no completa el merge hasta que se resuelva.
-        </p>
-        <p><strong>Tipos:</strong></p>
-        <ul>
-          <li><strong>De contenido</strong> (en el mismo archivo): las dos ramas modificaron la misma línea.</li>
-          <li><strong>De eliminación:</strong> una rama borró un archivo que la otra modificó.</li>
-        </ul>
-        <p><strong>Pasos para resolverlo:</strong></p>
+        <p><strong>Cuándo:</strong> al hacer <code>git merge</code>, si las dos ramas cambiaron las <strong>mismas líneas del mismo archivo</strong>. Git no termina el merge hasta resolverlo.</p>
+        <p><strong>Tipos:</strong> <strong>de contenido</strong> (las dos cambiaron la misma línea) y <strong>de eliminación</strong> (una borró un archivo que la otra modificó).</p>
         <ol>
-          <li><strong>Ver los archivos en conflicto:</strong> <code>git status</code>.</li>
-          <li><strong>Editarlos a mano:</strong> Git marca cada conflicto así:
-            <pre class="codigo" data-lang="texto"><code>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
-Cambios en la rama actual
-=======
-Cambios en la rama "feature-nueva-funcion"
-&gt;&gt;&gt;&gt;&gt;&gt;&gt; feature-nueva-funcion</code></pre>
-            Entre <code>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD</code> y <code>=======</code> están los cambios de la rama actual; entre <code>=======</code> y <code>&gt;&gt;&gt;&gt;&gt;&gt;&gt;</code>, los de la otra. Se deja una versión, o se combinan las dos, y se borran las marcas.</li>
-          <li><strong>Marcar el conflicto como resuelto:</strong> guardar y pasar el archivo al área de preparación, <code>git add nombre_archivo</code>.</li>
-          <li><strong>Terminar el merge:</strong> <code>git commit</code>, con un mensaje que documente el merge y su resolución.</li>
+          <li><code>git status</code>: ver los archivos en conflicto.</li>
+          <li>Editarlos: entre <code>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD</code> y <code>=======</code> está la rama actual; entre <code>=======</code> y <code>&gt;&gt;&gt;&gt;&gt;&gt;&gt;</code>, la otra. Se deja lo correcto y se borran las marcas.</li>
+          <li><code>git add archivo</code>: marcarlo como resuelto.</li>
+          <li><code>git commit</code>: terminar el merge.</li>
         </ol>
-        <p><strong>Comandos útiles:</strong></p>
-        <ul>
-          <li><code>git merge --abort</code>: descarta el merge y deja la rama como estaba.</li>
-          <li><code>git mergetool</code>: abre una herramienta de merge configurada (KDiff3, P4Merge) para resolverlo.</li>
-        </ul>
+        <p><code>git merge --abort</code> cancela el merge; <code>git mergetool</code> abre una herramienta para resolverlo.</p>
       </div>
     </details>
 

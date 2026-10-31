@@ -30,7 +30,6 @@ rioplatense con voseo) y **mantenedor** del campus (código, contenido, commits)
 | Banco de preguntas / autoevaluaciones | `app/contenido/pye/evaluacion/preguntas/FORMATO.md` y `docs/evaluacion.md` |
 | Estructura, `construir.py`, sumar una materia o unidad | `docs/estructura.md` |
 | Calendario, Tareas, ventanas, lanzador, barra de arriba | `docs/pestanias.md` |
-| Cambio funcional (para actualizar el README) | `README.md`, solo la parte que se toca y la lista de versiones |
 
 ## Para no gastar de más
 
@@ -56,9 +55,9 @@ rioplatense con voseo) y **mantenedor** del campus (código, contenido, commits)
   No reescribir historia (sin rebase, amend, filter-branch ni push --force).
 - **Push sin preguntar:** en este repo se commitea y se pushea a `main` sin pedir permiso (salvo
   que Fran diga "no lo subas todavía": entonces commit local y push cuando avise).
-- **README al día:** todo cambio funcional actualiza `README.md` en el mismo commit, y sube la
-  versión: la firma del sidebar en `app/index.html` (`versión 0.x.y-alpha`) y la línea nueva en la
-  lista de versiones del README.
+- **README corto:** es un README común de GitHub (qué es, características, requisitos,
+  instalación). Sin lista de versiones ni detalle de cada función; se toca solo si cambia algo
+  de eso (una materia nueva, un requisito).
 - **Construir siempre:** el contenido se edita en `app/contenido/` (nunca en `app/generado/`), y
   después `python construir.py` desde `app/` tiene que terminar en "Todo en orden".
 - **Compatibilidad de autoevaluaciones guardadas:** los intentos guardan ids de preguntas y el

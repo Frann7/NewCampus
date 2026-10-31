@@ -487,6 +487,8 @@ window.NC = window.NC || {};
       a.className = h.tagName === "H2" ? "lvl-2"
         : h.tagName === "H3" ? "lvl-3"
         : h.classList.contains("paso") ? "lvl-3 lvl-paso" : "lvl-4";
+      // el titulo de un grupo de preguntas (un tema) se distingue de las preguntas
+      if (h.classList.contains("parcial-grupo")) { a.className += " toc-grupo"; }
 
       // los h2 de ejercicio llevan adelante el numero de la guia
       var num = h.tagName === "H2" ? numeroDeEjercicio(h) : "";

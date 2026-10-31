@@ -146,7 +146,9 @@ instantáneas), 14 (las tres secciones) y 22 (SemVer, que va como tabla).
   tipos de métricas, complejidad ciclomática y proyecto de mejora contra proyecto de software,
   porque no los va a estudiar, y subió SemVer al puesto 8 porque le dijeron que es probable); van
   **agrupadas por tema** (CMMI y mejora de procesos, Git, métricas y calidad, patrones: un
-  `h2.parcial-grupo` en su propio archivo, que el índice lateral muestra como título de grupo) y
+  `h2.parcial-grupo` en su propio archivo, que el índice lateral muestra como título de grupo; cada pregunta tiene `data-repaso` en su
+  `section`, y el índice le pone una casilla para marcarla como repasada, guardada en
+  `newcampus:repasadas`) y
   **dentro de cada tema de la más probable a la menos** para el recuperatorio, cada una con su porcentaje
   estimado y de dónde sale (`p.parcial-prob`), según los parciales y lo que dijo el profe. Temas: CMMI (los cinco niveles con el ejemplo del apunte, y un caso de nivel 2 para
   identificar y llevar al siguiente, explicado desde las definiciones), mejora de procesos (PI,

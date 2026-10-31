@@ -338,6 +338,18 @@ window.NC = window.NC || {};
   var TOC_KEY = "apuntes:indice";
   var enlacesTOC = [];   // [{a, h}] del pane activo, en orden de aparicion
 
+  // Preguntas marcadas como repasadas desde el indice: { "<data-repaso>": true }
+  var REPASO_KEY = "newcampus:repasadas";
+  function repasadas() {
+    try { return JSON.parse(localStorage.getItem(REPASO_KEY) || "{}") || {}; }
+    catch (e) { return {}; }
+  }
+  function marcarRepasada(id, si) {
+    var r = repasadas();
+    if (si) { r[id] = true; } else { delete r[id]; }
+    try { localStorage.setItem(REPASO_KEY, JSON.stringify(r)); } catch (e) {}
+  }
+
   // Los titulos pueden traer LaTeX. Lo pasamos a texto legible para el indice.
   function limpiarTitulo(txt) {
     return txt
@@ -541,6 +553,20 @@ window.NC = window.NC || {};
         fila.appendChild(chev);
         fila.appendChild(a);
         toc.appendChild(fila);
+      } else if (h.tagName === "H2" && h.parentNode.closest("[data-repaso]")) {
+        // una pregunta que se marca como repasada: su casilla va en el indice
+        var id = h.parentNode.closest("[data-repaso]").getAttribute("data-repaso");
+        var filaR = document.createElement("div");
+        filaR.className = "toc-fila";
+        var caja = document.createElement("input");
+        caja.type = "checkbox";
+        caja.className = "toc-check";
+        caja.checked = !!repasadas()[id];
+        caja.title = "Repasada";
+        caja.addEventListener("change", function () { marcarRepasada(id, caja.checked); });
+        filaR.appendChild(caja);
+        filaR.appendChild(a);
+        toc.appendChild(filaR);
       } else {
         toc.appendChild(a);
       }

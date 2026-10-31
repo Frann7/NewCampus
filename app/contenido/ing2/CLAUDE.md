@@ -170,6 +170,9 @@ instantáneas), 14 (las tres secciones) y 22 (SemVer, que va como tabla).
   lo da. **El riesgo de no avanzar se escribe siempre igual**, en una oración: "Como no [lo que
   define al nivel siguiente], [qué le pasa por no tenerlo]" (pedido de Fran, 13/10/2026: le costaba
   armarlo desde las definiciones). Las cuatro oraciones están en "CMMI en una hoja" (sección 7 de calidad).
+  **Toda respuesta de CMMI con caso sigue el mismo molde** (pedido de Fran, 31/10/2026: solo citar
+  no le servía para otro caso): nivel, qué lo define, lo que tiene la empresa con palabras propias y
+  la cita corta como prueba, por qué no es el siguiente, y el riesgo o las acciones.
 - **Banco de autoevaluación** en `evaluacion/preguntas/<unidad>/` (una carpeta por unidad del
   menú, un archivo por pregunta, ids `ing2-u0-NN`, `ing2-u4a-NN`, `ing2-u4b-NN`, `ing2-u4c-NN`,
   `ing2-u5-NN`, `ing2-u6-NN`: el orden alfabético de los ids es el orden en que salen). Evaluación

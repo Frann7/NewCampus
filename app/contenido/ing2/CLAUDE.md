@@ -142,8 +142,9 @@ instantáneas), 14 (las tres secciones) y 22 (SemVer, que va como tabla).
 - **Preguntas fundamentales de teoría** en `evaluacion/parciales/2026-preguntas-fundamentales/`:
   no es un parcial, pero va como una tarjeta más de Parciales. Rehecha el 29/10/2026 a pedido de
   Fran, para el recuperatorio: **toda la teoría en preguntas con la forma de las del parcial 2026**
-  (definir, cuadro comparativo, representar gráficamente). Veintiuno, por tema y de lo básico a lo
-  específico: CMMI (los cinco niveles con el ejemplo del apunte, y un caso de nivel 2 para
+  (definir, cuadro comparativo, representar gráficamente). Veintiuno; desde el 31/10/2026 van
+  **ordenadas de la más probable a la menos** para el recuperatorio, cada una con su porcentaje
+  estimado y de dónde sale (`p.parcial-prob`), según los parciales y lo que dijo el profe. Temas: CMMI (los cinco niveles con el ejemplo del apunte, y un caso de nivel 2 para
   identificar y llevar al siguiente, explicado desde las definiciones), mejora de procesos (PI,
   BPI y SPI; los tres elementos; proyecto de mejora contra proyecto de software), calidad, métricas
   (definición y elementos con un ejemplo, ciclo de vida, tipos, complejidad ciclomática), gestión

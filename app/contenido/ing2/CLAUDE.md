@@ -142,8 +142,8 @@ instantáneas), 14 (las tres secciones) y 22 (SemVer, que va como tabla).
 - **Preguntas fundamentales de teoría** en `evaluacion/parciales/2026-preguntas-fundamentales/`:
   no es un parcial, pero va como una tarjeta más de Parciales. Rehecha el 29/10/2026 a pedido de
   Fran, para el recuperatorio: **toda la teoría en preguntas con la forma de las del parcial 2026**
-  (definir, cuadro comparativo, representar gráficamente). Dieciocho (el 31/10/2026 Fran sacó
-  tipos de métricas, complejidad ciclomática y proyecto de mejora contra proyecto de software,
+  (definir, cuadro comparativo, representar gráficamente). Diecisiete (el 31/10/2026 Fran sacó
+  tipos de métricas, por qué usar control de versiones, complejidad ciclomática y proyecto de mejora contra proyecto de software,
   porque no los va a estudiar, y subió SemVer al puesto 8 porque le dijeron que es probable); van
   **agrupadas por tema** (CMMI y mejora de procesos, Git, métricas y calidad, patrones: un
   `h2.parcial-grupo` en su propio archivo, que el índice lateral muestra como título de grupo; cada pregunta tiene `data-repaso` en su
@@ -155,7 +155,7 @@ instantáneas), 14 (las tres secciones) y 22 (SemVer, que va como tabla).
   BPI y SPI; los tres elementos), calidad, métricas (definición y elementos con un ejemplo, ciclo
   de vida), gestión
   de cambios y Git (los cuatro conceptos, SVN y Git, los tres estados, ramas y merge, y desde el
-  30/10/2026 por qué usar control de versiones y su evolución, características de Git, claves SSH
+  30/10/2026 características de Git, claves SSH
   con init, clone y ramas, conflictos de merge y versionado semántico con gestores de dependencias: el profe dijo
   que de teoría estudien Git), los ocho patrones con su propósito
   y su estructura (la misma descripción, diagrama y tabla de partes de la teoría; en la teoría

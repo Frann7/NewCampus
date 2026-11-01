@@ -1,6 +1,6 @@
 <div class="bloque">
   <p class="kicker">Diferencia de medias &middot; muestras grandes</p>
-  <h2>7. Diferencia de medias: caso Z</h2>
+  <h2>8. Diferencia de medias: caso Z</h2>
 
   <h3>Cuándo se usa</h3>
   <ul>
@@ -11,15 +11,6 @@
     Por el TLC, con muestras grandes \(\bar{x}_1 - \bar{x}_2\) es aproximadamente normal aunque las
     poblaciones no lo sean. Eso justifica usar \(z\).
   </p>
-  <div class="caja caja-ojo">
-    <span class="caja-tit">Este caso va corto</span>
-    <p>
-      En la guía tacharon los ejercicios 10 y 11, que son justo este caso. Queda porque es una rama del
-      diagrama de la profe: alcanza con <strong>reconocerlo</strong> (dos muestras de 30 o más, o los
-      \(\sigma\) de las poblaciones dados) y saber su fórmula. Lo que más se practica son los casos
-      pooled y Welch (secciones 8 y 9).
-    </p>
-  </div>
 
   <h3>Fórmulas</h3>
   <div class="caja caja-formula">
@@ -48,7 +39,7 @@
 
   <h3>La receta</h3>
   <ol>
-    <li>Verificar el caso (sección 6): \(\sigma\) conocidas, o las dos muestras \(\geq 30\).</li>
+    <li>Verificar el caso (sección 7): \(\sigma\) conocidas, o las dos muestras \(\geq 30\).</li>
     <li>Calcular cada término \(S_i^2/n_i\), sumarlos y sacar la raíz.</li>
     <li>Error: \(E = z_{\alpha/2} \cdot \sqrt{\ldots}\).</li>
     <li>Intervalo \((\bar{x}_1 - \bar{x}_2) \pm E\) y conclusión: ¿incluye el 0? ¿qué signo tiene?</li>
@@ -103,6 +94,57 @@
       \(IC_{95\%}(\mu_A - \mu_B) = (7{,}52\ ;\ 42{,}48)\) ms. El intervalo no incluye el 0: con un 95&nbsp;% de
       confianza hay diferencia significativa entre los tiempos medios de carga, y el servidor A tarda en
       promedio entre 7,52 y 42,48 ms más que el B.
+    </p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; Dos versiones, varianzas conocidas</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>
+      Por el historial de monitoreo se sabe que el consumo de memoria de dos versiones de una aplicación
+      se distribuye normal con desvío <strong>12 MB</strong> (versión 1) y <strong>15 MB</strong> (versión 2).
+      En <strong>36 ejecuciones</strong> de la versión 1 el consumo medio fue <strong>210 MB</strong>, y en
+      <strong>49 ejecuciones</strong> de la versión 2 fue <strong>214 MB</strong>. Construya un intervalo
+      del <strong>90&nbsp;%</strong> para \(\mu_1 - \mu_2\). ¿La versión 2 consume más memoria en promedio?
+    </p>
+  </div>
+
+  <h4>Por qué este modelo</h4>
+  <ul>
+    <li>Dos versiones independientes, se comparan medias: <strong>diferencia de medias</strong>.</li>
+    <li>¿\(\sigma\) conocidas? Sí: "por el historial se sabe que el desvío es&hellip;" es de la población. Caso <strong>Z con \(\sigma_1^2\), \(\sigma_2^2\)</strong>.</li>
+  </ul>
+
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"se sabe que &hellip; desvío 12 MB (versión 1)"</td><td>desvío de la población 1</td><td>\(12^2\)</td><td>\(\sigma_1^2 = 144\)</td></tr>
+      <tr><td>"15 MB (versión 2)"</td><td>desvío de la población 2</td><td>\(15^2\)</td><td>\(\sigma_2^2 = 225\)</td></tr>
+      <tr><td>"36 ejecuciones &hellip; 210 MB"</td><td>muestra 1</td><td>&mdash;</td><td>\(n_1 = 36\), \(\bar{x}_1 = 210\)</td></tr>
+      <tr><td>"49 ejecuciones &hellip; 214 MB"</td><td>muestra 2</td><td>&mdash;</td><td>\(n_2 = 49\), \(\bar{x}_2 = 214\)</td></tr>
+      <tr><td>"\(\mu_1 - \mu_2\)"</td><td>orden de la resta</td><td>\(210 - 214\)</td><td>\(\bar{x}_1 - \bar{x}_2 = -4\)</td></tr>
+      <tr><td>"90&nbsp;%"</td><td>confianza</td><td>\(\alpha/2 = 0{,}05\), \(F(z) = 0{,}95\)</td><td>\(z_{\alpha/2} = 1{,}645\)</td></tr>
+    </table>
+  </div>
+
+  <p><strong>Paso 1 &mdash; Fórmula.</strong></p>
+  <p>\[ (\bar{x}_1 - \bar{x}_2) - z_{\alpha/2}\sqrt{\frac{\sigma_1^2}{n_1} + \frac{\sigma_2^2}{n_2}} &lt; \mu_1 - \mu_2 &lt; (\bar{x}_1 - \bar{x}_2) + z_{\alpha/2}\sqrt{\frac{\sigma_1^2}{n_1} + \frac{\sigma_2^2}{n_2}} \]</p>
+  <p><strong>Paso 2 &mdash; La raíz:</strong></p>
+  <p>\[ \frac{144}{36} = 4 \qquad \frac{225}{49} = 4{,}5918 \qquad \sqrt{4 + 4{,}5918} = \sqrt{8{,}5918} = 2{,}9312 \]</p>
+  <p><strong>Paso 3 &mdash; El error:</strong></p>
+  <p>\[ E = 1{,}645 \cdot 2{,}9312 = 4{,}82 \]</p>
+  <p><strong>Paso 4 &mdash; Reemplazar</strong> (ojo: la diferencia es negativa):</p>
+  <p>\[ -4 - 4{,}82 &lt; \mu_1 - \mu_2 &lt; -4 + 4{,}82 \quad\Longrightarrow\quad -8{,}82 &lt; \mu_1 - \mu_2 &lt; 0{,}82 \]</p>
+  <p><strong>Paso 5 &mdash; ¿Incluye el 0?</strong> Sí: \(-8{,}82 &lt; 0 &lt; 0{,}82\).</p>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>
+      \(IC_{90\%}(\mu_1 - \mu_2) = (-8{,}82\ ;\ 0{,}82)\) MB. El intervalo incluye el 0: con un 90&nbsp;% de
+      confianza no hay diferencia significativa entre los consumos medios de memoria. No se puede afirmar
+      que la versión 2 consuma más, aunque su media muestral haya dado 4 MB más.
     </p>
   </div>
 </div>

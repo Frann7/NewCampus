@@ -1,0 +1,137 @@
+<div class="ej">
+  <span class="tag">Guía 8 &middot; Ej. 10 &middot; IC para \(\mu_1 - \mu_2\) con muestras grandes</span>
+  <h2>Resistencia a la tensión de dos marcas de hilo</h2>
+  <div class="enunciado">
+    <p>
+      Se comparan las resistencias a la tensión de dos clases de hilo. 50 bobinas de cada marca de
+      hilo se prueban bajo condiciones similares. La marca A tiene una resistencia a la tensión
+      promedio de 78.3 kg con una desviación estándar de 5.6 kg; en tanto que la marca B tiene una
+      resistencia a la tensión promedio de 87.2 kg con una desviación estándar de 6.3 kg. Obtenga un
+      intervalo de confianza del 95% para la diferencia de las medias poblacionales. ¿Qué marca de
+      hilo muestra una mayor resistencia promedio a la tensión?
+    </p>
+  </div>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">En 2023 este ejercicio estaba anulado</span>
+    <p>
+      La Resolución 2023 de la cátedra anuló los ejercicios 10 y 11 (ese año solo se trabajó
+      diferencia de medias con los datos sueltos, en R). Este año entran: las diapositivas de
+      Estimación parte 2 tienen el caso \(z\) (muestras grandes o varianzas conocidas), que es justo
+      este. Por eso se resuelve igual; no hay resultado oficial para comparar.
+    </p>
+  </div>
+
+  <span class="paso">Qué se estima y en qué orden</span>
+  <p>
+    Hay dos poblaciones: todas las bobinas de la marca A (media \(\mu_1\)) y todas las de la marca B
+    (media \(\mu_2\)). Se quiere estimar la <strong>diferencia</strong> \(\mu_1 - \mu_2\) con un
+    intervalo de confianza. La estimación puntual es la diferencia de las medias muestrales,
+    \(\bar{x}_1 - \bar{x}_2\), y el intervalo es eso más y menos un margen.
+  </p>
+  <p>
+    El enunciado no fija un orden; se toma el natural: <strong>población 1 = marca A, población 2 =
+    marca B</strong>, y se estima \(\mu_A - \mu_B\). (Al revés da el mismo intervalo con los signos
+    cambiados.)
+  </p>
+
+  <span class="paso">Qué caso es (el árbol de decisión)</span>
+  <ul>
+    <li>¿\(\sigma_1^2\) y \(\sigma_2^2\) conocidas? <strong>No</strong>: los 5,6 y 6,3 kg son los desvíos de las 50 bobinas probadas, o sea \(S_1\) y \(S_2\).</li>
+    <li>¿\(n_1\) y \(n_2\) \(\geq 30\)? <strong>Sí</strong>: 50 y 50.</li>
+  </ul>
+  <p>
+    &rarr; <strong>caso \(z\) con \(S_1^2\) y \(S_2^2\)</strong>. Con muestras grandes, cada \(S^2\) es
+    una muy buena estimación de su \(\sigma^2\) y, por el Teorema del Límite Central, \(\bar{X}_1 -
+    \bar{X}_2\) es aproximadamente normal aunque los hilos no lo sean. No hace falta mirar si las
+    varianzas son iguales: eso se pregunta solo con muestras chicas.
+  </p>
+  <div class="caja caja-formula">
+    <span class="caja-tit">IC para \(\mu_1 - \mu_2\), muestras grandes</span>
+    <p>\[ (\bar{x}_1 - \bar{x}_2) \pm z_{\alpha/2}\sqrt{\frac{S_1^2}{n_1} + \frac{S_2^2}{n_2}} \]</p>
+    <p>
+      La raíz es el <strong>error estándar de la diferencia</strong>: las varianzas de las dos medias
+      se <strong>suman</strong> (las dos muestras son independientes y cada una aporta su propia
+      incertidumbre), aunque las medias se resten.
+    </p>
+  </div>
+
+  <span class="paso">Desarme del enunciado</span>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Traducción</th><th>Cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"50 bobinas de cada marca"</td><td>dos muestras grandes e independientes</td><td>&mdash;</td><td>\(n_1 = 50\), \(n_2 = 50\)</td></tr>
+      <tr><td>"la marca A ... promedio de 78.3 kg"</td><td>media de la muestra 1</td><td>&mdash;</td><td>\(\bar{x}_1 = 78{,}3\)</td></tr>
+      <tr><td>"con una desviación estándar de 5.6 kg"</td><td>desvío de la muestra 1</td><td>\(5{,}6^2 = 31{,}36\)</td><td>\(S_1^2 = 31{,}36\)</td></tr>
+      <tr><td>"la marca B ... promedio de 87.2 kg"</td><td>media de la muestra 2</td><td>&mdash;</td><td>\(\bar{x}_2 = 87{,}2\)</td></tr>
+      <tr><td>"desviación estándar de 6.3 kg"</td><td>desvío de la muestra 2</td><td>\(6{,}3^2 = 39{,}69\)</td><td>\(S_2^2 = 39{,}69\)</td></tr>
+      <tr><td>"95%"</td><td>afuera 5&nbsp;%, 2,5&nbsp;% por cola</td><td>\(\alpha/2 = 0{,}025\)</td><td>\(z_{0{,}025} = 1{,}96\)</td></tr>
+    </table>
+  </div>
+  <p>
+    <strong>Qué son \(\alpha\) y \(\alpha/2\), en criollo:</strong> el 95&nbsp;% de confianza es
+    qué tan seguido acierta el método: de cada 100 intervalos armados así, 95 atrapan la diferencia real.
+    \(\alpha = 1 - 0{,}95 = 0{,}05\) es lo contrario, la chance de que el intervalo <em>no</em>
+    acierte. Esa parte se reparte mitad en cada punta de la campana (valores demasiado altos y
+    demasiado bajos): \(\alpha/2 = 0{,}025\) de cada lado. El valor de tabla que se busca es el que deja
+    justo 0,025 afuera a la derecha.
+  </p>
+  <p>
+    <strong>Error estándar de la diferencia, en criollo:</strong> si se repitiera el muestreo con
+    otras unidades, \(\bar{x}_1 - \bar{x}_2\) daría otro número. El error estándar (la raíz de la
+    fórmula) mide cuánto se mueve esa diferencia de una muestra a otra por puro azar. El margen es
+    "cuántos errores estándar me alejo para cada lado".
+  </p>
+  <p>
+    <strong>Ojo:</strong> la fórmula lleva <strong>varianzas</strong> (\(S^2\)), no desvíos: hay que
+    elevar al cuadrado los 5,6 y 6,3 que da el enunciado.
+  </p>
+
+  <span class="paso">Paso 1 &mdash; \(z_{\alpha/2}\) de la tabla</span>
+  <p>Área a la izquierda: \(1 - 0{,}025 = 0{,}975\) &rarr; fila 1,9, columna 0,06, exacto. <strong>\(z_{0{,}025} = 1{,}96\)</strong>.</p>
+
+  <span class="paso">Paso 2 &mdash; Error estándar de la diferencia</span>
+  <p>Fórmula:</p>
+  <p>\[ \sqrt{\frac{S_1^2}{n_1} + \frac{S_2^2}{n_2}} \]</p>
+  <ul>
+    <li>\(\dfrac{S_1^2}{n_1} = \dfrac{31{,}36}{50} = 0{,}6272\)</li>
+    <li>\(\dfrac{S_2^2}{n_2} = \dfrac{39{,}69}{50} = 0{,}7938\)</li>
+  </ul>
+  <p>\[ \sqrt{0{,}6272 + 0{,}7938} = \sqrt{1{,}4210} = 1{,}1921 \text{ kg} \]</p>
+
+  <span class="paso">Paso 3 &mdash; Margen y diferencia de medias</span>
+  <p>\[ E = z_{\alpha/2}\sqrt{\frac{S_1^2}{n_1} + \frac{S_2^2}{n_2}} = 1{,}96 \times 1{,}1921 = 2{,}3364 \text{ kg} \]</p>
+  <p>\[ \bar{x}_1 - \bar{x}_2 = 78{,}3 - 87{,}2 = -8{,}9 \text{ kg} \]</p>
+
+  <span class="paso">Paso 4 &mdash; Armar el intervalo</span>
+  <p>Fórmula:</p>
+  <p>\[ (\bar{x}_1 - \bar{x}_2) \pm z_{\alpha/2}\sqrt{\frac{S_1^2}{n_1} + \frac{S_2^2}{n_2}} \]</p>
+  <p>\[ -8{,}9 - 2{,}3364 &lt; \mu_1 - \mu_2 &lt; -8{,}9 + 2{,}3364 \]</p>
+  <p>\[ \mathbf{-11{,}24 &lt; \mu_1 - \mu_2 &lt; -6{,}56} \]</p>
+
+  <span class="paso">Paso 5 &mdash; ¿Incluye el 0?</span>
+  <ul>
+    <li>
+      <strong>No</strong>: los dos extremos son negativos. Entonces hay una diferencia
+      significativa entre las resistencias medias de las dos marcas.
+    </li>
+    <li>
+      El signo dice cuál es mayor: \(\mu_1 - \mu_2 &lt; 0\) significa \(\mu_1 &lt; \mu_2\), o sea
+      \(\mu_A &lt; \mu_B\). La marca <strong>B</strong> resiste más, entre 6,56 y 11,24 kg más en
+      promedio.
+    </li>
+  </ul>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>
+      \(IC_{95\%}(\mu_A - \mu_B) = (\,-11{,}24\ ;\ -6{,}56\,)\) kg. Como el 0 no está en el intervalo y
+      los dos extremos son negativos, con 95&nbsp;% de confianza la <strong>marca B</strong> tiene
+      mayor resistencia promedio a la tensión: entre 6,56 y 11,24 kg más que la A.
+    </p>
+    <p>
+      <strong>Resolución 2023 de la cátedra:</strong> ejercicio anulado, sin resultado. Verificado
+      aparte con software: \((-11{,}236\ ;\ -6{,}564)\).
+    </p>
+  </div>
+</div>

@@ -1,0 +1,157 @@
+<div class="bloque">
+  <p class="kicker">Cuando el dato es un porcentaje</p>
+  <h2>6. Intervalo de confianza para una proporción \(\pi\)</h2>
+
+  <h3>Cuándo se usa</h3>
+  <p>
+    Cuando lo que se estima no es un promedio sino un <strong>porcentaje</strong> de la población: "el
+    80&nbsp;% respondió que tiene notebook", "36 de 400 despliegues fallaron", "la proporción de usuarios
+    que&hellip;". Cada elemento de la muestra es un éxito o un fracaso (como en la binomial), y se
+    estima \(\pi\), la proporción de éxitos en toda la población.
+  </p>
+
+  <h3>Fórmula</h3>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Intervalo del \((1-\alpha)\cdot 100\)&nbsp;% para \(\pi\) (muestras grandes)</span>
+    <p>\[ \hat{p} - z_{\alpha/2}\sqrt{\frac{\hat{p}\,\hat{q}}{n}} &lt; \pi &lt; \hat{p} + z_{\alpha/2}\sqrt{\frac{\hat{p}\,\hat{q}}{n}} \]</p>
+  </div>
+
+  <h4>Qué significa cada letra</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Símbolo</th><th>Qué es</th><th>Cómo se saca</th></tr>
+      <tr><td>\(\pi\)</td><td>proporción de éxitos en la <strong>población</strong> (el parámetro)</td><td>no se conoce: es lo que se estima</td></tr>
+      <tr><td>\(\hat{p}\)</td><td>proporción de éxitos en la <strong>muestra</strong></td><td>éxitos / \(n\), o el porcentaje dividido 100</td></tr>
+      <tr><td>\(\hat{q}\)</td><td>proporción de fracasos en la muestra</td><td>\(\hat{q} = 1 - \hat{p}\)</td></tr>
+      <tr><td>\(n\)</td><td>tamaño de la muestra</td><td>"una muestra de 300 estudiantes"</td></tr>
+      <tr><td>\(z_{\alpha/2}\)</td><td>valor de la tabla \(Z\) para la confianza</td><td>95&nbsp;% &rarr; 1,96 (sección 2)</td></tr>
+    </table>
+  </div>
+
+  <h4>De dónde sale</h4>
+  <p>
+    Es la misma forma de siempre: estimación puntual \(\pm\) \(z \cdot\) (desvío del estimador). La
+    cantidad de éxitos es binomial, y con \(n\) grande se aproxima a la normal (Unidad 6, sección 5); el
+    desvío de \(\hat{p}\) es \(\sqrt{\pi(1-\pi)/n}\), y como \(\pi\) no se conoce se reemplaza por
+    \(\hat{p}\). Por eso siempre es \(z\), nunca \(t\).
+  </p>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">"Muestras grandes": cómo se controla</span>
+    <p>
+      La cátedra dice "para muestras grandes" sin dar un número. El control de la aproximación normal de
+      la binomial (Unidad 6, sección 5) es \(n\,\hat{p} \geq 5\) y \(n\,\hat{q} \geq 5\): que haya varios
+      éxitos y varios fracasos en la muestra.
+    </p>
+  </div>
+
+  <h3>La receta</h3>
+  <ol>
+    <li>Sacar \(\hat{p}\) (si dan un porcentaje, dividir por 100; si dan éxitos, dividir por \(n\)) y \(\hat{q} = 1 - \hat{p}\).</li>
+    <li>Calcular el desvío \(\sqrt{\hat{p}\,\hat{q}/n}\).</li>
+    <li>Error: \(E = z_{\alpha/2} \cdot \sqrt{\hat{p}\,\hat{q}/n}\).</li>
+    <li>Intervalo \((\hat{p} - E\ ;\ \hat{p} + E)\) y conclusión <strong>en porcentaje</strong>.</li>
+  </ol>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; Notebook propia (Ejemplo 3 de la cátedra)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>
+      En una muestra de <strong>300 estudiantes</strong> de la Licenciatura en Sistemas, el
+      <strong>80&nbsp;%</strong> respondió que cuenta con una computadora portátil propia para realizar
+      las prácticas de las materias de programación. Calcular un intervalo de confianza del
+      <strong>95&nbsp;%</strong> para la proporción poblacional \(\pi\) de estudiantes que tienen
+      computadora portátil propia.
+    </p>
+  </div>
+
+  <h4>Por qué este modelo</h4>
+  <ul>
+    <li>Lo que se estima es un <strong>porcentaje</strong> de la población (estudiantes con notebook), no un promedio.</li>
+    <li>Cada estudiante tiene o no tiene notebook: éxito o fracaso.</li>
+    <li>Muestra grande: \(n\,\hat{p} = 300 \cdot 0{,}80 = 240 \geq 5\) y \(n\,\hat{q} = 300 \cdot 0{,}20 = 60 \geq 5\).</li>
+  </ul>
+
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"300 estudiantes"</td><td>tamaño de muestra</td><td>&mdash;</td><td>\(n = 300\)</td></tr>
+      <tr><td>"el 80&nbsp;% respondió que cuenta con una computadora portátil"</td><td>proporción de éxitos en la muestra</td><td>\(80 / 100\)</td><td>\(\hat{p} = 0{,}80\)</td></tr>
+      <tr><td>(los que no tienen)</td><td>proporción de fracasos</td><td>\(1 - 0{,}80\)</td><td>\(\hat{q} = 0{,}20\)</td></tr>
+      <tr><td>"95&nbsp;%"</td><td>confianza</td><td>\(F(z) = 0{,}975\)</td><td>\(z_{\alpha/2} = 1{,}96\)</td></tr>
+    </table>
+  </div>
+
+  <p><strong>Paso 1 &mdash; Fórmula.</strong></p>
+  <p>\[ \hat{p} - z_{\alpha/2}\sqrt{\frac{\hat{p}\,\hat{q}}{n}} &lt; \pi &lt; \hat{p} + z_{\alpha/2}\sqrt{\frac{\hat{p}\,\hat{q}}{n}} \]</p>
+  <p><strong>Paso 2 &mdash; El desvío de \(\hat{p}\):</strong></p>
+  <p>\[ \sqrt{\frac{0{,}80 \cdot 0{,}20}{300}} = \sqrt{\frac{0{,}16}{300}} = \sqrt{0{,}000533} = 0{,}02309 \]</p>
+  <p><strong>Paso 3 &mdash; El error:</strong></p>
+  <p>\[ E = 1{,}96 \cdot 0{,}02309 = 0{,}0453 \]</p>
+  <p><strong>Paso 4 &mdash; Reemplazar:</strong></p>
+  <p>\[ 0{,}80 - 0{,}0453 &lt; \pi &lt; 0{,}80 + 0{,}0453 \quad\Longrightarrow\quad 0{,}755 &lt; \pi &lt; 0{,}845 \]</p>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>
+      \(IC_{95\%}(\pi) = (0{,}755\ ;\ 0{,}845)\). Se tiene un 95&nbsp;% de confianza de que entre el
+      75,5&nbsp;% y el 84,5&nbsp;% de los estudiantes de la Licenciatura en Sistemas cuentan con una
+      computadora portátil propia. Coincide con la cátedra.
+    </p>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Tres errores de la diapositiva</span>
+    <ul>
+      <li>El enunciado pide la proporción de estudiantes "que asiste todas las semanas al cine": es un resto de otro ejercicio. Lo que se estima es la proporción con <strong>computadora portátil</strong>.</li>
+      <li>El resultado dice "IC 99&nbsp;%", pero la cuenta es con 1,96, o sea al <strong>95&nbsp;%</strong> (al 99&nbsp;% daría \((0{,}741\ ;\ 0{,}859)\)).</li>
+      <li>La conclusión dice "microsegundos": una proporción no tiene unidades.</li>
+    </ul>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; Despliegues que fallan</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>
+      Un equipo de DevOps revisó una muestra aleatoria de <strong>400 despliegues</strong> a producción y
+      <strong>36</strong> de ellos tuvieron que revertirse por fallas. Construya un intervalo de confianza
+      del <strong>90&nbsp;%</strong> para la proporción de despliegues que fallan.
+    </p>
+  </div>
+
+  <h4>Por qué este modelo</h4>
+  <ul>
+    <li>Se estima una <strong>proporción</strong> (despliegues que fallan), no un promedio.</li>
+    <li>Cada despliegue falla o no falla: éxito o fracaso ("éxito" es lo que se cuenta, acá la falla).</li>
+    <li>Muestra grande: \(n\,\hat{p} = 36 \geq 5\) y \(n\,\hat{q} = 364 \geq 5\).</li>
+  </ul>
+
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"400 despliegues"</td><td>tamaño de muestra</td><td>&mdash;</td><td>\(n = 400\)</td></tr>
+      <tr><td>"36 de ellos tuvieron que revertirse"</td><td>éxitos (lo que se cuenta)</td><td>\(36 / 400\)</td><td>\(\hat{p} = 0{,}09\)</td></tr>
+      <tr><td>(los que no fallaron)</td><td>fracasos</td><td>\(1 - 0{,}09\)</td><td>\(\hat{q} = 0{,}91\)</td></tr>
+      <tr><td>"90&nbsp;%"</td><td>confianza</td><td>\(\alpha/2 = 0{,}05\), \(F(z) = 0{,}95\)</td><td>\(z_{\alpha/2} = 1{,}645\)</td></tr>
+    </table>
+  </div>
+
+  <p><strong>Paso 1 &mdash; Fórmula.</strong></p>
+  <p>\[ \hat{p} - z_{\alpha/2}\sqrt{\frac{\hat{p}\,\hat{q}}{n}} &lt; \pi &lt; \hat{p} + z_{\alpha/2}\sqrt{\frac{\hat{p}\,\hat{q}}{n}} \]</p>
+  <p><strong>Paso 2 &mdash; El desvío de \(\hat{p}\):</strong></p>
+  <p>\[ \sqrt{\frac{0{,}09 \cdot 0{,}91}{400}} = \sqrt{\frac{0{,}0819}{400}} = \sqrt{0{,}000205} = 0{,}01431 \]</p>
+  <p><strong>Paso 3 &mdash; El error:</strong></p>
+  <p>\[ E = 1{,}645 \cdot 0{,}01431 = 0{,}0235 \]</p>
+  <p><strong>Paso 4 &mdash; Reemplazar:</strong></p>
+  <p>\[ 0{,}09 - 0{,}0235 &lt; \pi &lt; 0{,}09 + 0{,}0235 \quad\Longrightarrow\quad 0{,}0665 &lt; \pi &lt; 0{,}1135 \]</p>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>
+      \(IC_{90\%}(\pi) = (0{,}0665\ ;\ 0{,}1135)\). Se tiene un 90&nbsp;% de confianza de que entre el
+      6,65&nbsp;% y el 11,35&nbsp;% de los despliegues a producción tienen que revertirse por fallas.
+    </p>
+  </div>
+</div>

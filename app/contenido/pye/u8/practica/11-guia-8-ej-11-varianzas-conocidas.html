@@ -1,0 +1,124 @@
+<div class="ej">
+  <span class="tag">Guía 8 &middot; Ej. 11 &middot; IC para \(\mu_1 - \mu_2\) con varianzas conocidas</span>
+  <h2>Dos poblaciones normales con \(\sigma^2\) conocidas</h2>
+  <div class="enunciado">
+    <p>
+      Una muestra aleatoria de tamaño 25 se toma de la población 1 normal con \(\sigma_1^2 = 25\) con
+      una media muestral de 80. Una segunda muestra aleatoria de tamaño 36 es extraída de la población
+      normal 2 con \(\sigma_2^2 = 9\) y tiene una media muestral de 75. Obtenga un intervalo del 94% de
+      confianza para la diferencia de las medias de las poblaciones 1 y 2, en ese orden.
+    </p>
+  </div>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">En 2023 este ejercicio estaba anulado</span>
+    <p>
+      La Resolución 2023 de la cátedra anuló los ejercicios 10 y 11. Este año entran porque las
+      diapositivas de Estimación parte 2 tienen el caso \(z\) con varianzas conocidas, que es este.
+      No hay resultado oficial para comparar.
+    </p>
+  </div>
+
+  <span class="paso">Qué se estima y en qué orden</span>
+  <p>
+    "La diferencia de las medias de las poblaciones 1 y 2, en ese orden" es \(\mu_1 - \mu_2\). La
+    estimación puntual es \(\bar{x}_1 - \bar{x}_2\), y el intervalo es eso más y menos un margen.
+  </p>
+
+  <span class="paso">Qué caso es (el árbol de decisión)</span>
+  <ul>
+    <li>
+      ¿\(\sigma_1^2\) y \(\sigma_2^2\) conocidas? <strong>Sí</strong>: el enunciado las da como
+      varianzas <em>de las poblaciones</em> ("población 1 normal con \(\sigma_1^2 = 25\)"). Se nota
+      por la letra griega: \(\sigma\) es de la población; \(S\) sería de la muestra.
+    </li>
+  </ul>
+  <p>
+    &rarr; <strong>caso \(z\) con \(\sigma_1^2\) y \(\sigma_2^2\)</strong>, y ahí termina el árbol: no
+    hace falta preguntar por el tamaño de las muestras. Que \(n_1 = 25\) sea menor que 30 no importa,
+    porque las poblaciones son normales y las varianzas se conocen: \(\bar{X}_1 - \bar{X}_2\) es
+    normal exacta y no hay ninguna \(S\) que estimar. La \(t\) aparece solo cuando hay que reemplazar
+    \(\sigma\) por \(S\) con muestras chicas (así lo resuelve también la cátedra en el ejercicio 1,
+    con \(\sigma\) dada).
+  </p>
+  <div class="caja caja-formula">
+    <span class="caja-tit">IC para \(\mu_1 - \mu_2\), varianzas conocidas</span>
+    <p>\[ (\bar{x}_1 - \bar{x}_2) \pm z_{\alpha/2}\sqrt{\frac{\sigma_1^2}{n_1} + \frac{\sigma_2^2}{n_2}} \]</p>
+    <p>Las varianzas de las dos medias se <strong>suman</strong>, aunque las medias se resten.</p>
+  </div>
+
+  <span class="paso">Desarme del enunciado</span>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Traducción</th><th>Cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"muestra aleatoria de tamaño 25 ... población 1"</td><td>tamaño de la muestra 1</td><td>&mdash;</td><td>\(n_1 = 25\)</td></tr>
+      <tr><td>"normal con \(\sigma_1^2 = 25\)"</td><td>varianza conocida de la población 1 (ya viene al cuadrado)</td><td>&mdash;</td><td>\(\sigma_1^2 = 25\)</td></tr>
+      <tr><td>"media muestral de 80"</td><td>media de la muestra 1</td><td>&mdash;</td><td>\(\bar{x}_1 = 80\)</td></tr>
+      <tr><td>"segunda muestra aleatoria de tamaño 36"</td><td>tamaño de la muestra 2</td><td>&mdash;</td><td>\(n_2 = 36\)</td></tr>
+      <tr><td>"población normal 2 con \(\sigma_2^2 = 9\)"</td><td>varianza conocida de la población 2</td><td>&mdash;</td><td>\(\sigma_2^2 = 9\)</td></tr>
+      <tr><td>"media muestral de 75"</td><td>media de la muestra 2</td><td>&mdash;</td><td>\(\bar{x}_2 = 75\)</td></tr>
+      <tr><td>"94% de confianza"</td><td>afuera 6&nbsp;%, 3&nbsp;% por cola</td><td>\(\alpha = 0{,}06\); \(\alpha/2 = 0{,}03\)</td><td>\(z_{0{,}03}\)</td></tr>
+    </table>
+  </div>
+  <p>
+    <strong>Qué son \(\alpha\) y \(\alpha/2\), en criollo:</strong> el 94&nbsp;% de confianza es
+    qué tan seguido acierta el método: de cada 100 intervalos armados así, 94 atrapan la diferencia real.
+    \(\alpha = 1 - 0{,}94 = 0{,}06\) es lo contrario, la chance de que el intervalo <em>no</em>
+    acierte. Esa parte se reparte mitad en cada punta de la campana (valores demasiado altos y
+    demasiado bajos): \(\alpha/2 = 0{,}03\) de cada lado. El valor de tabla que se busca es el que deja
+    justo 0,03 afuera a la derecha.
+  </p>
+  <p>
+    <strong>Error estándar de la diferencia, en criollo:</strong> si se repitiera el muestreo con
+    otras unidades, \(\bar{x}_1 - \bar{x}_2\) daría otro número. El error estándar (la raíz de la
+    fórmula) mide cuánto se mueve esa diferencia de una muestra a otra por puro azar. El margen es
+    "cuántos errores estándar me alejo para cada lado".
+  </p>
+
+  <span class="paso">Paso 1 &mdash; \(z_{\alpha/2}\) de la tabla</span>
+  <p>Área a la izquierda de \(z_{\alpha/2}\):</p>
+  <p>\[ 1 - \frac{\alpha}{2} = 1 - 0{,}03 = 0{,}97 \]</p>
+  <ul>
+    <li>fila 1,8, columna 0,08 &rarr; 0,9699 (le falta 0,0001)</li>
+    <li>fila 1,8, columna 0,09 &rarr; 0,9706 (se pasa por 0,0006)</li>
+  </ul>
+  <p>La más cercana es 0,9699: <strong>\(z_{0{,}03} = 1{,}88\)</strong>.</p>
+
+  <span class="paso">Paso 2 &mdash; Error estándar de la diferencia</span>
+  <p>Fórmula:</p>
+  <p>\[ \sqrt{\frac{\sigma_1^2}{n_1} + \frac{\sigma_2^2}{n_2}} \]</p>
+  <ul>
+    <li>\(\dfrac{\sigma_1^2}{n_1} = \dfrac{25}{25} = 1\)</li>
+    <li>\(\dfrac{\sigma_2^2}{n_2} = \dfrac{9}{36} = 0{,}25\)</li>
+  </ul>
+  <p>\[ \sqrt{1 + 0{,}25} = \sqrt{1{,}25} = 1{,}1180 \]</p>
+
+  <span class="paso">Paso 3 &mdash; Margen y diferencia de medias</span>
+  <p>\[ E = z_{\alpha/2}\sqrt{\frac{\sigma_1^2}{n_1} + \frac{\sigma_2^2}{n_2}} = 1{,}88 \times 1{,}1180 = 2{,}1019 \]</p>
+  <p>\[ \bar{x}_1 - \bar{x}_2 = 80 - 75 = 5 \]</p>
+
+  <span class="paso">Paso 4 &mdash; Armar el intervalo</span>
+  <p>Fórmula:</p>
+  <p>\[ (\bar{x}_1 - \bar{x}_2) \pm z_{\alpha/2}\sqrt{\frac{\sigma_1^2}{n_1} + \frac{\sigma_2^2}{n_2}} \]</p>
+  <p>\[ 5 - 2{,}1019 &lt; \mu_1 - \mu_2 &lt; 5 + 2{,}1019 \]</p>
+  <p>\[ \mathbf{2{,}90 &lt; \mu_1 - \mu_2 &lt; 7{,}10} \]</p>
+
+  <span class="paso">Paso 5 &mdash; ¿Incluye el 0?</span>
+  <p>
+    El enunciado no pregunta nada más, pero se lee igual: el 0 <strong>no</strong> está en el
+    intervalo y los dos extremos son positivos, así que \(\mu_1 &gt; \mu_2\): la media de la
+    población 1 supera a la de la 2 entre 2,90 y 7,10 unidades.
+  </p>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>
+      \(IC_{94\%}(\mu_1 - \mu_2) = (\,2{,}90\ ;\ 7{,}10\,)\). Con 94&nbsp;% de confianza, la media de la
+      población 1 es mayor que la de la población 2, entre 2,90 y 7,10 unidades.
+    </p>
+    <p>
+      <strong>Resolución 2023 de la cátedra:</strong> ejercicio anulado, sin resultado. Verificado
+      aparte con software (\(z = 1{,}8808\)): \((2{,}897\ ;\ 7{,}103)\).
+    </p>
+  </div>
+</div>

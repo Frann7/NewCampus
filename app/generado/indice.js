@@ -379,6 +379,12 @@ window.Apuntes.registrarIndice({
           "archivo": "pdf/pye/formulas-u4.pdf"
         },
         {
+          "id": "formulas-u8",
+          "sigla": "FOR",
+          "titulo": "Formulas de la Unidad 8 (repaso, no es de la catedra)",
+          "archivo": "pdf/pye/formulas-u8.pdf"
+        },
+        {
           "id": "resumen",
           "sigla": "RES",
           "titulo": "Resumen de distribuciones",
@@ -414,6 +420,7 @@ window.Apuntes.registrarIndice({
           "icph"
         ],
         "u8": [
+          "formulas-u8",
           "tablas",
           "icph"
         ],

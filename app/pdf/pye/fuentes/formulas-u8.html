@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Formulas de la Unidad 8</title>
+<script>
+window.MathJax = {
+  tex: { inlineMath: [["\\(", "\\)"]], displayMath: [["\\[", "\\]"]] },
+  svg: { fontCache: "global" },
+  startup: { pageReady: () => MathJax.startup.defaultPageReady().then(() => { document.body.setAttribute("data-listo", "1"); }) }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-svg.js"></script>
+<style>
+  @page { size: A4; margin: 11mm 13mm 10mm; }
+  * { box-sizing: border-box; }
+  body { font-family: "Segoe UI", Arial, sans-serif; color: #1a1c28; font-size: 11pt; line-height: 1.3; margin: 0; }
+  header { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 2px solid #3d4a9e; padding-bottom: 6px; margin-bottom: 10px; }
+  h1 { font-size: 22pt; margin: 0; color: #3d4a9e; }
+  header p { margin: 0; color: #535871; font-size: 11pt; }
+  .grilla { display: grid; grid-template-columns: 1fr; gap: 8px 16px; }
+  section { border: 1px solid #dcdfeb; border-radius: 8px; padding: 7px 14px 5px; break-inside: avoid; }
+  h2 { font-size: 12.5pt; margin: 0 0 5px; color: #3d4a9e; }
+  h2 b { display: inline-block; width: 24px; height: 24px; border-radius: 50%; background: #3d4a9e; color: #fff; text-align: center; font-size: 12pt; line-height: 24px; margin-right: 6px; }
+  .f { display: grid; grid-template-columns: 170px 1fr; gap: 4px 10px; align-items: center; margin: 3px 0; }
+  .f .n { font-weight: 600; font-size: 11pt; color: #535871; }
+  .f .m { font-size: 12.5pt; }
+  .nota { font-size: 10.5pt; color: #535871; margin: 0 0 6px 180px; }
+  table { border-collapse: collapse; margin: 4px 0 6px; font-size: 10.5pt; }
+  th, td { border: 1px solid #dcdfeb; padding: 3px 8px; text-align: left; }
+  th { background: #eef0f8; color: #3d4a9e; }
+  .dos { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 16px; }
+  footer { margin-top: 14px; font-size: 9.5pt; color: #868ba0; text-align: center; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Fórmulas de la Unidad 8</h1>
+  <p>Estimación (3er parcial) &middot; hoja de repaso</p>
+</header>
+
+<div class="grilla">
+  <section>
+    <h2><b>A</b>Lo de siempre: confianza, \(\alpha\) y valores de tabla</h2>
+    <div class="f"><span class="n">Confianza</span><span class="m">\( 1 - \alpha \) &nbsp;&rarr;&nbsp; en cada cola queda \( \alpha/2 \)</span></div>
+    <div class="dos">
+      <table>
+        <tr><th>Confianza</th><th>\(\alpha/2\)</th><th>\(z_{\alpha/2}\)</th></tr>
+        <tr><td>90 %</td><td>0,05</td><td>1,645</td></tr>
+        <tr><td>95 %</td><td>0,025</td><td>1,96</td></tr>
+        <tr><td>99 %</td><td>0,005</td><td>2,576</td></tr>
+      </table>
+      <p style="margin:4px 0;font-size:10.5pt">
+        <strong>Tabla Z:</strong> el área \(1 - \alpha/2\) se busca <strong>adentro</strong> y el \(z\) se lee en el costado.<br>
+        <strong>Tabla t:</strong> se entra por el costado (fila \(\nu\)) y arriba (columna \(\alpha/2\)); el \(t\) se lee <strong>adentro</strong>.<br>
+        Si te queda un \(z\) negativo, en la fórmula va positivo.
+      </p>
+    </div>
+  </section>
+
+  <section>
+    <h2><b>B</b>Intervalo para la media \(\mu\)</h2>
+    <div class="f"><span class="n">\(n \geq 30\): Z</span><span class="m">\( \bar{x} \pm z_{\alpha/2}\,\dfrac{\sigma}{\sqrt{n}} \) &nbsp;(si no dan \(\sigma\), va \(S\))</span></div>
+    <div class="f"><span class="n">\(n &lt; 30\): t</span><span class="m">\( \bar{x} \pm t_{(\alpha/2;\ \nu)}\,\dfrac{S}{\sqrt{n}} \qquad \nu = n - 1 \)</span></div>
+    <p class="nota">Con \(n &lt; 30\) va \(t\) aunque te den \(\sigma\) (así lo dijo la profe): en la fórmula ponés \(\sigma\) en lugar de \(S\).</p>
+    <div class="f"><span class="n">Error de estimación</span><span class="m">\( E = z_{\alpha/2}\,\dfrac{\sigma}{\sqrt{n}} \) &nbsp;(la mitad del ancho del intervalo)</span></div>
+    <div class="f"><span class="n">Tamaño de muestra</span><span class="m">\( n = \left( \dfrac{z_{\alpha/2}\,\sigma}{E} \right)^2 \) &nbsp;&rarr; siempre <strong>para arriba</strong></span></div>
+    <div class="f"><span class="n">Conclusión</span><span class="m" style="font-size:11pt">"Con un 95 % de confianza, la media real de &hellip; está entre A y B."</span></div>
+  </section>
+
+  <section>
+    <h2><b>C</b>Intervalo para una proporción \(\pi\)</h2>
+    <div class="f"><span class="n">Siempre con Z</span><span class="m">\( \hat{p} \pm z_{\alpha/2}\,\sqrt{\dfrac{\hat{p}\,\hat{q}}{n}} \qquad \hat{p} = \dfrac{x}{n}, \ \ \hat{q} = 1 - \hat{p} \)</span></div>
+  </section>
+
+  <section>
+    <h2><b>D</b>Diferencia de medias \(\mu_1 - \mu_2\): qué caso es</h2>
+    <table style="width:100%">
+      <tr><th>Pregunta</th><th>Sí</th><th>No</th></tr>
+      <tr><td>1. ¿Se conocen \(\sigma_1^2\) y \(\sigma_2^2\)?</td><td>Z con \(\sigma^2\)</td><td>pregunta 2</td></tr>
+      <tr><td>2. ¿Las dos muestras tienen 30 o más?</td><td>Z con \(S^2\)</td><td>pregunta 3</td></tr>
+      <tr><td>3. Regla práctica: \( \dfrac{S^2_{mayor}}{S^2_{menor}} \leq 3 \)?</td><td>varianzas iguales: <strong>pooled</strong></td><td>distintas: <strong>Welch</strong></td></tr>
+    </table>
+    <p style="margin:2px 0 4px;font-size:10.5pt">Se dividen <strong>varianzas</strong> (si dan desvíos, elevalos al cuadrado). Si el enunciado ya dice "varianzas iguales" o "distintas", se usa eso.</p>
+  </section>
+
+  <section>
+    <h2><b>E</b>Diferencia de medias: las fórmulas</h2>
+    <div class="f"><span class="n">Z</span><span class="m">\( (\bar{x}_1 - \bar{x}_2) \pm z_{\alpha/2}\,\sqrt{\dfrac{S_1^2}{n_1} + \dfrac{S_2^2}{n_2}} \) &nbsp;(con \(\sigma^2\) si las dan)</span></div>
+    <div class="f"><span class="n">Pooled</span><span class="m">\( (\bar{x}_1 - \bar{x}_2) \pm t_{(\alpha/2;\ n_1 + n_2 - 2)}\; S_p \sqrt{\dfrac{1}{n_1} + \dfrac{1}{n_2}} \)</span></div>
+    <div class="f"><span class="n"></span><span class="m">\( S_p^2 = \dfrac{(n_1 - 1)S_1^2 + (n_2 - 1)S_2^2}{n_1 + n_2 - 2} \)</span></div>
+    <div class="f"><span class="n">Welch</span><span class="m">\( (\bar{x}_1 - \bar{x}_2) \pm t_{(\alpha/2;\ \nu)}\sqrt{\dfrac{S_1^2}{n_1} + \dfrac{S_2^2}{n_2}} \)</span></div>
+    <div class="f"><span class="n"></span><span class="m">\( \nu = \dfrac{\left(\dfrac{S_1^2}{n_1} + \dfrac{S_2^2}{n_2}\right)^2}{\dfrac{(S_1^2/n_1)^2}{n_1 - 1} + \dfrac{(S_2^2/n_2)^2}{n_2 - 1}} \) &nbsp;(se redondea)</span></div>
+    <table>
+      <tr><th>El intervalo para \(\mu_1 - \mu_2\)&hellip;</th><th>Conclusión</th></tr>
+      <tr><td>incluye el 0 (un límite \(-\), otro \(+\))</td><td>no hay diferencia significativa</td></tr>
+      <tr><td>todo positivo</td><td>\(\mu_1 &gt; \mu_2\)</td></tr>
+      <tr><td>todo negativo</td><td>\(\mu_1 &lt; \mu_2\)</td></tr>
+    </table>
+  </section>
+
+  <section>
+    <h2><b>F</b>Datos sueltos: Casio fx-991ES PLUS</h2>
+    <p style="margin:2px 0 4px;font-size:10.5pt">
+      <strong>MODE 3 1</strong> (STAT, 1-VAR) &rarr; cada dato y <strong>=</strong> &rarr; <strong>AC</strong>.
+      &nbsp; Media: <strong>SHIFT 1 &rarr; 4 &rarr; 2</strong> (\(\bar{x}\)). &nbsp; Desvío: <strong>SHIFT 1 &rarr; 4 &rarr; 4</strong> (<strong>sx</strong>, nunca \(\sigma x\)).
+      &nbsp; Control: <strong>SHIFT 1 &rarr; 4 &rarr; 1</strong> (\(n\)). &nbsp; Si sale fracción, <strong>S&hArr;D</strong>.
+    </p>
+  </section>
+</div>
+
+<footer>Hoja de repaso armada para NewCampus. No es material oficial de la cátedra.</footer>
+</body>
+</html>

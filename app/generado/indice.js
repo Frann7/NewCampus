@@ -189,7 +189,7 @@ window.Apuntes.registrarIndice({
         "titulo": "Tercer Parcial",
         "fecha": "29/10/2025",
         "detalle": "2 ejercicios \u00b7 100 puntos",
-        "temas": "IC para la media con Z \u00b7 Decidir con el IC \u00b7 Media y desv\u00edo con calculadora \u00b7 IC para la media con t",
+        "temas": "IC para la media con Z \u00b7 Media y desv\u00edo con calculadora \u00b7 IC para la media con t",
         "tipo": "parcial"
       },
       {

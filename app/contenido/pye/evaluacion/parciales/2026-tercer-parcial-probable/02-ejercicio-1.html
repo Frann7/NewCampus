@@ -15,7 +15,7 @@
 
   <ol class="parcial-incisos">
     <li>Construya un intervalo de confianza del 95&nbsp;% para el tiempo medio de respuesta del endpoint. Concluya.</li>
-    <li>El proveedor del servicio garantiza un tiempo medio de respuesta de 120 ms. Con el intervalo del inciso anterior, ¿es aceptable esa garantía? Justifique.</li>
+    <li>¿Cuál es el error máximo de estimación del intervalo anterior? ¿Cuánto valdría si la confianza fuera del 99&nbsp;%, y cómo quedaría el intervalo? ¿Por qué es más ancho?</li>
     <li>¿Cuántas peticiones habría que registrar para que, con un 95&nbsp;% de confianza, el error de estimación sea a lo sumo de 4 ms?</li>
     <li>¿Por qué se usa la media muestral para estimar \(\mu\)? Mencione las propiedades del mejor estimador.</li>
   </ol>
@@ -36,8 +36,9 @@
                   \(\text{IC}_{95\%}(\mu) = (120{,}82\ ;\ 131{,}98)\) ms</td>
             </tr>
             <tr>
-              <td class="lbl">b) ¿Garantía de 120 ms?</td>
-              <td><strong>No es aceptable:</strong> 120 queda afuera del intervalo, por debajo. El tiempo medio real es mayor que el garantizado.</td>
+              <td class="lbl">b) Error y IC 99&nbsp;%</td>
+              <td>Al 95&nbsp;%: \(E = 5{,}578\) ms &nbsp;&middot;&nbsp; al 99&nbsp;%: \(z_{0{,}005} = 2{,}576\), \(E = 7{,}331\) ms,
+                  \(\text{IC}_{99\%}(\mu) = (119{,}07\ ;\ 133{,}73)\) ms. Más ancho porque 2,576 &gt; 1,96.</td>
             </tr>
             <tr>
               <td class="lbl">c) Tamaño de muestra</td>
@@ -64,16 +65,17 @@
           <p>
             Tiempo de respuesta de un endpoint, con \(\sigma = 18\) ms conocida por el historial. Una
             muestra de 40 peticiones da \(\bar{x} = 126{,}4\) ms. Piden: a) IC del 95&nbsp;% para la
-            media y concluir; b) si la garantía de 120 ms es aceptable; c) cuántas peticiones hacen falta
+            media y concluir; b) el error de estimación, y cuánto valen el error y el intervalo al
+            99&nbsp;%; c) cuántas peticiones hacen falta
             para un error de a lo sumo 4 ms; d) por qué \(\bar{x}\) y las propiedades del mejor estimador.
           </p>
         </div>
 
         <h4>¿De qué tema es?</h4>
         <p>
-          <strong>Estimación, parte 1</strong>: intervalo de confianza para \(\mu\) con \(Z\), usarlo
-          para decidir si un valor es aceptable, error de estimación y tamaño de muestra, y la teoría
-          de los estimadores. Es el mismo esquema que el Ejercicio 1 del Tercer Parcial 2025.
+          <strong>Estimación, parte 1</strong>: intervalo de confianza para \(\mu\) con \(Z\), error de
+          estimación (y cómo cambia con la confianza), tamaño de muestra y la teoría de los
+          estimadores. Arranca como el Ejercicio 1 del Tercer Parcial 2025.
         </p>
 
         <h4>Los conceptos que hacen falta, desde cero</h4>
@@ -91,10 +93,12 @@
         </div>
 
         <div class="caja caja-formula">
-          <span class="caja-tit">2. Decidir con el intervalo</span>
+          <span class="caja-tit">2. Más confianza, intervalo más ancho</span>
           <p>
-            El intervalo junta los valores creíbles de \(\mu\). Un valor que queda <strong>adentro</strong>
-            es aceptable; uno que queda <strong>afuera</strong>, no.
+            Con la misma muestra, \(\bar{x}\) y \(\sigma/\sqrt{n}\) no cambian: lo único que cambia con la
+            confianza es \(z_{\alpha/2}\). Pedir más confianza obliga a ir más lejos en la tabla (99&nbsp;%
+            &rarr; 2,576 en vez de 1,96), así que \(E\) crece y el intervalo se estira. Se gana confianza
+            y se pierde precisión.
           </p>
         </div>
 
@@ -117,7 +121,7 @@
             <tr><td>&ldquo;una muestra aleatoria de 40 peticiones&rdquo;</td><td>muestra grande</td><td>&mdash;</td><td>\(n = 40\)</td></tr>
             <tr><td>&ldquo;tiempo medio de respuesta de 126,4 ms&rdquo;</td><td>promedio de la muestra</td><td>&mdash;</td><td>\(\bar{x} = 126{,}4\)</td></tr>
             <tr><td>&ldquo;95&nbsp;%&rdquo;</td><td>\(1 - \alpha = 0{,}95\)</td><td>\(\alpha/2 = 0{,}025\)</td><td>\(z_{0{,}025} = 1{,}96\)</td></tr>
-            <tr><td>&ldquo;garantiza &hellip; 120 ms&rdquo;</td><td>valor a controlar</td><td>&mdash;</td><td>\(\mu_0 = 120\) (inciso b)</td></tr>
+            <tr><td>&ldquo;99&nbsp;%&rdquo;</td><td>\(1 - \alpha = 0{,}99\)</td><td>\(\alpha/2 = 0{,}005\)</td><td>\(z_{0{,}005} = 2{,}576\) (inciso b)</td></tr>
             <tr><td>&ldquo;error de estimación &hellip; a lo sumo de 4 ms&rdquo;</td><td>el \(E\) máximo pedido</td><td>&mdash;</td><td>\(E = 4\) (inciso c)</td></tr>
           </table>
         </div>
@@ -148,25 +152,40 @@
           </p>
         </div>
 
-        <span class="paso">Inciso b &mdash; ¿Es aceptable la garantía de 120 ms?</span>
-        <p>\[ \mu_0 = 120 \qquad\qquad \text{IC}_{95\%}(\mu) = (120{,}82\ ;\ 131{,}98) \qquad\qquad 120 &lt; 120{,}82 \]</p>
-        <ul>
-          <li>120 queda <strong>afuera</strong> del intervalo, por debajo (por poco, pero afuera).</li>
-          <li>Todos los valores creíbles para el tiempo medio son mayores que 120.</li>
-        </ul>
+        <span class="paso">Inciso b &mdash; Error de estimación, y qué pasa al 99&nbsp;%</span>
+        <h4>El error del inciso a</h4>
+        <p>
+          El error máximo de estimación es lo que se sumó y restó a \(\bar{x}\): la mitad del ancho del
+          intervalo. Ya está calculado en el inciso a:
+        </p>
+        <p>\[ E = z_{\alpha/2}\,\frac{\sigma}{\sqrt{n}} = 1{,}96 \times \frac{18}{\sqrt{40}} = 1{,}96 \times 2{,}8460 = 5{,}578 \text{ ms} \]</p>
+        <p>
+          Quiere decir que, con un 95&nbsp;% de confianza, el promedio de las 40 peticiones (126,4) no se
+          aleja del tiempo medio verdadero más de 5,578 ms.
+        </p>
+        <h4>Con 99&nbsp;% de confianza</h4>
+        <p>
+          \(1 - \alpha = 0{,}99 \Rightarrow \alpha = 0{,}01 \Rightarrow \alpha/2 = 0{,}005\). En la tabla se
+          busca 0,995 y da \(z_{0{,}005} = 2{,}576\). La muestra es la misma, así que el error estándar
+          sigue siendo \(2{,}8460\).
+        </p>
+        <p>\[ E = z_{\alpha/2}\,\frac{\sigma}{\sqrt{n}} = 2{,}576 \times 2{,}8460 = 7{,}331 \text{ ms} \]</p>
+        <p>\[ 126{,}4 - 7{,}331 \;&lt;\; \mu \;&lt;\; 126{,}4 + 7{,}331 \]</p>
+        <p>\[ 119{,}07 \;&lt;\; \mu \;&lt;\; 133{,}73 \]</p>
+        <p>
+          ¿Por qué es más ancho? En \(E = z_{\alpha/2}\,\sigma/\sqrt{n}\) lo único que cambió es el valor
+          de tabla: para quedarse con el 99&nbsp;% del medio hay que ir más lejos que para el 95&nbsp;%
+          (2,576 contra 1,96). Más confianza de atrapar a \(\mu\) pide una &ldquo;red&rdquo; más grande.
+        </p>
         <div class="caja caja-resp">
           <span class="caja-tit">Respuesta b</span>
           <p>
-            <strong>No es aceptable.</strong> Con un 95&nbsp;% de confianza, el tiempo medio de respuesta
-            real es <strong>mayor</strong> que los 120 ms que garantiza el proveedor.
+            El error máximo de estimación al 95&nbsp;% es \(E = 5{,}578\) ms. Al 99&nbsp;% sería
+            \(E = 7{,}331\) ms y el intervalo, \(\text{IC}_{99\%}(\mu) = (119{,}07\ ;\ 133{,}73)\) ms.
           </p>
-        </div>
-        <div class="caja caja-ojo">
-          <span class="caja-tit">&ldquo;Pero 120,82 está re cerca de 120&rdquo;</span>
           <p>
-            No importa cuán cerca: la regla es adentro o afuera. Lo que sí conviene decir es que con otro
-            nivel de confianza la respuesta puede cambiar: al 99&nbsp;% (\(z = 2{,}576\)) el intervalo es
-            \((119{,}07\ ;\ 133{,}73)\) y el 120 queda adentro. Por eso siempre se aclara con qué confianza se decide.
+            Es más ancho porque más confianza exige un \(z\) más grande (2,576 &gt; 1,96) y, con la misma
+            muestra, el error crece: se gana confianza y se pierde precisión.
           </p>
         </div>
 
@@ -210,8 +229,8 @@
             <tr><th>Ejercicio</th><th>Qué tiene igual</th><th>Qué cambia</th></tr>
             <tr>
               <td class="lbl">Tercer Parcial 2025, Ejercicio 1<br><em>Máquina de refrescos</em></td>
-              <td>IC con \(Z\) y \(\sigma\) conocida, y usar el IC para decidir si un valor es aceptable.</td>
-              <td>Allá no había tamaño de muestra ni teoría.</td>
+              <td>IC con \(Z\) y \(\sigma\) conocida (inciso a).</td>
+              <td>Allá el resto era prueba de hipótesis, que este año no entra; no había tamaño de muestra ni teoría.</td>
             </tr>
             <tr>
               <td class="lbl">Guía de Estimación, Ejercicios 1 y 4<br><em>Focos</em></td>
@@ -231,7 +250,8 @@
           <ol>
             <li><strong>Redondear \(n\) para abajo.</strong> 77,79 &rarr; 78, siempre hacia arriba (aun si diera 77,1).</li>
             <li><strong>Olvidarse del cuadrado</strong> al despejar \(n\): 8,82 no es la respuesta.</li>
-            <li><strong>Armar el intervalo alrededor de 120.</strong> El centro es \(\bar{x} = 126{,}4\).</li>
+            <li><strong>Creer que con más confianza el intervalo se achica.</strong> Es al revés: 99&nbsp;% da un intervalo más ancho que 95&nbsp;%.</li>
+            <li><strong>Recalcular el error estándar en el inciso b.</strong> \(\sigma/\sqrt{n} = 2{,}8460\) es el mismo; solo cambia \(z\).</li>
           </ol>
         </div>
       </div>

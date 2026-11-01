@@ -11,7 +11,7 @@ solo lo propio de PyE. Si se toca el banco de preguntas: `evaluacion/preguntas/F
 - **3er parcial (U8, Estimación):** la profe dijo (2026) que entran **solo** `PARCIAL 3\UNIDAD 8\
   Estimacion_Parte 1.pdf` y `Estimacion_Parte 2.pdf`, y por el Miro de los compañeros (01/11/2026)
   toman **dos temas**: IC para μ (con error y tamaño de muestra) y para μ₁ − μ₂. No entran prueba
-  de hipótesis (el ej. 2 del Parcial 3 2025 está tachado), proporciones (ej. 20 a 24 de la guía),
+  de hipótesis (el ej. 2 y el 1b-1c del Parcial 3 2025; tampoco "decidir si un valor es aceptable" con el IC), proporciones (ej. 20 a 24 de la guía),
   IC de varianzas (16 a 19, tabla F), tolerancia ni predicción; los ej. 10 y 11 (caso Z de
   diferencia de medias) están tachados en la guía y el caso Z quedó corto en la teoría. Regla de Z o t de la profe: n ≥ 30 → Z (con σ o con S);
   n < 30 → t (ν = n − 1) aunque den σ (Fran decidió seguir el mensaje de la profe; con σ, va σ en la fórmula). En diferencia de medias, σ₁ y σ₂ conocidas → Z, como el diagrama de la parte 2. Las preguntas del banco `u8` llevan

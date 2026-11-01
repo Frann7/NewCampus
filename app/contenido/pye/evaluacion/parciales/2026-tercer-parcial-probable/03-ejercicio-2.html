@@ -14,7 +14,7 @@
 
   <ol class="parcial-incisos">
     <li>Calcule la media y el desvío estándar muestral de los tiempos de despliegue.</li>
-    <li>Construya un intervalo de confianza del 95&nbsp;% para el tiempo medio de despliegue. El proveedor de la plataforma informa un tiempo medio de 40 segundos: ¿es compatible con los datos? Justifique.</li>
+    <li>Construya un intervalo de confianza del 95&nbsp;% para el tiempo medio de despliegue. Concluya. ¿Cuál es el error máximo de estimación?</li>
     <li>¿Por qué en este ejercicio se usa la distribución \(t\) de Student y no \(Z\)? Explique qué significa, en este contexto, el 95&nbsp;% de confianza.</li>
   </ol>
 
@@ -35,8 +35,8 @@
             <tr>
               <td class="lbl">b) IC 95&nbsp;% para \(\mu\)</td>
               <td>\(t_{(0{,}025;\ 9)} = 2{,}262\), \(E = 1{,}454\) s &nbsp;&middot;&nbsp;
-                  \(\text{IC}_{95\%}(\mu) = (39{,}55\ ;\ 42{,}45)\) s. El 40 queda <strong>adentro</strong>:
-                  es compatible con los datos.</td>
+                  \(\text{IC}_{95\%}(\mu) = (39{,}55\ ;\ 42{,}45)\) s. Error máximo de estimación:
+                  <strong>\(E = 1{,}454\) s</strong>.</td>
             </tr>
             <tr>
               <td class="lbl">c) Teoría</td>
@@ -61,8 +61,7 @@
           <p>
             Tiempos de despliegue de un microservicio en 10 corridas del pipeline (en segundos): 41,2;
             38,5; 44,0; 39,8; 42,7; 40,1; 43,5; 37,9; 41,8; 40,5. Población normal. Piden: a) media y
-            desvío muestral; b) IC del 95&nbsp;% y si el tiempo medio de 40 s que informa el proveedor es
-            compatible; c) por qué \(t\) y qué significa el 95&nbsp;%.
+            desvío muestral; b) IC del 95&nbsp;%, concluir y el error máximo de estimación; c) por qué \(t\) y qué significa el 95&nbsp;%.
           </p>
         </div>
 
@@ -95,10 +94,11 @@
         </div>
 
         <div class="caja caja-formula">
-          <span class="caja-tit">3. Decidir con el intervalo</span>
+          <span class="caja-tit">3. Error máximo de estimación</span>
+          <p>\[ E = t_{(\alpha/2;\ \nu)}\,\frac{S}{\sqrt{n}} \]</p>
           <p>
-            Un valor <strong>adentro</strong> del intervalo es compatible con los datos (creíble como
-            \(\mu\)); uno <strong>afuera</strong>, no.
+            Es lo que se suma y se resta a \(\bar{x}\): la <strong>mitad</strong> del ancho del intervalo.
+            Dice, con la confianza pedida, cuánto como máximo se puede alejar \(\bar{x}\) del verdadero \(\mu\).
           </p>
         </div>
 
@@ -111,7 +111,7 @@
             <tr><td>&ldquo;se distribuye normalmente&rdquo;</td><td>requisito de la \(t\)</td><td>&mdash;</td><td>justificación</td></tr>
             <tr><td>(no dan \(\sigma\))</td><td>\(\sigma\) desconocida</td><td>&mdash;</td><td>con \(n &lt; 30\): \(t\)</td></tr>
             <tr><td>&ldquo;95&nbsp;%&rdquo;</td><td>\(\alpha = 0{,}05\)</td><td>\(\alpha/2 = 0{,}025\); \(\nu = 10 - 1 = 9\)</td><td>\(t_{(0{,}025;\ 9)} = 2{,}262\)</td></tr>
-            <tr><td>&ldquo;informa un tiempo medio de 40 segundos&rdquo;</td><td>valor a controlar</td><td>&mdash;</td><td>\(\mu_0 = 40\)</td></tr>
+            <tr><td>&ldquo;error máximo de estimación&rdquo;</td><td>la mitad del ancho del intervalo</td><td>\(t \cdot S/\sqrt{n}\)</td><td>\(E\) (inciso b)</td></tr>
           </table>
         </div>
 
@@ -149,7 +149,7 @@
           <p>\(\bar{x} = 41\) segundos y \(S = 2{,}0325\) segundos.</p>
         </div>
 
-        <span class="paso">Inciso b &mdash; Intervalo del 95&nbsp;% y el valor de 40 s</span>
+        <span class="paso">Inciso b &mdash; Intervalo del 95&nbsp;% y error de estimación</span>
         <p>Grados de libertad y valor de tabla:</p>
         <p>\[ \nu = n - 1 = 10 - 1 = 9 \qquad\qquad t_{(0{,}025;\ 9)} = 2{,}262 \]</p>
         <p>Fórmula:</p>
@@ -162,16 +162,22 @@
         <p>\[ 41 - 1{,}454 \;&lt;\; \mu \;&lt;\; 41 + 1{,}454 \]</p>
         <p>\[ 39{,}55 \;&lt;\; \mu \;&lt;\; 42{,}45 \]</p>
 
-        <p>Ahora el valor del proveedor:</p>
-        <p>\[ \mu_0 = 40 \qquad\qquad 39{,}55 &lt; 40 &lt; 42{,}45 \]</p>
+        <p>
+          El error máximo de estimación ya salió en la cuenta: es \(E = 1{,}454\) s, lo que se sumó y se
+          restó a \(\bar{x} = 41\). Control: el ancho del intervalo es \(42{,}45 - 39{,}55 \approx 2{,}908\),
+          y su mitad es 1,454.
+        </p>
 
         <div class="caja caja-resp">
           <span class="caja-tit">Respuesta b</span>
           <p>\(\text{IC}_{95\%}(\mu) = (39{,}55\ ;\ 42{,}45)\) segundos.</p>
           <p>
-            Con un 95&nbsp;% de confianza, el tiempo medio de despliegue está entre 39,55 y 42,45 s. El
-            40 queda <strong>adentro</strong>: el tiempo medio informado por el proveedor <strong>es
-            compatible</strong> con los datos (la diferencia entre 41 y 40 puede deberse a la muestra).
+            Con un 95&nbsp;% de confianza, el tiempo medio de todos los despliegues del microservicio está
+            entre 39,55 y 42,45 s.
+          </p>
+          <p>
+            El error máximo de estimación es \(E = 1{,}454\) s: con un 95&nbsp;% de confianza, el promedio de
+            los 10 despliegues (41 s) no se aleja del tiempo medio verdadero más de 1,454 s.
           </p>
         </div>
 
@@ -222,8 +228,8 @@
             </tr>
             <tr>
               <td class="lbl">Tercer Parcial 2025, Ejercicio 2<br><em>Satisfacción con una interfaz</em></td>
-              <td>Datos sueltos en el enunciado y un valor de referencia para comparar.</td>
-              <td>Allá estaba planteado como prueba de hipótesis.</td>
+              <td>Datos sueltos en el enunciado.</td>
+              <td>Allá estaba planteado como prueba de hipótesis, que este año no entra.</td>
             </tr>
           </table>
         </div>
@@ -233,7 +239,7 @@
           <ol>
             <li><strong>\(x\sigma_n\) en vez de \(x\sigma_{n-1}\).</strong></li>
             <li><strong>\(\nu = 10\).</strong> Son \(n - 1 = 9\) grados de libertad: \(t = 2{,}262\).</li>
-            <li><strong>Decir que &ldquo;\(\mu = 40\)&rdquo;.</strong> Que 40 esté adentro solo dice que es <em>compatible</em>; también lo son 41 o 42.</li>
+            <li><strong>Dar el ancho como error.</strong> \(E = 1{,}454\) es la mitad del intervalo; el ancho entero (2,908) no es el error.</li>
           </ol>
         </div>
       </div>

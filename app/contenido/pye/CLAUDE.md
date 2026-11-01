@@ -9,9 +9,11 @@ solo lo propio de PyE. Si se toca el banco de preguntas: `evaluacion/preguntas/F
 - **Alcance:** cada unidad sale **solo de los PDF de esa unidad**:
   `C:\Users\Fran\Desktop\SISTEMAS 3\PYE\PARCIAL 2\UNIDAD N\`. La prueba de hipótesis no es U7.
 - **3er parcial (U8, Estimación):** la profe dijo (2026) que entran **solo** `PARCIAL 3\UNIDAD 8\
-  Estimacion_Parte 1.pdf` y `Estimacion_Parte 2.pdf` (IC para μ, π y μ₁ − μ₂). No entran prueba de
-  hipótesis, IC de varianzas, diferencia de proporciones, tolerancia ni predicción, aunque estén
-  en la guía o en el Parcial 3 2025. Regla de Z o t de la profe: n ≥ 30 → Z (con σ o con S);
+  Estimacion_Parte 1.pdf` y `Estimacion_Parte 2.pdf`, y por el Miro de los compañeros (01/11/2026)
+  toman **dos temas**: IC para μ (con error y tamaño de muestra) y para μ₁ − μ₂. No entran prueba
+  de hipótesis (el ej. 2 del Parcial 3 2025 está tachado), proporciones (ej. 20 a 24 de la guía),
+  IC de varianzas (16 a 19, tabla F), tolerancia ni predicción; los ej. 10 y 11 (caso Z de
+  diferencia de medias) están tachados en la guía y el caso Z quedó corto en la teoría. Regla de Z o t de la profe: n ≥ 30 → Z (con σ o con S);
   n < 30 → t (ν = n − 1) aunque den σ (Fran decidió seguir el mensaje de la profe; con σ, va σ en la fórmula). En diferencia de medias, σ₁ y σ₂ conocidas → Z, como el diagrama de la parte 2. Las preguntas del banco `u8` llevan
   `data-origen="parcial"` aunque el tema no se haya tomado (es para el 3er parcial).
 - Otros materiales del 2do parcial: `PYE\PARCIAL 2\guia_integradoras_parcial_2.pdf`, `Respuestas.pdf`,

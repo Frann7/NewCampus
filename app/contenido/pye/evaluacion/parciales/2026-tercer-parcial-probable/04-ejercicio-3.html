@@ -3,24 +3,22 @@
   <div class="parcial-ej-cab">
     <h2>Ejercicio 3</h2>
     <span class="parcial-pts">20 puntos</span>
-    <span class="parcial-tema">Unidad 8 &middot; IC para una proporción y ancho del intervalo</span>
+    <span class="parcial-tema">Unidad 8 &middot; IC para la diferencia de medias (varianzas iguales)</span>
   </div>
 
   <p>
-    Después de optimizar los índices de la base de datos de producción, un administrador registró una
-    muestra aleatoria de 400 consultas y encontró que 52 tardaron más de 200 ms (consultas lentas).
+    Un equipo de desarrollo web compara el tiempo de carga (en segundos) de la página principal de un
+    sitio construida con dos frameworks: el framework A renderiza la página en el navegador y el
+    framework B la renderiza en el servidor. Con el framework A se midieron 14 cargas, con un tiempo
+    medio de 2,84 s y un desvío estándar de 0,52 s. Con el framework B se midieron 12 cargas, con un
+    tiempo medio de 2,31 s y un desvío estándar de 0,34 s. Suponga que con ambos frameworks el tiempo
+    de carga se distribuye normalmente y que las muestras son independientes.
   </p>
 
   <ol class="parcial-incisos">
-    <li>Construya un intervalo de confianza del 95&nbsp;% para la proporción de consultas lentas.</li>
-    <li>Antes de la optimización, el 20&nbsp;% de las consultas eran lentas. Con el intervalo del inciso anterior, ¿se puede afirmar que la optimización cambió esa proporción? Justifique.</li>
-    <li>
-      Sin rehacer el ejercicio, indique qué le pasa al ancho del intervalo del inciso a) en cada caso, y verifíquelo con las cuentas:
-      <ol class="parcial-sub-incisos">
-        <li>si se pide un 99&nbsp;% de confianza con la misma muestra;</li>
-        <li>si se registran 1600 consultas y se obtiene la misma proporción muestral, al 95&nbsp;%.</li>
-      </ol>
-    </li>
+    <li>¿Pueden suponerse iguales las varianzas poblacionales? Justifique con la regla empírica.</li>
+    <li>Construya un intervalo de confianza del 95&nbsp;% para la diferencia de los tiempos medios de carga \(\mu_A - \mu_B\).</li>
+    <li>¿Hay una diferencia significativa entre los tiempos medios de carga? ¿Con qué framework carga más rápido la página?</li>
   </ol>
 
   <div class="parcial-extras">
@@ -34,20 +32,18 @@
           <table class="t full">
             <tr><th>Inciso</th><th>Resultado</th></tr>
             <tr>
-              <td class="lbl">a) IC 95&nbsp;% para \(\pi\)</td>
-              <td>\(\hat{p} = 0{,}13\), \(E = 0{,}0330\) &nbsp;&middot;&nbsp; \(\text{IC}_{95\%}(\pi) = (0{,}0970\ ;\ 0{,}1630)\): entre el 9,7&nbsp;% y el 16,3&nbsp;% de las consultas son lentas</td>
+              <td class="lbl">a) Regla empírica</td>
+              <td>\(S_A^{2}/S_B^{2} = 0{,}2704 / 0{,}1156 = 2{,}34 \leq 3\) &rarr; <strong>sí</strong> se suponen iguales: pooled</td>
             </tr>
             <tr>
-              <td class="lbl">b) ¿Cambió?</td>
-              <td><strong>Sí:</strong> 0,20 queda afuera del intervalo, por arriba. La proporción de consultas lentas bajó.</td>
+              <td class="lbl">b) IC 95&nbsp;% para \(\mu_A - \mu_B\)</td>
+              <td>\(S_p = 0{,}4466\), \(\nu = 24\), \(t_{(0{,}025;\ 24)} = 2{,}064\), \(E = 0{,}3626\) &nbsp;&middot;&nbsp;
+                  \(\text{IC}_{95\%}(\mu_A - \mu_B) = (0{,}167\ ;\ 0{,}893)\) s</td>
             </tr>
             <tr>
-              <td class="lbl">c) I) 99&nbsp;%</td>
-              <td>Más <strong>ancho</strong>: \(E = 0{,}0433\), \(\text{IC}_{99\%}(\pi) = (0{,}0867\ ;\ 0{,}1733)\)</td>
-            </tr>
-            <tr>
-              <td class="lbl">c) II) \(n = 1600\)</td>
-              <td>Más <strong>angosto</strong>, la mitad: \(E = 0{,}0165\), \(\text{IC}_{95\%}(\pi) = (0{,}1135\ ;\ 0{,}1465)\)</td>
+              <td class="lbl">c) Conclusión</td>
+              <td>El intervalo <strong>no incluye el 0</strong>: hay diferencia significativa. Es todo positivo:
+                  \(\mu_A &gt; \mu_B\), la página carga más rápido con el <strong>framework B (renderizado en el servidor)</strong>, entre 0,167 y 0,893 s menos en promedio.</td>
             </tr>
           </table>
         </div>
@@ -64,117 +60,144 @@
         <div class="caja caja-ejemplo">
           <span class="caja-tit">El enunciado, otra vez</span>
           <p>
-            Tras optimizar los índices, de 400 consultas al azar 52 tardaron más de 200 ms. Piden: a) IC del
-            95&nbsp;% para la proporción de consultas lentas; b) si cambió respecto del 20&nbsp;% de antes;
-            c) qué pasa con el ancho del intervalo al pasar a 99&nbsp;% y al tomar 1600 consultas.
+            Framework A (renderiza en el navegador): 14 cargas, media 2,84 s, desvío 0,52 s. Framework B
+            (renderiza en el servidor): 12 cargas, media 2,31 s, desvío 0,34 s. Normales e independientes.
+            Piden: a) si las varianzas pueden suponerse iguales (regla empírica); b) IC del 95&nbsp;% para
+            \(\mu_A - \mu_B\); c) si hay diferencia significativa y con qué framework carga más rápido.
           </p>
         </div>
 
         <h4>¿De qué tema es?</h4>
         <p>
-          <strong>Estimación, parte 1</strong>: intervalo de confianza para una <strong>proporción</strong>
-          \(\pi\), y cómo cambia el error de estimación con la confianza y con \(n\).
+          <strong>Estimación, parte 2</strong>: intervalo de confianza para la <strong>diferencia de
+          medias</strong> de dos poblaciones con muestras independientes y chicas.
         </p>
 
         <h4>Los conceptos que hacen falta, desde cero</h4>
 
         <div class="caja caja-formula">
-          <span class="caja-tit">1. Proporción muestral</span>
-          <p>\[ \hat{p} = \frac{\text{cantidad de éxitos}}{n} \qquad\qquad \hat{q} = 1 - \hat{p} \]</p>
-          <p>
-            \(\pi\) es la proporción en <em>todas</em> las consultas (desconocida); \(\hat{p}\), la de la
-            muestra, es su estimador. &ldquo;Éxito&rdquo; es lo que se cuenta, aunque sea algo malo (acá, una
-            consulta lenta).
-          </p>
-        </div>
-
-        <div class="caja caja-formula">
-          <span class="caja-tit">2. Intervalo de confianza para \(\pi\) (muestras grandes)</span>
-          <p>\[ \hat{p} - z_{\alpha/2}\sqrt{\frac{\hat{p}\,\hat{q}}{n}} \;&lt;\; \pi \;&lt;\; \hat{p} + z_{\alpha/2}\sqrt{\frac{\hat{p}\,\hat{q}}{n}} \qquad\qquad E = z_{\alpha/2}\sqrt{\frac{\hat{p}\,\hat{q}}{n}} \]</p>
-          <p>
-            Es la misma idea que para la media: centro \(\hat{p}\) y un margen \(E\). La raíz es el error
-            estándar de \(\hat{p}\). Siempre con \(z\) (90&nbsp;% &rarr; 1,645; 95&nbsp;% &rarr; 1,96;
-            99&nbsp;% &rarr; 2,576), porque es para muestras grandes.
-          </p>
-        </div>
-
-        <div class="caja caja-formula">
-          <span class="caja-tit">3. De qué depende el ancho del intervalo</span>
-          <p>El ancho es \(2E\), y en \(E\) hay dos perillas:</p>
+          <span class="caja-tit">1. Qué fórmula usar (diagrama de decisión de la cátedra)</span>
           <ul>
-            <li><strong>La confianza</strong> está en \(z\): más confianza &rarr; \(z\) más grande &rarr; intervalo más <strong>ancho</strong> (para acertar más seguido, hay que abarcar más).</li>
-            <li><strong>El tamaño de muestra</strong> está abajo, dentro de la raíz: más datos &rarr; intervalo más <strong>angosto</strong>. Como es \(\sqrt{n}\), multiplicar \(n\) por 4 divide \(E\) por \(\sqrt{4} = 2\).</li>
+            <li>¿\(\sigma_1^{2}\) y \(\sigma_2^{2}\) conocidas? &rarr; \(Z\) con las \(\sigma^{2}\).</li>
+            <li>Desconocidas y \(n_1, n_2 \geq 30\) &rarr; \(Z\) con \(S_1^{2}\) y \(S_2^{2}\).</li>
+            <li>Desconocidas, muestras chicas y poblaciones normales &rarr; \(t\), y para saber cuál se usa la <strong>regla empírica</strong>:</li>
           </ul>
-          <p>Vale igual para el intervalo de la media (\(E = z\,\sigma/\sqrt{n}\)).</p>
+          <p>\[ \frac{S^{2}_{\text{mayor}}}{S^{2}_{\text{menor}}} \leq 3 \;\Rightarrow\; \text{varianzas supuestas iguales (pooled)} \qquad\qquad \frac{S^{2}_{\text{mayor}}}{S^{2}_{\text{menor}}} &gt; 3 \;\Rightarrow\; \text{no supuestas iguales (Welch)} \]</p>
+          <p>Si el enunciado ya dice &ldquo;varianzas iguales&rdquo; o &ldquo;diferentes&rdquo;, se usa eso sin la regla.</p>
+        </div>
+
+        <div class="caja caja-formula">
+          <span class="caja-tit">2. Pooled: varianzas supuestas iguales</span>
+          <p>
+            <em>Pooled</em> quiere decir &ldquo;juntado&rdquo;. Si las dos poblaciones tienen la misma
+            varianza, \(S_1^{2}\) y \(S_2^{2}\) son dos estimaciones del mismo número: se
+            <strong>promedian</strong> en una sola, \(S_p^{2}\), dándole más peso a la muestra con más datos.
+          </p>
+          <p>\[ S_p^{2} = \frac{(n_1-1)S_1^{2} + (n_2-1)S_2^{2}}{n_1+n_2-2} \qquad\qquad S_p = \sqrt{S_p^{2}} \]</p>
+          <p>\[ (\bar{x}_1 - \bar{x}_2) \pm t_{(\alpha/2;\ n_1+n_2-2)}\, S_p\sqrt{\frac{1}{n_1} + \frac{1}{n_2}} \]</p>
+          <ul>
+            <li>\(n_1 + n_2 - 2\) son los grados de libertad: todos los datos juntos, menos 1 por cada media que se calculó.</li>
+            <li>\(S_p\) es un promedio de los dos desvíos: tiene que quedar entre \(S_1\) y \(S_2\) (sirve de control).</li>
+          </ul>
+        </div>
+
+        <div class="caja caja-formula">
+          <span class="caja-tit">3. Welch, para comparar (cuando el cociente es \(&gt; 3\))</span>
+          <p>\[ (\bar{x}_1 - \bar{x}_2) \pm t_{(\alpha/2;\ \nu)}\sqrt{\frac{S_1^{2}}{n_1} + \frac{S_2^{2}}{n_2}} \]</p>
+          <p>con \(\nu\) de Welch-Satterthwaite. Acá no se usa: está para que veas la diferencia.</p>
+        </div>
+
+        <div class="caja caja-formula">
+          <span class="caja-tit">4. Cómo se concluye con un IC para \(\mu_1 - \mu_2\)</span>
+          <ul>
+            <li>Si el intervalo <strong>incluye el 0</strong>: puede que las medias sean iguales &rarr; no hay diferencia significativa.</li>
+            <li>Si <strong>no incluye el 0</strong>: hay diferencia significativa. Todo positivo &rarr; \(\mu_1 &gt; \mu_2\); todo negativo &rarr; \(\mu_1 &lt; \mu_2\).</li>
+          </ul>
         </div>
 
         <h4>Desarme del enunciado</h4>
         <div class="tabla-wrap">
           <table class="t full">
             <tr><th>Frase del enunciado</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
-            <tr><td>&ldquo;una muestra aleatoria de 400 consultas&rdquo;</td><td>tamaño de muestra, grande</td><td>&mdash;</td><td>\(n = 400\)</td></tr>
-            <tr><td>&ldquo;52 tardaron más de 200 ms&rdquo;</td><td>los éxitos (consultas lentas)</td><td>\(52 \div 400\)</td><td>\(\hat{p} = 0{,}13\); \(\hat{q} = 0{,}87\)</td></tr>
-            <tr><td>&ldquo;95&nbsp;%&rdquo;</td><td>\(\alpha = 0{,}05\)</td><td>\(\alpha/2 = 0{,}025\)</td><td>\(z = 1{,}96\)</td></tr>
-            <tr><td>&ldquo;el 20&nbsp;% de las consultas eran lentas&rdquo;</td><td>proporción de antes: el valor a comparar</td><td>\(20 \div 100\)</td><td>\(\pi_0 = 0{,}20\)</td></tr>
-            <tr><td>&ldquo;99&nbsp;% de confianza&rdquo; (c I)</td><td>\(\alpha/2 = 0{,}005\)</td><td>&mdash;</td><td>\(z = 2{,}576\)</td></tr>
-            <tr><td>&ldquo;1600 consultas &hellip; misma proporción&rdquo; (c II)</td><td>\(n\) cuatro veces más grande</td><td>\(1600 \div 400 = 4\)</td><td>\(n = 1600\), \(\hat{p} = 0{,}13\)</td></tr>
+            <tr><td>&ldquo;framework A &hellip; 14 cargas&rdquo;</td><td>muestra 1 (chica)</td><td>&mdash;</td><td>\(n_A = 14\)</td></tr>
+            <tr><td>&ldquo;tiempo medio de 2,84 s&rdquo;</td><td>media de A</td><td>&mdash;</td><td>\(\bar{x}_A = 2{,}84\)</td></tr>
+            <tr><td>&ldquo;desvío estándar de 0,52 s&rdquo;</td><td>es el <strong>desvío</strong>: hay que elevarlo al cuadrado</td><td>\(0{,}52^{2}\)</td><td>\(S_A^{2} = 0{,}2704\)</td></tr>
+            <tr><td>&ldquo;framework B &hellip; 12 cargas&rdquo;</td><td>muestra 2 (chica)</td><td>&mdash;</td><td>\(n_B = 12\)</td></tr>
+            <tr><td>&ldquo;tiempo medio de 2,31 s&rdquo;</td><td>media de B</td><td>&mdash;</td><td>\(\bar{x}_B = 2{,}31\)</td></tr>
+            <tr><td>&ldquo;desvío estándar de 0,34 s&rdquo;</td><td>desvío de B</td><td>\(0{,}34^{2}\)</td><td>\(S_B^{2} = 0{,}1156\)</td></tr>
+            <tr><td>&ldquo;se distribuye normalmente &hellip; independientes&rdquo;</td><td>requisitos para usar \(t\)</td><td>&mdash;</td><td>justificación</td></tr>
+            <tr><td>&ldquo;95&nbsp;%&rdquo;</td><td>\(\alpha = 0{,}05\)</td><td>\(\alpha/2 = 0{,}025\)</td><td>\(t_{(0{,}025;\ \nu)}\)</td></tr>
+            <tr><td>&ldquo;\(\mu_A - \mu_B\)&rdquo;</td><td>el orden de la resta</td><td>&mdash;</td><td>\(\bar{x}_A - \bar{x}_B\)</td></tr>
           </table>
         </div>
 
-        <span class="paso">Inciso a &mdash; Intervalo del 95&nbsp;% para \(\pi\)</span>
-        <p>\[ \hat{p} = \frac{52}{400} = 0{,}13 \qquad\qquad \hat{q} = 1 - 0{,}13 = 0{,}87 \]</p>
-        <p>Fórmula:</p>
-        <p>\[ \hat{p} - z_{\alpha/2}\sqrt{\frac{\hat{p}\,\hat{q}}{n}} \;&lt;\; \pi \;&lt;\; \hat{p} + z_{\alpha/2}\sqrt{\frac{\hat{p}\,\hat{q}}{n}} \]</p>
-        <p>Error estándar:</p>
-        <p>\[ \sqrt{\frac{0{,}13 \times 0{,}87}{400}} = \sqrt{\frac{0{,}1131}{400}} = \sqrt{0{,}00028275} = 0{,}016815 \]</p>
-        <p>Error de estimación:</p>
-        <p>\[ E = 1{,}96 \times 0{,}016815 = 0{,}0330 \]</p>
-        <p>Intervalo:</p>
-        <p>\[ 0{,}13 - 0{,}0330 \;&lt;\; \pi \;&lt;\; 0{,}13 + 0{,}0330 \]</p>
-        <p>\[ 0{,}0970 \;&lt;\; \pi \;&lt;\; 0{,}1630 \]</p>
+        <span class="paso">Inciso a &mdash; ¿Varianzas iguales? Regla empírica</span>
+        <p>Primero se pasan los desvíos a varianzas:</p>
+        <p>\[ S_A^{2} = 0{,}52^{2} = 0{,}2704 \qquad\qquad S_B^{2} = 0{,}34^{2} = 0{,}1156 \]</p>
+        <p>Fórmula (la mayor arriba):</p>
+        <p>\[ \frac{S^{2}_{\text{mayor}}}{S^{2}_{\text{menor}}} = \frac{0{,}2704}{0{,}1156} = 2{,}34 \leq 3 \]</p>
         <div class="caja caja-resp">
           <span class="caja-tit">Respuesta a</span>
-          <p>\(\text{IC}_{95\%}(\pi) = (0{,}0970\ ;\ 0{,}1630)\).</p>
           <p>
-            Con un 95&nbsp;% de confianza, entre el 9,7&nbsp;% y el 16,3&nbsp;% de todas las consultas a la
-            base de producción son lentas. (Es una proporción: sin unidades.)
+            <strong>Sí</strong> pueden suponerse iguales: el cociente de varianzas da 2,34, que no pasa de 3.
+            Como además las muestras son chicas (\(14\) y \(12\), menos de 30) y las poblaciones normales,
+            se usa la \(t\) con la varianza combinada: caso <strong>pooled</strong>.
+          </p>
+        </div>
+        <div class="caja caja-ojo">
+          <span class="caja-tit">La trampa del desvío</span>
+          <p>
+            Con los desvíos el cociente da \(0{,}52 / 0{,}34 = 1{,}53\): acá la decisión sale igual, pero
+            la regla es con <strong>varianzas</strong>. En el Ejercicio 4 el mismo error lleva al caso
+            equivocado: siempre elevar al cuadrado primero.
           </p>
         </div>
 
-        <span class="paso">Inciso b &mdash; ¿Cambió la proporción del 20&nbsp;%?</span>
-        <p>\[ \pi_0 = 0{,}20 \qquad\qquad \text{IC}_{95\%}(\pi) = (0{,}0970\ ;\ 0{,}1630) \qquad\qquad 0{,}20 &gt; 0{,}1630 \]</p>
-        <ul>
-          <li>0,20 queda <strong>afuera</strong> del intervalo, por arriba.</li>
-          <li>Todos los valores creíbles de la proporción actual son menores que 0,20.</li>
-        </ul>
+        <span class="paso">Inciso b &mdash; Intervalo del 95&nbsp;% para \(\mu_A - \mu_B\)</span>
+        <p>Fórmula (pooled):</p>
+        <p>\[ (\bar{x}_A - \bar{x}_B) \pm t_{(\alpha/2;\ n_A+n_B-2)}\, S_p\sqrt{\frac{1}{n_A} + \frac{1}{n_B}} \qquad S_p^{2} = \frac{(n_A-1)S_A^{2} + (n_B-1)S_B^{2}}{n_A+n_B-2} \]</p>
+
+        <h4>La varianza combinada \(S_p^{2}\)</h4>
+        <p>Fórmula:</p>
+        <p>\[ S_p^{2} = \frac{(n_A-1)S_A^{2} + (n_B-1)S_B^{2}}{n_A+n_B-2} \]</p>
+        <p>Cada varianza se multiplica por su \(n - 1\) (su peso):</p>
+        <p>\[ (n_A - 1)\,S_A^{2} = 13 \times 0{,}2704 = 3{,}5152 \qquad\qquad (n_B - 1)\,S_B^{2} = 11 \times 0{,}1156 = 1{,}2716 \]</p>
+        <p>\[ S_p^{2} = \frac{3{,}5152 + 1{,}2716}{14 + 12 - 2} = \frac{4{,}7868}{24} = 0{,}19945 \qquad\qquad S_p = \sqrt{0{,}19945} = 0{,}4466 \text{ s} \]</p>
+        <p>Control: \(0{,}34 &lt; 0{,}4466 &lt; 0{,}52\). Queda entre los dos desvíos, como tiene que ser.</p>
+
+        <h4>La raíz de las fracciones</h4>
+        <p>\[ \frac{1}{n_A} + \frac{1}{n_B} = \frac{1}{14} + \frac{1}{12} = 0{,}07143 + 0{,}08333 = 0{,}15476 \qquad\qquad \sqrt{0{,}15476} = 0{,}3934 \]</p>
+
+        <h4>Los grados de libertad y la tabla</h4>
+        <p>Fórmula:</p>
+        <p>\[ \nu = n_A + n_B - 2 = 14 + 12 - 2 = 24 \]</p>
+        <p>Valor de tabla (fila 24, área 0,025 a la derecha):</p>
+        <p>\[ t_{(0{,}025;\ 24)} = 2{,}064 \]</p>
+
+        <h4>El intervalo</h4>
+        <p>\[ \bar{x}_A - \bar{x}_B = 2{,}84 - 2{,}31 = 0{,}53 \]</p>
+        <p>\[ E = t_{(\alpha/2;\ n_A+n_B-2)}\, S_p\sqrt{\frac{1}{n_A} + \frac{1}{n_B}} = 2{,}064 \times 0{,}4466 \times 0{,}3934 = 0{,}3626 \]</p>
+        <p>\[ 0{,}53 - 0{,}3626 \;&lt;\; \mu_A - \mu_B \;&lt;\; 0{,}53 + 0{,}3626 \]</p>
+        <p>\[ 0{,}167 \;&lt;\; \mu_A - \mu_B \;&lt;\; 0{,}893 \]</p>
+
         <div class="caja caja-resp">
           <span class="caja-tit">Respuesta b</span>
-          <p>
-            <strong>Sí.</strong> Con un 95&nbsp;% de confianza, la proporción de consultas lentas después de
-            la optimización es <strong>menor</strong> que el 20&nbsp;% de antes: la optimización la bajó.
-          </p>
+          <p>\(\text{IC}_{95\%}(\mu_A - \mu_B) = (0{,}167\ ;\ 0{,}893)\) s.</p>
         </div>
 
-        <span class="paso">Inciso c &mdash; Qué pasa con el ancho</span>
-        <p>Fórmula (las dos perillas son \(z\) y \(n\)):</p>
-        <p>\[ E = z_{\alpha/2}\sqrt{\frac{\hat{p}\,\hat{q}}{n}} \]</p>
-
-        <h4>I) 99&nbsp;% de confianza, misma muestra</h4>
-        <p>Sube \(z\) de 1,96 a 2,576 y lo demás queda igual: el intervalo se <strong>ensancha</strong>.</p>
-        <p>\[ E = 2{,}576 \times 0{,}016815 = 0{,}0433 \]</p>
-        <p>\[ 0{,}13 - 0{,}0433 \;&lt;\; \pi \;&lt;\; 0{,}13 + 0{,}0433 \quad\Rightarrow\quad 0{,}0867 \;&lt;\; \pi \;&lt;\; 0{,}1733 \]</p>
-        <p>Ancho: \(2 \times 0{,}0433 = 0{,}0866\), contra \(2 \times 0{,}0330 = 0{,}0659\) al 95&nbsp;%.</p>
-
-        <h4>II) 1600 consultas, misma \(\hat{p}\), 95&nbsp;%</h4>
-        <p>\(n\) se multiplica por 4, así que \(E\) se divide por \(\sqrt{4} = 2\): el intervalo queda a la <strong>mitad</strong> de ancho.</p>
-        <p>\[ E = 1{,}96\sqrt{\frac{0{,}13 \times 0{,}87}{1600}} = 1{,}96 \times 0{,}0084076 = 0{,}0165 \]</p>
-        <p>\[ 0{,}13 - 0{,}0165 \;&lt;\; \pi \;&lt;\; 0{,}13 + 0{,}0165 \quad\Rightarrow\quad 0{,}1135 \;&lt;\; \pi \;&lt;\; 0{,}1465 \]</p>
-        <p>Ancho: \(0{,}0330\), la mitad de \(0{,}0659\). &#10003;</p>
-
+        <span class="paso">Inciso c &mdash; ¿Diferencia significativa? ¿Con cuál carga más rápido?</span>
+        <ul>
+          <li>El intervalo \((0{,}167\ ;\ 0{,}893)\) <strong>no incluye el 0</strong>: hay diferencia significativa entre las medias.</li>
+          <li>Es <strong>todo positivo</strong>: \(\mu_A - \mu_B &gt; 0\), o sea \(\mu_A &gt; \mu_B\): con A la página <strong>tarda más</strong>.</li>
+          <li>Tiempo de carga menor = más rápido: el más rápido es B.</li>
+        </ul>
         <div class="caja caja-resp">
           <span class="caja-tit">Respuesta c</span>
-          <p>I) Al 99&nbsp;% el intervalo es <strong>más ancho</strong>: (0,0867 ; 0,1733). Más confianza cuesta precisión.</p>
-          <p>II) Con 1600 consultas es <strong>más angosto</strong>, la mitad: (0,1135 ; 0,1465). Más datos dan más precisión.</p>
+          <p>
+            Con un 95&nbsp;% de confianza <strong>hay diferencia significativa</strong>: la página carga más
+            rápido con el <strong>framework B</strong>, que renderiza en el servidor, entre 0,167 y 0,893 s
+            menos en promedio que con el framework A.
+          </p>
         </div>
 
         <h4>Parecido en la guía</h4>
@@ -182,19 +205,24 @@
           <table class="t full">
             <tr><th>Ejercicio</th><th>Qué tiene igual</th><th>Qué cambia</th></tr>
             <tr>
-              <td class="lbl">Guía de Estimación, Ejercicios 20 y 21<br><em>Trastorno sanguíneo, viviendas con petróleo</em></td>
-              <td>IC para una proporción a partir de &ldquo;tantos de tantos&rdquo;.</td>
-              <td>Allá al 99&nbsp;%; acá al 95&nbsp;% y después se compara con un valor.</td>
+              <td class="lbl">Teoría, Ejemplo 4<br><em>Emisiones de carbono</em></td>
+              <td>Muestras chicas con \(\bar{x}\) y la dispersión dados, regla empírica \(\leq 3\) (1,31) &rarr; pooled.</td>
+              <td>Allá dan las varianzas (no hay que elevar) y el IC es todo negativo.</td>
             </tr>
             <tr>
-              <td class="lbl">Teoría, Ejemplo 3<br><em>Estudiantes con computadora portátil</em></td>
-              <td>IC del 95&nbsp;% para \(\pi\) con \(n = 300\).</td>
-              <td>Allá la proporción viene dada en porcentaje (80&nbsp;%).</td>
+              <td class="lbl">Diapositivas, pág. 15<br><em>Arquitectura SQL contra NoSQL</em></td>
+              <td>Tiempos de respuesta, pooled con \(\bar{x}\) y \(S^{2}\) dados, IC que no incluye el 0.</td>
+              <td>Allá el enunciado ya dice &ldquo;varianzas iguales&rdquo;: no hace falta la regla.</td>
             </tr>
             <tr>
-              <td class="lbl">Guía de Estimación, Ejercicio 2 c y d<br><em>Estaturas</em></td>
-              <td>Repetir el intervalo con otras confianzas y ver qué pasa con el error.</td>
-              <td>Allá es para la media.</td>
+              <td class="lbl">Guía de Estimación, Ejercicio 15<br><em>Resistencia de alambres</em></td>
+              <td>&ldquo;Averiguando previamente si las varianzas pueden asumirse iguales&rdquo;: regla empírica que da \(\leq 3\) y después pooled.</td>
+              <td>Allá con datos sueltos (calculadora para cada grupo).</td>
+            </tr>
+            <tr>
+              <td class="lbl">Guía de Estimación, Ejercicio 12<br><em>Tiempo de secado del látex</em></td>
+              <td>Pooled y decidir qué marca es más rápida con el signo del intervalo.</td>
+              <td>Allá con datos sueltos y el enunciado ya dice &ldquo;variancias iguales&rdquo;.</td>
             </tr>
           </table>
         </div>
@@ -202,9 +230,11 @@
         <div class="caja caja-ojo">
           <span class="caja-tit">Las trampas de este ejercicio</span>
           <ol>
-            <li><strong>Usar 52 en la fórmula.</strong> Va la proporción \(\hat{p} = 0{,}13\), no la cantidad.</li>
-            <li><strong>Sacar la raíz solo del numerador.</strong> La raíz abarca \(\hat{p}\,\hat{q}/n\) entero.</li>
-            <li><strong>Pensar que con 4 veces más datos el error baja 4 veces.</strong> Baja 2 veces, por la raíz.</li>
+            <li><strong>Regla empírica con desvíos.</strong> Siempre con varianzas (desvío al cuadrado).</li>
+            <li><strong>Meter los desvíos en \(S_p^{2}\).</strong> La fórmula lleva \(S_A^{2} = 0{,}2704\) y \(S_B^{2} = 0{,}1156\), no 0,52 y 0,34.</li>
+            <li><strong>Olvidar la raíz de \(S_p^{2}\).</strong> En el intervalo va \(S_p = 0{,}4466\), no \(0{,}19945\).</li>
+            <li><strong>Usar \(n_A - 1\) o \(n_B - 1\) grados de libertad.</strong> En pooled son \(n_A + n_B - 2 = 24\).</li>
+            <li><strong>Leer &ldquo;positivo&rdquo; como &ldquo;A es mejor&rdquo;.</strong> Positivo quiere decir que A tarda <em>más</em>; en tiempos, menos es mejor: gana B.</li>
           </ol>
         </div>
       </div>

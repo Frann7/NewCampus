@@ -198,7 +198,7 @@ window.Apuntes.registrarIndice({
         "titulo": "Tercer Parcial - probable",
         "fecha": "2026",
         "detalle": "4 ejercicios \u00b7 100 puntos \u00b7 inventado",
-        "temas": "IC para la media con Z y tama\u00f1o de muestra \u00b7 IC con t y calculadora \u00b7 IC para una proporci\u00f3n \u00b7 Diferencia de medias (Welch) \u00b7 Propiedades de los estimadores",
+        "temas": "IC para la media con Z y tama\u00f1o de muestra \u00b7 IC con t y calculadora \u00b7 Diferencia de medias (pooled y Welch) \u00b7 Propiedades de los estimadores",
         "tipo": "parcial"
       },
       {

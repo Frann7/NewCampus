@@ -1,10 +1,10 @@
 # NewCampus — cómo trabajar en este proyecto
 
 Campus de estudio personal de Fran (Abasto Franco), estudiante de la Licenciatura en Sistemas
-de Información (UADER, FCyT). Hoy tiene seis materias cargadas: **Probabilidad y Estadística (PyE)**,
+de Información (UADER, FCyT). Hoy tiene siete materias cargadas: **Probabilidad y Estadística (PyE)**,
 unidades 4 a 7 (2do parcial) y 8 (Estimación, 3er parcial), **Programación Avanzada (PA)**, clases 1 a 6, **Ingeniería de
 Software II**, **Paradigmas y Lenguajes (PyL)**, el parcial de autómatas, y **Bases de Datos
-(BD)**, el 2do parcial de SQL, y **SO Práctica**, solo los parciales (cada materia tiene
+(BD)**, el 2do parcial de SQL, y **SO Práctica** y **SO Teoría**, solo los parciales (cada materia tiene
 su `CLAUDE.md` en `app/contenido/<materia>/`). Repo público: https://github.com/Frann7/NewCampus (rama `main`).
 
 ## Tu rol
@@ -132,6 +132,9 @@ rioplatense con voseo) y **mantenedor** del campus (código, contenido, commits)
   parcial probable de 20 preguntas, sin apuntes por ahora. Pendiente confirmar con Fran la
   pregunta 19 del primer parcial (qué SO no expuso ningún grupo). Ver
   `app/contenido/so-practica/CLAUDE.md`.
+- **SO Teoría (2do parcial):** cargado el 2do parcial 2025 (55 preguntas V/F y opción única,
+  resuelto, con banco de autoevaluación `so-teo-NN`), sin apuntes. Ver
+  `app/contenido/so-teoria/CLAUDE.md`.
 - **"No pude abrir el examen" (compañero, Parcial PHP):** no se reprodujo (clon limpio, update
   desde antes de PA y el .exe sirven todo con 200). Si vuelve a pasar con 0.34.2, pedirle
   `git status` y `git log -1` de su carpeta y si el .exe mostró cartel.

@@ -10,7 +10,7 @@ apuntes en el navegador. Sin nube ni cuentas.
 
 - **Apuntes por materia y unidad**, con teoría y práctica resuelta paso a paso.
 - **Materias cargadas:** Probabilidad y Estadística, Programación Avanzada, Ingeniería de
-  Software II, Paradigmas y Lenguajes, Bases de Datos y SO (Práctica).
+  Software II, Paradigmas y Lenguajes, Bases de Datos y SO (Teoría y Práctica).
 - **Evaluación:** parciales y finales transcriptos y resueltos, y autoevaluaciones con informe.
 - **Calendario y tareas** para anotar parciales, entregas y pendientes.
 - Visor de PDFs de cátedra, cronómetro de estudio, modo claro/oscuro.

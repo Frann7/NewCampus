@@ -322,6 +322,17 @@ window.Apuntes.registrarIndice({
         "temas": "Logs \u00b7 Swap y swappiness \u00b7 RAM y cach\u00e9 \u00b7 Directorios y montaje \u00b7 MBR y GPT por dentro \u00b7 RAID 4, 6 y 10 \u00b7 Escritorio remoto",
         "tipo": "parcial"
       }
+    ],
+    "so-teoria": [
+      {
+        "id": "2025-segundo-parcial",
+        "archivo": "examenes/so-teoria-2025-segundo-parcial.js",
+        "titulo": "Segundo parcial",
+        "fecha": "2025",
+        "detalle": "55 preguntas del Aula Virtual, de 1 o 2 puntos (100 en total): verdadero o falso y opci\u00f3n m\u00faltiple",
+        "temas": "Entrada/Salida \u00b7 Discos \u00b7 Interbloqueos \u00b7 Seguridad \u00b7 Cliente/servidor \u00b7 Clusters \u00b7 Paso de mensajes y RPC",
+        "tipo": "parcial"
+      }
     ]
   },
   "preguntas": {
@@ -346,6 +357,9 @@ window.Apuntes.registrarIndice({
     "so-practica": {
       "parcial-2025": "preguntas/so-practica-parcial-2025.js",
       "parcial-probable": "preguntas/so-practica-parcial-probable.js"
+    },
+    "so-teoria": {
+      "parcial-2025": "preguntas/so-teoria-parcial-2025.js"
     }
   },
   "materias": [
@@ -642,7 +656,10 @@ window.Apuntes.registrarIndice({
       "clave": "so-teoria",
       "nombre": "Sistemas Operativos \u2014 Teoria",
       "corto": "SO Teor\u00eda",
-      "unidades": []
+      "unidades": [],
+      "evaluacion": {
+        "tipo": "simple"
+      }
     },
     {
       "clave": "so-practica",

@@ -13,6 +13,10 @@ Las reglas generales están en `docs/contenido.md` (raíz del repo); acá va sol
     en las 22, 28 y 50 se cita la devolución del Aula Virtual. Las explicaciones citan Tanenbaum
     (*Sistemas operativos modernos*) y Stallings (*Sistemas operativos*), de donde salen los
     textos, sin número de página.
+  - `2026-segundo-parcial`: el parcial en papel del 2/11/2026 (27 preguntas, +1/−1), de dos fotos.
+    Casi todas repiten el 2025: se armaron copiando esas explicaciones y reordenando las opciones.
+    Cambian la 7 ("inseguro": falso) y la 25 (B pide el recurso V: falso, sin ciclo; si fue un
+    error de tipeo de la cátedra sería verdadero). La 4 (spooling) y la 14 (trasgresor) son nuevas.
 - **Autoevaluación** (`evaluacion/preguntas/parcial-2025/`, ids `so-teo-NN`): las 55 en formato
   cuestionario, `data-etapa="1"`, todas con el mismo peso (en el parcial real algunas valían 1 y
   otras 2). Las armó un script desde el mismo texto que el parcial (no quedó en el repo): si se

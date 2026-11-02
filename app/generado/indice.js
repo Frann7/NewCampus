@@ -341,6 +341,15 @@ window.Apuntes.registrarIndice({
         "detalle": "55 preguntas del Aula Virtual, de 1 o 2 puntos (100 en total): verdadero o falso y opci\u00f3n m\u00faltiple",
         "temas": "Entrada/Salida \u00b7 Discos \u00b7 Interbloqueos \u00b7 Seguridad \u00b7 Cliente/servidor \u00b7 Clusters \u00b7 Paso de mensajes y RPC",
         "tipo": "parcial"
+      },
+      {
+        "id": "2026-segundo-parcial",
+        "archivo": "examenes/so-teoria-2026-segundo-parcial.js",
+        "titulo": "Segundo parcial",
+        "fecha": "2/11/2026",
+        "detalle": "27 preguntas en papel (correctas +1, incorrectas \u22121): verdadero o falso y opci\u00f3n m\u00faltiple",
+        "temas": "Entrada/Salida \u00b7 Discos \u00b7 Interbloqueos \u00b7 Seguridad \u00b7 Cliente/servidor \u00b7 Clusters \u00b7 Paso de mensajes y RPC",
+        "tipo": "parcial"
       }
     ]
   },

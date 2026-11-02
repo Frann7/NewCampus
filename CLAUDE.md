@@ -133,7 +133,8 @@ rioplatense con voseo) y **mantenedor** del campus (código, contenido, commits)
   pregunta 19 del primer parcial (qué SO no expuso ningún grupo). Ver
   `app/contenido/so-practica/CLAUDE.md`.
 - **SO Teoría (2do parcial):** cargado el 2do parcial 2025 (55 preguntas V/F y opción única,
-  resuelto, con banco de autoevaluación `so-teo-NN`), sin apuntes. Ver
+  resuelto, con banco de autoevaluación `so-teo-NN`), sin apuntes. También el 2do parcial 2026
+  (filtrado, 27 preguntas, resuelto). Ver
   `app/contenido/so-teoria/CLAUDE.md`.
 - **"No pude abrir el examen" (compañero, Parcial PHP):** no se reprodujo (clon limpio, update
   desde antes de PA y el .exe sirven todo con 200). Si vuelve a pasar con 0.34.2, pedirle

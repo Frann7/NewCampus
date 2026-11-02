@@ -222,6 +222,11 @@ instantáneas), 14 (las tres secciones) y 22 (SemVer, que va como tabla).
   Strategy; le faltaron métricas, PI y SPI y los diagramas de teoría). El 19/10/2026 se cargó el
   parcial 2026 resuelto, la sección "CMMI en una hoja" y los esquemas de teoría que faltaban. La
   fecha del recuperatorio no se sabe todavía.
+- **Temas que entran, según el profe (2/11/2026):** calidad (todo menos agentes y Docker),
+  métricas (todo menos IA aplicada al análisis de métricas), gestión de cambios (todo, con Git y
+  versionado) y patrones (propósito + estructura). Las 17 fundamentales están todas adentro. Fran
+  decidió no sumar una pregunta de IA con CMMI (sí entra: es del apunte de calidad y salió en
+  2025) y no estudiar lo que sacó de la guía, aunque entra.
 
 - **Ejercicios de parcial que faltan** (plan acordado el 12/10/2026): la teoría quedó como
   preguntas fundamentales en Parciales (13/10/2026, decisión de Fran: para leer y aprender, no

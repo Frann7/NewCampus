@@ -394,6 +394,12 @@ window.Apuntes.registrarIndice({
           "archivo": "pdf/pye/formulas-u8.pdf"
         },
         {
+          "id": "mapa-dif",
+          "sigla": "DIF",
+          "titulo": "Mapa de decisiones: diferencia de medias",
+          "archivo": "pdf/pye/mapa-diferencia-de-medias.pdf"
+        },
+        {
           "id": "resumen",
           "sigla": "RES",
           "titulo": "Resumen de distribuciones",
@@ -430,11 +436,13 @@ window.Apuntes.registrarIndice({
         ],
         "u8": [
           "formulas-u8",
+          "mapa-dif",
           "tablas",
           "icph"
         ],
         "evaluacion": [
           "formulas-u8",
+          "mapa-dif",
           "resumen",
           "tablas",
           "icph"

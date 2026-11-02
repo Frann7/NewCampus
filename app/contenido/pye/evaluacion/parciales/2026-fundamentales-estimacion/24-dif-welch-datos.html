@@ -1,0 +1,250 @@
+<!-- ==================== 11 · MUESTRAS CHICAS, VARIANZAS DISTINTAS: WELCH CON DATOS SUELTOS ==================== -->
+<section class="parcial-ej" data-repaso="pye-fund-est-11">
+  <div class="parcial-ej-cab">
+    <h2>11. Muestras chicas, varianzas distintas (Welch) con datos sueltos</h2>
+    <span class="parcial-tema">Dos muestras &middot; t de Welch</span>
+  </div>
+
+  <p>
+    Un área de sistemas migró su base de datos a un servidor nuevo y quiere comparar el tiempo de
+    respuesta (en ms) de una misma consulta. Se ejecuta la consulta varias veces al azar en el
+    <strong>servidor viejo</strong> y en el <strong>servidor nuevo</strong>, con estos resultados:
+  </p>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th>Servidor viejo</th><td>52</td><td>61</td><td>47</td><td>70</td><td>58</td><td>44</td><td>66</td><td></td></tr>
+      <tr><th>Servidor nuevo</th><td>41</td><td>43</td><td>40</td><td>44</td><td>42</td><td>39</td><td>45</td><td>42</td></tr>
+    </table>
+  </div>
+  <p>Se supone que el tiempo de respuesta se distribuye normalmente en los dos servidores.</p>
+
+  <ol class="parcial-incisos">
+    <li>Construya un intervalo de confianza del 95&nbsp;% para la diferencia entre los tiempos medios de respuesta. Concluya: ¿hay diferencia? ¿Cuál servidor es más lento?</li>
+  </ol>
+
+  <div class="parcial-extras">
+    <details class="parcial-desp pd-resultados">
+      <summary>
+        <span class="pd-icono">&#10003;</span>
+        <span class="pd-txt"><b>Resultados</b><small>Solo las respuestas, sin procedimiento</small></span>
+      </summary>
+      <div class="pd-cuerpo">
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Qué</th><th>Resultado</th></tr>
+            <tr><td class="lbl">Calculadora</td><td>Viejo: \(n_1 = 7\), \(\bar{x}_1 = 56{,}857\), \(S_1 = 9{,}6683\) &nbsp;&middot;&nbsp; Nuevo: \(n_2 = 8\), \(\bar{x}_2 = 42\), \(S_2 = 2\)</td></tr>
+            <tr><td class="lbl">Caso</td><td>Dos medias, \(\sigma\) desconocidas, muestras chicas, \(S^2_{mayor}/S^2_{menor} = 23{,}37 &gt; 3\) &rarr; \(t\) de Welch</td></tr>
+            <tr><td class="lbl">Valores</td><td>\(\nu = 6{,}45 \to 6\), \(t_{(0{,}025;\ 6)} = 2{,}447\) &nbsp;&middot;&nbsp; error estándar \(= 3{,}7221\) &nbsp;&middot;&nbsp; \(E = 9{,}108\) ms</td></tr>
+            <tr><td class="lbl">IC 95&nbsp;%</td><td>\(\text{IC}_{95\%}(\mu_1 - \mu_2) = (5{,}75\ ;\ 23{,}97)\) ms (1 = viejo, 2 = nuevo)</td></tr>
+            <tr><td class="lbl">Conclusión</td><td>Todo positivo: hay diferencia, \(\mu_1 &gt; \mu_2\). El servidor viejo es más lento, entre 5,75 y 23,97 ms más en promedio.</td></tr>
+          </table>
+        </div>
+      </div>
+    </details>
+
+    <details class="parcial-desp pd-explicacion">
+      <summary>
+        <span class="pd-icono">&#9998;</span>
+        <span class="pd-txt"><b>Explicación detallada</b><small>Desde cero: calculadora, qué caso es, la fórmula, el desarme y la resolución</small></span>
+      </summary>
+      <div class="pd-cuerpo">
+
+        <div class="caja caja-ejemplo">
+          <span class="caja-tit">El enunciado, otra vez</span>
+          <p>Tiempo de respuesta (ms) de una consulta, con distribución normal:</p>
+          <ul>
+            <li>Servidor viejo: 52, 61, 47, 70, 58, 44, 66.</li>
+            <li>Servidor nuevo: 41, 43, 40, 44, 42, 39, 45, 42.</li>
+          </ul>
+          <p>Piden un IC del 95&nbsp;% para la diferencia de medias y concluir.</p>
+        </div>
+
+        <h4>Primero: los datos de cada grupo con la calculadora</h4>
+        <p>
+          El enunciado no da promedios ni desvíos: da los datos sueltos. Antes de cualquier fórmula hay que
+          sacar \(n\), \(\bar{x}\) y \(S\) de cada grupo. Se hace con la calculadora, un grupo por vez.
+        </p>
+        <div class="caja caja-calc">
+          <span class="caja-tit">Casio fx-991ES PLUS: los dos grupos</span>
+          <p><strong>Grupo 1, servidor viejo</strong></p>
+          <ol>
+            <li><strong>MODE</strong> <strong>3</strong> <strong>1</strong> (STAT, 1-VAR): aparece una columna X vacía.</li>
+            <li>Cargar cada dato y <strong>=</strong>: 52 <strong>=</strong> 61 <strong>=</strong> 47 <strong>=</strong> 70 <strong>=</strong> 58 <strong>=</strong> 44 <strong>=</strong> 66 <strong>=</strong>.</li>
+            <li><strong>AC</strong> para salir de la tabla (los datos quedan guardados).</li>
+            <li><strong>SHIFT</strong> <strong>1</strong> &rarr; <strong>4</strong> &rarr; <strong>1</strong> (n) <strong>=</strong> &rarr; 7.</li>
+            <li><strong>SHIFT</strong> <strong>1</strong> &rarr; <strong>4</strong> &rarr; <strong>2</strong> (x̄) <strong>=</strong> &rarr; 56,857.</li>
+            <li><strong>SHIFT</strong> <strong>1</strong> &rarr; <strong>4</strong> &rarr; <strong>4</strong> (sx) <strong>=</strong> &rarr; 9,6683. <strong>Anotarlo</strong> antes de seguir.</li>
+          </ol>
+          <p><strong>Grupo 2, servidor nuevo</strong></p>
+          <ol>
+            <li><strong>MODE</strong> <strong>3</strong> <strong>1</strong> de nuevo: la tabla se vacía (por eso había que anotar el grupo 1).</li>
+            <li>41 <strong>=</strong> 43 <strong>=</strong> 40 <strong>=</strong> 44 <strong>=</strong> 42 <strong>=</strong> 39 <strong>=</strong> 45 <strong>=</strong> 42 <strong>=</strong>, y <strong>AC</strong>.</li>
+            <li>n &rarr; 8 &nbsp;&middot;&nbsp; x̄ &rarr; 42 &nbsp;&middot;&nbsp; sx &rarr; 2.</li>
+          </ol>
+          <p>
+            Siempre <strong>sx</strong> (opción 4), nunca σx (opción 3): sx divide por \(n - 1\) y es el \(S\) de
+            la muestra; σx divide por \(n\) y es otra cosa.
+          </p>
+        </div>
+
+        <h4>¿Qué caso es?</h4>
+        <p>Se recorre el diagrama de la profe, pregunta por pregunta:</p>
+        <ol>
+          <li><strong>¿Una muestra o dos?</strong> Dos: consultas en el servidor viejo y en el nuevo.</li>
+          <li><strong>¿Media o proporción?</strong> Media: tiempos en ms, se comparan promedios.</li>
+          <li><strong>¿Se conocen las varianzas de las poblaciones?</strong> No: solo hay los datos de las muestras, y de ahí salen \(S_1\) y \(S_2\).</li>
+          <li><strong>¿\(n_1\) y \(n_2\) son los dos \(\geq 30\)?</strong> No: 7 y 8, muestras chicas &rarr; va la \(t\) de Student.</li>
+          <li><strong>¿Las varianzas son parecidas?</strong> Regla práctica, la varianza más grande sobre la más chica:
+            <ul>
+              <li>\(S_1^2 = 9{,}6683^2 = 93{,}476\) y \(S_2^2 = 2^2 = 4\).</li>
+              <li>\(\dfrac{S^2_{mayor}}{S^2_{menor}} = \dfrac{93{,}476}{4} = 23{,}37\).</li>
+              <li>\(23{,}37 &gt; 3\): las varianzas son <strong>distintas</strong>.</li>
+            </ul>
+          </li>
+        </ol>
+        <p>
+          Conclusión: <strong>\(t\) de Welch</strong>. Mirando los datos se ve por qué: el viejo va de 44 a 70
+          (muy desparejo) y el nuevo de 39 a 45 (muy parejo). No tiene sentido juntar esas dos varianzas en
+          una sola (eso sería el pooled): cada una va <strong>por separado</strong>. El precio es que los
+          grados de libertad ya no son \(n_1 + n_2 - 2\): salen de una fórmula propia.
+        </p>
+
+        <h4>Quién es el grupo 1 y quién el 2</h4>
+        <p>
+          La resta es \(\mu_1 - \mu_2\). La regla: <strong>el grupo 1 es el que el enunciado nombra
+          primero</strong>. El enunciado dice &ldquo;en el servidor viejo y en el servidor nuevo&rdquo;, y en la tabla
+          el viejo está en la primera fila.
+        </p>
+        <ul>
+          <li>Grupo 1: <strong>servidor viejo</strong> &rarr; \(n_1 = 7\), \(\bar{x}_1 = 56{,}857\), \(S_1 = 9{,}6683\).</li>
+          <li>Grupo 2: <strong>servidor nuevo</strong> &rarr; \(n_2 = 8\), \(\bar{x}_2 = 42\), \(S_2 = 2\).</li>
+        </ul>
+        <p>
+          El orden decide el signo: viejo menos nuevo. Si da todo positivo, el viejo tarda más; si da todo
+          negativo, el nuevo tarda más. En la regla de las varianzas el orden no importa (la más grande va
+          siempre arriba).
+        </p>
+
+        <h4>La fórmula</h4>
+        <div class="caja caja-formula">
+          <span class="caja-tit">IC para \(\mu_1 - \mu_2\) con \(t\) de Welch</span>
+          <p>\[ (\bar{x}_1 - \bar{x}_2) - t_{(\alpha/2;\ \nu)}\sqrt{\frac{S_1^2}{n_1} + \frac{S_2^2}{n_2}} \;&lt;\; \mu_1 - \mu_2 \;&lt;\; (\bar{x}_1 - \bar{x}_2) + t_{(\alpha/2;\ \nu)}\sqrt{\frac{S_1^2}{n_1} + \frac{S_2^2}{n_2}} \]</p>
+          <p>\[ \nu = \frac{\left(\dfrac{S_1^2}{n_1} + \dfrac{S_2^2}{n_2}\right)^2}{\dfrac{\left(S_1^2/n_1\right)^2}{n_1 - 1} + \dfrac{\left(S_2^2/n_2\right)^2}{n_2 - 1}} \]</p>
+          <p>\(\nu\) casi nunca da entero: se redondea al entero más cercano.</p>
+        </div>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Letra</th><th>Qué es</th></tr>
+            <tr><td>\(\mu_1 - \mu_2\)</td><td>lo que se estima: cuánto más (o menos) tarda en promedio el viejo que el nuevo, en <strong>todas</strong> las consultas</td></tr>
+            <tr><td>\(\bar{x}_1 - \bar{x}_2\)</td><td>la diferencia de los promedios de las muestras: el centro</td></tr>
+            <tr><td>\(S_1^2,\ S_2^2\)</td><td>las varianzas de cada muestra: el sx de la calculadora, al cuadrado</td></tr>
+            <tr><td>\(a = S_1^2/n_1\)</td><td>lo que aporta el grupo 1 al error estándar (se calcula una vez y se reusa en \(\nu\))</td></tr>
+            <tr><td>\(b = S_2^2/n_2\)</td><td>lo que aporta el grupo 2</td></tr>
+            <tr><td>\(\sqrt{a + b}\)</td><td>el <strong>error estándar</strong> de la diferencia</td></tr>
+            <tr><td>\(\nu\)</td><td>los <strong>grados de libertad</strong>: cuánta información real hay. Con varianzas distintas sale de la fórmula de arriba, que se puede escribir \(\nu = \dfrac{(a + b)^2}{\frac{a^2}{n_1 - 1} + \frac{b^2}{n_2 - 1}}\). Dice en qué fila de la tabla \(t\) buscar</td></tr>
+            <tr><td>\(t_{(\alpha/2;\ \nu)}\)</td><td>el valor de la tabla \(t\), columna \(\alpha/2\), fila \(\nu\)</td></tr>
+          </table>
+        </div>
+
+        <h4>Desarme del enunciado</h4>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+            <tr><td>&ldquo;servidor viejo&rdquo; (lo nombra primero)</td><td>grupo 1</td><td>&mdash;</td><td>subíndice 1</td></tr>
+            <tr><td>&ldquo;servidor nuevo&rdquo;</td><td>grupo 2</td><td>&mdash;</td><td>subíndice 2</td></tr>
+            <tr><td>los 7 tiempos del viejo</td><td>muestra 1, chica</td><td>calculadora</td><td>\(n_1 = 7\), \(\bar{x}_1 = 56{,}857\), \(S_1 = 9{,}6683\)</td></tr>
+            <tr><td>los 8 tiempos del nuevo</td><td>muestra 2, chica</td><td>calculadora</td><td>\(n_2 = 8\), \(\bar{x}_2 = 42\), \(S_2 = 2\)</td></tr>
+            <tr><td>&ldquo;se distribuye normalmente&rdquo;</td><td>condición para usar la \(t\) con muestras chicas</td><td>&mdash;</td><td>&mdash;</td></tr>
+            <tr><td>&ldquo;intervalo de confianza del 95&nbsp;%&rdquo;</td><td>\(1 - \alpha = 0{,}95\)</td><td>\(\alpha = 0{,}05\); \(\alpha/2 = 0{,}025\)</td><td>columna 0,025 de la tabla \(t\)</td></tr>
+          </table>
+        </div>
+
+        <h4>Resolución</h4>
+        <span class="paso">Paso 1 &mdash; La fórmula</span>
+        <p>\[ (\bar{x}_1 - \bar{x}_2) \pm t_{(\alpha/2;\ \nu)}\sqrt{\frac{S_1^2}{n_1} + \frac{S_2^2}{n_2}} \]</p>
+
+        <span class="paso">Paso 2 &mdash; Las varianzas de cada muestra</span>
+        <p>\[ S_1^2 = 9{,}6683^2 = 93{,}476 \]</p>
+        <p>\[ S_2^2 = 2^2 = 4 \]</p>
+
+        <span class="paso">Paso 3 &mdash; La regla de las varianzas</span>
+        <p>\[ \frac{S^2_{mayor}}{S^2_{menor}} = \frac{93{,}476}{4} = 23{,}37 &gt; 3 \;\Rightarrow\; \text{Welch} \]</p>
+
+        <span class="paso">Paso 4 &mdash; Lo que aporta cada grupo</span>
+        <p>\[ a = \frac{S_1^2}{n_1} = \frac{93{,}476}{7} = 13{,}3537 \]</p>
+        <p>\[ b = \frac{S_2^2}{n_2} = \frac{4}{8} = 0{,}5 \]</p>
+
+        <span class="paso">Paso 5 &mdash; Los grados de libertad, término por término</span>
+        <p>Fórmula:</p>
+        <p>\[ \nu = \frac{(a + b)^2}{\dfrac{a^2}{n_1 - 1} + \dfrac{b^2}{n_2 - 1}} \]</p>
+        <p>Numerador:</p>
+        <p>\[ (a + b)^2 = (13{,}3537 + 0{,}5)^2 = 13{,}8537^2 = 191{,}925 \]</p>
+        <p>Primer término del denominador (grupo 1):</p>
+        <p>\[ \frac{a^2}{n_1 - 1} = \frac{13{,}3537^2}{7 - 1} = \frac{178{,}321}{6} = 29{,}7202 \]</p>
+        <p>Segundo término del denominador (grupo 2):</p>
+        <p>\[ \frac{b^2}{n_2 - 1} = \frac{0{,}5^2}{8 - 1} = \frac{0{,}25}{7} = 0{,}0357 \]</p>
+        <p>Denominador:</p>
+        <p>\[ 29{,}7202 + 0{,}0357 = 29{,}7559 \]</p>
+        <p>División:</p>
+        <p>\[ \nu = \frac{191{,}925}{29{,}7559} = 6{,}45 \;\to\; \nu = 6 \]</p>
+        <p>
+          Se redondea al entero más cercano: 6,45 &rarr; 6. Tiene sentido que dé tan bajo: casi todo el
+          error viene del servidor viejo, que tiene solo 7 datos, y \(\nu\) queda cerca de su \(n_1 - 1 = 6\).
+        </p>
+
+        <span class="paso">Paso 6 &mdash; El valor de tabla</span>
+        <ol>
+          <li>La confianza es 95&nbsp;%: \(1 - \alpha = 0{,}95\).</li>
+          <li>Lo que queda afuera: \(\alpha = 1 - 0{,}95 = 0{,}05\).</li>
+          <li>Se reparte en las dos colas: \(\alpha/2 = 0{,}025\). Esa es la <strong>columna</strong> de la tabla \(t\).</li>
+          <li>La <strong>fila</strong> es \(\nu = 6\), la que salió del paso 5.</li>
+          <li>Donde se cruzan, <strong>adentro</strong> de la tabla: \(t_{(0{,}025;\ 6)} = 2{,}447\).</li>
+        </ol>
+
+        <span class="paso">Paso 7 &mdash; El error estándar</span>
+        <p>\[ \sqrt{a + b} = \sqrt{13{,}3537 + 0{,}5} = \sqrt{13{,}8537} = 3{,}7221 \]</p>
+
+        <span class="paso">Paso 8 &mdash; El margen de error</span>
+        <p>\[ E = 2{,}447 \times 3{,}7221 = 9{,}108 \]</p>
+
+        <span class="paso">Paso 9 &mdash; El centro y los límites</span>
+        <p>\[ \bar{x}_1 - \bar{x}_2 = 56{,}857 - 42 = 14{,}857 \]</p>
+        <p>\[ 14{,}857 - 9{,}108 = 5{,}749 \qquad\qquad 14{,}857 + 9{,}108 = 23{,}965 \]</p>
+        <p>\[ 5{,}75 \;&lt;\; \mu_1 - \mu_2 \;&lt;\; 23{,}97 \]</p>
+
+        <span class="paso">Paso 10 &mdash; Cómo se lee el signo</span>
+        <ul>
+          <li><strong>Incluye el 0</strong>: no hay diferencia.</li>
+          <li><strong>Todo positivo</strong>: \(\mu_1 - \mu_2 &gt; 0\), o sea \(\mu_1 &gt; \mu_2\): el grupo 1 es mayor.</li>
+          <li><strong>Todo negativo</strong>: \(\mu_1 &lt; \mu_2\), el grupo 2 es mayor.</li>
+        </ul>
+        <p>
+          Acá los dos límites (5,75 y 23,97) son positivos: el 0 queda afuera. Entonces \(\mu_1 &gt; \mu_2\):
+          el tiempo medio del <strong>servidor viejo</strong> (grupo 1) es mayor, o sea es más lento, entre
+          5,75 y 23,97 ms en promedio.
+        </p>
+
+        <div class="caja caja-resp">
+          <span class="caja-tit">Respuesta</span>
+          <p>Grupo 1: servidor viejo; grupo 2: servidor nuevo.</p>
+          <p>\(\text{IC}_{95\%}(\mu_1 - \mu_2) = (5{,}75\ ;\ 23{,}97)\) ms.</p>
+          <p>
+            Con un 95&nbsp;% de confianza, el intervalo es todo positivo (no incluye el 0): hay diferencia en
+            el tiempo medio de respuesta, y el servidor viejo es más lento que el nuevo, entre 5,75 y 23,97 ms
+            más en promedio.
+          </p>
+        </div>
+
+        <div class="caja caja-ojo">
+          <span class="caja-tit">Trampas</span>
+          <ol>
+            <li><strong>Usar σx en vez de sx</strong> en la calculadora: da un \(S\) más chico y cambia todo lo que sigue.</li>
+            <li><strong>No anotar el grupo 1</strong> antes de volver a <strong>MODE</strong> <strong>3</strong> <strong>1</strong>: la tabla se borra.</li>
+            <li><strong>Usar \(n_1 + n_2 - 2 = 13\)</strong> como grados de libertad: eso es del pooled. En Welch, \(\nu\) sale de la fórmula (acá 6), y con 13 el intervalo quedaría más angosto de lo que corresponde.</li>
+            <li><strong>Equivocarse en el denominador de \(\nu\).</strong> Cada término se divide por <strong>su</strong> \(n - 1\) (6 y 7), y se eleva al cuadrado \(a\) y \(b\), no \(S_1\) y \(S_2\).</li>
+          </ol>
+        </div>
+      </div>
+    </details>
+  </div>
+</section>

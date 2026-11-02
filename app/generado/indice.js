@@ -193,6 +193,15 @@ window.Apuntes.registrarIndice({
         "tipo": "parcial"
       },
       {
+        "id": "2026-fundamentales-estimacion",
+        "archivo": "examenes/pye-2026-fundamentales-estimacion.js",
+        "titulo": "Ejercicios fundamentales de Estimaci\u00f3n",
+        "fecha": "Para el 3er parcial",
+        "detalle": "Un ejercicio de cada caso: una muestra (Z, t, datos sueltos, tama\u00f1o de muestra, proporci\u00f3n) y dos muestras (Z con \u03c3, Z con S, pooled y Welch), resueltos desde cero",
+        "temas": "IC para la media \u00b7 Tama\u00f1o de muestra \u00b7 IC para una proporci\u00f3n \u00b7 Diferencia de medias",
+        "tipo": "parcial"
+      },
+      {
         "id": "2026-tercer-parcial-probable",
         "archivo": "examenes/pye-2026-tercer-parcial-probable.js",
         "titulo": "Tercer Parcial - probable",

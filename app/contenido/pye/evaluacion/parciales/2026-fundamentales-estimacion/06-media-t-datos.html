@@ -1,0 +1,165 @@
+<!-- ==================== 4 · MEDIA CON DATOS SUELTOS (CALCULADORA Y t) ==================== -->
+<section class="parcial-ej" data-repaso="pye-fund-est-04">
+  <div class="parcial-ej-cab">
+    <h2>4. Media con datos sueltos (calculadora y t)</h2>
+    <span class="parcial-tema">Una muestra &middot; t con S, datos sueltos</span>
+  </div>
+
+  <p>
+    El área de soporte mide el tiempo de arranque (en segundos) de un servidor de aplicaciones
+    después de cada reinicio. Se registraron estos 10 arranques:
+  </p>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><td>12,4</td><td>13,1</td><td>11,8</td><td>12,9</td><td>13,5</td><td>12,2</td><td>12,7</td><td>13,0</td><td>12,1</td><td>12,3</td></tr>
+    </table>
+  </div>
+  <p>
+    Suponiendo que el tiempo de arranque tiene distribución normal, construya un intervalo de
+    confianza del 99&nbsp;% para el tiempo medio de arranque. Concluya.
+  </p>
+
+  <div class="parcial-extras">
+    <details class="parcial-desp pd-resultados">
+      <summary>
+        <span class="pd-icono">&#10003;</span>
+        <span class="pd-txt"><b>Resultados</b><small>Solo las respuestas, sin procedimiento</small></span>
+      </summary>
+      <div class="pd-cuerpo">
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Qué</th><th>Resultado</th></tr>
+            <tr><td class="lbl">Datos (calculadora)</td><td>\(n = 10\) &nbsp;&middot;&nbsp; \(\bar{x} = 12{,}6\) s &nbsp;&middot;&nbsp; \(S = 0{,}5270\) s</td></tr>
+            <tr><td class="lbl">Caso</td><td>Una media, \(n = 10 &lt; 30\), sin \(\sigma\) &rarr; \(t\) con \(\nu = 9\)</td></tr>
+            <tr><td class="lbl">Valor de tabla</td><td>\(t_{0{,}005;\,9} = 3{,}250\)</td></tr>
+            <tr><td class="lbl">Error de estimación</td><td>\(S/\sqrt{n} = 0{,}1667\) &nbsp;&middot;&nbsp; \(E = 0{,}542\) s</td></tr>
+            <tr><td class="lbl">IC 99&nbsp;%</td><td>\(\text{IC}_{99\%}(\mu) = (12{,}06\ ;\ 13{,}14)\) s</td></tr>
+          </table>
+        </div>
+      </div>
+    </details>
+
+    <details class="parcial-desp pd-explicacion">
+      <summary>
+        <span class="pd-icono">&#9998;</span>
+        <span class="pd-txt"><b>Explicación detallada</b><small>Desde cero: calculadora, qué caso es, fórmula, desarme, tabla y resolución</small></span>
+      </summary>
+      <div class="pd-cuerpo">
+
+        <div class="caja caja-ejemplo">
+          <span class="caja-tit">El enunciado, otra vez</span>
+          <p>
+            Tiempo de arranque de un servidor (s), normal. Datos: 12,4 &middot; 13,1 &middot; 11,8 &middot;
+            12,9 &middot; 13,5 &middot; 12,2 &middot; 12,7 &middot; 13,0 &middot; 12,1 &middot; 12,3. Piden un IC
+            del 99&nbsp;% para el tiempo medio y concluir.
+          </p>
+        </div>
+
+        <h4>Primero: sacar \(\bar{x}\), \(S\) y \(n\) con la calculadora</h4>
+        <p>
+          Cuando el enunciado da los datos sueltos, no da \(\bar{x}\) ni \(S\): hay que calcularlos. A mano
+          es largo y fácil de errar; con la calculadora en modo estadístico son unos segundos.
+        </p>
+        <div class="caja caja-calc">
+          <span class="caja-tit">Casio fx-991ES PLUS</span>
+          <ol>
+            <li><strong>MODE 3 1</strong> (STAT, 1-VAR): aparece una columna X para cargar datos.</li>
+            <li>Cargar cada dato y apretar <strong>=</strong>: 12.4 = 13.1 = 11.8 = 12.9 = 13.5 = 12.2 = 12.7 = 13 = 12.1 = 12.3 =</li>
+            <li><strong>AC</strong> para salir de la tabla (los datos quedan guardados).</li>
+            <li><strong>SHIFT 1 &rarr; 4 &rarr; 2</strong> (\(\bar{x}\)) y <strong>=</strong>: da <strong>12,6</strong>.</li>
+            <li><strong>SHIFT 1 &rarr; 4 &rarr; 4</strong> (s<sub>x</sub>) y <strong>=</strong>: da <strong>0,5270462767</strong>. Es \(S\). <strong>Nunca</strong> el 3 (σ<sub>x</sub>), que divide por \(n\) en vez de \(n - 1\).</li>
+            <li><strong>SHIFT 1 &rarr; 4 &rarr; 1</strong> (n) y <strong>=</strong>: da <strong>10</strong>. Sirve para controlar que no se saltó ni repitió un dato.</li>
+          </ol>
+        </div>
+        <p>Queda: \(n = 10\), \(\bar{x} = 12{,}6\), \(S = 0{,}5270\).</p>
+
+        <h4>¿Qué caso es?</h4>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Pregunta</th><th>En este enunciado</th><th>Entonces</th></tr>
+            <tr><td>¿Una muestra o dos?</td><td>Un solo servidor, una lista de datos.</td><td>Una muestra.</td></tr>
+            <tr><td>¿Media o proporción?</td><td>Piden el &ldquo;tiempo medio&rdquo;.</td><td>Media \(\mu\).</td></tr>
+            <tr><td>¿\(n \geq 30\)?</td><td>Hay 10 datos.</td><td>No: muestra chica.</td></tr>
+            <tr><td>¿\(\sigma\) conocida?</td><td>No dan ningún desvío: el desvío sale de los mismos datos.</td><td>No: es \(S\).</td></tr>
+          </table>
+        </div>
+        <p><strong>Caso: una media con \(t\) de Student</strong>, con \(\nu = n - 1\) grados de libertad.</p>
+
+        <h4>La fórmula</h4>
+        <div class="caja caja-formula">
+          <span class="caja-tit">IC para \(\mu\) con \(t\)</span>
+          <p>\[ \bar{x} - t_{\alpha/2;\,\nu}\,\frac{S}{\sqrt{n}} \;&lt;\; \mu \;&lt;\; \bar{x} + t_{\alpha/2;\,\nu}\,\frac{S}{\sqrt{n}} \qquad \nu = n - 1 \qquad E = t_{\alpha/2;\,\nu}\,\frac{S}{\sqrt{n}} \]</p>
+        </div>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Letra</th><th>Qué es</th></tr>
+            <tr><td class="lbl">\(\mu\)</td><td>El tiempo medio de <strong>todos</strong> los arranques del servidor. Es lo que se estima.</td></tr>
+            <tr><td class="lbl">\(\bar{x}\)</td><td>El promedio de los 10 datos (calculadora): el centro del intervalo.</td></tr>
+            <tr><td class="lbl">\(S\)</td><td>El desvío de los 10 datos (s<sub>x</sub> en la calculadora).</td></tr>
+            <tr><td class="lbl">\(n\)</td><td>Cuántos datos hay.</td></tr>
+            <tr><td class="lbl">\(\nu\)</td><td>Los <strong>grados de libertad</strong>: \(n - 1\). La fila de la tabla \(t\).</td></tr>
+            <tr><td class="lbl">\(S/\sqrt{n}\)</td><td>El <strong>error estándar</strong>: cuánto cambia \(\bar{x}\) de una muestra a otra.</td></tr>
+            <tr><td class="lbl">\(t_{\alpha/2;\,\nu}\)</td><td>El valor de la tabla \(t\) que deja \(\alpha/2\) en la punta derecha.</td></tr>
+            <tr><td class="lbl">\(E\)</td><td>El <strong>error de estimación</strong>: lo que se suma y se resta a \(\bar{x}\).</td></tr>
+          </table>
+        </div>
+
+        <h4>Desarme del enunciado</h4>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+            <tr><td>&ldquo;tiempo de arranque (en segundos)&rdquo;</td><td>la variable</td><td>&mdash;</td><td>\(X\): tiempo de un arranque (s) &rarr; v.a. continua</td></tr>
+            <tr><td>&ldquo;estos 10 arranques&rdquo;</td><td>los datos de la muestra</td><td>calculadora</td><td>\(n = 10\), \(\bar{x} = 12{,}6\), \(S = 0{,}5270\)</td></tr>
+            <tr><td>(sale de \(n\))</td><td>grados de libertad</td><td>\(10 - 1\)</td><td>\(\nu = 9\)</td></tr>
+            <tr><td>&ldquo;tiene distribución normal&rdquo;</td><td>la condición para usar \(t\) con pocos datos</td><td>&mdash;</td><td>\(X \sim N(\mu;\ \sigma)\)</td></tr>
+            <tr><td>&ldquo;intervalo de confianza del 99&nbsp;%&rdquo;</td><td>la confianza</td><td>\(1 - \alpha = 0{,}99\)</td><td>\(\alpha/2 = 0{,}005\)</td></tr>
+          </table>
+        </div>
+
+        <h4>El valor de tabla, paso a paso</h4>
+        <ol>
+          <li>\(1 - \alpha = 0{,}99\), así que \(\alpha = 1 - 0{,}99 = 0{,}01\) y \(\alpha/2 = 0{,}01 / 2 = 0{,}005\).</li>
+          <li>Grados de libertad: \(\nu = n - 1 = 10 - 1 = 9\).</li>
+          <li>En la tabla \(t\) de la cátedra: <strong>columna 0,005</strong> y <strong>fila 9</strong>.</li>
+          <li>El cruce, <strong>adentro de la tabla</strong>: \(t_{0{,}005;\,9} = 3{,}250\).</li>
+        </ol>
+
+        <h4>Resolución</h4>
+        <span class="paso">Paso 1 &mdash; La fórmula</span>
+        <p>\[ \bar{x} - t_{\alpha/2;\,\nu}\,\frac{S}{\sqrt{n}} \;&lt;\; \mu \;&lt;\; \bar{x} + t_{\alpha/2;\,\nu}\,\frac{S}{\sqrt{n}} \]</p>
+
+        <span class="paso">Paso 2 &mdash; Error estándar</span>
+        <p>\[ \frac{S}{\sqrt{n}} = \frac{0{,}5270}{\sqrt{10}} = \frac{0{,}5270}{3{,}1623} = 0{,}1667 \]</p>
+
+        <span class="paso">Paso 3 &mdash; Error de estimación</span>
+        <p>\[ E = t_{0{,}005;\,9}\,\frac{S}{\sqrt{n}} = 3{,}250 \times 0{,}1667 = 0{,}542 \]</p>
+
+        <span class="paso">Paso 4 &mdash; Los límites</span>
+        <p>\[ 12{,}6 - 0{,}542 \;&lt;\; \mu \;&lt;\; 12{,}6 + 0{,}542 \]</p>
+        <p>\[ 12{,}06 \;&lt;\; \mu \;&lt;\; 13{,}14 \]</p>
+
+        <h4>Respuesta</h4>
+        <div class="caja caja-resp">
+          <span class="caja-tit">Como va en la hoja</span>
+          <p>\(n = 10\), \(\bar{x} = 12{,}6\) s, \(S = 0{,}5270\) s (calculadora).</p>
+          <p>\(\text{IC}_{99\%}(\mu) = (12{,}06\ ;\ 13{,}14)\) s.</p>
+          <p>
+            Con un 99&nbsp;% de confianza, el tiempo medio de arranque del servidor está entre 12,06 y
+            13,14 segundos.
+          </p>
+        </div>
+
+        <h4>Trampas</h4>
+        <div class="caja caja-ojo">
+          <span class="caja-tit">Las trampas de este caso</span>
+          <ol>
+            <li><strong>Usar σ<sub>x</sub> (SHIFT 1 &rarr; 4 &rarr; 3) en vez de s<sub>x</sub>.</strong> Da 0,5 en lugar de 0,5270 y el intervalo sale más angosto de lo que es.</li>
+            <li><strong>Cargar mal un dato.</strong> Controlar con \(n\) (SHIFT 1 &rarr; 4 &rarr; 1) que sean 10.</li>
+            <li><strong>Fila 10 en vez de 9.</strong> \(\nu = n - 1\): con 10 la tabla da 3,169.</li>
+            <li><strong>Columna 0,01 en vez de 0,005.</strong> Al 99&nbsp;% la columna es \(\alpha/2 = 0{,}005\).</li>
+          </ol>
+        </div>
+      </div>
+    </details>
+  </div>
+</section>

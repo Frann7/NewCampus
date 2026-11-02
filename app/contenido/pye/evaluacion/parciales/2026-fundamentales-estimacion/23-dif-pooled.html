@@ -1,0 +1,210 @@
+<!-- ==================== 10 · MUESTRAS CHICAS, VARIANZAS PARECIDAS: POOLED ==================== -->
+<section class="parcial-ej" data-repaso="pye-fund-est-10">
+  <div class="parcial-ej-cab">
+    <h2>10. Muestras chicas, varianzas parecidas (pooled)</h2>
+    <span class="parcial-tema">Dos muestras &middot; t pooled</span>
+  </div>
+
+  <p>
+    Una empresa tiene el mismo microservicio escrito en dos lenguajes y quiere comparar cuánta memoria
+    usa cada uno. Se miden 12 instancias al azar de la versión en <strong>Go</strong>, con un uso medio
+    de 84,3 MB y un desvío estándar de 9,1 MB, y 10 instancias al azar de la versión en
+    <strong>Java</strong>, con un uso medio de 97,6 MB y un desvío estándar de 11,4 MB. Se supone que
+    el uso de memoria se distribuye normalmente en las dos versiones.
+  </p>
+
+  <ol class="parcial-incisos">
+    <li>Construya un intervalo de confianza del 95&nbsp;% para la diferencia entre los usos medios de memoria. Concluya: ¿hay diferencia? ¿Cuál usa más memoria?</li>
+  </ol>
+
+  <div class="parcial-extras">
+    <details class="parcial-desp pd-resultados">
+      <summary>
+        <span class="pd-icono">&#10003;</span>
+        <span class="pd-txt"><b>Resultados</b><small>Solo las respuestas, sin procedimiento</small></span>
+      </summary>
+      <div class="pd-cuerpo">
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Qué</th><th>Resultado</th></tr>
+            <tr><td class="lbl">Caso</td><td>Dos medias, \(\sigma\) desconocidas, muestras chicas, \(S^2_{mayor}/S^2_{menor} = 1{,}57 \leq 3\) &rarr; \(t\) pooled</td></tr>
+            <tr><td class="lbl">Valores</td><td>\(S_p^2 = 104{,}03\), \(S_p = 10{,}1994\) &nbsp;&middot;&nbsp; \(\nu = 20\), \(t_{(0{,}025;\ 20)} = 2{,}086\) &nbsp;&middot;&nbsp; \(E = 9{,}110\) MB</td></tr>
+            <tr><td class="lbl">IC 95&nbsp;%</td><td>\(\text{IC}_{95\%}(\mu_1 - \mu_2) = (-22{,}41\ ;\ -4{,}19)\) MB (1 = Go, 2 = Java)</td></tr>
+            <tr><td class="lbl">Conclusión</td><td>Todo negativo: hay diferencia, \(\mu_1 &lt; \mu_2\). La versión en Java usa más memoria, entre 4,19 y 22,41 MB más en promedio.</td></tr>
+          </table>
+        </div>
+      </div>
+    </details>
+
+    <details class="parcial-desp pd-explicacion">
+      <summary>
+        <span class="pd-icono">&#9998;</span>
+        <span class="pd-txt"><b>Explicación detallada</b><small>Desde cero: qué caso es, la fórmula, el desarme y la resolución</small></span>
+      </summary>
+      <div class="pd-cuerpo">
+
+        <div class="caja caja-ejemplo">
+          <span class="caja-tit">El enunciado, otra vez</span>
+          <p>
+            Memoria del microservicio en Go (12 instancias, media 84,3 MB, desvío 9,1 MB) y en Java (10
+            instancias, media 97,6 MB, desvío 11,4 MB), con distribución normal. Piden un IC del 95&nbsp;% para
+            la diferencia de medias y concluir.
+          </p>
+        </div>
+
+        <h4>¿Qué caso es?</h4>
+        <p>Se recorre el diagrama de la profe, pregunta por pregunta:</p>
+        <ol>
+          <li><strong>¿Una muestra o dos?</strong> Dos: instancias en Go e instancias en Java.</li>
+          <li><strong>¿Media o proporción?</strong> Media: &ldquo;uso medio de memoria&rdquo;, un promedio de MB.</li>
+          <li><strong>¿Se conocen las varianzas de las poblaciones?</strong> No: 9,1 y 11,4 salieron de estas 12 y 10 instancias, son desvíos de la muestra (\(S_1\) y \(S_2\)).</li>
+          <li><strong>¿\(n_1\) y \(n_2\) son los dos \(\geq 30\)?</strong> No: 12 y 10 son muestras <strong>chicas</strong>. Con pocos datos, \(S\) no es una aproximación confiable de \(\sigma\), y se usa la \(t\) de Student (más ancha que la \(Z\), para cubrir esa incertidumbre).</li>
+          <li><strong>¿Las varianzas son parecidas?</strong> Se usa la regla práctica: se divide la varianza más grande por la más chica.
+            <ul>
+              <li>\(S_1^2 = 9{,}1^2 = 82{,}81\) y \(S_2^2 = 11{,}4^2 = 129{,}96\).</li>
+              <li>\(\dfrac{S^2_{mayor}}{S^2_{menor}} = \dfrac{129{,}96}{82{,}81} = 1{,}57\).</li>
+              <li>\(1{,}57 \leq 3\): las varianzas se pueden suponer <strong>iguales</strong>.</li>
+            </ul>
+          </li>
+        </ol>
+        <p>
+          Conclusión: <strong>\(t\) pooled</strong>. &ldquo;Pooled&rdquo; quiere decir &ldquo;juntado&rdquo;: si las dos
+          poblaciones tienen la misma varianza, conviene juntar las dos muestras para estimar esa única
+          varianza con más datos. Eso es \(S_p^2\), un promedio de \(S_1^2\) y \(S_2^2\) donde cada una pesa según
+          cuántos datos tiene.
+        </p>
+
+        <h4>Quién es el grupo 1 y quién el 2</h4>
+        <p>
+          La resta es \(\mu_1 - \mu_2\). La regla: <strong>el grupo 1 es el que el enunciado nombra
+          primero</strong>. Primero aparecen las 12 instancias en Go, después las 10 en Java.
+        </p>
+        <ul>
+          <li>Grupo 1: <strong>Go</strong> &rarr; \(n_1 = 12\), \(\bar{x}_1 = 84{,}3\), \(S_1 = 9{,}1\).</li>
+          <li>Grupo 2: <strong>Java</strong> &rarr; \(n_2 = 10\), \(\bar{x}_2 = 97{,}6\), \(S_2 = 11{,}4\).</li>
+        </ul>
+        <p>
+          Ojo: en la regla de las varianzas el orden <strong>no</strong> importa (siempre la más grande arriba,
+          acá la de Java). En la resta \(\bar{x}_1 - \bar{x}_2\) sí importa: Go menos Java. Ese orden decide el
+          signo del intervalo y cómo se lee la conclusión.
+        </p>
+
+        <h4>La fórmula</h4>
+        <div class="caja caja-formula">
+          <span class="caja-tit">IC para \(\mu_1 - \mu_2\) con \(t\) pooled</span>
+          <p>\[ S_p^2 = \frac{(n_1 - 1)\,S_1^2 + (n_2 - 1)\,S_2^2}{n_1 + n_2 - 2} \qquad\qquad S_p = \sqrt{S_p^2} \]</p>
+          <p>\[ (\bar{x}_1 - \bar{x}_2) - t_{(\alpha/2;\ \nu)}\, S_p\sqrt{\frac{1}{n_1} + \frac{1}{n_2}} \;&lt;\; \mu_1 - \mu_2 \;&lt;\; (\bar{x}_1 - \bar{x}_2) + t_{(\alpha/2;\ \nu)}\, S_p\sqrt{\frac{1}{n_1} + \frac{1}{n_2}} \]</p>
+          <p>\[ \nu = n_1 + n_2 - 2 \qquad\qquad E = t_{(\alpha/2;\ \nu)}\, S_p\sqrt{\frac{1}{n_1} + \frac{1}{n_2}} \]</p>
+        </div>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Letra</th><th>Qué es</th></tr>
+            <tr><td>\(\mu_1 - \mu_2\)</td><td>lo que se estima: cuánta más (o menos) memoria usa en promedio Go que Java, mirando <strong>todas</strong> las instancias</td></tr>
+            <tr><td>\(\bar{x}_1 - \bar{x}_2\)</td><td>la diferencia de los promedios de las muestras: el centro</td></tr>
+            <tr><td>\(S_1^2,\ S_2^2\)</td><td>las varianzas de cada muestra (los desvíos al cuadrado)</td></tr>
+            <tr><td>\(n_1 - 1,\ n_2 - 1\)</td><td>los pesos: la muestra con más datos pesa más en el promedio</td></tr>
+            <tr><td>\(S_p^2\)</td><td>la varianza común, estimada con las dos muestras juntas</td></tr>
+            <tr><td>\(S_p\)</td><td>su raíz, el desvío común: es lo que va en el intervalo</td></tr>
+            <tr><td>\(S_p\sqrt{1/n_1 + 1/n_2}\)</td><td>el <strong>error estándar</strong> de la diferencia</td></tr>
+            <tr><td>\(\nu = n_1 + n_2 - 2\)</td><td>los <strong>grados de libertad</strong>: cuánta información real hay. Se pierde 1 por cada promedio que se calculó (dos promedios, se restan 2). Dice en qué fila de la tabla \(t\) buscar</td></tr>
+            <tr><td>\(t_{(\alpha/2;\ \nu)}\)</td><td>el valor de la tabla \(t\), columna \(\alpha/2\), fila \(\nu\)</td></tr>
+          </table>
+        </div>
+
+        <h4>Desarme del enunciado</h4>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+            <tr><td>&ldquo;la versión en Go&rdquo; (la nombra primero)</td><td>grupo 1</td><td>&mdash;</td><td>subíndice 1</td></tr>
+            <tr><td>&ldquo;la versión en Java&rdquo;</td><td>grupo 2</td><td>&mdash;</td><td>subíndice 2</td></tr>
+            <tr><td>&ldquo;12 instancias al azar de la versión en Go&rdquo;</td><td>tamaño de la muestra 1, chica</td><td>&mdash;</td><td>\(n_1 = 12\)</td></tr>
+            <tr><td>&ldquo;uso medio de 84,3 MB&rdquo;</td><td>promedio de la muestra 1</td><td>&mdash;</td><td>\(\bar{x}_1 = 84{,}3\)</td></tr>
+            <tr><td>&ldquo;desvío estándar de 9,1 MB&rdquo;</td><td>desvío de la muestra 1</td><td>\(9{,}1^2 = 82{,}81\)</td><td>\(S_1^2 = 82{,}81\)</td></tr>
+            <tr><td>&ldquo;10 instancias al azar de la versión en Java&rdquo;</td><td>tamaño de la muestra 2, chica</td><td>&mdash;</td><td>\(n_2 = 10\)</td></tr>
+            <tr><td>&ldquo;uso medio de 97,6 MB&rdquo;</td><td>promedio de la muestra 2</td><td>&mdash;</td><td>\(\bar{x}_2 = 97{,}6\)</td></tr>
+            <tr><td>&ldquo;desvío estándar de 11,4 MB&rdquo;</td><td>desvío de la muestra 2</td><td>\(11{,}4^2 = 129{,}96\)</td><td>\(S_2^2 = 129{,}96\)</td></tr>
+            <tr><td>&ldquo;se distribuye normalmente&rdquo;</td><td>condición para usar la \(t\) con muestras chicas</td><td>&mdash;</td><td>&mdash;</td></tr>
+            <tr><td>&ldquo;intervalo de confianza del 95&nbsp;%&rdquo;</td><td>\(1 - \alpha = 0{,}95\)</td><td>\(\alpha = 0{,}05\); \(\alpha/2 = 0{,}025\)</td><td>columna 0,025 de la tabla \(t\)</td></tr>
+          </table>
+        </div>
+
+        <h4>El valor de tabla, paso a paso</h4>
+        <ol>
+          <li>La confianza es 95&nbsp;%: \(1 - \alpha = 0{,}95\).</li>
+          <li>Lo que queda afuera: \(\alpha = 1 - 0{,}95 = 0{,}05\).</li>
+          <li>Se reparte en las dos colas: \(\alpha/2 = 0{,}05 / 2 = 0{,}025\). Esa es la <strong>columna</strong> de la tabla \(t\).</li>
+          <li>Los grados de libertad: \(\nu = n_1 + n_2 - 2 = 12 + 10 - 2 = 20\). Esa es la <strong>fila</strong>.</li>
+          <li>Donde se cruzan la columna 0,025 y la fila 20, <strong>adentro</strong> de la tabla, se lee \(t_{(0{,}025;\ 20)} = 2{,}086\).</li>
+        </ol>
+        <p>Es más grande que el 1,96 de la \(Z\): con muestras chicas el intervalo se ensancha un poco para cubrir que \(S_p\) es menos confiable.</p>
+
+        <h4>Resolución</h4>
+        <span class="paso">Paso 1 &mdash; La fórmula</span>
+        <p>\[ (\bar{x}_1 - \bar{x}_2) \pm t_{(\alpha/2;\ \nu)}\, S_p\sqrt{\frac{1}{n_1} + \frac{1}{n_2}} \qquad S_p^2 = \frac{(n_1 - 1)\,S_1^2 + (n_2 - 1)\,S_2^2}{n_1 + n_2 - 2} \]</p>
+
+        <span class="paso">Paso 2 &mdash; Las varianzas de cada muestra</span>
+        <p>\[ S_1^2 = 9{,}1^2 = 82{,}81 \]</p>
+        <p>\[ S_2^2 = 11{,}4^2 = 129{,}96 \]</p>
+
+        <span class="paso">Paso 3 &mdash; La regla de las varianzas</span>
+        <p>\[ \frac{S^2_{mayor}}{S^2_{menor}} = \frac{129{,}96}{82{,}81} = 1{,}57 \leq 3 \;\Rightarrow\; \text{pooled} \]</p>
+
+        <span class="paso">Paso 4 &mdash; Cada término del numerador de \(S_p^2\)</span>
+        <p>\[ (n_1 - 1)\,S_1^2 = 11 \times 82{,}81 = 910{,}91 \]</p>
+        <p>\[ (n_2 - 1)\,S_2^2 = 9 \times 129{,}96 = 1169{,}64 \]</p>
+
+        <span class="paso">Paso 5 &mdash; La varianza pooled y su raíz</span>
+        <p>\[ S_p^2 = \frac{910{,}91 + 1169{,}64}{12 + 10 - 2} = \frac{2080{,}55}{20} = 104{,}03 \]</p>
+        <p>\[ S_p = \sqrt{104{,}03} = 10{,}1994 \]</p>
+        <p>Queda entre 9,1 y 11,4, como tiene que ser: es un promedio de los dos desvíos (un poco más cerca del de Go, que tiene más datos).</p>
+
+        <span class="paso">Paso 6 &mdash; La raíz de los tamaños</span>
+        <p>\[ \sqrt{\frac{1}{12} + \frac{1}{10}} = \sqrt{0{,}08333 + 0{,}1} = \sqrt{0{,}18333} = 0{,}42817 \]</p>
+
+        <span class="paso">Paso 7 &mdash; El error estándar</span>
+        <p>\[ S_p\sqrt{\frac{1}{n_1} + \frac{1}{n_2}} = 10{,}1994 \times 0{,}42817 = 4{,}3671 \]</p>
+
+        <span class="paso">Paso 8 &mdash; El margen de error</span>
+        <p>\[ E = 2{,}086 \times 4{,}3671 = 9{,}110 \]</p>
+
+        <span class="paso">Paso 9 &mdash; El centro y los límites</span>
+        <p>\[ \bar{x}_1 - \bar{x}_2 = 84{,}3 - 97{,}6 = -13{,}3 \]</p>
+        <p>\[ -13{,}3 - 9{,}110 = -22{,}410 \qquad\qquad -13{,}3 + 9{,}110 = -4{,}190 \]</p>
+        <p>\[ -22{,}41 \;&lt;\; \mu_1 - \mu_2 \;&lt;\; -4{,}19 \]</p>
+
+        <span class="paso">Paso 10 &mdash; Cómo se lee el signo</span>
+        <ul>
+          <li><strong>Incluye el 0</strong>: no hay diferencia.</li>
+          <li><strong>Todo positivo</strong>: \(\mu_1 &gt; \mu_2\), el grupo 1 es mayor.</li>
+          <li><strong>Todo negativo</strong>: \(\mu_1 - \mu_2 &lt; 0\), o sea \(\mu_1 &lt; \mu_2\): el grupo 2 es mayor.</li>
+        </ul>
+        <p>
+          Acá los dos límites son negativos: el 0 queda afuera. Entonces \(\mu_1 &lt; \mu_2\): Go (grupo 1)
+          usa menos memoria y <strong>Java</strong> (grupo 2) usa más. ¿Cuánto más? Se da vuelta el signo:
+          Java usa entre 4,19 y 22,41 MB más en promedio.
+        </p>
+
+        <div class="caja caja-resp">
+          <span class="caja-tit">Respuesta</span>
+          <p>Grupo 1: Go; grupo 2: Java.</p>
+          <p>\(\text{IC}_{95\%}(\mu_1 - \mu_2) = (-22{,}41\ ;\ -4{,}19)\) MB.</p>
+          <p>
+            Con un 95&nbsp;% de confianza, el intervalo es todo negativo (no incluye el 0): hay diferencia en
+            el uso medio de memoria, y la versión en Java usa más memoria que la de Go, entre 4,19 y 22,41 MB
+            más en promedio.
+          </p>
+        </div>
+
+        <div class="caja caja-ojo">
+          <span class="caja-tit">Trampas</span>
+          <ol>
+            <li><strong>Hacer la regla con los desvíos.</strong> \(11{,}4 / 9{,}1 = 1{,}25\) no es la regla: se dividen las <strong>varianzas</strong> (129,96 / 82,81).</li>
+            <li><strong>Multiplicar por \(n\) en vez de \(n - 1\)</strong> en \(S_p^2\): los pesos son 11 y 9, no 12 y 10.</li>
+            <li><strong>Olvidar la raíz de \(S_p^2\).</strong> En el intervalo va \(S_p = 10{,}1994\), no 104,03.</li>
+            <li><strong>Grados de libertad mal.</strong> Son \(n_1 + n_2 - 2 = 20\), no 21 ni 22.</li>
+          </ol>
+        </div>
+      </div>
+    </details>
+  </div>
+</section>

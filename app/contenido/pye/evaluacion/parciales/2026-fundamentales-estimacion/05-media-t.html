@@ -1,0 +1,142 @@
+<!-- ==================== 3 · MEDIA CON n < 30 (t) ==================== -->
+<section class="parcial-ej" data-repaso="pye-fund-est-03">
+  <div class="parcial-ej-cab">
+    <h2>3. Media con n &lt; 30 (t)</h2>
+    <span class="parcial-tema">Una muestra &middot; t con S</span>
+  </div>
+
+  <p>
+    Se quiere estimar la memoria RAM media (en MB) que usa un microservicio en producción. Se
+    toman 16 contenedores al azar, que dan un consumo medio de 72,4 MB con un desvío estándar de
+    8 MB. Se supone que el consumo de memoria tiene distribución normal.
+  </p>
+  <p>Construya un intervalo de confianza del 95&nbsp;% para el consumo medio de memoria. Concluya.</p>
+
+  <div class="parcial-extras">
+    <details class="parcial-desp pd-resultados">
+      <summary>
+        <span class="pd-icono">&#10003;</span>
+        <span class="pd-txt"><b>Resultados</b><small>Solo las respuestas, sin procedimiento</small></span>
+      </summary>
+      <div class="pd-cuerpo">
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Qué</th><th>Resultado</th></tr>
+            <tr><td class="lbl">Caso</td><td>Una media, \(n = 16 &lt; 30\), sin \(\sigma\) &rarr; \(t\) con \(\nu = 15\)</td></tr>
+            <tr><td class="lbl">Valor de tabla</td><td>\(t_{0{,}025;\,15} = 2{,}131\)</td></tr>
+            <tr><td class="lbl">Error de estimación</td><td>\(S/\sqrt{n} = 2\) &nbsp;&middot;&nbsp; \(E = 4{,}262\) MB</td></tr>
+            <tr><td class="lbl">IC 95&nbsp;%</td><td>\(\text{IC}_{95\%}(\mu) = (68{,}14\ ;\ 76{,}66)\) MB</td></tr>
+          </table>
+        </div>
+      </div>
+    </details>
+
+    <details class="parcial-desp pd-explicacion">
+      <summary>
+        <span class="pd-icono">&#9998;</span>
+        <span class="pd-txt"><b>Explicación detallada</b><small>Desde cero: qué caso es, fórmula, desarme, tabla y resolución</small></span>
+      </summary>
+      <div class="pd-cuerpo">
+
+        <div class="caja caja-ejemplo">
+          <span class="caja-tit">El enunciado, otra vez</span>
+          <p>
+            Memoria que usa un microservicio. 16 contenedores dan \(\bar{x} = 72{,}4\) MB y \(S = 8\) MB;
+            el consumo es normal. Piden un IC del 95&nbsp;% para el consumo medio y concluir.
+          </p>
+        </div>
+
+        <h4>¿Qué caso es?</h4>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Pregunta</th><th>En este enunciado</th><th>Entonces</th></tr>
+            <tr><td>¿Una muestra o dos?</td><td>Un solo grupo de contenedores.</td><td>Una muestra.</td></tr>
+            <tr><td>¿Media o proporción?</td><td>Piden el &ldquo;consumo medio&rdquo;.</td><td>Media \(\mu\).</td></tr>
+            <tr><td>¿\(n \geq 30\)?</td><td>\(n = 16\).</td><td>No: muestra chica.</td></tr>
+            <tr><td>¿\(\sigma\) conocida?</td><td>El desvío de 8 MB sale de los 16 contenedores medidos.</td><td>No: es \(S\).</td></tr>
+          </table>
+        </div>
+        <p>
+          <strong>Caso: una media con \(t\) de Student</strong>, con \(\nu = n - 1\) grados de libertad. Con
+          pocos datos, \(S\) puede alejarse bastante de \(\sigma\); la \(t\) es una campana más ancha que
+          la normal y compensa esa duda dando un intervalo más ancho.
+        </p>
+
+        <h4>La fórmula</h4>
+        <div class="caja caja-formula">
+          <span class="caja-tit">IC para \(\mu\) con \(t\)</span>
+          <p>\[ \bar{x} - t_{\alpha/2;\,\nu}\,\frac{S}{\sqrt{n}} \;&lt;\; \mu \;&lt;\; \bar{x} + t_{\alpha/2;\,\nu}\,\frac{S}{\sqrt{n}} \qquad \nu = n - 1 \qquad E = t_{\alpha/2;\,\nu}\,\frac{S}{\sqrt{n}} \]</p>
+        </div>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Letra</th><th>Qué es</th></tr>
+            <tr><td class="lbl">\(\mu\)</td><td>El consumo medio de <strong>todos</strong> los contenedores del servicio. Es lo que se estima.</td></tr>
+            <tr><td class="lbl">\(\bar{x}\)</td><td>El promedio de la muestra: el centro del intervalo.</td></tr>
+            <tr><td class="lbl">\(S\)</td><td>El desvío calculado con los datos de la muestra.</td></tr>
+            <tr><td class="lbl">\(n\)</td><td>Cuántos datos tiene la muestra.</td></tr>
+            <tr><td class="lbl">\(\nu\)</td><td>Los <strong>grados de libertad</strong>: \(n - 1\). Dicen qué fila de la tabla \(t\) usar (cuantos más datos, más se parece la \(t\) a la normal).</td></tr>
+            <tr><td class="lbl">\(S/\sqrt{n}\)</td><td>El <strong>error estándar</strong>: cuánto cambia \(\bar{x}\) de una muestra a otra.</td></tr>
+            <tr><td class="lbl">\(t_{\alpha/2;\,\nu}\)</td><td>El valor de la tabla \(t\) que deja \(\alpha/2\) en la punta derecha, con \(\nu\) grados de libertad.</td></tr>
+            <tr><td class="lbl">\(E\)</td><td>El <strong>error de estimación</strong>: lo que se suma y se resta a \(\bar{x}\).</td></tr>
+          </table>
+        </div>
+
+        <h4>Desarme del enunciado</h4>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+            <tr><td>&ldquo;memoria RAM media (en MB)&rdquo;</td><td>la variable</td><td>&mdash;</td><td>\(X\): memoria de un contenedor (MB) &rarr; v.a. continua</td></tr>
+            <tr><td>&ldquo;16 contenedores al azar&rdquo;</td><td>tamaño de muestra</td><td>\(16 - 1\)</td><td>\(n = 16\), \(\nu = 15\)</td></tr>
+            <tr><td>&ldquo;un consumo medio de 72,4 MB&rdquo;</td><td>promedio de la muestra</td><td>&mdash;</td><td>\(\bar{x} = 72{,}4\)</td></tr>
+            <tr><td>&ldquo;con un desvío estándar de 8 MB&rdquo;</td><td>desvío de la muestra</td><td>&mdash;</td><td>\(S = 8\)</td></tr>
+            <tr><td>&ldquo;tiene distribución normal&rdquo;</td><td>la condición para usar \(t\) con pocos datos</td><td>&mdash;</td><td>\(X \sim N(\mu;\ \sigma)\)</td></tr>
+            <tr><td>&ldquo;intervalo de confianza del 95&nbsp;%&rdquo;</td><td>la confianza</td><td>\(1 - \alpha = 0{,}95\)</td><td>\(\alpha/2 = 0{,}025\)</td></tr>
+          </table>
+        </div>
+
+        <h4>El valor de tabla, paso a paso</h4>
+        <ol>
+          <li>\(1 - \alpha = 0{,}95\), así que \(\alpha = 0{,}05\) y \(\alpha/2 = 0{,}025\).</li>
+          <li>Grados de libertad: \(\nu = n - 1 = 16 - 1 = 15\).</li>
+          <li>En la tabla \(t\) de la cátedra se va a la <strong>columna 0,025</strong> (el \(\alpha/2\)) y a la <strong>fila 15</strong> (el \(\nu\)).</li>
+          <li>Donde se cruzan, <strong>adentro de la tabla</strong>, se lee el valor: \(t_{0{,}025;\,15} = 2{,}131\). Ya viene positivo.</li>
+        </ol>
+        <p>Comparado con el 1,96 de la normal, 2,131 es más grande: por eso el intervalo con \(t\) sale más ancho.</p>
+
+        <h4>Resolución</h4>
+        <span class="paso">Paso 1 &mdash; La fórmula</span>
+        <p>\[ \bar{x} - t_{\alpha/2;\,\nu}\,\frac{S}{\sqrt{n}} \;&lt;\; \mu \;&lt;\; \bar{x} + t_{\alpha/2;\,\nu}\,\frac{S}{\sqrt{n}} \]</p>
+
+        <span class="paso">Paso 2 &mdash; Error estándar</span>
+        <p>\[ \frac{S}{\sqrt{n}} = \frac{8}{\sqrt{16}} = \frac{8}{4} = 2 \]</p>
+
+        <span class="paso">Paso 3 &mdash; Error de estimación</span>
+        <p>\[ E = t_{0{,}025;\,15}\,\frac{S}{\sqrt{n}} = 2{,}131 \times 2 = 4{,}262 \]</p>
+
+        <span class="paso">Paso 4 &mdash; Los límites</span>
+        <p>\[ 72{,}4 - 4{,}262 \;&lt;\; \mu \;&lt;\; 72{,}4 + 4{,}262 \]</p>
+        <p>\[ 68{,}14 \;&lt;\; \mu \;&lt;\; 76{,}66 \]</p>
+
+        <h4>Respuesta</h4>
+        <div class="caja caja-resp">
+          <span class="caja-tit">Como va en la hoja</span>
+          <p>\(\text{IC}_{95\%}(\mu) = (68{,}14\ ;\ 76{,}66)\) MB.</p>
+          <p>
+            Con un 95&nbsp;% de confianza, el consumo medio de memoria de todos los contenedores del
+            microservicio está entre 68,14 y 76,66 MB.
+          </p>
+        </div>
+
+        <h4>Trampas</h4>
+        <div class="caja caja-ojo">
+          <span class="caja-tit">Las trampas de este caso</span>
+          <ol>
+            <li><strong>Entrar a la tabla con \(n\) en vez de \(\nu\).</strong> La fila es 15, no 16 (con 16 daría 2,120).</li>
+            <li><strong>Usar la columna \(\alpha\) en vez de \(\alpha/2\).</strong> La columna 0,05 da 1,753, que es del 90&nbsp;%.</li>
+            <li><strong>Usar 1,96 porque es 95&nbsp;%.</strong> Con \(n &lt; 30\) va \(t\), no \(Z\).</li>
+          </ol>
+        </div>
+      </div>
+    </details>
+  </div>
+</section>

@@ -1,0 +1,145 @@
+<!-- ==================== 1 · MEDIA CON σ CONOCIDA (Z) ==================== -->
+<section class="parcial-ej" data-repaso="pye-fund-est-01">
+  <div class="parcial-ej-cab">
+    <h2>1. Media con σ conocida (Z)</h2>
+    <span class="parcial-tema">Una muestra &middot; Z con σ</span>
+  </div>
+
+  <p>
+    El equipo de DevOps mide el tiempo que tarda en compilarse el proyecto en el servidor de
+    integración continua. Por el historial de builds se sabe que el desvío estándar poblacional del
+    tiempo de compilación es de 12 segundos. Se toma una muestra aleatoria de 64 builds, que da un
+    tiempo medio de 180 segundos.
+  </p>
+  <p>Construya un intervalo de confianza del 95&nbsp;% para el tiempo medio de compilación. Concluya.</p>
+
+  <div class="parcial-extras">
+    <details class="parcial-desp pd-resultados">
+      <summary>
+        <span class="pd-icono">&#10003;</span>
+        <span class="pd-txt"><b>Resultados</b><small>Solo las respuestas, sin procedimiento</small></span>
+      </summary>
+      <div class="pd-cuerpo">
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Qué</th><th>Resultado</th></tr>
+            <tr><td class="lbl">Caso</td><td>Una media, \(n = 64 \geq 30\), \(\sigma\) conocida &rarr; \(Z\) con \(\sigma\)</td></tr>
+            <tr><td class="lbl">Valor de tabla</td><td>\(z_{0{,}025} = 1{,}96\)</td></tr>
+            <tr><td class="lbl">Error de estimación</td><td>\(\sigma/\sqrt{n} = 1{,}5\) &nbsp;&middot;&nbsp; \(E = 2{,}94\) s</td></tr>
+            <tr><td class="lbl">IC 95&nbsp;%</td><td>\(\text{IC}_{95\%}(\mu) = (177{,}06\ ;\ 182{,}94)\) s</td></tr>
+          </table>
+        </div>
+      </div>
+    </details>
+
+    <details class="parcial-desp pd-explicacion">
+      <summary>
+        <span class="pd-icono">&#9998;</span>
+        <span class="pd-txt"><b>Explicación detallada</b><small>Desde cero: qué caso es, fórmula, desarme, tabla y resolución</small></span>
+      </summary>
+      <div class="pd-cuerpo">
+
+        <div class="caja caja-ejemplo">
+          <span class="caja-tit">El enunciado, otra vez</span>
+          <p>
+            Tiempo de compilación de un proyecto. \(\sigma = 12\) s conocida por el historial. Una muestra
+            de 64 builds da \(\bar{x} = 180\) s. Piden un IC del 95&nbsp;% para el tiempo medio y concluir.
+          </p>
+        </div>
+
+        <h4>¿Qué caso es?</h4>
+        <p>Se recorre el árbol de decisiones, una pregunta por vez, con los datos del enunciado:</p>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Pregunta</th><th>En este enunciado</th><th>Entonces</th></tr>
+            <tr><td>¿Una muestra o dos?</td><td>Un solo grupo de builds.</td><td>Una muestra.</td></tr>
+            <tr><td>¿Media o proporción?</td><td>Piden el &ldquo;tiempo medio&rdquo;: un promedio de algo que se mide.</td><td>Media \(\mu\).</td></tr>
+            <tr><td>¿\(n \geq 30\)?</td><td>\(n = 64\).</td><td>Sí: muestra grande.</td></tr>
+            <tr><td>¿\(\sigma\) conocida?</td><td>&ldquo;desvío estándar <strong>poblacional</strong> &hellip; 12 segundos&rdquo; (sale del historial, no de esta muestra).</td><td>Sí.</td></tr>
+          </table>
+        </div>
+        <p>
+          <strong>Caso: una media con \(Z\) y \(\sigma\).</strong> Con \(n \geq 30\) siempre va \(Z\); como
+          además dan \(\sigma\), en la fórmula va \(\sigma\).
+        </p>
+
+        <h4>La fórmula</h4>
+        <div class="caja caja-formula">
+          <span class="caja-tit">IC para \(\mu\) con \(Z\) y \(\sigma\)</span>
+          <p>\[ \bar{x} - z_{\alpha/2}\,\frac{\sigma}{\sqrt{n}} \;&lt;\; \mu \;&lt;\; \bar{x} + z_{\alpha/2}\,\frac{\sigma}{\sqrt{n}} \qquad\qquad E = z_{\alpha/2}\,\frac{\sigma}{\sqrt{n}} \]</p>
+        </div>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Letra</th><th>Qué es</th></tr>
+            <tr><td class="lbl">\(\mu\)</td><td>El tiempo medio de <strong>todos</strong> los builds (la población). No se conoce: es lo que se estima.</td></tr>
+            <tr><td class="lbl">\(\bar{x}\)</td><td>El promedio de la muestra. Es el centro del intervalo.</td></tr>
+            <tr><td class="lbl">\(\sigma\)</td><td>El desvío de la población: cuánto se dispersan los tiempos de un build a otro.</td></tr>
+            <tr><td class="lbl">\(n\)</td><td>Cuántos datos tiene la muestra.</td></tr>
+            <tr><td class="lbl">\(\sigma/\sqrt{n}\)</td><td>El <strong>error estándar</strong>: cuánto cambia \(\bar{x}\) de una muestra a otra. Es más chico que \(\sigma\) porque un promedio varía menos que un dato suelto.</td></tr>
+            <tr><td class="lbl">\(1 - \alpha\)</td><td>La confianza (acá 0,95). \(\alpha\) es lo que queda afuera: 0,05.</td></tr>
+            <tr><td class="lbl">\(z_{\alpha/2}\)</td><td>El valor de la tabla normal que deja \(\alpha/2\) en cada punta. Dice cuántos errores estándar hay que alejarse del centro.</td></tr>
+            <tr><td class="lbl">\(E\)</td><td>El <strong>error de estimación</strong>: lo que se suma y se resta a \(\bar{x}\). Es la mitad del ancho del intervalo.</td></tr>
+          </table>
+        </div>
+
+        <h4>Desarme del enunciado</h4>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+            <tr><td>&ldquo;tiempo que tarda en compilarse&rdquo;</td><td>la variable</td><td>&mdash;</td><td>\(X\): tiempo de un build (s) &rarr; v.a. continua</td></tr>
+            <tr><td>&ldquo;desvío estándar poblacional &hellip; 12 segundos&rdquo;</td><td>\(\sigma\) conocida</td><td>&mdash;</td><td>\(\sigma = 12\)</td></tr>
+            <tr><td>&ldquo;una muestra aleatoria de 64 builds&rdquo;</td><td>tamaño de muestra</td><td>&mdash;</td><td>\(n = 64\)</td></tr>
+            <tr><td>&ldquo;tiempo medio de 180 segundos&rdquo;</td><td>promedio de la muestra</td><td>&mdash;</td><td>\(\bar{x} = 180\)</td></tr>
+            <tr><td>&ldquo;intervalo de confianza del 95&nbsp;%&rdquo;</td><td>la confianza</td><td>\(1 - \alpha = 0{,}95\)</td><td>\(\alpha/2 = 0{,}025\)</td></tr>
+          </table>
+        </div>
+
+        <h4>El valor de tabla, paso a paso</h4>
+        <ol>
+          <li>La confianza es \(1 - \alpha = 0{,}95\), así que \(\alpha = 1 - 0{,}95 = 0{,}05\): es la parte que queda afuera del intervalo.</li>
+          <li>Esa parte se reparte entre las dos puntas de la campana: \(\alpha/2 = 0{,}05 / 2 = 0{,}025\) en cada una.</li>
+          <li>Se busca <strong>0,025 adentro de la tabla Z</strong> (entre las probabilidades). Aparece en la fila \(-1{,}9\) y la columna \(0{,}06\): \(z = -1{,}96\).</li>
+          <li>Da negativo porque es la punta izquierda. En la fórmula va <strong>positivo</strong> (el valor absoluto): \(z_{0{,}025} = 1{,}96\). El signo ya lo ponen el \(-\) y el \(+\) de la fórmula.</li>
+        </ol>
+        <p>Si en vez de 0,025 se busca \(1 - \alpha/2 = 0{,}975\), da \(z = 1{,}96\) directo: es lo mismo.</p>
+
+        <h4>Resolución</h4>
+        <span class="paso">Paso 1 &mdash; La fórmula</span>
+        <p>\[ \bar{x} - z_{\alpha/2}\,\frac{\sigma}{\sqrt{n}} \;&lt;\; \mu \;&lt;\; \bar{x} + z_{\alpha/2}\,\frac{\sigma}{\sqrt{n}} \]</p>
+
+        <span class="paso">Paso 2 &mdash; Error estándar</span>
+        <p>\[ \frac{\sigma}{\sqrt{n}} = \frac{12}{\sqrt{64}} = \frac{12}{8} = 1{,}5 \]</p>
+        <p>El promedio de 64 builds varía, de muestra en muestra, unos 1,5 s.</p>
+
+        <span class="paso">Paso 3 &mdash; Error de estimación</span>
+        <p>\[ E = z_{\alpha/2}\,\frac{\sigma}{\sqrt{n}} = 1{,}96 \times 1{,}5 = 2{,}94 \]</p>
+        <p>Es cuánto se aleja, como mucho (con 95&nbsp;% de confianza), el promedio de la muestra del verdadero \(\mu\).</p>
+
+        <span class="paso">Paso 4 &mdash; Los límites</span>
+        <p>\[ 180 - 2{,}94 \;&lt;\; \mu \;&lt;\; 180 + 2{,}94 \]</p>
+        <p>\[ 177{,}06 \;&lt;\; \mu \;&lt;\; 182{,}94 \]</p>
+
+        <h4>Respuesta</h4>
+        <div class="caja caja-resp">
+          <span class="caja-tit">Como va en la hoja</span>
+          <p>\(\text{IC}_{95\%}(\mu) = (177{,}06\ ;\ 182{,}94)\) s.</p>
+          <p>
+            Con un 95&nbsp;% de confianza, el tiempo medio de compilación de todos los builds está entre
+            177,06 y 182,94 segundos.
+          </p>
+        </div>
+
+        <h4>Trampas</h4>
+        <div class="caja caja-ojo">
+          <span class="caja-tit">Las trampas de este caso</span>
+          <ol>
+            <li><strong>Olvidarse de la raíz.</strong> Se divide por \(\sqrt{64} = 8\), no por 64.</li>
+            <li><strong>Usar \(\alpha\) en vez de \(\alpha/2\).</strong> Buscar 0,05 en la tabla da 1,645, que es el valor del 90&nbsp;%.</li>
+            <li><strong>Dejar el \(z\) negativo.</strong> En la fórmula va 1,96; el \(-\) y el \(+\) ya arman los dos límites.</li>
+            <li><strong>Concluir sobre la muestra.</strong> El intervalo habla del promedio de <em>todos</em> los builds (\(\mu\)), no de los 64 medidos.</li>
+          </ol>
+        </div>
+      </div>
+    </details>
+  </div>
+</section>

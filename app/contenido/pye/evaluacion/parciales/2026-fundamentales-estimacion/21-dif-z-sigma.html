@@ -1,0 +1,187 @@
+<!-- ==================== 8 · DOS MUESTRAS: Z CON σ ==================== -->
+<section class="parcial-ej" data-repaso="pye-fund-est-08">
+  <div class="parcial-ej-cab">
+    <h2>8. Varianzas de la población conocidas (Z con σ)</h2>
+    <span class="parcial-tema">Dos muestras &middot; Z con σ</span>
+  </div>
+
+  <p>
+    Un equipo de desarrollo compila el mismo proyecto en dos lugares: en el <strong>servidor de
+    integración continua propio</strong> de la empresa y en un <strong>servicio de compilación en la
+    nube</strong>. Por los registros de muchos meses se sabe que la varianza del tiempo de compilación
+    es de 50 s² en el servidor propio y de 40 s² en la nube. Se toman 36 compilaciones al azar en el
+    servidor propio, con un tiempo medio de 148,6 s, y 32 compilaciones al azar en la nube, con un
+    tiempo medio de 141,2 s.
+  </p>
+
+  <ol class="parcial-incisos">
+    <li>Construya un intervalo de confianza del 95&nbsp;% para la diferencia entre los tiempos medios de compilación. Concluya: ¿hay diferencia? ¿Dónde se compila más lento?</li>
+  </ol>
+
+  <div class="parcial-extras">
+    <details class="parcial-desp pd-resultados">
+      <summary>
+        <span class="pd-icono">&#10003;</span>
+        <span class="pd-txt"><b>Resultados</b><small>Solo las respuestas, sin procedimiento</small></span>
+      </summary>
+      <div class="pd-cuerpo">
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Qué</th><th>Resultado</th></tr>
+            <tr><td class="lbl">Caso</td><td>Dos medias, varianzas de la población conocidas &rarr; \(Z\) con \(\sigma\)</td></tr>
+            <tr><td class="lbl">Valores</td><td>\(z = 1{,}96\) &nbsp;&middot;&nbsp; error estándar \(= 1{,}6245\) &nbsp;&middot;&nbsp; \(E = 3{,}184\) s</td></tr>
+            <tr><td class="lbl">IC 95&nbsp;%</td><td>\(\text{IC}_{95\%}(\mu_1 - \mu_2) = (4{,}22\ ;\ 10{,}58)\) s (1 = servidor propio, 2 = nube)</td></tr>
+            <tr><td class="lbl">Conclusión</td><td>Todo positivo: hay diferencia, \(\mu_1 &gt; \mu_2\). En el servidor propio se compila más lento, entre 4,22 y 10,58 s más en promedio.</td></tr>
+          </table>
+        </div>
+      </div>
+    </details>
+
+    <details class="parcial-desp pd-explicacion">
+      <summary>
+        <span class="pd-icono">&#9998;</span>
+        <span class="pd-txt"><b>Explicación detallada</b><small>Desde cero: qué caso es, la fórmula, el desarme y la resolución</small></span>
+      </summary>
+      <div class="pd-cuerpo">
+
+        <div class="caja caja-ejemplo">
+          <span class="caja-tit">El enunciado, otra vez</span>
+          <p>
+            Tiempo de compilación en el servidor propio (varianza 50 s², 36 compilaciones, media 148,6 s)
+            y en la nube (varianza 40 s², 32 compilaciones, media 141,2 s). Piden un IC del 95&nbsp;% para la
+            diferencia de medias y concluir.
+          </p>
+        </div>
+
+        <h4>¿Qué caso es?</h4>
+        <p>Se recorre el diagrama de la profe, pregunta por pregunta:</p>
+        <ol>
+          <li><strong>¿Una muestra o dos?</strong> Dos: compilaciones del servidor propio y compilaciones de la nube, dos grupos distintos.</li>
+          <li><strong>¿Media o proporción?</strong> Media: se habla de &ldquo;tiempo medio&rdquo;, un promedio de segundos (no un porcentaje de algo que pasa o no pasa).</li>
+          <li><strong>¿Se conocen las varianzas de las poblaciones, \(\sigma_1^2\) y \(\sigma_2^2\)?</strong> Sí: &ldquo;por los registros de muchos meses se sabe que la varianza es de 50 s² y de 40 s²&rdquo;. No salen de estas 36 y 32 compilaciones: son de <strong>todas</strong> las compilaciones (la población).</li>
+        </ol>
+        <p>
+          Con las varianzas de la población conocidas, el diagrama ya decide: <strong>\(Z\) con \(\sigma\)</strong>.
+          No hace falta seguir preguntando por el tamaño de las muestras ni por la regla de las varianzas
+          (esas preguntas son para cuando las \(\sigma\) no se conocen).
+        </p>
+
+        <h4>Quién es el grupo 1 y quién el 2</h4>
+        <p>
+          La resta es \(\mu_1 - \mu_2\), así que hay que decidir quién va primero. La regla: <strong>el grupo
+          1 es el que el enunciado nombra primero</strong>. Acá el primero que aparece es el servidor propio
+          (&ldquo;en el servidor de integración continua propio &hellip; y en un servicio &hellip; en la nube&rdquo;).
+        </p>
+        <ul>
+          <li>Grupo 1: <strong>servidor propio</strong> &rarr; \(\mu_1\), \(\sigma_1^2 = 50\), \(n_1 = 36\), \(\bar{x}_1 = 148{,}6\).</li>
+          <li>Grupo 2: <strong>nube</strong> &rarr; \(\mu_2\), \(\sigma_2^2 = 40\), \(n_2 = 32\), \(\bar{x}_2 = 141{,}2\).</li>
+        </ul>
+        <p>
+          ¿Por qué importa? Porque el orden decide el <strong>signo</strong> del intervalo. Si se restara al
+          revés, daría el mismo intervalo con los signos cambiados, y la conclusión se lee distinto. Con el
+          orden del enunciado, todos resuelven igual y la conclusión se lee sin confundirse.
+        </p>
+
+        <h4>La fórmula</h4>
+        <div class="caja caja-formula">
+          <span class="caja-tit">IC para \(\mu_1 - \mu_2\) con \(Z\) y varianzas conocidas</span>
+          <p>\[ (\bar{x}_1 - \bar{x}_2) - z_{\alpha/2}\sqrt{\frac{\sigma_1^2}{n_1} + \frac{\sigma_2^2}{n_2}} \;&lt;\; \mu_1 - \mu_2 \;&lt;\; (\bar{x}_1 - \bar{x}_2) + z_{\alpha/2}\sqrt{\frac{\sigma_1^2}{n_1} + \frac{\sigma_2^2}{n_2}} \]</p>
+          <p>\[ E = z_{\alpha/2}\sqrt{\frac{\sigma_1^2}{n_1} + \frac{\sigma_2^2}{n_2}} \]</p>
+        </div>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Letra</th><th>Qué es</th></tr>
+            <tr><td>\(\mu_1 - \mu_2\)</td><td>lo que se quiere estimar: cuánto más (o menos) tarda en promedio el grupo 1 que el grupo 2, mirando <strong>todas</strong> las compilaciones</td></tr>
+            <tr><td>\(\bar{x}_1 - \bar{x}_2\)</td><td>la misma diferencia, pero con los promedios de las muestras: es el centro del intervalo</td></tr>
+            <tr><td>\(\sigma_1^2,\ \sigma_2^2\)</td><td>las varianzas de cada población (dato); van <strong>sin</strong> elevar al cuadrado, porque ya son varianzas</td></tr>
+            <tr><td>\(n_1,\ n_2\)</td><td>cuántas compilaciones hay en cada muestra</td></tr>
+            <tr><td>\(\sqrt{\sigma_1^2/n_1 + \sigma_2^2/n_2}\)</td><td>el <strong>error estándar</strong> de la diferencia: cuánto cambiaría \(\bar{x}_1 - \bar{x}_2\) si se repitieran las muestras. Cada grupo aporta su parte y se suman</td></tr>
+            <tr><td>\(z_{\alpha/2}\)</td><td>el valor de la tabla normal que fija la confianza</td></tr>
+            <tr><td>\(E\)</td><td>el margen de error: lo que se resta y se suma al centro</td></tr>
+          </table>
+        </div>
+
+        <h4>Desarme del enunciado</h4>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+            <tr><td>&ldquo;servidor de integración continua propio&rdquo; (lo nombra primero)</td><td>grupo 1</td><td>&mdash;</td><td>subíndice 1</td></tr>
+            <tr><td>&ldquo;servicio de compilación en la nube&rdquo;</td><td>grupo 2</td><td>&mdash;</td><td>subíndice 2</td></tr>
+            <tr><td>&ldquo;la varianza &hellip; es de 50 s² en el servidor propio&rdquo;</td><td>varianza de la población 1, conocida</td><td>&mdash;</td><td>\(\sigma_1^2 = 50\)</td></tr>
+            <tr><td>&ldquo;y de 40 s² en la nube&rdquo;</td><td>varianza de la población 2, conocida</td><td>&mdash;</td><td>\(\sigma_2^2 = 40\)</td></tr>
+            <tr><td>&ldquo;36 compilaciones &hellip; en el servidor propio&rdquo;</td><td>tamaño de la muestra 1</td><td>&mdash;</td><td>\(n_1 = 36\)</td></tr>
+            <tr><td>&ldquo;con un tiempo medio de 148,6 s&rdquo;</td><td>promedio de la muestra 1</td><td>&mdash;</td><td>\(\bar{x}_1 = 148{,}6\)</td></tr>
+            <tr><td>&ldquo;32 compilaciones &hellip; en la nube&rdquo;</td><td>tamaño de la muestra 2</td><td>&mdash;</td><td>\(n_2 = 32\)</td></tr>
+            <tr><td>&ldquo;con un tiempo medio de 141,2 s&rdquo;</td><td>promedio de la muestra 2</td><td>&mdash;</td><td>\(\bar{x}_2 = 141{,}2\)</td></tr>
+            <tr><td>&ldquo;intervalo de confianza del 95&nbsp;%&rdquo;</td><td>\(1 - \alpha = 0{,}95\)</td><td>\(\alpha = 0{,}05\); \(\alpha/2 = 0{,}025\)</td><td>\(z_{0{,}025}\)</td></tr>
+          </table>
+        </div>
+
+        <h4>El valor de tabla, paso a paso</h4>
+        <ol>
+          <li>La confianza es 95&nbsp;%: \(1 - \alpha = 0{,}95\).</li>
+          <li>Lo que queda afuera es \(\alpha = 1 - 0{,}95 = 0{,}05\): la probabilidad de que el intervalo no atrape a la diferencia verdadera.</li>
+          <li>Ese 0,05 se reparte en las dos colas, mitad y mitad: \(\alpha/2 = 0{,}05 / 2 = 0{,}025\).</li>
+          <li>Se busca <strong>0,0250 adentro de la tabla Z</strong> (en el cuerpo, no en los bordes). Está en la fila \(-1{,}9\) y la columna \(0{,}06\): da \(z = -1{,}96\).</li>
+          <li>Da negativo porque deja 0,025 a la <strong>izquierda</strong>. En la fórmula va <strong>positivo</strong> (el valor absoluto): \(z_{0{,}025} = 1{,}96\). El signo lo ponen el &ldquo;\(-\)&rdquo; y el &ldquo;\(+\)&rdquo; de la fórmula.</li>
+        </ol>
+        <p>Si en vez de eso se busca \(1 - \alpha/2 = 0{,}975\) adentro de la tabla, da directamente \(+1{,}96\): es lo mismo.</p>
+
+        <h4>Resolución</h4>
+        <span class="paso">Paso 1 &mdash; La fórmula</span>
+        <p>\[ (\bar{x}_1 - \bar{x}_2) \pm z_{\alpha/2}\sqrt{\frac{\sigma_1^2}{n_1} + \frac{\sigma_2^2}{n_2}} \]</p>
+
+        <span class="paso">Paso 2 &mdash; El centro: la diferencia de promedios</span>
+        <p>\[ \bar{x}_1 - \bar{x}_2 = 148{,}6 - 141{,}2 = 7{,}4 \text{ s} \]</p>
+        <p>En estas muestras, el servidor propio tardó 7,4 s más en promedio. Falta ver si esa diferencia se sostiene para todas las compilaciones.</p>
+
+        <span class="paso">Paso 3 &mdash; Cada parte del error estándar</span>
+        <p>\[ \frac{\sigma_1^2}{n_1} = \frac{50}{36} = 1{,}3889 \]</p>
+        <p>\[ \frac{\sigma_2^2}{n_2} = \frac{40}{32} = 1{,}25 \]</p>
+
+        <span class="paso">Paso 4 &mdash; El error estándar</span>
+        <p>\[ \sqrt{1{,}3889 + 1{,}25} = \sqrt{2{,}6389} = 1{,}6245 \]</p>
+
+        <span class="paso">Paso 5 &mdash; El margen de error</span>
+        <p>\[ E = 1{,}96 \times 1{,}6245 = 3{,}184 \]</p>
+
+        <span class="paso">Paso 6 &mdash; Los límites</span>
+        <p>\[ 7{,}4 - 3{,}184 = 4{,}216 \qquad\qquad 7{,}4 + 3{,}184 = 10{,}584 \]</p>
+        <p>\[ 4{,}22 \;&lt;\; \mu_1 - \mu_2 \;&lt;\; 10{,}58 \]</p>
+
+        <span class="paso">Paso 7 &mdash; Cómo se lee el signo</span>
+        <ul>
+          <li>Si el intervalo <strong>incluye el 0</strong> (un límite negativo y el otro positivo): la diferencia podría ser cero, no hay diferencia.</li>
+          <li>Si es <strong>todo positivo</strong>: \(\mu_1 - \mu_2 &gt; 0\), o sea \(\mu_1 &gt; \mu_2\). El grupo 1 es mayor.</li>
+          <li>Si es <strong>todo negativo</strong>: \(\mu_1 - \mu_2 &lt; 0\), o sea \(\mu_1 &lt; \mu_2\). El grupo 2 es mayor.</li>
+        </ul>
+        <p>
+          Acá los dos límites (4,22 y 10,58) son positivos: el 0 queda afuera. Entonces
+          \(\mu_1 &gt; \mu_2\): el tiempo medio del <strong>servidor propio</strong> (grupo 1) es mayor. Y los
+          límites dicen cuánto mayor: entre 4,22 y 10,58 s.
+        </p>
+
+        <div class="caja caja-resp">
+          <span class="caja-tit">Respuesta</span>
+          <p>Grupo 1: servidor propio; grupo 2: nube.</p>
+          <p>\(\text{IC}_{95\%}(\mu_1 - \mu_2) = (4{,}22\ ;\ 10{,}58)\) s.</p>
+          <p>
+            Con un 95&nbsp;% de confianza, el intervalo es todo positivo (no incluye el 0): hay diferencia
+            entre los tiempos medios de compilación, y en el servidor propio se compila más lento, entre
+            4,22 y 10,58 s más en promedio que en la nube.
+          </p>
+        </div>
+
+        <div class="caja caja-ojo">
+          <span class="caja-tit">Trampas</span>
+          <ol>
+            <li><strong>Elevar al cuadrado lo que ya es varianza.</strong> 50 y 40 son varianzas (dicen s²): van directo. Solo se eleva si te dan el desvío \(\sigma\).</li>
+            <li><strong>Sumar los desvíos en vez de las varianzas.</strong> Adentro de la raíz se suman \(\sigma_1^2/n_1\) y \(\sigma_2^2/n_2\); la raíz va al final, una sola vez.</li>
+            <li><strong>Restar al revés.</strong> \(141{,}2 - 148{,}6\) daría \((-10{,}58\ ;\ -4{,}22)\) y la conclusión se invierte. El grupo 1 es el que se nombra primero.</li>
+            <li><strong>Concluir sin decir quién es mayor.</strong> &ldquo;Hay diferencia&rdquo; no alcanza: hay que decir cuál tarda más, leyendo el signo.</li>
+          </ol>
+        </div>
+      </div>
+    </details>
+  </div>
+</section>

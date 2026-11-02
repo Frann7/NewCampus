@@ -43,10 +43,18 @@ PA no tiene unidades sino **clases** (`c1`..`c6` en `materias.json`, "Clase N" e
 - Banco: `evaluacion/preguntas/parcial-php/`, las 20 preguntas del parcial en el formato de la 1ra
   etapa (`preguntas/FORMATO.md` de PyE), ids `pa-php-01`..`pa-php-20` en el orden del parcial.
   **No se inventan preguntas de más.**
+- Examen teórico 2025 en `evaluacion/parciales/2025-examen-teorico/` y en el banco
+  `evaluacion/preguntas/examen-teorico/` (ids `pa-teo-01`..`pa-teo-20`). El PDF es el cuestionario
+  en blanco y sus temas (estándares web, HTTP, DNS, Git, ORM, Laravel, testing, seguridad) no están
+  en el material de las clases 1 a 6: las respuestas salen de la definición de cada tema, no del Aula
+  Virtual. En la 19 las opciones de los desplegables no se ven; se tomaron los tres pilares de la
+  consigna. Los armó un script (no quedó en el repo): si se corrige una pregunta del parcial,
+  corregirla también en el banco. No lleva marcas ◈ en las clases porque no toca su contenido.
 - La autoevaluación de PA es simple: se crea como en PyE, pero sin etapas, modo interactivo,
-  estilos ni elegir clases; corre las 20 en orden, formato Aula Virtual, con reloj (40 min por
-  defecto), nota sobre 100 y revisión con explicación.
+  estilos ni elegir clases; se elige Parcial PHP, Examen teórico o los dos (cada carpeta del banco
+  es un tema, `E.temas`), corren en orden, formato Aula Virtual, con reloj (40 min por defecto),
+  nota sobre 100 y revisión con explicación.
 
 ## Pendientes e ideas
 
-- El examen teórico (`PA\Examen Teórico 2025.pdf`) en Evaluación.
+- Confirmar con Fran las respuestas del Examen teórico si consigue la corrección del Aula Virtual.

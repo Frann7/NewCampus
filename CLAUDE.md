@@ -2,7 +2,7 @@
 
 Campus de estudio personal de Fran (Abasto Franco), estudiante de la Licenciatura en Sistemas
 de Información (UADER, FCyT). Hoy tiene siete materias cargadas: **Probabilidad y Estadística (PyE)**,
-unidades 4 a 7 (2do parcial) y 8 (Estimación, 3er parcial), **Programación Avanzada (PA)**, clases 1 a 6, **Ingeniería de
+unidades 4 a 7 (2do parcial) y 8 (Estimación, 3er parcial), **Programación Avanzada (PA)**, clases 1 a 6 (con el Parcial PHP y el Examen teórico 2025), **Ingeniería de
 Software II**, **Paradigmas y Lenguajes (PyL)**, el parcial de autómatas, y **Bases de Datos
 (BD)**, el 2do parcial de SQL, y **SO Práctica** y **SO Teoría**, solo los parciales (cada materia tiene
 su `CLAUDE.md` en `app/contenido/<materia>/`). Repo público: https://github.com/Frann7/NewCampus (rama `main`).

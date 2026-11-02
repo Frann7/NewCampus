@@ -191,11 +191,12 @@ window.NC.eval = window.NC.eval || {};
     });
   };
 
-  // Los temas que se eligen en la evaluacion simple: las unidades del menu o,
-  // si la materia no tiene, las carpetas de su banco.
+  // Los temas que se eligen en la evaluacion simple: las unidades del menu y
+  // las carpetas del banco que no son unidades (las de PA: Parcial PHP, Examen teorico).
   E.temas = function (materia) {
     var us = E.unidades(materia);
-    return us.length ? us : E.banco.carpetas(materia);
+    var ids = us.map(function (u) { return u.id; });
+    return us.concat(E.banco.carpetas(materia).filter(function (c) { return ids.indexOf(c.id) === -1; }));
   };
 
   E.numeroDeUnidad = function (materia, id) {

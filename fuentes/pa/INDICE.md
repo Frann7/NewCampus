@@ -27,4 +27,4 @@ Los ejemplos de código (zips y carpetas de PRACTICA) no se extraen: se leen dir
 | C6 | `CLASE 6/TEORIA/Clase-6-Teoria.md` | Apunte: conexión a la base con mysqli |
 | C6 | `CLASE 6/TEORIA/PA-Clase-6.md` | Guía práctica de la Clase 6 (está en TEORIA): comentarios con ABM |
 | Examen | `Parcial PHP.md` | Parcial PHP del Aula Virtual, 20 preguntas (copia exacta: `Parical PHP.pdf`) |
-| Examen | `Examen Teórico 2025 (1).md` | Examen teórico 2025 (copia exacta: `Examen Teórico 2025.pdf`); todavía no cargado (1 ⚠) |
+| Examen | `Examen Teórico 2025 (1).md` | Examen teórico 2025 (copia exacta: `Examen Teórico 2025.pdf`); cargado en Evaluación (1 ⚠) |

@@ -155,6 +155,15 @@ window.Apuntes.registrarIndice({
     ],
     "pa": [
       {
+        "id": "2025-examen-teorico",
+        "archivo": "examenes/pa-2025-examen-teorico.js",
+        "titulo": "Examen te\u00f3rico",
+        "fecha": "2025",
+        "detalle": "20 preguntas \u00b7 100 puntos",
+        "temas": "Est\u00e1ndares web \u00b7 HTTP y DNS \u00b7 Seguridad \u00b7 Git \u00b7 ORM y frameworks \u00b7 Testing",
+        "tipo": "parcial"
+      },
+      {
         "id": "parcial-php",
         "archivo": "examenes/pa-parcial-php.js",
         "titulo": "Parcial PHP",
@@ -345,6 +354,7 @@ window.Apuntes.registrarIndice({
       "git": "preguntas/ing2-git.js"
     },
     "pa": {
+      "examen-teorico": "preguntas/pa-examen-teorico.js",
       "parcial-php": "preguntas/pa-parcial-php.js"
     },
     "pye": {

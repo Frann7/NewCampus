@@ -227,6 +227,14 @@ instantáneas), 14 (las tres secciones) y 22 (SemVer, que va como tabla).
   versionado) y patrones (propósito + estructura). Las 17 fundamentales están todas adentro. Fran
   decidió no sumar una pregunta de IA con CMMI (sí entra: es del apunte de calidad y salió en
   2025) y no estudiar lo que sacó de la guía, aunque entra.
+- **Lo que dijeron para el recuperatorio (3/11/2026, por los compañeros):** en la teoría no entran
+  Singleton ni Strategy; ver métricas GQM; calidad: definición, importancia, consecuencias (3 a 5)
+  y atributos (aunque sea 3); CMMI entero (las definiciones de cada nivel, "para qué sirve", el
+  cuadro comparativo y los gráficos); el gráfico de los elementos de un proyecto de PI; el gráfico
+  de las tres secciones de Git entra sí o sí. No entran "Sist. colab." ni "Auditoría" (no están
+  en los apuntes de la guía). La práctica, igual que en el parcial. Con eso la guía de
+  fundamentales quedó en 18 preguntas (sumó GQM), con los grupos "Calidad y CMMI", Git, Métricas
+  y Patrones (seis, sin Singleton ni Strategy).
 
 - **Ejercicios de parcial que faltan** (plan acordado el 12/10/2026): la teoría quedó como
   preguntas fundamentales en Parciales (13/10/2026, decisión de Fran: para leer y aprender, no

@@ -566,6 +566,15 @@ window.NC = window.NC || {};
         caja.addEventListener("change", function () { marcarRepasada(id, caja.checked); });
         filaR.appendChild(caja);
         filaR.appendChild(a);
+        // a la derecha, el porcentaje de que entre (de su p.parcial-prob)
+        var prob = $(".parcial-prob .et", h.parentNode.closest("[data-repaso]"));
+        var pct = prob ? /(\d+)\s*%/.exec(prob.textContent) : null;
+        if (pct) {
+          var etq = trozo("span", "toc-prob", pct[1] + " %");
+          etq.setAttribute("data-nivel", prob.classList.contains("ok") ? "ok"
+            : prob.classList.contains("ojo") ? "ojo" : "mal");
+          filaR.appendChild(etq);
+        }
         toc.appendChild(filaR);
       } else {
         toc.appendChild(a);

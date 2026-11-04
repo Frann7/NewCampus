@@ -215,8 +215,8 @@ window.Apuntes.registrarIndice({
         "archivo": "examenes/pye-2026-tercer-parcial-primera-parte.js",
         "titulo": "Tercer Parcial \u2014 primera parte probable",
         "fecha": "Para el 3er parcial",
-        "detalle": "12 preguntas cortas: teor\u00eda y c\u00e1lculos r\u00e1pidos",
-        "temas": "Par\u00e1metro y estad\u00edstico \u00b7 Propiedades del estimador \u00b7 Valores de z y t \u00b7 Error y tama\u00f1o de muestra \u00b7 IC para la media y la proporci\u00f3n \u00b7 Diferencia de medias",
+        "detalle": "12 preguntas cortas: teor\u00eda y lectura de tablas, con pocas cuentas",
+        "temas": "Par\u00e1metro y estad\u00edstico \u00b7 Propiedades del estimador \u00b7 Lectura de las tablas z y t \u00b7 Error y tama\u00f1o de muestra \u00b7 IC para la media y la proporci\u00f3n \u00b7 Diferencia de medias",
         "tipo": "parcial"
       },
       {

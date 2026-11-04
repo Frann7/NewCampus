@@ -15,8 +15,10 @@ solo lo propio de PyE. Si se toca el banco de preguntas: `evaluacion/preguntas/F
   la regla práctica S²mayor/S²menor ≤ 3, lo confirmó la profe el 01/11/2026) ni 22 a 24 (diferencia
   de proporciones). Tampoco prueba de hipótesis (el ej. 2 y el 1b-1c del Parcial 3 2025) ni "decidir
   si un valor es aceptable" con el IC. El 10 y el 11 los tacharon los compañeros en el Miro por la
-  Resolución 2023, pero están en el diagrama de la profe: entran. Regla de Z o t de la profe: n ≥ 30 → Z (con σ o con S);
-  n < 30 → t (ν = n − 1) aunque den σ (Fran decidió seguir el mensaje de la profe; con σ, va σ en la fórmula). En diferencia de medias, σ₁ y σ₂ conocidas → Z, como el diagrama de la parte 2. Las preguntas del banco `u8` llevan
+  Resolución 2023, pero están en el diagrama de la profe: entran. Regla de Z o t: σ conocida → Z con cualquier n;
+  σ desconocida: n ≥ 30 → Z con S, n < 30 → t (ν = n − 1). Lo corrigió Fran el 04/11/2026 con el diagrama
+  de la parte 2 y el Tema 8 Parte A (antes estaba "n < 30 → t aunque den σ": era un error). En diferencia de
+  medias, igual: σ₁ y σ₂ conocidas → Z. Las preguntas del banco `u8` llevan
   `data-origen="parcial"` aunque el tema no se haya tomado (es para el 3er parcial).
 - Otros materiales del 2do parcial: `PYE\PARCIAL 2\guia_integradoras_parcial_2.pdf`, `Respuestas.pdf`,
   `Guia_distribucion_t_Student_yRtas.pdf`, `Parcial 2 2025.jpg`, y finales en `PYE\PARCIALES\`.

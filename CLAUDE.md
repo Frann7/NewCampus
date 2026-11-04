@@ -109,7 +109,7 @@ rioplatense con voseo) y **mantenedor** del campus (código, contenido, commits)
   guía resuelta, Tercer Parcial 2025, uno probable y banco `u8`). Fran arranca de cero: explicar
   con palabras comunes. Tiene hoja de fórmulas propia (FOR,
   `app/pdf/pye/fuentes/formulas-u8.html`); falta sumar la de la profe cuando la suba.
-  Z o t: n ≥ 30 → Z; n < 30 → t aunque den σ (lo decidió Fran siguiendo el mensaje de la profe).
+  Z o t: σ conocida → Z (cualquier n); sin σ, n ≥ 30 → Z y n < 30 → t (diagrama de la profe).
   De la guía entran 1 a 15, 20 y 21 (media, proporción y diferencia de medias); no entran 16 a 19 ni 22 a 24.
 - **Ingeniería de Software II (rindió el 14/10/2026, sacó 38; viene el recuperatorio, fecha a
   confirmar):** las 7 partes de

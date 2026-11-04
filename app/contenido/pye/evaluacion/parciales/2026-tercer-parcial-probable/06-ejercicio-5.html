@@ -1,0 +1,185 @@
+<!-- ==================== EJERCICIO 5 (EXTRA) ==================== -->
+<section class="parcial-ej">
+  <div class="parcial-ej-cab">
+    <h2>Ejercicio 5 (extra)</h2>
+    <span class="parcial-pts">práctica</span>
+    <span class="parcial-tema">Unidad 8 &middot; IC para la diferencia de medias (varianzas iguales)</span>
+  </div>
+
+  <p>
+    Un equipo de backend compara el tiempo (en ms) que tarda una misma consulta en dos motores de base
+    de datos. Con PostgreSQL se ejecutó la consulta 10 veces, con un tiempo medio de 48,6 ms y un
+    desvío estándar de 6,2 ms. Con MySQL se ejecutó 13 veces, con un tiempo medio de 45,9 ms y un
+    desvío estándar de 5,1 ms. Suponga que en ambos motores el tiempo se distribuye normalmente y que
+    las muestras son independientes.
+  </p>
+
+  <ol class="parcial-incisos">
+    <li>¿Pueden suponerse iguales las varianzas poblacionales? Justifique con la regla empírica.</li>
+    <li>Construya un intervalo de confianza del 95&nbsp;% para \(\mu_P - \mu_M\) (PostgreSQL menos MySQL).</li>
+    <li>¿Hay una diferencia significativa entre los tiempos medios? ¿Conviene un motor sobre el otro?</li>
+  </ol>
+
+  <div class="parcial-extras">
+    <details class="parcial-desp pd-resultados">
+      <summary>
+        <span class="pd-icono">&#10003;</span>
+        <span class="pd-txt"><b>Resultados</b><small>Solo las respuestas, sin procedimiento</small></span>
+      </summary>
+      <div class="pd-cuerpo">
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Inciso</th><th>Resultado</th></tr>
+            <tr>
+              <td class="lbl">a) Regla empírica</td>
+              <td>\(S_P^{2}/S_M^{2} = 38{,}44 / 26{,}01 = 1{,}48 \leq 3\) &rarr; <strong>sí</strong> se suponen iguales: pooled</td>
+            </tr>
+            <tr>
+              <td class="lbl">b) IC 95&nbsp;% para \(\mu_P - \mu_M\)</td>
+              <td>\(S_p = 5{,}598\), \(\nu = 21\), \(t_{(0{,}025;\ 21)} = 2{,}080\), \(E = 4{,}897\) &nbsp;&middot;&nbsp;
+                  \(\text{IC}_{95\%}(\mu_P - \mu_M) = (-2{,}197\ ;\ 7{,}597)\) ms</td>
+            </tr>
+            <tr>
+              <td class="lbl">c) Conclusión</td>
+              <td>El intervalo va de negativo a positivo: <strong>incluye el 0</strong>. No hay diferencia
+                  significativa: con estos datos ningún motor es más rápido que el otro.</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </details>
+
+    <details class="parcial-desp pd-explicacion">
+      <summary>
+        <span class="pd-icono">&#9998;</span>
+        <span class="pd-txt"><b>Explicación detallada</b><small>Desde cero: qué caso es, desarme, tabla y resolución</small></span>
+      </summary>
+      <div class="pd-cuerpo">
+
+        <div class="caja caja-ejemplo">
+          <span class="caja-tit">El enunciado, otra vez</span>
+          <p>
+            PostgreSQL: 10 ejecuciones, media 48,6 ms, desvío 6,2 ms. MySQL: 13 ejecuciones, media 45,9 ms,
+            desvío 5,1 ms. Normales e independientes. Piden: a) si las varianzas pueden suponerse iguales;
+            b) IC del 95&nbsp;% para \(\mu_P - \mu_M\); c) si hay diferencia y si conviene un motor.
+          </p>
+        </div>
+
+        <h4>¿Qué caso es?</h4>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Pregunta (diagrama de la profe)</th><th>En este enunciado</th><th>Entonces</th></tr>
+            <tr><td>¿Una muestra o dos?</td><td>Dos motores, cada uno con sus mediciones.</td><td>Dos: diferencia de medias.</td></tr>
+            <tr><td>¿Se conocen \(\sigma_P\) y \(\sigma_M\)?</td><td>Los desvíos salen de las mediciones: son muestrales.</td><td>No.</td></tr>
+            <tr><td>¿Las dos muestras tienen 30 o más?</td><td>10 y 13.</td><td>No &rarr; \(t\).</td></tr>
+            <tr><td>\(S^{2}_{\text{mayor}} / S^{2}_{\text{menor}} \leq 3\)?</td><td>Inciso a: da 1,48.</td><td>Sí &rarr; <strong>pooled</strong>.</td></tr>
+          </table>
+        </div>
+
+        <div class="caja caja-formula">
+          <span class="caja-tit">Pooled: varianzas supuestas iguales</span>
+          <p>\[ (\bar{x}_P - \bar{x}_M) \pm t_{(\alpha/2;\ n_P+n_M-2)}\, S_p\sqrt{\frac{1}{n_P} + \frac{1}{n_M}} \qquad S_p^{2} = \frac{(n_P-1)S_P^{2} + (n_M-1)S_M^{2}}{n_P+n_M-2} \]</p>
+          <p>
+            Si las dos varianzas son iguales, \(S_P^{2}\) y \(S_M^{2}\) estiman el mismo número: se juntan en
+            un promedio, \(S_p^{2}\), con más peso para la muestra con más datos.
+          </p>
+        </div>
+
+        <h4>Desarme del enunciado</h4>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Frase del enunciado</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+            <tr><td>&ldquo;PostgreSQL &hellip; 10 veces&rdquo;</td><td>muestra 1 (la nombran primero)</td><td>&mdash;</td><td>\(n_P = 10\)</td></tr>
+            <tr><td>&ldquo;tiempo medio de 48,6 ms&rdquo;</td><td>media de PostgreSQL</td><td>&mdash;</td><td>\(\bar{x}_P = 48{,}6\)</td></tr>
+            <tr><td>&ldquo;desvío estándar de 6,2 ms&rdquo;</td><td>desvío: se eleva al cuadrado</td><td>\(6{,}2^{2}\)</td><td>\(S_P^{2} = 38{,}44\)</td></tr>
+            <tr><td>&ldquo;MySQL &hellip; 13 veces&rdquo;</td><td>muestra 2</td><td>&mdash;</td><td>\(n_M = 13\)</td></tr>
+            <tr><td>&ldquo;tiempo medio de 45,9 ms&rdquo;</td><td>media de MySQL</td><td>&mdash;</td><td>\(\bar{x}_M = 45{,}9\)</td></tr>
+            <tr><td>&ldquo;desvío estándar de 5,1 ms&rdquo;</td><td>desvío: se eleva al cuadrado</td><td>\(5{,}1^{2}\)</td><td>\(S_M^{2} = 26{,}01\)</td></tr>
+            <tr><td>&ldquo;95&nbsp;%&rdquo;</td><td>\(1 - \alpha = 0{,}95\)</td><td>\(\alpha/2 = 0{,}025\)</td><td>columna 0,025 de la tabla \(t\)</td></tr>
+          </table>
+        </div>
+
+        <span class="paso">Inciso a &mdash; ¿Varianzas iguales? Regla empírica</span>
+        <p>Los desvíos se pasan a varianzas:</p>
+        <p>\[ S_P^{2} = 6{,}2^{2} = 38{,}44 \qquad\qquad S_M^{2} = 5{,}1^{2} = 26{,}01 \]</p>
+        <p>Fórmula (la mayor arriba):</p>
+        <p>\[ \frac{S^{2}_{\text{mayor}}}{S^{2}_{\text{menor}}} = \frac{38{,}44}{26{,}01} = 1{,}48 \leq 3 \]</p>
+        <div class="caja caja-resp">
+          <span class="caja-tit">Respuesta a</span>
+          <p>
+            <strong>Sí</strong> pueden suponerse iguales: el cociente de varianzas da 1,48, que no pasa de 3.
+            Con muestras chicas (10 y 13) y poblaciones normales, se usa \(t\) con la varianza combinada:
+            caso <strong>pooled</strong>.
+          </p>
+        </div>
+
+        <span class="paso">Inciso b &mdash; Intervalo del 95&nbsp;% para \(\mu_P - \mu_M\)</span>
+        <p>Fórmula:</p>
+        <p>\[ (\bar{x}_P - \bar{x}_M) \pm t_{(\alpha/2;\ n_P+n_M-2)}\, S_p\sqrt{\frac{1}{n_P} + \frac{1}{n_M}} \]</p>
+
+        <h4>La varianza combinada \(S_p^{2}\)</h4>
+        <p>\[ S_p^{2} = \frac{(n_P-1)S_P^{2} + (n_M-1)S_M^{2}}{n_P+n_M-2} \]</p>
+        <p>Cada varianza por su \(n - 1\):</p>
+        <p>\[ (n_P - 1)\,S_P^{2} = 9 \times 38{,}44 = 345{,}96 \qquad\qquad (n_M - 1)\,S_M^{2} = 12 \times 26{,}01 = 312{,}12 \]</p>
+        <p>\[ S_p^{2} = \frac{345{,}96 + 312{,}12}{10 + 13 - 2} = \frac{658{,}08}{21} = 31{,}3371 \qquad\qquad S_p = \sqrt{31{,}3371} = 5{,}598 \text{ ms} \]</p>
+        <p>Control: \(5{,}1 &lt; 5{,}598 &lt; 6{,}2\). Queda entre los dos desvíos, como tiene que ser.</p>
+
+        <h4>La raíz de las fracciones</h4>
+        <p>\[ \frac{1}{n_P} + \frac{1}{n_M} = \frac{1}{10} + \frac{1}{13} = 0{,}1 + 0{,}07692 = 0{,}17692 \qquad\qquad \sqrt{0{,}17692} = 0{,}4206 \]</p>
+
+        <h4>El valor de la tabla \(t\)</h4>
+        <ol>
+          <li>Grados de libertad: \(\nu = n_P + n_M - 2 = 10 + 13 - 2 = 21\).</li>
+          <li>\(1 - \alpha = 0{,}95 \Rightarrow \alpha/2 = 0{,}025\).</li>
+          <li>En la tabla \(t\): <strong>fila 21</strong> (costado) y <strong>columna 0,025</strong> (arriba). El número se lee <strong>adentro</strong>, en el cruce: 2,080.</li>
+        </ol>
+        <p>En la hoja se anota así:</p>
+        <p>\[ \nu = 10 + 13 - 2 = 21 \qquad 1 - \alpha = 0{,}95 \Rightarrow \alpha/2 = 0{,}025 \qquad t_{(0{,}025;\ 21)} = 2{,}080 \]</p>
+
+        <h4>El intervalo</h4>
+        <p>\[ \bar{x}_P - \bar{x}_M = 48{,}6 - 45{,}9 = 2{,}7 \]</p>
+        <p>\[ E = t_{(0{,}025;\ 21)}\, S_p\sqrt{\frac{1}{n_P} + \frac{1}{n_M}} = 2{,}080 \times 5{,}598 \times 0{,}4206 = 4{,}897 \]</p>
+        <p>\[ 2{,}7 - 4{,}897 \;&lt;\; \mu_P - \mu_M \;&lt;\; 2{,}7 + 4{,}897 \]</p>
+        <p>\[ -2{,}197 \;&lt;\; \mu_P - \mu_M \;&lt;\; 7{,}597 \]</p>
+
+        <div class="caja caja-resp">
+          <span class="caja-tit">Respuesta b</span>
+          <p>\(\text{IC}_{95\%}(\mu_P - \mu_M) = (-2{,}197\ ;\ 7{,}597)\) ms.</p>
+        </div>
+
+        <span class="paso">Inciso c &mdash; ¿Diferencia significativa? ¿Conviene uno?</span>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>El intervalo de \(\mu_P - \mu_M\)</th><th>Qué significa</th></tr>
+            <tr><td>De negativo a positivo (incluye el 0)</td><td>no hay diferencia significativa</td></tr>
+            <tr><td>Todo positivo</td><td>\(\mu_P &gt; \mu_M\): PostgreSQL tarda más</td></tr>
+            <tr><td>Todo negativo</td><td>\(\mu_P &lt; \mu_M\): PostgreSQL tarda menos</td></tr>
+          </table>
+        </div>
+        <ul>
+          <li>El intervalo \((-2{,}197\ ;\ 7{,}597)\) arranca negativo y termina positivo: <strong>incluye el 0</strong>.</li>
+          <li>La diferencia real puede ser 0, o sea que las dos medias pueden ser iguales.</li>
+          <li>Aunque la muestra de PostgreSQL dio 2,7 ms más, esa diferencia puede ser solo por azar.</li>
+        </ul>
+        <div class="caja caja-resp">
+          <span class="caja-tit">Respuesta c</span>
+          <p>
+            Con un 95&nbsp;% de confianza <strong>no hay diferencia significativa</strong> entre el tiempo
+            medio de la consulta en PostgreSQL y en MySQL: el intervalo incluye el 0. Por el tiempo de esta
+            consulta, ninguno de los dos motores conviene sobre el otro.
+          </p>
+        </div>
+
+        <div class="caja caja-ojo">
+          <span class="caja-tit">Las trampas de este ejercicio</span>
+          <ol>
+            <li><strong>Regla empírica con desvíos.</strong> Se dividen varianzas: \(38{,}44 / 26{,}01\), no \(6{,}2 / 5{,}1\).</li>
+            <li><strong>Olvidar la raíz de \(S_p^{2}\).</strong> En el intervalo va \(S_p = 5{,}598\), no 31,3371.</li>
+            <li><strong>Grados de libertad.</strong> En pooled son \(n_P + n_M - 2 = 21\), no 9 ni 12.</li>
+            <li><strong>Decir &ldquo;MySQL es más rápido&rdquo; porque su media dio menos.</strong> Si el intervalo incluye el 0, no se puede afirmar.</li>
+          </ol>
+        </div>
+      </div>
+    </details>
+  </div>
+</section>

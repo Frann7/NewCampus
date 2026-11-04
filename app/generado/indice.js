@@ -224,7 +224,7 @@ window.Apuntes.registrarIndice({
         "archivo": "examenes/pye-2026-tercer-parcial-probable.js",
         "titulo": "Tercer Parcial - probable",
         "fecha": "2026",
-        "detalle": "4 ejercicios \u00b7 100 puntos \u00b7 inventado",
+        "detalle": "4 ejercicios \u00b7 100 puntos \u00b7 1 extra \u00b7 inventado",
         "temas": "IC para la media con Z y tama\u00f1o de muestra \u00b7 IC con t y calculadora \u00b7 Diferencia de medias (pooled y Welch) \u00b7 Propiedades de los estimadores",
         "tipo": "parcial"
       },

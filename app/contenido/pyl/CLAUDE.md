@@ -82,4 +82,8 @@ los exámenes y `practica-parcial.py` para el parcial inventado), con el formato
 ## Pendientes e ideas
 
 - Programación Funcional (TOPIC 3): cargarla cuando se acerque su evaluación.
+- **TP de Programación Funcional (exposición 13/11/2026):** al grupo de Fran le tocaron los
+  ejercicios 27, 28 y 50 de la práctica de funcional (LISP) y el 52 y 53 del TP I. Resuelto fuera
+  del campus, en `C:\Users\Fran\Desktop\SISTEMAS 3\PYL\TP Funcional\` (código LISP probado,
+  informe HTML/PDF con la estética del campus y los AFND en `.jff` para JFLAP).
 - Completar las tablas "página → qué hay" de los `.md` de `fuentes/pyl/`.

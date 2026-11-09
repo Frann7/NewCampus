@@ -105,7 +105,10 @@ rioplatense con voseo) y **mantenedor** del campus (código, contenido, commits)
 
 ## Pendientes e ideas
 
-- **PyE, 3er parcial (Estimación, fecha a confirmar, ~1/11/2026):** cargada la U8 (teoría,
+- **PyE, 3er parcial (Estimación):** lo rindió el 4/11/2026 y le fue mal en la primera parte:
+  tiene que **recuperar solo la primera parte (teoría)**, fecha a confirmar. En Parciales están la
+  primera parte del 4/11 resuelta y un recuperatorio probable de 21 preguntas, sacadas de las
+  diapositivas de Estimación parte 1 y 2. Cargada la U8 (teoría,
   guía resuelta, Tercer Parcial 2025, uno probable y banco `u8`). Fran arranca de cero: explicar
   con palabras comunes. Tiene hoja de fórmulas propia (FOR,
   `app/pdf/pye/fuentes/formulas-u8.html`); falta sumar la de la profe cuando la suba.

@@ -220,6 +220,24 @@ window.Apuntes.registrarIndice({
         "tipo": "parcial"
       },
       {
+        "id": "2026-tercer-parcial-primera-parte-4-11",
+        "archivo": "examenes/pye-2026-tercer-parcial-primera-parte-4-11.js",
+        "titulo": "Tercer Parcial \u2014 Primera Parte (4/11/2026)",
+        "fecha": "04/11/2026",
+        "detalle": "8 preguntas de teor\u00eda \u00b7 +10 la correcta, \u22123 la incorrecta \u00b7 se aprueba con 60",
+        "temas": "Propiedades del estimador \u00b7 Par\u00e1metro y estad\u00edstico \u00b7 Error de estimaci\u00f3n \u00b7 Qu\u00e9 significa la confianza \u00b7 Regla emp\u00edrica \u00b7 Conclusi\u00f3n con el IC de la diferencia",
+        "tipo": "parcial"
+      },
+      {
+        "id": "2026-tercer-parcial-primera-parte-recuperatorio",
+        "archivo": "examenes/pye-2026-tercer-parcial-primera-parte-recuperatorio.js",
+        "titulo": "Recuperatorio \u2014 primera parte probable",
+        "fecha": "Para el recuperatorio",
+        "detalle": "21 preguntas de teor\u00eda como las del 4/11, con lo de las diapositivas que no tomaron",
+        "temas": "Estimadores y sus propiedades \u00b7 Distribuci\u00f3n muestral y TLC \u00b7 Confianza y significancia \u00b7 Valores de tabla \u00b7 t de Student \u00b7 Proporci\u00f3n \u00b7 Diferencia de medias: diagrama, regla emp\u00edrica, pooled, Welch y conclusi\u00f3n",
+        "tipo": "parcial"
+      },
+      {
         "id": "2026-tercer-parcial-probable",
         "archivo": "examenes/pye-2026-tercer-parcial-probable.js",
         "titulo": "Tercer Parcial - probable",

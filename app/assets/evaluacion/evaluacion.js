@@ -124,7 +124,10 @@
 
     function inicio(aviso) {
       E.vaciar(cont);
-      var parciales = fichasExamen(materia, "parcial");
+      // meta.json con "practica": true = inventado para practicar, no un parcial que se tomó
+      var todosParciales = fichasExamen(materia, "parcial");
+      var parciales = todosParciales.filter(function (f) { return !f.practica; });
+      var practica = todosParciales.filter(function (f) { return f.practica; });
       var finales = fichasExamen(materia, "final");
       var guardadas = E.almacen.listar(materia);
       var enCurso = guardadas.filter(function (a) { return E.estadoDe(a).clave === "en-curso"; }).length;
@@ -143,6 +146,9 @@
       if (aviso) { cont.appendChild(h("div", { class: "ae-aviso" }, aviso)); }
 
       cont.appendChild(seccionExamenes("parciales", "📄", "Parciales", "parcial", parciales));
+      if (practica.length) {
+        cont.appendChild(seccionExamenes("practica", "✏️", "Práctica para parciales", "practica", practica));
+      }
       // en la evaluacion simple, los finales solo si hay alguno cargado
       if (!simple || finales.length) {
         cont.appendChild(seccionExamenes("finales", "🎓", "Finales", "final", finales));
@@ -168,7 +174,9 @@
     // Parciales y finales se listan igual: cambia el rotulo y de donde salen.
     function seccionExamenes(id, icono, titulo, palabra, fichas) {
       var plural = palabra === "parcial" ? "parciales" : "finales";
-      var resumen = fichas.length === 1 ? "1 " + palabra + " transcripto"
+      var resumen = palabra === "practica"
+        ? (fichas.length === 1 ? "1 inventado para practicar" : fichas.length + " inventados para practicar")
+        : fichas.length === 1 ? "1 " + palabra + " transcripto"
         : fichas.length ? fichas.length + " " + plural + " transcriptos"
         : "Todavía no hay " + plural + " cargados";
       return seccion(id, icono, titulo, resumen,

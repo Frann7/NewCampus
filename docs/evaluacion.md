@@ -42,7 +42,9 @@
   "Parte"): se lee "Párrafo 1" y "Rta. párrafo 1" en vez de "Inciso a)" (`E.rotuloInciso`).
 
 * **Parciales y finales:** cada examen es una carpeta con `meta.json` (titulo, fecha, detalle,
-  temas: lo que muestra la tarjeta sin abrir el examen) y un archivo por ejercicio. El
+  temas: lo que muestra la tarjeta sin abrir el examen) y un archivo por ejercicio. Lo inventado
+  para practicar (parciales probables, fundamentales, casos) lleva además `"practica": true`: sale
+  en el apartado "Práctica para parciales", aparte de los parciales que se tomaron. El
   `<article class="parcial">` lo arma `construir.py`, que también le pone el `data-tipo` según la
   carpeta que lo contiene: `parciales/` o `finales/`. Son dos listas separadas en la pantalla de
   Evaluación, pero se escriben y se estilan igual.

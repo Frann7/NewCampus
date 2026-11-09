@@ -67,6 +67,7 @@ window.Apuntes.registrarIndice({
         "fecha": "Inventado, con la forma del 2025",
         "detalle": "5 ejercicios sobre un gimnasio, resueltos (6 listados)",
         "temas": "\u00bfQu\u00e9 es SQL? \u00b7 Claves \u00b7 DER \u2192 3FN \u00b7 CREATE TABLE \u00b7 Listados con JOIN, LEFT JOIN, COUNT, SUM, DATEDIFF y subconsulta",
+        "practica": true,
         "tipo": "parcial"
       },
       {
@@ -76,6 +77,7 @@ window.Apuntes.registrarIndice({
         "fecha": "Inventado, con la forma del 2025",
         "detalle": "5 ejercicios sobre un hotel, resueltos",
         "temas": "Transacci\u00f3n \u00b7 El SGBD \u00b7 DER \u2192 3FN \u00b7 Cabecera y detalle \u00b7 Listados con JOIN, LEFT JOIN, COUNT y SUM",
+        "practica": true,
         "tipo": "parcial"
       },
       {
@@ -85,6 +87,7 @@ window.Apuntes.registrarIndice({
         "fecha": "Para el 2do parcial",
         "detalle": "7 preguntas con la respuesta para aprender y la explicaci\u00f3n, de la m\u00e1s b\u00e1sica a la m\u00e1s espec\u00edfica",
         "temas": "SQL \u00b7 DDL y DML \u00b7 Transacci\u00f3n \u00b7 SGBD \u00b7 Claves \u00b7 Archivo indexado",
+        "practica": true,
         "tipo": "parcial"
       },
       {
@@ -132,6 +135,7 @@ window.Apuntes.registrarIndice({
         "fecha": "Para el 2do parcial y el recuperatorio",
         "detalle": "5 empresas para identificar el nivel (una por nivel, desordenadas) y 4 para decir c\u00f3mo subir al siguiente",
         "temas": "CMMI \u00b7 diagn\u00f3stico \u00b7 riesgos \u00b7 acciones para subir de nivel",
+        "practica": true,
         "tipo": "parcial"
       },
       {
@@ -141,6 +145,7 @@ window.Apuntes.registrarIndice({
         "fecha": "Para el 2do parcial y el recuperatorio",
         "detalle": "18 preguntas con la forma del parcial 2026 (definir, cuadro comparativo, representar gr\u00e1ficamente) y un patr\u00f3n en un c\u00f3digo, con la respuesta y la explicaci\u00f3n desde cero",
         "temas": "Calidad y CMMI \u00b7 Mejora de procesos \u00b7 Gesti\u00f3n de cambios y Git \u00b7 M\u00e9tricas y GQM \u00b7 Los seis patrones de la teor\u00eda \u00b7 Facade en un c\u00f3digo",
+        "practica": true,
         "tipo": "parcial"
       },
       {
@@ -208,6 +213,7 @@ window.Apuntes.registrarIndice({
         "fecha": "Para el 3er parcial",
         "detalle": "Un ejercicio de cada caso: una muestra (Z, t, datos sueltos, tama\u00f1o de muestra, proporci\u00f3n) y dos muestras (Z con \u03c3, Z con S, pooled y Welch), resueltos desde cero",
         "temas": "IC para la media \u00b7 Tama\u00f1o de muestra \u00b7 IC para una proporci\u00f3n \u00b7 Diferencia de medias",
+        "practica": true,
         "tipo": "parcial"
       },
       {
@@ -217,6 +223,7 @@ window.Apuntes.registrarIndice({
         "fecha": "Para el 3er parcial",
         "detalle": "12 preguntas cortas: teor\u00eda y lectura de tablas, con pocas cuentas",
         "temas": "Par\u00e1metro y estad\u00edstico \u00b7 Propiedades del estimador \u00b7 Lectura de las tablas z y t \u00b7 Error y tama\u00f1o de muestra \u00b7 IC para la media y la proporci\u00f3n \u00b7 Diferencia de medias",
+        "practica": true,
         "tipo": "parcial"
       },
       {
@@ -235,6 +242,7 @@ window.Apuntes.registrarIndice({
         "fecha": "Para el recuperatorio",
         "detalle": "21 preguntas de teor\u00eda como las del 4/11, con lo de las diapositivas que no tomaron",
         "temas": "Estimadores y sus propiedades \u00b7 Distribuci\u00f3n muestral y TLC \u00b7 Confianza y significancia \u00b7 Valores de tabla \u00b7 t de Student \u00b7 Proporci\u00f3n \u00b7 Diferencia de medias: diagrama, regla emp\u00edrica, pooled, Welch y conclusi\u00f3n",
+        "practica": true,
         "tipo": "parcial"
       },
       {
@@ -244,6 +252,7 @@ window.Apuntes.registrarIndice({
         "fecha": "2026",
         "detalle": "4 ejercicios \u00b7 100 puntos \u00b7 1 extra \u00b7 inventado",
         "temas": "IC para la media con Z y tama\u00f1o de muestra \u00b7 IC con t y calculadora \u00b7 Diferencia de medias (pooled y Welch) \u00b7 Propiedades de los estimadores",
+        "practica": true,
         "tipo": "parcial"
       },
       {
@@ -327,6 +336,7 @@ window.Apuntes.registrarIndice({
         "fecha": "2026",
         "detalle": "Inventado con la forma de los parciales",
         "temas": "AF \u2192 ER \u00b7 ER \u2192 AFD m\u00ednimo \u00b7 AF y ER: termina con z, impar de x",
+        "practica": true,
         "tipo": "parcial"
       }
     ],
@@ -356,6 +366,7 @@ window.Apuntes.registrarIndice({
         "fecha": "2026",
         "detalle": "20 preguntas inventadas con la forma del parcial 2025, sin repetir ninguna del 2025 ni del primer parcial",
         "temas": "Logs \u00b7 Swap y swappiness \u00b7 RAM y cach\u00e9 \u00b7 Directorios y montaje \u00b7 MBR y GPT por dentro \u00b7 RAID 4, 6 y 10 \u00b7 Escritorio remoto",
+        "practica": true,
         "tipo": "parcial"
       }
     ],

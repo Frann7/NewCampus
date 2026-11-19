@@ -1,0 +1,210 @@
+<div class="bloque">
+  <p class="kicker">Contar sin listar</p>
+  <h2>4. Conteo I: regla de la multiplicación y permutaciones</h2>
+
+  <h3>Cuándo se usa</h3>
+  <p>
+    Laplace pide \(N\) (cuántos resultados hay) y \(n\) (cuántos son favorables). Cuando son pocos, se
+    listan. Cuando son muchos (todas las manos de póker, todos los órdenes de 8 tareas), listarlos es
+    imposible: se <strong>cuentan con fórmulas</strong>. Las pistas en el enunciado: "¿de cuántas
+    formas&hellip;?", "¿cuántos números/códigos/órdenes&hellip;?".
+  </p>
+
+  <h3>Regla de la multiplicación</h3>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Regla de la multiplicación</span>
+    <p>"Si una operación puede realizarse de \(n_1\) formas y, por cada una de ellas, una segunda operación puede realizarse de \(n_2\) formas, entonces las dos operaciones juntas se pueden realizar de \(n_1 \cdot n_2\) formas."</p>
+    <p>\[ N = n_1 \cdot n_2 \cdot \ldots \cdot n_s \]</p>
+  </div>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Símbolo</th><th>Qué es</th></tr>
+      <tr><td>\(N\)</td><td>cantidad de elementos del espacio muestral (todas las formas de hacer el experimento completo)</td></tr>
+      <tr><td>\(n_1, n_2, \dots\)</td><td>cuántas opciones hay en el paso 1, en el paso 2, etc.</td></tr>
+      <tr><td>\(s\)</td><td>cantidad de pasos</td></tr>
+    </table>
+  </div>
+  <p>
+    <strong>De dónde sale:</strong> es contar las puntas del árbol de la sección 1. Si del primer paso
+    salen \(n_1\) ramas y de <em>cada una</em> salen \(n_2\), en total hay \(n_1\) grupos de \(n_2\)
+    puntas: \(n_1 \cdot n_2\). Mini-ejemplo: los tres artículos D/N son \(2 \cdot 2 \cdot 2 = 8\); un dado
+    y después una moneda, \(6 \cdot 2 = 12\).
+  </p>
+
+  <h3>Permutaciones: ordenar</h3>
+  <p>
+    Una <strong>permutación</strong> es un orden (un arreglo) de todos o algunos elementos. Hay cuatro
+    casos, y en todos <strong>importa el orden</strong> (abc no es lo mismo que bca):
+  </p>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Los cuatro casos</span>
+    <p><strong>A) Todos distintos, se ordenan todos:</strong> \(\quad P_n = n!\)</p>
+    <p><strong>B) Todos distintos, se ordenan solo \(r\) de los \(n\):</strong> \(\quad {}_nP_r = \dfrac{n!}{(n - r)!}\)</p>
+    <p><strong>C) Hay elementos repetidos</strong> (\(n_1\) de un tipo, \(n_2\) de otro, &hellip;, \(n_k\) del último): \(\quad \dfrac{n!}{n_1! \cdot n_2! \cdot \ldots \cdot n_k!}\)</p>
+    <p><strong>D) En círculo</strong> (todos distintos): \(\quad PC_n = (n - 1)!\)</p>
+  </div>
+
+  <h4>Qué es \(n!\) (factorial)</h4>
+  <p>
+    \(n! = n \cdot (n - 1) \cdot (n - 2) \cdot \ldots \cdot 1\): se multiplican todos los enteros desde
+    \(n\) bajando hasta 1. Por ejemplo, \(3! = 3 \cdot 2 \cdot 1 = 6\) y \(5! = 120\). Por definición,
+    \(1! = 1\) y <strong>\(0! = 1\)</strong> (hace falta para que \({}_nP_n = n!/0!\) dé bien).
+  </p>
+  <div class="caja caja-calc">
+    <span class="caja-tit">En la calculadora</span>
+    <p>\(n!\) es la tecla <strong>x!</strong> (en las Casio, SHIFT + \(x^{-1}\)). \({}_nP_r\) es <strong>nPr</strong> (SHIFT + &times;): se tipea \(n\), nPr, \(r\), =. Por ejemplo 20 nPr 2 = 380.</p>
+  </div>
+
+  <h4>De dónde sale cada fórmula</h4>
+  <ul>
+    <li><strong>A) \(n!\):</strong> es la regla de la multiplicación con lugares. Para el primer lugar hay \(n\) opciones; usado uno, para el segundo quedan \(n - 1\); después \(n - 2\)&hellip; hasta 1.</li>
+    <li><strong>B) \({}_nP_r\):</strong> igual, pero se para después de \(r\) lugares: \(n \cdot (n-1) \cdot \ldots \cdot (n - r + 1)\). Escrito con factoriales, es \(n!\) dividido \((n-r)!\), que cancela los factores que sobran.</li>
+    <li><strong>C) Con repetidos:</strong> si los \(n\) fueran distintos habría \(n!\) órdenes. Pero intercambiar dos focos rojos entre sí da el mismo dibujo: cada orden "visible" está contado \(n_1!\) veces por los del tipo 1, \(n_2!\) por los del tipo 2, etc. Se divide para sacar las repeticiones.</li>
+    <li><strong>D) En círculo:</strong> en una ronda no hay principio ni fin; el primero que se sienta solo marca dónde se empieza a mirar. Se lo deja fijo y se ordenan los otros \(n - 1\): \((n-1)!\). Por eso hay menos órdenes en círculo que en fila.</li>
+  </ul>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">¿Y si se pueden repetir?</span>
+    <p>
+      Todo lo anterior es <strong>sin repetir</strong> (cada elemento se usa una vez). Si se puede usar el
+      mismo elemento varias veces, cada lugar tiene las \(n\) opciones siempre: con las letras a, b, c en
+      tres lugares hay \(3 \cdot 3 \cdot 3 = 27\) palabras (con repetición) contra \(3! = 6\) (sin
+      repetición). Es la regla de la multiplicación directa: \(n^r\).
+    </p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; Números pares de 3 dígitos (apunte, Ejemplo 8)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>¿Cuántos números pares de 3 dígitos pueden formarse con los dígitos 1, 2, 5, 6 y 9, si cada uno puede utilizarse solo una vez?</p>
+  </div>
+
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"números de 3 dígitos"</td><td>tres lugares: centena, decena, unidad</td><td>&mdash;</td><td>\(n_1 \cdot n_2 \cdot n_3\)</td></tr>
+      <tr><td>"pares"</td><td>la unidad tiene que ser par</td><td>de 1, 2, 5, 6, 9 son pares el 2 y el 6</td><td>unidad: 2 opciones</td></tr>
+      <tr><td>"solo una vez"</td><td>sin repetir</td><td>cada lugar usado resta una opción</td><td>4 y después 3</td></tr>
+    </table>
+  </div>
+
+  <p><strong>Paso 1 &mdash; Empezar por el lugar con condición.</strong> La unidad (u) tiene que ser par: 2 opciones (el 2 o el 6). Conviene llenarla primero, porque es la que tiene restricción.</p>
+  <p><strong>Paso 2 &mdash; Decena.</strong> Usado un dígito en la unidad, quedan 4 de los 5.</p>
+  <p><strong>Paso 3 &mdash; Centena.</strong> Usados dos, quedan 3.</p>
+  <p><strong>Paso 4 &mdash; Regla de la multiplicación:</strong></p>
+  <p>\[ N = \underbrace{3}_{c} \cdot \underbrace{4}_{d} \cdot \underbrace{2}_{u} = 24 \]</p>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>Se pueden formar 24 números pares de 3 dígitos.</p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; Ordenar todos y ordenar algunos (apunte, Ejemplos 9 a 12)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>
+      a) ¿De cuántas formas se pueden ordenar las letras a, b, c sin repetir? b) De las 4 primeras letras
+      del abecedario, ¿cuántos arreglos de 2 hay, sin repetir? c) Se sacan 2 tickets de lotería de un total
+      de 20 para el 1.º y el 2.º premio: ¿de cuántas formas? d) 3 disertantes se pueden ubicar en 5 fechas
+      distintas: ¿de cuántas formas se organizan las 3 disertaciones?
+    </p>
+  </div>
+
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"ordenar a, b, c"</td><td>todos distintos, se ordenan todos</td><td>caso A</td><td>\(n = 3\)</td></tr>
+      <tr><td>"4 letras, de a 2"</td><td>se ordenan 2 de 4</td><td>caso B</td><td>\(n = 4\), \(r = 2\)</td></tr>
+      <tr><td>"20 tickets, 1.º y 2.º premio"</td><td>el orden importa (no es lo mismo ganar el 1.º que el 2.º)</td><td>caso B</td><td>\(n = 20\), \(r = 2\)</td></tr>
+      <tr><td>"3 disertantes en 5 fechas"</td><td>se eligen 3 fechas de 5, y cuál le toca a quién</td><td>caso B</td><td>\(n = 5\), \(r = 3\)</td></tr>
+    </table>
+  </div>
+
+  <p><strong>Paso 1 &mdash; a)</strong> Fórmula \(P_n = n!\):</p>
+  <p>\[ P_3 = 3! = 3 \cdot 2 \cdot 1 = 6 \quad (abc,\ acb,\ bac,\ bca,\ cab,\ cba) \]</p>
+  <p><strong>Paso 2 &mdash; b)</strong> Fórmula \({}_nP_r = \dfrac{n!}{(n-r)!}\):</p>
+  <p>\[ {}_4P_2 = \frac{4!}{(4-2)!} = \frac{4 \cdot 3 \cdot 2 \cdot 1}{2 \cdot 1} = 12 \]</p>
+  <p>Son ab, ac, ad, ba, ca, da, bc, cb, bd, db, cd, dc: ab y ba cuentan como dos distintos.</p>
+  <p><strong>Paso 3 &mdash; c)</strong> Fórmula \({}_nP_r = \dfrac{n!}{(n-r)!}\):</p>
+  <p>\[ {}_{20}P_2 = \frac{20!}{18!} = 20 \cdot 19 = 380 \]</p>
+  <p>El \(20!\) y el \(18!\) comparten todo desde 18 para abajo; se cancela y quedan solo los dos primeros factores. No hace falta calcular \(20!\).</p>
+  <p><strong>Paso 4 &mdash; d)</strong> Fórmula \({}_nP_r = \dfrac{n!}{(n-r)!}\):</p>
+  <p>\[ {}_5P_3 = \frac{5!}{(5-3)!} = \frac{5!}{2!} = 5 \cdot 4 \cdot 3 = 60 \]</p>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>a) 6 formas. b) 12 arreglos. c) 380 formas de sacar el 1.º y el 2.º premio. d) Los 3 disertantes se pueden organizar de 60 formas diferentes.</p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 3 &mdash; Con repetidos y en círculo (apunte, Ejemplo 13 y circulares)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>a) En un árbol de Navidad hay 4 focos rojos, 3 verdes y 2 azules. ¿De cuántas formas se pueden ordenar? b) ¿De cuántas formas se pueden sentar 5 personas alrededor de una mesa redonda?</p>
+  </div>
+
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"4 rojos, 3 verdes, 2 azules"</td><td>9 focos, con repetidos (dos rojos son iguales entre sí)</td><td>\(4 + 3 + 2\)</td><td>\(n = 9\); \(n_1 = 4\), \(n_2 = 3\), \(n_3 = 2\)</td></tr>
+      <tr><td>"alrededor de una mesa redonda"</td><td>en círculo</td><td>caso D</td><td>\(n = 5\)</td></tr>
+    </table>
+  </div>
+
+  <p><strong>Paso 1 &mdash; a)</strong> Fórmula con repetidos \(\dfrac{n!}{n_1!\, n_2!\, n_3!}\):</p>
+  <p>\[ \frac{9!}{4!\ 3!\ 2!} = \frac{362.880}{24 \cdot 6 \cdot 2} = \frac{362.880}{288} = 1260 \]</p>
+  <p>Otra forma de hacer la cuenta a mano: \(9!/4!\) deja \(9 \cdot 8 \cdot 7 \cdot 6 \cdot 5 = 15.120\), y dividido \(3! \cdot 2! = 12\) da 1260.</p>
+  <p><strong>Paso 2 &mdash; b)</strong> Fórmula \(PC_n = (n-1)!\):</p>
+  <p>\[ PC_5 = (5-1)! = 4! = 24 \]</p>
+  <p>En fila serían \(5! = 120\). En la mesa, girar a todos un lugar da la misma ronda: cada ronda aparece 5 veces entre los 120, y \(120 / 5 = 24\).</p>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>a) 1260 formas. b) 24 formas.</p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 4 &mdash; Procesos, cargos, anagramas y una red en anillo (formato de examen)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>
+      a) ¿En cuántos órdenes distintos puede ejecutar un sistema operativo 5 procesos? b) En un equipo de 8
+      desarrolladores se elige un líder, un revisor y un tester (personas distintas): ¿de cuántas formas?
+      c) ¿Cuántas palabras distintas se forman reordenando las letras de SISTEMAS? d) 6 nodos se conectan
+      en una red en anillo: ¿cuántos órdenes distintos hay? e) ¿Cuántos PIN de 4 dígitos (del 0 al 9) hay?
+    </p>
+  </div>
+
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"5 procesos, en cuántos órdenes"</td><td>se ordenan todos, distintos</td><td>caso A</td><td>\(5!\)</td></tr>
+      <tr><td>"líder, revisor y tester" de 8</td><td>3 cargos distintos: importa quién tiene cuál</td><td>caso B</td><td>\({}_8P_3\)</td></tr>
+      <tr><td>"letras de SISTEMAS"</td><td>8 letras, la S está 3 veces</td><td>caso C</td><td>\(8!/3!\)</td></tr>
+      <tr><td>"red en anillo"</td><td>en círculo</td><td>caso D</td><td>\((6-1)!\)</td></tr>
+      <tr><td>"PIN de 4 dígitos"</td><td>los dígitos <strong>se pueden repetir</strong> (1111 vale)</td><td>\(10\) opciones en cada lugar</td><td>\(10^4\)</td></tr>
+    </table>
+  </div>
+
+  <p><strong>Paso 1 &mdash; a)</strong> \(P_n = n!\): \(\ 5! = 5 \cdot 4 \cdot 3 \cdot 2 \cdot 1 = 120\).</p>
+  <p><strong>Paso 2 &mdash; b)</strong> \({}_nP_r = \dfrac{n!}{(n-r)!}\): \(\ {}_8P_3 = \dfrac{8!}{5!} = 8 \cdot 7 \cdot 6 = 336\). Es con orden porque Ana líder y Beto tester no es lo mismo que Beto líder y Ana tester.</p>
+  <p><strong>Paso 3 &mdash; c)</strong> \(\dfrac{n!}{n_1! \cdots n_k!}\): S, I, S, T, E, M, A, S son 8 letras; la S aparece 3 veces y las demás una vez (\(1! = 1\), no cambian nada):</p>
+  <p>\[ \frac{8!}{3!} = \frac{40.320}{6} = 6720 \]</p>
+  <p><strong>Paso 4 &mdash; d)</strong> \(PC_n = (n-1)!\): \(\ PC_6 = 5! = 120\).</p>
+  <p><strong>Paso 5 &mdash; e)</strong> Regla de la multiplicación con repetición: \(10 \cdot 10 \cdot 10 \cdot 10 = 10^4 = 10.000\).</p>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>a) 120. b) 336. c) 6720. d) 120. e) 10.000.</p>
+  </div>
+</div>

@@ -68,7 +68,7 @@ la carpeta son de años anteriores y traen temas que este año no entran (varian
 | `PARCIALES/FINAL_febreo.md` | Final 25/02/2026: probabilidad, discreta con tabla, normal, PH para μ |
 | `PARCIALES/FINAL 29 DE JULIO_.md` | Final 29/07/2026: continua, normal con IC y PH, descriptiva, Bayes |
 
-## 1er parcial (U1 a U3) — fuera del alcance actual
+## 1er parcial (U1 a U3) — cargado para el final
 
 | Unidad | Archivo | Qué es |
 | :-- | :-- | :-- |
@@ -90,4 +90,4 @@ la carpeta son de años anteriores y traen temas que este año no entran (varian
 | U3 | `PARCIAL 1/UNIDAD 3/GUIA Variables aleatorias.md` | Guía, ej. 1–11 (2 ⚠) |
 | U3 | `PARCIAL 1/UNIDAD 3/Resultados de guía de Variables Aleatorias.md` | Resultados de la guía (3 ⚠) |
 | U3 | `PARCIAL 1/UNIDAD 3/FORMULAS DESCRIPTIVA.md` | Escaneado: la misma hoja de fórmulas de descriptiva (1 ⚠) |
-| — | `PARCIAL 1/FORMULAS ESTADISTICA.png`, `PARCIAL 1/Parcial 1 2025.png` (imágenes, sin `.md`) | Hoja de fórmulas y 1er parcial 2025 |
+| — | `PARCIAL 1/FORMULAS ESTADISTICA.png`, `PARCIAL 1/Parcial 1 2025.png` (imágenes, sin `.md`) | Hoja de fórmulas (la misma que `hojaDeFormulasCorregida`, copiada en `app/pdf/pye/formulas-descriptiva-e-integrales.pdf`) y 1er parcial 21/05/2025, transcripto en `app/contenido/pye/evaluacion/parciales/2025-primer-parcial/` |

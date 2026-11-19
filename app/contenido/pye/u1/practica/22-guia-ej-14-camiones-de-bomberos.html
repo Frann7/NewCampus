@@ -1,0 +1,84 @@
+<div class="ej" data-examen="variante" data-examen-ref="Final 25/02/2026 · ej. 1b" data-examen-nota="En el final: 3 casos de prueba independientes, cada uno falla con 0,1; probabilidad de que fallen exactamente dos (3 · 0,1² · 0,9 = 0,0270). Es lo mismo que acá: multiplicar por ser independientes y sumar los caminos que cumplen.">
+  <span class="tag">Guía Probabilidad &middot; Ej. 14 &middot; Sucesos independientes</span>
+  <h2>Dos camiones de bomberos independientes</h2>
+  <div class="enunciado">
+    <p>
+      Una ciudad tiene dos camiones de bomberos que operan de forma independiente. La probabilidad de
+      que un camión específico esté disponible cuando se le necesite es 0.96. ¿Cuál es la probabilidad
+      de que: a) ninguno esté disponible cuando se le necesite?, b) un camión esté disponible cuando se
+      lo necesite?
+    </p>
+  </div>
+
+  <span class="paso">Qué tema es y por qué</span>
+  <ul>
+    <li>
+      "Operan de forma <strong>independiente</strong>": lo que pasa con un camión no cambia la
+      probabilidad del otro. En símbolos, \(P(A \mid B) = P(A)\).
+    </li>
+    <li>
+      Con sucesos independientes, la regla del producto \(P(A \cap B) = P(B) \cdot P(A \mid B)\) se
+      simplifica: como \(P(A \mid B) = P(A)\), queda <strong>multiplicar las probabilidades</strong>.
+    </li>
+    <li>
+      Si \(A\) y \(B\) son independientes, también lo son sus contrarios \(\bar{A}\) y \(\bar{B}\)
+      (que uno no esté no cambia la chance de que el otro no esté).
+    </li>
+  </ul>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Sucesos independientes</span>
+    <p>\[ P(A \cap B) = P(A) \cdot P(B) \qquad \text{(solo si son independientes)} \]</p>
+    <p>\[ P(\bar{A}) = 1 - P(A) \]</p>
+  </div>
+
+  <span class="paso">Desarme del enunciado</span>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"dos camiones … de forma independiente"</td><td>se puede multiplicar</td><td>&mdash;</td><td>\(P(A \cap B) = P(A)\,P(B)\)</td></tr>
+      <tr><td>"esté disponible … es 0.96"</td><td>vale para cada camión</td><td>&mdash;</td><td>\(P(A) = P(B) = 0{,}96\)</td></tr>
+      <tr><td>(no disponible)</td><td>contrario</td><td>\(1 - 0{,}96\)</td><td>\(P(\bar{A}) = P(\bar{B}) = 0{,}04\)</td></tr>
+      <tr><td>"ninguno esté disponible"</td><td>no A y no B</td><td>producto</td><td>\(P(\bar{A} \cap \bar{B})\)</td></tr>
+      <tr><td>"un camión esté disponible"</td><td>que haya camión: al menos uno</td><td>complemento de "ninguno"</td><td>\(P(A \cup B)\)</td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Los sucesos</span>
+  <ul>
+    <li>\(A\): "el camión 1 está disponible cuando se lo necesita"; \(P(A) = 0{,}96\), \(P(\bar{A}) = 0{,}04\)</li>
+    <li>\(B\): "el camión 2 está disponible cuando se lo necesita"; \(P(B) = 0{,}96\), \(P(\bar{B}) = 0{,}04\)</li>
+  </ul>
+
+  <span class="paso">Inciso a &mdash; Ninguno disponible</span>
+  <p>Fórmula (independientes):</p>
+  <p>\[ P(\bar{A} \cap \bar{B}) = P(\bar{A}) \cdot P(\bar{B}) \]</p>
+  <p>\[ P(\bar{A} \cap \bar{B}) = 0{,}04 \cdot 0{,}04 = \mathbf{0{,}0016} \]</p>
+  <p>Qué significa: 16 veces cada 10.000 emergencias la ciudad se queda sin camión.</p>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta a</span>
+    <p>\(P(\bar{A} \cap \bar{B}) = 0{,}0016\).</p>
+  </div>
+
+  <span class="paso">Inciso b &mdash; Hay un camión disponible</span>
+  <p>
+    Lo que importa cuando se lo necesita es que haya camión: uno <strong>al menos</strong>. Es lo
+    contrario de "ninguno":
+  </p>
+  <p>\[ P(A \cup B) = 1 - P(\bar{A} \cap \bar{B}) \]</p>
+  <p>\[ P(A \cup B) = 1 - 0{,}0016 = \mathbf{0{,}9984} \]</p>
+  <p>Control con la regla de la suma:</p>
+  <p>\[ P(A \cup B) = P(A) + P(B) - P(A) \cdot P(B) = 0{,}96 + 0{,}96 - 0{,}9216 = 0{,}9984 \ \checkmark \]</p>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta b</span>
+    <p>\(P(\text{al menos uno disponible}) = 0{,}9984\).</p>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Si se lee "exactamente un camión"</span>
+    <p>
+      "Un camión esté disponible" se entiende como "haya un camión disponible" (al menos uno), que es
+      el sentido del libro de donde sale el ejercicio. Si lo pidieran como "exactamente uno" (uno sí
+      y el otro no), hay dos caminos que no se pisan, y se suman:
+    </p>
+    <p>\[ P(A \cap \bar{B}) + P(\bar{A} \cap B) = 0{,}96 \cdot 0{,}04 + 0{,}04 \cdot 0{,}96 = 2 \cdot 0{,}0384 = 0{,}0768 \]</p>
+  </div>
+</div>

@@ -1,0 +1,119 @@
+<div class="ej" data-examen="igual" data-examen-ref="Parcial 1 2025 · ej. 2" data-examen-nota="En el parcial: motores de proveedores A (90 %) y B (10 %), defectuosos 5 % y 3 %; P(defectuoso) y P(B | defectuoso). Acá son dos ingenieros y, en vez de un número, se pide decidir cuál fue: se calculan los dos Bayes y se elige el mayor (como el ítem «¿cuál traductor espera?» del Final 26/11/2025).">
+  <span class="tag">Guía Probabilidad &middot; Ej. 19 &middot; Bayes para decidir</span>
+  <h2>¿Qué ingeniero hizo la cotización con error?</h2>
+  <div class="enunciado">
+    <p>
+      Una compañía constructora emplea a 2 ingenieros en ventas. El ingeniero 1 hace el trabajo de
+      estimar costos en 70% de las cotizaciones solicitadas a la empresa. El ingeniero 2 lo hace para
+      30% de tales cotizaciones. Se sabe que la tasa de error para el ingeniero 1 es tal que 0.02 es la
+      probabilidad de un error cuando éste hace el trabajo; mientras que la probabilidad de un error en
+      el trabajo del ingeniero 2 es 0.04. Suponga que llega una solicitud de cotización y ocurre un
+      error grave al estimar los costos. ¿Qué ingeniero supondría usted que hizo el trabajo? Explique
+      su razonamiento.
+    </p>
+  </div>
+
+  <span class="paso">Qué tema es y por qué</span>
+  <ul>
+    <li>Cada cotización la hace uno de los dos: los ingenieros son una <strong>partición</strong> (\(0{,}7 + 0{,}3 = 1\)).</li>
+    <li>
+      Se sabe el resultado (hubo error) y se pregunta la causa (quién fue): <strong>regla de
+      Bayes</strong>, con la <strong>probabilidad total</strong> del error abajo.
+    </li>
+    <li>
+      "¿Qué ingeniero supondría?": se calcula la probabilidad de cada uno, dado el error, y se elige
+      el que tenga la mayor.
+    </li>
+  </ul>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Probabilidad total y Bayes</span>
+    <p>\[ P(E) = \sum_{i} P(I_i)\,P(E \mid I_i) \qquad\qquad P(I_r \mid E) = \frac{P(I_r)\,P(E \mid I_r)}{P(E)} \]</p>
+  </div>
+
+  <span class="paso">Desarme del enunciado</span>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"El ingeniero 1 … 70% de las cotizaciones"</td><td>probabilidad de que la haga el 1</td><td>\(70 \div 100\)</td><td>\(P(I_1) = 0{,}7\)</td></tr>
+      <tr><td>"El ingeniero 2 lo hace para 30%"</td><td>probabilidad de que la haga el 2</td><td>\(30 \div 100\)</td><td>\(P(I_2) = 0{,}3\)</td></tr>
+      <tr><td>"0.02 es la probabilidad de un error cuando éste hace el trabajo"</td><td>error dado el ingeniero 1</td><td>&mdash;</td><td>\(P(E \mid I_1) = 0{,}02\)</td></tr>
+      <tr><td>"probabilidad de un error en el trabajo del ingeniero 2 es 0.04"</td><td>error dado el ingeniero 2</td><td>&mdash;</td><td>\(P(E \mid I_2) = 0{,}04\)</td></tr>
+      <tr><td>"ocurre un error grave"</td><td>lo que se sabe: va abajo</td><td>probabilidad total</td><td>\(P(E)\)</td></tr>
+      <tr><td>"¿Qué ingeniero … hizo el trabajo?"</td><td>comparar las dos causas</td><td>Bayes dos veces</td><td>\(P(I_1 \mid E)\) y \(P(I_2 \mid E)\)</td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Los sucesos</span>
+  <ul>
+    <li>\(I_1\): "la cotización la hace el ingeniero 1"; \(I_2\): "la hace el ingeniero 2".</li>
+    <li>\(E\): "hay un error al estimar los costos".</li>
+  </ul>
+
+  <span class="paso">Paso 1 &mdash; El árbol</span>
+  <div class="pd-grafico" data-g="u1p-ej19-arbol">
+<svg viewBox="0 0 620 150" role="img" aria-label="Árbol: ingeniero 1 o 2 y si comete error (E) o no">
+  <circle class="punto" cx="30" cy="75.0" r="4"/>
+  <line class="eje" x1="36" y1="75.0" x2="184" y2="41.0"/>
+  <text class="rotulo" x="110.0" y="52.0" text-anchor="middle">0,7</text>
+  <text class="valor" x="190" y="46.0">I1</text>
+  <line class="eje" x1="216" y1="41.0" x2="324" y2="24.0"/>
+  <text class="rotulo" x="270.0" y="26.5" text-anchor="middle">0,02</text>
+  <text class="valor" x="330" y="29.0">E</text>
+  <line class="eje" x1="216" y1="41.0" x2="324" y2="58.0"/>
+  <text class="rotulo" x="270.0" y="63.5" text-anchor="middle">0,98</text>
+  <text class="valor" x="330" y="63.0"><tspan style="text-decoration:overline">E</tspan></text>
+  <line class="eje" x1="36" y1="75.0" x2="184" y2="109.0"/>
+  <text class="rotulo" x="110.0" y="106.0" text-anchor="middle">0,3</text>
+  <text class="valor" x="190" y="114.0">I2</text>
+  <line class="eje" x1="216" y1="109.0" x2="324" y2="92.0"/>
+  <text class="rotulo" x="270.0" y="94.5" text-anchor="middle">0,04</text>
+  <text class="valor" x="330" y="97.0">E</text>
+  <line class="eje" x1="216" y1="109.0" x2="324" y2="126.0"/>
+  <text class="rotulo" x="270.0" y="131.5" text-anchor="middle">0,96</text>
+  <text class="valor" x="330" y="131.0"><tspan style="text-decoration:overline">E</tspan></text>
+  <text class="valor" x="357" y="29.0">0,7 · 0,02 = 0,014</text>
+  <text class="rotulo" x="357" y="63.0">0,7 · 0,98 = 0,686</text>
+  <text class="valor" x="357" y="97.0">0,3 · 0,04 = 0,012</text>
+  <text class="rotulo" x="357" y="131.0">0,3 · 0,96 = 0,288</text>
+</svg>
+</div>
+
+  <span class="paso">Paso 2 &mdash; Probabilidad total del error</span>
+  <p>Fórmula:</p>
+  <p>\[ P(E) = P(I_1)\,P(E \mid I_1) + P(I_2)\,P(E \mid I_2) \]</p>
+  <p>\[ P(E) = 0{,}7 \cdot 0{,}02 + 0{,}3 \cdot 0{,}04 = 0{,}014 + 0{,}012 = 0{,}026 \]</p>
+
+  <span class="paso">Paso 3 &mdash; Bayes para cada ingeniero</span>
+  <p>Fórmula, para el ingeniero 1:</p>
+  <p>\[ P(I_1 \mid E) = \frac{P(I_1)\,P(E \mid I_1)}{P(E)} \]</p>
+  <p>\[ P(I_1 \mid E) = \frac{0{,}7 \cdot 0{,}02}{0{,}026} = \frac{0{,}014}{0{,}026} \approx \mathbf{0{,}5385} \]</p>
+  <p>Fórmula, para el ingeniero 2:</p>
+  <p>\[ P(I_2 \mid E) = \frac{P(I_2)\,P(E \mid I_2)}{P(E)} \]</p>
+  <p>\[ P(I_2 \mid E) = \frac{0{,}3 \cdot 0{,}04}{0{,}026} = \frac{0{,}012}{0{,}026} \approx \mathbf{0{,}4615} \]</p>
+  <p>Control: \(0{,}5385 + 0{,}4615 = 1\).</p>
+
+  <span class="paso">Paso 4 &mdash; Decidir y explicar</span>
+  <ul>
+    <li>El ingeniero 2 se equivoca el doble (4&nbsp;% contra 2&nbsp;%): eso lo hace sospechoso.</li>
+    <li>
+      Pero el ingeniero 1 hace más del doble de cotizaciones (70&nbsp;% contra 30&nbsp;%). Al
+      multiplicar, sus errores son más en total: 0,014 contra 0,012.
+    </li>
+    <li>Dado que hubo error, gana por poco el ingeniero 1.</li>
+  </ul>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">La trampa: mirar solo la tasa de error</span>
+    <p>
+      La respuesta intuitiva es "el 2, que se equivoca más". Bayes muestra que hay que pesar la tasa
+      de error con cuánto trabaja cada uno.
+    </p>
+  </div>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>
+      Supondría que lo hizo el <strong>ingeniero 1</strong>: \(P(I_1 \mid E) \approx 0{,}5385\) es mayor
+      que \(P(I_2 \mid E) \approx 0{,}4615\). Aunque se equivoca menos, hace muchas más cotizaciones, y
+      de los errores que ocurren, el 53,85&nbsp;% son suyos.
+    </p>
+  </div>
+</div>

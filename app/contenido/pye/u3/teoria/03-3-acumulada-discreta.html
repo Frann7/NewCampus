@@ -1,0 +1,442 @@
+<div class="bloque" data-examen="igual" data-examen-ref="Parcial 1 2025 · ej. 4d, 4e y 4f · Final 25/02 · ej. 2b a 2d" data-examen-nota="En el parcial: “exactamente dos”, “al menos tres” y la acumulada con su gráfico. En el final de febrero, la acumulada, los dos gráficos con sus características y “al menos 2”.">
+  <p class="kicker">Lo juntado hasta un valor</p>
+  <h2>3. Función de distribución acumulada de una discreta</h2>
+
+  <h3>Cuándo se usa</h3>
+  <p>
+    Cuando piden "determinar la función de distribución acumulada", "escribir la expresión de
+    \(F(x)\)", "graficar \(F\)", o una probabilidad con "a lo sumo", "al menos", "más de", "menos de".
+    También cuando el enunciado <strong>da</strong> la acumulada (o su gráfico) y hay que sacar
+    probabilidades de ella.
+  </p>
+
+  <div class="caja caja-formula">
+    <span class="caja-tit">Fórmula</span>
+    <p>\[ F(x) = P(X \leq x) = \sum_{t \leq x} f(t) \qquad \text{para } -\infty &lt; x &lt; +\infty \]</p>
+    <p>Escrita por tramos, para una variable con valores \(x_1 &lt; x_2 &lt; \ldots &lt; x_n\):</p>
+    <p>\[ F(x) = \begin{cases} 0 &amp; \text{si } x &lt; x_1 \\ f(x_1) &amp; \text{si } x_1 \leq x &lt; x_2 \\ f(x_1) + f(x_2) &amp; \text{si } x_2 \leq x &lt; x_3 \\ \quad\vdots \\ 1 &amp; \text{si } x \geq x_n \end{cases} \]</p>
+  </div>
+
+  <h4>Qué significa cada letra</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Símbolo</th><th>Qué es</th><th>Ejemplo</th></tr>
+      <tr><td>\(F(x)\) (mayúscula)</td><td>la <strong>acumulada</strong>: probabilidad de que \(X\) valga \(x\) <strong>o menos</strong></td><td>\(F(2) = f(0) + f(1) + f(2)\)</td></tr>
+      <tr><td>\(f(x)\) (minúscula)</td><td>la función de probabilidad de la sección 2: la de un valor solo</td><td>\(f(2) = P(X = 2)\)</td></tr>
+      <tr><td>\(t\)</td><td>una letra auxiliar que recorre los valores de la tabla que no pasan de \(x\)</td><td>\(\sum_{t \leq 2} f(t)\): sumar los de 2 para abajo</td></tr>
+    </table>
+  </div>
+
+  <h4>De dónde sale</h4>
+  <p>
+    "\(X \leq 2\)" es el evento "\(X = 0\) o \(X = 1\) o \(X = 2\)". Esos casos no pueden pasar a la vez
+    (\(X\) vale una sola cosa), así que sus probabilidades se suman. La acumulada es una
+    <strong>suma corrida</strong>: cada casillero es el anterior más el \(f(x)\) nuevo.
+  </p>
+  <p>
+    \(F\) está definida para <strong>cualquier</strong> número, no solo para los de la tabla. Por ejemplo,
+    \(F(1{,}7) = P(X \leq 1{,}7)\): como entre 1 y 2 no hay valores, es lo mismo que \(P(X \leq 1) = F(1)\).
+    Por eso la fórmula se escribe por tramos: entre dos valores de la tabla, \(F\) no cambia.
+  </p>
+
+  <h3>El complemento (para "al menos" y "más de")</h3>
+  <p>
+    Lo contrario de un evento \(A\) se llama <strong>complemento</strong> (\(\bar{A}\)): "que no pase
+    \(A\)". Como entre los dos cubren todo, \(P(A) + P(\bar{A}) = 1\), y entonces:
+  </p>
+  <p>\[ P(A) = 1 - P(\bar{A}) \]</p>
+  <p>
+    Ejemplo suelto: si \(P(X \leq 2) = 0{,}63\), la probabilidad de lo contrario, \(X \geq 3\), es
+    \(1 - 0{,}63 = 0{,}37\). Conviene cuando lo pedido tiene muchos valores y lo contrario tiene pocos,
+    o cuando ya tenés la acumulada hecha.
+  </p>
+
+  <h3>Cómo se traduce cada frase</h3>
+  <p>Para valores enteros consecutivos (0, 1, 2&hellip;). "El anterior" es el valor de la tabla que está justo antes.</p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>En símbolos</th><th>Con \(f\)</th><th>Con \(F\)</th></tr>
+      <tr><td>"exactamente 3"</td><td>\(X = 3\)</td><td>\(f(3)\)</td><td>\(F(3) - F(2)\)</td></tr>
+      <tr><td>"a lo sumo 3", "como máximo 3", "no más de 3"</td><td>\(X \leq 3\)</td><td>\(f(0) + \ldots + f(3)\)</td><td>\(F(3)\)</td></tr>
+      <tr><td>"menos de 3"</td><td>\(X &lt; 3\), o sea \(X \leq 2\)</td><td>\(f(0) + f(1) + f(2)\)</td><td>\(F(2)\)</td></tr>
+      <tr><td>"al menos 3", "como mínimo 3", "3 o más"</td><td>\(X \geq 3\)</td><td>\(f(3) + f(4) + \ldots\)</td><td>\(1 - F(2)\)</td></tr>
+      <tr><td>"más de 3"</td><td>\(X &gt; 3\), o sea \(X \geq 4\)</td><td>\(f(4) + f(5) + \ldots\)</td><td>\(1 - F(3)\)</td></tr>
+      <tr><td>"entre 2 y 4" (inclusive)</td><td>\(2 \leq X \leq 4\)</td><td>\(f(2) + f(3) + f(4)\)</td><td>\(F(4) - F(1)\)</td></tr>
+    </table>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">En una discreta, \(&lt;\) y \(\leq\) dan distinto</span>
+    <p>
+      \(X &lt; 3\) no incluye al 3; \(X \leq 3\) sí. La diferencia es exactamente \(f(3)\). En las
+      continuas (sección 5) esto deja de importar; acá importa siempre.
+    </p>
+  </div>
+
+  <h3>El gráfico: una escalera</h3>
+  <ul>
+    <li>Vale <strong>0</strong> a la izquierda del primer valor y <strong>1</strong> desde el último en adelante.</li>
+    <li>Entre dos valores es <strong>plana</strong> (no hay nada que sumar) y en cada valor <strong>salta</strong> hacia arriba. El tamaño del salto es \(f(x)\) de ese valor.</li>
+    <li>Nunca baja (es "no decreciente"): siempre se suma algo positivo o nada.</li>
+    <li>En cada salto, el <strong>punto lleno va a la izquierda</strong> del escalón (en el valor, \(F\) ya incluye su \(f\)) y el <strong>punto vacío a la derecha</strong> (el escalón llega hasta ahí pero sin tocarlo).</li>
+  </ul>
+  <p>
+    Por eso, leyendo el gráfico al revés, <strong>\(f(x)\) es la altura del salto en \(x\)</strong>:
+    \(f(x) = F(x) - F(\text{anterior})\).
+  </p>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; Computadoras defectuosas (de la cátedra)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>
+      Un embarque de 8 computadoras contiene 3 defectuosas; una escuela compra 2. \(X\) es el número de
+      computadoras defectuosas que compra la escuela, con la distribución:
+    </p>
+    <div class="tabla-wrap">
+      <table class="t">
+        <tr><th class="lbl">\(x\)</th><td>0</td><td>1</td><td>2</td></tr>
+        <tr><th class="lbl">\(f(x)\)</th><td>10/28</td><td>15/28</td><td>3/28</td></tr>
+      </table>
+    </div>
+    <p>
+      a) Obtenga la acumulada \(F(x)\). b) ¿Qué probabilidad existe de comprar a lo sumo 1 defectuosa?
+      c) ¿Y al menos 1 defectuosa?
+    </p>
+  </div>
+
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"a lo sumo 1"</td><td>1 o menos</td><td>\(F(1)\)</td><td>\(P(X \leq 1)\)</td></tr>
+      <tr><td>"al menos 1"</td><td>1 o más; lo contrario es "ninguna"</td><td>\(1 - F(0)\)</td><td>\(P(X \geq 1)\)</td></tr>
+    </table>
+  </div>
+
+  <h4>a) La suma corrida</h4>
+  <p>\[ F(x) = \sum_{t \leq x} f(t) \]</p>
+  <ul>
+    <li>\(F(0) = f(0) = \dfrac{10}{28} = 0{,}357\)</li>
+    <li>\(F(1) = f(0) + f(1) = \dfrac{10}{28} + \dfrac{15}{28} = \dfrac{25}{28} = 0{,}893\)</li>
+    <li>\(F(2) = \dfrac{25}{28} + \dfrac{3}{28} = \dfrac{28}{28} = 1\)</li>
+  </ul>
+  <p>\[ F(x) = \begin{cases} 0 &amp; \text{si } x &lt; 0 \\ 10/28 &amp; \text{si } 0 \leq x &lt; 1 \\ 25/28 &amp; \text{si } 1 \leq x &lt; 2 \\ 1 &amp; \text{si } x \geq 2 \end{cases} \]</p>
+  <div class="pd-grafico" data-g="u3-F-defectuosos">
+<svg viewBox="0 0 620 250" role="img" aria-label="Acumulada escalonada: F vale 0 antes de 0, 10/28 desde 0, 25/28 desde 1 y 1 desde 2">
+  <line class="eje" x1="60" y1="200" x2="60" y2="24"/>
+  <text class="rotulo" x="52" y="204" text-anchor="end">0,0</text>
+  <line class="guia" x1="60" y1="125.9" x2="590" y2="125.9"/>
+  <text class="rotulo" x="52" y="129.9" text-anchor="end">0,5</text>
+  <line class="guia" x1="60" y1="51.8" x2="590" y2="51.8"/>
+  <text class="rotulo" x="52" y="55.8" text-anchor="end">1,0</text>
+  <line class="eje" x1="60" y1="200" x2="590" y2="200"/>
+  <line class="campana" x1="70" y1="200" x2="200" y2="200"/>
+  <circle class="corte" fill="none" cx="200" cy="200" r="4.5"/>
+  <line class="campana" x1="200" y1="147.1" x2="330" y2="147.1"/>
+  <line class="guia" x1="200" y1="200" x2="200" y2="147.1"/>
+  <circle class="punto" cx="200" cy="147.1" r="4.5"/>
+  <circle class="corte" fill="none" cx="330" cy="147.1" r="4.5"/>
+  <text class="valor" x="265" y="138.1" text-anchor="middle">10/28</text>
+  <text class="rotulo" x="200" y="220" text-anchor="middle">0</text>
+  <line class="campana" x1="330" y1="67.7" x2="460" y2="67.7"/>
+  <line class="guia" x1="330" y1="200" x2="330" y2="67.7"/>
+  <circle class="punto" cx="330" cy="67.7" r="4.5"/>
+  <circle class="corte" fill="none" cx="460" cy="67.7" r="4.5"/>
+  <text class="valor" x="395" y="58.7" text-anchor="middle">25/28</text>
+  <text class="rotulo" x="330" y="220" text-anchor="middle">1</text>
+  <line class="campana" x1="460" y1="51.8" x2="590" y2="51.8"/>
+  <line class="guia" x1="460" y1="200" x2="460" y2="51.8"/>
+  <circle class="punto" cx="460" cy="51.8" r="4.5"/>
+  <text class="valor" x="525" y="42.8" text-anchor="middle">1</text>
+  <text class="rotulo" x="460" y="220" text-anchor="middle">2</text>
+  <text class="rotulo" x="325" y="242" text-anchor="middle">x = computadoras defectuosas compradas</text>
+  <text class="rotulo" x="56" y="18" text-anchor="start">F(x)</text>
+</svg>
+    <p class="pd-pie">Tres saltos, uno por valor: de 10/28, de 15/28 y de 3/28. Punto lleno a la izquierda de cada escalón.</p>
+  </div>
+
+  <h4>b) A lo sumo 1</h4>
+  <p>Fórmula: \(P(X \leq x) = F(x)\).</p>
+  <p>\[ P(X \leq 1) = F(1) = f(0) + f(1) = \frac{10}{28} + \frac{15}{28} = \frac{25}{28} = 0{,}893 \]</p>
+
+  <h4>c) Al menos 1, por complemento</h4>
+  <p>Fórmula: \(P(X \geq x) = 1 - F(\text{anterior})\). Lo contrario de "al menos 1" es "ninguna" (\(X = 0\)):</p>
+  <p>\[ P(X \geq 1) = 1 - P(X \leq 0) = 1 - F(0) = 1 - \frac{10}{28} = \frac{18}{28} = 0{,}643 \]</p>
+  <p>Control por el camino largo: \(f(1) + f(2) = \frac{15}{28} + \frac{3}{28} = \frac{18}{28}\). ✔</p>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">El apunte "Unidad 3" de la cátedra tiene un error acá</span>
+    <p>
+      En la página 5 del PDF <em>Unidad 3</em> la cuenta de "al menos 1" está hecha como
+      \(1 - [f(0) + f(1)] = 3/28\). Eso es \(1 - F(1) = P(X \geq 2)\), "al menos <strong>2</strong>".
+      Las diapositivas <em>Tema 3 &mdash; Parte A</em> (página 14) lo hacen bien: \(1 - f(0) = 18/28\).
+    </p>
+  </div>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>a) La \(F\) por tramos de arriba. b) \(25/28 = 0{,}893\). c) \(18/28 = 0{,}643\).</p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; Publicaciones en una red social (Parcial 1 2025, ej. 4d, 4e y 4f)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>
+      \(X\): número de publicaciones que hace un usuario en un día, con la distribución que salió de
+      observar a 100 usuarios:
+    </p>
+    <div class="tabla-wrap">
+      <table class="t">
+        <tr><th class="lbl">\(x\)</th><td>0</td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td></tr>
+        <tr><th class="lbl">\(f(x)\)</th><td>0,20</td><td>0,25</td><td>0,18</td><td>0,15</td><td>0,10</td><td>0,12</td></tr>
+      </table>
+    </div>
+    <p>
+      d) ¿Cuál es la probabilidad de que un usuario haga exactamente dos publicaciones?
+      e) ¿Cuál es la probabilidad de que un usuario haga al menos tres publicaciones?
+      f) Determinar la función de distribución acumulada de probabilidad. Graficar.
+    </p>
+  </div>
+
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"exactamente dos"</td><td>un solo valor</td><td>\(f(2)\)</td><td>\(P(X = 2)\)</td></tr>
+      <tr><td>"al menos tres"</td><td>3, 4 o 5; lo contrario es 0, 1 o 2</td><td>\(1 - F(2)\)</td><td>\(P(X \geq 3)\)</td></tr>
+      <tr><td>"función de distribución acumulada"</td><td>la suma corrida, por tramos</td><td>&mdash;</td><td>\(F(x)\)</td></tr>
+    </table>
+  </div>
+
+  <p>Conviene hacer primero la acumulada (inciso f), porque el e) la usa.</p>
+
+  <h4>f) La acumulada</h4>
+  <p>\[ F(x) = \sum_{t \leq x} f(t) \]</p>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th class="lbl">\(x\)</th><td>0</td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td></tr>
+      <tr><th class="lbl">\(f(x)\)</th><td>0,20</td><td>0,25</td><td>0,18</td><td>0,15</td><td>0,10</td><td>0,12</td></tr>
+      <tr><th class="lbl">\(F(x)\)</th><td>0,20</td><td>0,20 + 0,25 = 0,45</td><td>0,45 + 0,18 = 0,63</td><td>0,63 + 0,15 = 0,78</td><td>0,78 + 0,10 = 0,88</td><td>0,88 + 0,12 = 1</td></tr>
+    </table>
+  </div>
+  <p>\[ F(x) = \begin{cases} 0 &amp; \text{si } x &lt; 0 \\ 0{,}20 &amp; \text{si } 0 \leq x &lt; 1 \\ 0{,}45 &amp; \text{si } 1 \leq x &lt; 2 \\ 0{,}63 &amp; \text{si } 2 \leq x &lt; 3 \\ 0{,}78 &amp; \text{si } 3 \leq x &lt; 4 \\ 0{,}88 &amp; \text{si } 4 \leq x &lt; 5 \\ 1 &amp; \text{si } x \geq 5 \end{cases} \]</p>
+  <div class="pd-grafico" data-g="u3-F-publicaciones">
+<svg viewBox="0 0 620 250" role="img" aria-label="Acumulada escalonada de las publicaciones: 0,20; 0,45; 0,63; 0,78; 0,88; 1">
+  <line class="eje" x1="60" y1="200" x2="60" y2="24"/>
+  <text class="rotulo" x="52" y="204" text-anchor="end">0,0</text>
+  <line class="guia" x1="60" y1="125.9" x2="590" y2="125.9"/>
+  <text class="rotulo" x="52" y="129.9" text-anchor="end">0,5</text>
+  <line class="guia" x1="60" y1="51.8" x2="590" y2="51.8"/>
+  <text class="rotulo" x="52" y="55.8" text-anchor="end">1,0</text>
+  <line class="eje" x1="60" y1="200" x2="590" y2="200"/>
+  <line class="campana" x1="70" y1="200" x2="144.3" y2="200"/>
+  <circle class="corte" fill="none" cx="144.3" cy="200" r="4.5"/>
+  <line class="campana" x1="144.3" y1="170.4" x2="218.6" y2="170.4"/>
+  <line class="guia" x1="144.3" y1="200" x2="144.3" y2="170.4"/>
+  <circle class="punto" cx="144.3" cy="170.4" r="4.5"/>
+  <circle class="corte" fill="none" cx="218.6" cy="170.4" r="4.5"/>
+  <text class="valor" x="181.4" y="161.4" text-anchor="middle">0,20</text>
+  <text class="rotulo" x="144.3" y="220" text-anchor="middle">0</text>
+  <line class="campana" x1="218.6" y1="133.3" x2="292.9" y2="133.3"/>
+  <line class="guia" x1="218.6" y1="200" x2="218.6" y2="133.3"/>
+  <circle class="punto" cx="218.6" cy="133.3" r="4.5"/>
+  <circle class="corte" fill="none" cx="292.9" cy="133.3" r="4.5"/>
+  <text class="valor" x="255.7" y="124.3" text-anchor="middle">0,45</text>
+  <text class="rotulo" x="218.6" y="220" text-anchor="middle">1</text>
+  <line class="campana" x1="292.9" y1="106.6" x2="367.1" y2="106.6"/>
+  <line class="guia" x1="292.9" y1="200" x2="292.9" y2="106.6"/>
+  <circle class="punto" cx="292.9" cy="106.6" r="4.5"/>
+  <circle class="corte" fill="none" cx="367.1" cy="106.6" r="4.5"/>
+  <text class="valor" x="330" y="97.6" text-anchor="middle">0,63</text>
+  <text class="rotulo" x="292.9" y="220" text-anchor="middle">2</text>
+  <line class="campana" x1="367.1" y1="84.4" x2="441.4" y2="84.4"/>
+  <line class="guia" x1="367.1" y1="200" x2="367.1" y2="84.4"/>
+  <circle class="punto" cx="367.1" cy="84.4" r="4.5"/>
+  <circle class="corte" fill="none" cx="441.4" cy="84.4" r="4.5"/>
+  <text class="valor" x="404.3" y="75.4" text-anchor="middle">0,78</text>
+  <text class="rotulo" x="367.1" y="220" text-anchor="middle">3</text>
+  <line class="campana" x1="441.4" y1="69.6" x2="515.7" y2="69.6"/>
+  <line class="guia" x1="441.4" y1="200" x2="441.4" y2="69.6"/>
+  <circle class="punto" cx="441.4" cy="69.6" r="4.5"/>
+  <circle class="corte" fill="none" cx="515.7" cy="69.6" r="4.5"/>
+  <text class="valor" x="478.6" y="60.6" text-anchor="middle">0,88</text>
+  <text class="rotulo" x="441.4" y="220" text-anchor="middle">4</text>
+  <line class="campana" x1="515.7" y1="51.8" x2="590" y2="51.8"/>
+  <line class="guia" x1="515.7" y1="200" x2="515.7" y2="51.8"/>
+  <circle class="punto" cx="515.7" cy="51.8" r="4.5"/>
+  <text class="valor" x="552.9" y="42.8" text-anchor="middle">1,00</text>
+  <text class="rotulo" x="515.7" y="220" text-anchor="middle">5</text>
+  <text class="rotulo" x="325" y="242" text-anchor="middle">x = publicaciones de un usuario en un día</text>
+  <text class="rotulo" x="56" y="18" text-anchor="start">F(x)</text>
+</svg>
+    <p class="pd-pie">La escalera arranca en 0, salta en cada valor de 0 a 5 y termina en 1.</p>
+  </div>
+
+  <h4>d) Exactamente dos</h4>
+  <p>Fórmula: \(P(X = x) = f(x)\).</p>
+  <p>\[ P(X = 2) = f(2) = 0{,}18 \]</p>
+  <p>Con la acumulada da lo mismo: \(F(2) - F(1) = 0{,}63 - 0{,}45 = 0{,}18\).</p>
+
+  <h4>e) Al menos tres</h4>
+  <p>Fórmula: \(P(X \geq x) = 1 - F(\text{anterior})\).</p>
+  <p>\[ P(X \geq 3) = 1 - P(X \leq 2) = 1 - F(2) = 1 - 0{,}63 = 0{,}37 \]</p>
+  <p>Control: \(f(3) + f(4) + f(5) = 0{,}15 + 0{,}10 + 0{,}12 = 0{,}37\). ✔</p>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>
+      d) La probabilidad de que un usuario haga exactamente dos publicaciones es 0,18.
+      e) La probabilidad de que haga al menos tres publicaciones es 0,37.
+      f) La \(F\) por tramos y su gráfico, arriba.
+    </p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 3 &mdash; Solicitudes a la base de datos (Final 25/02/2026, ej. 2b a 2d)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>
+      Un servidor procesa 5 solicitudes por minuto. \(X\): número de solicitudes que requieren acceso a
+      base de datos, con la distribución (la \(k\) ya hallada, \(k = 0{,}35\)):
+    </p>
+    <div class="tabla-wrap">
+      <table class="t">
+        <tr><th class="lbl">\(x\)</th><td>0</td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td></tr>
+        <tr><th class="lbl">\(f(x)\)</th><td>0,05</td><td>0,15</td><td>0,25</td><td>0,35</td><td>0,15</td><td>0,05</td></tr>
+      </table>
+    </div>
+    <p>
+      b) Calcule la función de probabilidad acumulada \(F(x)\). c) Grafique \(f\) y \(F\). Establezca
+      las características de estas gráficas. d) ¿Cuál es la probabilidad de que al menos 2 solicitudes
+      requieran acceso a base de datos?
+    </p>
+  </div>
+
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"al menos 2"</td><td>2 o más; lo contrario es 0 o 1</td><td>\(1 - F(1)\)</td><td>\(P(X \geq 2)\)</td></tr>
+      <tr><td>"características de estas gráficas"</td><td>describir bastones y escalera</td><td>&mdash;</td><td>la lista de esta sección</td></tr>
+    </table>
+  </div>
+
+  <h4>b) La acumulada</h4>
+  <p>\[ F(x) = \sum_{t \leq x} f(t) \]</p>
+  <p>\[ F(x) = \begin{cases} 0 &amp; \text{si } x &lt; 0 \\ 0{,}05 &amp; \text{si } 0 \leq x &lt; 1 \\ 0{,}20 &amp; \text{si } 1 \leq x &lt; 2 \\ 0{,}45 &amp; \text{si } 2 \leq x &lt; 3 \\ 0{,}80 &amp; \text{si } 3 \leq x &lt; 4 \\ 0{,}95 &amp; \text{si } 4 \leq x &lt; 5 \\ 1 &amp; \text{si } x \geq 5 \end{cases} \]</p>
+
+  <h4>c) Los dos gráficos y sus características</h4>
+  <div class="pd-grafico" data-g="u3-bastones-solicitudes">
+<svg viewBox="0 0 620 250" role="img" aria-label="Bastones de las solicitudes: 0,05; 0,15; 0,25; 0,35; 0,15; 0,05">
+  <line class="eje" x1="60" y1="200" x2="60" y2="24"/>
+  <text class="rotulo" x="52" y="204" text-anchor="end">0,00</text>
+  <line class="guia" x1="60" y1="126.2" x2="590" y2="126.2"/>
+  <text class="rotulo" x="52" y="130.2" text-anchor="end">0,20</text>
+  <line class="guia" x1="60" y1="52.4" x2="590" y2="52.4"/>
+  <text class="rotulo" x="52" y="56.4" text-anchor="end">0,40</text>
+  <line class="eje" x1="60" y1="200" x2="590" y2="200"/>
+  <rect class="barra" x="115.3" y="181.6" width="10" height="18.4"/>
+  <circle class="punto" cx="120.3" cy="181.6" r="4"/>
+  <text class="valor" x="120.3" y="171.6" text-anchor="middle">0,05</text>
+  <text class="rotulo" x="120.3" y="220" text-anchor="middle">0</text>
+  <rect class="barra" x="199.2" y="144.7" width="10" height="55.3"/>
+  <circle class="punto" cx="204.2" cy="144.7" r="4"/>
+  <text class="valor" x="204.2" y="134.7" text-anchor="middle">0,15</text>
+  <text class="rotulo" x="204.2" y="220" text-anchor="middle">1</text>
+  <rect class="barra" x="283.1" y="107.8" width="10" height="92.2"/>
+  <circle class="punto" cx="288.1" cy="107.8" r="4"/>
+  <text class="valor" x="288.1" y="97.8" text-anchor="middle">0,25</text>
+  <text class="rotulo" x="288.1" y="220" text-anchor="middle">2</text>
+  <rect class="barra" x="366.9" y="70.9" width="10" height="129.1"/>
+  <circle class="punto" cx="371.9" cy="70.9" r="4"/>
+  <text class="valor" x="371.9" y="60.9" text-anchor="middle">k = 0,35</text>
+  <text class="rotulo" x="371.9" y="220" text-anchor="middle">3</text>
+  <rect class="barra" x="450.8" y="144.7" width="10" height="55.3"/>
+  <circle class="punto" cx="455.8" cy="144.7" r="4"/>
+  <text class="valor" x="455.8" y="134.7" text-anchor="middle">0,15</text>
+  <text class="rotulo" x="455.8" y="220" text-anchor="middle">4</text>
+  <rect class="barra" x="534.7" y="181.6" width="10" height="18.4"/>
+  <circle class="punto" cx="539.7" cy="181.6" r="4"/>
+  <text class="valor" x="539.7" y="171.6" text-anchor="middle">0,05</text>
+  <text class="rotulo" x="539.7" y="220" text-anchor="middle">5</text>
+  <text class="rotulo" x="325" y="242" text-anchor="middle">x = solicitudes que van a la base de datos</text>
+  <text class="rotulo" x="56" y="18" text-anchor="start">f(x)</text>
+</svg>
+    <p class="pd-pie">\(f(x)\): un bastón por valor.</p>
+  </div>
+  <div class="pd-grafico" data-g="u3-F-solicitudes">
+<svg viewBox="0 0 620 250" role="img" aria-label="Acumulada de las solicitudes: 0,05; 0,20; 0,45; 0,80; 0,95; 1">
+  <line class="eje" x1="60" y1="200" x2="60" y2="24"/>
+  <text class="rotulo" x="52" y="204" text-anchor="end">0,0</text>
+  <line class="guia" x1="60" y1="125.9" x2="590" y2="125.9"/>
+  <text class="rotulo" x="52" y="129.9" text-anchor="end">0,5</text>
+  <line class="guia" x1="60" y1="51.8" x2="590" y2="51.8"/>
+  <text class="rotulo" x="52" y="55.8" text-anchor="end">1,0</text>
+  <line class="eje" x1="60" y1="200" x2="590" y2="200"/>
+  <line class="campana" x1="70" y1="200" x2="144.3" y2="200"/>
+  <circle class="corte" fill="none" cx="144.3" cy="200" r="4.5"/>
+  <line class="campana" x1="144.3" y1="192.6" x2="218.6" y2="192.6"/>
+  <line class="guia" x1="144.3" y1="200" x2="144.3" y2="192.6"/>
+  <circle class="punto" cx="144.3" cy="192.6" r="4.5"/>
+  <circle class="corte" fill="none" cx="218.6" cy="192.6" r="4.5"/>
+  <text class="valor" x="181.4" y="183.6" text-anchor="middle">0,05</text>
+  <text class="rotulo" x="144.3" y="220" text-anchor="middle">0</text>
+  <line class="campana" x1="218.6" y1="170.4" x2="292.9" y2="170.4"/>
+  <line class="guia" x1="218.6" y1="200" x2="218.6" y2="170.4"/>
+  <circle class="punto" cx="218.6" cy="170.4" r="4.5"/>
+  <circle class="corte" fill="none" cx="292.9" cy="170.4" r="4.5"/>
+  <text class="valor" x="255.7" y="161.4" text-anchor="middle">0,20</text>
+  <text class="rotulo" x="218.6" y="220" text-anchor="middle">1</text>
+  <line class="campana" x1="292.9" y1="133.3" x2="367.1" y2="133.3"/>
+  <line class="guia" x1="292.9" y1="200" x2="292.9" y2="133.3"/>
+  <circle class="punto" cx="292.9" cy="133.3" r="4.5"/>
+  <circle class="corte" fill="none" cx="367.1" cy="133.3" r="4.5"/>
+  <text class="valor" x="330" y="124.3" text-anchor="middle">0,45</text>
+  <text class="rotulo" x="292.9" y="220" text-anchor="middle">2</text>
+  <line class="campana" x1="367.1" y1="81.4" x2="441.4" y2="81.4"/>
+  <line class="guia" x1="367.1" y1="200" x2="367.1" y2="81.4"/>
+  <circle class="punto" cx="367.1" cy="81.4" r="4.5"/>
+  <circle class="corte" fill="none" cx="441.4" cy="81.4" r="4.5"/>
+  <text class="valor" x="404.3" y="72.4" text-anchor="middle">0,80</text>
+  <text class="rotulo" x="367.1" y="220" text-anchor="middle">3</text>
+  <line class="campana" x1="441.4" y1="59.2" x2="515.7" y2="59.2"/>
+  <line class="guia" x1="441.4" y1="200" x2="441.4" y2="59.2"/>
+  <circle class="punto" cx="441.4" cy="59.2" r="4.5"/>
+  <circle class="corte" fill="none" cx="515.7" cy="59.2" r="4.5"/>
+  <text class="valor" x="478.6" y="50.2" text-anchor="middle">0,95</text>
+  <text class="rotulo" x="441.4" y="220" text-anchor="middle">4</text>
+  <line class="campana" x1="515.7" y1="51.8" x2="590" y2="51.8"/>
+  <line class="guia" x1="515.7" y1="200" x2="515.7" y2="51.8"/>
+  <circle class="punto" cx="515.7" cy="51.8" r="4.5"/>
+  <text class="valor" x="552.9" y="42.8" text-anchor="middle">1,00</text>
+  <text class="rotulo" x="515.7" y="220" text-anchor="middle">5</text>
+  <text class="rotulo" x="325" y="242" text-anchor="middle">x = solicitudes que van a la base de datos</text>
+  <text class="rotulo" x="56" y="18" text-anchor="start">F(x)</text>
+</svg>
+    <p class="pd-pie">\(F(x)\): la escalera. El salto más grande está en 3 (0,35), donde está el bastón más alto.</p>
+  </div>
+  <ul>
+    <li><strong>De \(f\):</strong> bastones separados, solo en los valores 0 a 5; cada altura está entre 0 y 1 y todas suman 1.</li>
+    <li><strong>De \(F\):</strong> escalonada; vale 0 antes del 0 y 1 desde el 5; nunca baja; salta en cada valor y el salto mide \(f(x)\); es plana entre valores.</li>
+  </ul>
+
+  <h4>d) Al menos 2</h4>
+  <p>Fórmula: \(P(X \geq x) = 1 - F(\text{anterior})\).</p>
+  <p>\[ P(X \geq 2) = 1 - P(X \leq 1) = 1 - F(1) = 1 - 0{,}20 = 0{,}80 \]</p>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>b) La \(F\) de arriba. c) Los dos gráficos y la lista. d) La probabilidad de que al menos 2 solicitudes requieran acceso a la base de datos es 0,80.</p>
+  </div>
+
+  <h3>Errores y trampas</h3>
+  <ul>
+    <li><strong>"Al menos 3" con \(1 - F(3)\)</strong>: así se saca el 3 también. Es \(1 - F(2)\): se resta lo que queda <em>antes</em> del 3.</li>
+    <li><strong>Escribir la \(F\) solo en los valores de la tabla</strong>: pidieron una función para todo \(x\); van los tramos con \(\leq\) a la izquierda y \(&lt;\) a la derecha, más el 0 del principio y el 1 del final.</li>
+    <li><strong>Valores que no son consecutivos</strong> (−100, 0, 50&hellip;): "el anterior" es el de la tabla, no "restar 1". En la guía, \(P(X \geq 150) = 1 - F(100)\).</li>
+  </ul>
+</div>

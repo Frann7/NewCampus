@@ -1,0 +1,208 @@
+<div class="bloque">
+  <p class="kicker">Cuando hay muchos datos</p>
+  <h2>2. Tabla de frecuencias: agrupar en intervalos</h2>
+
+  <h3>Cuándo se usa</h3>
+  <p>
+    Cuando hay <strong>muchos datos</strong> (la cátedra dice más de 30) o cuando el enunciado pide
+    "agrupe en intervalos de clase" o "construya la tabla de distribución de frecuencias". En vez de mirar
+    40 números sueltos, se arman unos pocos <strong>intervalos</strong> (tramos) y se cuenta cuántos datos
+    caen en cada uno. También se usa al revés: a veces el enunciado ya trae la tabla armada (ejercicio 6
+    de la guía) y hay que completarla.
+  </p>
+
+  <h3>Fórmulas</h3>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Cuántos intervalos y de qué ancho</span>
+    <p>\[ NIC = 5 \cdot \log_{10} n \qquad \text{o} \qquad NIC = \sqrt{n} \qquad\qquad 5 \leq NIC \leq 15 \]</p>
+    <p>\[ A = \frac{R}{NIC} = \frac{X_{máx} - X_{mín}}{NIC} \quad \text{(y se redondea para arriba a un número cómodo)} \]</p>
+  </div>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Las columnas de la tabla</span>
+    <p>\[ X_{PM} = \frac{L_i + L_s}{2} \qquad fr_i = \frac{fa_i}{n} \qquad Fa_i = fa_1 + fa_2 + \dots + fa_i \qquad Fr_i = \frac{Fa_i}{n} \]</p>
+  </div>
+
+  <h4>Qué significa cada letra</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Símbolo</th><th>Nombre</th><th>Qué es</th></tr>
+      <tr><td>\(n\)</td><td>tamaño de la muestra</td><td>cuántos datos hay</td></tr>
+      <tr><td>\(NIC\)</td><td>número de intervalos de clase</td><td>en cuántos tramos se reparten los datos</td></tr>
+      <tr><td>\(R\)</td><td>rango</td><td>el dato más grande menos el más chico: cuánto ocupan los datos</td></tr>
+      <tr><td>\(A\)</td><td>ancho (amplitud) del intervalo</td><td>cuánto mide cada tramo; todos iguales</td></tr>
+      <tr><td>\([L_i ; L_s)\)</td><td>intervalo de clase (IC)</td><td>\(L_i\) límite inferior (entra), \(L_s\) límite superior (no entra: es el \(L_i\) del siguiente)</td></tr>
+      <tr><td>\(X_{PM}\)</td><td>punto medio o marca de clase</td><td>el centro del intervalo; representa a todos los datos de ese tramo</td></tr>
+      <tr><td>\(fa\)</td><td>frecuencia absoluta</td><td>cuántos datos cayeron en el intervalo</td></tr>
+      <tr><td>\(fr\)</td><td>frecuencia relativa</td><td>qué parte del total cayó ahí (\(fa / n\)); por 100 es el porcentaje \(fr\%\)</td></tr>
+      <tr><td>\(Fa\)</td><td>frecuencia absoluta acumulada</td><td>cuántos datos hay desde el principio <strong>hasta</strong> ese intervalo inclusive</td></tr>
+      <tr><td>\(Fr\)</td><td>frecuencia relativa acumulada</td><td>qué parte del total queda por debajo de \(L_s\) (\(Fa / n\))</td></tr>
+    </table>
+  </div>
+
+  <h3>De dónde sale cada cosa</h3>
+  <ul>
+    <li><strong>El NIC</strong>: con pocos intervalos se pierde el detalle (todo en dos barras); con demasiados, cada tramo tiene uno o dos datos y no se ve ninguna forma. Las dos fórmulas son reglas prácticas para quedar en el medio; la cátedra pide que el resultado esté <strong>entre 5 y 15</strong> y elige un entero entre los dos valores.</li>
+    <li><strong>El ancho</strong>: si \(NIC\) tramos tienen que cubrir todo el rango \(R\), cada uno mide \(R / NIC\). Se redondea <strong>para arriba</strong> (nunca para abajo) para que entren todos los datos.</li>
+    <li><strong>El primer \(L_i\)</strong>: un número redondo igual o apenas menor que el dato más chico. Después se suma \(A\) una y otra vez.</li>
+    <li><strong>Los corchetes</strong> \([\ ;\ )\): el límite de la izquierda entra y el de la derecha no. Así un dato que cae justo en un límite (1,90) va a un solo intervalo, el de la derecha (\([1{,}9 ; 2{,}2)\)).</li>
+    <li><strong>Los controles</strong>: la suma de \(fa\) da \(n\); la suma de \(fr\) da 1; la última \(Fa\) es \(n\) y la última \(Fr\) es 1.</li>
+  </ul>
+
+  <h4>Para qué sirve la \(Fr\): porcentajes que se leen directo</h4>
+  <p>
+    \(Fr_i\) es la parte de los datos que está <strong>por debajo del límite superior</strong> de ese
+    intervalo. Con una tabla de consumos en Gb, si el intervalo \([2 ; 4)\) tiene \(Fr = 0{,}25\), el
+    25&nbsp;% consume menos de 4 Gb. Y para "entre dos límites" se suman las \(fr\) de los intervalos que
+    están en el medio. Es lo que pide el ejercicio 6 de la guía: \(P(X &lt; 4)\), \(P(X &gt; 6)\).
+  </p>
+
+  <h3>La calculadora: \(\log\) y raíz</h3>
+  <div class="caja caja-calc">
+    <span class="caja-tit">Casio fx-991ES PLUS (y parecidas)</span>
+    <ul>
+      <li>\(5 \log_{10} 40\): <code>5 × log 40 =</code> &rarr; 8,0103 (la tecla <strong>log</strong> es la de base 10; no confundir con <strong>ln</strong>).</li>
+      <li>\(\sqrt{40}\): <code>√ 40 =</code> &rarr; 6,3246. Si sale como \(2\sqrt{10}\), la tecla <strong>S⇔D</strong> lo pasa a decimal.</li>
+    </ul>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; La nicotina de 40 cigarrillos (cátedra)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>
+      Contenido de nicotina (mg) de <strong>40 cigarrillos</strong> elegidos al azar. Ya ordenados de menor a
+      mayor (el orden se arma con el tallo y hoja de la sección 3):
+    </p>
+    <p>
+      0,72 &nbsp;0,85 &nbsp;1,09 &nbsp;1,24 &nbsp;1,37 &nbsp;1,40 &nbsp;1,47 &nbsp;1,51 &nbsp;1,58 &nbsp;1,63 &nbsp;1,64 &nbsp;1,64 &nbsp;1,67 &nbsp;1,68 &nbsp;1,69 &nbsp;1,69 &nbsp;1,70 &nbsp;1,74 &nbsp;1,75 &nbsp;1,75
+      &nbsp;1,79 &nbsp;1,79 &nbsp;1,82 &nbsp;1,85 &nbsp;1,86 &nbsp;1,88 &nbsp;1,90 &nbsp;1,92 &nbsp;1,93 &nbsp;1,97 &nbsp;2,03 &nbsp;2,08 &nbsp;2,09 &nbsp;2,11 &nbsp;2,17 &nbsp;2,28 &nbsp;2,31 &nbsp;2,37 &nbsp;2,46 &nbsp;2,55
+    </p>
+    <p>Agrupar en intervalos de clase y construir la tabla de frecuencias.</p>
+  </div>
+
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase / dato</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"40 cigarrillos"</td><td>tamaño de la muestra</td><td>&mdash;</td><td>\(n = 40\)</td></tr>
+      <tr><td>el primero de la lista ordenada</td><td>dato más chico</td><td>&mdash;</td><td>\(X_{mín} = 0{,}72\)</td></tr>
+      <tr><td>el último</td><td>dato más grande</td><td>&mdash;</td><td>\(X_{máx} = 2{,}55\)</td></tr>
+      <tr><td>"agrupar en intervalos"</td><td>armar la tabla</td><td>NIC y \(A\)</td><td>tabla de frecuencias</td></tr>
+    </table>
+  </div>
+
+  <p><strong>Paso 1 &mdash; Cuántos intervalos.</strong> Las dos reglas:</p>
+  <p>\[ NIC = 5 \cdot \log_{10} 40 = 5 \cdot 1{,}6021 = 8{,}01 \qquad\qquad NIC = \sqrt{40} = 6{,}32 \]</p>
+  <p>Las dos están entre 5 y 15. Se elige un entero entre 6,32 y 8,01: la cátedra tomó <strong>\(NIC = 7\)</strong>.</p>
+
+  <p><strong>Paso 2 &mdash; El rango.</strong></p>
+  <p>\[ R = X_{máx} - X_{mín} = 2{,}55 - 0{,}72 = 1{,}83 \text{ mg} \]</p>
+
+  <p><strong>Paso 3 &mdash; El ancho.</strong></p>
+  <p>\[ A = \frac{R}{NIC} = \frac{1{,}83}{7} = 0{,}261 \;\longrightarrow\; A = 0{,}30 \]</p>
+  <p>
+    Se redondea <strong>para arriba</strong> a un número cómodo. Control: 7 intervalos de 0,30 cubren
+    \(7 \times 0{,}30 = 2{,}1\) mg, más que el rango de 1,83: entran todos.
+  </p>
+
+  <p><strong>Paso 4 &mdash; Los límites.</strong> Se arranca en 0,7 (redondo y apenas menor que 0,72) y se suma 0,3: 0,7 &ndash; 1,0 &ndash; 1,3 &ndash; 1,6 &ndash; 1,9 &ndash; 2,2 &ndash; 2,5 &ndash; 2,8.</p>
+
+  <p><strong>Paso 5 &mdash; Contar y completar.</strong> Con la lista ordenada se cuenta cuántos datos caen en cada tramo (un dato igual a un límite va al intervalo que empieza en ese límite: 1,90 va a \([1{,}9 ; 2{,}2)\)). Después, \(X_{PM}\), \(fr = fa / 40\) y las acumuladas:</p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>IC</th><th>\(X_{PM}\)</th><th>\(fa\)</th><th>\(fr\)</th><th>\(fr\%\)</th><th>\(Fa\)</th><th>\(Fr\)</th><th>\(Fr\%\)</th></tr>
+      <tr><td>[0,7 ; 1,0)</td><td>0,85</td><td>2</td><td>0,050</td><td>5</td><td>2</td><td>0,050</td><td>5</td></tr>
+      <tr><td>[1,0 ; 1,3)</td><td>1,15</td><td>2</td><td>0,050</td><td>5</td><td>4</td><td>0,100</td><td>10</td></tr>
+      <tr><td>[1,3 ; 1,6)</td><td>1,45</td><td>5</td><td>0,125</td><td>12,5</td><td>9</td><td>0,225</td><td>22,5</td></tr>
+      <tr><td>[1,6 ; 1,9)</td><td>1,75</td><td>17</td><td>0,425</td><td>42,5</td><td>26</td><td>0,650</td><td>65</td></tr>
+      <tr><td>[1,9 ; 2,2)</td><td>2,05</td><td>9</td><td>0,225</td><td>22,5</td><td>35</td><td>0,875</td><td>87,5</td></tr>
+      <tr><td>[2,2 ; 2,5)</td><td>2,35</td><td>4</td><td>0,100</td><td>10</td><td>39</td><td>0,975</td><td>97,5</td></tr>
+      <tr><td>[2,5 ; 2,8]</td><td>2,65</td><td>1</td><td>0,025</td><td>2,5</td><td>40</td><td>1,000</td><td>100</td></tr>
+      <tr><th>Total</th><th></th><th>40</th><th>1</th><th>100</th><th></th><th></th><th></th></tr>
+    </table>
+  </div>
+  <p>Cómo se lee una fila: en \([1{,}6 ; 1{,}9)\) hay 17 cigarrillos (el 42,5&nbsp;%), y desde el principio hasta 1,9 mg hay 26 (el 65&nbsp;%).</p>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Dos detalles de los apuntes de la cátedra</span>
+    <ul>
+      <li>El último intervalo se cierra, \([2{,}5 ; 2{,}8]\), para que el máximo siempre entre.</li>
+      <li>En las dos tablas de la cátedra (<em>Tema 2</em> y <em>Unidad 2</em>) la columna \(Fr\%\) dice 82,5 y 95 en el quinto y el sexto intervalo: son erratas, porque \(Fr = 0{,}875\) y \(0{,}975\) dan 87,5&nbsp;% y 97,5&nbsp;%. Además <em>Unidad 2</em> escribe los últimos intervalos como "[2,2 &ndash; 2,4)" y "[2,4 &ndash; 2,8)"; los correctos son los de <em>Tema 2</em>, \([2{,}2 ; 2{,}5)\) y \([2{,}5 ; 2{,}8]\).</li>
+    </ul>
+  </div>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>\(NIC = 7\), \(A = 0{,}30\) mg y la tabla de arriba (7 intervalos de 0,7 a 2,8 mg). Coincide con la de la cátedra.</p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; Tiempos de respuesta de una API (formato de examen)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>
+      Se registró el tiempo de respuesta (en milisegundos) de <strong>30 consultas</strong> a la API de un
+      sistema de turnos:
+    </p>
+    <p>
+      152 &nbsp;141 &nbsp;175 &nbsp;158 &nbsp;132 &nbsp;163 &nbsp;147 &nbsp;155 &nbsp;121 &nbsp;166 &nbsp;150 &nbsp;144 &nbsp;183 &nbsp;139 &nbsp;157
+      &nbsp;161 &nbsp;149 &nbsp;136 &nbsp;172 &nbsp;154 &nbsp;143 &nbsp;168 &nbsp;127 &nbsp;159 &nbsp;146 &nbsp;189 &nbsp;151 &nbsp;135 &nbsp;164 &nbsp;178
+    </p>
+    <p>
+      a) Agrupe los datos en intervalos de clase y construya la tabla de frecuencias completa.
+      b) ¿Qué porcentaje de consultas tardó menos de 150 ms? c) ¿Qué porcentaje tardó entre 140 y 170 ms?
+    </p>
+  </div>
+
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase / dato</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"30 consultas"</td><td>tamaño de la muestra</td><td>&mdash;</td><td>\(n = 30\)</td></tr>
+      <tr><td>el más chico de la lista (hay que buscarlo)</td><td>\(X_{mín}\)</td><td>&mdash;</td><td>121 ms</td></tr>
+      <tr><td>el más grande</td><td>\(X_{máx}\)</td><td>&mdash;</td><td>189 ms</td></tr>
+      <tr><td>"menos de 150 ms"</td><td>lo que queda por debajo de un límite</td><td>\(Fr\) del intervalo que termina en 150</td><td>inciso b</td></tr>
+      <tr><td>"entre 140 y 170 ms"</td><td>los intervalos del medio</td><td>suma de sus \(fr\)</td><td>inciso c</td></tr>
+    </table>
+  </div>
+
+  <p><strong>Paso 1 &mdash; Ordenar</strong> (para contar sin errores):</p>
+  <p>121 &nbsp;127 &nbsp;132 &nbsp;135 &nbsp;136 &nbsp;139 &nbsp;141 &nbsp;143 &nbsp;144 &nbsp;146 &nbsp;147 &nbsp;149 &nbsp;150 &nbsp;151 &nbsp;152 &nbsp;154 &nbsp;155 &nbsp;157 &nbsp;158 &nbsp;159 &nbsp;161 &nbsp;163 &nbsp;164 &nbsp;166 &nbsp;168 &nbsp;172 &nbsp;175 &nbsp;178 &nbsp;183 &nbsp;189</p>
+
+  <p><strong>Paso 2 &mdash; Cuántos intervalos.</strong></p>
+  <p>\[ NIC = 5 \cdot \log_{10} 30 = 5 \cdot 1{,}4771 = 7{,}39 \qquad\qquad NIC = \sqrt{30} = 5{,}48 \]</p>
+  <p>Las dos quedan entre 5 y 15. Se elige <strong>\(NIC = 7\)</strong> (entre 5,48 y 7,39).</p>
+
+  <p><strong>Paso 3 &mdash; Rango y ancho.</strong></p>
+  <p>\[ R = 189 - 121 = 68 \text{ ms} \qquad\qquad A = \frac{R}{NIC} = \frac{68}{7} = 9{,}71 \;\longrightarrow\; A = 10 \text{ ms} \]</p>
+  <p>Control: \(7 \times 10 = 70 \geq 68\). Se arranca en 120 (redondo, apenas menor que 121).</p>
+
+  <p><strong>Paso 4 &mdash; Contar y completar la tabla</strong> (\(n = 30\)):</p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>IC</th><th>\(X_{PM}\)</th><th>\(fa\)</th><th>\(fr\)</th><th>\(Fa\)</th><th>\(Fr\)</th></tr>
+      <tr><td>[120 ; 130)</td><td>125</td><td>2</td><td>0,0667</td><td>2</td><td>0,0667</td></tr>
+      <tr><td>[130 ; 140)</td><td>135</td><td>4</td><td>0,1333</td><td>6</td><td>0,2000</td></tr>
+      <tr><td>[140 ; 150)</td><td>145</td><td>6</td><td>0,2000</td><td>12</td><td>0,4000</td></tr>
+      <tr><td>[150 ; 160)</td><td>155</td><td>8</td><td>0,2667</td><td>20</td><td>0,6667</td></tr>
+      <tr><td>[160 ; 170)</td><td>165</td><td>5</td><td>0,1667</td><td>25</td><td>0,8333</td></tr>
+      <tr><td>[170 ; 180)</td><td>175</td><td>3</td><td>0,1000</td><td>28</td><td>0,9333</td></tr>
+      <tr><td>[180 ; 190]</td><td>185</td><td>2</td><td>0,0667</td><td>30</td><td>1,0000</td></tr>
+      <tr><th>Total</th><th></th><th>30</th><th>1</th><th></th><th></th></tr>
+    </table>
+  </div>
+  <p>Fijate que el 150 va a \([150 ; 160)\), no a \([140 ; 150)\): el límite derecho no entra.</p>
+
+  <p><strong>Paso 5 &mdash; Inciso b.</strong> "Menos de 150 ms" es todo lo que está por debajo del límite superior del intervalo \([140 ; 150)\). Eso es su \(Fr\):</p>
+  <p>\[ Fr_3 = \frac{Fa_3}{n} = \frac{12}{30} = 0{,}40 \]</p>
+  <p><strong>Paso 6 &mdash; Inciso c.</strong> "Entre 140 y 170" son los intervalos \([140 ; 150)\), \([150 ; 160)\) y \([160 ; 170)\): se suman sus \(fr\) (o se restan acumuladas):</p>
+  <p>\[ 0{,}2000 + 0{,}2667 + 0{,}1667 = 0{,}6333 \qquad \text{o} \qquad Fr_5 - Fr_2 = 0{,}8333 - 0{,}2000 = 0{,}6333 \]</p>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>
+      a) \(NIC = 7\), \(A = 10\) ms y la tabla de arriba. b) El 40&nbsp;% de las consultas tardó menos de
+      150 ms. c) El 63,33&nbsp;% tardó entre 140 y 170 ms.
+    </p>
+  </div>
+</div>

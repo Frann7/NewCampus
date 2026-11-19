@@ -31,6 +31,12 @@ window.Apuntes.registrarIndice({
     "pa/c5/teoria": "panes/pa-c5-teoria.js",
     "pa/c6/practica": "panes/pa-c6-practica.js",
     "pa/c6/teoria": "panes/pa-c6-teoria.js",
+    "pye/u1/practica": "panes/pye-u1-practica.js",
+    "pye/u1/teoria": "panes/pye-u1-teoria.js",
+    "pye/u2/practica": "panes/pye-u2-practica.js",
+    "pye/u2/teoria": "panes/pye-u2-teoria.js",
+    "pye/u3/practica": "panes/pye-u3-practica.js",
+    "pye/u3/teoria": "panes/pye-u3-teoria.js",
     "pye/u4/practica": "panes/pye-u4-practica.js",
     "pye/u4/teoria": "panes/pye-u4-teoria.js",
     "pye/u5/practica": "panes/pye-u5-practica.js",
@@ -186,6 +192,15 @@ window.Apuntes.registrarIndice({
         "fecha": "23/8/2023",
         "detalle": "6 ejercicios \u00b7 resuelto",
         "temas": "Conjunta discreta \u00b7 Densidad continua \u00b7 Normal \u00b7 Hipergeom\u00e9trica \u00b7 Poisson \u00b7 Binomial",
+        "tipo": "parcial"
+      },
+      {
+        "id": "2025-primer-parcial",
+        "archivo": "examenes/pye-2025-primer-parcial.js",
+        "titulo": "Primer Parcial",
+        "fecha": "21/5/2025",
+        "detalle": "5 ejercicios \u00b7 100 puntos",
+        "temas": "Conteo y Laplace \u00b7 Probabilidad total y Bayes \u00b7 Descriptiva \u00b7 V.a. discreta \u00b7 Conjunta continua",
         "tipo": "parcial"
       },
       {
@@ -426,6 +441,21 @@ window.Apuntes.registrarIndice({
       "corto": "PyE",
       "unidades": [
         {
+          "clave": "u1",
+          "num": "Unidad 1",
+          "nombre": "Probabilidad"
+        },
+        {
+          "clave": "u2",
+          "num": "Unidad 2",
+          "nombre": "Estadistica Descriptiva"
+        },
+        {
+          "clave": "u3",
+          "num": "Unidad 3",
+          "nombre": "Variables Aleatorias"
+        },
+        {
           "clave": "u4",
           "num": "Unidad 4",
           "nombre": "Esperanza, Varianza y Covarianza"
@@ -452,6 +482,12 @@ window.Apuntes.registrarIndice({
         }
       ],
       "pdf": [
+        {
+          "id": "formulas-desc",
+          "sigla": "FOR",
+          "titulo": "Formulas de descriptiva e integrales (hoja de la catedra)",
+          "archivo": "pdf/pye/formulas-descriptiva-e-integrales.pdf"
+        },
         {
           "id": "formulas-u4",
           "sigla": "FOR",
@@ -490,6 +526,12 @@ window.Apuntes.registrarIndice({
         }
       ],
       "material": {
+        "u2": [
+          "formulas-desc"
+        ],
+        "u3": [
+          "formulas-desc"
+        ],
         "u4": [
           "formulas-u4"
         ],
@@ -512,6 +554,7 @@ window.Apuntes.registrarIndice({
           "icph"
         ],
         "evaluacion": [
+          "formulas-desc",
           "formulas-u8",
           "mapa-dif",
           "resumen",

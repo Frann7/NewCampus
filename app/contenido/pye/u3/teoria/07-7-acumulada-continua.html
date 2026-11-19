@@ -1,0 +1,243 @@
+<div class="bloque" data-examen="variante" data-examen-ref="Final 29/07 · ej. 1a a 1d" data-examen-nota="Solo en un final: f(x) = k(4 − x) entre 0 y 4; hallar k, graficar f, obtener F(x) por tramos y calcular P(X ≤ 1) y P(1 &lt; X ≤ 3) interpretando. En la guía, los ejercicios 3c, 4c, 8b y 10d.">
+  <p class="kicker">Lo juntado hasta un valor, versión continua</p>
+  <h2>7. Función de distribución acumulada de una continua</h2>
+
+  <h3>Cuándo se usa</h3>
+  <p>
+    Cuando piden "determine la función de distribución acumulada", "obtenga \(F(x)\) por tramos", o
+    "resuelva usando la acumulada". Una vez que tenés \(F\), cualquier probabilidad sale con una resta,
+    sin volver a integrar.
+  </p>
+
+  <div class="caja caja-formula">
+    <span class="caja-tit">Fórmulas</span>
+    <p>\[ F(x) = P(X \leq x) = \int_{-\infty}^{x} f(t)\,dt \]</p>
+    <p>Si \(f\) no es 0 solo en \([a, b]\), por tramos:</p>
+    <p>\[ F(x) = \begin{cases} 0 &amp; \text{si } x &lt; a \\ \displaystyle\int_a^x f(t)\,dt &amp; \text{si } a \leq x &lt; b \\ 1 &amp; \text{si } x \geq b \end{cases} \]</p>
+    <p>Para usarla:</p>
+    <p>\[ P(X \leq c) = F(c) \qquad P(c &lt; X &lt; d) = F(d) - F(c) \qquad P(X &gt; c) = 1 - F(c) \]</p>
+    <p>Y el camino de vuelta: \[ f(x) = \frac{dF(x)}{dx} = F'(x) \]</p>
+  </div>
+
+  <h4>Qué significa cada letra</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Símbolo</th><th>Qué es</th><th>Ejemplo</th></tr>
+      <tr><td>\(F(x)\)</td><td>el área bajo \(f\) desde el principio hasta \(x\): la probabilidad de \(x\) o menos</td><td>\(F(1) = P(X \leq 1)\)</td></tr>
+      <tr><td>\(t\)</td><td>la letra de adentro de la integral. Se cambia porque la \(x\) ya está ocupada como límite de arriba</td><td>\(\int_{-1}^{x} \frac{t^2}{3}\,dt\)</td></tr>
+      <tr><td>\(F'(x)\) o \(\frac{dF}{dx}\)</td><td>la derivada de \(F\) (sección 4)</td><td>\(\big(\tfrac{x^3 + 1}{9}\big)' = \tfrac{x^2}{3}\)</td></tr>
+    </table>
+  </div>
+
+  <h4>De dónde sale</h4>
+  <p>
+    Es la misma idea que en la discreta (sección 3), "lo juntado hasta \(x\)", pero en vez de sumar
+    bastones se junta área. Antes de \(a\) no hay área (\(F = 0\)); después de \(b\) ya se juntó toda
+    (\(F = 1\)); en el medio, el área desde \(a\) hasta \(x\), que es una integral con límite de arriba
+    variable: el resultado es una <strong>fórmula con \(x\)</strong>, no un número.
+  </p>
+  <p>
+    Como integrar y derivar se deshacen (sección 4), si \(F\) es la integral de \(f\), derivando \(F\)
+    se vuelve a \(f\). Sirve para controlar que la \(F\) esté bien.
+  </p>
+
+  <h3>Cómo es el gráfico</h3>
+  <ul>
+    <li>Vale 0 a la izquierda de \(a\) y 1 desde \(b\) en adelante.</li>
+    <li>En el medio es una <strong>curva sin saltos</strong> (no una escalera como la discreta): sube de a poco.</li>
+    <li>Nunca baja. Sube más rápido donde \(f\) es más alta.</li>
+  </ul>
+
+  <h3>Dos controles que no fallan</h3>
+  <ol>
+    <li>\(F(a) = 0\) y \(F(b) = 1\): reemplazando los extremos en la fórmula del medio.</li>
+    <li>\(F'(x) = f(x)\): derivando se vuelve a la densidad.</li>
+  </ol>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; La densidad \(x^2/3\) (de la cátedra)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>
+      Sea \(f(x) = \begin{cases} \dfrac{x^2}{3} &amp; -1 &lt; x &lt; 2 \\ 0 &amp; \text{en c.o.c.} \end{cases}\)
+      Obtenga \(F(x)\), verifique que \(f = F'\) y calcule con ella \(P(X &lt; 1{,}5)\).
+    </p>
+  </div>
+
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"\(-1 &lt; x &lt; 2\)"</td><td>\(a = -1\), \(b = 2\)</td><td>&mdash;</td><td>los tres tramos</td></tr>
+      <tr><td>"verifique que \(f = F'\)"</td><td>derivar la \(F\)</td><td>&mdash;</td><td>control</td></tr>
+      <tr><td>"\(P(X &lt; 1{,}5)\)"</td><td>en una continua, igual a \(P(X \leq 1{,}5)\)</td><td>&mdash;</td><td>\(F(1{,}5)\)</td></tr>
+    </table>
+  </div>
+
+  <h4>Paso 1 &mdash; El tramo del medio</h4>
+  <p>Fórmula: \(\displaystyle F(x) = \int_{a}^{x} f(t)\,dt\) para \(a \leq x &lt; b\).</p>
+  <p>\[ F(x) = \int_{-1}^{x} \frac{t^2}{3}\,dt = \left[\frac{t^3}{9}\right]_{-1}^{x} = \frac{x^3}{9} - \left(\frac{(-1)^3}{9}\right) = \frac{x^3}{9} + \frac{1}{9} = \frac{x^3 + 1}{9} \]</p>
+  <p>En Barrow, el límite de arriba ahora es la letra \(x\): se reemplaza \(t\) por \(x\) y queda una fórmula.</p>
+
+  <h4>Paso 2 &mdash; Los tres tramos</h4>
+  <p>\[ F(x) = \begin{cases} 0 &amp; \text{si } x &lt; -1 \\ \dfrac{x^3 + 1}{9} &amp; \text{si } -1 \leq x &lt; 2 \\ 1 &amp; \text{si } x \geq 2 \end{cases} \]</p>
+  <p>Control 1: \(F(-1) = \dfrac{-1 + 1}{9} = 0\) y \(F(2) = \dfrac{8 + 1}{9} = 1\). ✔</p>
+
+  <h4>Paso 3 &mdash; \(f = F'\)</h4>
+  <p>\[ F'(x) = \left(\frac{x^3 + 1}{9}\right)' = \frac{1}{9}\,(3x^2 + 0) = \frac{3x^2}{9} = \frac{x^2}{3} = f(x) \quad\checkmark \]</p>
+
+  <h4>Paso 4 &mdash; \(P(X &lt; 1{,}5)\) con la acumulada</h4>
+  <p>Fórmula: \(P(X \leq c) = F(c)\).</p>
+  <p>\[ P(X &lt; 1{,}5) = F(1{,}5) = \frac{(3/2)^3 + 1}{9} = \frac{27/8 + 8/8}{9} = \frac{35/8}{9} = \frac{35}{72} = 0{,}4861 \]</p>
+  <p>Es el mismo resultado que con la integral directa (sección 5), sin volver a integrar.</p>
+
+  <div class="pd-grafico" data-g="u3-F-catedra">
+<svg viewBox="0 0 620 250" role="img" aria-label="Acumulada (x³ + 1)/9: vale 0 antes de −1, sube como curva y vale 1 desde 2">
+  <line class="eje" x1="60" y1="200" x2="60" y2="24"/>
+  <text class="rotulo" x="52" y="204" text-anchor="end">0,0</text>
+  <line class="guia" x1="60" y1="125.9" x2="590" y2="125.9"/>
+  <text class="rotulo" x="52" y="129.9" text-anchor="end">0,5</text>
+  <line class="guia" x1="60" y1="51.8" x2="590" y2="51.8"/>
+  <text class="rotulo" x="52" y="55.8" text-anchor="end">1,0</text>
+  <line class="eje" x1="60" y1="200" x2="590" y2="200"/>
+  <line class="campana" x1="70" y1="200" x2="160.4" y2="200"/>
+  <path class="campana" fill="none" d="M 160.4,200 L 163.3,198.8 L 166.1,197.7 L 168.9,196.6 L 171.7,195.5 L 174.6,194.6 L 177.4,193.6 L 180.2,192.8 L 183,192 L 185.9,191.2 L 188.7,190.5 L 191.5,189.8 L 194.3,189.2 L 197.2,188.6 L 200,188.1 L 202.8,187.6 L 205.7,187.1 L 208.5,186.7 L 211.3,186.3 L 214.1,185.9 L 217,185.6 L 219.8,185.3 L 222.6,185 L 225.4,184.8 L 228.3,184.6 L 231.1,184.4 L 233.9,184.2 L 236.7,184.1 L 239.6,184 L 242.4,183.9 L 245.2,183.8 L 248,183.7 L 250.9,183.7 L 253.7,183.6 L 256.5,183.6 L 259.3,183.6 L 262.2,183.5 L 265,183.5 L 267.8,183.5 L 270.7,183.5 L 273.5,183.5 L 276.3,183.5 L 279.1,183.5 L 282,183.5 L 284.8,183.5 L 287.6,183.5 L 290.4,183.5 L 293.3,183.4 L 296.1,183.4 L 298.9,183.3 L 301.7,183.3 L 304.6,183.2 L 307.4,183.1 L 310.2,183 L 313,182.8 L 315.9,182.7 L 318.7,182.5 L 321.5,182.3 L 324.3,182 L 327.2,181.8 L 330,181.5 L 332.8,181.1 L 335.7,180.8 L 338.5,180.4 L 341.3,180 L 344.1,179.5 L 347,179 L 349.8,178.5 L 352.6,177.9 L 355.4,177.3 L 358.3,176.6 L 361.1,175.9 L 363.9,175.1 L 366.7,174.3 L 369.6,173.4 L 372.4,172.5 L 375.2,171.5 L 378,170.5 L 380.9,169.4 L 383.7,168.3 L 386.5,167.1 L 389.3,165.8 L 392.2,164.5 L 395,163.1 L 397.8,161.6 L 400.7,160.1 L 403.5,158.5 L 406.3,156.8 L 409.1,155.1 L 412,153.3 L 414.8,151.4 L 417.6,149.4 L 420.4,147.4 L 423.3,145.2 L 426.1,143 L 428.9,140.7 L 431.7,138.3 L 434.6,135.9 L 437.4,133.3 L 440.2,130.7 L 443,128 L 445.9,125.1 L 448.7,122.2 L 451.5,119.2 L 454.3,116.1 L 457.2,112.9 L 460,109.6 L 462.8,106.1 L 465.7,102.6 L 468.5,99 L 471.3,95.3 L 474.1,91.4 L 477,87.5 L 479.8,83.4 L 482.6,79.3 L 485.4,75 L 488.3,70.6 L 491.1,66.1 L 493.9,61.4 L 496.7,56.7 L 499.6,51.8"/>
+  <line class="campana" x1="499.6" y1="51.8" x2="590" y2="51.8"/>
+  <line class="guia" x1="386.5" y1="200" x2="386.5" y2="167.1"/>
+  <circle class="punto" cx="386.5" cy="167.1" r="4"/>
+  <line class="guia" x1="443" y1="200" x2="443" y2="128"/>
+  <circle class="punto" cx="443" cy="128" r="4"/>
+  <text class="rotulo" x="160.4" y="220" text-anchor="middle">-1</text>
+  <text class="rotulo" x="273.5" y="220" text-anchor="middle">0</text>
+  <text class="rotulo" x="386.5" y="220" text-anchor="middle">1</text>
+  <text class="rotulo" x="443" y="220" text-anchor="middle">1,5</text>
+  <text class="rotulo" x="499.6" y="220" text-anchor="middle">2</text>
+  <text class="valor" x="386.5" y="152.6" text-anchor="end">F(1) = 2/9</text>
+  <text class="valor" x="437.4" y="111.1" text-anchor="end">F(1,5) = 35/72</text>
+</svg>
+    <p class="pd-pie">La acumulada \((x^3 + 1)/9\): 0 hasta −1, curva hasta 2, 1 después. Los puntos son \(F(1)\) y \(F(1{,}5)\).</p>
+  </div>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>\(F(x)\) por tramos de arriba; \(F'(x) = x^2/3 = f(x)\); \(P(X &lt; 1{,}5) = 35/72 = 0{,}4861\).</p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; Tiempo de resolución de un ticket (Final 29/07/2026, ej. 1a a 1d)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>
+      El tiempo \(X\), medido en horas, que tarda un técnico de soporte en resolver un ticket de
+      reclamo se modela mediante una variable aleatoria continua cuya función de densidad está dada por
+      \(f(x) = \begin{cases} k(4 - x) &amp; 0 \leq x \leq 4 \\ 0 &amp; \text{en otro caso} \end{cases}\)
+    </p>
+    <p>
+      a) Determinar el valor de \(k\) para que \(f\) sea una función de densidad. Justificar verificando
+      las condiciones necesarias. b) Representar gráficamente \(f\). c) Obtener la función de
+      distribución acumulada \(F(x)\), expresándola por tramos. d) Calcular \(P(X \leq 1)\) y
+      \(P(1 &lt; X \leq 3)\) e interpretar los resultados en el contexto del problema.
+    </p>
+  </div>
+
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"\(0 \leq x \leq 4\)"</td><td>\(a = 0\), \(b = 4\)</td><td>&mdash;</td><td>límites y tramos</td></tr>
+      <tr><td>"verificando las condiciones"</td><td>\(f \geq 0\) y área 1</td><td>&mdash;</td><td>inciso a</td></tr>
+      <tr><td>"\(P(X \leq 1)\)"</td><td>a lo sumo una hora</td><td>&mdash;</td><td>\(F(1)\)</td></tr>
+      <tr><td>"\(P(1 &lt; X \leq 3)\)"</td><td>entre una y tres horas</td><td>&mdash;</td><td>\(F(3) - F(1)\)</td></tr>
+    </table>
+  </div>
+
+  <h4>a) La constante</h4>
+  <p>Fórmula: \(\displaystyle \int_a^b f(x)\,dx = 1\) (sección 6).</p>
+  <p>\[ k \int_0^4 (4 - x)\,dx = k\left[4x - \frac{x^2}{2}\right]_0^4 = k\left(16 - \frac{16}{2}\right) = k \cdot 8 = 1 \quad\Longrightarrow\quad k = \frac{1}{8} \]</p>
+  <p>Condiciones: con \(k = \tfrac{1}{8}\), \(f(x) = \tfrac{4 - x}{8}\) vale \(\tfrac{4}{8} = 0{,}5\) en 0 y 0 en 4: nunca negativa entre 0 y 4 ✔; y su área total es 1 ✔.</p>
+
+  <h4>b) Gráfico de \(f\)</h4>
+  <div class="pd-grafico" data-g="u3-densidad-tickets">
+<svg viewBox="0 0 620 250" role="img" aria-label="Densidad (4 − x)/8 entre 0 y 4, con el área de 1 a 3 pintada: vale 0,5">
+  <line class="eje" x1="60" y1="200" x2="60" y2="24"/>
+  <text class="rotulo" x="52" y="204" text-anchor="end">0,00</text>
+  <line class="guia" x1="60" y1="133.1" x2="590" y2="133.1"/>
+  <text class="rotulo" x="52" y="137.1" text-anchor="end">0,25</text>
+  <line class="guia" x1="60" y1="66.1" x2="590" y2="66.1"/>
+  <text class="rotulo" x="52" y="70.1" text-anchor="end">0,50</text>
+  <line class="eje" x1="60" y1="200" x2="590" y2="200"/>
+  <path class="area" d="M 230.7,200 L 230.7,99.6 L 233.9,100.7 L 237,101.8 L 240.2,102.9 L 243.3,104.1 L 246.5,105.2 L 249.6,106.3 L 252.8,107.4 L 255.9,108.5 L 259.1,109.6 L 262.2,110.8 L 265.4,111.9 L 268.5,113 L 271.7,114.1 L 274.8,115.2 L 278,116.3 L 281.2,117.4 L 284.3,118.6 L 287.5,119.7 L 290.6,120.8 L 293.8,121.9 L 296.9,123 L 300.1,124.1 L 303.2,125.3 L 306.4,126.4 L 309.5,127.5 L 312.7,128.6 L 315.8,129.7 L 319,130.8 L 322.1,131.9 L 325.3,133.1 L 328.4,134.2 L 331.6,135.3 L 334.7,136.4 L 337.9,137.5 L 341,138.6 L 344.2,139.8 L 347.3,140.9 L 350.5,142 L 353.6,143.1 L 356.8,144.2 L 359.9,145.3 L 363.1,146.5 L 366.2,147.6 L 369.4,148.7 L 372.5,149.8 L 375.7,150.9 L 378.8,152 L 382,153.1 L 385.2,154.3 L 388.3,155.4 L 391.5,156.5 L 394.6,157.6 L 397.8,158.7 L 400.9,159.8 L 404.1,161 L 407.2,162.1 L 410.4,163.2 L 413.5,164.3 L 416.7,165.4 L 419.8,166.5 L 419.8,200 Z"/>
+  <line class="corte" x1="230.7" y1="200" x2="230.7" y2="99.6"/>
+  <line class="corte" x1="419.8" y1="200" x2="419.8" y2="166.5"/>
+  <line class="campana" x1="70" y1="200" x2="136.2" y2="200"/>
+  <line class="campana" x1="514.4" y1="200" x2="590" y2="200"/>
+  <path class="campana" fill="none" d="M 136.2,66.1 L 139.3,67.2 L 142.5,68.4 L 145.6,69.5 L 148.8,70.6 L 151.9,71.7 L 155.1,72.8 L 158.2,73.9 L 161.4,75.1 L 164.5,76.2 L 167.7,77.3 L 170.8,78.4 L 174,79.5 L 177.2,80.6 L 180.3,81.7 L 183.5,82.9 L 186.6,84 L 189.8,85.1 L 192.9,86.2 L 196.1,87.3 L 199.2,88.4 L 202.4,89.6 L 205.5,90.7 L 208.7,91.8 L 211.8,92.9 L 215,94 L 218.1,95.1 L 221.3,96.2 L 224.4,97.4 L 227.6,98.5 L 230.7,99.6 L 233.9,100.7 L 237,101.8 L 240.2,102.9 L 243.3,104.1 L 246.5,105.2 L 249.6,106.3 L 252.8,107.4 L 255.9,108.5 L 259.1,109.6 L 262.2,110.8 L 265.4,111.9 L 268.5,113 L 271.7,114.1 L 274.8,115.2 L 278,116.3 L 281.2,117.4 L 284.3,118.6 L 287.5,119.7 L 290.6,120.8 L 293.8,121.9 L 296.9,123 L 300.1,124.1 L 303.2,125.3 L 306.4,126.4 L 309.5,127.5 L 312.7,128.6 L 315.8,129.7 L 319,130.8 L 322.1,131.9 L 325.3,133.1 L 328.4,134.2 L 331.6,135.3 L 334.7,136.4 L 337.9,137.5 L 341,138.6 L 344.2,139.8 L 347.3,140.9 L 350.5,142 L 353.6,143.1 L 356.8,144.2 L 359.9,145.3 L 363.1,146.5 L 366.2,147.6 L 369.4,148.7 L 372.5,149.8 L 375.7,150.9 L 378.8,152 L 382,153.1 L 385.2,154.3 L 388.3,155.4 L 391.5,156.5 L 394.6,157.6 L 397.8,158.7 L 400.9,159.8 L 404.1,161 L 407.2,162.1 L 410.4,163.2 L 413.5,164.3 L 416.7,165.4 L 419.8,166.5 L 423,167.6 L 426.1,168.8 L 429.3,169.9 L 432.4,171 L 435.6,172.1 L 438.7,173.2 L 441.9,174.3 L 445,175.5 L 448.2,176.6 L 451.3,177.7 L 454.5,178.8 L 457.6,179.9 L 460.8,181 L 463.9,182.2 L 467.1,183.3 L 470.2,184.4 L 473.4,185.5 L 476.5,186.6 L 479.7,187.7 L 482.8,188.8 L 486,190 L 489.2,191.1 L 492.3,192.2 L 495.5,193.3 L 498.6,194.4 L 501.8,195.5 L 504.9,196.7 L 508.1,197.8 L 511.2,198.9 L 514.4,200"/>
+  <line class="guia" x1="136.2" y1="200" x2="136.2" y2="66.1"/>
+  <text class="rotulo" x="136.2" y="220" text-anchor="middle">0</text>
+  <text class="rotulo" x="230.7" y="220" text-anchor="middle">1</text>
+  <text class="rotulo" x="325.3" y="220" text-anchor="middle">2</text>
+  <text class="rotulo" x="419.8" y="220" text-anchor="middle">3</text>
+  <text class="rotulo" x="514.4" y="220" text-anchor="middle">4</text>
+  <text class="valor" x="325.3" y="189.3" text-anchor="middle">P(1 &lt; X ≤ 3) = 0,5</text>
+  <text class="rotulo" x="145.6" y="52.7" text-anchor="start">f(x) = (4 − x)/8</text>
+</svg>
+    <p class="pd-pie">\(f(x) = (4 - x)/8\): una recta que baja de 0,5 a 0. Los tickets cortos son los más probables. Pintada, el área de 1 a 3.</p>
+  </div>
+
+  <h4>c) La acumulada por tramos</h4>
+  <p>Fórmula: \(\displaystyle F(x) = \int_{a}^{x} f(t)\,dt\) para \(a \leq x &lt; b\).</p>
+  <p>\[ F(x) = \int_0^x \frac{4 - t}{8}\,dt = \frac{1}{8}\left[4t - \frac{t^2}{2}\right]_0^x = \frac{1}{8}\left(4x - \frac{x^2}{2}\right) = \frac{x}{2} - \frac{x^2}{16} \]</p>
+  <p>\[ F(x) = \begin{cases} 0 &amp; \text{si } x &lt; 0 \\ \dfrac{x}{2} - \dfrac{x^2}{16} &amp; \text{si } 0 \leq x &lt; 4 \\ 1 &amp; \text{si } x \geq 4 \end{cases} \]</p>
+  <p>Controles: \(F(0) = 0\), \(F(4) = 2 - 1 = 1\) ✔. \(F'(x) = \tfrac{1}{2} - \tfrac{2x}{16} = \tfrac{1}{2} - \tfrac{x}{8} = \tfrac{4 - x}{8} = f(x)\) ✔.</p>
+
+  <h4>d) Las dos probabilidades</h4>
+  <p>Fórmula: \(P(X \leq c) = F(c)\).</p>
+  <p>\[ P(X \leq 1) = F(1) = \frac{1}{2} - \frac{1}{16} = \frac{8}{16} - \frac{1}{16} = \frac{7}{16} = 0{,}4375 \]</p>
+  <p>Fórmula: \(P(c &lt; X \leq d) = F(d) - F(c)\).</p>
+  <p>\[ F(3) = \frac{3}{2} - \frac{9}{16} = \frac{24}{16} - \frac{9}{16} = \frac{15}{16} \]</p>
+  <p>\[ P(1 &lt; X \leq 3) = F(3) - F(1) = \frac{15}{16} - \frac{7}{16} = \frac{8}{16} = 0{,}5 \]</p>
+  <div class="pd-grafico" data-g="u3-F-tickets">
+<svg viewBox="0 0 620 250" role="img" aria-label="Acumulada x/2 − x²/16 entre 0 y 4: F(1) = 7/16 y F(3) = 15/16">
+  <line class="eje" x1="60" y1="200" x2="60" y2="24"/>
+  <text class="rotulo" x="52" y="204" text-anchor="end">0,0</text>
+  <line class="guia" x1="60" y1="125.9" x2="590" y2="125.9"/>
+  <text class="rotulo" x="52" y="129.9" text-anchor="end">0,5</text>
+  <line class="guia" x1="60" y1="51.8" x2="590" y2="51.8"/>
+  <text class="rotulo" x="52" y="55.8" text-anchor="end">1,0</text>
+  <line class="eje" x1="60" y1="200" x2="590" y2="200"/>
+  <line class="campana" x1="70" y1="200" x2="136.2" y2="200"/>
+  <path class="campana" fill="none" d="M 136.2,200 L 139.3,197.5 L 142.5,195.1 L 145.6,192.7 L 148.8,190.3 L 151.9,187.9 L 155.1,185.5 L 158.2,183.2 L 161.4,180.9 L 164.5,178.6 L 167.7,176.3 L 170.8,174.1 L 174,171.8 L 177.2,169.6 L 180.3,167.4 L 183.5,165.3 L 186.6,163.1 L 189.8,161 L 192.9,158.9 L 196.1,156.8 L 199.2,154.7 L 202.4,152.7 L 205.5,150.6 L 208.7,148.6 L 211.8,146.6 L 215,144.7 L 218.1,142.7 L 221.3,140.8 L 224.4,138.9 L 227.6,137 L 230.7,135.2 L 233.9,133.3 L 237,131.5 L 240.2,129.7 L 243.3,127.9 L 246.5,126.2 L 249.6,124.4 L 252.8,122.7 L 255.9,121 L 259.1,119.3 L 262.2,117.7 L 265.4,116 L 268.5,114.4 L 271.7,112.8 L 274.8,111.2 L 278,109.7 L 281.2,108.1 L 284.3,106.6 L 287.5,105.1 L 290.6,103.7 L 293.8,102.2 L 296.9,100.8 L 300.1,99.4 L 303.2,98 L 306.4,96.6 L 309.5,95.3 L 312.7,93.9 L 315.8,92.6 L 319,91.4 L 322.1,90.1 L 325.3,88.8 L 328.4,87.6 L 331.6,86.4 L 334.7,85.2 L 337.9,84.1 L 341,82.9 L 344.2,81.8 L 347.3,80.7 L 350.5,79.6 L 353.6,78.6 L 356.8,77.5 L 359.9,76.5 L 363.1,75.5 L 366.2,74.5 L 369.4,73.6 L 372.5,72.6 L 375.7,71.7 L 378.8,70.8 L 382,69.9 L 385.2,69.1 L 388.3,68.3 L 391.5,67.4 L 394.6,66.6 L 397.8,65.9 L 400.9,65.1 L 404.1,64.4 L 407.2,63.7 L 410.4,63 L 413.5,62.3 L 416.7,61.7 L 419.8,61 L 423,60.4 L 426.1,59.9 L 429.3,59.3 L 432.4,58.7 L 435.6,58.2 L 438.7,57.7 L 441.9,57.2 L 445,56.8 L 448.2,56.3 L 451.3,55.9 L 454.5,55.5 L 457.6,55.1 L 460.8,54.8 L 463.9,54.4 L 467.1,54.1 L 470.2,53.8 L 473.4,53.5 L 476.5,53.3 L 479.7,53 L 482.8,52.8 L 486,52.6 L 489.2,52.4 L 492.3,52.3 L 495.5,52.2 L 498.6,52 L 501.8,52 L 504.9,51.9 L 508.1,51.8 L 511.2,51.8 L 514.4,51.8"/>
+  <line class="campana" x1="514.4" y1="51.8" x2="590" y2="51.8"/>
+  <line class="guia" x1="230.7" y1="200" x2="230.7" y2="135.2"/>
+  <circle class="punto" cx="230.7" cy="135.2" r="4"/>
+  <line class="guia" x1="419.8" y1="200" x2="419.8" y2="61"/>
+  <circle class="punto" cx="419.8" cy="61" r="4"/>
+  <text class="rotulo" x="136.2" y="220" text-anchor="middle">0</text>
+  <text class="rotulo" x="230.7" y="220" text-anchor="middle">1</text>
+  <text class="rotulo" x="325.3" y="220" text-anchor="middle">2</text>
+  <text class="rotulo" x="419.8" y="220" text-anchor="middle">3</text>
+  <text class="rotulo" x="514.4" y="220" text-anchor="middle">4</text>
+  <text class="valor" x="240.2" y="151.1" text-anchor="start">F(1) = 7/16</text>
+  <text class="valor" x="410.4" y="54.8" text-anchor="end">F(3) = 15/16</text>
+</svg>
+    <p class="pd-pie">La acumulada: la distancia vertical entre \(F(1)\) y \(F(3)\) es la probabilidad de estar entre 1 y 3 horas.</p>
+  </div>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>
+      a) \(k = 1/8\). c) La \(F\) por tramos de arriba. d) \(P(X \leq 1) = 0{,}4375\): el 43,75&nbsp;% de
+      los tickets se resuelve en una hora o menos. \(P(1 &lt; X \leq 3) = 0{,}5\): la mitad de los
+      tickets tarda entre una y tres horas.
+    </p>
+  </div>
+
+  <h3>Errores y trampas</h3>
+  <ul>
+    <li><strong>Escribir solo el tramo del medio</strong>: \(F\) se define para todo \(x\); faltan el 0 y el 1.</li>
+    <li><strong>Dejar la \(t\) en el resultado</strong>: después de Barrow, la fórmula queda en \(x\).</li>
+    <li><strong>Olvidar el \(-G(a)\) cuando \(a\) no es 0</strong>: con \(a = -1\) aparece el \(+\tfrac{1}{9}\) del Ejemplo 1; sin él, \(F(-1)\) no daría 0.</li>
+  </ul>
+</div>

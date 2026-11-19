@@ -1,0 +1,236 @@
+<div class="bloque" data-examen="igual" data-examen-ref="Parcial 1 2025 · ej. 1" data-examen-nota="Diez fichas del 1 al 10, se sacan dos sin sustitución: número total de parejas (45), cuáles suman 10 (4 parejas), probabilidad de que sumen 10 (4/45) y definir Laplace. Está resuelto entero en el Ejemplo 4.">
+  <p class="kicker">Elegir un grupo</p>
+  <h2>5. Conteo II: combinaciones (cuándo no importa el orden)</h2>
+
+  <h3>Cuándo se usa</h3>
+  <p>
+    Cuando se <strong>elige un grupo</strong> y no interesa en qué orden salieron sus miembros: una
+    pareja de fichas, un comité, una mano de cartas, una muestra de servidores para auditar. Las palabras
+    típicas: "pareja", "grupo", "comité", "mano", "se seleccionan \(r\)", "se sacan \(r\) a la vez".
+  </p>
+
+  <h3>Fórmula</h3>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Combinaciones de \(n\) tomados de a \(r\)</span>
+    <p>Cantidad de formas de seleccionar \(r\) objetos de un total de \(n\), <strong>sin importar el orden</strong> (y sin repetir):</p>
+    <p>\[ C_r^n = \binom{n}{r} = \frac{n!}{r!\,(n - r)!} \]</p>
+  </div>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Símbolo</th><th>Qué es</th><th>Ejemplo</th></tr>
+      <tr><td>\(n\)</td><td>de cuántos se elige (el total)</td><td>10 fichas</td></tr>
+      <tr><td>\(r\)</td><td>cuántos se eligen</td><td>2 fichas</td></tr>
+      <tr><td>\(C_r^n\), \(\binom{n}{r}\)</td><td>las dos maneras de escribirlo; se lee "combinaciones de \(n\) en \(r\)" o "\(n\) sobre \(r\)"</td><td>\(\binom{10}{2} = 45\)</td></tr>
+    </table>
+  </div>
+
+  <h4>De dónde sale</h4>
+  <p>
+    Se parte de las permutaciones (sección 4), que cuentan con orden: \({}_nP_r = \dfrac{n!}{(n-r)!}\).
+    Cada grupo de \(r\) elementos aparece ahí \(r!\) veces, una por cada orden posible de sus miembros
+    (el grupo \(\{a, b\}\) aparece como ab y como ba: \(2! = 2\) veces). Para contar cada grupo una sola
+    vez se divide por \(r!\):
+  </p>
+  <p>\[ C_r^n = \frac{{}_nP_r}{r!} = \frac{n!}{r!\,(n - r)!} \]</p>
+  <p>
+    Mini-ejemplo (el del apunte): de a, b, c, d tomadas de a 2 hay \({}_4P_2 = 12\) arreglos, pero solo
+    \(12 / 2! = 6\) grupos: \(\{a,b\}, \{a,c\}, \{a,d\}, \{b,c\}, \{b,d\}, \{c,d\}\).
+  </p>
+  <div class="caja caja-calc">
+    <span class="caja-tit">En la calculadora</span>
+    <p>\(C_r^n\) es la tecla <strong>nCr</strong> (en las Casio, SHIFT + &divide;): se tipea \(n\), nCr, \(r\), =. Por ejemplo 52 nCr 5 = 2598960.</p>
+  </div>
+
+  <h3>¿Importa el orden? Cómo decidir</h3>
+  <p>La pregunta que hay que hacerse: <strong>si cambio el orden de los elegidos, ¿es otro resultado?</strong></p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Situación</th><th>¿Cambiar el orden da otro resultado?</th><th>Se usa</th></tr>
+      <tr><td>1.º y 2.º premio, cargos distintos (líder y tester), números de varios dígitos, órdenes de ejecución</td><td><span class="et ok">Sí</span>: 25 no es 52; ganar el 1.º no es ganar el 2.º</td><td>permutaciones \({}_nP_r\)</td></tr>
+      <tr><td>parejas, comités sin cargos, manos de cartas, muestras, triángulos con puntos</td><td><span class="et mal">No</span>: la pareja {3, 7} es la misma que {7, 3}</td><td>combinaciones \(C_r^n\)</td></tr>
+    </table>
+  </div>
+  <p>
+    Las dos formas dan la <strong>misma probabilidad</strong> si se cuentan igual arriba y abajo
+    (favorables y posibles, los dos con orden o los dos sin orden). Lo que no se puede es mezclar.
+  </p>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; Triángulos con 5 puntos (apunte)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>Si disponemos de 5 puntos no colineales, ¿cuál es el máximo número de triángulos que se podrán formar?</p>
+  </div>
+
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"5 puntos"</td><td>de cuántos se elige</td><td>&mdash;</td><td>\(n = 5\)</td></tr>
+      <tr><td>"triángulos"</td><td>un triángulo necesita 3 puntos</td><td>&mdash;</td><td>\(r = 3\)</td></tr>
+      <tr><td>"no colineales"</td><td>tres puntos cualesquiera forman triángulo (no están en una recta)</td><td>&mdash;</td><td>todo grupo de 3 sirve</td></tr>
+    </table>
+  </div>
+
+  <p><strong>Paso 1 &mdash; ¿Importa el orden?</strong> No: el triángulo ABC es el mismo que BAC. Son combinaciones.</p>
+  <p><strong>Paso 2 &mdash; Fórmula</strong> \(C_r^n = \dfrac{n!}{r!\,(n-r)!}\):</p>
+  <p>\[ C_3^5 = \frac{5!}{3!\ (5-3)!} = \frac{5 \cdot 4 \cdot 3!}{3!\ \cdot 2!} = \frac{5 \cdot 4}{2} = 10 \]</p>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>Se pueden formar como máximo 10 triángulos.</p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; Comités (apunte, Ejemplo 14)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>Encuentre el número de formas de organizar comités científicos formados por 2 químicos y 1 físico, sabiendo que se cuenta con 4 químicos y 3 físicos.</p>
+  </div>
+
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"2 químicos" de "4 químicos"</td><td>elegir 2 de 4, sin orden</td><td>&mdash;</td><td>\(n_Q = C_2^4\)</td></tr>
+      <tr><td>"1 físico" de "3 físicos"</td><td>elegir 1 de 3</td><td>&mdash;</td><td>\(n_F = C_1^3\)</td></tr>
+      <tr><td>"comités" con los dos</td><td>las dos elecciones juntas</td><td>regla de la multiplicación</td><td>\(N = n_Q \cdot n_F\)</td></tr>
+    </table>
+  </div>
+
+  <p><strong>Paso 1 &mdash; Químicos.</strong> Un comité no tiene cargos: elegir a Pérez y Gómez es lo mismo que Gómez y Pérez. Combinaciones:</p>
+  <p>\[ n_Q = C_2^4 = \frac{4!}{2!\ 2!} = \frac{24}{4} = 6 \]</p>
+  <p><strong>Paso 2 &mdash; Físicos:</strong></p>
+  <p>\[ n_F = C_1^3 = \frac{3!}{1!\ 2!} = 3 \]</p>
+  <p><strong>Paso 3 &mdash; Juntar.</strong> Por cada par de químicos se puede poner cualquiera de los 3 físicos: regla de la multiplicación (sección 4).</p>
+  <p>\[ N = n_Q \cdot n_F = 6 \cdot 3 = 18 \]</p>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>Se pueden organizar 18 comités.</p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 3 &mdash; Mano de póker (apunte, Ejemplo 15)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>En una mano de póker de 5 cartas, encuentre la probabilidad de obtener 3 ases y 2 reyes, si el mazo es de 52 cartas (4 ases y 4 reyes).</p>
+  </div>
+
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"mano de 5 cartas" de "52"</td><td>casos posibles: grupos de 5 de 52, sin orden</td><td>\(C_5^{52}\)</td><td>\(N\)</td></tr>
+      <tr><td>"3 ases" (de 4)</td><td>elegir 3 de los 4 ases</td><td>\(C_3^4\)</td><td>\(n_1\)</td></tr>
+      <tr><td>"2 reyes" (de 4)</td><td>elegir 2 de los 4 reyes</td><td>\(C_2^4\)</td><td>\(n_2\)</td></tr>
+      <tr><td>"probabilidad"</td><td>Laplace: todas las manos son igual de probables (mazo mezclado)</td><td>\(n / N\)</td><td>\(P(A)\)</td></tr>
+    </table>
+  </div>
+
+  <p><strong>Paso 1 &mdash; Casos favorables.</strong> Formas de tener 3 ases: \(n_1 = C_3^4 = \dfrac{4!}{3!\ 1!} = 4\). Formas de tener 2 reyes: \(n_2 = C_2^4 = \dfrac{4!}{2!\ 2!} = 6\). Juntas (regla de la multiplicación): \(n = 4 \cdot 6 = 24\) manos.</p>
+  <p><strong>Paso 2 &mdash; Casos posibles.</strong> Todas las manos de 5 cartas:</p>
+  <p>\[ N = C_5^{52} = \frac{52!}{5!\ 47!} = \frac{52 \cdot 51 \cdot 50 \cdot 49 \cdot 48}{120} = 2.598.960 \]</p>
+  <p><strong>Paso 3 &mdash; Laplace</strong>, \(P(A) = n/N\):</p>
+  <p>\[ P(A) = \frac{24}{2.598.960} \approx 0{,}0000092 \]</p>
+  <p>
+    Un número tan chico se lee mejor en notación científica: \(0{,}0000092 = 9{,}23 \times 10^{-6}\)
+    (correr la coma 6 lugares a la izquierda). La calculadora lo muestra como <code>9.234463016×10⁻⁰⁶</code>.
+    En la respuesta se puede dejar la fracción o escribir \(9{,}23 \times 10^{-6}\): son unas 9 manos
+    de cada millón.
+  </p>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>\(P(\text{3 ases y 2 reyes}) = \dfrac{24}{2.598.960} \approx 9{,}23 \times 10^{-6}\).</p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 4 &mdash; Las diez fichas (Primer Parcial 2025, ej. 1)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>
+      Diez fichas numeradas del 1 al 10 se mezclan en una caja; si se seleccionan dos fichas al azar sin
+      sustitución, se pide: a) Calcular el número total de parejas posibles. b) Si A es el evento en que la
+      suma de los dos números sea 10, ¿cuáles son las posibilidades? c) ¿Cuál es la probabilidad de que la
+      suma de los dos números sea diez? d) Definir la Probabilidad Clásica de Laplace.
+    </p>
+  </div>
+
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"diez fichas numeradas del 1 al 10"</td><td>de cuántas se elige</td><td>&mdash;</td><td>\(n = 10\)</td></tr>
+      <tr><td>"se seleccionan dos fichas"</td><td>cuántas se eligen</td><td>&mdash;</td><td>\(r = 2\)</td></tr>
+      <tr><td>"sin sustitución"</td><td>no se devuelve la primera: no se repite número</td><td>&mdash;</td><td>el (5, 5) es imposible</td></tr>
+      <tr><td>"parejas"</td><td>un par de números, sin orden</td><td>&mdash;</td><td>combinaciones</td></tr>
+      <tr><td>"se mezclan", "al azar"</td><td>todas las parejas igual de probables</td><td>&mdash;</td><td>vale Laplace</td></tr>
+    </table>
+  </div>
+
+  <h4>a) Número total de parejas</h4>
+  <p>Una pareja es \(\{3, 7\}\), la misma que \(\{7, 3\}\): no importa el orden. Fórmula \(C_r^n = \dfrac{n!}{r!\,(n-r)!}\):</p>
+  <p>\[ C_2^{10} = \frac{10!}{2!\ 8!} = \frac{10 \cdot 9}{2} = 45 \]</p>
+  <p>(Si se contara con orden, primera ficha y segunda, serían \({}_{10}P_2 = 10 \cdot 9 = 90\): cada pareja dos veces. "Parejas" pide sin orden: 45.)</p>
+
+  <h4>b) Las posibilidades de A</h4>
+  <p>Se busca, para cada número del 1 en adelante, el compañero que completa 10:</p>
+  <ul>
+    <li>1 + 9, 2 + 8, 3 + 7 y 4 + 6: sí.</li>
+    <li>5 + 5: <strong>no</strong>, hay una sola ficha 5 y no se devuelve.</li>
+    <li>6 + 4, 7 + 3, &hellip;: son las mismas parejas dadas vuelta, ya contadas.</li>
+    <li>10 + 0: no hay ficha 0.</li>
+  </ul>
+  <p>\[ A = \{\{1, 9\},\ \{2, 8\},\ \{3, 7\},\ \{4, 6\}\} \qquad n = 4 \]</p>
+
+  <h4>c) Probabilidad de que sumen 10</h4>
+  <p>Fórmula de Laplace, \(P(A) = n/N\), con \(n = 4\) (inciso b) y \(N = 45\) (inciso a):</p>
+  <p>\[ P(A) = \frac{4}{45} \approx 0{,}0889 \]</p>
+  <p>Contando con orden da lo mismo: \(8 / 90 = 0{,}0889\) (cada pareja aparece dos veces arriba y abajo).</p>
+
+  <h4>d) Definición</h4>
+  <p>La de la sección 3, completa, con la condición de "igualmente probables".</p>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>a) 45 parejas. b) \(A = \{(1,9), (2,8), (3,7), (4,6)\}\). c) \(P(A) = 4/45 \approx 0{,}0889\).</p>
+    <p>d) Si un experimento puede tener como resultado cualquiera de \(N\) resultados diferentes igualmente probables, y exactamente \(n\) de ellos corresponden al evento \(A\), entonces \(P(A) = n/N\).</p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 5 &mdash; Auditar servidores (formato de examen)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>En un rack hay 10 servidores, 3 de ellos con una falla de configuración. Se eligen 4 al azar para auditar. a) ¿Cuántas muestras distintas de 4 hay? b) ¿Cuál es la probabilidad de que exactamente 1 de los elegidos tenga la falla? c) ¿Y de que ninguno la tenga?</p>
+  </div>
+
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"10 servidores", "se eligen 4"</td><td>grupos de 4 de 10, sin orden (una muestra)</td><td>\(C_4^{10}\)</td><td>\(N\)</td></tr>
+      <tr><td>"3 con falla"</td><td>quedan 7 sanos</td><td>\(10 - 3\)</td><td>3 con falla, 7 sanos</td></tr>
+      <tr><td>"exactamente 1 con falla"</td><td>1 de los 3 con falla y 3 de los 7 sanos</td><td>\(C_1^3 \cdot C_3^7\)</td><td>\(n\) del b</td></tr>
+      <tr><td>"ninguno con falla"</td><td>los 4 de los 7 sanos</td><td>\(C_4^7\)</td><td>\(n\) del c</td></tr>
+    </table>
+  </div>
+
+  <p><strong>Paso 1 &mdash; a) Casos posibles.</strong> Una muestra para auditar no tiene orden. \(C_r^n = \dfrac{n!}{r!\,(n-r)!}\):</p>
+  <p>\[ N = C_4^{10} = \frac{10!}{4!\ 6!} = \frac{10 \cdot 9 \cdot 8 \cdot 7}{24} = 210 \]</p>
+  <p><strong>Paso 2 &mdash; b) Casos favorables.</strong> Se parte la muestra en dos elecciones, como en los comités: 1 con falla (de 3) y 3 sanos (de 7), y se multiplican:</p>
+  <p>\[ n = C_1^3 \cdot C_3^7 = 3 \cdot \frac{7!}{3!\ 4!} = 3 \cdot 35 = 105 \]</p>
+  <p>Laplace: \(P = \dfrac{105}{210} = 0{,}5\).</p>
+  <p><strong>Paso 3 &mdash; c)</strong> Ninguno con falla: los 4 salen de los 7 sanos.</p>
+  <p>\[ n = C_4^7 = \frac{7!}{4!\ 3!} = 35 \qquad P = \frac{35}{210} = \frac{1}{6} \approx 0{,}1667 \]</p>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>a) 210 muestras. b) \(P(\text{exactamente 1 con falla}) = 0{,}5\). c) \(P(\text{ninguno}) = 1/6 \approx 0{,}1667\).</p>
+  </div>
+</div>

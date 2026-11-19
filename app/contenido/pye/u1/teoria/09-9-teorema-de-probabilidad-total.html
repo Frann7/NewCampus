@@ -1,0 +1,369 @@
+<div class="bloque" data-examen="igual" data-examen-ref="Parcial 1 2025 · ej. 2a, 2b y 2c" data-examen-nota="Motores de dos proveedores: definir los sucesos, árbol y P(motor defectuoso) = 0,048. También en los finales: 26/11/2025 (traductores, “demuestre los teoremas”), 10/12/2025 (urnas: bola blanca, “demuestre el teorema de la probabilidad total” y “defina partición”) y 29/07/2026 (filtro antispam).">
+  <p class="kicker">Sumar por todos los caminos</p>
+  <h2>9. Teorema de probabilidad total</h2>
+
+  <h3>Cuándo se usa</h3>
+  <p>
+    Cuando un resultado (motor defectuoso, bola blanca, correo marcado como spam) puede venir de
+    <strong>varios orígenes</strong> que no se pisan (proveedor A o B; urna 1 o 2; máquina 1, 2 o 3), y
+    te dan:
+  </p>
+  <ul>
+    <li>qué parte viene de cada origen: \(P(B_1), P(B_2), \dots\) ("A proporciona el 90&nbsp;%");</li>
+    <li>la probabilidad del resultado <strong>dentro</strong> de cada origen: \(P(A/B_1), P(A/B_2), \dots\) ("el 5&nbsp;% de los de A son defectuosos").</li>
+  </ul>
+  <p>Y te preguntan la probabilidad del resultado <strong>en general</strong>, sin saber de qué origen viene.</p>
+
+  <h3>Fórmula (enunciado del teorema)</h3>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Teorema de probabilidad total</span>
+    <p>
+      Si los eventos \(B_1, B_2, \dots, B_k\) forman una <strong>partición</strong> del espacio muestral
+      \(S\) (son mutuamente excluyentes y su unión es \(S\)), con \(P(B_i) \neq 0\), entonces para
+      cualquier evento \(A\) de \(S\):
+    </p>
+    <p>\[ P(A) = \sum_{i=1}^{k} P(B_i \cap A) = \sum_{i=1}^{k} P(B_i) \cdot P(A/B_i) \]</p>
+    <p>Escrito sin la sumatoria: \(\ P(A) = P(B_1) \cdot P(A/B_1) + P(B_2) \cdot P(A/B_2) + \dots + P(B_k) \cdot P(A/B_k)\).</p>
+  </div>
+
+  <h4>Qué significa cada letra</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Símbolo</th><th>Qué es</th><th>En el ejemplo de los motores</th></tr>
+      <tr><td>\(B_1, \dots, B_k\)</td><td>los orígenes: una partición de \(S\) (cada elemento viene de uno y solo uno)</td><td>proveedor A, proveedor B</td></tr>
+      <tr><td>\(P(B_i)\)</td><td>qué parte del total viene del origen \(i\): <strong>primeras ramas</strong> del árbol; suman 1</td><td>0,90 y 0,10</td></tr>
+      <tr><td>\(A\)</td><td>el resultado que interesa</td><td>motor defectuoso</td></tr>
+      <tr><td>\(P(A/B_i)\)</td><td>probabilidad del resultado dentro del origen \(i\): <strong>segundas ramas</strong></td><td>0,05 y 0,03</td></tr>
+      <tr><td>\(\sum_{i=1}^{k}\)</td><td>"sumar para \(i\) desde 1 hasta \(k\)": un término por cada origen</td><td>dos términos</td></tr>
+    </table>
+  </div>
+
+  <h4>Cómo se ve</h4>
+  <p>
+    En el Venn, la partición corta \(S\) en pedazos y el evento \(A\) queda repartido entre ellos: un poco
+    de \(A\) en cada pedazo. \(P(A)\) es la suma de esos pedacitos.
+  </p>
+  <div class="pd-grafico" data-g="u1-particion-general">
+<svg viewBox="0 0 620 300" role="img" aria-label="Espacio muestral partido en B1, B2 y B3, con el evento A repartido entre los tres">
+  <circle class="area suave" cx="320" cy="155" r="75"/>
+  <rect class="eje" x="60" y="15" width="500" height="270" fill="none"/>
+  <text class="valor" x="70" y="35">S</text>
+  <line class="corte" x1="60" y1="170" x2="320" y2="155" style="stroke:var(--practica);stroke-width:2"/>
+  <line class="corte" x1="370" y1="15" x2="320" y2="155" style="stroke:var(--practica);stroke-width:2"/>
+  <line class="corte" x1="430" y1="285" x2="320" y2="155" style="stroke:var(--practica);stroke-width:2"/>
+  <circle class="campana" cx="320" cy="155" r="75" style="stroke:var(--teoria)"/>
+  <text class="valor" x="372" y="93" text-anchor="middle" style="fill:var(--teoria)">A</text>
+  <text class="valor" x="150" y="70" text-anchor="middle" style="fill:var(--practica)">B₁</text>
+  <text class="valor" x="480" y="120" text-anchor="middle" style="fill:var(--practica)">B₂</text>
+  <text class="valor" x="150" y="250" text-anchor="middle" style="fill:var(--practica)">B₃</text>
+  <text class="rotulo" x="282" y="135" text-anchor="middle">B₁ ∩ A</text>
+  <text class="rotulo" x="355" y="165" text-anchor="middle">B₂ ∩ A</text>
+  <text class="rotulo" x="300" y="200" text-anchor="middle">B₃ ∩ A</text>
+</svg>
+    <p class="pd-pie">Diagrama del apunte (Tema 1, Partes B y C, pág. 9), con tres pedazos.</p>
+  </div>
+  <p>En el árbol, primero se elige el origen y después si pasa \(A\) o no. \(P(A)\) es la suma de las puntas que terminan en \(A\):</p>
+  <div class="pd-grafico" data-g="u1-arbol-general">
+<svg viewBox="0 0 620 264" role="img" aria-label="Árbol general: partición B1, B2, B3 y después A o no A">
+  <text class="rotulo" x="170" y="18" text-anchor="middle">Partición</text>
+  <text class="rotulo" x="310" y="18" text-anchor="middle">Evento</text>
+  <text class="rotulo" x="352" y="18" text-anchor="start">Producto de las ramas</text>
+  <circle class="punto" cx="30" cy="146.0" r="4"/>
+  <line class="eje" x1="34" y1="146.0" x2="156" y2="74.0"/>
+  <text class="rotulo" x="95.0" y="103.0" text-anchor="middle">P(B₁)</text>
+  <text class="valor" x="166" y="79.0">B₁</text>
+  <line class="eje" x1="180" y1="74.0" x2="296" y2="56.0"/>
+  <text class="rotulo" x="238.0" y="58.0" text-anchor="middle">P(A/B₁)</text>
+  <text class="valor" x="306" y="61.0">A</text>
+  <text class="valor" x="352" y="61.0">P(B₁)·P(A/B₁) = P(B₁ ∩ A)</text>
+  <line class="eje" x1="180" y1="74.0" x2="296" y2="92.0"/>
+  <text class="rotulo" x="238.0" y="98.0" text-anchor="middle">P(Ā/B₁)</text>
+  <text class="valor" x="306" y="97.0">Ā</text>
+  <text class="rotulo" x="352" y="97.0">P(B₁)·P(Ā/B₁) = P(B₁ ∩ Ā)</text>
+  <line class="eje" x1="34" y1="146.0" x2="156" y2="146.0"/>
+  <text class="rotulo" x="95.0" y="139.0" text-anchor="middle">P(B₂)</text>
+  <text class="valor" x="166" y="151.0">B₂</text>
+  <line class="eje" x1="180" y1="146.0" x2="296" y2="128.0"/>
+  <text class="rotulo" x="238.0" y="130.0" text-anchor="middle">P(A/B₂)</text>
+  <text class="valor" x="306" y="133.0">A</text>
+  <text class="valor" x="352" y="133.0">P(B₂)·P(A/B₂) = P(B₂ ∩ A)</text>
+  <line class="eje" x1="180" y1="146.0" x2="296" y2="164.0"/>
+  <text class="rotulo" x="238.0" y="170.0" text-anchor="middle">P(Ā/B₂)</text>
+  <text class="valor" x="306" y="169.0">Ā</text>
+  <text class="rotulo" x="352" y="169.0">P(B₂)·P(Ā/B₂) = P(B₂ ∩ Ā)</text>
+  <line class="eje" x1="34" y1="146.0" x2="156" y2="218.0"/>
+  <text class="rotulo" x="95.0" y="197.0" text-anchor="middle">P(B₃)</text>
+  <text class="valor" x="166" y="223.0">B₃</text>
+  <line class="eje" x1="180" y1="218.0" x2="296" y2="200.0"/>
+  <text class="rotulo" x="238.0" y="202.0" text-anchor="middle">P(A/B₃)</text>
+  <text class="valor" x="306" y="205.0">A</text>
+  <text class="valor" x="352" y="205.0">P(B₃)·P(A/B₃) = P(B₃ ∩ A)</text>
+  <line class="eje" x1="180" y1="218.0" x2="296" y2="236.0"/>
+  <text class="rotulo" x="238.0" y="242.0" text-anchor="middle">P(Ā/B₃)</text>
+  <text class="valor" x="306" y="241.0">Ā</text>
+  <text class="rotulo" x="352" y="241.0">P(B₃)·P(Ā/B₃) = P(B₃ ∩ Ā)</text>
+</svg>
+    <p class="pd-pie">No está en el apunte: el árbol que piden los parciales, con letras.</p>
+  </div>
+
+  <h4>Demostración (la piden)</h4>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Demostración del teorema de probabilidad total</span>
+    <p><strong>Hipótesis:</strong> \(B_1, \dots, B_k\) es una partición de \(S\) y \(A\) es un evento de \(S\).</p>
+    <p><strong>1)</strong> Como \(A\) está dentro de \(S\), \(A = A \cap S\). Y como la partición cubre todo, \(S = B_1 \cup B_2 \cup \dots \cup B_k\):</p>
+    <p>\[ A = A \cap (B_1 \cup B_2 \cup \dots \cup B_k) \]</p>
+    <p><strong>2)</strong> Distribuyendo la intersección sobre la unión:</p>
+    <p>\[ A = (B_1 \cap A) \cup (B_2 \cap A) \cup \dots \cup (B_k \cap A) \]</p>
+    <p><strong>3)</strong> Los \(B_i\) son mutuamente excluyentes, así que los pedazos \(B_i \cap A\) también (están dentro de los \(B_i\), no se pisan). Por la regla aditiva para excluyentes (axioma A3):</p>
+    <p>\[ P(A) = P(B_1 \cap A) + P(B_2 \cap A) + \dots + P(B_k \cap A) = \sum_{i=1}^{k} P(B_i \cap A) \]</p>
+    <p><strong>4)</strong> Por la regla multiplicativa, \(P(B_i \cap A) = P(B_i) \cdot P(A/B_i)\). Reemplazando:</p>
+    <p>\[ P(A) = \sum_{i=1}^{k} P(B_i) \cdot P(A/B_i) \qquad \blacksquare \]</p>
+  </div>
+  <p>
+    En criollo: para que pase \(A\), tiene que pasar por <strong>algún</strong> origen (paso 2); los orígenes
+    no se pisan, así que se suman (paso 3); y cada camino vale "parte del origen por probabilidad dentro del
+    origen" (paso 4). Para estudiarla, acordate de las cuatro palabras: <strong>partición, distributiva,
+    excluyentes, multiplicativa</strong>.
+  </p>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; Tres máquinas (apunte, Ejemplo 20)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>En una planta de montaje existen 3 máquinas \(B_1\), \(B_2\), \(B_3\) que fabrican el 30&nbsp;%, 45&nbsp;% y 25&nbsp;% de las partes, respectivamente. Se sabe por experiencia que el 2&nbsp;%, 3&nbsp;% y 2&nbsp;% de los productos fabricados por cada una, respectivamente, son defectuosos. Se selecciona al azar 1 producto terminado. ¿Cuál es la probabilidad de que sea defectuoso?</p>
+  </div>
+  <div class="pd-grafico" data-g="u1-particion-ej20">
+<svg viewBox="0 0 620 300" role="img" aria-label="Espacio muestral partido en las tres máquinas, con el evento A defectuoso repartido entre las tres">
+  <circle class="area suave" cx="320" cy="155" r="75"/>
+  <rect class="eje" x="60" y="15" width="500" height="270" fill="none"/>
+  <text class="valor" x="70" y="35">S</text>
+  <line class="corte" x1="60" y1="170" x2="320" y2="155" style="stroke:var(--practica);stroke-width:2"/>
+  <line class="corte" x1="370" y1="15" x2="320" y2="155" style="stroke:var(--practica);stroke-width:2"/>
+  <line class="corte" x1="430" y1="285" x2="320" y2="155" style="stroke:var(--practica);stroke-width:2"/>
+  <circle class="campana" cx="320" cy="155" r="75" style="stroke:var(--teoria)"/>
+  <text class="valor" x="372" y="93" text-anchor="middle" style="fill:var(--teoria)">A</text>
+  <text class="valor" x="150" y="70" text-anchor="middle" style="fill:var(--practica)">B₁ 30 %</text>
+  <text class="valor" x="480" y="120" text-anchor="middle" style="fill:var(--practica)">B₂ 45 %</text>
+  <text class="valor" x="150" y="250" text-anchor="middle" style="fill:var(--practica)">B₃ 25 %</text>
+  <text class="rotulo" x="282" y="135" text-anchor="middle">2 %</text>
+  <text class="rotulo" x="355" y="165" text-anchor="middle">3 %</text>
+  <text class="rotulo" x="300" y="200" text-anchor="middle">2 %</text>
+</svg>
+    <p class="pd-pie">Diagrama del apunte (Tema 1, Partes B y C, pág. 10).</p>
+  </div>
+
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"3 máquinas&hellip; 30&nbsp;%, 45&nbsp;% y 25&nbsp;% de las partes"</td><td>los orígenes y qué parte hace cada uno (suman 100&nbsp;%)</td><td>dividir por 100</td><td>\(P(B_1) = 0{,}30\), \(P(B_2) = 0{,}45\), \(P(B_3) = 0{,}25\)</td></tr>
+      <tr><td>"el 2&nbsp;%, 3&nbsp;% y 2&nbsp;% de estos&hellip; son defectuosos"</td><td>defectuosos <strong>dentro</strong> de cada máquina: condicionales</td><td>dividir por 100</td><td>\(P(A/B_1) = 0{,}02\), \(P(A/B_2) = 0{,}03\), \(P(A/B_3) = 0{,}02\)</td></tr>
+      <tr><td>"probabilidad de que sea defectuoso"</td><td>\(A\) en general, sin saber la máquina</td><td>probabilidad total</td><td>\(P(A)\)</td></tr>
+    </table>
+  </div>
+
+  <p><strong>Paso 1 &mdash; Definir los eventos.</strong> \(A\): producto defectuoso. \(B_1\), \(B_2\), \(B_3\): producto fabricado por la máquina 1, 2 o 3.</p>
+  <p><strong>Paso 2 &mdash; ¿Son una partición?</strong> Sí: cada producto lo fabrica una sola máquina (excluyentes) y todos los fabrica alguna (\(0{,}30 + 0{,}45 + 0{,}25 = 1\)).</p>
+  <p><strong>Paso 3 &mdash; Árbol.</strong> Cada punta es el producto de sus dos ramas (regla multiplicativa):</p>
+  <div class="pd-grafico" data-g="u1-arbol-ej20">
+<svg viewBox="0 0 620 264" role="img" aria-label="Árbol de las tres máquinas y producto defectuoso o no">
+  <text class="rotulo" x="170" y="18" text-anchor="middle">Máquina</text>
+  <text class="rotulo" x="310" y="18" text-anchor="middle">Defectuoso</text>
+  <text class="rotulo" x="352" y="18" text-anchor="start">Producto de las ramas</text>
+  <circle class="punto" cx="30" cy="146.0" r="4"/>
+  <line class="eje" x1="34" y1="146.0" x2="156" y2="74.0"/>
+  <text class="rotulo" x="95.0" y="103.0" text-anchor="middle">0,30</text>
+  <text class="valor" x="166" y="79.0">B₁</text>
+  <line class="eje" x1="180" y1="74.0" x2="296" y2="56.0"/>
+  <text class="rotulo" x="238.0" y="58.0" text-anchor="middle">0,02</text>
+  <text class="valor" x="306" y="61.0">A</text>
+  <text class="valor" x="352" y="61.0">0,30 · 0,02 = 0,0060</text>
+  <line class="eje" x1="180" y1="74.0" x2="296" y2="92.0"/>
+  <text class="rotulo" x="238.0" y="98.0" text-anchor="middle">0,98</text>
+  <text class="valor" x="306" y="97.0">Ā</text>
+  <text class="rotulo" x="352" y="97.0">0,30 · 0,98 = 0,2940</text>
+  <line class="eje" x1="34" y1="146.0" x2="156" y2="146.0"/>
+  <text class="rotulo" x="95.0" y="139.0" text-anchor="middle">0,45</text>
+  <text class="valor" x="166" y="151.0">B₂</text>
+  <line class="eje" x1="180" y1="146.0" x2="296" y2="128.0"/>
+  <text class="rotulo" x="238.0" y="130.0" text-anchor="middle">0,03</text>
+  <text class="valor" x="306" y="133.0">A</text>
+  <text class="valor" x="352" y="133.0">0,45 · 0,03 = 0,0135</text>
+  <line class="eje" x1="180" y1="146.0" x2="296" y2="164.0"/>
+  <text class="rotulo" x="238.0" y="170.0" text-anchor="middle">0,97</text>
+  <text class="valor" x="306" y="169.0">Ā</text>
+  <text class="rotulo" x="352" y="169.0">0,45 · 0,97 = 0,4365</text>
+  <line class="eje" x1="34" y1="146.0" x2="156" y2="218.0"/>
+  <text class="rotulo" x="95.0" y="197.0" text-anchor="middle">0,25</text>
+  <text class="valor" x="166" y="223.0">B₃</text>
+  <line class="eje" x1="180" y1="218.0" x2="296" y2="200.0"/>
+  <text class="rotulo" x="238.0" y="202.0" text-anchor="middle">0,02</text>
+  <text class="valor" x="306" y="205.0">A</text>
+  <text class="valor" x="352" y="205.0">0,25 · 0,02 = 0,0050</text>
+  <line class="eje" x1="180" y1="218.0" x2="296" y2="236.0"/>
+  <text class="rotulo" x="238.0" y="242.0" text-anchor="middle">0,98</text>
+  <text class="valor" x="306" y="241.0">Ā</text>
+  <text class="rotulo" x="352" y="241.0">0,25 · 0,98 = 0,2450</text>
+</svg>
+    <p class="pd-pie">No está en el apunte. En negrita, las puntas que terminan en \(A\) (defectuoso).</p>
+  </div>
+  <p><strong>Paso 4 &mdash; Fórmula</strong> \(P(A) = \sum P(B_i) \cdot P(A/B_i)\), sumando las puntas en negrita:</p>
+  <p>\[ P(A) = (0{,}30)(0{,}02) + (0{,}45)(0{,}03) + (0{,}25)(0{,}02) = 0{,}006 + 0{,}0135 + 0{,}005 = 0{,}0245 \]</p>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>\(P(\text{defectuoso}) = 0{,}0245\): el 2,45&nbsp;% de los productos sale defectuoso.</p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; Motores de dos proveedores (Primer Parcial 2025, ej. 2a a 2c)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>
+      Una empresa dedicada al montaje de ventiladores usa motores de dos proveedores: la compañía A
+      proporciona el 90&nbsp;% de los motores y la compañía B el otro 10&nbsp;%; se sabe que el 5&nbsp;% de los
+      de A no cumplen con las especificaciones y el 3&nbsp;% de los de B tampoco. Si se selecciona al azar uno
+      de los ventiladores de la compañía, se pide: a) Definir los sucesos asociados a la situación.
+      b) Realizar un diagrama de árbol. c) Calcular la probabilidad de que el ventilador posea un motor
+      defectuoso.
+    </p>
+  </div>
+
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"A proporciona el 90&nbsp;%"</td><td>origen A</td><td>\(90 \div 100\)</td><td>\(P(A) = 0{,}90\)</td></tr>
+      <tr><td>"B el otro 10&nbsp;%"</td><td>origen B</td><td>\(10 \div 100\)</td><td>\(P(B) = 0{,}10\)</td></tr>
+      <tr><td>"el 5&nbsp;% de los de A no cumplen"</td><td>defectuoso <strong>dentro</strong> de A</td><td>\(5 \div 100\)</td><td>\(P(D/A) = 0{,}05\)</td></tr>
+      <tr><td>"el 3&nbsp;% de los de B tampoco"</td><td>defectuoso dentro de B</td><td>\(3 \div 100\)</td><td>\(P(D/B) = 0{,}03\)</td></tr>
+      <tr><td>(los que sí cumplen)</td><td>complemento en cada rama</td><td>\(1 - 0{,}05\) y \(1 - 0{,}03\)</td><td>\(P(\bar{D}/A) = 0{,}95\), \(P(\bar{D}/B) = 0{,}97\)</td></tr>
+      <tr><td>"posea un motor defectuoso"</td><td>\(D\) en general</td><td>probabilidad total</td><td>\(P(D)\)</td></tr>
+    </table>
+  </div>
+
+  <h4>a) Los sucesos</h4>
+  <ul>
+    <li>\(A\): el motor fue provisto por la compañía A.</li>
+    <li>\(B\): el motor fue provisto por la compañía B.</li>
+    <li>\(D\): el motor es defectuoso (no cumple las especificaciones).</li>
+    <li>\(\bar{D}\): el motor no es defectuoso.</li>
+  </ul>
+  <p>\(A\) y \(B\) son una partición: cada motor viene de uno solo, y \(0{,}90 + 0{,}10 = 1\).</p>
+  <p>Ojo con las letras: acá \(A\) y \(B\) son los proveedores (los \(B_1\) y \(B_2\) del teorema), y el evento que interesa, el \(A\) del teorema, es \(D\).</p>
+
+  <h4>b) Diagrama de árbol</h4>
+  <p>Primeras ramas: el proveedor. Segundas: defectuoso o no, <strong>dentro</strong> de ese proveedor. Cada punta, el producto de sus ramas:</p>
+  <div class="pd-grafico" data-g="u1-arbol-motores">
+<svg viewBox="0 0 620 192" role="img" aria-label="Árbol de los motores: proveedor A o B y motor defectuoso o no">
+  <text class="rotulo" x="170" y="18" text-anchor="middle">Proveedor</text>
+  <text class="rotulo" x="310" y="18" text-anchor="middle">Motor</text>
+  <text class="rotulo" x="352" y="18" text-anchor="start">Producto de las ramas</text>
+  <circle class="punto" cx="30" cy="110.0" r="4"/>
+  <line class="eje" x1="34" y1="110.0" x2="156" y2="74.0"/>
+  <text class="rotulo" x="95.0" y="85.0" text-anchor="middle">0,90</text>
+  <text class="valor" x="166" y="79.0">A</text>
+  <line class="eje" x1="180" y1="74.0" x2="296" y2="56.0"/>
+  <text class="rotulo" x="238.0" y="58.0" text-anchor="middle">0,05</text>
+  <text class="valor" x="306" y="61.0">D</text>
+  <text class="valor" x="352" y="61.0">0,90 · 0,05 = 0,045</text>
+  <line class="eje" x1="180" y1="74.0" x2="296" y2="92.0"/>
+  <text class="rotulo" x="238.0" y="98.0" text-anchor="middle">0,95</text>
+  <text class="valor" x="306" y="97.0">D̄</text>
+  <text class="rotulo" x="352" y="97.0">0,90 · 0,95 = 0,855</text>
+  <line class="eje" x1="34" y1="110.0" x2="156" y2="146.0"/>
+  <text class="rotulo" x="95.0" y="143.0" text-anchor="middle">0,10</text>
+  <text class="valor" x="166" y="151.0">B</text>
+  <line class="eje" x1="180" y1="146.0" x2="296" y2="128.0"/>
+  <text class="rotulo" x="238.0" y="130.0" text-anchor="middle">0,03</text>
+  <text class="valor" x="306" y="133.0">D</text>
+  <text class="valor" x="352" y="133.0">0,10 · 0,03 = 0,003</text>
+  <line class="eje" x1="180" y1="146.0" x2="296" y2="164.0"/>
+  <text class="rotulo" x="238.0" y="170.0" text-anchor="middle">0,97</text>
+  <text class="valor" x="306" y="169.0">D̄</text>
+  <text class="rotulo" x="352" y="169.0">0,10 · 0,97 = 0,097</text>
+</svg>
+    <p class="pd-pie">No está en el apunte. En negrita, las puntas que terminan en \(D\).</p>
+  </div>
+  <p>Control: las cuatro puntas suman \(0{,}045 + 0{,}855 + 0{,}003 + 0{,}097 = 1\).</p>
+
+  <h4>c) Probabilidad de motor defectuoso</h4>
+  <p>Fórmula \(P(D) = P(A) \cdot P(D/A) + P(B) \cdot P(D/B)\):</p>
+  <p>\[ P(D) = 0{,}90 \cdot 0{,}05 + 0{,}10 \cdot 0{,}03 = 0{,}045 + 0{,}003 = 0{,}048 \]</p>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>c) \(P(D) = 0{,}048\): el 4,8&nbsp;% de los ventiladores tiene un motor defectuoso.</p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 3 &mdash; Dos urnas y una moneda (final 10/12/2025, ej. 1a, 1c y 1d)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>
+      Se tienen dos urnas con bolas blancas y rojas: la primera (\(U_1\)) tiene 3 blancas y 2 rojas, y la
+      segunda (\(U_2\)) tiene 4 blancas y 2 rojas. Se tira una moneda al aire: si sale cara se elige una
+      bola de la primera urna, y si sale cruz, de la segunda. a) ¿Cuál es la probabilidad de que salga una
+      bola blanca? c) Demuestre el teorema de la probabilidad total. d) Defina partición de espacio
+      muestral.
+    </p>
+  </div>
+
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"se tira una moneda": cara &rarr; \(U_1\), cruz &rarr; \(U_2\)</td><td>los orígenes, mitad y mitad</td><td>&mdash;</td><td>\(P(U_1) = P(U_2) = 1/2\)</td></tr>
+      <tr><td>"\(U_1\): 3 blancas y 2 rojas"</td><td>blanca dentro de \(U_1\) (Laplace en esa urna)</td><td>\(3 / (3+2)\)</td><td>\(P(Bl/U_1) = 3/5\)</td></tr>
+      <tr><td>"\(U_2\): 4 blancas y 2 rojas"</td><td>blanca dentro de \(U_2\)</td><td>\(4 / (4+2)\)</td><td>\(P(Bl/U_2) = 4/6\)</td></tr>
+      <tr><td>"que salga una bola blanca"</td><td>blanca en general</td><td>probabilidad total</td><td>\(P(Bl)\)</td></tr>
+    </table>
+  </div>
+
+  <div class="pd-grafico" data-g="u1-arbol-urnas">
+<svg viewBox="0 0 620 192" role="img" aria-label="Árbol de las dos urnas: cara a la urna 1, cruz a la urna 2, y bola blanca o roja">
+  <text class="rotulo" x="170" y="18" text-anchor="middle">Moneda → urna</text>
+  <text class="rotulo" x="310" y="18" text-anchor="middle">Bola</text>
+  <text class="rotulo" x="352" y="18" text-anchor="start">Producto de las ramas</text>
+  <circle class="punto" cx="30" cy="110.0" r="4"/>
+  <line class="eje" x1="34" y1="110.0" x2="156" y2="74.0"/>
+  <text class="rotulo" x="95.0" y="85.0" text-anchor="middle">1/2</text>
+  <text class="valor" x="166" y="79.0">U₁</text>
+  <line class="eje" x1="180" y1="74.0" x2="296" y2="56.0"/>
+  <text class="rotulo" x="238.0" y="58.0" text-anchor="middle">3/5</text>
+  <text class="valor" x="306" y="61.0">Bl</text>
+  <text class="valor" x="352" y="61.0">1/2 · 3/5 = 3/10</text>
+  <line class="eje" x1="180" y1="74.0" x2="296" y2="92.0"/>
+  <text class="rotulo" x="238.0" y="98.0" text-anchor="middle">2/5</text>
+  <text class="valor" x="306" y="97.0">R</text>
+  <text class="rotulo" x="352" y="97.0">1/2 · 2/5 = 2/10</text>
+  <line class="eje" x1="34" y1="110.0" x2="156" y2="146.0"/>
+  <text class="rotulo" x="95.0" y="143.0" text-anchor="middle">1/2</text>
+  <text class="valor" x="166" y="151.0">U₂</text>
+  <line class="eje" x1="180" y1="146.0" x2="296" y2="128.0"/>
+  <text class="rotulo" x="238.0" y="130.0" text-anchor="middle">4/6</text>
+  <text class="valor" x="306" y="133.0">Bl</text>
+  <text class="valor" x="352" y="133.0">1/2 · 4/6 = 4/12</text>
+  <line class="eje" x1="180" y1="146.0" x2="296" y2="164.0"/>
+  <text class="rotulo" x="238.0" y="170.0" text-anchor="middle">2/6</text>
+  <text class="valor" x="306" y="169.0">R</text>
+  <text class="rotulo" x="352" y="169.0">1/2 · 2/6 = 2/12</text>
+</svg>
+    <p class="pd-pie">No está en el apunte. En negrita, las puntas que terminan en blanca.</p>
+  </div>
+  <p><strong>Paso 1 &mdash; ¿Partición?</strong> Sí: la bola sale de una sola urna, y siempre de alguna (\(1/2 + 1/2 = 1\)).</p>
+  <p><strong>Paso 2 &mdash; Fórmula</strong> \(P(Bl) = P(U_1) \cdot P(Bl/U_1) + P(U_2) \cdot P(Bl/U_2)\):</p>
+  <p>\[ P(Bl) = \frac{1}{2} \cdot \frac{3}{5} + \frac{1}{2} \cdot \frac{4}{6} = \frac{3}{10} + \frac{1}{3} = \frac{9}{30} + \frac{10}{30} = \frac{19}{30} \approx 0{,}6333 \]</p>
+  <p>(Para sumar \(3/10 + 1/3\) se lleva todo al denominador común 30.)</p>
+  <p><strong>Paso 3 &mdash; c)</strong> La demostración del recuadro de arriba, con \(B_1 = U_1\), \(B_2 = U_2\) y \(A\) = blanca.</p>
+  <p><strong>Paso 4 &mdash; d)</strong> La definición de la sección 2.</p>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>a) \(P(\text{blanca}) = 19/30 \approx 0{,}6333\).</p>
+    <p>d) Los eventos \(B_1, \dots, B_k\) forman una partición del espacio muestral \(S\) si son mutuamente excluyentes de a dos (\(B_i \cap B_j = \varnothing\) para \(i \neq j\)) y su unión es \(S\).</p>
+  </div>
+</div>

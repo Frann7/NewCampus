@@ -1,0 +1,114 @@
+<div class="ej">
+  <span class="tag">Guía Probabilidad &middot; Ej. 5 &middot; Laplace con regla de la multiplicación</span>
+  <h2>Código que empieza con vocal y termina en par</h2>
+  <div class="enunciado">
+    <p>
+      Si cada artículo codificado en un catálogo empieza con 3 letras distintas seguidas por 4 dígitos
+      distintos de cero, encuentre la probabilidad de seleccionar aleatoriamente uno de estos artículos
+      codificados que tenga como primera letra una vocal y el último dígito sea par.
+    </p>
+  </div>
+
+  <span class="paso">Qué tema es y por qué</span>
+  <ul>
+    <li>
+      Se elige un código al azar: todos igual de probables, así que va la <strong>regla de
+      Laplace</strong>: casos favorables sobre casos posibles.
+    </li>
+    <li>
+      Para contar los códigos se usa la <strong>regla de la multiplicación</strong>: el código se arma
+      lugar por lugar, y la cantidad total es el producto de las opciones de cada lugar.
+    </li>
+    <li>
+      Importa el orden: ABC1234 y BAC1234 son códigos distintos.
+    </li>
+  </ul>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Laplace y regla de la multiplicación</span>
+    <p>\[ P(A) = \frac{n}{N} \qquad\qquad N = n_1 \cdot n_2 \cdot \ldots \cdot n_k \]</p>
+  </div>
+
+  <span class="paso">Desarme del enunciado</span>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"3 letras distintas"</td><td>sin repetir letras; el alfabeto (inglés) tiene 26</td><td>\(26 \cdot 25 \cdot 24\)</td><td>los tres primeros lugares</td></tr>
+      <tr><td>"4 dígitos distintos de cero"</td><td>dígitos del 1 al 9</td><td>9 opciones por lugar</td><td>los cuatro últimos lugares</td></tr>
+      <tr><td>"primera letra una vocal"</td><td>a, e, i, o, u</td><td>5 opciones</td><td>primer lugar del numerador</td></tr>
+      <tr><td>"el último dígito sea par"</td><td>2, 4, 6 u 8 (el 0 no está)</td><td>4 opciones</td><td>último lugar del numerador</td></tr>
+    </table>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">"Distintos de cero" se puede leer de dos maneras</span>
+    <p>
+      "4 dígitos distintos de cero" puede ser "4 dígitos que no son cero" (se pueden repetir) o "4
+      dígitos distintos entre sí y que no son cero". La cátedra lo resuelve con la primera lectura.
+      Abajo se muestra que <strong>las dos dan el mismo resultado</strong>.
+    </p>
+  </div>
+
+  <span class="paso">Paso 1 &mdash; Los sucesos</span>
+  <ul>
+    <li>Experimento: elegir al azar un código de 3 letras distintas y 4 dígitos no nulos.</li>
+    <li>\(A\): "el código empieza con vocal y su último dígito es par".</li>
+  </ul>
+
+  <span class="paso">Paso 2 &mdash; Casos posibles (denominador)</span>
+  <p>Lugar por lugar:</p>
+  <ul>
+    <li>1.ª letra: 26 opciones; 2.ª: 25 (no se repite la primera); 3.ª: 24.</li>
+    <li>Cada uno de los 4 dígitos: 9 opciones (del 1 al 9, se pueden repetir).</li>
+  </ul>
+  <p>\[ N = 26 \cdot 25 \cdot 24 \cdot 9 \cdot 9 \cdot 9 \cdot 9 \]</p>
+
+  <span class="paso">Paso 3 &mdash; Casos favorables (numerador)</span>
+  <p>Mismos lugares, pero con las condiciones de \(A\):</p>
+  <ul>
+    <li>1.ª letra: tiene que ser vocal, 5 opciones.</li>
+    <li>2.ª letra: cualquiera menos la usada, 25; 3.ª: 24.</li>
+    <li>Los tres primeros dígitos: 9 cada uno.</li>
+    <li>Último dígito: tiene que ser par, 4 opciones (2, 4, 6, 8).</li>
+  </ul>
+  <p>\[ n = 5 \cdot 25 \cdot 24 \cdot 9 \cdot 9 \cdot 9 \cdot 4 \]</p>
+
+  <span class="paso">Paso 4 &mdash; La probabilidad</span>
+  <p>Fórmula:</p>
+  <p>\[ P(A) = \frac{n}{N} \]</p>
+  <p>\[ P(A) = \frac{5 \cdot 25 \cdot 24 \cdot 9 \cdot 9 \cdot 9 \cdot 4}{26 \cdot 25 \cdot 24 \cdot 9 \cdot 9 \cdot 9 \cdot 9} \]</p>
+  <p>
+    Todo lo que está arriba y abajo a la vez se simplifica (25, 24 y tres nueves). Queda solo lo que
+    cambia: la primera letra y el último dígito.
+  </p>
+  <p>\[ P(A) = \frac{5 \cdot 4}{26 \cdot 9} = \frac{20}{234} = \frac{10}{117} \approx \mathbf{0{,}0855} \]</p>
+  <p>
+    Qué significa: \(\tfrac{5}{26}\) es la chance de que la primera letra sea vocal y \(\tfrac{4}{9}\)
+    la de que el último dígito sea par. Las demás posiciones no importan.
+  </p>
+
+  <span class="paso">La otra lectura: dígitos sin repetir</span>
+  <p>Si los dígitos también son distintos entre sí:</p>
+  <ul>
+    <li>Denominador: \(26 \cdot 25 \cdot 24 \cdot 9 \cdot 8 \cdot 7 \cdot 6\).</li>
+    <li>
+      Numerador: conviene elegir primero el último dígito (4 pares) y después los otros tres entre los
+      8 que quedan: \(5 \cdot 25 \cdot 24 \cdot 8 \cdot 7 \cdot 6 \cdot 4\).
+    </li>
+  </ul>
+  <p>\[ P(A) = \frac{5 \cdot 25 \cdot 24 \cdot 8 \cdot 7 \cdot 6 \cdot 4}{26 \cdot 25 \cdot 24 \cdot 9 \cdot 8 \cdot 7 \cdot 6} = \frac{5 \cdot 4}{26 \cdot 9} = \frac{10}{117} \]</p>
+  <p>Da lo mismo: con o sin repetición, el último dígito es par en 4 de cada 9 casos.</p>
+
+  <div class="caja caja-calc">
+    <span class="caja-tit">En la calculadora</span>
+    <p>5 &times; 4 &divide; ( 26 &times; 9 ) = 0.08547…</p>
+    <p>Con variaciones (como lo escribe también la cátedra): \(V_{26}^{3} = 26 \cdot 25 \cdot 24\) es la tecla <strong>nPr</strong>: 26 nPr 3 = 15600.</p>
+  </div>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>\(P(A) = \dfrac{10}{117} \approx 0{,}0855\).</p>
+  </div>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Resolución de la cátedra (Ej. 2.59)</span>
+    <p>\(\dfrac{5 \cdot 4}{26 \cdot 9} \approx 0{,}0855\) &nbsp;&#10003;</p>
+  </div>
+</div>

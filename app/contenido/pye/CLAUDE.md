@@ -7,7 +7,12 @@ solo lo propio de PyE. Si se toca el banco de preguntas: `evaluacion/preguntas/F
 ## Fuentes y alcance
 
 - **Alcance:** cada unidad sale **solo de los PDF de esa unidad**:
-  `C:\Users\Fran\Desktop\SISTEMAS 3\PYE\PARCIAL 2\UNIDAD N\`. La prueba de hipótesis no es U7.
+  `C:\Users\Fran\Desktop\SISTEMAS 3\PYE\PARCIAL 2\UNIDAD N\` (U1 a U3: `PARCIAL 1\UNIDAD N\`, más
+  la hoja de fórmulas de descriptiva e integrales, `app/pdf/pye/formulas-descriptiva-e-integrales.pdf`).
+  La prueba de hipótesis no es U7.
+- **1er parcial (U1 a U3):** cuartiles con la convención de la hoja de fórmulas (n par: promedio de
+  las posiciones \(\frac{k}{4}n\) y \(\frac{k}{4}n+1\); coincide con los Resultados). Atípicos con las
+  vallas \(Q_1 - 1{,}5\,IQ\) y \(Q_3 + 1{,}5\,IQ\).
 - **3er parcial (U8, Estimación):** la profe dijo (2026) que entran **solo** `PARCIAL 3\UNIDAD 8\
   Estimacion_Parte 1.pdf` y `Estimacion_Parte 2.pdf`: IC para μ (con error y tamaño de muestra),
   para una proporción π y para μ₁ − μ₂ (Z, pooled y Welch). De la guía entran 1 a 15, 20 y 21; no
@@ -51,6 +56,11 @@ solo lo propio de PyE. Si se toca el banco de preguntas: `evaluacion/preguntas/F
 - Decimales con coma; en LaTeX `{,}`. MathJax con `\( \)` y `\[ \]`, nunca `$`.
 
 ## Pendientes e ideas
+
+- Banco de autoevaluación de U1 a U3 (no está hecho). La práctica de U2 no tiene marcas de examen.
+- Interpretaciones sin resultado oficial, a confirmar con Fran: Parcial 1 2025 ej. 3e ("entre 629 y
+  697" con extremos, 60 %; sin ellos, 50 %); U1 guía ej. 14b ("al menos uno disponible") y 15a; el
+  criterio del CV (15 % y 30 %) para baja/moderada/alta variabilidad.
 
 - Sumar preguntas urgentes de **exponencial** a la 1ra instancia (la profe confirmó que entra).
 - Ofrecido: que el paso de "a lo sumo 2" del fundamental de Poisson enseñe a usar la tabla

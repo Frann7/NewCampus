@@ -386,8 +386,8 @@ window.NC = window.NC || {};
       var texto = tag.textContent;
       var m = texto.match(/Ej(?:ercicio)?\.?\s*(\d+)/i);
       if (!m) { tag.dataset.numEj = "-"; }
-      // los de la guia "Parte 1" se marcan aparte para no chocar con la numeracion principal
-      else { tag.dataset.numEj = (/Parte\s*1/i.test(texto) ? "P1." : "") + m[1] + "."; }
+      // los de la guia "Parte 1" y la "Guía 1A" se marcan aparte para no chocar con la numeracion principal
+      else { tag.dataset.numEj = (/Parte\s*1/i.test(texto) ? "P1." : /Gu[ií]a\s*1A/i.test(texto) ? "1A." : "") + m[1] + "."; }
     }
     return tag.dataset.numEj === "-" ? "" : tag.dataset.numEj;
   }

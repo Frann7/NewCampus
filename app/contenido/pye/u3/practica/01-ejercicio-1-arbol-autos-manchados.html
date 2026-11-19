@@ -1,0 +1,159 @@
+<div class="ej">
+  <span class="tag">Ejercicio 1 &middot; Árbol y distribución</span>
+  <h2>Autos importados con manchas de pintura</h2>
+  <div class="enunciado">
+    <p>
+      Un embarque de cinco autos importados contiene dos que tienen ligeras manchas de pintura. Si una
+      concesionaria recibe tres de estos automóviles al azar, construya un diagrama de árbol con los
+      posibles resultados del experimento aleatorio. Utilice las letras \(M\) y \(\bar{M}\) para
+      manchado y no manchado, respectivamente. Luego, a cada punto muestral asigne un valor \(x\) de la
+      variable aleatoria \(X\) que representa el número de autos que la concesionaria compra con
+      manchas de pintura. ¿Cuál es su distribución de probabilidades?
+    </p>
+  </div>
+
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"cinco autos &hellip; dos con manchas"</td><td>2 manchados y 3 sin manchas</td><td>\(5 - 2 = 3\)</td><td>las ramas del primer nivel: \(2/5\) y \(3/5\)</td></tr>
+      <tr><td>"recibe tres"</td><td>tres extracciones, sin devolver</td><td>&mdash;</td><td>un árbol de 3 niveles</td></tr>
+      <tr><td>"número de autos &hellip; con manchas"</td><td>contar las \(M\) de cada rama</td><td>&mdash;</td><td>\(X\), con \(x = 0, 1, 2\)</td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Paso 1 &mdash; La variable</span>
+  <p>
+    \(X\): número de autos con manchas de pintura que recibe la concesionaria &rarr; v.a. discreta. Como
+    solo hay 2 manchados, \(X\) puede valer 0, 1 o 2 (nunca 3).
+  </p>
+
+  <span class="paso">Paso 2 &mdash; El árbol</span>
+  <p>
+    En cada nivel se saca un auto. Como no se devuelve, en cada rama cambian las cantidades: si el primero
+    fue manchado, para el segundo quedan 4 autos, de los cuales 1 manchado y 3 no.
+  </p>
+  <ul>
+    <li>Primer auto: \(P(M) = 2/5\), \(P(\bar{M}) = 3/5\).</li>
+    <li>Segundo, si el primero fue \(M\): quedan 1 \(M\) y 3 \(\bar{M}\) &rarr; \(1/4\) y \(3/4\). Si fue \(\bar{M}\): quedan 2 \(M\) y 2 \(\bar{M}\) &rarr; \(2/4\) y \(2/4\).</li>
+    <li>Tercero: quedan 3 autos. Después de \(MM\) ya no hay manchados: la única rama es \(\bar{M}\) con \(3/3 = 1\).</li>
+  </ul>
+  <div class="pd-grafico" data-g="u3-p-arbol-autos">
+<svg viewBox="0 0 620 278" role="img" aria-label="Árbol de los tres autos: cada rama M (manchado) o M con barra (no manchado), con su probabilidad">
+  <circle class="punto" cx="24" cy="132" r="4"/>
+  <line class="corte" x1="32" y1="132" x2="136" y2="64"/>
+  <text class="rotulo" x="93.3" y="87.6" text-anchor="middle">2/5</text>
+  <text class="valor" x="150" y="69" text-anchor="middle">M</text>
+  <line class="corte" x1="158" y1="64" x2="266" y2="30"/>
+  <text class="rotulo" x="221.5" y="38.3" text-anchor="middle">1/4</text>
+  <text class="valor" x="280" y="35" text-anchor="middle">M</text>
+  <line class="corte" x1="288" y1="30" x2="396" y2="30"/>
+  <text class="rotulo" x="351.5" y="23" text-anchor="middle">3/3</text>
+  <text class="valor" x="410" y="35" text-anchor="middle"><tspan text-decoration="overline">M</tspan></text>
+  <text class="rotulo" x="432" y="35" text-anchor="start">MM<tspan text-decoration="overline">M</tspan> · x = 2 · 6/60</text>
+  <line class="corte" x1="158" y1="64" x2="266" y2="81"/>
+  <text class="rotulo" x="221.5" y="88.3" text-anchor="middle">3/4</text>
+  <text class="valor" x="280" y="86" text-anchor="middle"><tspan text-decoration="overline">M</tspan></text>
+  <line class="corte" x1="288" y1="81" x2="396" y2="64"/>
+  <text class="rotulo" x="351.5" y="64.7" text-anchor="middle">1/3</text>
+  <text class="valor" x="410" y="69" text-anchor="middle">M</text>
+  <text class="rotulo" x="432" y="69" text-anchor="start">M<tspan text-decoration="overline">M</tspan>M · x = 2 · 6/60</text>
+  <line class="corte" x1="288" y1="81" x2="396" y2="98"/>
+  <text class="rotulo" x="351.5" y="105.3" text-anchor="middle">2/3</text>
+  <text class="valor" x="410" y="103" text-anchor="middle"><tspan text-decoration="overline">M</tspan></text>
+  <text class="rotulo" x="432" y="103" text-anchor="start">M<tspan text-decoration="overline">M</tspan><tspan text-decoration="overline">M</tspan> · x = 1 · 12/60</text>
+  <line class="corte" x1="32" y1="132" x2="136" y2="183"/>
+  <text class="rotulo" x="93.3" y="175.1" text-anchor="middle">3/5</text>
+  <text class="valor" x="150" y="188" text-anchor="middle"><tspan text-decoration="overline">M</tspan></text>
+  <line class="corte" x1="158" y1="183" x2="266" y2="149"/>
+  <text class="rotulo" x="221.5" y="157.3" text-anchor="middle">2/4</text>
+  <text class="valor" x="280" y="154" text-anchor="middle">M</text>
+  <line class="corte" x1="288" y1="149" x2="396" y2="132"/>
+  <text class="rotulo" x="351.5" y="132.7" text-anchor="middle">1/3</text>
+  <text class="valor" x="410" y="137" text-anchor="middle">M</text>
+  <text class="rotulo" x="432" y="137" text-anchor="start"><tspan text-decoration="overline">M</tspan>MM · x = 2 · 6/60</text>
+  <line class="corte" x1="288" y1="149" x2="396" y2="166"/>
+  <text class="rotulo" x="351.5" y="173.3" text-anchor="middle">2/3</text>
+  <text class="valor" x="410" y="171" text-anchor="middle"><tspan text-decoration="overline">M</tspan></text>
+  <text class="rotulo" x="432" y="171" text-anchor="start"><tspan text-decoration="overline">M</tspan>M<tspan text-decoration="overline">M</tspan> · x = 1 · 12/60</text>
+  <line class="corte" x1="158" y1="183" x2="266" y2="217"/>
+  <text class="rotulo" x="221.5" y="216.7" text-anchor="middle">2/4</text>
+  <text class="valor" x="280" y="222" text-anchor="middle"><tspan text-decoration="overline">M</tspan></text>
+  <line class="corte" x1="288" y1="217" x2="396" y2="200"/>
+  <text class="rotulo" x="351.5" y="200.7" text-anchor="middle">2/3</text>
+  <text class="valor" x="410" y="205" text-anchor="middle">M</text>
+  <text class="rotulo" x="432" y="205" text-anchor="start"><tspan text-decoration="overline">M</tspan><tspan text-decoration="overline">M</tspan>M · x = 1 · 12/60</text>
+  <line class="corte" x1="288" y1="217" x2="396" y2="234"/>
+  <text class="rotulo" x="351.5" y="241.3" text-anchor="middle">1/3</text>
+  <text class="valor" x="410" y="239" text-anchor="middle"><tspan text-decoration="overline">M</tspan></text>
+  <text class="rotulo" x="432" y="239" text-anchor="start"><tspan text-decoration="overline">M</tspan><tspan text-decoration="overline">M</tspan><tspan text-decoration="overline">M</tspan> · x = 0 · 6/60</text>
+</svg>
+    <p class="pd-pie">Cada camino es un resultado. Su probabilidad es el producto de las ramas (en sesentavos para sumar fácil).</p>
+  </div>
+  <p>
+    La probabilidad de cada camino es el producto de sus ramas (regla de la multiplicación de la Unidad 1).
+    Por ejemplo, \(M\,\bar{M}\,\bar{M}\): \(\dfrac{2}{5} \cdot \dfrac{3}{4} \cdot \dfrac{2}{3} = \dfrac{12}{60}\).
+    El espacio muestral tiene 7 resultados (no 8): \(MMM\) es imposible.
+  </p>
+  <p>\[ S = \{MM\bar{M},\ M\bar{M}M,\ M\bar{M}\bar{M},\ \bar{M}MM,\ \bar{M}M\bar{M},\ \bar{M}\bar{M}M,\ \bar{M}\bar{M}\bar{M}\} \]</p>
+
+  <span class="paso">Paso 3 &mdash; Juntar los caminos por valor de \(x\)</span>
+  <p>Fórmula: \(f(x) = P(X = x)\) = suma de las probabilidades de los caminos con \(x\) manchados.</p>
+  <ul>
+    <li>\(x = 0\): \(\bar{M}\bar{M}\bar{M}\) &rarr; \(\dfrac{6}{60} = \dfrac{1}{10}\)</li>
+    <li>\(x = 1\): \(M\bar{M}\bar{M}\), \(\bar{M}M\bar{M}\), \(\bar{M}\bar{M}M\) &rarr; \(\dfrac{12 + 12 + 12}{60} = \dfrac{36}{60} = \dfrac{6}{10}\)</li>
+    <li>\(x = 2\): \(MM\bar{M}\), \(M\bar{M}M\), \(\bar{M}MM\) &rarr; \(\dfrac{6 + 6 + 6}{60} = \dfrac{18}{60} = \dfrac{3}{10}\)</li>
+  </ul>
+  <p>
+    Control con combinatoria (sección 2 de la teoría): \(f(0) = \dfrac{\binom{2}{0}\binom{3}{3}}{\binom{5}{3}} = \dfrac{1 \cdot 1}{10}\),
+    \(f(1) = \dfrac{\binom{2}{1}\binom{3}{2}}{10} = \dfrac{2 \cdot 3}{10}\), \(f(2) = \dfrac{\binom{2}{2}\binom{3}{1}}{10} = \dfrac{3}{10}\). Lo mismo.
+  </p>
+
+  <span class="paso">Paso 4 &mdash; La distribución y su control</span>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th class="lbl">\(x\)</th><td>0</td><td>1</td><td>2</td></tr>
+      <tr><th class="lbl">\(f(x)\)</th><td>1/10</td><td>6/10</td><td>3/10</td></tr>
+    </table>
+  </div>
+  <p>\(\sum f(x) = \dfrac{1 + 6 + 3}{10} = 1\) ✔.</p>
+  <div class="pd-grafico" data-g="u3-p-bastones-autos">
+<svg viewBox="0 0 620 250" role="img" aria-label="Bastones de los autos manchados: 1/10, 6/10, 3/10">
+  <line class="eje" x1="60" y1="200" x2="60" y2="24"/>
+  <text class="rotulo" x="52" y="204" text-anchor="end">0,00</text>
+  <line class="guia" x1="60" y1="144.7" x2="590" y2="144.7"/>
+  <text class="rotulo" x="52" y="148.7" text-anchor="end">0,25</text>
+  <line class="guia" x1="60" y1="89.3" x2="590" y2="89.3"/>
+  <text class="rotulo" x="52" y="93.3" text-anchor="end">0,50</text>
+  <line class="eje" x1="60" y1="200" x2="590" y2="200"/>
+  <rect class="barra" x="172.1" y="177.9" width="10" height="22.1"/>
+  <circle class="punto" cx="177.1" cy="177.9" r="4"/>
+  <text class="valor" x="177.1" y="167.9" text-anchor="middle">1/10</text>
+  <text class="rotulo" x="177.1" y="220" text-anchor="middle">0</text>
+  <rect class="barra" x="325" y="67.2" width="10" height="132.8"/>
+  <circle class="punto" cx="330" cy="67.2" r="4"/>
+  <text class="valor" x="330" y="57.2" text-anchor="middle">6/10</text>
+  <text class="rotulo" x="330" y="220" text-anchor="middle">1</text>
+  <rect class="barra" x="477.9" y="133.6" width="10" height="66.4"/>
+  <circle class="punto" cx="482.9" cy="133.6" r="4"/>
+  <text class="valor" x="482.9" y="123.6" text-anchor="middle">3/10</text>
+  <text class="rotulo" x="482.9" y="220" text-anchor="middle">2</text>
+  <text class="rotulo" x="325" y="242" text-anchor="middle">x = autos manchados recibidos</text>
+  <text class="rotulo" x="56" y="18" text-anchor="start">f(x)</text>
+</svg>
+    <p class="pd-pie">Lo más probable es recibir exactamente un auto manchado.</p>
+  </div>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>\(f(0) = 1/10\), \(f(1) = 6/10\), \(f(2) = 3/10\).</p>
+  </div>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Resultados oficiales de la cátedra</span>
+    <p>
+      \(S = \{MM\bar{M}, M\bar{M}M, M\bar{M}\bar{M}, \bar{M}MM, \bar{M}M\bar{M}, \bar{M}\bar{M}M, \bar{M}\bar{M}\bar{M}\}\);
+      \(f(0) = 1/10\), \(f(1) = 6/10\), \(f(2) = 3/10\) &nbsp;&#10003;
+    </p>
+  </div>
+</div>

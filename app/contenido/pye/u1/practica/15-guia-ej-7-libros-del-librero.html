@@ -1,0 +1,110 @@
+<div class="ej" data-examen="igual" data-examen-ref="Parcial 1 2025 · ej. 1" data-examen-nota="En el parcial: diez fichas del 1 al 10, se sacan dos sin sustitución; total de parejas (combinaciones de 10 tomadas de a 2), cuántas suman 10 y su probabilidad (Laplace). Acá se sacan 3 libros de 9 y los casos favorables se cuentan con un combinatorio por cada tipo de libro.">
+  <span class="tag">Guía Probabilidad &middot; Ej. 7 &middot; Laplace con combinaciones</span>
+  <h2>Tres libros de un librero</h2>
+  <div class="enunciado">
+    <p>
+      Si se toman 3 libros al azar de un librero que contiene 5 novelas, 3 libros de poemas y un
+      diccionario, ¿cuál es la probabilidad de que: a) se seleccione un diccionario?, b) se
+      seleccionen 2 novelas y un libro de poemas?
+    </p>
+  </div>
+
+  <span class="paso">Qué tema es y por qué</span>
+  <ul>
+    <li>Libros al azar: resultados igualmente probables, <strong>regla de Laplace</strong>.</li>
+    <li>
+      Se toman 3 libros juntos, sin devolver y <strong>sin importar el orden</strong> (llevarse
+      novela-poema-diccionario es lo mismo que diccionario-novela-poema). Para contar grupos sin
+      orden se usan las <strong>combinaciones</strong>.
+    </li>
+  </ul>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Combinaciones (número combinatorio)</span>
+    <p>
+      Cantidad de grupos de \(r\) elementos que se pueden formar con \(n\), sin orden y sin
+      repetir:
+    </p>
+    <p>\[ \binom{n}{r} = \frac{n!}{r!\,(n-r)!} \]</p>
+    <p>
+      \(n!\) ("n factorial") es \(n \cdot (n-1) \cdot \ldots \cdot 1\). Ejemplo chico: con 4 libros,
+      grupos de 2: \(\binom{4}{2} = \frac{4!}{2!\,2!} = \frac{24}{4} = 6\).
+    </p>
+  </div>
+  <p>Y la regla de Laplace:</p>
+  <p>\[ P(A) = \frac{\text{casos favorables}}{\text{casos posibles}} \]</p>
+
+  <span class="paso">Desarme del enunciado</span>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"5 novelas, 3 libros de poemas y un diccionario"</td><td>9 libros en total, de tres tipos</td><td>\(5 + 3 + 1 = 9\)</td><td>\(n = 9\)</td></tr>
+      <tr><td>"Si se toman 3 libros al azar"</td><td>grupos de 3, sin orden</td><td>\(\binom{9}{3}\)</td><td>denominador</td></tr>
+      <tr><td>"se seleccione un diccionario"</td><td>el diccionario está entre los 3</td><td>\(\binom{1}{1}\binom{8}{2}\)</td><td>numerador del a</td></tr>
+      <tr><td>"2 novelas y un libro de poemas"</td><td>2 de las 5 novelas, 1 de los 3 de poemas, 0 diccionarios</td><td>\(\binom{5}{2}\binom{3}{1}\binom{1}{0}\)</td><td>numerador del b</td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Casos posibles (denominador, sirve para los dos incisos)</span>
+  <p>\[ \binom{9}{3} = \frac{9!}{3!\,6!} = \frac{9 \cdot 8 \cdot 7}{3 \cdot 2 \cdot 1} = \frac{504}{6} = 84 \]</p>
+  <p>Hay 84 grupos distintos de 3 libros.</p>
+
+  <span class="paso">Inciso a &mdash; Que salga el diccionario</span>
+  <p>\(A\): "entre los 3 libros está el diccionario".</p>
+  <p>
+    Casos favorables: el diccionario tiene que estar (1 de 1) y los otros 2 lugares se llenan con
+    cualquiera de los 8 libros que no son diccionario:
+  </p>
+  <p>Fórmula:</p>
+  <p>\[ P(A) = \frac{\binom{1}{1}\binom{8}{2}}{\binom{9}{3}} \]</p>
+  <ul>
+    <li>\(\binom{1}{1} = 1\) (hay una sola forma de elegir el diccionario)</li>
+    <li>\(\binom{8}{2} = \frac{8 \cdot 7}{2} = 28\)</li>
+  </ul>
+  <p>\[ P(A) = \frac{1 \cdot 28}{84} = \frac{1}{3} \approx \mathbf{0{,}3333} \]</p>
+  <p>
+    Tiene sentido: se llevan 3 de 9 libros, así que cada libro (el diccionario también) tiene
+    \(\tfrac{3}{9} = \tfrac{1}{3}\) de chance de estar entre ellos.
+  </p>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Control rápido de la cátedra</span>
+    <p>
+      Los números de arriba de los combinatorios del numerador tienen que sumar el de arriba del
+      denominador (\(1 + 8 = 9\)), y los de abajo, el de abajo (\(1 + 2 = 3\)). Si no, falta o sobra
+      algún tipo de libro.
+    </p>
+  </div>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta a</span>
+    <p>\(P(A) = \dfrac{1}{3} \approx 0{,}3333\).</p>
+  </div>
+
+  <span class="paso">Inciso b &mdash; Dos novelas y un libro de poemas</span>
+  <p>\(B\): "se eligen 2 novelas y 1 libro de poemas" (y por lo tanto, ningún diccionario).</p>
+  <p>Fórmula:</p>
+  <p>\[ P(B) = \frac{\binom{5}{2}\binom{3}{1}\binom{1}{0}}{\binom{9}{3}} \]</p>
+  <ul>
+    <li>\(\binom{5}{2} = \frac{5 \cdot 4}{2} = 10\) (formas de elegir 2 de las 5 novelas)</li>
+    <li>\(\binom{3}{1} = 3\) (formas de elegir 1 de los 3 de poemas)</li>
+    <li>\(\binom{1}{0} = 1\) (el diccionario no se elige: una sola forma)</li>
+  </ul>
+  <p>
+    Se multiplican porque cada elección de novelas se combina con cada elección de poemas (regla de
+    la multiplicación): \(10 \cdot 3 \cdot 1 = 30\) grupos favorables.
+  </p>
+  <p>\[ P(B) = \frac{10 \cdot 3 \cdot 1}{84} = \frac{30}{84} = \frac{5}{14} \approx \mathbf{0{,}3571} \]</p>
+  <p>Control: arriba \(5 + 3 + 1 = 9\) y abajo \(2 + 1 + 0 = 3\). &#10003;</p>
+  <div class="caja caja-calc">
+    <span class="caja-tit">En la calculadora</span>
+    <p>a) 1 nCr 1 &times; 8 nCr 2 &divide; 9 nCr 3 = 0.3333…</p>
+    <p>b) 5 nCr 2 &times; 3 nCr 1 &divide; 9 nCr 3 = 0.3571…</p>
+  </div>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta b</span>
+    <p>\(P(B) = \dfrac{5}{14} \approx 0{,}3571\).</p>
+  </div>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Resolución de la cátedra (Ej. 2.62)</span>
+    <p>a) 1/3; b) 5/14 &nbsp;&#10003;</p>
+  </div>
+</div>

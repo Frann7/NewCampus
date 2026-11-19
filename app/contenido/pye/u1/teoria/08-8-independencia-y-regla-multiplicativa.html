@@ -1,0 +1,380 @@
+<div class="bloque" data-examen="igual" data-examen-ref="Parcial 1 2025 · ej. 2b" data-examen-nota="“Realizar un diagrama de árbol”: cada punta del árbol se calcula con la regla multiplicativa, P(A ∩ D) = P(A) · P(D/A). En el final del 25/02/2026 (ej. 1a y 1b) pidieron dos scripts con y sin reposición, y exactamente dos fallas en 3 casos de prueba independientes.">
+  <p class="kicker">Multiplicar por las ramas</p>
+  <h2>8. Independencia y regla multiplicativa</h2>
+
+  <h3>Cuándo se usa</h3>
+  <ul>
+    <li>Cuando piden que pasen <strong>varias cosas una detrás de otra</strong> ("el primero Python y el segundo JavaScript", "los tres casos fallan"): se multiplica.</li>
+    <li>Cuando hay un <strong>diagrama de árbol</strong> con probabilidades: cada punta es el producto de las ramas que llevan a ella.</li>
+    <li>Cuando preguntan "<strong>¿son independientes?</strong>".</li>
+  </ul>
+
+  <h3>Fórmulas</h3>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Regla multiplicativa (siempre vale)</span>
+    <p>\[ P(A \cap B) = P(A) \cdot P(B/A) = P(B) \cdot P(A/B) \]</p>
+    <span class="caja-tit">Eventos independientes</span>
+    <p>\(A\) y \(B\) son independientes si \(\ P(B/A) = P(B)\ \) y \(\ P(A/B) = P(A)\). En ese caso, y solo en ese:</p>
+    <p>\[ P(A \cap B) = P(A) \cdot P(B) \]</p>
+    <span class="caja-tit">Extensión a \(k\) eventos</span>
+    <p>\[ P(A_1 \cap A_2 \cap \dots \cap A_k) = P(A_1) \cdot P(A_2/A_1) \cdot P(A_3/A_1 \cap A_2) \cdot \ldots \cdot P(A_k/A_1 \cap \dots \cap A_{k-1}) \]</p>
+  </div>
+
+  <h4>Qué significa cada letra</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Símbolo</th><th>Qué es</th></tr>
+      <tr><td>\(P(A)\)</td><td>la probabilidad del primer paso</td></tr>
+      <tr><td>\(P(B/A)\)</td><td>la del segundo paso, <strong>sabiendo cómo salió el primero</strong></td></tr>
+      <tr><td>\(P(A_3/A_1 \cap A_2)\)</td><td>la del tercer paso, sabiendo cómo salieron los dos anteriores</td></tr>
+    </table>
+  </div>
+
+  <h4>De dónde sale</h4>
+  <p>
+    <strong>Regla multiplicativa:</strong> es la fórmula de la condicional (sección 7) despejada.
+    De \(P(B/A) = \dfrac{P(A \cap B)}{P(A)}\) se pasa \(P(A)\) multiplicando: \(P(A \cap B) = P(A) \cdot P(B/A)\).
+  </p>
+  <p>
+    <strong>Independencia:</strong> en la condicional, saber que pasó un evento cambia la probabilidad del
+    otro <strong>siempre que haya una vinculación</strong> entre ellos. Cuando no la hay, saber que pasó
+    \(A\) no cambia nada: \(P(B/A) = P(B)\). Reemplazando eso en la regla multiplicativa queda
+    \(P(A \cap B) = P(A) \cdot P(B)\).
+  </p>
+  <p>
+    <strong>Extensión:</strong> es aplicar la regla multiplicativa varias veces, un paso por vez. Es lo que
+    se hace al recorrer un árbol desde la raíz hasta una punta.
+  </p>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Excluyentes no es lo mismo que independientes</span>
+    <p>
+      <strong>Excluyentes:</strong> no pueden pasar juntos, \(P(A \cap B) = 0\).
+      <strong>Independientes:</strong> uno no influye en el otro, \(P(A \cap B) = P(A) \cdot P(B)\).
+      Si \(A\) y \(B\) son excluyentes y tienen probabilidad mayor que 0, <strong>no</strong> son
+      independientes: saber que pasó \(A\) te dice que \(B\) seguro no pasó (\(P(B/A) = 0 \neq P(B)\)).
+    </p>
+  </div>
+
+  <h3>Con reposición y sin reposición</h3>
+  <ul>
+    <li><strong>Con reposición</strong> (se devuelve lo que se sacó): la caja queda igual para la segunda extracción. Las extracciones son <strong>independientes</strong> y se multiplica con las mismas probabilidades.</li>
+    <li><strong>Sin reposición</strong> (no se devuelve): la caja cambia, hay uno menos. La segunda probabilidad es <strong>condicional</strong>: se calcula con lo que quedó en la caja.</li>
+  </ul>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; ¿Independientes? ¿Excluyentes? (apunte, Ejemplos 18 y 19)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>En un tiro de dado: a) \(A = \{X / X > 1\}\) y \(B = \{X / X \text{ es par}\}\): ¿son independientes? ¿Son excluyentes? b) Comprobar que \(C = \{X / X \text{ es par}\}\) y \(D = \{X / X > 3\}\) no son independientes.</p>
+  </div>
+  <div class="pd-grafico" data-g="u1-venn-ej18">
+<svg viewBox="0 0 620 270" role="img" aria-label="Diagrama de Venn del dado: A mayor que 1 y B par, con B dentro de A">
+  <rect class="eje" x="110" y="15" width="400" height="245" fill="none"/>
+  <text class="valor" x="120" y="35">S</text>
+  <circle class="campana" cx="320" cy="140" r="105" style="stroke:var(--teoria)"/>
+  <circle class="campana" cx="310" cy="165" r="62" style="stroke:var(--practica)"/>
+  <text class="valor" x="410" y="55" text-anchor="middle" style="fill:var(--teoria)">A</text>
+  <text class="valor" x="238" y="150" text-anchor="middle" style="fill:var(--practica)">B</text>
+  <text class="valor" x="150" y="65" text-anchor="middle">1</text>
+  <text class="valor" x="330" y="70" text-anchor="middle">5</text>
+  <text class="valor" x="395" y="120" text-anchor="middle">3</text>
+  <text class="valor" x="300" y="135" text-anchor="middle">2</text>
+  <text class="valor" x="285" y="200" text-anchor="middle">4</text>
+  <text class="valor" x="340" y="195" text-anchor="middle">6</text>
+</svg>
+    <p class="pd-pie">Diagrama del apunte (Tema 1, Partes B y C, pág. 8), para el inciso a.</p>
+  </div>
+
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"\(X > 1\)"</td><td>\(A = \{2, 3, 4, 5, 6\}\)</td><td>5 de 6</td><td>\(P(A) = 5/6\)</td></tr>
+      <tr><td>"\(X\) es par"</td><td>\(B = \{2, 4, 6\}\)</td><td>3 de 6</td><td>\(P(B) = 1/2\)</td></tr>
+      <tr><td>(los dos)</td><td>\(A \cap B = \{2, 4, 6\}\)</td><td>3 de 6</td><td>\(P(A \cap B) = 1/2\)</td></tr>
+      <tr><td>"\(X > 3\)"</td><td>\(D = \{4, 5, 6\}\)</td><td>3 de 6</td><td>\(P(D) = 1/2\)</td></tr>
+      <tr><td>(par y mayor que 3)</td><td>\(C \cap D = \{4, 6\}\)</td><td>2 de 6</td><td>\(P(C \cap D) = 1/3\)</td></tr>
+    </table>
+  </div>
+
+  <p><strong>Paso 1 &mdash; a) Independencia.</strong> Se compara la condicional con la sin condición. Fórmula \(P(B/A) = \dfrac{P(A \cap B)}{P(A)}\):</p>
+  <p>\[ P(B/A) = \frac{1/2}{5/6} = \frac{3}{5} \neq P(B) = \frac{1}{2} \qquad P(A/B) = \frac{1/2}{1/2} = 1 \neq P(A) = \frac{5}{6} \]</p>
+  <p>Saber que es par asegura que es mayor que 1: hay vinculación. <strong>No son independientes.</strong></p>
+  <p><strong>Paso 2 &mdash; a) Excluyentes.</strong> \(A \cap B = \{2, 4, 6\} \neq \varnothing\): pueden pasar juntos. <strong>No son excluyentes.</strong></p>
+  <p><strong>Paso 3 &mdash; b) Por el absurdo.</strong> Supongamos que \(C\) y \(D\) fueran independientes. Entonces tendría que valer \(P(C \cap D) = P(C) \cdot P(D)\). Se calcula cada lado:</p>
+  <p>\[ P(C \cap D) = \frac{1}{3} \qquad\qquad P(C) \cdot P(D) = \frac{1}{2} \cdot \frac{1}{2} = \frac{1}{4} \]</p>
+  <p>Como \(1/3 \neq 1/4\), la suposición es falsa. También se ve con la condicional: \(P(D/C) = \dfrac{1/3}{1/2} = \dfrac{2}{3} \neq P(D) = \dfrac{1}{2}\).</p>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>a) \(A\) y \(B\) no son independientes (\(3/5 \neq 1/2\)) ni excluyentes (comparten el 2, el 4 y el 6). b) \(P(C \cap D) = 1/3 \neq P(C) \cdot P(D) = 1/4\): no son independientes.</p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; La moneda y el dado (apunte, diagrama de tallo y hojas)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>Se lanza una moneda; si sale cara se lanza otra vez, y si sale cruz se lanza un dado. ¿Qué probabilidad hay de que salgan dos secas? ¿Y dos caras? ¿Y una cruz seguida de un 3?</p>
+  </div>
+  <div class="pd-grafico" data-g="u1-arbol-moneda-dado">
+<svg viewBox="0 0 620 288" role="img" aria-label="Diagrama de tallo y hojas: moneda; si sale cara, otra moneda; si sale cruz, un dado">
+  <text class="rotulo" x="180" y="18" text-anchor="middle">Suceso 1</text>
+  <text class="rotulo" x="330" y="18" text-anchor="middle">Suceso 2</text>
+  <text class="rotulo" x="366" y="18" text-anchor="start">E. M.</text>
+  <circle class="punto" cx="30" cy="128.0" r="4"/>
+  <line class="eje" x1="34" y1="128.0" x2="166" y2="68.0"/>
+  <text class="valor" x="176" y="73.0">C</text>
+  <line class="eje" x1="190" y1="68.0" x2="316" y2="53.0"/>
+  <text class="valor" x="326" y="58.0">C</text>
+  <text class="rotulo" x="366" y="58.0">CC</text>
+  <line class="eje" x1="190" y1="68.0" x2="316" y2="83.0"/>
+  <text class="valor" x="326" y="88.0">X</text>
+  <text class="rotulo" x="366" y="88.0">CX</text>
+  <line class="eje" x1="34" y1="128.0" x2="166" y2="188.0"/>
+  <text class="valor" x="176" y="193.0">X</text>
+  <line class="eje" x1="190" y1="188.0" x2="316" y2="113.0"/>
+  <text class="valor" x="326" y="118.0">1</text>
+  <text class="rotulo" x="366" y="118.0">X1</text>
+  <line class="eje" x1="190" y1="188.0" x2="316" y2="143.0"/>
+  <text class="valor" x="326" y="148.0">2</text>
+  <text class="rotulo" x="366" y="148.0">X2</text>
+  <line class="eje" x1="190" y1="188.0" x2="316" y2="173.0"/>
+  <text class="valor" x="326" y="178.0">3</text>
+  <text class="rotulo" x="366" y="178.0">X3</text>
+  <line class="eje" x1="190" y1="188.0" x2="316" y2="203.0"/>
+  <text class="valor" x="326" y="208.0">4</text>
+  <text class="rotulo" x="366" y="208.0">X4</text>
+  <line class="eje" x1="190" y1="188.0" x2="316" y2="233.0"/>
+  <text class="valor" x="326" y="238.0">5</text>
+  <text class="rotulo" x="366" y="238.0">X5</text>
+  <line class="eje" x1="190" y1="188.0" x2="316" y2="263.0"/>
+  <text class="valor" x="326" y="268.0">6</text>
+  <text class="rotulo" x="366" y="268.0">X6</text>
+</svg>
+    <p class="pd-pie">Diagrama del apunte (Tema 1, Parte A, pág. 10).</p>
+  </div>
+
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"una moneda"</td><td>primera rama: C o X</td><td>moneda sin trampa</td><td>\(1/2\) cada una</td></tr>
+      <tr><td>"si sale cara se lanza otra vez"</td><td>segunda rama después de C</td><td>&mdash;</td><td>\(P(C/C) = 1/2\)</td></tr>
+      <tr><td>"si sale cruz se lanza un dado"</td><td>seis ramas después de X</td><td>&mdash;</td><td>\(P(3/X) = 1/6\)</td></tr>
+      <tr><td>"dos secas"</td><td>no está en el árbol: después de X va un dado</td><td>&mdash;</td><td>evento imposible</td></tr>
+    </table>
+  </div>
+
+  <p><strong>Paso 1 &mdash; Dos secas.</strong> Ningún camino tiene dos X: \(P = 0\).</p>
+  <p><strong>Paso 2 &mdash; Dos caras.</strong> Regla multiplicativa por el camino C &rarr; C:</p>
+  <p>\[ P(CC) = P(C) \cdot P(C/C) = \frac{1}{2} \cdot \frac{1}{2} = \frac{1}{4} \]</p>
+  <p><strong>Paso 3 &mdash; Cruz y un 3.</strong> Camino X &rarr; 3:</p>
+  <p>\[ P(X3) = P(X) \cdot P(3/X) = \frac{1}{2} \cdot \frac{1}{6} = \frac{1}{12} \]</p>
+  <p><strong>Paso 4 &mdash; Control.</strong> Las 8 puntas suman \(2 \cdot \tfrac{1}{4} + 6 \cdot \tfrac{1}{12} = \tfrac{1}{2} + \tfrac{1}{2} = 1\). Por eso Laplace (\(1/8\) cada una) daba mal: las puntas no pesan lo mismo.</p>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>\(P(\text{dos secas}) = 0\); \(P(CC) = 1/4\); \(P(X3) = 1/12\).</p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 3 &mdash; Scripts con y sin reposición (final 25/02/2026, ej. 1a)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>En un repositorio de código hay 7 scripts en Python y 5 en JavaScript. Se seleccionan dos scripts al azar de manera sucesiva para una revisión de calidad. Calcule la probabilidad de que el primero sea en Python y el segundo en JavaScript, considerando: I) extracción sin reposición; II) extracción con reposición.</p>
+  </div>
+
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"7 en Python y 5 en JavaScript"</td><td>caja de 12</td><td>\(7 + 5\)</td><td>12 scripts</td></tr>
+      <tr><td>"el primero sea en Python"</td><td>primer paso</td><td>Laplace</td><td>\(P(Py_1) = 7/12\)</td></tr>
+      <tr><td>"el segundo en JavaScript"</td><td>segundo paso</td><td>depende de si se devolvió</td><td>\(P(JS_2/Py_1)\)</td></tr>
+      <tr><td>"sin reposición"</td><td>queda uno menos (un Python menos)</td><td>quedan 6 Py y 5 JS</td><td>\(5/11\)</td></tr>
+      <tr><td>"con reposición"</td><td>la caja vuelve a estar igual</td><td>7 Py y 5 JS</td><td>\(5/12\)</td></tr>
+    </table>
+  </div>
+
+  <h4>I) Sin reposición</h4>
+  <div class="pd-grafico" data-g="u1-arbol-scripts">
+<svg viewBox="0 0 620 192" role="img" aria-label="Árbol de dos scripts sacados sin reposición">
+  <text class="rotulo" x="170" y="18" text-anchor="middle">1.er script</text>
+  <text class="rotulo" x="310" y="18" text-anchor="middle">2.º script</text>
+  <text class="rotulo" x="352" y="18" text-anchor="start">Producto de las ramas</text>
+  <circle class="punto" cx="30" cy="110.0" r="4"/>
+  <line class="eje" x1="34" y1="110.0" x2="156" y2="74.0"/>
+  <text class="rotulo" x="95.0" y="85.0" text-anchor="middle">7/12</text>
+  <text class="valor" x="166" y="79.0">Py</text>
+  <line class="eje" x1="180" y1="74.0" x2="296" y2="56.0"/>
+  <text class="rotulo" x="238.0" y="58.0" text-anchor="middle">6/11</text>
+  <text class="valor" x="306" y="61.0">Py</text>
+  <text class="rotulo" x="352" y="61.0">7/12 · 6/11 = 42/132</text>
+  <line class="eje" x1="180" y1="74.0" x2="296" y2="92.0"/>
+  <text class="rotulo" x="238.0" y="98.0" text-anchor="middle">5/11</text>
+  <text class="valor" x="306" y="97.0">JS</text>
+  <text class="valor" x="352" y="97.0">7/12 · 5/11 = 35/132</text>
+  <line class="eje" x1="34" y1="110.0" x2="156" y2="146.0"/>
+  <text class="rotulo" x="95.0" y="143.0" text-anchor="middle">5/12</text>
+  <text class="valor" x="166" y="151.0">JS</text>
+  <line class="eje" x1="180" y1="146.0" x2="296" y2="128.0"/>
+  <text class="rotulo" x="238.0" y="130.0" text-anchor="middle">7/11</text>
+  <text class="valor" x="306" y="133.0">Py</text>
+  <text class="rotulo" x="352" y="133.0">5/12 · 7/11 = 35/132</text>
+  <line class="eje" x1="180" y1="146.0" x2="296" y2="164.0"/>
+  <text class="rotulo" x="238.0" y="170.0" text-anchor="middle">4/11</text>
+  <text class="valor" x="306" y="169.0">JS</text>
+  <text class="rotulo" x="352" y="169.0">5/12 · 4/11 = 20/132</text>
+</svg>
+    <p class="pd-pie">No está en el apunte. En negrita, el camino que se pide.</p>
+  </div>
+  <p><strong>Paso 1 &mdash; Fórmula</strong> (regla multiplicativa): \(P(Py_1 \cap JS_2) = P(Py_1) \cdot P(JS_2/Py_1)\).</p>
+  <p><strong>Paso 2 &mdash; La segunda probabilidad.</strong> Salió un Python y no se devolvió: quedan 11 scripts, 6 en Python y 5 en JavaScript. Entonces \(P(JS_2/Py_1) = 5/11\).</p>
+  <p>\[ P(Py_1 \cap JS_2) = \frac{7}{12} \cdot \frac{5}{11} = \frac{35}{132} \approx 0{,}2652 \]</p>
+
+  <h4>II) Con reposición</h4>
+  <div class="pd-grafico" data-g="u1-arbol-scripts-con">
+<svg viewBox="0 0 620 192" role="img" aria-label="Árbol de dos scripts sacados con reposición">
+  <text class="rotulo" x="170" y="18" text-anchor="middle">1.er script</text>
+  <text class="rotulo" x="310" y="18" text-anchor="middle">2.º script</text>
+  <text class="rotulo" x="352" y="18" text-anchor="start">Producto de las ramas</text>
+  <circle class="punto" cx="30" cy="110.0" r="4"/>
+  <line class="eje" x1="34" y1="110.0" x2="156" y2="74.0"/>
+  <text class="rotulo" x="95.0" y="85.0" text-anchor="middle">7/12</text>
+  <text class="valor" x="166" y="79.0">Py</text>
+  <line class="eje" x1="180" y1="74.0" x2="296" y2="56.0"/>
+  <text class="rotulo" x="238.0" y="58.0" text-anchor="middle">7/12</text>
+  <text class="valor" x="306" y="61.0">Py</text>
+  <text class="rotulo" x="352" y="61.0">7/12 · 7/12 = 49/144</text>
+  <line class="eje" x1="180" y1="74.0" x2="296" y2="92.0"/>
+  <text class="rotulo" x="238.0" y="98.0" text-anchor="middle">5/12</text>
+  <text class="valor" x="306" y="97.0">JS</text>
+  <text class="valor" x="352" y="97.0">7/12 · 5/12 = 35/144</text>
+  <line class="eje" x1="34" y1="110.0" x2="156" y2="146.0"/>
+  <text class="rotulo" x="95.0" y="143.0" text-anchor="middle">5/12</text>
+  <text class="valor" x="166" y="151.0">JS</text>
+  <line class="eje" x1="180" y1="146.0" x2="296" y2="128.0"/>
+  <text class="rotulo" x="238.0" y="130.0" text-anchor="middle">7/12</text>
+  <text class="valor" x="306" y="133.0">Py</text>
+  <text class="rotulo" x="352" y="133.0">5/12 · 7/12 = 35/144</text>
+  <line class="eje" x1="180" y1="146.0" x2="296" y2="164.0"/>
+  <text class="rotulo" x="238.0" y="170.0" text-anchor="middle">5/12</text>
+  <text class="valor" x="306" y="169.0">JS</text>
+  <text class="rotulo" x="352" y="169.0">5/12 · 5/12 = 25/144</text>
+</svg>
+    <p class="pd-pie">No está en el apunte. Con reposición, las ramas de la segunda extracción son iguales a las de la primera.</p>
+  </div>
+  <p><strong>Paso 1 &mdash; ¿Independientes?</strong> Sí: al devolver el script, la caja vuelve a tener 7 y 5, y lo que salió primero no cambia nada. \(P(JS_2/Py_1) = P(JS_2) = 5/12\).</p>
+  <p><strong>Paso 2 &mdash; Fórmula</strong> para independientes, \(P(A \cap B) = P(A) \cdot P(B)\):</p>
+  <p>\[ P(Py_1 \cap JS_2) = \frac{7}{12} \cdot \frac{5}{12} = \frac{35}{144} \approx 0{,}2431 \]</p>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>I) Sin reposición: \(35/132 \approx 0{,}2652\). II) Con reposición: \(35/144 \approx 0{,}2431\).</p>
+  </div>
+  <p>
+    Con la extensión a tres eventos sale, por ejemplo, la probabilidad de sacar tres Python seguidos sin
+    reposición: \(\dfrac{7}{12} \cdot \dfrac{6}{11} \cdot \dfrac{5}{10} = \dfrac{7}{44} \approx 0{,}1591\)
+    (cada fracción con lo que quedó en la caja).
+  </p>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 4 &mdash; Exactamente dos casos fallan (final 25/02/2026, ej. 1b)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>En una prueba de software, cada caso de prueba puede pasar (P) o fallar (F). Se ejecutan 3 casos de prueba de manera independiente. Escriba el espacio muestral del experimento y determine la probabilidad de que exactamente dos casos fallen, si la probabilidad de fallo es 0,1.</p>
+  </div>
+
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"3 casos", "pasar o fallar"</td><td>árbol de 3 pasos con 2 ramas</td><td>\(2 \cdot 2 \cdot 2\)</td><td>8 resultados</td></tr>
+      <tr><td>"de manera independiente"</td><td>se multiplica sin condicionar</td><td>&mdash;</td><td>\(P(A \cap B \cap C) = P(A)P(B)P(C)\)</td></tr>
+      <tr><td>"probabilidad de fallo es 0,1"</td><td>cada F vale 0,1</td><td>&mdash;</td><td>\(P(F) = 0{,}1\)</td></tr>
+      <tr><td>(lo contrario de fallar)</td><td>cada P vale el complemento</td><td>\(1 - 0{,}1\)</td><td>\(P(P) = 0{,}9\)</td></tr>
+      <tr><td>"exactamente dos fallen"</td><td>dos F y una P, en cualquier orden</td><td>&mdash;</td><td>\(\{PFF, FPF, FFP\}\)</td></tr>
+    </table>
+  </div>
+
+  <div class="pd-grafico" data-g="u1-arbol-casos-p">
+<svg viewBox="0 0 620 304" role="img" aria-label="Árbol de tres casos de prueba con probabilidad 0,9 de pasar y 0,1 de fallar">
+  <text class="rotulo" x="191" y="18" text-anchor="middle">1.º</text>
+  <text class="rotulo" x="296" y="18" text-anchor="middle">2.º</text>
+  <text class="rotulo" x="401" y="18" text-anchor="middle">3.º</text>
+  <text class="rotulo" x="437" y="18" text-anchor="start">Resultado</text>
+  <text class="rotulo" x="78" y="171.0" text-anchor="end">3 casos</text>
+  <line class="eje" x1="90" y1="166.0" x2="177" y2="102.0"/>
+  <text class="rotulo" x="133.5" y="127.0" text-anchor="middle">0,9</text>
+  <text class="valor" x="187" y="107.0">P</text>
+  <line class="eje" x1="201" y1="102.0" x2="282" y2="70.0"/>
+  <text class="rotulo" x="241.5" y="79.0" text-anchor="middle">0,9</text>
+  <text class="valor" x="292" y="75.0">P</text>
+  <line class="eje" x1="306" y1="70.0" x2="387" y2="54.0"/>
+  <text class="rotulo" x="346.5" y="55.0" text-anchor="middle">0,9</text>
+  <text class="valor" x="397" y="59.0">P</text>
+  <text class="rotulo" x="437" y="59.0">PPP:  0,9 · 0,9 · 0,9 = 0,729</text>
+  <line class="eje" x1="306" y1="70.0" x2="387" y2="86.0"/>
+  <text class="rotulo" x="346.5" y="93.0" text-anchor="middle">0,1</text>
+  <text class="valor" x="397" y="91.0">F</text>
+  <text class="rotulo" x="437" y="91.0">PPF:  0,9 · 0,9 · 0,1 = 0,081</text>
+  <line class="eje" x1="201" y1="102.0" x2="282" y2="134.0"/>
+  <text class="rotulo" x="241.5" y="133.0" text-anchor="middle">0,1</text>
+  <text class="valor" x="292" y="139.0">F</text>
+  <line class="eje" x1="306" y1="134.0" x2="387" y2="118.0"/>
+  <text class="rotulo" x="346.5" y="119.0" text-anchor="middle">0,9</text>
+  <text class="valor" x="397" y="123.0">P</text>
+  <text class="rotulo" x="437" y="123.0">PFP:  0,9 · 0,1 · 0,9 = 0,081</text>
+  <line class="eje" x1="306" y1="134.0" x2="387" y2="150.0"/>
+  <text class="rotulo" x="346.5" y="157.0" text-anchor="middle">0,1</text>
+  <text class="valor" x="397" y="155.0">F</text>
+  <text class="valor" x="437" y="155.0">PFF:  0,9 · 0,1 · 0,1 = 0,009</text>
+  <line class="eje" x1="90" y1="166.0" x2="177" y2="230.0"/>
+  <text class="rotulo" x="133.5" y="213.0" text-anchor="middle">0,1</text>
+  <text class="valor" x="187" y="235.0">F</text>
+  <line class="eje" x1="201" y1="230.0" x2="282" y2="198.0"/>
+  <text class="rotulo" x="241.5" y="207.0" text-anchor="middle">0,9</text>
+  <text class="valor" x="292" y="203.0">P</text>
+  <line class="eje" x1="306" y1="198.0" x2="387" y2="182.0"/>
+  <text class="rotulo" x="346.5" y="183.0" text-anchor="middle">0,9</text>
+  <text class="valor" x="397" y="187.0">P</text>
+  <text class="rotulo" x="437" y="187.0">FPP:  0,1 · 0,9 · 0,9 = 0,081</text>
+  <line class="eje" x1="306" y1="198.0" x2="387" y2="214.0"/>
+  <text class="rotulo" x="346.5" y="221.0" text-anchor="middle">0,1</text>
+  <text class="valor" x="397" y="219.0">F</text>
+  <text class="valor" x="437" y="219.0">FPF:  0,1 · 0,9 · 0,1 = 0,009</text>
+  <line class="eje" x1="201" y1="230.0" x2="282" y2="262.0"/>
+  <text class="rotulo" x="241.5" y="261.0" text-anchor="middle">0,1</text>
+  <text class="valor" x="292" y="267.0">F</text>
+  <line class="eje" x1="306" y1="262.0" x2="387" y2="246.0"/>
+  <text class="rotulo" x="346.5" y="247.0" text-anchor="middle">0,9</text>
+  <text class="valor" x="397" y="251.0">P</text>
+  <text class="valor" x="437" y="251.0">FFP:  0,1 · 0,1 · 0,9 = 0,009</text>
+  <line class="eje" x1="306" y1="262.0" x2="387" y2="278.0"/>
+  <text class="rotulo" x="346.5" y="285.0" text-anchor="middle">0,1</text>
+  <text class="valor" x="397" y="283.0">F</text>
+  <text class="rotulo" x="437" y="283.0">FFF:  0,1 · 0,1 · 0,1 = 0,001</text>
+</svg>
+    <p class="pd-pie">No está en el apunte. En negrita, los tres caminos con exactamente dos fallas.</p>
+  </div>
+  <p><strong>Paso 1 &mdash; Espacio muestral:</strong> \(S = \{PPP, PPF, PFP, PFF, FPP, FPF, FFP, FFF\}\).</p>
+  <p><strong>Paso 2 &mdash; Probabilidad de cada camino.</strong> Por ser independientes, se multiplican las tres ramas. Por ejemplo:</p>
+  <p>\[ P(PFF) = P(P) \cdot P(F) \cdot P(F) = 0{,}9 \cdot 0{,}1 \cdot 0{,}1 = 0{,}009 \]</p>
+  <p>FPF y FFP tienen los mismos tres factores en otro orden: también 0,009.</p>
+  <p><strong>Paso 3 &mdash; Sumar.</strong> Los tres caminos son excluyentes (un resultado no puede ser PFF y FPF a la vez): regla aditiva para excluyentes (sección 6).</p>
+  <p>\[ P(\text{exactamente 2 fallan}) = 0{,}009 + 0{,}009 + 0{,}009 = 3 \cdot 0{,}009 = 0{,}027 \]</p>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>\(S = \{PPP, PPF, PFP, PFF, FPP, FPF, FFP, FFF\}\) y \(P(\text{exactamente dos fallan}) = 0{,}027\).</p>
+  </div>
+  <p>
+    "Multiplicar la probabilidad de un camino por la cantidad de caminos" es exactamente lo que hace el
+    modelo Binomial de la Unidad 5: \(\binom{3}{2} \cdot 0{,}1^2 \cdot 0{,}9 = 0{,}027\).
+  </p>
+</div>

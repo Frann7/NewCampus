@@ -1,0 +1,196 @@
+<div class="bloque" data-examen="igual" data-examen-ref="Parcial 2 2023 y Parcial 2 2025 · Parcial 1 2025 · ej. 5b" data-examen-nota="Siempre con la coletilla “justifique”: no alcanza con contestar sí o no. En los segundos parciales, con la tabla; en el primer parcial 2025, con una densidad (sección 11).">
+  <p class="kicker">Lo que una variable dice de la otra</p>
+  <h2>9. Condicionales e independencia (con tablas)</h2>
+
+  <h3>Cuándo se usa</h3>
+  <p>
+    Cuando preguntan por una variable <strong>sabiendo</strong> el valor de la otra ("si falló un disco,
+    ¿cuál es la probabilidad de que falle la fuente?") o "¿Son independientes \(X\) e \(Y\)? Justifique".
+  </p>
+
+  <h3>Primero, la idea con eventos (Unidad 1)</h3>
+  <p>
+    La probabilidad de \(B\) <strong>sabiendo que pasó</strong> \(A\) se escribe \(P(B \mid A)\) (la
+    cátedra escribe \(P(B/A)\)). Al saber que pasó \(A\), el universo se achica a los casos de \(A\), y
+    de esos interesa qué parte también tiene \(B\):
+  </p>
+  <p>\[ P(B \mid A) = \frac{P(A \cap B)}{P(A)} \qquad (P(A) &gt; 0) \]</p>
+  <p>
+    Ejemplo suelto: si \(P(A) = 0{,}5\) y \(P(A \cap B) = 0{,}2\), entonces \(P(B \mid A) = 0{,}2 / 0{,}5 = 0{,}4\).
+  </p>
+  <p>
+    Dos eventos son <strong>independientes</strong> si saber que pasó uno no cambia la probabilidad del
+    otro: \(P(B \mid A) = P(B)\). Reemplazando en la fórmula de arriba sale la forma que se usa para
+    controlar: \(P(A \cap B) = P(A) \cdot P(B)\).
+  </p>
+
+  <div class="caja caja-formula">
+    <span class="caja-tit">Fórmulas con variables</span>
+    <p>Condicionales:</p>
+    <p>\[ f(y \mid x) = \frac{f(x,y)}{g(x)} \quad (g(x) &gt; 0) \qquad\qquad f(x \mid y) = \frac{f(x,y)}{h(y)} \quad (h(y) &gt; 0) \]</p>
+    <p>Independencia: \(X\) e \(Y\) son independientes si y solo si</p>
+    <p>\[ f(x,y) = g(x) \cdot h(y) \quad \text{para todos los pares } (x,y) \]</p>
+    <p>o, lo que es lo mismo, \(f(y \mid x) = h(y)\) y \(f(x \mid y) = g(x)\).</p>
+  </div>
+
+  <h4>Qué significa cada letra</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Símbolo</th><th>Qué es</th><th>En la tabla</th></tr>
+      <tr><td>\(f(y \mid x)\)</td><td>la distribución de \(Y\) <strong>sabiendo</strong> que \(X = x\) (la cátedra: \(f(y/x)\))</td><td>la fila de ese \(x\), dividida por su total \(g(x)\)</td></tr>
+      <tr><td>\(f(x \mid y)\)</td><td>la distribución de \(X\) sabiendo que \(Y = y\)</td><td>la columna de ese \(y\), dividida por \(h(y)\)</td></tr>
+      <tr><td>\(g(x)\), \(h(y)\)</td><td>las marginales (sección 8)</td><td>los márgenes</td></tr>
+    </table>
+  </div>
+
+  <h4>De dónde sale</h4>
+  <p>
+    Es la condicional de eventos con \(A\): "\(X = x\)" y \(B\): "\(Y = y\)". Entonces
+    \(P(A \cap B) = f(x,y)\) y \(P(A) = g(x)\). En la tabla: si sabés que \(X = 1\), solo mirás la fila
+    del 1; como esa fila no suma 1, se divide cada celda por el total de la fila. Así la fila
+    <strong>pasa a sumar 1</strong>: es una distribución nueva, la de \(Y\) en ese caso.
+  </p>
+
+  <h3>Cómo se justifica la independencia</h3>
+  <ul>
+    <li><strong>Para decir que NO son independientes alcanza con una celda</strong> donde \(f(x,y) \neq g(x)\,h(y)\). Se muestra esa cuenta.</li>
+    <li><strong>Para decir que SÍ son independientes hay que controlar todas las celdas.</strong> Una sola que coincida no prueba nada.</li>
+  </ul>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Frases de molde</span>
+    <p>
+      <strong>No:</strong> "No son independientes, porque \(f(0,0) = 0{,}40\) y \(g(0) \cdot h(0) = 0{,}50
+      \cdot 0{,}65 = 0{,}325\): \(f(0,0) \neq g(0)\,h(0)\)."
+    </p>
+    <p>
+      <strong>Sí:</strong> "Son independientes, porque \(f(x,y) = g(x) \cdot h(y)\) para todos los pares
+      \((x,y)\)" (con la tabla de los productos a la vista).
+    </p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; Fallas en un servidor: condicionales y dependencia</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>
+      En un centro de datos se revisa un servidor por semana. \(X\): número de discos con fallas;
+      \(Y\): número de fuentes de alimentación con fallas. La conjunta, con sus marginales:
+    </p>
+    <div class="tabla-wrap">
+      <table class="t">
+        <tr><th>\(f(x,y)\)</th><th>\(y = 0\)</th><th>\(y = 1\)</th><th>\(g(x)\)</th></tr>
+        <tr><th class="lbl">\(x = 0\)</th><td>0,40</td><td>0,10</td><td>0,50</td></tr>
+        <tr><th class="lbl">\(x = 1\)</th><td>0,20</td><td>0,15</td><td>0,35</td></tr>
+        <tr><th class="lbl">\(x = 2\)</th><td>0,05</td><td>0,10</td><td>0,15</td></tr>
+        <tr><th class="lbl">\(h(y)\)</th><td>0,65</td><td>0,35</td><td>1</td></tr>
+      </table>
+    </div>
+    <p>
+      a) Halle la distribución de las fuentes con fallas sabiendo que falló exactamente un disco.
+      b) Halle la distribución de los discos con fallas sabiendo que falló una fuente.
+      c) ¿Son independientes \(X\) e \(Y\)? Justifique.
+    </p>
+  </div>
+
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"las fuentes &hellip; sabiendo que falló un disco"</td><td>\(Y\) con \(X = 1\) fijo</td><td>la fila \(x = 1\) dividida \(g(1)\)</td><td>\(f(y \mid x = 1)\)</td></tr>
+      <tr><td>"los discos &hellip; sabiendo que falló una fuente"</td><td>\(X\) con \(Y = 1\) fijo</td><td>la columna \(y = 1\) dividida \(h(1)\)</td><td>\(f(x \mid y = 1)\)</td></tr>
+      <tr><td>"¿son independientes? Justifique"</td><td>comparar \(f(x,y)\) con \(g(x)\,h(y)\)</td><td>&mdash;</td><td>inciso c</td></tr>
+    </table>
+  </div>
+
+  <h4>a) \(f(y \mid x = 1)\)</h4>
+  <p>Fórmula: \(f(y \mid x) = \dfrac{f(x,y)}{g(x)}\), con \(g(1) = 0{,}35\).</p>
+  <ul>
+    <li>\(f(0 \mid 1) = \dfrac{f(1,0)}{g(1)} = \dfrac{0{,}20}{0{,}35} = \dfrac{4}{7} = 0{,}5714\)</li>
+    <li>\(f(1 \mid 1) = \dfrac{f(1,1)}{g(1)} = \dfrac{0{,}15}{0{,}35} = \dfrac{3}{7} = 0{,}4286\)</li>
+  </ul>
+  <p>Control: \(\tfrac{4}{7} + \tfrac{3}{7} = 1\) ✔. Sabiendo que falló un disco, la probabilidad de que también falle la fuente es 0,4286.</p>
+
+  <h4>b) \(f(x \mid y = 1)\)</h4>
+  <p>Fórmula: \(f(x \mid y) = \dfrac{f(x,y)}{h(y)}\), con \(h(1) = 0{,}35\).</p>
+  <ul>
+    <li>\(f(0 \mid 1) = \dfrac{0{,}10}{0{,}35} = \dfrac{2}{7} = 0{,}2857\)</li>
+    <li>\(f(1 \mid 1) = \dfrac{0{,}15}{0{,}35} = \dfrac{3}{7} = 0{,}4286\)</li>
+    <li>\(f(2 \mid 1) = \dfrac{0{,}10}{0{,}35} = \dfrac{2}{7} = 0{,}2857\)</li>
+  </ul>
+  <p>Control: \(\tfrac{2 + 3 + 2}{7} = 1\) ✔.</p>
+
+  <h4>c) Independencia</h4>
+  <p>Fórmula: independientes si \(f(x,y) = g(x) \cdot h(y)\) para todos los pares. Se prueba con la primera celda:</p>
+  <p>\[ f(0,0) = 0{,}40 \qquad\qquad g(0) \cdot h(0) = 0{,}50 \cdot 0{,}65 = 0{,}325 \]</p>
+  <p>No coinciden. Ya alcanza: no hace falta mirar las demás.</p>
+  <p>Se ve también con el inciso a): sin saber nada, \(P(Y = 1) = h(1) = 0{,}35\); sabiendo que falló un disco, sube a 0,4286. Saber \(X\) cambia lo que se espera de \(Y\).</p>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>
+      a) \(f(0 \mid 1) = 4/7\), \(f(1 \mid 1) = 3/7\). b) \(2/7\), \(3/7\), \(2/7\). c) No son
+      independientes, porque \(f(0,0) = 0{,}40 \neq g(0) \cdot h(0) = 0{,}325\).
+    </p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; Alertas y cortes: una tabla independiente</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>
+      En una oficina se registra por día \(X\): número de alertas del antivirus, e \(Y\): número de cortes
+      de luz. La conjunta es:
+    </p>
+    <div class="tabla-wrap">
+      <table class="t">
+        <tr><th>\(f(x,y)\)</th><th>\(y = 0\)</th><th>\(y = 1\)</th></tr>
+        <tr><th class="lbl">\(x = 0\)</th><td>0,30</td><td>0,20</td></tr>
+        <tr><th class="lbl">\(x = 1\)</th><td>0,18</td><td>0,12</td></tr>
+        <tr><th class="lbl">\(x = 2\)</th><td>0,12</td><td>0,08</td></tr>
+      </table>
+    </div>
+    <p>a) ¿Son independientes \(X\) e \(Y\)? Justifique. b) Halle \(f(y \mid x = 2)\) y compárela con \(h(y)\).</p>
+  </div>
+
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"¿son independientes?"</td><td>controlar las 6 celdas</td><td>\(g(x) \cdot h(y)\) en cada una</td><td>inciso a</td></tr>
+      <tr><td>"\(f(y \mid x = 2)\)"</td><td>la fila \(x = 2\) dividida por su total</td><td>\(\div\, g(2)\)</td><td>inciso b</td></tr>
+    </table>
+  </div>
+
+  <h4>Paso 1 &mdash; Marginales</h4>
+  <p>\(g(x) = \sum_y f(x,y)\): \(g(0) = 0{,}50\), \(g(1) = 0{,}30\), \(g(2) = 0{,}20\).</p>
+  <p>\(h(y) = \sum_x f(x,y)\): \(h(0) = 0{,}30 + 0{,}18 + 0{,}12 = 0{,}60\), \(h(1) = 0{,}20 + 0{,}12 + 0{,}08 = 0{,}40\).</p>
+
+  <h4>a) Comparar celda por celda</h4>
+  <p>Fórmula: independientes si \(f(x,y) = g(x) \cdot h(y)\) para todos los pares.</p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Par</th><th>\(g(x) \cdot h(y)\)</th><th>\(f(x,y)\)</th><th>¿Igual?</th></tr>
+      <tr><td>\((0,0)\)</td><td>\(0{,}50 \cdot 0{,}60 = 0{,}30\)</td><td>0,30</td><td>✔</td></tr>
+      <tr><td>\((0,1)\)</td><td>\(0{,}50 \cdot 0{,}40 = 0{,}20\)</td><td>0,20</td><td>✔</td></tr>
+      <tr><td>\((1,0)\)</td><td>\(0{,}30 \cdot 0{,}60 = 0{,}18\)</td><td>0,18</td><td>✔</td></tr>
+      <tr><td>\((1,1)\)</td><td>\(0{,}30 \cdot 0{,}40 = 0{,}12\)</td><td>0,12</td><td>✔</td></tr>
+      <tr><td>\((2,0)\)</td><td>\(0{,}20 \cdot 0{,}60 = 0{,}12\)</td><td>0,12</td><td>✔</td></tr>
+      <tr><td>\((2,1)\)</td><td>\(0{,}20 \cdot 0{,}40 = 0{,}08\)</td><td>0,08</td><td>✔</td></tr>
+    </table>
+  </div>
+
+  <h4>b) La condicional</h4>
+  <p>Fórmula: \(f(y \mid x) = \dfrac{f(x,y)}{g(x)}\), con \(g(2) = 0{,}20\).</p>
+  <p>\[ f(0 \mid 2) = \frac{0{,}12}{0{,}20} = 0{,}60 \qquad\qquad f(1 \mid 2) = \frac{0{,}08}{0{,}20} = 0{,}40 \]</p>
+  <p>Son exactamente \(h(0) = 0{,}60\) y \(h(1) = 0{,}40\): saber cuántas alertas hubo no cambia nada sobre los cortes.</p>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>
+      a) Son independientes, porque \(f(x,y) = g(x) \cdot h(y)\) para los seis pares. b)
+      \(f(y \mid x = 2)\) da 0,60 y 0,40, igual que \(h(y)\), como corresponde a variables independientes.
+    </p>
+  </div>
+</div>

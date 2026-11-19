@@ -1,0 +1,113 @@
+<div class="ej" data-examen="igual" data-examen-ref="Parcial 1 2025 · ej. 1" data-examen-nota="En el parcial: diez fichas del 1 al 10, se sacan dos sin sustitución; total de parejas (como el inciso a, que cuenta las selecciones de 3 cartas) y la probabilidad por Laplace. Comparar sin y con reposición (incisos b y c) se tomó en el Final 25/02/2026 · ej. 1a, con 7 scripts en Python y 5 en JavaScript.">
+  <span class="tag">Guía Probabilidad &middot; Ej. 9 &middot; Con y sin reposición</span>
+  <h2>Tres ases seguidos de un naipe de 52</h2>
+  <div class="enunciado">
+    <p>
+      Se tiene un naipe de 52 cartas. a) ¿Cuántas selecciones distintas de tres cartas se pueden
+      hacer? b) Si se extraen 3 cartas del mazo, halle la probabilidad de que la primera sea un As, la
+      segunda sea un As y la tercera sea un As. c) Repetir el punto (b) suponiendo reposición de las
+      cartas al mazo entre cada selección.
+    </p>
+  </div>
+
+  <span class="paso">Qué tema es y por qué</span>
+  <ul>
+    <li>a) Contar grupos de 3 cartas: <strong>combinaciones</strong> (una "selección" no tiene orden).</li>
+    <li>
+      b) y c) Probabilidad por <strong>Laplace</strong>, contando con la <strong>regla de la
+      multiplicación</strong> carta por carta. La diferencia es si la carta vuelve al mazo:
+      <ul>
+        <li><strong>Sin reposición:</strong> no vuelve; en cada extracción hay una carta menos (y un as menos si salió as).</li>
+        <li><strong>Con reposición:</strong> vuelve; las tres extracciones son iguales, siempre 52 cartas con 4 ases.</li>
+      </ul>
+    </li>
+  </ul>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Las herramientas</span>
+    <p>\[ \binom{n}{r} = \frac{n!}{r!\,(n-r)!} \qquad P(A) = \frac{n}{N} \qquad N = n_1 \cdot n_2 \cdot n_3 \]</p>
+  </div>
+
+  <span class="paso">Desarme del enunciado</span>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"naipe de 52 cartas"</td><td>4 palos de 13; hay 4 ases</td><td>&mdash;</td><td>52 cartas, 4 ases</td></tr>
+      <tr><td>"selecciones distintas de tres cartas"</td><td>grupos de 3 sin orden</td><td>\(\binom{52}{3}\)</td><td>inciso a</td></tr>
+      <tr><td>"la primera … la segunda … la tercera sea un As"</td><td>importa el orden de salida: se cuenta carta por carta</td><td>&mdash;</td><td>incisos b y c</td></tr>
+      <tr><td>(b, sin decir nada)</td><td>las cartas no vuelven: sin reposición</td><td>\(52 \cdot 51 \cdot 50\)</td><td>denominador del b</td></tr>
+      <tr><td>"suponiendo reposición"</td><td>cada carta vuelve antes de la siguiente</td><td>\(52 \cdot 52 \cdot 52\)</td><td>denominador del c</td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Inciso a &mdash; Selecciones de tres cartas</span>
+  <p>Fórmula:</p>
+  <p>\[ \binom{n}{r} = \frac{n!}{r!\,(n-r)!} \]</p>
+  <p>\[ \binom{52}{3} = \frac{52!}{3!\,49!} = \frac{52 \cdot 51 \cdot 50}{3 \cdot 2 \cdot 1} = \frac{132\,600}{6} = \mathbf{22\,100} \]</p>
+  <p>
+    Por qué se divide por \(3! = 6\): \(52 \cdot 51 \cdot 50\) cuenta las ternas <em>con orden</em>; cada
+    grupo de 3 cartas aparece ahí 6 veces (las 6 formas de ordenar 3 cosas). Para contar grupos, se
+    divide por 6.
+  </p>
+  <div class="caja caja-calc">
+    <span class="caja-tit">En la calculadora</span>
+    <p>52 nCr 3 = 22100</p>
+  </div>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta a</span>
+    <p>Se pueden hacer <strong>22.100</strong> selecciones distintas de 3 cartas.</p>
+  </div>
+
+  <span class="paso">Inciso b &mdash; Tres ases sin reposición</span>
+  <p>\(A\): "la primera, la segunda y la tercera carta son ases".</p>
+  <p>Fórmula:</p>
+  <p>\[ P(A) = \frac{n}{N} \]</p>
+  <ul>
+    <li>
+      <strong>Casos posibles:</strong> la 1.ª entre 52, la 2.ª entre 51, la 3.ª entre 50:
+      \(N = 52 \cdot 51 \cdot 50 = 132\,600\).
+    </li>
+    <li>
+      <strong>Casos favorables:</strong> la 1.ª tiene que ser uno de los 4 ases; la 2.ª, uno de los 3
+      que quedan; la 3.ª, uno de los 2 que quedan: \(n = 4 \cdot 3 \cdot 2 = 24\).
+    </li>
+  </ul>
+  <p>\[ P(A) = \frac{4 \cdot 3 \cdot 2}{52 \cdot 51 \cdot 50} = \frac{24}{132\,600} = \frac{1}{5525} \approx \mathbf{0{,}000181} \]</p>
+  <p>
+    Cómo se lee: 0,000181 es 1,81 en diez mil; en notación científica, \(1{,}81 \times 10^{-4}\). Es
+    muy poco probable: pasa una vez cada 5525 intentos.
+  </p>
+  <p>
+    Mismo resultado contando grupos sin orden: \(\dfrac{\binom{4}{3}}{\binom{52}{3}} = \dfrac{4}{22\,100} = \dfrac{1}{5525}\).
+  </p>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta b</span>
+    <p>\(P(A) = \dfrac{1}{5525} \approx 0{,}000181\) (\(1{,}81 \times 10^{-4}\)).</p>
+  </div>
+
+  <span class="paso">Inciso c &mdash; Tres ases con reposición</span>
+  <p>Fórmula:</p>
+  <p>\[ P(A) = \frac{n}{N} \]</p>
+  <ul>
+    <li>
+      <strong>Casos posibles:</strong> la carta vuelve, así que siempre hay 52:
+      \(N = 52 \cdot 52 \cdot 52 = 140\,608\).
+    </li>
+    <li>
+      <strong>Casos favorables:</strong> siempre hay 4 ases: \(n = 4 \cdot 4 \cdot 4 = 64\).
+    </li>
+  </ul>
+  <p>\[ P(A) = \frac{4 \cdot 4 \cdot 4}{52 \cdot 52 \cdot 52} = \left(\frac{4}{52}\right)^{3} = \left(\frac{1}{13}\right)^{3} = \frac{1}{2197} \approx \mathbf{0{,}000455} \]</p>
+  <p>
+    Por qué da más que en b: con reposición los ases no se "gastan"; cada extracción tiene la misma
+    chance, \(\tfrac{4}{52}\), sin importar lo que salió antes.
+  </p>
+  <div class="caja caja-calc">
+    <span class="caja-tit">En la calculadora</span>
+    <p>b) 4 &times; 3 &times; 2 &divide; ( 52 &times; 51 &times; 50 ) = 1.8099… &times; 10<sup>-4</sup></p>
+    <p>c) ( 4 &divide; 52 ) ^ 3 = 4.5516… &times; 10<sup>-4</sup></p>
+  </div>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta c</span>
+    <p>\(P(A) = \dfrac{1}{2197} \approx 0{,}000455\) (\(4{,}55 \times 10^{-4}\)).</p>
+  </div>
+</div>

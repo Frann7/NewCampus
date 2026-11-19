@@ -1,0 +1,165 @@
+<div class="bloque">
+  <p class="kicker">Sumar probabilidades</p>
+  <h2>6. Reglas aditivas y complemento</h2>
+
+  <h3>Cuándo se usa</h3>
+  <p>
+    Cuando piden la probabilidad de que pase <strong>alguno</strong> de varios eventos ("A o B", "al
+    menos uno") o de que <strong>no</strong> pase algo. También cuando conocés las probabilidades de casi
+    todos los pedazos de \(S\) y falta uno.
+  </p>
+
+  <h3>Fórmulas</h3>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Regla aditiva (dos eventos)</span>
+    <p>\[ P(A \cup B) = P(A) + P(B) - P(A \cap B) \]</p>
+    <span class="caja-tit">Tres eventos</span>
+    <p>\[ P(A \cup B \cup C) = P(A) + P(B) + P(C) - P(A \cap B) - P(A \cap C) - P(B \cap C) + P(A \cap B \cap C) \]</p>
+    <span class="caja-tit">Si son mutuamente excluyentes</span>
+    <p>\[ P(A \cup B) = P(A) + P(B) \qquad P(A \cup B \cup C) = P(A) + P(B) + P(C) \]</p>
+    <span class="caja-tit">Partición y complemento</span>
+    <p>\[ P(A_1) + P(A_2) + \dots + P(A_n) = P(S) = 1 \qquad\qquad P(\bar{A}) = 1 - P(A) \]</p>
+  </div>
+
+  <h4>Qué significa cada letra</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Símbolo</th><th>Qué es</th></tr>
+      <tr><td>\(P(A \cup B)\)</td><td>probabilidad de que pase \(A\), o \(B\), o los dos: "al menos uno"</td></tr>
+      <tr><td>\(P(A \cap B)\)</td><td>probabilidad de que pasen los dos a la vez</td></tr>
+      <tr><td>\(A_1, \dots, A_n\)</td><td>una partición de \(S\) (sección 2): pedazos que no se pisan y cubren todo</td></tr>
+      <tr><td>\(P(\bar{A})\)</td><td>probabilidad de que <strong>no</strong> pase \(A\)</td></tr>
+    </table>
+  </div>
+
+  <h4>De dónde sale</h4>
+  <ul>
+    <li>
+      <strong>La resta en la regla aditiva:</strong> si sumás \(P(A) + P(B)\), la zona del medio
+      (\(A \cap B\)) la sumaste dos veces, una dentro de \(A\) y otra dentro de \(B\). Se resta una vez para
+      que quede contada una sola. En el Venn de la sección 2, es el pedazo pintado de la intersección.
+    </li>
+    <li>
+      <strong>Tres eventos:</strong> igual, pero al restar las tres intersecciones de a dos, el centro
+      (\(A \cap B \cap C\)) que se había sumado 3 veces queda restado 3 veces: se vuelve a sumar una.
+    </li>
+    <li>
+      <strong>Excluyentes:</strong> \(A \cap B = \varnothing\), su probabilidad es 0 y no hay nada que
+      restar. Es el axioma A3 (sección 3).
+    </li>
+    <li>
+      <strong>Complemento:</strong> \(A\) y \(\bar{A}\) son excluyentes y juntos son todo \(S\). Por A3 y A2:
+      \(P(A) + P(\bar{A}) = P(S) = 1\), y se despeja \(P(\bar{A}) = 1 - P(A)\).
+    </li>
+  </ul>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">El atajo del complemento</span>
+    <p>
+      Cuando lo pedido tiene muchos casos ("al menos uno falla" = falla 1, o 2, o 3&hellip;), suele ser
+      más corto calcular lo contrario ("no falla ninguno", un solo caso) y restarlo de 1:
+      \(P(\text{al menos uno}) = 1 - P(\text{ninguno})\).
+    </p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; Unión de dos tramos (apunte, sobre el Ejemplo 5)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>Se elige al azar un número entero del 1 al 12. \(A = \{x / 3 &lt; x &lt; 9\}\), \(B = \{y / 5 &lt; y &lt; 12\}\). Calcular \(P(A \cup B)\) con la regla aditiva y verificar contando.</p>
+  </div>
+
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"entero del 1 al 12, al azar"</td><td>Laplace</td><td>&mdash;</td><td>\(N = 12\)</td></tr>
+      <tr><td>"\(3 &lt; x &lt; 9\)"</td><td>\(A = \{4, 5, 6, 7, 8\}\)</td><td>5 números</td><td>\(P(A) = 5/12\)</td></tr>
+      <tr><td>"\(5 &lt; y &lt; 12\)"</td><td>\(B = \{6, 7, 8, 9, 10, 11\}\)</td><td>6 números</td><td>\(P(B) = 6/12\)</td></tr>
+      <tr><td>(los que están en los dos)</td><td>\(A \cap B = \{6, 7, 8\}\)</td><td>3 números</td><td>\(P(A \cap B) = 3/12\)</td></tr>
+    </table>
+  </div>
+  <p>
+    (El apunte da \(P(A) = 5/12\), \(P(B) = 6/12\) y \(P(C) = 8/12\) sin decir el espacio muestral;
+    esos valores salen tomando los enteros del 1 al 12.)
+  </p>
+
+  <p><strong>Paso 1 &mdash; Fórmula:</strong> \(P(A \cup B) = P(A) + P(B) - P(A \cap B)\).</p>
+  <p>\[ P(A \cup B) = \frac{5}{12} + \frac{6}{12} - \frac{3}{12} = \frac{5 + 6 - 3}{12} = \frac{8}{12} \]</p>
+  <p><strong>Paso 2 &mdash; Verificar contando.</strong> \(A \cup B = \{4, 5, \dots, 11\}\): 8 números. \(8/12\). Coincide. Sin restar habría dado \(11/12\): el 6, el 7 y el 8 contados dos veces.</p>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>\(P(A \cup B) = 8/12 = 2/3 \approx 0{,}6667\).</p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; Fallas en un servidor (formato de examen)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>En un día, la probabilidad de que un servidor tenga una falla de disco es 0,05, la de que tenga una falla de red es 0,08, y la de que tenga las dos es 0,02. Calcular la probabilidad de que: a) tenga al menos una de las dos fallas; b) no tenga ninguna; c) tenga solo falla de disco.</p>
+  </div>
+
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"falla de disco es 0,05"</td><td>evento \(D\)</td><td>&mdash;</td><td>\(P(D) = 0{,}05\)</td></tr>
+      <tr><td>"falla de red es 0,08"</td><td>evento \(R\)</td><td>&mdash;</td><td>\(P(R) = 0{,}08\)</td></tr>
+      <tr><td>"las dos es 0,02"</td><td>intersección</td><td>&mdash;</td><td>\(P(D \cap R) = 0{,}02\)</td></tr>
+      <tr><td>"al menos una"</td><td>unión</td><td>regla aditiva</td><td>\(P(D \cup R)\)</td></tr>
+      <tr><td>"ninguna"</td><td>complemento de "al menos una"</td><td>\(1 - P(D \cup R)\)</td><td>\(P(\overline{D \cup R})\)</td></tr>
+      <tr><td>"solo de disco"</td><td>\(D\) sin la parte común</td><td>\(P(D) - P(D \cap R)\)</td><td>\(P(D \cap \bar{R})\)</td></tr>
+    </table>
+  </div>
+
+  <p><strong>Paso 1 &mdash; a)</strong> No son excluyentes (pueden pasar juntas: 0,02), así que va la resta. Fórmula \(P(D \cup R) = P(D) + P(R) - P(D \cap R)\):</p>
+  <p>\[ P(D \cup R) = 0{,}05 + 0{,}08 - 0{,}02 = 0{,}11 \]</p>
+  <p><strong>Paso 2 &mdash; b)</strong> "Ninguna" es lo contrario de "al menos una". Fórmula \(P(\bar{A}) = 1 - P(A)\):</p>
+  <p>\[ P(\text{ninguna}) = 1 - 0{,}11 = 0{,}89 \]</p>
+  <p><strong>Paso 3 &mdash; c)</strong> El círculo \(D\) tiene dos pedazos: la parte que comparte con \(R\) (0,02) y la que es solo de disco. Por eso:</p>
+  <p>\[ P(\text{solo disco}) = P(D) - P(D \cap R) = 0{,}05 - 0{,}02 = 0{,}03 \]</p>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>a) 0,11. b) 0,89. c) 0,03.</p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 3 &mdash; Tres lenguajes y el que falta de una partición (formato de examen)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>
+      a) De 100 alumnos de Sistemas, 45 programan en Python, 30 en Java y 25 en C; 10 en Python y Java, 8 en
+      Python y C, 5 en Java y C, y 2 en los tres. Se elige uno al azar: ¿probabilidad de que programe en al
+      menos uno de los tres? b) Un servidor está siempre en uno solo de cuatro estados: activo (0,70), en
+      mantenimiento (0,15), sobrecargado (0,10) o caído. ¿Probabilidad de que esté caído?
+    </p>
+  </div>
+
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"45 Python, 30 Java, 25 C" de 100</td><td>Laplace para cada uno</td><td>dividir por 100</td><td>\(P(Py) = 0{,}45\), \(P(J) = 0{,}30\), \(P(C) = 0{,}25\)</td></tr>
+      <tr><td>"10, 8 y 5" en dos lenguajes</td><td>intersecciones de a dos</td><td>dividir por 100</td><td>0,10; 0,08; 0,05</td></tr>
+      <tr><td>"2 en los tres"</td><td>intersección triple</td><td>&mdash;</td><td>0,02</td></tr>
+      <tr><td>"siempre en uno solo de cuatro estados"</td><td>los estados son una partición</td><td>suman 1</td><td>\(P(\text{caído}) = 1 - \dots\)</td></tr>
+    </table>
+  </div>
+
+  <p><strong>Paso 1 &mdash; a) Fórmula de tres eventos:</strong></p>
+  <p>\[ P(Py \cup J \cup C) = P(Py) + P(J) + P(C) - P(Py \cap J) - P(Py \cap C) - P(J \cap C) + P(Py \cap J \cap C) \]</p>
+  <p>\[ = 0{,}45 + 0{,}30 + 0{,}25 - 0{,}10 - 0{,}08 - 0{,}05 + 0{,}02 = 0{,}79 \]</p>
+  <p>Los que no programan en ninguno: \(1 - 0{,}79 = 0{,}21\) (21 alumnos).</p>
+  <p><strong>Paso 2 &mdash; b)</strong> Los cuatro estados no se pisan (está en uno solo) y cubren todo: son una partición, y sus probabilidades suman \(P(S) = 1\). Se despeja el que falta:</p>
+  <p>\[ P(\text{caído}) = 1 - [\,P(\text{activo}) + P(\text{mant.}) + P(\text{sobrec.})\,] = 1 - (0{,}70 + 0{,}15 + 0{,}10) = 0{,}05 \]</p>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>a) \(P(\text{al menos uno}) = 0{,}79\). b) \(P(\text{caído}) = 0{,}05\).</p>
+  </div>
+</div>

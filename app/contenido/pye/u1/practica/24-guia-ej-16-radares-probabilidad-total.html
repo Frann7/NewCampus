@@ -1,0 +1,147 @@
+<div class="ej" data-examen="igual" data-examen-ref="Parcial 1 2025 · ej. 2" data-examen-nota="En el parcial: motores de dos proveedores, A (90 %) y B (10 %), con 5 % y 3 % de defectuosos; definir los sucesos, árbol, P(defectuoso) por probabilidad total, P(B | defectuoso) por Bayes y enunciar y demostrar el teorema. Acá son cuatro lugares en vez de dos proveedores; la cuenta es la misma.">
+  <span class="tag">Guía Probabilidad &middot; Ej. 16 &middot; Probabilidad total</span>
+  <h2>Radares en cuatro lugares: probabilidad de multa</h2>
+  <div class="enunciado">
+    <p>
+      La policía planea hacer cumplir los límites de velocidad usando un sistema de radar en 4
+      diferentes puntos dentro de la ciudad. Las trampas de radar en cada uno de los sitios L1, L2, L3
+      y L4 operan 40, 30, 20 y 30% del tiempo, y si una persona maneja a gran velocidad cuando va a su
+      trabajo tiene las probabilidades de 0.2, 0.1, 0.5 y 0.2, respectivamente, de pasar por esos
+      lugares. ¿Cuál es la probabilidad de que reciba una multa por conducir con exceso de velocidad?
+    </p>
+  </div>
+
+  <span class="paso">Qué tema es y por qué</span>
+  <ul>
+    <li>
+      La persona pasa por <strong>uno</strong> de los cuatro lugares (nunca por dos a la vez, y por
+      alguno pasa: las probabilidades \(0{,}2 + 0{,}1 + 0{,}5 + 0{,}2\) suman 1). Los lugares forman
+      una <strong>partición</strong> del espacio muestral: sucesos que no se pisan y entre todos
+      cubren todo.
+    </li>
+    <li>
+      La multa depende del lugar: en cada uno el radar funciona con otra probabilidad. Se conoce
+      "multa <strong>dado</strong> el lugar", y se pide la multa en general, sin saber por dónde pasó.
+    </li>
+    <li>
+      Eso es el <strong>teorema de la probabilidad total</strong>: se suma, lugar por lugar, "pasar por
+      ahí y que lo multen".
+    </li>
+  </ul>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Teorema de la probabilidad total</span>
+    <p>Si \(B_1, B_2, \ldots, B_k\) son una partición de \(S\), para cualquier suceso \(A\):</p>
+    <p>\[ P(A) = \sum_{i=1}^{k} P(B_i) \cdot P(A \mid B_i) = P(B_1)\,P(A \mid B_1) + \ldots + P(B_k)\,P(A \mid B_k) \]</p>
+    <p>
+      Por qué funciona: \(A\) se parte en pedazos que no se pisan, \(A \cap B_1, \ldots, A \cap B_k\);
+      se suman, y cada pedazo vale \(P(B_i) \cdot P(A \mid B_i)\) por la regla del producto. La
+      demostración completa está en la Teoría (probabilidad total).
+    </p>
+  </div>
+
+  <span class="paso">Desarme del enunciado</span>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"tiene las probabilidades de 0.2, 0.1, 0.5 y 0.2 … de pasar por esos lugares"</td><td>probabilidad de cada lugar (la partición)</td><td>suman 1 &#10003;</td><td>\(P(L_1) = 0{,}2\), \(P(L_2) = 0{,}1\), \(P(L_3) = 0{,}5\), \(P(L_4) = 0{,}2\)</td></tr>
+      <tr><td>"operan 40, 30, 20 y 30% del tiempo"</td><td>si pasa por ese lugar, el radar lo agarra con esa probabilidad</td><td>\(\% \div 100\)</td><td>\(P(M \mid L_1) = 0{,}4\), \(P(M \mid L_2) = 0{,}3\), \(P(M \mid L_3) = 0{,}2\), \(P(M \mid L_4) = 0{,}3\)</td></tr>
+      <tr><td>"reciba una multa"</td><td>suceso que interesa, sin saber el lugar</td><td>probabilidad total</td><td>\(P(M)\)</td></tr>
+    </table>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Los porcentajes del radar no suman 1, y está bien</span>
+    <p>
+      \(0{,}4 + 0{,}3 + 0{,}2 + 0{,}3 = 1{,}2\). No tienen por qué sumar 1: no son una partición, son
+      cuatro radares distintos, cada uno con su propio porcentaje. Lo que suma 1 es la partición (los
+      lugares).
+    </p>
+  </div>
+
+  <span class="paso">Los sucesos</span>
+  <ul>
+    <li>\(L_i\): "la persona pasa por el lugar \(L_i\)", con \(i = 1, 2, 3, 4\) (la partición).</li>
+    <li>\(M\): "la persona recibe una multa por exceso de velocidad"; \(\bar{M}\): no la recibe.</li>
+  </ul>
+
+  <span class="paso">Paso 1 &mdash; El árbol</span>
+  <p>
+    Primer nivel: el lugar, con su probabilidad. Segundo nivel: multa o no, con la probabilidad
+    <em>dado ese lugar</em> (las dos ramas de cada lugar suman 1). A la derecha, el producto de cada
+    camino; las ramas que terminan en M están resaltadas.
+  </p>
+  <div class="pd-grafico" data-g="u1p-ej16-arbol">
+<svg viewBox="0 0 620 286" role="img" aria-label="Árbol: lugar por el que pasa (L1 a L4) y si lo multan (M) o no">
+  <circle class="punto" cx="30" cy="143.0" r="4"/>
+  <line class="eje" x1="36" y1="143.0" x2="184" y2="41.0"/>
+  <text class="rotulo" x="110.0" y="86.0" text-anchor="middle">0,2</text>
+  <text class="valor" x="190" y="46.0">L1</text>
+  <line class="eje" x1="216" y1="41.0" x2="324" y2="24.0"/>
+  <text class="rotulo" x="270.0" y="26.5" text-anchor="middle">0,4</text>
+  <text class="valor" x="330" y="29.0">M</text>
+  <line class="eje" x1="216" y1="41.0" x2="324" y2="58.0"/>
+  <text class="rotulo" x="270.0" y="63.5" text-anchor="middle">0,6</text>
+  <text class="valor" x="330" y="63.0"><tspan style="text-decoration:overline">M</tspan></text>
+  <line class="eje" x1="36" y1="143.0" x2="184" y2="109.0"/>
+  <text class="rotulo" x="110.0" y="120.0" text-anchor="middle">0,1</text>
+  <text class="valor" x="190" y="114.0">L2</text>
+  <line class="eje" x1="216" y1="109.0" x2="324" y2="92.0"/>
+  <text class="rotulo" x="270.0" y="94.5" text-anchor="middle">0,3</text>
+  <text class="valor" x="330" y="97.0">M</text>
+  <line class="eje" x1="216" y1="109.0" x2="324" y2="126.0"/>
+  <text class="rotulo" x="270.0" y="131.5" text-anchor="middle">0,7</text>
+  <text class="valor" x="330" y="131.0"><tspan style="text-decoration:overline">M</tspan></text>
+  <line class="eje" x1="36" y1="143.0" x2="184" y2="177.0"/>
+  <text class="rotulo" x="110.0" y="174.0" text-anchor="middle">0,5</text>
+  <text class="valor" x="190" y="182.0">L3</text>
+  <line class="eje" x1="216" y1="177.0" x2="324" y2="160.0"/>
+  <text class="rotulo" x="270.0" y="162.5" text-anchor="middle">0,2</text>
+  <text class="valor" x="330" y="165.0">M</text>
+  <line class="eje" x1="216" y1="177.0" x2="324" y2="194.0"/>
+  <text class="rotulo" x="270.0" y="199.5" text-anchor="middle">0,8</text>
+  <text class="valor" x="330" y="199.0"><tspan style="text-decoration:overline">M</tspan></text>
+  <line class="eje" x1="36" y1="143.0" x2="184" y2="245.0"/>
+  <text class="rotulo" x="110.0" y="208.0" text-anchor="middle">0,2</text>
+  <text class="valor" x="190" y="250.0">L4</text>
+  <line class="eje" x1="216" y1="245.0" x2="324" y2="228.0"/>
+  <text class="rotulo" x="270.0" y="230.5" text-anchor="middle">0,3</text>
+  <text class="valor" x="330" y="233.0">M</text>
+  <line class="eje" x1="216" y1="245.0" x2="324" y2="262.0"/>
+  <text class="rotulo" x="270.0" y="267.5" text-anchor="middle">0,7</text>
+  <text class="valor" x="330" y="267.0"><tspan style="text-decoration:overline">M</tspan></text>
+  <text class="valor" x="357" y="29.0">0,2 · 0,4 = 0,08</text>
+  <text class="rotulo" x="357" y="63.0">0,2 · 0,6 = 0,12</text>
+  <text class="valor" x="357" y="97.0">0,1 · 0,3 = 0,03</text>
+  <text class="rotulo" x="357" y="131.0">0,1 · 0,7 = 0,07</text>
+  <text class="valor" x="357" y="165.0">0,5 · 0,2 = 0,1</text>
+  <text class="rotulo" x="357" y="199.0">0,5 · 0,8 = 0,4</text>
+  <text class="valor" x="357" y="233.0">0,2 · 0,3 = 0,06</text>
+  <text class="rotulo" x="357" y="267.0">0,2 · 0,7 = 0,14</text>
+</svg>
+</div>
+
+  <span class="paso">Paso 2 &mdash; Probabilidad total</span>
+  <p>Fórmula:</p>
+  <p>\[ P(M) = P(L_1)\,P(M \mid L_1) + P(L_2)\,P(M \mid L_2) + P(L_3)\,P(M \mid L_3) + P(L_4)\,P(M \mid L_4) \]</p>
+  <p>\[ P(M) = 0{,}2 \cdot 0{,}4 + 0{,}1 \cdot 0{,}3 + 0{,}5 \cdot 0{,}2 + 0{,}2 \cdot 0{,}3 \]</p>
+  <p>Cada producto es un camino del árbol que termina en multa:</p>
+  <ul>
+    <li>\(P(L_1 \cap M) = 0{,}2 \cdot 0{,}4 = 0{,}08\)</li>
+    <li>\(P(L_2 \cap M) = 0{,}1 \cdot 0{,}3 = 0{,}03\)</li>
+    <li>\(P(L_3 \cap M) = 0{,}5 \cdot 0{,}2 = 0{,}10\)</li>
+    <li>\(P(L_4 \cap M) = 0{,}2 \cdot 0{,}3 = 0{,}06\)</li>
+  </ul>
+  <p>\[ P(M) = 0{,}08 + 0{,}03 + 0{,}10 + 0{,}06 = \mathbf{0{,}27} \]</p>
+  <p>
+    Qué significa: si maneja a gran velocidad, en 27 de cada 100 viajes al trabajo lo multan. Es un
+    promedio de los porcentajes de los radares, pesado por lo seguido que pasa por cada lugar.
+  </p>
+  <div class="caja caja-calc">
+    <span class="caja-tit">En la calculadora</span>
+    <p>0.2 &times; 0.4 + 0.1 &times; 0.3 + 0.5 &times; 0.2 + 0.2 &times; 0.3 = 0.27</p>
+  </div>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>\(P(M) = 0{,}27\).</p>
+  </div>
+</div>

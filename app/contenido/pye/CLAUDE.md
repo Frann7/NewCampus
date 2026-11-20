@@ -61,6 +61,10 @@ solo lo propio de PyE. Si se toca el banco de preguntas: `evaluacion/preguntas/F
 
 ## Pendientes e ideas
 
+- **Paso a paso en todos los gráficos y búsquedas en tabla** (pedido de Fran, 20/11/2026; regla en
+  `docs/contenido.md`). Hecho el modelo: Final 29/07/2026, ej. 1 b y d. Falta el resto (~200
+  gráficos de PyE y las lecturas de tabla Z/t/binomial).
+
 - Banco de autoevaluación de U1 a U3 (no está hecho). La práctica de U2 no tiene marcas de examen.
 - Interpretaciones sin resultado oficial, a confirmar con Fran: Parcial 1 2025 ej. 3e ("entre 629 y
   697" con extremos, 60 %; sin ellos, 50 %); U1 guía ej. 14b ("al menos uno disponible") y 15a; el

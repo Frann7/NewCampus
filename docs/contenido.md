@@ -48,6 +48,22 @@
 > se habla de graficar en los incisos que lo piden con todas las letras (las propiedades de la
 > curva normal "con los gráficos necesarios", "representar gráficamente…").
 
+> **Todo gráfico y toda búsqueda en tabla van paso a paso** (lo pidió Fran: "que se entienda bien
+> lo que hacés"). Ningún número del dibujo aparece sin su cuenta.
+> - **Un gráfico que se arma de cero** (una densidad, una función por tramos, un histograma): la
+>   explicación lo construye en pasos, cada uno con su SVG acumulado: tabla de valores (cada fila
+>   con su cuenta y qué significa) → ejes y escala (qué va en cada eje y hasta dónde) → marcar los
+>   puntos → unir y completar (qué pasa fuera del intervalo) → control (el área, que los puntos
+>   queden alineados). Modelo: Final 29/07/2026, ejercicio 1 b
+>   (`fuentes/pye/graficos_final_2026_07_29.py`). En los Resultados (lo que va en la hoja) alcanza
+>   con la tabla de valores y el gráfico terminado.
+> - **Un gráfico que sale de otro** (sombrear un área, marcar un corte): una lista corta de qué se
+>   agrega, con la cuenta de cada altura o valor nuevo.
+> - **Las líneas guía (punteadas) se explican**: de qué punto salen y para qué están.
+> - **Una búsqueda en tabla** (Z, t, binomial, Poisson acumulada…): qué valor se busca, en qué fila
+>   y en qué columna, qué número se lee y qué significa; si hay que restar de 1 o redondear el z,
+>   por qué.
+
 * Basada íntegramente en el PDF teórico de la cátedra, pero traducida a algo digerible.
   Resumí de a poco.
 * Cada concepto y cada fórmula general va acompañado de un **ejemplo práctico numérico**.

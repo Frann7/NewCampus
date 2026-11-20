@@ -56,6 +56,11 @@ la carpeta son de años anteriores y traen temas que este año no entran (varian
 | `Tema 8_Parte A.md`, `Tema 8_Parte B.md` | Diapositivas viejas del tema 8 (incluyen varianzas) |
 | `Resumen formulas y funciones (1).md` | Fórmulas y funciones de R del tema 8 |
 
+| Archivo (en `PARCIAL 2/Tema 9/`) | Qué es |
+| :-- | :-- |
+| `Tema 9.md` | Diapositivas de prueba de hipótesis (Unidad 9, para el final): H₀ y H₁, seis pasos, regiones críticas, errores I y II, Ejemplo 1 del peso (6 ⚠) |
+| `Prueba de Hipótesis_Guía.md` | Guía de 7 ejercicios de prueba para μ (sin resultados; el 5 trae una tabla que no salió en el texto) |
+
 ## Exámenes
 
 | Archivo | Qué es |

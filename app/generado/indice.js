@@ -61,6 +61,8 @@ window.Apuntes.registrarIndice({
     "pye/u7/teoria": "panes/pye-u7-teoria.js",
     "pye/u8/practica": "panes/pye-u8-practica.js",
     "pye/u8/teoria": "panes/pye-u8-teoria.js",
+    "pye/u9/practica": "panes/pye-u9-practica.js",
+    "pye/u9/teoria": "panes/pye-u9-teoria.js",
     "pyl/u1/teoria": "panes/pyl-u1-teoria.js",
     "pyl/u2/practica": "panes/pyl-u2-practica.js",
     "pyl/u2/teoria": "panes/pyl-u2-teoria.js",
@@ -309,7 +311,7 @@ window.Apuntes.registrarIndice({
         "archivo": "examenes/pye-2025-11-26-final.js",
         "titulo": "Final Regulares",
         "fecha": "26/11/2025",
-        "detalle": "4 ejercicios \u00b7 104 puntos",
+        "detalle": "4 ejercicios \u00b7 104 puntos \u00b7 resuelto",
         "temas": "Densidad conjunta continua \u00b7 Normal \u00b7 Inferencia \u00b7 Bayes",
         "tipo": "final"
       },
@@ -318,7 +320,7 @@ window.Apuntes.registrarIndice({
         "archivo": "examenes/pye-2025-12-10-final.js",
         "titulo": "Final Regulares",
         "fecha": "10/12/2025",
-        "detalle": "4 ejercicios \u00b7 100 puntos",
+        "detalle": "4 ejercicios \u00b7 100 puntos \u00b7 resuelto",
         "temas": "Bayes \u00b7 Densidad conjunta continua \u00b7 Normal \u00b7 Inferencia",
         "tipo": "final"
       },
@@ -513,6 +515,11 @@ window.Apuntes.registrarIndice({
           "clave": "u8",
           "num": "Unidad 8",
           "nombre": "Estimacion (3er parcial)"
+        },
+        {
+          "clave": "u9",
+          "num": "Unidad 9",
+          "nombre": "Prueba de Hipotesis (final)"
         }
       ],
       "pdf": [
@@ -584,6 +591,10 @@ window.Apuntes.registrarIndice({
         "u8": [
           "formulas-u8",
           "mapa-dif",
+          "tablas",
+          "icph"
+        ],
+        "u9": [
           "tablas",
           "icph"
         ],

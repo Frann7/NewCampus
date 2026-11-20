@@ -2,7 +2,7 @@
 
 Campus de estudio personal de Fran (Abasto Franco), estudiante de la Licenciatura en Sistemas
 de Información (UADER, FCyT). Matemática Discreta la carga un compañero (contribuidor del repo). Hoy tiene ocho materias cargadas: **Probabilidad y Estadística (PyE)**,
-unidades 1 a 3 (1er parcial), 4 a 7 (2do parcial) y 8 (Estimación, 3er parcial), **Programación Avanzada (PA)**, clases 1 a 6 (con el Parcial PHP y el Examen teórico 2025), **Ingeniería de
+unidades 1 a 3 (1er parcial), 4 a 7 (2do parcial), 8 (Estimación, 3er parcial) y 9 (Prueba de hipótesis, para el final), **Programación Avanzada (PA)**, clases 1 a 6 (con el Parcial PHP y el Examen teórico 2025), **Ingeniería de
 Software II**, **Paradigmas y Lenguajes (PyL)**, el parcial de autómatas, y **Bases de Datos
 (BD)**, el 2do parcial de SQL, **SO Práctica** y **SO Teoría**, solo los parciales, y **Matemática
 Discreta (MD)**, unidades 1 a 7 con el Parcial 1 y el Parcial 2 2026 (cada materia tiene
@@ -108,7 +108,10 @@ rioplatense con voseo) y **mantenedor** del campus (código, contenido, commits)
 
 - **PyE: Fran quedó regular** (primeras instancias 90, 80 y 35; la profe lo confirmó en
   noviembre de 2026). Ahora viene el **final**: el 18/11/2026 se cargaron las U1 a U3 (teoría y
-  guías resueltas) y el Primer Parcial 2025 resuelto; falta el banco de autoevaluación de U1 a U3. En Parciales están la primera parte del 4/11
+  guías resueltas) y el Primer Parcial 2025 resuelto, y el 20/11/2026 la U9 (Prueba de hipótesis,
+  Tema 9: teoría, guía resuelta y la PH de los finales 26/11/2025 y 10/12/2025); falta el banco de
+  autoevaluación de U1 a U3 y U9. La guía de estudio del final (con casillas) está en
+  `SISTEMAS 3\PYE\Plan del final de PyE.html`, fuera del repo. En Parciales están la primera parte del 4/11
   resuelta y en Práctica un recuperatorio probable de 21 preguntas (diapositivas de Estimación
   parte 1 y 2). Cargada la U8 (teoría,
   guía resuelta, Tercer Parcial 2025, uno probable y banco `u8`). Fran arranca de cero: explicar

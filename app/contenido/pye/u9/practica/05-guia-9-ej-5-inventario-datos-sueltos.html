@@ -1,0 +1,170 @@
+<div class="ej">
+  <span class="tag">Guía 9 &middot; Ej. 5 &middot; PH para \(\mu\), cola izquierda, \(t\) con datos sueltos</span>
+  <h2>Inventario de motores con el sistema nuevo</h2>
+  <div class="enunciado">
+    <p>
+      Se diseñó un nuevo sistema para el control de inventario de un pequeño fabricante, con el propósito
+      de reducir el mismo a menos de 3000 motores por día. Se llevó a cabo un muestreo del inventario en
+      reserva al final de cada uno de los ocho días, seleccionados aleatoriamente. Los resultados se
+      muestran en la siguiente tabla. ¿Con los datos hay evidencia suficiente que señale que se cumplió
+      el propósito previsto?
+    </p>
+    <div class="tabla-wrap">
+      <table class="t">
+        <tr><th colspan="2">Número de motores</th></tr>
+        <tr><td>2905</td><td>2895</td></tr>
+        <tr><td>2725</td><td>3005</td></tr>
+        <tr><td>2835</td><td>2835</td></tr>
+        <tr><td>3065</td><td>2605</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <span class="paso">Paso 1 &mdash; Variable y parámetro</span>
+  <ul>
+    <li><strong>Variable:</strong> \(X\) = cantidad de motores en reserva al final de un día. (Se cuenta, pero toma tantos valores que se trata como continua.)</li>
+    <li><strong>Parámetro:</strong> \(\mu\) = inventario medio por día con el sistema nuevo.</li>
+  </ul>
+
+  <span class="paso">Paso 2 &mdash; Media y desvío de la muestra</span>
+  <p>
+    Esta vez el enunciado no da \(\bar{x}\) ni \(S\): da los 8 datos. Hay que calcularlos primero. Las
+    fórmulas:
+  </p>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Media y desvío estándar de la muestra</span>
+    <p>\[ \bar{x} = \frac{\sum x_i}{n} \qquad S = \sqrt{\frac{\sum (x_i - \bar{x})^2}{n - 1}} \]</p>
+  </div>
+  <ul>
+    <li>\(\sum x_i = 2905 + 2725 + 2835 + 3065 + 2895 + 3005 + 2835 + 2605 = 22870\)</li>
+    <li>\(\bar{x} = \dfrac{22870}{8} = 2858{,}75\)</li>
+    <li>\(\sum (x_i - \bar{x})^2 = 150787{,}5\) (cada dato menos 2858,75, al cuadrado, y se suman los 8)</li>
+    <li>\(S = \sqrt{\dfrac{150787{,}5}{8 - 1}} = \sqrt{21541{,}0714} = 146{,}7688\)</li>
+  </ul>
+  <p>
+    Se divide por \(n - 1\) y no por \(n\) porque \(S\) es el desvío <em>de una muestra</em> que se usa
+    para estimar el de la población.
+  </p>
+  <div class="caja caja-calc">
+    <span class="caja-tit">En la calculadora (Casio fx-991ES PLUS)</span>
+    <ul>
+      <li><code>MODE</code> <code>3</code> (STAT) <code>1</code> (1-VAR).</li>
+      <li>Cargar cada dato seguido de <code>=</code>: <code>2905 =</code> <code>2725 =</code> &hellip; <code>2605 =</code>. Después <code>AC</code>.</li>
+      <li>Media: <code>SHIFT</code> <code>1</code> (STAT) <code>4</code> (Var) <code>2</code> (\(\bar{x}\)) <code>=</code> &rarr; 2858,75.</li>
+      <li>Desvío: <code>SHIFT</code> <code>1</code> <code>4</code> <code>4</code> (\(sx\)) <code>=</code> &rarr; 146,7687686&hellip;</li>
+    </ul>
+    <p>
+      <strong>No usar \(\sigma x\)</strong> (opción 3), que da 137,29: divide por \(n\) en lugar de
+      \(n - 1\).
+    </p>
+  </div>
+
+  <span class="paso">Paso 3 &mdash; Desarme del enunciado</span>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"reducir el mismo a menos de 3000 motores por día"</td><td>el propósito: lo que se quiere probar</td><td>&mdash;</td><td>\(\mu_0 = 3000\); \(H_1: \mu &lt; 3000\)</td></tr>
+      <tr><td>"cada uno de los ocho días"</td><td>tamaño de la muestra: chica</td><td>\(\nu = 8 - 1 = 7\)</td><td>\(n = 8\)</td></tr>
+      <tr><td>la tabla de motores</td><td>los datos: de ahí salen la media y \(S\)</td><td>calculadora</td><td>\(\bar{x} = 2858{,}75\); \(S = 146{,}7688\)</td></tr>
+      <tr><td>(no dice la significancia)</td><td>se usa la de siempre</td><td>&mdash;</td><td>\(\alpha = 0{,}05\)</td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Paso 4 &mdash; Hipótesis</span>
+  <p>
+    "Se cumplió el propósito" quiere decir que el inventario medio es <strong>menos de 3000</strong>.
+    Es lo que hay que probar: va en \(H_1\).
+  </p>
+  <p>\[ H_0: \mu = 3000 \qquad H_1: \mu &lt; 3000 \]</p>
+  <p>Prueba <strong>unilateral izquierda</strong>.</p>
+
+  <span class="paso">Paso 5 &mdash; ¿\(Z\) o \(t\)?</span>
+  <p>
+    \(\sigma\) desconocida (\(S\) salió de los 8 días) y \(n = 8 &lt; 30\) &rarr; <strong>\(t\) de
+    Student con \(\nu = 7\)</strong>.
+  </p>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Lo que el enunciado no dice</span>
+    <p>
+      La \(t\) pide que la población sea normal, y este enunciado no lo dice; tampoco da el nivel de
+      significancia. Hay que <strong>suponer</strong> las dos cosas y escribirlo en la hoja: "suponiendo
+      que el inventario diario es normal, con \(\alpha = 0{,}05\)". Es lo mismo que hace la resolución de
+      la cátedra.
+    </p>
+  </div>
+
+  <span class="paso">Paso 6 &mdash; El estadístico de prueba</span>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Estadístico para \(\mu\) con \(n &lt; 30\) y \(\sigma\) desconocida</span>
+    <p>\[ t = \frac{\bar{x} - \mu_0}{S/\sqrt{n}} \qquad \nu = n - 1 \]</p>
+  </div>
+  <p>Error estándar:</p>
+  <p>\[ \frac{S}{\sqrt{n}} = \frac{146{,}7688}{\sqrt{8}} = \frac{146{,}7688}{2{,}8284} = 51{,}8906 \]</p>
+  <p>Reemplazamos:</p>
+  <p>\[ t = \frac{2858{,}75 - 3000}{51{,}8906} = \frac{-141{,}25}{51{,}8906} = \mathbf{-2{,}7221} \]</p>
+
+  <span class="paso">Paso 7 &mdash; Valor crítico y región de rechazo</span>
+  <p>Tabla A.4, fila \(\nu = 7\), columna \(0{,}05\) (una sola cola):</p>
+  <p>\[ t_{(0{,}05;\ 7)} = 1{,}895 \]</p>
+  <p>Como la prueba es a la izquierda, va con signo menos:</p>
+  <p>\[ \text{Región de rechazo: } t &lt; -t_\alpha \quad\Rightarrow\quad t &lt; -1{,}895 \]</p>
+
+  <div class="pd-grafico" data-g="u9p-ej5">
+    <svg viewBox="0 0 620 255" role="img" aria-label="Campana t de Student con 7 grados de libertad; región de rechazo en cola izquierda desde −1,895; el estadístico t = −2,7221 marcado sobre el eje">
+  <defs><clipPath id="c-u9p-ej5"><rect x="40" y="0" width="142.1" height="205"/></clipPath></defs>
+  <path class="campana" d="M 40,205 L 40.0,203.7 L 45.6,203.5 L 51.2,203.3 L 56.9,203.1 L 62.5,202.9 L 68.1,202.6 L 73.8,202.3 L 79.4,201.9 L 85.0,201.5 L 90.6,201.1 L 96.2,200.6 L 101.9,200.0 L 107.5,199.3 L 113.1,198.6 L 118.8,197.7 L 124.4,196.7 L 130.0,195.6 L 135.6,194.4 L 141.2,192.9 L 146.9,191.3 L 152.5,189.5 L 158.1,187.4 L 163.7,185.1 L 169.4,182.5 L 175.0,179.6 L 180.6,176.3 L 186.2,172.7 L 191.9,168.7 L 197.5,164.3 L 203.1,159.4 L 208.8,154.2 L 214.4,148.5 L 220.0,142.3 L 225.6,135.8 L 231.2,128.9 L 236.9,121.6 L 242.5,114.1 L 248.1,106.5 L 253.8,98.8 L 259.4,91.2 L 265.0,83.8 L 270.6,76.8 L 276.2,70.3 L 281.9,64.5 L 287.5,59.5 L 293.1,55.4 L 298.8,52.4 L 304.4,50.6 L 310.0,50.0 L 315.6,50.6 L 321.2,52.4 L 326.9,55.4 L 332.5,59.5 L 338.1,64.5 L 343.8,70.3 L 349.4,76.8 L 355.0,83.8 L 360.6,91.2 L 366.2,98.8 L 371.9,106.5 L 377.5,114.1 L 383.1,121.6 L 388.8,128.9 L 394.4,135.8 L 400.0,142.3 L 405.6,148.5 L 411.2,154.2 L 416.9,159.4 L 422.5,164.3 L 428.1,168.7 L 433.8,172.7 L 439.4,176.3 L 445.0,179.6 L 450.6,182.5 L 456.2,185.1 L 461.9,187.4 L 467.5,189.5 L 473.1,191.3 L 478.8,192.9 L 484.4,194.4 L 490.0,195.6 L 495.6,196.7 L 501.2,197.7 L 506.9,198.6 L 512.5,199.3 L 518.1,200.0 L 523.8,200.6 L 529.4,201.1 L 535.0,201.5 L 540.6,201.9 L 546.2,202.3 L 551.9,202.6 L 557.5,202.9 L 563.1,203.1 L 568.8,203.3 L 574.4,203.5 L 580.0,203.7 L 580,205 Z"/>
+  <path class="area" clip-path="url(#c-u9p-ej5)" d="M 40,205 L 40.0,203.7 L 45.6,203.5 L 51.2,203.3 L 56.9,203.1 L 62.5,202.9 L 68.1,202.6 L 73.8,202.3 L 79.4,201.9 L 85.0,201.5 L 90.6,201.1 L 96.2,200.6 L 101.9,200.0 L 107.5,199.3 L 113.1,198.6 L 118.8,197.7 L 124.4,196.7 L 130.0,195.6 L 135.6,194.4 L 141.2,192.9 L 146.9,191.3 L 152.5,189.5 L 158.1,187.4 L 163.7,185.1 L 169.4,182.5 L 175.0,179.6 L 180.6,176.3 L 186.2,172.7 L 191.9,168.7 L 197.5,164.3 L 203.1,159.4 L 208.8,154.2 L 214.4,148.5 L 220.0,142.3 L 225.6,135.8 L 231.2,128.9 L 236.9,121.6 L 242.5,114.1 L 248.1,106.5 L 253.8,98.8 L 259.4,91.2 L 265.0,83.8 L 270.6,76.8 L 276.2,70.3 L 281.9,64.5 L 287.5,59.5 L 293.1,55.4 L 298.8,52.4 L 304.4,50.6 L 310.0,50.0 L 315.6,50.6 L 321.2,52.4 L 326.9,55.4 L 332.5,59.5 L 338.1,64.5 L 343.8,70.3 L 349.4,76.8 L 355.0,83.8 L 360.6,91.2 L 366.2,98.8 L 371.9,106.5 L 377.5,114.1 L 383.1,121.6 L 388.8,128.9 L 394.4,135.8 L 400.0,142.3 L 405.6,148.5 L 411.2,154.2 L 416.9,159.4 L 422.5,164.3 L 428.1,168.7 L 433.8,172.7 L 439.4,176.3 L 445.0,179.6 L 450.6,182.5 L 456.2,185.1 L 461.9,187.4 L 467.5,189.5 L 473.1,191.3 L 478.8,192.9 L 484.4,194.4 L 490.0,195.6 L 495.6,196.7 L 501.2,197.7 L 506.9,198.6 L 512.5,199.3 L 518.1,200.0 L 523.8,200.6 L 529.4,201.1 L 535.0,201.5 L 540.6,201.9 L 546.2,202.3 L 551.9,202.6 L 557.5,202.9 L 563.1,203.1 L 568.8,203.3 L 574.4,203.5 L 580.0,203.7 L 580,205 Z"/>
+  <line class="eje" x1="30" y1="205" x2="595" y2="205"/>
+  <line class="guia" x1="310" y1="50" x2="310" y2="205"/>
+  <text class="rotulo" x="310" y="228" text-anchor="middle">0</text>
+  <line class="corte" x1="182.1" y1="175.4" x2="182.1" y2="205"/>
+  <text class="rotulo" x="182.1" y="228" text-anchor="middle">−1,895</text>
+  <text class="valor" x="120.1" y="168" text-anchor="middle">rechazo</text>
+  <text class="rotulo" x="120.1" y="148" text-anchor="middle">área 0,05</text>
+  <text class="rotulo" x="381.0" y="28" text-anchor="middle">zona de no rechazo de H₀</text>
+  <circle class="punto" cx="126.3" cy="205" r="5"/>
+  <text class="rotulo" x="126.3" y="246" text-anchor="middle">t = −2,7221</text>
+</svg>
+    <p class="pd-pie">Campana \(t\) con 7 grados de libertad: el \(t\) de la muestra cae en la región de rechazo.</p>
+  </div>
+
+  <span class="paso">Paso 8 &mdash; Decisión</span>
+  <p>\[ t = -2{,}7221 &lt; -1{,}895 \;\Longrightarrow\; \text{se rechaza } H_0 \]</p>
+
+  <span class="paso">Paso 9 &mdash; Valor \(p\)</span>
+  <p>
+    En cola izquierda, \(p = P(T &lt; t)\). La \(t\) es simétrica, así que el área a la izquierda de
+    \(-2{,}7221\) es igual al área a la derecha de \(+2{,}7221\), que es lo que da la tabla. En la fila
+    \(\nu = 7\):
+  </p>
+  <ul>
+    <li>\(t_{(0{,}015;\ 7)} = 2{,}715\) deja 0,015 a la derecha.</li>
+    <li>\(t_{(0{,}01;\ 7)} = 2{,}998\) deja 0,01 a la derecha.</li>
+    <li>2,7221 cae entre los dos, así que su área está entre 0,01 y 0,015.</li>
+  </ul>
+  <p>\[ 0{,}01 &lt; p &lt; 0{,}015 \qquad p &lt; 0{,}05 = \alpha \;\Longrightarrow\; \text{se rechaza } H_0 \]</p>
+  <p>
+    <strong>Ojo:</strong> si hubieran pedido \(\alpha = 0{,}01\), el valor \(p\) (mayor que 0,01) no
+    alcanzaría y <em>no</em> se rechazaría. Por eso el nivel de significancia hay que escribirlo siempre.
+  </p>
+
+  <span class="paso">Paso 10 &mdash; Conclusión en contexto</span>
+  <p>
+    Con \(\alpha = 0{,}05\), hay evidencia suficiente de que el inventario medio diario bajó de 3000
+    motores: <strong>se cumplió el propósito</strong> del sistema nuevo.
+  </p>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>
+      \(\bar{x} = 2858{,}75\); \(S = 146{,}7688\). \(H_0: \mu = 3000\) vs \(H_1: \mu &lt; 3000\);
+      \(t = -2{,}7221\) con 7 grados de libertad, menor que \(-1{,}895\); \(0{,}01 &lt; p &lt; 0{,}015\).
+      <strong>Se rechaza \(H_0\):</strong> sí, hay evidencia de que se cumplió el propósito.
+    </p>
+    <p>
+      <strong>Resolución 2025 de la cátedra (R):</strong> \(H_0: \mu = 3000\) vs \(H_1: \mu &lt; 3000\),
+      \(\alpha = 0{,}05\), \(t\) de Student; \(\bar{x} = 2858{,}75\), \(s = 146{,}77\), \(t = -2{,}722\)
+      con 7 gl, valor \(p = 0{,}0148\), rechaza \(H_0\). Coincide (0,0148 cae entre 0,01 y 0,015).
+    </p>
+  </div>
+</div>

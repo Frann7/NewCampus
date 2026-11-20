@@ -23,9 +23,11 @@
 //
 // Actualizaciones:
 //   Si la carpeta es un repositorio de git (se bajo con git clone) y hay
-//   internet, al abrir se fija si hay commits nuevos en GitHub. Si los hay,
-//   pregunta con un cartel que lista los cambios; con "Si" hace git pull y,
-//   si la actualizacion trae un NewCampus.exe nuevo, abre ese y se cierra.
+//   internet, con el campus ya abierto (para no demorar el arranque) se fija
+//   en segundo plano si hay commits nuevos en GitHub. Si los hay, pregunta
+//   con un cartel que lista los cambios; con "Si" hace git pull y avisa que
+//   se recargue la pagina. Si la actualizacion trae un NewCampus.exe nuevo,
+//   este se cierra y abre ese, sin abrir otra pestania (la pagina sigue).
 //   Windows no deja reemplazar un .exe mientras corre, pero si renombrarlo:
 //   antes del pull este .exe se renombra a NewCampus.exe.viejo y deja una
 //   copia igual con su nombre, asi git lo reemplaza sin trabas. Si el pull
@@ -128,13 +130,10 @@ static class NewCampus
             return 0;
         }
 
-        // Actualizaciones: antes de levantar nada, y solo si no hay otro
-        // NewCampus abierto (ese es el que manda).
-        if (Array.IndexOf(args, "--sin-actualizar") < 0 && BuscarAbierto() == null)
-        {
-            pruebaInternet.Join(5000);
-            if (hayInternet && Actualizar(args)) { return 0; }   // se abrio la version nueva
-        }
+        // Si una actualizacion reinicio NewCampus, la pagina ya esta abierta:
+        // no se abre otra pestania, salvo que el puerto haya cambiado.
+        string origenAnterior = null;
+        foreach (string a in args) { if (a.StartsWith("--origen-anterior=")) { origenAnterior = a.Substring(18); } }
 
         // Los apuntes generados tienen que estar completos: el indice y cada
         // pieza que nombra. Si falta algo (una actualizacion a medias, un
@@ -180,6 +179,7 @@ static class NewCampus
 
             // El navegador se abre antes de esperar la prueba de internet: si
             // falta algo, el cartel sale igual, con el campus ya abierto.
+            if (origenAnterior == origen) { abrirNavegador = false; }
             bool abrio = abrirNavegador && Abrir(origen + "/");
             pruebaInternet.Join(5000);
             var faltan = Faltantes(hayInternet, origen, true);
@@ -197,16 +197,51 @@ static class NewCampus
                 string actualizado = null;
                 foreach (string a in args) { if (a.StartsWith("--actualizado=")) { actualizado = a.Substring(14); } }
                 if (actualizado != null) { avisoActualizado = actualizado; }
-                if (avisoActualizado != null)
+                if (avisoActualizado != null) { AvisarActualizado(avisoActualizado); }
+
+                // Actualizaciones: con el campus ya abierto, para no demorar
+                // el arranque (git fetch puede tardar con internet lenta).
+                if (Array.IndexOf(args, "--sin-actualizar") < 0)
                 {
-                    icono.ShowBalloonTip(6000, TITULO, "NewCampus se actualiz\u00f3: " + avisoActualizado + ".", ToolTipIcon.Info);
+                    new Thread(() =>
+                    {
+                        pruebaInternet.Join(5000);
+                        if (hayInternet) { Actualizar(args); }
+                    }) { IsBackground = true }.Start();
                 }
+
                 Application.Run();
                 icono.Visible = false;
             }
             servidor.Close();
         }
+
+        // La actualizacion trajo un NewCampus.exe nuevo: se abre ahora que
+        // este solto el puerto y el candado (si no, el nuevo creeria que ya
+        // hay uno abierto y se cerraria).
+        if (reiniciarCon != null)
+        {
+            try
+            {
+                Process.Start(new ProcessStartInfo(Application.ExecutablePath, reiniciarCon)
+                {
+                    UseShellExecute = false,
+                    WorkingDirectory = Path.GetDirectoryName(Application.ExecutablePath)
+                });
+            }
+            catch
+            {
+                AvisoArriba("NewCampus se actualiz\u00f3, pero no se pudo abrir la versi\u00f3n nueva. Abrilo de nuevo con doble clic.",
+                            MessageBoxIcon.Warning);
+            }
+        }
         return 0;
+    }
+
+    static void AvisarActualizado(string resumen)
+    {
+        icono.ShowBalloonTip(8000, TITULO, "NewCampus se actualiz\u00f3: " + resumen +
+                             ". Recarg\u00e1 la p\u00e1gina (F5) para ver lo nuevo.", ToolTipIcon.Info);
     }
 
     /* ---------------- actualizaciones ----------------
@@ -214,7 +249,11 @@ static class NewCampus
        sin ventana, sin pedir nada por consola y con tiempo maximo. */
 
     static string avisoActualizado;   // para el globito del icono al terminar
+    static string reiniciarCon;       // argumentos de la version nueva a abrir al salir
+    static volatile bool actualizando; // mientras dura el pull no se apaga por falta de latidos
 
+    // Corre en segundo plano con el campus ya abierto. Devuelve true si va a
+    // reiniciar con un NewCampus.exe nuevo.
     static bool Actualizar(string[] args)
     {
         string raiz = Path.GetFullPath(AppDomain.CurrentDomain.BaseDirectory).TrimEnd('\\');
@@ -234,12 +273,23 @@ static class NewCampus
                        (nuevas > 8 ? "\n(y " + (nuevas - 8) + " m\u00e1s)" : "") +
                        "\n\n\u00bfQuer\u00e9s actualizar ahora? Tus datos (calendario, autoevaluaciones, la ruta...) no se tocan.";
         bool sinPreguntar = Array.IndexOf(args, "--actualizar-sin-preguntar") >= 0;   // solo para pruebas
+        // DefaultDesktopOnly: el cartel sale adelante del navegador, que es
+        // donde esta mirando el usuario (si no, quedaria escondido atras).
         if (!sinPreguntar &&
-            MessageBox.Show(texto, TITULO + " - actualizaci\u00f3n", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
+            MessageBox.Show(texto, TITULO + " - actualizaci\u00f3n", MessageBoxButtons.YesNo, MessageBoxIcon.Question,
+                            MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly) != DialogResult.Yes)
         {
             return false;
         }
 
+        actualizando = true;
+        try { return Aplicar(args, raiz, nuevas); }
+        finally { actualizando = false; }
+    }
+
+    static bool Aplicar(string[] args, string raiz, int nuevas)
+    {
+        int c;
         // Si la actualizacion trae un NewCampus.exe nuevo, este (que esta
         // corriendo) se corre de lugar y deja una copia igual con su nombre.
         string exe = Application.ExecutablePath;
@@ -259,8 +309,8 @@ static class NewCampus
             catch
             {
                 if (movido && !File.Exists(exe)) { try { File.Move(viejo, exe); } catch { } }
-                Aviso("No se pudo preparar la actualizaci\u00f3n (no se pudo mover NewCampus.exe). " +
-                      "Se abre la versi\u00f3n que ten\u00e9s.", MessageBoxIcon.Warning);
+                AvisoArriba("No se pudo preparar la actualizaci\u00f3n (no se pudo mover NewCampus.exe). " +
+                            "Segu\u00eds con la versi\u00f3n que ten\u00e9s.", MessageBoxIcon.Warning);
                 return false;
             }
         }
@@ -275,42 +325,34 @@ static class NewCampus
             if (movido) { try { File.Delete(exe); File.Move(viejo, exe); } catch { } }
             string detalle = (salida ?? "no respondi\u00f3 a tiempo").Trim();
             if (detalle.Length > 600) { detalle = detalle.Substring(0, 600) + "..."; }
-            Aviso("No se pudo actualizar NewCampus. Se abre la versi\u00f3n que ten\u00e9s.\n\n" +
-                  "Lo m\u00e1s com\u00fan: hay archivos del campus cambiados a mano en esta carpeta. " +
-                  "Lo que dijo git:\n\n" + detalle, MessageBoxIcon.Warning);
+            AvisoArriba("No se pudo actualizar NewCampus. Segu\u00eds con la versi\u00f3n que ten\u00e9s.\n\n" +
+                        "Lo m\u00e1s com\u00fan: hay archivos del campus cambiados a mano en esta carpeta. " +
+                        "Lo que dijo git:\n\n" + detalle, MessageBoxIcon.Warning);
             return false;
         }
 
         string resumen = nuevas == 1 ? "1 cambio nuevo" : nuevas + " cambios nuevos";
         if (!tocaExe)
         {
-            // el .exe es el mismo: se sigue abriendo este, ya con los apuntes nuevos
-            avisoActualizado = resumen;
+            // el .exe es el mismo: este sigue sirviendo, ya con los apuntes nuevos
+            AvisarActualizado(resumen);
             return false;
         }
 
-        // Abrir la version nueva (con los mismos argumentos) y cerrar esta.
+        // Cerrar esta y abrir la version nueva (con los mismos argumentos);
+        // el arranque lo hace Main al salir, ya sin puerto ni candado.
         var nuevos = new List<string>();
         foreach (string a in args)
         {
-            if (a != "--actualizar-sin-preguntar" && !a.StartsWith("--actualizado=")) { nuevos.Add(Comillas(a)); }
+            if (a != "--actualizar-sin-preguntar" && !a.StartsWith("--actualizado=") &&
+                !a.StartsWith("--origen-anterior=")) { nuevos.Add(Comillas(a)); }
         }
         nuevos.Add("--sin-actualizar");
         nuevos.Add(Comillas("--actualizado=" + resumen));
-        try
-        {
-            Process.Start(new ProcessStartInfo(exe, string.Join(" ", nuevos.ToArray()))
-            {
-                UseShellExecute = false, WorkingDirectory = raiz
-            });
-            return true;
-        }
-        catch
-        {
-            Aviso("NewCampus se actualiz\u00f3, pero no se pudo abrir la versi\u00f3n nueva. Abrilo de nuevo con doble clic.",
-                  MessageBoxIcon.Warning);
-            return true;
-        }
+        nuevos.Add("--origen-anterior=" + origen);
+        reiniciarCon = string.Join(" ", nuevos.ToArray());
+        Salir();
+        return true;
     }
 
     static string Comillas(string a) { return a.IndexOf(' ') >= 0 ? "\"" + a + "\"" : a; }
@@ -582,7 +624,7 @@ static class NewCampus
             (adios != DateTime.MinValue && ultimoLatido < adios &&
              (ahora - adios).TotalSeconds > TRAS_ADIOS);
 
-        if (cerrar) { Salir(); }
+        if (cerrar && !actualizando) { Salir(); }
     }
 
     static void Salir()
@@ -829,5 +871,12 @@ static class NewCampus
     static void Aviso(string texto, MessageBoxIcon icono)
     {
         MessageBox.Show(texto, TITULO, MessageBoxButtons.OK, icono);
+    }
+
+    // Para los carteles que salen con el campus ya abierto: adelante del navegador.
+    static void AvisoArriba(string texto, MessageBoxIcon icono)
+    {
+        MessageBox.Show(texto, TITULO, MessageBoxButtons.OK, icono,
+                        MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
     }
 }

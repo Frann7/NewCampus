@@ -28,134 +28,78 @@
     <details class="parcial-desp pd-resultados">
       <summary>
         <span class="pd-icono">&#10003;</span>
-        <span class="pd-txt"><b>Resultados</b><small>Solo las respuestas, sin procedimiento</small></span>
+        <span class="pd-txt"><b>Resultados</b><small>Lo que va en la hoja, inciso por inciso</small></span>
       </summary>
       <div class="pd-cuerpo">
-        <div class="tabla-wrap">
-          <table class="t full">
-            <tr><th>Inciso</th><th>\(z\)</th><th>Resultado</th></tr>
-            <tr><td class="lbl">a) Entre 175 y 225 ms</td><td>\(z_1 = -1{,}00;\ z_2 = 1{,}00\)</td><td>\(0{,}8413 - 0{,}1587 = \mathbf{0{,}6826}\)</td></tr>
-            <tr><td class="lbl">b) El 20&nbsp;% más rápido</td><td>\(z = -0{,}84\)</td><td>\(x = 200 - 0{,}84(25) = \mathbf{179}\) ms</td></tr>
-            <tr><td class="lbl">c) \(\sigma = 35\) ms</td><td>&mdash;</td><td>Misma media, campana más baja y más ancha (área 1). Más variabilidad: el sistema es menos estable y predecible; \(P(175 &lt; X &lt; 225)\) baja a 0,5222.</td></tr>
-          </table>
-        </div>
+        <p><strong>Planteo:</strong> \(X\): tiempo de respuesta de una consulta a la API, en ms &rarr; v.a. continua &middot; \(X \sim N(\mu = 200;\ \sigma = 25)\)</p>
+
+        <span class="paso">a)</span>
+        <p>\[ z_1 = \frac{x_1 - \mu}{\sigma} = \frac{175 - 200}{25} = -1{,}00 \qquad z_2 = \frac{x_2 - \mu}{\sigma} = \frac{225 - 200}{25} = 1{,}00 \]</p>
+        <p>\[ P(175 &lt; X &lt; 225) = P(-1{,}00 &lt; Z &lt; 1{,}00) = F(1{,}00) - F(-1{,}00) = 0{,}8413 - 0{,}1587 = 0{,}6826 \]</p>
+        <p><strong>Rta.:</strong> La probabilidad de que una consulta tenga un tiempo de respuesta entre 175 y 225 ms es 0,6826 (68,26&nbsp;%).</p>
+
+        <span class="paso">b)</span>
+        <p>\[ P(X &lt; x) = 0{,}20 \;\Rightarrow\; F(z) = 0{,}20 \;\Rightarrow\; z = -0{,}84 \quad (F(-0{,}84) = 0{,}2005) \]</p>
+        <p>\[ z = \frac{x - \mu}{\sigma} \;\Rightarrow\; x = \mu + z \cdot \sigma = 200 + (-0{,}84) \cdot 25 = 179 \text{ ms} \]</p>
+        <p><strong>Rta.:</strong> El 20&nbsp;% de las consultas más rápidas tiene un tiempo de respuesta por debajo de 179 ms.</p>
+
+        <span class="paso">c)</span>
+        <p>Con \(X \sim N(\mu = 200;\ \sigma = 35)\):</p>
+        <p>\[ z = \frac{225 - 200}{35} = 0{,}71 \qquad P(175 &lt; X &lt; 225) = F(0{,}71) - F(-0{,}71) = 0{,}7611 - 0{,}2389 = 0{,}5222 \]</p>
+        <p>
+          <strong>Rta.:</strong> La campana sigue centrada en 200 ms y sigue siendo simétrica, pero se vuelve
+          <strong>más baja y más ancha</strong> (su altura máxima, \(\frac{1}{\sigma\sqrt{2\pi}}\), baja de
+          0,0160 a 0,0114, y el área total sigue valiendo 1): los tiempos se alejan más de la media. Para el
+          sistema, el tiempo promedio es el mismo, pero es <strong>menos estable y menos predecible</strong>:
+          hay más consultas muy lentas (y muy rápidas), y la proporción entre 175 y 225 ms baja de 68,26&nbsp;%
+          a 52,22&nbsp;%. Es más difícil garantizar un tiempo máximo de respuesta.
+        </p>
       </div>
     </details>
 
     <details class="parcial-desp pd-explicacion">
       <summary>
         <span class="pd-icono">&#9998;</span>
-        <span class="pd-txt"><b>Explicación detallada</b><small>Desde cero: teoría, desarme del enunciado, resolución y comparación con la guía</small></span>
+        <span class="pd-txt"><b>Explicación detallada</b><small>Tema, desarme del enunciado, resolución y trampas</small></span>
       </summary>
       <div class="pd-cuerpo">
 
-        <div class="caja caja-ejemplo">
-          <span class="caja-tit">El enunciado, otra vez</span>
-          <p>
-            El tiempo de respuesta es normal con \(\mu = 200\) ms y \(\sigma = 25\) ms. El inciso a es
-            <em>directo</em> (te dan los valores, pedís la probabilidad), el b es <em>inverso</em> (te
-            dan el porcentaje, pedís el valor) y el c es conceptual: qué le pasa a la campana si
-            \(\sigma\) crece.
-          </p>
-        </div>
-
         <h4>¿De qué tema es?</h4>
         <p>
-          <strong>Unidad 6</strong>, distribución Normal y uso de la tabla \(Z\). Es el mismo bloque
-          que aparece en todos los exámenes cargados, con una vuelta de tuerca en el inciso b (el
-          porcentaje es el de <strong>abajo</strong>) y un inciso teórico sobre el papel de \(\sigma\).
+          <strong>Unidad 6</strong>: la Normal y la tabla \(Z\), con un problema directo, uno inverso y uno
+          teórico sobre \(\sigma\). Teoría: Unidad 6, secciones 3, 4 y 11.
         </p>
-
-        <h4>Los conceptos que hacen falta, desde cero</h4>
-
         <div class="caja caja-formula">
-          <span class="caja-tit">1. La Normal y sus dos parámetros</span>
-          <p>
-            La Normal es la curva en forma de campana, simétrica alrededor de la media. Queda
-            definida por dos números:
-          </p>
-          <ul>
-            <li>\(\mu\) (media): dónde está el <strong>centro</strong> de la campana.</li>
-            <li>
-              \(\sigma\) (desvío o desviación típica): qué tan <strong>abierta</strong> está. Cuanto
-              más grande, más desparramados los valores alrededor de la media.
-            </li>
-          </ul>
-          <p>
-            Es una variable continua: la probabilidad es <strong>área bajo la curva</strong>, el
-            área total vale 1, y \(P(X = a) = 0\), así que da lo mismo \(&lt;\) que \(\leq\).
-          </p>
-        </div>
-
-        <div class="caja caja-formula">
-          <span class="caja-tit">2. Estandarizar: pasar todo a la normal estándar \(Z\)</span>
-          <p>
-            No se puede tabular una campana para cada par \((\mu, \sigma)\). Se traduce cualquier
-            normal a una sola, \(Z\), con media 0 y desvío 1:
-          </p>
-          <p>\[ z = \frac{x - \mu}{\sigma} \qquad \text{y de vuelta} \qquad x = \mu + z \cdot \sigma \]</p>
-          <p>
-            \(z\) dice <strong>a cuántos desvíos de la media</strong> está el valor. Mini-ejemplo:
-            con \(\mu = 50\) y \(\sigma = 10\), el valor 65 tiene \(z = \frac{65 - 50}{10} = 1{,}5\):
-            está un desvío y medio por encima.
-          </p>
-        </div>
-
-        <div class="caja caja-formula">
-          <span class="caja-tit">3. Cómo se lee la tabla \(Z\)</span>
-          <p>
-            La tabla da el <strong>área a la IZQUIERDA</strong> de \(z\). Se entra con \(z\)
-            redondeado a <strong>2 decimales</strong>: la fila trae el entero y el primer decimal, la
-            columna el segundo decimal.
-          </p>
-          <p>\[ F(z) = P(Z &lt; z) \qquad P(Z &gt; z) = 1 - F(z) \qquad P(z_1 &lt; Z &lt; z_2) = F(z_2) - F(z_1) \]</p>
-          <p>
-            Control de signos: si \(z\) es negativo, \(F(z) &lt; 0{,}5\); si es positivo,
-            \(F(z) &gt; 0{,}5\). Mini-ejemplo: \(F(1{,}20) = 0{,}8849\) y \(F(-0{,}50) = 0{,}3085\).
-          </p>
-        </div>
-
-        <div class="caja caja-formula">
-          <span class="caja-tit">4. El problema inverso</span>
-          <p>
-            Es el camino al revés: te dan un <strong>área</strong> y piden el <strong>valor</strong>.
-          </p>
-          <ol>
-            <li>Pasar el porcentaje a <strong>área a la izquierda</strong> (dibujar la campana ayuda).</li>
-            <li>Buscar esa área <strong>en el cuerpo</strong> de la tabla; si no está exacta, tomar la <strong>más cercana</strong>.</li>
-            <li>Leer el \(z\) en el margen (fila + columna).</li>
-            <li>Despejar \(x = \mu + z \cdot \sigma\).</li>
-          </ol>
-          <p>
-            Mini-ejemplo: ¿por debajo de qué \(z\) queda el 50&nbsp;%? El área 0,5000 está en
-            \(z = 0{,}00\): la media.
-          </p>
+          <span class="caja-tit">La fórmula que se usa</span>
+          <p>\[ z = \frac{x - \mu}{\sigma} \qquad x = \mu + z \cdot \sigma \qquad F(z) = P(Z &lt; z) \]</p>
+          <div class="tabla-wrap">
+            <table class="t full">
+              <tr><th>Letra</th><th>Qué es</th></tr>
+              <tr><td>\(z\)</td><td>a cuántos desvíos de la media está \(x\)</td></tr>
+              <tr><td>\(F(z)\)</td><td>lo que da la tabla: el área a la <strong>izquierda</strong> de \(z\)</td></tr>
+            </table>
+          </div>
         </div>
 
         <h4>Desarme del enunciado</h4>
         <div class="tabla-wrap">
           <table class="t full">
-            <tr><th>Frase del enunciado</th><th>Qué significa</th><th>A dónde va</th></tr>
-            <tr><td>&ldquo;media \(\mu = 200\) ms&rdquo;</td><td>el centro de la campana</td><td>\(\mu = 200\)</td></tr>
-            <tr><td>&ldquo;desviación típica \(\sigma = 25\) ms&rdquo;</td><td>ya es el desvío, no la varianza</td><td>\(\sigma = 25\)</td></tr>
-            <tr><td>&ldquo;entre 175 ms y 225 ms&rdquo;</td><td>tramo del medio: dos extremos</td><td>\(F(z_2) - F(z_1)\)</td></tr>
-            <tr><td>&ldquo;el 20&nbsp;% de las consultas <strong>más rápidas</strong>&rdquo;</td><td>más rápida = <strong>menos</strong> tiempo: cola de ABAJO</td><td>área 0,20 a la izquierda</td></tr>
-            <tr><td>&ldquo;la desviación típica aumenta a 35 ms, manteniendo la misma media&rdquo;</td><td>mismo centro, más dispersión</td><td>comparar campanas con \(\sigma = 25\) y \(\sigma = 35\)</td></tr>
+            <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+            <tr><td>&ldquo;media 200 ms, desviación típica 25 ms&rdquo;</td><td>centro y ancho de la campana</td><td>&mdash;</td><td>\(\mu = 200\), \(\sigma = 25\)</td></tr>
+            <tr><td>&ldquo;entre 175 y 225 ms&rdquo;</td><td>tramo del medio</td><td>dos \(z\)</td><td>\(F(z_2) - F(z_1)\)</td></tr>
+            <tr><td>&ldquo;el 20&nbsp;% de las <strong>más rápidas</strong>&rdquo;</td><td>más rápida = menos tiempo: cola de abajo</td><td>área 0,20 a la izquierda</td><td>\(F(z) = 0{,}20\)</td></tr>
+            <tr><td>&ldquo;la desviación aumenta a 35, misma media&rdquo;</td><td>mismo centro, más dispersión</td><td>\(z = \frac{25}{35}\)</td><td>comparar las dos campanas</td></tr>
           </table>
         </div>
 
         <span class="paso">Inciso a &mdash; Entre 175 y 225 ms</span>
-        <p>Hay dos extremos: se estandarizan los dos. Fórmula:</p>
-        <p>\[ z = \frac{x - \mu}{\sigma} \]</p>
-        <p>\[ z_1 = \frac{175 - 200}{25} = \frac{-25}{25} = -1{,}00 \qquad z_2 = \frac{225 - 200}{25} = \frac{25}{25} = 1{,}00 \]</p>
-        <p>Fórmula del área entre dos valores:</p>
-        <p>\[ P(x_1 &lt; X &lt; x_2) = F(z_2) - F(z_1) \]</p>
+        <p>\[ z_1 = \frac{175 - 200}{25} = -1{,}00 \qquad z_2 = \frac{225 - 200}{25} = 1{,}00 \]</p>
+        <p>\[ P(175 &lt; X &lt; 225) = F(1{,}00) - F(-1{,}00) = 0{,}8413 - 0{,}1587 = 0{,}6826 \]</p>
         <p>
-          De la tabla: \(F(1{,}00) = 0{,}8413\). Para el negativo, fila \(-1{,}0\) columna 0,00 (o por
-          simetría, \(F(-1) = 1 - F(1)\)): \(F(-1{,}00) = 0{,}1587\).
+          Hay dos extremos, así que se estandarizan los dos y se resta: el área hasta 225 menos el área hasta
+          175 deja el tramo del medio. Tabla: fila 1,0 y fila \(-1{,}0\), columna 0,00. Como 175 y 225 son
+          \(\mu \pm \sigma\), da el 68&nbsp;% de siempre.
         </p>
-        <p>\[ P(175 &lt; X &lt; 225) = 0{,}8413 - 0{,}1587 = \mathbf{0{,}6826} \]</p>
-
         <div class="pd-grafico">
           <svg viewBox="0 0 620 250" role="img" aria-label="Campana normal con el tramo entre 175 y 225 ms sombreado">
             <defs>
@@ -174,50 +118,21 @@
           </svg>
           <p class="pd-pie">El tramo que va de un desvío por debajo a un desvío por encima de la media.</p>
         </div>
-
         <div class="caja caja-resp">
           <span class="caja-tit">Respuesta a</span>
-          <p>\(P(175 &lt; X &lt; 225) = 0{,}6826\): el <strong>68,26&nbsp;%</strong> de las consultas responde entre 175 y 225 ms.</p>
-          <p>
-            Esto no es casualidad: 175 y 225 son \(\mu - \sigma\) y \(\mu + \sigma\). En
-            <strong>cualquier</strong> normal, entre la media menos un desvío y la media más un
-            desvío cae aproximadamente el 68&nbsp;% de los datos. (El valor exacto sin redondeo de
-            tabla es 0,6827.)
-          </p>
+          <p>\(P(175 &lt; X &lt; 225) = 0{,}6826\): el 68,26&nbsp;% de las consultas responde entre 175 y 225 ms.</p>
         </div>
 
-        <span class="paso">Inciso b &mdash; El 20&nbsp;% de las consultas más rápidas (problema inverso)</span>
-        <div class="caja caja-ojo">
-          <span class="caja-tit">Acá está la trampa del ejercicio</span>
-          <p>
-            En los exámenes cargados el problema inverso siempre pidió el porcentaje <strong>más
-            alto</strong> (el 20&nbsp;% con mayor vida útil, el 0,62&nbsp;% más alto), y ahí había
-            que entrar con \(1 - p\). Acá es al revés: una consulta <strong>más rápida</strong> es la
-            que tarda <strong>menos</strong>, así que ese 20&nbsp;% está en la cola de
-            <strong>ABAJO</strong>. Como la tabla ya da área a la izquierda, se entra
-            <strong>directo con 0,20</strong> y el \(z\) sale <strong>negativo</strong>. Si por
-            costumbre usás 0,80, terminás en 221 ms, que es el límite de las 20&nbsp;% más lentas.
-          </p>
-        </div>
-        <p><strong>Paso 1 &mdash; Área a la izquierda:</strong> ya lo es.</p>
-        <p>\[ F(z) = 0{,}20 \]</p>
+        <span class="paso">Inciso b &mdash; El 20&nbsp;% más rápido (problema inverso)</span>
         <p>
-          <strong>Paso 2 &mdash; Buscar 0,20 en el cuerpo de la tabla.</strong> No aparece exacto.
-          Los dos más cercanos están en la fila \(-0{,}8\):
+          Te dan el área y piden el valor. Las más rápidas son las que tardan <strong>menos</strong>: el
+          20&nbsp;% está a la izquierda, y como la tabla da área a la izquierda, se busca 0,20 directo.
         </p>
-        <div class="tabla-wrap">
-          <table class="t full">
-            <tr><th>\(z\)</th><th>Área de la tabla</th><th>Distancia a 0,20</th></tr>
-            <tr><td>\(-0{,}84\)</td><td>0,2005</td><td>0,0005</td></tr>
-            <tr><td>\(-0{,}85\)</td><td>0,1977</td><td>0,0023</td></tr>
-          </table>
-        </div>
-        <p>El más cercano es 0,2005, así que:</p>
-        <p>\[ z \approx -0{,}84 \]</p>
-        <p><strong>Paso 3 &mdash; Despejar \(x\)</strong> de la fórmula de estandarización:</p>
-        <p>\[ z = \frac{x - \mu}{\sigma} \;\Longrightarrow\; x = \mu + z \cdot \sigma \]</p>
-        <p>\[ x = 200 + (-0{,}84)(25) = 200 - 21 = \mathbf{179} \text{ ms} \]</p>
-
+        <p>
+          En el cuerpo de la tabla, 0,20 no está exacto: fila \(-0{,}8\), columna 0,04 da 0,2005 y columna
+          0,05 da 0,1977. La más cercana es 0,2005, así que \(z = -0{,}84\) (negativo: por debajo de la media).
+        </p>
+        <p>\[ x = \mu + z \cdot \sigma = 200 + (-0{,}84) \cdot 25 = 200 - 21 = 179 \text{ ms} \]</p>
         <div class="pd-grafico">
           <svg viewBox="0 0 620 250" role="img" aria-label="Campana normal con la cola izquierda sombreada hasta 179 ms">
             <defs>
@@ -234,53 +149,23 @@
           </svg>
           <p class="pd-pie">El 20&nbsp;% más rápido es la cola izquierda: los tiempos más cortos.</p>
         </div>
-
         <div class="caja caja-resp">
           <span class="caja-tit">Respuesta b</span>
-          <p>
-            <strong>179 ms</strong>. El 20&nbsp;% de las consultas más rápidas responde en menos de
-            179 ms.
-          </p>
-          <p>
-            Control: el resultado tiene que caer <strong>por debajo</strong> de la media (200),
-            porque hablamos de las más rápidas. (Con \(z\) exacto, \(-0{,}8416\), daría 178,96 ms.)
-          </p>
+          <p>179 ms: el 20&nbsp;% de las consultas más rápidas responde en menos de 179 ms (queda por debajo de 200, como tiene que ser).</p>
         </div>
 
-        <div class="caja caja-calc">
-          <span class="caja-tit">En la calculadora</span>
-          <p>
-            <code>200 + (&minus;) 0,84 &#215; 25 =</code> da 179. Ojo con usar la tecla del signo
-            negativo <code>(&minus;)</code> y no la resta, o escribirlo directamente como
-            <code>200 &minus; 0,84 &#215; 25</code>.
-          </p>
-        </div>
-
-        <span class="paso">Inciso c &mdash; Qué pasa si \(\sigma\) sube a 35 ms</span>
+        <span class="paso">Inciso c &mdash; Si \(\sigma\) sube a 35 ms</span>
         <p>
-          Primero la idea general: \(\sigma\) controla el <strong>ancho</strong> de la campana y
-          \(\mu\) su <strong>posición</strong>. Como el área total tiene que seguir valiendo 1, si la
-          campana se ensancha, <strong>tiene que bajar</strong>. La altura máxima es
-          \(\frac{1}{\sigma\sqrt{2\pi}}\): es inversamente proporcional a \(\sigma\).
+          \(\mu\) fija <strong>dónde</strong> está la campana y \(\sigma\) <strong>cuán ancha</strong> es. Si
+          se ensancha, tiene que bajar, porque el área total sigue siendo 1: la altura máxima
+          \(\frac{1}{\sigma\sqrt{2\pi}}\) pasa de \(\frac{1}{25 \cdot 2{,}5066} = 0{,}0160\) a
+          \(\frac{1}{35 \cdot 2{,}5066} = 0{,}0114\).
         </p>
-        <div class="tabla-wrap">
-          <table class="t full">
-            <tr><th>Característica</th><th>\(\sigma = 25\) ms</th><th>\(\sigma = 35\) ms</th></tr>
-            <tr><td>Centro (media, mediana y moda)</td><td>200</td><td>200 (no cambia)</td></tr>
-            <tr><td>Altura máxima \(\frac{1}{\sigma\sqrt{2\pi}}\)</td><td>0,0160</td><td>0,0114 (más baja)</td></tr>
-            <tr><td>Tramo \(\mu \pm \sigma\) (el 68&nbsp;%)</td><td>175 a 225</td><td>165 a 235 (más ancho)</td></tr>
-            <tr><td>Área total</td><td>1</td><td>1 (siempre)</td></tr>
-            <tr><td>\(P(175 &lt; X &lt; 225)\)</td><td>0,6826</td><td>0,5222</td></tr>
-            <tr><td>Límite del 20&nbsp;% más rápido</td><td>179 ms</td><td>170,6 ms</td></tr>
-          </table>
-        </div>
         <p>
-          El 0,5222 sale igual que en el inciso a:
-          \(z = \pm\frac{25}{35} = \pm 0{,}71\), \(F(0{,}71) = 0{,}7611\), y
-          \(0{,}7611 - (1 - 0{,}7611) = 0{,}5222\).
-          El 170,6 sale de \(x = 200 - 0{,}84 \cdot 35\).
+          Para medirlo en el contexto se repite el inciso a con \(\sigma = 35\):
+          \(z = \pm\frac{25}{35} = \pm 0{,}71\) y \(0{,}7611 - 0{,}2389 = 0{,}5222\). Entre 175 y 225 ms ya no
+          cae el 68&nbsp;% sino el 52&nbsp;%: más consultas lejos de la media.
         </p>
-
         <div class="pd-grafico">
           <svg viewBox="0 0 620 250" role="img" aria-label="Dos campanas con la misma media: la de desvío 25 más alta y angosta, la de desvío 35 más baja y ancha">
             <path class="campana angosta" d="M 40,205 L 51,205 L 62,205 L 74,205 L 85,205 L 96,205 L 108,205 L 119,205 L 130,204 L 141,203 L 152,202 L 164,200 L 175,196 L 186,191 L 198,184 L 209,174 L 220,162 L 231,147 L 242,130 L 254,111 L 265,92 L 276,76 L 288,62 L 299,53 L 310,50 L 321,53 L 332,62 L 344,76 L 355,92 L 366,111 L 378,130 L 389,147 L 400,162 L 411,174 L 422,184 L 434,191 L 445,196 L 456,200 L 468,202 L 479,203 L 490,204 L 501,205 L 512,205 L 524,205 L 535,205 L 546,205 L 558,205 L 569,205 L 580,205 Z"/>
@@ -295,65 +180,24 @@
           </svg>
           <p class="pd-pie">Línea punteada: \(\sigma = 25\). Línea llena: \(\sigma = 35\). Mismo centro, misma área; la de 35 es más chata y ancha.</p>
         </div>
-
         <div class="caja caja-resp">
           <span class="caja-tit">Respuesta c</span>
-          <p>
-            <strong>Forma:</strong> la campana sigue centrada en 200 ms y sigue siendo simétrica, pero
-            se vuelve <strong>más baja (achatada) y más ancha</strong>: los tiempos se desparraman
-            más lejos de la media. El área total sigue valiendo 1.
-          </p>
-          <p>
-            <strong>Implicancias:</strong> el tiempo <em>promedio</em> es el mismo, pero el sistema
-            es <strong>menos estable y menos predecible</strong>. Hay más consultas muy lentas (y
-            también muy rápidas): por ejemplo, las que tardan más de 250 ms pasan de 2,28&nbsp;% a
-            7,64&nbsp;%, y la proporción dentro de 175&ndash;225 ms cae de 68,26&nbsp;% a
-            52,22&nbsp;%. Para una API eso significa latencia irregular: es más difícil garantizar un
-            tiempo máximo de respuesta aunque la media no haya cambiado.
-          </p>
+          <p>Misma media, campana más baja y ancha (área 1). Más variabilidad: el tiempo de respuesta es menos estable y predecible; \(P(175 &lt; X &lt; 225)\) baja de 0,6826 a 0,5222.</p>
         </div>
 
         <h4>Parecido en la guía</h4>
-        <div class="tabla-wrap">
-          <table class="t full">
-            <tr><th>Ejercicio de la guía</th><th>Qué tiene igual</th><th>Qué cambia en el final</th></tr>
-            <tr>
-              <td class="lbl">Unidad 6, Ejercicio 5<br><em>Anillos de pistón</em></td>
-              <td>Es el gemelo del inciso b: &ldquo;¿por debajo de qué valor caerá el 15&nbsp;%?&rdquo; es cola de abajo, entrando directo con el área.</td>
-              <td>Allá el porcentaje es 15&nbsp;%; acá 20&nbsp;%, escondido detrás de &ldquo;más rápidas&rdquo;.</td>
-            </tr>
-            <tr>
-              <td class="lbl">Unidad 6, Ejercicio 4<br><em>Vida de los ratones</em></td>
-              <td>El inciso c de allá (entre 37 y 49 meses) es el mismo cálculo que el a de acá.</td>
-              <td>Acá los extremos son justo \(\mu \pm \sigma\), así que \(z = \pm 1\) redondo.</td>
-            </tr>
-          </table>
-        </div>
-        <p>El inciso c (efecto de cambiar \(\sigma\)) no tiene ejercicio parecido en la guía: es teoría.</p>
+        <p>
+          Unidad 6, Práctica: Ejercicio 5 (<em>Anillos de pistón</em>, &ldquo;¿por debajo de qué valor cae el
+          15&nbsp;%?&rdquo;) para el b, y Ejercicio 4 (<em>Vida de los ratones</em>, entre dos valores) para el a.
+        </p>
 
         <div class="caja caja-ojo">
           <span class="caja-tit">Las trampas de este ejercicio</span>
-          <ol>
-            <li>
-              <strong>El 20&nbsp;% más rápido es la cola de ABAJO.</strong> Se entra con 0,20, el
-              \(z\) es negativo y el resultado queda por debajo de 200. Entrar con 0,80 por costumbre
-              da 221 ms, que es la respuesta a otra pregunta.
-            </li>
-            <li>
-              <strong>Tomar el área equivocada en la tabla.</strong> 0,20 no está exacto: se toma la
-              más cercana (0,2005, \(z = -0{,}84\)), no la primera que aparece.
-            </li>
-            <li>
-              <strong>Decir que con \(\sigma\) más grande la campana &ldquo;se corre&rdquo; o
-              &ldquo;crece&rdquo;.</strong> No se mueve (la media es la misma) y no crece: se ensancha
-              y baja, porque el área tiene que seguir siendo 1.
-            </li>
-            <li>
-              <strong>Responder la implicancia solo con &ldquo;hay más variabilidad&rdquo;.</strong>
-              Hay que traducirlo al contexto: tiempos de respuesta menos predecibles, más consultas
-              lentas, sistema menos estable.
-            </li>
-          </ol>
+          <ul>
+            <li><strong>El 20&nbsp;% más rápido es la cola de abajo:</strong> se entra con 0,20; con 0,80 da 221 ms, que es otra pregunta.</li>
+            <li><strong>Con \(\sigma\) más grande la campana no se corre ni crece:</strong> se ensancha y baja.</li>
+            <li><strong>La implicancia, en contexto:</strong> no alcanza con &ldquo;más variabilidad&rdquo;; hay que decir qué le pasa a la API.</li>
+          </ul>
         </div>
       </div>
     </details>

@@ -277,7 +277,7 @@ window.Apuntes.registrarIndice({
         "archivo": "examenes/pye-2025-11-26-final.js",
         "titulo": "Final Regulares",
         "fecha": "26/11/2025",
-        "detalle": "4 ejercicios \u00b7 104 puntos",
+        "detalle": "4 ejercicios \u00b7 104 puntos \u00b7 resuelto",
         "temas": "Densidad conjunta continua \u00b7 Normal \u00b7 Inferencia \u00b7 Bayes",
         "tipo": "final"
       },
@@ -286,7 +286,7 @@ window.Apuntes.registrarIndice({
         "archivo": "examenes/pye-2025-12-10-final.js",
         "titulo": "Final Regulares",
         "fecha": "10/12/2025",
-        "detalle": "4 ejercicios \u00b7 100 puntos",
+        "detalle": "4 ejercicios \u00b7 100 puntos \u00b7 resuelto",
         "temas": "Bayes \u00b7 Densidad conjunta continua \u00b7 Normal \u00b7 Inferencia",
         "tipo": "final"
       },

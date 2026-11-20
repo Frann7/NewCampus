@@ -1,0 +1,225 @@
+<div class="bloque">
+  <p class="kicker">Grupos</p>
+  <h2>1. Grupo: definición y cómo probar cada axioma</h2>
+
+  <h3>Para qué sirve</h3>
+  <p>
+    Muchísimos conjuntos con una operación se portan igual: los enteros con la suma, los reales sin
+    el cero con el producto, los restos de \(\mathbb{Z}_n\) con la suma, las palabras de ceros y unos
+    con la suma bit a bit. En todos podés operar sin salirte del conjunto, hay un elemento que "no
+    hace nada" y toda operación se puede deshacer. En vez de estudiar cada caso por separado, se
+    estudia una vez la estructura que tienen en común: el <strong>grupo</strong>. Todo lo que se
+    demuestre para un grupo cualquiera vale después para cada uno de ellos.
+  </p>
+
+  <h3>Operación binaria</h3>
+  <p>
+    Una <strong>operación binaria</strong> en un conjunto \(G\) es una regla que a cada par ordenado
+    \((a, b)\) de elementos de \(G\) le asigna un resultado, que se escribe \(a \circ b\). El símbolo
+    \(\circ\) es genérico: en cada caso concreto puede ser la suma \(+\), el producto \(\cdot\) o una
+    operación inventada (\(*\), \(\odot\)...) definida con una fórmula.
+  </p>
+
+  <h3>Definición (la de la cátedra)</h3>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Grupo</span>
+    <p>
+      Si \(G\) es un conjunto no vacío y \(\circ\) es una operación binaria en \(G\), entonces
+      \((G, \circ)\) es un <strong>grupo</strong> si cumple:
+    </p>
+    <ol>
+      <li><strong>Ley de cierre:</strong> \(\forall a, b \in G:\ a \circ b \in G\).</li>
+      <li><strong>Asociativa:</strong> \(\forall a, b, c \in G:\ a \circ (b \circ c) = (a \circ b) \circ c\).</li>
+      <li><strong>Neutro:</strong> existe \(e \in G\) tal que \(a \circ e = e \circ a = a\) para todo \(a \in G\).</li>
+      <li><strong>Inversos:</strong> para todo \(a \in G\) existe \(b \in G\) tal que \(a \circ b = b \circ a = e\).</li>
+    </ol>
+    <p>
+      Si además \(a \circ b = b \circ a\) para todo \(a, b \in G\), el grupo es
+      <strong>abeliano</strong> (o conmutativo).
+    </p>
+  </div>
+
+  <h4>Qué significa cada símbolo</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Símbolo</th><th>Se lee</th><th>Qué quiere decir</th></tr>
+      <tr><td class="lbl">\((G, \circ)\)</td><td>"G con la operación círculo"</td><td>El grupo no es solo el conjunto: es el conjunto <strong>y</strong> la operación. \(\mathbb{Z}\) con \(+\) es grupo; \(\mathbb{Z}\) con \(\cdot\) no.</td></tr>
+      <tr><td class="lbl">\(\forall\)</td><td>"para todo"</td><td>La propiedad tiene que valer para <strong>cualquier</strong> elección de elementos, no para uno solo.</td></tr>
+      <tr><td class="lbl">\(\in\)</td><td>"pertenece a"</td><td>\(a \in G\): \(a\) es un elemento de \(G\).</td></tr>
+      <tr><td class="lbl">\(e\)</td><td>"el neutro"</td><td>El elemento que operado con cualquiera lo deja igual. Con la suma es el 0; con el producto, el 1.</td></tr>
+      <tr><td class="lbl">\(a^{-1}\)</td><td>"inverso de \(a\)"</td><td>El \(b\) del axioma 4. Con la suma se escribe \(-a\) y se llama <strong>opuesto</strong>.</td></tr>
+    </table>
+  </div>
+
+  <h4>Por qué cada axioma</h4>
+  <ul>
+    <li><strong>Cierre:</strong> que operar no te saque del conjunto. Los naturales con la resta no lo cumplen: \(3 - 5 = -2\) no es natural.</li>
+    <li><strong>Asociativa:</strong> que en una cuenta larga no importe por dónde empezás, así \(a \circ b \circ c\) tiene un solo valor y se puede escribir sin paréntesis.</li>
+    <li><strong>Neutro:</strong> el "no hacer nada", el punto de partida para hablar de deshacer.</li>
+    <li><strong>Inversos:</strong> que todo se pueda deshacer. Gracias a esto se puede "despejar" en un grupo: de \(a \circ x = b\) sale \(x = a^{-1} \circ b\).</li>
+  </ul>
+
+  <h3>Cómo se prueba cada axioma</h3>
+  <p>
+    Un ejercicio de "probar que \((G, \circ)\) es grupo" es siempre esta receta, en este orden:
+  </p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Axioma</th><th>Qué se hace</th><th>El error típico</th></tr>
+      <tr><td class="lbl">1. Cierre</td><td>Tomar \(a, b\) <strong>genéricos</strong> de \(G\), calcular \(a \circ b\) con la fórmula y mostrar que cumple la condición para estar en \(G\).</td><td>Olvidarse de la condición del conjunto (por ejemplo, "distinto de cero" o "distinto de \(-1\)").</td></tr>
+      <tr><td class="lbl">2. Asociativa</td><td>Calcular \(a \circ (b \circ c)\) y \((a \circ b) \circ c\) por separado, desarrollar las dos y ver que quedan iguales.</td><td>Probarlo con tres números: un ejemplo no demuestra un "para todo".</td></tr>
+      <tr><td class="lbl">3. Neutro</td><td>Plantear la <strong>ecuación</strong> \(a \circ e = a\), despejar \(e\), comprobar que no depende de \(a\), que está en \(G\) y que también \(e \circ a = a\).</td><td>Que el \(e\) despejado dependa de \(a\): entonces no hay neutro (tiene que ser el mismo para todos).</td></tr>
+      <tr><td class="lbl">4. Inversos</td><td>Plantear \(a \circ b = e\) (con el \(e\) ya hallado), despejar \(b\) en función de \(a\), comprobar que \(b \in G\) y que también \(b \circ a = e\).</td><td>No chequear que el inverso esté en \(G\).</td></tr>
+      <tr><td class="lbl">Abeliano</td><td>Calcular \(a \circ b\) y \(b \circ a\) y ver que son iguales para todo \(a, b\).</td><td>&mdash;</td></tr>
+    </table>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Para probar que algo NO se cumple, alcanza un contraejemplo</span>
+    <p>
+      Los axiomas dicen "para todo". Para demostrar que valen hay que hacerlo con letras; para
+      demostrar que <strong>no</strong> valen alcanza con <strong>un solo caso con números</strong>
+      donde fallen. Si el grupo es abeliano o no, se decide igual: si encontrás \(a, b\) concretos con
+      \(a \circ b \neq b \circ a\), no es abeliano.
+    </p>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Si es abeliano, la mitad del trabajo se ahorra</span>
+    <p>
+      Si ya probaste que la operación conmuta, \(a \circ e = a\) implica solo \(e \circ a = a\), y
+      \(a \circ b = e\) implica \(b \circ a = e\). Por eso conviene probar la conmutatividad
+      <strong>antes</strong> del neutro y los inversos, y decirlo en la respuesta.
+    </p>
+  </div>
+
+  <h3>Los grupos de siempre</h3>
+  <ul>
+    <li>\((\mathbb{Z}, +)\), \((\mathbb{Q}, +)\), \((\mathbb{R}, +)\), \((\mathbb{C}, +)\): grupos abelianos, neutro 0, inverso de \(a\) el opuesto \(-a\).</li>
+    <li>\((\mathbb{Q}^{*}, \cdot)\), \((\mathbb{R}^{*}, \cdot)\), \((\mathbb{C}^{*}, \cdot)\): el asterisco quiere decir <strong>sin el cero</strong>. Grupos abelianos, neutro 1, inverso \(1/a\). Hay que sacar el 0 porque no tiene inverso: no existe \(b\) con \(0 \cdot b = 1\).</li>
+    <li>Si \((R, +, \cdot)\) es un anillo (Unidad 6), \((R, +)\) es un grupo abeliano: los primeros axiomas de anillo son justamente los de grupo para la suma.</li>
+    <li>En un cuerpo, los elementos distintos de cero forman un grupo abeliano con el producto.</li>
+  </ul>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; Los enteros con la suma, con el producto y con la resta</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>Decidir si son grupos: a) \((\mathbb{Z}, +)\); b) \((\mathbb{Z}, \cdot)\); c) \((\mathbb{Z}, -)\).</p>
+  </div>
+
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"\((\mathbb{Z}, +)\)"</td><td>enteros con la suma común</td><td>\(a \circ b = a + b\)</td><td>inciso a</td></tr>
+      <tr><td>"\((\mathbb{Z}, \cdot)\)"</td><td>enteros con el producto común</td><td>\(a \circ b = a \cdot b\)</td><td>inciso b</td></tr>
+      <tr><td>"\((\mathbb{Z}, -)\)"</td><td>enteros con la resta</td><td>\(a \circ b = a - b\)</td><td>inciso c</td></tr>
+    </table>
+  </div>
+
+  <h4>a) \((\mathbb{Z}, +)\)</h4>
+  <ol>
+    <li>Cierre: la suma de dos enteros es un entero.</li>
+    <li>Asociativa: la suma de enteros es asociativa (propiedad conocida de los números).</li>
+    <li>Neutro: \(a + e = a \Rightarrow e = 0\), y \(0 \in \mathbb{Z}\).</li>
+    <li>Inversos: \(a + b = 0 \Rightarrow b = -a\), que es entero.</li>
+    <li>Abeliano: \(a + b = b + a\).</li>
+  </ol>
+  <div class="caja caja-resp"><span class="caja-tit">Respuesta a</span><p>Es grupo abeliano.</p></div>
+
+  <h4>b) \((\mathbb{Z}, \cdot)\)</h4>
+  <p>
+    Cierre, asociativa y neutro (\(e = 1\)) se cumplen. Falla el axioma 4: el inverso de 2 tendría
+    que cumplir \(2 \cdot b = 1\), o sea \(b = \frac{1}{2}\), que <strong>no es entero</strong>.
+    Un contraejemplo alcanza.
+  </p>
+  <div class="caja caja-resp"><span class="caja-tit">Respuesta b</span><p>No es grupo: el 2 no tiene inverso en \(\mathbb{Z}\).</p></div>
+
+  <h4>c) \((\mathbb{Z}, -)\)</h4>
+  <p>
+    El cierre vale (la resta de enteros es entera), pero falla la asociativa. Con números:
+  </p>
+  <p>\[ (5 - 3) - 1 = 2 - 1 = 1 \qquad\qquad 5 - (3 - 1) = 5 - 2 = 3 \]</p>
+  <p>Dan distinto: \(1 \neq 3\).</p>
+  <div class="caja caja-resp"><span class="caja-tit">Respuesta c</span><p>No es grupo: la resta no es asociativa.</p></div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; Estilo parcial: una operación definida con una fórmula</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>
+      Sea \(G = \mathbb{R} - \{-1\}\) (los reales salvo el \(-1\)) con la operación
+      \(a * b = a + b + ab\). Probar que \((G, *)\) es un grupo abeliano.
+    </p>
+  </div>
+
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"\(G = \mathbb{R} - \{-1\}\)"</td><td>la condición para estar en \(G\) es ser real y distinto de \(-1\)</td><td>&mdash;</td><td>se revisa en el cierre, el neutro y los inversos</td></tr>
+      <tr><td>"\(a * b = a + b + ab\)"</td><td>la fórmula de la operación</td><td>&mdash;</td><td>se usa en cada axioma</td></tr>
+      <tr><td>"grupo abeliano"</td><td>los cuatro axiomas más la conmutativa</td><td>&mdash;</td><td>cinco pasos</td></tr>
+    </table>
+  </div>
+
+  <p>
+    Un truco que ordena todo: \(a + b + ab = (1 + a)(1 + b) - 1\), porque
+    \((1 + a)(1 + b) = 1 + b + a + ab\) y al restar 1 queda \(a + b + ab\). Comprobación con
+    números: \(2 * 3 = 2 + 3 + 6 = 11\) y \((1 + 2)(1 + 3) - 1 = 12 - 1 = 11\).
+  </p>
+
+  <span class="paso">Paso 1 &mdash; Cierre</span>
+  <p>
+    Tomo \(a, b \in G\), es decir \(a \neq -1\) y \(b \neq -1\). Tengo que ver que \(a * b \neq -1\).
+  </p>
+  <ul>
+    <li>\(a * b = (1 + a)(1 + b) - 1\).</li>
+    <li>Como \(a \neq -1\), \(1 + a \neq 0\); como \(b \neq -1\), \(1 + b \neq 0\).</li>
+    <li>Un producto de dos números distintos de cero es distinto de cero: \((1 + a)(1 + b) \neq 0\).</li>
+    <li>Entonces \(a * b = (1 + a)(1 + b) - 1 \neq 0 - 1 = -1\). Queda en \(G\).</li>
+  </ul>
+
+  <span class="paso">Paso 2 &mdash; Asociativa</span>
+  <p>Desarrollo los dos lados con el truco:</p>
+  <ul>
+    <li>\((a * b) * c = \big(1 + (a * b)\big)(1 + c) - 1\). Como \(1 + (a * b) = (1 + a)(1 + b)\), queda \((1 + a)(1 + b)(1 + c) - 1\).</li>
+    <li>\(a * (b * c) = (1 + a)\big(1 + (b * c)\big) - 1 = (1 + a)(1 + b)(1 + c) - 1\).</li>
+  </ul>
+  <p>Son la misma expresión: la operación es asociativa.</p>
+
+  <span class="paso">Paso 3 &mdash; Conmutativa</span>
+  <p>
+    \(a * b = a + b + ab\) y \(b * a = b + a + ba\). Como la suma y el producto de reales
+    conmutan, son iguales. Por eso alcanza con verificar el neutro y los inversos de un solo lado.
+  </p>
+
+  <span class="paso">Paso 4 &mdash; Neutro</span>
+  <p>Planteo \(a * e = a\) y despejo \(e\):</p>
+  <p>\[ a + e + ae = a \;\Rightarrow\; e + ae = 0 \;\Rightarrow\; e(1 + a) = 0 \]</p>
+  <p>
+    Como \(1 + a \neq 0\) (porque \(a \neq -1\)), tiene que ser \(e = 0\). No depende de \(a\) y
+    \(0 \neq -1\), así que \(0 \in G\). Comprobación: \(a * 0 = a + 0 + 0 = a\).
+  </p>
+
+  <span class="paso">Paso 5 &mdash; Inversos</span>
+  <p>Planteo \(a * b = 0\) (el neutro recién hallado) y despejo \(b\):</p>
+  <p>\[ a + b + ab = 0 \;\Rightarrow\; b(1 + a) = -a \;\Rightarrow\; b = \frac{-a}{1 + a} \]</p>
+  <p>
+    Se puede dividir porque \(1 + a \neq 0\). Falta ver que \(b \in G\), o sea \(b \neq -1\).
+    Si fuera \(\frac{-a}{1 + a} = -1\), sería \(-a = -1 - a\), es decir \(0 = -1\): absurdo. Entonces
+    \(b \neq -1\).
+  </p>
+  <p>
+    Con números: el inverso de 2 es \(\frac{-2}{3}\), y \(2 * \left(-\frac{2}{3}\right) = 2 - \frac{2}{3} - \frac{4}{3} = 0\).
+  </p>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>
+      \((G, *)\) es un grupo abeliano, con neutro \(e = 0\) y con inverso
+      \(a^{-1} = \frac{-a}{1 + a}\).
+    </p>
+  </div>
+</div>

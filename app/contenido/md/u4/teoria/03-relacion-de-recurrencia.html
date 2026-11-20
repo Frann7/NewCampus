@@ -1,0 +1,137 @@
+<div class="bloque">
+  <p class="kicker">Definición central</p>
+  <h2>3. Relación de recurrencia</h2>
+
+  <h3>Para qué sirve</h3>
+  <p>
+    Es el nombre formal del "paso recursivo" de la sección 2 cuando lo que se define es una
+    sucesión de números. Antes de resolver cualquier relación hay que <strong>clasificarla</strong>
+    (orden, lineal, homogénea), porque cada clase tiene su método.
+  </p>
+
+  <h3>Definición</h3>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Relación de recurrencia (RR)</span>
+    <p>
+      Una <strong>relación de recurrencia</strong> para una sucesión \(\{a_n\}\) es una expresión
+      que relaciona el término general \(a_n\) con uno o más términos anteriores
+      \(a_0, a_1, \ldots, a_{n-1}\), para todo \(n\) entero mayor o igual que un entero inicial
+      \(m\).
+    </p>
+    <p>
+      Los valores de los primeros términos que hacen falta para empezar a calcular se llaman
+      <strong>condiciones iniciales</strong>.
+    </p>
+    <p>
+      <strong>Resolver</strong> la RR es encontrar una fórmula explícita \(f(n)\) tal que
+      \(a_n = f(n)\) para todo \(n \geq 0\): una fórmula que da cualquier término sin calcular los
+      anteriores.
+    </p>
+  </div>
+
+  <h3>Lineal, homogénea y orden</h3>
+  <div class="caja caja-formula">
+    <span class="caja-tit">RR lineal de orden \(k\)</span>
+    <p>\[ a_n = \alpha_1 a_{n-1} + \alpha_2 a_{n-2} + \cdots + \alpha_k a_{n-k} + g(n), \quad \forall n \geq k \]</p>
+    <p>Si \(g(n) \equiv 0\) se llama <strong>homogénea</strong>; si no, <strong>no homogénea</strong>.</p>
+  </div>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Símbolo / palabra</th><th>Qué significa</th></tr>
+      <tr><td>\(\alpha_1, \ldots, \alpha_k\)</td><td>números fijos que multiplican a los términos anteriores (los <strong>coeficientes</strong>). En esta unidad son <strong>constantes</strong>: no dependen de \(n\).</td></tr>
+      <tr><td><strong>lineal</strong></td><td>los términos \(a_{n-1}, a_{n-2}, \ldots\) aparecen solo multiplicados por números y sumados: nada de \(a_{n-1}^2\), ni \(a_{n-1} \cdot a_{n-2}\), ni \(\sqrt{a_{n-1}}\)</td></tr>
+      <tr><td>\(g(n)\)</td><td>lo que queda suelto: lo que <strong>no</strong> tiene ningún término de la sucesión (un número, \(n\), \(3^n\)...)</td></tr>
+      <tr><td>\(g(n) \equiv 0\)</td><td>"\(g\) es cero para todo \(n\)": no hay nada suelto &rarr; <strong>homogénea</strong></td></tr>
+      <tr><td><strong>orden</strong></td><td>la diferencia entre el subíndice más grande y el más chico que aparecen. Dice cuántos términos para atrás mira la regla, y por lo tanto <strong>cuántas condiciones iniciales hacen falta</strong></td></tr>
+    </table>
+  </div>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">El orden se cuenta con los subíndices, no con los exponentes</span>
+    <p>
+      En \(a_n + a_{n-2} + 2^n = 0\) el orden es \(n - (n-2) = 2\), aunque falte \(a_{n-1}\). El
+      \(2^n\) no cuenta: no es un término de la sucesión, es parte de \(g(n)\).
+    </p>
+  </div>
+
+  <h3>De dónde sale lo de las condiciones iniciales</h3>
+  <p>
+    Si la regla de \(a_n\) usa los dos anteriores (\(a_{n-1}\) y \(a_{n-2}\)), el primer término
+    que se puede calcular con ella es \(a_2 = (\text{algo con } a_1 \text{ y } a_0)\). Entonces
+    \(a_0\) y \(a_1\) <strong>tienen que venir dados</strong>: son las dos condiciones iniciales.
+    Por eso la regla se escribe "\(\forall n \geq 2\)". En general: <strong>orden \(k\) &rarr;
+    \(k\) condiciones iniciales</strong>.
+  </p>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; Clasificar relaciones (los de la cátedra y el del parcial)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>Decir el orden de cada RR y si es homogénea.</p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"el orden"</td><td>cuántos lugares para atrás mira</td><td>subíndice mayor menos subíndice menor</td><td>orden \(k\)</td></tr>
+      <tr><td>"si es homogénea"</td><td>¿queda algo sin \(a\)?</td><td>buscar lo que no tiene \(a_{\ldots}\)</td><td>\(g(n)\)</td></tr>
+    </table>
+  </div>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>RR</th><th>Subíndices</th><th>Orden</th><th>\(g(n)\)</th><th>Tipo</th></tr>
+      <tr><td>\(a_{n+2} - 3a_n = 0\)</td><td>\(n+2\) y \(n\)</td><td>\((n+2) - n = 2\)</td><td>\(0\)</td><td>homogénea</td></tr>
+      <tr><td>\(a_{n+1} - 3a_{n-1} + a_{n-2} + n^2 = 0\)</td><td>\(n+1\) y \(n-2\)</td><td>\((n+1) - (n-2) = 3\)</td><td>\(n^2\)</td><td>no homogénea</td></tr>
+      <tr><td>\(a_n + a_{n-2} + 2^n = 0\)</td><td>\(n\) y \(n-2\)</td><td>\(n - (n-2) = 2\)</td><td>\(2^n\)</td><td>no homogénea</td></tr>
+      <tr><td>\(a_n = 9a_{n-2} - 8a_{n-1} + 100\) (Parcial 2 2026)</td><td>\(n\) y \(n-2\)</td><td>\(2\)</td><td>\(100\)</td><td>no homogénea</td></tr>
+      <tr><td>\(a_n = 3a_{n-1}\) (Parcial 2 2026, parte I)</td><td>\(n\) y \(n-1\)</td><td>\(1\)</td><td>\(0\)</td><td>homogénea</td></tr>
+    </table>
+  </div>
+  <p>
+    En el segundo renglón, el \(n^2\) pasado al otro lado da \(g(n) = -n^2\): el signo no cambia
+    la clasificación, lo que importa es que hay algo distinto de cero.
+  </p>
+  <div class="caja caja-resp"><span class="caja-tit">Respuesta</span><p>Órdenes 2, 3, 2, 2 y 1. Solo la primera y la última son homogéneas.</p></div>
+
+  <h3>Ejemplo 2 &mdash; Verificar que una fórmula resuelve una RR</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado (cátedra)</span>
+    <p>
+      Para la RR \(a_n = -2a_{n-1}\) (\(\forall n \geq 1\)), con \(a_0 = 3\), que genera
+      \(\{3, -6, 12, -24, 48, -96, \ldots\}\), verificar que su solución es
+      \(a_n = 3(-2)^n\) para todo \(n \geq 0\).
+    </p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"\(a_n = -2a_{n-1}\)"</td><td>cada término es el anterior por \(-2\)</td><td>&mdash;</td><td>la RR</td></tr>
+      <tr><td>"\(a_0 = 3\)"</td><td>condición inicial (orden 1 &rarr; una sola)</td><td>&mdash;</td><td>\(a_0 = 3\)</td></tr>
+      <tr><td>"verificar que su solución es..."</td><td>la fórmula tiene que cumplir <strong>las dos cosas</strong>: la condición inicial y la regla</td><td>reemplazar</td><td>dos chequeos</td></tr>
+    </table>
+  </div>
+  <p><span class="paso">Paso 1 &mdash; La condición inicial</span></p>
+  <p>Se reemplaza \(n = 0\) en la fórmula; tiene que dar 3:</p>
+  <p>\[ a_0 = 3(-2)^0 = 3 \cdot 1 = 3 \quad \checkmark \]</p>
+  <p><span class="paso">Paso 2 &mdash; La regla, en general</span></p>
+  <p>
+    Se reemplaza la fórmula en el lado derecho de la RR. Si \(a_n = 3(-2)^n\), entonces el
+    anterior es \(a_{n-1} = 3(-2)^{n-1}\) (se cambió \(n\) por \(n-1\)):
+  </p>
+  <p>\[ -2a_{n-1} = -2 \cdot 3(-2)^{n-1} = 3 \cdot (-2)^1 (-2)^{n-1} = 3(-2)^{n} = a_n \quad \checkmark \]</p>
+  <p>
+    El paso del medio usa la propiedad de potencias de igual base:
+    \((-2)^1 \cdot (-2)^{n-1} = (-2)^{1 + n - 1} = (-2)^n\).
+  </p>
+  <p><span class="paso">Paso 3 &mdash; Control con números</span></p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>\(n\)</th><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th></tr>
+      <tr><td>con la RR</td><td>3</td><td>\(-2 \cdot 3 = -6\)</td><td>\(-2(-6) = 12\)</td><td>\(-24\)</td><td>48</td></tr>
+      <tr><td>con \(3(-2)^n\)</td><td>3</td><td>\(-6\)</td><td>\(12\)</td><td>\(-24\)</td><td>48</td></tr>
+    </table>
+  </div>
+  <div class="caja caja-resp"><span class="caja-tit">Respuesta</span><p>La fórmula cumple la condición inicial y la regla para todo \(n\): \(a_n = 3(-2)^n\) es la solución.</p></div>
+</div>

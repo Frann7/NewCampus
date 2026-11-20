@@ -1,0 +1,93 @@
+<div class="bloque">
+  <p class="kicker">Lenguajes</p>
+  <h2>3. Potencias del alfabeto y cadena vacía</h2>
+
+  <h3>Para qué sirve</h3>
+  <p>
+    Muchas preguntas son del tipo "¿cuántas cadenas de largo 4 hay que...?". Para eso se junta en un
+    solo conjunto a <strong>todas las cadenas de un largo dado</strong>: es \(\Sigma^{n}\).
+  </p>
+
+  <h3>Definición</h3>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Potencias de \(\Sigma\) (definición recursiva)</span>
+    <p>\[ \Sigma^{1} = \Sigma, \qquad \Sigma^{n+1} = \{\, xy \,/\, x \in \Sigma,\ y \in \Sigma^{n} \,\} \]</p>
+    <p>y para cualquier alfabeto, \(\Sigma^{0} = \{\lambda\}\), con \(\lambda\) la cadena vacía.</p>
+    <p>\[ |\Sigma^{n}| = |\Sigma|^{n} \]</p>
+  </div>
+
+  <h3>Qué significa cada símbolo</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Símbolo</th><th>Se lee</th><th>Qué es</th></tr>
+      <tr><td>\(\Sigma^{n}\)</td><td>sigma a la \(n\)</td><td>el conjunto de todas las cadenas de largo exactamente \(n\)</td></tr>
+      <tr><td>\(xy\)</td><td>\(x\) pegado a \(y\)</td><td>la yuxtaposición: un símbolo \(x\) adelante de una cadena \(y\)</td></tr>
+      <tr><td>\(|\Sigma|\)</td><td>cardinal de sigma</td><td>cuántos símbolos tiene el alfabeto (barras simples: cantidad de elementos de un conjunto)</td></tr>
+      <tr><td>\(\lambda\)</td><td>lambda</td><td>la cadena vacía, la que no tiene ningún símbolo</td></tr>
+    </table>
+  </div>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Dos barras distintas</span>
+    <p>
+      \(|\ \ |\) cuenta <strong>elementos de un conjunto</strong> (\(|\Sigma^{3}| = 8\)); \(\|\ \ \|\)
+      cuenta <strong>símbolos de una cadena</strong> (\(\|011\| = 3\)). No se mezclan.
+    </p>
+  </div>
+
+  <h3>De dónde sale \(|\Sigma^{n}| = |\Sigma|^{n}\)</h3>
+  <p>
+    Una cadena de largo \(n\) son \(n\) casilleros en fila. En cada casillero va cualquier símbolo
+    del alfabeto, y se pueden repetir: son <strong>disposiciones con repetición</strong> (Unidad 1).
+    Por el principio de multiplicación:
+  </p>
+  <p>\[ \underbrace{|\Sigma| \cdot |\Sigma| \cdots |\Sigma|}_{n \text{ casilleros}} = |\Sigma|^{n} \]</p>
+
+  <h3>La cadena vacía: tres observaciones de la cátedra</h3>
+  <ul>
+    <li>\(\lambda\) <strong>nunca</strong> es un símbolo del alfabeto: \(\lambda \notin \Sigma\).</li>
+    <li>Por eso \(\{\lambda\} \not\subseteq \Sigma\).</li>
+    <li>\(\{\lambda\} \neq \emptyset\): \(\{\lambda\}\) tiene un elemento (la cadena vacía) y \(\emptyset\) no tiene ninguno. <strong>La vacía es la cadena, no el conjunto que la contiene.</strong> Por eso \(|\Sigma^{0}| = |\{\lambda\}| = 1\), y la fórmula \(|\Sigma|^{0} = 1\) también vale para \(n = 0\).</li>
+  </ul>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; \(\Sigma^{2}\) y \(\Sigma^{3}\) (Ejemplo 2 de la cátedra)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>Dado \(\Sigma = \{0, 1\}\), hallar \(\Sigma^{2}\) y \(\Sigma^{3}\).</p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"\(\Sigma = \{0, 1\}\)"</td><td>dos símbolos</td><td>&mdash;</td><td>\(|\Sigma| = 2\)</td></tr>
+      <tr><td>"\(\Sigma^{2}\)"</td><td>todas las de largo 2</td><td>\(2^{2} = 4\)</td><td>4 cadenas</td></tr>
+      <tr><td>"\(\Sigma^{3}\)"</td><td>todas las de largo 3</td><td>\(2^{3} = 8\)</td><td>8 cadenas</td></tr>
+    </table>
+  </div>
+  <p>Con la definición: \(\Sigma^{2}\) es cada símbolo pegado adelante de cada cadena de \(\Sigma^{1}\):</p>
+  <p>\[ \Sigma^{2} = \{00, 01, 10, 11\} \]</p>
+  <p>Y \(\Sigma^{3}\) es un \(0\) o un \(1\) adelante de cada una de esas cuatro:</p>
+  <p>\[ \Sigma^{3} = \{000, 001, 010, 011, 100, 101, 110, 111\} \]</p>
+  <div class="caja caja-resp"><span class="caja-tit">Respuesta</span><p>4 y 8 cadenas, como dice \(|\Sigma|^{n}\).</p></div>
+
+  <h3>Ejemplo 2 &mdash; Contar sin listar (Ejemplo 3 de la cátedra)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>Dado \(\Sigma = \{a, b, c, d, e\}\), ¿cuántos elementos tiene \(\Sigma^{3}\)? Mostrar algunos.</p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"\(\{a, b, c, d, e\}\)"</td><td>cinco símbolos</td><td>&mdash;</td><td>\(|\Sigma| = 5\)</td></tr>
+      <tr><td>"\(\Sigma^{3}\)"</td><td>tres casilleros con repetición</td><td>\(5 \cdot 5 \cdot 5\)</td><td>\(|\Sigma^{3}| = 5^{3}\)</td></tr>
+    </table>
+  </div>
+  <p>\[ |\Sigma^{3}| = |\Sigma|^{3} = 5^{3} = 125 \]</p>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>125 cadenas; por ejemplo \(aaa\), \(abc\), \(eda\), \(ccb\) (las letras se pueden repetir).</p>
+  </div>
+</div>

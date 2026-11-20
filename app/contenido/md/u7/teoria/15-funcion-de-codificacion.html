@@ -1,0 +1,111 @@
+<div class="bloque">
+  <p class="kicker">Codificación</p>
+  <h2>15. Función de codificación: paridad y triple repetición</h2>
+
+  <h3>Para qué sirve</h3>
+  <p>
+    Si se manda el mensaje tal cual, un error pasa inadvertido. La idea es agregarle
+    <strong>bits de más</strong> (redundancia) antes de mandarlo, armados de forma que un error
+    deje una marca visible. El receptor mira esa marca y decide qué hacer.
+  </p>
+
+  <h3>El esquema (notación de la cátedra)</h3>
+  <p>\[ w \;\xrightarrow{\;E\;}\; c = E(w) \;\xrightarrow{\;T\;}\; r = T(c) \;\xrightarrow{\;D\;}\; D(r) \]</p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Símbolo</th><th>Nombre</th><th>Qué hace</th></tr>
+      <tr><td class="lbl">\(W \subseteq \mathbb{Z}_2^{m}\)</td><td>mensajes</td><td>Lo que se quiere mandar: palabras de \(m\) bits.</td></tr>
+      <tr><td class="lbl">\(E : W \to \mathbb{Z}_2^{n}\)</td><td>función de codificación</td><td>Le agrega bits al mensaje: \(c = E(w)\) tiene \(n \gt m\) bits. Las \(c\) se llaman <strong>palabras codificadas</strong>; su conjunto es \(C = E(W)\).</td></tr>
+      <tr><td class="lbl">\(T\)</td><td>función de transmisión</td><td>Es el canal: \(r = T(c) = c + e\) (sección 14).</td></tr>
+      <tr><td class="lbl">\(D : \mathbb{Z}_2^{n} \to \mathbb{Z}_2^{m}\)</td><td>función de decodificación</td><td>A partir de lo recibido, adivina el mensaje original.</td></tr>
+      <tr><td class="lbl">\((n, m)\)</td><td>código de bloque</td><td>\(n\) bits por palabra codificada, \(m\) por mensaje.</td></tr>
+    </table>
+  </div>
+  <p>\(E\) tiene que ser <strong>inyectiva</strong>: dos mensajes distintos no pueden codificarse igual, o no habría forma de distinguirlos.</p>
+
+  <h3>Código de verificación de paridad \((m + 1, m)\)</h3>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Paridad</span>
+    <p>\[ E(w_1 \cdots w_m) = w_1 \cdots w_m\, w_{m+1}, \qquad w_{m+1} \equiv w_1 + \cdots + w_m \pmod 2 \]</p>
+  </div>
+  <ul>
+    <li>El bit agregado hace que toda palabra codificada tenga una cantidad <strong>par</strong> de unos.</li>
+    <li>Si llega una palabra con cantidad <strong>impar</strong> de unos, hubo error (seguro).</li>
+    <li><strong>Detecta</strong> un error, pero <strong>no lo corrige</strong>: no dice en qué bit fue.</li>
+    <li><strong>No ve</strong> dos errores: dos cambios dejan la paridad como estaba.</li>
+  </ul>
+  <p>
+    Con <strong>retransmisión</strong> (si la paridad no da, se pide que la manden de nuevo) se gana
+    mucho. Con \(m = 8\) y \(p = 0{,}001\), la probabilidad de cometer a lo sumo un error en los 9 bits
+    es \(0{,}999^{9} + \binom{9}{1}\,0{,}001 \cdot 0{,}999^{8} \approx 0{,}999964\), contra
+    \(0{,}999^{8} \approx 0{,}992028\) de mandar los 8 bits sin código (valores de la cátedra).
+  </p>
+
+  <h3>Código de triple repetición \((3m, m)\)</h3>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Triple repetición</span>
+    <p>\[ E(w_1 \cdots w_m) = w_1 \cdots w_m\; w_1 \cdots w_m\; w_1 \cdots w_m \]</p>
+    <p>\(D\) usa la <strong>regla de la mayoría</strong>: en cada posición \(i\) mira las tres copias del bit \(i\) y se queda con el valor que aparece al menos dos veces.</p>
+  </div>
+  <ul>
+    <li><strong>Corrige</strong> un error en cada posición: si una de las tres copias se dio vuelta, las otras dos ganan.</li>
+    <li>Si dos copias del mismo bit fallan, la mayoría se equivoca y decodifica mal sin darse cuenta.</li>
+    <li>Con \(p = 0{,}001\), un bit sale bien si fallan 0 o 1 de sus tres copias: \(0{,}999^{3} + \binom{3}{1}\,0{,}001 \cdot 0{,}999^{2} \approx 0{,}999997\). Los 8 bits: \(0{,}999997^{8} \approx 0{,}999976\), apenas mejor que la paridad, pero sin retransmitir y a costa de triplicar el largo.</li>
+  </ul>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; Los de la cátedra (\(m = 8\))</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>a) Con el código de paridad, codificar \(w = 11010110\) y analizar si se recibe \(r = 100101101\). b) Con triple repetición, decodificar \(T(c) = 101001110011011110110110\).</p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"\(w = 11010110\)"</td><td>contar los unos</td><td>\(1+1+0+1+0+1+1+0 = 5\), impar</td><td>bit de paridad 1</td></tr>
+      <tr><td>"\(r = 100101101\)"</td><td>contar los unos</td><td>5, impar</td><td>hubo error</td></tr>
+      <tr><td>24 bits recibidos</td><td>tres bloques de 8</td><td>cortar cada 8</td><td>mayoría por columna</td></tr>
+    </table>
+  </div>
+  <h4>a)</h4>
+  <p>\(E(w) = 11010110\,\underline{1} = 110101101\). El \(r\) recibido tiene 5 unos (impar): <strong>hubo al menos un error</strong>. Si fue uno solo, no se sabe dónde (comparándolo con \(c\) se ve que fue el segundo bit, pero el receptor no conoce \(c\)).</p>
+  <h4>b)</h4>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th>copia 1</th><td>1</td><td>0</td><td>1</td><td>0</td><td>0</td><td>1</td><td>1</td><td>1</td></tr>
+      <tr><th>copia 2</th><td>0</td><td>0</td><td>1</td><td>1</td><td>0</td><td>1</td><td>1</td><td>1</td></tr>
+      <tr><th>copia 3</th><td>1</td><td>0</td><td>1</td><td>1</td><td>0</td><td>1</td><td>1</td><td>0</td></tr>
+      <tr><th>mayoría</th><td>1</td><td>0</td><td>1</td><td>1</td><td>0</td><td>1</td><td>1</td><td>1</td></tr>
+    </table>
+  </div>
+  <div class="caja caja-resp"><span class="caja-tit">Respuesta</span><p>a) \(E(w) = 110101101\); al recibir \(100101101\) se detecta error (paridad impar), sin poder corregirlo. b) \(D = 10110111\).</p></div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; Estilo parcial: mensajes de 4 bits</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>Con \(m = 4\): a) codificar \(w = 1011\) con paridad y analizar las recepciones \(10011\) y \(10100\); b) con triple repetición, decodificar \(101100111011\) y \(001100111011\), sabiendo que se envió \(E(1011)\).</p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"paridad, \(m = 4\)"</td><td>código \((5, 4)\)</td><td>unos de 1011: 3, impar</td><td>\(c = 10111\)</td></tr>
+      <tr><td>"triple repetición, \(m = 4\)"</td><td>código \((12, 4)\)</td><td>cortar cada 4 bits</td><td>tres copias</td></tr>
+    </table>
+  </div>
+  <h4>a) Paridad</h4>
+  <ul>
+    <li>\(10011\): 3 unos, impar &rarr; error detectado (fue el tercer bit: \(e = 10111 + 10011 = 00100\)).</li>
+    <li>\(10100\): 2 unos, par &rarr; el receptor lo da por bueno y decodifica \(1010\). Pero \(e = 10111 + 10100 = 00011\): hubo <strong>dos</strong> errores y la paridad no los vio.</li>
+  </ul>
+  <h4>b) Triple repetición</h4>
+  <ul>
+    <li>\(1011 \mid 0011 \mid 1011\): solo el primer bit está en desacuerdo (1, 0, 1) y gana el 1. \(D = 1011\), correcto.</li>
+    <li>\(0011 \mid 0011 \mid 1011\): en el primer bit hay 0, 0, 1 y gana el 0. \(D = 0011\): <strong>incorrecto</strong>, porque dos copias del mismo bit fallaron.</li>
+  </ul>
+  <div class="caja caja-resp"><span class="caja-tit">Respuesta</span><p>a) \(c = 10111\); \(10011\) se detecta como erróneo; \(10100\) pasa sin detectar (dos errores). b) \(1011\) (corrigió un error) y \(0011\) (dos errores en el mismo bit: decodifica mal).</p></div>
+</div>

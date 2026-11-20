@@ -1,0 +1,149 @@
+<div class="bloque">
+  <p class="kicker">Permutaciones</p>
+  <h2>6. Permutaciones con elementos repetidos</h2>
+
+  <h3>Para qué sirve</h3>
+  <p>
+    Para ordenar \(n\) objetos <strong>todos</strong>, cuando algunos son <strong>iguales entre
+    sí</strong>: las letras de una palabra con letras repetidas, una cadena con una cantidad fija de
+    cada símbolo. Si se intercambian dos letras iguales, la palabra no cambia, así que \(n!\)
+    (sección 3) cuenta de más.
+  </p>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Dos cosas que se llaman parecido</span>
+    <ul>
+      <li><strong>Con repetición</strong> (cada lugar puede llevar cualquier símbolo, cuantas veces quiera): es la regla del producto, \(n^{r}\) (sección 1; "murcielago" con 15 letras en la sección 4).</li>
+      <li><strong>Con elementos repetidos</strong> (esta sección): la cantidad de cada símbolo está <strong>fija</strong> de antemano, y se cuentan los órdenes distintos.</li>
+    </ul>
+  </div>
+
+  <h3>De dónde sale (el ejemplo de la cátedra)</h3>
+  <p>¿Cuántas disposiciones lineales se pueden formar con las letras de MISSISSIPPI?</p>
+  <ul>
+    <li>Tiene 11 letras: M una vez, I cuatro, S cuatro, P dos. Hay 11 lugares para 11 letras, pero la respuesta no es \(11!\), porque hay símbolos repetidos.</li>
+    <li>En vez de ordenar letras, se eligen <strong>lugares</strong> para cada tipo de letra, en pasos sucesivos (regla del producto). Elegir lugares no tiene orden &rarr; combinaciones (sección 5):</li>
+  </ul>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Paso</th><th>Qué se elige</th><th>Lugares libres</th><th>Formas</th></tr>
+      <tr><td>1</td><td>dónde van las 2 P</td><td>11</td><td>\(C(11, 2)\)</td></tr>
+      <tr><td>2</td><td>dónde van las 4 S</td><td>\(11 - 2 = 9\)</td><td>\(C(9, 4)\)</td></tr>
+      <tr><td>3</td><td>dónde van las 4 I</td><td>\(9 - 4 = 5\)</td><td>\(C(5, 4)\)</td></tr>
+      <tr><td>4</td><td>la M, en el lugar que queda</td><td>1</td><td>1</td></tr>
+    </table>
+  </div>
+  <p>Se escribe cada combinatorio con factoriales y se simplifica en cadena (el \(9!\) y el \(5!\) aparecen arriba y abajo):</p>
+  <p>\[ C(11, 2)\,C(9, 4)\,C(5, 4) = \frac{11!}{2!\,9!} \cdot \frac{9!}{4!\,5!} \cdot \frac{5!}{4!\,1!} = \frac{11!}{2!\,4!\,4!\,1!} = 34\,650 \]</p>
+  <p>Fijate en el resultado: arriba, el total de letras factorial; abajo, el factorial de cuántas veces aparece cada letra. Eso es el teorema.</p>
+
+  <h3>Definición</h3>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Teorema</span>
+    <p>
+      Si una sucesión \(S\) de \(n\) artículos tiene \(n_1\) objetos idénticos del tipo 1,
+      \(n_2\) objetos idénticos del tipo 2, &hellip;, \(n_t\) objetos idénticos del tipo \(t\), con
+      \(n_1 + n_2 + \dots + n_t = n\), el número de ordenamientos de \(S\) es
+    </p>
+    <p>\[ \frac{n!}{n_1!\,n_2!\cdots n_t!} \]</p>
+  </div>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Símbolo</th><th>Qué significa</th></tr>
+      <tr><td>\(n\)</td><td>total de objetos (contando los repetidos)</td></tr>
+      <tr><td>\(t\)</td><td>cuántos <strong>tipos</strong> distintos hay</td></tr>
+      <tr><td>\(n_i\)</td><td>cuántas veces aparece el tipo \(i\); los que aparecen una vez aportan \(1! = 1\)</td></tr>
+    </table>
+  </div>
+  <p>
+    Otra forma de leerlo: de los \(n!\) órdenes, cada palabra distinta aparece repetida
+    \(n_1! \cdot n_2! \cdots n_t!\) veces (las formas de permutar entre sí las letras iguales sin
+    que se note), y por eso se divide.
+  </p>
+  <p>Ejemplo chiquito: con \(AAB\) hay \(\dfrac{3!}{2!\,1!} = 3\) órdenes: \(AAB\), \(ABA\), \(BAA\).</p>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; TALLAHASSEE (cátedra)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>Calcular el número de disposiciones de las letras de TALLAHASSEE.</p>
+  </div>
+  <h4>Por qué esta fórmula</h4>
+  <ul>
+    <li>Se ordenan <strong>todas</strong> las letras, y hay letras repetidas &rarr; \(\dfrac{n!}{n_1! \cdots n_t!}\).</li>
+  </ul>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase del enunciado</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"TALLAHASSEE"</td><td>total de letras</td><td>&mdash;</td><td>\(n = 11\)</td></tr>
+      <tr><td>A</td><td>aparece 3 veces</td><td>&mdash;</td><td>\(3!\)</td></tr>
+      <tr><td>L, S, E</td><td>aparecen 2 veces cada una</td><td>&mdash;</td><td>\(2!\,2!\,2!\)</td></tr>
+      <tr><td>T, H</td><td>una vez cada una</td><td>&mdash;</td><td>\(1!\,1!\) (no cambian nada)</td></tr>
+      <tr><td>(control)</td><td>la suma da el total</td><td>\(3 + 2 + 2 + 2 + 1 + 1\)</td><td>\(= 11\) &#10004;</td></tr>
+    </table>
+  </div>
+  <p>\[ \frac{n!}{n_1!\,n_2!\cdots n_t!} = \frac{11!}{3!\,2!\,2!\,2!\,1!\,1!} = \frac{39\,916\,800}{6 \cdot 8} = 831\,600 \]</p>
+  <div class="caja caja-resp"><span class="caja-tit">Respuesta</span><p>831 600 disposiciones.</p></div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; Sin letras A adyacentes (cátedra)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>De los 831 600 ordenamientos de TALLAHASSEE, ¿cuántos no tienen letras A adyacentes?</p>
+  </div>
+  <h4>Por qué este camino</h4>
+  <ul>
+    <li>La ayuda de la cátedra: <strong>primero</strong> se ordenan las letras que no son A, y <strong>después</strong> se meten las A en los huecos, a lo sumo una por hueco (así nunca quedan dos A juntas). Dos pasos &rarr; producto.</li>
+    <li>Paso 1: las 8 letras restantes (T, L, L, H, S, S, E, E) tienen repetidas &rarr; esta sección.</li>
+    <li>Paso 2: las A son iguales; solo importa <strong>qué huecos</strong> ocupan &rarr; combinaciones.</li>
+  </ul>
+  <p>Con un orden cualquiera de las otras letras, los huecos son: antes de la primera, entre cada par y después de la última. Con 8 letras hay 9 huecos (las flechitas):</p>
+  <p>\[ \uparrow E \uparrow E \uparrow S \uparrow T \uparrow L \uparrow L \uparrow S \uparrow H \uparrow \]</p>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase del enunciado</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>letras que no son A</td><td>8 letras: L, S, E dos veces; T, H una</td><td>\(11 - 3\)</td><td>\(\frac{8!}{2!\,2!\,2!}\)</td></tr>
+      <tr><td>"no tienen A adyacentes"</td><td>cada A en un hueco distinto</td><td>\(8 + 1\) huecos</td><td>\(C(9, 3)\)</td></tr>
+    </table>
+  </div>
+  <p>\[ \frac{8!}{2!\,2!\,2!} \cdot C(9, 3) = \frac{40\,320}{8} \cdot 84 = 5\,040 \cdot 84 = 423\,360 \]</p>
+  <div class="caja caja-resp"><span class="caja-tit">Respuesta</span><p>423 360 ordenamientos sin A adyacentes (verificado generando los 831 600 por computadora).</p></div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Por qué no "total menos los que tienen AA"</span>
+    <p>Por complemento también se puede, pero "tienen A adyacentes" incluye los casos con dos A juntas y con las tres juntas, que se pisan entre sí. El método de los huecos lo evita.</p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 3 &mdash; Estilo parcial: cadenas con cantidades fijas de cada símbolo</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>
+      Sea \(\Sigma = \{a, b, c\}\). a) ¿Cuántas cadenas de longitud 7 tienen exactamente tres
+      \(a\), dos \(b\) y dos \(c\)? b) Con \(\Sigma = \{0, 1\}\), ¿cuántas cadenas de longitud 10
+      tienen exactamente cuatro unos?
+    </p>
+  </div>
+  <h4>Por qué esta fórmula</h4>
+  <ul>
+    <li>La cantidad de cada símbolo está fija y se usan todos: es ordenar una "palabra" con letras repetidas (\(aaabbcc\)).</li>
+  </ul>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase del enunciado</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"longitud 7"</td><td>total de símbolos</td><td>&mdash;</td><td>\(n = 7\)</td></tr>
+      <tr><td>"tres \(a\), dos \(b\) y dos \(c\)"</td><td>las repeticiones</td><td>\(3 + 2 + 2 = 7\) &#10004;</td><td>\(3!\,2!\,2!\)</td></tr>
+      <tr><td>"longitud 10, cuatro unos"</td><td>4 unos y 6 ceros</td><td>\(10 - 4\)</td><td>\(4!\,6!\)</td></tr>
+    </table>
+  </div>
+  <h4>Inciso a</h4>
+  <p>\[ \frac{n!}{n_1!\,n_2!\cdots n_t!} = \frac{7!}{3!\,2!\,2!} = \frac{5\,040}{24} = 210 \]</p>
+  <h4>Inciso b</h4>
+  <p>\[ \frac{n!}{n_1!\,n_2!} = \frac{10!}{4!\,6!} = 210 \]</p>
+  <p>Es justo \(C(10, 4)\), la cuenta del Ejemplo 6 de la sección 5: con dos tipos de símbolo, la fórmula de esta sección <strong>es</strong> el combinatorio (\(n_2 = n - n_1\)).</p>
+  <div class="caja caja-resp"><span class="caja-tit">Respuesta</span><p>a) 210 cadenas. b) 210 cadenas.</p></div>
+</div>

@@ -1,0 +1,135 @@
+<div class="bloque">
+  <p class="kicker">Primos</p>
+  <h2>3. Números primos y compuestos</h2>
+
+  <h3>Para qué sirve</h3>
+  <p>
+    Los primos son los "ladrillos" con los que se arman todos los enteros (sección 12). Saber
+    reconocerlos y saber que todo compuesto tiene un divisor primo es la base de la
+    factorización, de la cantidad de divisores y de la fórmula de Legendre.
+  </p>
+
+  <h3>Definición</h3>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Primo y compuesto</span>
+    <p>Un número natural \(p\) mayor que 1 es <strong>primo</strong> si sus únicos divisores positivos son \(1\) y \(p\).</p>
+    <p>Un natural \(n\) mayor que 1 que no es primo se llama <strong>compuesto</strong>.</p>
+  </div>
+  <ul>
+    <li>\(7\) es primo: sus divisores positivos son solo 1 y 7.</li>
+    <li>\(12\) es compuesto: además de 1 y 12 lo dividen 2, 3, 4 y 6.</li>
+    <li>El <strong>1 no es primo ni compuesto</strong>: la definición pide "mayor que 1".</li>
+    <li>La sucesión de primos empieza \(2, 3, 5, 7, 11, 13, 17, 19, 23, 29, \ldots\) El 2 es el único primo par.</li>
+  </ul>
+
+  <h4>Extensión a los enteros</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Caso</th><th>Definición en \(\mathbb{Z}\)</th><th>Ejemplo</th></tr>
+      <tr><td>Primo</td><td>\(p\) tiene exactamente 4 divisores: \(1, -1, p, -p\)</td><td>\(-7\) es primo (divisores \(\pm 1, \pm 7\))</td></tr>
+      <tr><td>Compuesto</td><td>\(\lvert n \rvert > 1\) y no es primo</td><td>\(-12\)</td></tr>
+      <tr><td>Fuera de la definición</td><td>\(0\), \(1\) y \(-1\)</td><td>&mdash;</td></tr>
+    </table>
+  </div>
+  <p>Salvo que se diga otra cosa, "primo" quiere decir <strong>primo positivo</strong>. \(\lvert n \rvert\) es el valor absoluto: el número sin signo.</p>
+
+  <h3>Todo compuesto tiene un divisor primo</h3>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Proposición</span>
+    <p>Si \(n\) es compuesto, existe un primo \(p\) tal que \(p \mid n\).</p>
+  </div>
+  <h4>De dónde sale</h4>
+  <p>
+    Entre los divisores de \(n\) mayores que 1 tomo el <strong>más chico</strong>, \(p\) (existe
+    por el buen orden de la sección 1). Ese \(p\) tiene que ser primo: si no lo fuera, tendría un
+    divisor \(q\) con \(1 \lt q \lt p\), y por la transitividad (\(q \mid p\) y \(p \mid n\)) ese
+    \(q\) dividiría a \(n\) y sería más chico que \(p\). Contradicción.
+  </p>
+
+  <h3>Hay infinitos primos</h3>
+  <p>
+    La cátedra dice que "se puede probar"; la idea (de Euclides) es corta: supongamos que hubiera
+    una lista finita \(p_1, p_2, \ldots, p_k\) con <em>todos</em> los primos. El número
+    \(N = p_1 p_2 \cdots p_k + 1\) es mayor que 1, así que es primo o tiene un divisor primo. Ese
+    primo tiene que estar en la lista, digamos \(p_i\). Pero \(p_i\) divide al producto y divide a
+    \(N\), así que por la propiedad 7 de la sección 2 divide a \(N - p_1 \cdots p_k = 1\). Imposible:
+    la lista no tenía todos.
+  </p>
+
+  <h3>El criterio de la raíz cuadrada</h3>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Proposición</span>
+    <p>Si \(n \in \mathbb{Z}^{+}\) es compuesto, existe un primo \(p\) tal que \(p \mid n\) y \(p \leq \sqrt{n}\).</p>
+  </div>
+  <p>\(\mathbb{Z}^{+}\) son los enteros positivos.</p>
+  <h4>De dónde sale</h4>
+  <p>
+    Si \(n\) es compuesto, \(n = a \cdot b\) con \(1 \lt a \leq b \lt n\) (llamo \(a\) al menor de
+    los dos). Entonces \(a \cdot a \leq a \cdot b = n\), o sea \(a^{2} \leq n\) y \(a \leq \sqrt{n}\).
+    Y \(a\) tiene un divisor primo \(p \leq a\) (o es primo él mismo), que también divide a \(n\).
+  </p>
+  <h4>Cómo se usa</h4>
+  <p>Leída al revés, da el método para saber si \(n\) es primo:</p>
+  <ol>
+    <li>Calcular \(\sqrt{n}\).</li>
+    <li>Probar si \(n\) es divisible por cada <strong>primo</strong> menor o igual que \(\sqrt{n}\).</li>
+    <li>Si ninguno lo divide, \(n\) es primo. Si alguno lo divide, es compuesto.</li>
+  </ol>
+  <div class="caja caja-calc">
+    <span class="caja-tit">En la calculadora</span>
+    <p>\(n \div p\): si da un número con coma, \(p\) no divide a \(n\); si da entero, sí. Se prueba solo con primos: si no lo divide el 2, tampoco lo divide el 4 ni el 6.</p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; ¿Son primos 3553 y 7919?</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado (Actividad 3 de la cátedra)</span>
+    <p>Evaluar la primalidad de 3553 y de 7919.</p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"3553"</td><td>hasta dónde probar</td><td>\(\sqrt{3553} \approx 59{,}6\)</td><td>primos hasta 59</td></tr>
+      <tr><td>"7919"</td><td>hasta dónde probar</td><td>\(\sqrt{7919} \approx 88{,}99\)</td><td>primos hasta 83</td></tr>
+    </table>
+  </div>
+  <p><span class="paso">3553</span> Pruebo los primos en orden:</p>
+  <ul>
+    <li>2: 3553 es impar. No.</li>
+    <li>3: \(3553 \div 3 = 1184{,}33\). No.</li>
+    <li>5: no termina en 0 ni 5. No.</li>
+    <li>7: \(3553 \div 7 = 507{,}57\). No.</li>
+    <li>11: \(3553 \div 11 = 323\). <strong>Sí.</strong></li>
+  </ul>
+  <p>Ya encontré un divisor: 3553 es compuesto. Siguiendo con 323: \(323 = 17 \cdot 19\), así que \(3553 = 11 \cdot 17 \cdot 19\).</p>
+  <p><span class="paso">7919</span> Los primos hasta 88 son 23: \(2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83\). Dividiendo por cada uno, <strong>ninguno da exacto</strong> (los restos son 1, 2, 4, 2, 10, 2, 14, 15, 7, 2, 14, 1, 6, 7, 23, 22, 13, 50, 13, 38, 35, 19 y 34).</p>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>3553 es compuesto (\(3553 = 11 \cdot 17 \cdot 19\)). 7919 es primo: ningún primo menor o igual que su raíz lo divide.</p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; Estilo parcial: demostrar que un divisor es primo</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado (Actividad 1 a de la cátedra)</span>
+    <p>Sea \(a > 1\) y \(n\) un entero cualquiera. Probar que si \(a \mid (3n - 1)\) y \(a \mid (4n + 9)\), entonces \(a\) es un número primo.</p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"\(a \mid (3n-1)\) y \(a \mid (4n+9)\)"</td><td>\(a\) divide a dos números</td><td>&mdash;</td><td>propiedad 8: divide a cualquier combinación</td></tr>
+      <tr><td>(idea)</td><td>elegir la combinación que borra la \(n\)</td><td>\(4 \cdot 3n - 3 \cdot 4n = 0\)</td><td>multiplicar por 4 y por \(-3\)</td></tr>
+    </table>
+  </div>
+  <p><span class="paso">Paso 1</span> Por la propiedad 8 de la sección 2, \(a\) divide a</p>
+  <p>\[ 4(3n - 1) - 3(4n + 9) = 12n - 4 - 12n - 27 = -31 \]</p>
+  <p><span class="paso">Paso 2</span> Si \(a \mid -31\), también \(a \mid 31\) (porque \(31 = -31 \cdot (-1)\), propiedad 6). Los divisores positivos de 31 son 1 y 31, y \(a > 1\), así que \(a = 31\).</p>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Conclusión</span>
+    <p>\(a = 31\), que es primo. (Un \(n\) que lo cumple: \(n = 21\), con \(3n - 1 = 62 = 31 \cdot 2\) y \(4n + 9 = 93 = 31 \cdot 3\).)</p>
+  </div>
+</div>

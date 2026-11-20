@@ -19,6 +19,20 @@ window.Apuntes.registrarIndice({
     "ing2/estr/teoria": "panes/ing2-estr-teoria.js",
     "ing2/git/practica": "panes/ing2-git-practica.js",
     "ing2/git/teoria": "panes/ing2-git-teoria.js",
+    "md/u1/practica": "panes/md-u1-practica.js",
+    "md/u1/teoria": "panes/md-u1-teoria.js",
+    "md/u2/practica": "panes/md-u2-practica.js",
+    "md/u2/teoria": "panes/md-u2-teoria.js",
+    "md/u3/practica": "panes/md-u3-practica.js",
+    "md/u3/teoria": "panes/md-u3-teoria.js",
+    "md/u4/practica": "panes/md-u4-practica.js",
+    "md/u4/teoria": "panes/md-u4-teoria.js",
+    "md/u5/practica": "panes/md-u5-practica.js",
+    "md/u5/teoria": "panes/md-u5-teoria.js",
+    "md/u6/practica": "panes/md-u6-practica.js",
+    "md/u6/teoria": "panes/md-u6-teoria.js",
+    "md/u7/practica": "panes/md-u7-practica.js",
+    "md/u7/teoria": "panes/md-u7-teoria.js",
     "pa/c1/practica": "panes/pa-c1-practica.js",
     "pa/c1/teoria": "panes/pa-c1-teoria.js",
     "pa/c2/practica": "panes/pa-c2-practica.js",
@@ -161,6 +175,26 @@ window.Apuntes.registrarIndice({
         "fecha": "14/10/2026",
         "detalle": "Pr\u00e1ctica (3 consignas, 60 puntos) y Teor\u00eda (4 preguntas, 40 puntos)",
         "temas": "Composite \u00b7 CMMI \u00b7 M\u00e9tricas \u00b7 PI y SPI \u00b7 Ciclo de vida de una m\u00e9trica \u00b7 Strategy \u00b7 SVN y Git",
+        "tipo": "parcial"
+      }
+    ],
+    "md": [
+      {
+        "id": "2026-primer-parcial",
+        "archivo": "examenes/md-2026-primer-parcial.js",
+        "titulo": "Primer Parcial",
+        "fecha": "2026",
+        "detalle": "6 ejercicios \u00b7 resuelto",
+        "temas": "MEF que reconoce abba \u00b7 Prefijo y sufijo \u00b7 Maxt\u00e9rminos \u00b7 Tabla, sumideros y subm\u00e1quinas \u00b7 Simplificaci\u00f3n y f.n.d. \u00b7 Sistema booleano",
+        "tipo": "parcial"
+      },
+      {
+        "id": "2026-segundo-parcial",
+        "archivo": "examenes/md-2026-segundo-parcial.js",
+        "titulo": "Segundo Parcial",
+        "fecha": "2026",
+        "detalle": "5 ejercicios \u00b7 resuelto",
+        "temas": "RR no homog\u00e9nea \u00b7 RR de un problema \u00b7 mcd, B\u00e9zout y diof\u00e1ntica \u00b7 Divisibilidad y potencia de 2 en 33! \u00b7 Cantidad de divisores",
         "tipo": "parcial"
       }
     ],
@@ -561,7 +595,8 @@ window.Apuntes.registrarIndice({
           "tablas",
           "icph"
         ]
-      }
+      },
+      "anio": "3"
     },
     {
       "clave": "pa",
@@ -602,7 +637,8 @@ window.Apuntes.registrarIndice({
       "evaluacion": {
         "tipo": "simple",
         "minutos": 40
-      }
+      },
+      "anio": "3"
     },
     {
       "clave": "bd",
@@ -709,7 +745,8 @@ window.Apuntes.registrarIndice({
       },
       "evaluacion": {
         "tipo": "simple"
-      }
+      },
+      "anio": "3"
     },
     {
       "clave": "ing2",
@@ -750,7 +787,8 @@ window.Apuntes.registrarIndice({
       "evaluacion": {
         "tipo": "simple",
         "minutos": 40
-      }
+      },
+      "anio": "3"
     },
     {
       "clave": "so-teoria",
@@ -759,7 +797,8 @@ window.Apuntes.registrarIndice({
       "unidades": [],
       "evaluacion": {
         "tipo": "simple"
-      }
+      },
+      "anio": "3"
     },
     {
       "clave": "so-practica",
@@ -768,7 +807,8 @@ window.Apuntes.registrarIndice({
       "unidades": [],
       "evaluacion": {
         "tipo": "simple"
-      }
+      },
+      "anio": "3"
     },
     {
       "clave": "pyl",
@@ -798,19 +838,230 @@ window.Apuntes.registrarIndice({
       ],
       "evaluacion": {
         "tipo": "simple"
-      }
+      },
+      "anio": "3"
+    },
+    {
+      "clave": "md",
+      "nombre": "Matematica Discreta",
+      "corto": "Discreta",
+      "unidades": [
+        {
+          "clave": "u1",
+          "num": "Unidad 1",
+          "nombre": "Combinatoria"
+        },
+        {
+          "clave": "u2",
+          "num": "Unidad 2",
+          "nombre": "Lenguajes y Maquinas de estados finitos"
+        },
+        {
+          "clave": "u3",
+          "num": "Unidad 3",
+          "nombre": "Algebras booleanas"
+        },
+        {
+          "clave": "u4",
+          "num": "Unidad 4",
+          "nombre": "Relaciones de recurrencia"
+        },
+        {
+          "clave": "u5",
+          "num": "Unidad 5",
+          "nombre": "El sistema de los enteros"
+        },
+        {
+          "clave": "u6",
+          "num": "Unidad 6",
+          "nombre": "Anillos y aritmetica modular"
+        },
+        {
+          "clave": "u7",
+          "num": "Unidad 7",
+          "nombre": "Grupos y teoria de la codificacion"
+        }
+      ],
+      "pdf": [
+        {
+          "id": "teo-u1",
+          "sigla": "U1",
+          "titulo": "Teoria de la Unidad 1: Combinatoria (catedra, 2026)",
+          "archivo": "pdf/md/teoria-u1.pdf"
+        },
+        {
+          "id": "teo-u2",
+          "sigla": "U2",
+          "titulo": "Teoria de la Unidad 2: Lenguajes y MEF (catedra, 2026)",
+          "archivo": "pdf/md/teoria-u2.pdf"
+        },
+        {
+          "id": "teo-u3",
+          "sigla": "U3",
+          "titulo": "Teoria de la Unidad 3: Algebras booleanas (catedra, 2025)",
+          "archivo": "pdf/md/teoria-u3.pdf"
+        },
+        {
+          "id": "teo-u4",
+          "sigla": "U4",
+          "titulo": "Teoria de la Unidad 4: Relaciones de recurrencia (catedra, 2026)",
+          "archivo": "pdf/md/teoria-u4.pdf"
+        },
+        {
+          "id": "teo-u5",
+          "sigla": "U5",
+          "titulo": "Teoria de la Unidad 5: El sistema de los enteros (catedra, 2026)",
+          "archivo": "pdf/md/teoria-u5.pdf"
+        },
+        {
+          "id": "teo-u6",
+          "sigla": "U6",
+          "titulo": "Teoria de la Unidad 6: Anillos y aritmetica modular (catedra, 2025)",
+          "archivo": "pdf/md/teoria-u6.pdf"
+        },
+        {
+          "id": "teo-u7",
+          "sigla": "U7",
+          "titulo": "Teoria de la Unidad 7: Grupos y codificacion (catedra, 2025)",
+          "archivo": "pdf/md/teoria-u7.pdf"
+        },
+        {
+          "id": "ej-u1",
+          "sigla": "EJ",
+          "titulo": "Ejercicios de la Unidad 1 (seleccion del Johnsonbaugh)",
+          "archivo": "pdf/md/ejercicios-u1.pdf"
+        },
+        {
+          "id": "ej-u2",
+          "sigla": "EJ",
+          "titulo": "Ejercicios de la Unidad 2 (seleccion del Grimaldi)",
+          "archivo": "pdf/md/ejercicios-u2.pdf"
+        },
+        {
+          "id": "ej-u4",
+          "sigla": "EJ",
+          "titulo": "Ejercicios de la Unidad 4 (seleccion del Grimaldi)",
+          "archivo": "pdf/md/ejercicios-u4.pdf"
+        },
+        {
+          "id": "ej-u5",
+          "sigla": "EJ",
+          "titulo": "Ejercicios de la Unidad 5 (seleccion del Grimaldi)",
+          "archivo": "pdf/md/ejercicios-u5.pdf"
+        },
+        {
+          "id": "ej-u6",
+          "sigla": "EJ",
+          "titulo": "Ejercicios de la Unidad 6 (seleccion del Grimaldi)",
+          "archivo": "pdf/md/ejercicios-u6.pdf"
+        },
+        {
+          "id": "ej-u7",
+          "sigla": "EJ",
+          "titulo": "Ejercicios de la Unidad 7 (seleccion del Grimaldi)",
+          "archivo": "pdf/md/ejercicios-u7.pdf"
+        },
+        {
+          "id": "gc1",
+          "sigla": "GC1",
+          "titulo": "Guia complementaria del Parcial 1 (lenguajes, MEF, Boole)",
+          "archivo": "pdf/md/complementaria-parcial-1.pdf"
+        },
+        {
+          "id": "gc2",
+          "sigla": "GC2",
+          "titulo": "Guia complementaria del Parcial 2 (recurrencia, enteros)",
+          "archivo": "pdf/md/complementaria-parcial-2.pdf"
+        },
+        {
+          "id": "gc3",
+          "sigla": "GC3",
+          "titulo": "Guia complementaria del Parcial 3 (anillos, grupos, codificacion)",
+          "archivo": "pdf/md/complementaria-parcial-3.pdf"
+        },
+        {
+          "id": "vac",
+          "sigla": "VAC",
+          "titulo": "Actividades de vacaciones (con un recuperatorio)",
+          "archivo": "pdf/md/actividades-de-vacaciones.pdf"
+        }
+      ],
+      "material": {
+        "u1": [
+          "teo-u1",
+          "ej-u1"
+        ],
+        "u2": [
+          "teo-u2",
+          "ej-u2",
+          "gc1",
+          "vac"
+        ],
+        "u3": [
+          "teo-u3",
+          "gc1",
+          "vac"
+        ],
+        "u4": [
+          "teo-u4",
+          "ej-u4",
+          "gc2",
+          "vac"
+        ],
+        "u5": [
+          "teo-u5",
+          "ej-u5",
+          "gc2"
+        ],
+        "u6": [
+          "teo-u6",
+          "ej-u6",
+          "gc3"
+        ],
+        "u7": [
+          "teo-u7",
+          "ej-u7",
+          "gc3"
+        ],
+        "evaluacion": [
+          "gc1",
+          "gc2",
+          "gc3",
+          "vac"
+        ]
+      },
+      "evaluacion": {
+        "tipo": "simple"
+      },
+      "anio": "2"
     },
     {
       "clave": "emp",
       "nombre": "Emprendedurismo",
       "corto": "Emprend.",
-      "unidades": []
+      "unidades": [],
+      "anio": "3"
     },
     {
       "clave": "taller",
       "nombre": "Taller de Integracion",
       "corto": "Taller",
-      "unidades": []
+      "unidades": [],
+      "anio": "3"
+    }
+  ],
+  "anios": [
+    {
+      "clave": "2",
+      "nombre": "2do a\u00f1o"
+    },
+    {
+      "clave": "3",
+      "nombre": "3er a\u00f1o"
+    },
+    {
+      "clave": "4",
+      "nombre": "4to a\u00f1o"
     }
   ]
 });

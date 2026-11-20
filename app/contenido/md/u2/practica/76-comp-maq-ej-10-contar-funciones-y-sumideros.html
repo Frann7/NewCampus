@@ -1,0 +1,78 @@
+<div class="ej" data-examen="variante" data-examen-ref="Parcial 1 2026 &middot; ej. 4b" data-examen-nota="En el parcial se cuentan las máquinas que se pueden completar con un solo estado sumidero, a partir de una tabla a medio llenar. Acá se cuentan funciones ν sin bucles y con exactamente dos sumideros.">
+  <span class="tag" data-num-ej="CM-10.">Complementaria P1 &middot; Máquinas &middot; Ej. 10 &middot; Contar funciones y sumideros</span>
+  <h2>¿Cuántas funciones \(\nu\) sin bucles, cuántas máquinas, cuántas con dos sumideros?</h2>
+  <div class="enunciado">
+    <p>Sea la máquina de estados finitos \(M = (S, I, O, \nu, \omega)\), donde \(S = \{s_0, s_1, s_2\}\), \(I = \{a, b, c, d, e\}\) y \(O = \{0, 1\}\), calcular:</p>
+    <p>a. El número de funciones \(\nu : S \times I \to S\) tales que \(\forall x \in I : \nu(s_i, x) \neq s_i\) (queremos decir: tales que para cualquier entrada no se produce un bucle); y,</p>
+    <p>b. La cantidad de máquinas de estados finitos que se pueden construir con las características anteriores.</p>
+    <p>c. La cantidad de funciones tales que se produzcan en exactamente dos de sus estados sumideros.</p>
+  </div>
+
+  <span class="paso">Qué tema es y por qué</span>
+  <ul>
+    <li>Es combinatoria aplicada a máquinas: contar <strong>de cuántas maneras se puede llenar la tabla</strong>.</li>
+    <li>Una función \(f: X \to Y\) le asigna a <strong>cada</strong> elemento de \(X\) <strong>un</strong> elemento de \(Y\). Contarlas es contar las maneras de elegir esas asignaciones.</li>
+  </ul>
+  <div class="caja caja-formula">
+    <p><strong>Regla del producto:</strong> si una tarea se hace en etapas, con \(n_1\) opciones en la 1.ª, \(n_2\) en la 2.ª, …, el total es \(n_1 \cdot n_2 \cdots\)</p>
+    <p><strong>Cantidad de funciones</strong> de \(X\) en \(Y\): cada uno de los \(|X|\) elementos elige entre \(|Y|\) imágenes, así que hay \(|Y|^{|X|}\). Ejemplo chico: de \(\{1, 2\}\) en \(\{a, b, c\}\) hay \(3 \cdot 3 = 3^2 = 9\).</p>
+    <p><strong>Regla de la suma:</strong> si los casos no se pisan, se suman.</p>
+  </div>
+
+  <span class="paso">Desarme del enunciado</span>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"\(S = \{s_0, s_1, s_2\}\)"</td><td>3 estados</td><td>&mdash;</td><td>\(|S| = 3\)</td></tr>
+      <tr><td>"\(I = \{a, b, c, d, e\}\)"</td><td>5 entradas</td><td>&mdash;</td><td>\(|I| = 5\)</td></tr>
+      <tr><td>"\(\nu : S \times I \to S\)"</td><td>la tabla de \(\nu\) tiene un casillero por par (estado, entrada)</td><td>\(3 \cdot 5\)</td><td>15 casilleros</td></tr>
+      <tr><td>"\(\nu(s_i, x) \neq s_i\)"</td><td>ningún casillero puede repetir el estado de su fila (sin lazos)</td><td>&mdash;</td><td>2 opciones por casillero</td></tr>
+      <tr><td>"\(O = \{0, 1\}\)"</td><td>cada casillero de \(\omega\) elige entre 2 salidas</td><td>&mdash;</td><td>\(|O| = 2\)</td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Paso 1 &mdash; a. Funciones \(\nu\) sin bucles</span>
+  <p>Regla del producto sobre los 15 casilleros de la tabla de \(\nu\). En la fila de \(s_0\), cada casillero puede ser \(s_1\) o \(s_2\) (no \(s_0\)): 2 opciones. Igual en las otras filas.</p>
+  <p>\[\underbrace{2 \cdot 2 \cdots 2}_{15 \text{ casilleros}} = 2^{15} = 32768\]</p>
+
+  <span class="paso">Paso 2 &mdash; b. Máquinas con esa \(\nu\)</span>
+  <p>Una máquina queda definida por \(\nu\) y \(\omega\) (\(S\), \(I\), \(O\) ya están fijos). Se eligen las dos, una después de la otra (regla del producto):</p>
+  <ul>
+    <li>\(\nu\): \(2^{15}\) (inciso a).</li>
+    <li>\(\omega : S \times I \to O\), sin restricción: cada uno de los 15 casilleros elige 0 o 1: \(|O|^{|S \times I|} = 2^{15}\).</li>
+  </ul>
+  <p>\[2^{15} \cdot 2^{15} = 2^{30} = 1\,073\,741\,824\]</p>
+
+  <span class="paso">Paso 3 &mdash; c. Exactamente dos estados sumideros</span>
+  <p>Un estado \(s\) es <strong>sumidero</strong> si \(\nu(s, x) = s\) para toda entrada: su fila entera de \(\nu\) es \(s, s, s, s, s\) (5 lazos).</p>
+  <p>Un sumidero <strong>necesita</strong> lazos, así que con la condición de (a) no puede haber ninguno: ahí la respuesta sería 0. Por eso este inciso se lee sobre <strong>todas</strong> las funciones \(\nu : S \times I \to S\) (sin la restricción de los bucles).</p>
+  <p>Se arma en tres etapas (regla del producto):</p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Etapa</th><th>Opciones</th><th>Por qué</th></tr>
+      <tr><td>Elegir cuáles 2 de los 3 estados son sumideros</td><td>\(\binom{3}{2} = 3\)</td><td>\(\{s_0,s_1\}\), \(\{s_0,s_2\}\), \(\{s_1,s_2\}\): importa cuáles, no el orden</td></tr>
+      <tr><td>Llenar las filas de los dos sumideros</td><td>\(1 \cdot 1\)</td><td>cada fila está obligada (todo lazo)</td></tr>
+      <tr><td>Llenar la fila del tercer estado <strong>sin que sea sumidero</strong></td><td>\(3^5 - 1 = 242\)</td><td>5 casilleros con 3 opciones cada uno, menos la única manera en que todo es lazo</td></tr>
+    </table>
+  </div>
+  <p>Lo último usa el <strong>complemento</strong>: es más fácil contar todas (\(3^5 = 243\)) y restar las que no sirven (1) que contar las buenas directamente.</p>
+  <p>\[3 \cdot 1 \cdot 242 = 726\]</p>
+  <p>Las tres elecciones del par de sumideros dan funciones distintas y ninguna se cuenta dos veces (en cada función, el par de sumideros es uno solo, porque el tercer estado no lo es).</p>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>a. \(2^{15} = 32768\) funciones \(\nu\).</p>
+    <p>b. \(2^{15} \cdot 2^{15} = 2^{30} = 1\,073\,741\,824\) máquinas.</p>
+    <p>c. \(3 \cdot (3^5 - 1) = 726\) funciones \(\nu\) con exactamente dos sumideros.</p>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Dos lecturas del inciso c</span>
+    <ul>
+      <li>Con las \(\nu\) del inciso a (sin bucles) no hay sumideros: <strong>0</strong>.</li>
+      <li>Si preguntaran <strong>máquinas</strong> (no funciones) con dos sumideros, se multiplica por las \(2^{15}\) funciones \(\omega\): \(726 \cdot 2^{15} = 23\,789\,568\).</li>
+    </ul>
+  </div>
+
+  <span class="paso">Verificación</span>
+  <p>Con Python se contaron, fila por fila, las \(3^5 = 243\) maneras de llenar una fila de \(\nu\) (1 es sumidero y 242 no) y se combinaron las tres filas: da 726. Los incisos a y b son potencias directas.</p>
+</div>

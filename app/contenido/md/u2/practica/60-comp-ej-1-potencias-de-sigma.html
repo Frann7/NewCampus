@@ -1,0 +1,75 @@
+<div class="ej">
+  <span class="tag" data-num-ej="CL-1.">Complementaria P1 &middot; Lenguajes &middot; Ej. 1 &middot; Potencias de \(\Sigma\)</span>
+  <h2>\(\Sigma^2\), \(\Sigma^3\), \(\Sigma^+\), \(\Sigma^*\) y cadenas que empiezan con xy</h2>
+  <div class="enunciado">
+    <p>Sea \(\Sigma = \{x, y\}\)</p>
+    <p>a. Obtener \(\Sigma^2\), \(\Sigma^3\), \(\Sigma^+\), \(\Sigma^*\).</p>
+    <p>b. ¿Cuántas cadenas de longitud menor o igual a 12 comienzan con \(xy\) en \(\Sigma^*\)?</p>
+  </div>
+
+  <span class="paso">Qué tema es y por qué</span>
+  <ul>
+    <li>Potencias de un alfabeto, \(\Sigma^+\) y \(\Sigma^*\) (en la teoría de esta unidad, "Potencia de \(\Sigma\)" y "Cadena vacía").</li>
+    <li>El inciso b es un conteo: se cuenta con la <strong>regla del producto</strong> (cuántas opciones hay en cada lugar, y se multiplican).</li>
+  </ul>
+
+  <span class="paso">Desarme del enunciado</span>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"\(\Sigma = \{x, y\}\)"</td><td>el alfabeto tiene 2 símbolos</td><td>&mdash;</td><td>\(|\Sigma| = 2\)</td></tr>
+      <tr><td>"longitud menor o igual a 12"</td><td>se cuentan las cadenas de largo 0, 1, 2, …, 12</td><td>&mdash;</td><td>\(\|w\| \leq 12\)</td></tr>
+      <tr><td>"comienzan con \(xy\)"</td><td>\(xy\) es prefijo: las dos primeras letras están fijas</td><td>&mdash;</td><td>\(w = xy\,z\), con \(z \in \Sigma^*\)</td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Paso 1 &mdash; \(\Sigma^2\) y \(\Sigma^3\)</span>
+  <div class="caja caja-formula">
+    <p>\(\Sigma^1 = \Sigma\) y \(\Sigma^{n+1} = \{ab \ / \ a \in \Sigma,\ b \in \Sigma^n\}\): se le pega adelante un símbolo a cada cadena de largo \(n\).</p>
+    <p>\(|\Sigma^n| = |\Sigma|^n\) (en cada uno de los \(n\) lugares se elige uno de los \(|\Sigma|\) símbolos, con repetición).</p>
+  </div>
+  <p>\(\Sigma^2\): a cada símbolo (\(x\) o \(y\)) se le pega cada cadena de \(\Sigma^1 = \{x, y\}\):</p>
+  <p>\[\Sigma^2 = \{xx,\ xy,\ yx,\ yy\} \qquad |\Sigma^2| = 2^2 = 4\]</p>
+  <p>\(\Sigma^3\): a cada símbolo se le pega cada una de las 4 cadenas de \(\Sigma^2\):</p>
+  <p>\[\Sigma^3 = \{xxx,\ xxy,\ xyx,\ xyy,\ yxx,\ yxy,\ yyx,\ yyy\} \qquad |\Sigma^3| = 2^3 = 8\]</p>
+
+  <span class="paso">Paso 2 &mdash; \(\Sigma^+\) y \(\Sigma^*\)</span>
+  <div class="caja caja-formula">
+    <p>\(\Sigma^+ = \bigcup_{n \in \mathbb{Z}^+} \Sigma^n\) (todas las cadenas de largo 1 o más) &nbsp;&nbsp; \(\Sigma^* = \bigcup_{n=0}^{\infty} \Sigma^n = \Sigma^+ \cup \{\lambda\}\)</p>
+  </div>
+  <p>Son conjuntos <strong>infinitos</strong>: no se pueden listar enteros, se escriben con los primeros elementos (ordenados por largo) y puntos suspensivos.</p>
+  <ul>
+    <li>\(\Sigma^+ = \{x,\ y,\ xx,\ xy,\ yx,\ yy,\ xxx,\ \dots\}\): todas las cadenas no vacías de \(x\) e \(y\).</li>
+    <li>\(\Sigma^* = \{\lambda,\ x,\ y,\ xx,\ xy,\ yx,\ yy,\ xxx,\ \dots\}\): lo mismo más la cadena vacía \(\lambda\).</li>
+  </ul>
+
+  <span class="paso">Paso 3 &mdash; Contar las que empiezan con xy (inciso b)</span>
+  <div class="caja caja-formula">
+    <p><strong>Regla del producto:</strong> si una cadena se arma eligiendo un símbolo por lugar, la cantidad total es el producto de las opciones de cada lugar.</p>
+  </div>
+  <p>Una cadena de largo \(n\) que empieza con \(xy\) es \(x\,y\,\_\,\_\,\cdots\,\_\): los dos primeros lugares tienen <strong>1 opción</strong> cada uno y los \(n - 2\) restantes, <strong>2 opciones</strong> cada uno.</p>
+  <p>\[\text{cadenas de largo } n \text{ que empiezan con } xy = 1 \cdot 1 \cdot 2^{\,n-2} = 2^{\,n-2}\]</p>
+  <p>Como \(xy\) ya ocupa 2 lugares, el largo va de \(n = 2\) (la cadena \(xy\) sola) a \(n = 12\). Se suman los casos de cada largo (son casos que no se pisan: una cadena tiene un solo largo):</p>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th>\(n\)</th><td>2</td><td>3</td><td>4</td><td>5</td><td>…</td><td>12</td></tr>
+      <tr><th>\(2^{n-2}\)</th><td>1</td><td>2</td><td>4</td><td>8</td><td>…</td><td>1024</td></tr>
+    </table>
+  </div>
+  <p>\[\sum_{n=2}^{12} 2^{\,n-2} = 2^0 + 2^1 + \cdots + 2^{10}\]</p>
+  <p>Es una suma de potencias de 2 seguidas. Truco: \(1 + 2 + 4 + \cdots + 2^{k} = 2^{k+1} - 1\) (por ejemplo, \(1 + 2 + 4 = 7 = 2^3 - 1\)). Con \(k = 10\):</p>
+  <p>\[2^{11} - 1 = 2048 - 1 = 2047\]</p>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>a. \(\Sigma^2 = \{xx, xy, yx, yy\}\); \(\Sigma^3 = \{xxx, xxy, xyx, xyy, yxx, yxy, yyx, yyy\}\); \(\Sigma^+ = \{x, y, xx, xy, \dots\}\) (todas las cadenas no vacías); \(\Sigma^* = \Sigma^+ \cup \{\lambda\}\).</p>
+    <p>b. <strong>2047</strong> cadenas.</p>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Ojo con "prefijo propio"</span>
+    <p>"Comienzan con \(xy\)" incluye a la cadena \(xy\) misma. Si pidieran \(xy\) como <strong>prefijo propio</strong> (lo que sigue no puede ser \(\lambda\)), se saca esa: \(2046\).</p>
+  </div>
+
+  <span class="paso">Verificación</span>
+  <p>La guía complementaria no trae resultados. Se contó por fuerza bruta (todas las cadenas de \(\{x,y\}^*\) de largo hasta 12, y se filtraron las que empiezan con \(xy\)): da 2047.</p>
+</div>

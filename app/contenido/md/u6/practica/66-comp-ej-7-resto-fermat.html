@@ -1,0 +1,59 @@
+<div class="ej">
+  <span class="tag" data-num-ej="C-7.">Complementaria P3 &middot; Anillos &middot; Ej. 7 &middot; Resto con Fermat</span>
+  <h2>El resto de dividir \(13^{2019}\) por 11</h2>
+  <div class="enunciado">
+    <p>Hallar el resto de dividir \(13^{2019}\) por 11. (Teorema de Fermat)</p>
+  </div>
+
+  <span class="paso">Qué tema es y por qué</span>
+  <ul>
+    <li>\(13^{2019}\) tiene más de 2000 cifras: no se puede calcular. Se busca solo su <strong>resto módulo 11</strong>.</li>
+    <li>El <strong>Pequeño Teorema de Fermat</strong> dice que cierta potencia da 1 módulo un primo; eso permite "tirar" casi todo el exponente.</li>
+  </ul>
+
+  <span class="paso">Desarme del enunciado</span>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"dividir ... por 11"</td><td>módulo primo \(p = 11\)</td><td>&mdash;</td><td>\(p = 11\)</td></tr>
+      <tr><td>"\(13^{2019}\)"</td><td>base 13, exponente 2019</td><td>\(13 \equiv 2 \pmod{11}\)</td><td>\(a = 2\)</td></tr>
+      <tr><td>"Teorema de Fermat"</td><td>\(a^{p-1} \equiv 1 \pmod{p}\)</td><td>\(2^{10} \equiv 1\)</td><td>Paso 2</td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Paso 1 &mdash; Achicar la base</span>
+  <p>Como \(13 = 11 + 2\), \(13 \equiv 2 \pmod{11}\). Y si dos números son congruentes, sus potencias también (la congruencia se conserva al multiplicar):</p>
+  \[ 13^{2019} \equiv 2^{2019} \pmod{11} \]
+
+  <span class="paso">Paso 2 &mdash; Fermat</span>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Pequeño Teorema de Fermat</span>
+    <p>Si \(p\) es primo y \(a\) es un entero no divisible por \(p\), entonces \(a^{p-1} \equiv 1 \pmod{p}\).</p>
+  </div>
+  <p>11 es primo y no divide a 2: \(2^{10} \equiv 1 \pmod{11}\). Entonces cada bloque de 10 en el exponente "vale 1".</p>
+  <p>Se divide el exponente por \(p - 1 = 10\): \(2019 = 10 \cdot 201 + 9\).</p>
+  \[ 2^{2019} = 2^{10 \cdot 201 + 9} = \left(2^{10}\right)^{201} \cdot 2^{9} \equiv 1^{201} \cdot 2^{9} = 2^{9} \pmod{11} \]
+  <ul>
+    <li>Primer igual: propiedad de potencias, \(a^{m + k} = a^m a^k\) y \(a^{mk} = (a^m)^k\).</li>
+    <li>El \(\equiv\): se reemplaza \(2^{10}\) por 1 (Fermat), y la congruencia se conserva al elevar y multiplicar.</li>
+  </ul>
+
+  <span class="paso">Paso 3 &mdash; La potencia chica</span>
+  <p>\(2^9 = 512\), y \(512 = 11 \cdot 46 + 6\). Entonces \(2^9 \equiv 6 \pmod{11}\).</p>
+  <div class="caja caja-calc">
+    <span class="caja-tit">En la calculadora</span>
+    <p>\(512 \div 11 = 46{,}54\dots\) → \(512 - 46 \times 11 = 512 - 506 = 6\).</p>
+  </div>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>\(13^{2019} \equiv 6 \pmod{11}\): el resto es <strong>6</strong>.</p>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Error típico</span>
+    <p>Dividir el exponente por \(p = 11\) en vez de por \(p - 1 = 10\). Fermat habla de \(a^{p-1}\).</p>
+  </div>
+
+  <span class="paso">Verificación (la guía no trae resultados)</span>
+  <p>Con Python, <code>pow(13, 2019, 11)</code> da 6. ✔</p>
+</div>

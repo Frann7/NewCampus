@@ -1,0 +1,136 @@
+<div class="bloque" data-examen="igual" data-examen-ref="Parcial 2 2026 · ej. 1" data-examen-nota="El ejercicio 1 (con + 100) y la parte II del ejercicio 2 son no homogéneas: se resuelven con homogénea + particular.">
+  <p class="kicker">No homogéneas</p>
+  <h2>10. RR no homogénea: homogénea + particular</h2>
+
+  <h3>Para qué sirve</h3>
+  <p>
+    Casi todo lo que se toma tiene un término suelto: "\(+\,100\)", "\(+\,2 \cdot 3^n\)",
+    "\(+\,1\)", "además llegan los de la parte I". Eso es \(g(n) \neq 0\) (sección 3), y las
+    fórmulas de las secciones 4 a 8 ya no alcanzan solas. Esta sección explica la estructura de la
+    solución; la 11 y la 12 explican cómo encontrar cada pieza.
+  </p>
+
+  <h3>Definición</h3>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Método de coeficientes indeterminados</span>
+    <p>Para \(a_n = \alpha_1 a_{n-1} + \cdots + \alpha_k a_{n-k} + g(n)\) con \(g(n) \not\equiv 0\):</p>
+    <p>\[ a_n = a_n^{(h)} + a_n^{(p)} \]</p>
+  </div>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Símbolo</th><th>Qué es</th><th>Cómo se obtiene</th></tr>
+      <tr><td>\(a_n^{(h)}\)</td><td>la solución general de la <strong>homogénea asociada</strong>: la misma RR borrando \(g(n)\)</td><td>con las secciones 4 a 8, <strong>dejando las constantes sin calcular</strong></td></tr>
+      <tr><td>\(a_n^{(p)}\)</td><td>una solución <strong>particular</strong>: una sola fórmula, cualquiera, que cumpla la RR completa (con \(g(n)\))</td><td>se propone una forma parecida a \(g(n)\) y se calculan sus coeficientes (secciones 11 y 12)</td></tr>
+      <tr><td>\(g(n) \not\equiv 0\)</td><td>\(g\) no es siempre cero</td><td>&mdash;</td></tr>
+    </table>
+  </div>
+
+  <h3>De dónde sale</h3>
+  <p>Para escribirlo corto, llamemos \(L(a)_n\) al lado izquierdo con todo pasado: \(L(a)_n = a_n - \alpha_1 a_{n-1} - \cdots - \alpha_k a_{n-k}\). La RR es \(L(a)_n = g(n)\), y \(L\) es lineal (separa sumas y saca constantes).</p>
+  <ul>
+    <li>Si \(a^{(p)}\) cumple la RR completa: \(L(a^{(p)})_n = g(n)\).</li>
+    <li>Si \(a^{(h)}\) cumple la homogénea: \(L(a^{(h)})_n = 0\).</li>
+    <li>Entonces la suma cumple la completa: \(L(a^{(h)} + a^{(p)})_n = 0 + g(n) = g(n)\) &check;.</li>
+    <li>Y al revés: si \(a\) es <em>cualquier</em> solución, \(L(a - a^{(p)})_n = g(n) - g(n) = 0\), así que \(a - a^{(p)}\) es solución de la homogénea. Toda solución es "homogénea + particular".</li>
+  </ul>
+  <p>
+    La particular aporta "lo que fabrica \(g(n)\)"; la homogénea, con sus constantes libres, es lo
+    que permite acomodar las condiciones iniciales.
+  </p>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">El error que más se repite: calcular las constantes demasiado temprano</span>
+    <p>
+      Las condiciones iniciales son de la RR completa, no de la homogénea. Las constantes de
+      \(a_n^{(h)}\) se calculan <strong>al final</strong>, sobre la suma
+      \(a_n^{(h)} + a_n^{(p)}\). Si se calculan con la homogénea sola, la respuesta da mal.
+    </p>
+  </div>
+
+  <h3>El orden de trabajo</h3>
+  <ol>
+    <li>Homogénea asociada &rarr; \(a_n^{(h)}\) con constantes sin calcular.</li>
+    <li>Proponer \(a_n^{(p)}\) (sección 11; si choca con la homogénea, sección 12).</li>
+    <li>Reemplazar \(a_n^{(p)}\) en la RR completa y despejar sus coeficientes.</li>
+    <li>Escribir \(a_n = a_n^{(h)} + a_n^{(p)}\) y recién ahí usar las condiciones iniciales.</li>
+    <li>Verificar con unos términos.</li>
+  </ol>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; La particular ya viene dada</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>
+      Resolver \(a_n = 3a_{n-1} - 4\), \(\forall n \geq 1\), con \(a_0 = 5\), sabiendo que
+      \(a_n^{(p)} = 2\) es una solución particular.
+    </p>
+  </div>
+  <h4>Qué tipo de RR es</h4>
+  <ul><li>Primer orden (subíndices \(n\) y \(n-1\)), coeficientes constantes, \(g(n) = -4 \neq 0\): no homogénea.</li></ul>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"\(3a_{n-1}\)"</td><td>la parte homogénea</td><td>\(a_n = 3a_{n-1}\)</td><td>\(a_n^{(h)} = C \cdot 3^n\)</td></tr>
+      <tr><td>"\(-4\)"</td><td>el término suelto</td><td>&mdash;</td><td>\(g(n) = -4\)</td></tr>
+      <tr><td>"\(a_n^{(p)} = 2\)"</td><td>la particular, dada</td><td>conviene comprobarla</td><td>\(a_n^{(p)} = 2\)</td></tr>
+      <tr><td>"\(a_0 = 5\)"</td><td>condición inicial de la RR completa</td><td>se usa al final</td><td>\(C\)</td></tr>
+    </table>
+  </div>
+  <p><span class="paso">Paso 1 &mdash; Homogénea asociada</span></p>
+  <p>\(a_n = 3a_{n-1}\) es primer orden homogénea (sección 4). Fórmula: \(a_n = A\,d^{\,n}\). Con \(d = 3\) y la constante <strong>sin calcular</strong>:</p>
+  <p>\[ a_n^{(h)} = C \cdot 3^n \]</p>
+  <p><span class="paso">Paso 2 &mdash; Comprobar la particular</span></p>
+  <p>Si \(a_n = 2\) para todo \(n\), también \(a_{n-1} = 2\). En la RR: \(2 = 3 \cdot 2 - 4 = 2\) &check;.</p>
+  <p><span class="paso">Paso 3 &mdash; Sumar y usar la condición inicial</span></p>
+  <p>Fórmula: \(a_n = a_n^{(h)} + a_n^{(p)}\)</p>
+  <p>\[ a_n = C \cdot 3^n + 2 \]</p>
+  <p>\[ a_0 = C \cdot 3^0 + 2 = 5 \;\Rightarrow\; C = 3 \]</p>
+  <p><span class="paso">Paso 4 &mdash; Verificar</span></p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>\(n\)</th><th>0</th><th>1</th><th>2</th><th>3</th></tr>
+      <tr><td>con la RR</td><td>5</td><td>\(15 - 4 = 11\)</td><td>\(33 - 4 = 29\)</td><td>\(87 - 4 = 83\)</td></tr>
+      <tr><td>con \(3 \cdot 3^n + 2\)</td><td>\(3 + 2 = 5\)</td><td>\(9 + 2 = 11\)</td><td>\(27 + 2 = 29\)</td><td>\(81 + 2 = 83\)</td></tr>
+    </table>
+  </div>
+  <div class="caja caja-resp"><span class="caja-tit">Respuesta</span><p>\(a_n = 3 \cdot 3^n + 2 = 3^{n+1} + 2\), \(\forall n \geq 0\).</p></div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Qué habría pasado calculando \(C\) con la homogénea sola</span>
+    <p>Con \(C \cdot 3^0 = 5\) saldría \(C = 5\) y \(a_n = 5 \cdot 3^n + 2\), que da \(a_0 = 7\): no cumple el dato. Por eso \(C\) se calcula sobre la suma.</p>
+  </div>
+
+  <h3>Ejemplo 2 &mdash; Con forma de parcial: un parámetro escondido en \(g(n)\)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>
+      Considere \(a_n = 2a_{n-1} + k \cdot 3^n\) para \(n \geq 1\), donde \(k \in \mathbb{R}\) es
+      una constante desconocida. Se sabe que una solución particular es
+      \(a_n^{(p)} = 4 \cdot 3^{n+1}\). a) Determinar \(k\). b) Si \(a_0 = 10\), hallar la
+      solución completa.
+    </p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"\(k \in \mathbb{R}\) desconocida"</td><td>\(g(n) = k \cdot 3^n\) con \(k\) a averiguar</td><td>&mdash;</td><td>incógnita \(k\)</td></tr>
+      <tr><td>"una solución particular es \(4 \cdot 3^{n+1}\)"</td><td>esa fórmula <strong>cumple</strong> la RR completa</td><td>reemplazarla en la RR</td><td>ecuación para \(k\)</td></tr>
+      <tr><td>"\(a_0 = 10\)"</td><td>condición inicial</td><td>al final, sobre la suma</td><td>constante de \(a_n^{(h)}\)</td></tr>
+    </table>
+  </div>
+  <h4>Inciso a</h4>
+  <p>Primero se escribe la particular con \(3^n\) a la vista: \(4 \cdot 3^{n+1} = 4 \cdot 3 \cdot 3^n = 12 \cdot 3^n\). Su término anterior es \(a_{n-1}^{(p)} = 12 \cdot 3^{n-1}\).</p>
+  <p>Se reemplaza en \(a_n = 2a_{n-1} + k \cdot 3^n\):</p>
+  <p>\[ 12 \cdot 3^n = 2 \cdot 12 \cdot 3^{n-1} + k \cdot 3^n \]</p>
+  <p>Se divide todo por \(3^{n-1}\) (nunca es cero), recordando que \(\frac{3^n}{3^{n-1}} = 3\):</p>
+  <p>\[ 12 \cdot 3 = 24 + 3k \;\Rightarrow\; 36 = 24 + 3k \;\Rightarrow\; k = 4 \]</p>
+  <h4>Inciso b</h4>
+  <p>Homogénea asociada \(a_n = 2a_{n-1}\) (sección 4): \(a_n^{(h)} = C \cdot 2^n\).</p>
+  <p>Fórmula: \(a_n = a_n^{(h)} + a_n^{(p)}\)</p>
+  <p>\[ a_n = C \cdot 2^n + 12 \cdot 3^n \]</p>
+  <p>\[ a_0 = C + 12 = 10 \;\Rightarrow\; C = -2 \]</p>
+  <p>Verificación: con la RR (\(k = 4\)), \(a_1 = 2 \cdot 10 + 4 \cdot 3 = 32\) y \(a_2 = 2 \cdot 32 + 4 \cdot 9 = 100\); con la fórmula, \(a_1 = -4 + 36 = 32\) y \(a_2 = -8 + 108 = 100\) &check;.</p>
+  <div class="caja caja-resp"><span class="caja-tit">Respuesta</span><p>a) \(k = 4\). b) \(a_n = 12 \cdot 3^n - 2 \cdot 2^n\), \(\forall n \geq 0\).</p></div>
+</div>

@@ -1,0 +1,116 @@
+<div class="ej" data-examen="variante" data-examen-ref="Recuperatorio (Act. de vacaciones B) · a" data-examen-nota="El inciso h da f⁻¹(1) y pide la f.n.d.; el recuperatorio da f⁻¹(1) y pide la f.n.c. sin tabla. Los conteos (a a e) no entraron en el Parcial 1 2026.">
+  <span class="tag" data-num-ej="C-2.">Complementaria P1 &middot; Boole &middot; Ej. 2 &middot; La familia F₅</span>
+  <h2>Contar y analizar funciones de cinco variables</h2>
+  <div class="enunciado">
+    <p>Sea \(F_5\), la familia de todas las funciones booleanas \(f : B^5 \to B\), se pide:</p>
+    <p>a. Calcular la cantidad de elementos que tiene \(F_5\).</p>
+    <p>b. Calcular la cantidad de funciones \(f\) que cumplen con \(f(x_1, x_2, x_3, x_4, x_5) = f(x_1, x_2, \overline{x}_3, x_4, \overline{x}_5)\)</p>
+    <p>c. ¿Cuántas conjunciones fundamentales existen en \(F_5\)?</p>
+    <p>d. Calcular la cantidad de funciones booleanas que tienen exactamente 4 unos en su salida.</p>
+    <p>e. ¿Cuántas funciones \(f \in F_5\) toman el valor 1 cuando exactamente dos de sus 5 variables toman el valor 1 (en el resto no importa el valor de \(f\)).</p>
+    <p>f. Determinar qué valores de las variables booleanas verifican \(x_1x_2x_3x_4x_5 = x_1 + x_2 + x_3 + x_4 + x_5\)</p>
+    <p>g. Proponer una expresión booleana y su problema dual.</p>
+    <p>h. Dado el conjunto de las preimágenes de 1: \(f^{-1}(1) = \{11001, 11111, 00011, 10101, 00110\}\), encontrar la forma normal disyuntiva de \(f\).</p>
+  </div>
+
+  <span class="paso">Qué tema es y por qué</span>
+  <ul>
+    <li>Del a al e se <strong>cuentan funciones</strong>: la tabla de \(B^5\) tiene \(2^5 = 32\) filas, y una función es una manera de llenar la columna de \(f\).</li>
+    <li>El método para contar: filas <strong>obligadas</strong> por la condición, filas <strong>libres</strong> (2 opciones cada una) y regla del producto: \(2^{\text{libres}}\).</li>
+    <li>El f es una ecuación booleana; el g, dualidad; el h, f.n.d. desde una lista de unos.</li>
+  </ul>
+
+  <span class="paso">Inciso a — \(|F_5|\)</span>
+  <p>Regla: \(|F_n| = 2^{(2^n)}\) (todas las filas libres).</p>
+  \[|F_5| = 2^{(2^5)} = 2^{32} = 4\,294\,967\,296\]
+
+  <span class="paso">Inciso b — \(f(x_1, x_2, x_3, x_4, x_5) = f(x_1, x_2, \overline{x}_3, x_4, \overline{x}_5)\)</span>
+  <ol>
+    <li>
+      Qué dice: si se dan vuelta <strong>a la vez</strong> \(x_3\) y \(x_5\), el valor de \(f\) no
+      cambia. Por ejemplo, la fila \(00000\) y la fila \(00101\) tienen que llevar el mismo valor.
+    </li>
+    <li>
+      Las 32 filas se agrupan de a pares (cada fila con la que tiene \(x_3\) y \(x_5\) dados vuelta;
+      nunca es la misma fila, porque \(x_3\) cambia): \(32 \div 2 = 16\) pares.
+    </li>
+    <li>Se elige un valor por par: 16 elecciones libres.</li>
+    <li>Regla del producto: \(2^{16} = 65\,536\).</li>
+  </ol>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">No es "independiente de \(x_3\) y de \(x_5\)"</span>
+    <p>
+      Eso pediría que \(f\) no cambie al mover cada una por separado (grupos de 4, \(2^8\)
+      funciones). Acá solo se exige con las dos dadas vuelta juntas: grupos de 2, \(2^{16}\).
+    </p>
+  </div>
+
+  <span class="paso">Inciso c — Conjunciones fundamentales en \(F_5\)</span>
+  <p>Cada una de las 5 variables va con barra o sin barra: 2 opciones por variable. Regla del producto:</p>
+  \[2^5 = 32\]
+  <p>(Una por cada fila de la tabla: el mintérmino que vale 1 solo ahí.)</p>
+
+  <span class="paso">Inciso d — Exactamente 4 unos en la salida</span>
+  <p>
+    Hay que elegir <strong>cuáles</strong> 4 de las 32 filas llevan 1 (las demás llevan 0). No importa
+    el orden en que se eligen: es una combinación.
+  </p>
+  \[\binom{32}{4} = \frac{32 \cdot 31 \cdot 30 \cdot 29}{4 \cdot 3 \cdot 2 \cdot 1} = \frac{863\,040}{24} = 35\,960\]
+
+  <span class="paso">Inciso e — Valor 1 cuando exactamente dos variables valen 1</span>
+  <ol>
+    <li>Filas obligadas: las de exactamente dos unos entre cinco posiciones, \(\binom{5}{2} = \dfrac{5 \cdot 4}{2} = 10\) filas, donde \(f = 1\).</li>
+    <li>Filas libres: \(32 - 10 = 22\).</li>
+    <li>Regla del producto: \(2^{22} = 4\,194\,304\).</li>
+  </ol>
+
+  <span class="paso">Inciso f — \(x_1x_2x_3x_4x_5 = x_1 + x_2 + x_3 + x_4 + x_5\)</span>
+  <p>Reglas: un producto vale 1 solo si todos valen 1; una suma vale 0 solo si todos valen 0.</p>
+  <ul>
+    <li><strong>Si los dos lados valen 1:</strong> el producto vale 1, entonces \(x_1 = \dots = x_5 = 1\). Y ahí la suma también vale 1. ✔</li>
+    <li><strong>Si los dos lados valen 0:</strong> la suma vale 0, entonces \(x_1 = \dots = x_5 = 0\). Y ahí el producto también vale 0. ✔</li>
+    <li>En cualquier otra entrada hay unos y ceros mezclados: la suma vale 1 (hay algún 1) y el producto vale 0 (hay algún 0). No se cumple.</li>
+  </ul>
+  <p>Solo \(00000\) y \(11111\): las cinco variables con el mismo valor (es el ejercicio 15.1-10 del Grimaldi con cinco variables).</p>
+
+  <span class="paso">Inciso g — Una expresión y su problema dual</span>
+  <p>La consigna deja elegir la expresión. Dos lecturas de "dual", las dos de la teoría de esta unidad:</p>
+  <ul>
+    <li>
+      <strong>Expresión dual</strong> (cambiar \(+\) por \(\cdot\), \(\cdot\) por \(+\), 0 por 1 y 1 por 0):
+      la ley de absorción \(x_1 + x_1x_2 = x_1\) tiene como dual \(x_1(x_1 + x_2) = x_1\), que también vale.
+    </li>
+    <li>
+      <strong>Problema dual f.n.d. \(\leftrightarrow\) f.n.c.</strong> (así lo llama la cátedra): para
+      \(f(x, y, z) = x + \overline{y}z\), el problema "hallar la f.n.d." busca las filas con \(f = 1\)
+      (\(1, 4, 5, 6, 7\)) y suma mintérminos; su dual, "hallar la f.n.c.", busca las filas con
+      \(f = 0\) (\(000, 010, 011\)) y multiplica maxtérminos:
+      \[f = \sum m(1, 4, 5, 6, 7) = (x + y + z)(x + \overline{y} + z)(x + \overline{y} + \overline{z}) = \prod M(0, 2, 3)\]
+    </li>
+  </ul>
+
+  <span class="paso">Inciso h — f.n.d. desde \(f^{-1}(1)\)</span>
+  <p>Regla del mintérmino: el 1 va sin barra, el 0 con barra. Etiqueta: \(16x_1 + 8x_2 + 4x_3 + 2x_4 + x_5\).</p>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th>\(x_1x_2x_3x_4x_5\)</th><th>mintérmino</th><th>etiqueta</th></tr>
+      <tr><td>11001</td><td>\(x_1x_2\overline{x}_3\overline{x}_4x_5\)</td><td>\(16 + 8 + 1 = 25\)</td></tr>
+      <tr><td>11111</td><td>\(x_1x_2x_3x_4x_5\)</td><td>31</td></tr>
+      <tr><td>00011</td><td>\(\overline{x}_1\overline{x}_2\overline{x}_3x_4x_5\)</td><td>\(2 + 1 = 3\)</td></tr>
+      <tr><td>10101</td><td>\(x_1\overline{x}_2x_3\overline{x}_4x_5\)</td><td>\(16 + 4 + 1 = 21\)</td></tr>
+      <tr><td>00110</td><td>\(\overline{x}_1\overline{x}_2x_3x_4\overline{x}_5\)</td><td>\(4 + 2 = 6\)</td></tr>
+    </table>
+  </div>
+  \[f = x_1x_2\overline{x}_3\overline{x}_4x_5 + x_1x_2x_3x_4x_5 + \overline{x}_1\overline{x}_2\overline{x}_3x_4x_5 + x_1\overline{x}_2x_3\overline{x}_4x_5 + \overline{x}_1\overline{x}_2x_3x_4\overline{x}_5\]
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>a) \(2^{32}\) &nbsp; b) \(2^{16}\) &nbsp; c) \(2^5 = 32\) &nbsp; d) \(\binom{32}{4} = 35\,960\) &nbsp; e) \(2^{22}\)</p>
+    <p>f) Solo \(x_1 = \dots = x_5 = 0\) o \(x_1 = \dots = x_5 = 1\).</p>
+    <p>g) Por ejemplo \(x_1 + x_1x_2 = x_1\) y su dual \(x_1(x_1 + x_2) = x_1\).</p>
+    <p>h) \(f = \sum m(3, 6, 21, 25, 31)\), con los cinco mintérminos de la tabla.</p>
+  </div>
+
+  <span class="paso">Verificación</span>
+  <p>La guía no trae resultados. Se controló con Python: los 16 pares del b, las 32 entradas del f, el ejemplo del g y las etiquetas del h.</p>
+</div>

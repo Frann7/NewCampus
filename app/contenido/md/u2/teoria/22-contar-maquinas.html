@@ -1,0 +1,132 @@
+<div class="bloque" data-examen="igual" data-examen-ref="Parcial 1 2026 · ej. 4 b" data-examen-nota="El ítem b) pidió cuántas máquinas se pueden construir, con la información disponible, que tengan un solo estado sumidero (Ejemplo 3). El recuperatorio (B.b iii) pidió el número total de máquinas con esos estados y alfabetos (Ejemplo 1).">
+  <p class="kicker">Propiedades de las máquinas</p>
+  <h2>22. Contar máquinas y funciones \(\nu\) y \(\omega\)</h2>
+
+  <h3>Para qué sirve</h3>
+  <p>
+    Una máquina queda definida por lo que hay en cada casilla de su tabla. Preguntar "¿cuántas
+    máquinas hay?" es preguntar <strong>de cuántas formas se puede llenar la tabla</strong>: es
+    combinatoria (Unidad 1) aplicada a la tabla.
+  </p>
+
+  <h3>Las fórmulas</h3>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Con \(|S|\), \(|I|\) y \(|O|\) dados</span>
+    <p>\[ |S \times I| = |S| \cdot |I| \quad \text{(casillas de } \nu \text{, y también de } \omega) \]</p>
+    <p>\[ \#\nu = |S|^{\,|S| \cdot |I|}, \qquad \#\omega = |O|^{\,|S| \cdot |I|} \]</p>
+    <p>\[ \#\text{máquinas} = |S|^{\,|S||I|} \cdot |O|^{\,|S||I|} = (|S| \cdot |O|)^{\,|S||I|} \]</p>
+  </div>
+
+  <h3>Qué significa cada símbolo</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Símbolo</th><th>Qué es</th><th>En la tabla</th></tr>
+      <tr><td>\(|S| \cdot |I|\)</td><td>cantidad de pares (estado, entrada)</td><td>casilleros del bloque \(\nu\) (y del bloque \(\omega\))</td></tr>
+      <tr><td>\(|S|\) en la base</td><td>opciones para cada casillero de \(\nu\)</td><td>cualquier estado</td></tr>
+      <tr><td>\(|O|\) en la base</td><td>opciones para cada casillero de \(\omega\)</td><td>cualquier salida</td></tr>
+    </table>
+  </div>
+
+  <h3>De dónde sale</h3>
+  <p>
+    Una función \(f : A \to B\) es elegir un valor de \(B\) para cada elemento de \(A\): son
+    \(|B|^{|A|}\) funciones (disposiciones con repetición). \(\nu\) va de \(S \times I\) a \(S\) y
+    \(\omega\) de \(S \times I\) a \(O\). Una máquina es elegir las dos: se multiplican (principio de
+    multiplicación). El estado inicial no cambia la cuenta: siempre es \(s_0\).
+  </p>
+
+  <h3>Con condiciones: casillero por casillero</h3>
+  <ul>
+    <li><strong>"Sin bucles" (\(\nu(s, x) \neq s\)):</strong> cada casillero de \(\nu\) tiene \(|S| - 1\) opciones.</li>
+    <li><strong>"\(s\) es sumidero":</strong> la fila de \(s\) en \(\nu\) queda <strong>fija</strong> (todo \(s\)): 1 forma.</li>
+    <li><strong>"\(s\) no es sumidero":</strong> todas las formas de llenar su fila menos la que lo hace sumidero: \(|S|^{|I|} - 1\).</li>
+    <li><strong>"Exactamente \(k\) sumideros":</strong> elegir cuáles (\(\binom{|S|}{k}\)), fijar sus filas, y que las demás no lo sean.</li>
+    <li><strong>Datos ya dados:</strong> los casilleros llenos tienen 1 opción; solo se cuentan los vacíos.</li>
+  </ul>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">"Máquinas" no es lo mismo que "funciones \(\nu\)"</span>
+    <p>
+      Si piden máquinas, al final se multiplica por las formas de llenar \(\omega\) (que la condición
+      del sumidero no toca). Si piden funciones \(\nu\), no.
+    </p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; Sin condiciones (Grimaldi 6.2, ej. 7)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>Si \(|S| = 3\), \(|I| = 5\) y \(|O| = 2\), determinar \(|S \times I|\), el número de funciones \(\nu\), el de funciones \(\omega\) y cuántas máquinas determinan.</p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"\(|S \times I|\)"</td><td>casilleros de cada bloque</td><td>\(3 \cdot 5\)</td><td>15</td></tr>
+      <tr><td>"funciones \(\nu\)"</td><td>3 opciones por casillero</td><td>\(3^{15}\)</td><td>\(\#\nu\)</td></tr>
+      <tr><td>"funciones \(\omega\)"</td><td>2 opciones por casillero</td><td>\(2^{15}\)</td><td>\(\#\omega\)</td></tr>
+    </table>
+  </div>
+  <p>\[ \#\nu = 3^{15} = 14\,348\,907, \qquad \#\omega = 2^{15} = 32\,768 \]</p>
+  <p>\[ \#\text{máquinas} = 3^{15} \cdot 2^{15} = 6^{15} = 470\,184\,984\,576 \]</p>
+  <div class="caja caja-resp"><span class="caja-tit">Respuesta</span><p>15; \(3^{15}\); \(2^{15}\); \(6^{15}\). Coincide con las soluciones del libro (que dejan las potencias sin calcular: es la forma de escribirlo en el parcial).</p></div>
+
+  <h3>Ejemplo 2 &mdash; Con condiciones</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>Con \(S = \{s_0, s_1, s_2, s_3\}\) e \(I = O = \{0, 1\}\): a) ¿cuántas \(\nu\) no tienen ningún bucle? b) ¿Cuántas \(\nu\) tienen exactamente un sumidero? c) ¿Cuántas máquinas tienen exactamente un sumidero?</p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>\(|S| = 4\), \(|I| = 2\)</td><td>casilleros de \(\nu\)</td><td>\(4 \cdot 2\)</td><td>8</td></tr>
+      <tr><td>"ningún bucle"</td><td>cada casillero evita su propio estado</td><td>\(4 - 1\)</td><td>3 opciones cada uno</td></tr>
+      <tr><td>"exactamente un sumidero"</td><td>elegir cuál; los otros 3 no lo son</td><td>\(\binom{4}{1}\); fila no sumidero: \(4^{2} - 1\)</td><td>\(4 \cdot 15^{3}\)</td></tr>
+      <tr><td>"máquinas"</td><td>además, \(\omega\) libre</td><td>\(2^{8}\)</td><td>se multiplica</td></tr>
+    </table>
+  </div>
+  <p>a) \(\quad 3^{8} = 6561\)</p>
+  <p>b) \(\quad \binom{4}{1} \cdot 1 \cdot (4^{2} - 1)^{3} = 4 \cdot 15^{3} = 13\,500\)</p>
+  <p>c) \(\quad 13\,500 \cdot 2^{8} = 13\,500 \cdot 256 = 3\,456\,000\)</p>
+  <div class="caja caja-resp"><span class="caja-tit">Respuesta</span><p>6561, 13 500 y 3 456 000 (las tres contadas también recorriendo todas las \(\nu\) en Python).</p></div>
+
+  <h3>Ejemplo 3 &mdash; Con forma de parcial: tabla a medio llenar</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>Con \(I = O = \{0, 1\}\) y la tabla de abajo (vacío = no se sabe), ¿cuántas máquinas es posible construir que tengan un solo estado sumidero?</p>
+    <div class="tabla-wrap">
+      <table class="t">
+        <tr><th rowspan="2"></th><th colspan="2">\(\nu\)</th><th colspan="2">\(\omega\)</th></tr>
+        <tr><th>0</th><th>1</th><th>0</th><th>1</th></tr>
+        <tr><td class="lbl">\(s_0\)</td><td>\(s_1\)</td><td>\(s_2\)</td><td>0</td><td></td></tr>
+        <tr><td class="lbl">\(s_1\)</td><td></td><td>\(s_1\)</td><td>0</td><td>1</td></tr>
+        <tr><td class="lbl">\(s_2\)</td><td>\(s_3\)</td><td></td><td></td><td>0</td></tr>
+        <tr><td class="lbl">\(s_3\)</td><td></td><td></td><td>0</td><td>0</td></tr>
+      </table>
+    </div>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>casilleros vacíos de \(\nu\)</td><td>\((s_1, 0), (s_2, 1), (s_3, 0), (s_3, 1)\)</td><td>4 opciones cada uno</td><td>lo que se cuenta</td></tr>
+      <tr><td>casilleros vacíos de \(\omega\)</td><td>\((s_0, 1), (s_2, 0)\)</td><td>2 opciones cada uno</td><td>\(2^{2} = 4\) al final</td></tr>
+      <tr><td>¿quién puede ser sumidero?</td><td>\(s_0\) no (\(\nu(s_0, 0) = s_1\)); \(s_2\) no (\(\nu(s_2, 0) = s_3\))</td><td>&mdash;</td><td>candidatos: \(s_1\) y \(s_3\)</td></tr>
+      <tr><td>"un solo sumidero"</td><td>\(s_1\) sí y \(s_3\) no, o al revés</td><td>dos casos que se suman</td><td>regla de la suma</td></tr>
+    </table>
+  </div>
+  <p><span class="paso">Caso 1 &mdash; Sumidero \(s_1\), \(s_3\) no</span> \(\nu(s_1, 0) = s_1\) (1 forma); \(\nu(s_2, 1)\) libre (4); la fila de \(s_3\), cualquiera menos \((s_3, s_3)\): \(4^{2} - 1 = 15\).</p>
+  <p>\[ 1 \cdot 4 \cdot 15 = 60 \]</p>
+  <p><span class="paso">Caso 2 &mdash; Sumidero \(s_3\), \(s_1\) no</span> fila de \(s_3\) fija (1); \(\nu(s_1, 0) \neq s_1\) (3); \(\nu(s_2, 1)\) libre (4).</p>
+  <p>\[ 1 \cdot 3 \cdot 4 = 12 \]</p>
+  <p><span class="paso">Total</span></p>
+  <p>\[ (60 + 12) \cdot 2^{2} = 72 \cdot 4 = 288 \]</p>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>
+      288 máquinas (72 formas de completar \(\nu\) por 4 de completar \(\omega\)). Verificado probando
+      las \(4^{4} = 256\) formas de llenar \(\nu\): 72 tienen un solo sumidero.
+    </p>
+  </div>
+</div>

@@ -1,0 +1,146 @@
+<div class="bloque" data-examen="igual"
+     data-examen-ref="Parcial 1 2026 · ej. 6"
+     data-examen-nota="El parcial pidió resolver el sistema del Ejemplo 3.">
+  <p class="kicker">Despejar en Boole</p>
+  <h2>13. Ecuaciones y sistemas de ecuaciones booleanas</h2>
+
+  <h3>Para qué sirve</h3>
+  <p>
+    Una ecuación booleana pregunta: <strong>¿para qué valores de las variables se cumple esta
+    igualdad?</strong> Un sistema son varias ecuaciones que tienen que cumplirse a la vez. Como
+    cada variable vale 0 o 1, siempre se podrían probar todas las combinaciones (16 con cuatro
+    variables), pero es largo. Las herramientas de abajo permiten "despejar" casi sin probar.
+  </p>
+
+  <h3>Las herramientas (todas salen de la sección 3)</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Si aparece...</th><th>entonces...</th><th>Por qué</th></tr>
+      <tr><td>una suma \(= 0\)</td><td>cada sumando \(= 0\)</td><td>\(0 + 0\) es la única suma que da 0</td></tr>
+      <tr><td>un producto \(= 1\)</td><td>cada factor \(= 1\)</td><td>\(1 \cdot 1\) es el único producto que da 1</td></tr>
+      <tr><td>\(\overline{E} = 0\)</td><td>\(E = 1\)</td><td>la barra da vuelta el valor</td></tr>
+      <tr><td>\(\overline{E} = 1\)</td><td>\(E = 0\)</td><td>ídem</td></tr>
+      <tr><td>una suma \(= 1\)</td><td>al menos un sumando es 1 (varios casos)</td><td>solo descarta "todos 0"</td></tr>
+      <tr><td>un producto \(= 0\)</td><td>al menos un factor es 0 (varios casos)</td><td>solo descarta "todos 1"</td></tr>
+    </table>
+  </div>
+
+  <h3>El método</h3>
+  <ol>
+    <li><strong>Sacar barras largas</strong>: pasar \(\overline{E} = 0\) a \(E = 1\) y \(\overline{E} = 1\) a \(E = 0\) (o usar De Morgan).</li>
+    <li><strong>Empezar por las ecuaciones que fijan valores</strong>: "suma \(= 0\)" o "producto \(= 1\)". Esas dan valores seguros.</li>
+    <li><strong>Reemplazar</strong> esos valores en las demás ecuaciones. Algunas se cumplen solas (dicen \(1 = 1\)), otras fijan más valores.</li>
+    <li>Lo que queda con varias opciones ("suma \(= 1\)", "producto \(= 0\)") se lista caso por caso.</li>
+    <li><strong>Escribir todas las soluciones</strong> como \(n\)-uplas, y <strong>verificar</strong> cada una en todas las ecuaciones.</li>
+  </ol>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">"Resolver" es dar todas las soluciones</span>
+    <p>
+      Un sistema puede tener una solución, varias o ninguna. Si una variable no quedó fijada, es
+      libre: hay una solución con 0 y otra con 1, y las dos se escriben. Si dos ecuaciones piden
+      valores contradictorios, la respuesta es "no tiene solución".
+    </p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; Una ecuación (Grimaldi 15.1, ej. 10, y guía, Boole 2 f)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>¿Qué valores de \(x, y, z\) verifican \(x + y + z = xyz\)?</p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"\(x + y + z\)"</td><td>es 0 solo si las tres son 0</td><td>&mdash;</td><td>caso 0</td></tr>
+      <tr><td>"\(xyz\)"</td><td>es 1 solo si las tres son 1</td><td>&mdash;</td><td>caso 1</td></tr>
+      <tr><td>"\(=\)"</td><td>los dos lados valen lo mismo: los dos 0 o los dos 1</td><td>dos casos</td><td>las soluciones</td></tr>
+    </table>
+  </div>
+  <ul>
+    <li><strong>Los dos lados valen 0.</strong> \(x + y + z = 0\) obliga a \(x = y = z = 0\); y ahí \(xyz = 0\) también. &#10003;</li>
+    <li><strong>Los dos lados valen 1.</strong> \(xyz = 1\) obliga a \(x = y = z = 1\); y ahí \(x + y + z = 1\). &#10003;</li>
+  </ul>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>
+      \((0, 0, 0)\) y \((1, 1, 1)\): las tres variables tienen el mismo valor. Con cinco
+      variables (guía 2 f, \(x_1 x_2 x_3 x_4 x_5 = x_1 + \cdots + x_5\)) es igual:
+      \((0,0,0,0,0)\) y \((1,1,1,1,1)\).
+    </p>
+  </div>
+
+  <h3>Ejemplo 2 &mdash; Un sistema con solución única (guía complementaria, Boole 5)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>Resolver \((x + y) \cdot z = 1\); \(x + z = 1\); \(y + \overline{z} = x\).</p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"\((x + y)z = 1\)"</td><td>producto \(= 1\): cada factor es 1</td><td>\(z = 1\) y \(x + y = 1\)</td><td>empezar por esta</td></tr>
+      <tr><td>"\(x + z = 1\)"</td><td>suma \(= 1\)</td><td>con \(z = 1\) se cumple sola</td><td>no aporta</td></tr>
+      <tr><td>"\(y + \overline{z} = x\)"</td><td>con \(z = 1\), \(\overline{z} = 0\)</td><td>\(y + 0 = y\)</td><td>\(y = x\)</td></tr>
+    </table>
+  </div>
+  <p>
+    Queda \(x + y = 1\) con \(y = x\): \(x + x = x = 1\) (idempotencia). Entonces \(x = 1\),
+    \(y = 1\), \(z = 1\).
+  </p>
+  <p>Verificación: \((1 + 1) \cdot 1 = 1\) &#10003;; \(1 + 1 = 1\) &#10003;; \(1 + \overline{1} = 1 + 0 = 1 = x\) &#10003;.</p>
+  <div class="caja caja-resp"><span class="caja-tit">Respuesta</span><p>Una sola solución: \((x, y, z) = (1, 1, 1)\).</p></div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 3 &mdash; Estilo parcial (Parcial 1 2026, ej. 6)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>
+      Resolver el siguiente sistema de ecuaciones booleanas:
+      \(\overline{w + \overline{x}} = 0 \;\wedge\; w \cdot \overline{y} = 1 \;\wedge\; x + z = 1 \;\wedge\; \overline{y \cdot z} = 1\)
+    </p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"\(\wedge\)"</td><td>"y": las cuatro a la vez</td><td>&mdash;</td><td>es un sistema</td></tr>
+      <tr><td>(1) "\(\overline{w + \overline{x}} = 0\)"</td><td>barra larga \(= 0\)</td><td>lo de adentro \(= 1\)</td><td>\(w + \overline{x} = 1\)</td></tr>
+      <tr><td>(2) "\(w\overline{y} = 1\)"</td><td>producto \(= 1\): fija valores</td><td>\(w = 1\), \(\overline{y} = 1\)</td><td>\(w = 1\), \(y = 0\)</td></tr>
+      <tr><td>(3) "\(x + z = 1\)"</td><td>suma \(= 1\): varios casos</td><td>&mdash;</td><td>al final</td></tr>
+      <tr><td>(4) "\(\overline{yz} = 1\)"</td><td>barra larga \(= 1\)</td><td>lo de adentro \(= 0\)</td><td>\(yz = 0\)</td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Paso 1 &mdash; La que fija valores: (2)</span>
+  <p>\(w \cdot \overline{y} = 1\) es un producto igual a 1, así que los dos factores valen 1: \(w = 1\) y \(\overline{y} = 1\), o sea \(y = 0\).</p>
+
+  <span class="paso">Paso 2 &mdash; Reemplazar en (1)</span>
+  <p>\(\overline{w + \overline{x}} = 0 \iff w + \overline{x} = 1\). Con \(w = 1\): \(1 + \overline{x} = 1\) (dominación, L9) se cumple para cualquier \(x\). No fija nada.</p>
+
+  <span class="paso">Paso 3 &mdash; Reemplazar en (4)</span>
+  <p>\(\overline{yz} = 1 \iff yz = 0\). Con \(y = 0\): \(0 \cdot z = 0\) (L9) se cumple para cualquier \(z\). Tampoco fija nada.</p>
+
+  <span class="paso">Paso 4 &mdash; Lo que queda: (3)</span>
+  <p>\(x + z = 1\): al menos uno de los dos es 1. Las opciones para \((x, z)\) son \((0, 1)\), \((1, 0)\) y \((1, 1)\); solo se descarta \((0, 0)\).</p>
+
+  <span class="paso">Paso 5 &mdash; Escribir y verificar las soluciones \((w, x, y, z)\)</span>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th>\((w, x, y, z)\)</th><th>(1) \(\overline{w + \overline{x}}\)</th><th>(2) \(w\overline{y}\)</th><th>(3) \(x + z\)</th><th>(4) \(\overline{yz}\)</th></tr>
+      <tr><td>\((1, 0, 0, 1)\)</td><td>\(\overline{1 + 1} = 0\) &#10003;</td><td>\(1 \cdot 1 = 1\) &#10003;</td><td>\(0 + 1 = 1\) &#10003;</td><td>\(\overline{0} = 1\) &#10003;</td></tr>
+      <tr><td>\((1, 1, 0, 0)\)</td><td>\(\overline{1 + 0} = 0\) &#10003;</td><td>\(1 \cdot 1 = 1\) &#10003;</td><td>\(1 + 0 = 1\) &#10003;</td><td>\(\overline{0} = 1\) &#10003;</td></tr>
+      <tr><td>\((1, 1, 0, 1)\)</td><td>\(\overline{1 + 0} = 0\) &#10003;</td><td>\(1 \cdot 1 = 1\) &#10003;</td><td>\(1 + 1 = 1\) &#10003;</td><td>\(\overline{0} = 1\) &#10003;</td></tr>
+    </table>
+  </div>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>
+      El sistema tiene tres soluciones: \((w, x, y, z) \in \{(1, 0, 0, 1),\ (1, 1, 0, 0),\ (1, 1, 0, 1)\}\).
+      Siempre \(w = 1\) e \(y = 0\), y \(x, z\) no pueden ser los dos 0. (Se comprobó probando las
+      16 combinaciones: son exactamente esas tres.)
+    </p>
+  </div>
+</div>

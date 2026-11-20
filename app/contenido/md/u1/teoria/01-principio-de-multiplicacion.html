@@ -1,0 +1,260 @@
+<div class="bloque" data-examen="variante" data-examen-ref="Parcial 1 2026 · ej. 4b" data-examen-nota="Se pidió contar cuántas máquinas se pueden construir completando una tabla incompleta con un solo estado sumidero: cada casilla vacía es un paso y se multiplica (los casos se separan con la regla de la suma, sección 2, donde está resuelto entero).">
+  <p class="kicker">Principios del conteo</p>
+  <h2>1. Principio de multiplicación</h2>
+
+  <h3>Para qué sirve</h3>
+  <p>
+    Para contar cosas que se arman <strong>en pasos, uno detrás de otro</strong>: una patente
+    (primera letra, segunda letra, &hellip;), una cadena (primer símbolo, segundo símbolo, &hellip;),
+    una máquina (lo que hace cada estado con cada entrada). En vez de listar todas las
+    posibilidades, multiplicás cuántas opciones tiene cada paso.
+  </p>
+
+  <h3>Definición</h3>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Principio de multiplicación</span>
+    <p>
+      Si una actividad se construye en \(t\) pasos sucesivos, y el paso 1 se puede hacer de
+      \(n_1\) maneras, el paso 2 de \(n_2\) maneras, &hellip;, y el paso \(t\) de \(n_t\) maneras,
+      entonces la cantidad de actividades distintas es
+    </p>
+    <p>\[ n_1 \cdot n_2 \cdots n_t \]</p>
+  </div>
+
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Símbolo</th><th>Qué significa</th></tr>
+      <tr><td>\(t\)</td><td>cuántos pasos tiene la construcción</td></tr>
+      <tr><td>\(n_i\)</td><td>cuántas opciones hay en el paso número \(i\), <strong>sea cual sea</strong> lo que se eligió en los pasos anteriores</td></tr>
+    </table>
+  </div>
+
+  <p>
+    <strong>Caso particular (dos pasos):</strong> si una actividad A se hace de \(m\) formas y
+    <em>luego</em> otra B de \(n\) formas, A <strong>y</strong> B juntas se hacen de \(m \cdot n\)
+    formas. La palabra clave es <strong>"y"</strong>: "y" indica multiplicación.
+  </p>
+
+  <h3>De dónde sale</h3>
+  <p>
+    Pensalo como un árbol. La cátedra usa una actividad de 3 pasos: el paso 1 tiene 2 formas, el
+    paso 2 tiene 3 y el paso 3 tiene 2.
+  </p>
+  <ul>
+    <li>Del paso 1 salen <strong>2</strong> ramas.</li>
+    <li>De <strong>cada una</strong> de esas 2 ramas salen 3 ramas del paso 2: \(2 \cdot 3 = 6\) caminos hasta ahí.</li>
+    <li>De <strong>cada uno</strong> de esos 6 caminos salen 2 ramas del paso 3: \(6 \cdot 2 = 12\) caminos completos.</li>
+  </ul>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Paso 1</th><th>Paso 2</th><th>Paso 3 (2 formas cada uno)</th><th>Caminos</th></tr>
+      <tr><td rowspan="3">forma 1</td><td>forma 1</td><td>f1, f2</td><td>2</td></tr>
+      <tr><td>forma 2</td><td>f1, f2</td><td>2</td></tr>
+      <tr><td>forma 3</td><td>f1, f2</td><td>2</td></tr>
+      <tr><td rowspan="3">forma 2</td><td>forma 1</td><td>f1, f2</td><td>2</td></tr>
+      <tr><td>forma 2</td><td>f1, f2</td><td>2</td></tr>
+      <tr><td>forma 3</td><td>f1, f2</td><td>2</td></tr>
+      <tr><td colspan="3"><strong>Total</strong></td><td>\(2 \cdot 3 \cdot 2 = 12\)</td></tr>
+    </table>
+  </div>
+  <p>
+    Cada camino completo del árbol es una actividad distinta, y la cantidad de caminos es el
+    producto de las ramas de cada nivel. Funciona porque cada paso tiene <strong>la misma
+    cantidad de opciones</strong> sin importar qué se eligió antes (aunque las opciones concretas
+    cambien).
+  </p>
+
+  <h3>Con repetición y sin repetición</h3>
+  <ul>
+    <li><strong>Con repetición permitida:</strong> cada paso tiene las mismas \(n\) opciones. Con
+      \(r\) pasos: \(n \cdot n \cdots n = n^{r}\).</li>
+    <li><strong>Sin repetición:</strong> cada paso tiene una opción menos que el anterior (lo ya
+      usado no se puede volver a usar): \(n \cdot (n-1) \cdot (n-2) \cdots\). Esto se formaliza en
+      las secciones 3 y 4.</li>
+  </ul>
+
+  <h3>La herramienta para contar funciones (cadenas, máquinas, Boole)</h3>
+  <p>
+    Una <strong>función</strong> \(f : A \to B\) le asigna a <strong>cada</strong> elemento de \(A\)
+    exactamente un elemento de \(B\). Armar una función es un trabajo en pasos: un paso por cada
+    elemento de \(A\), y en cada paso hay \(|B|\) opciones (\(|B|\) se lee "la cantidad de
+    elementos de \(B\)").
+  </p>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Cantidad de funciones de \(A\) en \(B\)</span>
+    <p>\[ \underbrace{|B| \cdot |B| \cdots |B|}_{|A| \text{ veces}} = |B|^{|A|} \]</p>
+  </div>
+  <p>
+    Ejemplo chiquito: funciones \(f : \{1, 2\} \to \{a, b, c\}\). Paso 1: a dónde va el 1 (3
+    opciones). Paso 2: a dónde va el 2 (3 opciones). Total \(3 \cdot 3 = 3^{2} = 9\).
+  </p>
+  <p>Esto aparece todo el tiempo en las unidades 2 y 3:</p>
+  <ul>
+    <li><strong>Cadenas de longitud \(n\)</strong> sobre un alfabeto \(\Sigma\): cada posición es un paso con \(|\Sigma|\) opciones &rarr; \(|\Sigma|^{n}\).</li>
+    <li><strong>Funciones de estado siguiente</strong> \(\nu : S \times I \to S\): \(S \times I\) son todos los pares (estado, entrada), que son \(|S| \cdot |I|\); cada par elige un estado &rarr; \(|S|^{|S| \cdot |I|}\).</li>
+    <li><strong>Funciones de salida</strong> \(\omega : S \times I \to O\) &rarr; \(|O|^{|S| \cdot |I|}\).</li>
+    <li><strong>Funciones booleanas</strong> \(f : B^{n} \to B\): \(B^{n}\) tiene \(2^{n}\) filas en la tabla, cada fila elige 0 o 1 &rarr; \(2^{2^{n}}\).</li>
+  </ul>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; La pareja principal (cátedra)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>
+      Un club de teatro realiza ensayos para una obra. Si cuatro hombres y tres mujeres ensayan
+      para los papeles principales (masculino y femenino), ¿de cuántas formas el director puede
+      elegir a la pareja principal?
+    </p>
+  </div>
+
+  <h4>Por qué esta regla</h4>
+  <ul>
+    <li>La pareja se arma en dos pasos: elegir el papel masculino <strong>y</strong> elegir el femenino.</li>
+    <li>La cantidad de mujeres disponibles no depende de qué hombre se eligió &rarr; regla del producto.</li>
+  </ul>
+
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase del enunciado</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"cuatro hombres"</td><td>opciones del paso 1 (papel masculino)</td><td>&mdash;</td><td>\(n_1 = 4\)</td></tr>
+      <tr><td>"tres mujeres"</td><td>opciones del paso 2 (papel femenino)</td><td>&mdash;</td><td>\(n_2 = 3\)</td></tr>
+      <tr><td>"la pareja principal"</td><td>un hombre <strong>y</strong> una mujer</td><td>&mdash;</td><td>se multiplica</td></tr>
+    </table>
+  </div>
+
+  <h4>Resolución</h4>
+  <p>\[ n_1 \cdot n_2 = 4 \cdot 3 = 12 \]</p>
+  <p>Si llamamos \(H_1, \dots, H_4\) a los hombres y \(M_1, M_2, M_3\) a las mujeres, el árbol da exactamente estas 12 parejas:</p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th></th><th>\(M_1\)</th><th>\(M_2\)</th><th>\(M_3\)</th></tr>
+      <tr><td class="lbl">\(H_1\)</td><td>\(H_1M_1\)</td><td>\(H_1M_2\)</td><td>\(H_1M_3\)</td></tr>
+      <tr><td class="lbl">\(H_2\)</td><td>\(H_2M_1\)</td><td>\(H_2M_2\)</td><td>\(H_2M_3\)</td></tr>
+      <tr><td class="lbl">\(H_3\)</td><td>\(H_3M_1\)</td><td>\(H_3M_2\)</td><td>\(H_3M_3\)</td></tr>
+      <tr><td class="lbl">\(H_4\)</td><td>\(H_4M_1\)</td><td>\(H_4M_2\)</td><td>\(H_4M_3\)</td></tr>
+    </table>
+  </div>
+  <div class="caja caja-resp"><span class="caja-tit">Respuesta</span><p>12 parejas posibles.</p></div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; Patentes LLDDDLL (cátedra)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>
+      ¿Cuántas patentes distintas se pueden fabricar que consten de dos letras, seguidas por tres
+      dígitos y luego dos letras más (LLDDDLL), si
+      1) ninguna letra o dígito se puede repetir;
+      2) se permite repetir las letras y los dígitos;
+      3) con repetición, usando solo vocales y dígitos pares?
+    </p>
+  </div>
+
+  <h4>Por qué esta regla</h4>
+  <ul>
+    <li>Una patente se arma posición por posición: 7 pasos.</li>
+    <li>Lo único que cambia entre incisos es cuántas opciones tiene cada paso.</li>
+  </ul>
+
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase del enunciado</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"letras"</td><td>el alfabeto de patentes (A a Z, sin Ñ)</td><td>&mdash;</td><td>26 opciones</td></tr>
+      <tr><td>"dígitos"</td><td>0 a 9</td><td>&mdash;</td><td>10 opciones</td></tr>
+      <tr><td>"LLDDDLL"</td><td>4 posiciones de letra y 3 de dígito</td><td>&mdash;</td><td>\(t = 7\) pasos</td></tr>
+      <tr><td>"no se puede repetir"</td><td>cada letra usada se descuenta</td><td>&mdash;</td><td>26, 25, 24, 23</td></tr>
+      <tr><td>"solo vocales y dígitos pares"</td><td>A, E, I, O, U y 0, 2, 4, 6, 8</td><td>&mdash;</td><td>5 y 5 opciones</td></tr>
+    </table>
+  </div>
+
+  <h4>Inciso 1 &mdash; sin repetir</h4>
+  <p>Las letras van perdiendo una opción cada vez (aunque estén separadas por los dígitos); los dígitos también:</p>
+  <p>\[ \underbrace{26 \cdot 25 \cdot 24 \cdot 23}_{\text{las 4 letras}} \cdot \underbrace{10 \cdot 9 \cdot 8}_{\text{los 3 dígitos}} = 358\,800 \cdot 720 = 258\,336\,000 \]</p>
+  <h4>Inciso 2 &mdash; repitiendo</h4>
+  <p>\[ 26^{4} \cdot 10^{3} = 456\,976 \cdot 1\,000 = 456\,976\,000 \]</p>
+  <h4>Inciso 3 &mdash; vocales y pares, repitiendo</h4>
+  <p>\[ 5^{4} \cdot 5^{3} = 5^{7} = 78\,125 \]</p>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>1) 258 336 000 patentes. 2) 456 976 000. 3) 78 125.</p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 3 &mdash; Estilo parcial: cadenas y máquinas</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>
+      a) Sea \(\Sigma = \{a, b, c\}\). ¿Cuántas cadenas de longitud 5 hay? ¿Cuántas de ellas
+      empiezan con \(bb\)?<br>
+      b) ¿Cuántas máquinas de estados finitos \(M = (S, I, O, \nu, \omega)\) se pueden construir con
+      \(S = \{s_0, s_1, s_2\}\), \(I = \{0, 1\}\) y \(O = \{0, 1\}\)?<br>
+      c) ¿Cuántas funciones booleanas \(f : B^{3} \to B\) existen?
+    </p>
+  </div>
+
+  <h4>Por qué esta regla</h4>
+  <ul>
+    <li>Una cadena se arma símbolo por símbolo: un paso por posición.</li>
+    <li>Una máquina queda definida cuando se llena su tabla: una casilla \(\nu\) y una \(\omega\)
+      por cada par (estado, entrada). Cada casilla es un paso.</li>
+    <li>Una función booleana queda definida cuando se llena la columna de salida de su tabla: un paso por fila.</li>
+  </ul>
+
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase del enunciado</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"\(\Sigma = \{a, b, c\}\)"</td><td>opciones por posición</td><td>&mdash;</td><td>3</td></tr>
+      <tr><td>"longitud 5"</td><td>5 posiciones</td><td>&mdash;</td><td>5 pasos</td></tr>
+      <tr><td>"empiezan con \(bb\)"</td><td>las 2 primeras posiciones ya están fijas (1 opción cada una)</td><td>\(5 - 2 = 3\)</td><td>3 posiciones libres</td></tr>
+      <tr><td>"\(S = \{s_0, s_1, s_2\}\)", "\(I = \{0, 1\}\)"</td><td>pares (estado, entrada)</td><td>\(3 \cdot 2 = 6\)</td><td>6 casillas \(\nu\) y 6 casillas \(\omega\)</td></tr>
+      <tr><td>"\(O = \{0, 1\}\)"</td><td>opciones de cada casilla \(\omega\)</td><td>&mdash;</td><td>2</td></tr>
+      <tr><td>"\(f : B^{3} \to B\)"</td><td>filas de la tabla de verdad</td><td>\(2^{3} = 8\)</td><td>8 pasos de 2 opciones</td></tr>
+    </table>
+  </div>
+
+  <h4>Inciso a</h4>
+  <p>Cadenas de longitud 5: 5 pasos con 3 opciones cada uno.</p>
+  <p>\[ 3 \cdot 3 \cdot 3 \cdot 3 \cdot 3 = 3^{5} = 243 \]</p>
+  <p>Las que empiezan con \(bb\): las dos primeras posiciones tienen una sola opción (\(b\)), las otras tres siguen libres.</p>
+  <p>\[ 1 \cdot 1 \cdot 3 \cdot 3 \cdot 3 = 3^{3} = 27 \]</p>
+
+  <h4>Inciso b</h4>
+  <p>La tabla de la máquina tiene 3 filas (estados) y, por cada entrada, una columna \(\nu\) y una \(\omega\):</p>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th></th><th>\(\nu\) 0</th><th>\(\nu\) 1</th><th>\(\omega\) 0</th><th>\(\omega\) 1</th></tr>
+      <tr><td class="lbl">\(s_0\)</td><td>3 op.</td><td>3 op.</td><td>2 op.</td><td>2 op.</td></tr>
+      <tr><td class="lbl">\(s_1\)</td><td>3 op.</td><td>3 op.</td><td>2 op.</td><td>2 op.</td></tr>
+      <tr><td class="lbl">\(s_2\)</td><td>3 op.</td><td>3 op.</td><td>2 op.</td><td>2 op.</td></tr>
+    </table>
+  </div>
+  <ul>
+    <li>Casillas \(\nu\): \(3 \cdot 2 = 6\), cada una con 3 estados posibles &rarr; \(3^{6} = 729\) funciones \(\nu\).</li>
+    <li>Casillas \(\omega\): 6, cada una con 2 salidas posibles &rarr; \(2^{6} = 64\) funciones \(\omega\).</li>
+    <li>Una máquina es elegir \(\nu\) <strong>y</strong> \(\omega\) &rarr; se multiplica.</li>
+  </ul>
+  <p>\[ 3^{6} \cdot 2^{6} = 729 \cdot 64 = 46\,656 \]</p>
+
+  <h4>Inciso c</h4>
+  <p>\(B^{3}\) tiene \(2^{3} = 8\) elementos (las 8 filas \(000, 001, \dots, 111\)). Cada fila elige 0 o 1:</p>
+  <p>\[ 2^{8} = 256 \]</p>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>a) 243 cadenas; 27 empiezan con \(bb\). b) 46 656 máquinas. c) 256 funciones booleanas.</p>
+  </div>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">El error típico: contar la cantidad de opciones al revés</span>
+    <p>
+      En \(|B|^{|A|}\) la base es <strong>lo que se elige</strong> (las opciones) y el exponente es
+      <strong>cuántas veces se elige</strong> (los pasos). Cadenas de longitud 5 sobre 3 símbolos:
+      \(3^{5}\), no \(5^{3}\). Si dudás, preguntate: "¿cuántos pasos hay?" &rarr; eso va arriba.
+    </p>
+  </div>
+</div>

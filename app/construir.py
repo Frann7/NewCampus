@@ -286,11 +286,11 @@ def armar_materias(panes):
     problemas = []
     ruta = os.path.join(CONTENIDO, "materias.json")
     if not os.path.isfile(ruta):
-        return [], ["falta contenido/materias.json"]
+        return [], [], ["falta contenido/materias.json"]
     try:
         datos = json.loads(io.open(ruta, encoding="utf-8").read())
     except ValueError as e:
-        return [], ["materias.json no se entiende: %s" % e]
+        return [], [], ["materias.json no se entiende: %s" % e]
 
     con_contenido = {}
     for vista in panes:
@@ -332,7 +332,29 @@ def armar_materias(panes):
     for clave in sorted(set(con_contenido) - listadas):
         problemas.append("la materia %s tiene apuntes pero no esta en materias.json" % clave)
 
-    return salida, problemas
+    # Solapas por anio: cada materia del menu va en exactamente un anio.
+    anios = []
+    anio_de = {}
+    for a in datos.get("anios", []):
+        if not a.get("clave") or not a.get("nombre"):
+            problemas.append("hay un anio sin clave o sin nombre")
+            continue
+        anios.append({"clave": a["clave"], "nombre": a["nombre"]})
+        for clave in a.get("materias", []):
+            if clave not in listadas:
+                problemas.append("el anio %s nombra a %s, que no esta en materias" % (a["nombre"], clave))
+            elif clave in anio_de:
+                problemas.append("%s esta en dos anios" % clave)
+            else:
+                anio_de[clave] = a["clave"]
+    if anios:
+        for ficha in salida:
+            if ficha["clave"] in anio_de:
+                ficha["anio"] = anio_de[ficha["clave"]]
+            else:
+                problemas.append("%s no esta en ningun anio" % ficha["clave"])
+
+    return salida, anios, problemas
 
 
 def main():
@@ -411,7 +433,7 @@ def main():
         hubo_problemas |= informar(rel, texto, problemas)
 
     # 3. El indice: lo unico que carga index.html de entrada
-    indice["materias"], problemas_menu = armar_materias(indice["panes"])
+    indice["materias"], indice["anios"], problemas_menu = armar_materias(indice["panes"])
     if problemas_menu:
         hubo_problemas |= informar("menu (contenido/materias.json)", "", problemas_menu)
     else:

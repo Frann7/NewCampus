@@ -1,0 +1,158 @@
+<div class="bloque">
+  <p class="kicker">Las herramientas para simplificar</p>
+  <h2>7. Leyes de las funciones booleanas y dualidad</h2>
+
+  <h3>Para qué sirve</h3>
+  <p>
+    Son las mismas diez leyes de la sección 2, ahora escritas con \(+\), \(\cdot\), la barra, 0 y
+    1. Valen para variables (\(x, y, z\)) y para funciones enteras (\(f, g, h\)). Son las únicas
+    "reglas de juego" permitidas para transformar una expresión en otra igual: simplificar
+    (sección 8) y pasar a las formas normales (secciones 9 y 10) es aplicarlas una detrás de
+    otra, diciendo cuál se usó en cada renglón.
+  </p>
+
+  <h3>La tabla de leyes de la cátedra</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Ley</th><th>Para funciones</th><th>Para variables</th></tr>
+      <tr><td class="lbl">L1. Doble complemento</td><td>\(\overline{\overline{f}} = f\)</td><td>\(\overline{\overline{x}} = x\)</td></tr>
+      <tr><td class="lbl">L2. De Morgan</td><td>\(\overline{f + g} = \overline{f}\,\overline{g}\)<br>\(\overline{fg} = \overline{f} + \overline{g}\)</td><td>\(\overline{x + y} = \overline{x}\,\overline{y}\)<br>\(\overline{xy} = \overline{x} + \overline{y}\)</td></tr>
+      <tr><td class="lbl">L3. Conmutativas</td><td>\(f + g = g + f\)<br>\(fg = gf\)</td><td>\(x + y = y + x\)<br>\(xy = yx\)</td></tr>
+      <tr><td class="lbl">L4. Asociativas</td><td>\(f + (g + h) = (f + g) + h\)<br>\(f(gh) = (fg)h\)</td><td>\(x + (y + z) = (x + y) + z\)<br>\(x(yz) = (xy)z\)</td></tr>
+      <tr><td class="lbl">L5. Distributivas</td><td>\(f + gh = (f + g)(f + h)\)<br>\(f(g + h) = fg + fh\)</td><td>\(x + yz = (x + y)(x + z)\)<br>\(x(y + z) = xy + xz\)</td></tr>
+      <tr><td class="lbl">L6. Idempotencia</td><td>\(f + f = f\)<br>\(ff = f\)</td><td>\(x + x = x\)<br>\(xx = x\)</td></tr>
+      <tr><td class="lbl">L7. Identidad</td><td>\(f + \mathbf{0} = f\)<br>\(f \cdot \mathbf{1} = f\)</td><td>\(x + 0 = x\)<br>\(x \cdot 1 = x\)</td></tr>
+      <tr><td class="lbl">L8. Inversos</td><td>\(f + \overline{f} = \mathbf{1}\)<br>\(f\overline{f} = \mathbf{0}\)</td><td>\(x + \overline{x} = 1\)<br>\(x\overline{x} = 0\)</td></tr>
+      <tr><td class="lbl">L9. Dominación</td><td>\(f + \mathbf{1} = \mathbf{1}\)<br>\(f \cdot \mathbf{0} = \mathbf{0}\)</td><td>\(x + 1 = 1\)<br>\(x \cdot 0 = 0\)</td></tr>
+      <tr><td class="lbl">L10. Absorción</td><td>\(f + fg = f\)<br>\(f(f + g) = f\)</td><td>\(x + xy = x\)<br>\(x(x + y) = x\)</td></tr>
+    </table>
+  </div>
+  <p>
+    \(\mathbf{0}\) y \(\mathbf{1}\) en negrita son las funciones constantes (columna toda en 0 o
+    toda en 1), no los números.
+  </p>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">La distributiva rara: \(x + yz = (x + y)(x + z)\)</span>
+    <p>
+      En los números, la suma <strong>no</strong> se distribuye sobre el producto
+      (\(2 + 3 \cdot 4 \neq (2 + 3)(2 + 4)\)). En Boole sí. Es la que permite pasar de una suma a
+      un producto, y se usa para la f.n.c. (sección 10). Comprobación con la tabla (las 8 filas):
+    </p>
+    <div class="tabla-wrap">
+      <table class="t">
+        <tr><th>\(x\)</th><th>\(y\)</th><th>\(z\)</th><th>\(yz\)</th><th>\(x + yz\)</th><th>\(x + y\)</th><th>\(x + z\)</th><th>\((x + y)(x + z)\)</th></tr>
+        <tr><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+        <tr><td>0</td><td>0</td><td>1</td><td>0</td><td>0</td><td>0</td><td>1</td><td>0</td></tr>
+        <tr><td>0</td><td>1</td><td>0</td><td>0</td><td>0</td><td>1</td><td>0</td><td>0</td></tr>
+        <tr><td>0</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
+        <tr><td>1</td><td>0</td><td>0</td><td>0</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
+        <tr><td>1</td><td>0</td><td>1</td><td>0</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
+        <tr><td>1</td><td>1</td><td>0</td><td>0</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
+        <tr><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <h3>Dualidad</h3>
+  <p>
+    En cada ley hay una propiedad \(s\) y su <strong>dual</strong> \(s^{d}\), que sale de
+    \(s\) haciendo estos cambios <strong>a la vez</strong>:
+  </p>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Cómo se arma el dual \(s^{d}\)</span>
+    <p>\[ + \;\longleftrightarrow\; \cdot \qquad\qquad 0 \;\longleftrightarrow\; 1 \]</p>
+    <p>Las variables y las barras quedan como están.</p>
+  </div>
+  <p>
+    <strong>Principio de dualidad:</strong> si \(s\) es una igualdad verdadera (un teorema),
+    \(s^{d}\) también lo es. Por eso alcanza con demostrar una de las dos mitades de cada ley.
+  </p>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Cuidado con los paréntesis al cambiar \(\cdot\) por \(+\)</span>
+    <p>
+      El producto se hace antes que la suma, así que al dualizar hay que agregar paréntesis para
+      que se conserve el orden: el dual de \(x + yz\) es \(x(y + z)\), no \(x \cdot y + z\).
+    </p>
+  </div>
+
+  <h3>Demostración de la absorción (la pide la guía complementaria)</h3>
+  <p>Se demuestra con las otras leyes, renglón por renglón:</p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Renglón</th><th>Qué ley se usó</th></tr>
+      <tr><td>\(x + xy = x \cdot 1 + xy\)</td><td>L7, identidad: \(x = x \cdot 1\)</td></tr>
+      <tr><td>\(= x(1 + y)\)</td><td>L5, distributiva (sacar \(x\) factor común)</td></tr>
+      <tr><td>\(= x(y + 1)\)</td><td>L3, conmutativa de \(+\)</td></tr>
+      <tr><td>\(= x \cdot 1\)</td><td>L9, dominación: \(y + 1 = 1\)</td></tr>
+      <tr><td>\(= x\)</td><td>L7, identidad</td></tr>
+    </table>
+  </div>
+  <p>La otra mitad, \(x(x + y) = x\), es la dual. Se puede usar el principio de dualidad, o hacerla directa:</p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Renglón</th><th>Qué ley se usó</th></tr>
+      <tr><td>\(x(x + y) = xx + xy\)</td><td>L5, distributiva</td></tr>
+      <tr><td>\(= x + xy\)</td><td>L6, idempotencia: \(xx = x\)</td></tr>
+      <tr><td>\(= x\)</td><td>L10, la absorción recién demostrada</td></tr>
+    </table>
+  </div>
+  <p>
+    Por tabla también sale: \(x + xy\) y \(x(x + y)\) dan las dos \(0, 0, 1, 1\) en las filas
+    \(00, 01, 10, 11\), igual que \(x\). La idea: si \(x = 1\), los dos lados dan 1; si \(x = 0\),
+    \(xy\) es 0 y los dos lados dan 0. El valor de \(y\) no importa.
+  </p>
+
+  <h3>Ejemplo 1 &mdash; Escribir el dual</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>Escribir el dual de \(x + 0 = x\) y de \(x + \overline{x}y = x + y\).</p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"\(x + 0\)"</td><td>\(+\) pasa a \(\cdot\), 0 pasa a 1</td><td>&mdash;</td><td>\(x \cdot 1\)</td></tr>
+      <tr><td>"\(x + \overline{x}y\)"</td><td>la suma pasa a producto, el producto pasa a suma (con paréntesis)</td><td>&mdash;</td><td>\(x(\overline{x} + y)\)</td></tr>
+      <tr><td>"\(x + y\)"</td><td>la suma pasa a producto</td><td>&mdash;</td><td>\(xy\)</td></tr>
+    </table>
+  </div>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>
+      \((x + 0 = x)^{d}\) es \(x \cdot 1 = x\) (la otra mitad de L7).
+      \((x + \overline{x}y = x + y)^{d}\) es \(x(\overline{x} + y) = xy\).
+    </p>
+  </div>
+
+  <h3>Ejemplo 2 &mdash; Estilo parcial: una ley "extra" muy útil y su dual (guía, Boole 2 g)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>Demostrar \(x + \overline{x}y = x + y\), y deducir su dual.</p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"\(x + \overline{x}y\)"</td><td>una suma con un producto adentro</td><td>conviene la distributiva rara</td><td>pasarla a producto</td></tr>
+      <tr><td>"deducir su dual"</td><td>principio de dualidad</td><td>cambiar \(+ \leftrightarrow \cdot\)</td><td>\(x(\overline{x} + y) = xy\)</td></tr>
+    </table>
+  </div>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Renglón</th><th>Qué ley se usó</th></tr>
+      <tr><td>\(x + \overline{x}y = (x + \overline{x})(x + y)\)</td><td>L5, distributiva de \(+\) sobre \(\cdot\)</td></tr>
+      <tr><td>\(= 1 \cdot (x + y)\)</td><td>L8, inversos: \(x + \overline{x} = 1\)</td></tr>
+      <tr><td>\(= x + y\)</td><td>L7, identidad (y L3 para dar vuelta el producto)</td></tr>
+    </table>
+  </div>
+  <p>El dual, directo: \(x(\overline{x} + y) = x\overline{x} + xy = 0 + xy = xy\) (L5, L8, L7).</p>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>
+      \(x + \overline{x}y = x + y\) y su dual \(x(\overline{x} + y) = xy\). Las dos se
+      comprobaron también con la tabla. En palabras: "si ya está \(x\) sumando, la barra de
+      \(x\) que acompaña a \(y\) sobra".
+    </p>
+  </div>
+</div>

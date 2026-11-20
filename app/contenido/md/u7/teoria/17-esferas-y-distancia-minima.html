@@ -1,0 +1,149 @@
+<div class="bloque">
+  <p class="kicker">Codificación</p>
+  <h2>17. Esferas, distancia mínima, detección y corrección</h2>
+
+  <h3>Para qué sirve</h3>
+  <p>
+    Con un solo número del código, la <strong>distancia mínima</strong> entre sus palabras, se sabe
+    cuántos errores puede <strong>detectar</strong> y cuántos puede <strong>corregir</strong>. Las
+    esferas son el dibujo mental que explica por qué.
+  </p>
+
+  <h3>Esfera</h3>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Definición (cátedra)</span>
+    <p>Para \(n, k \in \mathbb{Z}^{+}\) y \(x \in \mathbb{Z}_2^{n}\), la <strong>esfera de radio \(k\) con centro en \(x\)</strong> es</p>
+    <p>\[ S(x, k) = \{\, y \in \mathbb{Z}_2^{n} \,/\, d(x, y) \leq k \,\} \]</p>
+  </div>
+  <ul>
+    <li>Son todas las palabras que se obtienen de \(x\) cambiando <strong>a lo sumo \(k\)</strong> bits.</li>
+    <li>\(S(x, 1)\) = \(x\) más las \(n\) palabras que difieren de \(x\) en un solo bit: tiene \(n + 1\) elementos.</li>
+    <li>En general, \(|S(x, k)| = \binom{n}{0} + \binom{n}{1} + \cdots + \binom{n}{k}\) (elegir cuáles bits cambian).</li>
+  </ul>
+  <p><strong>Cómo se escribe \(S(x, 1)\) sin olvidarse ninguna:</strong> se copia \(x\) y después se da vuelta el bit 1, luego el bit 2, ..., hasta el bit \(n\).</p>
+
+  <h3>Distancia mínima</h3>
+  <p>
+    Si \(C = E(W)\) es el conjunto de palabras codificadas, la <strong>distancia mínima</strong>
+    \(d_{min}\) es la menor distancia entre dos palabras <strong>distintas</strong> de \(C\). Se calcula
+    con todos los pares: si \(C\) tiene \(t\) palabras, son \(\binom{t}{2}\) distancias (en un código de
+    grupo hay un atajo, sección 18).
+  </p>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Teorema (cátedra)</span>
+    <p>Sea \(E : W \to C\) una función de codificación, \(W \subseteq \mathbb{Z}_2^{m}\), \(C \subseteq \mathbb{Z}_2^{n}\), \(m \lt n\). Para \(k \in \mathbb{Z}^{+}\):</p>
+    <ul>
+      <li>se pueden <strong>detectar</strong> errores de peso \(\leq k\) si y solo si \(d_{min} \geq k + 1\);</li>
+      <li>se pueden <strong>corregir</strong> errores de peso \(\leq k\) si y solo si \(d_{min} \geq 2k + 1\).</li>
+    </ul>
+    <p>Dicho al revés, conociendo \(d_{min}\):</p>
+    <p>\[ \text{detecta } k \leq d_{min} - 1 \qquad\qquad \text{corrige } k \leq \frac{d_{min} - 1}{2} \]</p>
+  </div>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>\(d_{min}\)</th><th>Detecta hasta</th><th>Corrige hasta</th></tr>
+      <tr><td class="lbl">1</td><td>0</td><td>0</td></tr>
+      <tr><td class="lbl">2</td><td>1</td><td>0</td></tr>
+      <tr><td class="lbl">3</td><td>2</td><td>1</td></tr>
+      <tr><td class="lbl">4</td><td>3</td><td>1</td></tr>
+      <tr><td class="lbl">5</td><td>4</td><td>2</td></tr>
+    </table>
+  </div>
+  <p>"Corrige hasta" es la parte entera de \(\frac{d_{min} - 1}{2}\): con \(d_{min} = 4\), \(\frac{3}{2} = 1{,}5\), corrige 1.</p>
+  <h4>De dónde sale</h4>
+  <ul>
+    <li>
+      <strong>Detectar:</strong> un patrón de error con \(k\) unos lleva \(c\) a una \(r\) con
+      \(d(c, r) = k\). Si \(k \lt d_{min}\), \(r\) no puede ser otra palabra codificada (todas están a
+      \(d_{min}\) o más de \(c\)): el receptor ve una palabra que no está en \(C\) y sabe que hubo error.
+    </li>
+    <li>
+      <strong>Corregir:</strong> se decodifica \(r\) como la palabra codificada <strong>más cercana</strong>.
+      Si \(d_{min} \geq 2k + 1\), las esferas \(S(c, k)\) de dos palabras codificadas distintas no se
+      tocan: si una \(r\) estuviera en las dos, por la desigualdad triangular (sección 16) sería
+      \(d(c_1, c_2) \leq d(c_1, r) + d(r, c_2) \leq 2k\), menos que \(d_{min}\). Entonces una \(r\) con a lo
+      sumo \(k\) errores cae en una sola esfera, la de la \(c\) enviada, y se corrige bien.
+    </li>
+  </ul>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Detectar y corregir no se suman</span>
+    <p>
+      Con \(d_{min} = 3\): o se usa para <strong>detectar</strong> hasta 2 errores, o para
+      <strong>corregir</strong> 1. Si se corrige siempre a la más cercana, una palabra con 2 errores
+      puede quedar más cerca de otra palabra codificada y se "corrige" mal.
+    </p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; Actividad 4 de la cátedra (triple repetición)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>Si \(W = \mathbb{Z}_2^{2}\), sea \(E : W \to \mathbb{Z}_2^{6}\) (la triple repetición, \(E(w) = www\)). Hallar el conjunto de palabras codificadas; evaluar la capacidad de detección y corrección; \(S(000000, 1)\) y \(S(010101, 1)\), analizando \(D(x)\) para los \(x\) de cada esfera.</p>
+  </div>
+  <p>La diapositiva no escribe la \(E\); es la de triple repetición, la única de la unidad que va de \(\mathbb{Z}_2^{2}\) a \(\mathbb{Z}_2^{6}\), y la que tiene a \(010101 = E(01)\).</p>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"\(W = \mathbb{Z}_2^{2}\)"</td><td>4 mensajes de 2 bits</td><td>\(2^{2} = 4\)</td><td>\(00, 01, 10, 11\)</td></tr>
+      <tr><td>"\(E : W \to \mathbb{Z}_2^{6}\)"</td><td>repetir el mensaje 3 veces</td><td>&mdash;</td><td>\(C\)</td></tr>
+      <tr><td>"capacidad"</td><td>\(d_{min}\) y el teorema</td><td>6 distancias</td><td>detecta / corrige</td></tr>
+      <tr><td>"\(S(\cdot, 1)\)"</td><td>centro y sus 6 vecinas</td><td>\(6 + 1 = 7\)</td><td>7 palabras cada una</td></tr>
+    </table>
+  </div>
+  <h4>Palabras codificadas y \(d_{min}\)</h4>
+  <p>\(C = \{000000,\ 010101,\ 101010,\ 111111\}\).</p>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th>\(d\)</th><th>000000</th><th>010101</th><th>101010</th><th>111111</th></tr>
+      <tr><td class="lbl">000000</td><td>&mdash;</td><td>3</td><td>3</td><td>6</td></tr>
+      <tr><td class="lbl">010101</td><td></td><td>&mdash;</td><td>6</td><td>3</td></tr>
+      <tr><td class="lbl">101010</td><td></td><td></td><td>&mdash;</td><td>3</td></tr>
+    </table>
+  </div>
+  <p>\(d_{min} = 3\): detecta hasta \(3 - 1 = 2\) errores y corrige hasta \(\frac{3 - 1}{2} = 1\).</p>
+  <h4>Las esferas</h4>
+  <ul>
+    <li>\(S(000000, 1) = \{000000,\ 100000,\ 010000,\ 001000,\ 000100,\ 000010,\ 000001\}\). Cada una está a distancia 0 o 1 de \(000000\) y a 2 o más de las otras palabras codificadas: \(D(x) = 00\) para las 7.</li>
+    <li>\(S(010101, 1) = \{010101,\ 110101,\ 000101,\ 011101,\ 010001,\ 010111,\ 010100\}\). Lo mismo: la más cercana es siempre \(010101\), así que \(D(x) = 01\) para las 7.</li>
+  </ul>
+  <div class="caja caja-resp"><span class="caja-tit">Respuesta</span><p>\(C = \{000000, 010101, 101010, 111111\}\), \(d_{min} = 3\): detecta 2 errores, corrige 1. Todo \(x \in S(000000, 1)\) se decodifica \(00\) y todo \(x \in S(010101, 1)\), \(01\).</p></div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; Estilo parcial: un código \((5, 2)\)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>Sea \(E : \mathbb{Z}_2^{2} \to \mathbb{Z}_2^{5}\) con \(E(00) = 00000\), \(E(01) = 01101\), \(E(10) = 10110\), \(E(11) = 11011\). a) Escribir \(S(01101, 1)\). b) Calcular la distancia mínima y la capacidad de detección y corrección. c) Decodificar \(r_1 = 01111\) y \(r_2 = 10101\).</p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"\(\mathbb{Z}_2^{5}\)"</td><td>palabras de 5 bits</td><td>&mdash;</td><td>\(n = 5\)</td></tr>
+      <tr><td>"\(S(01101, 1)\)"</td><td>la palabra y sus vecinas a un bit</td><td>\(5 + 1\)</td><td>6 palabras</td></tr>
+      <tr><td>"distancia mínima"</td><td>4 palabras</td><td>\(\binom{4}{2} = 6\) pares</td><td>\(d_{min}\)</td></tr>
+      <tr><td>"decodificar"</td><td>buscar la palabra codificada más cercana</td><td>distancia a cada una</td><td>inciso c</td></tr>
+    </table>
+  </div>
+  <h4>a)</h4>
+  <p>Se da vuelta un bit por vez en \(01101\):</p>
+  <p>\(S(01101, 1) = \{01101,\ \underline{1}1101,\ 0\underline{0}101,\ 01\underline{0}01,\ 011\underline{1}1,\ 0110\underline{0}\}\): 6 palabras.</p>
+  <h4>b)</h4>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th>\(d\)</th><th>00000</th><th>01101</th><th>10110</th><th>11011</th></tr>
+      <tr><td class="lbl">00000</td><td>&mdash;</td><td>3</td><td>3</td><td>4</td></tr>
+      <tr><td class="lbl">01101</td><td></td><td>&mdash;</td><td>4</td><td>3</td></tr>
+      <tr><td class="lbl">10110</td><td></td><td></td><td>&mdash;</td><td>3</td></tr>
+    </table>
+  </div>
+  <p>Por ejemplo \(d(01101, 10110) = p(11011) = 4\). La menor es 3: \(d_{min} = 3\), detecta hasta 2 errores y corrige 1.</p>
+  <h4>c)</h4>
+  <ul>
+    <li>\(r_1 = 01111\): distancias a \(00000, 01101, 10110, 11011\): \(4, 1, 3, 2\). Está en \(S(01101, 1)\): se corrige a \(01101\) y \(D(r_1) = 01\).</li>
+    <li>\(r_2 = 10101\): distancias \(3, 2, 2, 3\). No está a distancia 1 de ninguna: hubo al menos 2 errores. Se <strong>detecta</strong>, pero hay dos candidatas empatadas (\(01101\) y \(10110\)): no se puede corregir.</li>
+  </ul>
+  <div class="caja caja-resp"><span class="caja-tit">Respuesta</span><p>a) \(\{01101, 11101, 00101, 01001, 01111, 01100\}\). b) \(d_{min} = 3\): detecta 2, corrige 1. c) \(D(01111) = 01\); en \(10101\) se detecta el error pero no se puede corregir.</p></div>
+</div>

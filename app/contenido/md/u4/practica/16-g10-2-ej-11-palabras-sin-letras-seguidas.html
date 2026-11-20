@@ -1,0 +1,58 @@
+<div class="ej">
+  <span class="tag" data-num-ej="10.2-11.">Grimaldi 10.2 &middot; Ej. 11 &middot; Plantear: palabras</span>
+  <h2>Palabras sin dos letras seguidas</h2>
+  <div class="enunciado">
+    <p>Un alfabeto \(\Sigma\) consta de los cuatro caracteres numéricos 1, 2, 3, 4 y los siete caracteres alfabéticos a, b, c, d, e, f, g. Encuentre y resuelva una relación de recurrencia para el número de palabras de longitud \(n\) (en \(\Sigma^{*}\)) tales que no aparezcan caracteres alfabéticos (idénticos o distintos) en forma consecutiva.</p>
+  </div>
+
+  <span class="paso">Qué tema es y por qué</span>
+  <ul>
+    <li>\(\Sigma^{*}\) es el conjunto de todas las palabras (cadenas) que se arman con el alfabeto, de cualquier largo.</li>
+    <li>Es el mismo esquema que las fichas sin azules seguidas: se mira el <strong>último carácter</strong>, y si es una letra se mira también el anterior.</li>
+  </ul>
+
+  <span class="paso">Desarme del enunciado</span>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"cuatro caracteres numéricos"</td><td>dígitos</td><td>&mdash;</td><td>4 opciones</td></tr>
+      <tr><td>"siete caracteres alfabéticos"</td><td>letras</td><td>&mdash;</td><td>7 opciones</td></tr>
+      <tr><td>"no aparezcan caracteres alfabéticos en forma consecutiva"</td><td>después de una letra va un dígito</td><td>&mdash;</td><td>el caso letra mira el anterior</td></tr>
+      <tr><td>"palabras de longitud \(n\)"</td><td>lo que se cuenta</td><td>&mdash;</td><td>\(a_n\)</td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Paso 1 &mdash; Mirar el último carácter</span>
+  <ul>
+    <li><strong>Es un dígito</strong> (4 opciones). Lo de antes es una palabra válida de largo \(n - 1\): \(4\,a_{n-1}\).</li>
+    <li><strong>Es una letra</strong> (7 opciones). El anterior tiene que ser un dígito (4 opciones), y antes hay una palabra válida de largo \(n - 2\): \(7 \cdot 4\,a_{n-2} = 28\,a_{n-2}\).</li>
+  </ul>
+  <p>\[ a_n = 4a_{n-1} + 28a_{n-2},\ \forall n \geq 2 \]</p>
+
+  <span class="paso">Paso 2 &mdash; Condiciones iniciales</span>
+  <ul>
+    <li>\(a_1 = 11\): cualquier carácter.</li>
+    <li>\(a_0 = 1\) (la palabra vacía \(\lambda\)). Control: \(a_2 = 4 \cdot 11 + 28 = 72 = 11^{2} - 7^{2}\) (todas menos letra-letra).</li>
+  </ul>
+
+  <span class="paso">Paso 3 &mdash; Resolver</span>
+  <div class="caja caja-formula">
+    <p>\(a_n - 4a_{n-1} - 28a_{n-2} = 0\): ecuación característica \(r^{2} - 4r - 28 = 0\). Raíces distintas: \(a_n = A_1 r_1^{\,n} + A_2 r_2^{\,n}\).</p>
+  </div>
+  <p>\(r = \dfrac{4 \pm \sqrt{16 + 112}}{2} = \dfrac{4 \pm \sqrt{128}}{2} = 2 \pm 4\sqrt2\) (porque \(\sqrt{128} = 8\sqrt2\)).</p>
+  <p>\[ \left\{\begin{array}{l} n = 0:\ A_1 + A_2 = 1 \\ n = 1:\ A_1(2 + 4\sqrt2) + A_2(2 - 4\sqrt2) = 11 \end{array}\right. \]</p>
+  <p>La segunda: \(2(A_1 + A_2) + 4\sqrt2(A_1 - A_2) = 11 \Rightarrow 4\sqrt2(A_1 - A_2) = 9 \Rightarrow A_1 - A_2 = \tfrac{9}{4\sqrt2} = \tfrac{9\sqrt2}{8}\).</p>
+  <p>Con \(A_1 + A_2 = 1\): \(A_1 = \dfrac{8 + 9\sqrt2}{16}\), \(A_2 = \dfrac{8 - 9\sqrt2}{16}\).</p>
+  <p>\[ a_n = \frac{8 + 9\sqrt2}{16}\,(2 + 4\sqrt2)^{n} + \frac{8 - 9\sqrt2}{16}\,(2 - 4\sqrt2)^{n},\ \forall n \geq 0 \]</p>
+
+  <span class="paso">Paso 4 &mdash; Comprobación</span>
+  <p>Contando con un programa: \(1, 11, 72, 596, 4400, 34288, 260352\) para \(n = 0, \dots, 6\). La relación y la fórmula dan lo mismo.</p>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>\(a_n = 4a_{n-1} + 28a_{n-2},\ n \geq 2,\ a_0 = 1,\ a_1 = 11\); \(a_n = \tfrac{8 + 9\sqrt2}{16}(2 + 4\sqrt2)^{n} + \tfrac{8 - 9\sqrt2}{16}(2 - 4\sqrt2)^{n}\).</p>
+  </div>
+
+  <span class="paso">Solución del libro</span>
+  <p>En las soluciones (otra edición) es el ejercicio 13: \(a_{n+1} = 4a_n + 28a_{n-1},\ a_0 = 1,\ a_1 = 11\), y la misma fórmula con \(A = (8 + 9\sqrt2)/16\), \(B = (8 - 9\sqrt2)/16\). Coincide.</p>
+</div>

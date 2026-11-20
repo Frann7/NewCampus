@@ -1,0 +1,132 @@
+<div class="ej" data-examen="variante" data-examen-ref="Parcial 1 2026 &middot; ej. 1 y 2" data-examen-nota="En el parcial, el ej. 2 pide describir AB⁺C² por prefijo y sufijo, y el ej. 1 construir un reconocedor. Acá se hacen las dos cosas con el mismo lenguaje.">
+  <span class="tag" data-num-ej="CM-9.">Complementaria P1 &middot; Máquinas &middot; Ej. 9 &middot; Prefijo, sufijo y reconocedor</span>
+  <h2>\(A = \{0\}\{0,1\}^*\{001\}\): describirlo y reconocerlo</h2>
+  <div class="enunciado">
+    <p>Sea \(A = \{0\}\{0, 1\}^*\{001\}\), describir en términos de sufijo y prefijo, los elementos de \(A\). Construir una máquina de estado finito que solamente reconozca todas las entradas de \(A\).</p>
+  </div>
+
+  <span class="paso">Qué tema es y por qué</span>
+  <ul>
+    <li>Leer un lenguaje escrito como concatenación (prefijo / sufijo).</li>
+    <li>Construir el reconocedor: escribe 1 justo cuando lo leído desde el principio está en \(A\). Como \(A\) exige algo del <strong>comienzo</strong> de la cadena, hace falta un <strong>sumidero</strong>: un estado del que no se sale nunca (\(\nu(s, x) = s\) para toda entrada), para las cadenas que arrancaron mal.</li>
+  </ul>
+
+  <span class="paso">Desarme del enunciado</span>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Pieza</th><th>Qué significa</th><th>A dónde va</th></tr>
+      <tr><td>\(\{0\}\)</td><td>la cadena empieza con 0</td><td>prefijo 0</td></tr>
+      <tr><td>\(\{0, 1\}^*\)</td><td>en el medio, cualquier cosa (incluso nada)</td><td>libre</td></tr>
+      <tr><td>\(\{001\}\)</td><td>termina en \(001\)</td><td>sufijo 001</td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Paso 1 &mdash; Describir A por prefijo y sufijo</span>
+  <p>Las cadenas de \(A\) son \(0\,u\,001\) con \(u \in \{0,1\}^*\). Lo fino: <strong>el 0 del principio y el 001 del final son símbolos distintos</strong>, no se pueden compartir. Por eso la cadena mide al menos 4.</p>
+  <ul>
+    <li>\(001\) empieza con 0 y termina en \(001\), pero <strong>no</strong> está en \(A\): para estarlo haría falta \(0 \cdot u \cdot 001\), que mide 4 o más.</li>
+    <li>La más corta es \(0001\) (con \(u = \lambda\)). Después: \(00001\), \(01001\), …</li>
+  </ul>
+  <p>Dicho con las palabras de la teoría: \(w \in A\) si \(0\) es prefijo de \(w\) y \(001\) es <strong>sufijo propio</strong> de \(w\) (\(w = x\,001\) con \(x \neq \lambda\); como \(x\) no es vacía, el 0 inicial de \(w\) es el primer símbolo de \(x\)).</p>
+
+  <span class="paso">Paso 2 &mdash; Estados del reconocedor</span>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Estado</th><th>Qué significa</th></tr>
+      <tr><td>\(s_0\)</td><td>no leí nada</td></tr>
+      <tr><td>\(s_1\)</td><td>empezó con 0; del \(001\) final no tengo nada</td></tr>
+      <tr><td>\(s_2\)</td><td>empezó con 0; tengo "0" del \(001\)</td></tr>
+      <tr><td>\(s_3\)</td><td>empezó con 0; tengo "00" del \(001\)</td></tr>
+      <tr><td>\(s_4\)</td><td>empezó con 1: <strong>sumidero</strong>, nunca más va a estar en \(A\)</td></tr>
+    </table>
+  </div>
+  <p>El 0 inicial lleva a \(s_1\) y no a \(s_2\): ese 0 ya se usó como prefijo y no cuenta para el \(001\).</p>
+
+  <span class="paso">Paso 3 &mdash; Transiciones</span>
+  <p>Después del prefijo, la regla es la de reconocer un sufijo: el nuevo estado es el pedazo más largo del principio de \(001\) que aparece al final.</p>
+  <ul>
+    <li>\(s_1\): con 0 &rarr; "0" (\(s_2\)); con 1 &rarr; nada (\(s_1\)).</li>
+    <li>\(s_2\) ("0"): con 0 &rarr; "00" (\(s_3\)); con 1 &rarr; "01", ningún final sirve (\(s_1\)).</li>
+    <li>\(s_3\) ("00"): con 1 &rarr; <strong>"001": escribe 1</strong>; después de un 1 no queda nada útil (\(s_1\)). Con 0 &rarr; "000", su final "00" sirve: se queda en \(s_3\).</li>
+  </ul>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th rowspan="2"></th><th colspan="2">\(\nu\)</th><th colspan="2">\(\omega\)</th></tr>
+      <tr><th>0</th><th>1</th><th>0</th><th>1</th></tr>
+      <tr><td>&rarr; \(s_0\)</td><td>\(s_1\)</td><td>\(s_4\)</td><td>0</td><td>0</td></tr>
+      <tr><td>\(s_1\)</td><td>\(s_2\)</td><td>\(s_1\)</td><td>0</td><td>0</td></tr>
+      <tr><td>\(s_2\)</td><td>\(s_3\)</td><td>\(s_1\)</td><td>0</td><td>0</td></tr>
+      <tr><td>\(s_3\)</td><td>\(s_3\)</td><td>\(s_1\)</td><td>0</td><td>1</td></tr>
+      <tr><td>\(s_4\)</td><td>\(s_4\)</td><td>\(s_4\)</td><td>0</td><td>0</td></tr>
+    </table>
+  </div>
+  <div class="pd-grafico af" data-g="u2pc-cm9">
+    <svg viewBox="-61 -77 641 314" width="641" height="314" role="img" aria-label="Reconocedor de {0}{0,1}*{001}; s4 es un sumidero">
+      <path class="arco" d="M19.0,0.0 L157.0,0.0"/>
+      <path class="punta" d="M157.0,0.0 L148.0,4.5 L148.0,-4.5 Z"/>
+      <text class="rot" x="88.0" y="-10.0" text-anchor="middle" dominant-baseline="central">0,0</text>
+      <path class="arco" d="M0.0,19.0 L0.0,141.0"/>
+      <path class="punta" d="M0.0,141.0 L-4.5,132.0 L4.5,132.0 Z"/>
+      <text class="rot" x="-21.4" y="80.0" text-anchor="middle" dominant-baseline="central">1,0</text>
+      <path class="arco" d="M8.9,176.8 C40.0,211.2 -40.0,211.2 -8.9,176.8"/>
+      <path class="punta" d="M-8.9,176.8 L-11.6,186.5 L-18.3,180.4 Z"/>
+      <text class="rot" x="0.0" y="216.0" text-anchor="middle" dominant-baseline="central">0,0 | 1,0</text>
+      <path class="arco" d="M167.1,-16.8 C136.0,-51.2 216.0,-51.2 184.9,-16.8"/>
+      <path class="punta" d="M184.9,-16.8 L187.6,-26.5 L194.3,-20.4 Z"/>
+      <text class="rot" x="176.0" y="-56.0" text-anchor="middle" dominant-baseline="central">1,0</text>
+      <path class="arco" d="M193.6,-7.2 Q264.0,-36.0 334.4,-7.2"/>
+      <path class="punta" d="M334.4,-7.2 L324.4,-6.4 L327.8,-14.8 Z"/>
+      <text class="rot" x="264.0" y="-31.6" text-anchor="middle" dominant-baseline="central">0,0</text>
+      <path class="arco" d="M334.4,7.2 Q264.0,36.0 193.6,7.2"/>
+      <path class="punta" d="M193.6,7.2 L203.6,6.4 L200.2,14.8 Z"/>
+      <text class="rot" x="264.0" y="31.6" text-anchor="middle" dominant-baseline="central">1,0</text>
+      <path class="arco" d="M371.0,0.0 L509.0,0.0"/>
+      <path class="punta" d="M509.0,0.0 L500.0,4.5 L500.0,-4.5 Z"/>
+      <text class="rot" x="440.0" y="-10.0" text-anchor="middle" dominant-baseline="central">0,0</text>
+      <path class="arco" d="M519.1,-16.8 C488.0,-51.2 568.0,-51.2 536.9,-16.8"/>
+      <path class="punta" d="M536.9,-16.8 L539.6,-26.5 L546.3,-20.4 Z"/>
+      <text class="rot" x="528.0" y="-56.0" text-anchor="middle" dominant-baseline="central">0,0</text>
+      <path class="arco" d="M511.5,9.4 Q352.0,100.0 192.5,9.4"/>
+      <path class="punta" d="M192.5,9.4 L202.6,9.9 L198.1,17.7 Z"/>
+      <text class="rot" x="352.0" y="64.7" text-anchor="middle" dominant-baseline="central">1,1</text>
+      <path class="arco" d="M-49.0,0.0 L-19.0,0.0"/>
+      <path class="punta" d="M-19.0,0.0 L-28.0,4.5 L-28.0,-4.5 Z"/>
+      <g class="estado">
+        <circle class="borde" cx="0.0" cy="0.0" r="19"/>
+        <text class="nom" x="0.0" y="0.0" text-anchor="middle" dominant-baseline="central">s0</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="176.0" cy="0.0" r="19"/>
+        <text class="nom" x="176.0" y="0.0" text-anchor="middle" dominant-baseline="central">s1</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="352.0" cy="0.0" r="19"/>
+        <text class="nom" x="352.0" y="0.0" text-anchor="middle" dominant-baseline="central">s2</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="528.0" cy="0.0" r="19"/>
+        <text class="nom" x="528.0" y="0.0" text-anchor="middle" dominant-baseline="central">s3</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="0.0" cy="160.0" r="19"/>
+        <text class="nom" x="0.0" y="160.0" text-anchor="middle" dominant-baseline="central">s4</text>
+      </g>
+    </svg>
+  </div>
+
+  <span class="paso">Paso 4 &mdash; Pruebas</span>
+  <ul>
+    <li>\(001\): \(s_0 \to s_1 \to s_2 \to s_1\), salida \(000\). No la reconoce (bien: no está en \(A\)).</li>
+    <li>\(0001\): \(s_0 \to s_1 \to s_2 \to s_3 \to s_1\), salida \(0001\). La reconoce.</li>
+    <li>\(1001\): \(s_0 \to s_4\) y se queda; salida \(0000\).</li>
+  </ul>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p><strong>Descripción:</strong> \(A\) son las cadenas que tienen a \(0\) como prefijo y a \(001\) como sufijo propio; o sea, empiezan con 0, terminan en \(001\) y miden al menos 4 (el 0 inicial no es parte del \(001\)).</p>
+    <p><strong>Máquina:</strong> la de 5 estados de la tabla, con \(s_4\) sumidero; escribe 1 al pasar de \(s_3\) con 1.</p>
+  </div>
+
+  <span class="paso">Verificación</span>
+  <p>Simulada en Python con todas las cadenas de largo hasta 12: escribe 1 exactamente cuando lo leído está en \(\{0\}\{0,1\}^*\{001\}\). También se comprobó que "empieza con 0, termina en 001 y mide al menos 4" da el mismo conjunto.</p>
+</div>

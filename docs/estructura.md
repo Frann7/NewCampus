@@ -115,7 +115,9 @@ El contenido de cada unidad llega en su propia pieza cuando la abrís (con un `<
    `nombre` de cada unidad. El orden de la lista es el del menú, y define el color en el calendario.
    Si la materia va por clases y no por unidades, se cargan igual con `"num": "Clase 1"` (la app
    dice "Clase/Clases" sola); `"evaluacion": {"tipo": "simple"}` le da la Evaluación simple (ver
-   `docs/evaluacion.md`).
+   `docs/evaluacion.md`). Además, sumar su `clave` a la lista `materias` de su año en `anios`
+   (las solapas "2do año / 3er año / 4to año" del menú; `construir.py` avisa si una materia no está
+   en ningún año o está en dos).
 3. Si tiene PDFs de cátedra: copiarlos **una sola vez** a `pdf/<materia>/`, listarlos en el `pdf` de
    esa materia y decir en `material` a qué unidades se les muestran (`evaluacion` es la pestaña).
    Antes de escribir contenido, pasar sus PDFs a texto en `fuentes/<materia>/` (ver

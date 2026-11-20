@@ -1,0 +1,156 @@
+<div class="bloque">
+  <p class="kicker">Herramienta de demostración</p>
+  <h2>1. Buen orden, inducción y definiciones recursivas</h2>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Dónde está esto</span>
+    <p>
+      El programa de la unidad empieza con estos temas y la práctica los pide (Grimaldi 4.1 y
+      4.2), pero las diapositivas 2026 no los desarrollan y el Parcial 2 2026 no los tomó. Esta
+      sección es para poder hacer esos ejercicios; si estás con poco tiempo, dejala para el final.
+    </p>
+  </div>
+
+  <h3>Para qué sirve</h3>
+  <p>
+    Muchas afirmaciones de la unidad dicen "para todo \(n\)": <em>"la suma de los primeros
+    \(n\) impares es \(n^{2}\)"</em>. Probarla para \(n = 1, 2, 3\) no alcanza: son infinitos
+    casos. La inducción es la forma de probar los infinitos casos de una sola vez.
+  </p>
+
+  <h3>El principio del buen orden</h3>
+  <p>
+    <strong>Todo conjunto no vacío de enteros positivos tiene un elemento mínimo.</strong>
+  </p>
+  <ul>
+    <li>Parece obvio, y lo es: si tenés enteros positivos, alguno es el más chico.</li>
+    <li>Ojo que no vale para cualquier conjunto: los enteros negativos no tienen mínimo, y los racionales positivos tampoco (siempre hay uno más chico).</li>
+    <li>Se usa para demostrar cosas "por el absurdo": se supone que hay casos donde algo falla, se toma el <strong>más chico</strong> de esos casos y se llega a una contradicción. Así se prueba, por ejemplo, que todo compuesto tiene un divisor primo (sección 3).</li>
+  </ul>
+
+  <h3>El principio de inducción matemática</h3>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Inducción</span>
+    <p>Sea \(S(n)\) una afirmación que depende de un entero \(n \geq n_0\). Si se cumplen</p>
+    <ol>
+      <li><strong>Paso base:</strong> \(S(n_0)\) es verdadera, y</li>
+      <li><strong>Paso inductivo:</strong> para cualquier \(k \geq n_0\), si \(S(k)\) es verdadera entonces \(S(k+1)\) también lo es,</li>
+    </ol>
+    <p>entonces \(S(n)\) es verdadera para todo \(n \geq n_0\).</p>
+  </div>
+
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Símbolo o palabra</th><th>Qué significa</th></tr>
+      <tr><td>\(S(n)\)</td><td>La afirmación que se quiere probar, escrita para un \(n\) cualquiera</td></tr>
+      <tr><td>\(n_0\)</td><td>El primer valor desde el que se quiere que valga (casi siempre 1, a veces 0)</td></tr>
+      <tr><td>Hipótesis inductiva (HI)</td><td>Suponer que \(S(k)\) es verdadera, para poder usarla</td></tr>
+      <tr><td>Tesis</td><td>Lo que hay que llegar a mostrar: \(S(k+1)\)</td></tr>
+    </table>
+  </div>
+
+  <h4>Por qué funciona</h4>
+  <p>
+    Es un efecto dominó. El paso base tira la primera ficha. El paso inductivo dice que cada
+    ficha, al caer, tira la siguiente. Entonces caen todas: \(S(1)\) es cierta; por el paso
+    inductivo con \(k = 1\), \(S(2)\) es cierta; con \(k = 2\), \(S(3)\); y así sin fin.
+  </p>
+  <p>
+    Formalmente sale del buen orden: si hubiera algún \(n\) donde \(S\) falla, se toma el más
+    chico, \(m\). No es \(n_0\) (el paso base vale), así que \(m - 1 \geq n_0\) y \(S(m-1)\) vale
+    (\(m\) era el primero que fallaba). Pero entonces el paso inductivo da \(S(m)\): contradicción.
+  </p>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">La trampa del paso inductivo</span>
+    <p>
+      En el paso inductivo <strong>no</strong> se prueba que \(S(k)\) es cierta: se la
+      <strong>supone</strong> (es la hipótesis) y se prueba que <em>de ella</em> sale \(S(k+1)\).
+      El truco casi siempre es escribir lo de \(k+1\) de forma que aparezca adentro lo de \(k\),
+      para poder reemplazarlo usando la hipótesis.
+    </p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; La suma de los primeros \(n\) enteros</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>Probar que para todo \(n \geq 1\): \(\;1 + 2 + \cdots + n = \dfrac{n(n+1)}{2}\).</p>
+  </div>
+
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"para todo \(n \geq 1\)"</td><td>el primer caso es 1</td><td>&mdash;</td><td>\(n_0 = 1\)</td></tr>
+      <tr><td>"\(1 + \cdots + n = \frac{n(n+1)}{2}\)"</td><td>la afirmación</td><td>&mdash;</td><td>\(S(n)\)</td></tr>
+    </table>
+  </div>
+
+  <p><span class="paso">Paso base</span> Para \(n = 1\): a la izquierda queda \(1\); a la derecha \(\frac{1 \cdot 2}{2} = 1\). Son iguales: \(S(1)\) vale.</p>
+  <p><span class="paso">Hipótesis inductiva</span> Supongo que para un \(k \geq 1\) vale \(1 + 2 + \cdots + k = \frac{k(k+1)}{2}\).</p>
+  <p><span class="paso">Tesis</span> Quiero llegar a \(1 + 2 + \cdots + k + (k+1) = \frac{(k+1)(k+2)}{2}\) (es la fórmula con \(k+1\) en lugar de \(n\)).</p>
+  <p><span class="paso">Paso inductivo</span> La suma hasta \(k+1\) es la suma hasta \(k\) más el último término:</p>
+  <p>\[ \underbrace{1 + 2 + \cdots + k}_{\text{por la HI} \;=\; \frac{k(k+1)}{2}} + (k+1) = \frac{k(k+1)}{2} + (k+1) \]</p>
+  <p>Saco \((k+1)\) de factor común:</p>
+  <p>\[ = (k+1)\left(\frac{k}{2} + 1\right) = (k+1)\cdot\frac{k+2}{2} = \frac{(k+1)(k+2)}{2} \]</p>
+  <p>Es exactamente la tesis.</p>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Conclusión</span>
+    <p>Valen el paso base y el inductivo, así que por inducción la fórmula vale para todo \(n \geq 1\). (Por ejemplo, \(1 + \cdots + 100 = 5050\).)</p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; Estilo práctica: la suma de los primeros impares</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>Probar que para todo \(n \geq 1\): \(\;1 + 3 + 5 + \cdots + (2n-1) = n^{2}\).</p>
+  </div>
+
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"\((2n-1)\)"</td><td>el impar número \(n\): para \(n = 1\) es 1, para \(n = 2\) es 3</td><td>&mdash;</td><td>último término</td></tr>
+      <tr><td>(consecuencia)</td><td>el impar número \(k+1\)</td><td>\(2(k+1) - 1\)</td><td>\(2k + 1\)</td></tr>
+    </table>
+  </div>
+
+  <p><span class="paso">Paso base</span> \(n = 1\): izquierda \(1\), derecha \(1^{2} = 1\). Vale.</p>
+  <p><span class="paso">Hipótesis inductiva</span> \(1 + 3 + \cdots + (2k-1) = k^{2}\).</p>
+  <p><span class="paso">Tesis</span> \(1 + 3 + \cdots + (2k-1) + (2k+1) = (k+1)^{2}\).</p>
+  <p><span class="paso">Paso inductivo</span></p>
+  <p>\[ \underbrace{1 + 3 + \cdots + (2k-1)}_{\text{por la HI} \;=\; k^{2}} + (2k+1) = k^{2} + 2k + 1 = (k+1)^{2} \]</p>
+  <p>El último paso es el cuadrado de un binomio: \((k+1)^{2} = k^{2} + 2k + 1\).</p>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Conclusión</span>
+    <p>Por inducción, la suma de los primeros \(n\) impares es \(n^{2}\) para todo \(n \geq 1\).</p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Inducción fuerte</h3>
+  <p>
+    A veces, para probar \(S(k+1)\), no alcanza con \(S(k)\): hace falta algún caso anterior.
+    La <strong>inducción fuerte</strong> permite suponer que valen <strong>todos</strong>
+    \(S(n_0), S(n_0+1), \ldots, S(k)\) a la vez. Funciona por el mismo dominó: cuando llegás a
+    \(k+1\), todas las fichas anteriores ya cayeron. Es la que se usa, por ejemplo, para probar
+    que todo entero mayor que 1 se puede escribir como producto de primos (sección 12).
+  </p>
+
+  <h3>Definiciones recursivas</h3>
+  <p>
+    Una definición es <strong>recursiva</strong> cuando da el primer valor y después cada valor en
+    función de los anteriores. Es lo mismo que una relación de recurrencia de la Unidad 4:
+  </p>
+  <ul>
+    <li>El factorial: \(0! = 1\) y \(n! = n \cdot (n-1)!\) para \(n \geq 1\). Así, \(3! = 3 \cdot 2! = 3 \cdot 2 \cdot 1! = 3 \cdot 2 \cdot 1 \cdot 0! = 6\).</li>
+    <li>Las sumas: \(\sum_{i=1}^{1} a_i = a_1\) y \(\sum_{i=1}^{n+1} a_i = \left(\sum_{i=1}^{n} a_i\right) + a_{n+1}\). Es justo lo que se usó en el paso inductivo de los dos ejemplos.</li>
+  </ul>
+  <p>
+    Las propiedades de algo definido de forma recursiva se prueban naturalmente por inducción:
+    el paso base corresponde al primer valor y el paso inductivo a la regla.
+  </p>
+</div>

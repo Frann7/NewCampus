@@ -1,0 +1,98 @@
+<div class="ej" data-examen="igual" data-examen-ref="Parcial 2 2026 · ej. 3a" data-examen-nota="En el parcial: mcd(837, −341) como combinación lineal y después 837x − 341y = m con m = mcm(837, 341), TODAS las soluciones. Acá el término independiente es el mínimo c en vez del mcm.">
+  <span class="tag" data-num-ej="CM-9.">Complementaria P2 &middot; MCD &middot; Ej. 9 &middot; mcd, combinación y diofántica</span>
+  <h2>84 y 990: mcd, combinación lineal y la menor c con solución</h2>
+  <div class="enunciado">
+    <p>Sea \(a = 84\) y \(b = 990\)</p>
+    <p>a. Hallar el mcd(a, b)</p>
+    <p>b. Expresarlo como combinación lineal de ambos</p>
+    <p>c. Sea \(c \in \mathbb{Z}\) con la condición \(10 \leq c \leq 1000\); determinar el mínimo valor de c, para que la ecuación \(84x + 990y = c\), admita soluciones enteras.</p>
+    <p>d. Resolver dicho caso.</p>
+  </div>
+
+  <span class="paso">Qué tema es y por qué</span>
+  <ul>
+    <li>a y b: <strong>Euclides</strong> y <strong>Euclides extendido</strong>. c y d: <strong>ecuación diofántica</strong> (todo en la teoría de esta unidad).</li>
+  </ul>
+
+  <div class="caja caja-formula">
+    <span class="caja-tit">Ecuación diofántica \(ax + by = c\)</span>
+    <ul>
+      <li><strong>Tiene solución entera si y solo si \(d = mcd(a, b)\) divide a \(c\).</strong></li>
+      <li>Solución particular: se escribe \(d = a x' + b y'\) (Euclides extendido) y se multiplica todo por \(c / d\): \(x_0 = x' \cdot \frac{c}{d}\), \(y_0 = y' \cdot \frac{c}{d}\).</li>
+      <li>Solución general (todas): \(x = x_0 + \frac{b}{d}\,k\), \(\ y = y_0 - \frac{a}{d}\,k\), con \(k \in \mathbb{Z}\).</li>
+    </ul>
+  </div>
+
+  <span class="paso">Desarme del enunciado</span>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"\(a = 84\) y \(b = 990\)"</td><td>los coeficientes</td><td>&mdash;</td><td>\(84x + 990y = c\)</td></tr>
+      <tr><td>"\(10 \leq c \leq 1000\)"</td><td>dónde buscar \(c\)</td><td>&mdash;</td><td>filtro del inciso c</td></tr>
+      <tr><td>"admita soluciones enteras"</td><td>\(mcd(84, 990) \mid c\)</td><td>&mdash;</td><td>\(c\) múltiplo del mcd</td></tr>
+      <tr><td>"Resolver dicho caso"</td><td>todas las soluciones</td><td>&mdash;</td><td>solución general</td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Paso 1 &mdash; Inciso a: Euclides</span>
+  <p>Se divide el mayor por el menor, después el divisor por el resto, hasta resto 0; el mcd es el último resto no nulo.</p>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th>División</th><th>Cociente \(q\)</th><th>Resto \(r\)</th></tr>
+      <tr><td>\(990 = 11 \cdot 84 + 66\)</td><td>\(11\)</td><td>\(66\)</td></tr>
+      <tr><td>\(84 = 1 \cdot 66 + 18\)</td><td>\(1\)</td><td>\(18\)</td></tr>
+      <tr><td>\(66 = 3 \cdot 18 + 12\)</td><td>\(3\)</td><td>\(12\)</td></tr>
+      <tr><td>\(18 = 1 \cdot 12 + 6\)</td><td>\(1\)</td><td>\(6\)</td></tr>
+      <tr><td>\(12 = 2 \cdot 6 + 0\)</td><td>\(2\)</td><td>\(0\)</td></tr>
+    </table>
+  </div>
+  <p>\(mcd(84, 990) = 6\).</p>
+
+  <span class="paso">Paso 2 &mdash; Inciso b: Euclides extendido</span>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Euclides extendido (la regla de la tabla)</span>
+    <ul>
+      <li>Cada fila dice: <strong>resto \(= a \cdot x + b \cdot y\)</strong>. Las dos primeras son obvias: \(a = a \cdot 1 + b \cdot 0\) y \(b = a \cdot 0 + b \cdot 1\).</li>
+      <li>Para cada fila nueva, \(q\) es el cociente de la división de Euclides que produjo ese resto.</li>
+      <li><strong>Fila nueva = (fila de dos arriba) \(-\ q \cdot\) (fila de arriba)</strong>, en las columnas \(x\) y \(y\). Es lo mismo que despejar el resto (\(r = \text{dividendo} - q \cdot \text{divisor}\)) y reemplazar hacia atrás, pero hecho en orden.</li>
+      <li>La fila del último resto no nulo (el mcd) da los coeficientes buscados.</li>
+    </ul>
+  </div>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Fila</th><th>Resto \(r\)</th><th>\(q\)</th><th>\(x\)</th><th>\(y\)</th><th>Se lee \(r = 990\,x + 84\,y\)</th></tr>
+      <tr><td>1</td><td>\(990\)</td><td>&mdash;</td><td>\(1\)</td><td>\(0\)</td><td>\(990 = 990 \cdot 1 + 84 \cdot 0\)</td></tr>
+      <tr><td>2</td><td>\(84\)</td><td>&mdash;</td><td>\(0\)</td><td>\(1\)</td><td>\(84 = 990 \cdot 0 + 84 \cdot 1\)</td></tr>
+      <tr><td>3</td><td>\(66\)</td><td>\(11\)</td><td>\(1 - 11 \cdot 0 = 1\)</td><td>\(0 - 11 \cdot 1 = -11\)</td><td>\(66 = 990 \cdot 1 + 84 \cdot (-11)\)</td></tr>
+      <tr><td>4</td><td>\(18\)</td><td>\(1\)</td><td>\(0 - 1 \cdot 1 = -1\)</td><td>\(1 - 1 \cdot (-11) = 12\)</td><td>\(18 = 990 \cdot (-1) + 84 \cdot 12\)</td></tr>
+      <tr><td>5</td><td>\(12\)</td><td>\(3\)</td><td>\(1 - 3 \cdot (-1) = 4\)</td><td>\(-11 - 3 \cdot 12 = -47\)</td><td>\(12 = 990 \cdot 4 + 84 \cdot (-47)\)</td></tr>
+      <tr><td>6</td><td>\(6\)</td><td>\(1\)</td><td>\(-1 - 1 \cdot 4 = -5\)</td><td>\(12 - 1 \cdot (-47) = 59\)</td><td>\(6 = 990 \cdot (-5) + 84 \cdot 59\)</td></tr>
+    </table>
+  </div>
+  \[6 = 84 \cdot 59 + 990 \cdot (-5)\]
+
+  <span class="paso">Paso 3 &mdash; Inciso c: la menor \(c\)</span>
+  <p>Regla: \(84x + 990y = c\) tiene solución entera si y solo si \(6 \mid c\). Los múltiplos de 6 desde 10 son \(12, 18, 24, \dots\): el mínimo es \(c = 12\).</p>
+  <p>(El 6 no sirve porque es menor que 10.)</p>
+
+  <span class="paso">Paso 4 &mdash; Inciso d: resolver \(84x + 990y = 12\)</span>
+  <p><strong>Solución particular:</strong> se multiplica la combinación del paso 2 por \(c / d = 12 / 6 = 2\):</p>
+  \[12 = 84 \cdot 118 + 990 \cdot (-10) \quad\Rightarrow\quad x_0 = 118,\ \ y_0 = -10\]
+  <p><strong>Solución general:</strong> \(x = x_0 + \frac{b}{d}k\), \(y = y_0 - \frac{a}{d}k\), con \(\frac{b}{d} = \frac{990}{6} = 165\) y \(\frac{a}{d} = \frac{84}{6} = 14\):</p>
+  \[x = 118 + 165k, \qquad y = -10 - 14k, \qquad k \in \mathbb{Z}\]
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">La trampa</span>
+    <p>En la solución general se divide por \(d = 6\): se suma \(165k\), no \(990k\). Si se pusiera \(990k\) y \(84k\), la fórmula daría soluciones, pero se saltearía la mayoría (solo una de cada seis).</p>
+    <p>Con \(k = -1\) sale la solución chica \(x = -47\), \(y = 4\); escribir la general a partir de ella también está bien.</p>
+  </div>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>a. \(mcd(84, 990) = 6\). &nbsp; b. \(6 = 84 \cdot 59 + 990 \cdot (-5)\). &nbsp; c. \(c = 12\).</p>
+    <p>d. \(x = 118 + 165k\), \(y = -10 - 14k\), \(k \in \mathbb{Z}\).</p>
+  </div>
+
+  <span class="paso">Verificación</span>
+  <p>La guía no trae resultados; verificación propia: \(84 \cdot 59 - 990 \cdot 5 = 4956 - 4950 = 6\), \(84 \cdot 118 - 990 \cdot 10 = 9912 - 9900 = 12\), y Python confirma que la fórmula da todas las soluciones con \(x, y\) entre \(-400\) y \(400\).</p>
+</div>

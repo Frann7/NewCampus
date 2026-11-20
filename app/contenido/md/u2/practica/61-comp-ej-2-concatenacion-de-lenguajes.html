@@ -1,0 +1,73 @@
+<div class="ej">
+  <span class="tag" data-num-ej="CL-2.">Complementaria P1 &middot; Lenguajes &middot; Ej. 2 &middot; Concatenación y potencias</span>
+  <h2>AB, BA, \(A^3\) y \(B^2\) con lenguajes finitos</h2>
+  <div class="enunciado">
+    <p>Sean \(A = \{1011\}\) y \(B = \{00, 1\}\) dos lenguajes sobre el alfabeto \(\Sigma = \{0, 1\}\). Determinar cada uno de los siguientes lenguajes: a) \(AB\) b) \(BA\) c) \(A^3\) d) \(B^2\)</p>
+  </div>
+
+  <span class="paso">Qué tema es y por qué</span>
+  <ul>
+    <li>Concatenación de lenguajes y potencia de un lenguaje (en la teoría de esta unidad, "Concatenación de lenguajes").</li>
+    <li>Los lenguajes son finitos y chicos: se arman todas las combinaciones a mano, una por una.</li>
+  </ul>
+  <div class="caja caja-formula">
+    <p>\(AB = \{ab \ / \ a \in A,\ b \in B\}\): una cadena de \(A\) y, pegada a su derecha, una de \(B\). <strong>El orden importa</strong>: \(AB\) y \(BA\) en general son distintos.</p>
+    <p>\(A^0 = \{\lambda\}\), \(A^1 = A\), \(A^{n+1} = \{ab \ / \ a \in A,\ b \in A^n\}\).</p>
+  </div>
+
+  <span class="paso">Desarme del enunciado</span>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>A dónde va</th></tr>
+      <tr><td>"\(A = \{1011\}\)"</td><td>\(A\) tiene una sola cadena, de largo 4</td><td>\(|A| = 1\)</td></tr>
+      <tr><td>"\(B = \{00, 1\}\)"</td><td>dos cadenas: una de largo 2 y otra de largo 1</td><td>\(|B| = 2\)</td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Paso 1 &mdash; \(AB\)</span>
+  <p>Regla: primero la de \(A\), después la de \(B\). Hay \(1 \cdot 2 = 2\) combinaciones:</p>
+  <ul>
+    <li>\(1011 \cdot 00 = 101100\)</li>
+    <li>\(1011 \cdot 1 = 10111\)</li>
+  </ul>
+  <p>\[AB = \{101100,\ 10111\}\]</p>
+
+  <span class="paso">Paso 2 &mdash; \(BA\)</span>
+  <p>Regla: ahora primero la de \(B\) y después la de \(A\):</p>
+  <ul>
+    <li>\(00 \cdot 1011 = 001011\)</li>
+    <li>\(1 \cdot 1011 = 11011\)</li>
+  </ul>
+  <p>\[BA = \{001011,\ 11011\}\]</p>
+  <p>Comparando: \(AB \neq BA\) (por ejemplo, \(101100 \in AB\) pero no está en \(BA\)).</p>
+
+  <span class="paso">Paso 3 &mdash; \(A^3\)</span>
+  <p>Regla: \(A^3 = A \cdot A^2\) y \(A^2 = A \cdot A\). Como \(A\) tiene una sola cadena, cada potencia también tiene una sola:</p>
+  <ul>
+    <li>\(A^2 = \{1011 \cdot 1011\} = \{10111011\}\)</li>
+    <li>\(A^3 = \{1011 \cdot 10111011\} = \{101110111011\}\) (largo \(3 \cdot 4 = 12\))</li>
+  </ul>
+
+  <span class="paso">Paso 4 &mdash; \(B^2\)</span>
+  <p>Regla: \(B^2 = B \cdot B\): cada cadena de \(B\) seguida de cada cadena de \(B\) (se puede repetir la misma). Son \(2 \cdot 2 = 4\) combinaciones:</p>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th>primera \(\backslash\) segunda</th><th>00</th><th>1</th></tr>
+      <tr><th>00</th><td>0000</td><td>001</td></tr>
+      <tr><th>1</th><td>100</td><td>11</td></tr>
+    </table>
+  </div>
+  <p>Las cuatro son distintas, así que \(|B^2| = 4\).</p>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>a) \(AB = \{101100, 10111\}\) &nbsp; b) \(BA = \{001011, 11011\}\) &nbsp; c) \(A^3 = \{101110111011\}\) &nbsp; d) \(B^2 = \{0000, 001, 100, 11\}\)</p>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Trampa</span>
+    <p>\(B^2\) no es "elevar al cuadrado" cada cadena (\(\{0000, 11\}\)): también entran las mezclas \(001\) y \(100\). \(B^2\) es concatenar <strong>dos elecciones independientes</strong> de \(B\).</p>
+  </div>
+
+  <span class="paso">Verificación</span>
+  <p>La guía no trae resultados; las cuatro concatenaciones se armaron también con Python y dan lo mismo.</p>
+</div>

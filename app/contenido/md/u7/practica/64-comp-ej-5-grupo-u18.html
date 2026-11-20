@@ -1,0 +1,93 @@
+<div class="ej">
+  <span class="tag" data-num-ej="C-5.">Complementaria P3 &middot; Grupos &middot; Ej. 5 &middot; Inversos, cíclico y \(\varphi(n)\)</span>
+  <h2>El grupo de las unidades \(U_{18}\)</h2>
+  <div class="enunciado">
+    <p>Considerar el grupo multiplicativo de las unidades \(U_{18}\)</p>
+    <p>a. Hallar el inverso de cada elemento.</p>
+    <p>b. ¿Es \(U_{18}\) cíclico?</p>
+    <p>c. Sea \(H = \langle 13 \rangle\), qué elementos tiene \(H\), qué orden tienen el elemento 13?</p>
+    <p>d. Calcular \(\varphi(18)\). ¿Cómo interpreta esta cantidad?</p>
+  </div>
+
+  <span class="paso">Qué tema es y por qué</span>
+  <ul>
+    <li>\(U_{18}\): los \(a\) entre 1 y 17 con \(mcd(a, 18) = 1\), con el producto módulo 18.</li>
+    <li>Inversos, generadores y órdenes salen de calcular productos y potencias módulo 18.</li>
+  </ul>
+
+  <span class="paso">Paso 0 &mdash; Quién es \(U_{18}\)</span>
+  <p>Regla: \(a \in U_{18} \iff mcd(a, 18) = 1\). Como \(18 = 2 \cdot 3^2\), se sacan los pares y los múltiplos de 3:</p>
+  <p>\[ U_{18} = \{1, 5, 7, 11, 13, 17\} \]</p>
+
+  <span class="paso">Paso a &mdash; Inversos</span>
+  <div class="caja caja-formula">
+    <p>\(b = a^{-1}\) en \(U_{18}\) \(\iff a \cdot b \equiv 1 \pmod{18}\) (el producto deja resto 1 al dividir por 18).</p>
+  </div>
+  <ul>
+    <li>\(1 \cdot 1 = 1\): \(1^{-1} = 1\).</li>
+    <li>\(5 \cdot 11 = 55 = 3 \cdot 18 + 1 \to 1\): \(5^{-1} = 11\) y \(11^{-1} = 5\).</li>
+    <li>\(7 \cdot 13 = 91 = 5 \cdot 18 + 1 \to 1\): \(7^{-1} = 13\) y \(13^{-1} = 7\).</li>
+    <li>\(17 \cdot 17 = 289 = 16 \cdot 18 + 1 \to 1\): \(17^{-1} = 17\).</li>
+  </ul>
+  <p>
+    Atajo para el 17: \(17 \equiv -1 \pmod{18}\), y \((-1)(-1) = 1\). Para encontrar los otros se puede
+    probar, o usar el algoritmo de Euclides extendido (Bézout) de la U5.
+  </p>
+
+  <span class="paso">Paso b &mdash; ¿Es cíclico?</span>
+  <div class="caja caja-formula">
+    <p>\(G\) es cíclico \(\iff\) tiene un elemento \(g\) con \(o(g) = |G|\) (sus potencias recorren todo el grupo).</p>
+  </div>
+  <p>\(|U_{18}| = 6\). Potencias de 5, módulo 18:</p>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th>\(n\)</th><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td></tr>
+      <tr><th>\(5^n \bmod 18\)</th><td>5</td><td>7</td><td>17</td><td>13</td><td>11</td><td>1</td></tr>
+    </table>
+  </div>
+  <p>
+    Cada potencia sale de multiplicar la anterior por 5: \(5 \cdot 5 = 25 \to 7\); \(7 \cdot 5 = 35 \to 17\);
+    \(17 \cdot 5 = 85 = 4 \cdot 18 + 13 \to 13\); \(13 \cdot 5 = 65 = 3 \cdot 18 + 11 \to 11\);
+    \(11 \cdot 5 = 55 \to 1\).
+  </p>
+  <p>Aparecen los seis elementos: \(o(5) = 6\), así que \(\langle 5 \rangle = U_{18}\). <strong>Sí es cíclico</strong>, con generador 5 (el 11 también lo es: es \(5^5\), el inverso de 5).</p>
+
+  <span class="paso">Paso c &mdash; \(H = \langle 13 \rangle\) y el orden de 13</span>
+  <div class="caja caja-formula">
+    <p>\(\langle a \rangle = \{a, a^2, a^3, \dots\}\) hasta llegar al neutro; \(o(a) = |\langle a \rangle|\).</p>
+  </div>
+  <ul>
+    <li>\(13^1 = 13\)</li>
+    <li>\(13^2 = 169 = 9 \cdot 18 + 7 \to 7\)</li>
+    <li>\(13^3 = 7 \cdot 13 = 91 = 5 \cdot 18 + 1 \to 1\)</li>
+  </ul>
+  <p>
+    \(H = \{1, 7, 13\}\) y \(o(13) = 3\). Control con Lagrange: \(3 \mid 6\). ✓ Y \(H\) es el subgrupo que
+    también generan las potencias pares de 5: \(5^2 = 7\), \(5^4 = 13\), \(5^6 = 1\).
+  </p>
+
+  <span class="paso">Paso d &mdash; \(\varphi(18)\) y qué significa</span>
+  <div class="caja caja-formula">
+    <p>
+      \(\varphi(n)\) (función de Euler) = cuántos enteros entre 1 y \(n\) son coprimos con \(n\). Si
+      \(n = p_1^{e_1} \cdots p_k^{e_k}\): \(\varphi(n) = n\left(1 - \frac{1}{p_1}\right)\cdots\left(1 - \frac{1}{p_k}\right)\).
+    </p>
+  </div>
+  <p>\[ \varphi(18) = 18 \left(1 - \tfrac{1}{2}\right)\left(1 - \tfrac{1}{3}\right) = 18 \cdot \tfrac{1}{2} \cdot \tfrac{2}{3} = 6 \]</p>
+  <p>
+    <strong>Interpretación:</strong> hay 6 números entre 1 y 18 coprimos con 18, que son exactamente las
+    unidades de \(\mathbb{Z}_{18}\) (los que tienen inverso). Entonces \(\varphi(18) = |U_{18}|\): es el
+    <strong>orden del grupo</strong>. Por Lagrange, el orden de cualquier elemento divide a 6.
+  </p>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>a. \(1^{-1} = 1\), \(5^{-1} = 11\), \(7^{-1} = 13\), \(11^{-1} = 5\), \(13^{-1} = 7\), \(17^{-1} = 17\).</p>
+    <p>b. Sí: \(\langle 5 \rangle = U_{18}\) (también \(\langle 11 \rangle\)).</p>
+    <p>c. \(H = \{1, 7, 13\}\), \(o(13) = 3\).</p>
+    <p>d. \(\varphi(18) = 6\): la cantidad de unidades de \(\mathbb{Z}_{18}\), o sea el orden de \(U_{18}\).</p>
+  </div>
+
+  <span class="paso">Verificación (la guía no trae resultados)</span>
+  <p>Se calcularon los seis productos de inversos y las potencias de todos los elementos módulo 18: los órdenes son 1, 6, 3, 6, 3, 2 (para 1, 5, 7, 11, 13, 17).</p>
+</div>

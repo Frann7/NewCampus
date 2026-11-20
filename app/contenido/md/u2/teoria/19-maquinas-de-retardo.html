@@ -1,0 +1,200 @@
+<div class="bloque">
+  <p class="kicker">Otras máquinas</p>
+  <h2>19. Máquinas de retardo</h2>
+
+  <h3>Para qué sirve</h3>
+  <p>
+    Son máquinas que <strong>devuelven la entrada atrasada</strong> uno o más pulsos. Muestran bien
+    la idea de "qué recuerda cada estado", y la de retardo 2 es la que usa la cátedra para los
+    ejemplos de transitorio y submáquina (secciones 20 y 21).
+  </p>
+
+  <h3>Definición</h3>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Retardo de \(k\) unidades</span>
+    <p>Para \(x = x_1 x_2 \ldots x_m\): \(\omega(s_0, x) = \underbrace{0 \ldots 0}_{k}\,x_1 x_2 \ldots x_{m-k}\).</p>
+    <p>Los primeros \(k\) símbolos de salida son 0 por convención (todavía no hay nada que devolver).</p>
+  </div>
+
+  <h3>Qué recuerda cada estado</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Máquina</th><th>Estados</th><th>Qué recuerda cada uno</th></tr>
+      <tr><td>Retardo 1</td><td>\(s_0, s_1, s_2\)</td><td>\(s_0\): todavía nada; \(s_1\): el último fue 0; \(s_2\): el último fue 1</td></tr>
+      <tr><td>Retardo 2</td><td>\(s_0\) a \(s_6\)</td><td>\(s_0\): nada; \(s_1\), \(s_2\): uno solo leído (0 o 1); \(s_3, s_4, s_5, s_6\): los dos últimos fueron \(00, 01, 10, 11\)</td></tr>
+    </table>
+  </div>
+  <p>
+    La regla de las flechas: estando en un estado que recuerda los últimos símbolos, al leer
+    \(x\) se <strong>escribe el más viejo</strong> de los recordados y se pasa al estado que recuerda
+    los últimos con \(x\) agregado al final.
+  </p>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; Retardo unitario (Ejemplo 18 de la cátedra)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>Verificar que la máquina de retardo unitario da \(\omega(s_0, 011100) = 001110\).</p>
+  </div>
+  <div class="pd-grafico af" data-g="u2t-retardo1">
+    <svg viewBox="-61 -52 323 264" width="323" height="264" role="img" aria-label="Máquina de retardo unitario">
+      <path class="arco" d="M17.3,72.1 L158.7,7.9"/>
+      <path class="punta" d="M158.7,7.9 L152.4,15.7 L148.6,7.5 Z"/>
+      <text class="rot" x="81.9" y="26.6" text-anchor="middle" dominant-baseline="central">0,0</text>
+      <path class="arco" d="M17.3,87.9 L158.7,152.1"/>
+      <path class="punta" d="M158.7,152.1 L148.6,152.5 L152.4,144.3 Z"/>
+      <text class="rot" x="94.1" y="106.6" text-anchor="middle" dominant-baseline="central">1,0</text>
+      <path class="arco" d="M192.8,-8.9 C227.2,-40.0 227.2,40.0 192.8,8.9"/>
+      <path class="punta" d="M192.8,8.9 L202.5,11.6 L196.4,18.3 Z"/>
+      <text class="rot" x="238.4" y="0.0" text-anchor="middle" dominant-baseline="central">0,0</text>
+      <path class="arco" d="M183.8,17.3 Q212.0,80.0 183.8,142.7"/>
+      <path class="punta" d="M183.8,142.7 L183.4,132.6 L191.6,136.3 Z"/>
+      <text class="rot" x="219.3" y="80.0" text-anchor="middle" dominant-baseline="central">1,0</text>
+      <path class="arco" d="M168.2,142.7 Q140.0,80.0 168.2,17.3"/>
+      <path class="punta" d="M168.2,17.3 L168.6,27.4 L160.4,23.7 Z"/>
+      <text class="rot" x="132.7" y="80.0" text-anchor="middle" dominant-baseline="central">0,1</text>
+      <path class="arco" d="M192.8,151.1 C227.2,120.0 227.2,200.0 192.8,168.9"/>
+      <path class="punta" d="M192.8,168.9 L202.5,171.6 L196.4,178.3 Z"/>
+      <text class="rot" x="238.4" y="160.0" text-anchor="middle" dominant-baseline="central">1,1</text>
+      <path class="arco" d="M-49.0,80.0 L-19.0,80.0"/>
+      <path class="punta" d="M-19.0,80.0 L-28.0,84.5 L-28.0,75.5 Z"/>
+      <g class="estado">
+        <circle class="borde" cx="0.0" cy="80.0" r="19"/>
+        <text class="nom" x="0.0" y="80.0" text-anchor="middle" dominant-baseline="central">s0</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="176.0" cy="0.0" r="19"/>
+        <text class="nom" x="176.0" y="0.0" text-anchor="middle" dominant-baseline="central">s1</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="176.0" cy="160.0" r="19"/>
+        <text class="nom" x="176.0" y="160.0" text-anchor="middle" dominant-baseline="central">s2</text>
+      </g>
+    </svg>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"retardo unitario"</td><td>la salida es la entrada corrida un lugar</td><td>\(0\) + \(01110\)</td><td>\(001110\)</td></tr>
+    </table>
+  </div>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Pulso</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th></tr>
+      <tr><td class="lbl">Estado</td><td>\(s_0\)</td><td>\(s_1\)</td><td>\(s_2\)</td><td>\(s_2\)</td><td>\(s_2\)</td><td>\(s_1\)</td></tr>
+      <tr><td class="lbl">Entrada</td><td>0</td><td>1</td><td>1</td><td>1</td><td>0</td><td>0</td></tr>
+      <tr><td class="lbl">Salida</td><td>0</td><td>0</td><td>1</td><td>1</td><td>1</td><td>0</td></tr>
+    </table>
+  </div>
+  <div class="caja caja-resp"><span class="caja-tit">Respuesta</span><p>\(\omega(s_0, 011100) = 001110\) y \(\nu(s_0, 011100) = s_1\) (lo último leído fue un 0).</p></div>
+
+  <h3>Ejemplo 2 &mdash; Completar el retardo de dos unidades (Ejemplos 19 y 22 de la cátedra)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>La cátedra da \(s_0 \to s_1, s_2\), \(s_1 \to s_3, s_4\) y \(s_2 \to s_5, s_6\), todas con salida 0. Completar la máquina que retarda la entrada dos posiciones y verificar que \(\omega(s_0, 0110100) = 0001101\).</p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>\(s_3, s_4, s_5, s_6\)</td><td>recuerdan \(00, 01, 10, 11\)</td><td>&mdash;</td><td>falta de dónde salen sus flechas</td></tr>
+      <tr><td>en \(s_5\) (\(10\)) llega 0</td><td>sale el viejo (1); quedan \(00\)</td><td>&mdash;</td><td>\(s_5 \to s_3\) con "0,1"</td></tr>
+    </table>
+  </div>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Estado (recuerda)</th><th>Llega 0: sale / va a</th><th>Llega 1: sale / va a</th></tr>
+      <tr><td>\(s_3\) (\(00\))</td><td>0 / \(s_3\) (\(00\))</td><td>0 / \(s_4\) (\(01\))</td></tr>
+      <tr><td>\(s_4\) (\(01\))</td><td>0 / \(s_5\) (\(10\))</td><td>0 / \(s_6\) (\(11\))</td></tr>
+      <tr><td>\(s_5\) (\(10\))</td><td>1 / \(s_3\) (\(00\))</td><td>1 / \(s_4\) (\(01\))</td></tr>
+      <tr><td>\(s_6\) (\(11\))</td><td>1 / \(s_5\) (\(10\))</td><td>1 / \(s_6\) (\(11\))</td></tr>
+    </table>
+  </div>
+  <div class="pd-grafico af" data-g="u2t-retardo2">
+    <svg viewBox="-61 -84 461 416" width="461" height="416" role="img" aria-label="Máquina de retardo de dos unidades">
+      <path class="arco" d="M15.4,112.9 L128.6,31.1"/>
+      <path class="punta" d="M128.6,31.1 L123.9,40.0 L118.7,32.7 Z"/>
+      <text class="rot" x="62.2" y="58.5" text-anchor="middle" dominant-baseline="central">0,0</text>
+      <path class="arco" d="M15.4,135.1 L128.6,216.9"/>
+      <path class="punta" d="M128.6,216.9 L118.7,215.3 L123.9,208.0 Z"/>
+      <text class="rot" x="81.8" y="162.5" text-anchor="middle" dominant-baseline="central">1,0</text>
+      <path class="arco" d="M162.1,14.1 L285.9,-26.1"/>
+      <path class="punta" d="M285.9,-26.1 L278.8,-19.1 L276.0,-27.6 Z"/>
+      <text class="rot" x="219.8" y="-18.9" text-anchor="middle" dominant-baseline="central">0,0</text>
+      <path class="arco" d="M162.1,25.9 L285.9,66.1"/>
+      <path class="punta" d="M285.9,66.1 L276.0,67.6 L278.8,59.1 Z"/>
+      <text class="rot" x="228.2" y="33.1" text-anchor="middle" dominant-baseline="central">1,0</text>
+      <path class="arco" d="M162.1,222.1 L285.9,181.9"/>
+      <path class="punta" d="M285.9,181.9 L278.8,188.9 L276.0,180.4 Z"/>
+      <text class="rot" x="219.8" y="189.1" text-anchor="middle" dominant-baseline="central">0,0</text>
+      <path class="arco" d="M162.1,233.9 L285.9,274.1"/>
+      <path class="punta" d="M285.9,274.1 L276.0,275.6 L278.8,267.1 Z"/>
+      <text class="rot" x="228.2" y="241.1" text-anchor="middle" dominant-baseline="central">1,0</text>
+      <path class="arco" d="M320.8,-40.9 C355.2,-72.0 355.2,8.0 320.8,-23.1"/>
+      <path class="punta" d="M320.8,-23.1 L330.5,-20.4 L324.4,-13.7 Z"/>
+      <text class="rot" x="366.4" y="-32.0" text-anchor="middle" dominant-baseline="central">0,0</text>
+      <path class="arco" d="M304.0,-13.0 L304.0,53.0"/>
+      <path class="punta" d="M304.0,53.0 L299.5,44.0 L308.5,44.0 Z"/>
+      <text class="rot" x="282.6" y="20.0" text-anchor="middle" dominant-baseline="central">1,0</text>
+      <path class="arco" d="M314.8,87.6 Q340.0,124.0 314.8,160.4"/>
+      <path class="punta" d="M314.8,160.4 L316.2,150.4 L323.6,155.5 Z"/>
+      <text class="rot" x="348.8" y="124.0" text-anchor="middle" dominant-baseline="central">0,0</text>
+      <path class="arco" d="M316.4,86.4 Q394.0,176.0 316.4,265.6"/>
+      <path class="punta" d="M316.4,265.6 L318.9,255.9 L325.7,261.8 Z"/>
+      <text class="rot" x="376.6" y="176.0" text-anchor="middle" dominant-baseline="central">1,0</text>
+      <path class="arco" d="M293.2,160.4 Q268.0,124.0 293.2,87.6"/>
+      <path class="punta" d="M293.2,87.6 L291.8,97.6 L284.4,92.5 Z"/>
+      <text class="rot" x="259.2" y="124.0" text-anchor="middle" dominant-baseline="central">1,1</text>
+      <path class="arco" d="M288.4,165.2 Q154.0,72.0 288.4,-21.2"/>
+      <path class="punta" d="M288.4,-21.2 L283.6,-12.3 L278.4,-19.7 Z"/>
+      <text class="rot" x="199.8" y="72.0" text-anchor="middle" dominant-baseline="central">0,1</text>
+      <path class="arco" d="M304.0,261.0 L304.0,195.0"/>
+      <path class="punta" d="M304.0,195.0 L308.5,204.0 L299.5,204.0 Z"/>
+      <text class="rot" x="325.4" y="228.0" text-anchor="middle" dominant-baseline="central">0,1</text>
+      <path class="arco" d="M320.8,271.1 C355.2,240.0 355.2,320.0 320.8,288.9"/>
+      <path class="punta" d="M320.8,288.9 L330.5,291.6 L324.4,298.3 Z"/>
+      <text class="rot" x="366.4" y="280.0" text-anchor="middle" dominant-baseline="central">1,1</text>
+      <path class="arco" d="M-49.0,124.0 L-19.0,124.0"/>
+      <path class="punta" d="M-19.0,124.0 L-28.0,128.5 L-28.0,119.5 Z"/>
+      <g class="estado">
+        <circle class="borde" cx="0.0" cy="124.0" r="19"/>
+        <text class="nom" x="0.0" y="124.0" text-anchor="middle" dominant-baseline="central">s0</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="144.0" cy="20.0" r="19"/>
+        <text class="nom" x="144.0" y="20.0" text-anchor="middle" dominant-baseline="central">s1</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="144.0" cy="228.0" r="19"/>
+        <text class="nom" x="144.0" y="228.0" text-anchor="middle" dominant-baseline="central">s2</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="304.0" cy="-32.0" r="19"/>
+        <text class="nom" x="304.0" y="-32.0" text-anchor="middle" dominant-baseline="central">s3</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="304.0" cy="72.0" r="19"/>
+        <text class="nom" x="304.0" y="72.0" text-anchor="middle" dominant-baseline="central">s4</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="304.0" cy="176.0" r="19"/>
+        <text class="nom" x="304.0" y="176.0" text-anchor="middle" dominant-baseline="central">s5</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="304.0" cy="280.0" r="19"/>
+        <text class="nom" x="304.0" y="280.0" text-anchor="middle" dominant-baseline="central">s6</text>
+      </g>
+    </svg>
+  </div>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Pulso</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th></tr>
+      <tr><td class="lbl">Estado</td><td>\(s_0\)</td><td>\(s_1\)</td><td>\(s_4\)</td><td>\(s_6\)</td><td>\(s_5\)</td><td>\(s_4\)</td><td>\(s_5\)</td></tr>
+      <tr><td class="lbl">Entrada</td><td>0</td><td>1</td><td>1</td><td>0</td><td>1</td><td>0</td><td>0</td></tr>
+      <tr><td class="lbl">Salida</td><td>0</td><td>0</td><td>0</td><td>1</td><td>1</td><td>0</td><td>1</td></tr>
+    </table>
+  </div>
+  <div class="caja caja-resp"><span class="caja-tit">Respuesta</span><p>\(\omega(s_0, 0110100) = 0001101\), y \(\nu(s_0, 0110100) = s_3\). Probada con todas las cadenas de largo hasta 10: siempre devuelve \(00\) seguido de la entrada sin sus dos últimos símbolos.</p></div>
+</div>

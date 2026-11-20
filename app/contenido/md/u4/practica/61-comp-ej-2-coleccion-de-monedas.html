@@ -1,0 +1,59 @@
+<div class="ej" data-examen="variante" data-examen-ref="Parcial 2 2026 · ej. 2" data-examen-nota="Plantear una RR desde un texto y resolverla. En el parcial la población se duplica y además se le suma la invasión de la parte I; acá se compra el doble de lo que se tenía.">
+  <span class="tag" data-num-ej="C-2.">Complementaria P2 &middot; Recurrencia &middot; Ej. 2 &middot; Plantear: monedas</span>
+  <h2>Cuándo la colección supera el medio millón de monedas</h2>
+  <div class="enunciado">
+    <p>Nos regalan tres monedas y decidimos iniciar una colección de monedas. Al año siguiente la incrementamos con 8 monedas más. Si cada año compramos un número de monedas igual al doble de las que teníamos el año anterior, ¿al cabo de cuántos años habremos superado el medio millón de monedas?</p>
+  </div>
+
+  <span class="paso">Qué tema es y por qué</span>
+  <ul>
+    <li>Hay que plantear la relación: lo que hay un año es lo que había más lo que se compra.</li>
+    <li>Lo que se compra es "el doble de las que teníamos el año anterior": depende del total del año anterior. Eso da primer orden homogénea.</li>
+  </ul>
+
+  <span class="paso">Desarme del enunciado</span>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"nos regalan tres monedas"</td><td>colección al empezar (año 0)</td><td>&mdash;</td><td>\(a_0 = 3\)</td></tr>
+      <tr><td>"al año siguiente la incrementamos con 8"</td><td>año 1</td><td>\(3 + 8\)</td><td>\(a_1 = 11\)</td></tr>
+      <tr><td>"compramos el doble de las que teníamos el año anterior"</td><td>en el año \(n\) se compran \(2a_{n-1}\)</td><td>\(a_{n-1} + 2a_{n-1}\)</td><td>\(a_n = 3a_{n-1}\) desde \(n = 2\)</td></tr>
+      <tr><td>"superado el medio millón"</td><td>condición a buscar</td><td>&mdash;</td><td>\(a_n \gt 500\,000\)</td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Paso 1 &mdash; Plantear</span>
+  <p>\(a_n\): monedas al cabo de \(n\) años. La regla de comprar el doble empieza el año 2 (el año 1 fueron 8 monedas, no \(2 \cdot 3\)):</p>
+  <p>\[ a_n = a_{n-1} + 2a_{n-1} = 3a_{n-1},\ \forall n \geq 2,\qquad a_1 = 11 \]</p>
+
+  <span class="paso">Paso 2 &mdash; Resolver</span>
+  <div class="caja caja-formula">
+    <p>\(a_n = d\,a_{n-1}\) a partir de un primer término \(a_k\): \(\ a_n = a_k\,d^{\,n-k}\) (es la fórmula \(A\,d^{n}\) corrida para arrancar en \(k\)).</p>
+  </div>
+  <p>\[ a_n = 11 \cdot 3^{\,n-1},\ \forall n \geq 1 \]</p>
+  <p>Control: \(a_2 = 33\) (11 más 22 compradas), \(a_3 = 99\); con la fórmula, \(11 \cdot 3 = 33\), \(11 \cdot 9 = 99\).</p>
+
+  <span class="paso">Paso 3 &mdash; Buscar el primer \(n\)</span>
+  <p>\[ 11 \cdot 3^{\,n-1} \gt 500\,000 \ \Longleftrightarrow\ 3^{\,n-1} \gt 45\,454{,}5 \]</p>
+  <p>\(3^{9} = 19\,683\) (no alcanza) y \(3^{10} = 59\,049\) (sí). Entonces \(n - 1 = 10\), \(n = 11\):</p>
+  <p>\(a_{10} = 216\,513\) y \(a_{11} = 649\,539\).</p>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>\(a_n = 3a_{n-1},\ n \geq 2,\ a_1 = 11\), con \(a_n = 11 \cdot 3^{n-1}\). Se supera el medio millón <strong>al cabo de 11 años</strong> (649 539 monedas).</p>
+  </div>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Otra lectura posible</span>
+    <p>
+      Si se entendiera que cada año se compra el doble de lo que se tenía <em>dos</em> años antes,
+      la relación sería \(a_n = a_{n-1} + 2a_{n-2}\), \(a_0 = 3\), \(a_1 = 11\), con raíces \(2\) y \(-1\)
+      y solución \(a_n = \frac{14 \cdot 2^{n} - 5(-1)^{n}}{3}\); el medio millón se pasaría a los 17
+      años (\(a_{16} = 305\,833\), \(a_{17} = 611\,671\)). El texto dice "el año anterior", por eso
+      la respuesta de arriba usa el total del año anterior.
+    </p>
+  </div>
+
+  <span class="paso">Verificación</span>
+  <p>La guía no trae resultados. Se calcularon los términos con la relación y con la fórmula hasta \(n = 14\): coinciden.</p>
+</div>

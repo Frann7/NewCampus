@@ -1,0 +1,97 @@
+<div class="bloque">
+  <p class="kicker">Grupos</p>
+  <h2>8. Logaritmo discreto</h2>
+
+  <h3>Para qué sirve</h3>
+  <p>
+    En un grupo cíclico, todo elemento es una potencia del generador. El exponente que hace falta es
+    el <strong>logaritmo discreto</strong>. Es la misma idea que el logaritmo de siempre
+    (\(\log_{2} 8 = 3\) porque \(2^{3} = 8\)), pero con potencias "con la vuelta" del módulo. No está
+    en las diapositivas de la cátedra; aparece en la guía complementaria (ejercicio 4). En
+    criptografía se usa porque calcular la potencia es fácil y encontrar el exponente es difícil
+    cuando el grupo es enorme.
+  </p>
+
+  <h3>Definición</h3>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Logaritmo discreto</span>
+    <p>
+      Sea \(G\) un grupo cíclico finito con generador \(g\), y \(a \in G\). El
+      <strong>logaritmo discreto</strong> de \(a\) en base \(g\) es el exponente \(n\), con
+      \(0 \leq n \lt |G|\), tal que
+    </p>
+    <p>\[ \log_{g}(a) = n \iff g^{n} = a \]</p>
+  </div>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Símbolo</th><th>Qué quiere decir</th></tr>
+      <tr><td class="lbl">\(g\)</td><td>La base: tiene que ser un <strong>generador</strong>, así existe el exponente para cualquier \(a\).</td></tr>
+      <tr><td class="lbl">\(n\)</td><td>Se toma entre 0 y \(|G| - 1\): como \(g^{|G|} = e\), los exponentes se repiten cada \(|G|\) y hay uno solo en ese rango.</td></tr>
+    </table>
+  </div>
+
+  <h3>Cómo se calcula</h3>
+  <ol>
+    <li>Si no te dan el generador, buscarlo (sección 7).</li>
+    <li>Armar la tabla de potencias \(g^{1}, g^{2}, \ldots\) (cada una es la anterior por \(g\), reducida) hasta llegar al neutro.</li>
+    <li>Buscar \(a\) en la tabla: su exponente es el logaritmo.</li>
+  </ol>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Si el grupo no es cíclico, no hay logaritmo discreto</span>
+    <p>
+      Por ejemplo \(U_8\) no es cíclico (sección 7): no hay ninguna base que llegue a todos los
+      elementos. Y "\(\mathbb{Z}_8^{*}\)" ni siquiera es grupo (sección 3).
+    </p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; En \(\mathbb{Z}_7^{*}\) con base 3</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>Sabiendo que 3 genera \((\mathbb{Z}_7^{*}, \cdot)\), resolver \(\log_{3}(5) = n\).</p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"\(\mathbb{Z}_7^{*}\)"</td><td>\(\{1, \ldots, 6\}\), producto mód 7</td><td>&mdash;</td><td>\(|G| = 6\)</td></tr>
+      <tr><td>"\(\log_{3}(5) = n\)"</td><td>el exponente con \(3^{n} = 5\)</td><td>potencias de 3</td><td>\(n\)</td></tr>
+    </table>
+  </div>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th>\(n\)</th><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td></tr>
+      <tr><th>\(3^{n}\) mód 7</th><td>3</td><td>9 &rarr; 2</td><td>6</td><td>18 &rarr; 4</td><td>12 &rarr; 5</td><td>15 &rarr; 1</td></tr>
+    </table>
+  </div>
+  <div class="caja caja-resp"><span class="caja-tit">Respuesta</span><p>\(\log_{3}(5) = 5\), porque \(3^{5} \equiv 5 \pmod 7\).</p></div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; Estilo parcial: buscar el generador y después el logaritmo</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>Sea \(\mathbb{Z}_{11}^{*}\) un grupo multiplicativo cíclico. Buscar un generador \(g\) y resolver \(\log_{g}(3) = n\).</p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"\(\mathbb{Z}_{11}^{*}\)"</td><td>11 es primo: \(\{1, \ldots, 10\}\)</td><td>\(11 - 1\)</td><td>\(|G| = 10\)</td></tr>
+      <tr><td>"buscar un generador"</td><td>un elemento de orden 10</td><td>probar desde el 2</td><td>\(g\)</td></tr>
+      <tr><td>"\(\log_{g}(3)\)"</td><td>exponente con \(g^{n} = 3\)</td><td>tabla de potencias</td><td>\(n\)</td></tr>
+    </table>
+  </div>
+  <span class="paso">Paso 1 &mdash; Probar con el 2</span>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th>\(n\)</th><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td><td>8</td><td>9</td><td>10</td></tr>
+      <tr><th>\(2^{n}\) mód 11</th><td>2</td><td>4</td><td>8</td><td>16 &rarr; 5</td><td>10</td><td>20 &rarr; 9</td><td>18 &rarr; 7</td><td>14 &rarr; 3</td><td>6</td><td>12 &rarr; 1</td></tr>
+    </table>
+  </div>
+  <p>El 1 aparece recién en \(n = 10\): \(o(2) = 10 = |G|\), así que \(g = 2\) es generador (aparecen los 10 elementos).</p>
+  <span class="paso">Paso 2 &mdash; Buscar el 3 en la tabla</span>
+  <p>El 3 está en la columna \(n = 8\).</p>
+  <div class="caja caja-resp"><span class="caja-tit">Respuesta</span><p>\(g = 2\) y \(\log_{2}(3) = 8\), porque \(2^{8} = 256 = 23 \cdot 11 + 3\).</p></div>
+</div>

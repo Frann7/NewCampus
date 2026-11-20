@@ -1,0 +1,86 @@
+<div class="bloque">
+  <p class="kicker">Lenguajes</p>
+  <h2>10. Definiciones recursivas</h2>
+
+  <h3>Para qué sirve</h3>
+  <p>
+    La cátedra ya definió así \(\Sigma^{n}\), \(x^{n}\) y \(A^{n}\): se da el primero y una regla para
+    pasar de uno al siguiente. Lo mismo sirve para definir un <strong>lenguaje entero</strong> cuando
+    no se puede escribir fácil con uniones y concatenaciones (la guía complementaria lo pide).
+  </p>
+
+  <h3>Definición</h3>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Definir un lenguaje \(A\) recursivamente</span>
+    <ol>
+      <li><strong>Base:</strong> se dicen una o más cadenas que están en \(A\).</li>
+      <li><strong>Paso recursivo:</strong> una regla que, a partir de una cadena \(w \in A\), fabrica otras que también están en \(A\).</li>
+      <li>(Implícito) <strong>Nada más</strong> está en \(A\): solo lo que sale de la base aplicando el paso finitas veces.</li>
+    </ol>
+  </div>
+
+  <h3>Qué significa cada parte</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Parte</th><th>Para qué está</th><th>Qué pasa si falta</th></tr>
+      <tr><td>Base</td><td>es el punto de arranque</td><td>no se fabrica ninguna cadena</td></tr>
+      <tr><td>Paso</td><td>da todas las demás</td><td>el lenguaje queda reducido a la base</td></tr>
+      <tr><td>"Nada más"</td><td>deja afuera lo que no se fabrica</td><td>cualquier cadena podría estar</td></tr>
+    </table>
+  </div>
+
+  <h3>De dónde sale: las de la cátedra, leídas así</h3>
+  <ul>
+    <li>\(\Sigma^{n}\): base \(\Sigma^{1} = \Sigma\); paso \(\Sigma^{n+1}\) = un símbolo adelante de cada cadena de \(\Sigma^{n}\).</li>
+    <li>\(x^{n}\): base \(x^{0} = \lambda\); paso \(x^{n+1} = x\,x^{n}\).</li>
+    <li>\(A^{n}\): base \(A^{0} = \{\lambda\}\); paso \(A^{n+1}\) = una cadena de \(A\) adelante de cada una de \(A^{n}\).</li>
+  </ul>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; Ceros y después la misma cantidad de unos</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>Definir recursivamente \(A = \{01, 0011, 000111, \ldots\}\), las cadenas de \(\{0, 1\}^{*}\) con \(n \geq 1\) ceros seguidos de \(n\) unos.</p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"\(n \geq 1\)"</td><td>la más chica tiene un cero y un uno</td><td>&mdash;</td><td>base: \(01 \in A\)</td></tr>
+      <tr><td>"misma cantidad"</td><td>al crecer, sumar un 0 y un 1 a la vez</td><td>uno de cada lado</td><td>paso: \(w \in A \Rightarrow 0w1 \in A\)</td></tr>
+    </table>
+  </div>
+  <p>Aplicando el paso: \(01 \to 0011 \to 000111 \to 00001111 \to \ldots\)</p>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>(1) \(01 \in A\); (2) si \(w \in A\), entonces \(0w1 \in A\). Este lenguaje, dice el Grimaldi, ninguna máquina de estados finitos lo puede reconocer: habría que acordarse de cuántos ceros vinieron, y eso no tiene tope.</p>
+  </div>
+
+  <h3>Ejemplo 2 &mdash; Con forma de guía: los palíndromos</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>Definir recursivamente el lenguaje \(P\) de los palíndromos sobre \(\Sigma = \{a, b\}\) (cadenas que se leen igual al derecho y al revés) y listar los de largo menor o igual a 4.</p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"se lee igual al revés"</td><td>el primer símbolo es igual al último, y lo de adentro también es palíndromo</td><td>&mdash;</td><td>paso: \(w \in P \Rightarrow awa, bwb \in P\)</td></tr>
+      <tr><td>los más chicos</td><td>largo par empieza en \(\lambda\); largo impar, en un símbolo solo</td><td>&mdash;</td><td>base: \(\lambda, a, b \in P\)</td></tr>
+    </table>
+  </div>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Largo</th><th>De dónde sale</th><th>Palíndromos</th></tr>
+      <tr><td class="lbl">0 y 1</td><td>base</td><td>\(\lambda,\ a,\ b\)</td></tr>
+      <tr><td class="lbl">2</td><td>paso sobre \(\lambda\)</td><td>\(aa,\ bb\)</td></tr>
+      <tr><td class="lbl">3</td><td>paso sobre \(a\) y \(b\)</td><td>\(aaa,\ bab,\ aba,\ bbb\)</td></tr>
+      <tr><td class="lbl">4</td><td>paso sobre \(aa\) y \(bb\)</td><td>\(aaaa,\ baab,\ abba,\ bbbb\)</td></tr>
+    </table>
+  </div>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>(1) \(\lambda, a, b \in P\); (2) si \(w \in P\), entonces \(awa \in P\) y \(bwb \in P\). Hay 13 de largo \(\leq 4\) (son todos los palíndromos que existen de esos largos).</p>
+  </div>
+</div>

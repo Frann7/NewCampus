@@ -1,0 +1,158 @@
+<div class="bloque" data-examen="variante"
+     data-examen-ref="Recuperatorio (Act. de vacaciones B) · a"
+     data-examen-nota="El recuperatorio pidió la f.n.c. sin tabla, pero partiendo de f⁻¹(1): ese paso está en la sección 12.">
+  <p class="kicker">Forma normal conjuntiva</p>
+  <h2>10. La f.n.c. y los maxtérminos \(\prod M\)</h2>
+
+  <h3>Para qué sirve</h3>
+  <p>
+    Es la forma "oficial" dual de la f.n.d.: en vez de sumar productos que prenden las filas en
+    1, se <strong>multiplican sumas que apagan las filas en 0</strong>. Conviene cuando la función
+    tiene pocos ceros, y es la que da la evaluación rápida del Ej. 3 del parcial (sección 11).
+  </p>
+
+  <h3>Definición (la de la cátedra)</h3>
+  <ol>
+    <li>Cada \(x_i\) o \(\overline{x_i}\) es un <strong>literal</strong> (igual que antes).</li>
+    <li>Una suma \((y_1 + y_2 + \cdots + y_n)\) con cada \(y_i = x_i\) o \(\overline{x_i}\) es una <strong>disyunción fundamental</strong>: tiene todas las variables, cada una una vez.</li>
+    <li>Escribir \(f\) como un <strong>producto</strong> de disyunciones fundamentales es su <strong>forma normal conjuntiva (f.n.c.)</strong>.</li>
+  </ol>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Expresión, en \(B^{3}\)</th><th>¿Está en f.n.c.?</th><th>Por qué</th></tr>
+      <tr><td>\((x + y)(x + \overline{y} + z)\)</td><td>No</td><td>al primer factor le falta \(z\)</td></tr>
+      <tr><td>\((x + y + z)(x + \overline{y} + \overline{z})\)</td><td>Sí</td><td>cada factor tiene los tres literales</td></tr>
+    </table>
+  </div>
+  <p>Es única (salvo el orden). La única función sin f.n.c. es la constante 1, que no tiene ningún 0.</p>
+
+  <h3>Maxtérminos y cómo se numeran</h3>
+  <p>
+    Una disyunción fundamental vale 0 en <strong>una sola fila</strong>: una suma es 0 solo si
+    todos los sumandos son 0 (sección 3). Por ejemplo \(x + \overline{y} + z\) es 0 solo si
+    \(x = 0\), \(\overline{y} = 0\), \(z = 0\), o sea en la fila \(010\). Como vale 1 el
+    máximo número de veces sin ser la constante 1, se llama <strong>maxtérmino</strong>.
+  </p>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Regla de los maxtérminos (al revés que los mintérminos)</span>
+    <p>Variable <strong>sin barra</strong> &rarr; <strong>0</strong> &nbsp;&nbsp;&nbsp; variable <strong>con barra</strong> &rarr; <strong>1</strong></p>
+    <p>El número del maxtérmino, \(M_k\), es esa tira leída en binario: la fila donde vale 0.</p>
+    <p>\[ f = \prod M(k_1, k_2, \ldots) \text{ quiere decir } f = M_{k_1} \cdot M_{k_2} \cdots \]</p>
+  </div>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th>fila</th><th>\(x\,y\,z\)</th><th>mintérmino \(m_k\) (1 solo acá)</th><th>maxtérmino \(M_k\) (0 solo acá)</th></tr>
+      <tr><td>0</td><td>000</td><td>\(\overline{x}\,\overline{y}\,\overline{z}\)</td><td>\(x + y + z\)</td></tr>
+      <tr><td>1</td><td>001</td><td>\(\overline{x}\,\overline{y}z\)</td><td>\(x + y + \overline{z}\)</td></tr>
+      <tr><td>2</td><td>010</td><td>\(\overline{x}y\overline{z}\)</td><td>\(x + \overline{y} + z\)</td></tr>
+      <tr><td>3</td><td>011</td><td>\(\overline{x}yz\)</td><td>\(x + \overline{y} + \overline{z}\)</td></tr>
+      <tr><td>4</td><td>100</td><td>\(x\overline{y}\,\overline{z}\)</td><td>\(\overline{x} + y + z\)</td></tr>
+      <tr><td>5</td><td>101</td><td>\(x\overline{y}z\)</td><td>\(\overline{x} + y + \overline{z}\)</td></tr>
+      <tr><td>6</td><td>110</td><td>\(xy\overline{z}\)</td><td>\(\overline{x} + \overline{y} + z\)</td></tr>
+      <tr><td>7</td><td>111</td><td>\(xyz\)</td><td>\(\overline{x} + \overline{y} + \overline{z}\)</td></tr>
+    </table>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">El error típico: poner las barras al revés</span>
+    <p>
+      En la fila \(010\), el mintérmino es \(\overline{x}y\overline{z}\) (barras donde hay 0) y el
+      maxtérmino es \(x + \overline{y} + z\) (barras donde hay 1). Para no confundirse, pensá qué
+      tiene que pasar: el maxtérmino tiene que dar <strong>0</strong> en esa fila, así que cada
+      sumando tiene que ser 0. Donde la variable vale 1, solo \(\overline{y}\) da 0.
+    </p>
+  </div>
+
+  <h3>Cómo se obtiene la f.n.c.</h3>
+  <p><strong>Camino 1, con la tabla:</strong> por cada fila con \(f = 0\), su maxtérmino; y se multiplican.</p>
+  <p>
+    Funciona porque cada maxtérmino apaga su fila y deja en 1 las demás: el producto es 0
+    justo en las filas elegidas.
+  </p>
+  <p><strong>Camino 2, algebraico (sin tabla):</strong></p>
+  <ol>
+    <li>Llevar \(f\) a un producto de sumas (con la distributiva de \(+\) sobre \(\cdot\), L5: \(a + bc = (a + b)(a + c)\)).</li>
+    <li>A cada suma a la que le falte una variable, por ejemplo \(z\), sumarle \(z\overline{z}\), que vale 0 (L8 y L7), y distribuir: \(a + z\overline{z} = (a + z)(a + \overline{z})\).</li>
+    <li>Borrar los factores repetidos (L6, \(aa = a\)).</li>
+  </ol>
+  <p>Es exactamente el camino de la f.n.d. "dado vuelta" (dualidad, sección 7): donde allá se multiplicaba por \(z + \overline{z} = 1\), acá se suma \(z\overline{z} = 0\).</p>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; El de la cátedra: \(f = xy + yz\)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>Hallar la f.n.c. de \(f(x, y, z) = xy + yz\) y escribirla como \(\prod M\).</p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"\(xy + yz\)"</td><td>suma de productos: hay que pasarla a producto</td><td>sacar \(y\) factor común</td><td>\(y(x + z)\)</td></tr>
+      <tr><td>factor "\(y\)"</td><td>le faltan \(x\) y \(z\)</td><td>\(y + x\overline{x} + z\overline{z}\)</td><td>4 maxtérminos</td></tr>
+      <tr><td>factor "\(x + z\)"</td><td>le falta \(y\)</td><td>\(x + z + y\overline{y}\)</td><td>2 maxtérminos</td></tr>
+    </table>
+  </div>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Renglón</th><th>Qué ley se usó</th></tr>
+      <tr><td>\(f = y(x + z)\)</td><td>L5, factor común</td></tr>
+      <tr><td>\(= (y + x\overline{x} + z\overline{z})(x + z + y\overline{y})\)</td><td>L8 (\(x\overline{x} = 0\)) y L7 (sumar 0 no cambia)</td></tr>
+      <tr><td>\(= (y + x\overline{x} + z)(y + x\overline{x} + \overline{z})(x + z + y)(x + z + \overline{y})\)</td><td>L5, distributiva de \(+\) sobre \(\cdot\)</td></tr>
+      <tr><td>\(= (y + x + z)(y + \overline{x} + z)(y + x + \overline{z})(y + \overline{x} + \overline{z})(x + z + y)(x + z + \overline{y})\)</td><td>L5 otra vez</td></tr>
+      <tr><td>\(= (x + y + z)(\overline{x} + y + z)(x + y + \overline{z})(\overline{x} + y + \overline{z})(x + \overline{y} + z)\)</td><td>L3 (ordenar \(x, y, z\)) y L6 (\(x + y + z\) estaba dos veces)</td></tr>
+    </table>
+  </div>
+  <p>Números (sin barra &rarr; 0, con barra &rarr; 1): \(x + y + z = 000 = 0\); \(\overline{x} + y + z = 100 = 4\); \(x + y + \overline{z} = 001 = 1\); \(\overline{x} + y + \overline{z} = 101 = 5\); \(x + \overline{y} + z = 010 = 2\). Con la tabla:</p>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th>et.</th><th>\(x\)</th><th>\(y\)</th><th>\(z\)</th><th>\(f\)</th><th>disy. fundamental</th></tr>
+      <tr><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>\(x + y + z\)</td></tr>
+      <tr><td>1</td><td>0</td><td>0</td><td>1</td><td>0</td><td>\(x + y + \overline{z}\)</td></tr>
+      <tr><td>2</td><td>0</td><td>1</td><td>0</td><td>0</td><td>\(x + \overline{y} + z\)</td></tr>
+      <tr><td>3</td><td>0</td><td>1</td><td>1</td><td>1</td><td></td></tr>
+      <tr><td>4</td><td>1</td><td>0</td><td>0</td><td>0</td><td>\(\overline{x} + y + z\)</td></tr>
+      <tr><td>5</td><td>1</td><td>0</td><td>1</td><td>0</td><td>\(\overline{x} + y + \overline{z}\)</td></tr>
+      <tr><td>6</td><td>1</td><td>1</td><td>0</td><td>1</td><td></td></tr>
+      <tr><td>7</td><td>1</td><td>1</td><td>1</td><td>1</td><td></td></tr>
+    </table>
+  </div>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>
+      \(f = (x + y + z)(x + y + \overline{z})(x + \overline{y} + z)(\overline{x} + y + z)(\overline{x} + y + \overline{z}) = \prod M(0, 1, 2, 4, 5)\).
+      Fijate que son justo las filas que <strong>no</strong> estaban en \(\sum m(3, 6, 7)\) (sección 9).
+    </p>
+  </div>
+
+  <h3>Ejemplo 2 &mdash; Estilo parcial (guía complementaria, Boole 3)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>Expresar la f.n.c. de \(f(x, y, z) = (x + y)(x + \overline{z})\).</p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"\((x + y)(x + \overline{z})\)"</td><td>ya es producto de sumas</td><td>solo falta completar</td><td>&mdash;</td></tr>
+      <tr><td>"\(x + y\)"</td><td>le falta \(z\)</td><td>\(+ z\overline{z}\)</td><td>\((x + y + z)(x + y + \overline{z})\)</td></tr>
+      <tr><td>"\(x + \overline{z}\)"</td><td>le falta \(y\)</td><td>\(+ y\overline{y}\)</td><td>\((x + y + \overline{z})(x + \overline{y} + \overline{z})\)</td></tr>
+    </table>
+  </div>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Renglón</th><th>Qué ley se usó</th></tr>
+      <tr><td>\(f = (x + y + z\overline{z})(x + y\overline{y} + \overline{z})\)</td><td>L8 y L7</td></tr>
+      <tr><td>\(= (x + y + z)(x + y + \overline{z})(x + y + \overline{z})(x + \overline{y} + \overline{z})\)</td><td>L5, distributiva de \(+\) sobre \(\cdot\)</td></tr>
+      <tr><td>\(= (x + y + z)(x + y + \overline{z})(x + \overline{y} + \overline{z})\)</td><td>L6, el repetido se va</td></tr>
+    </table>
+  </div>
+  <p>Números: \(000 = 0\), \(001 = 1\), \(011 = 3\).</p>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>
+      \(f = (x + y + z)(x + y + \overline{z})(x + \overline{y} + \overline{z}) = \prod M(0, 1, 3)\).
+      Con la tabla, \(f\) vale 0 justo en las filas 0, 1 y 3 (verificado); su f.n.d. es
+      \(\sum m(2, 4, 5, 6, 7)\).
+    </p>
+  </div>
+</div>

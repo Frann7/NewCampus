@@ -1,0 +1,63 @@
+<div class="ej">
+  <span class="tag" data-num-ej="6.2-4.">Johnsonbaugh 6.2 &middot; Ej. 4 &middot; Listar permutaciones de r</span>
+  <h2>Listar las permutaciones de 3 de a, b, c, d</h2>
+  <div class="enunciado">
+    <p>Liste las permutaciones de 3 de a, b, c, d.</p>
+  </div>
+
+  <span class="paso">Qué tema es y por qué</span>
+  <ul>
+    <li>Una <strong>permutación de 3</strong> de a, b, c, d es una tira ordenada de 3 letras distintas sacadas de esas 4.</li>
+    <li>El orden importa: abc y bac son dos permutaciones distintas.</li>
+    <li>Es el caso de las permutaciones de \(r\) en \(n\), en la teoría de esta unidad. En el ejercicio 3 se contó cuántas son; acá hay que escribirlas.</li>
+  </ul>
+
+  <span class="paso">Desarme del enunciado</span>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"a, b, c, d"</td><td>elementos disponibles, distintos</td><td>se cuentan</td><td>\(n = 4\)</td></tr>
+      <tr><td>"permutaciones de 3"</td><td>tiras ordenadas de 3, sin repetir</td><td>&mdash;</td><td>\(r = 3\)</td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Paso 1 &mdash; Cuántas tienen que salir</span>
+  <div class="caja caja-formula">
+    <p>Permutaciones de \(r\) de \(n\) elementos distintos: \[ P(n, r) = \underbrace{n \cdot (n-1) \cdots (n - r + 1)}_{r \text{ factores}} = \frac{n!}{(n-r)!} \]</p>
+  </div>
+  <p>\[ P(4, 3) = 4 \cdot 3 \cdot 2 = 24 \]</p>
+  <p>Ese número sirve de control: si la lista no tiene 24, falta o sobra alguna.</p>
+
+  <span class="paso">Paso 2 &mdash; El método para no perderse</span>
+  <ul>
+    <li>Primero se elige <strong>qué 3 letras</strong> se usan (es decir, cuál de las 4 queda afuera). Hay 4 grupos: \(\{a,b,c\}\), \(\{a,b,d\}\), \(\{a,c,d\}\), \(\{b,c,d\}\).</li>
+    <li>Después, cada grupo de 3 letras se ordena de todas las maneras posibles: \(3! = 6\).</li>
+    <li>Total: \(4 \cdot 6 = 24\). Coincide con el Paso 1.</li>
+  </ul>
+
+  <span class="paso">Paso 3 &mdash; La lista</span>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Con a, b, c</th><th>Con a, b, d</th><th>Con a, c, d</th><th>Con b, c, d</th></tr>
+      <tr><td>abc</td><td>abd</td><td>acd</td><td>bcd</td></tr>
+      <tr><td>acb</td><td>adb</td><td>adc</td><td>bdc</td></tr>
+      <tr><td>bac</td><td>bad</td><td>cad</td><td>cbd</td></tr>
+      <tr><td>bca</td><td>bda</td><td>cda</td><td>cdb</td></tr>
+      <tr><td>cab</td><td>dab</td><td>dac</td><td>dbc</td></tr>
+      <tr><td>cba</td><td>dba</td><td>dca</td><td>dcb</td></tr>
+    </table>
+  </div>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Lo que muestra esta tabla</span>
+    <p>Cada columna es <strong>una combinación</strong> (un grupo de 3 letras, sin orden) y sus 6 filas son <strong>sus ordenamientos</strong>. Por eso \(P(4,3) = C(4,3) \cdot 3!\): 4 grupos por 6 órdenes cada uno. Es la relación entre permutaciones y combinaciones que aparece en combinaciones de \(n\) en \(r\), en la teoría de esta unidad.</p>
+  </div>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>Las 24 de la tabla: abc, acb, bac, bca, cab, cba, abd, adb, bad, bda, dab, dba, acd, adc, cad, cda, dac, dca, bcd, bdc, cbd, cdb, dbc, dcb.</p>
+  </div>
+
+  <span class="paso">Solución del libro</span>
+  <p>El libro da exactamente esta lista de 24, agrupada de la misma manera (por las 3 letras que se usan). Coincide; la lista generada por computadora también tiene esas 24.</p>
+</div>

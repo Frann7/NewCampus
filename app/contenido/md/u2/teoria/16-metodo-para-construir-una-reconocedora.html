@@ -1,0 +1,234 @@
+<div class="bloque" data-examen="igual" data-examen-ref="Parcial 1 2026 · ej. 1" data-examen-nota="El parcial pidió, con I = {a, b} y O = {0, 1}, una máquina que reconozca las cadenas que terminan en abba, detectando solapamientos. Es este método paso a paso; el Ejemplo 2 lo hace con baab.">
+  <p class="kicker">Máquinas reconocedoras</p>
+  <h2>16. Método para construir una máquina reconocedora</h2>
+
+  <h3>Para qué sirve</h3>
+  <p>
+    Para armar, sin adivinar, la máquina que reconoce "las cadenas que terminan en \(p\)" (o "cada
+    aparición de \(p\)") con solapamiento, para cualquier patrón \(p\). Lo difícil son las flechas
+    de cuando el patrón <strong>falla</strong>: este método las saca con una regla fija.
+  </p>
+
+  <h3>El método</h3>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Patrón \(p\) de largo \(m\), con solapamiento</span>
+    <ol>
+      <li><strong>Estados:</strong> \(s_0, s_1, \ldots, s_{m-1}\). El estado \(s_k\) <strong>recuerda</strong> que los últimos \(k\) símbolos leídos son los \(k\) primeros del patrón (\(s_0\): nada).</li>
+      <li><strong>Flechas que avanzan:</strong> en \(s_k\), si llega el símbolo número \(k+1\) del patrón, va a \(s_{k+1}\) con salida 0.</li>
+      <li><strong>Flecha que completa:</strong> en \(s_{m-1}\), si llega el último símbolo del patrón, escribe <strong>1</strong>.</li>
+      <li><strong>Regla para todo lo demás</strong> (y para dónde ir después del 1): escribir lo que queda leído (lo que recordaba el estado + el símbolo que llegó) y buscar <strong>el sufijo más largo de eso que sea un comienzo (prefijo propio) del patrón</strong>. Si ese sufijo tiene largo \(j\), la flecha va a \(s_j\). Salida 0 (salvo la del paso 3).</li>
+      <li><strong>Control:</strong> de cada estado salen \(|I|\) flechas. Probar con dos o tres cadenas.</li>
+    </ol>
+  </div>
+
+  <h3>Qué significa cada parte</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Parte</th><th>En palabras</th><th>Por qué</th></tr>
+      <tr><td>"\(s_k\) recuerda \(k\) símbolos"</td><td>cuánto del patrón ya tengo hecho al final</td><td>la máquina solo puede recordar su estado (sección 11)</td></tr>
+      <tr><td>"sufijo más largo que es prefijo"</td><td>lo que se puede <strong>aprovechar</strong> de lo leído para un patrón nuevo</td><td>tomar menos perdería apariciones; tomar más es imposible</td></tr>
+      <tr><td>después del 1</td><td>se aplica la misma regla sobre el patrón entero</td><td>eso es el solapamiento: el final del patrón puede ser el comienzo del siguiente</td></tr>
+    </table>
+  </div>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">El error típico</span>
+    <p>
+      Mandar toda falla a \(s_0\). Con \(p = 0101\), si se leyó \(010\) y llega 0, lo leído termina en
+      \(0100\): el último \(0\) <strong>ya es</strong> el comienzo de otro \(0101\). Volver a \(s_0\)
+      pierde, por ejemplo, la aparición en \(0100101\).
+    </p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; \(0101\) con solapamiento (Ejemplo 16 a de la cátedra)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>Dados \(I = O = \{0, 1\}\), construir una máquina que reconozca la ocurrencia de \(0101\) sin importar dónde ocurra. Hallar \(\nu(s_0, 01010100101)\) y \(\omega(s_0, 01010100101)\).</p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"\(0101\)"</td><td>patrón de largo 4</td><td>\(m = 4\)</td><td>estados \(s_0, s_1, s_2, s_3\)</td></tr>
+      <tr><td>"sin importar dónde"</td><td>cualquier aparición, solapadas también</td><td>&mdash;</td><td>reconoce \(\{0, 1\}^{*}\{0101\}\)</td></tr>
+    </table>
+  </div>
+  <p><span class="paso">Paso 1 &mdash; Qué recuerda cada estado</span> \(s_0\): nada; \(s_1\): \(0\); \(s_2\): \(01\); \(s_3\): \(010\).</p>
+  <p><span class="paso">Paso 2 a 4 &mdash; Las ocho flechas</span></p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Estado (recuerda)</th><th>Llega</th><th>Queda leído</th><th>Sufijo más largo que empieza \(0101\)</th><th>Va a</th><th>Salida</th></tr>
+      <tr><td>\(s_0\) (nada)</td><td>0</td><td>\(0\)</td><td>\(0\) (avanza)</td><td>\(s_1\)</td><td>0</td></tr>
+      <tr><td>\(s_0\) (nada)</td><td>1</td><td>\(1\)</td><td>ninguno</td><td>\(s_0\)</td><td>0</td></tr>
+      <tr><td>\(s_1\) (\(0\))</td><td>1</td><td>\(01\)</td><td>\(01\) (avanza)</td><td>\(s_2\)</td><td>0</td></tr>
+      <tr><td>\(s_1\) (\(0\))</td><td>0</td><td>\(00\)</td><td>\(0\)</td><td>\(s_1\)</td><td>0</td></tr>
+      <tr><td>\(s_2\) (\(01\))</td><td>0</td><td>\(010\)</td><td>\(010\) (avanza)</td><td>\(s_3\)</td><td>0</td></tr>
+      <tr><td>\(s_2\) (\(01\))</td><td>1</td><td>\(011\)</td><td>ninguno</td><td>\(s_0\)</td><td>0</td></tr>
+      <tr><td>\(s_3\) (\(010\))</td><td>1</td><td>\(0101\) <strong>completo</strong></td><td>\(01\) (propio)</td><td>\(s_2\)</td><td><strong>1</strong></td></tr>
+      <tr><td>\(s_3\) (\(010\))</td><td>0</td><td>\(0100\)</td><td>\(0\)</td><td>\(s_1\)</td><td>0</td></tr>
+    </table>
+  </div>
+  <div class="pd-grafico af" data-g="u2t-0101">
+    <svg viewBox="-61 -77 620 184" width="620" height="184" role="img" aria-label="Reconocedor de 0101 con solapamiento">
+      <path class="arco" d="M-8.9,-16.8 C-40.0,-51.2 40.0,-51.2 8.9,-16.8"/>
+      <path class="punta" d="M8.9,-16.8 L11.6,-26.5 L18.3,-20.4 Z"/>
+      <text class="rot" x="0.0" y="-56.0" text-anchor="middle" dominant-baseline="central">1,0</text>
+      <path class="arco" d="M19.0,0.0 L157.0,0.0"/>
+      <path class="punta" d="M157.0,0.0 L148.0,4.5 L148.0,-4.5 Z"/>
+      <text class="rot" x="88.0" y="-10.0" text-anchor="middle" dominant-baseline="central">0,0</text>
+      <path class="arco" d="M167.1,-16.8 C136.0,-51.2 216.0,-51.2 184.9,-16.8"/>
+      <path class="punta" d="M184.9,-16.8 L187.6,-26.5 L194.3,-20.4 Z"/>
+      <text class="rot" x="176.0" y="-56.0" text-anchor="middle" dominant-baseline="central">0,0</text>
+      <path class="arco" d="M195.0,0.0 L333.0,0.0"/>
+      <path class="punta" d="M333.0,0.0 L324.0,4.5 L324.0,-4.5 Z"/>
+      <text class="rot" x="264.0" y="-10.0" text-anchor="middle" dominant-baseline="central">1,0</text>
+      <path class="arco" d="M371.0,0.0 L509.0,0.0"/>
+      <path class="punta" d="M509.0,0.0 L500.0,4.5 L500.0,-4.5 Z"/>
+      <text class="rot" x="440.0" y="-10.0" text-anchor="middle" dominant-baseline="central">0,0</text>
+      <path class="arco" d="M335.1,8.7 Q176.0,90.0 16.9,8.7"/>
+      <path class="punta" d="M16.9,8.7 L27.0,8.7 L22.9,16.8 Z"/>
+      <text class="rot" x="176.0" y="59.3" text-anchor="middle" dominant-baseline="central">1,0</text>
+      <path class="arco" d="M511.0,-8.5 Q440.0,-44.0 369.0,-8.5"/>
+      <path class="punta" d="M369.0,-8.5 L375.0,-16.5 L379.1,-8.5 Z"/>
+      <text class="rot" x="440.0" y="-36.2" text-anchor="middle" dominant-baseline="central">1,1</text>
+      <path class="arco" d="M513.1,11.8 Q352.0,140.0 190.9,11.8"/>
+      <path class="punta" d="M190.9,11.8 L200.7,13.9 L195.1,21.0 Z"/>
+      <text class="rot" x="352.0" y="85.9" text-anchor="middle" dominant-baseline="central">0,0</text>
+      <path class="arco" d="M-49.0,0.0 L-19.0,0.0"/>
+      <path class="punta" d="M-19.0,0.0 L-28.0,4.5 L-28.0,-4.5 Z"/>
+      <g class="estado">
+        <circle class="borde" cx="0.0" cy="0.0" r="19"/>
+        <text class="nom" x="0.0" y="0.0" text-anchor="middle" dominant-baseline="central">s0</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="176.0" cy="0.0" r="19"/>
+        <text class="nom" x="176.0" y="0.0" text-anchor="middle" dominant-baseline="central">s1</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="352.0" cy="0.0" r="19"/>
+        <text class="nom" x="352.0" y="0.0" text-anchor="middle" dominant-baseline="central">s2</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="528.0" cy="0.0" r="19"/>
+        <text class="nom" x="528.0" y="0.0" text-anchor="middle" dominant-baseline="central">s3</text>
+      </g>
+    </svg>
+  </div>
+  <p><span class="paso">Paso 5 &mdash; Probar</span> con \(x = 01010100101\):</p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Pulso</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>11</th></tr>
+      <tr><td class="lbl">Estado</td><td>\(s_0\)</td><td>\(s_1\)</td><td>\(s_2\)</td><td>\(s_3\)</td><td>\(s_2\)</td><td>\(s_3\)</td><td>\(s_2\)</td><td>\(s_3\)</td><td>\(s_1\)</td><td>\(s_2\)</td><td>\(s_3\)</td></tr>
+      <tr><td class="lbl">Entrada</td><td>0</td><td>1</td><td>0</td><td>1</td><td>0</td><td>1</td><td>0</td><td>0</td><td>1</td><td>0</td><td>1</td></tr>
+      <tr><td class="lbl">Salida</td><td>0</td><td>0</td><td>0</td><td>1</td><td>0</td><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1</td></tr>
+    </table>
+  </div>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>\(\nu(s_0, 01010100101) = s_2\) y \(\omega(s_0, 01010100101) = 00010100001\): avisa en los pulsos 4, 6 y 11; las de 4 y 6 son solapadas (\(\underline{0101}01\) y \(01\underline{0101}\)).</p>
+  </div>
+
+  <h3>Ejemplo 2 &mdash; Con forma de parcial: cadenas que terminan en \(baab\)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>Dados \(I = \{a, b\}\) y \(O = \{0, 1\}\), construir una máquina de estados finitos que reconozca las cadenas que terminan en \(baab\) (detecta solapamientos).</p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"terminan en \(baab\)"</td><td>1 cuando lo leído termina en \(baab\)</td><td>\(m = 4\)</td><td>\(s_0, \ldots, s_3\); reconoce \(\{a, b\}^{*}\{baab\}\)</td></tr>
+      <tr><td>"detecta solapamientos"</td><td>después del 1, aprovechar lo que se pueda</td><td>prefijos propios que son sufijos: \(\lambda\) y \(b\)</td><td>tras el 1, a \(s_1\)</td></tr>
+    </table>
+  </div>
+  <p><span class="paso">Paso 1</span> \(s_0\): nada; \(s_1\): \(b\); \(s_2\): \(ba\); \(s_3\): \(baa\).</p>
+  <p><span class="paso">Pasos 2 a 4</span></p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Estado (recuerda)</th><th>Llega</th><th>Queda leído</th><th>Sufijo más largo que empieza \(baab\)</th><th>Va a</th><th>Salida</th></tr>
+      <tr><td>\(s_0\) (nada)</td><td>b</td><td>\(b\)</td><td>\(b\) (avanza)</td><td>\(s_1\)</td><td>0</td></tr>
+      <tr><td>\(s_0\) (nada)</td><td>a</td><td>\(a\)</td><td>ninguno</td><td>\(s_0\)</td><td>0</td></tr>
+      <tr><td>\(s_1\) (\(b\))</td><td>a</td><td>\(ba\)</td><td>\(ba\) (avanza)</td><td>\(s_2\)</td><td>0</td></tr>
+      <tr><td>\(s_1\) (\(b\))</td><td>b</td><td>\(bb\)</td><td>\(b\)</td><td>\(s_1\)</td><td>0</td></tr>
+      <tr><td>\(s_2\) (\(ba\))</td><td>a</td><td>\(baa\)</td><td>\(baa\) (avanza)</td><td>\(s_3\)</td><td>0</td></tr>
+      <tr><td>\(s_2\) (\(ba\))</td><td>b</td><td>\(bab\)</td><td>\(b\)</td><td>\(s_1\)</td><td>0</td></tr>
+      <tr><td>\(s_3\) (\(baa\))</td><td>b</td><td>\(baab\) <strong>completo</strong></td><td>\(b\) (propio)</td><td>\(s_1\)</td><td><strong>1</strong></td></tr>
+      <tr><td>\(s_3\) (\(baa\))</td><td>a</td><td>\(baaa\)</td><td>ninguno</td><td>\(s_0\)</td><td>0</td></tr>
+    </table>
+  </div>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th rowspan="2"></th><th colspan="2">\(\nu\)</th><th colspan="2">\(\omega\)</th></tr>
+      <tr><th>a</th><th>b</th><th>a</th><th>b</th></tr>
+      <tr><td class="lbl">\(s_0\)</td><td>\(s_0\)</td><td>\(s_1\)</td><td>0</td><td>0</td></tr>
+      <tr><td class="lbl">\(s_1\)</td><td>\(s_2\)</td><td>\(s_1\)</td><td>0</td><td>0</td></tr>
+      <tr><td class="lbl">\(s_2\)</td><td>\(s_3\)</td><td>\(s_1\)</td><td>0</td><td>0</td></tr>
+      <tr><td class="lbl">\(s_3\)</td><td>\(s_0\)</td><td>\(s_1\)</td><td>0</td><td>1</td></tr>
+    </table>
+  </div>
+  <div class="pd-grafico af" data-g="u2t-baab">
+    <svg viewBox="-61 -77 620 188" width="620" height="188" role="img" aria-label="Reconocedor de las cadenas que terminan en baab">
+      <path class="arco" d="M-8.9,-16.8 C-40.0,-51.2 40.0,-51.2 8.9,-16.8"/>
+      <path class="punta" d="M8.9,-16.8 L11.6,-26.5 L18.3,-20.4 Z"/>
+      <text class="rot" x="0.0" y="-56.0" text-anchor="middle" dominant-baseline="central">a,0</text>
+      <path class="arco" d="M19.0,0.0 L157.0,0.0"/>
+      <path class="punta" d="M157.0,0.0 L148.0,4.5 L148.0,-4.5 Z"/>
+      <text class="rot" x="88.0" y="-10.0" text-anchor="middle" dominant-baseline="central">b,0</text>
+      <path class="arco" d="M167.1,-16.8 C136.0,-51.2 216.0,-51.2 184.9,-16.8"/>
+      <path class="punta" d="M184.9,-16.8 L187.6,-26.5 L194.3,-20.4 Z"/>
+      <text class="rot" x="176.0" y="-56.0" text-anchor="middle" dominant-baseline="central">b,0</text>
+      <path class="arco" d="M195.0,0.0 L333.0,0.0"/>
+      <path class="punta" d="M333.0,0.0 L324.0,4.5 L324.0,-4.5 Z"/>
+      <text class="rot" x="264.0" y="-10.0" text-anchor="middle" dominant-baseline="central">a,0</text>
+      <path class="arco" d="M371.0,0.0 L509.0,0.0"/>
+      <path class="punta" d="M509.0,0.0 L500.0,4.5 L500.0,-4.5 Z"/>
+      <text class="rot" x="440.0" y="-10.0" text-anchor="middle" dominant-baseline="central">a,0</text>
+      <path class="arco" d="M335.0,-8.5 Q264.0,-44.0 193.0,-8.5"/>
+      <path class="punta" d="M193.0,-8.5 L199.0,-16.5 L203.1,-8.5 Z"/>
+      <text class="rot" x="264.0" y="-36.2" text-anchor="middle" dominant-baseline="central">b,0</text>
+      <path class="arco" d="M511.1,8.7 Q352.0,90.0 192.9,8.7"/>
+      <path class="punta" d="M192.9,8.7 L203.0,8.7 L198.9,16.8 Z"/>
+      <text class="rot" x="352.0" y="59.3" text-anchor="middle" dominant-baseline="central">b,1</text>
+      <path class="arco" d="M511.5,9.4 Q264.0,150.0 16.5,9.4"/>
+      <path class="punta" d="M16.5,9.4 L26.6,9.9 L22.1,17.7 Z"/>
+      <text class="rot" x="264.0" y="89.7" text-anchor="middle" dominant-baseline="central">a,0</text>
+      <path class="arco" d="M-49.0,0.0 L-19.0,0.0"/>
+      <path class="punta" d="M-19.0,0.0 L-28.0,4.5 L-28.0,-4.5 Z"/>
+      <g class="estado">
+        <circle class="borde" cx="0.0" cy="0.0" r="19"/>
+        <text class="nom" x="0.0" y="0.0" text-anchor="middle" dominant-baseline="central">s0</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="176.0" cy="0.0" r="19"/>
+        <text class="nom" x="176.0" y="0.0" text-anchor="middle" dominant-baseline="central">s1</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="352.0" cy="0.0" r="19"/>
+        <text class="nom" x="352.0" y="0.0" text-anchor="middle" dominant-baseline="central">s2</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="528.0" cy="0.0" r="19"/>
+        <text class="nom" x="528.0" y="0.0" text-anchor="middle" dominant-baseline="central">s3</text>
+      </g>
+    </svg>
+  </div>
+  <p><span class="paso">Paso 5 &mdash; Probar</span> con \(x = baabaab\) (dos apariciones que comparten la \(b\) del medio):</p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Pulso</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th></tr>
+      <tr><td class="lbl">Estado</td><td>\(s_0\)</td><td>\(s_1\)</td><td>\(s_2\)</td><td>\(s_3\)</td><td>\(s_1\)</td><td>\(s_2\)</td><td>\(s_3\)</td></tr>
+      <tr><td class="lbl">Entrada</td><td>b</td><td>a</td><td>a</td><td>b</td><td>a</td><td>a</td><td>b</td></tr>
+      <tr><td class="lbl">Salida</td><td>0</td><td>0</td><td>0</td><td>1</td><td>0</td><td>0</td><td>1</td></tr>
+    </table>
+  </div>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>
+      La tabla y el diagrama de arriba. \(\omega(s_0, baabaab) = 0001001\): avisa las dos apariciones
+      solapadas. Simulada con todas las cadenas de \(\{a, b\}^{*}\) de largo hasta 8, escribe 1
+      exactamente cuando lo leído termina en \(baab\).
+    </p>
+  </div>
+</div>

@@ -1,0 +1,174 @@
+<div class="bloque">
+  <p class="kicker">Permutaciones</p>
+  <h2>3. Factorial y permutaciones</h2>
+
+  <h3>Para qué sirve</h3>
+  <p>
+    Para contar de cuántas formas se pueden <strong>ordenar</strong> (poner en fila) \(n\) objetos
+    distintos, usándolos a todos: libros en una repisa, pedidos en una cola, letras de una palabra
+    sin letras repetidas.
+  </p>
+
+  <h3>Definición</h3>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Permutación</span>
+    <p>
+      Una <strong>permutación</strong> de \(n\) elementos distintos \(x_1, x_2, \dots, x_n\) es un
+      ordenamiento de esos \(n\) elementos.
+    </p>
+  </div>
+  <p>Por ejemplo, las permutaciones de \(a, b, c\) son 6: \(abc,\ acb,\ bac,\ bca,\ cab,\ cba\).</p>
+
+  <div class="caja caja-formula">
+    <span class="caja-tit">Factorial</span>
+    <p>Para un entero \(n \geq 0\), "\(n\) factorial" se escribe \(n!\) y es</p>
+    <p>\[ 0! = 1, \qquad n! = n \cdot (n-1) \cdot (n-2) \cdots 3 \cdot 2 \cdot 1 \quad \text{para } n \geq 1 \]</p>
+  </div>
+
+  <div class="caja caja-formula">
+    <span class="caja-tit">Teorema</span>
+    <p>Existen \(n!\) permutaciones de \(n\) elementos.</p>
+  </div>
+
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Símbolo</th><th>Qué significa</th></tr>
+      <tr><td>\(n\)</td><td>cuántos objetos distintos se ordenan (todos)</td></tr>
+      <tr><td>\(n!\)</td><td>el producto de todos los enteros desde \(n\) bajando hasta 1</td></tr>
+    </table>
+  </div>
+
+  <h3>De dónde sale</h3>
+  <p>Es la regla del producto (sección 1) con una opción menos en cada paso:</p>
+  <ul>
+    <li>Primer lugar de la fila: cualquiera de los \(n\) objetos &rarr; \(n\) opciones.</li>
+    <li>Segundo lugar: ya se usó uno &rarr; \(n - 1\) opciones.</li>
+    <li>&hellip; y así hasta el último lugar, donde queda <strong>1</strong> solo objeto.</li>
+  </ul>
+  <p>\[ n \cdot (n-1) \cdots 2 \cdot 1 = n! \]</p>
+  <p>Con \(a, b, c\): \(3 \cdot 2 \cdot 1 = 3! = 6\), las seis de la lista.</p>
+
+  <h4>¿Por qué \(0! = 1\)?</h4>
+  <ul>
+    <li>Ordenar cero objetos se puede de una sola forma: no hacer nada.</li>
+    <li>Además hace que las fórmulas de las secciones 4 y 5 funcionen también en los extremos (por ejemplo \(P(n, n) = n!/0!\) tiene que dar \(n!\)).</li>
+  </ul>
+
+  <h4>Una propiedad para simplificar cuentas</h4>
+  <p>Se pueden "sacar" los primeros factores y dejar el resto como un factorial más chico:</p>
+  <p>\[ n! = n \cdot (n-1) \cdots (n-i+1) \cdot (n-i)! \]</p>
+  <p>Por ejemplo \(10! = 10 \cdot 9 \cdot 8 \cdot 7 \cdot 6!\). Sirve para simplificar cocientes sin calcular números gigantes:</p>
+  <p>\[ \frac{10!}{6!} = \frac{10 \cdot 9 \cdot 8 \cdot 7 \cdot 6!}{6!} = 10 \cdot 9 \cdot 8 \cdot 7 = 5\,040 \]</p>
+  <p>(el \(6!\) de arriba se simplifica con el de abajo).</p>
+
+  <div class="caja caja-calc">
+    <span class="caja-tit">En la calculadora</span>
+    <p>
+      El factorial está en la tecla <strong>[x!]</strong> (en las Casio fx-82/fx-570, con
+      <strong>SHIFT</strong> + <strong>x⁻¹</strong>). Por ejemplo \(10! = 3\,628\,800\): tipeás
+      <strong>10</strong>, <strong>SHIFT x⁻¹</strong>, <strong>=</strong>.
+    </p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; Los pedidos de Sofía (cátedra)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>
+      Sofía recibió 15 pedidos para preparar. ¿De cuántas formas puede ordenar la preparación si
+      1) no hay restricciones; 2) 6 de los pedidos no son urgentes y los quiere procesar al final;
+      3) primero los separa según cuándo se retiran (3 a la mañana, 7 a la tarde y 5 antes de
+      cerrar) y los procesa en ese orden de retiro?
+    </p>
+  </div>
+  <h4>Por qué esta fórmula</h4>
+  <ul>
+    <li>Se ordenan <strong>todos</strong> los pedidos, y son distintos &rarr; \(n!\).</li>
+    <li>Cuando hay grupos que van en un lugar fijo, se ordena <strong>cada grupo</strong> por su lado y se multiplica (regla del producto).</li>
+  </ul>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase del enunciado</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"15 pedidos"</td><td>objetos distintos a ordenar</td><td>&mdash;</td><td>\(n = 15\)</td></tr>
+      <tr><td>"6 no urgentes &hellip; al final"</td><td>dos bloques fijos: 9 urgentes primero, 6 después</td><td>\(15 - 6 = 9\)</td><td>\(9!\) y \(6!\)</td></tr>
+      <tr><td>"3 a la mañana, 7 a la tarde, 5 antes de cerrar"</td><td>tres bloques en ese orden</td><td>\(3 + 7 + 5 = 15\)</td><td>\(3!\), \(7!\), \(5!\)</td></tr>
+    </table>
+  </div>
+  <h4>Inciso 1</h4>
+  <p>\[ 15! = 1\,307\,674\,368\,000 \]</p>
+  <h4>Inciso 2</h4>
+  <p>Ordenar los 9 urgentes <strong>y</strong> después ordenar los 6 no urgentes:</p>
+  <p>\[ 9! \cdot 6! = 362\,880 \cdot 720 = 261\,273\,600 \]</p>
+  <h4>Inciso 3</h4>
+  <p>\[ 3! \cdot 7! \cdot 5! = 6 \cdot 5\,040 \cdot 120 = 3\,628\,800 \]</p>
+  <div class="caja caja-resp"><span class="caja-tit">Respuesta</span><p>1) 1 307 674 368 000. 2) 261 273 600. 3) 3 628 800.</p></div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; Libros en una repisa (cátedra)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>
+      Un profesor tiene cinco libros de Python y seis de R, todos de autores distintos. ¿De cuántas
+      formas se pueden ordenar en una repisa si 1) no hay restricciones; 2) los lenguajes se deben
+      alternar; 3) todos los libros de R deben estar juntos?
+    </p>
+  </div>
+  <h4>Por qué esta fórmula</h4>
+  <ul>
+    <li>Libros distintos en fila &rarr; factoriales.</li>
+    <li>"Alternar": el patrón de lugares queda forzado y solo se ordena dentro de cada lenguaje.</li>
+    <li>"Juntos": el grupo se trata como <strong>un solo bloque</strong>; después se ordena adentro del bloque.</li>
+  </ul>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase del enunciado</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"cinco de Python y seis de R"</td><td>11 libros distintos</td><td>\(5 + 6 = 11\)</td><td>\(n = 11\)</td></tr>
+      <tr><td>"se deben alternar"</td><td>con 6 R y 5 P, el único patrón es R P R P R P R P R P R</td><td>&mdash;</td><td>\(6!\) y \(5!\)</td></tr>
+      <tr><td>"los de R juntos"</td><td>un bloque R + 5 libros de Python</td><td>\(1 + 5 = 6\)</td><td>\(6!\) objetos, \(6!\) dentro del bloque</td></tr>
+    </table>
+  </div>
+  <h4>Inciso 1</h4>
+  <p>\[ 11! = 39\,916\,800 \]</p>
+  <h4>Inciso 2</h4>
+  <p>
+    Si empezara con Python (P R P R &hellip;) harían falta 6 de Python, y hay 5. Por eso el patrón
+    es único: los 6 de R en los lugares impares y los 5 de Python en los pares.
+  </p>
+  <p>\[ 6! \cdot 5! = 720 \cdot 120 = 86\,400 \]</p>
+  <h4>Inciso 3</h4>
+  <p>Paso 1: ordenar 6 "objetos" (el bloque R y los 5 de Python): \(6!\). Paso 2: ordenar los 6 de R dentro del bloque: \(6!\).</p>
+  <p>\[ 6! \cdot 6! = 720 \cdot 720 = 518\,400 \]</p>
+  <div class="caja caja-resp"><span class="caja-tit">Respuesta</span><p>1) 39 916 800. 2) 86 400. 3) 518 400.</p></div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 3 &mdash; Estilo parcial: cadenas que usan cada símbolo una vez</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>
+      Sea \(\Sigma = \{a, b, c, d, e\}\). ¿Cuántas cadenas de \(\Sigma^{5}\) usan cada símbolo
+      exactamente una vez? ¿Cuántas de ellas empiezan con \(ab\)? ¿Cuántas contienen la subcadena \(ab\)?
+    </p>
+  </div>
+  <h4>Por qué esta fórmula</h4>
+  <ul>
+    <li>\(\Sigma^{5}\) son las cadenas de longitud 5. Si cada símbolo aparece una vez, la cadena es un ordenamiento de los 5 símbolos &rarr; \(5!\).</li>
+    <li>"Contiene \(ab\)": \(ab\) se pega como un bloque (igual que los libros de R).</li>
+  </ul>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase del enunciado</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"cada símbolo exactamente una vez"</td><td>permutación de los 5</td><td>&mdash;</td><td>\(n = 5\)</td></tr>
+      <tr><td>"empiezan con \(ab\)"</td><td>quedan 3 símbolos para 3 lugares</td><td>\(5 - 2 = 3\)</td><td>\(3!\)</td></tr>
+      <tr><td>"contienen la subcadena \(ab\)"</td><td>bloque \(ab\) + \(c, d, e\)</td><td>\(1 + 3 = 4\)</td><td>\(4!\)</td></tr>
+    </table>
+  </div>
+  <p>\[ 5! = 120 \qquad 3! = 6 \qquad 4! = 24 \]</p>
+  <p>En el bloque \(ab\) no se multiplica por 2: la subcadena es \(ab\), no \(ba\), así que el orden de adentro está fijo.</p>
+  <div class="caja caja-resp"><span class="caja-tit">Respuesta</span><p>120 cadenas; 6 empiezan con \(ab\); 24 contienen \(ab\) (verificado listándolas).</p></div>
+</div>

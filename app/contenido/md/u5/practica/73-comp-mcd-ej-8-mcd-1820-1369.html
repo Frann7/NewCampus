@@ -1,0 +1,69 @@
+<div class="ej" data-examen="igual" data-examen-ref="Parcial 2 2026 · ej. 3a i" data-examen-nota="En el parcial: mcd(837, −341) y escribirlo como UNA combinación lineal de 837 y −341. Lo único distinto es el número negativo: ver la caja del final.">
+  <span class="tag" data-num-ej="CM-8.">Complementaria P2 &middot; MCD &middot; Ej. 8 &middot; Euclides extendido</span>
+  <h2>mcd(1820, 1369) como combinación lineal</h2>
+  <div class="enunciado">
+    <p>Hallar \(mcd(1820, 1369)\) y expresarlo como combinación lineal de estos números.</p>
+  </div>
+
+  <span class="paso">Qué tema es y por qué</span>
+  <ul>
+    <li>Es el ejercicio tipo de parcial: <strong>algoritmo de Euclides</strong> para el mcd y <strong>Euclides extendido</strong> para escribirlo como \(1820x + 1369y\) (en la teoría de esta unidad).</li>
+  </ul>
+
+  <div class="caja caja-formula">
+    <span class="caja-tit">Algoritmo de Euclides</span>
+    <p>Si \(r\) es el resto de dividir \(a\) por \(b\), entonces \(mcd(a, b) = mcd(b, r)\). Se repite (dividendo &larr; divisor, divisor &larr; resto) hasta resto 0: el mcd es el <strong>último resto no nulo</strong>.</p>
+  </div>
+
+  <span class="paso">Paso 1 &mdash; Euclides</span>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th>División</th><th>Cociente \(q\)</th><th>Resto \(r\)</th></tr>
+      <tr><td>\(1820 = 1 \cdot 1369 + 451\)</td><td>\(1\)</td><td>\(451\)</td></tr>
+      <tr><td>\(1369 = 3 \cdot 451 + 16\)</td><td>\(3\)</td><td>\(16\)</td></tr>
+      <tr><td>\(451 = 28 \cdot 16 + 3\)</td><td>\(28\)</td><td>\(3\)</td></tr>
+      <tr><td>\(16 = 5 \cdot 3 + 1\)</td><td>\(5\)</td><td>\(1\)</td></tr>
+      <tr><td>\(3 = 3 \cdot 1 + 0\)</td><td>\(3\)</td><td>\(0\)</td></tr>
+    </table>
+  </div>
+  <p>El último resto no nulo es 1: \(mcd(1820, 1369) = 1\) (son coprimos).</p>
+
+  <span class="paso">Paso 2 &mdash; Euclides extendido</span>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Euclides extendido (la regla de la tabla)</span>
+    <ul>
+      <li>Cada fila dice: <strong>resto \(= a \cdot x + b \cdot y\)</strong>. Las dos primeras son obvias: \(a = a \cdot 1 + b \cdot 0\) y \(b = a \cdot 0 + b \cdot 1\).</li>
+      <li>Para cada fila nueva, \(q\) es el cociente de la división de Euclides que produjo ese resto.</li>
+      <li><strong>Fila nueva = (fila de dos arriba) \(-\ q \cdot\) (fila de arriba)</strong>, en las columnas \(x\) y \(y\). Es lo mismo que despejar el resto (\(r = \text{dividendo} - q \cdot \text{divisor}\)) y reemplazar hacia atrás, pero hecho en orden.</li>
+      <li>La fila del último resto no nulo (el mcd) da los coeficientes buscados.</li>
+    </ul>
+  </div>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Fila</th><th>Resto \(r\)</th><th>\(q\)</th><th>\(x\)</th><th>\(y\)</th><th>Se lee \(r = 1820\,x + 1369\,y\)</th></tr>
+      <tr><td>1</td><td>\(1820\)</td><td>&mdash;</td><td>\(1\)</td><td>\(0\)</td><td>\(1820 = 1820 \cdot 1 + 1369 \cdot 0\)</td></tr>
+      <tr><td>2</td><td>\(1369\)</td><td>&mdash;</td><td>\(0\)</td><td>\(1\)</td><td>\(1369 = 1820 \cdot 0 + 1369 \cdot 1\)</td></tr>
+      <tr><td>3</td><td>\(451\)</td><td>\(1\)</td><td>\(1 - 1 \cdot 0 = 1\)</td><td>\(0 - 1 \cdot 1 = -1\)</td><td>\(451 = 1820 \cdot 1 + 1369 \cdot (-1)\)</td></tr>
+      <tr><td>4</td><td>\(16\)</td><td>\(3\)</td><td>\(0 - 3 \cdot 1 = -3\)</td><td>\(1 - 3 \cdot (-1) = 4\)</td><td>\(16 = 1820 \cdot (-3) + 1369 \cdot 4\)</td></tr>
+      <tr><td>5</td><td>\(3\)</td><td>\(28\)</td><td>\(1 - 28 \cdot (-3) = 85\)</td><td>\(-1 - 28 \cdot 4 = -113\)</td><td>\(3 = 1820 \cdot 85 + 1369 \cdot (-113)\)</td></tr>
+      <tr><td>6</td><td>\(1\)</td><td>\(5\)</td><td>\(-3 - 5 \cdot 85 = -428\)</td><td>\(4 - 5 \cdot (-113) = 569\)</td><td>\(1 = 1820 \cdot (-428) + 1369 \cdot 569\)</td></tr>
+    </table>
+  </div>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>\(mcd(1820, 1369) = 1 = 1820 \cdot (-428) + 1369 \cdot 569\).</p>
+  </div>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Si uno de los números es negativo (como en el parcial)</span>
+    <ul>
+      <li>El mcd no cambia: \(mcd(a, b) = mcd(|a|, |b|)\). Euclides se hace con los positivos.</li>
+      <li>La combinación se acomoda al final con el signo: por ejemplo, para \(mcd(1820, -1369)\), como \(1369 \cdot 569 = (-1369) \cdot (-569)\), queda \(1 = 1820 \cdot (-428) + (-1369) \cdot (-569)\).</li>
+      <li>El coeficiente del número negativo cambia de signo; el número del enunciado (\(-1369\)) se escribe tal cual.</li>
+    </ul>
+  </div>
+
+  <span class="paso">Verificación</span>
+  <p>La guía no trae resultados; verificación propia: \(1820 \cdot (-428) = -778960\), \(1369 \cdot 569 = 778961\), y la suma da \(1\). Coincide.</p>
+</div>

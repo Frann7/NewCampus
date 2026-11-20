@@ -1,0 +1,171 @@
+<div class="bloque" data-examen="igual"
+     data-examen-ref="Recuperatorio (Act. de vacaciones B) · a"
+     data-examen-nota="El recuperatorio pidió la f.n.c. sin tabla desde f⁻¹(1) = {001, 010, 100, 111} y escribirla con mintérminos o maxtérminos: es el Ejemplo 2.">
+  <p class="kicker">Problema dual</p>
+  <h2>12. De la f.n.d. a la f.n.c. (y al revés)</h2>
+
+  <h3>Para qué sirve</h3>
+  <p>
+    Muchas consignas dan una forma y piden la otra: "sabiendo \(f^{-1}(1)\), la f.n.c."; "dada
+    \(\sum m\), escribir \(\prod M\)". No hace falta rehacer nada: las dos listas se complementan.
+  </p>
+
+  <h3>El problema dual (la diapositiva de la cátedra)</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>f.n.d.</th><th>f.n.c.</th></tr>
+      <tr><td>conjunciones fundamentales \((xyz)\)</td><td>disyunciones fundamentales \((x + y + z)\)</td></tr>
+      <tr><td>se buscan las filas donde \(f = 1\)</td><td>se buscan las filas donde \(f = 0\)</td></tr>
+      <tr><td>suma de mintérminos \(\sum m\)</td><td>producto de maxtérminos \(\prod M\)</td></tr>
+      <tr><td>0 &rarr; con barra, 1 &rarr; sin barra</td><td>0 &rarr; sin barra, 1 &rarr; con barra</td></tr>
+    </table>
+  </div>
+
+  <h3>La regla</h3>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Las dos listas se reparten las filas</span>
+    <p>\[ \sum m(L) = \prod M(\text{las filas de } 0 \text{ a } 2^{n} - 1 \text{ que no están en } L) \]</p>
+  </div>
+  <p>De dónde sale:</p>
+  <ul>
+    <li>Cada fila de la tabla tiene un 0 o un 1, nunca las dos cosas.</li>
+    <li>La lista del \(\sum m\) son las filas con 1; la del \(\prod M\) son las filas con 0.</li>
+    <li>Entonces, entre las dos están todas las filas, cada una una sola vez. Si la f.n.d. tiene \(m\) términos y la f.n.c. tiene \(k\) factores, \(m + k = 2^{n}\).</li>
+  </ul>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Dato</th><th>Lo que se escribe</th></tr>
+      <tr><td>\(f^{-1}(1)\) (dónde vale 1)</td><td>esas filas son los mintérminos; las que faltan, los maxtérminos</td></tr>
+      <tr><td>\(f^{-1}(0)\) (dónde vale 0)</td><td>esas filas son los maxtérminos; las que faltan, los mintérminos</td></tr>
+    </table>
+  </div>
+  <p>Ejemplo de la cátedra: \(xy + yz = \sum m(3, 6, 7) = \prod M(0, 1, 2, 4, 5)\). De 0 a 7, las que no son 3, 6 ni 7 son 0, 1, 2, 4, 5.</p>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; Actividad 6 de la cátedra: de la lista a lo más simple</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>Hallar la expresión más simple de \(f(x, y, z) = \sum m(1, 3, 5, 7)\) y de \(g(x, y, z) = \prod M(4, 6, 7)\).</p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"\(\sum m(1, 3, 5, 7)\)"</td><td>\(f = 1\) en \(001, 011, 101, 111\)</td><td>todas tienen \(z = 1\), y son todas las que tienen \(z = 1\)</td><td>se sospecha \(f = z\)</td></tr>
+      <tr><td>"\(\prod M(4, 6, 7)\)"</td><td>\(g = 0\) en \(100, 110, 111\)</td><td>maxtérminos: \(\overline{x} + y + z\), \(\overline{x} + \overline{y} + z\), \(\overline{x} + \overline{y} + \overline{z}\)</td><td>multiplicar y simplificar</td></tr>
+    </table>
+  </div>
+  <p><strong>\(f\):</strong></p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Renglón</th><th>Qué ley se usó</th></tr>
+      <tr><td>\(f = \overline{x}\,\overline{y}z + \overline{x}yz + x\overline{y}z + xyz\)</td><td>los cuatro mintérminos</td></tr>
+      <tr><td>\(= \overline{x}z(\overline{y} + y) + xz(\overline{y} + y)\)</td><td>L5, factor común</td></tr>
+      <tr><td>\(= \overline{x}z + xz = z(\overline{x} + x) = z\)</td><td>L8, L7 y L5 otra vez</td></tr>
+    </table>
+  </div>
+  <p><strong>\(g\):</strong> la idea es la dual: \((a + y)(a + \overline{y}) = a + y\overline{y} = a\).</p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Renglón</th><th>Qué ley se usó</th></tr>
+      <tr><td>\(g = (\overline{x} + y + z)(\overline{x} + \overline{y} + z)(\overline{x} + \overline{y} + \overline{z})\)</td><td>los tres maxtérminos</td></tr>
+      <tr><td>\(= (\overline{x} + y + z)(\overline{x} + \overline{y} + z)\,(\overline{x} + \overline{y} + z)(\overline{x} + \overline{y} + \overline{z})\)</td><td>L6: se repite el del medio (\(a = aa\))</td></tr>
+      <tr><td>\(= (\overline{x} + z + y\overline{y})(\overline{x} + \overline{y} + z\overline{z})\)</td><td>L5, distributiva de \(+\) sobre \(\cdot\), al revés</td></tr>
+      <tr><td>\(= (\overline{x} + z)(\overline{x} + \overline{y})\)</td><td>L8 y L7</td></tr>
+      <tr><td>\(= \overline{x} + z\overline{y}\)</td><td>L5, distributiva de \(+\) sobre \(\cdot\)</td></tr>
+    </table>
+  </div>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>
+      \(f = z\) y \(g = \overline{x} + \overline{y}z\) (verificado: \(g\) vale 1 en las filas
+      0, 1, 2, 3 y 5, que son las que no están en \(\prod M(4, 6, 7)\), o sea \(g = \sum m(0, 1, 2, 3, 5)\)).
+    </p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; Estilo parcial (Recuperatorio, actividad B a)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>
+      Sabiendo que \(f : B^{3} \to B \,/\, f^{-1}(1) = \{001, 010, 100, 111\}\):
+      i. hallar la expresión algebraica de la forma normal conjuntiva sin usar la tabla;
+      ii. escribir la expresión con los mintérminos o maxtérminos, según corresponda.
+    </p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"\(f^{-1}(1) = \{001, 010, 100, 111\}\)"</td><td>las filas donde \(f = 1\)</td><td>\(1, 2, 4, 7\)</td><td>\(f = \sum m(1, 2, 4, 7)\)</td></tr>
+      <tr><td>"forma normal conjuntiva"</td><td>hacen falta las filas donde \(f = 0\)</td><td>de 0 a 7 faltan \(0, 3, 5, 6\)</td><td>los maxtérminos</td></tr>
+      <tr><td>"sin usar la tabla"</td><td>no escribir las 8 filas</td><td>usar la regla del complemento de la lista</td><td>la justificación</td></tr>
+      <tr><td>"según corresponda"</td><td>la f.n.c. es producto de maxtérminos</td><td>&mdash;</td><td>\(\prod M\)</td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Paso 1 &mdash; Las filas donde \(f\) vale 0</span>
+  <p>
+    \(B^{3}\) tiene 8 elementos, de \(000\) a \(111\) (filas 0 a 7). Toda fila que no está en
+    \(f^{-1}(1)\) tiene \(f = 0\). Las de \(f^{-1}(1)\) son
+    \(001 = 1\), \(010 = 2\), \(100 = 4\), \(111 = 7\); entonces
+    \(f^{-1}(0) = \{000, 011, 101, 110\}\), las filas \(0, 3, 5, 6\).
+  </p>
+
+  <span class="paso">Paso 2 &mdash; Un maxtérmino por cada una (0 &rarr; sin barra, 1 &rarr; con barra)</span>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th>fila</th><th>\(x\,y\,z\)</th><th>maxtérmino</th><th>vale 0 solo si</th></tr>
+      <tr><td>0</td><td>000</td><td>\(x + y + z\)</td><td>\(x = y = z = 0\)</td></tr>
+      <tr><td>3</td><td>011</td><td>\(x + \overline{y} + \overline{z}\)</td><td>\(x = 0\), \(y = 1\), \(z = 1\)</td></tr>
+      <tr><td>5</td><td>101</td><td>\(\overline{x} + y + \overline{z}\)</td><td>\(x = 1\), \(y = 0\), \(z = 1\)</td></tr>
+      <tr><td>6</td><td>110</td><td>\(\overline{x} + \overline{y} + z\)</td><td>\(x = 1\), \(y = 1\), \(z = 0\)</td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Paso 3 &mdash; Multiplicarlos y justificar</span>
+  <p>
+    El producto vale 0 si alguno de los factores es 0, o sea exactamente en las filas 0, 3, 5 y
+    6; en las demás (1, 2, 4, 7) todos los factores valen 1 y el producto es 1. Es la función
+    pedida.
+  </p>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>i. \(f(x, y, z) = (x + y + z)(x + \overline{y} + \overline{z})(\overline{x} + y + \overline{z})(\overline{x} + \overline{y} + z)\)</p>
+    <p>ii. Como es una f.n.c., corresponden los maxtérminos: \(f = \prod M(0, 3, 5, 6)\).</p>
+    <p>(Verificado: esa expresión vale 1 exactamente en \(001, 010, 100, 111\).)</p>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">El error que hay que evitar</span>
+    <p>
+      Armar los maxtérminos con las tiras de \(f^{-1}(1)\). Esas filas son las de los
+      <strong>mintérminos</strong> (\(f = \sum m(1, 2, 4, 7)\)): para la f.n.c. se usan las que
+      faltan.
+    </p>
+  </div>
+
+  <h3>Ejemplo 3 &mdash; Verdadero o falso (guía complementaria, Boole 1 b ii)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>Sean \(f, g : B^{3} \to B\) con \(f = \sum m(1, 2, 3)\) y \(g = \prod M(1, 2, 3)\). ¿Es cierto que \(f + g = 1\)?</p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"\(f = \sum m(1, 2, 3)\)"</td><td>\(f = 1\) en las filas 1, 2, 3</td><td>&mdash;</td><td>\(f^{-1}(1) = \{1, 2, 3\}\)</td></tr>
+      <tr><td>"\(g = \prod M(1, 2, 3)\)"</td><td>\(g = 0\) en 1, 2, 3, y 1 en las otras</td><td>las que faltan de 0 a 7</td><td>\(g = \sum m(0, 4, 5, 6, 7)\)</td></tr>
+      <tr><td>"\(f + g = 1\)"</td><td>en cada fila, al menos una vale 1</td><td>juntar las dos listas</td><td>¿están las 8 filas?</td></tr>
+    </table>
+  </div>
+  <p>\(\{1, 2, 3\} \cup \{0, 4, 5, 6, 7\} = \{0, 1, \ldots, 7\}\): en toda fila, \(f\) o \(g\) vale 1.</p>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>
+      Verdadero. Más aún: \(g\) es exactamente \(\overline{f}\) (vale 1 donde \(f\) vale 0), y
+      \(f + \overline{f} = 1\) es la ley de los inversos (L8).
+    </p>
+  </div>
+</div>

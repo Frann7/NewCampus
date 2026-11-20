@@ -1,0 +1,136 @@
+<div class="bloque">
+  <p class="kicker">Codificación</p>
+  <h2>20. Síndrome y decodificación</h2>
+
+  <h3>Para qué sirve</h3>
+  <p>
+    Es el cierre de la unidad: llega una palabra \(r\) y hay que decir qué mensaje se mandó. En vez
+    de calcular la distancia de \(r\) a todas las palabras codificadas (sección 17), se hace
+    <strong>una sola multiplicación</strong> por \(H\) y se lee la respuesta.
+  </p>
+
+  <h3>Síndrome</h3>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Definición</span>
+    <p>Para \(r \in \mathbb{Z}_2^{n}\), su <strong>síndrome</strong> es la columna \(H r^{tr}\) (de \(n - m\) bits).</p>
+  </div>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Por qué el síndrome delata al error</span>
+    <p>Si se envió \(c\) y llegó \(r = c + e\):</p>
+    <p>\[ Hr^{tr} = H(c + e)^{tr} = Hc^{tr} + He^{tr} = \mathbf{0} + He^{tr} = He^{tr} \]</p>
+  </div>
+  <ul>
+    <li>\(Hc^{tr} = \mathbf{0}\) porque \(c\) es palabra codificada (sección 19). El síndrome <strong>no depende de lo que se mandó</strong>, solo del error.</li>
+    <li>Si \(e\) tiene un único 1, en la posición \(i\), \(He^{tr}\) es la <strong>columna \(i\) de \(H\)</strong> (multiplicar por un vector con un solo 1 elige esa columna).</li>
+  </ul>
+  <p>
+    Por eso hace falta que <strong>\(H\) no tenga una columna de ceros ni dos columnas iguales</strong>:
+    así cada error simple deja un síndrome distinto y distinto de \(\mathbf{0}\), y la columna
+    señala la posición.
+  </p>
+
+  <h3>El algoritmo de decodificación (cátedra)</h3>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Con \(H\) sin columnas nulas ni repetidas, para \(r = T(c)\):</span>
+    <ol>
+      <li><strong>Si \(Hr^{tr} = \mathbf{0}\):</strong> se considera que la transmisión fue correcta; \(r\) es la palabra enviada y el mensaje son sus primeras \(m\) componentes.</li>
+      <li><strong>Si \(Hr^{tr}\) es igual a la columna \(i\) de \(H\):</strong> se considera que hubo un error simple en la posición \(i\). Se cambia la componente \(i\) de \(r\) y se obtiene \(c\); el mensaje son las primeras \(m\) componentes de \(c\).</li>
+      <li><strong>Si no pasa ninguna de las dos:</strong> hubo más de un error y no se puede corregir.</li>
+    </ol>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Lo que el algoritmo supone</span>
+    <ul>
+      <li>"Se considera" correcta: con síndrome \(\mathbf{0}\) también podría haber varios errores que llevaron \(c\) a otra palabra codificada. Es la decisión más probable, no una certeza.</li>
+      <li>Si el error cae en un bit de control (posición mayor que \(m\)), el mensaje no cambia: igual se corrige \(r\), pero las primeras \(m\) componentes ya estaban bien.</li>
+      <li>El mensaje decodificado tiene \(m\) bits, no \(n\). Es el error más común en la respuesta.</li>
+    </ul>
+  </div>
+
+  <h3>Cómo se hace la cuenta \(Hr^{tr}\)</h3>
+  <p>
+    Cada bit del síndrome es una fila de \(H\) "contra" \(r\): se suman los bits de \(r\) en las
+    posiciones donde esa fila tiene 1. Es lo mismo que evaluar \(r\) en las ecuaciones de paridad.
+  </p>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; Actividad 5 de la cátedra (partes 3 y 4)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>Con</p>
+    <p>\[ G = \begin{bmatrix} 1 &amp; 0 &amp; 0 &amp; 1 &amp; 1 &amp; 0 \\ 0 &amp; 1 &amp; 0 &amp; 0 &amp; 1 &amp; 1 \\ 0 &amp; 0 &amp; 1 &amp; 1 &amp; 0 &amp; 1 \end{bmatrix} \qquad H = \begin{bmatrix} 1 &amp; 0 &amp; 1 &amp; 1 &amp; 0 &amp; 0 \\ 1 &amp; 1 &amp; 0 &amp; 0 &amp; 1 &amp; 0 \\ 0 &amp; 1 &amp; 1 &amp; 0 &amp; 0 &amp; 1 \end{bmatrix} \]</p>
+    <p>hallar el síndrome y, si es posible, decodificar: a) \(r = 110110\); b) \(r = 000111\).</p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"\(H\)"</td><td>sus columnas, de la 1 a la 6</td><td>\(110,\ 011,\ 101,\ 100,\ 010,\ 001\)</td><td>todas distintas y no nulas: vale el algoritmo</td></tr>
+      <tr><td>"síndrome"</td><td>filas de \(H\): bits \(\{1,3,4\}\), \(\{1,2,5\}\), \(\{2,3,6\}\)</td><td>sumar esos bits de \(r\)</td><td>\(Hr^{tr}\)</td></tr>
+      <tr><td>"decodificar"</td><td>mensaje de \(m = 3\) bits</td><td>&mdash;</td><td>primeras 3 componentes</td></tr>
+    </table>
+  </div>
+  <h4>a) \(r = 110110\)</h4>
+  <ul>
+    <li>Fila 1 (bits 1, 3, 4): \(1 + 0 + 1 = 0\)</li>
+    <li>Fila 2 (bits 1, 2, 5): \(1 + 1 + 1 = 1\)</li>
+    <li>Fila 3 (bits 2, 3, 6): \(1 + 0 + 0 = 1\)</li>
+  </ul>
+  <p>Síndrome \((0, 1, 1)^{tr}\) = <strong>columna 2</strong> de \(H\). Error en el bit 2: \(r = 1\underline{1}0110 \to c = 1\underline{0}0110\), que está en \(C\) (es \(E(100)\)). Mensaje: \(100\).</p>
+  <h4>b) \(r = 000111\)</h4>
+  <ul>
+    <li>Fila 1: \(0 + 0 + 1 = 1\)</li>
+    <li>Fila 2: \(0 + 0 + 1 = 1\)</li>
+    <li>Fila 3: \(0 + 0 + 1 = 1\)</li>
+  </ul>
+  <p>Síndrome \((1, 1, 1)^{tr}\): no es \(\mathbf{0}\) ni ninguna columna de \(H\). Hubo más de un error. De hecho \(000111\) está a distancia 2 de tres palabras codificadas (\(001101\), \(010011\) y \(100110\)): no hay forma de elegir una.</p>
+  <div class="caja caja-resp"><span class="caja-tit">Respuesta</span><p>a) Síndrome \(011\) (columna 2): \(c = 100110\), mensaje \(100\). b) Síndrome \(111\): más de un error, no se puede decodificar.</p></div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; Estilo parcial: código completo con matriz generadora</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>La matriz generadora de \(E : \mathbb{Z}_2^{3} \to \mathbb{Z}_2^{6}\) es</p>
+    <p>\[ G = \begin{bmatrix} 1 &amp; 0 &amp; 0 &amp; 1 &amp; 1 &amp; 1 \\ 0 &amp; 1 &amp; 0 &amp; 1 &amp; 0 &amp; 1 \\ 0 &amp; 0 &amp; 1 &amp; 0 &amp; 1 &amp; 1 \end{bmatrix} \]</p>
+    <p>a) Hallar \(C\). b) Calcular la distancia mínima y comentar la capacidad de detectar y corregir. c) Decodificar \(r_1 = 110011\), \(r_2 = 101100\), \(r_3 = 010010\) y \(r_4 = 111111\).</p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"\(\mathbb{Z}_2^{3} \to \mathbb{Z}_2^{6}\)"</td><td>\(m = 3\), \(n = 6\)</td><td>\(2^{3}\) mensajes</td><td>8 palabras; \(H\) de \(3 \times 6\)</td></tr>
+      <tr><td>"\(G\)"</td><td>las últimas 3 columnas son \(A\)</td><td>columnas de \(A\): \(110,\ 101,\ 111\)</td><td>filas de \(A^{tr}\)</td></tr>
+      <tr><td>"decodificar"</td><td>síndrome y los tres casos</td><td>\(Hr^{tr}\)</td><td>inciso c</td></tr>
+    </table>
+  </div>
+  <h4>a) \(C\) (sumando filas de \(G\))</h4>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th>\(w\)</th><td>000</td><td>100</td><td>010</td><td>001</td><td>110</td><td>101</td><td>011</td><td>111</td></tr>
+      <tr><th>\(wG\)</th><td>000000</td><td>100111</td><td>010101</td><td>001011</td><td>110010</td><td>101100</td><td>011110</td><td>111001</td></tr>
+      <tr><th>peso</th><td>0</td><td>4</td><td>3</td><td>3</td><td>3</td><td>3</td><td>4</td><td>4</td></tr>
+    </table>
+  </div>
+  <h4>b) Distancia mínima</h4>
+  <p>Código de grupo (sección 19), así que \(d_{min}\) = menor peso no nulo = 3. Detecta hasta 2 errores y corrige 1 (sección 17).</p>
+  <h4>c) Decodificación</h4>
+  <p>\[ H = [\,A^{tr} \mid I_3\,] = \begin{bmatrix} 1 &amp; 1 &amp; 0 &amp; 1 &amp; 0 &amp; 0 \\ 1 &amp; 0 &amp; 1 &amp; 0 &amp; 1 &amp; 0 \\ 1 &amp; 1 &amp; 1 &amp; 0 &amp; 0 &amp; 1 \end{bmatrix} \]</p>
+  <p>Columnas de \(H\), de la 1 a la 6: \(111,\ 101,\ 011,\ 100,\ 010,\ 001\). Todas distintas y no nulas. Filas: bits \(\{1, 2, 4\}\), \(\{1, 3, 5\}\), \(\{1, 2, 3, 6\}\).</p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>\(r\)</th><th>Fila 1</th><th>Fila 2</th><th>Fila 3</th><th>Síndrome</th><th>Caso</th><th>\(c\)</th><th>Mensaje</th></tr>
+      <tr><td>110011</td><td>\(1+1+0 = 0\)</td><td>\(1+0+1 = 0\)</td><td>\(1+1+0+1 = 1\)</td><td>001</td><td>columna 6</td><td>110010</td><td>110</td></tr>
+      <tr><td>101100</td><td>\(1+0+1 = 0\)</td><td>\(1+1+0 = 0\)</td><td>\(1+0+1+0 = 0\)</td><td>000</td><td>correcta</td><td>101100</td><td>101</td></tr>
+      <tr><td>010010</td><td>\(0+1+0 = 1\)</td><td>\(0+0+1 = 1\)</td><td>\(0+1+0+0 = 1\)</td><td>111</td><td>columna 1</td><td>110010</td><td>110</td></tr>
+      <tr><td>111111</td><td>\(1+1+1 = 1\)</td><td>\(1+1+1 = 1\)</td><td>\(1+1+1+1 = 0\)</td><td>110</td><td>ninguna columna</td><td>&mdash;</td><td>&mdash;</td></tr>
+    </table>
+  </div>
+  <ul>
+    <li>\(r_1\): el error fue en el bit 6, un bit de control. El mensaje (\(110\)) ya estaba bien.</li>
+    <li>\(r_3\): el error fue en el bit 1, un bit del mensaje: sin corregir, se habría leído \(010\) en vez de \(110\).</li>
+    <li>\(r_4\): el síndrome \(110\) no es columna de \(H\): más de un error.</li>
+  </ul>
+  <div class="caja caja-resp"><span class="caja-tit">Respuesta</span><p>a) \(C = \{000000, 100111, 010101, 001011, 110010, 101100, 011110, 111001\}\). b) \(d_{min} = 3\): detecta 2, corrige 1. c) \(r_1 \to 110\); \(r_2 \to 101\) (sin error); \(r_3 \to 110\); \(r_4\): más de un error, no se decodifica.</p></div>
+</div>

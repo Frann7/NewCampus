@@ -1,0 +1,55 @@
+<div class="ej" data-examen="variante" data-examen-ref="Parcial 1 2026 &middot; ej. 4e" data-examen-nota="En el parcial se pide escribir como concatenación de lenguajes el conjunto de cadenas que detecta una máquina; acá el conjunto viene dicho en palabras.">
+  <span class="tag" data-num-ej="CL-5.">Complementaria P1 &middot; Lenguajes &middot; Ej. 5 &middot; Escribir como concatenación</span>
+  <h2>Una sola b, empiezan con ab, terminan con cc</h2>
+  <div class="enunciado">
+    <p>Sea \(\Sigma = \{a, b, c\}\), use los lenguajes finitos de \(\Sigma^*\), junto con las operaciones de conjuntos, para describir el conjunto de cadenas de \(\Sigma^*\) tales que:</p>
+    <p>a. Contienen exactamente una ocurrencia de \(b\) &nbsp; b. Comienzan con la secuencia \(ab\) &nbsp; c. Terminan con la secuencia \(cc\)</p>
+  </div>
+
+  <span class="paso">Qué tema es y por qué</span>
+  <ul>
+    <li>Es el camino inverso del ejercicio 3: dan la descripción en palabras y hay que <strong>escribir el lenguaje</strong> con lenguajes finitos (\(\{b\}\), \(\{ab\}\), \(\{a, c\}\)…) unidos por concatenación, \(^*\) y \(\cup\).</li>
+    <li>Las piezas que más se usan:
+      <ul>
+        <li>\(\Sigma^* = \{a,b,c\}^*\): "cualquier cosa" (incluso nada).</li>
+        <li>\(\{a, c\}^*\): cualquier cosa <strong>sin \(b\)</strong>.</li>
+        <li>\(\{u\}\): exactamente la cadena \(u\) en ese lugar.</li>
+      </ul>
+    </li>
+    <li>Truco para armarlo: dibujar la cadena por partes (antes / lo obligatorio / después) y escribir un lenguaje por parte.</li>
+  </ul>
+
+  <span class="paso">Paso 1 &mdash; a. Exactamente una b</span>
+  <p>La cadena tiene la forma: (algo sin \(b\)) \(b\) (algo sin \(b\)).</p>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th>Parte</th><th>Qué puede haber</th><th>Lenguaje</th></tr>
+      <tr><td>antes de la \(b\)</td><td>\(a\) y \(c\) en cualquier cantidad (o nada)</td><td>\(\{a, c\}^*\)</td></tr>
+      <tr><td>la \(b\)</td><td>una sola</td><td>\(\{b\}\)</td></tr>
+      <tr><td>después</td><td>\(a\) y \(c\) en cualquier cantidad (o nada)</td><td>\(\{a, c\}^*\)</td></tr>
+    </table>
+  </div>
+  <p>\[\{a, c\}^*\{b\}\{a, c\}^*\]</p>
+  <p>Ejemplos: \(b\) (las dos partes vacías), \(acbca\), \(ccb\). No entra \(abcb\) (dos \(b\)): si usáramos \(\Sigma^*\) en vez de \(\{a,c\}^*\), entraría, y estaría mal.</p>
+
+  <span class="paso">Paso 2 &mdash; b. Comienzan con ab</span>
+  <p>Forma: \(ab\) (cualquier cosa).</p>
+  <p>\[\{ab\}\{a, b, c\}^*\]</p>
+  <p>Incluye a \(ab\) sola (la segunda parte puede ser \(\lambda\)).</p>
+
+  <span class="paso">Paso 3 &mdash; c. Terminan con cc</span>
+  <p>Forma: (cualquier cosa) \(cc\).</p>
+  <p>\[\{a, b, c\}^*\{cc\}\]</p>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>a. \(\{a, c\}^*\{b\}\{a, c\}^*\) &nbsp;&nbsp; b. \(\{ab\}\{a, b, c\}^*\) &nbsp;&nbsp; c. \(\{a, b, c\}^*\{cc\}\)</p>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Si pidieran "propio"</span>
+    <p>Con prefijo <strong>propio</strong> \(ab\) se cambia \(^*\) por \(^+\) (que obliga a que venga al menos un símbolo más): \(\{ab\}\{a,b,c\}^+\). Igual para sufijo propio: \(\{a,b,c\}^+\{cc\}\).</p>
+  </div>
+
+  <span class="paso">Verificación</span>
+  <p>Se probaron con Python las tres expresiones contra la descripción en palabras, con todas las cadenas de \(\{a,b,c\}^*\) de largo hasta 7: coinciden.</p>
+</div>

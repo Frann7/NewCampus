@@ -1,0 +1,97 @@
+<h1>Unidad 7 &mdash; Grupos y teoría de la codificación</h1>
+
+<p class="pane-intro">
+  Basado en las diapositivas <em>md - teo - 2025 - U7</em> de la cátedra, con el Grimaldi
+  (capítulo 16) de apoyo. La unidad tiene dos mitades que se terminan tocando:
+  <br>
+  <strong>Grupos:</strong> un conjunto con <em>una sola</em> operación que se porta bien (se puede
+  operar, hay neutro, todo se puede deshacer). Es lo mismo que hiciste con los anillos en la
+  Unidad 6, pero con una operación en vez de dos.
+  <br>
+  <strong>Teoría de la codificación:</strong> cómo mandar mensajes de ceros y unos por un canal que a
+  veces se equivoca, y aun así <strong>darse cuenta</strong> del error y hasta
+  <strong>corregirlo</strong>. Las palabras que se mandan forman un grupo, y por eso la primera mitad
+  sirve para la segunda.
+</p>
+
+<div class="bloque" data-abierta>
+  <p class="kicker">Antes de leer</p>
+  <h2>Cómo leer esta unidad</h2>
+
+  <h3>Qué se toma</h3>
+  <p>
+    Esta unidad entra en el <strong>tercer parcial</strong>, junto con la Unidad 6 (anillos). Todavía
+    no hay ningún tercer parcial cargado, así que la referencia es la <strong>guía complementaria del
+    Parcial 3</strong>, parte "Grupo y Teoría de la Codificación": once ejercicios con forma de
+    parcial. Traen estos tipos de consigna:
+  </p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Tipo de ejercicio</th><th>Ejercicios de la complementaria</th><th>Secciones</th></tr>
+      <tr><td class="lbl">Probar que un conjunto con una operación rara es grupo (y si es abeliano)</td><td>1</td><td>1</td></tr>
+      <tr><td class="lbl">Armar la tabla de \(U_n\), neutro e inversos</td><td>3 a, 3 b, 5 a</td><td>2 y 3</td></tr>
+      <tr><td class="lbl">Leer la tabla de un grupo dado</td><td>10</td><td>2</td></tr>
+      <tr><td class="lbl">Hallar todos los subgrupos</td><td>2 (de \(\mathbb{Z}_{20}\)), 3 c</td><td>5, 10 y 11</td></tr>
+      <tr><td class="lbl">Orden de cada elemento, subgrupo generado \(\langle a \rangle\)</td><td>3 d, 5 c, 10 a</td><td>6</td></tr>
+      <tr><td class="lbl">¿Es cíclico? Buscar generadores</td><td>4, 5 b, 9</td><td>7</td></tr>
+      <tr><td class="lbl">Logaritmo discreto</td><td>4</td><td>8</td></tr>
+      <tr><td class="lbl">Clases laterales (también en un grupo no abeliano)</td><td>10 b, 10 c</td><td>9</td></tr>
+      <tr><td class="lbl">Isomorfismos: demostrar que dos grupos son isomorfos, o decir con quién lo es</td><td>3 e, 8</td><td>12</td></tr>
+      <tr><td class="lbl">Homomorfismo, sobreyectiva, inyectiva y núcleo</td><td>6</td><td>12 y 13</td></tr>
+      <tr><td class="lbl">Esfera \(S(c, 1)\), distancia mínima</td><td>7 a, 7 b</td><td>16 y 17</td></tr>
+      <tr><td class="lbl">Código de grupo: su tabla, por qué es grupo, distancia mínima = peso mínimo</td><td>7 c, 7 d</td><td>18</td></tr>
+      <tr><td class="lbl">Matriz generadora: palabras codificadas, capacidad de detectar y corregir, decodificar</td><td>7 e, 11</td><td>19 y 20</td></tr>
+    </table>
+  </div>
+
+  <h3>Qué tiene cada sección y en qué orden leerla</h3>
+  <p>
+    Las secciones siguen los temas de la cátedra; la única diferencia es que la introducción a la
+    codificación (que la diapositiva pone entre subgrupos y homomorfismos) está acá junta con el
+    resto de la codificación. Cada sección usa lo de las anteriores: conviene leer en orden.
+  </p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Sección</th><th>Qué tiene</th></tr>
+      <tr><td class="lbl">1. Grupo</td><td>Los cuatro axiomas, cómo se prueba cada uno y qué es abeliano</td></tr>
+      <tr><td class="lbl">2. La tabla de un grupo</td><td>Orden de un grupo, cómo leer neutro e inversos en la tabla, por qué cada fila tiene todos los elementos</td></tr>
+      <tr><td class="lbl">3. \(U_n\)</td><td>Las unidades de \(\mathbb{Z}_n\) con el producto: el grupo que más se toma</td></tr>
+      <tr><td class="lbl">4. Producto directo</td><td>Grupos de pares; de acá sale \(\mathbb{Z}_2^{n}\), donde viven los códigos</td></tr>
+      <tr><td class="lbl">5. Subgrupos</td><td>Qué son y cómo se prueba que un subconjunto lo es</td></tr>
+      <tr><td class="lbl">6. Orden de un elemento</td><td>Potencias, el subgrupo generado \(\langle a \rangle\) y \(o(a)\)</td></tr>
+      <tr><td class="lbl">7. Grupos cíclicos</td><td>Generadores: cómo se prueba que un grupo es cíclico y cómo se prueba que no</td></tr>
+      <tr><td class="lbl">8. Logaritmo discreto</td><td>El exponente que lleva el generador a un elemento</td></tr>
+      <tr><td class="lbl">9. Clases laterales</td><td>\(aH\) y \(Ha\), y por qué parten al grupo en pedazos iguales</td></tr>
+      <tr><td class="lbl">10. Teorema de Lagrange</td><td>El orden de un subgrupo divide al del grupo, y sus dos corolarios</td></tr>
+      <tr><td class="lbl">11. Cómo hallar todos los subgrupos</td><td>El método completo, en un grupo cíclico y en uno que no lo es</td></tr>
+      <tr><td class="lbl">12. Homomorfismos e isomorfismos</td><td>Funciones que respetan la operación; cuándo dos grupos son "el mismo"</td></tr>
+      <tr><td class="lbl">13. Núcleo</td><td>Lo que va a parar al neutro, y qué dice de la inyectividad</td></tr>
+      <tr><td class="lbl">14. Canal binario simétrico</td><td>Patrón de error y probabilidad de recibir con errores</td></tr>
+      <tr><td class="lbl">15. Función de codificación</td><td>El esquema \(E\), \(T\), \(D\); paridad y triple repetición</td></tr>
+      <tr><td class="lbl">16. Métrica de Hamming</td><td>Peso y distancia entre palabras</td></tr>
+      <tr><td class="lbl">17. Esferas y distancia mínima</td><td>\(S(x, k)\); cuántos errores se detectan y cuántos se corrigen</td></tr>
+      <tr><td class="lbl">18. Códigos de grupo</td><td>Por qué ahí la distancia mínima es el peso mínimo</td></tr>
+      <tr><td class="lbl">19. Matrices \(G\) y \(H\)</td><td>Codificar multiplicando por \(G\); armar \(H\) a partir de \(G\)</td></tr>
+      <tr><td class="lbl">20. Síndrome y decodificación</td><td>El algoritmo de tres casos para corregir un error</td></tr>
+      <tr><td class="lbl">21. Machete</td><td>Todo junto, en una pantalla</td></tr>
+    </table>
+  </div>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Lo que viene de la Unidad 6</span>
+    <p>
+      Se usan \(\mathbb{Z}_n\) (los restos módulo \(n\)), las <strong>unidades</strong> (los que tienen
+      inverso para el producto) y \(\varphi(n)\). En la sección 3 se recuerdan; si algo no cierra, el
+      detalle está en la Unidad 6.
+    </p>
+  </div>
+
+  <h3>Si tenés poco tiempo</h3>
+  <ol>
+    <li>Secciones 16, 17, 19 y 20: la codificación con matriz generadora es un ejercicio entero que sale siempre con los mismos pasos.</li>
+    <li>Secciones 3, 6 y 7: tabla de \(U_n\), órdenes y generadores aparecen en casi todos los ejercicios de grupos.</li>
+    <li>Secciones 10 y 11: con Lagrange se hallan todos los subgrupos sin probar a ciegas.</li>
+    <li>Secciones 12 y 13: isomorfismo y núcleo.</li>
+    <li>El machete (sección 21) la noche antes.</li>
+  </ol>
+</div>

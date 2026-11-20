@@ -1,0 +1,120 @@
+<div class="ej">
+  <span class="tag" data-num-ej="C-11.">Complementaria P3 &middot; Codificación &middot; Ej. 11 &middot; Matriz generadora y síndrome</span>
+  <h2>Código \(E : \mathbb{Z}_2^3 \to \mathbb{Z}_2^6\) dado por \(G\): palabras, distancia mínima y decodificación</h2>
+  <div class="enunciado">
+    <p>La matriz Generadora del Código para la función de codificación \(E : \mathbb{Z}_2^3 \to \mathbb{Z}_2^6\) es</p>
+    \[ G = \begin{pmatrix} 1 &amp; 0 &amp; 0 &amp; 1 &amp; 0 &amp; 1 \\ 0 &amp; 1 &amp; 0 &amp; 1 &amp; 1 &amp; 0 \\ 0 &amp; 0 &amp; 1 &amp; 0 &amp; 1 &amp; 1 \end{pmatrix} \]
+    <p>a. Hallar el conjunto \(C\) de palabras codificadas.</p>
+    <p>b. Calcular la distancia mínima entre palabras y hacer un comentario sobre la capacidad de detección y corrección de errores.</p>
+    <p>c. Decodificar las palabras recibidas: \(r_1 = 111011\) y \(r_2 = 000111\).</p>
+  </div>
+
+  <span class="paso">Qué tema es y por qué</span>
+  <ul>
+    <li>Es un <strong>código de grupo dado por su matriz generadora</strong> (en la teoría de esta unidad, verificación de paridad y matrices generadoras): cada mensaje \(w\) de 3 bits se codifica como \(E(w) = wG\), una palabra de 6 bits.</li>
+    <li>\(G = [I_3 \mid A]\): las 3 primeras columnas son la identidad (copian el mensaje) y las 3 últimas, \(A\), agregan los bits de control.</li>
+    <li>Para decodificar se usa la <strong>matriz de verificación de paridad</strong> \(H = [A^{tr} \mid I_3]\) y el <strong>síndrome</strong> \(H r^{tr}\).</li>
+    <li>Todas las cuentas son en \(\mathbb{Z}_2\): \(1 + 1 = 0\).</li>
+  </ul>
+
+  <span class="paso">Desarme del enunciado</span>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"\(E : \mathbb{Z}_2^3 \to \mathbb{Z}_2^6\)"</td><td>mensajes de 3 bits, palabras de 6</td><td>\(2^3 = 8\) mensajes</td><td>\(m = 3,\ n = 6\)</td></tr>
+      <tr><td>"matriz Generadora"</td><td>\(E(w) = wG\)</td><td>\(G = [I_3 \mid A]\)</td><td>inciso a</td></tr>
+      <tr><td>"distancia mínima"</td><td>menor cantidad de bits distintos entre dos palabras de \(C\)</td><td>peso mínimo no nulo</td><td>inciso b</td></tr>
+      <tr><td>"\(r_1 = 111011\)", "\(r_2 = 000111\)"</td><td>palabras que llegaron (quizás con errores)</td><td>síndrome \(H r^{tr}\)</td><td>inciso c</td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Paso 1 &mdash; a. El conjunto \(C\)</span>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Codificar con \(G\)</span>
+    <p>\(E(w) = wG\): la palabra es la <strong>suma (en \(\mathbb{Z}_2\)) de las filas de \(G\)</strong> que corresponden a los unos de \(w\).</p>
+  </div>
+  <p>Filas de \(G\): \(F_1 = 100101\), \(F_2 = 010110\), \(F_3 = 001011\).</p>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th>\(w\)</th><th>Filas que se suman</th><th>\(E(w)\)</th><th>Peso</th></tr>
+      <tr><td>000</td><td>ninguna</td><td>000000</td><td>0</td></tr>
+      <tr><td>001</td><td>\(F_3\)</td><td>001011</td><td>3</td></tr>
+      <tr><td>010</td><td>\(F_2\)</td><td>010110</td><td>3</td></tr>
+      <tr><td>011</td><td>\(F_2 + F_3 = 010110 + 001011\)</td><td>011101</td><td>4</td></tr>
+      <tr><td>100</td><td>\(F_1\)</td><td>100101</td><td>3</td></tr>
+      <tr><td>101</td><td>\(F_1 + F_3 = 100101 + 001011\)</td><td>101110</td><td>4</td></tr>
+      <tr><td>110</td><td>\(F_1 + F_2 = 100101 + 010110\)</td><td>110011</td><td>4</td></tr>
+      <tr><td>111</td><td>\(F_1 + F_2 + F_3 = 110011 + 001011\)</td><td>111000</td><td>3</td></tr>
+    </table>
+  </div>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta a</span>
+    <p>\(C = \{000000,\ 001011,\ 010110,\ 011101,\ 100101,\ 101110,\ 110011,\ 111000\}\).</p>
+  </div>
+
+  <span class="paso">Paso 2 &mdash; b. Distancia mínima y capacidad</span>
+  <div class="caja caja-formula">
+    <p>En un código de grupo, la distancia mínima es el <strong>menor peso de una palabra no nula</strong> de \(C\) (porque \(d(x, y) = p(x + y)\) y \(x + y\) también está en \(C\)).</p>
+    <p>Con \(d_{min}\) se pueden <strong>detectar</strong> errores de peso \(k \leq d_{min} - 1\) y <strong>corregir</strong> errores de peso \(k \leq \frac{d_{min} - 1}{2}\).</p>
+  </div>
+  <ul>
+    <li>Pesos de las palabras no nulas (tabla del paso 1): 3, 3, 4, 3, 4, 4, 3. El menor es 3. \(d_{min} = 3\).</li>
+    <li>Detecta: \(k \leq 3 - 1 = 2\) errores.</li>
+    <li>Corrige: \(k \leq \frac{3 - 1}{2} = 1\) error.</li>
+  </ul>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta b</span>
+    <p>\(d_{min} = 3\). El código detecta hasta 2 errores y corrige errores simples (1 bit).</p>
+  </div>
+
+  <span class="paso">Paso 3 &mdash; La matriz \(H\)</span>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Matriz de verificación de paridad</span>
+    <p>Si \(G = [I_m \mid A]\), entonces \(H = [A^{tr} \mid I_{n-m}]\), y \(H c^{tr} = 0\) para toda palabra \(c \in C\).</p>
+  </div>
+  <p>\(A\) son las 3 últimas columnas de \(G\); \(A^{tr}\) se obtiene poniendo sus filas como columnas:</p>
+  \[ A = \begin{pmatrix} 1 &amp; 0 &amp; 1 \\ 1 &amp; 1 &amp; 0 \\ 0 &amp; 1 &amp; 1 \end{pmatrix} \qquad A^{tr} = \begin{pmatrix} 1 &amp; 1 &amp; 0 \\ 0 &amp; 1 &amp; 1 \\ 1 &amp; 0 &amp; 1 \end{pmatrix} \qquad H = \begin{pmatrix} 1 &amp; 1 &amp; 0 &amp; 1 &amp; 0 &amp; 0 \\ 0 &amp; 1 &amp; 1 &amp; 0 &amp; 1 &amp; 0 \\ 1 &amp; 0 &amp; 1 &amp; 0 &amp; 0 &amp; 1 \end{pmatrix} \]
+  <p>Columnas de \(H\), de la 1 a la 6: \(101,\ 110,\ 011,\ 100,\ 010,\ 001\) (leídas de arriba abajo). No hay columna de ceros ni dos iguales, así que se puede usar el algoritmo del síndrome.</p>
+
+  <span class="paso">Paso 4 &mdash; c. Decodificar \(r_1 = 111011\)</span>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Decodificación por síndrome</span>
+    <p>Se calcula \(H r^{tr}\):</p>
+    <p>1. Si da 0: no hubo error; el mensaje son los 3 primeros bits de \(r\).</p>
+    <p>2. Si es igual a la columna \(i\) de \(H\): hubo un error en el bit \(i\); se cambia ese bit y el mensaje son los 3 primeros bits de la palabra corregida.</p>
+    <p>3. Si no es ninguna de las anteriores: hubo más de un error y no se puede corregir.</p>
+  </div>
+  <p>Cada componente del síndrome es la suma (en \(\mathbb{Z}_2\)) de los bits de \(r\) que están donde la fila de \(H\) tiene un 1. Con \(r_1 = 1\,1\,1\,0\,1\,1\):</p>
+  <ul>
+    <li>Fila 1 de \(H\) = \(110100\) (bits 1, 2, 4): \(1 + 1 + 0 = 0\).</li>
+    <li>Fila 2 = \(011010\) (bits 2, 3, 5): \(1 + 1 + 1 = 1\).</li>
+    <li>Fila 3 = \(101001\) (bits 1, 3, 6): \(1 + 1 + 1 = 1\).</li>
+  </ul>
+  <p>\(H r_1^{tr} = 011\), que es la <strong>columna 3</strong> de \(H\). Hubo un error en el tercer bit: \(111011 \to 110011\).</p>
+  <p>\(110011\) está en \(C\) (es \(E(110)\)). El mensaje: los 3 primeros bits, \(110\).</p>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta c (\(r_1\))</span>
+    <p>\(r_1 = 111011\) se corrige a \(c = 110011\) y se decodifica como \(w = 110\).</p>
+  </div>
+
+  <span class="paso">Paso 5 &mdash; c. Decodificar \(r_2 = 000111\)</span>
+  <p>Se repite el algoritmo del síndrome. Con \(r_2 = 0\,0\,0\,1\,1\,1\):</p>
+  <ul>
+    <li>Fila 1 (bits 1, 2, 4): \(0 + 0 + 1 = 1\).</li>
+    <li>Fila 2 (bits 2, 3, 5): \(0 + 0 + 1 = 1\).</li>
+    <li>Fila 3 (bits 1, 3, 6): \(0 + 0 + 1 = 1\).</li>
+  </ul>
+  <p>\(H r_2^{tr} = 111\). No es 0, y no es ninguna de las columnas de \(H\) (\(101, 110, 011, 100, 010, 001\)). Caso 3: hubo al menos dos errores.</p>
+  <p>Lo confirma la distancia: \(000111\) está a distancia 2 de tres palabras distintas (\(001011\), \(010110\) y \(100101\)) y a más de las otras, así que no hay una "más cercana" a la cual corregir.</p>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta c (\(r_2\))</span>
+    <p>\(r_2 = 000111\) tiene síndrome \(111\): se detecta error (de 2 bits o más) pero <strong>no se puede decodificar</strong>; habría que pedir la retransmisión.</p>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Trampa</span>
+    <p>Esto no contradice el inciso b: con \(d_{min} = 3\) el código detecta 2 errores (y acá los detectó), pero corrige solo 1. Detectar no es lo mismo que corregir.</p>
+  </div>
+
+  <span class="paso">Verificación (la guía no trae resultados)</span>
+  <p>Con Python: se generaron las 8 palabras como \(wG\) módulo 2, se calcularon las 28 distancias entre pares (mínimo 3), y los síndromes de \(r_1\) y \(r_2\) (\(011\) y \(111\)). Las distancias de \(r_1\) a \(C\) dan mínimo 1 solo con \(110011\); las de \(r_2\), mínimo 2 con tres palabras.</p>
+</div>

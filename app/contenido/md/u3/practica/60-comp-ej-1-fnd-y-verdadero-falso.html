@@ -1,0 +1,72 @@
+<div class="ej" data-examen="variante" data-examen-ref="Parcial 1 2026 · ej. 5c" data-examen-nota="El inciso a) es la f.n.d. de una función de B³, como el ej. 5c del parcial. El b) ii trabaja con ∑m y ∏M de la misma lista, la notación del ej. 3.">
+  <span class="tag" data-num-ej="C-1.">Complementaria P1 &middot; Boole &middot; Ej. 1 &middot; f.n.d. y verdadero o falso</span>
+  <h2>La f.n.d. de (x + y)(x̄ + z) y dos afirmaciones sobre mintérminos</h2>
+  <div class="enunciado">
+    <p>a. Sea la función booleana \(f : B^3 \to B\), tal que \(f = (x + y)(\overline{x} + z)\), escribir su forma normal disyuntiva en términos de sus variables.</p>
+    <p>b. Analizar si las siguientes afirmaciones son verdaderas o falsas:</p>
+    <p>i. Para \(f : B^3 \to B\), existen solamente 6 funciones \(g\) tales los términos 1 y 2 son mintérminos.</p>
+    <p>ii. Sean las funciones booleanas \(f\) y \(g\), ambas de \(B^3\) en \(B\), tales que \(f = \sum min(1, 2, 3)\) y \(g = \prod max(1, 2, 3)\), entonces \(f + g = 1\).</p>
+  </div>
+
+  <span class="paso">Qué tema es y por qué</span>
+  <ul>
+    <li>a) f.n.d. "en términos de sus variables": escrita con las letras (\(\overline{x}y\overline{z} + \dots\)), no solo con etiquetas.</li>
+    <li>b) es leer bien \(\sum m\) y \(\prod M\). La guía escribe \(\sum min\) y \(\prod max\): es lo mismo que \(\sum m\) y \(\prod M\).
+      <ul>
+        <li>\(\sum m(\dots)\): la función vale <strong>1</strong> exactamente en esas etiquetas.</li>
+        <li>\(\prod M(\dots)\): la función vale <strong>0</strong> exactamente en esas etiquetas (y 1 en las demás).</li>
+      </ul>
+    </li>
+  </ul>
+
+  <span class="paso">Inciso a) — f.n.d. de \((x + y)(\overline{x} + z)\)</span>
+  <p>Paso 1. Distribuir. Regla: \((a + b)(c + d) = ac + ad + bc + bd\).</p>
+  \[
+  \begin{aligned}
+  (x + y)(\overline{x} + z) &= x\overline{x} + xz + y\overline{x} + yz && \text{distributiva} \\
+    &= 0 + xz + \overline{x}y + yz && \text{inversos y conmutativa} \\
+    &= xz + \overline{x}y + yz && \text{identidad}
+  \end{aligned}
+  \]
+  <p>Paso 2. Completar con \(1 = v + \overline{v}\) la variable que falta en cada término:</p>
+  <ul>
+    <li>\(xz = x(y + \overline{y})z = xyz + x\overline{y}z\)</li>
+    <li>\(\overline{x}y = \overline{x}y(z + \overline{z}) = \overline{x}yz + \overline{x}y\overline{z}\)</li>
+    <li>\(yz = (x + \overline{x})yz = xyz + \overline{x}yz\)</li>
+  </ul>
+  <p>Paso 3. Los repetidos (\(xyz\) y \(\overline{x}yz\)) se escriben una vez (idempotencia).</p>
+  \[f = \overline{x}y\overline{z} + \overline{x}yz + x\overline{y}z + xyz = \sum m(2, 3, 5, 7)\]
+  <p>Control con la tabla: \(f = 1\) en \(010, 011, 101, 111\) y 0 en \(000, 001, 100, 110\). Coincide.</p>
+
+  <span class="paso">Inciso b) i — "Solamente 6 funciones \(g\)" con los mintérminos 1 y 2</span>
+  <p>Se lee: ¿cuántas \(g : B^3 \to B\) tienen a \(m_1\) y \(m_2\) entre sus mintérminos, o sea \(g(001) = 1\) y \(g(010) = 1\)?</p>
+  <ol>
+    <li>La tabla tiene \(2^3 = 8\) filas.</li>
+    <li>Las filas 1 y 2 están obligadas (valen 1).</li>
+    <li>Quedan \(8 - 2 = 6\) filas libres, con 2 opciones cada una.</li>
+    <li>Regla del producto: \(2^6 = 64\) funciones.</li>
+  </ol>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">La trampa</span>
+    <p>6 es la cantidad de filas <strong>libres</strong>, no de funciones. Las funciones son \(2^6 = 64\). Si en cambio se leyera "los únicos mintérminos son 1 y 2", habría 1 sola función. De ninguna manera son 6.</p>
+  </div>
+  <p><strong>Falsa.</strong></p>
+
+  <span class="paso">Inciso b) ii — \(f = \sum m(1, 2, 3)\), \(g = \prod M(1, 2, 3)\): ¿\(f + g = 1\)?</span>
+  <ol>
+    <li>\(f\) vale 1 en las etiquetas 1, 2, 3 y 0 en 0, 4, 5, 6, 7.</li>
+    <li>\(g\) vale 0 en las etiquetas 1, 2, 3 y 1 en 0, 4, 5, 6, 7.</li>
+    <li>Fila por fila, siempre una de las dos vale 1: en 1, 2, 3 la \(f\); en las demás la \(g\). Una suma con un sumando en 1 vale 1.</li>
+  </ol>
+  <p>De hecho \(g = \overline{f}\) (los unos de una son los ceros de la otra), y \(f + \overline{f} = 1\) es la ley de los inversos.</p>
+  <p><strong>Verdadera.</strong></p>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>a) \(f = \overline{x}y\overline{z} + \overline{x}yz + x\overline{y}z + xyz\) \(\left(= \sum m(2, 3, 5, 7)\right)\)</p>
+    <p>b) i) Falsa: son \(2^6 = 64\). &nbsp; ii) Verdadera: \(g = \overline{f}\), así que \(f + g = 1\).</p>
+  </div>
+
+  <span class="paso">Verificación</span>
+  <p>La guía no trae resultados. Se probaron las 8 entradas de a), las \(2^8 = 256\) funciones de \(B^3\) para b) i (64 cumplen) y las 8 entradas de \(f + g\) en b) ii.</p>
+</div>

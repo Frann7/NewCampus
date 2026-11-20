@@ -1,0 +1,129 @@
+<!-- ==================== EJERCICIO 2 ==================== -->
+<section class="parcial-ej">
+  <div class="parcial-ej-cab">
+    <h2>Ejercicio 2</h2>
+    <span class="parcial-pts">10 puntos</span>
+    <span class="parcial-tema">Unidad 2 &middot; Lenguajes: concatenación, prefijo y sufijo</span>
+  </div>
+
+  <p>
+    Dados los lenguajes \(A = \{01, 10\}\), \(B = \{0, 1\}\) y \(C = \{11\}\), con \(\Sigma = \{0, 1\}\),
+    describir unívocamente, en términos de prefijo y sufijo, las cadenas del lenguaje \(AB^{+}C^{2}\).
+  </p>
+
+  <div class="parcial-extras">
+    <details class="parcial-desp pd-resultados">
+      <summary>
+        <span class="pd-icono">&#10003;</span>
+        <span class="pd-txt"><b>Resultados</b><small>Solo las respuestas, sin procedimiento</small></span>
+      </summary>
+      <div class="pd-cuerpo">
+        <p>
+          \(AB^{+}C^{2} = \{01, 10\}\{0,1\}^{+}\{1111\}\): las cadenas \(w \in \Sigma^{*}\) que tienen
+          <strong>prefijo \(01\) o \(10\)</strong>, <strong>sufijo \(1111\)</strong> y
+          <strong>longitud \(|w| \geq 7\)</strong> (entre el prefijo y el sufijo hay al menos un símbolo).
+        </p>
+        <p>Las más cortas: \(0101111\), \(0111111\), \(1001111\), \(1011111\).</p>
+      </div>
+    </details>
+
+    <details class="parcial-desp pd-explicacion">
+      <summary>
+        <span class="pd-icono">&#9998;</span>
+        <span class="pd-txt"><b>Explicación detallada</b><small>Desde cero: teoría, desarme del enunciado, resolución</small></span>
+      </summary>
+      <div class="pd-cuerpo">
+
+        <div class="caja caja-ejemplo">
+          <span class="caja-tit">El enunciado, otra vez</span>
+          <p>
+            Con \(A = \{01, 10\}\), \(B = \{0, 1\}\), \(C = \{11\}\) sobre \(\Sigma = \{0, 1\}\), describir sin
+            ambigüedad, con prefijo y sufijo, qué cadenas forman \(AB^{+}C^{2}\).
+          </p>
+        </div>
+
+        <h4>¿De qué tema es?</h4>
+        <p><strong>Unidad 2</strong>, lenguajes: concatenación, potencias y clausura positiva, y la descripción de un lenguaje por su comienzo y su final.</p>
+
+        <h4>Los conceptos que hacen falta, desde cero</h4>
+        <div class="caja caja-formula">
+          <span class="caja-tit">1. Concatenación de lenguajes</span>
+          <p>\[ AB = \{ab \,/\, a \in A,\ b \in B\} \]</p>
+          <p>Se pega una cadena de \(A\) adelante de una de \(B\), de todas las formas posibles. Ejemplo: \(\{0, 1\}\{11\} = \{011, 111\}\).</p>
+        </div>
+        <div class="caja caja-formula">
+          <span class="caja-tit">2. Potencias y clausura positiva</span>
+          <ul>
+            <li>\(C^{2} = CC\): dos cadenas de \(C\) pegadas. Con \(C = \{11\}\), \(C^{2} = \{1111\}\).</li>
+            <li>\(B^{+} = B^{1} \cup B^{2} \cup B^{3} \cup \dots\): una o más cadenas de \(B\) pegadas. Nunca la cadena vacía \(\lambda\).</li>
+            <li>Si \(B = \Sigma = \{0, 1\}\), \(B^{+} = \Sigma^{+}\): <strong>cualquier</strong> cadena de largo 1 o más.</li>
+          </ul>
+        </div>
+        <div class="caja caja-formula">
+          <span class="caja-tit">3. Prefijo y sufijo</span>
+          <p>
+            Si \(w = xy\), \(x\) es un <strong>prefijo</strong> de \(w\) (el comienzo) e \(y\) un
+            <strong>sufijo</strong> (el final). Es <em>propio</em> si no es toda la cadena. Ejemplo: en
+            \(w = 0100110\), \(01\) es prefijo y \(110\) es sufijo.
+          </p>
+        </div>
+
+        <h4>Desarme del enunciado</h4>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Frase del enunciado</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+            <tr><td>&ldquo;\(A = \{01, 10\}\)&rdquo;</td><td>el comienzo</td><td>&mdash;</td><td>prefijo \(01\) o \(10\)</td></tr>
+            <tr><td>&ldquo;\(B^{+}\)&rdquo;, con \(B = \{0, 1\}\)</td><td>el medio: cualquier cadena no vacía</td><td>\(B^{+} = \Sigma^{+}\)</td><td>al menos 1 símbolo en el medio</td></tr>
+            <tr><td>&ldquo;\(C^{2}\)&rdquo;, con \(C = \{11\}\)</td><td>el final</td><td>\(11 \cdot 11 = 1111\)</td><td>sufijo \(1111\)</td></tr>
+            <tr><td>&ldquo;unívocamente&rdquo;</td><td>que la descripción no deje entrar cadenas de más</td><td>\(2 + 1 + 4\)</td><td>\(|w| \geq 7\)</td></tr>
+          </table>
+        </div>
+
+        <span class="paso">Paso 1 &mdash; Simplificar cada pieza</span>
+        <p>Regla: \(C^{2} = CC\) y \(B^{+}\) es una o más cadenas de \(B\).</p>
+        <p>\[ AB^{+}C^{2} = \{01, 10\}\,\{0,1\}^{+}\,\{1111\} \]</p>
+
+        <span class="paso">Paso 2 &mdash; Leerlo como prefijo y sufijo</span>
+        <ul>
+          <li>Toda cadena empieza con \(01\) o con \(10\): <strong>prefijo \(01\) o \(10\)</strong> (dicho de otra forma, los dos primeros símbolos son distintos).</li>
+          <li>Toda cadena termina en \(1111\): <strong>sufijo \(1111\)</strong>.</li>
+          <li>En el medio va cualquier cosa, pero <strong>al menos un símbolo</strong> (por el \(+\)).</li>
+        </ul>
+
+        <span class="paso">Paso 3 &mdash; Por qué hace falta la longitud</span>
+        <p>
+          &ldquo;Prefijo \(01\) o \(10\) y sufijo \(1111\)&rdquo;, sin más, deja entrar cadenas que no están en el lenguaje.
+          \(011111\) (largo 6) empieza con \(01\) y termina en \(1111\), pero el prefijo y el sufijo se pisan
+          y no queda nada para \(B^{+}\). La cadena más corta del lenguaje tiene \(2 + 1 + 4 = 7\) símbolos.
+        </p>
+        <p>Por eso la descripción unívoca lleva la condición \(|w| \geq 7\).</p>
+        <div class="caja caja-resp">
+          <span class="caja-tit">Respuesta</span>
+          <p>
+            \(AB^{+}C^{2} = \{w \in \Sigma^{*} \,/\, w\) tiene prefijo \(01\) o \(10\), sufijo \(1111\) y
+            \(|w| \geq 7\}\). Se comparó por computadora con la concatenación armada pieza por pieza: coinciden todas las cadenas de hasta 12 símbolos.
+          </p>
+        </div>
+
+        <h4>Parecido en la guía</h4>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Ejercicio</th><th>Qué tiene igual</th><th>Qué cambia</th></tr>
+            <tr><td>Guía complementaria &middot; Máquinas, ej. 9</td><td>describir \(\{0\}\{0,1\}^{*}\{001\}\) con prefijo y sufijo</td><td>el medio es \(^{*}\) (puede ser vacío) y además pide la MEF</td></tr>
+            <tr><td>Guía complementaria &middot; Lenguajes, ej. 5b y 5c</td><td>comenzar con \(ab\), terminar en \(cc\)</td><td>al revés: dada la descripción, escribir el lenguaje</td></tr>
+            <tr><td>Guía complementaria &middot; Lenguajes, ej. 2</td><td>calcular \(AB\), \(A^{3}\), \(B^{2}\)</td><td>lenguajes finitos, se listan</td></tr>
+          </table>
+        </div>
+
+        <div class="caja caja-ojo">
+          <span class="caja-tit">Las trampas de este ejercicio</span>
+          <ol>
+            <li><strong>Olvidar la longitud:</strong> &ldquo;prefijo \(01\) o \(10\) y sufijo \(1111\)&rdquo; solo no es unívoco (deja entrar \(011111\) y \(101111\)).</li>
+            <li><strong>Tomar \(C^{2}\) como \(\{11\}\):</strong> es \(1111\), cuatro unos.</li>
+            <li><strong>Confundir \(^{+}\) con \(^{*}\):</strong> con \(B^{*}\) el medio podría ser vacío y el mínimo sería 6.</li>
+          </ol>
+        </div>
+      </div>
+    </details>
+  </div>
+</section>

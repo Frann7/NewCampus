@@ -1,0 +1,168 @@
+<div class="bloque">
+  <p class="kicker">Los enteros módulo n</p>
+  <h2>14. Ecuaciones lineales de congruencia \(ax \equiv b \pmod{m}\)</h2>
+
+  <h3>Para qué sirve</h3>
+  <p>
+    Es "despejar \(x\)" en \(\mathbb{Z}_m\). En los reales, \(3x = 6\) se resuelve dividiendo por
+    \(3\). En \(\mathbb{Z}_m\) no hay división: se <strong>multiplica por el inverso</strong>
+    (sección 12), y si el inverso no existe, a veces hay varias soluciones y a veces ninguna. Esta
+    sección dice cuándo pasa cada cosa y cómo encontrar todas.
+  </p>
+
+  <h3>Definición y teorema (los de la cátedra)</h3>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Ecuación lineal de congruencia</span>
+    <p>Una ecuación de la forma \(ax \equiv b \pmod{m}\) se llama <strong>ecuación lineal de congruencia</strong>. Equivale a la diofántica \(ax - my = b\), y:</p>
+    <ul>
+      <li>tiene solución si y sólo si \(d = mcd(a, m)\) divide a \(b\);</li>
+      <li>si \(d = 1\), tiene <strong>una única</strong> solución en \(\mathbb{Z}_m\): \(x \equiv a^{-1} b \pmod{m}\);</li>
+      <li>si \(d \gt 1\) y \(d \mid b\), tiene <strong>exactamente \(d\)</strong> soluciones en \(\mathbb{Z}_m\);</li>
+      <li>si \(d \nmid b\), no tiene solución.</li>
+    </ul>
+  </div>
+
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Símbolo</th><th>Qué es</th></tr>
+      <tr><td>\(a\), \(b\)</td><td>el coeficiente de \(x\) y el término independiente (conviene reducirlos módulo \(m\) primero, sección 9)</td></tr>
+      <tr><td>\(m\)</td><td>el módulo: las soluciones se dan entre \(0\) y \(m - 1\)</td></tr>
+      <tr><td>\(d \mid b\), \(d \nmid b\)</td><td>"\(d\) divide a \(b\)", "\(d\) no divide a \(b\)" (Unidad 5)</td></tr>
+      <tr><td>\(S\)</td><td>el conjunto solución: todos los \(x \in \mathbb{Z}_m\) que cumplen</td></tr>
+    </table>
+  </div>
+
+  <h3>De dónde sale cada caso</h3>
+  <ul>
+    <li><strong>Existencia:</strong> \(ax \equiv b\) es \(ax = my + b\), o sea \(ax - my = b\): una diofántica, que tiene solución si y sólo si el mcd de los coeficientes divide a \(b\) (Unidad 5).</li>
+    <li><strong>\(d = 1\):</strong> existe \(a^{-1}\) (sección 11). Multiplicando los dos lados por él: \(a^{-1}ax \equiv a^{-1}b\), y como \(a^{-1}a \equiv 1\), queda \(x \equiv a^{-1}b\). Un solo valor.</li>
+    <li><strong>\(d \gt 1\), \(d \mid b\):</strong> se divide todo por \(d\) (también el módulo): \(\frac{a}{d}x \equiv \frac{b}{d} \pmod{\frac{m}{d}}\). Ahora \(mcd(\frac{a}{d}, \frac{m}{d}) = 1\), así que hay una única solución \(x_0\) módulo \(\frac{m}{d}\). Pero en \(\mathbb{Z}_m\) los números \(x_0,\ x_0 + \frac{m}{d},\ x_0 + 2\frac{m}{d}, \dots\) son distintos, y entran \(d\) de ellos antes de llegar a \(m\).</li>
+  </ul>
+
+  <div class="caja caja-formula">
+    <span class="caja-tit">El procedimiento</span>
+    <ol>
+      <li>Pasar todo a la forma \(ax \equiv b\) y reducir \(a\) y \(b\) módulo \(m\).</li>
+      <li>Calcular \(d = mcd(a, m)\). Si \(d \nmid b\): \(S = \emptyset\).</li>
+      <li>Si \(d = 1\): \(x \equiv a^{-1}b \pmod{m}\), con el inverso de la sección 12.</li>
+      <li>Si \(d \gt 1\): dividir \(a\), \(b\) y \(m\) por \(d\), resolver como en el paso 3 módulo \(\frac{m}{d}\), y sumar \(\frac{m}{d}\) hasta tener \(d\) soluciones.</li>
+      <li>Verificar al menos una reemplazando.</li>
+    </ol>
+  </div>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Lo que no se puede hacer</span>
+    <p>
+      "Simplificar" \(a\) sin tocar el módulo. De \(8x \equiv 20 \pmod{36}\) no se pasa a
+      \(2x \equiv 5 \pmod{36}\): al dividir por \(4\) hay que dividir <strong>también el
+      módulo</strong>, y queda \(2x \equiv 5 \pmod{9}\).
+    </p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; Una sola solución (cátedra, ejemplo 10)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>Resolver \(7x \equiv 6 \pmod{10}\).</p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"\(7x\)"</td><td>coeficiente</td><td>&mdash;</td><td>\(a = 7\)</td></tr>
+      <tr><td>"\(\equiv 6\)"</td><td>término independiente</td><td>&mdash;</td><td>\(b = 6\)</td></tr>
+      <tr><td>"\(\pmod{10}\)"</td><td>módulo</td><td>&mdash;</td><td>\(m = 10\)</td></tr>
+      <tr><td>(cálculo)</td><td>¿hay inverso?</td><td>\(mcd(7, 10) = 1\)</td><td>única solución</td></tr>
+    </table>
+  </div>
+  <p>El inverso de \(7\) en \(\mathbb{Z}_{10}\) es \(3\) (\(7 \cdot 3 = 21 = 2 \cdot 10 + 1\)). Multiplico los dos lados por \(3\):</p>
+  <p>\[ 3 \cdot 7x \equiv 3 \cdot 6 \pmod{10} \;\Rightarrow\; x \equiv 18 \equiv 8 \pmod{10} \]</p>
+  <p>Verificación: \(7 \cdot 8 = 56 = 5 \cdot 10 + 6\). ✔</p>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>\(S = \{8\}\).</p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; Varias soluciones (cátedra, ejemplo 11)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>Resolver \(152x \equiv -88 \pmod{36}\).</p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"\(152x\)"</td><td>coeficiente, reducido</td><td>\(152 = 4 \cdot 36 + 8\)</td><td>\(a = 8\)</td></tr>
+      <tr><td>"\(\equiv -88\)"</td><td>independiente, reducido</td><td>\(-88 + 3 \cdot 36 = 20\)</td><td>\(b = 20\)</td></tr>
+      <tr><td>"\(\pmod{36}\)"</td><td>módulo</td><td>&mdash;</td><td>\(m = 36\)</td></tr>
+      <tr><td>(cálculo)</td><td>mcd</td><td>\(mcd(8, 36) = 4\), y \(4 \mid 20\)</td><td>4 soluciones</td></tr>
+    </table>
+  </div>
+  <p><span class="paso">Paso 1 — Reducir</span> \(8x \equiv 20 \pmod{36}\) (las reducciones están hechas en la sección 9).</p>
+  <p><span class="paso">Paso 2 — Ver cuántas</span> \(d = 4\) divide a \(20\): hay 4 soluciones. No se puede despejar directamente: \(8\) no tiene inverso en \(\mathbb{Z}_{36}\).</p>
+  <p><span class="paso">Paso 3 — Dividir todo por 4</span> \(2x \equiv 5 \pmod{9}\). Ahora \(mcd(2, 9) = 1\), y el inverso de \(2\) en \(\mathbb{Z}_9\) es \(5\) (\(2 \cdot 5 = 10 = 9 + 1\)):</p>
+  <p>\[ x \equiv 5 \cdot 5 = 25 \equiv 7 \pmod{9} \]</p>
+  <p><span class="paso">Paso 4 — Volver a \(\mathbb{Z}_{36}\)</span> Las soluciones son de la forma \(9k + 7\): \(7, 16, 25, 34\) (la siguiente, \(43\), ya pasa de \(35\)).</p>
+  <p>Verificación de una: \(8 \cdot 16 = 128 = 3 \cdot 36 + 20\). ✔</p>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>\(S = \{7, 16, 25, 34\}\).</p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 3 &mdash; Forma de parcial: con el inverso ya calculado (parecido a la complementaria, ej. 6c)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>Resolver \(143x - 20 \equiv 0 \pmod{840}\).</p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"\(143x - 20 \equiv 0\)"</td><td>pasar el \(20\) al otro lado (se puede sumar lo mismo a los dos lados)</td><td>\(143x \equiv 20\)</td><td>\(a = 143,\ b = 20\)</td></tr>
+      <tr><td>"\(\pmod{840}\)"</td><td>módulo</td><td>&mdash;</td><td>\(m = 840\)</td></tr>
+      <tr><td>(sección 12)</td><td>el inverso de 143</td><td>\(mcd = 1\), \([143]^{-1} = [47]\)</td><td>única solución</td></tr>
+    </table>
+  </div>
+  <p>
+    El inverso se calculó con Euclides en la sección 12, ejemplo 2: \(47 \cdot 143 - 8 \cdot 840 = 1\),
+    o sea \([143]^{-1} = [47]\) (verificación: \(143 \cdot 47 = 6721 = 8 \cdot 840 + 1\)). Multiplico
+    los dos lados por \(47\):
+  </p>
+  <p>\[ x \equiv 47 \cdot 20 = 940 \equiv 940 - 840 = 100 \pmod{840} \]</p>
+  <p>Verificación: \(143 \cdot 100 - 20 = 14280 = 17 \cdot 840\). ✔</p>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>\(S = \{100\}\).</p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 4 &mdash; Forma de parcial: proponer ecuaciones (parecido a la complementaria, ej. 18)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>Proponer en \(\mathbb{Z}_{90}\) una ecuación lineal de congruencia con una solución, otra sin solución y otra con exactamente 5 soluciones. Resolverlas.</p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"una solución"</td><td>\(mcd(a, 90) = 1\)</td><td>\(90 = 2 \cdot 3^2 \cdot 5\): \(a\) sin 2, 3 ni 5</td><td>\(a = 7\)</td></tr>
+      <tr><td>"sin solución"</td><td>\(d \nmid b\)</td><td>\(mcd(6, 90) = 6\), y \(6 \nmid 5\)</td><td>\(6x \equiv 5\)</td></tr>
+      <tr><td>"exactamente 5"</td><td>\(d = 5\) y \(5 \mid b\)</td><td>\(mcd(35, 90) = 5\), \(5 \mid 10\)</td><td>\(35x \equiv 10\)</td></tr>
+    </table>
+  </div>
+  <ul>
+    <li><strong>\(7x \equiv 1 \pmod{90}\):</strong> \(7 \cdot 13 = 91 = 90 + 1\), así que \(x \equiv 13\). \(S = \{13\}\).</li>
+    <li><strong>\(6x \equiv 5 \pmod{90}\):</strong> \(6x - 90y\) es siempre múltiplo de \(6\) y nunca puede dar \(5\). \(S = \emptyset\).</li>
+    <li><strong>\(35x \equiv 10 \pmod{90}\):</strong> divido todo por \(5\): \(7x \equiv 2 \pmod{18}\). El inverso de \(7\) en \(\mathbb{Z}_{18}\) es \(13\) (\(7 \cdot 13 = 91 = 5 \cdot 18 + 1\)): \(x \equiv 26 \equiv 8 \pmod{18}\). En \(\mathbb{Z}_{90}\), sumando de a 18: \(8, 26, 44, 62, 80\). Verificación: \(35 \cdot 8 = 280 = 3 \cdot 90 + 10\). ✔</li>
+  </ul>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>\(7x \equiv 1\): \(S = \{13\}\). \(6x \equiv 5\): \(S = \emptyset\). \(35x \equiv 10\): \(S = \{8, 26, 44, 62, 80\}\). (Hay muchas otras respuestas válidas: lo que se controla es el mcd.)</p>
+  </div>
+</div>

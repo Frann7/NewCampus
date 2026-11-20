@@ -1,0 +1,84 @@
+<div class="bloque" data-examen="variante" data-examen-ref="Parcial 1 2026 · ej. 2" data-examen-nota="El ejercicio 2 usó B⁺ y C² dentro de AB⁺C²; acá está qué es cada uno. La descripción por prefijo y sufijo está en la sección 9.">
+  <p class="kicker">Lenguajes</p>
+  <h2>8. Potencias y clausuras de un lenguaje</h2>
+
+  <h3>Para qué sirve</h3>
+  <p>
+    Para decir "un pedazo de \(A\), repetido las veces que sea" sin escribir una lista infinita. Con
+    esto se escriben lenguajes como \(\{0, 1\}^{*}\{111\}\) o \(AB^{+}C^{2}\).
+  </p>
+
+  <h3>Definición</h3>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Para un lenguaje \(A \subseteq \Sigma^{*}\)</span>
+    <p>\[ A^{0} = \{\lambda\}, \qquad A^{1} = A, \qquad A^{n+1} = \{\, ab \,/\, a \in A,\ b \in A^{n} \,\} \]</p>
+    <p>\[ A^{+} = \bigcup_{n \in \mathbb{Z}^{+}} A^{n} \quad \text{(clausura positiva)} \qquad A^{*} = A^{+} \cup \{\lambda\} \quad \text{(clausura de Kleene)} \]</p>
+  </div>
+
+  <h3>Qué significa cada símbolo</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Símbolo</th><th>Se lee</th><th>Qué es</th></tr>
+      <tr><td>\(A^{n}\)</td><td>\(A\) a la \(n\)</td><td>pegar \(n\) cadenas de \(A\), <strong>cada una elegida libremente</strong> (pueden ser distintas)</td></tr>
+      <tr><td>\(A^{+}\)</td><td>\(A\) más</td><td>pegar 1, 2, 3... cadenas de \(A\): "al menos una"</td></tr>
+      <tr><td>\(A^{*}\)</td><td>\(A\) estrella</td><td>pegar 0, 1, 2... cadenas de \(A\): "cualquier cantidad, también ninguna"</td></tr>
+    </table>
+  </div>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">\(A^{2}\) no es "cada cadena repetida"</span>
+    <p>
+      Con \(A = \{0, 11\}\), \(A^{2} = \{00, 011, 110, 1111\}\): también están los pegotes mezclados
+      \(0 \cdot 11\) y \(11 \cdot 0\). No es \(\{x^{2} / x \in A\} = \{00, 1111\}\).
+    </p>
+  </div>
+
+  <h3>De dónde sale lo que vale la pena recordar</h3>
+  <ul>
+    <li>Con \(A = \Sigma\) (las cadenas de un símbolo), \(A^{n} = \Sigma^{n}\), \(A^{+} = \Sigma^{+}\), \(A^{*} = \Sigma^{*}\): es la sección 4 de nuevo.</li>
+    <li>\(\{\lambda\}^{*} = \{\lambda\}\) y \(\emptyset^{*} = \{\lambda\}\) (por \(A^{0} = \{\lambda\}\), que se agrega siempre).</li>
+    <li>Si \(\lambda \notin A\), toda cadena de \(A^{+}\) tiene al menos un pedazo, y el largo mínimo de \(A^{n}\) es \(n\) veces el largo mínimo de \(A\).</li>
+  </ul>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; Potencias de un lenguaje chico</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>Con \(A = \{0, 11\}\), hallar \(A^{2}\) y \(A^{3}\) y decir cuántas cadenas tiene cada uno.</p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"\(A^{2}\)"</td><td>dos pedazos, cada uno \(0\) u \(11\)</td><td>\(2 \cdot 2 = 4\) pegotes</td><td>ninguno se repite</td></tr>
+      <tr><td>"\(A^{3}\)"</td><td>un pedazo adelante de cada una de \(A^{2}\)</td><td>\(2 \cdot 4 = 8\)</td><td>ninguno se repite</td></tr>
+    </table>
+  </div>
+  <p>\[ A^{2} = \{00,\ 011,\ 110,\ 1111\} \]</p>
+  <p>\[ A^{3} = \{000,\ 0011,\ 0110,\ 01111,\ 1100,\ 11011,\ 11110,\ 111111\} \]</p>
+  <div class="caja caja-resp"><span class="caja-tit">Respuesta</span><p>4 y 8 cadenas. Acá no hay repetidas porque ninguna forma de cortar se confunde con otra (no siempre pasa: ver el ejemplo 2).</p></div>
+
+  <h3>Ejemplo 2 &mdash; Con forma de parcial: qué largo tienen las de \(AB^{+}C^{2}\)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>Con \(A = \{00, 11\}\), \(B = \{0, 1\}\) y \(C = \{10\}\), sobre \(\Sigma = \{0, 1\}\): ¿qué es \(C^{2}\), qué es \(B^{+}\) y cuál es la cadena más corta de \(AB^{+}C^{2}\)?</p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"\(C^{2}\)"</td><td>dos cadenas de \(C\); hay una sola</td><td>\(10 \cdot 10\)</td><td>\(C^{2} = \{1010\}\)</td></tr>
+      <tr><td>"\(B^{+}\)"</td><td>pegar 1 o más símbolos sueltos</td><td>\(B = \Sigma\)</td><td>\(B^{+} = \Sigma^{+}\)</td></tr>
+      <tr><td>"más corta"</td><td>lo mínimo de cada pedazo</td><td>\(2 + 1 + 4\)</td><td>largo 7</td></tr>
+    </table>
+  </div>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>
+      \(C^{2} = \{1010\}\), \(B^{+} = \Sigma^{+}\) (todas las cadenas no vacías) y las más cortas tienen
+      largo 7: \(0001010\), \(0011010\), \(1101010\), \(1111010\). Cómo describirlo entero por
+      prefijo y sufijo, en la sección 9.
+    </p>
+  </div>
+</div>

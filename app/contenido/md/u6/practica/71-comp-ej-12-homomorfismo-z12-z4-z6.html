@@ -1,0 +1,117 @@
+<div class="ej">
+  <span class="tag" data-num-ej="C-12.">Complementaria P3 &middot; Anillos &middot; Ej. 12 &middot; Homomorfismo de anillos</span>
+  <h2>\(f : \mathbb{Z}_{12} \to \mathbb{Z}_4 \times \mathbb{Z}_6\): homomorfismo, imagen, preimagen e isomorfismo</h2>
+  <div class="enunciado">
+    <p>Sea la función \(f : \mathbb{Z}_{12} \to \mathbb{Z}_4 \times \mathbb{Z}_6\):</p>
+    <p>a. Probar que \(f\) es un homomorfismo de anillos.</p>
+    <p>b. Encontrar un elemento de \(\mathbb{Z}_4 \times \mathbb{Z}_6\) que no esté en la imagen de \(f\).</p>
+    <p>c. ¿Cuál elemento \(n\) de \(\mathbb{Z}_{12}\) es tal que \(f(n) = (1, 3)\); es decir, la preimagen de \((1, 3)\).</p>
+    <p>d. ¿Determina \(f\) un isomorfismo entre los anillos dados?</p>
+  </div>
+
+  <span class="paso">Qué tema es y por qué</span>
+  <ul>
+    <li>Es un <strong>homomorfismo de anillos</strong> entre \(\mathbb{Z}_{12}\) y un <strong>producto de anillos</strong>.</li>
+    <li>La guía no escribe la fórmula de \(f\). Se toma la natural, la misma del Teorema Chino del Resto (en la teoría de esta unidad): <strong>a cada \(n\) le asigna sus restos módulo 4 y módulo 6</strong>.</li>
+  </ul>
+  \[ f(n) = (n \bmod 4,\ n \bmod 6) \]
+  <ul>
+    <li>Está bien definida porque 4 y 6 dividen a 12 (eso se usa en el paso 1).</li>
+    <li>Dato clave: \(\mathbb{Z}_{12}\) tiene 12 elementos y \(\mathbb{Z}_4 \times \mathbb{Z}_6\) tiene \(4 \cdot 6 = 24\). Ese dato decide el inciso d.</li>
+  </ul>
+
+  <span class="paso">Desarme del enunciado</span>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"\(f : \mathbb{Z}_{12} \to \mathbb{Z}_4 \times \mathbb{Z}_6\)"</td><td>de 12 elementos a \(4 \cdot 6 = 24\) pares</td><td>\(f(n) = (n \bmod 4, n \bmod 6)\)</td><td>todo el ejercicio</td></tr>
+      <tr><td>"homomorfismo de anillos"</td><td>respeta la suma y el producto</td><td>dos igualdades</td><td>inciso a</td></tr>
+      <tr><td>"no esté en la imagen"</td><td>un par que ningún \(n\) alcanza</td><td>&mdash;</td><td>inciso b</td></tr>
+      <tr><td>"la preimagen de \((1, 3)\)"</td><td>el \(n\) con \(n \equiv 1 \ (4)\) y \(n \equiv 3 \ (6)\)</td><td>&mdash;</td><td>inciso c</td></tr>
+      <tr><td>"isomorfismo"</td><td>homomorfismo biyectivo</td><td>\(12 \neq 24\)</td><td>inciso d</td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Paso 1 &mdash; a. \(f\) es homomorfismo</span>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Homomorfismo de anillos</span>
+    <p>\(f : R \to S\) es homomorfismo de anillos si para todos \(a, b \in R\):</p>
+    <p>1. \(f(a + b) = f(a) \oplus f(b)\) &nbsp;&nbsp; 2. \(f(a \cdot b) = f(a) \odot f(b)\)</p>
+  </div>
+  <p><strong>Propiedad que se usa (la llamamos (P)).</strong> Si \(m \mid 12\), entonces para todo entero \(x\): \((x \bmod 12) \bmod m = x \bmod m\).</p>
+  <ul>
+    <li>Por qué: si \(x = 12q + r\) con \(r = x \bmod 12\), como \(12 = m \cdot k\), queda \(x = m(kq) + r\), o sea \(x \equiv r \pmod m\).</li>
+    <li>Se usa con \(m = 4\) (\(12 = 4 \cdot 3\)) y con \(m = 6\) (\(12 = 6 \cdot 2\)).</li>
+  </ul>
+  <p>Sean \(a, b \in \mathbb{Z}_{12}\). <strong>La suma</strong> (en \(\mathbb{Z}_{12}\), \(a + b\) significa \((a + b) \bmod 12\)):</p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Renglón</th><th>Por qué</th></tr>
+      <tr><td>\(f(a + b) = \big(((a + b) \bmod 12) \bmod 4,\ ((a + b) \bmod 12) \bmod 6\big)\)</td><td>definición de \(f\)</td></tr>
+      <tr><td>\(= \big((a + b) \bmod 4,\ (a + b) \bmod 6\big)\)</td><td>propiedad (P) con \(m = 4\) y \(m = 6\)</td></tr>
+      <tr><td>\(= \big((a \bmod 4 + b \bmod 4) \bmod 4,\ (a \bmod 6 + b \bmod 6) \bmod 6\big)\)</td><td>la congruencia respeta la suma</td></tr>
+      <tr><td>\(= (a \bmod 4,\ a \bmod 6) \oplus (b \bmod 4,\ b \bmod 6)\)</td><td>suma componente a componente en \(\mathbb{Z}_4 \times \mathbb{Z}_6\)</td></tr>
+      <tr><td>\(= f(a) \oplus f(b)\)</td><td>definición de \(f\)</td></tr>
+    </table>
+  </div>
+  <p><strong>El producto</strong>, exactamente igual cambiando \(+\) por \(\cdot\):</p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Renglón</th><th>Por qué</th></tr>
+      <tr><td>\(f(a \cdot b) = \big(((ab) \bmod 12) \bmod 4,\ ((ab) \bmod 12) \bmod 6\big)\)</td><td>definición de \(f\)</td></tr>
+      <tr><td>\(= \big(ab \bmod 4,\ ab \bmod 6\big)\)</td><td>propiedad (P)</td></tr>
+      <tr><td>\(= \big((a \bmod 4)(b \bmod 4) \bmod 4,\ (a \bmod 6)(b \bmod 6) \bmod 6\big)\)</td><td>la congruencia respeta el producto</td></tr>
+      <tr><td>\(= f(a) \odot f(b)\)</td><td>producto componente a componente y definición de \(f\)</td></tr>
+    </table>
+  </div>
+  <p>Ejemplo chiquito: \(f(7 + 8) = f(3) = (3, 3)\) y \(f(7) \oplus f(8) = (3, 1) \oplus (0, 2) = (3, 3)\). ✔</p>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta a</span>
+    <p>\(f(a + b) = f(a) \oplus f(b)\) y \(f(ab) = f(a) \odot f(b)\) para todos \(a, b\): \(f\) es homomorfismo de anillos.</p>
+  </div>
+
+  <span class="paso">Paso 2 &mdash; b. Un elemento fuera de la imagen</span>
+  <p>La imagen se arma calculando \(f(n)\) para los 12 valores de \(n\):</p>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th>\(n\)</th><td>0</td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td><td>8</td><td>9</td><td>10</td><td>11</td></tr>
+      <tr><th>\(n \bmod 4\)</th><td>0</td><td>1</td><td>2</td><td>3</td><td>0</td><td>1</td><td>2</td><td>3</td><td>0</td><td>1</td><td>2</td><td>3</td></tr>
+      <tr><th>\(n \bmod 6\)</th><td>0</td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>0</td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td></tr>
+    </table>
+  </div>
+  <p>Hay solo 12 pares en la imagen y 24 en total: sobran 12. Mirando la tabla, <strong>las dos coordenadas tienen siempre la misma paridad</strong>: \(n \bmod 4\) y \(n \bmod 6\) son pares si \(n\) es par e impares si \(n\) es impar (porque 4 y 6 son pares).</p>
+  <p>Entonces cualquier par con una coordenada par y la otra impar queda afuera. Por ejemplo \((1, 0)\): pediría un \(n\) impar (resto 1 al dividir por 4) y par (resto 0 al dividir por 6) a la vez.</p>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta b</span>
+    <p>\((1, 0) \notin \operatorname{Im}(f)\). (También \((0, 1)\), \((0, 3)\), \((2, 5)\)..., todos los de paridad mezclada.)</p>
+  </div>
+
+  <span class="paso">Paso 3 &mdash; c. La preimagen de \((1, 3)\)</span>
+  <p>Se busca \(n \in \mathbb{Z}_{12}\) con \(n \bmod 4 = 1\) y \(n \bmod 6 = 3\).</p>
+  <ul>
+    <li>Los \(n\) de \(\mathbb{Z}_{12}\) con resto 3 al dividir por 6: \(3\) y \(9\).</li>
+    <li>\(3 \bmod 4 = 3\) (no sirve); \(9 = 4 \cdot 2 + 1\), \(9 \bmod 4 = 1\) (sirve).</li>
+  </ul>
+  <p>En la tabla del paso 2, la columna \(n = 9\) es la única con \((1, 3)\).</p>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta c</span>
+    <p>\(f^{-1}(1, 3) = 9\): \(f(9) = (9 \bmod 4, 9 \bmod 6) = (1, 3)\).</p>
+  </div>
+
+  <span class="paso">Paso 4 &mdash; d. ¿Es isomorfismo?</span>
+  <div class="caja caja-formula">
+    <p>Isomorfismo de anillos = homomorfismo <strong>biyectivo</strong>.</p>
+  </div>
+  <ul>
+    <li>\(\mathbb{Z}_{12}\) tiene 12 elementos y \(\mathbb{Z}_4 \times \mathbb{Z}_6\) tiene 24: no puede haber una biyección entre conjuntos de distinto tamaño.</li>
+    <li>Concretamente, \(f\) no es sobreyectiva: \((1, 0)\) no tiene preimagen (inciso b).</li>
+    <li>Por qué no aplica el Teorema Chino del Resto: ese teorema necesita módulos <strong>coprimos</strong> cuyo producto sea \(n\). Acá \(mcd(4, 6) = 2\) y \(4 \cdot 6 = 24 \neq 12\). (Con \(12 = 4 \cdot 3\) sí: \(\mathbb{Z}_{12} \cong \mathbb{Z}_4 \times \mathbb{Z}_3\).)</li>
+  </ul>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta d</span>
+    <p>No. \(f\) es homomorfismo pero no es sobreyectiva (su imagen tiene 12 de los 24 pares), así que no es isomorfismo.</p>
+  </div>
+
+  <span class="paso">Verificación (la guía no trae resultados)</span>
+  <p>Con Python se comprobaron las 144 sumas y los 144 productos de \(\mathbb{Z}_{12}\) (todos cumplen las dos igualdades), la imagen tiene 12 pares, \((1, 0)\) no está, y el único \(n\) con \(f(n) = (1, 3)\) es 9.</p>
+</div>

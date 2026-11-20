@@ -1,0 +1,79 @@
+<div class="ej">
+  <span class="tag" data-num-ej="C-13.">Complementaria P3 &middot; Anillos &middot; Ej. 13 &middot; Operación en \(\mathbb{Z}_n\)</span>
+  <h2>Calcular \([35]^{-1} \cdot [2] + [13]^5\) en \(\mathbb{Z}_{234}\)</h2>
+  <div class="enunciado">
+    <p>Efectuar la siguiente operación en \(\mathbb{Z}_{234}\):</p>
+    \[ [35]^{-1} \cdot [2] + [13]^5 \]
+  </div>
+
+  <span class="paso">Qué tema es y por qué</span>
+  <ul>
+    <li>Es una cuenta en el <strong>anillo \(\mathbb{Z}_n\)</strong> con \(n = 234\): todo se reduce módulo 234.</li>
+    <li>Tiene tres piezas: un <strong>inverso multiplicativo</strong> (\([35]^{-1}\)), un producto y una <strong>potencia</strong>. Se respeta el orden de siempre: primero inverso y potencia, después producto, al final la suma.</li>
+  </ul>
+
+  <span class="paso">Desarme del enunciado</span>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"en \(\mathbb{Z}_{234}\)"</td><td>todo módulo 234</td><td>\(234 = 2 \cdot 3^2 \cdot 13\)</td><td>\(n = 234\)</td></tr>
+      <tr><td>"\([35]^{-1}\)"</td><td>el \(y\) con \(35y \equiv 1\)</td><td>Euclides extendido</td><td>Paso 1</td></tr>
+      <tr><td>"\(\cdot [2]\)"</td><td>multiplicar por 2</td><td>&mdash;</td><td>Paso 2</td></tr>
+      <tr><td>"\([13]^5\)"</td><td>13 multiplicado 5 veces, reduciendo</td><td>potencias sucesivas</td><td>Paso 3</td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Paso 1 &mdash; \([35]^{-1}\)</span>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Inverso en \(\mathbb{Z}_n\)</span>
+    <p>\([a]\) tiene inverso en \(\mathbb{Z}_n\) si y solo si \(mcd(a, n) = 1\). El inverso es el coeficiente \(s\) de \(a\) en la identidad de Bézout \(1 = s\,a + t\,n\), que da Euclides extendido.</p>
+  </div>
+  <p>\(35 = 5 \cdot 7\) y \(234 = 2 \cdot 3^2 \cdot 13\) no tienen primos en común: \(mcd(35, 234) = 1\), así que el inverso existe.</p>
+  <p>Tabla de Euclides extendido (filas de arranque \(r = 234, s = 0\) y \(r = 35, s = 1\); cada fila nueva \(r = r_{\text{2 arriba}} - q\, r_{\text{1 arriba}}\), \(s = s_{\text{2 arriba}} - q\, s_{\text{1 arriba}}\); se para en \(r = 1\)):</p>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th>División</th><th>\(q\)</th><th>\(r\)</th><th>\(s\)</th></tr>
+      <tr><td>&mdash;</td><td>&mdash;</td><td>234</td><td>0</td></tr>
+      <tr><td>&mdash;</td><td>&mdash;</td><td>35</td><td>1</td></tr>
+      <tr><td>\(234 = 35 \cdot 6 + 24\)</td><td>6</td><td>24</td><td>\(0 - 6 \cdot 1 = -6\)</td></tr>
+      <tr><td>\(35 = 24 \cdot 1 + 11\)</td><td>1</td><td>11</td><td>\(1 - 1 \cdot (-6) = 7\)</td></tr>
+      <tr><td>\(24 = 11 \cdot 2 + 2\)</td><td>2</td><td>2</td><td>\(-6 - 2 \cdot 7 = -20\)</td></tr>
+      <tr><td>\(11 = 2 \cdot 5 + 1\)</td><td>5</td><td>1</td><td>\(7 - 5 \cdot (-20) = 107\)</td></tr>
+    </table>
+  </div>
+  <p>\([35]^{-1} = [107]\). Comprobación: \(35 \cdot 107 = 3745 = 234 \cdot 16 + 1\) (\(234 \cdot 16 = 3744\)). ✔</p>
+
+  <span class="paso">Paso 2 &mdash; \([35]^{-1} \cdot [2]\)</span>
+  <p>\([107] \cdot [2] = [214]\). Como \(214 \lt 234\), no hay que reducir.</p>
+
+  <span class="paso">Paso 3 &mdash; \([13]^5\)</span>
+  <div class="caja caja-formula">
+    <p>Potencia en \(\mathbb{Z}_n\): \([a]^{k} = [a]^{k-1} \cdot [a]\), reduciendo módulo \(n\) en cada paso (así los números nunca crecen).</p>
+  </div>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th>Potencia</th><th>Cuenta</th><th>Módulo 234</th></tr>
+      <tr><td>\(13^1\)</td><td>13</td><td>13</td></tr>
+      <tr><td>\(13^2\)</td><td>\(13 \cdot 13 = 169\)</td><td>169</td></tr>
+      <tr><td>\(13^3\)</td><td>\(169 \cdot 13 = 2197 = 234 \cdot 9 + 91\)</td><td>91</td></tr>
+      <tr><td>\(13^4\)</td><td>\(91 \cdot 13 = 1183 = 234 \cdot 5 + 13\)</td><td>13</td></tr>
+      <tr><td>\(13^5\)</td><td>\(13 \cdot 13 = 169\)</td><td>169</td></tr>
+    </table>
+  </div>
+  <p>Curiosidad: \(13^4 \equiv 13\), así que las potencias se repiten de a tres (13, 169, 91, 13, 169, ...). \([13]^5 = [169]\).</p>
+
+  <span class="paso">Paso 4 &mdash; La suma</span>
+  \[ [214] + [169] = [383] = [383 - 234] = [149] \]
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>\([35]^{-1} \cdot [2] + [13]^5 = [107] \cdot [2] + [169] = [214] + [169] = [149]\) en \(\mathbb{Z}_{234}\).</p>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Trampa</span>
+    <p>\([35]^{-1}\) no es \(\frac{1}{35}\): en \(\mathbb{Z}_{234}\) no hay fracciones. Es el entero de 0 a 233 que multiplicado por 35 da resto 1.</p>
+  </div>
+
+  <span class="paso">Verificación (la guía no trae resultados)</span>
+  <p>Con Python: <code>pow(35, -1, 234)</code> da 107, <code>pow(13, 5, 234)</code> da 169 y \((2 \cdot 107 + 13^5) \bmod 234 = 149\).</p>
+</div>

@@ -1,0 +1,195 @@
+<div class="bloque">
+  <p class="kicker">Homomorfismo e isomorfismo de anillos</p>
+  <h2>16. Homomorfismos e isomorfismos de anillos</h2>
+
+  <h3>Para qué sirve</h3>
+  <p>
+    Un homomorfismo es una función entre dos anillos que <strong>respeta las cuentas</strong>:
+    da lo mismo operar y después traducir, que traducir y después operar. Si además es biyectiva
+    (isomorfismo), los dos anillos son "el mismo con otros nombres", y se puede hacer una cuenta
+    difícil en uno pasándola al otro, donde es fácil. Es la base del Teorema Chino del Resto.
+  </p>
+
+  <h3>Definición (la de la cátedra)</h3>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Homomorfismo e isomorfismo</span>
+    <p>Sean \((R, +, \cdot)\) y \((S, \oplus, \odot)\) anillos. Una función \(f : R \to S\) es un <strong>homomorfismo de anillos</strong> si para todos \(a, b\) de \(R\):</p>
+    <p>\[ 1)\ f(a + b) = f(a) \oplus f(b) \qquad 2)\ f(a \cdot b) = f(a) \odot f(b) \]</p>
+    <p>Si además \(f\) es <strong>biyectiva</strong>, es un <strong>isomorfismo de anillos</strong>, y se dice que \(R\) y \(S\) son <strong>isomorfos</strong>.</p>
+  </div>
+
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Palabra / símbolo</th><th>Qué quiere decir</th></tr>
+      <tr><td>\(f(a + b) = f(a) \oplus f(b)\)</td><td>sumar en \(R\) y traducir = traducir y sumar en \(S\)</td></tr>
+      <tr><td>\(f(a \cdot b) = f(a) \odot f(b)\)</td><td>lo mismo con el producto</td></tr>
+      <tr><td>inyectiva (uno a uno)</td><td>elementos distintos van a imágenes distintas</td></tr>
+      <tr><td>sobreyectiva</td><td>todo elemento de \(S\) es imagen de alguno de \(R\)</td></tr>
+      <tr><td>biyectiva</td><td>inyectiva y sobreyectiva: una correspondencia uno a uno entre \(R\) y \(S\)</td></tr>
+      <tr><td>imagen, preimagen</td><td>\(f(a)\) es la imagen de \(a\); si \(f(a) = s\), \(a\) es una preimagen de \(s\), \(f^{-1}(s)\)</td></tr>
+    </table>
+  </div>
+
+  <div class="caja caja-formula">
+    <span class="caja-tit">Cómo se prueba (o se refuta)</span>
+    <ol>
+      <li><strong>Homomorfismo:</strong> tomar \(a\), \(b\) genéricos, calcular \(f(a + b)\) y \(f(a) \oplus f(b)\) y ver que dan lo mismo; ídem con el producto. Para refutar alcanza <strong>un</strong> contraejemplo.</li>
+      <li><strong>Isomorfismo:</strong> además, ver que es biyectiva. Entre conjuntos finitos, si tienen <strong>distinta cantidad de elementos</strong> ya no puede serlo; si tienen la misma, alcanza con ver que es inyectiva.</li>
+    </ol>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; De \(\mathbb{Z}\) a \(\mathbb{Z}_n\) (cátedra, ejemplo 12)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>Sea \(f : \mathbb{Z} \to \mathbb{Z}_n\), \(f(x) = [x]\). ¿Es homomorfismo? ¿Es isomorfismo?</p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"\(f(x) = [x]\)"</td><td>a cada entero le asigna su clase (su resto)</td><td>&mdash;</td><td>la función</td></tr>
+      <tr><td>"homomorfismo"</td><td>las dos igualdades</td><td>definición de \(\mathbb{Z}_n\) (sección 10)</td><td>sí / no</td></tr>
+      <tr><td>"isomorfismo"</td><td>¿biyectiva?</td><td>\(\mathbb{Z}\) es infinito, \(\mathbb{Z}_n\) finito</td><td>sí / no</td></tr>
+    </table>
+  </div>
+  <p>Para enteros cualesquiera \(x\), \(y\), usando cómo se definieron las operaciones de \(\mathbb{Z}_n\):</p>
+  <p>\[ f(x + y) = [x + y] = [x] + [y] = f(x) + f(y) \qquad f(x \cdot y) = [xy] = [x] \cdot [y] = f(x) \cdot f(y) \]</p>
+  <p>Pero no es inyectiva: \(f(0) = [0] = [n] = f(n)\), con \(0 \neq n\).</p>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>Es homomorfismo, pero no isomorfismo (no es inyectiva: infinitos enteros van a cada clase).</p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; El anillo de las tablas es \(\mathbb{Z}_5\) disfrazado (cátedra, ejemplo 13)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>En \(R = \{a, b, c, d, e\}\) con las tablas de abajo (son las de la complementaria, ej. 1), sea \(f : R \to \mathbb{Z}_5\) con \(f(a) = 0\), \(f(b) = 1\), \(f(c) = 2\), \(f(d) = 3\), \(f(e) = 4\). ¿Es un isomorfismo?</p>
+  </div>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th>\(+\)</th><th>a</th><th>b</th><th>c</th><th>d</th><th>e</th></tr>
+      <tr><th>a</th><td>a</td><td>b</td><td>c</td><td>d</td><td>e</td></tr>
+      <tr><th>b</th><td>b</td><td>c</td><td>d</td><td>e</td><td>a</td></tr>
+      <tr><th>c</th><td>c</td><td>d</td><td>e</td><td>a</td><td>b</td></tr>
+      <tr><th>d</th><td>d</td><td>e</td><td>a</td><td>b</td><td>c</td></tr>
+      <tr><th>e</th><td>e</td><td>a</td><td>b</td><td>c</td><td>d</td></tr>
+    </table>
+  </div>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th>\(\cdot\)</th><th>a</th><th>b</th><th>c</th><th>d</th><th>e</th></tr>
+      <tr><th>a</th><td>a</td><td>a</td><td>a</td><td>a</td><td>a</td></tr>
+      <tr><th>b</th><td>a</td><td>b</td><td>c</td><td>d</td><td>e</td></tr>
+      <tr><th>c</th><td>a</td><td>c</td><td>e</td><td>b</td><td>d</td></tr>
+      <tr><th>d</th><td>a</td><td>d</td><td>b</td><td>e</td><td>c</td></tr>
+      <tr><th>e</th><td>a</td><td>e</td><td>d</td><td>c</td><td>b</td></tr>
+    </table>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"\(f(a) = 0, \dots, f(e) = 4\)"</td><td>cambiar cada letra por un número</td><td>&mdash;</td><td>la traducción</td></tr>
+      <tr><td>"isomorfismo"</td><td>biyectiva y respeta \(+\) y \(\cdot\)</td><td>5 letras, 5 números distintos</td><td>biyectiva ✔</td></tr>
+    </table>
+  </div>
+  <p>
+    Si en las tablas de \(R\) reemplazás cada letra por su número, obtenés exactamente las tablas de
+    \(\mathbb{Z}_5\) de la sección 10: las tablas "se solapan". Algunos casos:
+  </p>
+  <ul>
+    <li>\(f(c + d) = f(a) = 0\) y \(f(c) + f(d) = 2 + 3 = 5 \equiv 0\). ✔</li>
+    <li>\(f(b \cdot e) = f(e) = 4\) y \(f(b) \cdot f(e) = 1 \cdot 4 = 4\). ✔</li>
+    <li>\(f(c \cdot d) = f(b) = 1\) y \(f(c) \cdot f(d) = 2 \cdot 3 = 6 \equiv 1\). ✔</li>
+  </ul>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">¿Hay que hacer las 50 cuentas?</span>
+    <p>
+      Sin otra herramienta, sí: la cátedra lo dice, son 25 igualdades por cada operación (todas las
+      parejas). En la práctica se hace comparando las tablas casillero por casillero: acá coinciden
+      los 50.
+    </p>
+  </div>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>Sí: \(f\) es un isomorfismo y \(R \cong \mathbb{Z}_5\). Por eso \(R\) es un cuerpo (como \(\mathbb{Z}_5\), sección 11).</p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 3 &mdash; Complejos como matrices (cátedra, ejemplo 14)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>Sea \(f : \mathbb{C} \to S\), con \(S\) las matrices reales \(\begin{bmatrix} a &amp; b \\ -b &amp; a \end{bmatrix}\) y \(f(a + bi) = \begin{bmatrix} a &amp; b \\ -b &amp; a \end{bmatrix}\). Probar que respeta la suma y el producto.</p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"\(a + bi\)"</td><td>un complejo genérico; otro, \(x + yi\)</td><td>\(i^2 = -1\)</td><td>los dos operandos</td></tr>
+      <tr><td>"respeta"</td><td>las dos igualdades de la definición</td><td>suma y producto de matrices</td><td>homomorfismo</td></tr>
+    </table>
+  </div>
+  <p><strong>Suma:</strong> \((a + bi) + (x + yi) = (a + x) + (b + y)i\), así que</p>
+  <p>\[ f\big((a + x) + (b + y)i\big) = \begin{bmatrix} a + x &amp; b + y \\ -(b + y) &amp; a + x \end{bmatrix} = \begin{bmatrix} a &amp; b \\ -b &amp; a \end{bmatrix} + \begin{bmatrix} x &amp; y \\ -y &amp; x \end{bmatrix} \]</p>
+  <p><strong>Producto:</strong> \((a + bi)(x + yi) = ax + ayi + bxi + byi^2 = (ax - by) + (bx + ay)i\), y multiplicando las matrices (fila por columna):</p>
+  <p>\[ \begin{bmatrix} a &amp; b \\ -b &amp; a \end{bmatrix}\begin{bmatrix} x &amp; y \\ -y &amp; x \end{bmatrix} = \begin{bmatrix} ax - by &amp; ay + bx \\ -bx - ay &amp; -by + ax \end{bmatrix} = f\big((ax - by) + (bx + ay)i\big) \]</p>
+  <p>
+    Es biyectiva (cada complejo da una matriz distinta, y cada matriz de \(S\) sale de un complejo),
+    así que es un isomorfismo. La cátedra lo usa para calcular
+    \((2 + 3i) + \frac{(4 - 7i)^3}{i^5}\) con matrices: da \(\begin{bmatrix} 9 &amp; 527 \\ -527 &amp; 9 \end{bmatrix}\), es decir, \(9 + 527i\).
+  </p>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>\(f\) es un isomorfismo de anillos entre \(\mathbb{C}\) y \(S\). Control con complejos: \((4 - 7i)^3 = -524 + 7i\), \(i^5 = i\), \(\frac{-524 + 7i}{i} = 7 + 524i\), y sumando \(2 + 3i\) da \(9 + 527i\). ✔</p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 4 &mdash; Forma de parcial: homomorfismo que no es isomorfismo (parecido a la complementaria, ej. 12)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>
+      Sea \(f : \mathbb{Z}_{20} \to \mathbb{Z}_4 \times \mathbb{Z}_{10}\), \(f(n) = (n \bmod 4,\ n \bmod 10)\).
+      a) Probar que \(f\) es un homomorfismo de anillos.
+      b) Encontrar un elemento de \(\mathbb{Z}_4 \times \mathbb{Z}_{10}\) que no esté en la imagen de \(f\).
+      c) ¿Cuál es la preimagen de \((1, 3)\)?
+      d) ¿Es \(f\) un isomorfismo?
+    </p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"\(n \bmod 4\)"</td><td>el resto de \(n\) por 4 (sección 9)</td><td>&mdash;</td><td>1ra componente</td></tr>
+      <tr><td>"\(\mathbb{Z}_4 \times \mathbb{Z}_{10}\)"</td><td>anillo producto (sección 15)</td><td>\(4 \cdot 10 = 40\) elementos</td><td>el de llegada</td></tr>
+      <tr><td>"\(\mathbb{Z}_{20}\)"</td><td>el de salida</td><td>20 elementos</td><td>\(20 \neq 40\)</td></tr>
+      <tr><td>"preimagen de \((1, 3)\)"</td><td>\(n\) con \(n \equiv 1 \pmod 4\) y \(n \equiv 3 \pmod{10}\)</td><td>probar</td><td>inciso c</td></tr>
+    </table>
+  </div>
+  <h4>Inciso a</h4>
+  <p>
+    Lo que hace que esto funcione: \(4 \mid 20\) y \(10 \mid 20\). Entonces, si en \(\mathbb{Z}_{20}\)
+    se resta un \(20\) para reducir, eso no cambia el resto por 4 ni por 10 (20 es múltiplo de los
+    dos). Por eso, para \(n, k \in \mathbb{Z}_{20}\):
+  </p>
+  <p>\[ f(n + k) = \big((n + k) \bmod 4,\ (n + k) \bmod 10\big) = (n \bmod 4,\ n \bmod 10) \oplus (k \bmod 4,\ k \bmod 10) = f(n) \oplus f(k) \]</p>
+  <p>y lo mismo con el producto, porque en cada componente se puede reducir antes o después de operar (sección 10).</p>
+  <h4>Inciso b</h4>
+  <p>
+    \(n \bmod 4\) y \(n \bmod 10\) tienen siempre la <strong>misma paridad</strong> que \(n\) (4 y 10
+    son pares). Así que \((0, 1)\) no puede ser imagen: pediría \(n\) par y a la vez impar.
+  </p>
+  <h4>Inciso c</h4>
+  <p>Los \(n \equiv 3 \pmod{10}\) en \(\mathbb{Z}_{20}\) son \(3\) y \(13\). Sus restos por 4: \(3\) y \(1\). El que sirve es \(13\): \(f(13) = (1, 3)\).</p>
+  <h4>Inciso d</h4>
+  <p>No: \(\mathbb{Z}_{20}\) tiene 20 elementos y \(\mathbb{Z}_4 \times \mathbb{Z}_{10}\) tiene 40; no puede ser sobreyectiva (el \((0, 1)\) del inciso b queda afuera).</p>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>a) Es homomorfismo. b) \((0, 1)\) (cualquier par con componentes de distinta paridad). c) \(f^{-1}(1, 3) = 13\). d) No es isomorfismo: no es sobreyectiva. (La razón de fondo: \(4\) y \(10\) no son coprimos; la sección 17 dice cuándo sí funciona.)</p>
+  </div>
+</div>

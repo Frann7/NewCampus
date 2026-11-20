@@ -1,0 +1,62 @@
+<div class="ej">
+  <span class="tag" data-num-ej="C-8.">Complementaria P3 &middot; Anillos &middot; Ej. 8 &middot; Ecuación lineal de congruencia</span>
+  <h2>Resolver \(13^{2019} x \equiv 5 \pmod{11}\)</h2>
+  <div class="enunciado">
+    <p>Resolver \(13^{2019} x \equiv 5 \pmod{11}\)</p>
+  </div>
+
+  <span class="paso">Qué tema es y por qué</span>
+  <ul>
+    <li>Es una <strong>ecuación lineal de congruencia</strong> \(ax \equiv b \pmod{m}\) con un coeficiente \(a\) gigante.</li>
+    <li>Primero se reduce \(a\) módulo 11 (es justo el ejercicio 7, con Fermat) y después se despeja \(x\) con el inverso.</li>
+  </ul>
+
+  <span class="paso">Desarme del enunciado</span>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"\(13^{2019} x\)"</td><td>coeficiente de \(x\)</td><td>\(13^{2019} \equiv 6 \pmod{11}\)</td><td>\(a = 6\)</td></tr>
+      <tr><td>"\(\equiv 5\)"</td><td>término independiente</td><td>&mdash;</td><td>\(b = 5\)</td></tr>
+      <tr><td>"(mod 11)"</td><td>módulo</td><td>11 primo</td><td>\(m = 11\)</td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Paso 1 &mdash; Reducir el coeficiente (Fermat)</span>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Pequeño Teorema de Fermat</span>
+    <p>Si \(p\) es primo y \(p \nmid a\), entonces \(a^{p-1} \equiv 1 \pmod{p}\).</p>
+  </div>
+  <ul>
+    <li>\(13 \equiv 2 \pmod{11}\), así que \(13^{2019} \equiv 2^{2019}\).</li>
+    <li>Fermat con \(p = 11\): \(2^{10} \equiv 1\). Y \(2019 = 10 \cdot 201 + 9\).</li>
+    <li>\(2^{2019} = (2^{10})^{201} \cdot 2^9 \equiv 1 \cdot 2^9 = 512 = 11 \cdot 46 + 6 \equiv 6\).</li>
+  </ul>
+  <p>La ecuación queda:</p>
+  \[ 6x \equiv 5 \pmod{11} \]
+
+  <span class="paso">Paso 2 &mdash; Despejar con el inverso</span>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Ecuación lineal de congruencia</span>
+    <p>Si \(mcd(a, m) = 1\), \(ax \equiv b \pmod{m}\) tiene una única solución: \(x \equiv a^{-1} b \pmod{m}\).</p>
+  </div>
+  <p>\(mcd(6, 11) = 1\) (11 es primo). Falta \(6^{-1}\) módulo 11. Con Euclides extendido en tabla (filas de arranque \(r = 11, s = 0\) y \(r = 6, s = 1\); cada fila nueva \(r = r_{\text{2 arriba}} - q\, r_{\text{1 arriba}}\), \(s = s_{\text{2 arriba}} - q\, s_{\text{1 arriba}}\); se para en \(r = 1\)):</p>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th>División</th><th>\(q\)</th><th>\(r\)</th><th>\(s\)</th></tr>
+      <tr><td>&mdash;</td><td>&mdash;</td><td>11</td><td>0</td></tr>
+      <tr><td>&mdash;</td><td>&mdash;</td><td>6</td><td>1</td></tr>
+      <tr><td>\(11 = 6 \cdot 1 + 5\)</td><td>1</td><td>5</td><td>\(0 - 1 \cdot 1 = -1\)</td></tr>
+      <tr><td>\(6 = 5 \cdot 1 + 1\)</td><td>1</td><td>1</td><td>\(1 - 1 \cdot (-1) = 2\)</td></tr>
+    </table>
+  </div>
+  <p>\(6^{-1} = 2\) (comprobación: \(6 \cdot 2 = 12 = 11 + 1\)). Se multiplica la ecuación por 2:</p>
+  \[ x \equiv 2 \cdot 5 = 10 \pmod{11} \]
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>\(x \equiv 10 \pmod{11}\). En \(\mathbb{Z}_{11}\): \(S = \{10\}\) (en \(\mathbb{Z}\): \(x = 10 + 11k\), \(k \in \mathbb{Z}\)).</p>
+  </div>
+
+  <span class="paso">Verificación (la guía no trae resultados)</span>
+  <p>\(6 \cdot 10 = 60 = 11 \cdot 5 + 5 \equiv 5\). ✔ Con Python, recorriendo \(x = 0, \dots, 10\), el único que cumple \(13^{2019} x \equiv 5\) es 10.</p>
+</div>

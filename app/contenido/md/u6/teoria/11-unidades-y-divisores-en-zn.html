@@ -1,0 +1,194 @@
+<div class="bloque">
+  <p class="kicker">Los enteros módulo n</p>
+  <h2>11. Unidades y divisores propios de cero en \(\mathbb{Z}_n\)</h2>
+
+  <h3>Para qué sirve</h3>
+  <p>
+    En la sección 10 viste que en la tabla del producto de \(\mathbb{Z}_6\) aparece el \(0\) fuera
+    de la fila y la columna del \(0\) (\(2 \cdot 3 = 0\)), y en la de \(\mathbb{Z}_5\) no. Esta
+    sección da la regla para saber, <strong>sin armar la tabla</strong>, qué elementos de un
+    \(\mathbb{Z}_n\) tienen inverso (las unidades, sección 3) y cuáles son divisores propios de
+    cero (sección 4). Es lo que piden los ejercicios del tipo "determinar las unidades y los
+    divisores propios de cero de \(\mathbb{Z}_9\)" o "indicar un cuerpo con más de 100 elementos".
+  </p>
+
+  <h3>Los teoremas (los de la cátedra)</h3>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Unidades y cuerpos en \(\mathbb{Z}_n\)</span>
+    <p><strong>Teorema 1:</strong> en \(\mathbb{Z}_n\), \([a]\) es una unidad si y sólo si \(mcd(a, n) = 1\).</p>
+    <p><strong>Teorema 2:</strong> \(\mathbb{Z}_n\) es un cuerpo si y sólo si \(n\) es primo.</p>
+    <p><strong>Y además:</strong> en \(\mathbb{Z}_n\), todo elemento distinto de \([0]\) que no es unidad es divisor propio de cero.</p>
+  </div>
+
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Símbolo / palabra</th><th>Qué es</th></tr>
+      <tr><td>unidad</td><td>un elemento que tiene inverso multiplicativo: existe \([b]\) con \([a][b] = [1]\) (sección 3)</td></tr>
+      <tr><td>\([a]^{-1}\)</td><td>ese inverso; en \(\mathbb{Z}_n\) quiere decir "el \(b\) entre \(0\) y \(n - 1\) tal que \(ab\) deja resto \(1\) al dividir por \(n\)"</td></tr>
+      <tr><td>divisor propio de cero</td><td>un \([a] \neq [0]\) para el que existe \([b] \neq [0]\) con \([a][b] = [0]\) (sección 4)</td></tr>
+      <tr><td>\(mcd(a, n) = 1\)</td><td>\(a\) y \(n\) son <strong>coprimos</strong>: no comparten ningún factor primo (Unidad 5)</td></tr>
+      <tr><td>cuerpo</td><td>anillo conmutativo con unidad donde todo lo que no es el cero tiene inverso (sección 5)</td></tr>
+    </table>
+  </div>
+
+  <h3>De dónde sale (renglón por renglón)</h3>
+  <h4>Si \(mcd(a, n) = 1\), entonces \([a]\) tiene inverso</h4>
+  <ol>
+    <li>Por la identidad de Bézout (Unidad 5), si \(mcd(a, n) = 1\) existen enteros \(x\), \(y\) con \(ax + ny = 1\).</li>
+    <li>Pasando \(ny\) al otro lado: \(ax - 1 = -ny\), que es múltiplo de \(n\). Eso es, por definición (sección 9), \(ax \equiv 1 \pmod{n}\).</li>
+    <li>En \(\mathbb{Z}_n\): \([a][x] = [1]\). Entonces \([x]\) es el inverso de \([a]\).</li>
+  </ol>
+  <p>Fijate que la demostración ya dice <strong>cómo calcular</strong> el inverso: es el coeficiente \(x\) de Bézout. Eso es la sección 12.</p>
+
+  <h4>Si \(d = mcd(a, n) \gt 1\) (y \(a \neq 0\)), entonces \([a]\) es divisor propio de cero</h4>
+  <ol>
+    <li>Como \(d\) divide a \(a\) y a \(n\), los números \(\frac{a}{d}\) y \(\frac{n}{d}\) son enteros.</li>
+    <li>Tomo \(b = \frac{n}{d}\). Como \(d \gt 1\), es \(0 \lt b \lt n\): \([b] \neq [0]\).</li>
+    <li>\(a \cdot b = a \cdot \frac{n}{d} = \frac{a}{d} \cdot n\), que es múltiplo de \(n\). Entonces \([a][b] = [0]\) con los dos distintos de \([0]\).</li>
+  </ol>
+  <p>
+    Y un divisor propio de cero <strong>no</strong> puede tener inverso (sección 4): si
+    \([a][b] = [0]\) y existiera \([a]^{-1}\), multiplicando por él quedaría \([b] = [0]\). Por eso
+    cada elemento no nulo de \(\mathbb{Z}_n\) cae en <strong>exactamente uno</strong> de los dos
+    grupos.
+  </p>
+
+  <h4>Por qué "cuerpo" equivale a "\(n\) primo"</h4>
+  <ul>
+    <li>Si \(n\) es primo, ningún \(a\) entre \(1\) y \(n - 1\) comparte factores con \(n\) (el único factor de \(n\) es \(n\)): todos son unidades. Con la sección 10 (conmutativo, con unidad), es cuerpo.</li>
+    <li>Si \(n\) no es primo, \(n = rs\) con \(1 \lt r, s \lt n\), y \([r][s] = [n] = [0]\): hay divisores propios de cero, y no puede ser cuerpo (sección 5).</li>
+  </ul>
+
+  <div class="caja caja-formula">
+    <span class="caja-tit">El procedimiento</span>
+    <ol>
+      <li>Factorizar \(n\) en primos.</li>
+      <li>Recorrer \(1, 2, \dots, n - 1\): los que no tienen ninguno de esos primos son las <strong>unidades</strong>; los que tienen alguno, <strong>divisores propios de cero</strong>.</li>
+      <li>Para cada divisor de cero \(a\), un "compañero" que lo anula es \(\frac{n}{mcd(a, n)}\).</li>
+    </ol>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; \(\mathbb{Z}_5\) y \(\mathbb{Z}_6\) (cátedra, actividades 7 y 8)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>Para \(\mathbb{Z}_5\) y para \(\mathbb{Z}_6\): identificar las unidades y sus inversos. ¿Tienen divisores propios de cero? ¿Cuáles?</p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"\(\mathbb{Z}_5\)"</td><td>\(n = 5\), primo</td><td>\(5 = 5\)</td><td>todos los no nulos son unidades</td></tr>
+      <tr><td>"\(\mathbb{Z}_6\)"</td><td>\(n = 6\), no primo</td><td>\(6 = 2 \cdot 3\)</td><td>unidades: sin 2 ni 3</td></tr>
+      <tr><td>"sus inversos"</td><td>el \(b\) con \(ab\) de resto \(1\)</td><td>probar en la tabla del producto</td><td>tabla de inversos</td></tr>
+    </table>
+  </div>
+  <p><strong>\(\mathbb{Z}_5\):</strong> como \(5\) es primo, \(1, 2, 3, 4\) son unidades. La tabla del producto de \(\mathbb{Z}_5\) (sección 10):</p>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th>\(\cdot\)</th><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th></tr>
+      <tr><th>0</th><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+      <tr><th>1</th><td>0</td><td>1</td><td>2</td><td>3</td><td>4</td></tr>
+      <tr><th>2</th><td>0</td><td>2</td><td>4</td><td>1</td><td>3</td></tr>
+      <tr><th>3</th><td>0</td><td>3</td><td>1</td><td>4</td><td>2</td></tr>
+      <tr><th>4</th><td>0</td><td>4</td><td>3</td><td>2</td><td>1</td></tr>
+    </table>
+  </div>
+  <p>Buscando el \(1\) en cada fila: \(1 \cdot 1 = 1\), \(2 \cdot 3 = 6 \equiv 1\), \(3 \cdot 2 \equiv 1\), \(4 \cdot 4 = 16 \equiv 1\).</p>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th>\([a]\)</th><td>1</td><td>2</td><td>3</td><td>4</td></tr>
+      <tr><th>\([a]^{-1}\)</th><td>1</td><td>3</td><td>2</td><td>4</td></tr>
+    </table>
+  </div>
+  <p><strong>\(\mathbb{Z}_6\):</strong> \(6 = 2 \cdot 3\). Sin factor \(2\) ni \(3\) quedan \(1\) y \(5\). La tabla del producto de \(\mathbb{Z}_6\):</p>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th>\(\cdot\)</th><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th></tr>
+      <tr><th>0</th><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+      <tr><th>1</th><td>0</td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td></tr>
+      <tr><th>2</th><td>0</td><td>2</td><td>4</td><td>0</td><td>2</td><td>4</td></tr>
+      <tr><th>3</th><td>0</td><td>3</td><td>0</td><td>3</td><td>0</td><td>3</td></tr>
+      <tr><th>4</th><td>0</td><td>4</td><td>2</td><td>0</td><td>4</td><td>2</td></tr>
+      <tr><th>5</th><td>0</td><td>5</td><td>4</td><td>3</td><td>2</td><td>1</td></tr>
+    </table>
+  </div>
+  <ul>
+    <li>Unidades: \([1]^{-1} = [1]\) y \([5]^{-1} = [5]\) (\(5 \cdot 5 = 25 = 4 \cdot 6 + 1\)).</li>
+    <li>Divisores propios de cero: \(2\), \(3\), \(4\). Compañeros: \(2 \cdot 3 = 6 \equiv 0\), \(4 \cdot 3 = 12 \equiv 0\).</li>
+  </ul>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>\(\mathbb{Z}_5\): unidades \(1, 2, 3, 4\) (inversos \(1, 3, 2, 4\)), sin divisores propios de cero: es un cuerpo. \(\mathbb{Z}_6\): unidades \(1\) y \(5\) (cada una es su propio inverso); divisores propios de cero \(2, 3, 4\).</p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; \(\mathbb{Z}_{15}\) (cátedra, ejemplo 7)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>En \(\mathbb{Z}_{15}\): listar las unidades con sus inversos y los divisores propios de cero.</p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"\(\mathbb{Z}_{15}\)"</td><td>restos \(0\) a \(14\)</td><td>\(15 = 3 \cdot 5\)</td><td>primos a evitar: \(3\) y \(5\)</td></tr>
+      <tr><td>"unidades"</td><td>\(mcd(a, 15) = 1\)</td><td>ni múltiplos de 3 ni de 5</td><td>lista de unidades</td></tr>
+      <tr><td>"divisores propios de cero"</td><td>los demás no nulos</td><td>múltiplos de 3 o de 5</td><td>lista de divisores</td></tr>
+    </table>
+  </div>
+  <p>Múltiplos de 3: \(3, 6, 9, 12\). Múltiplos de 5: \(5, 10\). El resto son unidades. Los inversos (cada uno se comprueba multiplicando: por ejemplo \(2 \cdot 8 = 16 = 15 + 1\), \(7 \cdot 13 = 91 = 6 \cdot 15 + 1\)):</p>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th>\([a]\)</th><td>1</td><td>2</td><td>4</td><td>7</td><td>8</td><td>11</td><td>13</td><td>14</td></tr>
+      <tr><th>\([a]^{-1}\)</th><td>1</td><td>8</td><td>4</td><td>13</td><td>2</td><td>11</td><td>7</td><td>14</td></tr>
+    </table>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Un atajo: \([n - 1]\) es siempre su propio inverso</span>
+    <p>\(14 \equiv -1 \pmod{15}\), y \((-1)(-1) = 1\). Pasa en todo \(\mathbb{Z}_n\): \([n-1]^{-1} = [n-1]\).</p>
+  </div>
+  <p>Divisores propios de cero, con su compañero \(\frac{15}{mcd(a, 15)}\): \([3][5] = [15] = [0]\), \([6][10] = [60] = [0]\) (los dos de la cátedra), y también \([9][5] = [45] = [0]\), \([12][5] = [60] = [0]\).</p>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>Unidades: \(1, 2, 4, 7, 8, 11, 13, 14\) (8 unidades, inversos en la tabla). Divisores propios de cero: \(3, 5, 6, 9, 10, 12\) (6 elementos). Control: el \([0]\), más 8 unidades, más 6 divisores, da \(1 + 8 + 6 = 15\) elementos: no falta ninguno.</p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 3 &mdash; Forma de parcial (parecido a la complementaria, ej. 3 y 10)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>a) Para el anillo \(\mathbb{Z}_{14}\) determinar las unidades y los divisores propios de cero. ¿Es un cuerpo? b) Indicar un cuerpo con más de 100 elementos.</p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"\(\mathbb{Z}_{14}\)"</td><td>restos \(0\) a \(13\)</td><td>\(14 = 2 \cdot 7\)</td><td>evitar los primos \(2\) y \(7\)</td></tr>
+      <tr><td>"¿es un cuerpo?"</td><td>¿\(14\) es primo?</td><td>no</td><td>teorema 2</td></tr>
+      <tr><td>"cuerpo con más de 100 elementos"</td><td>un \(\mathbb{Z}_p\) con \(p\) primo y \(p \gt 100\)</td><td>\(101\) es primo</td><td>\(\mathbb{Z}_{101}\)</td></tr>
+    </table>
+  </div>
+  <h4>Inciso a</h4>
+  <ul>
+    <li>Pares (tienen el factor 2): \(2, 4, 6, 8, 10, 12\). Múltiplo de 7: \(7\). Son los <strong>divisores propios de cero</strong>. Un compañero para cada uno: a los pares los anula el \(7\) (\(2 \cdot 7 = 14\)); al \(7\) lo anula el \(2\).</li>
+    <li>Quedan \(1, 3, 5, 9, 11, 13\): las <strong>unidades</strong>. Inversos: \(3 \cdot 5 = 15 \equiv 1\), \(9 \cdot 11 = 99 = 7 \cdot 14 + 1\), \(13 \cdot 13 = 169 = 12 \cdot 14 + 1\).</li>
+    <li>No es cuerpo: \(14\) no es primo, y de hecho \([2][7] = [0]\).</li>
+  </ul>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta a</span>
+    <p>Unidades de \(\mathbb{Z}_{14}\): \(1, 3, 5, 9, 11, 13\) (inversos \(1, 5, 3, 11, 9, 13\)). Divisores propios de cero: \(2, 4, 6, 7, 8, 10, 12\). No es cuerpo.</p>
+  </div>
+  <h4>Inciso b</h4>
+  <p>
+    Por el teorema 2 alcanza un primo mayor que 100. \(101\) es primo: no lo divide ningún primo
+    hasta \(\sqrt{101} \approx 10\) (ni \(2\), ni \(3\), ni \(5\), ni \(7\)).
+  </p>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta b</span>
+    <p>\(\mathbb{Z}_{101}\) es un cuerpo con 101 elementos (cualquier \(\mathbb{Z}_p\) con \(p\) primo mayor que 100 sirve).</p>
+  </div>
+</div>

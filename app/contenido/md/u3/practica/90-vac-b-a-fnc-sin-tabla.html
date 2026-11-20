@@ -1,0 +1,83 @@
+<div class="ej" data-examen="igual" data-examen-ref="Recuperatorio (Act. de vacaciones B) · a">
+  <span class="tag" data-num-ej="V-B.">Recuperatorio (Act. de vacaciones B) &middot; a</span>
+  <h2>La f.n.c. sin tabla a partir de f⁻¹(1) = {001, 010, 100, 111}</h2>
+  <div class="enunciado">
+    <p>a) Sabiendo que \(f : B^3 \to B \,/\, f^{-1}(1) = \{001, 010, 100, 111\}\):</p>
+    <p>i. Halla la expresión algebraica de la forma normal conjuntiva sin usar la tabla.</p>
+    <p>ii. Escribe la expresión con los mínterminos o máxterminos, según corresponda.</p>
+  </div>
+
+  <span class="paso">Qué tema es y por qué</span>
+  <ul>
+    <li>\(f^{-1}(1)\) es la lista de entradas donde \(f\) vale 1. Pero la <strong>f.n.c.</strong> se arma con las entradas donde \(f\) vale <strong>0</strong>: un maxtérmino por cada una.</li>
+    <li>Entonces hay que conseguir \(f^{-1}(0)\) sin tabla: son las entradas de \(B^3\) que no están en \(f^{-1}(1)\).</li>
+    <li>"Según corresponda" en ii: como en i se pidió la f.n.c., corresponde escribirla con <strong>maxtérminos</strong>, \(\prod M(\dots)\).</li>
+  </ul>
+
+  <span class="paso">Desarme del enunciado</span>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"\(f : B^3 \to B\)"</td><td>tres variables, \(x, y, z\)</td><td>\(2^3 = 8\) entradas</td><td>etiquetas de 0 a 7</td></tr>
+      <tr><td>"\(f^{-1}(1) = \{001, 010, 100, 111\}\)"</td><td>donde \(f\) vale 1</td><td>\(1, 2, 4, 7\) en decimal</td><td>4 entradas con 1</td></tr>
+      <tr><td>(lo que falta)</td><td>donde \(f\) vale 0</td><td>\(8 - 4 = 4\) entradas</td><td>\(f^{-1}(0)\): los maxtérminos</td></tr>
+      <tr><td>"forma normal conjuntiva"</td><td>producto de disyunciones fundamentales</td><td>&mdash;</td><td>un factor por cada entrada de \(f^{-1}(0)\)</td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Paso 1 — Pasar \(f^{-1}(1)\) a etiquetas</span>
+  <p>Regla: la entrada \(xyz\) se lee en base 2, etiqueta \(= 4x + 2y + z\).</p>
+  <ul>
+    <li>\(001 = 1\), \(010 = 2\), \(100 = 4\), \(111 = 4 + 2 + 1 = 7\).</li>
+  </ul>
+
+  <span class="paso">Paso 2 — Sacar \(f^{-1}(0)\) sin tabla</span>
+  <p>
+    Cada entrada de \(B^3\) está en \(f^{-1}(1)\) o en \(f^{-1}(0)\), nunca en las dos. De las etiquetas
+    0 a 7 se sacan 1, 2, 4 y 7:
+  </p>
+  \[f^{-1}(0) = \{0, 3, 5, 6\} = \{000, 011, 101, 110\}\]
+
+  <span class="paso">Paso 3 — Un maxtérmino por cada entrada con 0 (inciso i)</span>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Regla del maxtérmino</span>
+    <p>Variable que vale <strong>0</strong> &rarr; sin barra. Variable que vale <strong>1</strong> &rarr; con barra. Así la suma vale 0 solo en esa entrada.</p>
+  </div>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th>et.</th><th>\(xyz\)</th><th>cada variable</th><th>maxtérmino</th></tr>
+      <tr><td>0</td><td>000</td><td>\(x,\ y,\ z\)</td><td>\(x + y + z\)</td></tr>
+      <tr><td>3</td><td>011</td><td>\(x,\ \overline{y},\ \overline{z}\)</td><td>\(x + \overline{y} + \overline{z}\)</td></tr>
+      <tr><td>5</td><td>101</td><td>\(\overline{x},\ y,\ \overline{z}\)</td><td>\(\overline{x} + y + \overline{z}\)</td></tr>
+      <tr><td>6</td><td>110</td><td>\(\overline{x},\ \overline{y},\ z\)</td><td>\(\overline{x} + \overline{y} + z\)</td></tr>
+    </table>
+  </div>
+  <p>Control de uno: en \(011\), \(x + \overline{y} + \overline{z} = 0 + 0 + 0 = 0\); en cualquier otra entrada algún sumando cambia a 1.</p>
+  \[f(x, y, z) = (x + y + z)(x + \overline{y} + \overline{z})(\overline{x} + y + \overline{z})(\overline{x} + \overline{y} + z)\]
+
+  <span class="paso">Paso 4 — Con maxtérminos (inciso ii)</span>
+  <p>\(\prod M(\dots)\) lista las etiquetas donde \(f\) vale 0:</p>
+  \[f = \prod M(0, 3, 5, 6)\]
+  <p>(La misma función con mintérminos sería \(\sum m(1, 2, 4, 7)\), las etiquetas de \(f^{-1}(1)\).)</p>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">El error típico</span>
+    <p>
+      Armar maxtérminos con las entradas de \(f^{-1}(1)\). Eso da un producto que vale 0 justo donde
+      \(f\) vale 1: la función complementaria. La f.n.c. se arma siempre con los ceros.
+    </p>
+  </div>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>i) \(f(x, y, z) = (x + y + z)(x + \overline{y} + \overline{z})(\overline{x} + y + \overline{z})(\overline{x} + \overline{y} + z)\)</p>
+    <p>ii) \(f = \prod M(0, 3, 5, 6)\)</p>
+  </div>
+
+  <span class="paso">Verificación</span>
+  <p>
+    Las actividades no traen resultados. Evaluando el producto en las 8 entradas con Python, vale 1
+    exactamente en \(001, 010, 100, 111\). Es la función que vale 1 cuando hay una cantidad impar de
+    unos.
+  </p>
+</div>

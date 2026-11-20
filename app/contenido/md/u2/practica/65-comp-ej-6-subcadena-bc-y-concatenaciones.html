@@ -1,0 +1,72 @@
+<div class="ej">
+  <span class="tag" data-num-ej="CL-6.">Complementaria P1 &middot; Lenguajes &middot; Ej. 6 &middot; Contar cadenas y pertenencia a AB, BA, BA²</span>
+  <h2>bc exactamente una vez, empiezan con c y terminan con a, y aaaaab</h2>
+  <div class="enunciado">
+    <p>Dado el alfabeto \(\Sigma = \{a, b, c, d, e\}\), determinar:</p>
+    <p>a. ¿Cuántas cadenas de \(\Sigma^4\) contienen la subcadena \(bc\) exactamente una vez?</p>
+    <p>b. ¿Cuántas cadenas de \(\Sigma^6\) comienzan con \(c\) y terminan con \(a\)?</p>
+    <p>c. Sea \(A\) el lenguaje definido de \(\Sigma^*\) que contiene un número impar de letras \(a\) y \(B\) es el lenguaje definido por el conjunto de cadenas que tienen a \(ac\) como prefijo propio:</p>
+    <p>&nbsp;&nbsp;i. Escribir 5 elementos de cada lenguaje \(A\) y \(B\).</p>
+    <p>&nbsp;&nbsp;ii. Determinar si la cadena \(w = aaaaab\) está en la concatenación \(AB\) o en la concatenación \(BA\) o en el lenguaje \(BA^2\).</p>
+  </div>
+
+  <span class="paso">Qué tema es y por qué</span>
+  <ul>
+    <li>a y b: contar cadenas de largo fijo con la <strong>regla del producto</strong> (opciones por lugar, multiplicadas) y la <strong>regla de la suma</strong> (casos que no se pisan, sumados).</li>
+    <li>c: pertenencia a una concatenación: \(w \in XY\) si \(w\) se puede cortar en \(w = uv\) con \(u \in X\) y \(v \in Y\).</li>
+  </ul>
+
+  <span class="paso">Desarme del enunciado</span>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>A dónde va</th></tr>
+      <tr><td>"\(\Sigma = \{a, b, c, d, e\}\)"</td><td>5 opciones por lugar libre</td><td>\(|\Sigma| = 5\)</td></tr>
+      <tr><td>"\(\Sigma^4\)"</td><td>cadenas de largo exactamente 4</td><td>lugares 1, 2, 3, 4</td></tr>
+      <tr><td>"\(bc\) exactamente una vez"</td><td>aparece \(bc\) en dos lugares seguidos, y en ningún otro par</td><td>inciso a</td></tr>
+      <tr><td>"número impar de letras \(a\)"</td><td>1, 3, 5… letras \(a\) (las otras letras, libres)</td><td>lenguaje \(A\)</td></tr>
+      <tr><td>"\(ac\) como prefijo propio"</td><td>empieza con \(ac\) y sigue al menos un símbolo más</td><td>lenguaje \(B\)</td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Paso 1 &mdash; a. bc exactamente una vez en \(\Sigma^4\)</span>
+  <p>El par \(bc\) puede empezar en el lugar 1, 2 o 3. Se cuenta cada posición y se cuida que no aparezca otro \(bc\):</p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Dónde va \(bc\)</th><th>Forma</th><th>¿Puede aparecer otro \(bc\)?</th><th>Cuenta</th></tr>
+      <tr><td>lugares 1-2</td><td>\(b\,c\,\_\,\_\)</td><td>sí, en 3-4 (\(bcbc\)): hay que restarlo</td><td>\(5 \cdot 5 - 1 = 24\)</td></tr>
+      <tr><td>lugares 2-3</td><td>\(\_\,b\,c\,\_\)</td><td>no: el par 1-2 termina en \(b\) (no en \(c\)) y el par 3-4 empieza con \(c\) (no con \(b\))</td><td>\(5 \cdot 5 = 25\)</td></tr>
+      <tr><td>lugares 3-4</td><td>\(\_\,\_\,b\,c\)</td><td>sí, en 1-2 (\(bcbc\)): hay que restarlo</td><td>\(5 \cdot 5 - 1 = 24\)</td></tr>
+    </table>
+  </div>
+  <p>Los tres casos no se pisan (una cadena con un solo \(bc\) lo tiene en un solo lugar), así que se suman:</p>
+  <p>\[24 + 25 + 24 = 73\]</p>
+  <p>Otra forma de verlo: con al menos un \(bc\) hay \(3 \cdot 25 - 1 = 74\) (la cadena \(bcbc\) se contó dos veces, se descuenta una); de esas, solo \(bcbc\) lo tiene dos veces: \(74 - 1 = 73\).</p>
+
+  <span class="paso">Paso 2 &mdash; b. \(\Sigma^6\), empiezan con c y terminan con a</span>
+  <p>Regla del producto: \(c\,\_\,\_\,\_\,\_\,a\): los extremos tienen 1 opción y los 4 del medio, 5 cada uno.</p>
+  <p>\[1 \cdot 5^4 \cdot 1 = 625\]</p>
+
+  <span class="paso">Paso 3 &mdash; c.i. Cinco elementos de A y de B</span>
+  <ul>
+    <li>\(A\) (cantidad impar de \(a\)): \(a,\ aaa,\ ab,\ bca,\ aaaed\).</li>
+    <li>\(B\) (prefijo propio \(ac\), largo al menos 3): \(aca,\ acb,\ acc,\ acde,\ aceeb\).</li>
+  </ul>
+
+  <span class="paso">Paso 4 &mdash; c.ii. ¿aaaaab está en AB, BA o BA²?</span>
+  <p>Regla: \(w \in XY\) si hay un corte \(w = uv\) con \(u \in X\) y \(v \in Y\). La clave está en \(B\): <strong>toda cadena de \(B\) contiene la letra \(c\)</strong> (empieza con \(ac\)). Y \(w = aaaaab\) no tiene ninguna \(c\).</p>
+  <ul>
+    <li><strong>\(AB\):</strong> el pedazo de la derecha \(v\) tendría que estar en \(B\), o sea, tener una \(c\). Ningún pedazo de \(w\) tiene \(c\). No está.</li>
+    <li><strong>\(BA\):</strong> el pedazo de la izquierda \(u\) tendría que empezar con \(ac\), pero \(w\) empieza con \(aa\). No está.</li>
+    <li><strong>\(BA^2\):</strong> \(BA^2 = B\,A\,A\); también empieza con una cadena de \(B\), así que también tendría que empezar con \(ac\). No está.</li>
+  </ul>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>a. <strong>73</strong> &nbsp;&nbsp; b. <strong>625</strong></p>
+    <p>c.i. \(A\): \(a, aaa, ab, bca, aaaed\); \(B\): \(aca, acb, acc, acde, aceeb\).</p>
+    <p>c.ii. \(w = aaaaab\) <strong>no</strong> está en \(AB\), ni en \(BA\), ni en \(BA^2\): las tres concatenaciones llevan una cadena de \(B\), que siempre tiene una \(c\), y \(w\) no tiene ninguna.</p>
+  </div>
+
+  <span class="paso">Verificación</span>
+  <p>Con Python se recorrieron las \(5^4 = 625\) cadenas de \(\Sigma^4\) (73 tienen un solo \(bc\)), las de \(\Sigma^6\) (625 empiezan con \(c\) y terminan con \(a\)) y todos los cortes posibles de \(aaaaab\) para las tres concatenaciones (ninguno sirve).</p>
+</div>

@@ -1,0 +1,114 @@
+<div class="bloque">
+  <p class="kicker">Codificación</p>
+  <h2>14. Canal binario simétrico y patrón de error</h2>
+
+  <h3>Para qué sirve</h3>
+  <p>
+    Acá arranca la teoría de la codificación. Un mensaje viaja como una palabra de ceros y unos
+    (un elemento de \(\mathbb{Z}_2^{n}\), sección 4) por un canal con ruido, que a veces da vuelta
+    un bit. Antes de ver cómo detectar y corregir errores, hay que saber <strong>describir</strong> un
+    error y calcular <strong>qué tan probable</strong> es.
+  </p>
+
+  <h3>El modelo</h3>
+  <ul>
+    <li><strong>Canal binario simétrico:</strong> cada bit llega cambiado con probabilidad \(p\) y bien con probabilidad \(1 - p\), lo mismo para un 0 que para un 1 ("simétrico"). Cada bit es independiente de los demás.</li>
+    <li>Se envía \(c \in \mathbb{Z}_2^{n}\) y se recibe \(r \in \mathbb{Z}_2^{n}\).</li>
+  </ul>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Patrón de error</span>
+    <p>\[ r = c + e \qquad\Longleftrightarrow\qquad e = c + r \]</p>
+    <p>\(e\) tiene un 1 en cada posición donde el canal se equivocó.</p>
+  </div>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Símbolo</th><th>Qué quiere decir</th></tr>
+      <tr><td class="lbl">\(c\)</td><td>La palabra enviada.</td></tr>
+      <tr><td class="lbl">\(r\)</td><td>La palabra recibida.</td></tr>
+      <tr><td class="lbl">\(e\)</td><td>El <strong>patrón de error</strong>: 1 donde \(c\) y \(r\) difieren, 0 donde coinciden.</td></tr>
+      <tr><td class="lbl">\(p\)</td><td>Probabilidad de que <strong>un</strong> bit llegue mal.</td></tr>
+      <tr><td class="lbl">\(n\)</td><td>Cantidad de bits de la palabra.</td></tr>
+    </table>
+  </div>
+  <p>
+    <strong>Por qué \(e = c + r\):</strong> en \(\mathbb{Z}_2^{n}\) cada palabra es su propio inverso
+    (\(c + c = 0\), sección 4). Sumando \(c\) a los dos lados de \(r = c + e\): \(c + r = c + c + e = e\).
+    En la práctica: se suman bit a bit y queda 1 donde difieren.
+  </p>
+
+  <div class="caja caja-formula">
+    <span class="caja-tit">Teorema (cátedra)</span>
+    <p>Enviando \(c \in \mathbb{Z}_2^{n}\) por un canal binario simétrico con probabilidad de error \(p\):</p>
+    <ul>
+      <li>la probabilidad de recibir \(r = c + e\), con \(e\) un patrón <strong>particular</strong> con \(k\) unos, es \(\;p^{k}(1 - p)^{n-k}\);</li>
+      <li>la probabilidad de que ocurran \(k\) errores (en cualquier lugar) es \(\;\binom{n}{k}\, p^{k}(1 - p)^{n-k}\).</li>
+    </ul>
+  </div>
+  <h4>De dónde sale</h4>
+  <ul>
+    <li>Un patrón particular fija <strong>qué</strong> bits fallan: \(k\) bits fallan (\(p\) cada uno) y \(n - k\) llegan bien (\(1 - p\) cada uno). Por independencia, se multiplican.</li>
+    <li>"\(k\) errores" sin decir dónde junta todos los patrones con \(k\) unos. Hay \(\binom{n}{k}\) formas de elegir las posiciones (combinatoria, Unidad 1), todas con la misma probabilidad. Es la Binomial.</li>
+  </ul>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">"Recibir esta palabra" o "recibir con \(k\) errores"</span>
+    <p>
+      Si el enunciado da la palabra recibida, el patrón está fijo: <strong>sin</strong> combinatorio. Si
+      solo dice cuántos errores, <strong>con</strong> \(\binom{n}{k}\). Es la diferencia entre los dos
+      renglones del teorema.
+    </p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; El de la cátedra: \(c = 10110\), \(p = 0{,}05\)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>Se envía \(c = 10110\) con \(p = 0{,}05\). Calcular la probabilidad de: a) recibir sin errores; b) recibir \(r = 00110\); c) recibir \(r = 00100\); d) recibir una palabra con dos errores.</p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"\(c = 10110\)"</td><td>5 bits</td><td>&mdash;</td><td>\(n = 5\)</td></tr>
+      <tr><td>"\(p = 0{,}05\)"</td><td>cada bit falla con 5 %</td><td>\(1 - 0{,}05\)</td><td>\(1 - p = 0{,}95\)</td></tr>
+      <tr><td>"recibir \(r = 00110\)"</td><td>patrón fijo</td><td>\(e = 10110 + 00110 = 10000\)</td><td>\(k = 1\), sin combinatorio</td></tr>
+      <tr><td>"recibir \(r = 00100\)"</td><td>patrón fijo</td><td>\(e = 10110 + 00100 = 10010\)</td><td>\(k = 2\), sin combinatorio</td></tr>
+      <tr><td>"con dos errores"</td><td>cualquier patrón con dos unos</td><td>\(\binom{5}{2} = 10\)</td><td>\(k = 2\), con combinatorio</td></tr>
+    </table>
+  </div>
+  <ul>
+    <li><strong>a)</strong> \(e = 00000\), \(k = 0\): \(\;0{,}95^{5} \approx 0{,}7738\).</li>
+    <li><strong>b)</strong> \(k = 1\): \(\;0{,}05 \cdot 0{,}95^{4} \approx 0{,}0407\).</li>
+    <li><strong>c)</strong> \(k = 2\): \(\;0{,}05^{2} \cdot 0{,}95^{3} \approx 0{,}0021\).</li>
+    <li><strong>d)</strong> \(\binom{5}{2}\, 0{,}05^{2} \cdot 0{,}95^{3} = 10 \cdot 0{,}0021434 \approx 0{,}0214\).</li>
+  </ul>
+  <div class="caja caja-resp"><span class="caja-tit">Respuesta</span><p>a) \(\approx 0{,}77\); b) \(\approx 0{,}041\); c) \(\approx 0{,}002\); d) \(\approx 0{,}021\) (los valores de la cátedra).</p></div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; Estilo parcial: siete bits</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>Se transmite \(c = 1101001\) por un canal binario simétrico con \(p = 0{,}02\). a) Si se recibe \(r = 1001011\), hallar el patrón de error y la probabilidad de recibir exactamente esa palabra. b) Probabilidad de recibir con exactamente dos errores. c) Probabilidad de cometer a lo sumo un error.</p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"\(c = 1101001\)"</td><td>7 bits</td><td>&mdash;</td><td>\(n = 7\)</td></tr>
+      <tr><td>"\(p = 0{,}02\)"</td><td>probabilidad de error por bit</td><td>\(1 - 0{,}02\)</td><td>\(1 - p = 0{,}98\)</td></tr>
+      <tr><td>"se recibe \(r = 1001011\)"</td><td>patrón fijo</td><td>\(e = c + r\)</td><td>inciso a</td></tr>
+      <tr><td>"a lo sumo un error"</td><td>0 errores o 1 error</td><td>se suman los dos casos</td><td>inciso c</td></tr>
+    </table>
+  </div>
+  <h4>a)</h4>
+  <p>\[ \begin{array}{r} 1101001 \\ +\;1001011 \\ \hline 0100010 \end{array} \]</p>
+  <p>\(e = 0100010\): fallaron los bits 2 y 6, \(k = 2\). Fórmula del patrón particular: \(p^{k}(1-p)^{n-k}\).</p>
+  <p>\[ 0{,}02^{2} \cdot 0{,}98^{5} = 0{,}0004 \cdot 0{,}90392 \approx 0{,}00036 \]</p>
+  <h4>b)</h4>
+  <p>Fórmula de \(k\) errores: \(\binom{n}{k} p^{k}(1-p)^{n-k}\), con \(\binom{7}{2} = 21\):</p>
+  <p>\[ 21 \cdot 0{,}02^{2} \cdot 0{,}98^{5} \approx 0{,}0076 \]</p>
+  <h4>c)</h4>
+  <p>\[ \binom{7}{0}\,0{,}98^{7} + \binom{7}{1}\,0{,}02 \cdot 0{,}98^{6} \approx 0{,}8681 + 0{,}1240 = 0{,}9921 \]</p>
+  <div class="caja caja-resp"><span class="caja-tit">Respuesta</span><p>a) \(e = 0100010\), probabilidad \(\approx 0{,}00036\). b) \(\approx 0{,}0076\). c) \(\approx 0{,}9921\).</p></div>
+</div>

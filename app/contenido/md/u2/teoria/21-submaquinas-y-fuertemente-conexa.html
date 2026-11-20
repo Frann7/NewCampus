@@ -1,0 +1,249 @@
+<div class="bloque" data-examen="igual" data-examen-ref="Parcial 1 2026 · ej. 4 d" data-examen-nota="El ítem d) pidió una submáquina que no sea un sumidero e indicar si es fuertemente conexa. El Ejemplo 2 lo hace con la máquina de la sección 13.">
+  <p class="kicker">Propiedades de las máquinas</p>
+  <h2>21. Submáquinas y máquinas fuertemente conexas</h2>
+
+  <h3>Para qué sirve</h3>
+  <p>
+    Una submáquina es un pedazo de la máquina que <strong>funciona solo</strong>: si se arranca ahí
+    adentro, nunca se sale. Fuertemente conexa quiere decir que desde cualquier estado se llega a
+    cualquier otro.
+  </p>
+
+  <h3>Definición</h3>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Submáquina</span>
+    <p>
+      Sean \(S_1 \subseteq S\) e \(I_1 \subseteq I\). Si \(\nu_1 = \nu|_{S_1 \times I_1} : S_1 \times I_1 \to S_1\)
+      (o sea, con estados de \(S_1\) y entradas de \(I_1\) nunca se sale de \(S_1\)), entonces, con
+      \(\omega_1 = \omega|_{S_1 \times I_1}\), \(M_1 = (S_1, I_1, O_1, \nu_1, \omega_1)\) es una
+      <strong>submáquina</strong> de \(M\).
+    </p>
+  </div>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Fuertemente conexa</span>
+    <p>Una máquina es <strong>fuertemente conexa</strong> si para cualesquiera \(s_i, s_j \in S\), \(s_j\) se puede alcanzar desde \(s_i\).</p>
+  </div>
+
+  <h3>Qué significa cada símbolo</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Símbolo</th><th>Se lee</th><th>Qué es</th></tr>
+      <tr><td>\(\nu|_{S_1 \times I_1}\)</td><td>\(\nu\) restringida a \(S_1 \times I_1\)</td><td>la misma \(\nu\), mirando solo esos estados y esas entradas</td></tr>
+      <tr><td>"\(: S_1 \times I_1 \to S_1\)"</td><td>con llegada en \(S_1\)</td><td>la condición: <strong>ninguna flecha sale del grupo</strong></td></tr>
+      <tr><td>\(O_1\)</td><td>&mdash;</td><td>las salidas que aparecen (puede ser todo \(O\))</td></tr>
+    </table>
+  </div>
+
+  <h3>Cómo se busca</h3>
+  <ol>
+    <li>Elegir un grupo de estados \(S_1\) (con \(I_1 = I\), salvo que se pida otra cosa).</li>
+    <li>Mirar cada flecha que sale de un estado de \(S_1\) con una entrada de \(I_1\): si alguna termina afuera de \(S_1\), <strong>no</strong> es submáquina.</li>
+    <li>Truco: tomar un estado y agregar todo lo alcanzable desde él. Ese grupo siempre es una submáquina.</li>
+    <li>Fuertemente conexa: dentro del grupo, ver que desde cada estado se llega a todos los otros.</li>
+  </ol>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Un sumidero es una submáquina</span>
+    <p>
+      \(S_1 = \{s\}\) con \(s\) sumidero cumple la condición (todas sus flechas vuelven a \(s\)), y es
+      fuertemente conexa (trivialmente). Por eso el parcial pidió una submáquina <strong>que no sea
+      un sumidero</strong>: la respuesta fácil no vale.
+    </p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; De la cátedra (Ejemplos 21 y 22)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>(a) En la máquina del Ejemplo 20, ¿es \(S_1 = \{s_1, s_2\}\) una submáquina? ¿Es fuertemente conexa? (b) En la de retardo 2, ¿qué pasa con \(S_1 = \{s_3, s_4, s_5, s_6\}\)?</p>
+  </div>
+  <div class="pd-grafico af" data-g="u2t-e20">
+    <svg viewBox="-61 -31 497 108" width="497" height="108" role="img" aria-label="Máquina de los Ejemplos 20 y 21 de la cátedra">
+      <path class="arco" d="M19.0,0.0 L173.0,0.0"/>
+      <path class="punta" d="M173.0,0.0 L164.0,4.5 L164.0,-4.5 Z"/>
+      <text class="rot" x="96.0" y="-10.0" text-anchor="middle" dominant-baseline="central">1,0 | 0,0</text>
+      <path class="arco" d="M200.9,16.8 C232.0,51.2 152.0,51.2 183.1,16.8"/>
+      <path class="punta" d="M183.1,16.8 L180.4,26.5 L173.7,20.4 Z"/>
+      <text class="rot" x="192.0" y="56.0" text-anchor="middle" dominant-baseline="central">0,0</text>
+      <path class="arco" d="M211.0,0.0 L365.0,0.0"/>
+      <path class="punta" d="M365.0,0.0 L356.0,4.5 L356.0,-4.5 Z"/>
+      <text class="rot" x="288.0" y="-10.0" text-anchor="middle" dominant-baseline="central">1,0</text>
+      <path class="arco" d="M392.9,16.8 C424.0,51.2 344.0,51.2 375.1,16.8"/>
+      <path class="punta" d="M375.1,16.8 L372.4,26.5 L365.7,20.4 Z"/>
+      <text class="rot" x="384.0" y="56.0" text-anchor="middle" dominant-baseline="central">1,1 | 0,0</text>
+      <path class="arco" d="M-49.0,0.0 L-19.0,0.0"/>
+      <path class="punta" d="M-19.0,0.0 L-28.0,4.5 L-28.0,-4.5 Z"/>
+      <g class="estado">
+        <circle class="borde" cx="0.0" cy="0.0" r="19"/>
+        <text class="nom" x="0.0" y="0.0" text-anchor="middle" dominant-baseline="central">s0</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="192.0" cy="0.0" r="19"/>
+        <text class="nom" x="192.0" y="0.0" text-anchor="middle" dominant-baseline="central">s1</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="384.0" cy="0.0" r="19"/>
+        <text class="nom" x="384.0" y="0.0" text-anchor="middle" dominant-baseline="central">s2</text>
+      </g>
+    </svg>
+  </div>
+  <div class="pd-grafico af" data-g="u2t-retardo2">
+    <svg viewBox="-61 -84 461 416" width="461" height="416" role="img" aria-label="Máquina de retardo de dos unidades">
+      <path class="arco" d="M15.4,112.9 L128.6,31.1"/>
+      <path class="punta" d="M128.6,31.1 L123.9,40.0 L118.7,32.7 Z"/>
+      <text class="rot" x="62.2" y="58.5" text-anchor="middle" dominant-baseline="central">0,0</text>
+      <path class="arco" d="M15.4,135.1 L128.6,216.9"/>
+      <path class="punta" d="M128.6,216.9 L118.7,215.3 L123.9,208.0 Z"/>
+      <text class="rot" x="81.8" y="162.5" text-anchor="middle" dominant-baseline="central">1,0</text>
+      <path class="arco" d="M162.1,14.1 L285.9,-26.1"/>
+      <path class="punta" d="M285.9,-26.1 L278.8,-19.1 L276.0,-27.6 Z"/>
+      <text class="rot" x="219.8" y="-18.9" text-anchor="middle" dominant-baseline="central">0,0</text>
+      <path class="arco" d="M162.1,25.9 L285.9,66.1"/>
+      <path class="punta" d="M285.9,66.1 L276.0,67.6 L278.8,59.1 Z"/>
+      <text class="rot" x="228.2" y="33.1" text-anchor="middle" dominant-baseline="central">1,0</text>
+      <path class="arco" d="M162.1,222.1 L285.9,181.9"/>
+      <path class="punta" d="M285.9,181.9 L278.8,188.9 L276.0,180.4 Z"/>
+      <text class="rot" x="219.8" y="189.1" text-anchor="middle" dominant-baseline="central">0,0</text>
+      <path class="arco" d="M162.1,233.9 L285.9,274.1"/>
+      <path class="punta" d="M285.9,274.1 L276.0,275.6 L278.8,267.1 Z"/>
+      <text class="rot" x="228.2" y="241.1" text-anchor="middle" dominant-baseline="central">1,0</text>
+      <path class="arco" d="M320.8,-40.9 C355.2,-72.0 355.2,8.0 320.8,-23.1"/>
+      <path class="punta" d="M320.8,-23.1 L330.5,-20.4 L324.4,-13.7 Z"/>
+      <text class="rot" x="366.4" y="-32.0" text-anchor="middle" dominant-baseline="central">0,0</text>
+      <path class="arco" d="M304.0,-13.0 L304.0,53.0"/>
+      <path class="punta" d="M304.0,53.0 L299.5,44.0 L308.5,44.0 Z"/>
+      <text class="rot" x="282.6" y="20.0" text-anchor="middle" dominant-baseline="central">1,0</text>
+      <path class="arco" d="M314.8,87.6 Q340.0,124.0 314.8,160.4"/>
+      <path class="punta" d="M314.8,160.4 L316.2,150.4 L323.6,155.5 Z"/>
+      <text class="rot" x="348.8" y="124.0" text-anchor="middle" dominant-baseline="central">0,0</text>
+      <path class="arco" d="M316.4,86.4 Q394.0,176.0 316.4,265.6"/>
+      <path class="punta" d="M316.4,265.6 L318.9,255.9 L325.7,261.8 Z"/>
+      <text class="rot" x="376.6" y="176.0" text-anchor="middle" dominant-baseline="central">1,0</text>
+      <path class="arco" d="M293.2,160.4 Q268.0,124.0 293.2,87.6"/>
+      <path class="punta" d="M293.2,87.6 L291.8,97.6 L284.4,92.5 Z"/>
+      <text class="rot" x="259.2" y="124.0" text-anchor="middle" dominant-baseline="central">1,1</text>
+      <path class="arco" d="M288.4,165.2 Q154.0,72.0 288.4,-21.2"/>
+      <path class="punta" d="M288.4,-21.2 L283.6,-12.3 L278.4,-19.7 Z"/>
+      <text class="rot" x="199.8" y="72.0" text-anchor="middle" dominant-baseline="central">0,1</text>
+      <path class="arco" d="M304.0,261.0 L304.0,195.0"/>
+      <path class="punta" d="M304.0,195.0 L308.5,204.0 L299.5,204.0 Z"/>
+      <text class="rot" x="325.4" y="228.0" text-anchor="middle" dominant-baseline="central">0,1</text>
+      <path class="arco" d="M320.8,271.1 C355.2,240.0 355.2,320.0 320.8,288.9"/>
+      <path class="punta" d="M320.8,288.9 L330.5,291.6 L324.4,298.3 Z"/>
+      <text class="rot" x="366.4" y="280.0" text-anchor="middle" dominant-baseline="central">1,1</text>
+      <path class="arco" d="M-49.0,124.0 L-19.0,124.0"/>
+      <path class="punta" d="M-19.0,124.0 L-28.0,128.5 L-28.0,119.5 Z"/>
+      <g class="estado">
+        <circle class="borde" cx="0.0" cy="124.0" r="19"/>
+        <text class="nom" x="0.0" y="124.0" text-anchor="middle" dominant-baseline="central">s0</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="144.0" cy="20.0" r="19"/>
+        <text class="nom" x="144.0" y="20.0" text-anchor="middle" dominant-baseline="central">s1</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="144.0" cy="228.0" r="19"/>
+        <text class="nom" x="144.0" y="228.0" text-anchor="middle" dominant-baseline="central">s2</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="304.0" cy="-32.0" r="19"/>
+        <text class="nom" x="304.0" y="-32.0" text-anchor="middle" dominant-baseline="central">s3</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="304.0" cy="72.0" r="19"/>
+        <text class="nom" x="304.0" y="72.0" text-anchor="middle" dominant-baseline="central">s4</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="304.0" cy="176.0" r="19"/>
+        <text class="nom" x="304.0" y="176.0" text-anchor="middle" dominant-baseline="central">s5</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="304.0" cy="280.0" r="19"/>
+        <text class="nom" x="304.0" y="280.0" text-anchor="middle" dominant-baseline="central">s6</text>
+      </g>
+    </svg>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Grupo</th><th>¿Sale alguna flecha?</th><th>¿De cada uno se llega a cada otro?</th><th>A dónde va</th></tr>
+      <tr><td>\(\{s_1, s_2\}\)</td><td>no: \(s_1 \to s_1, s_2\); \(s_2 \to s_2\)</td><td>de \(s_2\) no se llega a \(s_1\)</td><td>submáquina, no fuertemente conexa</td></tr>
+      <tr><td>\(\{s_3, s_4, s_5, s_6\}\)</td><td>no: todas las flechas de esos cuatro van entre ellos</td><td>sí: por ejemplo \(s_3 \xrightarrow{1} s_4 \xrightarrow{0} s_5 \xrightarrow{0} s_3\) y \(s_4 \xrightarrow{1} s_6 \xrightarrow{0} s_5\)</td><td>submáquina fuertemente conexa</td></tr>
+    </table>
+  </div>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>
+      (a) Sí es submáquina, pero no fuertemente conexa. (b) Es una submáquina fuertemente conexa; en
+      el retardo 2, \(s_0\), \(s_1\) y \(s_2\) son transitorios y no hay sumideros (de cada uno de
+      \(s_3\) a \(s_6\) se sale con alguna entrada).
+    </p>
+  </div>
+
+  <h3>Ejemplo 2 &mdash; Con forma de parcial</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>Para la máquina de la sección 13, determinar una submáquina que no sea un sumidero. Indicar si es fuertemente conexa.</p>
+  </div>
+  <div class="pd-grafico af" data-g="u2t-lenguaje">
+    <svg viewBox="-61 -77 544 314" width="544" height="314" role="img" aria-label="Máquina con un estado sumidero">
+      <path class="arco" d="M17.3,72.1 L158.7,7.9"/>
+      <path class="punta" d="M158.7,7.9 L152.4,15.7 L148.6,7.5 Z"/>
+      <text class="rot" x="81.9" y="26.6" text-anchor="middle" dominant-baseline="central">0,0</text>
+      <path class="arco" d="M17.3,87.9 L158.7,152.1"/>
+      <path class="punta" d="M158.7,152.1 L148.6,152.5 L152.4,144.3 Z"/>
+      <text class="rot" x="94.1" y="106.6" text-anchor="middle" dominant-baseline="central">1,0</text>
+      <path class="arco" d="M167.1,-16.8 C136.0,-51.2 216.0,-51.2 184.9,-16.8"/>
+      <path class="punta" d="M184.9,-16.8 L187.6,-26.5 L194.3,-20.4 Z"/>
+      <text class="rot" x="176.0" y="-56.0" text-anchor="middle" dominant-baseline="central">1,1</text>
+      <path class="arco" d="M193.3,7.9 L334.7,72.1"/>
+      <path class="punta" d="M334.7,72.1 L324.6,72.5 L328.4,64.3 Z"/>
+      <text class="rot" x="270.1" y="26.6" text-anchor="middle" dominant-baseline="central">0,0</text>
+      <path class="arco" d="M184.9,176.8 C216.0,211.2 136.0,211.2 167.1,176.8"/>
+      <path class="punta" d="M167.1,176.8 L164.4,186.5 L157.7,180.4 Z"/>
+      <text class="rot" x="176.0" y="216.0" text-anchor="middle" dominant-baseline="central">0,0</text>
+      <path class="arco" d="M193.3,152.1 L334.7,87.9"/>
+      <path class="punta" d="M334.7,87.9 L328.4,95.7 L324.6,87.5 Z"/>
+      <text class="rot" x="257.9" y="106.6" text-anchor="middle" dominant-baseline="central">1,1</text>
+      <path class="arco" d="M368.8,71.1 C403.2,40.0 403.2,120.0 368.8,88.9"/>
+      <path class="punta" d="M368.8,88.9 L378.5,91.6 L372.4,98.3 Z"/>
+      <text class="rot" x="437.2" y="80.0" text-anchor="middle" dominant-baseline="central">0,0 | 1,0</text>
+      <path class="arco" d="M-49.0,80.0 L-19.0,80.0"/>
+      <path class="punta" d="M-19.0,80.0 L-28.0,84.5 L-28.0,75.5 Z"/>
+      <g class="estado">
+        <circle class="borde" cx="0.0" cy="80.0" r="19"/>
+        <text class="nom" x="0.0" y="80.0" text-anchor="middle" dominant-baseline="central">s0</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="176.0" cy="0.0" r="19"/>
+        <text class="nom" x="176.0" y="0.0" text-anchor="middle" dominant-baseline="central">s1</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="176.0" cy="160.0" r="19"/>
+        <text class="nom" x="176.0" y="160.0" text-anchor="middle" dominant-baseline="central">s2</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="352.0" cy="80.0" r="19"/>
+        <text class="nom" x="352.0" y="80.0" text-anchor="middle" dominant-baseline="central">s3</text>
+      </g>
+    </svg>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"que no sea un sumidero"</td><td>no vale \(\{s_3\}\) solo</td><td>&mdash;</td><td>tiene que tener otro estado</td></tr>
+      <tr><td>"submáquina"</td><td>grupo cerrado</td><td>lo alcanzable desde \(s_1\): \(s_1\) (con 1) y \(s_3\) (con 0)</td><td>\(S_1 = \{s_1, s_3\}\)</td></tr>
+    </table>
+  </div>
+  <p><span class="paso">Paso 1 &mdash; Revisar las flechas</span> \(\nu(s_1, 0) = s_3\), \(\nu(s_1, 1) = s_1\), \(\nu(s_3, 0) = \nu(s_3, 1) = s_3\): todas caen en \(\{s_1, s_3\}\).</p>
+  <p><span class="paso">Paso 2 &mdash; Conexión</span> De \(s_1\) se llega a \(s_3\), pero de \(s_3\) no se llega a \(s_1\).</p>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>
+      \(M_1 = (S_1, I, O, \nu_1, \omega_1)\) con \(S_1 = \{s_1, s_3\}\), \(I = O = \{0, 1\}\): es
+      submáquina y <strong>no</strong> es fuertemente conexa. (También sirven \(\{s_2, s_3\}\) o la
+      máquina entera, ninguna fuertemente conexa: todas contienen al sumidero \(s_3\) y algún otro.)
+    </p>
+  </div>
+</div>

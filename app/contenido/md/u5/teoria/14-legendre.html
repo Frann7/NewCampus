@@ -1,0 +1,109 @@
+<div class="bloque" data-examen="igual" data-examen-ref="Parcial 2 2026 · ej. 4" data-examen-nota="El ej. 4 b) fue un V/F: «la mayor potencia de 2 que divide a 33! es (10000000000)_2». Está en el Ejemplo 2.">
+  <p class="kicker">Factorización</p>
+  <h2>14. La mayor potencia de un primo que divide a \(n!\)</h2>
+
+  <h3>Para qué sirve</h3>
+  <p>
+    \(n!\) es un número gigante (\(33!\) tiene 37 cifras), imposible de factorizar a mano. Pero
+    para saber cuántas veces aparece un primo en su factorización no hace falta calcularlo: alcanza
+    con unas pocas divisiones. De ahí sale también en cuántos ceros termina \(n!\).
+  </p>
+
+  <h3>Qué es \(n!\)</h3>
+  <p>\(n! = 1 \cdot 2 \cdot 3 \cdots n\) ("\(n\) factorial"): el producto de todos los enteros de 1 a \(n\). Por ejemplo \(5! = 120\).</p>
+
+  <h3>La fórmula de Legendre</h3>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Exponente de un primo \(p\) en \(n!\)</span>
+    <p>La mayor potencia de \(p\) que divide a \(n!\) es \(p^{e}\), con</p>
+    <p>\[ e = \left\lfloor \frac{n}{p} \right\rfloor + \left\lfloor \frac{n}{p^{2}} \right\rfloor + \left\lfloor \frac{n}{p^{3}} \right\rfloor + \cdots \]</p>
+    <p>Se sigue mientras \(p^{k} \leq n\); después los términos dan 0.</p>
+  </div>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Símbolo</th><th>Qué significa</th><th>Ejemplo</th></tr>
+      <tr><td>\(\lfloor x \rfloor\)</td><td>"Piso" o parte entera de \(x\): el entero que queda al sacarle la parte decimal (para positivos)</td><td>\(\lfloor 33/2 \rfloor = \lfloor 16{,}5 \rfloor = 16\)</td></tr>
+      <tr><td>\(\left\lfloor \frac{n}{p} \right\rfloor\)</td><td>Cuántos múltiplos de \(p\) hay entre 1 y \(n\) (sección 4)</td><td>Entre 1 y 33 hay 16 pares</td></tr>
+      <tr><td>\(e\)</td><td>El exponente de \(p\) en la factorización de \(n!\)</td><td>&mdash;</td></tr>
+    </table>
+  </div>
+
+  <h4>De dónde sale</h4>
+  <p>Cada factor \(1, 2, \ldots, n\) aporta tantas \(p\) como su propio exponente de \(p\). Contarlas así:</p>
+  <ul>
+    <li>Cada múltiplo de \(p\) aporta <strong>al menos una</strong> \(p\): son \(\lfloor n/p \rfloor\).</li>
+    <li>Los múltiplos de \(p^{2}\) aportan <strong>una más</strong> (tienen al menos dos): se suman \(\lfloor n/p^{2} \rfloor\).</li>
+    <li>Los de \(p^{3}\), otra más: \(\lfloor n/p^{3} \rfloor\). Y así.</li>
+  </ul>
+  <p>Ejemplo en \(10!\) con \(p = 2\): los pares (2, 4, 6, 8, 10) son 5; los múltiplos de 4 (4, 8) suman 2 más; el de 8 suma 1 más. Total \(5 + 2 + 1 = 8\), y efectivamente \(10! = 2^{8} \cdot 3^{4} \cdot 5^{2} \cdot 7\). El 8 aportó 3 doses: uno en cada renglón.</p>
+  <div class="caja caja-calc">
+    <span class="caja-tit">Atajo para la cuenta</span>
+    <p>Cada término es el anterior dividido por \(p\) (sin decimales): \(\lfloor 33/2 \rfloor = 16\), \(\lfloor 16/2 \rfloor = 8\), \(\lfloor 8/2 \rfloor = 4\)... Se divide el resultado, no hace falta calcular \(p^{2}, p^{3}\).</p>
+  </div>
+
+  <h3>Para un número que no es primo</h3>
+  <p>Para la mayor potencia de un compuesto \(m\) que divide a \(n!\): se factoriza \(m\), se calcula el exponente de cada primo en \(n!\) con Legendre, y se ve <strong>cuántas veces "completas" entra \(m\)</strong>: el que se agota primero manda.</p>
+  <ul>
+    <li><strong>Ceros al final de \(n!\):</strong> cada cero es un factor \(10 = 2 \cdot 5\). Hay muchos más 2 que 5, así que la cantidad de ceros es el exponente del 5.</li>
+  </ul>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; Los ceros de \(80!\) y la mayor potencia de 45</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado (Actividad 9 b de la cátedra)</span>
+    <p>¿En cuántos ceros termina \(80!\)? ¿Cuál es la máxima potencia de 45 que lo divide?</p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"cuántos ceros"</td><td>cuántos factores \(10 = 2 \cdot 5\)</td><td>&mdash;</td><td>exponentes del 2 y del 5</td></tr>
+      <tr><td>"potencia de 45"</td><td>\(45 = 3^{2} \cdot 5\)</td><td>&mdash;</td><td>exponentes del 3 y del 5</td></tr>
+    </table>
+  </div>
+  <p><span class="paso">Exponentes en \(80!\)</span></p>
+  <ul>
+    <li>Del 5: \(\lfloor 80/5 \rfloor + \lfloor 80/25 \rfloor = 16 + 3 = 19\) (\(125 \gt 80\): se para).</li>
+    <li>Del 2: \(40 + 20 + 10 + 5 + 2 + 1 = 78\).</li>
+    <li>Del 3: \(\lfloor 80/3 \rfloor + \lfloor 80/9 \rfloor + \lfloor 80/27 \rfloor = 26 + 8 + 2 = 36\).</li>
+  </ul>
+  <p><span class="paso">Ceros</span> Cada 10 necesita un 2 y un 5. Hay 78 doses y 19 cincos: se arman 19 dieces.</p>
+  <p><span class="paso">Potencia de 45</span> \(45^{k} = 3^{2k} \cdot 5^{k}\). Hacen falta \(2k \leq 36\) (o sea \(k \leq 18\)) y \(k \leq 19\). El 3 se agota primero: \(k = 18\).</p>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>\(80!\) termina en 19 ceros, y la máxima potencia de 45 que lo divide es \(45^{18}\).</p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; Estilo parcial: la mayor potencia de 2 en \(33!\), en binario</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado (Parcial 2 2026, ej. 4 b)</span>
+    <p>Analizar si es verdadera o falsa: "La mayor potencia de 2 que divide a \(33!\) es \((10000000000)_2\)".</p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"mayor potencia de 2 que divide a \(33!\)"</td><td>Legendre con \(p = 2,\ n = 33\)</td><td>&mdash;</td><td>\(2^{e}\)</td></tr>
+      <tr><td>"\((10000000000)_2\)"</td><td>un 1 seguido de diez ceros, en base 2 (sección 5)</td><td>\(2^{10}\)</td><td>\(1024\)</td></tr>
+    </table>
+  </div>
+  <p><span class="paso">Paso 1 &mdash; Legendre</span></p>
+  <p>\[ e = \left\lfloor \tfrac{33}{2} \right\rfloor + \left\lfloor \tfrac{33}{4} \right\rfloor + \left\lfloor \tfrac{33}{8} \right\rfloor + \left\lfloor \tfrac{33}{16} \right\rfloor + \left\lfloor \tfrac{33}{32} \right\rfloor = 16 + 8 + 4 + 2 + 1 = 31 \]</p>
+  <p>(\(64 \gt 33\): se para.) La mayor potencia es \(2^{31}\).</p>
+  <p><span class="paso">Paso 2 &mdash; Leer el binario</span> En base 2, \(2^{k}\) es un 1 seguido de \(k\) ceros (sección 5). \((10000000000)_2\) tiene un 1 y <strong>diez</strong> ceros: es \(2^{10} = 1024\).</p>
+  <p><span class="paso">Paso 3 &mdash; Comparar</span> \(2^{10}\) divide a \(33!\) (porque \(10 \leq 31\)), pero no es la <strong>mayor</strong> potencia: \(2^{31}\) también lo divide.</p>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p><strong>Falsa.</strong> La mayor potencia de 2 que divide a \(33!\) es \(2^{31}\), que en binario es un 1 seguido de 31 ceros: \((1\underbrace{00\ldots0}_{31})_2\). El número del enunciado es \(2^{10}\).</p>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">No confundir el exponente con la potencia</span>
+    <p>
+      El exponente 31 escrito en binario es \((11111)_2\). La afirmación habla de la
+      <strong>potencia</strong> \(2^{31}\), no del exponente: en binario es un 1 con 31 ceros.
+    </p>
+  </div>
+</div>

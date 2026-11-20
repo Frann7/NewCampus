@@ -1,0 +1,99 @@
+<div class="bloque">
+  <p class="kicker">La idea de fondo</p>
+  <h2>2. Definiciones recursivas</h2>
+
+  <h3>Para qué sirve</h3>
+  <p>
+    A veces es difícil dar una fórmula directa para cada término, pero es fácil decir
+    <strong>cómo se pasa de un término al siguiente</strong>. Definir algo en términos de sí mismo
+    se llama <strong>recursividad</strong>. Es exactamente lo que hace una relación de recurrencia,
+    así que conviene ver primero la idea suelta.
+  </p>
+
+  <h3>Definición</h3>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Una definición recursiva tiene dos partes</span>
+    <ul>
+      <li><strong>Paso base:</strong> se dan directamente los primeros elementos (los que no se pueden calcular desde otros).</li>
+      <li><strong>Paso recursivo:</strong> una regla que construye los elementos nuevos a partir de los que ya se tienen.</li>
+    </ul>
+  </div>
+  <p>
+    Las dos partes son necesarias: la misma regla con otro paso base da otra sucesión. Una
+    sucesión queda determinada por su regla <strong>y</strong> por su valor inicial.
+  </p>
+
+  <h3>Los ejemplos de la cátedra</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Qué se define</th><th>Paso base</th><th>Paso recursivo</th><th>Lo que sale</th></tr>
+      <tr><td class="lbl">Factorial</td><td>\(0! = 1\)</td><td>\(n! = n \cdot (n-1)!,\ \forall n \geq 1\)</td><td>\(1, 1, 2, 6, 24, 120, \ldots\)</td></tr>
+      <tr><td class="lbl">Sumatoria</td><td>\(\sum_{k=0}^{0} a_k = a_0\)</td><td>\(\sum_{k=0}^{n+1} a_k = \sum_{k=0}^{n} a_k + a_{n+1}\)</td><td>la suma hasta \(n+1\) es la suma hasta \(n\) más el término nuevo</td></tr>
+      <tr><td class="lbl">Armónicos</td><td>\(H_1 = 1\)</td><td>\(H_{n+1} = H_n + \frac{1}{n+1},\ \forall n \geq 1\)</td><td>\(1, \frac{3}{2}, \frac{11}{6}, \ldots\)</td></tr>
+      <tr><td class="lbl">Potencia de un alfabeto</td><td>\(\Sigma^1 = \Sigma\)</td><td>\(\Sigma^{n+1} = \{xy \,/\, x \in \Sigma, y \in \Sigma^n\}\)</td><td>las palabras de longitud \(n+1\): una letra delante de una palabra de longitud \(n\)</td></tr>
+      <tr><td class="lbl">Capicúas de longitud par sobre \(\{0,1\}\)</td><td>\(\lambda \in A\)</td><td>\(\forall x \in A: 1x1 \in A \wedge 0x0 \in A\)</td><td>\(\lambda, 00, 11, 0000, 0110, \ldots\)</td></tr>
+      <tr><td class="lbl">Capicúas de longitud impar</td><td>\(0 \in B \wedge 1 \in B\)</td><td>\(\forall x \in B: 1x1 \in B \wedge 0x0 \in B\)</td><td>\(0, 1, 000, 010, 101, \ldots\)</td></tr>
+      <tr><td class="lbl">Periódica</td><td>\(x_0 = 1, x_1 = 4, x_2 = 7\)</td><td>\(x_{n+3} = x_n,\ \forall n \geq 0\)</td><td>\(1, 4, 7, 1, 4, 7, \ldots\)</td></tr>
+      <tr><td class="lbl">Progresión aritmética</td><td>\(a_0 = -2\)</td><td>\(a_n = a_{n-1} + 3,\ \forall n \geq 1\)</td><td>\(-2, 1, 4, 7, 10, \ldots\) (se <strong>suma</strong> siempre lo mismo)</td></tr>
+      <tr><td class="lbl">Progresión geométrica</td><td>\(a_0 = 3\)</td><td>\(a_n = -2a_{n-1},\ \forall n \geq 1\)</td><td>\(3, -6, 12, -24, \ldots\) (se <strong>multiplica</strong> siempre por lo mismo)</td></tr>
+    </table>
+  </div>
+  <p>
+    Símbolos nuevos de la tabla: \(\forall n \geq 1\) se lee "para todo \(n\) mayor o igual que 1"
+    y dice <strong>desde qué posición vale la regla</strong>; \(\lambda\) es la palabra vacía (la
+    que no tiene letras), \(\Sigma\) el alfabeto, \(\in\) "pertenece a" y \(\wedge\) "y".
+  </p>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; El factorial paso a paso</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>Calcular \(4!\) usando solo la definición recursiva.</p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"\(0! = 1\)"</td><td>paso base: el punto de partida</td><td>&mdash;</td><td>primer valor conocido</td></tr>
+      <tr><td>"\(n! = n \cdot (n-1)!\)"</td><td>cada uno es su posición por el anterior</td><td>se aplica con \(n = 1, 2, 3, 4\)</td><td>los siguientes valores</td></tr>
+    </table>
+  </div>
+  <p>No se puede saltar directo a \(4!\): hay que ir subiendo desde el paso base.</p>
+  <p>\[ 1! = 1 \cdot 0! = 1 \cdot 1 = 1 \]</p>
+  <p>\[ 2! = 2 \cdot 1! = 2 \cdot 1 = 2 \]</p>
+  <p>\[ 3! = 3 \cdot 2! = 3 \cdot 2 = 6 \]</p>
+  <p>\[ 4! = 4 \cdot 3! = 4 \cdot 6 = 24 \]</p>
+  <div class="caja caja-resp"><span class="caja-tit">Respuesta</span><p>\(4! = 24\). Cada valor usó el anterior: eso es calcular "por recurrencia".</p></div>
+
+  <h3>Ejemplo 2 &mdash; Actividad 2 de la cátedra: los primeros cinco armónicos</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>Calcular los 5 primeros términos de la sucesión de números armónicos: \(H_1 = 1\), \(H_{n+1} = H_n + \frac{1}{n+1}\) para \(n \geq 1\).</p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"\(H_1 = 1\)"</td><td>paso base</td><td>&mdash;</td><td>\(H_1 = 1\)</td></tr>
+      <tr><td>"\(H_{n+1} = H_n + \frac{1}{n+1}\)"</td><td>al anterior se le suma \(\frac{1}{\text{posición nueva}}\)</td><td>con \(n = 1, 2, 3, 4\)</td><td>\(H_2, H_3, H_4, H_5\)</td></tr>
+      <tr><td>"5 primeros"</td><td>de \(H_1\) a \(H_5\)</td><td>&mdash;</td><td>cinco valores</td></tr>
+    </table>
+  </div>
+  <p>Con \(n = 1\) la regla da \(H_2\); con \(n = 2\), \(H_3\); y así. Las sumas de fracciones se hacen con común denominador:</p>
+  <p>\[ H_2 = H_1 + \tfrac{1}{2} = 1 + \tfrac{1}{2} = \tfrac{3}{2} \]</p>
+  <p>\[ H_3 = H_2 + \tfrac{1}{3} = \tfrac{3}{2} + \tfrac{1}{3} = \tfrac{9}{6} + \tfrac{2}{6} = \tfrac{11}{6} \]</p>
+  <p>\[ H_4 = H_3 + \tfrac{1}{4} = \tfrac{11}{6} + \tfrac{1}{4} = \tfrac{22}{12} + \tfrac{3}{12} = \tfrac{25}{12} \]</p>
+  <p>\[ H_5 = H_4 + \tfrac{1}{5} = \tfrac{25}{12} + \tfrac{1}{5} = \tfrac{125}{60} + \tfrac{12}{60} = \tfrac{137}{60} \]</p>
+  <div class="caja caja-resp"><span class="caja-tit">Respuesta</span><p>\(1;\ \frac{3}{2};\ \frac{11}{6};\ \frac{25}{12};\ \frac{137}{60}\).</p></div>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Lo que viene</span>
+    <p>
+      Calcular así funciona, pero para \(H_{100}\) habría que hacer 99 cuentas. La unidad busca
+      justamente lo contrario: a partir de la regla recursiva, encontrar una fórmula directa
+      (sección 3). Para los armónicos no hay una fórmula sencilla; para las recurrencias
+      <em>lineales con coeficientes constantes</em> sí, y son las que toma el parcial.
+    </p>
+  </div>
+</div>

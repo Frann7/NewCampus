@@ -1,0 +1,67 @@
+<div class="ej" data-examen="variante" data-examen-ref="Parcial 2 2026 · ej. 1" data-examen-nota="Misma forma: calcular términos con la relación y resolver una de segundo orden no homogénea donde 1 es raíz de la homogénea (la particular se multiplica por n). En el parcial el término independiente es la constante 100; acá es n.">
+  <span class="tag" data-num-ej="C-3.">Complementaria P2 &middot; Recurrencia &middot; Ej. 3 &middot; No homogénea con \(n\)</span>
+  <h2>Segundo orden no homogénea con término \(n\)</h2>
+  <div class="enunciado">
+    <p>Para la relación de recurrencia \(a_n - 3a_{n-1} + 2a_{n-2} = n,\ \forall n \geq 2,\ a_0 = 1,\ a_1 = 2\)</p>
+    <p>a. Calcular \(a_2\) y \(a_3\) para la relación de recurrencia dada y para su relación de recurrencia homogénea asociada (considerar los mismos valores iniciales para ambas).</p>
+    <p>b. Encontrar la solución general de la relación de recurrencia dada.</p>
+  </div>
+
+  <span class="paso">Qué tema es y por qué</span>
+  <ul>
+    <li>Segundo orden, con \(g(n) = n\) del lado derecho: no homogénea.</li>
+    <li>La <strong>homogénea asociada</strong> es la misma relación con el lado derecho en 0: \(a_n - 3a_{n-1} + 2a_{n-2} = 0\).</li>
+    <li>El inciso a) muestra que las dos dan sucesiones distintas aunque arranquen igual.</li>
+  </ul>
+
+  <span class="paso">Paso 1 &mdash; Inciso a): términos</span>
+  <p>Se despeja: \(a_n = 3a_{n-1} - 2a_{n-2} + n\).</p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th></th><th>Relación dada (\(+\,n\))</th><th>Homogénea asociada</th></tr>
+      <tr><td>\(a_2\)</td><td>\(3 \cdot 2 - 2 \cdot 1 + 2 = 6\)</td><td>\(3 \cdot 2 - 2 \cdot 1 = 4\)</td></tr>
+      <tr><td>\(a_3\)</td><td>\(3 \cdot 6 - 2 \cdot 2 + 3 = 17\)</td><td>\(3 \cdot 4 - 2 \cdot 2 = 8\)</td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Paso 2 &mdash; Inciso b): el método</span>
+  <div class="caja caja-formula">
+    <p>1. \(a_n = a_n^{(h)} + a_n^{(p)}\).</p>
+    <p>2. \(a_n^{(h)}\): ecuación característica, con constantes \(C_1, C_2\) que se calculan al final.</p>
+    <p>3. \(g(n) = n\) es polinomio de grado 1 \(\to\) polinomio completo \(An + B\). Si \(r = 1\) es raíz de la característica, la constante \(B\) choca con \(C \cdot 1^{n}\): se multiplica por \(n\).</p>
+    <p>4. Se reemplaza la particular y se igualan coeficientes; después \(C_1, C_2\) salen de \(a_0, a_1\).</p>
+  </div>
+
+  <span class="paso">Paso 3 &mdash; Homogénea</span>
+  <p>\(r^{2} - 3r + 2 = 0 \Rightarrow (r - 1)(r - 2) = 0 \Rightarrow r = 1,\ r = 2\).</p>
+  <p>\(a_n^{(h)} = C_1 \cdot 1^{n} + C_2 \cdot 2^{n} = C_1 + C_2\,2^{n}\).</p>
+
+  <span class="paso">Paso 4 &mdash; Particular</span>
+  <p>\(An + B\) choca (1 es raíz): \(a_n^{(p)} = n(An + B) = An^{2} + Bn\).</p>
+  <p>Reemplazando en \(a_n - 3a_{n-1} + 2a_{n-2} = n\):</p>
+  <p>\[ An^{2} + Bn - 3\left[A(n-1)^{2} + B(n-1)\right] + 2\left[A(n-2)^{2} + B(n-2)\right] = n \]</p>
+  <ul>
+    <li>Coeficiente de \(n^{2}\): \(A - 3A + 2A = 0\) (se cancela solo).</li>
+    <li>Coeficiente de \(n\): \(B + 6A - 3B - 8A + 2B = -2A\).</li>
+    <li>Término independiente: \(-3A + 3B + 8A - 4B = 5A - B\).</li>
+  </ul>
+  <p>Queda \(-2A\,n + (5A - B) = n\): \(-2A = 1 \Rightarrow A = -\tfrac12\); \(5A - B = 0 \Rightarrow B = -\tfrac52\).</p>
+  <p>\(a_n^{(p)} = -\tfrac12 n^{2} - \tfrac52 n\).</p>
+
+  <span class="paso">Paso 5 &mdash; Constantes</span>
+  <p>\(a_n = C_1 + C_2\,2^{n} - \tfrac12 n^{2} - \tfrac52 n\):</p>
+  <p>\[ \left\{\begin{array}{l} n = 0:\ C_1 + C_2 = 1 \\ n = 1:\ C_1 + 2C_2 - \tfrac12 - \tfrac52 = 2 \Rightarrow C_1 + 2C_2 = 5 \end{array}\right. \]</p>
+  <p>Restando: \(C_2 = 4\), \(C_1 = -3\).</p>
+  <p>\[ a_n = -3 + 4 \cdot 2^{n} - \frac{n^{2} + 5n}{2},\ \forall n \geq 0 \]</p>
+
+  <span class="paso">Paso 6 &mdash; Comprobación</span>
+  <p>Fórmula: \(a_2 = -3 + 16 - 7 = 6\), \(a_3 = -3 + 32 - 12 = 17\). Son los del inciso a).</p>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>a) Dada: \(a_2 = 6,\ a_3 = 17\). Homogénea asociada: \(a_2 = 4,\ a_3 = 8\). &nbsp; b) \(a_n = -3 + 4 \cdot 2^{n} - \tfrac{n^{2} + 5n}{2}\).</p>
+  </div>
+
+  <span class="paso">Verificación</span>
+  <p>La guía no trae resultados. Se calcularon con un programa los primeros 12 términos con la relación y con la fórmula (\(1, 2, 6, 17, 43, 100, \dots\)): coinciden.</p>
+</div>

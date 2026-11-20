@@ -1,0 +1,124 @@
+<div class="bloque">
+  <p class="kicker">Máquinas de estados finitos</p>
+  <h2>11. Cómo funciona una máquina: la expendedora</h2>
+
+  <h3>Para qué sirve</h3>
+  <p>
+    Antes de la definición formal, la cátedra arranca con una máquina de verdad. Sirve para entender
+    las tres ideas que después se vuelven símbolos: <strong>estado</strong> (lo que la máquina
+    recuerda), <strong>entrada</strong> (lo que recibe) y <strong>salida</strong> (lo que devuelve).
+  </p>
+
+  <h3>La máquina de Ulises (Ejemplo de la cátedra)</h3>
+  <p>
+    Vende dos productos, A y B, a 10 centavos. Acepta monedas de 5 y 10 y devuelve el cambio. El
+    botón rojo (R) da A y el verde (V) da B. Lo único que necesita recordar es <strong>cuánta plata
+    tiene guardada</strong>:
+  </p>
+  <ul>
+    <li>\(s_0\): tiene 0 centavos (espera);</li>
+    <li>\(s_1\): tiene 5 centavos;</li>
+    <li>\(s_2\): tiene 10 centavos (ya alcanza).</li>
+  </ul>
+  <p>Ulises mete dos monedas de 5 y aprieta el rojo. Instante por instante:</p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Instante</th><th>\(t_0\)</th><th>\(t_1\)</th><th>\(t_2\)</th><th>\(t_3\)</th></tr>
+      <tr><td class="lbl">Estado</td><td>\(s_0\)</td><td>\(s_1\)</td><td>\(s_2\)</td><td>\(s_0\)</td></tr>
+      <tr><td class="lbl">Entrada</td><td>5</td><td>5</td><td>R</td><td>&mdash;</td></tr>
+      <tr><td class="lbl">Salida</td><td>nada</td><td>nada</td><td>A</td><td>&mdash;</td></tr>
+    </table>
+  </div>
+  <p>
+    La regla de lectura: en cada instante la máquina está en un estado, recibe una entrada,
+    <strong>en ese momento</strong> produce una salida, y en el instante siguiente ya está en el
+    estado nuevo. Con R en \(s_2\) da A y vuelve a \(s_0\).
+  </p>
+
+  <h3>Toda la máquina en una tabla</h3>
+  <p>Para cada estado y cada entrada: a qué estado pasa (transición) y qué devuelve (salida); n = nada.</p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th rowspan="2"></th><th colspan="4">Transición</th><th colspan="4">Salida</th></tr>
+      <tr><th>5</th><th>10</th><th>R</th><th>V</th><th>5</th><th>10</th><th>R</th><th>V</th></tr>
+      <tr><td class="lbl">\(s_0\)</td><td>\(s_1\)</td><td>\(s_2\)</td><td>\(s_0\)</td><td>\(s_0\)</td><td>n</td><td>n</td><td>n</td><td>n</td></tr>
+      <tr><td class="lbl">\(s_1\)</td><td>\(s_2\)</td><td>\(s_2\)</td><td>\(s_1\)</td><td>\(s_1\)</td><td>n</td><td>5</td><td>n</td><td>n</td></tr>
+      <tr><td class="lbl">\(s_2\)</td><td>\(s_2\)</td><td>\(s_2\)</td><td>\(s_0\)</td><td>\(s_0\)</td><td>5</td><td>10</td><td>A</td><td>B</td></tr>
+    </table>
+  </div>
+  <p>
+    Por ejemplo, en \(s_1\) (tiene 5) entra una de 10: ya tiene 15, se queda con 10 (pasa a
+    \(s_2\)) y devuelve 5.
+  </p>
+
+  <h3>Las cuatro características (de la cátedra)</h3>
+  <ol>
+    <li><strong>Cantidad finita de estados.</strong> Toda la memoria de la máquina es saber en qué estado está.</li>
+    <li><strong>Cantidad finita de símbolos de entrada:</strong> el alfabeto de entrada \(I\).</li>
+    <li><strong>Para cada par (estado, entrada) hay una salida y un estado siguiente.</strong> Las salidas posibles forman el alfabeto de salida \(O\).</li>
+    <li><strong>Funciona a pulsos de reloj y es determinística:</strong> el estado inicial y la cadena de entrada deciden toda la salida, sin azar.</li>
+  </ol>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; Otra compra en la máquina de Ulises</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>Partiendo de \(s_0\), un cliente mete 5, después 10 y aprieta V. ¿Qué recibe en cada paso y dónde queda la máquina?</p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"partiendo de \(s_0\)"</td><td>estado inicial</td><td>0 centavos</td><td>primera fila de la tabla</td></tr>
+      <tr><td>"5, 10, V"</td><td>la cadena de entrada</td><td>tres pulsos</td><td>se lee de a un símbolo</td></tr>
+    </table>
+  </div>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Estado</th><th>Entrada</th><th>Salida (tabla)</th><th>Estado siguiente (tabla)</th></tr>
+      <tr><td>\(s_0\)</td><td>5</td><td>n</td><td>\(s_1\)</td></tr>
+      <tr><td>\(s_1\)</td><td>10</td><td>5</td><td>\(s_2\)</td></tr>
+      <tr><td>\(s_2\)</td><td>V</td><td>B</td><td>\(s_0\)</td></tr>
+    </table>
+  </div>
+  <div class="caja caja-resp"><span class="caja-tit">Respuesta</span><p>Recibe nada, 5 centavos de vuelto y el producto B; la máquina queda en \(s_0\).</p></div>
+
+  <h3>Ejemplo 2 &mdash; Completar la tabla de la máquina de chicles (de la cátedra)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>
+      Una máquina vende chicles de menta (M) y de fruta (F) a 20 centavos. Acepta monedas de 5, 10 y
+      25 y devuelve el cambio. Tiene dos botones, BM y BF, que se aprietan después de poner las
+      monedas. Completar la tabla con los estados \(s_0\) a \(s_4\) (posee 0, 5, 10, 15 y 20 centavos).
+    </p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"cuestan 20"</td><td>con 20 o más ya alcanza</td><td>lo que pase de 20 se devuelve</td><td>pasa a \(s_4\) y sale el exceso</td></tr>
+      <tr><td>"devuelve el cambio"</td><td>en \(s_4\), una moneda más sobra entera</td><td>&mdash;</td><td>queda en \(s_4\) y la devuelve</td></tr>
+      <tr><td>"botones después de las monedas"</td><td>sin 20, el botón no hace nada</td><td>&mdash;</td><td>se queda, salida n</td></tr>
+    </table>
+  </div>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th rowspan="2"></th><th colspan="5">Siguiente estado</th><th colspan="5">Salida</th></tr>
+      <tr><th>5c</th><th>10c</th><th>25c</th><th>BM</th><th>BF</th><th>5c</th><th>10c</th><th>25c</th><th>BM</th><th>BF</th></tr>
+      <tr><td class="lbl">\(s_0\) (0c)</td><td>\(s_1\)</td><td>\(s_2\)</td><td>\(s_4\)</td><td>\(s_0\)</td><td>\(s_0\)</td><td>n</td><td>n</td><td>5c</td><td>n</td><td>n</td></tr>
+      <tr><td class="lbl">\(s_1\) (5c)</td><td>\(s_2\)</td><td>\(s_3\)</td><td>\(s_4\)</td><td>\(s_1\)</td><td>\(s_1\)</td><td>n</td><td>n</td><td>10c</td><td>n</td><td>n</td></tr>
+      <tr><td class="lbl">\(s_2\) (10c)</td><td>\(s_3\)</td><td>\(s_4\)</td><td>\(s_4\)</td><td>\(s_2\)</td><td>\(s_2\)</td><td>n</td><td>n</td><td>15c</td><td>n</td><td>n</td></tr>
+      <tr><td class="lbl">\(s_3\) (15c)</td><td>\(s_4\)</td><td>\(s_4\)</td><td>\(s_4\)</td><td>\(s_3\)</td><td>\(s_3\)</td><td>n</td><td>5c</td><td>20c</td><td>n</td><td>n</td></tr>
+      <tr><td class="lbl">\(s_4\) (20c)</td><td>\(s_4\)</td><td>\(s_4\)</td><td>\(s_4\)</td><td>\(s_0\)</td><td>\(s_0\)</td><td>5c</td><td>10c</td><td>25c</td><td>M</td><td>F</td></tr>
+    </table>
+  </div>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>
+      La tabla de arriba. Se arma con una sola cuenta por casilla: lo que tenía más lo que entra; si
+      llega a 20 o más, pasa a \(s_4\) y devuelve el exceso. Coincide con las casillas que la
+      cátedra deja hechas en la diapositiva.
+    </p>
+  </div>
+</div>

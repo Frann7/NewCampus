@@ -1,0 +1,353 @@
+<div class="bloque" data-examen="igual" data-examen-ref="Parcial 1 2026 · ej. 4" data-examen-nota="Los ítems a) y c) pidieron completar la tabla y el diagrama juntando lo que daba cada uno, y después con datos nuevos (ν(s3, 0) = s4, etc.). El Ejemplo 3 es ese mismo trabajo con otra máquina.">
+  <p class="kicker">Máquinas de estados finitos</p>
+  <h2>13. Tabla de estados y diagrama de estados</h2>
+
+  <h3>Para qué sirve</h3>
+  <p>
+    Son las dos formas de dar \(\nu\) y \(\omega\) completas. La tabla sirve para buscar rápido; el
+    diagrama, para <strong>ver</strong> qué hace la máquina (dónde se queda, a dónde vuelve). En el
+    parcial se dan las dos a medias y hay que completar una con la otra.
+  </p>
+
+  <h3>Definición</h3>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Tabla de estados</span>
+    <p>
+      Una fila por estado. Dos bloques de columnas: \(\nu\) (a qué estado pasa) y \(\omega\) (qué
+      escribe), con una columna por cada entrada. En la fila \(s_i\), columna \(x\) del bloque
+      \(\nu\), va \(\nu(s_i, x)\); en el bloque \(\omega\), va \(\omega(s_i, x)\).
+    </p>
+  </div>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Diagrama de estados</span>
+    <p>
+      Cada estado es un círculo. Si \(\nu(s_i, x) = s_j\) y \(\omega(s_i, x) = y\), hay una flecha de
+      \(s_i\) a \(s_j\) con la etiqueta <strong>\(x, y\)</strong> (entrada, salida). Si \(s_j = s_i\),
+      la flecha es un lazo. Al inicial le llega una flecha suelta ("start").
+    </p>
+  </div>
+
+  <h3>Qué significa cada símbolo</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>En el diagrama</th><th>Qué dice</th><th>En la tabla</th></tr>
+      <tr><td>flecha \(s_i \to s_j\) con "\(x, y\)"</td><td>en \(s_i\), leyendo \(x\), escribe \(y\) y pasa a \(s_j\)</td><td>fila \(s_i\): \(\nu\) col. \(x\) = \(s_j\); \(\omega\) col. \(x\) = \(y\)</td></tr>
+      <tr><td>"\(0,0 \mid 1,0\)" sobre una flecha</td><td>dos flechas iguales dibujadas como una</td><td>dos casillas de \(\nu\) con el mismo estado</td></tr>
+      <tr><td>lazo</td><td>se queda en el mismo estado</td><td>\(\nu(s_i, x) = s_i\)</td></tr>
+    </table>
+  </div>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">La regla de control</span>
+    <p>
+      De cada estado salen exactamente \(|I|\) flechas (contando cada etiqueta de las juntadas y los
+      lazos). Si con \(I = \{0, 1\}\) a un estado le salen tres, o una sola, algo está mal o falta.
+    </p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; Del diagrama a la tabla (Ejemplo 12 de la cátedra)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>Sea \(M = (S, I, O, \nu, \omega)\) con \(S = \{s_0, s_1, s_2\}\) e \(I = O = \{0, 1\}\), dada por el diagrama. Hacer la tabla.</p>
+  </div>
+  <div class="pd-grafico af" data-g="u2t-e12">
+    <svg viewBox="-61 -77 476 168" width="476" height="168" role="img" aria-label="Máquina del Ejemplo 12 de la cátedra">
+      <path class="arco" d="M-8.9,-16.8 C-40.0,-51.2 40.0,-51.2 8.9,-16.8"/>
+      <path class="punta" d="M8.9,-16.8 L11.6,-26.5 L18.3,-20.4 Z"/>
+      <text class="rot" x="0.0" y="-56.0" text-anchor="middle" dominant-baseline="central">0,0</text>
+      <path class="arco" d="M19.0,0.0 L173.0,0.0"/>
+      <path class="punta" d="M173.0,0.0 L164.0,4.5 L164.0,-4.5 Z"/>
+      <text class="rot" x="96.0" y="-10.0" text-anchor="middle" dominant-baseline="central">1,0</text>
+      <path class="arco" d="M183.1,-16.8 C152.0,-51.2 232.0,-51.2 200.9,-16.8"/>
+      <path class="punta" d="M200.9,-16.8 L203.6,-26.5 L210.3,-20.4 Z"/>
+      <text class="rot" x="192.0" y="-56.0" text-anchor="middle" dominant-baseline="central">1,0</text>
+      <path class="arco" d="M209.8,-6.7 Q288.0,-36.0 366.2,-6.7"/>
+      <path class="punta" d="M366.2,-6.7 L356.2,-5.6 L359.4,-14.0 Z"/>
+      <text class="rot" x="288.0" y="-31.3" text-anchor="middle" dominant-baseline="central">0,0</text>
+      <path class="arco" d="M366.2,6.7 Q288.0,36.0 209.8,6.7"/>
+      <path class="punta" d="M209.8,6.7 L219.8,5.6 L216.6,14.0 Z"/>
+      <text class="rot" x="288.0" y="31.3" text-anchor="middle" dominant-baseline="central">1,1</text>
+      <path class="arco" d="M367.5,9.4 Q192.0,110.0 16.5,9.4"/>
+      <path class="punta" d="M16.5,9.4 L26.5,10.0 L22.1,17.8 Z"/>
+      <text class="rot" x="192.0" y="69.7" text-anchor="middle" dominant-baseline="central">0,0</text>
+      <path class="arco" d="M-49.0,0.0 L-19.0,0.0"/>
+      <path class="punta" d="M-19.0,0.0 L-28.0,4.5 L-28.0,-4.5 Z"/>
+      <g class="estado">
+        <circle class="borde" cx="0.0" cy="0.0" r="19"/>
+        <text class="nom" x="0.0" y="0.0" text-anchor="middle" dominant-baseline="central">s0</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="192.0" cy="0.0" r="19"/>
+        <text class="nom" x="192.0" y="0.0" text-anchor="middle" dominant-baseline="central">s1</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="384.0" cy="0.0" r="19"/>
+        <text class="nom" x="384.0" y="0.0" text-anchor="middle" dominant-baseline="central">s2</text>
+      </g>
+    </svg>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Flecha</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>lazo en \(s_0\) "0,0"</td><td>\(\nu(s_0, 0) = s_0\), \(\omega(s_0, 0) = 0\)</td><td>&mdash;</td><td>fila \(s_0\), columnas 0</td></tr>
+      <tr><td>\(s_0 \to s_1\) "1,0"</td><td>\(\nu(s_0, 1) = s_1\), \(\omega(s_0, 1) = 0\)</td><td>&mdash;</td><td>fila \(s_0\), columnas 1</td></tr>
+      <tr><td>lazo en \(s_1\) "1,0"</td><td>\(\nu(s_1, 1) = s_1\), \(\omega(s_1, 1) = 0\)</td><td>&mdash;</td><td>fila \(s_1\), columnas 1</td></tr>
+      <tr><td>\(s_1 \to s_2\) "0,0"</td><td>\(\nu(s_1, 0) = s_2\), \(\omega(s_1, 0) = 0\)</td><td>&mdash;</td><td>fila \(s_1\), columnas 0</td></tr>
+      <tr><td>\(s_2 \to s_1\) "1,1"</td><td>\(\nu(s_2, 1) = s_1\), \(\omega(s_2, 1) = 1\)</td><td>&mdash;</td><td>fila \(s_2\), columnas 1</td></tr>
+      <tr><td>\(s_2 \to s_0\) "0,0"</td><td>\(\nu(s_2, 0) = s_0\), \(\omega(s_2, 0) = 0\)</td><td>&mdash;</td><td>fila \(s_2\), columnas 0</td></tr>
+    </table>
+  </div>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th rowspan="2"></th><th colspan="2">\(\nu\)</th><th colspan="2">\(\omega\)</th></tr>
+      <tr><th>0</th><th>1</th><th>0</th><th>1</th></tr>
+      <tr><td class="lbl">\(s_0\)</td><td>\(s_0\)</td><td>\(s_1\)</td><td>0</td><td>0</td></tr>
+      <tr><td class="lbl">\(s_1\)</td><td>\(s_2\)</td><td>\(s_1\)</td><td>0</td><td>0</td></tr>
+      <tr><td class="lbl">\(s_2\)</td><td>\(s_0\)</td><td>\(s_1\)</td><td>0</td><td>1</td></tr>
+    </table>
+  </div>
+  <div class="caja caja-resp"><span class="caja-tit">Respuesta</span><p>La tabla de arriba: 6 flechas, 6 casillas de \(\nu\) y 6 de \(\omega\). (Esta máquina escribe 1 cada vez que lo leído termina en \(101\); se ve en la sección 15.)</p></div>
+
+  <h3>Ejemplo 2 &mdash; De la tabla al diagrama: el sumador (Ejemplo 13 de la cátedra)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>Hacer la tabla y el diagrama del sumador binario en serie de la sección 12 (\(s_i\) = acarreo \(i\); entrada = el par de bits \(x_i y_i\)).</p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"en \(s_c\) entra \(ab\)"</td><td>sumar \(a + b + c\)</td><td>resultado entre 0 y 3, en binario de 2 bits</td><td>bit derecho = \(\omega\); bit izquierdo = acarreo nuevo = \(\nu\)</td></tr>
+    </table>
+  </div>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Estado</th><th>Entrada</th><th>Suma</th><th>En binario</th><th>\(\nu\)</th><th>\(\omega\)</th></tr>
+      <tr><td>\(s_0\)</td><td>00</td><td>0</td><td>00</td><td>\(s_0\)</td><td>0</td></tr>
+      <tr><td>\(s_0\)</td><td>01 o 10</td><td>1</td><td>01</td><td>\(s_0\)</td><td>1</td></tr>
+      <tr><td>\(s_0\)</td><td>11</td><td>2</td><td>10</td><td>\(s_1\)</td><td>0</td></tr>
+      <tr><td>\(s_1\)</td><td>00</td><td>1</td><td>01</td><td>\(s_0\)</td><td>1</td></tr>
+      <tr><td>\(s_1\)</td><td>01 o 10</td><td>2</td><td>10</td><td>\(s_1\)</td><td>0</td></tr>
+      <tr><td>\(s_1\)</td><td>11</td><td>3</td><td>11</td><td>\(s_1\)</td><td>1</td></tr>
+    </table>
+  </div>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th rowspan="2"></th><th colspan="4">\(\nu\)</th><th colspan="4">\(\omega\)</th></tr>
+      <tr><th>00</th><th>01</th><th>10</th><th>11</th><th>00</th><th>01</th><th>10</th><th>11</th></tr>
+      <tr><td class="lbl">\(s_0\)</td><td>\(s_0\)</td><td>\(s_0\)</td><td>\(s_0\)</td><td>\(s_1\)</td><td>0</td><td>1</td><td>1</td><td>0</td></tr>
+      <tr><td class="lbl">\(s_1\)</td><td>\(s_0\)</td><td>\(s_1\)</td><td>\(s_1\)</td><td>\(s_1\)</td><td>1</td><td>0</td><td>0</td><td>1</td></tr>
+    </table>
+  </div>
+  <div class="pd-grafico af" data-g="u2t-sumador">
+    <svg viewBox="-80 -77 417 129" width="417" height="129" role="img" aria-label="Sumador binario en serie">
+      <path class="arco" d="M-8.9,-16.8 C-40.0,-51.2 40.0,-51.2 8.9,-16.8"/>
+      <path class="punta" d="M8.9,-16.8 L11.6,-26.5 L18.3,-20.4 Z"/>
+      <text class="rot" x="0.0" y="-56.0" text-anchor="middle" dominant-baseline="central">00,0 | 01,1 | 10,1</text>
+      <path class="arco" d="M18.3,-5.1 Q128.0,-36.0 237.7,-5.1"/>
+      <path class="punta" d="M237.7,-5.1 L227.8,-3.2 L230.3,-11.9 Z"/>
+      <text class="rot" x="128.0" y="-30.6" text-anchor="middle" dominant-baseline="central">11,0</text>
+      <path class="arco" d="M237.7,5.1 Q128.0,36.0 18.3,5.1"/>
+      <path class="punta" d="M18.3,5.1 L28.2,3.2 L25.7,11.9 Z"/>
+      <text class="rot" x="128.0" y="30.6" text-anchor="middle" dominant-baseline="central">00,1</text>
+      <path class="arco" d="M247.1,-16.8 C216.0,-51.2 296.0,-51.2 264.9,-16.8"/>
+      <path class="punta" d="M264.9,-16.8 L267.6,-26.5 L274.3,-20.4 Z"/>
+      <text class="rot" x="256.0" y="-56.0" text-anchor="middle" dominant-baseline="central">01,0 | 10,0 | 11,1</text>
+      <path class="arco" d="M-49.0,0.0 L-19.0,0.0"/>
+      <path class="punta" d="M-19.0,0.0 L-28.0,4.5 L-28.0,-4.5 Z"/>
+      <g class="estado">
+        <circle class="borde" cx="0.0" cy="0.0" r="19"/>
+        <text class="nom" x="0.0" y="0.0" text-anchor="middle" dominant-baseline="central">s0</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="256.0" cy="0.0" r="19"/>
+        <text class="nom" x="256.0" y="0.0" text-anchor="middle" dominant-baseline="central">s1</text>
+      </g>
+    </svg>
+  </div>
+  <div class="caja caja-resp"><span class="caja-tit">Respuesta</span><p>La tabla y el diagrama de arriba; coinciden con los de la cátedra. De cada estado salen 4 flechas (una por entrada): 3 juntas en el lazo y 1 hacia el otro estado.</p></div>
+
+  <h3>Ejemplo 3 &mdash; Con forma de parcial: completar una con la otra</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>Dada la máquina con \(I = O = \{0, 1\}\), representada por su tabla y su diagrama, ambos incompletos:</p>
+    <div class="tabla-wrap">
+      <table class="t">
+        <tr><th rowspan="2"></th><th colspan="2">\(\nu\)</th><th colspan="2">\(\omega\)</th></tr>
+        <tr><th>0</th><th>1</th><th>0</th><th>1</th></tr>
+        <tr><td class="lbl">\(s_0\)</td><td>\(s_1\)</td><td></td><td></td><td>0</td></tr>
+        <tr><td class="lbl">\(s_1\)</td><td></td><td>\(s_1\)</td><td>0</td><td></td></tr>
+        <tr><td class="lbl">\(s_2\)</td><td>\(s_2\)</td><td></td><td>0</td><td>1</td></tr>
+        <tr><td class="lbl">\(s_3\)</td><td></td><td></td><td></td><td></td></tr>
+      </table>
+    </div>
+    <div class="pd-grafico af" data-g="u2t-incompleta">
+      <svg viewBox="-61 -77 444 268" width="444" height="268" role="img" aria-label="Diagrama incompleto">
+        <path class="arco" d="M17.3,72.1 L158.7,7.9"/>
+        <path class="punta" d="M158.7,7.9 L152.4,15.7 L148.6,7.5 Z"/>
+        <text class="rot" x="81.9" y="26.6" text-anchor="middle" dominant-baseline="central">0,0</text>
+        <path class="arco" d="M17.3,87.9 L158.7,152.1"/>
+        <path class="punta" d="M158.7,152.1 L148.6,152.5 L152.4,144.3 Z"/>
+        <text class="rot" x="94.1" y="106.6" text-anchor="middle" dominant-baseline="central">1,0</text>
+        <path class="arco" d="M167.1,-16.8 C136.0,-51.2 216.0,-51.2 184.9,-16.8"/>
+        <path class="punta" d="M184.9,-16.8 L187.6,-26.5 L194.3,-20.4 Z"/>
+        <text class="rot" x="176.0" y="-56.0" text-anchor="middle" dominant-baseline="central">1,1</text>
+        <path class="arco" d="M193.3,7.9 L334.7,72.1"/>
+        <path class="punta" d="M334.7,72.1 L324.6,72.5 L328.4,64.3 Z"/>
+        <text class="rot" x="270.1" y="26.6" text-anchor="middle" dominant-baseline="central">0,0</text>
+        <path class="arco" d="M193.3,152.1 L334.7,87.9"/>
+        <path class="punta" d="M334.7,87.9 L328.4,95.7 L324.6,87.5 Z"/>
+        <text class="rot" x="257.9" y="106.6" text-anchor="middle" dominant-baseline="central">1,1</text>
+        <path class="arco" d="M-49.0,80.0 L-19.0,80.0"/>
+        <path class="punta" d="M-19.0,80.0 L-28.0,84.5 L-28.0,75.5 Z"/>
+        <g class="estado">
+          <circle class="borde" cx="0.0" cy="80.0" r="19"/>
+          <text class="nom" x="0.0" y="80.0" text-anchor="middle" dominant-baseline="central">s0</text>
+        </g>
+        <g class="estado">
+          <circle class="borde" cx="176.0" cy="0.0" r="19"/>
+          <text class="nom" x="176.0" y="0.0" text-anchor="middle" dominant-baseline="central">s1</text>
+        </g>
+        <g class="estado">
+          <circle class="borde" cx="176.0" cy="160.0" r="19"/>
+          <text class="nom" x="176.0" y="160.0" text-anchor="middle" dominant-baseline="central">s2</text>
+        </g>
+        <g class="estado">
+          <circle class="borde" cx="352.0" cy="80.0" r="19"/>
+          <text class="nom" x="352.0" y="80.0" text-anchor="middle" dominant-baseline="central">s3</text>
+        </g>
+      </svg>
+    </div>
+    <p>a) Rellenar la tabla y el diagrama con la información disponible. b) Completarlos sabiendo además que \(\nu(s_3, 0) = \nu(s_3, 1) = s_3\) y \(\omega(s_3, 0) = \omega(s_3, 1) = 0\).</p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Dato</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>\(s_0 \to s_1\) "0,0"</td><td>\(\omega(s_0, 0) = 0\) (\(\nu\) ya estaba)</td><td>&mdash;</td><td>tabla, fila \(s_0\), \(\omega\) col. 0</td></tr>
+      <tr><td>\(s_0 \to s_2\) "1,0"</td><td>\(\nu(s_0, 1) = s_2\)</td><td>&mdash;</td><td>tabla, fila \(s_0\), \(\nu\) col. 1</td></tr>
+      <tr><td>lazo \(s_1\) "1,1"</td><td>\(\omega(s_1, 1) = 1\)</td><td>&mdash;</td><td>tabla, fila \(s_1\), \(\omega\) col. 1</td></tr>
+      <tr><td>\(s_1 \to s_3\) "0,0"</td><td>\(\nu(s_1, 0) = s_3\)</td><td>&mdash;</td><td>tabla, fila \(s_1\), \(\nu\) col. 0</td></tr>
+      <tr><td>\(s_2 \to s_3\) "1,1"</td><td>\(\nu(s_2, 1) = s_3\)</td><td>&mdash;</td><td>tabla, fila \(s_2\), \(\nu\) col. 1</td></tr>
+      <tr><td>tabla: \(\nu(s_2, 0) = s_2\), \(\omega(s_2, 0) = 0\)</td><td>un lazo que el diagrama no tiene</td><td>&mdash;</td><td>diagrama: lazo "0,0" en \(s_2\)</td></tr>
+      <tr><td>fila \(s_3\)</td><td>nadie la da</td><td>&mdash;</td><td>queda vacía en a)</td></tr>
+    </table>
+  </div>
+  <p><span class="paso">Paso 1 &mdash; Del diagrama a la tabla</span> Cada flecha llena dos casillas (\(\nu\) y \(\omega\)); se escriben las que faltan.</p>
+  <p><span class="paso">Paso 2 &mdash; De la tabla al diagrama</span> Cada par de casillas (\(\nu\), \(\omega\)) de la misma entrada es una flecha; se dibujan las que faltan (en verde).</p>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th rowspan="2"></th><th colspan="2">\(\nu\)</th><th colspan="2">\(\omega\)</th></tr>
+      <tr><th>0</th><th>1</th><th>0</th><th>1</th></tr>
+      <tr><td class="lbl">\(s_0\)</td><td>\(s_1\)</td><td>\(s_2\)</td><td>0</td><td>0</td></tr>
+      <tr><td class="lbl">\(s_1\)</td><td>\(s_3\)</td><td>\(s_1\)</td><td>0</td><td>1</td></tr>
+      <tr><td class="lbl">\(s_2\)</td><td>\(s_2\)</td><td>\(s_3\)</td><td>0</td><td>1</td></tr>
+      <tr><td class="lbl">\(s_3\)</td><td></td><td></td><td></td><td></td></tr>
+    </table>
+  </div>
+  <div class="pd-grafico af" data-g="u2t-incompleta-b">
+    <svg viewBox="-61 -77 444 314" width="444" height="314" role="img" aria-label="Diagrama completado con la tabla">
+      <path class="arco" d="M17.3,72.1 L158.7,7.9"/>
+      <path class="punta" d="M158.7,7.9 L152.4,15.7 L148.6,7.5 Z"/>
+      <text class="rot" x="81.9" y="26.6" text-anchor="middle" dominant-baseline="central">0,0</text>
+      <path class="arco" d="M17.3,87.9 L158.7,152.1"/>
+      <path class="punta" d="M158.7,152.1 L148.6,152.5 L152.4,144.3 Z"/>
+      <text class="rot" x="94.1" y="106.6" text-anchor="middle" dominant-baseline="central">1,0</text>
+      <path class="arco" d="M167.1,-16.8 C136.0,-51.2 216.0,-51.2 184.9,-16.8"/>
+      <path class="punta" d="M184.9,-16.8 L187.6,-26.5 L194.3,-20.4 Z"/>
+      <text class="rot" x="176.0" y="-56.0" text-anchor="middle" dominant-baseline="central">1,1</text>
+      <path class="arco" d="M193.3,7.9 L334.7,72.1"/>
+      <path class="punta" d="M334.7,72.1 L324.6,72.5 L328.4,64.3 Z"/>
+      <text class="rot" x="270.1" y="26.6" text-anchor="middle" dominant-baseline="central">0,0</text>
+      <path class="arco nueva" d="M184.9,176.8 C216.0,211.2 136.0,211.2 167.1,176.8"/>
+      <path class="punta nueva" d="M167.1,176.8 L164.4,186.5 L157.7,180.4 Z"/>
+      <text class="rot" x="176.0" y="216.0" text-anchor="middle" dominant-baseline="central">0,0</text>
+      <path class="arco" d="M193.3,152.1 L334.7,87.9"/>
+      <path class="punta" d="M334.7,87.9 L328.4,95.7 L324.6,87.5 Z"/>
+      <text class="rot" x="257.9" y="106.6" text-anchor="middle" dominant-baseline="central">1,1</text>
+      <path class="arco" d="M-49.0,80.0 L-19.0,80.0"/>
+      <path class="punta" d="M-19.0,80.0 L-28.0,84.5 L-28.0,75.5 Z"/>
+      <g class="estado">
+        <circle class="borde" cx="0.0" cy="80.0" r="19"/>
+        <text class="nom" x="0.0" y="80.0" text-anchor="middle" dominant-baseline="central">s0</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="176.0" cy="0.0" r="19"/>
+        <text class="nom" x="176.0" y="0.0" text-anchor="middle" dominant-baseline="central">s1</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="176.0" cy="160.0" r="19"/>
+        <text class="nom" x="176.0" y="160.0" text-anchor="middle" dominant-baseline="central">s2</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="352.0" cy="80.0" r="19"/>
+        <text class="nom" x="352.0" y="80.0" text-anchor="middle" dominant-baseline="central">s3</text>
+      </g>
+    </svg>
+  </div>
+  <p><span class="paso">Paso 3 &mdash; Los datos nuevos</span> \(s_3\) va a sí mismo con las dos entradas y escribe 0: un lazo "0,0 | 1,0".</p>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th rowspan="2"></th><th colspan="2">\(\nu\)</th><th colspan="2">\(\omega\)</th></tr>
+      <tr><th>0</th><th>1</th><th>0</th><th>1</th></tr>
+      <tr><td class="lbl">\(s_0\)</td><td>\(s_1\)</td><td>\(s_2\)</td><td>0</td><td>0</td></tr>
+      <tr><td class="lbl">\(s_1\)</td><td>\(s_3\)</td><td>\(s_1\)</td><td>0</td><td>1</td></tr>
+      <tr><td class="lbl">\(s_2\)</td><td>\(s_2\)</td><td>\(s_3\)</td><td>0</td><td>1</td></tr>
+      <tr><td class="lbl">\(s_3\)</td><td>\(s_3\)</td><td>\(s_3\)</td><td>0</td><td>0</td></tr>
+    </table>
+  </div>
+  <div class="pd-grafico af" data-g="u2t-lenguaje">
+    <svg viewBox="-61 -77 544 314" width="544" height="314" role="img" aria-label="Máquina con un estado sumidero">
+      <path class="arco" d="M17.3,72.1 L158.7,7.9"/>
+      <path class="punta" d="M158.7,7.9 L152.4,15.7 L148.6,7.5 Z"/>
+      <text class="rot" x="81.9" y="26.6" text-anchor="middle" dominant-baseline="central">0,0</text>
+      <path class="arco" d="M17.3,87.9 L158.7,152.1"/>
+      <path class="punta" d="M158.7,152.1 L148.6,152.5 L152.4,144.3 Z"/>
+      <text class="rot" x="94.1" y="106.6" text-anchor="middle" dominant-baseline="central">1,0</text>
+      <path class="arco" d="M167.1,-16.8 C136.0,-51.2 216.0,-51.2 184.9,-16.8"/>
+      <path class="punta" d="M184.9,-16.8 L187.6,-26.5 L194.3,-20.4 Z"/>
+      <text class="rot" x="176.0" y="-56.0" text-anchor="middle" dominant-baseline="central">1,1</text>
+      <path class="arco" d="M193.3,7.9 L334.7,72.1"/>
+      <path class="punta" d="M334.7,72.1 L324.6,72.5 L328.4,64.3 Z"/>
+      <text class="rot" x="270.1" y="26.6" text-anchor="middle" dominant-baseline="central">0,0</text>
+      <path class="arco" d="M184.9,176.8 C216.0,211.2 136.0,211.2 167.1,176.8"/>
+      <path class="punta" d="M167.1,176.8 L164.4,186.5 L157.7,180.4 Z"/>
+      <text class="rot" x="176.0" y="216.0" text-anchor="middle" dominant-baseline="central">0,0</text>
+      <path class="arco" d="M193.3,152.1 L334.7,87.9"/>
+      <path class="punta" d="M334.7,87.9 L328.4,95.7 L324.6,87.5 Z"/>
+      <text class="rot" x="257.9" y="106.6" text-anchor="middle" dominant-baseline="central">1,1</text>
+      <path class="arco" d="M368.8,71.1 C403.2,40.0 403.2,120.0 368.8,88.9"/>
+      <path class="punta" d="M368.8,88.9 L378.5,91.6 L372.4,98.3 Z"/>
+      <text class="rot" x="437.2" y="80.0" text-anchor="middle" dominant-baseline="central">0,0 | 1,0</text>
+      <path class="arco" d="M-49.0,80.0 L-19.0,80.0"/>
+      <path class="punta" d="M-19.0,80.0 L-28.0,84.5 L-28.0,75.5 Z"/>
+      <g class="estado">
+        <circle class="borde" cx="0.0" cy="80.0" r="19"/>
+        <text class="nom" x="0.0" y="80.0" text-anchor="middle" dominant-baseline="central">s0</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="176.0" cy="0.0" r="19"/>
+        <text class="nom" x="176.0" y="0.0" text-anchor="middle" dominant-baseline="central">s1</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="176.0" cy="160.0" r="19"/>
+        <text class="nom" x="176.0" y="160.0" text-anchor="middle" dominant-baseline="central">s2</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="352.0" cy="80.0" r="19"/>
+        <text class="nom" x="352.0" y="80.0" text-anchor="middle" dominant-baseline="central">s3</text>
+      </g>
+    </svg>
+  </div>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>
+      a) La tabla con la fila \(s_3\) vacía y el diagrama con el lazo nuevo en \(s_2\). b) La tabla
+      completa y el último diagrama. Esta misma máquina se usa en las secciones 20 a 23 (sumidero,
+      submáquinas, conteo y lenguaje que detecta), igual que en el parcial.
+    </p>
+  </div>
+</div>

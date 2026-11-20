@@ -1,0 +1,127 @@
+<div class="ej">
+  <span class="tag" data-num-ej="CM-1.">Complementaria P1 &middot; Máquinas &middot; Ej. 1 &middot; Salida 10 y después la entrada</span>
+  <h2>Máquina que escribe 10 y después repite la entrada con retardo 2</h2>
+  <div class="enunciado">
+    <p>Construir una máquina de estados finitos que tenga como alfabeto de entrada y salida \(\{0, 1\}\), y que ante una cadena de entrada de longitud \(n\), produzca una salida cuyos dos primeros bits sean \(10\), y luego produzca los bits de la entrada (con más precisión, los \(n-2\) primeros).</p>
+  </div>
+
+  <span class="paso">Qué tema es y por qué</span>
+  <ul>
+    <li>Es una <strong>máquina de retardo</strong> (en la teoría, la de retardo unitario y la de retardo 2): la salida en el instante \(t\) es la entrada del instante \(t - 2\).</li>
+    <li>Lo distinto: en los dos primeros instantes todavía no hay entrada "vieja" para devolver, y en vez de \(00\) tiene que salir \(10\).</li>
+    <li>Recordatorio: una MEF es \(M = (S, I, O, \nu, \omega)\); \(\nu(s, x)\) es el estado al que pasa y \(\omega(s, x)\) lo que escribe, estando en \(s\) y leyendo \(x\). En el diagrama, cada flecha dice "entrada,salida".</li>
+  </ul>
+
+  <span class="paso">Desarme del enunciado</span>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>A dónde va</th></tr>
+      <tr><td>"alfabeto de entrada y salida \(\{0, 1\}\)"</td><td>lee bits y escribe bits</td><td>\(I = O = \{0, 1\}\)</td></tr>
+      <tr><td>"dos primeros bits sean 10"</td><td>al leer el 1.º símbolo escribe 1; al leer el 2.º, escribe 0</td><td>salida \(y_1 = 1\), \(y_2 = 0\)</td></tr>
+      <tr><td>"luego los \(n-2\) primeros bits de la entrada"</td><td>al leer el símbolo \(t\) (\(t \geq 3\)) escribe el que leyó en \(t - 2\)</td><td>\(y_t = x_{t-2}\)</td></tr>
+    </table>
+  </div>
+  <p>Ejemplo: entrada \(0110\) &rarr; salida \(10\,01\) (el 10 fijo y después los dos primeros bits de la entrada, \(01\)).</p>
+
+  <span class="paso">Paso 1 &mdash; Qué tiene que recordar la máquina</span>
+  <p>Para escribir \(x_{t-2}\) en el instante \(t\), la máquina tiene que tener guardados los <strong>dos últimos bits leídos</strong>. Con dos bits hay 4 memorias posibles: \(00, 01, 10, 11\). Un estado por memoria.</p>
+  <p>La regla de cualquier máquina de retardo 2, estando con memoria \(pq\) (\(p\) el más viejo) y leyendo \(r\):</p>
+  <div class="caja caja-formula">
+    <p>escribe \(p\) (el bit más viejo) y pasa a la memoria \(qr\) (se olvida \(p\) y guarda \(r\)).</p>
+  </div>
+
+  <span class="paso">Paso 2 &mdash; El truco para el 10 inicial</span>
+  <p>Si la máquina <strong>arranca con la memoria \(10\)</strong>, como si ya hubiera leído un 1 y después un 0, la regla de arriba hace sola lo que pide el enunciado:</p>
+  <ul>
+    <li>Instante 1: memoria \(10\), escribe \(p = 1\).</li>
+    <li>Instante 2: la memoria ya es \(0\,x_1\), escribe \(0\).</li>
+    <li>Instante 3: la memoria es \(x_1 x_2\), escribe \(x_1\). Y así sigue.</li>
+  </ul>
+  <p>Nombres de los estados: \(s_0\) = memoria \(10\) (el inicial), \(s_1\) = \(00\), \(s_2\) = \(01\), \(s_3\) = \(11\).</p>
+
+  <span class="paso">Paso 3 &mdash; Tabla de estados</span>
+  <p>Aplicando "escribe \(p\), pasa a \(qr\)" a cada estado y cada entrada:</p>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th rowspan="2">Estado (memoria)</th><th colspan="2">\(\nu\)</th><th colspan="2">\(\omega\)</th></tr>
+      <tr><th>0</th><th>1</th><th>0</th><th>1</th></tr>
+      <tr><td>&rarr; \(s_0\) (10)</td><td>\(s_1\)</td><td>\(s_2\)</td><td>1</td><td>1</td></tr>
+      <tr><td>\(s_1\) (00)</td><td>\(s_1\)</td><td>\(s_2\)</td><td>0</td><td>0</td></tr>
+      <tr><td>\(s_2\) (01)</td><td>\(s_0\)</td><td>\(s_3\)</td><td>0</td><td>0</td></tr>
+      <tr><td>\(s_3\) (11)</td><td>\(s_0\)</td><td>\(s_3\)</td><td>1</td><td>1</td></tr>
+    </table>
+  </div>
+  <p>Por ejemplo, \(s_2\) es la memoria \(01\): con entrada \(0\) escribe el \(0\) viejo y queda \(10 = s_0\); con entrada \(1\) escribe \(0\) y queda \(11 = s_3\).</p>
+
+  <span class="paso">Paso 4 &mdash; Diagrama de estados</span>
+  <div class="pd-grafico af" data-g="u2pc-cm1">
+    <svg viewBox="-61 -77 353 330" width="353" height="330" role="img" aria-label="Máquina que escribe 10 y después repite la entrada con dos lugares de retardo">
+      <path class="arco" d="M19.0,0.0 L221.0,0.0"/>
+      <path class="punta" d="M221.0,0.0 L212.0,4.5 L212.0,-4.5 Z"/>
+      <text class="rot" x="120.0" y="-10.0" text-anchor="middle" dominant-baseline="central">0,1</text>
+      <path class="arco" d="M17.5,7.3 Q141.3,59.0 227.7,161.5"/>
+      <path class="punta" d="M227.7,161.5 L218.5,157.5 L225.4,151.7 Z"/>
+      <text class="rot" x="141.9" y="58.2" text-anchor="middle" dominant-baseline="central">1,1</text>
+      <path class="arco" d="M231.1,-16.8 C200.0,-51.2 280.0,-51.2 248.9,-16.8"/>
+      <path class="punta" d="M248.9,-16.8 L251.6,-26.5 L258.3,-20.4 Z"/>
+      <text class="rot" x="240.0" y="-56.0" text-anchor="middle" dominant-baseline="central">0,0</text>
+      <path class="arco" d="M240.0,19.0 L240.0,157.0"/>
+      <path class="punta" d="M240.0,157.0 L235.5,148.0 L244.5,148.0 Z"/>
+      <text class="rot" x="218.6" y="88.0" text-anchor="middle" dominant-baseline="central">1,0</text>
+      <path class="arco" d="M222.5,168.7 Q98.7,117.0 12.3,14.5"/>
+      <path class="punta" d="M12.3,14.5 L21.5,18.5 L14.6,24.3 Z"/>
+      <text class="rot" x="98.1" y="117.8" text-anchor="middle" dominant-baseline="central">0,0</text>
+      <path class="arco" d="M221.0,176.0 L19.0,176.0"/>
+      <path class="punta" d="M19.0,176.0 L28.0,171.5 L28.0,180.5 Z"/>
+      <text class="rot" x="120.0" y="166.0" text-anchor="middle" dominant-baseline="central">1,0</text>
+      <path class="arco" d="M0.0,157.0 L0.0,19.0"/>
+      <path class="punta" d="M0.0,19.0 L4.5,28.0 L-4.5,28.0 Z"/>
+      <text class="rot" x="-21.4" y="88.0" text-anchor="middle" dominant-baseline="central">0,1</text>
+      <path class="arco" d="M8.9,192.8 C40.0,227.2 -40.0,227.2 -8.9,192.8"/>
+      <path class="punta" d="M-8.9,192.8 L-11.6,202.5 L-18.3,196.4 Z"/>
+      <text class="rot" x="0.0" y="232.0" text-anchor="middle" dominant-baseline="central">1,1</text>
+      <path class="arco" d="M-49.0,0.0 L-19.0,0.0"/>
+      <path class="punta" d="M-19.0,0.0 L-28.0,4.5 L-28.0,-4.5 Z"/>
+      <g class="estado">
+        <circle class="borde" cx="0.0" cy="0.0" r="19"/>
+        <text class="nom" x="0.0" y="0.0" text-anchor="middle" dominant-baseline="central">s0</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="240.0" cy="0.0" r="19"/>
+        <text class="nom" x="240.0" y="0.0" text-anchor="middle" dominant-baseline="central">s1</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="240.0" cy="176.0" r="19"/>
+        <text class="nom" x="240.0" y="176.0" text-anchor="middle" dominant-baseline="central">s2</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="0.0" cy="176.0" r="19"/>
+        <text class="nom" x="0.0" y="176.0" text-anchor="middle" dominant-baseline="central">s3</text>
+      </g>
+    </svg>
+  </div>
+
+  <span class="paso">Paso 5 &mdash; Prueba con una cadena</span>
+  <p>Entrada \(x = 0110\):</p>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th>Instante</th><td>1</td><td>2</td><td>3</td><td>4</td></tr>
+      <tr><th>Estado</th><td>\(s_0\)</td><td>\(s_1\)</td><td>\(s_2\)</td><td>\(s_3\)</td></tr>
+      <tr><th>Entrada</th><td>0</td><td>1</td><td>1</td><td>0</td></tr>
+      <tr><th>Salida</th><td>1</td><td>0</td><td>0</td><td>1</td></tr>
+    </table>
+  </div>
+  <p>Salida \(1001\): \(10\) y después \(01\), los dos primeros bits de la entrada.</p>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>La máquina de 4 estados de la tabla y el diagrama: una máquina de retardo 2 que arranca con la memoria \(10\). \(S = \{s_0, s_1, s_2, s_3\}\), \(I = O = \{0, 1\}\), estado inicial \(s_0\).</p>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Si la armás "a lo largo"</span>
+    <p>También vale una máquina de 7 estados, como la de retardo 2 de la teoría: \(s_0\) inicial, dos estados para "leí un bit" y cuatro para la memoria de dos bits. Funciona, pero tres de esos estados se comportan igual que otros (el de "leí un 0" hace lo mismo que la memoria \(00\), etc.); por eso alcanza con 4.</p>
+  </div>
+
+  <span class="paso">Verificación</span>
+  <p>Se simuló en Python con todas las cadenas de \(\{0,1\}^*\) de largo hasta 10, comparando con "\(10\) seguido de la entrada, cortado al largo \(n\)": coincide en todas.</p>
+</div>

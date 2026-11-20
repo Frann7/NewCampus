@@ -1,0 +1,61 @@
+<div class="ej">
+  <span class="tag" data-num-ej="6.1-8.">Grimaldi 6.1 &middot; Ej. 8 &middot; Concatenación de lenguajes</span>
+  <h2>\(AB\), \(BA\), \(A^3\) y \(B^2\) con \(A = \{10, 11\}\) y \(B = \{00, 1\}\)</h2>
+  <div class="enunciado">
+    <p>Sean \(A = \{10, 11\}\), \(B = \{00, 1\}\) lenguajes para el alfabeto \(\Sigma = \{0, 1\}\). Determine lo siguiente: (a) \(AB\); (b) \(BA\); (c) \(A^3\); (d) \(B^2\).</p>
+  </div>
+
+  <span class="paso">Qué tema es y por qué</span>
+  <ul>
+    <li>Concatenación y potencias de lenguajes (en la teoría, "Lenguajes y concatenación" y "Potencias y clausuras de lenguajes").</li>
+  </ul>
+  <div class="caja caja-formula">
+    <p>\(AB = \{ab \mid a \in A,\ b \in B\}\): cada cadena de \(A\) seguida de cada cadena de \(B\). <strong>Primero va la de \(A\).</strong></p>
+    <p>\(A^1 = A\), \(A^{n+1} = A\,A^n\). Así, \(A^2 = AA\) y \(A^3 = A\,A^2\).</p>
+  </div>
+
+  <span class="paso">Paso 1 &mdash; (a) \(AB\)</span>
+  <p>Con \(AB = \{ab \mid a \in A, b \in B\}\), se arma una tabla: fila = cadena de \(A\), columna = cadena de \(B\).</p>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th>\(a \backslash b\)</th><th>00</th><th>1</th></tr>
+      <tr><th>10</th><td>1000</td><td>101</td></tr>
+      <tr><th>11</th><td>1100</td><td>111</td></tr>
+    </table>
+  </div>
+  <p>\(AB = \{101, 111, 1000, 1100\}\).</p>
+
+  <span class="paso">Paso 2 &mdash; (b) \(BA\)</span>
+  <p>Con \(BA = \{ba \mid b \in B, a \in A\}\): ahora va primero la de \(B\).</p>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th>\(b \backslash a\)</th><th>10</th><th>11</th></tr>
+      <tr><th>00</th><td>0010</td><td>0011</td></tr>
+      <tr><th>1</th><td>110</td><td>111</td></tr>
+    </table>
+  </div>
+  <p>\(BA = \{110, 111, 0010, 0011\}\). Es distinto de \(AB\): <strong>la concatenación no es conmutativa</strong>.</p>
+
+  <span class="paso">Paso 3 &mdash; (c) \(A^3\)</span>
+  <p>Con \(A^3 = A\,A^2\): una cadena de \(A^3\) es elegir tres veces (con repetición) entre \(10\) y \(11\) y pegarlas. Por la regla del producto hay \(2 \cdot 2 \cdot 2 = 8\) elecciones, y como \(10\) y \(11\) tienen el mismo largo, todas dan cadenas distintas:</p>
+  <p>\[A^3 = \{101010, 101011, 101110, 101111, 111010, 111011, 111110, 111111\}\]</p>
+
+  <span class="paso">Paso 4 &mdash; (d) \(B^2\)</span>
+  <p>Con \(B^2 = BB\):</p>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th>\(b_1 \backslash b_2\)</th><th>00</th><th>1</th></tr>
+      <tr><th>00</th><td>0000</td><td>001</td></tr>
+      <tr><th>1</th><td>100</td><td>11</td></tr>
+    </table>
+  </div>
+  <p>\(B^2 = \{11, 001, 100, 0000\}\).</p>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>(a) \(\{101, 111, 1000, 1100\}\) &nbsp; (b) \(\{110, 111, 0010, 0011\}\) &nbsp; (c) las 8 cadenas de arriba &nbsp; (d) \(\{11, 001, 100, 0000\}\)</p>
+  </div>
+
+  <span class="paso">Solución del libro</span>
+  <p>El libro en castellano no la da (es par); el manual en inglés trae los mismos cuatro conjuntos. Coincide; también se armaron con Python.</p>
+</div>

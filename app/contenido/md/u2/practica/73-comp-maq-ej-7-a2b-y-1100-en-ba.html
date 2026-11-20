@@ -1,0 +1,75 @@
+<div class="ej">
+  <span class="tag" data-num-ej="CM-7.">Complementaria P1 &middot; Máquinas &middot; Ej. 7 &middot; Concatenación \(A^2B\)</span>
+  <h2>Listar \(A^2B\) y ver si 1100 está en BA</h2>
+  <div class="enunciado">
+    <p>Sea \(\Sigma = \{0, 1\}\) y los lenguajes: \(A = \{010, 110, 00\}\) y \(B = \{x \in \Sigma^* \ / \ |x| \leq 4 \wedge x \text{ tiene como prefijo propio } 11\}\). Se pide:</p>
+    <p>a. Listar los elementos de \(A^2B\).</p>
+    <p>b. Indicar si la cadena \(1100\) pertenece a \(BA\)</p>
+  </div>
+
+  <span class="paso">Qué tema es y por qué</span>
+  <ul>
+    <li>Aunque está en el bloque de máquinas, es de <strong>lenguajes</strong>: concatenación y potencia de lenguajes.</li>
+    <li>\(A^2B = A\,A\,B\): una cadena de \(A\), otra de \(A\) (puede ser la misma) y una de \(B\), pegadas en ese orden.</li>
+  </ul>
+
+  <span class="paso">Desarme del enunciado</span>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>A dónde va</th></tr>
+      <tr><td>"\(|x| \leq 4\)"</td><td>largo a lo sumo 4</td><td>condición de \(B\)</td></tr>
+      <tr><td>"prefijo propio 11"</td><td>empieza con \(11\) y sigue al menos un símbolo</td><td>largo 3 o 4</td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Paso 1 &mdash; Listar B</span>
+  <p>Largo 3: \(11\,\_\) &rarr; 2 cadenas. Largo 4: \(11\,\_\,\_\) &rarr; 4 cadenas.</p>
+  <p>\[B = \{110,\ 111,\ 1100,\ 1101,\ 1110,\ 1111\} \qquad |B| = 6\]</p>
+
+  <span class="paso">Paso 2 &mdash; \(A^2 = AA\)</span>
+  <p>Regla: cada cadena de \(A\) seguida de cada cadena de \(A\): \(3 \cdot 3 = 9\) combinaciones.</p>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th>primera \(\backslash\) segunda</th><th>010</th><th>110</th><th>00</th></tr>
+      <tr><th>010</th><td>010010</td><td>010110</td><td>01000</td></tr>
+      <tr><th>110</th><td>110010</td><td>110110</td><td>11000</td></tr>
+      <tr><th>00</th><td>00010</td><td>00110</td><td>0000</td></tr>
+    </table>
+  </div>
+  <p>Las 9 son distintas: \(|A^2| = 9\).</p>
+
+  <span class="paso">Paso 3 &mdash; a. \(A^2B = (A^2)B\)</span>
+  <p>Regla: cada una de las 9 cadenas de \(A^2\) seguida de cada una de las 6 de \(B\): a lo sumo \(9 \cdot 6 = 54\). Se comprobó que no hay repetidas, así que son exactamente <strong>54</strong>. Por filas (la cadena de \(A^2\) y después las 6 terminaciones de \(B\)):</p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>de \(A^2\)</th><th>\(\cdot 110\)</th><th>\(\cdot 111\)</th><th>\(\cdot 1100\)</th><th>\(\cdot 1101\)</th><th>\(\cdot 1110\)</th><th>\(\cdot 1111\)</th></tr>
+      <tr><td>0000</td><td>0000110</td><td>0000111</td><td>00001100</td><td>00001101</td><td>00001110</td><td>00001111</td></tr>
+      <tr><td>00010</td><td>00010110</td><td>00010111</td><td>000101100</td><td>000101101</td><td>000101110</td><td>000101111</td></tr>
+      <tr><td>00110</td><td>00110110</td><td>00110111</td><td>001101100</td><td>001101101</td><td>001101110</td><td>001101111</td></tr>
+      <tr><td>01000</td><td>01000110</td><td>01000111</td><td>010001100</td><td>010001101</td><td>010001110</td><td>010001111</td></tr>
+      <tr><td>010010</td><td>010010110</td><td>010010111</td><td>0100101100</td><td>0100101101</td><td>0100101110</td><td>0100101111</td></tr>
+      <tr><td>010110</td><td>010110110</td><td>010110111</td><td>0101101100</td><td>0101101101</td><td>0101101110</td><td>0101101111</td></tr>
+      <tr><td>11000</td><td>11000110</td><td>11000111</td><td>110001100</td><td>110001101</td><td>110001110</td><td>110001111</td></tr>
+      <tr><td>110010</td><td>110010110</td><td>110010111</td><td>1100101100</td><td>1100101101</td><td>1100101110</td><td>1100101111</td></tr>
+      <tr><td>110110</td><td>110110110</td><td>110110111</td><td>1101101100</td><td>1101101101</td><td>1101101110</td><td>1101101111</td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Paso 4 &mdash; b. ¿1100 está en BA?</span>
+  <p>Regla: \(w \in BA\) si \(w = uv\) con \(u \in B\) y \(v \in A\). Se mira el <strong>largo</strong>:</p>
+  <ul>
+    <li>Las cadenas de \(B\) miden 3 o 4; las de \(A\), 2 o 3.</li>
+    <li>Entonces toda cadena de \(BA\) mide por lo menos \(3 + 2 = 5\).</li>
+    <li>\(\|1100\| = 4 \lt 5\).</li>
+  </ul>
+  <p>(Ojo: \(1100\) sí está en \(B\), pero eso no la pone en \(BA\): falta pegarle una cadena de \(A\).)</p>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>a. \(A^2B\) tiene <strong>54</strong> cadenas, las de la tabla.</p>
+    <p>b. <strong>No</strong>: toda cadena de \(BA\) mide al menos 5, y \(1100\) mide 4.</p>
+  </div>
+
+  <span class="paso">Verificación</span>
+  <p>\(A^2\), \(B\) y \(A^2B\) se armaron con Python: 9, 6 y 54 elementos (sin repetidos), y \(1100 \notin BA\).</p>
+</div>

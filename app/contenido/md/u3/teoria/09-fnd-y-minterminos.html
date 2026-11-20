@@ -1,0 +1,220 @@
+<div class="bloque" data-examen="igual"
+     data-examen-ref="Parcial 1 2026 · ej. 5 c"
+     data-examen-nota="El parcial pidió la expresión algebraica de la f.n.d. de la función del Ejemplo 3.">
+  <p class="kicker">Forma normal disyuntiva</p>
+  <h2>9. La f.n.d. y los mintérminos \(\sum m\)</h2>
+
+  <h3>Para qué sirve</h3>
+  <p>
+    Una misma función se puede escribir de muchas maneras (\(xy + z\), \(\overline{(\overline{x} + \overline{y})\,\overline{z}}\)...).
+    La <strong>forma normal disyuntiva</strong> es una manera "oficial", siempre la misma, que
+    se arma directo de las filas donde la función vale 1. Sirve para pasar de una tabla a una
+    fórmula, y para comparar funciones.
+  </p>
+
+  <h3>Definición (la de la cátedra)</h3>
+  <p>Para \(f : B^{n} \to B\) con variables \(x_1, x_2, \ldots, x_n\):</p>
+  <ol>
+    <li>Cada \(x_i\), o su complemento \(\overline{x_i}\), es un <strong>literal</strong>.</li>
+    <li>Un producto \(y_1 y_2 \cdots y_n\) donde cada \(y_i\) es \(x_i\) o \(\overline{x_i}\) es una <strong>conjunción fundamental</strong>: tiene <strong>todas</strong> las variables, cada una una sola vez, con o sin barra.</li>
+    <li>Escribir \(f\) como una <strong>suma</strong> de conjunciones fundamentales es su <strong>forma normal disyuntiva (f.n.d.)</strong>.</li>
+  </ol>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Expresión, en \(B^{3}\)</th><th>¿Está en f.n.d.?</th><th>Por qué</th></tr>
+      <tr><td>\(xyz + yz + z\)</td><td>No</td><td>\(yz\) y \(z\) no tienen las tres variables</td></tr>
+      <tr><td>\(xyz + \overline{x}y\overline{z}\)</td><td>Sí</td><td>cada término tiene los tres literales</td></tr>
+    </table>
+  </div>
+  <p>
+    La f.n.d. es única (salvo el orden de los términos). La única función que no tiene f.n.d.
+    es la constante 0, que no tiene ninguna fila en 1.
+  </p>
+
+  <h3>Mintérminos y cómo se numeran</h3>
+  <p>
+    Una conjunción fundamental vale 1 en <strong>una sola fila</strong>: un producto es 1 solo si
+    todos sus factores son 1 (sección 3). Por ejemplo \(\overline{x}yz\) es 1 solo si
+    \(\overline{x} = 1\), \(y = 1\), \(z = 1\), o sea en la fila \(011\). Como vale 1 el
+    mínimo número de veces posible (una), se la llama <strong>mintérmino</strong>, y se le pone el
+    número de esa fila:
+  </p>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Regla de los mintérminos</span>
+    <p>Variable <strong>sin barra</strong> &rarr; <strong>1</strong> &nbsp;&nbsp;&nbsp; variable <strong>con barra</strong> &rarr; <strong>0</strong></p>
+    <p>El número del mintérmino, \(m_k\), es esa tira de bits leída en binario.</p>
+    <p>\[ f = \sum m(k_1, k_2, \ldots) \text{ quiere decir } f = m_{k_1} + m_{k_2} + \cdots \]</p>
+  </div>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th>fila</th><th>\(x\,y\,z\)</th><th>mintérmino</th></tr>
+      <tr><td>0</td><td>000</td><td>\(\overline{x}\,\overline{y}\,\overline{z}\)</td></tr>
+      <tr><td>1</td><td>001</td><td>\(\overline{x}\,\overline{y}z\)</td></tr>
+      <tr><td>2</td><td>010</td><td>\(\overline{x}y\overline{z}\)</td></tr>
+      <tr><td>3</td><td>011</td><td>\(\overline{x}yz\)</td></tr>
+      <tr><td>4</td><td>100</td><td>\(x\overline{y}\,\overline{z}\)</td></tr>
+      <tr><td>5</td><td>101</td><td>\(x\overline{y}z\)</td></tr>
+      <tr><td>6</td><td>110</td><td>\(xy\overline{z}\)</td></tr>
+      <tr><td>7</td><td>111</td><td>\(xyz\)</td></tr>
+    </table>
+  </div>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Símbolo</th><th>Qué significa</th></tr>
+      <tr><td>\(m_k\) o \(m(k)\)</td><td>El mintérmino de la fila \(k\): vale 1 solo en esa fila</td></tr>
+      <tr><td>\(\sum m(3, 6, 7)\)</td><td>La suma \(m_3 + m_6 + m_7\): la función que vale 1 exactamente en las filas 3, 6 y 7</td></tr>
+      <tr><td>\(f^{-1}(1)\)</td><td>La "preimagen de 1": el conjunto de las \(n\)-uplas donde \(f\) vale 1. Es la lista de filas del \(\sum m\), escritas en binario</td></tr>
+    </table>
+  </div>
+
+  <h3>Cómo se obtiene la f.n.d.</h3>
+  <p><strong>Camino 1, con la tabla:</strong></p>
+  <ol>
+    <li>Marcar las filas donde \(f = 1\).</li>
+    <li>Por cada una, escribir su mintérmino (0 &rarr; con barra, 1 &rarr; sin barra).</li>
+    <li>Sumarlos.</li>
+  </ol>
+  <p>
+    Funciona porque cada mintérmino "prende" su fila y ninguna otra: la suma vale 1 justo en las
+    filas elegidas.
+  </p>
+  <p><strong>Camino 2, algebraico (sin tabla):</strong></p>
+  <ol>
+    <li>Llevar \(f\) a una suma de productos (De Morgan y distributiva, como en la sección 8).</li>
+    <li>A cada producto al que le falte una variable, por ejemplo \(z\), multiplicarlo por \(z + \overline{z}\), que vale 1 (L8 y L7): no cambia nada y la mete.</li>
+    <li>Distribuir, y borrar los términos repetidos (L6, \(a + a = a\)).</li>
+  </ol>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; El de la cátedra: \(f = xy + yz\)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>Hallar la f.n.d. de \(f(x, y, z) = xy + yz\) y escribirla como \(\sum m\).</p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"\(xy\)"</td><td>le falta \(z\)</td><td>\(xy \cdot 1 = xy(z + \overline{z})\)</td><td>\(xyz + xy\overline{z}\)</td></tr>
+      <tr><td>"\(yz\)"</td><td>le falta \(x\)</td><td>\(1 \cdot yz = (x + \overline{x})yz\)</td><td>\(xyz + \overline{x}yz\)</td></tr>
+    </table>
+  </div>
+  <p>\[ f = xy \cdot 1 + 1 \cdot yz = xy(z + \overline{z}) + (x + \overline{x})yz = xyz + xy\overline{z} + xyz + \overline{x}yz \]</p>
+  <p>\(xyz\) está dos veces; por idempotencia (L6) queda una:</p>
+  <p>\[ f = xyz + xy\overline{z} + \overline{x}yz \]</p>
+  <p>Numeración: \(\overline{x}yz \to 011 = 3\); \(xy\overline{z} \to 110 = 6\); \(xyz \to 111 = 7\). Con la tabla se llega a lo mismo:</p>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th>et.</th><th>\(x\)</th><th>\(y\)</th><th>\(z\)</th><th>\(f\)</th><th>conj. fundamental</th></tr>
+      <tr><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td></td></tr>
+      <tr><td>1</td><td>0</td><td>0</td><td>1</td><td>0</td><td></td></tr>
+      <tr><td>2</td><td>0</td><td>1</td><td>0</td><td>0</td><td></td></tr>
+      <tr><td>3</td><td>0</td><td>1</td><td>1</td><td>1</td><td>\(\overline{x}yz\)</td></tr>
+      <tr><td>4</td><td>1</td><td>0</td><td>0</td><td>0</td><td></td></tr>
+      <tr><td>5</td><td>1</td><td>0</td><td>1</td><td>0</td><td></td></tr>
+      <tr><td>6</td><td>1</td><td>1</td><td>0</td><td>1</td><td>\(xy\overline{z}\)</td></tr>
+      <tr><td>7</td><td>1</td><td>1</td><td>1</td><td>1</td><td>\(xyz\)</td></tr>
+    </table>
+  </div>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>\(f(x, y, z) = xyz + xy\overline{z} + \overline{x}yz = \sum m(3, 6, 7)\).</p>
+  </div>
+
+  <h3>Ejemplo 2 &mdash; Estilo parcial, sin tabla (guía complementaria, Boole 1 a)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>Sea \(f : B^{3} \to B\), \(f = (x + y)(\overline{x} + z)\). Escribir su forma normal disyuntiva.</p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"\((x + y)(\overline{x} + z)\)"</td><td>un producto de sumas: hay que pasarlo a suma de productos</td><td>distribuir todo con todo</td><td>4 productos</td></tr>
+      <tr><td>"forma normal disyuntiva"</td><td>suma de conjunciones con \(x, y, z\)</td><td>completar las que falten</td><td>\(\sum m\)</td></tr>
+    </table>
+  </div>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Renglón</th><th>Qué ley se usó</th></tr>
+      <tr><td>\(f = x\overline{x} + xz + y\overline{x} + yz\)</td><td>L5, distributiva</td></tr>
+      <tr><td>\(= xz + \overline{x}y + yz\)</td><td>L8, \(x\overline{x} = 0\), y L7</td></tr>
+      <tr><td>\(= x(y + \overline{y})z + \overline{x}y(z + \overline{z}) + (x + \overline{x})yz\)</td><td>L8 y L7: se mete la variable que falta</td></tr>
+      <tr><td>\(= xyz + x\overline{y}z + \overline{x}yz + \overline{x}y\overline{z} + xyz + \overline{x}yz\)</td><td>L5</td></tr>
+      <tr><td>\(= xyz + x\overline{y}z + \overline{x}yz + \overline{x}y\overline{z}\)</td><td>L6, se borran los repetidos</td></tr>
+    </table>
+  </div>
+  <p>Números: \(xyz = 111 = 7\), \(x\overline{y}z = 101 = 5\), \(\overline{x}yz = 011 = 3\), \(\overline{x}y\overline{z} = 010 = 2\).</p>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>\(f = \overline{x}y\overline{z} + \overline{x}yz + x\overline{y}z + xyz = \sum m(2, 3, 5, 7)\) (verificado con la tabla).</p>
+  </div>
+
+  <h3>Ejemplo 3 &mdash; Estilo parcial (Parcial 1 2026, ej. 5 c)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>Hallar la expresión algebraica de la f.n.d. de \(f(x, y, z) = \overline{xy} + \overline{y}z + \overline{z}(z + \overline{x})\).</p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>la tabla del ítem b</td><td>\(f = 1\) en las filas 0 a 5, \(f = 0\) en 6 y 7</td><td>(sección 4, Ejemplo 2)</td><td>seis mintérminos</td></tr>
+      <tr><td>"expresión algebraica"</td><td>escribir los productos con letras, no solo \(\sum m\)</td><td>regla 0 &rarr; barra, 1 &rarr; sin barra</td><td>la suma de los seis</td></tr>
+    </table>
+  </div>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th>et.</th><th>\(x\,y\,z\)</th><th>\(f\)</th><th>conj. fundamental</th></tr>
+      <tr><td>0</td><td>000</td><td>1</td><td>\(\overline{x}\,\overline{y}\,\overline{z}\)</td></tr>
+      <tr><td>1</td><td>001</td><td>1</td><td>\(\overline{x}\,\overline{y}z\)</td></tr>
+      <tr><td>2</td><td>010</td><td>1</td><td>\(\overline{x}y\overline{z}\)</td></tr>
+      <tr><td>3</td><td>011</td><td>1</td><td>\(\overline{x}yz\)</td></tr>
+      <tr><td>4</td><td>100</td><td>1</td><td>\(x\overline{y}\,\overline{z}\)</td></tr>
+      <tr><td>5</td><td>101</td><td>1</td><td>\(x\overline{y}z\)</td></tr>
+      <tr><td>6</td><td>110</td><td>0</td><td></td></tr>
+      <tr><td>7</td><td>111</td><td>0</td><td></td></tr>
+    </table>
+  </div>
+  <p>
+    Sin tabla, desde la forma simple \(f = \overline{x} + \overline{y}\) (sección 8):
+    \(\overline{x} = \overline{x}(y + \overline{y})(z + \overline{z})\) da los cuatro mintérminos
+    con \(\overline{x}\) (0, 1, 2, 3), y \(\overline{y} = (x + \overline{x})\overline{y}(z + \overline{z})\)
+    da 0, 1, 4 y 5. Juntando sin repetir: 0, 1, 2, 3, 4, 5. Lo mismo.
+  </p>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>
+      \(f = \overline{x}\,\overline{y}\,\overline{z} + \overline{x}\,\overline{y}z + \overline{x}y\overline{z} + \overline{x}yz + x\overline{y}\,\overline{z} + x\overline{y}z = \sum m(0, 1, 2, 3, 4, 5)\).
+    </p>
+  </div>
+
+  <h3>Ejemplo 4 &mdash; Desde \(f^{-1}(1)\), con cinco variables (guía, Boole 2 h)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>Dado \(f^{-1}(1) = \{11001, 11111, 00011, 10101, 00110\}\), encontrar la f.n.d. de \(f\).</p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"\(f^{-1}(1)\)"</td><td>las filas donde \(f = 1\)</td><td>cada tira es un mintérmino</td><td>5 mintérminos</td></tr>
+      <tr><td>tiras de 5 bits</td><td>variables \(x_1, \ldots, x_5\), pesos 16, 8, 4, 2, 1</td><td>0 &rarr; barra, 1 &rarr; sin barra</td><td>los productos</td></tr>
+    </table>
+  </div>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th>tira</th><th>número</th><th>mintérmino</th></tr>
+      <tr><td>11001</td><td>\(16 + 8 + 1 = 25\)</td><td>\(x_1x_2\overline{x_3}\,\overline{x_4}x_5\)</td></tr>
+      <tr><td>11111</td><td>31</td><td>\(x_1x_2x_3x_4x_5\)</td></tr>
+      <tr><td>00011</td><td>\(2 + 1 = 3\)</td><td>\(\overline{x_1}\,\overline{x_2}\,\overline{x_3}x_4x_5\)</td></tr>
+      <tr><td>10101</td><td>\(16 + 4 + 1 = 21\)</td><td>\(x_1\overline{x_2}x_3\overline{x_4}x_5\)</td></tr>
+      <tr><td>00110</td><td>\(4 + 2 = 6\)</td><td>\(\overline{x_1}\,\overline{x_2}x_3x_4\overline{x_5}\)</td></tr>
+    </table>
+  </div>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>La f.n.d. es la suma de esos cinco productos, \(f = \sum m(3, 6, 21, 25, 31)\). No hizo falta la tabla de 32 filas.</p>
+  </div>
+</div>

@@ -1,0 +1,97 @@
+<div class="bloque">
+  <p class="kicker">Grupos</p>
+  <h2>13. Núcleo de un homomorfismo</h2>
+
+  <h3>Para qué sirve</h3>
+  <p>
+    Para decidir rápido si un homomorfismo es <strong>inyectivo</strong>: en vez de comparar todos los
+    pares \(f(a) = f(b)\), alcanza con mirar qué elementos van a parar al neutro. Ese conjunto es el
+    <strong>núcleo</strong>. La guía complementaria lo pide como \(\ker f\) "como conjunto de pares
+    ordenados".
+  </p>
+
+  <h3>Definición</h3>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Núcleo</span>
+    <p>Si \(f : (G, \circ) \to (H, *)\) es un homomorfismo, su <strong>núcleo</strong> es</p>
+    <p>\[ \ker f = \{\, a \in G \,/\, f(a) = e_H \,\} \]</p>
+  </div>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Símbolo</th><th>Qué quiere decir</th></tr>
+      <tr><td class="lbl">\(\ker f\)</td><td>Se lee "núcleo de \(f\)" (del inglés <em>kernel</em>).</td></tr>
+      <tr><td class="lbl">\(e_H\)</td><td>El neutro del grupo de <strong>llegada</strong>: el 0 si \(H\) suma, el 1 si multiplica.</td></tr>
+      <tr><td class="lbl">\(a \in G\)</td><td>El núcleo está formado por elementos del grupo de <strong>partida</strong>.</td></tr>
+    </table>
+  </div>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Teorema</span>
+    <ol>
+      <li>\(\ker f\) es un subgrupo de \(G\) (nunca es vacío: siempre contiene a \(e_G\)).</li>
+      <li>\(f\) es inyectiva si y solo si \(\ker f = \{e_G\}\).</li>
+    </ol>
+  </div>
+  <h4>De dónde sale</h4>
+  <ul>
+    <li><strong>\(e_G \in \ker f\):</strong> \(f(e_G) = e_H\) (propiedad 1 de la sección 12).</li>
+    <li><strong>Subgrupo:</strong> si \(a, b \in \ker f\), \(f(a \circ b^{-1}) = f(a) * f(b)^{-1} = e_H * e_H^{-1} = e_H\) (sección 12, propiedades 1 y 2). Entonces \(a \circ b^{-1} \in \ker f\), que es la prueba de subgrupo del caso general (sección 5).</li>
+    <li><strong>Inyectiva \(\Rightarrow\) núcleo trivial:</strong> si \(f(a) = e_H = f(e_G)\), por inyectiva \(a = e_G\).</li>
+    <li><strong>Núcleo trivial \(\Rightarrow\) inyectiva:</strong> si \(f(a) = f(b)\), operando con \(f(b)^{-1}\): \(f(a \circ b^{-1}) = e_H\). Entonces \(a \circ b^{-1} \in \ker f = \{e_G\}\), o sea \(a \circ b^{-1} = e_G\) y \(a = b\).</li>
+  </ul>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Para probar que no es inyectiva, alcanza un elemento</span>
+    <p>
+      Basta mostrar un \(a \neq e_G\) con \(f(a) = e_H\): ese \(a\) y \(e_G\) tienen la misma imagen.
+    </p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; El resto módulo 4</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>Para \(f : (\mathbb{Z}, +) \to (\mathbb{Z}_4, +)\), \(f(x) = [x]\) (homomorfismo, sección 12), hallar \(\ker f\). ¿Es inyectiva?</p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"\((\mathbb{Z}_4, +)\)"</td><td>el neutro de llegada es \([0]\)</td><td>&mdash;</td><td>\(e_H = [0]\)</td></tr>
+      <tr><td>"\(\ker f\)"</td><td>enteros con resto 0 al dividir por 4</td><td>\([x] = [0] \iff 4 \mid x\)</td><td>los múltiplos de 4</td></tr>
+    </table>
+  </div>
+  <div class="caja caja-resp"><span class="caja-tit">Respuesta</span><p>\(\ker f = \{\dots, -8, -4, 0, 4, 8, \dots\} = \{4k / k \in \mathbb{Z}\}\). No es \(\{0\}\): \(f\) no es inyectiva (por ejemplo \(f(4) = f(0)\)).</p></div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; Estilo parcial: un homomorfismo de \(\mathbb{Z} \times \mathbb{Z}\) en \(\mathbb{Z}\)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>
+      Sea \(G = \mathbb{Z} \times \mathbb{Z}\) con la suma usual de pares y \(f : G \to (\mathbb{Z}, +)\),
+      \(f(x, y) = 2x - y\). a) Probar que \(f\) es un homomorfismo y que es sobreyectiva. ¿Es inyectiva?
+      b) Hallar \(\ker f\) como conjunto de pares ordenados.
+    </p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"suma usual de pares"</td><td>coordenada a coordenada (producto directo, sección 4)</td><td>\((x_1, y_1) + (x_2, y_2) = (x_1 + x_2,\ y_1 + y_2)\)</td><td>operación de \(G\)</td></tr>
+      <tr><td>"\((\mathbb{Z}, +)\)"</td><td>neutro de llegada 0</td><td>&mdash;</td><td>\(e_H = 0\)</td></tr>
+      <tr><td>"sobreyectiva"</td><td>cada entero \(z\) tiene una preimagen</td><td>despejar un par con \(2x - y = z\)</td><td>inciso a</td></tr>
+      <tr><td>"\(\ker f\)"</td><td>pares con \(2x - y = 0\)</td><td>despejar \(y\)</td><td>inciso b</td></tr>
+    </table>
+  </div>
+  <h4>a) Homomorfismo</h4>
+  <p>Con dos pares genéricos \((x_1, y_1)\) y \((x_2, y_2)\):</p>
+  <p>\[ f\big((x_1, y_1) + (x_2, y_2)\big) = f(x_1 + x_2,\ y_1 + y_2) = 2(x_1 + x_2) - (y_1 + y_2) \]</p>
+  <p>\[ f(x_1, y_1) + f(x_2, y_2) = (2x_1 - y_1) + (2x_2 - y_2) = 2(x_1 + x_2) - (y_1 + y_2) \]</p>
+  <p>Son iguales (distributiva y reordenar sumas en \(\mathbb{Z}\)): es homomorfismo.</p>
+  <h4>a) Sobreyectiva</h4>
+  <p>Dado cualquier \(z \in \mathbb{Z}\), el par \((0, -z)\) da \(f(0, -z) = 2 \cdot 0 - (-z) = z\). Todo entero es imagen: es sobreyectiva.</p>
+  <h4>b) Núcleo, y de ahí la inyectividad</h4>
+  <p>\[ f(x, y) = 0 \iff 2x - y = 0 \iff y = 2x \]</p>
+  <p>\(\ker f = \{(x, 2x) / x \in \mathbb{Z}\} = \{\dots, (-1, -2), (0, 0), (1, 2), (2, 4), \dots\}\). No es solo \(\{(0, 0)\}\): por el teorema, <strong>no es inyectiva</strong>. Por ejemplo, \(f(1, 2) = 0 = f(0, 0)\).</p>
+  <div class="caja caja-resp"><span class="caja-tit">Respuesta</span><p>a) \(f\) es homomorfismo y sobreyectiva, pero no inyectiva. b) \(\ker f = \{(x, 2x) / x \in \mathbb{Z}\}\).</p></div>
+</div>

@@ -1,0 +1,140 @@
+<div class="ej" data-examen="variante" data-examen-ref="Parcial 1 2026 &middot; ej. 1" data-examen-nota="En el parcial: reconocer las cadenas que terminan en abba (con solapamiento). Acá: que terminan en 01, y en 00 o 11.">
+  <span class="tag" data-num-ej="CM-3.">Complementaria P1 &middot; Máquinas &middot; Ej. 3 &middot; Reconocer un sufijo</span>
+  <h2>Reconocedores de \(\{0,1\}^*\{01\}\) y de \(\{0,1\}^*\{00\} \cup \{0,1\}^*\{11\}\)</h2>
+  <div class="enunciado">
+    <p>Construir una máquina de estados para una máquina de estados finito con \(O = I = \{0, 1\}\) que reconozca todas las cadenas del lenguaje:</p>
+    <p>a. \(\{0, 1\}^*\{01\}\) &nbsp;&nbsp; b. \(\{0, 1\}^*\{00\} \cup \{0, 1\}^*\{11\}\)</p>
+  </div>
+
+  <span class="paso">Qué tema es y por qué</span>
+  <ul>
+    <li>Máquina <strong>reconocedora</strong> de un lenguaje \(L\) (en la teoría, el reconocedor de \(\{0,1\}^*\{111\}\)): cada vez que lee un símbolo escribe <strong>1 si lo leído hasta ahí está en \(L\)</strong>, y 0 si no.</li>
+    <li>\(\{0,1\}^*\{01\}\) son las cadenas que <strong>terminan en 01</strong>. La máquina tiene que recordar "cuánto del final \(01\) ya tengo".</li>
+  </ul>
+
+  <span class="paso">Desarme del enunciado</span>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>A dónde va</th></tr>
+      <tr><td>"\(O = I = \{0, 1\}\)"</td><td>lee bits; escribe 1 (sí) o 0 (no)</td><td>alfabetos</td></tr>
+      <tr><td>"\(\{0,1\}^*\{01\}\)"</td><td>cualquier cosa y al final \(01\)</td><td>termina en \(01\)</td></tr>
+      <tr><td>"\(\{0,1\}^*\{00\} \cup \{0,1\}^*\{11\}\)"</td><td>termina en \(00\) o termina en \(11\)</td><td>los dos últimos bits iguales</td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Paso 1 &mdash; a. Qué recordar para "termina en 01"</span>
+  <p>Método: un estado por cada "pedazo del patrón ya visto al final de lo leído".</p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Estado</th><th>Qué significa</th></tr>
+      <tr><td>\(s_0\)</td><td>no tengo nada del patrón (al principio, o el último bit fue 1)</td></tr>
+      <tr><td>\(s_1\)</td><td>el último bit fue 0: tengo el "0" de \(01\)</td></tr>
+    </table>
+  </div>
+  <ul>
+    <li>Desde \(s_0\): con 0 paso a \(s_1\); con 1 sigo sin nada (\(s_0\)). Escribe 0 (todavía no terminó en \(01\)).</li>
+    <li>Desde \(s_1\): con 0 sigo teniendo un "0" al final (\(s_1\)), escribe 0; con 1 <strong>completé \(01\)</strong>: escribe <strong>1</strong> y vuelvo a \(s_0\) (el último bit es 1, que no sirve para empezar otro \(01\)).</li>
+  </ul>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th rowspan="2"></th><th colspan="2">\(\nu\)</th><th colspan="2">\(\omega\)</th></tr>
+      <tr><th>0</th><th>1</th><th>0</th><th>1</th></tr>
+      <tr><td>&rarr; \(s_0\)</td><td>\(s_1\)</td><td>\(s_0\)</td><td>0</td><td>0</td></tr>
+      <tr><td>\(s_1\)</td><td>\(s_1\)</td><td>\(s_0\)</td><td>0</td><td>1</td></tr>
+    </table>
+  </div>
+  <div class="pd-grafico af" data-g="u2pc-cm3a">
+    <svg viewBox="-61 -77 321 129" width="321" height="129" role="img" aria-label="Reconocedor de {0,1}*{01}">
+      <path class="arco" d="M-8.9,-16.8 C-40.0,-51.2 40.0,-51.2 8.9,-16.8"/>
+      <path class="punta" d="M8.9,-16.8 L11.6,-26.5 L18.3,-20.4 Z"/>
+      <text class="rot" x="0.0" y="-56.0" text-anchor="middle" dominant-baseline="central">1,0</text>
+      <path class="arco" d="M18.0,-6.2 Q104.0,-36.0 190.0,-6.2"/>
+      <path class="punta" d="M190.0,-6.2 L180.1,-4.9 L183.0,-13.4 Z"/>
+      <text class="rot" x="104.0" y="-31.1" text-anchor="middle" dominant-baseline="central">0,0</text>
+      <path class="arco" d="M199.1,-16.8 C168.0,-51.2 248.0,-51.2 216.9,-16.8"/>
+      <path class="punta" d="M216.9,-16.8 L219.6,-26.5 L226.3,-20.4 Z"/>
+      <text class="rot" x="208.0" y="-56.0" text-anchor="middle" dominant-baseline="central">0,0</text>
+      <path class="arco" d="M190.0,6.2 Q104.0,36.0 18.0,6.2"/>
+      <path class="punta" d="M18.0,6.2 L27.9,4.9 L25.0,13.4 Z"/>
+      <text class="rot" x="104.0" y="31.1" text-anchor="middle" dominant-baseline="central">1,1</text>
+      <path class="arco" d="M-49.0,0.0 L-19.0,0.0"/>
+      <path class="punta" d="M-19.0,0.0 L-28.0,4.5 L-28.0,-4.5 Z"/>
+      <g class="estado">
+        <circle class="borde" cx="0.0" cy="0.0" r="19"/>
+        <text class="nom" x="0.0" y="0.0" text-anchor="middle" dominant-baseline="central">s0</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="208.0" cy="0.0" r="19"/>
+        <text class="nom" x="208.0" y="0.0" text-anchor="middle" dominant-baseline="central">s1</text>
+      </g>
+    </svg>
+  </div>
+  <p>Prueba: \(x = 0101\) &rarr; estados \(s_0, s_1, s_0, s_1, s_0\), salida \(0101\): sale 1 justo después de \(01\) y de \(0101\), las dos terminan en \(01\).</p>
+
+  <span class="paso">Paso 2 &mdash; b. Qué recordar para "termina en 00 o en 11"</span>
+  <p>Método: el mismo. Acá alcanza con recordar <strong>el último bit</strong>: si el que llega es igual al anterior, los dos últimos son \(00\) o \(11\).</p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Estado</th><th>Qué significa</th></tr>
+      <tr><td>\(s_0\)</td><td>no leí nada todavía</td></tr>
+      <tr><td>\(s_1\)</td><td>el último bit fue 0</td></tr>
+      <tr><td>\(s_2\)</td><td>el último bit fue 1</td></tr>
+    </table>
+  </div>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th rowspan="2"></th><th colspan="2">\(\nu\)</th><th colspan="2">\(\omega\)</th></tr>
+      <tr><th>0</th><th>1</th><th>0</th><th>1</th></tr>
+      <tr><td>&rarr; \(s_0\)</td><td>\(s_1\)</td><td>\(s_2\)</td><td>0</td><td>0</td></tr>
+      <tr><td>\(s_1\)</td><td>\(s_1\)</td><td>\(s_2\)</td><td>1</td><td>0</td></tr>
+      <tr><td>\(s_2\)</td><td>\(s_1\)</td><td>\(s_2\)</td><td>0</td><td>1</td></tr>
+    </table>
+  </div>
+  <div class="pd-grafico af" data-g="u2pc-cm3b">
+    <svg viewBox="-61 -173 335 346" width="335" height="346" role="img" aria-label="Reconocedor de {0,1}*{00} unión {0,1}*{11}">
+      <path class="arco" d="M17.3,-8.0 L190.7,-88.0"/>
+      <path class="punta" d="M190.7,-88.0 L184.5,-80.2 L180.7,-88.4 Z"/>
+      <text class="rot" x="97.8" y="-61.4" text-anchor="middle" dominant-baseline="central">0,0</text>
+      <path class="arco" d="M17.3,8.0 L190.7,88.0"/>
+      <path class="punta" d="M190.7,88.0 L180.7,88.4 L184.5,80.2 Z"/>
+      <text class="rot" x="110.2" y="34.6" text-anchor="middle" dominant-baseline="central">1,0</text>
+      <path class="arco" d="M199.1,-112.8 C168.0,-147.2 248.0,-147.2 216.9,-112.8"/>
+      <path class="punta" d="M216.9,-112.8 L219.6,-122.5 L226.3,-116.4 Z"/>
+      <text class="rot" x="208.0" y="-152.0" text-anchor="middle" dominant-baseline="central">0,1</text>
+      <path class="arco" d="M214.7,-78.2 Q244.0,0.0 214.7,78.2"/>
+      <path class="punta" d="M214.7,78.2 L213.6,68.2 L222.0,71.4 Z"/>
+      <text class="rot" x="250.7" y="0.0" text-anchor="middle" dominant-baseline="central">1,0</text>
+      <path class="arco" d="M216.9,112.8 C248.0,147.2 168.0,147.2 199.1,112.8"/>
+      <path class="punta" d="M199.1,112.8 L196.4,122.5 L189.7,116.4 Z"/>
+      <text class="rot" x="208.0" y="152.0" text-anchor="middle" dominant-baseline="central">1,1</text>
+      <path class="arco" d="M201.3,78.2 Q172.0,0.0 201.3,-78.2"/>
+      <path class="punta" d="M201.3,-78.2 L202.4,-68.2 L194.0,-71.4 Z"/>
+      <text class="rot" x="165.3" y="0.0" text-anchor="middle" dominant-baseline="central">0,0</text>
+      <path class="arco" d="M-49.0,0.0 L-19.0,0.0"/>
+      <path class="punta" d="M-19.0,0.0 L-28.0,4.5 L-28.0,-4.5 Z"/>
+      <g class="estado">
+        <circle class="borde" cx="0.0" cy="0.0" r="19"/>
+        <text class="nom" x="0.0" y="0.0" text-anchor="middle" dominant-baseline="central">s0</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="208.0" cy="-96.0" r="19"/>
+        <text class="nom" x="208.0" y="-96.0" text-anchor="middle" dominant-baseline="central">s1</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="208.0" cy="96.0" r="19"/>
+        <text class="nom" x="208.0" y="96.0" text-anchor="middle" dominant-baseline="central">s2</text>
+      </g>
+    </svg>
+  </div>
+  <p>Desde \(s_0\) siempre sale 0: con un solo bit leído, la cadena no puede terminar en \(00\) ni en \(11\).</p>
+  <p>Prueba: \(x = 01100\) &rarr; salida \(00101\) (sí después de \(011\) y de \(01100\)).</p>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>a. La máquina de 2 estados (\(s_0\) inicial, \(s_1\) "el último fue 0"), que escribe 1 solo al pasar de \(s_1\) con 1.</p>
+    <p>b. La máquina de 3 estados (\(s_0\) inicial, \(s_1\) "el último fue 0", \(s_2\) "el último fue 1"), que escribe 1 cuando el bit que llega repite al anterior.</p>
+  </div>
+
+  <span class="paso">Verificación</span>
+  <p>Se simularon las dos en Python con todas las cadenas de largo hasta 10: la salida es 1 exactamente en los instantes en que lo leído termina en \(01\) (a) o en \(00\) o \(11\) (b). Además, no se pueden hacer con menos estados (se probó juntando estados equivalentes: no se junta ninguno).</p>
+</div>

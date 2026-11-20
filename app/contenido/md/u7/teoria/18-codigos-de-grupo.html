@@ -1,0 +1,106 @@
+<div class="bloque">
+  <p class="kicker">Codificación</p>
+  <h2>18. Códigos de grupo: distancia mínima = peso mínimo</h2>
+
+  <h3>Para qué sirve</h3>
+  <p>
+    Calcular \(d_{min}\) a mano pide comparar todos los pares de palabras: con 8 palabras son 28
+    distancias, con 16 son 120. Si el código es un <strong>grupo</strong>, alcanza con mirar el peso
+    de cada palabra (8 o 16 cuentas). Acá se juntan las dos mitades de la unidad.
+  </p>
+
+  <h3>Definición</h3>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Código de grupo</span>
+    <p>
+      Un código \(C \subseteq \mathbb{Z}_2^{n}\) es un <strong>código de grupo</strong> si \((C, +)\) es un
+      subgrupo de \((\mathbb{Z}_2^{n}, +)\).
+    </p>
+  </div>
+  <p><strong>Cómo se prueba:</strong> \(C\) es finito y no vacío, así que por el teorema del caso finito (sección 5) alcanza con la <strong>ley de cierre</strong>: la suma de dos palabras de \(C\) tiene que estar en \(C\). Se arma la tabla de \(+\) y se mira que no aparezca nada de afuera.</p>
+  <ul>
+    <li>El neutro es \(00\cdots0\): tiene que estar en \(C\).</li>
+    <li>Cada palabra es su propio inverso (\(c + c = 0\), sección 4): en la diagonal de la tabla va siempre el \(0\cdots0\).</li>
+  </ul>
+
+  <div class="caja caja-formula">
+    <span class="caja-tit">Teorema</span>
+    <p>En un código de grupo, la distancia mínima es el menor peso de una palabra <strong>no nula</strong>:</p>
+    <p>\[ d_{min} = \min \{\, p(c) \,/\, c \in C,\ c \neq 0 \,\} \]</p>
+  </div>
+  <h4>De dónde sale</h4>
+  <ul>
+    <li>Toda distancia es un peso de una palabra del código: \(d(x, y) = p(x + y)\) (sección 16) y \(x + y \in C\) por el cierre. Si \(x \neq y\), \(x + y \neq 0\). Entonces \(d_{min}\) es uno de los pesos no nulos, y no puede ser menor que el menor de ellos.</li>
+    <li>Al revés, todo peso es una distancia: \(p(c) = d(c, 0)\), y \(0 \in C\). Entonces el menor peso no nulo es una de las distancias, y \(d_{min}\) no puede ser mayor.</li>
+  </ul>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Solo vale si es grupo</span>
+    <p>
+      \(C = \{000, 110, 011, 111\}\) no es código de grupo: \(110 + 011 = 101 \notin C\). Su menor peso
+      no nulo es 2, pero \(d(110, 111) = 1\): la distancia mínima real es 1. Antes de usar el atajo,
+      se justifica que \(C\) es grupo.
+    </p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; La triple repetición es código de grupo</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>Para \(C = \{000000, 010101, 101010, 111111\}\) (Actividad 4): armar la tabla de \(+\), justificar que es código de grupo y obtener \(d_{min}\) con el peso mínimo.</p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"tabla de \(+\)"</td><td>sumas bit a bit de cada par</td><td>16 casillas</td><td>cierre</td></tr>
+      <tr><td>"peso mínimo"</td><td>pesos de las no nulas</td><td>\(3, 3, 6\)</td><td>\(d_{min}\)</td></tr>
+    </table>
+  </div>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th>\(+\)</th><th>000000</th><th>010101</th><th>101010</th><th>111111</th></tr>
+      <tr><td class="lbl">000000</td><td>000000</td><td>010101</td><td>101010</td><td>111111</td></tr>
+      <tr><td class="lbl">010101</td><td>010101</td><td>000000</td><td>111111</td><td>101010</td></tr>
+      <tr><td class="lbl">101010</td><td>101010</td><td>111111</td><td>000000</td><td>010101</td></tr>
+      <tr><td class="lbl">111111</td><td>111111</td><td>101010</td><td>010101</td><td>000000</td></tr>
+    </table>
+  </div>
+  <div class="caja caja-resp"><span class="caja-tit">Respuesta</span><p>Todas las sumas caen en \(C\): es cerrado, y por ser finito es subgrupo de \(\mathbb{Z}_2^{6}\) (neutro \(000000\), cada palabra inversa de sí misma). Pesos no nulos: 3, 3, 6 &rarr; \(d_{min} = 3\), igual que con las 6 distancias de la sección 17.</p></div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; Estilo parcial: el código \((5, 2)\)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>Sea \(E : \mathbb{Z}_2^{2} \to \mathbb{Z}_2^{5}\) con \(E(00) = 00000\), \(E(01) = 01101\), \(E(10) = 10110\), \(E(11) = 11011\). a) Completar la tabla de \((C, +)\). b) Justificar por qué es un grupo. c) Comprobar que la distancia mínima es igual al peso mínimo de las palabras no nulas.</p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"\(C\)"</td><td>las 4 imágenes</td><td>&mdash;</td><td>\(\{00000, 01101, 10110, 11011\}\)</td></tr>
+      <tr><td>"por qué es un grupo"</td><td>subgrupo finito: alcanza el cierre</td><td>mirar la tabla</td><td>inciso b</td></tr>
+      <tr><td>"distancia mínima = peso mínimo"</td><td>calcular los dos y compararlos</td><td>6 distancias, 3 pesos</td><td>inciso c</td></tr>
+    </table>
+  </div>
+  <h4>a)</h4>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th>\(+\)</th><th>00000</th><th>01101</th><th>10110</th><th>11011</th></tr>
+      <tr><td class="lbl">00000</td><td>00000</td><td>01101</td><td>10110</td><td>11011</td></tr>
+      <tr><td class="lbl">01101</td><td>01101</td><td>00000</td><td>11011</td><td>10110</td></tr>
+      <tr><td class="lbl">10110</td><td>10110</td><td>11011</td><td>00000</td><td>01101</td></tr>
+      <tr><td class="lbl">11011</td><td>11011</td><td>10110</td><td>01101</td><td>00000</td></tr>
+    </table>
+  </div>
+  <p>Por ejemplo, \(01101 + 10110 = 11011\) y \(10110 + 11011 = 01101\).</p>
+  <h4>b)</h4>
+  <p>Toda casilla es una palabra de \(C\): ley de cierre. Como \(C\) es un subconjunto finito y no vacío de \((\mathbb{Z}_2^{5}, +)\), el cierre alcanza para que sea subgrupo (sección 5). Además se ve en la tabla: neutro \(00000\) y el \(00000\) en toda la diagonal (cada palabra es su inverso). La asociativa la hereda de \(\mathbb{Z}_2^{5}\).</p>
+  <h4>c)</h4>
+  <ul>
+    <li><strong>Pesos</strong> no nulos: \(p(01101) = 3\), \(p(10110) = 3\), \(p(11011) = 4\). Mínimo 3.</li>
+    <li><strong>Distancias</strong> (peso de cada suma de la tabla): \(d(00000, 01101) = 3\), \(d(00000, 10110) = 3\), \(d(00000, 11011) = 4\), \(d(01101, 10110) = p(11011) = 4\), \(d(01101, 11011) = p(10110) = 3\), \(d(10110, 11011) = p(01101) = 3\). Mínimo 3.</li>
+  </ul>
+  <div class="caja caja-resp"><span class="caja-tit">Respuesta</span><p>a) La tabla de arriba. b) Es cerrado, y un subconjunto finito y cerrado de un grupo es subgrupo: \(C\) es código de grupo. c) \(d_{min} = 3 = \) peso mínimo no nulo. Las distancias se repiten porque cada una es el peso de una palabra de \(C\).</p></div>
+</div>

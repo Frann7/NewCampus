@@ -1,0 +1,57 @@
+<div class="ej">
+  <span class="tag" data-num-ej="10.3-9.">Grimaldi 10.3 &middot; Ej. 9 &middot; Plantear: préstamo</span>
+  <h2>La cuota mensual de un préstamo</h2>
+  <div class="enunciado">
+    <p>Mercedes pide prestados 2500 pesos, con un interés compuesto mensual del 12%, para adquirir un computador. Si la deuda debe pagarse en dos años, ¿cuál es el pago mensual?</p>
+  </div>
+
+  <span class="paso">Qué tema es y por qué</span>
+  <ul>
+    <li>Cada mes la deuda crece por el interés y baja por la cuota: primer orden no homogénea con una constante (la cuota), que es <strong>desconocida</strong>.</li>
+    <li>Como en los otros de interés del libro, "compuesto mensual del 12 %" es 12 % anual capitalizado por mes: \(1\%\) por mes.</li>
+    <li>La cuota sale de pedir que la deuda quede en 0 al final.</li>
+  </ul>
+
+  <span class="paso">Desarme del enunciado</span>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"pide prestados 2500"</td><td>deuda al empezar</td><td>&mdash;</td><td>\(s_0 = 2500\)</td></tr>
+      <tr><td>"compuesto mensual del 12%"</td><td>1 % por mes</td><td>\(1 + 0{,}01\)</td><td>factor \(1{,}01\)</td></tr>
+      <tr><td>"el pago mensual"</td><td>la incógnita, igual todos los meses</td><td>&mdash;</td><td>\(P\)</td></tr>
+      <tr><td>"pagarse en dos años"</td><td>24 cuotas y deuda cero</td><td>\(2 \cdot 12\)</td><td>\(s_{24} = 0\)</td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Paso 1 &mdash; Plantear</span>
+  <p>\(s_n\): deuda después de pagar la cuota \(n\). Al mes siguiente se le suma el 1 % y se resta la cuota:</p>
+  <p>\[ s_{n+1} = 1{,}01\,s_n - P,\ \ 0 \leq n \leq 23,\qquad s_0 = 2500,\qquad s_{24} = 0 \]</p>
+
+  <span class="paso">Paso 2 &mdash; Resolver</span>
+  <div class="caja caja-formula">
+    <p>\(s_n = s_n^{(h)} + s_n^{(p)}\); término constante \(\to s_n^{(p)} = A\) (si no choca).</p>
+  </div>
+  <ul>
+    <li>Homogénea: \(s_n^{(h)} = C(1{,}01)^{n}\).</li>
+    <li>Particular \(A\): \(A = 1{,}01A - P \Rightarrow 0{,}01A = P \Rightarrow A = 100P\).</li>
+    <li>Completa: \(s_n = C(1{,}01)^{n} + 100P\). Con \(s_0 = 2500\): \(C = 2500 - 100P\).</li>
+  </ul>
+  <p>\[ s_n = (2500 - 100P)(1{,}01)^{n} + 100P \]</p>
+
+  <span class="paso">Paso 3 &mdash; Pedir \(s_{24} = 0\)</span>
+  <p>\[ (2500 - 100P)(1{,}01)^{24} + 100P = 0 \ \Rightarrow\ 100P\left[(1{,}01)^{24} - 1\right] = 2500\,(1{,}01)^{24} \]</p>
+  <p>\[ P = \frac{25\,(1{,}01)^{24}}{(1{,}01)^{24} - 1} \]</p>
+  <div class="caja caja-calc">
+    <span class="caja-tit">En la calculadora</span>
+    <p><code>1.01 ^ 24</code> &rarr; \(1{,}269735\) &nbsp;&nbsp; <code>25 × Ans ÷ (Ans − 1)</code> &rarr; \(117{,}6837\)</p>
+  </div>
+  <p>Control: aplicando la relación 24 veces con \(P = 117{,}68\) la deuda queda en unos 10 centavos (por el redondeo de la cuota), es decir prácticamente 0.</p>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>El pago mensual es de unos <strong>117,68 pesos</strong>.</p>
+  </div>
+
+  <span class="paso">Solución del libro</span>
+  <p>El libro usa la fórmula de su ejemplo del préstamo, \(P = S\,i\,[1 - (1 + i)^{-T}]^{-1}\) con \(S = 2500\), \(i = 0{,}01\), \(T = 24\), y da 117,68. Coincide (es la misma expresión: dividiendo arriba y abajo por \((1{,}01)^{24}\)).</p>
+</div>

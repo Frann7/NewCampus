@@ -1,0 +1,132 @@
+<div class="ej">
+  <span class="tag" data-num-ej="C-6.">Complementaria P3 &middot; Anillos &middot; Ej. 6 &middot; Todo sobre \(\mathbb{Z}_{230}\)</span>
+  <h2>El anillo \(\mathbb{Z}_{230}\): unidades, inverso, ecuación, divisores de cero e isomorfismo</h2>
+  <div class="enunciado">
+    <p>Dado el anillo \(R = \mathbb{Z}_{230}\):</p>
+    <p>a. ¿Cuántas unidades tiene \(R\)?</p>
+    <p>b. Hallar \(77^{-1}\).</p>
+    <p>c. Resolver \(77x - 204 \equiv 0 \pmod{230}\).</p>
+    <p>d. Hallar cuatro divisores propios de cero.</p>
+    <p>e. ¿Es \(R\) un cuerpo?</p>
+    <p>f. Determinar un anillo isomorfo a \(R\). Luego mostrar las imágenes de 10 y 211.</p>
+  </div>
+
+  <span class="paso">Qué tema es y por qué</span>
+  <ul>
+    <li>Es el ejercicio "completo" de <strong>enteros módulo \(n\)</strong>: junta \(\varphi(n)\), inversos, ecuaciones lineales de congruencia, divisores de cero y el Teorema Chino del Resto.</li>
+    <li>Todo arranca de lo mismo: <strong>factorizar 230</strong>.</li>
+  </ul>
+
+  <span class="paso">Desarme del enunciado</span>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"\(R = \mathbb{Z}_{230}\)"</td><td>módulo \(n = 230\)</td><td>\(230 = 2 \cdot 5 \cdot 23\)</td><td>todos los incisos</td></tr>
+      <tr><td>"cuántas unidades"</td><td>cuántos tienen inverso</td><td>\(\varphi(230)\)</td><td>a</td></tr>
+      <tr><td>"\(77^{-1}\)"</td><td>el \(x\) con \(77x \equiv 1\)</td><td>Euclides extendido</td><td>b</td></tr>
+      <tr><td>"\(77x - 204 \equiv 0\)"</td><td>\(77x \equiv 204 \pmod{230}\)</td><td>\(x \equiv 77^{-1} \cdot 204\)</td><td>c</td></tr>
+      <tr><td>"divisores propios de cero"</td><td>\(a \neq 0\) con \(ab \equiv 0\) para algún \(b \neq 0\)</td><td>\(mcd(a, 230) \gt 1\)</td><td>d</td></tr>
+      <tr><td>"anillo isomorfo"</td><td>otro anillo "igual" con otros nombres</td><td>Teorema Chino del Resto</td><td>f</td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Paso 1 &mdash; a. Cantidad de unidades</span>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Función \(\varphi\) de Euler</span>
+    <p>Si \(n = p_1^{e_1} p_2^{e_2} \cdots p_r^{e_r}\), en \(\mathbb{Z}_n\) hay \(\varphi(n) = n \left(\frac{p_1 - 1}{p_1}\right)\left(\frac{p_2 - 1}{p_2}\right) \cdots \left(\frac{p_r - 1}{p_r}\right)\) unidades y \(n - 1 - \varphi(n)\) divisores propios de cero.</p>
+  </div>
+  <p>Con \(230 = 2 \cdot 5 \cdot 23\):</p>
+  \[ \varphi(230) = 230 \cdot \frac{1}{2} \cdot \frac{4}{5} \cdot \frac{22}{23} = 115 \cdot \frac{4}{5} \cdot \frac{22}{23} = 92 \cdot \frac{22}{23} = 88 \]
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta a</span>
+    <p>\(R\) tiene \(\varphi(230) = 88\) unidades (y \(230 - 1 - 88 = 141\) divisores propios de cero).</p>
+  </div>
+
+  <span class="paso">Paso 2 &mdash; b. \(77^{-1}\)</span>
+  <p>\(77 = 7 \cdot 11\) no comparte primos con \(2 \cdot 5 \cdot 23\): \(mcd(77, 230) = 1\), así que el inverso existe.</p>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Euclides extendido en tabla (para \(a^{-1}\) módulo \(n\))</span>
+    <ul>
+      <li>Filas de arranque: \(r = n,\ s = 0\) y \(r = a,\ s = 1\).</li>
+      <li>Cada fila nueva: \(q\) = cociente de los dos \(r\) de arriba; \(r_{\text{nuevo}} = r_{\text{2 arriba}} - q \cdot r_{\text{1 arriba}}\); \(s_{\text{nuevo}} = s_{\text{2 arriba}} - q \cdot s_{\text{1 arriba}}\).</li>
+      <li>Al llegar a \(r = 1\), el \(s\) de esa fila es \(a^{-1}\) (si es negativo, se le suma \(n\)). Funciona porque cada fila cumple \(r \equiv s \cdot a \pmod{n}\).</li>
+    </ul>
+  </div>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th>División</th><th>\(q\)</th><th>\(r\)</th><th>\(s\)</th></tr>
+      <tr><td>&mdash;</td><td>&mdash;</td><td>230</td><td>0</td></tr>
+      <tr><td>&mdash;</td><td>&mdash;</td><td>77</td><td>1</td></tr>
+      <tr><td>\(230 = 77 \cdot 2 + 76\)</td><td>2</td><td>76</td><td>\(0 - 2 \cdot 1 = -2\)</td></tr>
+      <tr><td>\(77 = 76 \cdot 1 + 1\)</td><td>1</td><td>1</td><td>\(1 - 1 \cdot (-2) = 3\)</td></tr>
+    </table>
+  </div>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta b</span>
+    <p>\(77^{-1} = 3\) en \(\mathbb{Z}_{230}\). Comprobación: \(77 \cdot 3 = 231 = 230 + 1 \equiv 1\). ✔</p>
+  </div>
+
+  <span class="paso">Paso 3 &mdash; c. \(77x - 204 \equiv 0 \pmod{230}\)</span>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Ecuación lineal de congruencia</span>
+    <p>Si \(mcd(a, m) = 1\), la ecuación \(ax \equiv b \pmod{m}\) tiene una única solución: \(x \equiv a^{-1} b \pmod{m}\).</p>
+  </div>
+  <p>Primero se pasa el 204 al otro lado (sumar 204 a los dos lados conserva la congruencia):</p>
+  \[ 77x \equiv 204 \pmod{230} \]
+  <p>\(mcd(77, 230) = 1\) y \(77^{-1} = 3\) (paso 2). Se multiplica a los dos lados por 3:</p>
+  \[ x \equiv 3 \cdot 204 = 612 \pmod{230} \]
+  <p>\(612 = 230 \cdot 2 + 152\), así que \(x \equiv 152\).</p>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta c</span>
+    <p>\(S = \{152\}\) en \(\mathbb{Z}_{230}\). Comprobación: \(77 \cdot 152 = 11\,704 = 230 \cdot 50 + 204\), o sea \(77 \cdot 152 - 204 \equiv 0\). ✔</p>
+  </div>
+
+  <span class="paso">Paso 4 &mdash; d. Cuatro divisores propios de cero</span>
+  <p>
+    <strong>La idea:</strong> un \(a \neq 0\) con \(mcd(a, 230) = d \gt 1\) es divisor de cero, porque
+    \(a \cdot \frac{230}{d} = \frac{a}{d} \cdot 230 \equiv 0\) y \(\frac{230}{d} \neq 0\). Lo más cómodo es tomar los divisores
+    de 230 y multiplicarlos por su "complemento":
+  </p>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th>\(a\)</th><th>pareja \(b\)</th><th>\(a \cdot b\)</th></tr>
+      <tr><td>2</td><td>115</td><td>\(230 \equiv 0\)</td></tr>
+      <tr><td>5</td><td>46</td><td>\(230 \equiv 0\)</td></tr>
+      <tr><td>10</td><td>23</td><td>\(230 \equiv 0\)</td></tr>
+      <tr><td>23</td><td>10</td><td>\(230 \equiv 0\)</td></tr>
+    </table>
+  </div>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta d</span>
+    <p>Por ejemplo 2, 5, 10 y 23 (también 46, 115, o cualquier no nulo con \(mcd(a, 230) \gt 1\), como 4 o 50).</p>
+  </div>
+
+  <span class="paso">Paso 5 &mdash; e. ¿Es cuerpo?</span>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Teorema</span>
+    <p>\(\mathbb{Z}_n\) es cuerpo si y solo si \(n\) es primo.</p>
+  </div>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta e</span>
+    <p>No: 230 no es primo. Se ve también en el inciso d: tiene divisores propios de cero (por ejemplo 2), y un divisor de cero no tiene inverso.</p>
+  </div>
+
+  <span class="paso">Paso 6 &mdash; f. Un anillo isomorfo, y las imágenes de 10 y 211</span>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Teorema Chino del Resto (parte 1)</span>
+    <p>Si \(n = p_1^{e_1} \cdots p_k^{e_k}\), los anillos \(\mathbb{Z}_n\) y \(\mathbb{Z}_{p_1^{e_1}} \times \cdots \times \mathbb{Z}_{p_k^{e_k}}\) son isomorfos, con \(f(a) = (a \bmod p_1^{e_1}, \dots, a \bmod p_k^{e_k})\).</p>
+  </div>
+  <p>Con \(230 = 2 \cdot 5 \cdot 23\), el isomorfismo es</p>
+  \[ f : \mathbb{Z}_{230} \to \mathbb{Z}_2 \times \mathbb{Z}_5 \times \mathbb{Z}_{23},\qquad f(a) = (a \bmod 2,\ a \bmod 5,\ a \bmod 23) \]
+  <ul>
+    <li>\(f(10)\): \(10 = 2 \cdot 5 + 0\), \(10 = 5 \cdot 2 + 0\), \(10 = 23 \cdot 0 + 10\) → \((0, 0, 10)\).</li>
+    <li>\(f(211)\): \(211 = 2 \cdot 105 + 1\), \(211 = 5 \cdot 42 + 1\), \(211 = 23 \cdot 9 + 4\) → \((1, 1, 4)\).</li>
+  </ul>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta f</span>
+    <p>\(\mathbb{Z}_{230} \cong \mathbb{Z}_2 \times \mathbb{Z}_5 \times \mathbb{Z}_{23}\), con \(f(10) = (0, 0, 10)\) y \(f(211) = (1, 1, 4)\).</p>
+  </div>
+
+  <span class="paso">Verificación (la guía no trae resultados)</span>
+  <p>Con Python: hay 88 enteros entre 0 y 229 coprimos con 230; \(77 \cdot 3 \bmod 230 = 1\); \(77 \cdot 152 \bmod 230 = 204\); los cuatro productos del inciso d dan 0 módulo 230; y las imágenes de 10 y 211 coinciden.</p>
+</div>

@@ -1,0 +1,70 @@
+<div class="ej" data-examen="variante" data-examen-ref="Parcial 2 2026 · ej. 3a" data-examen-nota="En el parcial: mcd(837, −341) como combinación lineal y después una diofántica. Acá la segunda parte es una diofántica disfrazada de «múltiplos».">
+  <span class="tag" data-num-ej="CM-6.">Complementaria P2 &middot; MCD &middot; Ej. 6 &middot; Combinación lineal y múltiplos</span>
+  <h2>mcd(1001, 1331) y dos múltiplos que difieren en 55</h2>
+  <div class="enunciado">
+    <p>Hallar \(mcd(1001, 1331)\) y expresarlo como combinación lineal de estos números. Hallar un múltiplo de 1001 y un múltiplo de 1331 cuya diferencia sea 55.</p>
+  </div>
+
+  <span class="paso">Qué tema es y por qué</span>
+  <ul>
+    <li>La primera parte es <strong>Euclides</strong> y <strong>Euclides extendido</strong> (en la teoría de esta unidad).</li>
+    <li>La segunda es una <strong>ecuación diofántica</strong>: "un múltiplo de 1001" es \(1001x\), "un múltiplo de 1331" es \(1331y\), y se pide \(1001x - 1331y = 55\).</li>
+  </ul>
+
+  <span class="paso">Desarme del enunciado</span>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"un múltiplo de 1001"</td><td>\(1001x\) con \(x \in \mathbb{Z}\)</td><td>&mdash;</td><td>primer término</td></tr>
+      <tr><td>"un múltiplo de 1331"</td><td>\(1331y\) con \(y \in \mathbb{Z}\)</td><td>&mdash;</td><td>segundo término</td></tr>
+      <tr><td>"cuya diferencia sea 55"</td><td>restados dan 55</td><td>&mdash;</td><td>\(1001x - 1331y = 55\)</td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Paso 1 &mdash; Euclides</span>
+  <p>Se divide el mayor por el menor, después el divisor por el resto, hasta resto 0; el mcd es el último resto no nulo.</p>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th>División</th><th>Cociente \(q\)</th><th>Resto \(r\)</th></tr>
+      <tr><td>\(1331 = 1 \cdot 1001 + 330\)</td><td>\(1\)</td><td>\(330\)</td></tr>
+      <tr><td>\(1001 = 3 \cdot 330 + 11\)</td><td>\(3\)</td><td>\(11\)</td></tr>
+      <tr><td>\(330 = 30 \cdot 11 + 0\)</td><td>\(30\)</td><td>\(0\)</td></tr>
+    </table>
+  </div>
+  <p>\(mcd(1001, 1331) = 11\).</p>
+
+  <span class="paso">Paso 2 &mdash; Euclides extendido</span>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Euclides extendido (la regla de la tabla)</span>
+    <ul>
+      <li>Cada fila dice: <strong>resto \(= a \cdot x + b \cdot y\)</strong>. Las dos primeras son obvias: \(a = a \cdot 1 + b \cdot 0\) y \(b = a \cdot 0 + b \cdot 1\).</li>
+      <li>Para cada fila nueva, \(q\) es el cociente de la división de Euclides que produjo ese resto.</li>
+      <li><strong>Fila nueva = (fila de dos arriba) \(-\ q \cdot\) (fila de arriba)</strong>, en las columnas \(x\) y \(y\). Es lo mismo que despejar el resto (\(r = \text{dividendo} - q \cdot \text{divisor}\)) y reemplazar hacia atrás, pero hecho en orden.</li>
+      <li>La fila del último resto no nulo (el mcd) da los coeficientes buscados.</li>
+    </ul>
+  </div>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Fila</th><th>Resto \(r\)</th><th>\(q\)</th><th>\(x\)</th><th>\(y\)</th><th>Se lee \(r = 1331\,x + 1001\,y\)</th></tr>
+      <tr><td>1</td><td>\(1331\)</td><td>&mdash;</td><td>\(1\)</td><td>\(0\)</td><td>\(1331 = 1331 \cdot 1 + 1001 \cdot 0\)</td></tr>
+      <tr><td>2</td><td>\(1001\)</td><td>&mdash;</td><td>\(0\)</td><td>\(1\)</td><td>\(1001 = 1331 \cdot 0 + 1001 \cdot 1\)</td></tr>
+      <tr><td>3</td><td>\(330\)</td><td>\(1\)</td><td>\(1 - 1 \cdot 0 = 1\)</td><td>\(0 - 1 \cdot 1 = -1\)</td><td>\(330 = 1331 \cdot 1 + 1001 \cdot (-1)\)</td></tr>
+      <tr><td>4</td><td>\(11\)</td><td>\(3\)</td><td>\(0 - 3 \cdot 1 = -3\)</td><td>\(1 - 3 \cdot (-1) = 4\)</td><td>\(11 = 1331 \cdot (-3) + 1001 \cdot 4\)</td></tr>
+    </table>
+  </div>
+  \[11 = 1001 \cdot 4 + 1331 \cdot (-3) = 1001 \cdot 4 - 1331 \cdot 3\]
+
+  <span class="paso">Paso 3 &mdash; Los múltiplos que difieren en 55</span>
+  <p>¿Tiene solución \(1001x - 1331y = 55\)? Sí: \(mcd = 11\) y \(11 \mid 55\) (\(55 = 11 \cdot 5\)). Se multiplica por \(55 / 11 = 5\) la combinación del paso 2:</p>
+  \[55 = 1001 \cdot 20 - 1331 \cdot 15 = 20020 - 19965\]
+  <p>Hay infinitos pares más. Con la fórmula general de la diofántica (\(x = x_0 + \frac{b}{d}k\), \(y = y_0 - \frac{a}{d}k\), con \(\frac{1331}{11} = 121\) y \(\frac{1001}{11} = 91\)): \(1001(20 + 121k) - 1331(15 + 91k) = 55\) para todo \(k \in \mathbb{Z}\).</p>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>\(mcd(1001, 1331) = 11 = 1001 \cdot 4 + 1331 \cdot (-3)\).</p>
+    <p>Múltiplos: \(20020 = 1001 \cdot 20\) y \(19965 = 1331 \cdot 15\), con \(20020 - 19965 = 55\).</p>
+  </div>
+
+  <span class="paso">Verificación</span>
+  <p>La guía no trae resultados; verificación propia: \(4004 - 3993 = 11\) y \(20020 - 19965 = 55\). Coincide.</p>
+</div>

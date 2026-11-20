@@ -1,0 +1,64 @@
+<div class="ej">
+  <span class="tag" data-num-ej="6.1-7.">Grimaldi 6.1 &middot; Ej. 7 &middot; Operaciones de conjuntos</span>
+  <h2>Intersección, diferencia, diferencia simétrica y complemento de tres lenguajes</h2>
+  <div class="enunciado">
+    <p>Para el alfabeto \(\Sigma = \{0, 1\}\), sean \(A, B, C \subseteq \Sigma^*\) los siguientes lenguajes:</p>
+    <p>\(A = \{0, 1, 00, 11, 000, 111, 0000, 1111\}\), \(B = \{w \in \Sigma^* \mid 2 \leq \|w\|\}\), \(C = \{w \in \Sigma^* \mid 2 \geq \|w\|\}\).</p>
+    <p>Determine los siguientes subconjuntos (lenguajes) de \(\Sigma^*\).</p>
+    <p>a) \(A \cap B\) &nbsp; b) \(A - B\) &nbsp; c) \(A \triangle B\) &nbsp; d) \(A \cap C\) &nbsp; e) \(B \cap C\) &nbsp; f) \(B \cup C\) &nbsp; g) \(\overline{A \cap C}\) &nbsp; h) \(\overline{A} \cap \overline{C}\) &nbsp; i) \(\overline{A} \cap B\)</p>
+  </div>
+
+  <span class="paso">Qué tema es y por qué</span>
+  <ul>
+    <li>Un lenguaje es un <strong>conjunto</strong> de cadenas (en la teoría, "Lenguajes y concatenación"), así que se le aplican las operaciones de conjuntos de siempre. El conjunto universal es \(\Sigma^*\).</li>
+  </ul>
+  <div class="caja caja-formula">
+    <p>\(X \cap Y\): las que están en los dos. \(X \cup Y\): las que están en alguno. \(X - Y\): las de \(X\) que no están en \(Y\).</p>
+    <p>\(X \triangle Y = (X - Y) \cup (Y - X)\): las que están en <strong>uno solo</strong>. \(\overline{X} = \Sigma^* - X\): todas las cadenas que no están en \(X\).</p>
+  </div>
+
+  <span class="paso">Desarme del enunciado</span>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Lenguaje</th><th>Qué significa</th><th>Cómo es</th></tr>
+      <tr><td>\(A\)</td><td>8 cadenas: dos de cada largo 1, 2, 3, 4 (todo ceros o todo unos)</td><td>finito</td></tr>
+      <tr><td>\(B\): "\(2 \leq \|w\|\)"</td><td>largo 2 o más</td><td>infinito</td></tr>
+      <tr><td>\(C\): "\(2 \geq \|w\|\)"</td><td>largo 0, 1 o 2: \(\{\lambda, 0, 1, 00, 01, 10, 11\}\)</td><td>finito, 7 cadenas</td></tr>
+    </table>
+  </div>
+  <p>Truco para todo el ejercicio: \(A\), \(B\) y \(C\) se describen por largo, así que conviene preguntarse <strong>qué largo</strong> tiene cada cadena.</p>
+
+  <span class="paso">Paso 1 &mdash; a), b), c): \(A\) contra \(B\)</span>
+  <p>De \(A\), las de largo \(\geq 2\) están en \(B\); las de largo 1 (\(0\) y \(1\)) no.</p>
+  <ul>
+    <li>a) \(A \cap B = \{00, 11, 000, 111, 0000, 1111\}\).</li>
+    <li>b) \(A - B = \{0, 1\}\).</li>
+    <li>c) Con \(X \triangle Y = (X - Y) \cup (Y - X)\): \(A - B = \{0, 1\}\) y \(B - A\) son las cadenas de largo \(\geq 2\) que no están en \(A\). Juntas: todas las cadenas salvo \(\lambda\) (no está en ninguno) y salvo las de \(A \cap B\) (están en los dos):
+      \[A \triangle B = \Sigma^* - \{\lambda, 00, 11, 000, 111, 0000, 1111\}\]</li>
+  </ul>
+
+  <span class="paso">Paso 2 &mdash; d), e), f): con \(C\)</span>
+  <ul>
+    <li>d) De \(A\), las de largo \(\leq 2\): \(A \cap C = \{0, 1, 00, 11\}\).</li>
+    <li>e) Largo \(\geq 2\) y \(\leq 2\) a la vez: largo exactamente 2. \(B \cap C = \{00, 01, 10, 11\} = \{w \mid \|w\| = 2\}\).</li>
+    <li>f) Toda cadena tiene largo \(\geq 2\) o \(\leq 2\): \(B \cup C = \Sigma^*\).</li>
+  </ul>
+
+  <span class="paso">Paso 3 &mdash; g), h), i): complementos</span>
+  <ul>
+    <li>g) Con \(\overline{X} = \Sigma^* - X\) y d): \(\overline{A \cap C} = \Sigma^* - \{0, 1, 00, 11\}\). Dicho de otra forma: \(\{\lambda, 01, 10\} \cup \{w \mid \|w\| \geq 3\}\).</li>
+    <li>h) Por De Morgan, \(\overline{A} \cap \overline{C} = \overline{A \cup C}\): lo que no está ni en \(A\) ni en \(C\). \(A \cup C = \{\lambda, 0, 1, 00, 01, 10, 11, 000, 111, 0000, 1111\}\), así que
+      \[\overline{A} \cap \overline{C} = \Sigma^* - \{\lambda, 0, 1, 00, 01, 10, 11, 000, 111, 0000, 1111\}\]</li>
+    <li>i) Las de largo \(\geq 2\) que no están en \(A\): \(\overline{A} \cap B = B - A = \Sigma^* - \{\lambda, 0, 1, 00, 11, 000, 111, 0000, 1111\}\).</li>
+  </ul>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>a) \(\{00, 11, 000, 111, 0000, 1111\}\) &nbsp; b) \(\{0, 1\}\) &nbsp; c) \(\Sigma^* - \{\lambda, 00, 11, 000, 111, 0000, 1111\}\)</p>
+    <p>d) \(\{0, 1, 00, 11\}\) &nbsp; e) \(\{00, 01, 10, 11\}\) &nbsp; f) \(\Sigma^*\)</p>
+    <p>g) \(\Sigma^* - \{0, 1, 00, 11\}\) &nbsp; h) \(\Sigma^* - \{\lambda, 0, 1, 00, 01, 10, 11, 000, 111, 0000, 1111\}\) &nbsp; i) \(\Sigma^* - \{\lambda, 0, 1, 00, 11, 000, 111, 0000, 1111\}\)</p>
+  </div>
+
+  <span class="paso">Solución del libro</span>
+  <p>Da exactamente estos nueve conjuntos (en g escribe además \(\{\lambda, 01, 10\} \cup \{w \mid \|w\| \geq 3\}\)). Coincide; se comprobó con Python sobre todas las cadenas de largo hasta 5.</p>
+</div>

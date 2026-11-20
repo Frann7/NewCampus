@@ -1,0 +1,109 @@
+<div class="ej" data-examen="variante" data-examen-ref="Parcial 2 2026 · ej. 3b" data-examen-nota="En el parcial también era un problema de compras que se traduce a una diofántica; allí la conclusión era que no había solución.">
+  <span class="tag" data-num-ej="CM-11.">Complementaria P2 &middot; MCD &middot; Ej. 11 &middot; Problema con diofántica</span>
+  <h2>Doce piezas por 99 pesos: clavitos y cables</h2>
+  <div class="enunciado">
+    <p>Un hombre compró doce piezas de computadora (clavitos y pequeños cables) por 99 pesos. Si un clavito cuesta 30 centavos más que un pequeño cable, ¿tiene solución el problema?, si es así: ¿cuántos de cada uno compró?</p>
+  </div>
+
+  <span class="paso">Qué tema es y por qué</span>
+  <ul>
+    <li>Hay cantidades enteras (piezas) y precios en centavos enteros: al plantearlo queda una <strong>ecuación diofántica</strong> (en la teoría de esta unidad), seguida del <strong>filtro de condiciones</strong>.</li>
+    <li>Lo engañoso: no se sabe el precio de cada pieza. El precio del cable es una incógnita más.</li>
+  </ul>
+
+  <div class="caja caja-formula">
+    <span class="caja-tit">Ecuación diofántica \(ax + by = c\)</span>
+    <ul>
+      <li><strong>Tiene solución entera si y solo si \(d = mcd(a, b)\) divide a \(c\).</strong></li>
+      <li>Solución particular: se escribe \(d = a x' + b y'\) (Euclides extendido) y se multiplica todo por \(c / d\): \(x_0 = x' \cdot \frac{c}{d}\), \(y_0 = y' \cdot \frac{c}{d}\).</li>
+      <li>Solución general (todas): \(x = x_0 + \frac{b}{d}\,k\), \(\ y = y_0 - \frac{a}{d}\,k\), con \(k \in \mathbb{Z}\).</li>
+    </ul>
+  </div>
+
+  <span class="paso">Desarme del enunciado</span>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"doce piezas (clavitos y pequeños cables)"</td><td>\(c\) clavitos y \(w\) cables, de los dos tipos</td><td>&mdash;</td><td>\(c + w = 12\), \(c, w \geq 1\)</td></tr>
+      <tr><td>"un pequeño cable"</td><td>precio desconocido, en centavos</td><td>&mdash;</td><td>\(p\) centavos, \(p \gt 0\)</td></tr>
+      <tr><td>"un clavito cuesta 30 centavos más"</td><td>precio del clavito</td><td>&mdash;</td><td>\(p + 30\) centavos</td></tr>
+      <tr><td>"por 99 pesos"</td><td>total, pasado a centavos</td><td>\(99 \cdot 100\)</td><td>\(9900\) centavos</td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Paso 1 &mdash; Plantear la ecuación</span>
+  \[c\,(p + 30) + w\,p = 9900\]
+  \[(c + w)\,p + 30c = 9900 \quad\Rightarrow\quad 12p + 30c = 9900\]
+  <p>(se usó \(c + w = 12\)). Los tres números son múltiplos de 6; dividiendo por 6:</p>
+  \[5c + 2p = 1650\]
+
+  <span class="paso">Paso 2 &mdash; ¿Tiene solución? Euclides</span>
+  <p>Se divide el mayor por el menor, después el divisor por el resto, hasta resto 0; el mcd es el último resto no nulo.</p>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th>División</th><th>Cociente \(q\)</th><th>Resto \(r\)</th></tr>
+      <tr><td>\(5 = 2 \cdot 2 + 1\)</td><td>\(2\)</td><td>\(1\)</td></tr>
+      <tr><td>\(2 = 2 \cdot 1 + 0\)</td><td>\(2\)</td><td>\(0\)</td></tr>
+    </table>
+  </div>
+  <p>\(mcd(5, 2) = 1\) y \(1 \mid 1650\): hay soluciones enteras.</p>
+
+  <span class="paso">Paso 3 &mdash; Solución particular (Euclides extendido)</span>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Euclides extendido (la regla de la tabla)</span>
+    <ul>
+      <li>Cada fila dice: <strong>resto \(= a \cdot x + b \cdot y\)</strong>. Las dos primeras son obvias: \(a = a \cdot 1 + b \cdot 0\) y \(b = a \cdot 0 + b \cdot 1\).</li>
+      <li>Para cada fila nueva, \(q\) es el cociente de la división de Euclides que produjo ese resto.</li>
+      <li><strong>Fila nueva = (fila de dos arriba) \(-\ q \cdot\) (fila de arriba)</strong>, en las columnas \(x\) y \(y\). Es lo mismo que despejar el resto (\(r = \text{dividendo} - q \cdot \text{divisor}\)) y reemplazar hacia atrás, pero hecho en orden.</li>
+      <li>La fila del último resto no nulo (el mcd) da los coeficientes buscados.</li>
+    </ul>
+  </div>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Fila</th><th>Resto \(r\)</th><th>\(q\)</th><th>\(x\)</th><th>\(y\)</th><th>Se lee \(r = 5\,x + 2\,y\)</th></tr>
+      <tr><td>1</td><td>\(5\)</td><td>&mdash;</td><td>\(1\)</td><td>\(0\)</td><td>\(5 = 5 \cdot 1 + 2 \cdot 0\)</td></tr>
+      <tr><td>2</td><td>\(2\)</td><td>&mdash;</td><td>\(0\)</td><td>\(1\)</td><td>\(2 = 5 \cdot 0 + 2 \cdot 1\)</td></tr>
+      <tr><td>3</td><td>\(1\)</td><td>\(2\)</td><td>\(1 - 2 \cdot 0 = 1\)</td><td>\(0 - 2 \cdot 1 = -2\)</td><td>\(1 = 5 \cdot 1 + 2 \cdot (-2)\)</td></tr>
+    </table>
+  </div>
+  <p>\(1 = 5 \cdot 1 + 2 \cdot (-2)\). Por \(c / d = 1650\):</p>
+  \[1650 = 5 \cdot 1650 + 2 \cdot (-3300) \quad\Rightarrow\quad c_0 = 1650,\ \ p_0 = -3300\]
+
+  <span class="paso">Paso 4 &mdash; Solución general</span>
+  <p>\(c = c_0 + \frac{b}{d}k\), \(p = p_0 - \frac{a}{d}k\), con \(a = 5\), \(b = 2\), \(d = 1\):</p>
+  \[c = 1650 + 2k, \qquad p = -3300 - 5k, \qquad k \in \mathbb{Z}\]
+
+  <span class="paso">Paso 5 &mdash; Filtro de condiciones</span>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Condición</th><th>Se despeja \(k\)</th><th>Queda</th></tr>
+      <tr><td>\(c \geq 1\)</td><td>\(1650 + 2k \geq 1 \Rightarrow k \geq -824{,}5\)</td><td>\(k \geq -824\)</td></tr>
+      <tr><td>\(w = 12 - c \geq 1\), o sea \(c \leq 11\)</td><td>\(1650 + 2k \leq 11 \Rightarrow k \leq -819{,}5\)</td><td>\(k \leq -820\)</td></tr>
+      <tr><td>\(p \gt 0\)</td><td>\(-3300 - 5k \gt 0 \Rightarrow k \lt -660\)</td><td>ya se cumple</td></tr>
+    </table>
+  </div>
+  <p>Quedan \(k = -824, -823, -822, -821, -820\):</p>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th>\(k\)</th><th>Clavitos \(c\)</th><th>Cables \(w\)</th><th>Cable</th><th>Clavito</th><th>Total</th></tr>
+      <tr><td>\(-824\)</td><td>2</td><td>10</td><td>8,20 pesos</td><td>8,50 pesos</td><td>\(17 + 82 = 99\)</td></tr>
+      <tr><td>\(-823\)</td><td>4</td><td>8</td><td>8,15 pesos</td><td>8,45 pesos</td><td>\(33{,}80 + 65{,}20 = 99\)</td></tr>
+      <tr><td>\(-822\)</td><td>6</td><td>6</td><td>8,10 pesos</td><td>8,40 pesos</td><td>\(50{,}40 + 48{,}60 = 99\)</td></tr>
+      <tr><td>\(-821\)</td><td>8</td><td>4</td><td>8,05 pesos</td><td>8,35 pesos</td><td>\(66{,}80 + 32{,}20 = 99\)</td></tr>
+      <tr><td>\(-820\)</td><td>10</td><td>2</td><td>8 pesos</td><td>8,30 pesos</td><td>\(83 + 16 = 99\)</td></tr>
+    </table>
+  </div>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">No hay una única respuesta</span>
+    <p>El enunciado no da otro dato (por ejemplo "compró más clavitos que cables" o un precio redondo), así que el problema tiene <strong>cinco</strong> soluciones. Con un dato más se achica: por ejemplo, si los precios fueran múltiplos de 10 centavos quedarían tres (2, 6 y 10 clavitos).</p>
+  </div>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>Sí tiene solución (\(mcd(5, 2) = 1 \mid 1650\)), pero no una sola: 2, 4, 6, 8 o 10 clavitos (y 10, 8, 6, 4 o 2 cables), con el cable a 8,20; 8,15; 8,10; 8,05 u 8 pesos respectivamente.</p>
+  </div>
+
+  <span class="paso">Verificación</span>
+  <p>La guía no trae resultados; verificación propia con Python, probando todas las cantidades de clavitos de 0 a 12 y buscando un precio en centavos enteros: salen exactamente esas cinco (más los casos extremos de 0 y 12 clavitos, que no tienen las dos clases de pieza).</p>
+</div>

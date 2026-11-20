@@ -1,0 +1,149 @@
+<div class="bloque">
+  <p class="kicker">La que se usa en el parcial</p>
+  <h2>3. El álgebra de \(B = \{0, 1\}\)</h2>
+
+  <h3>Para qué sirve</h3>
+  <p>
+    Todo lo que sigue en la unidad pasa acá: un mundo con solo dos valores. Un interruptor
+    prendido o apagado, un bit, verdadero o falso en programación. Es el álgebra de Boole más
+    chica que hay, y es la base de los circuitos digitales (Shannon, 1937).
+  </p>
+
+  <h3>Los interruptores</h3>
+  <p>
+    Pensá en un interruptor: 1 si está cerrado (pasa corriente), 0 si está abierto. Con dos
+    interruptores \(x\) e \(y\) hay dos maneras de conectarlos:
+  </p>
+  <div class="pd-grafico" data-g="u3t-circuitos">
+    <svg viewBox="0 0 600 190" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Interruptores en serie y en paralelo">
+    <line class="eje" x1="20" y1="70" x2="70" y2="70"/>
+    <circle class="punto" cx="70" cy="70" r="3"/>
+    <circle class="punto" cx="110" cy="70" r="3"/>
+    <line class="eje" x1="70" y1="70" x2="106" y2="54"/>
+    <text class="valor" x="90" y="48" text-anchor="middle">x</text>
+    <line class="eje" x1="110" y1="70" x2="160" y2="70"/>
+    <circle class="punto" cx="160" cy="70" r="3"/>
+    <circle class="punto" cx="200" cy="70" r="3"/>
+    <line class="eje" x1="160" y1="70" x2="196" y2="54"/>
+    <text class="valor" x="180" y="48" text-anchor="middle">y</text>
+    <line class="eje" x1="200" y1="70" x2="250" y2="70"/>
+    <text class="rotulo" x="135" y="110" text-anchor="middle">En serie: pasa corriente solo si x = 1 y y = 1</text>
+    <text class="valor" x="135" y="132" text-anchor="middle">x · y</text>
+    <line class="eje" x1="330" y1="80" x2="370" y2="80"/>
+    <line class="eje" x1="370" y1="50" x2="370" y2="110"/>
+    <line class="eje" x1="370" y1="50" x2="420" y2="50"/>
+    <line class="eje" x1="370" y1="110" x2="420" y2="110"/>
+    <circle class="punto" cx="420" cy="50" r="3"/>
+    <circle class="punto" cx="460" cy="50" r="3"/>
+    <line class="eje" x1="420" y1="50" x2="456" y2="34"/>
+    <text class="valor" x="440" y="28" text-anchor="middle">x</text>
+    <circle class="punto" cx="420" cy="110" r="3"/>
+    <circle class="punto" cx="460" cy="110" r="3"/>
+    <line class="eje" x1="420" y1="110" x2="456" y2="94"/>
+    <text class="valor" x="440" y="88" text-anchor="middle">y</text>
+    <line class="eje" x1="460" y1="50" x2="510" y2="50"/>
+    <line class="eje" x1="460" y1="110" x2="510" y2="110"/>
+    <line class="eje" x1="510" y1="50" x2="510" y2="110"/>
+    <line class="eje" x1="510" y1="80" x2="550" y2="80"/>
+    <text class="rotulo" x="440" y="150" text-anchor="middle">En paralelo: pasa si x = 1 o y = 1</text>
+    <text class="valor" x="440" y="172" text-anchor="middle">x + y</text>
+    </svg>
+  </div>
+  <ul>
+    <li><strong>En serie</strong> (uno detrás del otro): la corriente pasa solo si pasa por los dos. Eso es el producto, \(x \cdot y\) (se escribe \(xy\)).</li>
+    <li><strong>En paralelo</strong> (uno al lado del otro): la corriente pasa si pasa por cualquiera. Eso es la suma, \(x + y\).</li>
+  </ul>
+
+  <h3>Definición: las tres operaciones</h3>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Suma, producto y complemento en \(B = \{0, 1\}\)</span>
+    <p>\[ 0 + 0 = 0 \qquad 0 + 1 = 1 \qquad 1 + 0 = 1 \qquad 1 + 1 = 1 \]</p>
+    <p>\[ 0 \cdot 0 = 0 \qquad 0 \cdot 1 = 0 \qquad 1 \cdot 0 = 0 \qquad 1 \cdot 1 = 1 \]</p>
+    <p>\[ \overline{0} = 1 \qquad \overline{1} = 0 \]</p>
+  </div>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Símbolo</th><th>Se lee</th><th>Cuándo da 1</th><th>En lógica</th></tr>
+      <tr><td>\(x + y\)</td><td>"\(x\) más \(y\)" (suma booleana)</td><td>si <strong>al menos uno</strong> es 1</td><td>"o" (\(\vee\))</td></tr>
+      <tr><td>\(x \cdot y = xy\)</td><td>"\(x\) por \(y\)" (producto)</td><td>solo si <strong>los dos</strong> son 1</td><td>"y" (\(\wedge\))</td></tr>
+      <tr><td>\(\overline{x}\)</td><td>"\(x\) barra" o "complemento de \(x\)"</td><td>si \(x\) es 0</td><td>"no" (\(\neg\))</td></tr>
+    </table>
+  </div>
+  <p>
+    Una <strong>variable booleana</strong> es una letra (\(x\), \(y\), \(w\)...) que solo puede
+    valer 0 o 1.
+  </p>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">\(1 + 1 = 1\), no 2</span>
+    <p>
+      Es el error más común al principio. No es la suma de los números: es "¿hay al menos un 1?".
+      Por eso \(x + x = x\) y \(x \cdot x = x\) para cualquier \(x\) (idempotencia): \(0 + 0 = 0\),
+      \(1 + 1 = 1\), \(0 \cdot 0 = 0\), \(1 \cdot 1 = 1\). No existen \(2x\) ni \(x^{2}\).
+    </p>
+  </div>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Qué se hace primero</span>
+    <p>
+      Como en la aritmética: primero lo que está bajo una barra o entre paréntesis, después los
+      productos, al final las sumas. Una barra larga sobre varias letras, como \(\overline{xy}\),
+      es un paréntesis: primero se calcula \(xy\) y después se complementa el resultado.
+      \(\overline{xy}\) <strong>no</strong> es lo mismo que \(\overline{x}\,\overline{y}\).
+    </p>
+  </div>
+
+  <h3>Las dos observaciones que resuelven ecuaciones</h3>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Para \(x, y\) variables booleanas</span>
+    <p>\[ x + y = 0 \iff x = y = 0 \qquad\qquad x \cdot y = 1 \iff x = y = 1 \]</p>
+  </div>
+  <p>De dónde salen: mirando las tablas de arriba.</p>
+  <ul>
+    <li>En la tabla de la suma, el único renglón con resultado 0 es \(0 + 0\). Entonces si una suma da 0, <strong>todos</strong> los sumandos son 0.</li>
+    <li>En la tabla del producto, el único renglón con resultado 1 es \(1 \cdot 1\). Entonces si un producto da 1, <strong>todos</strong> los factores son 1.</li>
+    <li>Vale con más de dos: \(x + y + z + w = 0\) obliga a que las cuatro sean 0; \(xyzw = 1\) obliga a que las cuatro sean 1.</li>
+  </ul>
+  <p>
+    Al revés no ayudan tanto: \(x + y = 1\) tiene tres soluciones \((0,1), (1,0), (1,1)\), y
+    \(xy = 0\) también tiene tres. Esto se usa en las secciones 9, 10 y 13.
+  </p>
+
+  <h3>Ejemplo 1 &mdash; Evaluar una expresión</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>Calcular \(\overline{x}y + x\overline{y} + \overline{xy}\) para \(x = 1\), \(y = 1\).</p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>\(x = 1\), \(y = 1\)</td><td>los valores a reemplazar</td><td>\(\overline{x} = 0\), \(\overline{y} = 0\)</td><td>los complementos de cada uno</td></tr>
+      <tr><td>\(\overline{xy}\)</td><td>barra larga: primero el producto</td><td>\(xy = 1 \cdot 1 = 1\)</td><td>\(\overline{1} = 0\)</td></tr>
+    </table>
+  </div>
+  <p>\[ \overline{x}y + x\overline{y} + \overline{xy} = 0 \cdot 1 + 1 \cdot 0 + \overline{1 \cdot 1} = 0 + 0 + 0 = 0 \]</p>
+  <div class="caja caja-resp"><span class="caja-tit">Respuesta</span><p>La expresión vale 0.</p></div>
+
+  <h3>Ejemplo 2 &mdash; Estilo parcial: ¿qué valores la anulan?</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>¿Para qué valores de \(w, x, y\) vale \(\overline{w} + x + \overline{y} = 0\)? ¿Y \(\overline{w}\,x\,\overline{y} = 1\)?</p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"una suma \(= 0\)"</td><td>cada sumando es 0</td><td>\(\overline{w} = 0\), \(x = 0\), \(\overline{y} = 0\)</td><td>\(w = 1\), \(x = 0\), \(y = 1\)</td></tr>
+      <tr><td>"un producto \(= 1\)"</td><td>cada factor es 1</td><td>\(\overline{w} = 1\), \(x = 1\), \(\overline{y} = 1\)</td><td>\(w = 0\), \(x = 1\), \(y = 0\)</td></tr>
+    </table>
+  </div>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>
+      La suma vale 0 solo en \((w, x, y) = (1, 0, 1)\); el producto vale 1 solo en
+      \((0, 1, 0)\). En los dos casos hay <strong>una única</strong> solución. Esto es justo lo
+      que hace a los maxtérminos (sección 10) y a los mintérminos (sección 9).
+    </p>
+  </div>
+</div>

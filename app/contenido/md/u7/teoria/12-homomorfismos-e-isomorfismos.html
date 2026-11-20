@@ -1,0 +1,171 @@
+<div class="bloque">
+  <p class="kicker">Grupos</p>
+  <h2>12. Homomorfismos e isomorfismos</h2>
+
+  <h3>Para qué sirve</h3>
+  <p>
+    Para comparar dos grupos. Un <strong>homomorfismo</strong> es una función entre grupos que
+    <strong>respeta la operación</strong>: da lo mismo operar y después aplicar la función, que
+    aplicarla y después operar. Si además es biyectiva (un <strong>isomorfismo</strong>), los dos
+    grupos son "el mismo grupo con otros nombres": tienen la misma tabla, con los elementos
+    renombrados. En codificación, la función que codifica con una matriz es un homomorfismo
+    (sección 19).
+  </p>
+
+  <h3>Definición (la de la cátedra)</h3>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Homomorfismo e isomorfismo</span>
+    <p>Si \((G, \circ)\) y \((H, *)\) son grupos y \(f : G \to H\), \(f\) es un <strong>homomorfismo de grupos</strong> si</p>
+    <p>\[ f(a \circ b) = f(a) * f(b) \qquad \forall a, b \in G \]</p>
+    <p>Si además \(f\) es <strong>biyectiva</strong>, \(f\) es un <strong>isomorfismo</strong> y se dice que \(G\) y \(H\) son <strong>isomorfos</strong> (\(G \cong H\)).</p>
+  </div>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Símbolo / palabra</th><th>Qué quiere decir</th></tr>
+      <tr><td class="lbl">\(f(a \circ b)\)</td><td>Primero se opera en \(G\) (con \(\circ\)) y al resultado se le aplica \(f\).</td></tr>
+      <tr><td class="lbl">\(f(a) * f(b)\)</td><td>Primero se aplica \(f\) a cada uno y se opera en \(H\) (con \(*\)). Ojo: cada lado usa la operación <strong>de su grupo</strong>.</td></tr>
+      <tr><td class="lbl">inyectiva</td><td>Elementos distintos van a imágenes distintas: \(f(a) = f(b) \Rightarrow a = b\).</td></tr>
+      <tr><td class="lbl">sobreyectiva</td><td>Todo elemento de \(H\) es imagen de alguno de \(G\).</td></tr>
+      <tr><td class="lbl">biyectiva</td><td>Inyectiva y sobreyectiva a la vez. Entre conjuntos finitos del mismo tamaño, alcanza con una de las dos.</td></tr>
+      <tr><td class="lbl">\(G \cong H\)</td><td>"\(G\) es isomorfo a \(H\)".</td></tr>
+    </table>
+  </div>
+
+  <h3>Propiedades de todo homomorfismo</h3>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Si \(f : (G, \circ) \to (H, *)\) es homomorfismo</span>
+    <ol>
+      <li>\(f(e_G) = e_H\): el neutro va al neutro.</li>
+      <li>\(f(a^{-1}) = f(a)^{-1}\): el inverso va al inverso.</li>
+      <li>\(f(a^{n}) = f(a)^{n}\) para todo entero \(n\).</li>
+      <li>Si \(f\) es isomorfismo, \(o(f(a)) = o(a)\): conserva el orden de cada elemento.</li>
+    </ol>
+  </div>
+  <h4>De dónde sale</h4>
+  <ul>
+    <li><strong>1.</strong> \(f(e_G) = f(e_G \circ e_G) = f(e_G) * f(e_G)\) (definición de homomorfismo). Operando a los dos lados con \(f(e_G)^{-1}\) (cancelativa, sección 2) queda \(e_H = f(e_G)\).</li>
+    <li><strong>2.</strong> \(f(a) * f(a^{-1}) = f(a \circ a^{-1}) = f(e_G) = e_H\) (por 1). Entonces \(f(a^{-1})\) es el inverso de \(f(a)\).</li>
+    <li><strong>3.</strong> \(f(a^{2}) = f(a \circ a) = f(a) * f(a) = f(a)^{2}\), y así sucesivamente; para exponentes negativos se usa 2.</li>
+    <li><strong>4.</strong> \(a^{k} = e_G\) si y solo si \(f(a)^{k} = f(a^{k}) = e_H\) (por 3, y porque \(f\) es inyectiva y solo \(e_G\) va a \(e_H\)). El primer \(k\) que da el neutro es el mismo de los dos lados.</li>
+  </ul>
+
+  <h3>Grupos cíclicos: con quién son isomorfos</h3>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Teorema (cátedra)</span>
+    <p>Sea \(G\) un grupo cíclico:</p>
+    <ul>
+      <li>si \(|G|\) es infinito, \(G \cong (\mathbb{Z}, +)\);</li>
+      <li>si \(|G| = n\), con \(n \gt 1\), \(G \cong (\mathbb{Z}_n, +)\).</li>
+    </ul>
+  </div>
+  <p>
+    <strong>De dónde sale (caso finito):</strong> si \(G = \langle g \rangle\) con \(o(g) = n\), sus elementos
+    son \(g^{0} = e, g^{1}, \dots, g^{n-1}\), todos distintos. Se define \(f(g^{k}) = [k]\). Es biyectiva
+    (a cada exponente de 0 a \(n - 1\) le toca un resto distinto) y es homomorfismo porque
+    \(f(g^{j} g^{k}) = f(g^{j+k}) = [j + k] = [j] + [k]\): multiplicar potencias es <strong>sumar
+    exponentes</strong>, y como \(g^{n} = e\), los exponentes se suman módulo \(n\).
+  </p>
+
+  <h3>Cómo se resuelve cada consigna</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Consigna</th><th>Qué se hace</th></tr>
+      <tr><td class="lbl">"Probar que \(f\) es homomorfismo"</td><td>Tomar \(a, b\) genéricos, calcular \(f(a \circ b)\) y \(f(a) * f(b)\) por separado y ver que dan igual.</td></tr>
+      <tr><td class="lbl">"Demostrar que \(G\) y \(H\) (finitos) son isomorfos"</td><td>Si los dos son cíclicos del mismo orden: buscar un generador de cada uno y mandar "generador a la \(k\)" en "generador a la \(k\)". Dar la tabla de \(f\) y justificar con la suma de exponentes.</td></tr>
+      <tr><td class="lbl">"Probar que NO son isomorfos"</td><td>Encontrar algo que un isomorfismo conserva y que difiere: el tamaño, ser abeliano, ser cíclico, cuántos elementos hay de cada orden.</td></tr>
+      <tr><td class="lbl">"¿Con quién es isomorfo \(G\)?"</td><td>Si es cíclico de orden \(n\): con \(\mathbb{Z}_n\). Si no, comparar los órdenes de sus elementos con los de un producto directo (\(\mathbb{Z}_2 \times \mathbb{Z}_2\), \(\mathbb{Z}_2 \times \mathbb{Z}_4\)...).</td></tr>
+    </table>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Un isomorfismo cualquiera no sirve</span>
+    <p>
+      Una biyección entre dos grupos del mismo tamaño siempre existe, pero casi ninguna respeta la
+      operación. La que funciona manda <strong>generador en generador</strong> (o, en general, cada
+      elemento a uno del mismo orden). Si mandás un elemento de orden 2 a uno de orden 4, falla.
+    </p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; Los tres de la cátedra</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>
+      a) \(f : (\mathbb{Z}, +) \to (\mathbb{Z}_4, +)\), \(f(x) = [x]\): ¿es homomorfismo? b)
+      \(f : (\mathbb{R}^{+}, \cdot) \to (\mathbb{R}, +)\), \(f(x) = \log(x)\): ¿es isomorfismo? c)
+      \(f : (\{1, -1, i, -i\}, \cdot) \to (\mathbb{Z}_4, +)\) con \(f(1) = [0]\), \(f(-1) = [2]\),
+      \(f(i) = [1]\), \(f(-i) = [3]\): ¿es isomorfismo?
+    </p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"\(f(x) = [x]\)"</td><td>a cada entero, su resto mód 4</td><td>&mdash;</td><td>inciso a</td></tr>
+      <tr><td>"\((\mathbb{R}^{+}, \cdot) \to (\mathbb{R}, +)\)"</td><td>a la izquierda se multiplica, a la derecha se suma</td><td>&mdash;</td><td>inciso b</td></tr>
+      <tr><td>"\(\{1, -1, i, -i\}\)"</td><td>\(i\) es la unidad imaginaria: \(i^2 = -1\)</td><td>\(i^1 = i,\ i^2 = -1,\ i^3 = -i,\ i^4 = 1\)</td><td>inciso c</td></tr>
+    </table>
+  </div>
+  <ul>
+    <li><strong>a)</strong> \(f(x + y) = [x + y] = [x] + [y] = f(x) + f(y)\): el resto de una suma es la suma de los restos (Unidad 6). Es homomorfismo; no es isomorfismo porque no es inyectiva (\(f(0) = f(4) = [0]\)).</li>
+    <li><strong>b)</strong> \(f(ab) = \log(ab) = \log a + \log b = f(a) + f(b)\), y el logaritmo es biyectivo de los positivos a todos los reales. Es isomorfismo.</li>
+    <li><strong>c)</strong> El grupo es cíclico generado por \(i\): \(1 = i^0,\ i = i^1,\ -1 = i^2,\ -i = i^3\). La \(f\) dada es justo \(f(i^{k}) = [k]\), la del teorema: generador \(i\) a generador \([1]\). Control con dos productos: \(f(i \cdot i) = f(-1) = [2] = [1] + [1]\); \(f(i \cdot (-i)) = f(1) = [0] = [1] + [3]\).</li>
+  </ul>
+  <div class="caja caja-resp"><span class="caja-tit">Respuesta</span><p>a) Homomorfismo, no isomorfismo. b) Isomorfismo. c) Isomorfismo: \(\{1, -1, i, -i\} \cong \mathbb{Z}_4\).</p></div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; Estilo parcial: demostrar que \(U_{14} \cong (\mathbb{Z}_6, +)\)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>Demostrar que el grupo multiplicativo \(U_{14}\) y el grupo aditivo \((\mathbb{Z}_6, +)\) son isomorfos.</p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"\(U_{14}\)"</td><td>coprimos con 14, producto mód 14</td><td>\(\varphi(14) = 6\)</td><td>\(\{1, 3, 5, 9, 11, 13\}\)</td></tr>
+      <tr><td>"\((\mathbb{Z}_6, +)\)"</td><td>cíclico de orden 6, generado por 1</td><td>&mdash;</td><td>destino</td></tr>
+      <tr><td>"demostrar que son isomorfos"</td><td>dar una \(f\) biyectiva que respete la operación</td><td>&mdash;</td><td>la respuesta</td></tr>
+    </table>
+  </div>
+  <span class="paso">Paso 1 &mdash; Buscar un generador de \(U_{14}\)</span>
+  <p>Potencias de 3 mód 14: \(3,\ 9,\ 27 \to 13,\ 39 \to 11,\ 33 \to 5,\ 15 \to 1\). Aparecen los 6: \(o(3) = 6\) y \(U_{14} = \langle 3 \rangle\) es cíclico.</p>
+  <span class="paso">Paso 2 &mdash; Definir \(f(3^{k}) = [k]\)</span>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th>\(x \in U_{14}\)</th><td>1</td><td>3</td><td>9</td><td>13</td><td>11</td><td>5</td></tr>
+      <tr><th>como potencia</th><td>\(3^0\)</td><td>\(3^1\)</td><td>\(3^2\)</td><td>\(3^3\)</td><td>\(3^4\)</td><td>\(3^5\)</td></tr>
+      <tr><th>\(f(x) \in \mathbb{Z}_6\)</th><td>0</td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td></tr>
+    </table>
+  </div>
+  <span class="paso">Paso 3 &mdash; Justificar</span>
+  <ul>
+    <li><strong>Biyectiva:</strong> a los 6 elementos les tocan los 6 restos distintos.</li>
+    <li><strong>Homomorfismo:</strong> \(f(3^{j} \cdot 3^{k}) = f(3^{j+k}) = [j + k] = [j] + [k] = f(3^{j}) + f(3^{k})\); el exponente se toma mód 6 porque \(3^{6} = 1\).</li>
+    <li><strong>Control con números:</strong> \(9 \cdot 11 = 99 \to 1\), y \(f(9) + f(11) = 2 + 4 = 6 \to 0 = f(1)\). \(13 \cdot 5 = 65 \to 9\), y \(3 + 5 = 8 \to 2 = f(9)\).</li>
+  </ul>
+  <div class="caja caja-resp"><span class="caja-tit">Respuesta</span><p>\(f : U_{14} \to \mathbb{Z}_6\), \(f(3^{k}) = [k]\) (tabla del paso 2) es un isomorfismo: \(U_{14} \cong \mathbb{Z}_6\). Es el teorema de la cátedra: \(U_{14}\) es cíclico de orden 6.</p></div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 3 &mdash; Estilo parcial: ¿con quién es isomorfo \(U_8\)?</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>¿Con qué grupo se puede establecer un isomorfismo de \(U_8\): con \((\mathbb{Z}_4, +)\) o con \(\mathbb{Z}_2 \times \mathbb{Z}_2\)?</p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"\(U_8\)"</td><td>\(\{1, 3, 5, 7\}\), producto mód 8</td><td>\(3^2 = 9 \to 1,\ 5^2 = 25 \to 1,\ 7^2 = 49 \to 1\)</td><td>órdenes 1, 2, 2, 2</td></tr>
+      <tr><td>"\(\mathbb{Z}_4\)"</td><td>tiene al 1, de orden 4</td><td>&mdash;</td><td>órdenes 1, 4, 2, 4</td></tr>
+      <tr><td>"\(\mathbb{Z}_2 \times \mathbb{Z}_2\)"</td><td>pares de bits (sección 4); todo par sumado consigo da \((0,0)\)</td><td>&mdash;</td><td>órdenes 1, 2, 2, 2</td></tr>
+    </table>
+  </div>
+  <ul>
+    <li><strong>Con \(\mathbb{Z}_4\) no:</strong> un isomorfismo conserva órdenes, y \(\mathbb{Z}_4\) tiene un elemento de orden 4 que \(U_8\) no tiene.</li>
+    <li><strong>Con \(\mathbb{Z}_2 \times \mathbb{Z}_2\) sí:</strong> \(f(1) = (0,0)\), \(f(3) = (1,0)\), \(f(5) = (0,1)\), \(f(7) = (1,1)\). Control: \(3 \cdot 5 = 15 \to 7\) y \((1,0) + (0,1) = (1,1)\); \(3 \cdot 7 = 21 \to 5\) y \((1,0) + (1,1) = (0,1)\); \(5 \cdot 7 = 35 \to 3\) y \((0,1) + (1,1) = (1,0)\); cada elemento al cuadrado da el neutro de los dos lados.</li>
+  </ul>
+  <div class="caja caja-resp"><span class="caja-tit">Respuesta</span><p>\(U_8 \cong \mathbb{Z}_2 \times \mathbb{Z}_2\) (con la \(f\) de arriba), y \(U_8 \not\cong \mathbb{Z}_4\) porque \(U_8\) no tiene elementos de orden 4.</p></div>
+</div>

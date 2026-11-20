@@ -1,0 +1,122 @@
+<div class="bloque">
+  <p class="kicker">Los enteros módulo n</p>
+  <h2>9. Congruencia módulo \(n\)</h2>
+
+  <h3>Para qué sirve</h3>
+  <p>
+    Es la aritmética del reloj: a las 10 sumale 5 horas y son las 3, porque al llegar a 12 se
+    vuelve a empezar. "Congruente módulo \(n\)" quiere decir "<strong>deja el mismo resto</strong>
+    al dividir por \(n\)". Todo lo que sigue en la unidad (\(\mathbb{Z}_n\), inversos, Fermat,
+    Teorema Chino) son cuentas con restos.
+  </p>
+
+  <h3>Definición (la de la cátedra)</h3>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Congruencia</span>
+    <p>Sea \(n \in \mathbb{Z}^+\), \(n \gt 1\). Para \(a, b \in \mathbb{Z}\), \(a\) es <strong>congruente con \(b\) módulo \(n\)</strong>, y se escribe</p>
+    <p>\[ a \equiv b \pmod{n} \]</p>
+    <p>si \(n \mid (a - b)\); o, lo que es lo mismo, si \(a = b + kn\) para algún \(k \in \mathbb{Z}\).</p>
+  </div>
+
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Símbolo</th><th>Se lee</th><th>Qué quiere decir</th></tr>
+      <tr><td>\(\equiv\)</td><td>"es congruente con"</td><td>no es un "igual": es "igual a menos de múltiplos de \(n\)"</td></tr>
+      <tr><td>\(\pmod{n}\)</td><td>"módulo \(n\)"</td><td>\(n\) es el número por el que se divide (el "tamaño del reloj")</td></tr>
+      <tr><td>\(n \mid (a - b)\)</td><td>"\(n\) divide a \(a - b\)"</td><td>\(a - b\) es múltiplo de \(n\) (Unidad 5)</td></tr>
+      <tr><td>\(a \bmod n\)</td><td>"\(a\) módulo \(n\)"</td><td>el <strong>resto</strong> de dividir \(a\) por \(n\), entre \(0\) y \(n - 1\)</td></tr>
+    </table>
+  </div>
+
+  <h4>Por qué "misma resta múltiplo de \(n\)" es lo mismo que "mismo resto"</h4>
+  <p>
+    Por el algoritmo de la división, \(a = q_1 n + r_1\) y \(b = q_2 n + r_2\) con restos entre
+    \(0\) y \(n - 1\). Entonces \(a - b = (q_1 - q_2)n + (r_1 - r_2)\). Es múltiplo de \(n\) solo si
+    \(r_1 - r_2\) lo es; y como \(r_1 - r_2\) está entre \(-(n-1)\) y \(n - 1\), el único múltiplo
+    posible es \(0\): \(r_1 = r_2\).
+  </p>
+
+  <h3>Es una relación de equivalencia: las clases</h3>
+  <p>
+    La congruencia es reflexiva, simétrica y transitiva (teorema de la cátedra), así que parte a
+    \(\mathbb{Z}\) en <strong>\(n\) clases</strong>, una por cada resto posible. La clase de \(r\)
+    se escribe \([r]\):
+  </p>
+  <p>\[ [r] = \{\dots, r - 2n, \; r - n, \; r, \; r + n, \; r + 2n, \dots\} = \{nx + r \,/\, x \in \mathbb{Z}\} \]</p>
+  <p>Por ejemplo, con \(n = 6\) (el dibujo de la cátedra, en tabla):</p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Clase</th><th>Algunos elementos</th></tr>
+      <tr><td>\([0]\)</td><td>\(\dots, -12, -6, 0, 6, 12, 18, \dots\)</td></tr>
+      <tr><td>\([1]\)</td><td>\(\dots, -11, -5, 1, 7, 13, 19, \dots\)</td></tr>
+      <tr><td>\([2]\)</td><td>\(\dots, -10, -4, 2, 8, 14, 20, \dots\)</td></tr>
+      <tr><td>\([3]\)</td><td>\(\dots, -9, -3, 3, 9, 15, 21, \dots\)</td></tr>
+      <tr><td>\([4]\)</td><td>\(\dots, -8, -2, 4, 10, 16, 22, \dots\)</td></tr>
+      <tr><td>\([5]\)</td><td>\(\dots, -7, -1, 5, 11, 17, 23, \dots\)</td></tr>
+    </table>
+  </div>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">El resto de un número negativo</span>
+    <p>
+      El resto siempre se toma entre \(0\) y \(n - 1\). Para un negativo, se le suman múltiplos de
+      \(n\) hasta que quede en ese rango: \(-1 \equiv -1 + 6 = 5 \pmod{6}\);
+      \(-20 \equiv -20 + 30 = 10 \pmod{30}\). No vale "sacarle el signo": el resto de \(-1\) por
+      \(6\) es \(5\), no \(1\).
+    </p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; Verificar congruencias (cátedra, ejemplo 4)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>Justificar \(10 \equiv 1 \pmod{3}\), \(30 \equiv 5 \pmod{25}\) y \(29 \equiv -1 \pmod{5}\). ¿Qué resto deja \(29\) al dividirlo por \(5\)?</p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"\(a \equiv b \pmod{n}\)"</td><td>\(a - b\) es múltiplo de \(n\)</td><td>restar y dividir</td><td>justificación</td></tr>
+      <tr><td>"qué resto"</td><td>el representante entre \(0\) y \(n - 1\)</td><td>división entera</td><td>\(29 \bmod 5\)</td></tr>
+    </table>
+  </div>
+  <ul>
+    <li>\(10 - 1 = 9 = 3 \cdot 3\) ✔ (o \(10 = 3 \cdot 3 + 1\)).</li>
+    <li>\(30 - 5 = 25 = 25 \cdot 1\) ✔.</li>
+    <li>\(29 - (-1) = 30 = 5 \cdot 6\) ✔.</li>
+    <li>Pero el resto de \(29\) por \(5\) es \(4\) (\(29 = 5 \cdot 5 + 4\)): \(-1\) y \(4\) son de la
+      misma clase (\(-1 + 5 = 4\)).</li>
+  </ul>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>Las tres congruencias valen. El resto de \(29\) por \(5\) es \(4\); \(-1\) es otro representante de la misma clase, útil para hacer cuentas cortas.</p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; Forma de parcial: reducir antes de operar</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>Reducir módulo \(36\) los números \(152\) y \(-88\) (es el primer paso del ejemplo 11 de la cátedra, sección 14).</p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"reducir módulo 36"</td><td>cambiar cada número por su resto entre \(0\) y \(35\)</td><td>restar o sumar múltiplos de 36</td><td>representante</td></tr>
+    </table>
+  </div>
+  <ul>
+    <li>\(152 = 36 \cdot 4 + 8\) (\(36 \cdot 4 = 144\)), así que \(152 \equiv 8 \pmod{36}\).</li>
+    <li>\(-88\): sumo \(36 \cdot 3 = 108\): \(-88 + 108 = 20\), así que \(-88 \equiv 20 \pmod{36}\).</li>
+  </ul>
+  <div class="caja caja-calc">
+    <span class="caja-tit">En la calculadora</span>
+    <p>\(152 \div 36 = 4{,}22\dots\): la parte entera es \(4\), y el resto es \(152 - 36 \times 4 = 8\). Para \(-88\): \(-88 \div 36 = -2{,}44\dots\); se toma el entero <strong>de abajo</strong>, \(-3\), y el resto es \(-88 - 36 \times (-3) = 20\).</p>
+  </div>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>\(152 \equiv 8\) y \(-88 \equiv 20 \pmod{36}\).</p>
+  </div>
+</div>

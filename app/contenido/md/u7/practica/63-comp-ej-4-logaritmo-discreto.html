@@ -1,0 +1,97 @@
+<div class="ej">
+  <span class="tag" data-num-ej="C-4.">Complementaria P3 &middot; Grupos &middot; Ej. 4 &middot; Generador y logaritmo discreto</span>
+  <h2>Generador de \(\mathbb{Z}_8^{*}\) y \(\log_g(5)\)</h2>
+  <div class="enunciado">
+    <p>
+      Sea \(\mathbb{Z}_8^{*}\) un grupo multiplicativo cíclico, buscar un generador (\(g\)) del grupo y
+      resolver la ecuación logarítmica discreta: \(\log_g(5) = n\).
+    </p>
+  </div>
+
+  <span class="paso">Qué tema es y por qué</span>
+  <ul>
+    <li>
+      <strong>Grupo cíclico</strong> (en la teoría de esta unidad): existe un \(g\) tal que todo elemento del
+      grupo es una potencia \(g^n\). Ese \(g\) es un <strong>generador</strong> y se escribe
+      \(\langle g \rangle = G\).
+    </li>
+    <li>
+      <strong>Logaritmo discreto:</strong> si \(g\) es generador, \(\log_g(a) = n\) quiere decir
+      \(g^n = a\) dentro del grupo, con \(n\) entre 0 y \(|G| - 1\). Es la misma idea que el logaritmo de
+      siempre ("a qué exponente hay que elevar la base"), pero con las potencias calculadas módulo \(m\).
+    </li>
+    <li>Para encontrar un generador: se calcula el orden de cada elemento; generador es el que tiene orden \(|G|\).</li>
+  </ul>
+
+  <span class="paso">Paso 1 &mdash; Quién es \(\mathbb{Z}_8^{*}\)</span>
+  <p>
+    En la teoría, \(\mathbb{Z}_p^{*}\) (con \(p\) primo) son los elementos no nulos de \(\mathbb{Z}_p\). Pero 8
+    no es primo, y los no nulos de \(\mathbb{Z}_8\) <strong>no</strong> forman grupo: \(2 \cdot 4 = 8 \to 0\),
+    que no está en el conjunto (falla el cierre). Lo único que tiene sentido es leerlo como el grupo de
+    unidades:
+  </p>
+  <p>\[ \mathbb{Z}_8^{*} = U_8 = \{a \ / \ 1 \leq a \leq 7,\ mcd(a, 8) = 1\} = \{1, 3, 5, 7\} \]</p>
+
+  <span class="paso">Paso 2 &mdash; Orden de cada elemento</span>
+  <div class="caja caja-formula">
+    <p>\(o(a)\): se calculan \(a, a^2, a^3, \dots\) (módulo 8) hasta que aparece el 1; el exponente donde aparece es \(o(a)\).</p>
+  </div>
+  <ul>
+    <li>\(1^1 = 1\): \(o(1) = 1\).</li>
+    <li>\(3^2 = 9 = 8 + 1 \to 1\): \(o(3) = 2\).</li>
+    <li>\(5^2 = 25 = 3 \cdot 8 + 1 \to 1\): \(o(5) = 2\).</li>
+    <li>\(7^2 = 49 = 6 \cdot 8 + 1 \to 1\): \(o(7) = 2\).</li>
+  </ul>
+  <p>
+    Un generador tendría que tener orden \(|U_8| = 4\) (generar los 4 elementos). <strong>Ninguno lo
+    tiene</strong>: todos elevan al cuadrado a 1, y sus potencias solo dan dos valores. Por ejemplo,
+    \(\langle 5 \rangle = \{1, 5\}\).
+  </p>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">El enunciado tiene un error: \(\mathbb{Z}_8^{*}\) no es cíclico</span>
+    <p>
+      \(U_8\) no tiene generador, así que no existe un \(g\) que cumpla lo pedido y el logaritmo discreto
+      no está definido para todo el grupo. Es el mismo caso que \(U_{12}\) en el ejercicio 3: isomorfo a
+      \(\mathbb{Z}_2 \times \mathbb{Z}_2\), no a \(\mathbb{Z}_4\).
+    </p>
+    <p>
+      Lo más que se puede decir: si se toma \(g = 5\) (que genera solo el subgrupo \(\{1, 5\}\)), \(5^n = 5\)
+      vale para \(n\) impar, y el menor es \(n = 1\). No es un logaritmo discreto "de verdad".
+    </p>
+  </div>
+
+  <span class="paso">Paso 3 &mdash; El método con un grupo que sí es cíclico: \(U_9\)</span>
+  <p>
+    Para tener el procedimiento listo por si toman el ejercicio bien planteado, se hace con \(U_9\), el
+    grupo cíclico de los ejemplos de la cátedra. \(U_9 = \{1, 2, 4, 5, 7, 8\}\), \(|U_9| = \varphi(9) = 6\).
+  </p>
+  <p><strong>Buscar un generador.</strong> Regla: \(g\) es generador si \(o(g) = |G| = 6\). Potencias de 2, módulo 9:</p>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th>\(n\)</th><td>0</td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td></tr>
+      <tr><th>\(2^n \bmod 9\)</th><td>1</td><td>2</td><td>4</td><td>8</td><td>7</td><td>5</td><td>1</td></tr>
+    </table>
+  </div>
+  <p>
+    (\(2^4 = 16 \to 7\), \(2^5 = 32 = 3 \cdot 9 + 5 \to 5\), \(2^6 = 64 = 7 \cdot 9 + 1 \to 1\).) Aparecen los
+    seis elementos antes de volver al 1: \(o(2) = 6\) y \(g = 2\) es generador.
+  </p>
+  <p>
+    <strong>Resolver \(\log_2(5) = n\).</strong> Regla: \(\log_g(a) = n \iff g^n = a\). Se busca en la fila
+    de potencias dónde aparece el 5: en \(n = 5\). Comprobación: \(2^5 = 32 = 27 + 5 \to 5\). ✓
+  </p>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>
+      \(\mathbb{Z}_8^{*} = U_8 = \{1, 3, 5, 7\}\) <strong>no es cíclico</strong>: todos sus elementos
+      distintos de 1 tienen orden 2, así que no hay generador y la ecuación \(\log_g(5) = n\) no se puede
+      plantear como pide la guía.
+    </p>
+    <p>Con el grupo cíclico \(U_9\) (generador \(g = 2\)): \(\log_2(5) = 5\), porque \(2^5 \equiv 5 \pmod 9\).</p>
+  </div>
+
+  <span class="paso">Verificación (la guía no trae resultados)</span>
+  <p>Se calcularon todas las potencias de 1, 3, 5 y 7 módulo 8 (ninguna llega a orden 4) y las de 2 módulo 9.</p>
+</div>

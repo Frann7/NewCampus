@@ -1,0 +1,63 @@
+<div class="ej">
+  <span class="tag" data-num-ej="6.1-2.">Grimaldi 6.1 &middot; Ej. 2 &middot; Contar cadenas con condiciones</span>
+  <h2>Cadenas de largo cinco sobre \(\{w, x, y, z\}\): empezar con \(w\), dos \(w\), ninguna, cantidad par</h2>
+  <div class="enunciado">
+    <p>Para \(\Sigma = \{w, x, y, z\}\), determine el número de cadenas en \(\Sigma^*\) de longitud cinco (a) que comienzan con \(w\); (b) con precisamente dos \(w\); (c) sin \(w\); (d) con un número par de \(w\).</p>
+  </div>
+
+  <span class="paso">Qué tema es y por qué</span>
+  <ul>
+    <li>Son cadenas de \(\Sigma^5\) (largo exactamente 5) con alguna condición: se cuentan con la <strong>regla del producto</strong> (lugar por lugar) y, cuando hay que elegir <strong>en qué lugares</strong> va algo, con combinaciones.</li>
+  </ul>
+  <div class="caja caja-formula">
+    <p><strong>Regla del producto:</strong> si se decide en etapas, con \(n_1, n_2, \dots\) opciones en cada una, el total es \(n_1 \cdot n_2 \cdots\)</p>
+    <p><strong>Combinaciones:</strong> \(\binom{n}{k} = \dfrac{n!}{k!\,(n-k)!}\) es la cantidad de maneras de elegir \(k\) lugares de entre \(n\) (sin importar el orden). Ejemplo chico: de 3 lugares se eligen 2 de \(\binom{3}{2} = 3\) maneras: \(\{1,2\}, \{1,3\}, \{2,3\}\).</p>
+  </div>
+
+  <span class="paso">Desarme del enunciado</span>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>A dónde va</th></tr>
+      <tr><td>"\(\Sigma = \{w, x, y, z\}\)"</td><td>4 símbolos; los que no son \(w\) son 3</td><td>\(|\Sigma| = 4\)</td></tr>
+      <tr><td>"longitud cinco"</td><td>5 lugares</td><td>cadenas de \(\Sigma^5\)</td></tr>
+      <tr><td>"precisamente dos \(w\)"</td><td>exactamente 2 lugares con \(w\), los otros 3 con \(x\), \(y\) o \(z\)</td><td>inciso b</td></tr>
+      <tr><td>"número par de \(w\)"</td><td>0, 2 o 4 \(w\) (en 5 lugares no entran 6)</td><td>inciso d</td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Paso 1 &mdash; (a) Empiezan con \(w\)</span>
+  <p>Regla del producto: el primer lugar tiene 1 opción (\(w\)); los otros 4 lugares, 4 opciones cada uno.</p>
+  <p>\[1 \cdot 4 \cdot 4 \cdot 4 \cdot 4 = 4^4 = 256\]</p>
+
+  <span class="paso">Paso 2 &mdash; (b) Exactamente dos \(w\)</span>
+  <p>Regla del producto en dos etapas:</p>
+  <ol>
+    <li>Elegir en qué 2 de los 5 lugares van las \(w\): \(\binom{5}{2} = 10\).</li>
+    <li>Llenar los otros 3 lugares con símbolos que <strong>no</strong> son \(w\) (si no, habría más de dos): \(3^3 = 27\).</li>
+  </ol>
+  <p>\[\binom{5}{2} \cdot 3^3 = 10 \cdot 27 = 270\]</p>
+
+  <span class="paso">Paso 3 &mdash; (c) Sin \(w\)</span>
+  <p>Regla del producto: cada uno de los 5 lugares elige entre \(x\), \(y\), \(z\).</p>
+  <p>\[3^5 = 243\]</p>
+
+  <span class="paso">Paso 4 &mdash; (d) Cantidad par de \(w\)</span>
+  <p>Par en 5 lugares quiere decir 0, 2 o 4 \(w\). Son casos que no se pisan, así que se suman (regla de la suma), y cada caso se cuenta como en (b): \(\binom{5}{k}\) para elegir los lugares de las \(k\) letras \(w\), por \(3^{5-k}\) para llenar el resto.</p>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th>Cantidad de \(w\)</th><th>Cuenta</th><th>Valor</th></tr>
+      <tr><td>0</td><td>\(\binom{5}{0} \cdot 3^5\)</td><td>243</td></tr>
+      <tr><td>2</td><td>\(\binom{5}{2} \cdot 3^3\)</td><td>270</td></tr>
+      <tr><td>4</td><td>\(\binom{5}{4} \cdot 3^1\)</td><td>15</td></tr>
+    </table>
+  </div>
+  <p>\[243 + 270 + 15 = 528\]</p>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>(a) \(4^4 = 256\). (b) \(\binom{5}{2}\,3^3 = 270\). (c) \(3^5 = 243\). (d) \(3^5 + \binom{5}{2}3^3 + \binom{5}{4}3 = 528\).</p>
+  </div>
+
+  <span class="paso">Solución del libro</span>
+  <p>Las soluciones en castellano traen solo los impares; el manual del profesor (en inglés) da: (a) \(4^4\); (b) \(\binom{5}{2}(3^3)\); (c) \(3^5\); (d) \(3^5 + \binom{5}{2}3^3 + \binom{5}{4}3\). Coincide. Se verificó además recorriendo las \(4^5 = 1024\) cadenas con Python.</p>
+</div>

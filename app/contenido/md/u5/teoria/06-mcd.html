@@ -1,0 +1,121 @@
+<div class="bloque">
+  <p class="kicker">Máximo común divisor</p>
+  <h2>6. El máximo común divisor</h2>
+
+  <h3>Para qué sirve</h3>
+  <p>
+    El mcd dice cuál es el número más grande que entra exacto en dos números a la vez. Decide si
+    una ecuación diofántica tiene solución (sección 10) y es lo primero que pide el ej. 3 del
+    parcial.
+  </p>
+
+  <h3>Definición</h3>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Máximo común divisor</span>
+    <p>Sean \(a, b \in \mathbb{Z}^{+}_{0}\), no los dos 0. Un \(d \in \mathbb{Z}^{+}\) es el <strong>máximo común divisor</strong> de \(a\) y \(b\), \(mcd(a, b)\), si:</p>
+    <ul>
+      <li>\(d \mid a\) y \(d \mid b\) (es divisor común), y</li>
+      <li>para cualquier divisor común \(c\) de \(a\) y \(b\), \(c \mid d\).</li>
+    </ul>
+    <p>Dicho más simple: es el mayor de los divisores positivos comunes.</p>
+    <p>\[ mcd(a, b) = \max\{D^{+}(a) \cap D^{+}(b)\} \]</p>
+  </div>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Símbolo</th><th>Qué significa</th></tr>
+      <tr><td>\(\mathbb{Z}^{+}_{0}\)</td><td>Los enteros positivos y el cero: \(0, 1, 2, \ldots\)</td></tr>
+      <tr><td>\(D^{+}(a)\)</td><td>El conjunto de los divisores positivos de \(a\)</td></tr>
+      <tr><td>\(\cap\)</td><td>Intersección: los que están en los dos conjuntos</td></tr>
+      <tr><td>\(\max\)</td><td>El mayor del conjunto</td></tr>
+      <tr><td>\((a : b)\)</td><td>Otra forma de escribir \(mcd(a, b)\), que aparece en algunas diapositivas</td></tr>
+    </table>
+  </div>
+  <p>El mcd es <strong>único</strong>: por cualquier método se llega al mismo número.</p>
+
+  <h4>Ejemplo de la cátedra: \(mcd(120, 84)\) por conjuntos</h4>
+  <ul>
+    <li>\(D^{+}(120) = \{1, 2, 3, 4, 5, 6, 8, 10, 12, 15, 20, 24, 30, 40, 60, 120\}\)</li>
+    <li>\(D^{+}(84) = \{1, 2, 3, 4, 6, 7, 12, 14, 21, 28, 42, 84\}\)</li>
+    <li>Comunes: \(\{1, 2, 3, 4, 6, 12\}\). El mayor es \(12\).</li>
+  </ul>
+  <p>Funciona, pero con números grandes no es práctico: por eso existe Euclides (sección 7).</p>
+
+  <h3>Coprimos</h3>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Primos relativos</span>
+    <p>\(a\) y \(b\) son <strong>primos relativos</strong> (o <strong>coprimos</strong>) si \(mcd(a, b) = 1\): no tienen ningún divisor común salvo el 1.</p>
+  </div>
+  <ul>
+    <li>15 y 33 no son coprimos: \(mcd(15, 33) = 3\).</li>
+    <li>15 y 22 son coprimos: \(mcd(15, 22) = 1\). Ojo: ninguno de los dos es primo, y sin embargo son coprimos.</li>
+  </ul>
+
+  <h3>Propiedades (y la extensión a todos los enteros)</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Propiedad</th><th>Por qué</th></tr>
+      <tr><td>\(mcd(0, 0)\) no está definido</td><td>Todo entero divide a 0: no hay "mayor" divisor común</td></tr>
+      <tr><td>\(mcd(a, a) = \lvert a \rvert\)</td><td>El mayor divisor de \(a\) es \(\lvert a \rvert\)</td></tr>
+      <tr><td>\(mcd(a, b) = mcd(b, a)\)</td><td>Los divisores comunes no dependen del orden</td></tr>
+      <tr><td>\(mcd(a, 1) = 1\)</td><td>El único divisor positivo de 1 es 1</td></tr>
+      <tr><td>\(mcd(a, 0) = \lvert a \rvert\)</td><td>Todo divide a 0, así que los comunes son los de \(a\)</td></tr>
+      <tr><td>\(mcd(a, b) = mcd(\lvert a \rvert, \lvert b \rvert)\)</td><td>\(a\) y \(-a\) tienen los mismos divisores: <strong>el signo no cambia el mcd</strong></td></tr>
+      <tr><td>\(mcd(a, b) = mcd(a - b, b)\)</td><td>Ver abajo</td></tr>
+    </table>
+  </div>
+  <p>Por la sexta, con negativos se calcula con los números sin signo: \(mcd(837, -341) = mcd(837, 341)\). Es lo que pide el ej. 3 del parcial.</p>
+
+  <h4>De dónde sale \(mcd(a, b) = mcd(a - b, b)\)</h4>
+  <ul>
+    <li>Si \(c\) divide a \(a\) y a \(b\), divide a \(a - b\) (propiedad 8 de la sección 2, con \(x = 1, y = -1\)). Entonces todo divisor común de \(a\) y \(b\) es divisor común de \(a - b\) y \(b\).</li>
+    <li>Si \(c\) divide a \(a - b\) y a \(b\), divide a \((a - b) + b = a\). Entonces vale también al revés.</li>
+    <li>Los dos pares tienen <strong>los mismos divisores comunes</strong>, así que el mayor es el mismo.</li>
+  </ul>
+  <p>Esto da un método: restar el chico al grande hasta que queden iguales.</p>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; \(mcd(120, 84)\) restando</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado (Actividad 5 a de la cátedra)</span>
+    <p>Verificar, usando \(mcd(a, b) = mcd(a - b, b)\), que \(mcd(120, 84) = 12\).</p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"usando \(mcd(a - b, b)\)"</td><td>en cada paso, al mayor le resto el menor</td><td>&mdash;</td><td>hasta que sean iguales</td></tr>
+    </table>
+  </div>
+  <p>\[ mcd(120, 84) = mcd(36, 84) = mcd(36, 48) = mcd(36, 12) = mcd(24, 12) = mcd(12, 12) = 12 \]</p>
+  <p>Cada paso: \(120 - 84 = 36\); \(84 - 36 = 48\); \(48 - 36 = 12\); \(36 - 12 = 24\); \(24 - 12 = 12\). Al final \(mcd(12, 12) = 12\).</p>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>\(mcd(120, 84) = 12\), igual que con los conjuntos.</p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; Estilo parcial: demostrar que dos expresiones son coprimas</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado (Actividades 4 y 5 b de la cátedra)</span>
+    <p>a) Para cualquier \(n \in \mathbb{Z}^{+}\), demostrar que \(8n + 3\) y \(5n + 2\) son primos relativos.<br>b) Probar que dos enteros consecutivos son coprimos.</p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"primos relativos"</td><td>el mcd es 1</td><td>&mdash;</td><td>probar \(d = 1\)</td></tr>
+      <tr><td>(idea)</td><td>\(d\) divide a los dos: divide a una combinación que borre la \(n\)</td><td>\(5 \cdot 8n - 8 \cdot 5n = 0\)</td><td>multiplicar por 5 y por \(-8\)</td></tr>
+      <tr><td>"consecutivos"</td><td>\(n\) y \(n + 1\)</td><td>&mdash;</td><td>&mdash;</td></tr>
+    </table>
+  </div>
+  <p><span class="paso">a)</span> Sea \(d = mcd(8n + 3, 5n + 2)\). Como \(d\) divide a los dos, por la propiedad 8 de la sección 2 divide a</p>
+  <p>\[ 5(8n + 3) - 8(5n + 2) = 40n + 15 - 40n - 16 = -1 \]</p>
+  <p>Un entero positivo que divide a \(-1\) solo puede ser 1. Entonces \(d = 1\).</p>
+  <p><span class="paso">b)</span> Sea \(d = mcd(n, n + 1)\). Divide a \((n + 1) - n = 1\), así que \(d = 1\).</p>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Conclusión</span>
+    <p>En los dos casos el único divisor común positivo es 1: son coprimos. (Ejemplo: con \(n = 4\), \(35\) y \(22\), y \(mcd(35, 22) = 1\).)</p>
+  </div>
+</div>

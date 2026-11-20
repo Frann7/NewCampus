@@ -1,0 +1,92 @@
+<div class="ej" data-examen="variante" data-examen-ref="Parcial 1 2026 · ej. 5" data-examen-nota="El parcial pidió la f.n.d. de una función de B³ (con tabla y simplificación). Acá la función es de B⁴ y se pide además la f.n.c.: se resuelve sin tabla, expandiendo con las leyes.">
+  <span class="tag" data-num-ej="15.1-6.">Grimaldi 15.1 &middot; Ej. 6 &middot; f.n.d. y f.n.c. sin tabla</span>
+  <h2>f.n.d. y f.n.c. de g(w, x, y, z), expandiendo con las leyes</h2>
+  <div class="enunciado">
+    <p>Sea \(g : B^4 \to B\) dada por \(g(w, x, y, z) = (wz + xyz)(x + \overline{x}\,\overline{y}z)\).</p>
+    <p>a) Determine la f.n.d. y f.n.c. de \(g\).</p>
+    <p>b) Escriba \(g\) como una suma de mintérminos y como un producto de maxtérminos (usando etiquetas en binario).</p>
+  </div>
+
+  <span class="paso">Qué tema es y por qué</span>
+  <ul>
+    <li>Igual que el ejercicio anterior (f.n.d., f.n.c., \(\sum m\) y \(\prod M\)), pero con 4 variables: la tabla tendría 16 filas.</li>
+    <li>Conviene el camino algebraico: distribuir, borrar lo que da 0 y completar las variables que faltan. La f.n.c. sale después de la lista de mintérminos: son las filas que <strong>no</strong> están.</li>
+    <li>Etiqueta de una fila \(wxyz\): \(8w + 4x + 2y + z\) (los pesos de base 2 de izquierda a derecha).</li>
+  </ul>
+
+  <span class="paso">Paso 1 — Distribuir</span>
+  <p>Regla: distributiva del producto sobre la suma, \((a + b)(c + d) = ac + ad + bc + bd\).</p>
+  \[
+  \begin{aligned}
+  g &= wz \cdot x + wz \cdot \overline{x}\,\overline{y}z + xyz \cdot x + xyz \cdot \overline{x}\,\overline{y}z
+  \end{aligned}
+  \]
+  <p>Cada producto, por separado:</p>
+  <ul>
+    <li>\(wz \cdot x = wxz\) (conmutativa).</li>
+    <li>\(wz \cdot \overline{x}\,\overline{y}z = w\overline{x}\,\overline{y}z\) (idempotencia: \(z \cdot z = z\)).</li>
+    <li>\(xyz \cdot x = xyz\) (idempotencia: \(x \cdot x = x\)).</li>
+    <li>\(xyz \cdot \overline{x}\,\overline{y}z = 0\) (inversos: \(x\overline{x} = 0\), y dominación: \(0 \cdot a = 0\)).</li>
+  </ul>
+  \[g = wxz + w\overline{x}\,\overline{y}z + xyz\]
+
+  <span class="paso">Paso 2 — Completar las variables que faltan</span>
+  <p>Regla: a un término al que le falta la variable \(v\) se lo multiplica por \(1 = v + \overline{v}\) (identidad e inversos) y se distribuye.</p>
+  <ul>
+    <li>\(wxz\) no tiene \(y\): \(wx(y + \overline{y})z = wxyz + wx\overline{y}z\).</li>
+    <li>\(w\overline{x}\,\overline{y}z\) ya tiene las cuatro.</li>
+    <li>\(xyz\) no tiene \(w\): \((w + \overline{w})xyz = wxyz + \overline{w}xyz\).</li>
+  </ul>
+  <p>\(wxyz\) aparece dos veces: se deja una (idempotencia, \(a + a = a\)).</p>
+  \[g = wxyz + wx\overline{y}z + \overline{w}xyz + w\overline{x}\,\overline{y}z \quad \text{(f.n.d.)}\]
+
+  <span class="paso">Paso 3 — Etiquetas de los mintérminos</span>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th>mintérmino</th><th>\(wxyz\)</th><th>etiqueta</th></tr>
+      <tr><td>\(\overline{w}xyz\)</td><td>0111</td><td>\(4 + 2 + 1 = 7\)</td></tr>
+      <tr><td>\(w\overline{x}\,\overline{y}z\)</td><td>1001</td><td>\(8 + 1 = 9\)</td></tr>
+      <tr><td>\(wx\overline{y}z\)</td><td>1101</td><td>\(8 + 4 + 1 = 13\)</td></tr>
+      <tr><td>\(wxyz\)</td><td>1111</td><td>\(15\)</td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Paso 4 — La f.n.c.</span>
+  <p>
+    Las filas con \(g = 0\) son las 16 menos estas 4: <strong>12 filas</strong>, así que la f.n.c.
+    tiene 12 maxtérminos. Regla del maxtérmino: variable en 0 sin barra, variable en 1 con barra.
+  </p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>et.</th><th>\(wxyz\)</th><th>maxtérmino</th><th>et.</th><th>\(wxyz\)</th><th>maxtérmino</th></tr>
+      <tr><td>0</td><td>0000</td><td>\(w + x + y + z\)</td><td>6</td><td>0110</td><td>\(w + \overline{x} + \overline{y} + z\)</td></tr>
+      <tr><td>1</td><td>0001</td><td>\(w + x + y + \overline{z}\)</td><td>8</td><td>1000</td><td>\(\overline{w} + x + y + z\)</td></tr>
+      <tr><td>2</td><td>0010</td><td>\(w + x + \overline{y} + z\)</td><td>10</td><td>1010</td><td>\(\overline{w} + x + \overline{y} + z\)</td></tr>
+      <tr><td>3</td><td>0011</td><td>\(w + x + \overline{y} + \overline{z}\)</td><td>11</td><td>1011</td><td>\(\overline{w} + x + \overline{y} + \overline{z}\)</td></tr>
+      <tr><td>4</td><td>0100</td><td>\(w + \overline{x} + y + z\)</td><td>12</td><td>1100</td><td>\(\overline{w} + \overline{x} + y + z\)</td></tr>
+      <tr><td>5</td><td>0101</td><td>\(w + \overline{x} + y + \overline{z}\)</td><td>14</td><td>1110</td><td>\(\overline{w} + \overline{x} + \overline{y} + z\)</td></tr>
+    </table>
+  </div>
+  <p>La f.n.c. es el producto de esos 12 maxtérminos.</p>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>a) f.n.d.: \(g = \overline{w}xyz + w\overline{x}\,\overline{y}z + wx\overline{y}z + wxyz\); f.n.c.: el producto de los 12 maxtérminos de la tabla.</p>
+    <p>b) \(g = \sum m(7, 9, 13, 15) = \prod M(0, 1, 2, 3, 4, 5, 6, 8, 10, 11, 12, 14)\)</p>
+  </div>
+
+  <span class="paso">Solución del libro</span>
+  <p>
+    Es par: no está en las soluciones en castellano. El manual del profesor llega a la misma f.n.d.
+    con los mismos pasos y da \(g = \sum m(7, 9, 13, 15) = \prod M(0, 1, 2, 3, 4, 5, 6, 8, 10, 11, 12, 14)\).
+    Coincide (además se probaron las 16 entradas).
+  </p>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Errata del manual</span>
+    <p>
+      En su tabla de maxtérminos el manual escribe "0110 (= 3)": la etiqueta 3 en binario es
+      <strong>0011</strong>. El maxtérmino que pone al lado (\(w + x + \overline{y} + \overline{z}\))
+      sí es el de 0011, así que es solo un error de tipeo.
+    </p>
+  </div>
+</div>

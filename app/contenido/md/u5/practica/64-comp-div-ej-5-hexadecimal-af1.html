@@ -1,0 +1,63 @@
+<div class="ej">
+  <span class="tag" data-num-ej="CD-5.">Complementaria P2 &middot; Divisibilidad &middot; Ej. 5 &middot; Cambio de base</span>
+  <h2>El hexadecimal AF1 en base 10, 2, 4 y 8</h2>
+  <div class="enunciado">
+    <p>Escriba el número hexadecimal AF1 en base 10 y luego expresarlo en base 2, 4 y 8.</p>
+  </div>
+
+  <span class="paso">Qué tema es y por qué</span>
+  <ul>
+    <li>Cambio de base. Hexadecimal es base 16: los dígitos van de 0 a 15, y del 10 al 15 se escriben A, B, C, D, E, F.</li>
+    <li>Pasar <strong>a</strong> base 10: sumar cada dígito por su potencia de la base. Pasar <strong>de</strong> base 10 a otra: divisiones sucesivas (algoritmo de la división); los restos son los dígitos.</li>
+  </ul>
+
+  <div class="caja caja-formula">
+    <span class="caja-tit">Las reglas</span>
+    <ul>
+      <li>\((d_k \dots d_1 d_0)_b = d_k\, b^k + \dots + d_1\, b + d_0\).</li>
+      <li>De base 10 a base \(b\): se divide por \(b\), después el cociente por \(b\), y así hasta cociente 0. Los restos, leídos <strong>de abajo hacia arriba</strong>, son los dígitos.</li>
+      <li>Atajo entre 16, 2, 4 y 8: como \(16 = 2^4\), cada dígito hexadecimal son exactamente 4 dígitos binarios; y como \(4 = 2^2\) y \(8 = 2^3\), el binario se agrupa de a 2 (base 4) o de a 3 (base 8), desde la derecha.</li>
+    </ul>
+  </div>
+
+  <span class="paso">Paso 1 &mdash; A base 10</span>
+  <p>A = 10, F = 15, 1 = 1. Las posiciones, desde la derecha, valen \(16^0 = 1\), \(16^1 = 16\), \(16^2 = 256\):</p>
+  \[(AF1)_{16} = 10 \cdot 256 + 15 \cdot 16 + 1 \cdot 1 = 2560 + 240 + 1 = 2801\]
+
+  <span class="paso">Paso 2 &mdash; A base 2 (de a 4 bits)</span>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th>Dígito hexa</th><th>Valor</th><th>4 bits</th></tr>
+      <tr><td>A</td><td>10 = 8 + 2</td><td>1010</td></tr>
+      <tr><td>F</td><td>15 = 8 + 4 + 2 + 1</td><td>1111</td></tr>
+      <tr><td>1</td><td>1</td><td>0001</td></tr>
+    </table>
+  </div>
+  \[(AF1)_{16} = (1010\,1111\,0001)_2\]
+  <p>Control: \(2^{11} + 2^9 + 2^7 + 2^6 + 2^5 + 2^4 + 2^0 = 2048 + 512 + 128 + 64 + 32 + 16 + 1 = 2801\).</p>
+
+  <span class="paso">Paso 3 &mdash; A base 4 (de a 2 bits desde la derecha)</span>
+  <p>\(10\ 10\ 11\ 11\ 00\ 01\) &rarr; \(2\ 2\ 3\ 3\ 0\ 1\), porque \((10)_2 = 2\), \((11)_2 = 3\), \((00)_2 = 0\), \((01)_2 = 1\):</p>
+  \[(223301)_4 = 2 \cdot 1024 + 2 \cdot 256 + 3 \cdot 64 + 3 \cdot 16 + 0 \cdot 4 + 1 = 2801\]
+
+  <span class="paso">Paso 4 &mdash; A base 8 (de a 3 bits, y con divisiones)</span>
+  <p>\(101\ 011\ 110\ 001\) &rarr; \(5\ 3\ 6\ 1\). Con el método general, dividiendo 2801 por 8:</p>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th>División</th><th>Resto</th></tr>
+      <tr><td>\(2801 = 350 \cdot 8 + 1\)</td><td>1</td></tr>
+      <tr><td>\(350 = 43 \cdot 8 + 6\)</td><td>6</td></tr>
+      <tr><td>\(43 = 5 \cdot 8 + 3\)</td><td>3</td></tr>
+      <tr><td>\(5 = 0 \cdot 8 + 5\)</td><td>5</td></tr>
+    </table>
+  </div>
+  <p>Los restos de abajo hacia arriba: \(5361\). Coincide con el atajo.</p>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>\((AF1)_{16} = 2801 = (101011110001)_2 = (223301)_4 = (5361)_8\).</p>
+  </div>
+
+  <span class="paso">Verificación</span>
+  <p>La guía no trae resultados; verificación propia con Python: 2801, 101011110001, 223301 y 5361. Coincide.</p>
+</div>

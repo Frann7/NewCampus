@@ -1,0 +1,99 @@
+<div class="bloque" data-examen="igual" data-examen-ref="Parcial 2 2026 · ej. 3" data-examen-nota="El ej. 3 a) i) pidió mcd(837, −341): está resuelto en el Ejemplo 2.">
+  <p class="kicker">Máximo común divisor</p>
+  <h2>7. El algoritmo de Euclides</h2>
+
+  <h3>Para qué sirve</h3>
+  <p>
+    Es la forma rápida de calcular el mcd de números grandes, sin listar divisores ni factorizar.
+    Y deja escritas las cuentas que después se usan para la combinación lineal (sección 8).
+  </p>
+
+  <h3>La idea</h3>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Proposición</span>
+    <p>Sean \(a, b\) enteros, \(b \neq 0\), y \(r\) el resto de dividir \(a\) por \(b\). Entonces</p>
+    <p>\[ mcd(a, b) = mcd(b, r) \]</p>
+  </div>
+  <h4>De dónde sale</h4>
+  <p>Por el algoritmo de la división (sección 4), \(a = qb + r\), o sea \(r = a - qb\).</p>
+  <ul>
+    <li>Si \(c\) divide a \(a\) y a \(b\), divide a \(a - qb = r\) (propiedad 8 de la sección 2).</li>
+    <li>Si \(c\) divide a \(b\) y a \(r\), divide a \(qb + r = a\).</li>
+    <li>Los pares \((a, b)\) y \((b, r)\) tienen los mismos divisores comunes, así que el mismo mcd.</li>
+  </ul>
+  <p>Es la misma idea que restar de la sección 6, pero restando \(b\) "\(q\) veces de una".</p>
+
+  <h3>El algoritmo</h3>
+  <p>Se divide, y después se divide el divisor por el resto, una y otra vez, hasta que una división dé exacta:</p>
+  <p>\[ \begin{aligned} a &amp;= b\,q_1 + r_1 \\ b &amp;= r_1 q_2 + r_2 \\ r_1 &amp;= r_2 q_3 + r_3 \\ &amp;\;\;\vdots \\ r_{n-2} &amp;= r_{n-1} q_n + r_n \\ r_{n-1} &amp;= r_n q_{n+1} + 0 \end{aligned} \]</p>
+  <p>Entonces \(mcd(a, b) = mcd(b, r_1) = mcd(r_1, r_2) = \cdots = mcd(r_n, 0) = r_n\).</p>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Regla</span>
+    <p>El mcd es el <strong>último resto distinto de cero</strong>.</p>
+  </div>
+  <ul>
+    <li>Siempre termina: los restos son enteros que bajan (\(b \gt r_1 \gt r_2 \gt \cdots \geq 0\)), así que en algún momento dan 0.</li>
+    <li>En cada renglón, el divisor pasa a ser dividendo y el resto pasa a ser divisor: los números "corren un lugar a la izquierda".</li>
+    <li>Con negativos, primero se sacan los signos: \(mcd(a, b) = mcd(\lvert a \rvert, \lvert b \rvert)\) (sección 6).</li>
+  </ul>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; \(mcd(259, 111)\)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado (Actividad 6 a de la cátedra, primera parte)</span>
+    <p>Determinar el \(mcd(259, 111)\).</p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"259"</td><td>el mayor</td><td>&mdash;</td><td>\(a = 259\)</td></tr>
+      <tr><td>"111"</td><td>el menor</td><td>&mdash;</td><td>\(b = 111\)</td></tr>
+    </table>
+  </div>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th>Paso</th><th>División</th><th>Cociente</th><th>Resto</th></tr>
+      <tr><td>1</td><td>\(259 = 111 \cdot 2 + 37\)</td><td>2</td><td>37</td></tr>
+      <tr><td>2</td><td>\(111 = 37 \cdot 3 + 0\)</td><td>3</td><td>0</td></tr>
+    </table>
+  </div>
+  <p>El último resto no nulo es 37.</p>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>\(mcd(259, 111) = 37\). (Control: \(259 = 37 \cdot 7\) y \(111 = 37 \cdot 3\).)</p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; Estilo parcial: \(mcd(837, -341)\)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado (Parcial 2 2026, ej. 3 a) i), primera parte)</span>
+    <p>Calcular \(mcd(837, -341)\).</p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"\(-341\)"</td><td>un negativo: el signo no cambia el mcd</td><td>\(mcd(837, -341) = mcd(837, 341)\)</td><td>\(a = 837,\ b = 341\)</td></tr>
+    </table>
+  </div>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th>Paso</th><th>División</th><th>Cociente</th><th>Resto</th></tr>
+      <tr><td>1</td><td>\(837 = 341 \cdot 2 + 155\)</td><td>2</td><td>155</td></tr>
+      <tr><td>2</td><td>\(341 = 155 \cdot 2 + 31\)</td><td>2</td><td>31</td></tr>
+      <tr><td>3</td><td>\(155 = 31 \cdot 5 + 0\)</td><td>5</td><td>0</td></tr>
+    </table>
+  </div>
+  <div class="caja caja-calc">
+    <span class="caja-tit">En la calculadora</span>
+    <p>\(837 \div 341 = 2{,}45\): el cociente es 2 y el resto \(837 - 2 \cdot 341 = 837 - 682 = 155\). Después \(341 \div 155 = 2{,}2\): cociente 2, resto \(341 - 310 = 31\). Y \(155 \div 31 = 5\) exacto.</p>
+  </div>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>\(mcd(837, -341) = 31\). (Control: \(837 = 31 \cdot 27\) y \(341 = 31 \cdot 11\).)</p>
+  </div>
+  <p>La segunda parte del inciso (escribirlo como combinación lineal) sigue en la sección 8.</p>
+</div>

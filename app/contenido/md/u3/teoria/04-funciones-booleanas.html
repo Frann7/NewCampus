@@ -1,0 +1,158 @@
+<div class="bloque" data-examen="igual"
+     data-examen-ref="Parcial 1 2026 · ej. 5 b"
+     data-examen-nota="El parcial pidió la tabla de la misma función del Ejemplo 2.">
+  <p class="kicker">Funciones de conmutación</p>
+  <h2>4. Funciones booleanas y su tabla</h2>
+
+  <h3>Para qué sirve</h3>
+  <p>
+    Una función booleana es una "máquina" que recibe varios ceros y unos y devuelve un solo 0 o
+    1. Es lo que hace un circuito con varios interruptores y una lamparita: según cómo estén los
+    interruptores, la lamparita se prende o no. Todo el resto de la unidad trabaja con estas
+    funciones.
+  </p>
+
+  <h3>Definición</h3>
+  <div class="caja caja-formula">
+    <span class="caja-tit">\(B^{n}\) y función booleana</span>
+    <p>\[ B^{n} = \{(b_1, b_2, \ldots, b_n) \,/\, b_i \in \{0, 1\}\ \forall i\} \]</p>
+    <p>Una función \(f : B^{n} \to B\) es una <strong>función booleana</strong> (o de conmutación) de \(n\) variables.</p>
+  </div>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Símbolo</th><th>Qué significa</th></tr>
+      <tr><td>\(B^{n}\)</td><td>Todas las tiras de \(n\) ceros y unos. \(B^{3}\) tiene \((0,0,0), (0,0,1), \ldots, (1,1,1)\)</td></tr>
+      <tr><td>\(n\)-upla</td><td>Una de esas tiras, escrita entre paréntesis: \((1, 0, 1)\). También se escribe pegada: \(101\)</td></tr>
+      <tr><td>\(f : B^{n} \to B\)</td><td>\(f\) toma una \(n\)-upla y devuelve 0 o 1</td></tr>
+      <tr><td>\(f(x, y, z) = xy + z\)</td><td>La regla que dice cuánto vale \(f\) en cada \(n\)-upla</td></tr>
+    </table>
+  </div>
+
+  <h3>Cuántas filas tiene la tabla</h3>
+  <p>
+    La tabla de \(f\) tiene una fila por cada \(n\)-upla. Cada variable tiene 2 valores posibles y
+    son \(n\) variables, así que hay \(2 \cdot 2 \cdots 2 = 2^{n}\) filas: 4 con dos variables, 8
+    con tres, 16 con cuatro, 32 con cinco.
+  </p>
+
+  <h3>En qué orden van las filas (y por qué importa)</h3>
+  <p>
+    Las filas se escriben <strong>contando en binario</strong> desde \(0\) hasta \(2^{n} - 1\),
+    con las variables en orden alfabético (o \(x_1, x_2, \ldots\)): la primera variable es el
+    dígito de más a la izquierda. Al costado se anota el número de la fila (la "etiqueta"), que
+    es esa tira de bits leída en decimal:
+  </p>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th>etiqueta</th><th>\(x\)</th><th>\(y\)</th><th>\(z\)</th><th>cuenta</th></tr>
+      <tr><td>0</td><td>0</td><td>0</td><td>0</td><td>\(0 \cdot 4 + 0 \cdot 2 + 0 \cdot 1\)</td></tr>
+      <tr><td>1</td><td>0</td><td>0</td><td>1</td><td>\(0 + 0 + 1\)</td></tr>
+      <tr><td>2</td><td>0</td><td>1</td><td>0</td><td>\(0 + 2 + 0\)</td></tr>
+      <tr><td>3</td><td>0</td><td>1</td><td>1</td><td>\(0 + 2 + 1\)</td></tr>
+      <tr><td>4</td><td>1</td><td>0</td><td>0</td><td>\(4 + 0 + 0\)</td></tr>
+      <tr><td>5</td><td>1</td><td>0</td><td>1</td><td>\(4 + 0 + 1\)</td></tr>
+      <tr><td>6</td><td>1</td><td>1</td><td>0</td><td>\(4 + 2 + 0\)</td></tr>
+      <tr><td>7</td><td>1</td><td>1</td><td>1</td><td>\(4 + 2 + 1\)</td></tr>
+    </table>
+  </div>
+  <ul>
+    <li>Cada posición "pesa" una potencia de 2, de derecha a izquierda: 1, 2, 4, 8, 16... Con cuatro variables \(w, x, y, z\), los pesos son 8, 4, 2, 1.</li>
+    <li>Truco para escribirla rápido: la última columna alterna \(0, 1, 0, 1\ldots\); la anterior de a dos \(0, 0, 1, 1\ldots\); la anterior de a cuatro; y así.</li>
+    <li>La etiqueta es la que se usa en \(\sum m\) y \(\prod M\) (secciones 9 a 12). Si el orden de las filas está mal, todos los números salen mal.</li>
+  </ul>
+
+  <h3>Cómo se arma la tabla de una función</h3>
+  <ol>
+    <li>Las columnas de las variables, contando en binario.</li>
+    <li>Una columna auxiliar por cada pedazo de la expresión (cada producto, cada barra, cada paréntesis), de adentro hacia afuera.</li>
+    <li>La última columna combina las auxiliares con la operación de afuera.</li>
+  </ol>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; La de la cátedra: \(f(x, y, z) = xy + z\)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>Construir la tabla de \(f : B^{3} \to B\), \(f(x, y, z) = xy + z\).</p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"\(B^{3}\)"</td><td>tres variables</td><td>\(2^{3}\)</td><td>8 filas</td></tr>
+      <tr><td>"\(xy\)"</td><td>un producto: es 1 solo si \(x = y = 1\)</td><td>&mdash;</td><td>columna auxiliar</td></tr>
+      <tr><td>"\(+ z\)"</td><td>la suma de afuera: 1 si \(xy\) o \(z\) es 1</td><td>&mdash;</td><td>columna final</td></tr>
+    </table>
+  </div>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th>\(x\)</th><th>\(y\)</th><th>\(z\)</th><th>\(xy\)</th><th>\(f = xy + z\)</th></tr>
+      <tr><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+      <tr><td>0</td><td>0</td><td>1</td><td>0</td><td>1</td></tr>
+      <tr><td>0</td><td>1</td><td>0</td><td>0</td><td>0</td></tr>
+      <tr><td>0</td><td>1</td><td>1</td><td>0</td><td>1</td></tr>
+      <tr><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+      <tr><td>1</td><td>0</td><td>1</td><td>0</td><td>1</td></tr>
+      <tr><td>1</td><td>1</td><td>0</td><td>1</td><td>1</td></tr>
+      <tr><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
+    </table>
+  </div>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>La columna de \(f\), de arriba abajo: \(0, 1, 0, 1, 0, 1, 1, 1\). \(f\) vale 1 en las filas 1, 3, 5, 6 y 7.</p>
+  </div>
+  <p>
+    Las actividades 2 a 4 de la cátedra son del mismo tipo. Resultados, para controlar:
+    \(h = x + z\) da \(0, 1, 0, 1, 1, 1, 1, 1\); \(m = xy\overline{z}\) da 1 solo en la fila
+    \(110\); \(j(x, y) = xy + \overline{x}\) (4 filas) da \(1, 1, 0, 1\). Y las funciones
+    constantes \(f_1 = 1\) y \(f_0 = 0\) tienen toda la columna en 1 (8 filas) y toda en 0
+    (16 filas, porque \(f_0\) es de cuatro variables).
+  </p>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; Estilo parcial (Parcial 1 2026, ej. 5 b)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>
+      Construir la tabla de valores de \(f : B^{3} \to B\),
+      \(f(x, y, z) = \overline{xy} + \overline{y}z + \overline{z}(z + \overline{x})\).
+    </p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"\(B^{3}\)"</td><td>tres variables</td><td>\(2^{3}\)</td><td>8 filas</td></tr>
+      <tr><td>"\(\overline{xy}\)"</td><td>barra larga: primero \(xy\), después se da vuelta</td><td>dos columnas: \(xy\) y \(\overline{xy}\)</td><td>1.er sumando</td></tr>
+      <tr><td>"\(\overline{y}z\)"</td><td>1 solo si \(y = 0\) y \(z = 1\)</td><td>una columna</td><td>2.º sumando</td></tr>
+      <tr><td>"\(\overline{z}(z + \overline{x})\)"</td><td>primero el paréntesis, después por \(\overline{z}\)</td><td>dos columnas</td><td>3.er sumando</td></tr>
+      <tr><td>los "+" de afuera</td><td>\(f = 1\) si al menos un sumando es 1</td><td>&mdash;</td><td>columna final</td></tr>
+    </table>
+  </div>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>et.</th><th>\(x\)</th><th>\(y\)</th><th>\(z\)</th><th>\(xy\)</th><th>\(\overline{xy}\)</th><th>\(\overline{y}z\)</th><th>\(z + \overline{x}\)</th><th>\(\overline{z}(z + \overline{x})\)</th><th>\(f\)</th></tr>
+      <tr><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1</td><td>0</td><td>1</td><td>1</td><td>1</td></tr>
+      <tr><td>1</td><td>0</td><td>0</td><td>1</td><td>0</td><td>1</td><td>1</td><td>1</td><td>0</td><td>1</td></tr>
+      <tr><td>2</td><td>0</td><td>1</td><td>0</td><td>0</td><td>1</td><td>0</td><td>1</td><td>1</td><td>1</td></tr>
+      <tr><td>3</td><td>0</td><td>1</td><td>1</td><td>0</td><td>1</td><td>0</td><td>1</td><td>0</td><td>1</td></tr>
+      <tr><td>4</td><td>1</td><td>0</td><td>0</td><td>0</td><td>1</td><td>0</td><td>0</td><td>0</td><td>1</td></tr>
+      <tr><td>5</td><td>1</td><td>0</td><td>1</td><td>0</td><td>1</td><td>1</td><td>1</td><td>0</td><td>1</td></tr>
+      <tr><td>6</td><td>1</td><td>1</td><td>0</td><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+      <tr><td>7</td><td>1</td><td>1</td><td>1</td><td>1</td><td>0</td><td>0</td><td>1</td><td>0</td><td>0</td></tr>
+    </table>
+  </div>
+  <p>
+    Fijate en el atajo: apenas \(\overline{xy}\) da 1 (las filas 0 a 5), \(f\) ya es 1 sin mirar
+    lo demás, porque una suma con un 1 vale 1. Solo las filas 6 y 7 necesitan las otras columnas.
+  </p>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>
+      \(f\) vale 1 en las filas 0 a 5 y vale 0 en las filas 6 (\(110\)) y 7 (\(111\)). Es la
+      misma columna que \(\overline{x} + \overline{y}\), que es la forma simple que se obtiene
+      en la sección 8: por eso el enunciado dice que la tabla "sirve de verificador".
+    </p>
+  </div>
+</div>

@@ -1,0 +1,53 @@
+<div class="ej">
+  <span class="tag" data-num-ej="6.1-5.">Grimaldi 6.1 &middot; Ej. 5 &middot; Prefijo propio</span>
+  <h2>Cadenas de largo 1 a 6 que tienen a \(xy\) como prefijo propio</h2>
+  <div class="enunciado">
+    <p>Sea \(\Sigma = \{v, w, x, y, z\}\) y \(A = \bigcup_{n=1}^{6} \Sigma^n\). ¿Cuántas cadenas en \(A\) tienen a \(xy\) como prefijo propio?</p>
+  </div>
+
+  <span class="paso">Qué tema es y por qué</span>
+  <ul>
+    <li>Prefijo y prefijo propio (en la teoría, "Prefijo, sufijo y subcadena"), y contar con la regla del producto y la de la suma.</li>
+  </ul>
+  <div class="caja caja-formula">
+    <p>\(u\) es <strong>prefijo</strong> de \(w\) si \(w = uv\) para alguna cadena \(v\). Es <strong>prefijo propio</strong> si además \(u \neq w\), o sea, \(v \neq \lambda\): después de \(u\) viene al menos un símbolo más.</p>
+  </div>
+
+  <span class="paso">Desarme del enunciado</span>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>A dónde va</th></tr>
+      <tr><td>"\(\Sigma = \{v, w, x, y, z\}\)"</td><td>5 símbolos</td><td>\(|\Sigma| = 5\)</td></tr>
+      <tr><td>"\(A = \bigcup_{n=1}^{6} \Sigma^n\)"</td><td>todas las cadenas de largo 1 a 6</td><td>\(1 \leq \|w\| \leq 6\)</td></tr>
+      <tr><td>"\(xy\) como prefijo propio"</td><td>\(w = xy\,v\) con \(v \neq \lambda\)</td><td>\(\|w\| \geq 3\)</td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Paso 1 &mdash; Qué largos pueden tener</span>
+  <p>Como \(w = xy\,v\) con \(\|v\| \geq 1\), el largo es al menos 3. Y como \(w \in A\), es a lo sumo 6. Entonces \(\|w\| \in \{3, 4, 5, 6\}\) y \(\|v\| = \|w\| - 2 \in \{1, 2, 3, 4\}\).</p>
+
+  <span class="paso">Paso 2 &mdash; Contar por largo (regla del producto) y sumar (regla de la suma)</span>
+  <p>Con largo \(n\), los dos primeros lugares están fijos (\(x\), \(y\)) y los otros \(n - 2\) lugares eligen libremente entre 5 símbolos: \(5^{n-2}\) cadenas.</p>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th>Largo \(n\)</th><th>Cuenta</th><th>Cantidad</th></tr>
+      <tr><td>3</td><td>\(5^1\)</td><td>5</td></tr>
+      <tr><td>4</td><td>\(5^2\)</td><td>25</td></tr>
+      <tr><td>5</td><td>\(5^3\)</td><td>125</td></tr>
+      <tr><td>6</td><td>\(5^4\)</td><td>625</td></tr>
+    </table>
+  </div>
+  <p>\[\sum_{i=1}^{4} 5^i = 5 + 25 + 125 + 625 = 780\]</p>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>780 cadenas.</p>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Prefijo a secas</span>
+    <p>Si dijera solo "prefijo", también contaría \(xy\) misma (largo 2): serían \(781\).</p>
+  </div>
+
+  <span class="paso">Solución del libro</span>
+  <p>780 (el manual escribe \(\sum_{i=1}^{4} 5^i\)). Coincide; también se contó recorriendo todas las cadenas con Python.</p>
+</div>

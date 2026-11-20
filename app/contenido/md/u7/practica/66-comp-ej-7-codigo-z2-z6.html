@@ -1,0 +1,180 @@
+<div class="ej">
+  <span class="tag" data-num-ej="C-7.">Complementaria P3 &middot; Codificación &middot; Ej. 7 &middot; Esfera, distancia mínima, código de grupo y matriz G</span>
+  <h2>El código \(E : \mathbb{Z}_2^2 \to \mathbb{Z}_2^6\)</h2>
+  <div class="enunciado">
+    <p>
+      Sea \(E : \mathbb{Z}_2^2 \to \mathbb{Z}_2^6\) una función de codificación definida como:
+      \(E(00) = 000000\), \(E(01) = 011001\), \(E(10) = 100110\), \(E(11) = 111111\).
+    </p>
+    <p>a. Escriba los elementos de la siguiente esfera \(S(E(01) = 011001,\ 1)\).</p>
+    <p>
+      Concluya: la esfera cuenta con exactamente 7 palabras (la original + 6 vecinas). Si al transmitir
+      011001 ocurre un error en el canal de transmisión y llega, por ejemplo, 010001, el decodificador verá
+      que este vector cae dentro de la esfera de 011001 y lo corregirá automáticamente.
+    </p>
+    <p>b. Calcular la distancia mínima entre las palabras codificadas.</p>
+    <p>c. Completar la Tabla: (\(C\): conjunto de palabras codificadas, \(+\))</p>
+    <div class="tabla-wrap">
+      <table class="t">
+        <tr><th>\(+\) (en \(\mathbb{Z}_2\))</th><th>000000</th><th>011001</th><th>100110</th><th>111111</th></tr>
+        <tr><th>000000</th><td></td><td>011001</td><td></td><td></td></tr>
+        <tr><th>011001</th><td></td><td></td><td></td><td></td></tr>
+        <tr><th>100110</th><td></td><td>111111</td><td>000000</td><td>011001</td></tr>
+        <tr><th>111111</th><td></td><td></td><td></td><td>000000</td></tr>
+      </table>
+    </div>
+    <p>c. Justificar por qué es un grupo.</p>
+    <p>d. Comprobar que la distancia mínima es igual al peso mínimo de cada palabra codificada diferente del cero del grupo.</p>
+    <p>e. Reconstruir la matriz \(G\) (2x6) generadora de este conjunto de palabras codificadas, de este código.</p>
+  </div>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Dos incisos "c"</span>
+    <p>
+      La guía tiene dos incisos con la letra c (completar la tabla y justificar que es grupo). Se respetan
+      como están: acá se llaman <strong>c (tabla)</strong> y <strong>c (grupo)</strong>.
+    </p>
+  </div>
+
+  <span class="paso">Qué tema es y por qué</span>
+  <ul>
+    <li>
+      Codificación: cada mensaje de 2 bits se manda como una palabra de 6 bits, con bits de más para
+      poder detectar y corregir errores.
+    </li>
+    <li>Se usa la <strong>métrica de Hamming</strong> (peso, distancia, esfera) y la <strong>matriz generadora</strong>, de la teoría de esta unidad.</li>
+    <li>\(\mathbb{Z}_2^6\): palabras de 6 bits; se suman bit a bit módulo 2 (\(0 + 0 = 0\), \(0 + 1 = 1 + 0 = 1\), \(1 + 1 = 0\), sin acarreo).</li>
+  </ul>
+
+  <span class="paso">Desarme del enunciado</span>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>A dónde va</th></tr>
+      <tr><td>"\(E : \mathbb{Z}_2^2 \to \mathbb{Z}_2^6\)"</td><td>mensajes de \(m = 2\) bits, palabras de \(n = 6\) bits</td><td>\(G\) va a ser de \(2 \times 6\)</td></tr>
+      <tr><td>"\(E(00) = 000000\), …"</td><td>las cuatro palabras codificadas</td><td>\(C = \{000000, 011001, 100110, 111111\}\)</td></tr>
+      <tr><td>"\(S(011001, 1)\)"</td><td>esfera de centro 011001 y radio 1</td><td>palabras a distancia \(\leq 1\)</td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Paso a &mdash; La esfera \(S(011001, 1)\)</span>
+  <div class="caja caja-formula">
+    <p>
+      \(S(x, k) = \{y \in \mathbb{Z}_2^n \ / \ d(x, y) \leq k\}\), donde \(d(x, y)\) es la cantidad de posiciones
+      en que \(x\) e \(y\) difieren.
+    </p>
+  </div>
+  <p>Con radio 1 entran: la propia 011001 (distancia 0) y las que difieren en <strong>una sola</strong> posición (distancia 1). Se cambia un bit por vez:</p>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th>Bit que se cambia</th><th>Palabra</th><th>\(d(011001, y)\)</th></tr>
+      <tr><td>ninguno</td><td>011001</td><td>0</td></tr>
+      <tr><td>1.º</td><td>111001</td><td>1</td></tr>
+      <tr><td>2.º</td><td>001001</td><td>1</td></tr>
+      <tr><td>3.º</td><td>010001</td><td>1</td></tr>
+      <tr><td>4.º</td><td>011101</td><td>1</td></tr>
+      <tr><td>5.º</td><td>011011</td><td>1</td></tr>
+      <tr><td>6.º</td><td>011000</td><td>1</td></tr>
+    </table>
+  </div>
+  <p>
+    <strong>Conclusión:</strong> son \(1 + 6 = 7\) palabras (la original más una vecina por cada uno de los 6
+    bits). La 010001 del enunciado es la que tiene cambiado el 3.er bit: \(d(011001, 010001) = 1\), cae en
+    la esfera. Como (ver b) la distancia mínima es 3, las esferas de radio 1 de las cuatro palabras no se
+    tocan; entonces 010001 está cerca <strong>solo</strong> de 011001, y el decodificador la corrige a esa.
+  </p>
+
+  <span class="paso">Paso b &mdash; Distancia mínima</span>
+  <div class="caja caja-formula">
+    <p>\(d_{min} = \min\{d(x, y) \ / \ x, y \in C,\ x \neq y\}\). Con 4 palabras hay \(\binom{4}{2} = 6\) pares.</p>
+  </div>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th>Par</th><th>Posiciones distintas</th><th>\(d\)</th></tr>
+      <tr><td>000000 y 011001</td><td>2.ª, 3.ª, 6.ª</td><td>3</td></tr>
+      <tr><td>000000 y 100110</td><td>1.ª, 4.ª, 5.ª</td><td>3</td></tr>
+      <tr><td>000000 y 111111</td><td>todas</td><td>6</td></tr>
+      <tr><td>011001 y 100110</td><td>todas</td><td>6</td></tr>
+      <tr><td>011001 y 111111</td><td>1.ª, 4.ª, 5.ª</td><td>3</td></tr>
+      <tr><td>100110 y 111111</td><td>2.ª, 3.ª, 6.ª</td><td>3</td></tr>
+    </table>
+  </div>
+  <p>\(d_{min} = 3\). Por el teorema de detección y corrección: detecta errores de peso \(k \leq d_{min} - 1 = 2\) y corrige los de peso \(k \leq \frac{d_{min} - 1}{2} = 1\).</p>
+
+  <span class="paso">Paso c (tabla) &mdash; Completar la tabla de \(+\)</span>
+  <p>Regla: cada casilla es fila + columna, bit a bit módulo 2 (da 1 donde los bits son distintos). Por ejemplo, fila 011001 y columna 100110:</p>
+  <p>\[ 011001 + 100110 = 111111 \]</p>
+  <p>y fila 011001 y columna 111111: \(011001 + 111111 = 100110\). Completa:</p>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th>\(+\)</th><th>000000</th><th>011001</th><th>100110</th><th>111111</th></tr>
+      <tr><th>000000</th><td>000000</td><td>011001</td><td>100110</td><td>111111</td></tr>
+      <tr><th>011001</th><td>011001</td><td>000000</td><td>111111</td><td>100110</td></tr>
+      <tr><th>100110</th><td>100110</td><td>111111</td><td>000000</td><td>011001</td></tr>
+      <tr><th>111111</th><td>111111</td><td>100110</td><td>011001</td><td>000000</td></tr>
+    </table>
+  </div>
+  <p>Las casillas que ya daba la guía coinciden (por ejemplo \(100110 + 011001 = 111111\)).</p>
+
+  <span class="paso">Paso c (grupo) &mdash; Por qué \((C, +)\) es un grupo</span>
+  <div class="caja caja-formula">
+    <p>
+      \((\mathbb{Z}_2^6, +)\) es un grupo (producto directo de seis copias de \((\mathbb{Z}_2, +)\)). Por el
+      criterio de subgrupo para conjuntos finitos, un subconjunto finito no vacío es subgrupo si es
+      <strong>cerrado</strong>: \(a + b \in H\) para todo \(a, b \in H\).
+    </p>
+  </div>
+  <ul>
+    <li><strong>Cierre:</strong> las 16 casillas de la tabla son palabras de \(C\). ✓</li>
+    <li><strong>Asociativa:</strong> se hereda de \(\mathbb{Z}_2^6\) (la suma bit a bit es asociativa).</li>
+    <li><strong>Neutro:</strong> 000000 (su fila repite los encabezados).</li>
+    <li><strong>Inversos:</strong> la diagonal es toda 000000: cada palabra es su propio inverso (\(x + x = 0\)).</li>
+  </ul>
+  <p>
+    Entonces \(C\) es un subgrupo de \(\mathbb{Z}_2^6\) y por eso se dice que es un <strong>código de grupo</strong>.
+    Además es abeliano (la tabla es simétrica).
+  </p>
+
+  <span class="paso">Paso d &mdash; Distancia mínima = peso mínimo</span>
+  <div class="caja caja-formula">
+    <p>
+      \(p(x)\) = cantidad de unos de \(x\). Y \(d(x, y) = p(x + y)\): la suma da 1 justo en las posiciones
+      donde \(x\) e \(y\) difieren.
+    </p>
+  </div>
+  <p>Pesos de las palabras no nulas: \(p(011001) = 3\), \(p(100110) = 3\), \(p(111111) = 6\). El mínimo es <strong>3</strong>, igual a \(d_{min}\) del paso b.</p>
+  <p>
+    Por qué pasa: cada distancia \(d(x, y) = p(x + y)\), y como \(C\) es grupo, \(x + y\) es otra palabra de
+    \(C\) no nula (si \(x \neq y\)). Se ve en la tabla del paso b: los pares a distancia 3 tienen suma
+    011001 o 100110 (peso 3), y los a distancia 6 tienen suma 111111 (peso 6).
+  </p>
+
+  <span class="paso">Paso e &mdash; La matriz generadora</span>
+  <div class="caja caja-formula">
+    <p>
+      \(E(w) = wG\), con \(G\) de \(m \times n\) sobre \(\mathbb{Z}_2\) y \(G = [I_m \mid A]\). Multiplicar
+      \(w = w_1 w_2\) por \(G\) es sumar las filas de \(G\) donde \(w\) tiene un 1. Entonces la fila 1 es
+      \(E(10)\) y la fila 2 es \(E(01)\).
+    </p>
+  </div>
+  <p>\[ G = \begin{pmatrix} 1 & 0 & 0 & 1 & 1 & 0 \\ 0 & 1 & 1 & 0 & 0 & 1 \end{pmatrix} = [\,I_2 \mid A\,], \quad A = \begin{pmatrix} 0 & 1 & 1 & 0 \\ 1 & 0 & 0 & 1 \end{pmatrix} \]</p>
+  <p>Las primeras dos columnas forman \(I_2\), como pide la forma de la cátedra. Comprobación con los cuatro mensajes:</p>
+  <ul>
+    <li>\(00 \cdot G = 000000\) (no se suma ninguna fila)</li>
+    <li>\(10 \cdot G\) = fila 1 = 100110</li>
+    <li>\(01 \cdot G\) = fila 2 = 011001</li>
+    <li>\(11 \cdot G\) = fila 1 + fila 2 = \(100110 + 011001 = 111111\)</li>
+  </ul>
+  <p>Coinciden con \(E\). ✓</p>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>a. \(S(011001, 1) = \{011001, 111001, 001001, 010001, 011101, 011011, 011000\}\): 7 palabras.</p>
+    <p>b. \(d_{min} = 3\): detecta hasta 2 errores y corrige 1.</p>
+    <p>c (tabla). La tabla completa de arriba. &nbsp; c (grupo). Es cerrado, hereda la asociativa, neutro 000000 y cada palabra es su propio inverso.</p>
+    <p>d. Peso mínimo de las no nulas = 3 = \(d_{min}\).</p>
+    <p>e. \(G = \begin{pmatrix} 1 & 0 & 0 & 1 & 1 & 0 \\ 0 & 1 & 1 & 0 & 0 & 1 \end{pmatrix}\).</p>
+  </div>
+
+  <span class="paso">Verificación (la guía no trae resultados)</span>
+  <p>Se generaron todas las palabras de \(\mathbb{Z}_2^6\) a distancia \(\leq 1\) de 011001 (son 7), las 6 distancias, las 16 sumas, y se comprobó que las cuatro esferas de radio 1 son disjuntas y que \(wG\) reproduce \(E\).</p>
+</div>

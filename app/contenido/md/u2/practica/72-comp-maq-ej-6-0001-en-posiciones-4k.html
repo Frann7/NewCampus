@@ -1,0 +1,132 @@
+<div class="ej">
+  <span class="tag" data-num-ej="CM-6.">Complementaria P1 &middot; Máquinas &middot; Ej. 6 &middot; 0001 en posición 4k</span>
+  <h2>Reconocer 0001 con el 1 en las posiciones 4, 8, 12, …</h2>
+  <div class="enunciado">
+    <p>Construir el diagrama de estados de una máquina de estados finito que, trabajando con un alfabeto de entrada igual al de salida \(\Sigma = \{0, 1\}\), reconozca produciendo un 1 en la salida toda vez que en la cadena de entrada se encuentre la subcadena \(0001\), de tal forma que el 1 esté en las posiciones \(4, 8, 12, \dots\)</p>
+  </div>
+
+  <span class="paso">Qué tema es y por qué</span>
+  <ul>
+    <li>Reconocer un patrón solo en ciertas posiciones (en la teoría, \(111\) en posiciones múltiplo de 3, y \(0101\) en la posición \(4k\)).</li>
+    <li>El 1 de \(0001\) en la posición \(4k\) quiere decir que \(0001\) ocupa las posiciones \(4k-3\) a \(4k\): <strong>exactamente un bloque</strong> de los que se arman cortando la entrada de a 4.</li>
+  </ul>
+
+  <span class="paso">Desarme del enunciado</span>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>A dónde va</th></tr>
+      <tr><td>"produciendo un 1 en la salida"</td><td>escribe 1 al leer el último símbolo del patrón</td><td>\(\omega = 1\) en ese instante</td></tr>
+      <tr><td>"subcadena \(0001\)"</td><td>el patrón a buscar</td><td>4 símbolos</td></tr>
+      <tr><td>"el 1 esté en las posiciones 4, 8, 12…"</td><td>solo cuentan los \(0001\) que llenan un bloque de 4</td><td>se lee por bloques</td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Paso 1 &mdash; Estados</span>
+  <p>Hay que saber dos cosas: <strong>en qué lugar del bloque estoy</strong> (1.º, 2.º, 3.º o 4.º) y <strong>si el bloque todavía puede ser \(0001\)</strong>.</p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Estado</th><th>Qué significa</th></tr>
+      <tr><td>\(s_0\)</td><td>empieza un bloque</td></tr>
+      <tr><td>\(s_1\), \(s_2\), \(s_3\)</td><td>el bloque va bien: "0", "00", "000"</td></tr>
+      <tr><td>\(s_4\), \(s_5\), \(s_6\)</td><td>el bloque ya falló; leí 1, 2 o 3 símbolos de él</td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Paso 2 &mdash; Transiciones</span>
+  <ul>
+    <li>Camino bueno: \(s_0 \xrightarrow{0,0} s_1 \xrightarrow{0,0} s_2 \xrightarrow{0,0} s_3\), y desde \(s_3\) con 1 escribe <strong>1</strong> y vuelve a \(s_0\) (empieza otro bloque).</li>
+    <li>Si en \(s_0, s_1, s_2\) llega un 1, el bloque falla: va a \(s_4, s_5, s_6\) respectivamente (sigue contando el lugar).</li>
+    <li>Si en \(s_3\) llega un 0 (bloque \(0000\)), el bloque terminó sin éxito: escribe 0 y vuelve a \(s_0\).</li>
+    <li>\(s_4 \to s_5 \to s_6 \to s_0\) con cualquier entrada, escribiendo 0.</li>
+  </ul>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th rowspan="2"></th><th colspan="2">\(\nu\)</th><th colspan="2">\(\omega\)</th></tr>
+      <tr><th>0</th><th>1</th><th>0</th><th>1</th></tr>
+      <tr><td>&rarr; \(s_0\)</td><td>\(s_1\)</td><td>\(s_4\)</td><td>0</td><td>0</td></tr>
+      <tr><td>\(s_1\)</td><td>\(s_2\)</td><td>\(s_5\)</td><td>0</td><td>0</td></tr>
+      <tr><td>\(s_2\)</td><td>\(s_3\)</td><td>\(s_6\)</td><td>0</td><td>0</td></tr>
+      <tr><td>\(s_3\)</td><td>\(s_0\)</td><td>\(s_0\)</td><td>0</td><td>1</td></tr>
+      <tr><td>\(s_4\)</td><td>\(s_5\)</td><td>\(s_5\)</td><td>0</td><td>0</td></tr>
+      <tr><td>\(s_5\)</td><td>\(s_6\)</td><td>\(s_6\)</td><td>0</td><td>0</td></tr>
+      <tr><td>\(s_6\)</td><td>\(s_0\)</td><td>\(s_0\)</td><td>0</td><td>0</td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Paso 3 &mdash; Diagrama de estados</span>
+  <div class="pd-grafico af" data-g="u2pc-cm6">
+    <svg viewBox="-61 -91 572 342" width="572" height="342" role="img" aria-label="Reconocedor de 0001 en bloques de cuatro símbolos">
+      <path class="arco" d="M17.0,71.5 L143.0,8.5"/>
+      <path class="punta" d="M143.0,8.5 L137.0,16.5 L132.9,8.5 Z"/>
+      <text class="rot" x="73.2" y="26.5" text-anchor="middle" dominant-baseline="central">0,0</text>
+      <path class="arco" d="M17.0,88.5 L143.0,151.5"/>
+      <path class="punta" d="M143.0,151.5 L132.9,151.5 L137.0,143.5 Z"/>
+      <text class="rot" x="86.8" y="106.5" text-anchor="middle" dominant-baseline="central">1,0</text>
+      <path class="arco" d="M179.0,0.0 L301.0,0.0"/>
+      <path class="punta" d="M301.0,0.0 L292.0,4.5 L292.0,-4.5 Z"/>
+      <text class="rot" x="240.0" y="-10.0" text-anchor="middle" dominant-baseline="central">0,0</text>
+      <path class="arco" d="M173.4,13.4 L306.6,146.6"/>
+      <path class="punta" d="M306.6,146.6 L297.0,143.4 L303.4,137.0 Z"/>
+      <text class="rot" x="252.8" y="67.2" text-anchor="middle" dominant-baseline="central">1,0</text>
+      <path class="arco" d="M339.0,0.0 L461.0,0.0"/>
+      <path class="punta" d="M461.0,0.0 L452.0,4.5 L452.0,-4.5 Z"/>
+      <text class="rot" x="400.0" y="-10.0" text-anchor="middle" dominant-baseline="central">0,0</text>
+      <path class="arco" d="M333.4,13.4 L466.6,146.6"/>
+      <path class="punta" d="M466.6,146.6 L457.0,143.4 L463.4,137.0 Z"/>
+      <text class="rot" x="412.8" y="67.2" text-anchor="middle" dominant-baseline="central">1,0</text>
+      <path class="arco" d="M463.1,-8.6 Q210.4,-137.6 13.2,66.3"/>
+      <path class="punta" d="M13.2,66.3 L16.2,56.7 L22.7,63.0 Z"/>
+      <text class="rot" x="221.7" y="-69.8" text-anchor="middle" dominant-baseline="central">1,1 | 0,0</text>
+      <path class="arco" d="M179.0,160.0 L301.0,160.0"/>
+      <path class="punta" d="M301.0,160.0 L292.0,164.5 L292.0,155.5 Z"/>
+      <text class="rot" x="240.0" y="150.0" text-anchor="middle" dominant-baseline="central">0,0 | 1,0</text>
+      <path class="arco" d="M339.0,160.0 L461.0,160.0"/>
+      <path class="punta" d="M461.0,160.0 L452.0,164.5 L452.0,155.5 Z"/>
+      <text class="rot" x="400.0" y="150.0" text-anchor="middle" dominant-baseline="central">0,0 | 1,0</text>
+      <path class="arco" d="M463.1,168.6 Q210.4,297.6 13.2,93.7"/>
+      <path class="punta" d="M13.2,93.7 L22.7,97.0 L16.2,103.3 Z"/>
+      <text class="rot" x="221.7" y="229.8" text-anchor="middle" dominant-baseline="central">0,0 | 1,0</text>
+      <path class="arco" d="M-49.0,80.0 L-19.0,80.0"/>
+      <path class="punta" d="M-19.0,80.0 L-28.0,84.5 L-28.0,75.5 Z"/>
+      <g class="estado">
+        <circle class="borde" cx="0.0" cy="80.0" r="19"/>
+        <text class="nom" x="0.0" y="80.0" text-anchor="middle" dominant-baseline="central">s0</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="160.0" cy="0.0" r="19"/>
+        <text class="nom" x="160.0" y="0.0" text-anchor="middle" dominant-baseline="central">s1</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="320.0" cy="0.0" r="19"/>
+        <text class="nom" x="320.0" y="0.0" text-anchor="middle" dominant-baseline="central">s2</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="480.0" cy="0.0" r="19"/>
+        <text class="nom" x="480.0" y="0.0" text-anchor="middle" dominant-baseline="central">s3</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="160.0" cy="160.0" r="19"/>
+        <text class="nom" x="160.0" y="160.0" text-anchor="middle" dominant-baseline="central">s4</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="320.0" cy="160.0" r="19"/>
+        <text class="nom" x="320.0" y="160.0" text-anchor="middle" dominant-baseline="central">s5</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="480.0" cy="160.0" r="19"/>
+        <text class="nom" x="480.0" y="160.0" text-anchor="middle" dominant-baseline="central">s6</text>
+      </g>
+    </svg>
+  </div>
+
+  <span class="paso">Paso 4 &mdash; Prueba</span>
+  <p>\(x = 0001\,1000\,0001\) &rarr; salida \(0001\,0000\,0001\): avisa en las posiciones 4 y 12. Con \(x = 00001\) (el \(0001\) termina en la posición 5) la salida es \(00000\): no se avisa.</p>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>La máquina de 7 estados del diagrama: lee la entrada en bloques de 4 y escribe 1 solo al final de un bloque que sea \(0001\).</p>
+  </div>
+
+  <span class="paso">Verificación</span>
+  <p>Simulada en Python con todas las cadenas de largo hasta 12: escribe 1 exactamente cuando lo leído termina en \(0001\) y su largo es múltiplo de 4. No tiene estados equivalentes (no se puede achicar).</p>
+</div>

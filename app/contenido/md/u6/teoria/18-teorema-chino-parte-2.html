@@ -1,0 +1,174 @@
+<div class="bloque">
+  <p class="kicker">Teorema Chino del Resto</p>
+  <h2>18. Teorema Chino del Resto (parte 2): sistemas de congruencias y preimágenes</h2>
+
+  <h3>Para qué sirve</h3>
+  <p>
+    Resuelve la pregunta que dejó la sección 17: dados los restos, <strong>¿cuál es el
+    número?</strong> Por ejemplo, ¿qué \(n \in \mathbb{Z}_{437}\) cumple \(n \equiv 18 \pmod{23}\) y
+    \(n \equiv 17 \pmod{19}\)? Es lo mismo que hallar una preimagen \(f^{-1}(18, 17)\), y también
+    resuelve problemas "de la vida real" con varias condiciones de resto (el de la enciclopedia,
+    ejemplo 3).
+  </p>
+
+  <h3>El teorema y la fórmula (los de la cátedra)</h3>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Teorema Chino del Resto, parte 2</span>
+    <p>Sean \(m_1, m_2, \dots, m_r\) naturales <strong>coprimos dos a dos</strong> y \(M\) su producto. Para cualesquiera enteros \(a_1, \dots, a_r\) existe un entero \(x\) que cumple a la vez</p>
+    <p>\[ x \equiv a_i \pmod{m_i}, \qquad i = 1, 2, \dots, r \]</p>
+    <p>y \(x\) es único módulo \(M\). Para hallarlo:</p>
+    <p>\[ M = \prod_{i=1}^{r} m_i \qquad M_i = \frac{M}{m_i} \qquad v_i = \text{el inverso de } M_i \pmod{m_i} \]</p>
+    <p>\[ x = \sum_{i=1}^{r} M_i\, v_i\, a_i \quad (\text{y se reduce módulo } M) \]</p>
+  </div>
+
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Símbolo</th><th>Qué es</th></tr>
+      <tr><td>\(a_i\)</td><td>el resto que se pide módulo \(m_i\) (la componente \(i\) de la terna)</td></tr>
+      <tr><td>\(M = \prod m_i\)</td><td>el producto de todos los módulos (\(\prod\) es "productoria", el \(\Sigma\) de multiplicar)</td></tr>
+      <tr><td>\(M_i = M / m_i\)</td><td>el producto de todos los módulos <strong>menos</strong> el \(i\)-ésimo</td></tr>
+      <tr><td>\(v_i\)</td><td>el inverso de \(M_i\) en \(\mathbb{Z}_{m_i}\) (sección 12; existe porque \(M_i\) no tiene los primos de \(m_i\))</td></tr>
+      <tr><td>\(\sum\)</td><td>la suma de los \(r\) productos \(M_i v_i a_i\)</td></tr>
+    </table>
+  </div>
+
+  <h3>Por qué la fórmula da los restos pedidos</h3>
+  <p>Mirá \(x\) módulo \(m_1\), término por término:</p>
+  <ul>
+    <li>\(M_1 v_1 a_1\): por cómo se eligió \(v_1\), \(M_1 v_1 \equiv 1 \pmod{m_1}\), así que este término es \(\equiv a_1\).</li>
+    <li>\(M_2 v_2 a_2\), \(M_3 v_3 a_3\), ...: cada \(M_i\) con \(i \neq 1\) <strong>contiene al factor \(m_1\)</strong>, así que son \(\equiv 0 \pmod{m_1}\).</li>
+    <li>Total: \(x \equiv a_1 \pmod{m_1}\). Lo mismo con cada \(m_i\): cada término "se prende" en su módulo y "se apaga" en los demás.</li>
+  </ul>
+
+  <div class="caja caja-formula">
+    <span class="caja-tit">El procedimiento (armalo en tabla)</span>
+    <ol>
+      <li>Anotar \(a_i\) y \(m_i\); controlar que los \(m_i\) sean coprimos dos a dos. Calcular \(M\).</li>
+      <li>Para cada \(i\): \(M_i = M / m_i\); reducir \(M_i \bmod m_i\) (achica la cuenta del inverso); \(v_i\) = inverso de eso módulo \(m_i\).</li>
+      <li>\(x = \sum M_i v_i a_i\), reducido módulo \(M\).</li>
+      <li>Verificar: \(x \bmod m_i\) tiene que dar cada \(a_i\).</li>
+    </ol>
+  </div>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Errores típicos</span>
+    <ul>
+      <li>Usar \(M_i\) en vez de \(v_i\), o tomar el inverso módulo \(M\) en vez de módulo \(m_i\).</li>
+      <li>En la suma va \(M_i\) <strong>sin reducir</strong> (el original, \(45\), no su resto \(3\)): la reducción es solo para calcular \(v_i\).</li>
+      <li>Olvidarse de reducir el resultado final módulo \(M\).</li>
+    </ul>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; \(f^{-1}(2, 7, 3)\) en \(\mathbb{Z}_{315}\) (cátedra, ejemplo 16)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>Calcular \(f^{-1}(2, 7, 3)\) para \(f : \mathbb{Z}_{315} \to \mathbb{Z}_7 \times \mathbb{Z}_9 \times \mathbb{Z}_5\).</p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"\((2, 7, 3)\)"</td><td>los restos pedidos</td><td>&mdash;</td><td>\(a_1 = 2,\ a_2 = 7,\ a_3 = 3\)</td></tr>
+      <tr><td>"\(\mathbb{Z}_7 \times \mathbb{Z}_9 \times \mathbb{Z}_5\)"</td><td>los módulos, coprimos dos a dos</td><td>&mdash;</td><td>\(m_1 = 7,\ m_2 = 9,\ m_3 = 5\)</td></tr>
+      <tr><td>"\(\mathbb{Z}_{315}\)"</td><td>el producto</td><td>\(7 \cdot 9 \cdot 5\)</td><td>\(M = 315\)</td></tr>
+    </table>
+  </div>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>\(i\)</th><th>\(a_i\)</th><th>\(m_i\)</th><th>\(M_i = M / m_i\)</th><th>\(M_i \bmod m_i\)</th><th>\(v_i\)</th><th>\(M_i v_i a_i\)</th></tr>
+      <tr><td>1</td><td>2</td><td>7</td><td>\(45\)</td><td>\(3\)</td><td>\(5\) (\(3 \cdot 5 = 15 \equiv 1\))</td><td>\(45 \cdot 5 \cdot 2 = 450\)</td></tr>
+      <tr><td>2</td><td>7</td><td>9</td><td>\(35\)</td><td>\(8\)</td><td>\(8\) (\(8 \cdot 8 = 64 \equiv 1\))</td><td>\(35 \cdot 8 \cdot 7 = 1960\)</td></tr>
+      <tr><td>3</td><td>3</td><td>5</td><td>\(63\)</td><td>\(3\)</td><td>\(2\) (\(3 \cdot 2 = 6 \equiv 1\))</td><td>\(63 \cdot 2 \cdot 3 = 378\)</td></tr>
+    </table>
+  </div>
+  <p>\[ x = 450 + 1960 + 378 = 2788 \equiv 2788 - 8 \cdot 315 = 2788 - 2520 = 268 \pmod{315} \]</p>
+  <p>Verificación: \(268 = 38 \cdot 7 + 2\); \(268 = 29 \cdot 9 + 7\); \(268 = 53 \cdot 5 + 3\). \(f(268) = (2, 7, 3)\). ✔</p>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Errata de la diapositiva</span>
+    <p>La cátedra escribe "\(x = 268\) en \(\mathbb{Z}_{325}\)": es \(\mathbb{Z}_{315}\).</p>
+  </div>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>\(f^{-1}(2, 7, 3) = 268\).</p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; Forma de parcial: preimagen en un anillo grande (parecido a la complementaria, ej. 15)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>Utilizar el Teorema Chino del Resto (parte 2) para hallar \(f^{-1}(18, 17)\) en el isomorfismo \(f : \mathbb{Z}_{437} \to \mathbb{Z}_{23} \times \mathbb{Z}_{19}\).</p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"\(f^{-1}(18, 17)\)"</td><td>\(n \equiv 18 \pmod{23}\) y \(n \equiv 17 \pmod{19}\)</td><td>&mdash;</td><td>\(a_1 = 18,\ a_2 = 17\)</td></tr>
+      <tr><td>"\(\mathbb{Z}_{23} \times \mathbb{Z}_{19}\)"</td><td>módulos (primos distintos)</td><td>&mdash;</td><td>\(m_1 = 23,\ m_2 = 19\)</td></tr>
+      <tr><td>"\(\mathbb{Z}_{437}\)"</td><td>producto</td><td>\(23 \cdot 19 = 437\)</td><td>\(M = 437\)</td></tr>
+    </table>
+  </div>
+  <p><span class="paso">Paso 1 — \(v_1\)</span> \(M_1 = 437 / 23 = 19\). Inverso de \(19\) en \(\mathbb{Z}_{23}\), con Euclides (sección 12):</p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>División</th><th>Despeje</th></tr>
+      <tr><td>\(23 = 1 \cdot 19 + 4\)</td><td>\(4 = 23 - 19\)</td></tr>
+      <tr><td>\(19 = 4 \cdot 4 + 3\)</td><td>\(3 = 19 - 4 \cdot 4\)</td></tr>
+      <tr><td>\(4 = 1 \cdot 3 + 1\)</td><td>\(1 = 4 - 3\)</td></tr>
+    </table>
+  </div>
+  <p>\[ 1 = 4 - (19 - 4 \cdot 4) = 5 \cdot 4 - 19 = 5(23 - 19) - 19 = 5 \cdot 23 - 6 \cdot 19 \]</p>
+  <p>Así que \(19^{-1} \equiv -6 \equiv 17 \pmod{23}\). Control: \(19 \cdot 17 = 323 = 14 \cdot 23 + 1\). ✔ \(v_1 = 17\).</p>
+  <p><span class="paso">Paso 2 — \(v_2\)</span> \(M_2 = 437 / 19 = 23 \equiv 4 \pmod{19}\). Inverso de \(4\) en \(\mathbb{Z}_{19}\): \(4 \cdot 5 = 20 = 19 + 1\). \(v_2 = 5\).</p>
+  <p><span class="paso">Paso 3 — Sumar</span></p>
+  <p>\[ x = M_1 v_1 a_1 + M_2 v_2 a_2 = 19 \cdot 17 \cdot 18 + 23 \cdot 5 \cdot 17 = 5814 + 1955 = 7769 \]</p>
+  <p>\[ 7769 = 17 \cdot 437 + 340 \;\Rightarrow\; x \equiv 340 \pmod{437} \]</p>
+  <p><span class="paso">Paso 4 — Verificar</span> \(340 = 14 \cdot 23 + 18\) ✔ y \(340 = 17 \cdot 19 + 17\) ✔.</p>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>\(f^{-1}(18, 17) = 340\).</p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 3 &mdash; Un problema con texto (cátedra, actividad 11)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>
+      ¿Cuál es el precio de una enciclopedia que vale menos de 1000 pesos, si se ofrecen los
+      siguientes planes de pago sin interés? Anticipo de 20 pesos y cuotas mensuales de 18 pesos;
+      anticipo de 30 pesos y cuotas de 25 pesos; anticipo de 37 pesos y cuotas de 49 pesos.
+    </p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"el precio"</td><td>la incógnita</td><td>&mdash;</td><td>\(P\)</td></tr>
+      <tr><td>"anticipo de 20 y cuotas de 18"</td><td>\(P = 20 + 18k\): \(P\) deja resto \(20\) por \(18\), o sea \(2\)</td><td>\(20 - 18 = 2\)</td><td>\(P \equiv 2 \pmod{18}\)</td></tr>
+      <tr><td>"anticipo de 30 y cuotas de 25"</td><td>\(P = 30 + 25k'\)</td><td>\(30 - 25 = 5\)</td><td>\(P \equiv 5 \pmod{25}\)</td></tr>
+      <tr><td>"anticipo de 37 y cuotas de 49"</td><td>\(P = 37 + 49k''\)</td><td>\(37 \lt 49\)</td><td>\(P \equiv 37 \pmod{49}\)</td></tr>
+      <tr><td>"menos de 1000"</td><td>elegir la solución chica</td><td>&mdash;</td><td>\(P \lt 1000\)</td></tr>
+    </table>
+  </div>
+  <p>Módulos: \(18 = 2 \cdot 3^2\), \(25 = 5^2\), \(49 = 7^2\): coprimos dos a dos. \(M = 18 \cdot 25 \cdot 49 = 22050\).</p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>\(i\)</th><th>\(a_i\)</th><th>\(m_i\)</th><th>\(M_i\)</th><th>\(M_i \bmod m_i\)</th><th>\(v_i\)</th><th>\(M_i v_i a_i\)</th></tr>
+      <tr><td>1</td><td>2</td><td>18</td><td>\(1225\)</td><td>\(1\) (\(1225 = 68 \cdot 18 + 1\))</td><td>\(1\)</td><td>\(1225 \cdot 1 \cdot 2 = 2450\)</td></tr>
+      <tr><td>2</td><td>5</td><td>25</td><td>\(882\)</td><td>\(7\) (\(882 = 35 \cdot 25 + 7\))</td><td>\(18\) (\(7 \cdot 18 = 126 \equiv 1\))</td><td>\(882 \cdot 18 \cdot 5 = 79380\)</td></tr>
+      <tr><td>3</td><td>37</td><td>49</td><td>\(450\)</td><td>\(9\) (\(450 = 9 \cdot 49 + 9\))</td><td>\(11\) (\(9 \cdot 11 = 99 \equiv 1\))</td><td>\(450 \cdot 11 \cdot 37 = 183150\)</td></tr>
+    </table>
+  </div>
+  <p>\[ x = 2450 + 79380 + 183150 = 264980 = 12 \cdot 22050 + 380 \;\Rightarrow\; P \equiv 380 \pmod{22050} \]</p>
+  <p>
+    Las soluciones son \(380, 380 + 22050, \dots\): la única menor que 1000 es \(380\).
+    Verificación con los planes: \(380 = 20 + 18 \cdot 20 = 30 + 25 \cdot 14 = 37 + 49 \cdot 7\). ✔
+  </p>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>La enciclopedia cuesta 380 pesos (20, 14 o 7 cuotas según el plan).</p>
+  </div>
+</div>

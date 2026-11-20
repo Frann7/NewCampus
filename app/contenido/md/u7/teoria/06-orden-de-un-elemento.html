@@ -1,0 +1,114 @@
+<div class="bloque">
+  <p class="kicker">Grupos</p>
+  <h2>6. Potencias, subgrupo generado y orden de un elemento</h2>
+
+  <h3>Para qué sirve</h3>
+  <p>
+    Si tomás un elemento y lo operás consigo mismo una y otra vez, vas recorriendo un pedazo del
+    grupo que siempre es un subgrupo. Cuántos elementos tiene ese pedazo es el <strong>orden</strong>
+    del elemento. Con los órdenes se decide si un grupo es cíclico (sección 7), se hallan subgrupos
+    (sección 11) y se compara un grupo con otro (sección 12).
+  </p>
+
+  <h3>Potencias</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Notación</th><th>Con producto (\(\cdot\))</th><th>Con suma (\(+\))</th></tr>
+      <tr><td class="lbl">"\(a\) a la \(n\)"</td><td>\(a^{n} = a \cdot a \cdots a\) (\(n\) veces)</td><td>\(na = a + a + \cdots + a\) (\(n\) veces)</td></tr>
+      <tr><td class="lbl">exponente 0</td><td>\(a^{0} = e = 1\)</td><td>\(0a = 0\)</td></tr>
+      <tr><td class="lbl">exponente negativo</td><td>\(a^{-n} = (a^{-1})^{n}\)</td><td>\((-n)a = n(-a)\)</td></tr>
+    </table>
+  </div>
+  <p>Es la misma idea con otra escritura: en \((\mathbb{Z}_6, +)\), "\(2^{3}\)" es \(2 + 2 + 2 = 6 \to 0\).</p>
+
+  <h3>Definiciones</h3>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Subgrupo generado y orden</span>
+    <p>
+      \(\langle a \rangle = \{\, a^{n} : n \in \mathbb{Z} \,\}\), todas las potencias de \(a\), es un
+      subgrupo de \(G\): el <strong>subgrupo generado</strong> por \(a\).
+    </p>
+    <p>
+      El <strong>orden</strong> de \(a\) es \(o(a) = |\langle a \rangle|\), la cantidad de elementos
+      que genera. En un grupo finito, es el <strong>menor</strong> \(n \geq 1\) con \(a^{n} = e\).
+    </p>
+  </div>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Teorema</span>
+    <p>Si \(o(a) = n\), \(k \in \mathbb{Z}\) y \(a^{k} = e\), entonces \(n \mid k\).</p>
+  </div>
+  <h4>De dónde sale</h4>
+  <ul>
+    <li>
+      <strong>Por qué las potencias se repiten en ciclo:</strong> en un grupo finito, la lista
+      \(a, a^2, a^3, \ldots\) no puede tener infinitos valores distintos. La primera vez que aparece
+      \(e\), digamos \(a^{n} = e\), la lista vuelve a empezar: \(a^{n+1} = a^{n}a = a\). Por eso se
+      calculan potencias <strong>hasta llegar al neutro</strong> y ahí se corta.
+    </li>
+    <li>
+      <strong>El teorema:</strong> divido \(k = qn + r\) con \(0 \leq r \lt n\). Entonces
+      \(e = a^{k} = (a^{n})^{q}a^{r} = e^{q}a^{r} = a^{r}\). Como \(n\) es el <strong>menor</strong>
+      exponente positivo que da \(e\) y \(r \lt n\), tiene que ser \(r = 0\): \(n \mid k\).
+    </li>
+    <li>De paso: \(a^{n-1}\) es el inverso de \(a\), porque \(a \cdot a^{n-1} = a^{n} = e\).</li>
+  </ul>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Atajo para \(\mathbb{Z}_n\) con la suma</span>
+    <p>
+      En \((\mathbb{Z}_n, +)\), el orden de \(a\) es \(\dfrac{n}{mcd(a, n)}\): hay que sumar \(a\) hasta
+      llegar a un múltiplo de \(n\), y el primero es \(mcm(a, n)\). En \(\mathbb{Z}_{12}\):
+      \(o(8) = 12 / mcd(8, 12) = 12 / 4 = 3\) (\(8, 16 \to 4, 24 \to 0\)).
+    </p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; Órdenes en \((\mathbb{Z}_6, +)\)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>Hallar \(\langle 2 \rangle\), \(\langle 3 \rangle\) y \(\langle 5 \rangle\) en \((\mathbb{Z}_6, +)\), y sus órdenes.</p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"\(\langle 2 \rangle\)"</td><td>sumar 2 hasta llegar al 0</td><td>2, 4, 0</td><td>el subgrupo</td></tr>
+      <tr><td>"sus órdenes"</td><td>cuántos elementos tiene cada uno</td><td>contar</td><td>\(o(a)\)</td></tr>
+    </table>
+  </div>
+  <ul>
+    <li>\(\langle 2 \rangle\): \(2,\ 2+2 = 4,\ 4+2 = 6 \to 0\). \(\langle 2 \rangle = \{2, 4, 0\}\), \(o(2) = 3\).</li>
+    <li>\(\langle 3 \rangle\): \(3,\ 6 \to 0\). \(\langle 3 \rangle = \{3, 0\}\), \(o(3) = 2\).</li>
+    <li>\(\langle 5 \rangle\): \(5,\ 10 \to 4,\ 9 \to 3,\ 8 \to 2,\ 7 \to 1,\ 6 \to 0\). \(\langle 5 \rangle = \mathbb{Z}_6\), \(o(5) = 6\).</li>
+  </ul>
+  <div class="caja caja-resp"><span class="caja-tit">Respuesta</span><p>\(o(2) = 3\), \(o(3) = 2\), \(o(5) = 6\). Con el atajo: \(6/mcd(2,6) = 3\), \(6/mcd(3,6) = 2\), \(6/mcd(5,6) = 6\).</p></div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; Estilo parcial: el orden de cada elemento de \(U_9\) (el de la cátedra)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>Determinar el orden de cada elemento de \((U_9, \cdot)\) y el subgrupo que genera.</p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"\(U_9\)"</td><td>\(\{1, 2, 4, 5, 7, 8\}\), producto mód 9</td><td>\(\varphi(9) = 6\)</td><td>6 elementos</td></tr>
+      <tr><td>"orden de cada elemento"</td><td>potencias hasta llegar al 1</td><td>multiplicar por \(a\) y reducir mód 9</td><td>\(o(a)\)</td></tr>
+    </table>
+  </div>
+  <p>Cada potencia se saca de la anterior multiplicando por \(a\) y reduciendo (no hace falta calcular \(2^{6} = 64\) entero):</p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>\(a\)</th><th>Potencias \(a, a^2, a^3, \ldots\) hasta el 1</th><th>\(\langle a \rangle\)</th><th>\(o(a)\)</th></tr>
+      <tr><td class="lbl">1</td><td>1</td><td>\(\{1\}\)</td><td>1</td></tr>
+      <tr><td class="lbl">2</td><td>2, 4, 8, 16 &rarr; 7, 14 &rarr; 5, 10 &rarr; 1</td><td>\(U_9\)</td><td>6</td></tr>
+      <tr><td class="lbl">4</td><td>4, 16 &rarr; 7, 28 &rarr; 1</td><td>\(\{1, 4, 7\}\)</td><td>3</td></tr>
+      <tr><td class="lbl">5</td><td>5, 25 &rarr; 7, 35 &rarr; 8, 40 &rarr; 4, 20 &rarr; 2, 10 &rarr; 1</td><td>\(U_9\)</td><td>6</td></tr>
+      <tr><td class="lbl">7</td><td>7, 49 &rarr; 4, 28 &rarr; 1</td><td>\(\{1, 7, 4\}\)</td><td>3</td></tr>
+      <tr><td class="lbl">8</td><td>8, 64 &rarr; 1</td><td>\(\{1, 8\}\)</td><td>2</td></tr>
+    </table>
+  </div>
+  <div class="caja caja-resp"><span class="caja-tit">Respuesta</span><p>\(o(1) = 1\), \(o(2) = 6\), \(o(4) = 3\), \(o(5) = 6\), \(o(7) = 3\), \(o(8) = 2\). Coincide con la diapositiva de la cátedra.</p></div>
+</div>

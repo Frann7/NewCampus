@@ -1,0 +1,125 @@
+<div class="bloque">
+  <p class="kicker">Los enteros módulo n</p>
+  <h2>13. Cuántas unidades tiene \(\mathbb{Z}_n\): la función \(\varphi(n)\)</h2>
+
+  <h3>Para qué sirve</h3>
+  <p>
+    Para \(\mathbb{Z}_{15}\) se pueden listar las unidades a mano (sección 11), pero para
+    \(\mathbb{Z}_{7875}\) no. La función \(\varphi\) (se lee "fi") <strong>cuenta</strong> las
+    unidades sin listarlas, con solo la factorización de \(n\). Además es el exponente del
+    Teorema de Fermat-Euler (sección 20).
+  </p>
+
+  <h3>Definición y fórmula (las de la cátedra)</h3>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Indicador de Euler</span>
+    <p>\(\varphi(n)\) es la cantidad de números naturales entre \(1\) y \(n\) que son coprimos con \(n\). Si la factorización de \(n\) en primos distintos es \(n = p_1^{e_1} p_2^{e_2} \cdots p_r^{e_r}\):</p>
+    <p>\[ \varphi(n) = n \left(\frac{p_1 - 1}{p_1}\right)\left(\frac{p_2 - 1}{p_2}\right) \cdots \left(\frac{p_r - 1}{p_r}\right) \]</p>
+    <p>En \(\mathbb{Z}_n\) hay \(\varphi(n)\) unidades y \(n - 1 - \varphi(n)\) divisores propios de cero.</p>
+  </div>
+
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Símbolo</th><th>Qué es</th></tr>
+      <tr><td>\(\varphi(n)\)</td><td>cuántos de \(1, \dots, n\) no comparten primos con \(n\) = cuántas unidades tiene \(\mathbb{Z}_n\) (por la sección 11)</td></tr>
+      <tr><td>\(p_1, \dots, p_r\)</td><td>los primos <strong>distintos</strong> que dividen a \(n\)</td></tr>
+      <tr><td>\(e_1, \dots, e_r\)</td><td>sus exponentes; <strong>no aparecen en la fórmula</strong>: cada primo entra una sola vez</td></tr>
+      <tr><td>\(n - 1 - \varphi(n)\)</td><td>a los \(n\) elementos se les saca el \([0]\) y las unidades; lo que queda son divisores propios de cero (sección 11)</td></tr>
+    </table>
+  </div>
+
+  <h3>De dónde sale la fórmula</h3>
+  <p>Se cuentan los que <strong>sí</strong> comparten un primo con \(n\) y se restan. Con \(n = 15 = 3 \cdot 5\):</p>
+  <ul>
+    <li>Múltiplos de 3 entre 1 y 15: \(\frac{15}{3} = 5\) (\(3, 6, 9, 12, 15\)).</li>
+    <li>Múltiplos de 5: \(\frac{15}{5} = 3\) (\(5, 10, 15\)).</li>
+    <li>El \(15\) se contó dos veces (es múltiplo de los dos): hay \(\frac{15}{15} = 1\) así. Es la inclusión-exclusión de la Unidad 1.</li>
+    <li>Coprimos: \(15 - 5 - 3 + 1 = 8\).</li>
+  </ul>
+  <p>
+    Y la fórmula da lo mismo: \(15 \cdot \frac{2}{3} \cdot \frac{4}{5} = 8\). La idea de cada factor:
+    de cada \(p\) números seguidos, uno es múltiplo de \(p\); quedan \(\frac{p - 1}{p}\) de ellos.
+    Hacerlo con todos los primos de \(n\) es multiplicar esas fracciones.
+  </p>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Casos que conviene saber de memoria</span>
+    <ul>
+      <li>\(p\) primo: \(\varphi(p) = p - 1\) (todos menos el \(0\); por eso \(\mathbb{Z}_p\) es cuerpo).</li>
+      <li>Potencia de un primo: \(\varphi(p^e) = p^e - p^{e - 1}\). Ej.: \(\varphi(8) = 8 - 4 = 4\) (\(1, 3, 5, 7\)).</li>
+      <li>El error típico: poner el exponente adentro de la fracción. Para \(72 = 2^3 \cdot 3^2\) es \(72 \cdot \frac{1}{2} \cdot \frac{2}{3} = 24\), no \(72 \cdot (\frac{1}{2})^3 \cdots\).</li>
+    </ul>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; Comprobarla en \(\mathbb{Z}_{15}\) y \(\mathbb{Z}_{14}\)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>Calcular \(\varphi(15)\) y \(\varphi(14)\) y compararlos con las listas de la sección 11.</p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"\(\varphi(15)\)"</td><td>primos de 15</td><td>\(15 = 3 \cdot 5\)</td><td>\(p_1 = 3,\ p_2 = 5\)</td></tr>
+      <tr><td>"\(\varphi(14)\)"</td><td>primos de 14</td><td>\(14 = 2 \cdot 7\)</td><td>\(p_1 = 2,\ p_2 = 7\)</td></tr>
+    </table>
+  </div>
+  <p>\[ \varphi(15) = 15 \cdot \frac{2}{3} \cdot \frac{4}{5} = 8 \qquad \varphi(14) = 14 \cdot \frac{1}{2} \cdot \frac{6}{7} = 6 \]</p>
+  <p>Coinciden con las listas: \(\mathbb{Z}_{15}\) tenía las unidades \(1, 2, 4, 7, 8, 11, 13, 14\) (8) y \(\mathbb{Z}_{14}\) las unidades \(1, 3, 5, 9, 11, 13\) (6).</p>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>\(\varphi(15) = 8\): 8 unidades y \(15 - 1 - 8 = 6\) divisores propios de cero. \(\varphi(14) = 6\): 6 unidades y \(14 - 1 - 6 = 7\) divisores propios de cero.</p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; \(\mathbb{Z}_{7875}\) (cátedra, ejemplo 9)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>¿Cuántas unidades y cuántos divisores propios de cero tiene \(\mathbb{Z}_{7875}\)?</p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"\(\mathbb{Z}_{7875}\)"</td><td>factorizar</td><td>\(7875 = 3^2 \cdot 5^3 \cdot 7\)</td><td>primos \(3, 5, 7\)</td></tr>
+      <tr><td>"cuántas unidades"</td><td>\(\varphi(7875)\)</td><td>fórmula</td><td>respuesta 1</td></tr>
+      <tr><td>"cuántos divisores propios de cero"</td><td>\(n - 1 - \varphi(n)\)</td><td>resta</td><td>respuesta 2</td></tr>
+    </table>
+  </div>
+  <p>Factorización: \(7875 = 5 \cdot 1575 = 5^2 \cdot 315 = 5^3 \cdot 63 = 5^3 \cdot 3^2 \cdot 7\).</p>
+  <p>\[ \varphi(7875) = 7875 \cdot \frac{2}{3} \cdot \frac{4}{5} \cdot \frac{6}{7} = 3600 \]</p>
+  <p>\[ 7875 - 1 - 3600 = 4274 \]</p>
+  <div class="caja caja-calc">
+    <span class="caja-tit">En la calculadora</span>
+    <p>\(7875 \times 2 \div 3 \times 4 \div 5 \times 6 \div 7\) da \(3600\) exacto. Si da con decimales, la factorización está mal.</p>
+  </div>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>\(\mathbb{Z}_{7875}\) tiene 3600 unidades y 4274 divisores propios de cero.</p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 3 &mdash; Forma de parcial (parecido a la complementaria, ej. 6a y 6e)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>Dado el anillo \(R = \mathbb{Z}_{360}\): a) ¿Cuántas unidades tiene \(R\)? b) ¿Es \(R\) un cuerpo?</p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"\(\mathbb{Z}_{360}\)"</td><td>factorizar 360</td><td>\(360 = 2^3 \cdot 3^2 \cdot 5\)</td><td>primos \(2, 3, 5\)</td></tr>
+      <tr><td>"cuántas unidades"</td><td>\(\varphi(360)\)</td><td>fórmula</td><td>inciso a</td></tr>
+      <tr><td>"¿es cuerpo?"</td><td>¿360 primo? (sección 11)</td><td>no</td><td>inciso b</td></tr>
+    </table>
+  </div>
+  <p>\[ \varphi(360) = 360 \cdot \frac{1}{2} \cdot \frac{2}{3} \cdot \frac{4}{5} = 96 \]</p>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>a) \(R\) tiene 96 unidades (y \(360 - 1 - 96 = 263\) divisores propios de cero). b) No es cuerpo: \(360\) no es primo; por ejemplo \([2][180] = [360] = [0]\). Dicho con \(\varphi\): sería cuerpo solo si \(\varphi(360) = 359\).</p>
+  </div>
+</div>

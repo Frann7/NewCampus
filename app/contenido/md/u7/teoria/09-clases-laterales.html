@@ -1,0 +1,122 @@
+<div class="bloque">
+  <p class="kicker">Grupos</p>
+  <h2>9. Clases laterales</h2>
+
+  <h3>Para qué sirve</h3>
+  <p>
+    Un subgrupo \(H\) se puede "trasladar" operándolo con un elemento fijo \(a\). Las copias que se
+    obtienen (las <strong>clases laterales</strong>) tienen todas el mismo tamaño y no se pisan: parten
+    al grupo en pedazos iguales. De ahí sale el teorema de Lagrange (sección 10). En codificación,
+    la misma idea explica la decodificación por síndrome.
+  </p>
+
+  <h3>Definición</h3>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Clases laterales</span>
+    <p>Si \(H\) es un subgrupo de \(G\) y \(a \in G\):</p>
+    <ul>
+      <li>\(aH = \{\, ah : h \in H \,\}\) es la <strong>clase lateral izquierda</strong> de \(H\) por \(a\);</li>
+      <li>\(Ha = \{\, ha : h \in H \,\}\) es la <strong>clase lateral derecha</strong>.</li>
+    </ul>
+    <p>Si la operación es suma, se escribe \(a + H\) en vez de \(aH\).</p>
+  </div>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Lema</span>
+    <p>Si \(H\) es subgrupo de un grupo finito \(G\), para todo \(a, b \in G\):</p>
+    <p>(a) \(|aH| = |H|\) &nbsp;&nbsp; (b) \(aH = bH\) o bien \(aH \cap bH = \emptyset\).</p>
+  </div>
+  <h4>De dónde sale</h4>
+  <ul>
+    <li>
+      <strong>(a)</strong> Los elementos \(ah\), con \(h\) recorriendo \(H\), son todos distintos: si
+      \(ah_1 = ah_2\), por la cancelativa (sección 2) \(h_1 = h_2\). Hay tantos como elementos de \(H\).
+    </li>
+    <li>
+      <strong>(b)</strong> Si dos clases comparten un elemento, son la misma. Si \(x \in aH \cap bH\),
+      entonces \(x = ah_1 = bh_2\), y de ahí \(a = b\,h_2h_1^{-1}\). Como \(h_2h_1^{-1} \in H\), todo
+      \(ah\) se escribe \(b\,(h_2h_1^{-1}h)\), que está en \(bH\). Igual al revés.
+    </li>
+    <li>Además \(a \in aH\) (porque \(e \in H\) y \(a\,e = a\)): cada elemento cae en alguna clase.</li>
+  </ul>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Izquierda y derecha solo difieren si el grupo no es abeliano</span>
+    <p>
+      En un grupo abeliano \(ah = ha\), así que \(aH = Ha\) siempre. Hay que distinguirlas solo en
+      un grupo no abeliano (Ejemplo 2).
+    </p>
+  </div>
+
+  <h3>Cómo se hallan todas las clases</h3>
+  <ol>
+    <li>La primera es \(H\) mismo (\(= eH\)).</li>
+    <li>Elegir un elemento que todavía no apareció y operarlo con cada elemento de \(H\).</li>
+    <li>Repetir hasta que todos los elementos de \(G\) estén en alguna clase. Debe haber \(|G| / |H|\) clases.</li>
+  </ol>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; \(G = (\mathbb{Z}_{12}, +)\), \(H = \{0, 4, 8\}\) (Actividad 2 de la cátedra)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>Verificar el lema para \(G = (\mathbb{Z}_{12}, +)\) y \(H = \{0, 4, 8\}\).</p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"\((\mathbb{Z}_{12}, +)\)"</td><td>suma mód 12; abeliano</td><td>&mdash;</td><td>clases \(a + H\)</td></tr>
+      <tr><td>"\(H = \{0, 4, 8\}\)"</td><td>subgrupo de 3 elementos</td><td>\(12 / 3 = 4\)</td><td>4 clases</td></tr>
+      <tr><td>"verificar el lema"</td><td>todas de tamaño 3, sin pisarse</td><td>&mdash;</td><td>la respuesta</td></tr>
+    </table>
+  </div>
+  <ul>
+    <li>\(0 + H = \{0, 4, 8\}\)</li>
+    <li>\(1 + H = \{1, 5, 9\}\)</li>
+    <li>\(2 + H = \{2, 6, 10\}\)</li>
+    <li>\(3 + H = \{3, 7, 11\}\)</li>
+  </ul>
+  <p>Si seguís: \(4 + H = \{4, 8, 12 \to 0\} = 0 + H\), \(5 + H = 1 + H\)... se repiten.</p>
+  <div class="caja caja-resp"><span class="caja-tit">Respuesta</span><p>Hay 4 clases distintas, todas de 3 elementos (\(|a + H| = |H|\)), disjuntas entre sí, y entre las 4 cubren los 12 elementos.</p></div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; Estilo parcial: clases en un grupo no abeliano</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>En el grupo \((G, *)\) de la tabla, con \(H = \{e, t\}\): a) hallar las clases laterales izquierdas y derechas de \(H\); b) ¿es \(rH = Hr\)?</p>
+    <div class="tabla-wrap">
+      <table class="t">
+        <tr><th>\(*\)</th><th>\(e\)</th><th>\(r\)</th><th>\(s\)</th><th>\(t\)</th><th>\(u\)</th><th>\(v\)</th></tr>
+        <tr><td class="lbl">\(e\)</td><td>\(e\)</td><td>\(r\)</td><td>\(s\)</td><td>\(t\)</td><td>\(u\)</td><td>\(v\)</td></tr>
+        <tr><td class="lbl">\(r\)</td><td>\(r\)</td><td>\(s\)</td><td>\(e\)</td><td>\(v\)</td><td>\(t\)</td><td>\(u\)</td></tr>
+        <tr><td class="lbl">\(s\)</td><td>\(s\)</td><td>\(e\)</td><td>\(r\)</td><td>\(u\)</td><td>\(v\)</td><td>\(t\)</td></tr>
+        <tr><td class="lbl">\(t\)</td><td>\(t\)</td><td>\(u\)</td><td>\(v\)</td><td>\(e\)</td><td>\(r\)</td><td>\(s\)</td></tr>
+        <tr><td class="lbl">\(u\)</td><td>\(u\)</td><td>\(v\)</td><td>\(t\)</td><td>\(s\)</td><td>\(e\)</td><td>\(r\)</td></tr>
+        <tr><td class="lbl">\(v\)</td><td>\(v\)</td><td>\(t\)</td><td>\(u\)</td><td>\(r\)</td><td>\(s\)</td><td>\(e\)</td></tr>
+      </table>
+    </div>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"\(H = \{e, t\}\)"</td><td>es subgrupo: \(t * t = e\)</td><td>\(6 / 2 = 3\)</td><td>3 clases de cada lado</td></tr>
+      <tr><td>"izquierdas" \(aH\)</td><td>\(a\) a la izquierda: fila \(a\), columnas \(e\) y \(t\)</td><td>&mdash;</td><td>inciso a</td></tr>
+      <tr><td>"derechas" \(Ha\)</td><td>\(a\) a la derecha: filas \(e\) y \(t\), columna \(a\)</td><td>&mdash;</td><td>inciso a</td></tr>
+    </table>
+  </div>
+  <h4>a) Izquierdas</h4>
+  <ul>
+    <li>\(eH = \{e, t\}\)</li>
+    <li>\(rH = \{r * e,\ r * t\} = \{r, v\}\)</li>
+    <li>\(sH = \{s * e,\ s * t\} = \{s, u\}\)</li>
+  </ul>
+  <h4>a) Derechas</h4>
+  <ul>
+    <li>\(He = \{e, t\}\)</li>
+    <li>\(Hr = \{e * r,\ t * r\} = \{r, u\}\)</li>
+    <li>\(Hs = \{e * s,\ t * s\} = \{s, v\}\)</li>
+  </ul>
+  <h4>b)</h4>
+  <div class="caja caja-resp"><span class="caja-tit">Respuesta</span><p>Izquierdas: \(\{e, t\}, \{r, v\}, \{s, u\}\). Derechas: \(\{e, t\}, \{r, u\}, \{s, v\}\). \(rH = \{r, v\} \neq \{r, u\} = Hr\): como el grupo no es abeliano, las clases de un lado y del otro no coinciden. Igual, de cada lado son 3 clases de 2 elementos que no se pisan.</p></div>
+</div>

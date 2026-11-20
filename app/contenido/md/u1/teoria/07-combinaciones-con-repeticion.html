@@ -1,0 +1,277 @@
+<div class="bloque">
+  <p class="kicker">Combinaciones</p>
+  <h2>7. Combinaciones con repetición (distribuciones)</h2>
+
+  <h3>Para qué sirve</h3>
+  <p>
+    Para elegir \(k\) cosas de entre \(t\) <strong>tipos</strong>, cuando <strong>no importa el
+    orden</strong> y <strong>un mismo tipo se puede elegir varias veces</strong>. Aparece con tres
+    caras que son el mismo problema:
+  </p>
+  <ul>
+    <li><strong>Pedidos:</strong> 7 amigos piden postre de 4 tipos; solo importa cuántos de cada tipo.</li>
+    <li><strong>Distribuciones:</strong> repartir \(k\) objetos <strong>iguales</strong> (alfajores, pelotas, billetes) en \(t\) cajas o personas <strong>distintas</strong>.</li>
+    <li><strong>Ecuaciones:</strong> contar las soluciones enteras no negativas de \(x_1 + x_2 + \dots + x_t = k\) (\(x_i\) = cuántos van a la caja \(i\)).</li>
+  </ul>
+
+  <h3>De dónde sale (el ejemplo de la cátedra)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>
+      Siete amigos en un restaurante van a elegir cada uno un postre de entre: (c) cheesecake,
+      (h) helado, (t) tiramisú o (f) flan con DDL. ¿Cuántos pedidos distintos es posible hacer?
+    </p>
+  </div>
+  <p>El mozo anota el pedido, no quién pidió qué. La cátedra escribe cada pedido de dos formas: la lista de postres y un código de cruces y barras.</p>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th></th><th>Pedido</th><th>Código</th></tr>
+      <tr><td>1</td><td>c, c, h, h, t, t, f</td><td>x x | x x | x x | x</td></tr>
+      <tr><td>2</td><td>c, c, c, c, h, t, f</td><td>x x x x | x | x | x</td></tr>
+      <tr><td>3</td><td>c, c, c, c, c, c, f</td><td>x x x x x x | | | x</td></tr>
+      <tr><td>4</td><td>h, t, t, f, f, f, f</td><td>| x | x x | x x x x</td></tr>
+      <tr><td>5</td><td>t, t, t, t, t, f, f</td><td>| | x x x x x | x x</td></tr>
+      <tr><td>6</td><td>t, t, t, t, t, t, t</td><td>| | x x x x x x x |</td></tr>
+      <tr><td>7</td><td>f, f, f, f, f, f, f</td><td>| | | x x x x x x x</td></tr>
+    </table>
+  </div>
+  <ul>
+    <li>Cada <strong>x</strong> es un postre pedido: siempre hay 7.</li>
+    <li>Las <strong>barras</strong> separan los tipos: lo que está antes de la 1ª barra es cheesecake, entre la 1ª y la 2ª helado, entre la 2ª y la 3ª tiramisú, y después de la 3ª flan. Para separar 4 tipos hacen falta \(4 - 1 = 3\) barras.</li>
+    <li>Cada pedido da un código y cada código da un pedido: contar pedidos es contar códigos.</li>
+    <li>Un código son \(7 + 3 = 10\) símbolos, y queda armado al decidir <strong>dónde van las 3 barras</strong> entre esos 10 lugares (en el resto van x). Elegir lugares, sin orden: \(C(10, 3)\) (sección 5).</li>
+  </ul>
+  <p>\[ C(10, 3) = \frac{10!}{3!\,7!} = 120 \text{ pedidos} \]</p>
+  <p>(También es ordenar 7 x iguales y 3 barras iguales: \(\frac{10!}{7!\,3!}\), la fórmula de la sección 6.)</p>
+
+  <h3>Definición</h3>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Combinaciones con repetición</span>
+    <p>
+      Si \(X\) es un conjunto que contiene \(t\) elementos, el número de selecciones no ordenadas
+      de \(k\) elementos de \(X\), con repetición, es
+    </p>
+    <p>\[ \binom{k + t - 1}{t - 1} = \binom{t + k - 1}{k} \]</p>
+  </div>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Símbolo</th><th>Qué significa</th><th>En los postres</th></tr>
+      <tr><td>\(t\)</td><td>cuántos <strong>tipos</strong> (o cajas, o incógnitas) hay</td><td>4 postres</td></tr>
+      <tr><td>\(k\)</td><td>cuántos objetos se eligen (o se reparten)</td><td>7 pedidos</td></tr>
+      <tr><td>\(t - 1\)</td><td>las barras que separan los tipos</td><td>3</td></tr>
+      <tr><td>\(k + t - 1\)</td><td>los lugares del código (x más barras)</td><td>10</td></tr>
+    </table>
+  </div>
+  <p>
+    <strong>¿Por qué las dos formas son correctas?</strong> (la pregunta de la cátedra) \(\binom{k+t-1}{t-1}\)
+    elige dónde van las <strong>barras</strong>; \(\binom{t+k-1}{k}\) elige dónde van las
+    <strong>x</strong>. Elegir unas es lo mismo que elegir las otras: es la propiedad
+    \(\binom{n}{p} = \binom{n}{n-p}\) de la sección 5, con \(n = k + t - 1\) y
+    \((k + t - 1) - (t - 1) = k\).
+  </p>
+
+  <h3>Las dos herramientas para las restricciones</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Restricción</th><th>Qué se hace</th><th>Por qué funciona</th></tr>
+      <tr><td>"cada uno recibe <strong>al menos</strong> \(m\)"</td><td>se reparten primero \(m\) a cada uno, y lo que sobra se reparte sin restricción</td><td>el reparto previo es forzado (1 sola forma); queda un problema sin restricción con \(k - m \cdot t\) objetos</td></tr>
+      <tr><td>"<strong>a lo sumo</strong> \(m\)" o "no más de \(m\)"</td><td>complemento: total menos los que se pasan</td><td>"se pasa" es "al menos \(m + 1\)", que se cuenta con la fila de arriba (sección 2)</td></tr>
+    </table>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; Los alfajores (cátedra)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>¿De cuántas formas podemos distribuir ocho alfajores iguales entre cinco niños, de modo que cada uno reciba al menos uno?</p>
+  </div>
+  <h4>Por qué esta fórmula</h4>
+  <ul>
+    <li>Los alfajores son <strong>iguales</strong> (solo importa cuántos le tocan a cada uno) y los niños son <strong>distintos</strong> &rarr; distribución &rarr; combinaciones con repetición.</li>
+    <li>"Al menos uno" &rarr; primero uno a cada niño.</li>
+  </ul>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase del enunciado</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"cinco niños"</td><td>las cajas</td><td>&mdash;</td><td>\(t = 5\)</td></tr>
+      <tr><td>"ocho alfajores iguales"</td><td>objetos a repartir</td><td>&mdash;</td><td>8</td></tr>
+      <tr><td>"al menos uno"</td><td>se reparte 1 a cada uno antes</td><td>\(8 - 5 = 3\)</td><td>\(k = 3\)</td></tr>
+    </table>
+  </div>
+  <p>\[ \binom{t + k - 1}{k} = \binom{5 + 3 - 1}{3} = \binom{7}{3} = 35 \]</p>
+  <div class="caja caja-resp"><span class="caja-tit">Respuesta</span><p>35 formas.</p></div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; Pelotas en bolsas (cátedra)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>
+      Se deslizan por una rampa 15 pelotas de tenis que caerán en alguna de las seis bolsas que
+      se encuentran al final de la rampa. ¿De cuántas maneras distintas se pueden distribuir en
+      dichas bolsas, si 1) no hay restricciones? 2) cada bolsa recibe al menos una pelota? 3) la
+      tercera bolsa recibe 10 pelotas?
+    </p>
+  </div>
+  <h4>Por qué esta fórmula</h4>
+  <ul>
+    <li>Las pelotas son iguales; las bolsas, distintas (se habla de "la tercera") &rarr; distribución.</li>
+  </ul>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase del enunciado</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"seis bolsas"</td><td>las cajas</td><td>&mdash;</td><td>\(t = 6\)</td></tr>
+      <tr><td>"15 pelotas"</td><td>objetos iguales</td><td>&mdash;</td><td>\(k = 15\)</td></tr>
+      <tr><td>"cada bolsa al menos una"</td><td>se ponen 6 antes</td><td>\(15 - 6 = 9\)</td><td>\(k = 9\)</td></tr>
+      <tr><td>"la tercera bolsa 10 pelotas"</td><td>esa bolsa ya está decidida; quedan 5 pelotas para las otras 5 bolsas</td><td>\(15 - 10\), \(6 - 1\)</td><td>\(k = 5\), \(t = 5\)</td></tr>
+    </table>
+  </div>
+  <h4>Inciso 1</h4>
+  <p>\[ \binom{t + k - 1}{k} = \binom{6 + 15 - 1}{15} = \binom{20}{15} = \binom{20}{5} = 15\,504 \]</p>
+  <h4>Inciso 2</h4>
+  <p>\[ \binom{6 + 9 - 1}{9} = \binom{14}{9} = \binom{14}{5} = 2\,002 \]</p>
+  <h4>Inciso 3</h4>
+  <p>\[ \binom{5 + 5 - 1}{5} = \binom{9}{5} = 126 \]</p>
+  <div class="caja caja-resp"><span class="caja-tit">Respuesta</span><p>1) 15 504. 2) 2 002. 3) 126 (verificado listando todas las distribuciones).</p></div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Si el inciso 3 dijera "al menos 10"</span>
+    <p>La diapositiva dice "la tercera bolsa 10 pelotas", que se lee como <strong>exactamente</strong> 10. Si fuera "al menos 10", se ponen 10 en la tercera y las 5 que quedan se reparten entre las <strong>seis</strong> bolsas (la tercera puede recibir más): \(\binom{6 + 5 - 1}{5} = \binom{10}{5} = 252\).</p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 3 &mdash; Docena de helados (cátedra)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>
+      Una heladería tiene 31 sabores. ¿De cuántas formas se puede obtener una docena de conos si
+      1) no queremos el mismo sabor más de una vez? 2) un sabor puede obtenerse hasta 12 veces?
+      3) un sabor no puede ordenarse más de 11 veces?
+    </p>
+  </div>
+  <h4>Por qué estas fórmulas</h4>
+  <ul>
+    <li>Una docena de conos es un pedido: importa cuántos de cada sabor, no el orden.</li>
+    <li>Inciso 1: sin repetir sabor &rarr; un grupo de 12 sabores distintos &rarr; combinación común (sección 5).</li>
+    <li>Inciso 2: "hasta 12 veces" es sin límite real (son 12 conos) &rarr; con repetición.</li>
+    <li>Inciso 3: "no más de 11" &rarr; complemento: se sacan los pedidos con un sabor 12 veces.</li>
+  </ul>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase del enunciado</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"31 sabores"</td><td>tipos</td><td>&mdash;</td><td>\(t = 31\)</td></tr>
+      <tr><td>"una docena"</td><td>se eligen 12</td><td>&mdash;</td><td>\(k = 12\)</td></tr>
+      <tr><td>"no más de 11 veces"</td><td>se descarta "los 12 del mismo sabor"</td><td>uno por sabor</td><td>\(- 31\)</td></tr>
+    </table>
+  </div>
+  <h4>Inciso 1</h4>
+  <p>\[ C(31, 12) = 141\,120\,525 \]</p>
+  <h4>Inciso 2</h4>
+  <p>\[ \binom{t + k - 1}{k} = \binom{31 + 12 - 1}{12} = \binom{42}{12} = 11\,058\,116\,888 \]</p>
+  <h4>Inciso 3</h4>
+  <p>Que un sabor aparezca 12 veces es pedir los 12 conos de ese sabor: hay 31 pedidos así (uno por sabor).</p>
+  <p>\[ \binom{42}{12} - 31 = 11\,058\,116\,857 \]</p>
+  <div class="caja caja-resp"><span class="caja-tit">Respuesta</span><p>1) 141 120 525. 2) 11 058 116 888 (unos once mil millones). 3) 11 058 116 857.</p></div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 4 &mdash; Premios con billetes de 100 (cátedra)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>
+      Una PYME tiene cuatro gerentes: Ana, María, Juan y Raúl. Se quiere distribuir entre ellos
+      10 000 dólares en premios, pagando con billetes de 100 dólares. Calcular el número de formas
+      de distribuir esos premios si 1) es posible que uno o más gerentes no obtenga nada; 2) cada
+      gerente debe recibir al menos 1 000 dólares; 3) cada gerente debe recibir al menos 1 000
+      dólares y Juan, al menos 5 000.
+    </p>
+  </div>
+  <h4>Por qué esta fórmula</h4>
+  <ul>
+    <li>Lo que se reparte son <strong>billetes</strong>, todos iguales; los gerentes son distintos &rarr; distribución.</li>
+    <li>Todo se pasa a cantidad de billetes: 10 000 dólares son \(10\,000 \div 100 = 100\) billetes; 1 000 son 10; 5 000 son 50.</li>
+  </ul>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase del enunciado</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"cuatro gerentes"</td><td>las cajas</td><td>&mdash;</td><td>\(t = 4\)</td></tr>
+      <tr><td>"10 000 dólares &hellip; billetes de 100"</td><td>billetes a repartir</td><td>\(10\,000 \div 100\)</td><td>\(k = 100\)</td></tr>
+      <tr><td>"cada uno al menos 1 000"</td><td>10 billetes a cada uno antes</td><td>\(100 - 4 \cdot 10\)</td><td>\(k = 60\)</td></tr>
+      <tr><td>"y Juan al menos 5 000"</td><td>Juan recibe 50 de entrada (en vez de 10)</td><td>\(100 - 3 \cdot 10 - 50\)</td><td>\(k = 20\)</td></tr>
+    </table>
+  </div>
+  <h4>Inciso 1</h4>
+  <p>\[ \binom{t + k - 1}{t - 1} = \binom{4 + 100 - 1}{3} = \binom{103}{3} = 176\,851 \]</p>
+  <h4>Inciso 2</h4>
+  <p>\[ \binom{4 + 60 - 1}{3} = \binom{63}{3} = 39\,711 \]</p>
+  <h4>Inciso 3</h4>
+  <p>\[ \binom{4 + 20 - 1}{3} = \binom{23}{3} = 1\,771 \]</p>
+  <div class="caja caja-resp"><span class="caja-tit">Respuesta</span><p>1) 176 851. 2) 39 711. 3) 1 771 (verificado por computadora).</p></div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Trabajar en billetes, no en dólares</span>
+    <p>Si se pone \(k = 10\,000\) se cuentan repartos con montos que no se pueden pagar (por ejemplo 50 dólares). La unidad que se reparte es la que no se puede partir: el billete.</p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 5 &mdash; Espacios en un mensaje (cátedra)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>
+      Un mensaje está formado por 12 símbolos diferentes y se va a transmitir por un canal. Además
+      de los símbolos, el transmisor enviará un total de 45 espacios en blanco entre los símbolos,
+      usando al menos tres espacios entre cada par de símbolos consecutivos. ¿De cuántas formas
+      puede el transmisor enviar ese mensaje?
+    </p>
+  </div>
+  <h4>Por qué estas fórmulas</h4>
+  <ul>
+    <li>Dos pasos &rarr; producto: (1) en qué orden van los 12 símbolos distintos: \(12!\) (sección 3); (2) cómo se reparten los espacios, que son iguales, en los huecos entre símbolos &rarr; distribución.</li>
+    <li>Entre 12 símbolos en fila hay \(12 - 1 = 11\) huecos (solo "entre", no antes ni después).</li>
+  </ul>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase del enunciado</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"12 símbolos diferentes"</td><td>se ordenan</td><td>&mdash;</td><td>\(12!\)</td></tr>
+      <tr><td>"entre cada par de consecutivos"</td><td>huecos = cajas</td><td>\(12 - 1\)</td><td>\(t = 11\)</td></tr>
+      <tr><td>"al menos tres espacios"</td><td>3 en cada hueco antes</td><td>\(45 - 3 \cdot 11 = 12\)</td><td>\(k = 12\)</td></tr>
+    </table>
+  </div>
+  <p>\[ 12! \cdot \binom{t + k - 1}{k} = 12! \cdot \binom{11 + 12 - 1}{12} = 12! \cdot \binom{22}{12} = 479\,001\,600 \cdot 646\,646 \]</p>
+  <p>\[ = 309\,744\,468\,633\,600 \approx 3{,}097 \times 10^{14} \]</p>
+  <div class="caja caja-resp"><span class="caja-tit">Respuesta</span><p>\(12! \cdot \binom{22}{12} \approx 3{,}1 \times 10^{14}\) formas. En la respuesta conviene dejarlo así, como producto: muestra de dónde sale; el número entero es 309 744 468 633 600.</p></div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 6 &mdash; Soluciones enteras de una ecuación (cátedra)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>Determinar el número de soluciones enteras no negativas de \(x_1 + x_2 + x_3 + x_4 + x_5 = 9\).</p>
+  </div>
+  <h4>Por qué esta fórmula</h4>
+  <ul>
+    <li>Cada solución es un reparto de 9 unidades iguales en 5 cajas distintas: \(x_i\) es lo que recibe la caja \(i\). Por ejemplo \(x = (2, 0, 3, 4, 0)\) es el código \(xx||xxx|xxxx|\).</li>
+    <li>"No negativas" permite \(x_i = 0\): sin restricción.</li>
+  </ul>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase del enunciado</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"\(x_1, \dots, x_5\)"</td><td>incógnitas = cajas</td><td>&mdash;</td><td>\(t = 5\)</td></tr>
+      <tr><td>"\(= 9\)"</td><td>unidades a repartir</td><td>&mdash;</td><td>\(k = 9\)</td></tr>
+      <tr><td>"enteras no negativas"</td><td>\(x_i \geq 0\)</td><td>&mdash;</td><td>sin reparto previo</td></tr>
+    </table>
+  </div>
+  <p>\[ \binom{t + k - 1}{k} = \binom{5 + 9 - 1}{9} = \binom{13}{9} = \binom{13}{4} = 715 \]</p>
+  <div class="caja caja-resp"><span class="caja-tit">Respuesta</span><p>715 soluciones.</p></div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Si pidieran soluciones positivas</span>
+    <p>"Positivas" es \(x_i \geq 1\): se reparte 1 a cada incógnita y quedan \(9 - 5 = 4\): \(\binom{5 + 4 - 1}{4} = \binom{8}{4} = 70\).</p>
+  </div>
+</div>

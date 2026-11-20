@@ -1,0 +1,238 @@
+<div class="bloque">
+  <p class="kicker">Permutaciones</p>
+  <h2>4. Permutaciones de \(r\) en \(n\) y disposiciones circulares</h2>
+
+  <h3>Para qué sirve</h3>
+  <p>
+    Para cuando de \(n\) objetos distintos <strong>se eligen solo \(r\)</strong> y
+    <strong>el orden importa</strong>: cargos distintos (director, vice, &hellip;), los primeros
+    tres puestos de una carrera, cadenas de longitud \(r\) sin símbolos repetidos.
+  </p>
+
+  <h3>Definición</h3>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Permutación de \(r\) en \(n\)</span>
+    <p>
+      Una permutación \(r\) de \(n\) elementos distintos \(x_1, \dots, x_n\) es un ordenamiento de
+      \(r\) elementos de \(\{x_1, \dots, x_n\}\). La cantidad se escribe \(P(n, r)\).
+    </p>
+    <p>\[ P(n, r) = \underbrace{n \cdot (n-1) \cdot (n-2) \cdots (n-r+1)}_{r \text{ factores}} = \frac{n!}{(n-r)!}, \qquad r \leq n \]</p>
+  </div>
+
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Símbolo</th><th>Qué significa</th></tr>
+      <tr><td>\(n\)</td><td>cuántos objetos distintos hay para elegir</td></tr>
+      <tr><td>\(r\)</td><td>cuántos se eligen y se ponen en orden (los lugares)</td></tr>
+      <tr><td>\(n - r + 1\)</td><td>las opciones que quedan para el último lugar (el número \(r\))</td></tr>
+    </table>
+  </div>
+
+  <p>Ejemplo de la cátedra: las permutaciones de orden 2 de \(a, b, c, d\) son 12:</p>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><td>\(ab\)</td><td>\(ac\)</td><td>\(ad\)</td><td>\(ba\)</td><td>\(bc\)</td><td>\(bd\)</td></tr>
+      <tr><td>\(ca\)</td><td>\(cb\)</td><td>\(cd\)</td><td>\(da\)</td><td>\(db\)</td><td>\(dc\)</td></tr>
+    </table>
+  </div>
+  <p>\(P(4, 2) = 4 \cdot 3 = 12\). Fijate que \(ab\) y \(ba\) son distintas: el orden importa.</p>
+
+  <h3>De dónde sale</h3>
+  <ul>
+    <li><strong>El producto:</strong> es la regla del producto con \(r\) pasos que pierden una opción cada vez: \(n\), \(n-1\), &hellip; El paso número \(r\) tiene \(n - (r - 1) = n - r + 1\) opciones.</li>
+    <li><strong>La forma con factoriales:</strong> se completa el producto hasta \(n!\) multiplicando y dividiendo por lo que falta, \((n-r)!\):</li>
+  </ul>
+  <p>\[ n(n-1)\cdots(n-r+1) = \frac{n(n-1)\cdots(n-r+1) \cdot (n-r)(n-r-1)\cdots 2 \cdot 1}{(n-r)(n-r-1)\cdots 2 \cdot 1} = \frac{n!}{(n-r)!} \]</p>
+  <p>Casos extremos: \(P(n, n) = n!/0! = n!\) (ordenar todos, la sección 3) y \(P(n, 1) = n\).</p>
+
+  <h4>Funciones inyectivas</h4>
+  <p>
+    Una función \(f : A \to B\) es <strong>inyectiva</strong> si a elementos distintos de \(A\) les
+    asigna elementos distintos de \(B\) (no repite imagen). Contarlas es una permutación: con
+    \(|A| = r\) y \(|B| = n\), el primer elemento de \(A\) tiene \(n\) opciones, el segundo \(n-1\), &hellip;
+  </p>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Cantidad de funciones inyectivas de \(A\) en \(B\)</span>
+    <p>\[ P(|B|, |A|) \]</p>
+  </div>
+
+  <div class="caja caja-calc">
+    <span class="caja-tit">En la calculadora</span>
+    <p>
+      \(P(n, r)\) es la tecla <strong>nPr</strong> (en las Casio fx-82/fx-570, <strong>SHIFT</strong> + <strong>&times;</strong>).
+      \(P(12, 4)\): tipeás <strong>12</strong>, <strong>SHIFT &times;</strong>, <strong>4</strong>, <strong>=</strong> &rarr; 11880.
+    </p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; Los cargos del laboratorio (cátedra)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>¿De cuántas maneras se pueden elegir director, vicedirector, secretario y tesorero de un grupo de 12 personas?</p>
+  </div>
+  <h4>Por qué esta fórmula</h4>
+  <ul>
+    <li>Se eligen 4 de 12, y nadie ocupa dos cargos (sin repetición).</li>
+    <li>Los cargos son distintos: Ana directora y Beto vice no es lo mismo que al revés &rarr; el orden importa &rarr; \(P(n, r)\).</li>
+  </ul>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase del enunciado</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"un grupo de 12 personas"</td><td>objetos para elegir</td><td>&mdash;</td><td>\(n = 12\)</td></tr>
+      <tr><td>"director, vicedirector, secretario y tesorero"</td><td>4 lugares distintos</td><td>&mdash;</td><td>\(r = 4\)</td></tr>
+    </table>
+  </div>
+  <p>\[ P(n, r) = \frac{n!}{(n-r)!} \]</p>
+  <p>\[ P(12, 4) = \frac{12!}{(12-4)!} = \frac{12!}{8!} = 12 \cdot 11 \cdot 10 \cdot 9 = 11\,880 \]</p>
+  <div class="caja caja-resp"><span class="caja-tit">Respuesta</span><p>11 880 maneras.</p></div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; La palabra "murcielago" (cátedra)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>
+      ¿Cuántas permutaciones de las letras de "murcielago" se pueden hacer si 1) no se permiten
+      repeticiones; 2) solo se usan tres de sus letras; 3) se permiten repeticiones y se quieren
+      secuencias de 15 letras?
+    </p>
+  </div>
+  <h4>Por qué esta fórmula</h4>
+  <ul>
+    <li>"murcielago" tiene 10 letras <strong>todas distintas</strong> (m, u, r, c, i, e, l, a, g, o).</li>
+    <li>Inciso 1: se ordenan las 10 &rarr; \(10!\). Inciso 2: 3 de 10 en orden &rarr; \(P(10, 3)\).</li>
+    <li>Inciso 3: con repetición, cada una de las 15 posiciones tiene las 10 letras &rarr; regla del producto, \(10^{15}\).</li>
+  </ul>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase del enunciado</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"murcielago"</td><td>10 letras distintas</td><td>&mdash;</td><td>\(n = 10\)</td></tr>
+      <tr><td>"no se permiten repeticiones"</td><td>se usa cada letra una vez, todas</td><td>&mdash;</td><td>\(10!\)</td></tr>
+      <tr><td>"solo tres de sus letras"</td><td>3 lugares</td><td>&mdash;</td><td>\(r = 3\)</td></tr>
+      <tr><td>"con repeticiones, 15 letras"</td><td>15 pasos de 10 opciones</td><td>&mdash;</td><td>\(10^{15}\)</td></tr>
+    </table>
+  </div>
+  <p>\[ 1)\ 10! = 3\,628\,800 \qquad 2)\ P(10, 3) = 10 \cdot 9 \cdot 8 = 720 \qquad 3)\ 10^{15} \]</p>
+  <div class="caja caja-resp"><span class="caja-tit">Respuesta</span><p>1) 3 628 800. 2) 720. 3) \(10^{15}\) (un 1 seguido de 15 ceros: mil billones).</p></div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 3 &mdash; La foto de la quinceañera (cátedra)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>
+      La quinceañera quiere una foto en un sillón con sus 10 amigos, pero en el sillón entran 7
+      personas. ¿De cuántas maneras puede hacerse la foto cambiando la ubicación de los amigos pero
+      con la quinceañera en el medio?
+    </p>
+  </div>
+  <h4>Por qué esta fórmula</h4>
+  <ul>
+    <li>El lugar del medio ya está ocupado: quedan 6 lugares para los amigos.</li>
+    <li>Los lugares son distintos (izquierda, derecha&hellip;) &rarr; importa el orden &rarr; \(P(10, 6)\).</li>
+  </ul>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase del enunciado</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"sus 10 amigos"</td><td>objetos para elegir</td><td>&mdash;</td><td>\(n = 10\)</td></tr>
+      <tr><td>"lugar para 7 personas", "la quinceañera en el medio"</td><td>lugares libres</td><td>\(7 - 1 = 6\)</td><td>\(r = 6\)</td></tr>
+    </table>
+  </div>
+  <p>\[ P(10, 6) = \frac{10!}{4!} = 10 \cdot 9 \cdot 8 \cdot 7 \cdot 6 \cdot 5 = 151\,200 \]</p>
+  <div class="caja caja-resp"><span class="caja-tit">Respuesta</span><p>151 200 fotos distintas.</p></div>
+  <p>Estos ordenamientos "en fila" se llaman <strong>disposiciones lineales</strong>.</p>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 4 &mdash; Estilo parcial: funciones inyectivas y cadenas sin repetir</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>
+      a) ¿Cuántas funciones inyectivas \(f : \{1, 2, 3\} \to \{a, b, c, d, e\}\) hay?
+      b) Sea \(\Sigma = \{a, b, c, d, e\}\). ¿Cuántas cadenas de longitud 3 no repiten ningún símbolo?
+    </p>
+  </div>
+  <h4>Por qué esta fórmula</h4>
+  <ul>
+    <li>a) Inyectiva = no repite imagen; a dónde va el 1, el 2 y el 3 son lugares distintos &rarr; \(P(5, 3)\).</li>
+    <li>b) Es la misma cuenta: la posición 1, 2 y 3 de la cadena hacen de "1, 2, 3", y los símbolos no se repiten.</li>
+  </ul>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase del enunciado</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"\(\{a, b, c, d, e\}\)"</td><td>opciones (el codominio o el alfabeto)</td><td>&mdash;</td><td>\(n = 5\)</td></tr>
+      <tr><td>"\(\{1, 2, 3\}\)" / "longitud 3"</td><td>lugares a llenar</td><td>&mdash;</td><td>\(r = 3\)</td></tr>
+      <tr><td>"inyectiva" / "no repiten"</td><td>sin repetición, importa a qué lugar va cada uno</td><td>&mdash;</td><td>\(P(n, r)\)</td></tr>
+    </table>
+  </div>
+  <p>\[ P(5, 3) = \frac{5!}{2!} = 5 \cdot 4 \cdot 3 = 60 \]</p>
+  <div class="caja caja-resp"><span class="caja-tit">Respuesta</span><p>a) 60 funciones inyectivas. b) 60 cadenas.</p></div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Con o sin "inyectiva"</span>
+    <p>Sin la condición, las funciones de \(\{1,2,3\}\) en \(\{a,\dots,e\}\) son \(5^{3} = 125\) (sección 1). "Inyectiva" o "sin repetir" es lo que cambia \(5 \cdot 5 \cdot 5\) por \(5 \cdot 4 \cdot 3\).</p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Disposiciones circulares</h3>
+  <p>
+    Cuando los objetos se ubican <strong>en ronda</strong> (una mesa redonda), dos disposiciones se
+    consideran iguales si una se obtiene <strong>rotando</strong> la otra: lo que importa es quién
+    tiene a quién a cada lado, no en qué silla está.
+  </p>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Disposiciones circulares de \(n\) objetos distintos</span>
+    <p>\[ (n-1)! \]</p>
+  </div>
+  <h4>De dónde sale</h4>
+  <ul>
+    <li>Sea \(x\) la cantidad de disposiciones circulares e \(y = n!\) la de disposiciones lineales.</li>
+    <li>Cada ronda se puede "cortar" en \(n\) lugares distintos para leerla como fila (empezando por cada una de las \(n\) personas): cada circular da \(n\) lineales distintas.</li>
+    <li>Entonces \(n \cdot x = n!\), y despejando \(x = \dfrac{n!}{n} = (n-1)!\).</li>
+  </ul>
+  <p>Otra forma de verlo: se sienta a una persona en cualquier lado (sirve de referencia) y se ordena al resto alrededor: \((n-1)!\).</p>
+
+  <h3>Ejemplo 5 &mdash; Mesa redonda (cátedra)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>Si seis personas A, B, &hellip;, F se sientan en torno de una mesa redonda, ¿cuántas disposiciones circulares diferentes son posibles?</p>
+  </div>
+  <h4>Por qué esta fórmula</h4>
+  <ul><li>Ronda, personas distintas, se cuentan iguales las rotaciones &rarr; \((n-1)!\).</li></ul>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase del enunciado</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"seis personas"</td><td>objetos distintos</td><td>&mdash;</td><td>\(n = 6\)</td></tr>
+      <tr><td>"mesa redonda"</td><td>disposición circular</td><td>&mdash;</td><td>\((n-1)!\)</td></tr>
+    </table>
+  </div>
+  <p>\[ 6 \cdot x = 6! \iff x = 5! = 120 \]</p>
+  <div class="caja caja-resp"><span class="caja-tit">Respuesta</span><p>120 disposiciones.</p></div>
+
+  <h3>Ejemplo 6 &mdash; Mesa redonda con dos que van juntos</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>Ocho personas se sientan en una mesa redonda. ¿De cuántas formas, si Ana y Beto tienen que quedar al lado?</p>
+  </div>
+  <h4>Por qué esta fórmula</h4>
+  <ul>
+    <li>Ana y Beto juntos &rarr; un bloque (como los libros de R de la sección 3).</li>
+    <li>Quedan 7 "objetos" en ronda &rarr; \((7-1)! = 6!\); y adentro del bloque, Ana-Beto o Beto-Ana &rarr; \(2!\).</li>
+  </ul>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase del enunciado</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"ocho personas"</td><td>con Ana y Beto pegados son 7 objetos</td><td>\(8 - 2 + 1 = 7\)</td><td>\(n = 7\) en ronda</td></tr>
+      <tr><td>"al lado"</td><td>el bloque se puede dar vuelta</td><td>&mdash;</td><td>\(2!\)</td></tr>
+    </table>
+  </div>
+  <p>\[ (7-1)! \cdot 2! = 720 \cdot 2 = 1\,440 \]</p>
+  <div class="caja caja-resp"><span class="caja-tit">Respuesta</span><p>1 440 formas (verificado listando las rondas).</p></div>
+</div>

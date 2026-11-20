@@ -1,0 +1,98 @@
+<div class="ej" data-examen="variante" data-examen-ref="Parcial 2 2026 · ej. 3b" data-examen-nota="En el parcial también era un problema de dinero con dos precios (140 y 80 pesos), pero la ecuación no tenía ninguna solución entera: el mcd no dividía al total.">
+  <span class="tag" data-num-ej="CM-10.">Complementaria P2 &middot; MCD &middot; Ej. 10 &middot; Problema con diofántica</span>
+  <h2>Libros a 14 y a 23 pesos, 210 pesos en total</h2>
+  <div class="enunciado">
+    <p>Hemos comprado libros de una oferta por 14 pesos el volumen y en otra oferta libros a 23 pesos el volumen, pagando en total 210 pesos. Calcular cuántos libros se han comprado de cada oferta, si es posible.</p>
+  </div>
+
+  <span class="paso">Qué tema es y por qué</span>
+  <ul>
+    <li>Las incógnitas son cantidades (enteras) y hay una sola ecuación: es una <strong>ecuación diofántica</strong> (en la teoría de esta unidad).</li>
+    <li>Después de la solución general viene el <strong>filtro de condiciones</strong>: las cantidades de libros no pueden ser negativas.</li>
+  </ul>
+
+  <div class="caja caja-formula">
+    <span class="caja-tit">Ecuación diofántica \(ax + by = c\)</span>
+    <ul>
+      <li><strong>Tiene solución entera si y solo si \(d = mcd(a, b)\) divide a \(c\).</strong></li>
+      <li>Solución particular: se escribe \(d = a x' + b y'\) (Euclides extendido) y se multiplica todo por \(c / d\): \(x_0 = x' \cdot \frac{c}{d}\), \(y_0 = y' \cdot \frac{c}{d}\).</li>
+      <li>Solución general (todas): \(x = x_0 + \frac{b}{d}\,k\), \(\ y = y_0 - \frac{a}{d}\,k\), con \(k \in \mathbb{Z}\).</li>
+    </ul>
+  </div>
+
+  <span class="paso">Desarme del enunciado</span>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"14 pesos el volumen"</td><td>\(x\) libros de la primera oferta cuestan \(14x\)</td><td>&mdash;</td><td>\(a = 14\)</td></tr>
+      <tr><td>"a 23 pesos el volumen"</td><td>\(y\) libros de la segunda cuestan \(23y\)</td><td>&mdash;</td><td>\(b = 23\)</td></tr>
+      <tr><td>"pagando en total 210 pesos"</td><td>la suma de lo gastado</td><td>&mdash;</td><td>\(14x + 23y = 210\)</td></tr>
+      <tr><td>"cuántos libros"</td><td>cantidades</td><td>&mdash;</td><td>\(x \geq 0\), \(y \geq 0\)</td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Paso 1 &mdash; ¿Tiene solución? Euclides</span>
+  <p>Se divide el mayor por el menor, después el divisor por el resto, hasta resto 0; el mcd es el último resto no nulo.</p>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th>División</th><th>Cociente \(q\)</th><th>Resto \(r\)</th></tr>
+      <tr><td>\(23 = 1 \cdot 14 + 9\)</td><td>\(1\)</td><td>\(9\)</td></tr>
+      <tr><td>\(14 = 1 \cdot 9 + 5\)</td><td>\(1\)</td><td>\(5\)</td></tr>
+      <tr><td>\(9 = 1 \cdot 5 + 4\)</td><td>\(1\)</td><td>\(4\)</td></tr>
+      <tr><td>\(5 = 1 \cdot 4 + 1\)</td><td>\(1\)</td><td>\(1\)</td></tr>
+      <tr><td>\(4 = 4 \cdot 1 + 0\)</td><td>\(4\)</td><td>\(0\)</td></tr>
+    </table>
+  </div>
+  <p>\(mcd(14, 23) = 1\) y \(1 \mid 210\): tiene soluciones enteras.</p>
+
+  <span class="paso">Paso 2 &mdash; Solución particular (Euclides extendido)</span>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Euclides extendido (la regla de la tabla)</span>
+    <ul>
+      <li>Cada fila dice: <strong>resto \(= a \cdot x + b \cdot y\)</strong>. Las dos primeras son obvias: \(a = a \cdot 1 + b \cdot 0\) y \(b = a \cdot 0 + b \cdot 1\).</li>
+      <li>Para cada fila nueva, \(q\) es el cociente de la división de Euclides que produjo ese resto.</li>
+      <li><strong>Fila nueva = (fila de dos arriba) \(-\ q \cdot\) (fila de arriba)</strong>, en las columnas \(x\) y \(y\). Es lo mismo que despejar el resto (\(r = \text{dividendo} - q \cdot \text{divisor}\)) y reemplazar hacia atrás, pero hecho en orden.</li>
+      <li>La fila del último resto no nulo (el mcd) da los coeficientes buscados.</li>
+    </ul>
+  </div>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Fila</th><th>Resto \(r\)</th><th>\(q\)</th><th>\(x\)</th><th>\(y\)</th><th>Se lee \(r = 23\,x + 14\,y\)</th></tr>
+      <tr><td>1</td><td>\(23\)</td><td>&mdash;</td><td>\(1\)</td><td>\(0\)</td><td>\(23 = 23 \cdot 1 + 14 \cdot 0\)</td></tr>
+      <tr><td>2</td><td>\(14\)</td><td>&mdash;</td><td>\(0\)</td><td>\(1\)</td><td>\(14 = 23 \cdot 0 + 14 \cdot 1\)</td></tr>
+      <tr><td>3</td><td>\(9\)</td><td>\(1\)</td><td>\(1 - 1 \cdot 0 = 1\)</td><td>\(0 - 1 \cdot 1 = -1\)</td><td>\(9 = 23 \cdot 1 + 14 \cdot (-1)\)</td></tr>
+      <tr><td>4</td><td>\(5\)</td><td>\(1\)</td><td>\(0 - 1 \cdot 1 = -1\)</td><td>\(1 - 1 \cdot (-1) = 2\)</td><td>\(5 = 23 \cdot (-1) + 14 \cdot 2\)</td></tr>
+      <tr><td>5</td><td>\(4\)</td><td>\(1\)</td><td>\(1 - 1 \cdot (-1) = 2\)</td><td>\(-1 - 1 \cdot 2 = -3\)</td><td>\(4 = 23 \cdot 2 + 14 \cdot (-3)\)</td></tr>
+      <tr><td>6</td><td>\(1\)</td><td>\(1\)</td><td>\(-1 - 1 \cdot 2 = -3\)</td><td>\(2 - 1 \cdot (-3) = 5\)</td><td>\(1 = 23 \cdot (-3) + 14 \cdot 5\)</td></tr>
+    </table>
+  </div>
+  <p>Entonces \(1 = 14 \cdot 5 + 23 \cdot (-3)\). Se multiplica por \(c / d = 210\):</p>
+  \[210 = 14 \cdot 1050 + 23 \cdot (-630) \quad\Rightarrow\quad x_0 = 1050,\ \ y_0 = -630\]
+
+  <span class="paso">Paso 3 &mdash; Solución general</span>
+  <p>\(x = x_0 + \frac{b}{d}k\), \(y = y_0 - \frac{a}{d}k\), con \(\frac{b}{d} = 23\) y \(\frac{a}{d} = 14\):</p>
+  \[x = 1050 + 23k, \qquad y = -630 - 14k, \qquad k \in \mathbb{Z}\]
+
+  <span class="paso">Paso 4 &mdash; Filtro de condiciones</span>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Condición</th><th>Se despeja \(k\)</th><th>Queda</th></tr>
+      <tr><td>\(x \geq 0\)</td><td>\(1050 + 23k \geq 0 \Rightarrow k \geq -\frac{1050}{23} = -45{,}65\dots\)</td><td>\(k \geq -45\)</td></tr>
+      <tr><td>\(y \geq 0\)</td><td>\(-630 - 14k \geq 0 \Rightarrow k \leq -\frac{630}{14} = -45\)</td><td>\(k \leq -45\)</td></tr>
+    </table>
+  </div>
+  <p>Un solo valor: \(k = -45\), que da \(x = 1050 - 1035 = 15\) y \(y = -630 + 630 = 0\).</p>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Al despejar \(k\) de una desigualdad</span>
+    <p>Al dividir por un número negativo (acá, \(-14\)) la desigualdad se da vuelta. Y si el límite no es entero, se redondea hacia adentro: \(k \geq -45{,}65\) deja \(k = -45, -44, \dots\).</p>
+  </div>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>La única posibilidad es 15 libros de 14 pesos y ninguno de 23 pesos (\(15 \cdot 14 = 210\)). Si se compró de las dos ofertas, es imposible.</p>
+  </div>
+
+  <span class="paso">Verificación</span>
+  <p>La guía no trae resultados; verificación propia con Python, probando todos los \(x\) de 0 a 15: solo \(x = 15\), \(y = 0\) cumple \(14x + 23y = 210\). Coincide.</p>
+</div>

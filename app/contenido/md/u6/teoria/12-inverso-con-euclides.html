@@ -1,0 +1,130 @@
+<div class="bloque">
+  <p class="kicker">Los enteros módulo n</p>
+  <h2>12. Cómo calcular un inverso en \(\mathbb{Z}_n\) (algoritmo de Euclides)</h2>
+
+  <h3>Para qué sirve</h3>
+  <p>
+    Con la sección 11 sabés <em>si</em> \([a]\) tiene inverso. Pero en un \(\mathbb{Z}_{72}\) o un
+    \(\mathbb{Z}_{1028}\) no se puede armar la tabla para buscarlo. Esta sección da el método de
+    la cátedra: <strong>plantear una ecuación diofántica y resolverla con el algoritmo de
+    Euclides</strong>, lo mismo que hiciste en la Unidad 5. Es la herramienta que más se usa en el
+    resto de la unidad: ecuaciones (sección 14), Teorema Chino (sección 18) y Fermat (sección 19).
+  </p>
+
+  <h3>El planteo (el de la cátedra)</h3>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Inverso como ecuación diofántica</span>
+    <p>Buscar \([a]^{-1} = x\) en \(\mathbb{Z}_n\) es buscar \(x\) con \(ax \equiv 1 \pmod{n}\), es decir, \(ax = ny + 1\) con \(y \in \mathbb{Z}\):</p>
+    <p>\[ ax - ny = 1 \]</p>
+    <p>Tiene solución si y sólo si \(mcd(a, n) = 1\) (sección 11). La \(x\) se saca con Euclides y la sustitución hacia atrás, y al final se pasa a un representante entre \(0\) y \(n - 1\).</p>
+  </div>
+
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Símbolo</th><th>Qué es</th></tr>
+      <tr><td>\(x\)</td><td>el inverso buscado (lo que importa)</td></tr>
+      <tr><td>\(y\)</td><td>cuántas veces \(n\) "sobra" en \(ax\); se calcula de paso pero no se usa</td></tr>
+      <tr><td>\(a = qb + r\)</td><td>cada renglón de Euclides: dividendo \(=\) cociente \(\cdot\) divisor \(+\) resto (Unidad 5)</td></tr>
+    </table>
+  </div>
+
+  <h3>El procedimiento, paso por paso</h3>
+  <ol>
+    <li><strong>Euclides:</strong> dividir \(n\) por \(a\); después el divisor por el resto; y así hasta llegar a resto \(1\). (Si el último resto no nulo no es \(1\), el mcd no es \(1\) y <strong>no hay inverso</strong>.)</li>
+    <li><strong>Despejar cada resto:</strong> de \(a = qb + r\) sale \(r = a - qb\).</li>
+    <li><strong>Sustitución hacia atrás:</strong> arrancar del renglón que dio resto \(1\) e ir reemplazando cada resto por su despeje, de abajo hacia arriba, hasta que solo queden \(a\) y \(n\): \(1 = x \cdot a + y \cdot n\).</li>
+    <li><strong>Leer el inverso:</strong> como \(y \cdot n \equiv 0\), queda \(1 \equiv x \cdot a \pmod{n}\). Si \(x\) es negativo, sumarle \(n\).</li>
+    <li><strong>Verificar:</strong> \(a \cdot x\) tiene que dejar resto \(1\) al dividir por \(n\).</li>
+  </ol>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Dónde se traba todo el mundo</span>
+    <ul>
+      <li>En la sustitución hacia atrás, <strong>no se hacen las cuentas</strong> de los números originales (\(72\), \(25\)): se los deja como "letras" y solo se agrupan sus coeficientes. Si multiplicás \(8 \cdot 72\) te queda un número y perdés la forma.</li>
+      <li>El inverso es el coeficiente <strong>que acompaña a \(a\)</strong>, no el que acompaña a \(n\).</li>
+      <li>Un inverso negativo no está mal, pero la respuesta va entre \(0\) y \(n - 1\): \(-23 \equiv -23 + 72 = 49\).</li>
+    </ul>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; \([25]^{-1}\) en \(\mathbb{Z}_{72}\) (cátedra, ejemplo 8)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>Buscar el inverso multiplicativo de \([25]\) en \(\mathbb{Z}_{72}\).</p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"inverso de \([25]\)"</td><td>un \(x\) con \(25x \equiv 1\)</td><td>&mdash;</td><td>\(a = 25\)</td></tr>
+      <tr><td>"en \(\mathbb{Z}_{72}\)"</td><td>módulo 72</td><td>&mdash;</td><td>\(n = 72\)</td></tr>
+      <tr><td>(planteo)</td><td>ecuación diofántica</td><td>\(25x = 72y + 1\)</td><td>\(25x - 72y = 1\)</td></tr>
+    </table>
+  </div>
+  <p><span class="paso">Paso 1 — ¿Existe?</span> \(25 = 5^2\) y \(72 = 2^3 \cdot 3^2\) no comparten primos: \(mcd(25, 72) = 1\). Sí existe.</p>
+  <p><span class="paso">Paso 2 — Euclides y despejes</span></p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>División</th><th>Despeje del resto</th></tr>
+      <tr><td>\(72 = 2 \cdot 25 + 22\)</td><td>\(22 = 72 - 2 \cdot 25\)</td></tr>
+      <tr><td>\(25 = 1 \cdot 22 + 3\)</td><td>\(3 = 25 - 1 \cdot 22\)</td></tr>
+      <tr><td>\(22 = 7 \cdot 3 + 1\)</td><td>\(1 = 22 - 7 \cdot 3\)</td></tr>
+    </table>
+  </div>
+  <p><span class="paso">Paso 3 — Sustitución hacia atrás</span></p>
+  <p>\[ 1 = 22 - 7 \cdot 3 \]</p>
+  <p>Reemplazo el \(3\) por \(25 - 22\):</p>
+  <p>\[ 1 = 22 - 7(25 - 22) = 22 - 7 \cdot 25 + 7 \cdot 22 = 8 \cdot 22 - 7 \cdot 25 \]</p>
+  <p>Reemplazo el \(22\) por \(72 - 2 \cdot 25\):</p>
+  <p>\[ 1 = 8(72 - 2 \cdot 25) - 7 \cdot 25 = 8 \cdot 72 - 16 \cdot 25 - 7 \cdot 25 = 8 \cdot 72 + (-23) \cdot 25 \]</p>
+  <p><span class="paso">Paso 4 — Leer el inverso</span> Módulo 72, el término \(8 \cdot 72\) es \(0\): \(1 \equiv (-23) \cdot 25 \pmod{72}\). Como \([-23] = [-23 + 72] = [49]\):</p>
+  <p><span class="paso">Paso 5 — Verificar</span> \(25 \cdot 49 = 1225 = 17 \cdot 72 + 1\) (\(17 \cdot 72 = 1224\)). ✔</p>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>\([25]^{-1} = [49]\) en \(\mathbb{Z}_{72}\).</p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; Forma de parcial: dos inversos, uno no existe (parecido a la complementaria, ej. 4)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>En el anillo \(\mathbb{Z}_{840}\) hallar, si existen, los inversos multiplicativos de \(143\) y de \(154\).</p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"\(\mathbb{Z}_{840}\)"</td><td>módulo 840</td><td>\(840 = 2^3 \cdot 3 \cdot 5 \cdot 7\)</td><td>\(n = 840\)</td></tr>
+      <tr><td>"si existen"</td><td>primero chequear el mcd</td><td>sección 11</td><td>existe o no</td></tr>
+      <tr><td>"inverso de 143"</td><td>\(143x - 840y = 1\)</td><td>\(143 = 11 \cdot 13\)</td><td>\(a = 143\)</td></tr>
+      <tr><td>"inverso de 154"</td><td>\(154x - 840y = 1\)</td><td>\(154 = 2 \cdot 7 \cdot 11\)</td><td>\(a = 154\)</td></tr>
+    </table>
+  </div>
+  <h4>El 154</h4>
+  <p>
+    \(154\) y \(840\) comparten el \(2\) y el \(7\): \(mcd(154, 840) = 14 \neq 1\). <strong>No tiene
+    inverso</strong>: es un divisor propio de cero (\(154 \cdot \frac{840}{14} = 154 \cdot 60 = 9240 = 11 \cdot 840\), así que \([154][60] = [0]\)).
+  </p>
+  <h4>El 143</h4>
+  <p>\(143 = 11 \cdot 13\) no comparte primos con \(840\): \(mcd = 1\), existe.</p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>División</th><th>Despeje del resto</th></tr>
+      <tr><td>\(840 = 5 \cdot 143 + 125\)</td><td>\(125 = 840 - 5 \cdot 143\)</td></tr>
+      <tr><td>\(143 = 1 \cdot 125 + 18\)</td><td>\(18 = 143 - 125\)</td></tr>
+      <tr><td>\(125 = 6 \cdot 18 + 17\)</td><td>\(17 = 125 - 6 \cdot 18\)</td></tr>
+      <tr><td>\(18 = 1 \cdot 17 + 1\)</td><td>\(1 = 18 - 17\)</td></tr>
+    </table>
+  </div>
+  <p>Sustitución hacia atrás (en cada renglón, reemplazo el resto más chico que queda):</p>
+  <p>\[ 1 = 18 - 17 = 18 - (125 - 6 \cdot 18) = 7 \cdot 18 - 125 \]</p>
+  <p>\[ = 7(143 - 125) - 125 = 7 \cdot 143 - 8 \cdot 125 \]</p>
+  <p>\[ = 7 \cdot 143 - 8(840 - 5 \cdot 143) = 47 \cdot 143 - 8 \cdot 840 \]</p>
+  <p>El coeficiente de \(143\) es \(47\), ya positivo. Verificación: \(143 \cdot 47 = 6721 = 8 \cdot 840 + 1\). ✔</p>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>\([143]^{-1} = [47]\) en \(\mathbb{Z}_{840}\). \([154]\) no tiene inverso, porque \(mcd(154, 840) = 14\).</p>
+  </div>
+</div>

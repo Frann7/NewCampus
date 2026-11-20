@@ -1,0 +1,57 @@
+<div class="ej" data-examen="variante" data-examen-ref="Parcial 2 2026 · ej. 2, parte II" data-examen-nota="Misma consigna: plantear desde un texto una RR de primer orden no homogénea (lo que había, multiplicado, más lo que entra). En el parcial lo que entra es 150·3ⁿ⁻¹ en vez de una constante.">
+  <span class="tag" data-num-ej="10.3-4.">Grimaldi 10.3 &middot; Ej. 4 &middot; Plantear: depósitos</span>
+  <h2>Cuenta con interés y un depósito fijo cada mes</h2>
+  <div class="enunciado">
+    <p>En el primer día de un nuevo año, José deposita 1000 pesos en una cuenta que paga un interés compuesto mensual del 6%. Al principio de cada mes, él agrega 200 pesos a esa cuenta. Si continúa haciendo esto durante los cuatro años siguientes (de modo que realice 47 depósitos más de 200 pesos), ¿cuánto dinero tendrá en su cuenta después de esos cuatro años?</p>
+  </div>
+
+  <span class="paso">Qué tema es y por qué</span>
+  <ul>
+    <li>Cada mes el saldo se multiplica por un factor (interés) y además se le <strong>suma</strong> algo fijo (el depósito): primer orden <strong>no homogénea</strong> con una constante.</li>
+    <li>"Interés compuesto mensual del 6 %" se lee como en el libro: 6 % anual capitalizado por mes, \(6\% \div 12 = 0{,}5\%\) por mes.</li>
+  </ul>
+
+  <span class="paso">Desarme del enunciado</span>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"deposita 1000 pesos"</td><td>saldo al empezar</td><td>&mdash;</td><td>\(p_0 = 1000\)</td></tr>
+      <tr><td>"interés compuesto mensual del 6%"</td><td>0,5 % por mes</td><td>\(1 + 0{,}005\)</td><td>factor \(1{,}005\)</td></tr>
+      <tr><td>"al principio de cada mes agrega 200"</td><td>se suma 200 después del interés</td><td>&mdash;</td><td>\(+200\)</td></tr>
+      <tr><td>"47 depósitos más"</td><td>meses 1 a 47; en el mes 48 ya no deposita</td><td>&mdash;</td><td>la relación vale para \(0 \leq n \leq 46\)</td></tr>
+      <tr><td>"después de esos cuatro años"</td><td>48 meses</td><td>\(4 \cdot 12\)</td><td>\(p_{48}\)</td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Paso 1 &mdash; Plantear</span>
+  <p>\(p_n\): saldo a los \(n\) meses (recién hecho el depósito de ese mes, si lo hay). Un mes después, el saldo ganó 0,5 % y se le suman 200:</p>
+  <p>\[ p_{n+1} = 1{,}005\,p_n + 200,\quad 0 \leq n \leq 46,\qquad p_0 = 1000 \]</p>
+  <p>y el último mes solo hay interés: \(p_{48} = 1{,}005\,p_{47}\).</p>
+
+  <span class="paso">Paso 2 &mdash; Resolver</span>
+  <div class="caja caja-formula">
+    <p>\(p_n = p_n^{(h)} + p_n^{(p)}\); \(g(n)\) constante \(\to p_n^{(p)} = A\) (si no choca con la homogénea).</p>
+  </div>
+  <ul>
+    <li>Homogénea \(p_{n+1} = 1{,}005\,p_n\): \(p_n^{(h)} = C\,(1{,}005)^{n}\).</li>
+    <li>Particular \(A\) (no choca: \(1{,}005^{n}\) no es constante). Reemplazando: \(A = 1{,}005A + 200 \Rightarrow -0{,}005A = 200 \Rightarrow A = -40\,000\).</li>
+    <li>Completa: \(p_n = C(1{,}005)^{n} - 40\,000\). Con \(p_0 = 1000\): \(C - 40\,000 = 1000 \Rightarrow C = 41\,000\).</li>
+  </ul>
+  <p>\[ p_n = 41\,000\,(1{,}005)^{n} - 40\,000,\quad 0 \leq n \leq 47 \]</p>
+  <p>Control: \(p_1 = 1{,}005 \cdot 1000 + 200 = 1205\) y \(41\,000 \cdot 1{,}005 - 40\,000 = 1205\).</p>
+
+  <span class="paso">Paso 3 &mdash; Evaluar</span>
+  <div class="caja caja-calc">
+    <span class="caja-tit">En la calculadora</span>
+    <p><code>41000 × 1.005 ^ 47 − 40000</code> &rarr; \(p_{47} \approx 11\,830{,}90\)</p>
+    <p><code>Ans × 1.005</code> &rarr; \(p_{48} \approx 11\,890{,}06\)</p>
+  </div>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>\(p_{n+1} = 1{,}005\,p_n + 200,\ p_0 = 1000\), con \(p_n = 41\,000(1{,}005)^{n} - 40\,000\). Después de los cuatro años tiene \(p_{48} \approx 11\,890{,}06\) pesos.</p>
+  </div>
+
+  <span class="paso">Solución del libro</span>
+  <p>El libro da \(p_n = (41\,000)(1{,}005)^{n} - 40\,000\), \(p_{47} = 11\,830{,}90\) y \(p_{48} = 11\,890{,}05\). Coincide; la diferencia de un centavo es redondeo (el valor es \(11\,890{,}0556\), y el libro lo corta en lugar de redondear).</p>
+</div>

@@ -1,0 +1,182 @@
+<div class="bloque" data-examen="igual" data-examen-ref="Parcial 2 2026 · ej. 3" data-examen-nota="El ej. 3 a) ii) pidió TODAS las soluciones enteras de 837x − 341y = m, con m = mcm(837, 341): está en el Ejemplo 3.">
+  <p class="kicker">Ecuaciones diofánticas</p>
+  <h2>10. Ecuaciones diofánticas lineales</h2>
+
+  <h3>Para qué sirve</h3>
+  <p>
+    Muchos problemas tienen respuestas que solo pueden ser enteras: cantidad de cajas, de sellos,
+    de programas. Una ecuación como \(6x + 10y = 104\) tiene infinitas soluciones con coma, pero
+    queremos las enteras. Esta sección dice cuándo existen y cómo se escriben todas.
+  </p>
+
+  <h3>Definición</h3>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Ecuación diofántica</span>
+    <p>Una ecuación algebraica con coeficientes enteros cuyas soluciones se buscan en \(\mathbb{Z}\) se llama <strong>ecuación diofántica</strong> (o diofantina).</p>
+    <p>Las que interesan en la materia son las <strong>lineales con dos incógnitas</strong>:</p>
+    <p>\[ a\,x + b\,y = c \qquad a, b, c \in \mathbb{Z} \]</p>
+  </div>
+  <p>Ejemplos de la cátedra de ecuaciones diofánticas en general: \(2x + 5y = 9\), \(7x - 8y^{2} + z = 1\), \(x^{2} - 9y^{2} = 6\), \(x^{3} + y^{3} = z^{3}\). Solo la primera es del tipo que se resuelve acá.</p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Símbolo</th><th>Qué significa</th></tr>
+      <tr><td>\(a, b\)</td><td>Los coeficientes de las incógnitas, <strong>con su signo</strong>: en \(837x - 341y\), \(b = -341\)</td></tr>
+      <tr><td>\(c\)</td><td>El término independiente</td></tr>
+      <tr><td>\(d\)</td><td>\(mcd(a, b)\)</td></tr>
+      <tr><td>\((x_0, y_0)\)</td><td>Una solución particular: un par concreto que cumple la ecuación</td></tr>
+      <tr><td>\(t\)</td><td>Un entero cualquiera (el "parámetro"): cada valor de \(t\) da una solución</td></tr>
+    </table>
+  </div>
+
+  <h3>Cuándo tiene solución</h3>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Teorema</span>
+    <p>\(ax + by = c\) tiene soluciones enteras <strong>si y solo si</strong> \(d = mcd(a, b)\) divide a \(c\).</p>
+  </div>
+  <h4>De dónde sale</h4>
+  <ul>
+    <li><strong>Si hay solución, \(d \mid c\):</strong> \(d\) divide a \(a\) y a \(b\), así que divide a la combinación \(ax + by\) (propiedad 8 de la sección 2), que es \(c\).</li>
+    <li><strong>Si \(d \mid c\), hay solución:</strong> por Bézout (sección 8), \(d = a x' + b y'\). Como \(c = d \cdot k\) para algún entero \(k\), multiplico todo por \(k\): \(c = a\,(x'k) + b\,(y'k)\). El par \(x_0 = x'k,\ y_0 = y'k\) es solución.</li>
+  </ul>
+  <p>La segunda parte ya dice cómo encontrar una solución particular: <strong>la combinación lineal del mcd, multiplicada por \(c/d\)</strong>.</p>
+
+  <h3>Todas las soluciones</h3>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Solución general</span>
+    <p>Si \((x_0, y_0)\) es una solución particular, todas las soluciones enteras son</p>
+    <p>\[ x = x_0 + \frac{b}{d}\,t \qquad\qquad y = y_0 - \frac{a}{d}\,t \qquad\qquad t \in \mathbb{Z} \]</p>
+  </div>
+  <p>Fijate el cruce: a la \(x\) se le suma lo de \(b\), y a la \(y\) se le resta lo de \(a\).</p>
+  <h4>De dónde sale</h4>
+  <ul>
+    <li><strong>Son soluciones:</strong> reemplazando, \(a\left(x_0 + \frac{b}{d}t\right) + b\left(y_0 - \frac{a}{d}t\right) = ax_0 + by_0 + \frac{ab}{d}t - \frac{ab}{d}t = c\). Lo que se suma en un término se resta en el otro.</li>
+    <li><strong>Son todas:</strong> si \((x, y)\) es otra solución, restando \(ax + by = c\) y \(ax_0 + by_0 = c\) queda \(a(x - x_0) = -b(y - y_0)\). Divido por \(d\): \(\frac{a}{d}(x - x_0) = \frac{b}{d}(y_0 - y)\). Como \(\frac{a}{d}\) y \(\frac{b}{d}\) son coprimos (Lema 2, sección 8), \(\frac{b}{d}\) divide a \(x - x_0\) (Lema 1). O sea, \(x - x_0 = \frac{b}{d}t\) para algún entero \(t\); reemplazando, sale \(y = y_0 - \frac{a}{d}t\).</li>
+  </ul>
+
+  <h3>El procedimiento</h3>
+  <ol>
+    <li>Identificar \(a\), \(b\) y \(c\) <strong>con sus signos</strong>.</li>
+    <li>Calcular \(d = mcd(a, b)\) con Euclides (sección 7).</li>
+    <li>¿\(d \mid c\)? Si no: <strong>no tiene solución</strong>, y se termina.</li>
+    <li>Escribir \(d = ax' + by'\) (Euclides hacia atrás, sección 8).</li>
+    <li>Multiplicar por \(c/d\): \(x_0 = x' \cdot \frac{c}{d}\), \(y_0 = y' \cdot \frac{c}{d}\). Verificar.</li>
+    <li>Escribir la general: \(x = x_0 + \frac{b}{d}t,\ y = y_0 - \frac{a}{d}t\).</li>
+    <li>(Opcional) Elegir un \(t\) que achique los números, para dejar la solución más prolija.</li>
+  </ol>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">La solución general se puede escribir de muchas formas</span>
+    <p>
+      Cambiar la solución particular (otro \(t\)) o cambiar \(t\) por \(-t\) da la <strong>misma</strong>
+      lista de soluciones escrita distinto. Si tu respuesta no coincide con otra, no quiere decir
+      que esté mal: probá que un par de una esté en la otra, y que los "pasos" (\(\frac{b}{d}\) y
+      \(\frac{a}{d}\)) sean los mismos en valor absoluto.
+    </p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; Todas las combinaciones que dan \(mcd(259, 111)\)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado (Actividad 6 b de la cátedra)</span>
+    <p>Hallar una expresión general que permita encontrar todos los enteros \(x\) e \(y\) tales que \(mcd(259, 111) = 259x + 111y\).</p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"\(259x + 111y\)"</td><td>coeficientes</td><td>&mdash;</td><td>\(a = 259,\ b = 111\)</td></tr>
+      <tr><td>"\(= mcd(259, 111)\)"</td><td>el término independiente es el mcd</td><td>sección 7</td><td>\(c = d = 37\)</td></tr>
+      <tr><td>(sección 8)</td><td>una combinación ya calculada</td><td>\(37 = 259 \cdot 1 + 111 \cdot (-2)\)</td><td>\(x_0 = 1,\ y_0 = -2\)</td></tr>
+      <tr><td>(pasos)</td><td>\(\frac{b}{d}\) y \(\frac{a}{d}\)</td><td>\(111 / 37,\ 259 / 37\)</td><td>\(3\) y \(7\)</td></tr>
+    </table>
+  </div>
+  <p>Como \(c = d\), \(c/d = 1\) y la combinación ya es la solución particular. La general:</p>
+  <p>\[ x = 1 + 3t \qquad y = -2 - 7t \qquad t \in \mathbb{Z} \]</p>
+  <p>Control con \(t = 1\): \(x = 4,\ y = -9\); \(259 \cdot 4 + 111 \cdot (-9) = 1036 - 999 = 37\). ✔</p>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>\(x = 1 + 3t,\ y = -2 - 7t\), con \(t \in \mathbb{Z}\).</p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; Tres ecuaciones: con solución, con signo menos y sin solución</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado (Actividad 7 de la cátedra)</span>
+    <p>Hallar el conjunto solución de: \(7x + 9y = 102\), \(84x - 120y = 60\), \(25x + 30y = 42\).</p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Ecuación</th><th>\(a,\ b,\ c\)</th><th>\(d\)</th><th>¿\(d \mid c\)?</th></tr>
+      <tr><td>\(7x + 9y = 102\)</td><td>\(7,\ 9,\ 102\)</td><td>1</td><td>sí</td></tr>
+      <tr><td>\(84x - 120y = 60\)</td><td>\(84,\ -120,\ 60\)</td><td>12</td><td>sí: \(60 = 12 \cdot 5\)</td></tr>
+      <tr><td>\(25x + 30y = 42\)</td><td>\(25,\ 30,\ 42\)</td><td>5</td><td>no: \(42 / 5 = 8{,}4\)</td></tr>
+    </table>
+  </div>
+
+  <p><span class="paso">\(7x + 9y = 102\)</span></p>
+  <ul>
+    <li>Euclides: \(9 = 7 \cdot 1 + 2\); \(7 = 2 \cdot 3 + 1\); \(2 = 1 \cdot 2 + 0\). \(d = 1\).</li>
+    <li>Hacia atrás: \(1 = 7 - 3 \cdot 2 = 7 - 3\,(9 - 7) = 4 \cdot 7 - 3 \cdot 9\).</li>
+    <li>Por \(c/d = 102\): \(x_0 = 4 \cdot 102 = 408\), \(y_0 = -3 \cdot 102 = -306\). Verifico: \(2856 - 2754 = 102\). ✔</li>
+    <li>General: \(x = 408 + 9t,\ y = -306 - 7t\).</li>
+    <li>Más prolija, con \(t = -45\): \(x = 3,\ y = 9\) (\(21 + 81 = 102\) ✔). Queda \(x = 3 + 9k,\ y = 9 - 7k\), \(k \in \mathbb{Z}\).</li>
+  </ul>
+
+  <p><span class="paso">\(84x - 120y = 60\)</span> Acá \(b = -120\).</p>
+  <ul>
+    <li>Euclides con 120 y 84: \(120 = 84 \cdot 1 + 36\); \(84 = 36 \cdot 2 + 12\); \(36 = 12 \cdot 3 + 0\). \(d = 12\).</li>
+    <li>Hacia atrás: \(12 = 84 - 2 \cdot 36 = 84 - 2\,(120 - 84) = 3 \cdot 84 - 2 \cdot 120 = 3 \cdot 84 + 2 \cdot (-120)\).</li>
+    <li>Por \(c/d = 5\): \(x_0 = 15,\ y_0 = 10\). Verifico: \(84 \cdot 15 - 120 \cdot 10 = 1260 - 1200 = 60\). ✔</li>
+    <li>Pasos: \(\frac{b}{d} = \frac{-120}{12} = -10\) y \(\frac{a}{d} = \frac{84}{12} = 7\).</li>
+    <li>General: \(x = 15 - 10t,\ y = 10 - 7t\). Con \(t = 1\) queda más chica: \(x = 5 - 10k,\ y = 3 - 7k\) (\(420 - 360 = 60\) ✔).</li>
+  </ul>
+
+  <p><span class="paso">\(25x + 30y = 42\)</span> \(mcd(25, 30) = 5\) y \(5 \nmid 42\). <strong>No tiene soluciones enteras</strong>: \(25x + 30y\) es siempre múltiplo de 5, y 42 no.</p>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>\(\{(3 + 9k,\ 9 - 7k) : k \in \mathbb{Z}\}\); \(\{(5 - 10k,\ 3 - 7k) : k \in \mathbb{Z}\}\); y el conjunto vacío \(\varnothing\).</p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 3 &mdash; Estilo parcial: \(837x - 341y = m\)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado (Parcial 2 2026, ej. 3 a) ii))</span>
+    <p>Obtener el valor de \(m = mcm(837, 341)\) y luego resolver la ecuación diofántica, hallando TODAS las soluciones enteras: \(837x - 341y = m\).</p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"\(837x\)"</td><td>coeficiente de \(x\)</td><td>&mdash;</td><td>\(a = 837\)</td></tr>
+      <tr><td>"\(-341y\)"</td><td>coeficiente de \(y\), con el signo</td><td>&mdash;</td><td>\(b = -341\)</td></tr>
+      <tr><td>"\(m = mcm(837, 341)\)"</td><td>el término independiente</td><td>sección 9</td><td>\(c = 9207\)</td></tr>
+      <tr><td>(sección 7)</td><td>el mcd</td><td>Euclides</td><td>\(d = 31\)</td></tr>
+      <tr><td>(sección 8)</td><td>la combinación del inciso i)</td><td>\(31 = 837 \cdot (-2) + (-341) \cdot (-5)\)</td><td>\(x' = -2,\ y' = -5\)</td></tr>
+      <tr><td>"TODAS las soluciones"</td><td>la solución general, con \(t\)</td><td>&mdash;</td><td>&mdash;</td></tr>
+    </table>
+  </div>
+  <p><span class="paso">Paso 1 &mdash; ¿Tiene solución?</span> \(d = 31\) y \(9207 \div 31 = 297\), exacto. Sí: \(31 \mid 9207\). (Tenía que pasar: el mcm es múltiplo de los dos números, así que es múltiplo de su mcd.)</p>
+  <p><span class="paso">Paso 2 &mdash; Solución particular</span> Multiplico la combinación del inciso i) por \(c/d = 297\):</p>
+  <p>\[ 9207 = 837 \cdot (-2 \cdot 297) + (-341) \cdot (-5 \cdot 297) = 837 \cdot (-594) + (-341) \cdot (-1485) \]</p>
+  <p>\(x_0 = -594,\ y_0 = -1485\). Verifico: \(837 \cdot (-594) = -497178\), \(-341 \cdot (-1485) = 506385\); suma \(9207\). ✔</p>
+  <p><span class="paso">Paso 3 &mdash; Solución general</span> Los pasos: \(\frac{b}{d} = \frac{-341}{31} = -11\) y \(\frac{a}{d} = \frac{837}{31} = 27\).</p>
+  <p>\[ x = x_0 + \frac{b}{d}\,t = -594 - 11t \qquad\qquad y = y_0 - \frac{a}{d}\,t = -1485 - 27t \qquad t \in \mathbb{Z} \]</p>
+  <p><span class="paso">Paso 4 &mdash; Más prolija</span> Con \(t = -55\): \(x = -594 + 605 = 11\) e \(y = -1485 + 1485 = 0\). Tomando \(11\) y \(0\) como particular (y \(t = -55 - k\)):</p>
+  <p>\[ x = 11 + 11k \qquad\qquad y = 27k \qquad k \in \mathbb{Z} \]</p>
+  <p>Verifico la general: \(837(11 + 11k) - 341 \cdot 27k = 9207 + 9207k - 9207k = 9207\). ✔</p>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">El atajo que se ve después</span>
+    <p>
+      Como \(m = 837 \cdot 11\), el par \(x = 11,\ y = 0\) es solución a simple vista. Sirve para
+      controlar, pero en el parcial conviene mostrar el procedimiento de Bézout: es lo que se
+      evalúa.
+    </p>
+  </div>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>\(m = 9207\). Todas las soluciones: \(x = -594 - 11t,\ y = -1485 - 27t\), \(t \in \mathbb{Z}\); equivalentemente \(x = 11 + 11k,\ y = 27k\), \(k \in \mathbb{Z}\).</p>
+  </div>
+</div>

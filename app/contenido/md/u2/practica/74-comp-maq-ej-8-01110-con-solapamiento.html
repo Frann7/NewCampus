@@ -1,0 +1,117 @@
+<div class="ej" data-examen="variante" data-examen-ref="Parcial 1 2026 &middot; ej. 1" data-examen-nota="En el parcial: las cadenas que terminan en abba, con solapamiento. Acá el patrón es 01110; la idea (a dónde volver cuando falla o cuando completa) es la misma.">
+  <span class="tag" data-num-ej="CM-8.">Complementaria P1 &middot; Máquinas &middot; Ej. 8 &middot; 01110 con solapamiento</span>
+  <h2>Reconocer cada aparición de 01110, con solapamiento</h2>
+  <div class="enunciado">
+    <p>Sea \(I = O = \{0, 1\}\). Construir un diagrama de estados para una máquina de estados que reconozca cada ocurrencia de \(01110\) en una cadena de \(x \in I^*\) (se permite solapamiento)</p>
+  </div>
+
+  <span class="paso">Qué tema es y por qué</span>
+  <ul>
+    <li>Reconocedor de \(\{0,1\}^*\{01110\}\): escribe 1 cada vez que lo leído termina en \(01110\).</li>
+    <li>Solapamiento: \(01110\) termina en \(0\), que es el comienzo de otro \(01110\). Por ejemplo, en \(011101110\) hay dos apariciones que comparten el \(0\) del medio.</li>
+  </ul>
+
+  <span class="paso">Paso 1 &mdash; Estados</span>
+  <p>Método: un estado por cada pedazo del principio del patrón que ya tengo al final de lo leído.</p>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th>Estado</th><td>\(s_0\)</td><td>\(s_1\)</td><td>\(s_2\)</td><td>\(s_3\)</td><td>\(s_4\)</td></tr>
+      <tr><th>Tengo</th><td>nada</td><td>0</td><td>01</td><td>011</td><td>0111</td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Paso 2 &mdash; Transiciones</span>
+  <p>Regla: después de cada símbolo, el nuevo estado es el <strong>pedazo más largo del principio de \(01110\) que aparece al final</strong> de lo que tengo.</p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Desde</th><th>Llega</th><th>Me queda</th><th>Mejor final que es principio de 01110</th><th>Va a</th><th>Escribe</th></tr>
+      <tr><td>\(s_0\)</td><td>0</td><td>0</td><td>0</td><td>\(s_1\)</td><td>0</td></tr>
+      <tr><td>\(s_0\)</td><td>1</td><td>1</td><td>nada</td><td>\(s_0\)</td><td>0</td></tr>
+      <tr><td>\(s_1\)</td><td>0</td><td>00</td><td>0</td><td>\(s_1\)</td><td>0</td></tr>
+      <tr><td>\(s_1\)</td><td>1</td><td>01</td><td>01</td><td>\(s_2\)</td><td>0</td></tr>
+      <tr><td>\(s_2\)</td><td>0</td><td>010</td><td>0</td><td>\(s_1\)</td><td>0</td></tr>
+      <tr><td>\(s_2\)</td><td>1</td><td>011</td><td>011</td><td>\(s_3\)</td><td>0</td></tr>
+      <tr><td>\(s_3\)</td><td>0</td><td>0110</td><td>0</td><td>\(s_1\)</td><td>0</td></tr>
+      <tr><td>\(s_3\)</td><td>1</td><td>0111</td><td>0111</td><td>\(s_4\)</td><td>0</td></tr>
+      <tr><td>\(s_4\)</td><td>0</td><td><strong>01110</strong></td><td>0 (el último 0 empieza otro)</td><td>\(s_1\)</td><td><strong>1</strong></td></tr>
+      <tr><td>\(s_4\)</td><td>1</td><td>01111</td><td>nada (todos los finales empiezan con 1)</td><td>\(s_0\)</td><td>0</td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Paso 3 &mdash; Diagrama de estados</span>
+  <div class="pd-grafico af" data-g="u2pc-cm8">
+    <svg viewBox="-86 -146 757 283" width="757" height="283" role="img" aria-label="Reconocedor de cada aparición de 01110, con solapamiento">
+      <path class="arco" d="M-16.8,8.9 C-51.2,40.0 -51.2,-40.0 -16.8,-8.9"/>
+      <path class="punta" d="M-16.8,-8.9 L-26.5,-11.6 L-20.4,-18.3 Z"/>
+      <text class="rot" x="-62.4" y="0.0" text-anchor="middle" dominant-baseline="central">1,0</text>
+      <path class="arco" d="M19.0,0.0 L141.0,0.0"/>
+      <path class="punta" d="M141.0,0.0 L132.0,4.5 L132.0,-4.5 Z"/>
+      <text class="rot" x="80.0" y="-10.0" text-anchor="middle" dominant-baseline="central">0,0</text>
+      <path class="arco" d="M151.1,-16.8 C120.0,-51.2 200.0,-51.2 168.9,-16.8"/>
+      <path class="punta" d="M168.9,-16.8 L171.6,-26.5 L178.3,-20.4 Z"/>
+      <text class="rot" x="160.0" y="-56.0" text-anchor="middle" dominant-baseline="central">0,0</text>
+      <path class="arco" d="M177.3,-7.8 Q240.0,-36.0 302.7,-7.8"/>
+      <path class="punta" d="M302.7,-7.8 L292.6,-7.4 L296.3,-15.6 Z"/>
+      <text class="rot" x="240.0" y="-31.9" text-anchor="middle" dominant-baseline="central">1,0</text>
+      <path class="arco" d="M302.7,7.8 Q240.0,36.0 177.3,7.8"/>
+      <path class="punta" d="M177.3,7.8 L187.4,7.4 L183.7,15.6 Z"/>
+      <text class="rot" x="240.0" y="31.9" text-anchor="middle" dominant-baseline="central">0,0</text>
+      <path class="arco" d="M339.0,0.0 L461.0,0.0"/>
+      <path class="punta" d="M461.0,0.0 L452.0,4.5 L452.0,-4.5 Z"/>
+      <text class="rot" x="400.0" y="-10.0" text-anchor="middle" dominant-baseline="central">1,0</text>
+      <path class="arco" d="M464.3,10.8 Q320.0,110.0 175.7,10.8"/>
+      <path class="punta" d="M175.7,10.8 L185.6,12.2 L180.5,19.6 Z"/>
+      <text class="rot" x="320.0" y="70.4" text-anchor="middle" dominant-baseline="central">0,0</text>
+      <path class="arco" d="M499.0,0.0 L621.0,0.0"/>
+      <path class="punta" d="M621.0,0.0 L612.0,4.5 L612.0,-4.5 Z"/>
+      <text class="rot" x="560.0" y="-10.0" text-anchor="middle" dominant-baseline="central">1,0</text>
+      <path class="arco" d="M625.4,12.2 Q400.0,200.0 174.6,12.2"/>
+      <path class="punta" d="M174.6,12.2 L184.4,14.5 L178.6,21.4 Z"/>
+      <text class="rot" x="400.0" y="116.1" text-anchor="middle" dominant-baseline="central">0,1</text>
+      <path class="arco" d="M624.3,-10.8 Q320.0,-220.0 15.7,-10.8"/>
+      <path class="punta" d="M15.7,-10.8 L20.5,-19.6 L25.6,-12.2 Z"/>
+      <text class="rot" x="320.0" y="-125.4" text-anchor="middle" dominant-baseline="central">1,0</text>
+      <path class="arco" d="M0.0,49.0 L0.0,19.0"/>
+      <path class="punta" d="M0.0,19.0 L4.5,28.0 L-4.5,28.0 Z"/>
+      <g class="estado">
+        <circle class="borde" cx="0.0" cy="0.0" r="19"/>
+        <text class="nom" x="0.0" y="0.0" text-anchor="middle" dominant-baseline="central">s0</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="160.0" cy="0.0" r="19"/>
+        <text class="nom" x="160.0" y="0.0" text-anchor="middle" dominant-baseline="central">s1</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="320.0" cy="0.0" r="19"/>
+        <text class="nom" x="320.0" y="0.0" text-anchor="middle" dominant-baseline="central">s2</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="480.0" cy="0.0" r="19"/>
+        <text class="nom" x="480.0" y="0.0" text-anchor="middle" dominant-baseline="central">s3</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="640.0" cy="0.0" r="19"/>
+        <text class="nom" x="640.0" y="0.0" text-anchor="middle" dominant-baseline="central">s4</text>
+      </g>
+    </svg>
+  </div>
+
+  <span class="paso">Paso 4 &mdash; Prueba con solapamiento</span>
+  <p>\(x = 011101110\):</p>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th>Entrada</th><td>0</td><td>1</td><td>1</td><td>1</td><td>0</td><td>1</td><td>1</td><td>1</td><td>0</td></tr>
+      <tr><th>Va a</th><td>\(s_1\)</td><td>\(s_2\)</td><td>\(s_3\)</td><td>\(s_4\)</td><td>\(s_1\)</td><td>\(s_2\)</td><td>\(s_3\)</td><td>\(s_4\)</td><td>\(s_1\)</td></tr>
+      <tr><th>Salida</th><td>0</td><td>0</td><td>0</td><td>0</td><td>1</td><td>0</td><td>0</td><td>0</td><td>1</td></tr>
+    </table>
+  </div>
+  <p>Avisa las dos apariciones. Si después de completar volviera a \(s_0\), la segunda se perdería.</p>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>La máquina de 5 estados de la tabla y el diagrama; escribe 1 solo en \(s_4\) con entrada 0, y de ahí va a \(s_1\) (solapamiento).</p>
+  </div>
+
+  <span class="paso">Verificación</span>
+  <p>Simulada en Python con todas las cadenas de largo hasta 12: escribe 1 exactamente cuando lo leído termina en \(01110\). No se puede achicar (sin estados equivalentes).</p>
+</div>

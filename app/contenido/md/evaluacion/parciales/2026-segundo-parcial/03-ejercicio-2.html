@@ -1,0 +1,160 @@
+<!-- ==================== EJERCICIO 2 ==================== -->
+<section class="parcial-ej">
+  <div class="parcial-ej-cab">
+    <h2>Ejercicio 2</h2>
+    <span class="parcial-pts">25 puntos</span>
+    <span class="parcial-tema">Unidad 4 &middot; Plantear y resolver relaciones de recurrencia</span>
+  </div>
+
+  <p>
+    <strong>Parte I. (10 puntos)</strong> Se estima que la migración de escarabajos de un bosque a otro
+    crece de tal manera que cada semana ingresa el triple de escarabajos que la semana anterior. Si en
+    la primera semana ingresaron 150 escarabajos, plantear y resolver una relación de recurrencia
+    \(a_n\), que cuente la cantidad de escarabajos que migran en la semana \(n\).
+  </p>
+  <p>
+    <strong>Parte II. (15 puntos)</strong> Un equipo de biólogos está monitoreando una plaga de
+    escarabajos en un bosque particular.
+  </p>
+  <ol class="parcial-incisos">
+    <li>Plantear una relación de recurrencia \(p_n\), que cuente la cantidad de escarabajos presentes en la semana \(n\), sabiendo que todas las semanas la población se duplica respecto a la semana anterior, y además sufre la invasión de bosques cercanos, cuya cantidad fue modelada en la parte I.</li>
+    <li>Resolver dicha RR para el caso en que la población inicie con 100 escarabajos.</li>
+  </ol>
+
+  <div class="parcial-extras">
+    <details class="parcial-desp pd-resultados">
+      <summary>
+        <span class="pd-icono">&#10003;</span>
+        <span class="pd-txt"><b>Resultados</b><small>Solo las respuestas, sin procedimiento</small></span>
+      </summary>
+      <div class="pd-cuerpo">
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Parte</th><th>Resultado</th></tr>
+            <tr><td class="lbl">I) RR y solución</td><td>\(a_n = 3a_{n-1}\), \(n \geq 2\), \(a_1 = 150\); \(\;a_n = 50 \cdot 3^{n} = 150 \cdot 3^{n-1}\)</td></tr>
+            <tr><td class="lbl">II a) RR</td><td>\(p_n = 2p_{n-1} + 50 \cdot 3^{n}\), \(n \geq 1\)</td></tr>
+            <tr><td class="lbl">II b) Solución</td><td>con \(p_0 = 100\): \(\;p_n = 150 \cdot 3^{n} - 50 \cdot 2^{n}\)</td></tr>
+          </table>
+        </div>
+      </div>
+    </details>
+
+    <details class="parcial-desp pd-explicacion">
+      <summary>
+        <span class="pd-icono">&#9998;</span>
+        <span class="pd-txt"><b>Explicación detallada</b><small>Desde cero: teoría, desarme del enunciado, resolución</small></span>
+      </summary>
+      <div class="pd-cuerpo">
+
+        <div class="caja caja-ejemplo">
+          <span class="caja-tit">El enunciado, otra vez</span>
+          <p>
+            I) Cada semana migran el triple de escarabajos que la anterior; la primera semana migraron 150.
+            Plantear y resolver la RR de \(a_n\), los que migran en la semana \(n\).
+          </p>
+          <p>
+            II) En un bosque la población se duplica cada semana y además entran los de la parte I.
+            a) Plantear la RR de \(p_n\), los presentes en la semana \(n\). b) Resolverla si al inicio hay 100.
+          </p>
+        </div>
+
+        <h4>¿De qué tema es?</h4>
+        <p><strong>Unidad 4</strong>: modelar un problema con una RR de orden 1 y resolverla, primero homogénea (parte I) y después no homogénea, con la parte I como término suelto (parte II).</p>
+
+        <h4>Los conceptos que hacen falta, desde cero</h4>
+        <div class="caja caja-formula">
+          <span class="caja-tit">1. Plantear una RR</span>
+          <p>Se escribe cómo se obtiene la cantidad de esta semana a partir de la anterior, y se da el valor inicial. Ejemplo: &ldquo;cada año el doble más 5&rdquo; es \(b_n = 2b_{n-1} + 5\).</p>
+        </div>
+        <div class="caja caja-formula">
+          <span class="caja-tit">2. Homogénea de orden 1</span>
+          <p>\[ a_n = k\,a_{n-1} \ \Rightarrow \ \text{característica } r = k \ \Rightarrow \ a_n = A\,k^{n} \]</p>
+          <p>La constante \(A\) sale del valor inicial. Ejemplo: \(b_n = 2b_{n-1}\), \(b_0 = 5\) da \(b_n = 5 \cdot 2^{n}\).</p>
+        </div>
+        <div class="caja caja-formula">
+          <span class="caja-tit">3. No homogénea: homogénea + particular</span>
+          <p>\[ p_n = p_n^{(h)} + p_n^{(p)} \]</p>
+          <ul>
+            <li>Si el término suelto es \(c \cdot r^{n}\) y \(r\) <strong>no</strong> es raíz de la característica, se propone \(p_n^{(p)} = C \cdot r^{n}\).</li>
+            <li>Si \(r\) sí es raíz, se multiplica por \(n\): \(C\,n\,r^{n}\).</li>
+            <li>La constante de \(p_n^{(h)}\) se calcula al final, con el valor inicial, sobre la suma.</li>
+          </ul>
+        </div>
+
+        <h4>Desarme del enunciado</h4>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Frase del enunciado</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+            <tr><td>&ldquo;cada semana ingresa el triple que la semana anterior&rdquo;</td><td>los migrantes se multiplican por 3</td><td>&mdash;</td><td>\(a_n = 3a_{n-1}\)</td></tr>
+            <tr><td>&ldquo;en la primera semana ingresaron 150&rdquo;</td><td>valor inicial en \(n = 1\)</td><td>&mdash;</td><td>\(a_1 = 150\)</td></tr>
+            <tr><td>&ldquo;la población se duplica respecto a la semana anterior&rdquo;</td><td>lo que había, por 2</td><td>&mdash;</td><td>\(2p_{n-1}\)</td></tr>
+            <tr><td>&ldquo;además sufre la invasión&hellip; modelada en la parte I&rdquo;</td><td>se suman los migrantes de esa semana</td><td>&mdash;</td><td>\(+\,a_n = 50 \cdot 3^{n}\)</td></tr>
+            <tr><td>&ldquo;la población inicie con 100&rdquo;</td><td>lo que hay antes de la semana 1</td><td>&mdash;</td><td>\(p_0 = 100\)</td></tr>
+          </table>
+        </div>
+
+        <span class="paso">Parte I &mdash; Plantear</span>
+        <p>\[ a_n = 3a_{n-1}, \quad n \geq 2, \quad a_1 = 150 \]</p>
+
+        <span class="paso">Parte I &mdash; Resolver</span>
+        <p>Regla: \(a_n = k\,a_{n-1}\) tiene característica \(r = k\) y solución \(a_n = A\,k^{n}\). Acá \(r = 3\):</p>
+        <p>\[ a_n = A \cdot 3^{n} \]</p>
+        <p>Con \(a_1 = 150\): \(A \cdot 3 = 150 \Rightarrow A = 50\).</p>
+        <p>\[ a_n = 50 \cdot 3^{n} = 150 \cdot 3^{n-1}, \quad n \geq 1 \]</p>
+        <p>Control: \(a_1 = 150\), \(a_2 = 450\), \(a_3 = 1350\), y la RR da lo mismo (\(3 \cdot 150\), \(3 \cdot 450\)).</p>
+        <div class="caja caja-resp">
+          <span class="caja-tit">Respuesta I</span>
+          <p>\(a_n = 3a_{n-1}\) (\(n \geq 2\), \(a_1 = 150\)), con solución \(a_n = 50 \cdot 3^{n}\).</p>
+        </div>
+
+        <span class="paso">Parte II, inciso a &mdash; Plantear</span>
+        <p>Lo de esta semana = lo de la anterior duplicado + los que entraron esta semana (parte I):</p>
+        <p>\[ p_n = 2p_{n-1} + a_n = 2p_{n-1} + 50 \cdot 3^{n}, \quad n \geq 1 \]</p>
+        <div class="caja caja-resp">
+          <span class="caja-tit">Respuesta II a</span>
+          <p>\(p_n = 2p_{n-1} + 50 \cdot 3^{n}\), \(n \geq 1\).</p>
+        </div>
+
+        <span class="paso">Parte II, inciso b &mdash; La homogénea</span>
+        <p>Regla: \(p_n = k\,p_{n-1}\) da \(r = k\). Acá \(p_n = 2p_{n-1}\), \(r = 2\):</p>
+        <p>\[ p_n^{(h)} = B \cdot 2^{n} \]</p>
+
+        <span class="paso">Parte II, inciso b &mdash; La particular</span>
+        <p>Regla: el término suelto es \(50 \cdot 3^{n}\) y 3 no es raíz (la raíz es 2), así que \(p_n^{(p)} = C \cdot 3^{n}\). Se reemplaza en la RR:</p>
+        <p>\[ C \cdot 3^{n} = 2C \cdot 3^{n-1} + 50 \cdot 3^{n} \]</p>
+        <p>Se divide todo por \(3^{n-1}\) (que nunca es 0):</p>
+        <p>\[ 3C = 2C + 150 \ \Rightarrow \ C = 150 \ \Rightarrow \ p_n^{(p)} = 150 \cdot 3^{n} \]</p>
+
+        <span class="paso">Parte II, inciso b &mdash; Solución y constante</span>
+        <p>\[ p_n = B \cdot 2^{n} + 150 \cdot 3^{n} \]</p>
+        <p>Con \(p_0 = 100\): \(B + 150 = 100 \Rightarrow B = -50\).</p>
+        <p>\[ p_n = 150 \cdot 3^{n} - 50 \cdot 2^{n}, \quad n \geq 0 \]</p>
+        <p>Control: \(p_1 = 450 - 100 = 350 = 2 \cdot 100 + 150\) y \(p_2 = 1350 - 200 = 1150 = 2 \cdot 350 + 450\). Se compararon diez términos por la RR y por la fórmula: coinciden.</p>
+        <div class="caja caja-resp">
+          <span class="caja-tit">Respuesta II b</span>
+          <p>\(p_n = 150 \cdot 3^{n} - 50 \cdot 2^{n}\)</p>
+        </div>
+
+        <h4>Parecido en la guía</h4>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Ejercicio</th><th>Qué tiene igual</th><th>Qué cambia</th></tr>
+            <tr><td>Guía complementaria &middot; Recurrencia, ej. 2</td><td>plantear una RR desde un problema de &ldquo;cada año&hellip;&rdquo;</td><td>monedas; pregunta cuándo se supera una cantidad</td></tr>
+            <tr><td>Guía complementaria &middot; Recurrencia, ej. 5</td><td>orden 1 con término suelto exponencial</td><td>\(5 \cdot 3^{n}\) con raíz 3: la particular lleva \(n\)</td></tr>
+            <tr><td>Guía complementaria &middot; Recurrencia, ej. 6b</td><td>orden 1 no homogénea</td><td>término suelto \(5n\)</td></tr>
+          </table>
+        </div>
+
+        <div class="caja caja-ojo">
+          <span class="caja-tit">Las trampas de este ejercicio</span>
+          <ol>
+            <li><strong>Usar \(a_0 = 150\):</strong> 150 es la <em>primera</em> semana, \(a_1\). Con \(a_0 = 150\) saldría \(150 \cdot 3^{n}\), que da 450 en la semana 1.</li>
+            <li><strong>Sumar la constante de la parte I:</strong> lo que entra en la semana \(n\) es \(a_n\) entero, \(50 \cdot 3^{n}\), no 150.</li>
+            <li><strong>Calcular \(B\) con la homogénea sola:</strong> \(B = 100\) es un error; el valor inicial va sobre la suma.</li>
+            <li><strong>Dónde está el 100:</strong> se tomó como el inicio, antes de la semana 1 (\(p_0 = 100\)). Si se leyera como la población de la semana 1 (\(p_1 = 100\)), quedaría \(p_n = 150 \cdot 3^{n} - 175 \cdot 2^{n}\).</li>
+          </ol>
+        </div>
+      </div>
+    </details>
+  </div>
+</section>

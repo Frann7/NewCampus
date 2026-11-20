@@ -1,0 +1,317 @@
+<div class="bloque" data-examen="variante" data-examen-ref="Parcial 1 2026 · ej. 4b" data-examen-nota="Contar las máquinas con un solo estado sumidero obliga a separar en casos que no se pisan (el sumidero es s3 o es s4) y sumarlos. Está resuelto entero en el Ejemplo 6.">
+  <p class="kicker">Principios del conteo</p>
+  <h2>2. Principio de la suma</h2>
+
+  <h3>Para qué sirve</h3>
+  <p>
+    Para contar cuando lo que buscás se separa en <strong>casos que no se pisan</strong>: "o pasa
+    esto, o pasa aquello". Contás cada caso por separado y sumás.
+  </p>
+
+  <h3>Definición</h3>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Principio de la suma</span>
+    <p>
+      Si \(X_1, \dots, X_t\) son conjuntos <strong>disjuntos por pares</strong> (para \(i \neq j\),
+      \(X_i \cap X_j = \emptyset\)) y \(X_i\) tiene \(n_i\) elementos, la cantidad de elementos que se
+      pueden elegir de \(X_1\) <strong>o</strong> \(X_2\) <strong>o</strong> &hellip; <strong>o</strong> \(X_t\) es
+    </p>
+    <p>\[ n_1 + n_2 + \cdots + n_t \]</p>
+    <p>Dicho de otra forma: \(|X_1 \cup X_2 \cup \cdots \cup X_t| = n_1 + n_2 + \cdots + n_t\).</p>
+  </div>
+
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Símbolo</th><th>Qué significa</th></tr>
+      <tr><td>\(X_i\)</td><td>el conjunto de las opciones del caso \(i\)</td></tr>
+      <tr><td>\(X_i \cap X_j = \emptyset\)</td><td>los casos \(i\) y \(j\) no comparten nada: ningún elemento está en los dos (\(\emptyset\) es el conjunto vacío)</td></tr>
+      <tr><td>\(\cup\)</td><td>unión: todo lo que está en alguno de los conjuntos</td></tr>
+      <tr><td>\(n_i\)</td><td>cuántos elementos tiene el caso \(i\)</td></tr>
+    </table>
+  </div>
+
+  <p>
+    En palabras de tareas: si una tarea se hace de \(n_1\) formas, otra de \(n_2\) formas, y
+    <strong>no se pueden hacer las dos a la vez</strong>, hacer una <strong>o</strong> la otra se
+    puede de \(n_1 + n_2\) formas. La palabra clave es <strong>"o"</strong>.
+  </p>
+
+  <h3>De dónde sale</h3>
+  <p>
+    Si los casos no comparten elementos, al juntarlos nadie se cuenta dos veces: el total es la
+    suma. Si compartieran elementos, la suma contaría a esos dos veces; por eso la condición de
+    "disjuntos" es imprescindible. Al separar en casos, siempre controlá que <strong>cada objeto
+    caiga en un solo caso</strong>.
+  </p>
+
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Palabra del enunciado</th><th>Regla</th><th>Operación</th></tr>
+      <tr><td>"y", "luego", "primero &hellip; después"</td><td>multiplicación (sección 1)</td><td>\(\cdot\)</td></tr>
+      <tr><td>"o", "uno de los dos", casos separados</td><td>suma</td><td>\(+\)</td></tr>
+    </table>
+  </div>
+
+  <h3>El complemento: contar lo que no querés y restarlo</h3>
+  <p>
+    Una consecuencia directa de la regla de la suma. Todo objeto del total o cumple la condición
+    o no la cumple (dos casos disjuntos), así que
+  </p>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Complemento</span>
+    <p>\[ \text{total} = \text{(cumplen)} + \text{(no cumplen)} \quad\Longrightarrow\quad \text{(cumplen)} = \text{total} - \text{(no cumplen)} \]</p>
+  </div>
+  <p>
+    Conviene cuando la condición es <strong>"al menos uno"</strong>: lo contrario de "al menos
+    uno" es "ninguno", que es un solo caso fácil. Ejemplo chiquito: cadenas binarias de longitud 3
+    con al menos un 1 = todas (\(2^{3} = 8\)) menos la única sin unos (\(000\)) = \(7\).
+  </p>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; Libros (cátedra)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>¿De cuántas formas se puede seleccionar un libro entre 30 libros de Programación en Python y 25 libros de Matemática Discreta?</p>
+  </div>
+  <h4>Por qué esta regla</h4>
+  <ul>
+    <li>Se elige <strong>un</strong> libro: o es de Python o es de Discreta (no las dos cosas).</li>
+    <li>Los dos grupos no se pisan &rarr; suma.</li>
+  </ul>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase del enunciado</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"30 libros de Python"</td><td>caso 1</td><td>&mdash;</td><td>\(n_1 = 30\)</td></tr>
+      <tr><td>"25 libros de Matemática Discreta"</td><td>caso 2</td><td>&mdash;</td><td>\(n_2 = 25\)</td></tr>
+      <tr><td>"un libro"</td><td>uno de un grupo o del otro</td><td>&mdash;</td><td>se suma</td></tr>
+    </table>
+  </div>
+  <p>\[ n_1 + n_2 = 30 + 25 = 55 \]</p>
+  <div class="caja caja-resp"><span class="caja-tit">Respuesta</span><p>55 formas.</p></div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; Las PASO: suma y producto en el mismo enunciado (cátedra)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>
+      Se presentan como candidatos a presidente nueve candidatos del partido A y cinco del partido B.
+      1) Si el presidente va a ser alguno de ellos, ¿cuántas posibilidades hay para el ganador?
+      2) ¿Cuántas posibilidades hay para que una pareja de candidatos (uno de cada partido) se
+      opongan en la elección final?
+    </p>
+  </div>
+  <h4>Por qué cada regla</h4>
+  <ul>
+    <li>Inciso 1: el ganador es <strong>uno</strong>, del A <strong>o</strong> del B &rarr; suma.</li>
+    <li>Inciso 2: la pareja es uno del A <strong>y</strong> uno del B &rarr; producto.</li>
+  </ul>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase del enunciado</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"nueve candidatos del partido A"</td><td>opciones del A</td><td>&mdash;</td><td>9</td></tr>
+      <tr><td>"cinco del partido B"</td><td>opciones del B</td><td>&mdash;</td><td>5</td></tr>
+      <tr><td>"alguno de estos candidatos"</td><td>A o B</td><td>&mdash;</td><td>\(9 + 5\)</td></tr>
+      <tr><td>"uno de cada partido"</td><td>A y B</td><td>&mdash;</td><td>\(9 \cdot 5\)</td></tr>
+    </table>
+  </div>
+  <p>\[ 1)\ 9 + 5 = 14 \qquad\qquad 2)\ 9 \cdot 5 = 45 \]</p>
+  <div class="caja caja-resp"><span class="caja-tit">Respuesta</span><p>1) 14 posibles ganadores. 2) 45 parejas.</p></div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 3 &mdash; La planta de autos (cátedra)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>
+      Una planta puede producir 5 modelos diferentes (Yaris, Corolla, Etios, SW4 y Hilux), 6 colores,
+      3 tamaños de motor y 2 tipos de transmisión. 1) ¿Cuántos autos distintos se pueden fabricar?
+      2) ¿Cuántas variantes de una Hilux con el motor más potente se pueden fabricar?
+    </p>
+  </div>
+  <h4>Por qué esta regla</h4>
+  <ul>
+    <li>Un auto es modelo <strong>y</strong> color <strong>y</strong> motor <strong>y</strong> transmisión: 4 pasos &rarr; producto.</li>
+    <li>En el inciso 2, modelo y motor ya están fijos: esos pasos tienen 1 sola opción.</li>
+  </ul>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase del enunciado</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"5 modelos", "6 colores", "3 motores", "2 transmisiones"</td><td>opciones de cada paso</td><td>&mdash;</td><td>5, 6, 3, 2</td></tr>
+      <tr><td>"una Hilux"</td><td>modelo fijo</td><td>&mdash;</td><td>1 opción</td></tr>
+      <tr><td>"con el motor más potente"</td><td>motor fijo</td><td>&mdash;</td><td>1 opción</td></tr>
+    </table>
+  </div>
+  <p>\[ 1)\ 5 \cdot 6 \cdot 3 \cdot 2 = 180 \qquad\qquad 2)\ 1 \cdot 6 \cdot 1 \cdot 2 = 12 \]</p>
+  <div class="caja caja-resp"><span class="caja-tit">Respuesta</span><p>1) 180 autos. 2) 12 variantes.</p></div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 4 &mdash; Cargos de un laboratorio: casos y complemento (cátedra)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>
+      Un laboratorio tiene 12 miembros. Se deben renovar los cargos de director, vicedirector,
+      secretario y tesorero. Calcular la cantidad de formas de hacer la selección. Si 4 de los 12
+      son ingenieros, ¿cuántas selecciones hay 1) con un tesorero que sea ingeniero; 2) con
+      exactamente dos ingenieros en la lista; 3) con al menos un ingeniero en la lista?
+    </p>
+  </div>
+  <h4>Por qué estas reglas</h4>
+  <ul>
+    <li>Los cargos son distintos: se llenan de a uno (4 pasos) y nadie ocupa dos cargos &rarr; producto, con una opción menos en cada paso.</li>
+    <li>"Exactamente dos ingenieros": primero se decide <strong>qué cargos</strong> les tocan a los ingenieros y después se llenan.</li>
+    <li>"Al menos uno": por complemento.</li>
+  </ul>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase del enunciado</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"12 miembros"</td><td>opciones del primer cargo</td><td>&mdash;</td><td>12</td></tr>
+      <tr><td>"director, vicedirector, secretario y tesorero"</td><td>4 pasos, sin repetir persona</td><td>&mdash;</td><td>12, 11, 10, 9</td></tr>
+      <tr><td>"4 son ingenieros"</td><td>los otros no lo son</td><td>\(12 - 4 = 8\)</td><td>4 ingenieros, 8 no ingenieros</td></tr>
+      <tr><td>"al menos un ingeniero"</td><td>lo contrario: ningún ingeniero</td><td>&mdash;</td><td>complemento</td></tr>
+    </table>
+  </div>
+  <h4>Total</h4>
+  <p>\[ 12 \cdot 11 \cdot 10 \cdot 9 = 11\,880 \]</p>
+  <p>(En la sección 4 esta cuenta tiene nombre: \(P(12, 4)\).)</p>
+  <h4>Inciso 1 &mdash; tesorero ingeniero</h4>
+  <p>Conviene empezar por el paso con restricción: el tesorero (4 opciones). Después los otros tres cargos con las 11 personas restantes:</p>
+  <p>\[ \underbrace{4}_{\text{tesorero}} \cdot \underbrace{11 \cdot 10 \cdot 9}_{\text{los otros 3}} = 3\,960 \]</p>
+  <h4>Inciso 2 &mdash; exactamente dos ingenieros</h4>
+  <ul>
+    <li>Paso 1: qué 2 de los 4 cargos son para ingenieros. Son 6 maneras: {D,V}, {D,S}, {D,T}, {V,S}, {V,T}, {S,T}.</li>
+    <li>Paso 2: llenar esos 2 cargos con ingenieros distintos: \(4 \cdot 3 = 12\).</li>
+    <li>Paso 3: llenar los otros 2 cargos con no ingenieros: \(8 \cdot 7 = 56\).</li>
+  </ul>
+  <p>\[ 6 \cdot 12 \cdot 56 = 4\,032 \]</p>
+  <p>(Las 6 maneras del paso 1 se calculan con \(C(4, 2)\), sección 5.)</p>
+  <h4>Inciso 3 &mdash; al menos un ingeniero</h4>
+  <p>Sin ningún ingeniero: los 4 cargos con los 8 no ingenieros, \(8 \cdot 7 \cdot 6 \cdot 5 = 1\,680\). Por complemento:</p>
+  <p>\[ 11\,880 - 1\,680 = 10\,200 \]</p>
+  <div class="caja caja-resp"><span class="caja-tit">Respuesta</span><p>Total 11 880. 1) 3 960. 2) 4 032. 3) 10 200.</p></div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 5 &mdash; Estilo parcial: cadenas de longitud "menor o igual"</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>Sea \(\Sigma = \{0, 1\}\). ¿Cuántas cadenas de \(\Sigma^{*}\) de longitud menor o igual a 6 terminan en \(11\)?</p>
+  </div>
+  <h4>Por qué estas reglas</h4>
+  <ul>
+    <li>\(\Sigma^{*}\) son todas las cadenas sobre \(\Sigma\), de cualquier longitud (la vacía \(\lambda\) incluida).</li>
+    <li>Una cadena tiene <strong>una sola</strong> longitud: los casos "longitud 2", "longitud 3", &hellip; no se pisan &rarr; suma.</li>
+    <li>Dentro de cada longitud, la cadena se arma posición por posición &rarr; producto.</li>
+  </ul>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase del enunciado</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"terminan en \(11\)"</td><td>las 2 últimas posiciones fijas; hace falta longitud \(\geq 2\)</td><td>&mdash;</td><td>longitudes 2 a 6</td></tr>
+      <tr><td>"longitud \(n\)"</td><td>\(n - 2\) posiciones libres, 2 opciones cada una</td><td>&mdash;</td><td>\(2^{\,n-2}\)</td></tr>
+      <tr><td>"menor o igual a 6"</td><td>un caso por longitud</td><td>&mdash;</td><td>se suma</td></tr>
+    </table>
+  </div>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th>Longitud</th><th>Posiciones libres</th><th>Cadenas</th></tr>
+      <tr><td>2</td><td>0</td><td>\(2^{0} = 1\) (solo \(11\))</td></tr>
+      <tr><td>3</td><td>1</td><td>\(2^{1} = 2\)</td></tr>
+      <tr><td>4</td><td>2</td><td>\(2^{2} = 4\)</td></tr>
+      <tr><td>5</td><td>3</td><td>\(2^{3} = 8\)</td></tr>
+      <tr><td>6</td><td>4</td><td>\(2^{4} = 16\)</td></tr>
+    </table>
+  </div>
+  <p>\[ 1 + 2 + 4 + 8 + 16 = 31 \]</p>
+  <p>(En la sección 8 esta suma se escribe con la notación \(\Sigma\).)</p>
+  <div class="caja caja-resp"><span class="caja-tit">Respuesta</span><p>31 cadenas.</p></div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 6 &mdash; Parcial 1 2026, ej. 4b: máquinas con un solo estado sumidero</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>
+      Dada una máquina de estados finitos de la que se conocen parte de la tabla y del diagrama,
+      ¿cuántas máquinas, con la información disponible hasta el momento, es posible construir que
+      tengan un solo estado sumidero? (\(I = O = \{0, 1\}\), \(S = \{s_0, \dots, s_4\}\).)
+    </p>
+  </div>
+  <p>
+    Juntando lo que da la tabla impresa con lo que dice el diagrama (eso es el inciso a), la tabla
+    queda así; los "?" son las casillas que nadie da:
+  </p>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th></th><th>\(\nu\) 0</th><th>\(\nu\) 1</th><th>\(\omega\) 0</th><th>\(\omega\) 1</th></tr>
+      <tr><td class="lbl">\(s_0\)</td><td>\(s_1\)</td><td>\(s_2\)</td><td>0</td><td>0</td></tr>
+      <tr><td class="lbl">\(s_1\)</td><td>\(s_1\)</td><td>\(s_3\)</td><td>0</td><td>0</td></tr>
+      <tr><td class="lbl">\(s_2\)</td><td>\(s_4\)</td><td>\(s_2\)</td><td>1</td><td>0</td></tr>
+      <tr><td class="lbl">\(s_3\)</td><td>?</td><td>\(s_3\)</td><td>0</td><td>1</td></tr>
+      <tr><td class="lbl">\(s_4\)</td><td>?</td><td>?</td><td>0</td><td>?</td></tr>
+    </table>
+  </div>
+  <p>
+    Un estado \(s\) es <strong>sumidero</strong> si \(\nu(s, x) = s\) para toda entrada: una vez que
+    la máquina llega ahí, no sale más (en la tabla, toda su fila \(\nu\) dice \(s\)).
+  </p>
+
+  <h4>Por qué estas reglas</h4>
+  <ul>
+    <li>Completar la máquina es llenar 4 casillas: 4 pasos &rarr; producto.</li>
+    <li>"Un solo sumidero" se separa en casos según cuál es el sumidero; un mismo llenado no puede caer en dos casos &rarr; suma.</li>
+  </ul>
+
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase del enunciado</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"con la información disponible"</td><td>lo conocido no se cambia; solo se llenan los "?"</td><td>&mdash;</td><td>4 casillas libres</td></tr>
+      <tr><td>casillas \(\nu\) libres</td><td>cualquiera de los 5 estados</td><td>&mdash;</td><td>5 opciones cada una</td></tr>
+      <tr><td>casilla \(\omega(s_4, 1)\)</td><td>salida 0 o 1</td><td>&mdash;</td><td>2 opciones</td></tr>
+      <tr><td>"un solo estado sumidero"</td><td>exactamente uno</td><td>&mdash;</td><td>casos que se suman</td></tr>
+    </table>
+  </div>
+
+  <h4>Paso 1 &mdash; ¿quién puede ser sumidero?</h4>
+  <ul>
+    <li>\(s_0\), \(s_1\), \(s_2\): no, cada uno tiene una flecha conocida que va a otro estado (\(\nu(s_0,0) = s_1\), \(\nu(s_1,1) = s_3\), \(\nu(s_2,0) = s_4\)).</li>
+    <li>\(s_3\): ya tiene \(\nu(s_3, 1) = s_3\); es sumidero si y solo si \(\nu(s_3, 0) = s_3\).</li>
+    <li>\(s_4\): es sumidero si y solo si \(\nu(s_4, 0) = s_4\) y \(\nu(s_4, 1) = s_4\).</li>
+  </ul>
+
+  <h4>Paso 2 &mdash; caso A: el único sumidero es \(s_4\)</h4>
+  <ul>
+    <li>\(\nu(s_4, 0) = s_4\) y \(\nu(s_4, 1) = s_4\): 1 opción cada una.</li>
+    <li>\(s_3\) <strong>no</strong> tiene que ser sumidero: \(\nu(s_3, 0) \neq s_3\) &rarr; 4 opciones.</li>
+    <li>\(\omega(s_4, 1)\): 2 opciones.</li>
+  </ul>
+  <p>\[ 4 \cdot 1 \cdot 1 \cdot 2 = 8 \]</p>
+
+  <h4>Paso 3 &mdash; caso B: el único sumidero es \(s_3\)</h4>
+  <ul>
+    <li>\(\nu(s_3, 0) = s_3\): 1 opción.</li>
+    <li>\(s_4\) <strong>no</strong> tiene que ser sumidero: de los \(5 \cdot 5 = 25\) pares \((\nu(s_4,0), \nu(s_4,1))\) se saca el único \((s_4, s_4)\) &rarr; \(25 - 1 = 24\) (complemento).</li>
+    <li>\(\omega(s_4, 1)\): 2 opciones.</li>
+  </ul>
+  <p>\[ 1 \cdot 24 \cdot 2 = 48 \]</p>
+
+  <h4>Paso 4 &mdash; sumar los casos</h4>
+  <p>Los casos no se pisan (en uno el sumidero es \(s_4\) y en el otro no lo es):</p>
+  <p>\[ 8 + 48 = 56 \]</p>
+  <div class="caja caja-resp"><span class="caja-tit">Respuesta</span><p>56 máquinas (verificado probando por computadora los 250 llenados posibles).</p></div>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Lo que se olvida</span>
+    <ul>
+      <li>"Un solo sumidero" pide que el otro candidato <strong>no</strong> lo sea: por eso en el caso A \(\nu(s_3, 0)\) tiene 4 opciones y no 5.</li>
+      <li>La casilla \(\omega(s_4, 1)\) también es parte de la máquina: si se la olvida se llega a \(4 + 24 = 28\), que cuenta solo las funciones \(\nu\).</li>
+    </ul>
+  </div>
+</div>

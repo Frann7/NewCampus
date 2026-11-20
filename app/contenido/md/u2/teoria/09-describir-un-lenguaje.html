@@ -1,0 +1,105 @@
+<div class="bloque" data-examen="igual" data-examen-ref="Parcial 1 2026 · ej. 2" data-examen-nota="El parcial pidió describir unívocamente, en términos de prefijo y sufijo, las cadenas de AB⁺C² con A = {01, 10}, B = {0, 1} y C = {11}. El Ejemplo 2 es el mismo procedimiento con otros lenguajes.">
+  <p class="kicker">Lenguajes</p>
+  <h2>9. Describir un lenguaje (y escribirlo con operaciones)</h2>
+
+  <h3>Para qué sirve</h3>
+  <p>
+    Hay dos traducciones que se piden todo el tiempo: de <strong>símbolos a palabras</strong>
+    ("describí \(AB^{+}C^{2}\)") y de <strong>palabras a símbolos</strong> ("escribí como
+    concatenación de lenguajes las cadenas que terminan en \(111\)"). Las máquinas de la segunda
+    mitad se piden y se responden así.
+  </p>
+
+  <h3>El diccionario (Ejemplo 8 de la cátedra)</h3>
+  <p>Con \(\Sigma = \{x, y\}\):</p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Lenguaje</th><th>Qué cadenas tiene</th><th>Por qué</th></tr>
+      <tr><td>\(A^{*}\) con \(A = \{xx, xy, yx, yy\}\)</td><td>todas las de largo par</td><td>\(A = \Sigma^{2}\): se pegan bloques de 2, y cero bloques da \(\lambda\) (largo 0, par)</td></tr>
+      <tr><td>\(BA^{*}\) con \(B = \{x, y\}\)</td><td>todas las de largo impar</td><td>un símbolo suelto y después un largo par</td></tr>
+      <tr><td>\(\{x\}\{x, y\}^{*}\)</td><td>las que tienen a \(x\) como prefijo</td><td>empieza con \(x\) y después cualquier cosa</td></tr>
+      <tr><td>\(\{x, y\}^{+}\{yy\}\)</td><td>las que tienen a \(yy\) como sufijo <strong>propio</strong></td><td>termina en \(yy\) y adelante hay al menos un símbolo: \(yy\) sola no está</td></tr>
+      <tr><td>\(\{x, y\}^{*}\{xxy\}\{x, y\}^{*}\)</td><td>las que tienen a \(xxy\) como subcadena</td><td>cualquier cosa, \(xxy\), cualquier cosa</td></tr>
+      <tr><td>\(\{x\}^{*}\{y\}^{*}\)</td><td>\(\lambda\) y las que son una tira de \(x\) seguida de una tira de \(y\)</td><td>nunca aparece una \(x\) después de una \(y\)</td></tr>
+    </table>
+  </div>
+
+  <div class="caja caja-formula">
+    <span class="caja-tit">Los tres moldes</span>
+    <ul>
+      <li>Prefijo \(p\): \(\{p\}\Sigma^{*}\). Prefijo propio: \(\{p\}\Sigma^{+}\).</li>
+      <li>Sufijo \(s\): \(\Sigma^{*}\{s\}\). Sufijo propio: \(\Sigma^{+}\{s\}\).</li>
+      <li>Subcadena \(t\): \(\Sigma^{*}\{t\}\Sigma^{*}\).</li>
+    </ul>
+  </div>
+
+  <h3>Método: describir unívocamente por prefijo y sufijo</h3>
+  <p>"Unívocamente" quiere decir: una descripción que la cumplen <strong>todas</strong> las cadenas del lenguaje y <strong>ninguna</strong> otra. Los pasos:</p>
+  <ol>
+    <li><strong>Separar los bloques</strong> del pegote, de izquierda a derecha, y decir qué cadenas da cada uno (con las potencias de la sección 8).</li>
+    <li><strong>El primer bloque es el prefijo</strong>, el último es el sufijo, y lo del medio dice qué puede haber entre ellos.</li>
+    <li><strong>Calcular el largo mínimo</strong>: la suma de los largos mínimos de cada bloque. Es la parte que más se olvida.</li>
+    <li><strong>Probar las dos direcciones:</strong> toda cadena del lenguaje cumple la descripción, y toda cadena que la cumple se puede cortar en los bloques.</li>
+  </ol>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; Del texto a los símbolos</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>Con \(\Sigma = \{a, b, c\}\), escribir con lenguajes finitos y operaciones: (a) las cadenas que empiezan con \(ab\); (b) las que terminan en \(cc\); (c) las que tienen exactamente una \(b\).</p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"empiezan con \(ab\)"</td><td>prefijo \(ab\)</td><td>molde de prefijo</td><td>\(\{ab\}\{a, b, c\}^{*}\)</td></tr>
+      <tr><td>"terminan en \(cc\)"</td><td>sufijo \(cc\)</td><td>molde de sufijo</td><td>\(\{a, b, c\}^{*}\{cc\}\)</td></tr>
+      <tr><td>"exactamente una \(b\)"</td><td>antes y después, solo \(a\) y \(c\)</td><td>la \(b\) en el medio</td><td>\(\{a, c\}^{*}\{b\}\{a, c\}^{*}\)</td></tr>
+    </table>
+  </div>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>(a) \(\{ab\}\{a, b, c\}^{*}\); (b) \(\{a, b, c\}^{*}\{cc\}\); (c) \(\{a, c\}^{*}\{b\}\{a, c\}^{*}\). En (c) usar \(\{a, b, c\}^{*}\) a los costados estaría mal: dejaría pasar más \(b\).</p>
+  </div>
+
+  <h3>Ejemplo 2 &mdash; Con forma de parcial: \(AB^{+}C^{2}\)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>Dados \(A = \{00, 11\}\), \(B = \{0, 1\}\) y \(C = \{10\}\), con \(\Sigma = \{0, 1\}\), describir unívocamente, en términos de prefijo y sufijo, las cadenas de \(AB^{+}C^{2}\).</p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"\(A = \{00, 11\}\)"</td><td>primer bloque</td><td>largo 2</td><td>prefijo \(00\) o \(11\)</td></tr>
+      <tr><td>"\(B^{+}\)"</td><td>uno o más símbolos cualesquiera</td><td>\(B = \Sigma\), largo mínimo 1</td><td>en el medio, \(\Sigma^{+}\)</td></tr>
+      <tr><td>"\(C^{2}\)"</td><td>\(10\) dos veces</td><td>\(10 \cdot 10\), largo 4</td><td>sufijo \(1010\)</td></tr>
+      <tr><td>"unívocamente"</td><td>ni de más ni de menos</td><td>\(2 + 1 + 4\)</td><td>largo \(\geq 7\)</td></tr>
+    </table>
+  </div>
+  <p><span class="paso">Paso 1 &mdash; Bloques</span> \(A\) da \(00\) u \(11\); \(B^{+} = \Sigma^{+}\); \(C^{2} = \{1010\}\).</p>
+  <p><span class="paso">Paso 2 &mdash; Prefijo, medio, sufijo</span> Empieza con \(00\) o con \(11\), termina en \(1010\), y en el medio hay <em>al menos un</em> símbolo cualquiera.</p>
+  <p><span class="paso">Paso 3 &mdash; Largo mínimo</span> \(2 + 1 + 4 = 7\).</p>
+  <p><span class="paso">Paso 4 &mdash; Las dos direcciones</span></p>
+  <ul>
+    <li>Si \(w \in AB^{+}C^{2}\): sus 2 primeros símbolos vienen de \(A\), los 4 últimos son \(1010\) y entre medio hay al menos 1, así que \(\|w\| \geq 7\).</li>
+    <li>Si \(w\) tiene largo \(\geq 7\), prefijo \(00\) u \(11\) y sufijo \(1010\): se corta en los 2 primeros, los 4 últimos, y lo del medio tiene \(\|w\| - 6 \geq 1\) símbolos, que es una cadena de \(\Sigma^{+} = B^{+}\).</li>
+  </ul>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Sin el largo, la descripción está mal</span>
+    <p>
+      \(001010\) empieza con \(00\) y termina en \(1010\), pero tiene largo 6: el prefijo y el sufijo
+      se tocan y no queda nada para \(B^{+}\). No está en el lenguaje. Por eso "unívocamente" obliga a
+      decir el largo (o, lo que es igual, que el prefijo y el sufijo no se superponen y hay al menos
+      un símbolo entre ellos).
+    </p>
+  </div>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>
+      \(AB^{+}C^{2} = \{\, w \in \Sigma^{*} \,/\, \|w\| \geq 7,\ w \text{ tiene prefijo } 00 \text{ u } 11 \text{ y sufijo } 1010 \,\}\).
+      Por ejemplo, de largo 9 hay \(2 \cdot 2^{3} = 16\) (2 prefijos y 3 símbolos libres en el medio).
+    </p>
+  </div>
+</div>

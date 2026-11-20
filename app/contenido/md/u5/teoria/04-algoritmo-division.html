@@ -1,0 +1,126 @@
+<div class="bloque">
+  <p class="kicker">División entera</p>
+  <h2>4. El algoritmo de la división</h2>
+
+  <h3>Para qué sirve</h3>
+  <p>
+    Es la "cuenta de dividir" de la primaria, dicha con precisión: cociente y resto. La usan el
+    algoritmo de Euclides (sección 7) y los cambios de base (sección 5), y la cátedra la pide
+    sola, con números negativos, que es donde está la trampa.
+  </p>
+
+  <h3>Definición</h3>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Algoritmo de la división</span>
+    <p>Sean \(a, b \in \mathbb{Z}\) con \(b > 0\). Entonces existen <strong>únicos</strong> \(q, r \in \mathbb{Z}\) tales que</p>
+    <p>\[ a = q \cdot b + r, \qquad \text{con } 0 \leq r \lt b \]</p>
+  </div>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Símbolo</th><th>Nombre</th><th>Qué es</th></tr>
+      <tr><td>\(a\)</td><td>dividendo</td><td>el número que se reparte (puede ser negativo)</td></tr>
+      <tr><td>\(b\)</td><td>divisor</td><td>en cuántas partes, o de a cuánto (positivo)</td></tr>
+      <tr><td>\(q\)</td><td>cociente</td><td>cuántas veces entra \(b\) en \(a\)</td></tr>
+      <tr><td>\(r\)</td><td>resto</td><td>lo que sobra; <strong>siempre entre 0 y \(b - 1\)</strong></td></tr>
+    </table>
+  </div>
+  <ul>
+    <li>Si \(r = 0\), la división es <strong>exacta</strong> y \(b \mid a\) (es la definición de la sección 2 con \(n = q\)).</li>
+    <li>La condición \(0 \leq r \lt b\) es la que hace que \(q\) y \(r\) sean únicos: \(17 = 2 \cdot 5 + 7\) es cierto, pero no es "la" división de 17 por 5, porque \(7 \geq 5\). La división es \(17 = 3 \cdot 5 + 2\).</li>
+  </ul>
+
+  <h4>De dónde sale (por qué siempre existe)</h4>
+  <p>
+    Se miran los múltiplos de \(b\): \(\ldots, -2b, -b, 0, b, 2b, \ldots\) Están separados de a
+    \(b\) y cubren toda la recta. El cociente \(q\) es el del <strong>mayor múltiplo de \(b\) que
+    no se pasa de \(a\)</strong>: \(qb \leq a \lt (q+1)b\). Restando \(qb\): \(0 \leq a - qb \lt b\),
+    y ese \(a - qb\) es el resto.
+  </p>
+
+  <h3>Con dividendo negativo: el resto nunca es negativo</h3>
+  <p>
+    Con \(a\) negativo, el "mayor múltiplo de \(b\) que no se pasa de \(a\)" está <strong>más a la
+    izquierda</strong> de \(a\), o sea más negativo. Por ejemplo, para \(a = -45\) y \(b = 8\):
+  </p>
+  <ul>
+    <li>\(-40 = (-5) \cdot 8\) es <strong>mayor</strong> que \(-45\): se pasa. Daría \(-45 = (-5)\cdot 8 - 5\), con resto negativo: no sirve.</li>
+    <li>\(-48 = (-6) \cdot 8\) es menor que \(-45\): ese es. \(-45 = (-6) \cdot 8 + 3\).</li>
+  </ul>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Receta para \(a\) negativo</span>
+    <ol>
+      <li>Dividir \(\lvert a \rvert\) por \(b\) como siempre: \(\lvert a \rvert = q' b + r'\).</li>
+      <li>Si \(r' = 0\): \(q = -q'\) y \(r = 0\).</li>
+      <li>Si \(r' \neq 0\): \(q = -q' - 1\) y \(r = b - r'\).</li>
+      <li>Verificar: \(q \cdot b + r\) tiene que dar \(a\), y \(0 \leq r \lt b\).</li>
+    </ol>
+  </div>
+  <p>Por qué funciona el paso 3: \(a = -\lvert a \rvert = -q'b - r' = -q'b - b + b - r' = (-q' - 1)\,b + (b - r')\), y como \(0 \lt r' \lt b\), el nuevo resto \(b - r'\) también está entre 1 y \(b - 1\).</p>
+  <div class="caja caja-calc">
+    <span class="caja-tit">En la calculadora</span>
+    <p>\(-45 \div 8 = -5{,}625\). El cociente es el entero que está <strong>a la izquierda</strong> en la recta: \(-6\), no \(-5\) (no se "corta" la coma). Después \(r = a - q \cdot b = -45 - (-6)(8) = -45 + 48 = 3\).</p>
+  </div>
+
+  <h3>Una consecuencia: contar múltiplos</h3>
+  <p>
+    El cociente de dividir \(n\) por \(b\) dice <strong>cuántos múltiplos positivos de \(b\) hay
+    entre 1 y \(n\)</strong>: son \(b, 2b, \ldots, qb\), y el siguiente, \((q+1)b\), ya se pasa
+    de \(n\). Ese cociente se escribe \(\left\lfloor \frac{n}{b} \right\rfloor\) ("parte entera" o
+    "piso" de \(n/b\): el número sin la parte decimal, para positivos). Se vuelve a usar en la
+    sección 14.
+  </p>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; Cociente y resto con positivos y con un negativo</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado (Actividad 2 de la cátedra)</span>
+    <p>Hallar el cociente y el resto de dividir \(a\) por \(b\): \(a = 170, b = 11\); \(a = 98, b = 7\); \(a = -45, b = 8\).</p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"dividir \(a\) por \(b\)"</td><td>escribir \(a = qb + r\)</td><td>&mdash;</td><td>con \(0 \leq r \lt b\)</td></tr>
+      <tr><td>"\(a = -45\)"</td><td>dividendo negativo</td><td>&mdash;</td><td>receta de arriba</td></tr>
+    </table>
+  </div>
+  <ul>
+    <li>\(170 \div 11 = 15{,}45\), así que \(q = 15\) y \(r = 170 - 15 \cdot 11 = 170 - 165 = 5\). Queda \(170 = 15 \cdot 11 + 5\).</li>
+    <li>\(98 \div 7 = 14\) exacto: \(98 = 14 \cdot 7 + 0\). La división es exacta, así que \(7 \mid 98\).</li>
+    <li>\(-45\): \(45 = 5 \cdot 8 + 5\) (\(q' = 5, r' = 5\)). Como \(r' \neq 0\): \(q = -5 - 1 = -6\) y \(r = 8 - 5 = 3\). Verifico: \((-6)\cdot 8 + 3 = -48 + 3 = -45\). ✔</li>
+  </ul>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>\(q = 15, r = 5\); \(q = 14, r = 0\); \(q = -6, r = 3\).</p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; Estilo parcial: dividir \(-789\) por 37 y contar múltiplos</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado (guía complementaria, divisibilidad 1 y 2)</span>
+    <p>
+      a) Hallar el cociente y el resto que resulta al dividir \(-789\) por 37.<br>
+      b) Determinar cuántos enteros positivos menores o iguales a 187 son divisibles por 17 y
+      cuántos no. ¿Y si se saca la palabra "positivos"?
+    </p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"dividir \(-789\) por 37"</td><td>dividendo negativo</td><td>\(789 = 21 \cdot 37 + 12\)</td><td>\(q' = 21, r' = 12\)</td></tr>
+      <tr><td>"positivos menores o iguales a 187"</td><td>los números \(1, 2, \ldots, 187\)</td><td>&mdash;</td><td>\(n = 187\)</td></tr>
+      <tr><td>"divisibles por 17"</td><td>múltiplos de 17</td><td>\(\lfloor 187/17 \rfloor\)</td><td>\(b = 17\)</td></tr>
+    </table>
+  </div>
+  <p><span class="paso">a)</span> \(789 \div 37 = 21{,}32\), así que \(789 = 21 \cdot 37 + 12\) (\(21 \cdot 37 = 777\)). Con la receta: \(q = -21 - 1 = -22\) y \(r = 37 - 12 = 25\).</p>
+  <p>Verifico: \((-22)\cdot 37 + 25 = -814 + 25 = -789\) ✔, y \(0 \leq 25 \lt 37\) ✔.</p>
+  <p><span class="paso">b)</span> \(187 \div 17 = 11\) exacto: los múltiplos son \(17, 34, \ldots, 187\), que son \(\lfloor 187/17 \rfloor = 11\). Los que no son divisibles: \(187 - 11 = 176\).</p>
+  <p>Sin la palabra "positivos", los enteros menores o iguales a 187 incluyen a todos los negativos y al 0: hay <strong>infinitos</strong> de cada tipo (\(0, -17, -34, \ldots\) son divisibles y \(-1, -2, \ldots\) no).</p>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>a) \(-789 = (-22)\cdot 37 + 25\): cociente \(-22\), resto \(25\). b) 11 divisibles y 176 no; sin "positivos", infinitos en los dos casos.</p>
+  </div>
+</div>

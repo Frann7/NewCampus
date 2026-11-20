@@ -1,0 +1,88 @@
+<div class="ej" data-examen="variante" data-examen-ref="Parcial 2 2026 · ej. 3a i" data-examen-nota="En el parcial: mcd(837, −341) y escribirlo como UNA combinación lineal de 837 y −341. Mismo método; el negativo se trata como en el ejercicio CM-8.">
+  <span class="tag" data-num-ej="CM-5.">Complementaria P2 &middot; MCD &middot; Ej. 5 &middot; Euclides extendido</span>
+  <h2>mcd(59677, 57353) como combinación lineal, y mcd(x, y)</h2>
+  <div class="enunciado">
+    <p>Sea \(d = mcd(a, b)\), donde a y b son enteros cualesquiera. Se sabe que existen enteros x, y tales que \(ax + by = d\)</p>
+    <p>a. Calcular d, x, y si \(a = 59677\) y \(b = 57353\)</p>
+    <p>b. Calcular, para los valores de x, y, que resultan, \(mcd(x, y)\)</p>
+  </div>
+
+  <span class="paso">Qué tema es y por qué</span>
+  <ul>
+    <li>Inciso a: <strong>algoritmo de Euclides</strong> para el mcd y <strong>Euclides extendido</strong> para los coeficientes \(x, y\) (en la teoría de esta unidad).</li>
+    <li>Inciso b: los coeficientes de una combinación que da el mcd siempre son coprimos; se calcula y además se explica por qué.</li>
+  </ul>
+
+  <div class="caja caja-formula">
+    <span class="caja-tit">Algoritmo de Euclides</span>
+    <p>Si \(r\) es el resto de dividir \(a\) por \(b\), entonces \(mcd(a, b) = mcd(b, r)\). Se repite (dividendo &larr; divisor, divisor &larr; resto) hasta resto 0: el mcd es el <strong>último resto no nulo</strong>.</p>
+  </div>
+
+  <span class="paso">Paso 1 &mdash; Inciso a: Euclides</span>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th>División</th><th>Cociente \(q\)</th><th>Resto \(r\)</th></tr>
+      <tr><td>\(59677 = 1 \cdot 57353 + 2324\)</td><td>\(1\)</td><td>\(2324\)</td></tr>
+      <tr><td>\(57353 = 24 \cdot 2324 + 1577\)</td><td>\(24\)</td><td>\(1577\)</td></tr>
+      <tr><td>\(2324 = 1 \cdot 1577 + 747\)</td><td>\(1\)</td><td>\(747\)</td></tr>
+      <tr><td>\(1577 = 2 \cdot 747 + 83\)</td><td>\(2\)</td><td>\(83\)</td></tr>
+      <tr><td>\(747 = 9 \cdot 83 + 0\)</td><td>\(9\)</td><td>\(0\)</td></tr>
+    </table>
+  </div>
+  <p>El último resto no nulo es 83: \(d = mcd(59677, 57353) = 83\).</p>
+
+  <span class="paso">Paso 2 &mdash; Inciso a: Euclides extendido</span>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Euclides extendido (la regla de la tabla)</span>
+    <ul>
+      <li>Cada fila dice: <strong>resto \(= a \cdot x + b \cdot y\)</strong>. Las dos primeras son obvias: \(a = a \cdot 1 + b \cdot 0\) y \(b = a \cdot 0 + b \cdot 1\).</li>
+      <li>Para cada fila nueva, \(q\) es el cociente de la división de Euclides que produjo ese resto.</li>
+      <li><strong>Fila nueva = (fila de dos arriba) \(-\ q \cdot\) (fila de arriba)</strong>, en las columnas \(x\) y \(y\). Es lo mismo que despejar el resto (\(r = \text{dividendo} - q \cdot \text{divisor}\)) y reemplazar hacia atrás, pero hecho en orden.</li>
+      <li>La fila del último resto no nulo (el mcd) da los coeficientes buscados.</li>
+    </ul>
+  </div>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Fila</th><th>Resto \(r\)</th><th>\(q\)</th><th>\(x\)</th><th>\(y\)</th><th>Se lee \(r = 59677\,x + 57353\,y\)</th></tr>
+      <tr><td>1</td><td>\(59677\)</td><td>&mdash;</td><td>\(1\)</td><td>\(0\)</td><td>\(59677 = 59677 \cdot 1 + 57353 \cdot 0\)</td></tr>
+      <tr><td>2</td><td>\(57353\)</td><td>&mdash;</td><td>\(0\)</td><td>\(1\)</td><td>\(57353 = 59677 \cdot 0 + 57353 \cdot 1\)</td></tr>
+      <tr><td>3</td><td>\(2324\)</td><td>\(1\)</td><td>\(1 - 1 \cdot 0 = 1\)</td><td>\(0 - 1 \cdot 1 = -1\)</td><td>\(2324 = 59677 \cdot 1 + 57353 \cdot (-1)\)</td></tr>
+      <tr><td>4</td><td>\(1577\)</td><td>\(24\)</td><td>\(0 - 24 \cdot 1 = -24\)</td><td>\(1 - 24 \cdot (-1) = 25\)</td><td>\(1577 = 59677 \cdot (-24) + 57353 \cdot 25\)</td></tr>
+      <tr><td>5</td><td>\(747\)</td><td>\(1\)</td><td>\(1 - 1 \cdot (-24) = 25\)</td><td>\(-1 - 1 \cdot 25 = -26\)</td><td>\(747 = 59677 \cdot 25 + 57353 \cdot (-26)\)</td></tr>
+      <tr><td>6</td><td>\(83\)</td><td>\(2\)</td><td>\(-24 - 2 \cdot 25 = -74\)</td><td>\(25 - 2 \cdot (-26) = 77\)</td><td>\(83 = 59677 \cdot (-74) + 57353 \cdot 77\)</td></tr>
+    </table>
+  </div>
+  \[83 = 59677 \cdot (-74) + 57353 \cdot 77 \quad\Rightarrow\quad x = -74,\ \ y = 77\]
+
+  <span class="paso">Paso 3 &mdash; Inciso b: \(mcd(x, y) = mcd(-74, 77)\)</span>
+  <p>El signo no cambia el mcd (\(mcd(a, b) = mcd(|a|, |b|)\)), así que se calcula \(mcd(77, 74)\) con Euclides:</p>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th>División</th><th>Cociente \(q\)</th><th>Resto \(r\)</th></tr>
+      <tr><td>\(77 = 1 \cdot 74 + 3\)</td><td>\(1\)</td><td>\(3\)</td></tr>
+      <tr><td>\(74 = 24 \cdot 3 + 2\)</td><td>\(24\)</td><td>\(2\)</td></tr>
+      <tr><td>\(3 = 1 \cdot 2 + 1\)</td><td>\(1\)</td><td>\(1\)</td></tr>
+      <tr><td>\(2 = 2 \cdot 1 + 0\)</td><td>\(2\)</td><td>\(0\)</td></tr>
+    </table>
+  </div>
+  <p>\(mcd(-74, 77) = 1\).</p>
+  <p>No es casualidad. Renglón por renglón:</p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Renglón</th><th>Por qué</th></tr>
+      <tr><td>\(ax + by = d\)</td><td>lo que se encontró en el inciso a</td></tr>
+      <tr><td>\(\frac{a}{d}\,x + \frac{b}{d}\,y = 1\)</td><td>se divide por \(d \neq 0\); \(\frac{a}{d}\) y \(\frac{b}{d}\) son enteros porque \(d \mid a\) y \(d \mid b\)</td></tr>
+      <tr><td>si \(e \mid x\) y \(e \mid y\), entonces \(e \mid 1\)</td><td>\(e\) divide a toda combinación lineal de \(x\) e \(y\)</td></tr>
+      <tr><td>\(mcd(x, y) = 1\)</td><td>el único divisor positivo de 1 es 1</td></tr>
+    </table>
+  </div>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>a. \(d = 83\), \(x = -74\), \(y = 77\): \(83 = 59677 \cdot (-74) + 57353 \cdot 77\).</p>
+    <p>b. \(mcd(-74, 77) = 1\).</p>
+  </div>
+
+  <span class="paso">Verificación</span>
+  <p>La guía no trae resultados; verificación propia: \(59677 \cdot (-74) = -4416098\), \(57353 \cdot 77 = 4416181\), y la suma da \(83\). Python confirma \(mcd = 83\) y \(mcd(74, 77) = 1\).</p>
+</div>

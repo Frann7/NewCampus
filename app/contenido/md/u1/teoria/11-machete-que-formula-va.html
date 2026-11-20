@@ -1,0 +1,76 @@
+<div class="bloque">
+  <p class="kicker">Resumen</p>
+  <h2>11. Machete: qué fórmula va</h2>
+
+  <h3>Las dos preguntas</h3>
+  <p>Una vez que sabés <strong>qué</strong> estás contando, casi todo se decide con dos preguntas:</p>
+  <ol>
+    <li><strong>¿Importa el orden?</strong> Si cambio el orden de lo elegido, ¿obtengo otra cosa? (Una cadena, una fila, cargos distintos: sí. Un grupo, un subconjunto, un pedido: no.)</li>
+    <li><strong>¿Se puede repetir?</strong> ¿Un mismo elemento puede elegirse más de una vez?</li>
+  </ol>
+
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>¿Orden?</th><th>¿Repetición?</th><th>Fórmula</th><th>Sección</th><th>Ejemplo corto</th></tr>
+      <tr><td>Sí</td><td>Sí</td><td>\(n^{r}\)</td><td>1</td><td>cadenas de longitud 3 sobre \(\{a, b, c, d, e\}\): \(5^{3} = 125\)</td></tr>
+      <tr><td>Sí</td><td>No, se usan todos</td><td>\(n!\)</td><td>3</td><td>ordenar 5 libros distintos: \(5! = 120\)</td></tr>
+      <tr><td>Sí</td><td>No, se eligen \(r\) de \(n\)</td><td>\(P(n, r) = \dfrac{n!}{(n-r)!}\)</td><td>4</td><td>presidente, vice y tesorero de 5 personas: \(5 \cdot 4 \cdot 3 = 60\)</td></tr>
+      <tr><td>Sí</td><td>Cantidad fija de cada tipo (elementos repetidos)</td><td>\(\dfrac{n!}{n_1!\,n_2!\cdots n_t!}\)</td><td>6</td><td>palabras con las letras de \(AAB\): \(\frac{3!}{2!\,1!} = 3\)</td></tr>
+      <tr><td>En ronda</td><td>No</td><td>\((n-1)!\)</td><td>4</td><td>6 personas en una mesa redonda: \(5! = 120\)</td></tr>
+      <tr><td>No</td><td>No</td><td>\(C(n, r) = \dfrac{n!}{r!\,(n-r)!}\)</td><td>5</td><td>grupo de 3 de 5 docentes: \(\binom{5}{3} = 10\)</td></tr>
+      <tr><td>No</td><td>Sí</td><td>\(\dbinom{t + k - 1}{k}\)</td><td>7</td><td>7 postres de 4 tipos: \(\binom{10}{7} = 120\)</td></tr>
+    </table>
+  </div>
+  <p>En la última fila \(t\) son los <strong>tipos</strong> (o cajas) y \(k\) cuántos se eligen (o se reparten); en las demás, \(n\) son los objetos disponibles y \(r\) los que se eligen.</p>
+
+  <h3>Frases del enunciado que delatan la fórmula</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>Qué se usa</th></tr>
+      <tr><td>"cadena", "palabra", "número de \(r\) cifras", "fila", "cargos distintos", "primero, segundo&hellip;"</td><td>importa el orden</td><td>\(n^{r}\), \(n!\), \(P(n, r)\)</td></tr>
+      <tr><td>"sin repetir", "distintos", "inyectiva"</td><td>sin repetición</td><td>\(P(n, r)\) o \(C(n, r)\)</td></tr>
+      <tr><td>"grupo", "comité", "subconjunto", "elegir \(r\) preguntas", "exactamente \(k\) unos"</td><td>no importa el orden</td><td>\(C(n, r)\)</td></tr>
+      <tr><td>"objetos iguales en cajas distintas", "pedidos", "soluciones enteras de \(x_1 + \dots + x_t = k\)"</td><td>sin orden, con repetición</td><td>\(\binom{t+k-1}{k}\)</td></tr>
+      <tr><td>"letras de MISSISSIPPI", "tres \(a\) y dos \(b\)"</td><td>ordenar con repetidos</td><td>\(\frac{n!}{n_1! \cdots n_t!}\)</td></tr>
+      <tr><td>"mesa redonda", "en ronda"</td><td>las rotaciones cuentan como iguales</td><td>\((n-1)!\)</td></tr>
+      <tr><td>"o", "longitud menor o igual", "exactamente uno"</td><td>casos que no se pisan</td><td>suma (sección 2), con \(\Sigma\) si son muchos (sección 8)</td></tr>
+      <tr><td>"al menos uno" en elecciones</td><td>muchos casos</td><td>complemento: total menos "ninguno" (sección 2)</td></tr>
+      <tr><td>"cada uno recibe al menos \(m\)" en repartos</td><td>reparto previo forzado</td><td>se restan \(m \cdot t\) a \(k\) (sección 7)</td></tr>
+      <tr><td>"a lo sumo \(m\)" en repartos</td><td>lo contrario de "al menos \(m + 1\)"</td><td>complemento (sección 7)</td></tr>
+      <tr><td>"juntos", "al lado"</td><td>se pegan en un bloque</td><td>bloque como un objeto, por las formas de ordenar adentro (secciones 3 y 4)</td></tr>
+      <tr><td>"no adyacentes"</td><td>separados</td><td>se ordenan los demás y se eligen huecos (sección 6)</td></tr>
+    </table>
+  </div>
+
+  <h3>Desarrollos y coeficientes</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Qué se pide</th><th>Fórmula</th><th>Sección</th><th>Ejemplo corto</th></tr>
+      <tr><td>término con \(b^{i}\) en \((a + b)^{n}\)</td><td>\(\binom{n}{i}\,a^{n-i}\,b^{i}\)</td><td>9</td><td>\(x^{5}y^{2}\) en \((x - 3y)^{7}\): \(\binom{7}{2}(-3)^{2} = 189\)</td></tr>
+      <tr><td>coeficiente de \(x_1^{n_1}\cdots x_t^{n_t}\) en \((x_1 + \dots + x_t)^{n}\)</td><td>\(\frac{n!}{n_1!\cdots n_t!}\)</td><td>10</td><td>\(x^{2}y^{2}z^{3}\) en \((x+y+z)^{7}\): \(210\)</td></tr>
+      <tr><td>cantidad de términos de \((x_1 + \dots + x_t)^{n}\)</td><td>\(\binom{t + n - 1}{n}\)</td><td>7 y 10</td><td>\((x + y + z)^{4}\): \(\binom{6}{4} = 15\)</td></tr>
+      <tr><td>\(\sum_{i=0}^{n} \binom{n}{i}\)</td><td>\(2^{n}\)</td><td>9</td><td>\(1 + 3 + 3 + 1 = 8\)</td></tr>
+    </table>
+  </div>
+
+  <h3>Para contar dentro de U2 y U3</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Qué se cuenta</th><th>Fórmula</th><th>Ejemplo corto</th></tr>
+      <tr><td>cadenas de longitud \(n\) sobre \(\Sigma\)</td><td>\(|\Sigma|^{n}\)</td><td>\(\Sigma = \{0, 1\}\), longitud 8: \(2^{8} = 256\)</td></tr>
+      <tr><td>cadenas de longitud \(n\) con exactamente \(k\) unos</td><td>\(\binom{n}{k}\)</td><td>longitud 8, tres unos: \(\binom{8}{3} = 56\)</td></tr>
+      <tr><td>funciones \(f : A \to B\)</td><td>\(|B|^{|A|}\)</td><td>\(f : B^{3} \to B\): \(2^{8} = 256\)</td></tr>
+      <tr><td>funciones booleanas \(B^{n} \to B\) con exactamente \(k\) unos</td><td>\(\binom{2^{n}}{k}\)</td><td>\(n = 3\), \(k = 3\): \(\binom{8}{3} = 56\)</td></tr>
+      <tr><td>funciones inyectivas \(f : A \to B\)</td><td>\(P(|B|, |A|)\)</td><td>\(\{1,2,3\} \to \{a, \dots, e\}\): 60</td></tr>
+      <tr><td>completar casillas vacías de una tabla de MEF</td><td>producto de las opciones de cada casilla; casos ("un solo sumidero") sumados</td><td>Parcial 1 2026, ej. 4b: 56 máquinas (sección 2, Ejemplo 6)</td></tr>
+    </table>
+  </div>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Antes de entregar</span>
+    <ul>
+      <li>Si podés, probá con números chicos listando a mano (como los 10 grupos de docentes): si la fórmula no da lo mismo, elegiste mal.</li>
+      <li>Revisá si contaste dos veces lo mismo (eso pasa si se usa orden donde no importa) o si te olvidaste de un caso (el 0 en "par", la cadena vacía en \(\Sigma^{*}\)).</li>
+    </ul>
+  </div>
+</div>

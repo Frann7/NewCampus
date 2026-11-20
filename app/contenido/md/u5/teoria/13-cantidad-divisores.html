@@ -1,0 +1,135 @@
+<div class="bloque" data-examen="igual" data-examen-ref="Parcial 2 2026 · ej. 5" data-examen-nota="El ej. 5 pidió a y b para que n = 3^a · 11^b cumpla que n² tenga el triple de divisores positivos que n: está en el Ejemplo 3.">
+  <p class="kicker">Factorización</p>
+  <h2>13. Cantidad de divisores positivos</h2>
+
+  <h3>Para qué sirve</h3>
+  <p>
+    Contar los divisores de un número sin listarlos: con la factorización, sale con una
+    multiplicación. En el parcial se usó al revés: se conocía una condición sobre la cantidad de
+    divisores y había que encontrar los exponentes.
+  </p>
+
+  <h3>La fórmula</h3>
+  <p>Sea \(n = p_1^{e_1} p_2^{e_2} \cdots p_k^{e_k}\) la factorización de \(n\) (sección 12).</p>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Cantidad de divisores positivos</span>
+    <p>\[ \#D^{+}(n) = (e_1 + 1)(e_2 + 1)\cdots(e_k + 1) \]</p>
+  </div>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Símbolo</th><th>Qué significa</th></tr>
+      <tr><td>\(\#\)</td><td>"Cantidad de elementos de"</td></tr>
+      <tr><td>\(D^{+}(n)\)</td><td>El conjunto de divisores positivos de \(n\) (sección 6)</td></tr>
+      <tr><td>\(e_i\)</td><td>El exponente del primo \(p_i\) en la factorización</td></tr>
+      <tr><td>\(e_i + 1\)</td><td>Cuántos exponentes puede llevar \(p_i\) en un divisor: \(0, 1, \ldots, e_i\)</td></tr>
+    </table>
+  </div>
+
+  <h4>De dónde sale</h4>
+  <ul>
+    <li>Un divisor \(m\) de \(n\) solo puede tener los primos de \(n\) (si tuviera otro, ese primo dividiría a \(n\), por transitividad, y estaría en su factorización).</li>
+    <li>Y cada primo con exponente <strong>a lo sumo</strong> el de \(n\): \(m = p_1^{f_1} \cdots p_k^{f_k}\) con \(0 \leq f_i \leq e_i\).</li>
+    <li>Armar un divisor es elegir \(f_1\) (hay \(e_1 + 1\) opciones), después \(f_2\) (\(e_2 + 1\) opciones), y así. Cada elección distinta da un número distinto (por la unicidad del TFA).</li>
+    <li>Por la <strong>regla del producto</strong> (Unidad 1: si una decisión tiene \(r\) opciones y otra \(s\), juntas tienen \(r \cdot s\)) hay \((e_1 + 1)(e_2 + 1)\cdots(e_k + 1)\) divisores.</li>
+  </ul>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">El "+1" es el exponente 0</span>
+    <p>
+      Es el error típico: \(2^{3}\) tiene <strong>4</strong> divisores (\(1, 2, 4, 8\)), no 3. El 1
+      corresponde a elegir exponente 0. Y la fórmula cuenta divisores <strong>positivos</strong>;
+      los enteros (con negativos) son el doble.
+    </p>
+  </div>
+
+  <h4>El cuadrado de un número</h4>
+  <p>
+    Si \(n = p_1^{e_1} \cdots p_k^{e_k}\), entonces \(n^{2} = p_1^{2e_1} \cdots p_k^{2e_k}\)
+    (elevar al cuadrado duplica cada exponente). Por lo tanto
+  </p>
+  <p>\[ \#D^{+}(n^{2}) = (2e_1 + 1)(2e_2 + 1)\cdots(2e_k + 1) \]</p>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; Los divisores de 819896 y de 15435</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado (Ejemplo 6 de la cátedra y guía complementaria, TFA 3)</span>
+    <p>¿Cuántos divisores positivos tienen \(819896 = 2^{3} \cdot 7 \cdot 11^{4}\) y 15435?</p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"\(2^{3} \cdot 7 \cdot 11^{4}\)"</td><td>exponentes 3, 1 y 4</td><td>&mdash;</td><td>\(e_1 = 3,\ e_2 = 1,\ e_3 = 4\)</td></tr>
+      <tr><td>"15435"</td><td>hay que factorizar primero</td><td>\(15435 = 3^{2} \cdot 5 \cdot 7^{3}\)</td><td>exponentes 2, 1 y 3</td></tr>
+    </table>
+  </div>
+  <p><span class="paso">819896</span> Un divisor es \(2^{f_1} \cdot 7^{f_2} \cdot 11^{f_3}\) con \(f_1\) de 0 a 3, \(f_2\) de 0 a 1 y \(f_3\) de 0 a 4:</p>
+  <p>\[ \#D^{+}(819896) = (3 + 1)(1 + 1)(4 + 1) = 4 \cdot 2 \cdot 5 = 40 \]</p>
+  <p><span class="paso">15435</span> Factorizo: \(15435 \div 3 = 5145\), \(\div 3 = 1715\), \(\div 5 = 343 = 7^{3}\). Entonces \(15435 = 3^{2} \cdot 5 \cdot 7^{3}\) y</p>
+  <p>\[ \#D^{+}(15435) = (2 + 1)(1 + 1)(3 + 1) = 3 \cdot 2 \cdot 4 = 24 \]</p>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>819896 tiene 40 divisores positivos y 15435 tiene 24.</p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; Divisores del mcd y del mcm</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado (guía complementaria, TFA 4)</span>
+    <p>Si \(a = 2 \cdot 3^{3} \cdot 7^{2} \cdot 13^{2}\) y \(b = 3^{2} \cdot 5 \cdot 7 \cdot 11\), calcular cuántos divisores positivos tienen \(c = mcd(a, b)\) y \(d = mcm(a, b)\).</p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"\(mcd(a, b)\)"</td><td>primos comunes, menor exponente (sección 12)</td><td>&mdash;</td><td>\(c = 3^{2} \cdot 7\)</td></tr>
+      <tr><td>"\(mcm(a, b)\)"</td><td>todos los primos, mayor exponente</td><td>&mdash;</td><td>\(d = 2 \cdot 3^{3} \cdot 5 \cdot 7^{2} \cdot 11 \cdot 13^{2}\)</td></tr>
+    </table>
+  </div>
+  <p>\[ \#D^{+}(c) = (2 + 1)(1 + 1) = 6 \qquad \#D^{+}(d) = (1+1)(3+1)(1+1)(2+1)(1+1)(2+1) = 288 \]</p>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>\(c = 63\) tiene 6 divisores positivos y \(d = 24594570\) tiene 288.</p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 3 &mdash; Estilo parcial: \(n^{2}\) con el triple de divisores que \(n\)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado (Parcial 2 2026, ej. 5)</span>
+    <p>Hallar los valores de \(a\) y \(b\) enteros no negativos, con \(0 \leq a \leq 4\), para el número \(n = 3^{a} \cdot 11^{b}\), de tal manera que \(n^{2}\) tenga el triple de divisores positivos que \(n\).</p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"\(n = 3^{a} \cdot 11^{b}\)"</td><td>ya está factorizado</td><td>&mdash;</td><td>\(\#D^{+}(n) = (a+1)(b+1)\)</td></tr>
+      <tr><td>"\(n^{2}\)"</td><td>exponentes duplicados</td><td>\(n^{2} = 3^{2a} \cdot 11^{2b}\)</td><td>\(\#D^{+}(n^{2}) = (2a+1)(2b+1)\)</td></tr>
+      <tr><td>"el triple de divisores"</td><td>la condición</td><td>&mdash;</td><td>\((2a+1)(2b+1) = 3(a+1)(b+1)\)</td></tr>
+      <tr><td>"\(0 \leq a \leq 4\)", "no negativos"</td><td>\(a\) toma 5 valores; \(b \geq 0\) entero</td><td>&mdash;</td><td>probar \(a = 0, \ldots, 4\)</td></tr>
+    </table>
+  </div>
+  <p><span class="paso">Paso 1 &mdash; La ecuación</span></p>
+  <p>\[ (2a + 1)(2b + 1) = 3\,(a + 1)(b + 1) \]</p>
+  <p><span class="paso">Paso 2 &mdash; Probar cada \(a\)</span> Como \(a\) tiene solo 5 valores posibles, reemplazo y despejo \(b\):</p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>\(a\)</th><th>Ecuación</th><th>Despejando</th><th>¿Sirve?</th></tr>
+      <tr><td>0</td><td>\(1 \cdot (2b + 1) = 3 \cdot 1 \cdot (b + 1)\)</td><td>\(2b + 1 = 3b + 3 \Rightarrow b = -2\)</td><td>No: negativo</td></tr>
+      <tr><td>1</td><td>\(3(2b + 1) = 3 \cdot 2 \cdot (b + 1)\)</td><td>\(6b + 3 = 6b + 6 \Rightarrow 3 = 6\)</td><td>No: imposible</td></tr>
+      <tr><td>2</td><td>\(5(2b + 1) = 3 \cdot 3 \cdot (b + 1)\)</td><td>\(10b + 5 = 9b + 9 \Rightarrow b = 4\)</td><td><strong>Sí</strong></td></tr>
+      <tr><td>3</td><td>\(7(2b + 1) = 3 \cdot 4 \cdot (b + 1)\)</td><td>\(14b + 7 = 12b + 12 \Rightarrow b = 2{,}5\)</td><td>No: no es entero</td></tr>
+      <tr><td>4</td><td>\(9(2b + 1) = 3 \cdot 5 \cdot (b + 1)\)</td><td>\(18b + 9 = 15b + 15 \Rightarrow b = 2\)</td><td><strong>Sí</strong></td></tr>
+    </table>
+  </div>
+  <p><span class="paso">Paso 3 &mdash; Verificar</span></p>
+  <ul>
+    <li>\(a = 2,\ b = 4\): \(n = 3^{2} \cdot 11^{4} = 131769\). \(\#D^{+}(n) = 3 \cdot 5 = 15\) y \(\#D^{+}(n^{2}) = 5 \cdot 9 = 45 = 3 \cdot 15\). ✔</li>
+    <li>\(a = 4,\ b = 2\): \(n = 3^{4} \cdot 11^{2} = 9801\). \(\#D^{+}(n) = 5 \cdot 3 = 15\) y \(\#D^{+}(n^{2}) = 9 \cdot 5 = 45 = 3 \cdot 15\). ✔</li>
+  </ul>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>Hay dos soluciones: \(a = 2,\ b = 4\) (\(n = 3^{2} \cdot 11^{4} = 131769\)) y \(a = 4,\ b = 2\) (\(n = 3^{4} \cdot 11^{2} = 9801\)). En los dos casos \(n\) tiene 15 divisores positivos y \(n^{2}\) tiene 45.</p>
+  </div>
+</div>

@@ -1,0 +1,138 @@
+<div class="bloque" data-examen="variante" data-examen-ref="Parcial 2 2026 · ej. 4" data-examen-nota="En el ej. 4 b) la potencia de 2 venía escrita en binario, (10000000000)_2: hay que saber leerla para decidir el V/F (sección 14).">
+  <p class="kicker">Bases</p>
+  <h2>5. Sistemas de numeración: base 2, 8 y 16</h2>
+
+  <h3>Para qué sirve</h3>
+  <p>
+    La computadora guarda los números en <strong>binario</strong> (base 2), y para escribirlos más
+    cortos se usan el <strong>octal</strong> (base 8) y el <strong>hexadecimal</strong> (base 16).
+    Pasar de una base a otra es una aplicación directa del algoritmo de la división (sección 4).
+  </p>
+
+  <h3>Qué quiere decir "escribir en base \(b\)"</h3>
+  <p>
+    En base 10, \(5361\) quiere decir \(5 \cdot 10^{3} + 3 \cdot 10^{2} + 6 \cdot 10 + 1\): cada
+    cifra va multiplicada por una potencia de 10, que crece de derecha a izquierda. En cualquier
+    otra base \(b \geq 2\) es lo mismo cambiando el 10 por \(b\):
+  </p>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Representación en base \(b\)</span>
+    <p>\[ (c_k c_{k-1} \ldots c_1 c_0)_b = c_k \cdot b^{k} + c_{k-1} \cdot b^{k-1} + \cdots + c_1 \cdot b + c_0 \]</p>
+    <p>con cada cifra \(c_i\) entre \(0\) y \(b - 1\).</p>
+  </div>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Símbolo</th><th>Qué significa</th></tr>
+      <tr><td>\((\ldots)_b\)</td><td>El subíndice dice en qué base está escrito el número. Sin subíndice, es base 10.</td></tr>
+      <tr><td>\(c_0\)</td><td>La cifra de la derecha, la de las unidades (va por \(b^{0} = 1\))</td></tr>
+      <tr><td>\(c_k\)</td><td>La cifra de más a la izquierda (va por \(b^{k}\))</td></tr>
+    </table>
+  </div>
+  <ul>
+    <li><strong>Base 2:</strong> cifras 0 y 1 (los "bits").</li>
+    <li><strong>Base 8:</strong> cifras 0 a 7.</li>
+    <li><strong>Base 16:</strong> cifras 0 a 9 y después letras: \(A = 10,\ B = 11,\ C = 12,\ D = 13,\ E = 14,\ F = 15\).</li>
+  </ul>
+
+  <h4>Las potencias de 2 en binario</h4>
+  <p>
+    En base 10, \(10^{k}\) es un 1 seguido de \(k\) ceros. Igual en base 2: <strong>\(2^{k}\) se
+    escribe como un 1 seguido de \(k\) ceros</strong>. Por ejemplo, \(2^{3} = 8 = (1000)_2\) y
+    \(2^{10} = 1024 = (10000000000)_2\) (un 1 y diez ceros). Es justo lo que hay que leer en el
+    ej. 4 b) del parcial.
+  </p>
+
+  <h3>De base \(b\) a base 10</h3>
+  <p>Se aplica la fórmula: cada cifra por su potencia, y se suma.</p>
+
+  <h3>De base 10 a base \(b\): divisiones sucesivas</h3>
+  <ol>
+    <li>Dividir \(n\) por \(b\) (algoritmo de la división): \(n = q_1 b + r_0\). El resto \(r_0\) es la última cifra.</li>
+    <li>Dividir el cociente \(q_1\) por \(b\): el resto \(r_1\) es la anteúltima cifra.</li>
+    <li>Repetir hasta que el cociente dé 0.</li>
+    <li>El número es \((r_k \ldots r_1 r_0)_b\): <strong>los restos leídos de abajo hacia arriba</strong>.</li>
+  </ol>
+  <p>
+    Por qué funciona: \(n = q_1 b + r_0\), y \(q_1\) a su vez es \(q_2 b + r_1\), así que
+    \(n = (q_2 b + r_1)b + r_0 = q_2 b^{2} + r_1 b + r_0\). Siguiendo, aparece la fórmula de
+    arriba con los restos como cifras (y son cifras válidas porque \(0 \leq r \lt b\)).
+  </p>
+
+  <h3>Entre base 2, 8 y 16: agrupar bits</h3>
+  <p>Como \(8 = 2^{3}\) y \(16 = 2^{4}\), no hace falta pasar por base 10:</p>
+  <ul>
+    <li><strong>Binario ↔ octal:</strong> cada cifra octal son exactamente 3 bits. Se agrupa de a 3 <strong>desde la derecha</strong>.</li>
+    <li><strong>Binario ↔ hexadecimal:</strong> cada cifra hexa son exactamente 4 bits. Se agrupa de a 4 desde la derecha.</li>
+    <li>Si al grupo de la izquierda le faltan bits, se completa con ceros adelante.</li>
+  </ul>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Hexa</th><th>Bits</th><th>Hexa</th><th>Bits</th><th>Hexa</th><th>Bits</th><th>Hexa</th><th>Bits</th></tr>
+      <tr><td>0</td><td>0000</td><td>4</td><td>0100</td><td>8</td><td>1000</td><td>C</td><td>1100</td></tr>
+      <tr><td>1</td><td>0001</td><td>5</td><td>0101</td><td>9</td><td>1001</td><td>D</td><td>1101</td></tr>
+      <tr><td>2</td><td>0010</td><td>6</td><td>0110</td><td>A</td><td>1010</td><td>E</td><td>1110</td></tr>
+      <tr><td>3</td><td>0011</td><td>7</td><td>0111</td><td>B</td><td>1011</td><td>F</td><td>1111</td></tr>
+    </table>
+  </div>
+  <p>Para octal se usan las 8 primeras filas con 3 bits (0 = 000, …, 7 = 111).</p>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; 45 en binario y de vuelta</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>Escribir 45 en base 2 y verificar volviendo a base 10.</p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"45 en base 2"</td><td>divisiones sucesivas por 2</td><td>&mdash;</td><td>\(n = 45,\ b = 2\)</td></tr>
+    </table>
+  </div>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th>División</th><th>Cociente</th><th>Resto</th></tr>
+      <tr><td>\(45 = 22 \cdot 2 + 1\)</td><td>22</td><td>1</td></tr>
+      <tr><td>\(22 = 11 \cdot 2 + 0\)</td><td>11</td><td>0</td></tr>
+      <tr><td>\(11 = 5 \cdot 2 + 1\)</td><td>5</td><td>1</td></tr>
+      <tr><td>\(5 = 2 \cdot 2 + 1\)</td><td>2</td><td>1</td></tr>
+      <tr><td>\(2 = 1 \cdot 2 + 0\)</td><td>1</td><td>0</td></tr>
+      <tr><td>\(1 = 0 \cdot 2 + 1\)</td><td>0</td><td>1</td></tr>
+    </table>
+  </div>
+  <p>Restos de abajo hacia arriba: \(1\,0\,1\,1\,0\,1\). Verifico: \(1 \cdot 32 + 0 \cdot 16 + 1 \cdot 8 + 1 \cdot 4 + 0 \cdot 2 + 1 = 45\). ✔</p>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>\(45 = (101101)_2\).</p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; Estilo parcial: \((AF1)_{16}\) en base 10, 2, 4 y 8</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado (guía complementaria, divisibilidad 5)</span>
+    <p>Escriba el número hexadecimal AF1 en base 10 y luego expréselo en base 2, 4 y 8.</p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"hexadecimal AF1"</td><td>cifras \(A = 10,\ F = 15,\ 1\)</td><td>&mdash;</td><td>\((AF1)_{16}\)</td></tr>
+      <tr><td>"en base 2"</td><td>4 bits por cifra hexa</td><td>&mdash;</td><td>tabla de arriba</td></tr>
+      <tr><td>"en base 4 y 8"</td><td>\(4 = 2^{2},\ 8 = 2^{3}\)</td><td>&mdash;</td><td>grupos de 2 y de 3 bits</td></tr>
+    </table>
+  </div>
+  <p><span class="paso">Base 10</span> \(\;(AF1)_{16} = 10 \cdot 16^{2} + 15 \cdot 16 + 1 = 2560 + 240 + 1 = 2801\).</p>
+  <p><span class="paso">Base 2</span> \(A = 1010,\ F = 1111,\ 1 = 0001\), así que \((AF1)_{16} = (1010\,1111\,0001)_2\).</p>
+  <p><span class="paso">Base 8</span> Agrupo de a 3 desde la derecha: \(101\;011\;110\;001\) = \(5\;3\;6\;1\). Queda \((5361)_8\). Verifico: \(5 \cdot 512 + 3 \cdot 64 + 6 \cdot 8 + 1 = 2801\). ✔</p>
+  <p><span class="paso">Base 4</span> Agrupo de a 2: \(10\;10\;11\;11\;00\;01\) = \(2\;2\;3\;3\;0\;1\). Queda \((223301)_4\).</p>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>\((AF1)_{16} = 2801 = (101011110001)_2 = (223301)_4 = (5361)_8\).</p>
+  </div>
+  <p>
+    Con el mismo método sale la complementaria 6: \(51966 = (CAFE)_{16}\), \(64202 = (FACA)_{16}\)
+    (las dos son palabras) y \(60318 = (EB9E)_{16}\) (no lo es).
+  </p>
+</div>

@@ -1,0 +1,74 @@
+<div class="bloque">
+  <p class="kicker">Para repasar</p>
+  <h2>15. Machete de la unidad</h2>
+
+  <h3>Las operaciones en \(B = \{0, 1\}\)</h3>
+  <ul>
+    <li>\(x + y = 1\) si al menos uno es 1. \(1 + 1 = 1\).</li>
+    <li>\(xy = 1\) solo si los dos son 1.</li>
+    <li>\(\overline{0} = 1\), \(\overline{1} = 0\). Una barra larga se hace al final de lo que tapa.</li>
+    <li>Suma \(= 0\) &rArr; todos 0. Producto \(= 1\) &rArr; todos 1.</li>
+  </ul>
+
+  <h3>Las leyes</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Ley</th><th>Forma</th><th>Su dual</th></tr>
+      <tr><td class="lbl">L1 Doble complemento</td><td>\(\overline{\overline{x}} = x\)</td><td>&mdash;</td></tr>
+      <tr><td class="lbl">L2 De Morgan</td><td>\(\overline{x + y} = \overline{x}\,\overline{y}\)</td><td>\(\overline{xy} = \overline{x} + \overline{y}\)</td></tr>
+      <tr><td class="lbl">L3 Conmutativa</td><td>\(x + y = y + x\)</td><td>\(xy = yx\)</td></tr>
+      <tr><td class="lbl">L4 Asociativa</td><td>\(x + (y + z) = (x + y) + z\)</td><td>\(x(yz) = (xy)z\)</td></tr>
+      <tr><td class="lbl">L5 Distributiva</td><td>\(x + yz = (x + y)(x + z)\)</td><td>\(x(y + z) = xy + xz\)</td></tr>
+      <tr><td class="lbl">L6 Idempotencia</td><td>\(x + x = x\)</td><td>\(xx = x\)</td></tr>
+      <tr><td class="lbl">L7 Identidad</td><td>\(x + 0 = x\)</td><td>\(x \cdot 1 = x\)</td></tr>
+      <tr><td class="lbl">L8 Inversos</td><td>\(x + \overline{x} = 1\)</td><td>\(x\overline{x} = 0\)</td></tr>
+      <tr><td class="lbl">L9 Dominación</td><td>\(x + 1 = 1\)</td><td>\(x \cdot 0 = 0\)</td></tr>
+      <tr><td class="lbl">L10 Absorción</td><td>\(x + xy = x\)</td><td>\(x(x + y) = x\)</td></tr>
+      <tr><td class="lbl">Útil (sale de L5, L8, L7)</td><td>\(x + \overline{x}y = x + y\)</td><td>\(x(\overline{x} + y) = xy\)</td></tr>
+    </table>
+  </div>
+  <p>Dual: \(+ \leftrightarrow \cdot\) y \(0 \leftrightarrow 1\), sin tocar las barras (y con paréntesis).</p>
+
+  <h3>Simplificar</h3>
+  <p>De Morgan para sacar barras largas &rarr; distribuir &rarr; borrar \(x\overline{x}\) y los 0 &rarr; absorber &rarr; \(x + \overline{x}y = x + y\) &rarr; repetidos fuera. Verificar con la tabla.</p>
+
+  <h3>Mintérminos y maxtérminos</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th></th><th>Mintérmino \(m_k\) (f.n.d.)</th><th>Maxtérmino \(M_k\) (f.n.c.)</th></tr>
+      <tr><td class="lbl">Qué es</td><td>producto con todas las variables</td><td>suma con todas las variables</td></tr>
+      <tr><td class="lbl">Vale</td><td>1 solo en la fila \(k\)</td><td>0 solo en la fila \(k\)</td></tr>
+      <tr><td class="lbl">Se arma con</td><td>las filas donde \(f = 1\)</td><td>las filas donde \(f = 0\)</td></tr>
+      <tr><td class="lbl">Bit 0</td><td>con barra</td><td>sin barra</td></tr>
+      <tr><td class="lbl">Bit 1</td><td>sin barra</td><td>con barra</td></tr>
+      <tr><td class="lbl">Fila 010</td><td>\(\overline{x}y\overline{z}\)</td><td>\(x + \overline{y} + z\)</td></tr>
+      <tr><td class="lbl">La función</td><td>\(f = \sum m(\ldots)\), suma</td><td>\(f = \prod M(\ldots)\), producto</td></tr>
+    </table>
+  </div>
+  <p>Número de la fila: la tira en binario, pesos \(\ldots 8, 4, 2, 1\) de derecha a izquierda; la primera variable es la de la izquierda.</p>
+
+  <h3>De una expresión a las formas normales (sin tabla)</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Paso</th><th>Hacia la f.n.d.</th><th>Hacia la f.n.c.</th></tr>
+      <tr><td>1</td><td>Llevarla a suma de productos (\(x(y + z) = xy + xz\))</td><td>Llevarla a producto de sumas (\(x + yz = (x + y)(x + z)\))</td></tr>
+      <tr><td>2</td><td>Al término que le falta \(z\): \(\cdot (z + \overline{z})\)</td><td>Al factor que le falta \(z\): \(+ z\overline{z}\)</td></tr>
+      <tr><td>3</td><td>Distribuir y borrar repetidos</td><td>Distribuir y borrar repetidos</td></tr>
+    </table>
+  </div>
+
+  <h3>Los dos trucos sin tabla</h3>
+  <ul>
+    <li><strong>De una forma a la otra:</strong> \(\sum m(L) = \prod M(\text{las filas que no están en } L)\). Con \(f^{-1}(1)\) se tienen los mintérminos; los maxtérminos son las filas que faltan.</li>
+    <li><strong>Evaluar en un punto:</strong> pasar el punto a número \(k\). Con \(\prod M\): \(k\) en la lista &rarr; 0, si no &rarr; 1. Con \(\sum m\): al revés. Justificación: cada \(M_k\) es 0 solo en su fila y el producto es 0 si algún factor lo es.</li>
+  </ul>
+
+  <h3>Ecuaciones</h3>
+  <p>Primero las que fijan valores (suma \(= 0\), producto \(= 1\), \(\overline{E} = 0 \Rightarrow E = 1\)); reemplazar; las que quedan con varias opciones, por casos; listar <strong>todas</strong> las soluciones y verificarlas.</p>
+
+  <h3>Conteo</h3>
+  <ul>
+    <li>Filas de la tabla: \(2^{n}\). Funciones: \(2^{2^{n}}\). Conjunciones fundamentales (o mintérminos): \(2^{n}\).</li>
+    <li>Con filas fijas: \(2^{\text{filas libres}}\). Exactamente \(k\) unos: \(\binom{2^{n}}{k}\). Filas atadas a valer lo mismo: \(2^{\text{grupos}}\).</li>
+  </ul>
+</div>

@@ -1,0 +1,301 @@
+<div class="bloque">
+  <p class="kicker">Combinaciones</p>
+  <h2>5. Combinaciones de \(n\) en \(r\)</h2>
+
+  <h3>Para qué sirve</h3>
+  <p>
+    Para cuando de \(n\) objetos distintos <strong>se eligen \(r\)</strong> y <strong>el orden no
+    importa</strong>: un grupo de personas, un subconjunto, las preguntas que se contestan de un
+    examen, las posiciones donde una cadena binaria tiene sus unos.
+  </p>
+  <p>
+    La pregunta que separa esta sección de la anterior es una sola: <em>si elijo los mismos
+    objetos en otro orden, ¿obtengo otra cosa?</em> Si la respuesta es sí (cargos, cadenas) es una
+    permutación (sección 4); si es no (un grupo), es una combinación.
+  </p>
+
+  <h3>Definición</h3>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Combinación de \(n\) en \(r\)</span>
+    <p>Dado un conjunto \(X = \{x_1, x_2, \dots, x_n\}\) de \(n\) elementos distintos:</p>
+    <ul>
+      <li>Una <strong>combinación \(r\)</strong> de \(X\) es una selección <strong>no ordenada</strong> de \(r\) elementos de \(X\) (es decir, un subconjunto de \(X\) con \(r\) elementos).</li>
+      <li>La cantidad de combinaciones \(r\) de un conjunto de \(n\) elementos se escribe \(C(n, r)\), \(\binom{n}{r}\) o \(C_{n,r}\) (las tres notaciones son lo mismo).</li>
+    </ul>
+  </div>
+
+  <div class="caja caja-formula">
+    <span class="caja-tit">Teorema</span>
+    <p>\[ C(n, r) = \binom{n}{r} = \frac{P(n, r)}{r!} = \frac{n!}{r!\,(n-r)!}, \qquad r \leq n \]</p>
+  </div>
+
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Símbolo</th><th>Qué significa</th></tr>
+      <tr><td>\(n\)</td><td>cuántos objetos distintos hay para elegir</td></tr>
+      <tr><td>\(r\)</td><td>cuántos se eligen (el tamaño del grupo)</td></tr>
+      <tr><td>\(\binom{n}{r}\)</td><td>se lee "\(n\) en \(r\)" o "combinatorio \(n\), \(r\)"; es un número entero, no una fracción (no lleva raya en el medio)</td></tr>
+      <tr><td>\(r!\)</td><td>las formas de ordenar los \(r\) elegidos (sección 3), que acá se descartan</td></tr>
+      <tr><td>\((n - r)!\)</td><td>viene de \(P(n, r) = n!/(n-r)!\) (sección 4)</td></tr>
+    </table>
+  </div>
+
+  <h3>De dónde sale</h3>
+  <p>Ejemplo de la cátedra: de los docentes Marta, Belén, Rocío, Analía y Nahuel se elige un grupo de tres para una clase de consulta. Elegir a Marta, Analía y Nahuel es lo mismo que elegir a Analía, Nahuel y Marta. Listando los grupos (con las iniciales):</p>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><td>MBR</td><td>MBA</td><td>MRA</td><td>BRA</td><td>MBN</td></tr>
+      <tr><td>MRN</td><td>BRN</td><td>MAN</td><td>BAN</td><td>RAN</td></tr>
+    </table>
+  </div>
+  <p>Son 10, así que \(C(5, 3) = 10\). La fórmula sale de comparar con las permutaciones:</p>
+  <ul>
+    <li><strong>Paso 1:</strong> una permutación de 3 en 5 (una fila ordenada de 3 docentes) se puede armar en dos pasos: primero elegir <strong>quiénes</strong> son (una combinación, \(C(5, 3)\) formas) y después <strong>ordenarlos</strong> (\(3! = 6\) formas, sección 3).</li>
+    <li><strong>Paso 2:</strong> por la regla del producto (sección 1): \(P(5, 3) = C(5, 3) \cdot 3!\). En general:</li>
+  </ul>
+  <p>\[ P(n, r) = C(n, r) \cdot r! \]</p>
+  <ul>
+    <li><strong>Paso 3:</strong> se despeja \(C(n, r)\) y se reemplaza \(P(n, r) = \dfrac{n!}{(n-r)!}\):</li>
+  </ul>
+  <p>\[ C(n, r) = \frac{P(n, r)}{r!} = \frac{n!}{(n-r)!} \cdot \frac{1}{r!} = \frac{n!}{r!\,(n-r)!} \]</p>
+  <p>Con los docentes: \(P(5, 3) = 5 \cdot 4 \cdot 3 = 60\) filas ordenadas; cada grupo aparece \(3! = 6\) veces, así que hay \(60 \div 6 = 10\) grupos.</p>
+  <p>\[ C(5, 3) = \frac{5!}{3!\,2!} = \frac{120}{6 \cdot 2} = 10 \]</p>
+
+  <div class="caja caja-calc">
+    <span class="caja-tit">En la calculadora</span>
+    <p>
+      \(C(n, r)\) es la tecla <strong>nCr</strong> (en las Casio fx-82/fx-570, <strong>SHIFT</strong> + <strong>&divide;</strong>).
+      \(C(15, 6)\): tipeás <strong>15</strong>, <strong>SHIFT &divide;</strong>, <strong>6</strong>, <strong>=</strong> &rarr; 5005.
+    </p>
+  </div>
+
+  <h3>Propiedades (cátedra, Ejemplo 5)</h3>
+  <p>La cátedra pide verificarlas y demostrarlas. Cada una se demuestra reemplazando en la fórmula \(\binom{n}{r} = \frac{n!}{r!\,(n-r)!}\):</p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Propiedad</th><th>Demostración</th><th>Qué significa contando</th><th>Verificación</th></tr>
+      <tr><td>\(\binom{n}{0} = 1\)</td><td>\(\dfrac{n!}{0!\,n!} = \dfrac{n!}{1 \cdot n!} = 1\) (usa \(0! = 1\))</td><td>hay una sola forma de no elegir nada</td><td>\(\binom{5}{0} = 1\)</td></tr>
+      <tr><td>\(\binom{n}{n} = 1\)</td><td>\(\dfrac{n!}{n!\,0!} = 1\)</td><td>hay una sola forma de elegir todos</td><td>\(\binom{5}{5} = 1\)</td></tr>
+      <tr><td>\(\binom{n}{1} = n\)</td><td>\(\dfrac{n!}{1!\,(n-1)!} = \dfrac{n \cdot (n-1)!}{(n-1)!} = n\) (propiedad de la sección 3)</td><td>elegir uno es elegir cuál de los \(n\)</td><td>\(\binom{5}{1} = 5\)</td></tr>
+      <tr><td>\(\binom{n}{p} = \binom{n}{n-p}\)</td><td>\(\dbinom{n}{n-p} = \dfrac{n!}{(n-p)!\,(n-(n-p))!} = \dfrac{n!}{(n-p)!\,p!} = \dbinom{n}{p}\)</td><td>elegir los \(p\) que entran es lo mismo que elegir los \(n - p\) que quedan afuera</td><td>\(\binom{5}{3} = \binom{5}{2} = 10\)</td></tr>
+    </table>
+  </div>
+  <p>En la última, el paso clave es que \(n - (n - p) = p\) y que el producto del denominador se puede escribir en cualquier orden.</p>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; El sistema Braille (cátedra)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>
+      En el sistema Braille, un símbolo se escribe resaltando <strong>al menos uno</strong> de los
+      puntos de una disposición de seis puntos (dos columnas de tres).
+      1) ¿Cuántos símbolos diferentes se pueden representar? 2) ¿Cuántos tienen exactamente tres
+      puntos en relieve? 3) ¿Cuántos tienen un número par de puntos en relieve? 4) ¿Cuántos tienen
+      al menos cuatro puntos en relieve?
+    </p>
+  </div>
+  <h4>Por qué esta fórmula</h4>
+  <ul>
+    <li>Los 6 puntos están en lugares fijos y distintos. Un símbolo queda determinado por <strong>cuáles</strong> puntos se resaltan: no hay orden de "resaltar primero este" &rarr; un subconjunto &rarr; combinaciones.</li>
+    <li>Inciso 1: cada punto está resaltado o no (2 opciones, 6 pasos &rarr; regla del producto), menos el caso "ninguno" (complemento, sección 2).</li>
+    <li>Incisos 3 y 4: "par" y "al menos cuatro" se separan en casos según cuántos puntos hay &rarr; regla de la suma.</li>
+  </ul>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase del enunciado</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"disposición de seis puntos"</td><td>objetos para elegir</td><td>&mdash;</td><td>\(n = 6\)</td></tr>
+      <tr><td>"al menos uno"</td><td>no vale el símbolo vacío</td><td>&mdash;</td><td>\(r \geq 1\)</td></tr>
+      <tr><td>"exactamente tres"</td><td>se eligen 3 puntos</td><td>&mdash;</td><td>\(r = 3\)</td></tr>
+      <tr><td>"número par"</td><td>2, 4 o 6 puntos (el 0 no vale)</td><td>&mdash;</td><td>\(r = 2, 4, 6\)</td></tr>
+      <tr><td>"al menos cuatro"</td><td>4, 5 o 6 puntos</td><td>&mdash;</td><td>\(r = 4, 5, 6\)</td></tr>
+    </table>
+  </div>
+  <h4>Inciso 1</h4>
+  <p>\[ 2^{6} - 1 = 64 - 1 = 63 \]</p>
+  <h4>Inciso 2</h4>
+  <p>\[ C(n, r) = \frac{n!}{r!\,(n-r)!} \qquad C(6, 3) = \frac{6!}{3!\,3!} = \frac{720}{36} = 20 \]</p>
+  <h4>Inciso 3</h4>
+  <p>\[ C(n, r) = \frac{n!}{r!\,(n-r)!} \]</p>
+  <p>\[ C(6, 2) + C(6, 4) + C(6, 6) = 15 + 15 + 1 = 31 \]</p>
+  <h4>Inciso 4</h4>
+  <p>\[ C(6, 4) + C(6, 5) + C(6, 6) = 15 + 6 + 1 = 22 \]</p>
+  <div class="caja caja-resp"><span class="caja-tit">Respuesta</span><p>1) 63 símbolos. 2) 20. 3) 31. 4) 22.</p></div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">El cero también es par</span>
+    <p>Cero puntos es un número par, pero acá no cuenta porque el enunciado exige "al menos uno". En el ejemplo de los bytes que sigue, en cambio, el cero sí entra.</p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; Bytes (cátedra)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>¿Cuántos bytes contienen 1) exactamente tres ceros? 2) un número par de unos? 3) al menos seis unos?</p>
+  </div>
+  <h4>Por qué esta fórmula</h4>
+  <ul>
+    <li>Un byte es una cadena de 8 bits. Si se sabe <strong>en qué posiciones</strong> están los ceros, el byte queda armado (en las demás van unos).</li>
+    <li>Elegir 3 posiciones de 8 no tiene orden (elegir "la 2, la 5 y la 7" es lo mismo que "la 7, la 2 y la 5") &rarr; \(C(8, 3)\).</li>
+  </ul>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase del enunciado</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"bytes"</td><td>8 posiciones</td><td>&mdash;</td><td>\(n = 8\)</td></tr>
+      <tr><td>"exactamente tres ceros"</td><td>se eligen las posiciones de los ceros</td><td>&mdash;</td><td>\(r = 3\)</td></tr>
+      <tr><td>"número par de unos"</td><td>0, 2, 4, 6 u 8 unos</td><td>&mdash;</td><td>casos que se suman</td></tr>
+      <tr><td>"al menos seis unos"</td><td>6, 7 u 8 unos</td><td>&mdash;</td><td>casos que se suman</td></tr>
+    </table>
+  </div>
+  <h4>Inciso 1</h4>
+  <p>\[ C(8, 3) = \frac{8!}{3!\,5!} = \frac{8 \cdot 7 \cdot 6}{3 \cdot 2 \cdot 1} = 56 \]</p>
+  <h4>Inciso 2</h4>
+  <p>\[ C(8, 0) + C(8, 2) + C(8, 4) + C(8, 6) + C(8, 8) = 1 + 28 + 70 + 28 + 1 = 128 \]</p>
+  <p>Exactamente la mitad de los \(2^{8} = 256\) bytes.</p>
+  <h4>Inciso 3</h4>
+  <p>\[ C(8, 6) + C(8, 7) + C(8, 8) = 28 + 8 + 1 = 37 \]</p>
+  <div class="caja caja-resp"><span class="caja-tit">Respuesta</span><p>1) 56 bytes. 2) 128. 3) 37.</p></div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 3 &mdash; Responder un examen (cátedra)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>¿De cuántas formas un estudiante puede responder 1) seis de quince preguntas? 2) tres de las primeras cinco y cuatro de las últimas diez?</p>
+  </div>
+  <h4>Por qué esta fórmula</h4>
+  <ul>
+    <li>Importa <strong>cuáles</strong> preguntas contesta, no en qué orden &rarr; combinaciones.</li>
+    <li>Inciso 2: dos pasos sucesivos (elegir en el primer bloque, después en el segundo) &rarr; regla del producto.</li>
+  </ul>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase del enunciado</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"seis de quince"</td><td>grupo de 6 entre 15</td><td>&mdash;</td><td>\(C(15, 6)\)</td></tr>
+      <tr><td>"tres de las primeras cinco"</td><td>paso 1</td><td>&mdash;</td><td>\(C(5, 3)\)</td></tr>
+      <tr><td>"cuatro de las últimas diez"</td><td>paso 2</td><td>\(15 - 5 = 10\)</td><td>\(C(10, 4)\)</td></tr>
+    </table>
+  </div>
+  <p>\[ C(n, r) = \frac{n!}{r!\,(n-r)!} \]</p>
+  <p>\[ 1)\ C(15, 6) = \frac{15!}{6!\,9!} = 5\,005 \qquad 2)\ C(5, 3) \cdot C(10, 4) = 10 \cdot 210 = 2\,100 \]</p>
+  <div class="caja caja-resp"><span class="caja-tit">Respuesta</span><p>1) 5 005 formas. 2) 2 100 formas.</p></div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 4 &mdash; Arquitectos y diseñadores (cátedra)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>
+      Una empresa decide contratar a 12 personas, de entre 10 arquitectos y 8 diseñadores gráficos
+      postulantes, para entrenar una IA. ¿De cuántas maneras se puede realizar la selección si
+      1) no hay restricciones? 2) debe haber un número par de arquitectos? 3) debe haber más
+      diseñadores que arquitectos? 4) debe haber al menos siete arquitectos?
+    </p>
+  </div>
+  <h4>Por qué estas fórmulas</h4>
+  <ul>
+    <li>Se contrata un grupo, sin cargos &rarr; combinaciones.</li>
+    <li>Con restricciones, se separa por <strong>cuántos arquitectos</strong> hay (\(a\)); los diseñadores son el resto, \(12 - a\). Cada caso es "elegir los arquitectos y después los diseñadores" &rarr; producto. Los casos no se pisan &rarr; suma.</li>
+  </ul>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase del enunciado</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"10 arquitectos y 8 diseñadores"</td><td>18 postulantes</td><td>\(10 + 8\)</td><td>\(n = 18\)</td></tr>
+      <tr><td>"contratar a 12"</td><td>tamaño del grupo</td><td>&mdash;</td><td>\(r = 12\)</td></tr>
+      <tr><td>(deducción) solo hay 8 diseñadores</td><td>\(12 - a \leq 8\)</td><td>\(a \geq 4\)</td><td>\(a\) va de 4 a 10</td></tr>
+    </table>
+  </div>
+  <p>La deducción de la última fila es la trampa del ejercicio: con 3 arquitectos harían falta 9 diseñadores, y hay 8. Tabla de todos los casos posibles (cada uno, \(C(10, a) \cdot C(8, 12 - a)\)):</p>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th>Arquitectos \(a\)</th><th>Diseñadores \(12 - a\)</th><th>\(C(10, a) \cdot C(8, 12-a)\)</th></tr>
+      <tr><td>4</td><td>8</td><td>\(210 \cdot 1 = 210\)</td></tr>
+      <tr><td>5</td><td>7</td><td>\(252 \cdot 8 = 2\,016\)</td></tr>
+      <tr><td>6</td><td>6</td><td>\(210 \cdot 28 = 5\,880\)</td></tr>
+      <tr><td>7</td><td>5</td><td>\(120 \cdot 56 = 6\,720\)</td></tr>
+      <tr><td>8</td><td>4</td><td>\(45 \cdot 70 = 3\,150\)</td></tr>
+      <tr><td>9</td><td>3</td><td>\(10 \cdot 56 = 560\)</td></tr>
+      <tr><td>10</td><td>2</td><td>\(1 \cdot 28 = 28\)</td></tr>
+    </table>
+  </div>
+  <h4>Inciso 1 &mdash; sin restricciones</h4>
+  <p>\[ C(18, 12) = \frac{18!}{12!\,6!} = 18\,564 \]</p>
+  <p>(Sumando toda la tabla da lo mismo: es la misma cuenta separada en casos.)</p>
+  <h4>Inciso 2 &mdash; cantidad par de arquitectos</h4>
+  <p>\(a = 4, 6, 8, 10\):</p>
+  <p>\[ 210 + 5\,880 + 3\,150 + 28 = 9\,268 \]</p>
+  <h4>Inciso 3 &mdash; más diseñadores que arquitectos</h4>
+  <p>\(12 - a > a\) equivale a \(a \lt 6\), o sea \(a = 4, 5\):</p>
+  <p>\[ 210 + 2\,016 = 2\,226 \]</p>
+  <h4>Inciso 4 &mdash; al menos siete arquitectos</h4>
+  <p>\(a = 7, 8, 9, 10\):</p>
+  <p>\[ 6\,720 + 3\,150 + 560 + 28 = 10\,458 \]</p>
+  <div class="caja caja-resp"><span class="caja-tit">Respuesta</span><p>1) 18 564. 2) 9 268. 3) 2 226. 4) 10 458 (verificado listando los 18 564 grupos).</p></div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 5 &mdash; Ecuaciones con \(P\) y \(C\) (cátedra)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>Resolver: 1) \(P(n, 2) - P(n-1, 2) = 100\). 2) \(6\,C(n, 2) = P(n+1, 2) + 720\).</p>
+  </div>
+  <h4>Por qué este camino</h4>
+  <ul>
+    <li>Con \(r = 2\) las fórmulas son polinomios cortos: \(P(m, 2) = m(m-1)\) (dos factores, sección 4) y \(C(m, 2) = \dfrac{m(m-1)}{2}\). Se reemplaza y queda una ecuación en \(n\).</li>
+    <li>\(n\) cuenta objetos: la solución tiene que ser un <strong>entero</strong> con \(n \geq 2\) (para que \(C(n, 2)\) tenga sentido). Las que no cumplan se descartan.</li>
+  </ul>
+  <h4>Ecuación 1</h4>
+  <p>\[ n(n-1) - (n-1)(n-2) = 100 \]</p>
+  <p>Se saca factor común \((n - 1)\):</p>
+  <p>\[ (n-1)\,[\,n - (n-2)\,] = 100 \iff (n-1) \cdot 2 = 100 \iff n - 1 = 50 \iff n = 51 \]</p>
+  <p>Verificación: \(P(51, 2) - P(50, 2) = 2\,550 - 2\,450 = 100\).</p>
+  <h4>Ecuación 2</h4>
+  <p>\[ 6 \cdot \frac{n(n-1)}{2} = (n+1)\,n + 720 \]</p>
+  <p>\[ 3n^{2} - 3n = n^{2} + n + 720 \iff 2n^{2} - 4n - 720 = 0 \iff n^{2} - 2n - 360 = 0 \]</p>
+  <p>Con la resolvente:</p>
+  <p>\[ n = \frac{2 \pm \sqrt{4 + 1\,440}}{2} = \frac{2 \pm 38}{2} \quad\Rightarrow\quad n = 20 \ \text{ o } \ n = -18 \]</p>
+  <p>\(n = -18\) se descarta (no hay \(-18\) objetos). Verificación: \(6 \cdot C(20, 2) = 6 \cdot 190 = 1\,140\) y \(P(21, 2) + 720 = 420 + 720 = 1\,140\).</p>
+  <div class="caja caja-resp"><span class="caja-tit">Respuesta</span><p>1) \(n = 51\). 2) \(n = 20\).</p></div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 6 &mdash; Estilo parcial: funciones booleanas y cadenas con \(k\) unos</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>
+      a) ¿Cuántas funciones booleanas \(f : B^{3} \to B\) valen 1 en exactamente tres filas de su tabla?
+      b) ¿Y cuántas valen 1 en a lo sumo dos filas?
+      c) Sea \(\Sigma = \{0, 1\}\). ¿Cuántas cadenas de \(\Sigma^{10}\) tienen exactamente cuatro unos?
+    </p>
+  </div>
+  <h4>Por qué esta fórmula</h4>
+  <ul>
+    <li>La tabla de \(f : B^{3} \to B\) tiene \(2^{3} = 8\) filas (sección 1). La función queda determinada por <strong>en qué filas</strong> vale 1: elegir un subconjunto de filas &rarr; combinaciones.</li>
+    <li>Las cadenas de \(\Sigma^{10}\) (longitud 10) quedan determinadas por las posiciones de sus unos: es la misma idea que los bytes.</li>
+  </ul>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase del enunciado</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"\(f : B^{3} \to B\)"</td><td>filas de la tabla</td><td>\(2^{3}\)</td><td>\(n = 8\)</td></tr>
+      <tr><td>"exactamente tres filas"</td><td>se eligen las filas con 1</td><td>&mdash;</td><td>\(r = 3\)</td></tr>
+      <tr><td>"a lo sumo dos"</td><td>0, 1 o 2 filas</td><td>&mdash;</td><td>casos que se suman</td></tr>
+      <tr><td>"\(\Sigma^{10}\)", "cuatro unos"</td><td>10 posiciones, se eligen 4</td><td>&mdash;</td><td>\(C(10, 4)\)</td></tr>
+    </table>
+  </div>
+  <h4>Inciso a</h4>
+  <p>\[ C(n, r) = \frac{n!}{r!\,(n-r)!} \qquad C(8, 3) = \frac{8 \cdot 7 \cdot 6}{3!} = 56 \]</p>
+  <h4>Inciso b</h4>
+  <p>\[ C(8, 0) + C(8, 1) + C(8, 2) = 1 + 8 + 28 = 37 \]</p>
+  <h4>Inciso c</h4>
+  <p>\[ C(10, 4) = \frac{10!}{4!\,6!} = \frac{10 \cdot 9 \cdot 8 \cdot 7}{4 \cdot 3 \cdot 2 \cdot 1} = 210 \]</p>
+  <div class="caja caja-resp"><span class="caja-tit">Respuesta</span><p>a) 56 funciones. b) 37. c) 210 cadenas.</p></div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">No confundir con \(2^{n}\)</span>
+    <p>Sin condición, las funciones \(f : B^{3} \to B\) son \(2^{8} = 256\) (cada fila, 0 o 1: regla del producto). El combinatorio aparece recién cuando se fija <strong>cuántos</strong> unos hay.</p>
+  </div>
+</div>

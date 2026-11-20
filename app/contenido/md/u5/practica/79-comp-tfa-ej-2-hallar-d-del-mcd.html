@@ -1,0 +1,51 @@
+<div class="ej">
+  <span class="tag" data-num-ej="CT-2.">Complementaria P2 &middot; TFA &middot; Ej. 2 &middot; mcd con factorizaciones</span>
+  <h2>El valor de d para que el mcd sea 2835</h2>
+  <div class="enunciado">
+    <p>Calcular el valor de d, para el cual el \(mcd(3^7 \cdot 5^4 \cdot 7 \cdot 11^6;\ 3^4 \cdot d \cdot 11^3 \cdot 13^2) = 2835\)</p>
+  </div>
+
+  <span class="paso">Qué tema es y por qué</span>
+  <ul>
+    <li>El mcd con números factorizados (el <strong>teorema fundamental de la aritmética</strong>, en la teoría de esta unidad): se mira primo por primo.</li>
+  </ul>
+
+  <div class="caja caja-formula">
+    <span class="caja-tit">mcd con factorizaciones</span>
+    <p>En el mcd va cada primo con el <strong>menor</strong> de sus dos exponentes (si un número no tiene ese primo, su exponente es 0 y el primo no está en el mcd).</p>
+  </div>
+
+  <span class="paso">Paso 1 &mdash; Factorizar 2835</span>
+  <p>\(2835 = 5 \cdot 567 = 5 \cdot 7 \cdot 81 = 3^4 \cdot 5 \cdot 7\).</p>
+
+  <span class="paso">Paso 2 &mdash; Primo por primo</span>
+  <p>Sea \(e_p\) el exponente del primo \(p\) en \(d\).</p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Primo</th><th>Primer número</th><th>Segundo número</th><th>Tiene que dar en el mcd</th><th>Qué pide de \(d\)</th></tr>
+      <tr><td>3</td><td>7</td><td>\(4 + e_3\)</td><td>4</td><td>\(\min(7, 4 + e_3) = 4 \Rightarrow e_3 = 0\)</td></tr>
+      <tr><td>5</td><td>4</td><td>\(e_5\)</td><td>1</td><td>\(\min(4, e_5) = 1 \Rightarrow e_5 = 1\)</td></tr>
+      <tr><td>7</td><td>1</td><td>\(e_7\)</td><td>1</td><td>\(\min(1, e_7) = 1 \Rightarrow e_7 \geq 1\)</td></tr>
+      <tr><td>11</td><td>6</td><td>\(3 + e_{11}\)</td><td>0</td><td>\(\min(6, 3 + e_{11}) \geq 3\): <strong>imposible</strong></td></tr>
+    </table>
+  </div>
+  <p>El 11 aparece en los dos números (\(11^6\) y \(11^3\)), así que el mcd tiene al menos \(11^3\), sea cual sea \(d\). Pero 2835 no es múltiplo de 11.</p>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">El enunciado, tal como está, no tiene solución</span>
+    <p>Para cualquier \(d\), \(11^3 = 1331\) divide al mcd, y \(11 \nmid 2835\). Seguramente se quiso pedir \(mcd = 2835 \cdot 11^3\) (o el 11 no tenía que estar). Con \(mcd = 3^4 \cdot 5 \cdot 7 \cdot 11^3\):</p>
+    <ul>
+      <li>3: \(e_3 = 0\); 5: \(e_5 = 1\); 7: \(e_7 \geq 1\); 11: \(\min(6, 3 + e_{11}) = 3 \Rightarrow e_{11} = 0\).</li>
+      <li>Los demás primos (2, 13, ...) no están en el primer número: pueden estar en \(d\) sin cambiar el mcd.</li>
+      <li>El menor \(d\) es \(5 \cdot 7 = 35\); en general, \(d = 35 \cdot t\) con \(t\) no divisible por 3, 5 ni 11.</li>
+    </ul>
+  </div>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>No existe ningún \(d\): el mcd siempre es múltiplo de \(11^3\) y 2835 no lo es. Si el mcd pedido fuera \(2835 \cdot 11^3\), el menor valor es \(d = 35\).</p>
+  </div>
+
+  <span class="paso">Verificación</span>
+  <p>La guía no trae resultados; verificación propia con Python: para \(d\) de 1 a 20000 ningún mcd da 2835 (todos son múltiplos de 1331); y con \(mcd = 2835 \cdot 11^3\) los primeros \(d\) que sirven son 35, 70, 140, 245, 280.</p>
+</div>

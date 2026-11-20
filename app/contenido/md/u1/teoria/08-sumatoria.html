@@ -1,0 +1,109 @@
+<div class="bloque">
+  <p class="kicker">Herramientas</p>
+  <h2>8. Sumatoria (notación sigma)</h2>
+
+  <h3>Para qué sirve</h3>
+  <p>
+    Para escribir en corto una suma larga cuyos términos siguen un patrón, como
+    \(1 + 3 + 5 + 7 + \dots + 533 + 535\). En combinatoria aparece cada vez que se separa en casos
+    (sección 2) y los casos son muchos: "longitud hasta 12", "al menos 4 puntos", y en la fórmula
+    del teorema binomial (sección 9).
+  </p>
+
+  <h3>Definición</h3>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Sumatoria</span>
+    <p>La operación sumatoria se escribe con la letra griega sigma mayúscula \(\Sigma\):</p>
+    <p>\[ \sum_{i=a}^{n} x_i = x_a + x_{a+1} + x_{a+2} + \dots + x_n \]</p>
+  </div>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Símbolo</th><th>Qué significa</th></tr>
+      <tr><td>\(i\)</td><td>la variable (el índice); puede ser otra letra (\(k\), \(j\)). Recorre <strong>todos los enteros</strong> desde \(a\) hasta \(n\)</td></tr>
+      <tr><td>\(a\) (abajo)</td><td>límite inferior: el primer valor de \(i\)</td></tr>
+      <tr><td>\(n\) (arriba)</td><td>límite superior: el último valor de \(i\)</td></tr>
+      <tr><td>\(x_i\)</td><td>una función de \(i\) que define cada término de la suma sin ambigüedad</td></tr>
+    </table>
+  </div>
+  <p>Cómo se lee: "la suma de \(x_i\) para \(i\) desde \(a\) hasta \(n\)". Para desarmarla, se reemplaza \(i\) por \(a\), por \(a + 1\), &hellip;, por \(n\), y se suman los resultados.</p>
+  <p>Ejemplo chiquito: \(\displaystyle\sum_{i=1}^{4} i^{2} = 1^{2} + 2^{2} + 3^{2} + 4^{2} = 1 + 4 + 9 + 16 = 30\).</p>
+
+  <h3>Cómo se encuentra la fórmula del término</h3>
+  <ol>
+    <li>Mirar qué tienen en común los términos (todos impares, todos potencias de 2, signos que alternan&hellip;).</li>
+    <li>Escribir un término cualquiera en función de \(i\) (para impares: \(2i - 1\)).</li>
+    <li>Buscar para qué valor de \(i\) sale el primer término y para cuál el último: esos son los límites.</li>
+    <li>Controlar reemplazando los dos extremos.</li>
+  </ol>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; La suma de los impares (cátedra)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>Escribir con notación sigma \(1 + 3 + 5 + 7 + \dots + 533 + 535\).</p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase del enunciado</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"\(1 + 3 + 5 + \dots\)"</td><td>todos impares</td><td>&mdash;</td><td>\(x_i = 2i - 1\)</td></tr>
+      <tr><td>primer término 1</td><td>\(2i - 1 = 1\)</td><td>\(i = 1\)</td><td>límite inferior 1</td></tr>
+      <tr><td>último término 535</td><td>\(2i - 1 = 535\)</td><td>\(i = 536 \div 2 = 268\)</td><td>límite superior 268</td></tr>
+    </table>
+  </div>
+  <p>\[ 1 + 3 + 5 + \dots + 535 = \sum_{i=1}^{268} (2i - 1) \]</p>
+  <p>La cátedra muestra que no hay una sola forma: con \(x_k = 2k + 1\) el primer término sale con \(k = 0\) y el último con \(k = 267\):</p>
+  <p>\[ 1 + 3 + 5 + \dots + 535 = \sum_{k=0}^{267} (2k + 1) \]</p>
+  <p>Control: en la primera, \(i = 1 \to 1\) e \(i = 268 \to 535\); en la segunda, \(k = 0 \to 1\) y \(k = 267 \to 535\). Las dos tienen 268 términos.</p>
+  <div class="caja caja-resp"><span class="caja-tit">Respuesta</span><p>\(\displaystyle\sum_{i=1}^{268} (2i - 1)\) (o \(\displaystyle\sum_{k=0}^{267} (2k + 1)\)). La suma vale 71 824.</p></div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; Otras sumas de la cátedra</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Suma</th><th>Patrón</th><th>Con sigma</th></tr>
+      <tr><td>\(8 + 9 + 10 + \dots + 999\)</td><td>los enteros, de 8 a 999</td><td>\(\displaystyle\sum_{k=8}^{999} k\)</td></tr>
+      <tr><td>\(\binom{7}{0} + \binom{7}{1} + \binom{7}{2} + \binom{7}{3} + \binom{7}{4}\)</td><td>combinatorios de 7, abajo de 0 a 4</td><td>\(\displaystyle\sum_{i=0}^{4} \binom{7}{i}\)</td></tr>
+      <tr><td>\(1 - 2 + 4 - 8 + 16 - \dots - 512 + 1024\)</td><td>potencias de 2 con signo alternado: \((-2)^{i}\); \(1024 = 2^{10}\)</td><td>\(\displaystyle\sum_{i=0}^{10} (-2)^{i}\)</td></tr>
+      <tr><td>\(\frac{1}{3} + \frac{1}{4} + \frac{1}{5} + \dots + \frac{1}{n}\)</td><td>inversos, de 3 a \(n\)</td><td>\(\displaystyle\sum_{i=3}^{n} \frac{1}{i}\)</td></tr>
+    </table>
+  </div>
+  <ul>
+    <li><strong>El signo alternado:</strong> \((-2)^{i}\) es positivo si \(i\) es par y negativo si es impar. Control: \(i = 0 \to 1\), \(i = 1 \to -2\), \(i = 10 \to 1024\).</li>
+    <li><strong>El tercero, desarmado:</strong> \(\sum_{i=0}^{4} \binom{7}{i} = 1 + 7 + 21 + 35 + 35 = 99\). Contando: son los subconjuntos de un conjunto de 7 elementos que tienen a lo sumo 4 elementos.</li>
+  </ul>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 3 &mdash; Estilo parcial: cadenas de longitud acotada</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>Sea \(\Sigma = \{0, 1\}\). a) Escribir con sigma la cantidad de cadenas de \(\Sigma^{*}\) de longitud menor o igual a 12 y calcularla. b) Escribir con sigma la cantidad de cadenas de longitud menor o igual a 6 que terminan en \(11\).</p>
+  </div>
+  <h4>Por qué sigma</h4>
+  <ul>
+    <li>Cada longitud es un caso (sección 2) y dentro de cada uno se multiplica (sección 1): de longitud \(k\) hay \(2^{k}\) cadenas. Hay 13 casos (longitudes 0 a 12, la vacía \(\lambda\) incluida): conviene escribirlo con sigma.</li>
+  </ul>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase del enunciado</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"\(\Sigma^{*}\)"</td><td>incluye la cadena vacía (longitud 0)</td><td>&mdash;</td><td>límite inferior 0</td></tr>
+      <tr><td>"menor o igual a 12"</td><td>la última longitud</td><td>&mdash;</td><td>límite superior 12</td></tr>
+      <tr><td>"de longitud \(k\)"</td><td>\(k\) posiciones, 2 opciones cada una</td><td>&mdash;</td><td>\(x_k = 2^{k}\)</td></tr>
+      <tr><td>"terminan en \(11\)"</td><td>2 posiciones fijas: \(k - 2\) libres, \(k \geq 2\)</td><td>&mdash;</td><td>\(x_k = 2^{k-2}\), desde \(k = 2\)</td></tr>
+    </table>
+  </div>
+  <h4>Inciso a</h4>
+  <p>\[ \sum_{k=0}^{12} 2^{k} = 1 + 2 + 4 + \dots + 4\,096 = 8\,191 \]</p>
+  <h4>Inciso b</h4>
+  <p>Es el Ejemplo 5 de la sección 2, ahora escrito con sigma:</p>
+  <p>\[ \sum_{k=2}^{6} 2^{k-2} = 2^{0} + 2^{1} + 2^{2} + 2^{3} + 2^{4} = 31 \]</p>
+  <div class="caja caja-resp"><span class="caja-tit">Respuesta</span><p>a) \(\sum_{k=0}^{12} 2^{k} = 8\,191\) cadenas. b) \(\sum_{k=2}^{6} 2^{k-2} = 31\).</p></div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Contar los términos</span>
+    <p>De \(i = a\) a \(i = n\) hay \(n - a + 1\) términos, no \(n - a\). De 0 a 12 son 13; de 8 a 999 son 992.</p>
+  </div>
+</div>

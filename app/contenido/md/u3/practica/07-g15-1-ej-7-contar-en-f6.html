@@ -1,0 +1,81 @@
+<div class="ej">
+  <span class="tag" data-num-ej="15.1-7.">Grimaldi 15.1 &middot; Ej. 7 &middot; Contar funciones con condiciones</span>
+  <h2>Cuántas funciones de seis variables cumplen cada condición</h2>
+  <div class="enunciado">
+    <p>Sea \(F_6\) el conjunto de todas las funciones booleanas \(f : B^6 \to B\).</p>
+    <p>a) ¿Cuánto vale \(|F_6|\)?</p>
+    <p>b) ¿Cuántas conjunciones (disyunciones) fundamentales existen en \(F_6\)?</p>
+    <p>c) ¿Cuántos mintérminos (maxtérminos) tiene \(F_6\)?</p>
+    <p>d) ¿Cuántas funciones \(f \in F_6\) toman el valor 1 cuando (exactamente) dos de sus variables toman el valor 1? (En los demás casos, el valor de \(f\) puede ser 0 o 1.)</p>
+    <p>e) ¿Cuántas funciones \(f \in F_6\) toman el valor 1 cuando al menos dos de sus variables toman el valor 1? (En los demás casos, el valor de \(f\) puede ser 0 o 1.)</p>
+    <p>f) Sean \(u, v, w, x, y\) y \(z\) las seis variables booleanas para las funciones en \(F_6\). ¿Cuántas de estas funciones son independientes de \(x\) [es decir, \(f(u, v, w, x, y, z) = f(u, v, w, \overline{x}, y, z)\)]? ¿Cuántas son independientes de las tres variables booleanas \(x, y, z\)?</p>
+  </div>
+
+  <span class="paso">Qué tema es y por qué</span>
+  <ul>
+    <li>Contar funciones booleanas es contar <strong>maneras de llenar la columna \(f\)</strong> de la tabla.</li>
+    <li>La tabla de \(B^6\) tiene \(2^6 = 64\) filas.</li>
+    <li>El método para todos los incisos:
+      <ol>
+        <li>Ver cuántas filas tienen el valor <strong>obligado</strong> por la condición.</li>
+        <li>Las demás filas son <strong>libres</strong>: 2 opciones cada una (0 o 1).</li>
+        <li>Regla del producto: \(2^{\text{filas libres}}\) funciones.</li>
+      </ol>
+    </li>
+  </ul>
+
+  <span class="paso">Inciso a) — \(|F_6|\)</span>
+  <p>Regla: \(|F_n| = 2^{(2^n)}\) (las \(2^n\) filas son todas libres).</p>
+  \[|F_6| = 2^{(2^6)} = 2^{64}\]
+
+  <span class="paso">Inciso b) — Conjunciones (disyunciones) fundamentales</span>
+  <p>
+    Una conjunción fundamental de 6 variables elige, para cada variable, si va con barra o sin barra:
+    2 opciones por variable. Regla del producto:
+  </p>
+  \[2 \cdot 2 \cdot 2 \cdot 2 \cdot 2 \cdot 2 = 2^6 = 64\]
+  <p>Con las disyunciones fundamentales pasa lo mismo: también \(2^6 = 64\).</p>
+
+  <span class="paso">Inciso c) — Mintérminos (maxtérminos)</span>
+  <p>
+    Hay un mintérmino por cada fila de la tabla (el que vale 1 solo en esa fila), y un maxtérmino por
+    cada fila (el que vale 0 solo en ella). Son \(2^6 = 64\) de cada uno: son las mismas expresiones
+    del inciso b), miradas como funciones.
+  </p>
+
+  <span class="paso">Inciso d) — Valor 1 cuando exactamente dos variables valen 1</span>
+  <ol>
+    <li>Filas obligadas: las que tienen exactamente dos unos entre seis posiciones. Se elige qué 2 posiciones llevan el 1: \(\binom{6}{2} = \dfrac{6 \cdot 5}{2} = 15\) filas, donde \(f = 1\) sí o sí.</li>
+    <li>Filas libres: \(64 - 15 = 49\).</li>
+    <li>Regla del producto: \(2^{49}\).</li>
+  </ol>
+
+  <span class="paso">Inciso e) — Valor 1 cuando al menos dos variables valen 1</span>
+  <ol>
+    <li>Filas obligadas: las que tienen 2 o más unos. Es más corto contar las que <strong>no</strong>: 0 unos (1 fila, 000000) o 1 uno (6 filas). Obligadas: \(64 - 1 - 6 = 57\).</li>
+    <li>Filas libres: \(1 + 6 = 7\).</li>
+    <li>Regla del producto: \(2^7 = 128\).</li>
+  </ol>
+
+  <span class="paso">Inciso f) — Independientes de \(x\), y de \(x, y, z\)</span>
+  <p>
+    "Independiente de \(x\)" quiere decir que, si se cambia solo \(x\), el valor de \(f\) no cambia. Las
+    64 filas se agrupan de a dos (la fila con \(x = 0\) y la misma con \(x = 1\)): \(64 \div 2 = 32\)
+    grupos. En cada grupo las dos filas llevan el mismo valor, así que se elige <strong>un</strong>
+    valor por grupo:
+  </p>
+  \[2^{32} \text{ funciones independientes de } x\]
+  <p>
+    Independiente de \(x, y, z\): solo importan \(u, v, w\). Las filas se agrupan por el valor de
+    \((u, v, w)\): \(2^3 = 8\) grupos de 8 filas cada uno. Un valor por grupo:
+  </p>
+  \[2^8 = 256 \text{ funciones independientes de } x, y, z\]
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>a) \(2^{64}\) &nbsp; b) \(2^6 = 64\) &nbsp; c) \(2^6 = 64\) &nbsp; d) \(2^{49}\) &nbsp; e) \(2^7\) &nbsp; f) \(2^{32}\) y \(2^8\)</p>
+  </div>
+
+  <span class="paso">Solución del libro</span>
+  <p>El libro da a) \(2^{64}\), b) \(2^6\), c) \(2^6\), d) \(2^{49}\), e) \(2^7\), f) \(2^{32}\); \(2^8\). Coincide.</p>
+</div>

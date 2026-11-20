@@ -1,0 +1,218 @@
+<div class="bloque">
+  <p class="kicker">La idea general</p>
+  <h2>1. Qué es un álgebra de Boole</h2>
+
+  <h3>Para qué sirve</h3>
+  <p>
+    Un álgebra de Boole es una <strong>estructura</strong>: un conjunto de elementos con dos
+    operaciones que "juntan" dos elementos y una operación que "da vuelta" un elemento, y que
+    cumplen siempre las mismas diez leyes (sección 2). La cátedra muestra dos ejemplos antes de
+    llegar al que se usa en el parcial (\(B = \{0, 1\}\), sección 3), para que se vea que la
+    estructura es la misma en los tres.
+  </p>
+
+  <h3>Ejemplo de estructura 1: el conjunto de partes</h3>
+  <p>
+    Dado un conjunto \(S\), el <strong>conjunto de partes</strong> de \(S\), que se escribe
+    \(P(S)\), es el conjunto que tiene como elementos <strong>todos los subconjuntos</strong> de
+    \(S\) (incluidos el vacío \(\emptyset\) y el mismo \(S\)).
+  </p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>\(S\)</th><th>\(P(S)\)</th><th>Cantidad</th></tr>
+      <tr><td>\(\{a\}\)</td><td>\(\{\emptyset, S\}\)</td><td>2</td></tr>
+      <tr><td>\(\{a, b\}\)</td><td>\(\{\emptyset, \{a\}, \{b\}, S\}\)</td><td>4</td></tr>
+      <tr><td>\(\{a, b, c\}\)</td><td>\(\{\emptyset, \{a\}, \{b\}, \{c\}, \{a, b\}, \{a, c\}, \{b, c\}, S\}\)</td><td>8</td></tr>
+    </table>
+  </div>
+  <ul>
+    <li>Cada elemento de \(P(S)\) es un conjunto, por eso va entre llaves: \(\{a, b\} \in P(S)\). El vacío se escribe \(\emptyset\), sin llaves.</li>
+    <li><strong>Si \(S\) tiene \(n\) elementos, \(P(S)\) tiene \(2^{n}\).</strong> Para armar un subconjunto, a cada elemento de \(S\) le preguntás "¿entra o no entra?": son \(n\) preguntas de 2 respuestas cada una, \(2 \cdot 2 \cdots 2 = 2^{n}\).</li>
+    <li>Esa misma idea conecta con el sistema binario (la Actividad 1 b de la cátedra): con \(S = \{a, b, c, d\}\), cada subconjunto es una tira de 4 bits, un 1 si el elemento entra y un 0 si no. \(\{a, c\}\) es \(1010\), \(\emptyset\) es \(0000\), \(S\) es \(1111\). Hay \(2^{4} = 16\) tiras, o sea 16 subconjuntos. Esta idea de "tira de bits" vuelve en la sección 4.</li>
+  </ul>
+
+  <div class="caja caja-formula">
+    <span class="caja-tit">Álgebra de Boole de conjuntos</span>
+    <p>\[ (P(S),\ \cup,\ \cap,\ {}^{c},\ \emptyset,\ S) \text{ es un álgebra de Boole.} \]</p>
+  </div>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Símbolo</th><th>Qué es</th><th>Qué hace</th></tr>
+      <tr><td>\(\cup\)</td><td>Unión (binaria: toma dos conjuntos)</td><td>Junta los elementos de los dos</td></tr>
+      <tr><td>\(\cap\)</td><td>Intersección (binaria)</td><td>Se queda con los elementos comunes</td></tr>
+      <tr><td>\(A^{c}\)</td><td>Complemento (unaria: toma uno solo)</td><td>Lo que le falta a \(A\) para ser \(S\)</td></tr>
+      <tr><td>\(\emptyset\)</td><td>Primer elemento</td><td>Está contenido en todos</td></tr>
+      <tr><td>\(S\)</td><td>Último elemento</td><td>Contiene a todos</td></tr>
+    </table>
+  </div>
+  <p>
+    Entre los elementos hay una <strong>relación de orden</strong>: la inclusión \(\subseteq\).
+    Es un orden <strong>parcial</strong> porque es reflexiva (\(A \subseteq A\)), antisimétrica
+    (si \(A \subseteq B\) y \(B \subseteq A\), son iguales) y transitiva (si \(A \subseteq B\) y
+    \(B \subseteq C\), entonces \(A \subseteq C\)), pero hay pares que no se pueden comparar:
+    \(\{a\}\) y \(\{b\}\) no están uno dentro del otro.
+  </p>
+  <p>
+    Ese orden se dibuja con un <strong>diagrama de Hasse</strong>: cada elemento es un punto, los
+    más chicos abajo, y se une con un segmento a los que lo contienen "con un elemento más"
+    (los que lo contienen por transitividad no se unen, se leen subiendo por los segmentos):
+  </p>
+  <div class="pd-grafico" data-g="u3t-hasse-partes">
+    <svg viewBox="0 0 600 275" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Diagramas de Hasse de los conjuntos de partes">
+    <line class="flecha" x1="75.0" y1="216.0" x2="75.0" y2="174.0"/>
+    <text class="valor" x="75.0" y="230.0" text-anchor="middle">∅</text>
+    <text class="valor" x="75.0" y="168.0" text-anchor="middle">{a}</text>
+    <text class="rotulo" x="75.0" y="260.0" text-anchor="middle">P({a})</text>
+    <line class="flecha" x1="250.0" y1="216.0" x2="216.7" y2="174.0"/>
+    <line class="flecha" x1="250.0" y1="216.0" x2="283.3" y2="174.0"/>
+    <line class="flecha" x1="216.7" y1="154.0" x2="250.0" y2="112.0"/>
+    <line class="flecha" x1="283.3" y1="154.0" x2="250.0" y2="112.0"/>
+    <text class="valor" x="250.0" y="230.0" text-anchor="middle">∅</text>
+    <text class="valor" x="216.7" y="168.0" text-anchor="middle">{a}</text>
+    <text class="valor" x="283.3" y="168.0" text-anchor="middle">{b}</text>
+    <text class="valor" x="250.0" y="106.0" text-anchor="middle">{a, b}</text>
+    <text class="rotulo" x="250.0" y="260.0" text-anchor="middle">P({a, b})</text>
+    <line class="flecha" x1="475.0" y1="216.0" x2="412.5" y2="174.0"/>
+    <line class="flecha" x1="475.0" y1="216.0" x2="475.0" y2="174.0"/>
+    <line class="flecha" x1="475.0" y1="216.0" x2="537.5" y2="174.0"/>
+    <line class="flecha" x1="412.5" y1="154.0" x2="412.5" y2="112.0"/>
+    <line class="flecha" x1="412.5" y1="154.0" x2="475.0" y2="112.0"/>
+    <line class="flecha" x1="475.0" y1="154.0" x2="412.5" y2="112.0"/>
+    <line class="flecha" x1="475.0" y1="154.0" x2="537.5" y2="112.0"/>
+    <line class="flecha" x1="537.5" y1="154.0" x2="475.0" y2="112.0"/>
+    <line class="flecha" x1="537.5" y1="154.0" x2="537.5" y2="112.0"/>
+    <line class="flecha" x1="412.5" y1="92.0" x2="475.0" y2="50.0"/>
+    <line class="flecha" x1="475.0" y1="92.0" x2="475.0" y2="50.0"/>
+    <line class="flecha" x1="537.5" y1="92.0" x2="475.0" y2="50.0"/>
+    <text class="valor" x="475.0" y="230.0" text-anchor="middle">∅</text>
+    <text class="valor" x="412.5" y="168.0" text-anchor="middle">{a}</text>
+    <text class="valor" x="475.0" y="168.0" text-anchor="middle">{b}</text>
+    <text class="valor" x="537.5" y="168.0" text-anchor="middle">{c}</text>
+    <text class="valor" x="412.5" y="106.0" text-anchor="middle">{a, b}</text>
+    <text class="valor" x="475.0" y="106.0" text-anchor="middle">{a, c}</text>
+    <text class="valor" x="537.5" y="106.0" text-anchor="middle">{b, c}</text>
+    <text class="valor" x="475.0" y="44.0" text-anchor="middle">{a, b, c}</text>
+    <text class="rotulo" x="475.0" y="260.0" text-anchor="middle">P({a, b, c})</text>
+    </svg>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo de estructura 2: los divisores de \(n\)</h3>
+  <p>
+    "\(x\) divide a \(y\)", que se escribe \(x \mid y\), quiere decir que existe un natural \(k\)
+    con \(y = kx\) (la división da exacta). Por ejemplo \(5 \mid 15\) porque \(15 = 5 \cdot 3\).
+    \(D(n)\) es el conjunto de los divisores de \(n\): \(D(10) = \{1, 2, 5, 10\}\).
+  </p>
+  <p>
+    Un natural es <strong>libre de cuadrados</strong> si ningún cuadrado mayor que 1 lo divide:
+    30 lo es (\(4, 9, 16, 25\) no lo dividen), 75 no (\(25 \mid 75\)).
+  </p>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Álgebra de Boole de los divisores</span>
+    <p>Si \(n\) es libre de cuadrados, \((D(n),\ \vee,\ \wedge,\ \backsim,\ 1,\ n)\) es un álgebra de Boole, con</p>
+    <p>\[ x \vee y = mcm(x, y) \qquad x \wedge y = mcd(x, y) \qquad \backsim x = \frac{n}{x} \]</p>
+  </div>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Símbolo</th><th>Se lee</th><th>Qué hace</th></tr>
+      <tr><td>\(x \vee y\)</td><td>"\(x\) supremo \(y\)"</td><td>El mínimo común múltiplo</td></tr>
+      <tr><td>\(x \wedge y\)</td><td>"\(x\) ínfimo \(y\)"</td><td>El máximo común divisor</td></tr>
+      <tr><td>\(\backsim x\)</td><td>"vilella \(x\)"</td><td>El cociente de \(n\) dividido \(x\)</td></tr>
+      <tr><td>\(1\) y \(n\)</td><td>primer y último elemento</td><td>1 divide a todos; \(n\) es múltiplo de todos</td></tr>
+    </table>
+  </div>
+  <p>
+    El orden ahora es la divisibilidad. Fijate en el dibujo: \(D(30)\) tiene el
+    <strong>mismo diagrama</strong> que las partes de \(\{2, 3, 5\}\). Es porque \(30 = 2 \cdot 3
+    \cdot 5\) y cada divisor es "elegir qué primos entran": 6 es \(\{2, 3\}\), 1 es \(\emptyset\).
+  </p>
+  <div class="pd-grafico" data-g="u3t-hasse-d30">
+    <svg viewBox="0 0 600 275" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="D(30) y P de 2, 3, 5 tienen el mismo diagrama de Hasse">
+    <line class="flecha" x1="145.0" y1="216.0" x2="82.5" y2="174.0"/>
+    <line class="flecha" x1="145.0" y1="216.0" x2="145.0" y2="174.0"/>
+    <line class="flecha" x1="145.0" y1="216.0" x2="207.5" y2="174.0"/>
+    <line class="flecha" x1="82.5" y1="154.0" x2="82.5" y2="112.0"/>
+    <line class="flecha" x1="82.5" y1="154.0" x2="145.0" y2="112.0"/>
+    <line class="flecha" x1="145.0" y1="154.0" x2="82.5" y2="112.0"/>
+    <line class="flecha" x1="145.0" y1="154.0" x2="207.5" y2="112.0"/>
+    <line class="flecha" x1="207.5" y1="154.0" x2="145.0" y2="112.0"/>
+    <line class="flecha" x1="207.5" y1="154.0" x2="207.5" y2="112.0"/>
+    <line class="flecha" x1="82.5" y1="92.0" x2="145.0" y2="50.0"/>
+    <line class="flecha" x1="145.0" y1="92.0" x2="145.0" y2="50.0"/>
+    <line class="flecha" x1="207.5" y1="92.0" x2="145.0" y2="50.0"/>
+    <text class="valor" x="145.0" y="230.0" text-anchor="middle">1</text>
+    <text class="valor" x="82.5" y="168.0" text-anchor="middle">2</text>
+    <text class="valor" x="145.0" y="168.0" text-anchor="middle">3</text>
+    <text class="valor" x="207.5" y="168.0" text-anchor="middle">5</text>
+    <text class="valor" x="82.5" y="106.0" text-anchor="middle">6</text>
+    <text class="valor" x="145.0" y="106.0" text-anchor="middle">10</text>
+    <text class="valor" x="207.5" y="106.0" text-anchor="middle">15</text>
+    <text class="valor" x="145.0" y="44.0" text-anchor="middle">30</text>
+    <text class="rotulo" x="145.0" y="260.0" text-anchor="middle">D(30), ordenado por divisibilidad</text>
+    <line class="flecha" x1="455.0" y1="216.0" x2="387.5" y2="174.0"/>
+    <line class="flecha" x1="455.0" y1="216.0" x2="455.0" y2="174.0"/>
+    <line class="flecha" x1="455.0" y1="216.0" x2="522.5" y2="174.0"/>
+    <line class="flecha" x1="387.5" y1="154.0" x2="387.5" y2="112.0"/>
+    <line class="flecha" x1="387.5" y1="154.0" x2="455.0" y2="112.0"/>
+    <line class="flecha" x1="455.0" y1="154.0" x2="387.5" y2="112.0"/>
+    <line class="flecha" x1="455.0" y1="154.0" x2="522.5" y2="112.0"/>
+    <line class="flecha" x1="522.5" y1="154.0" x2="455.0" y2="112.0"/>
+    <line class="flecha" x1="522.5" y1="154.0" x2="522.5" y2="112.0"/>
+    <line class="flecha" x1="387.5" y1="92.0" x2="455.0" y2="50.0"/>
+    <line class="flecha" x1="455.0" y1="92.0" x2="455.0" y2="50.0"/>
+    <line class="flecha" x1="522.5" y1="92.0" x2="455.0" y2="50.0"/>
+    <text class="valor" x="455.0" y="230.0" text-anchor="middle">∅</text>
+    <text class="valor" x="387.5" y="168.0" text-anchor="middle">{2}</text>
+    <text class="valor" x="455.0" y="168.0" text-anchor="middle">{3}</text>
+    <text class="valor" x="522.5" y="168.0" text-anchor="middle">{5}</text>
+    <text class="valor" x="387.5" y="106.0" text-anchor="middle">{2, 3}</text>
+    <text class="valor" x="455.0" y="106.0" text-anchor="middle">{2, 5}</text>
+    <text class="valor" x="522.5" y="106.0" text-anchor="middle">{3, 5}</text>
+    <text class="valor" x="455.0" y="44.0" text-anchor="middle">{2, 3, 5}</text>
+    <text class="rotulo" x="455.0" y="260.0" text-anchor="middle">P({2, 3, 5}), ordenado por inclusión</text>
+    </svg>
+  </div>
+
+  <h3>Ejemplo 1 &mdash; Las operaciones en \(D(30)\) (el de la cátedra)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>Con \(n = 30\), \(x = 6\) e \(y = 10\), calcular \(x \vee y\), \(x \wedge y\) y \(\backsim x\).</p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"\(n = 30\)"</td><td>el álgebra es \(D(30) = \{1, 2, 3, 5, 6, 10, 15, 30\}\)</td><td>30 es libre de cuadrados</td><td>vale la definición</td></tr>
+      <tr><td>"\(x \vee y\)"</td><td>mcm</td><td>\(6 = 2 \cdot 3\), \(10 = 2 \cdot 5\)</td><td>\(2 \cdot 3 \cdot 5 = 30\)</td></tr>
+      <tr><td>"\(x \wedge y\)"</td><td>mcd</td><td>en común solo el 2</td><td>\(2\)</td></tr>
+      <tr><td>"\(\backsim x\)"</td><td>\(30 \div 6\)</td><td>\(30 / 6\)</td><td>\(5\)</td></tr>
+    </table>
+  </div>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>\(6 \vee 10 = 30\), \(6 \wedge 10 = 2\), \(\backsim 6 = 5\).</p>
+  </div>
+
+  <h3>Ejemplo 2 &mdash; Por qué hace falta "libre de cuadrados"</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>¿Es \(D(12)\) un álgebra de Boole con las mismas operaciones?</p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"\(D(12)\)"</td><td>divisores de 12</td><td>\(\{1, 2, 3, 4, 6, 12\}\)</td><td>12 no es libre de cuadrados (\(4 \mid 12\))</td></tr>
+      <tr><td>Ley a probar</td><td>"\(x\) y su complemento no tienen nada en común"</td><td>\(x \wedge \backsim x\) debería dar el primer elemento, 1</td><td>probamos con \(x = 2\)</td></tr>
+    </table>
+  </div>
+  <p>\(\backsim 2 = 12 / 2 = 6\), y \(2 \wedge 6 = mcd(2, 6) = 2 \neq 1\).</p>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>
+      No. Falla la ley de los inversos (sección 2, ley 8). Con 30 eso no pasa: en \(D(30)\) se
+      verifica, para los 8 divisores, que \(mcd(x, 30/x) = 1\) y \(mcm(x, 30/x) = 30\).
+    </p>
+  </div>
+</div>

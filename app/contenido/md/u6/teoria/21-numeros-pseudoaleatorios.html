@@ -1,0 +1,105 @@
+<div class="bloque">
+  <p class="kicker">Una aplicación</p>
+  <h2>21. Números pseudoaleatorios (generador congruencial)</h2>
+
+  <h3>Para qué sirve</h3>
+  <p>
+    Una computadora no puede "tirar un dado": genera números que <strong>parecen</strong> al azar
+    con una fórmula. La más clásica es una relación de recurrencia (Unidad 4) calculada en
+    \(\mathbb{Z}_m\). No está en las diapositivas: aparece en la guía complementaria (ej. 17), que
+    da la definición completa, y la cuenta es solo aritmética en \(\mathbb{Z}_m\) (sección 10).
+  </p>
+
+  <h3>Definición (la de la complementaria)</h3>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Generador congruencial lineal</span>
+    <p>Dados el módulo \(m\), el multiplicador \(a\), el incremento \(c\) y la semilla \(x_0\), los números pseudoaleatorios se generan aplicando sucesivamente</p>
+    <p>\[ x_{n+1} \equiv a\,x_n + c \pmod{m} \]</p>
+    <p>tomando cada \(x_{n+1}\) entre \(0\) y \(m - 1\).</p>
+  </div>
+
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Símbolo</th><th>Nombre</th><th>Qué hace</th></tr>
+      <tr><td>\(m\)</td><td>módulo</td><td>los números salen entre \(0\) y \(m - 1\)</td></tr>
+      <tr><td>\(a\)</td><td>multiplicador</td><td>multiplica el número anterior</td></tr>
+      <tr><td>\(c\)</td><td>incremento</td><td>se suma después de multiplicar</td></tr>
+      <tr><td>\(x_0\)</td><td>semilla</td><td>el primer número; con la misma semilla sale siempre la misma lista</td></tr>
+      <tr><td>\(x_n\)</td><td>término \(n\)</td><td>el número generado en el paso \(n\)</td></tr>
+    </table>
+  </div>
+
+  <h3>Lo que hay que saber</h3>
+  <ul>
+    <li>Cada término depende solo del anterior, y hay a lo sumo \(m\) valores posibles: tarde o temprano <strong>un valor se repite y desde ahí la lista se repite igual</strong> (es periódica). La cantidad de números antes de repetir es el <strong>período</strong>; como mucho, \(m\).</li>
+    <li>Por eso se llaman <em>pseudo</em>aleatorios: son totalmente predecibles si se conocen \(m\), \(a\), \(c\) y \(x_0\). Un buen generador elige \(m\) enorme y \(a\), \(c\) que den período máximo.</li>
+    <li>Para calcular, se reduce en cada paso: nunca hace falta un número mayor que \(a(m - 1) + c\).</li>
+  </ul>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; Un generador bueno y uno malo</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>Generar los primeros términos de: a) \(m = 8\), \(a = 5\), \(c = 3\), \(x_0 = 1\); b) \(m = 10\), \(a = 3\), \(c = 1\), \(x_0 = 2\). ¿Cuál es el período de cada uno?</p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>a) "\(m = 8, a = 5, c = 3\)"</td><td>la fórmula</td><td>&mdash;</td><td>\(x_{n+1} \equiv 5x_n + 3 \pmod 8\)</td></tr>
+      <tr><td>b) "\(m = 10, a = 3, c = 1\)"</td><td>la fórmula</td><td>&mdash;</td><td>\(x_{n+1} \equiv 3x_n + 1 \pmod{10}\)</td></tr>
+      <tr><td>"período"</td><td>cuántos pasos hasta volver a un valor</td><td>generar hasta que se repita</td><td>respuesta</td></tr>
+    </table>
+  </div>
+  <p><strong>a)</strong></p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>\(n\)</th><th>\(5x_n + 3\)</th><th>\(x_{n+1}\) (resto por 8)</th></tr>
+      <tr><td>0</td><td>\(5 \cdot 1 + 3 = 8\)</td><td>\(0\)</td></tr>
+      <tr><td>1</td><td>\(5 \cdot 0 + 3 = 3\)</td><td>\(3\)</td></tr>
+      <tr><td>2</td><td>\(5 \cdot 3 + 3 = 18\)</td><td>\(2\)</td></tr>
+      <tr><td>3</td><td>\(5 \cdot 2 + 3 = 13\)</td><td>\(5\)</td></tr>
+      <tr><td>4</td><td>\(5 \cdot 5 + 3 = 28\)</td><td>\(4\)</td></tr>
+      <tr><td>5</td><td>\(5 \cdot 4 + 3 = 23\)</td><td>\(7\)</td></tr>
+      <tr><td>6</td><td>\(5 \cdot 7 + 3 = 38\)</td><td>\(6\)</td></tr>
+      <tr><td>7</td><td>\(5 \cdot 6 + 3 = 33\)</td><td>\(1\) (= \(x_0\))</td></tr>
+    </table>
+  </div>
+  <p><strong>b)</strong> \(x_1 = 3 \cdot 2 + 1 = 7\); \(x_2 = 3 \cdot 7 + 1 = 22 \equiv 2\) (= \(x_0\)). Ya se repite.</p>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>a) \(1, 0, 3, 2, 5, 4, 7, 6, 1, \dots\): período 8, pasa por todos los valores de \(\mathbb{Z}_8\) (el máximo). b) \(2, 7, 2, 7, \dots\): período 2, un generador malo.</p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; Forma de parcial (parecido a la complementaria, ej. 17)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>Los números pseudoaleatorios se generan con \(x_{n+1} \equiv a x_n + c \pmod{m}\). Hallar \(x_5\) para \(m = 11\), \(a = 5\), \(c = 3\) y \(x_0 = 4\).</p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"\(m = 11, a = 5, c = 3\)"</td><td>la fórmula concreta</td><td>&mdash;</td><td>\(x_{n+1} \equiv 5x_n + 3 \pmod{11}\)</td></tr>
+      <tr><td>"\(x_0 = 4\)"</td><td>semilla</td><td>&mdash;</td><td>primer renglón</td></tr>
+      <tr><td>"hallar \(x_5\)"</td><td>aplicar la fórmula 5 veces</td><td>\(x_1, \dots, x_5\)</td><td>respuesta</td></tr>
+    </table>
+  </div>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Paso</th><th>Cuenta</th><th>Resto por 11</th></tr>
+      <tr><td>\(x_1\)</td><td>\(5 \cdot 4 + 3 = 23 = 2 \cdot 11 + 1\)</td><td>\(1\)</td></tr>
+      <tr><td>\(x_2\)</td><td>\(5 \cdot 1 + 3 = 8\)</td><td>\(8\)</td></tr>
+      <tr><td>\(x_3\)</td><td>\(5 \cdot 8 + 3 = 43 = 3 \cdot 11 + 10\)</td><td>\(10\)</td></tr>
+      <tr><td>\(x_4\)</td><td>\(5 \cdot 10 + 3 = 53 = 4 \cdot 11 + 9\)</td><td>\(9\)</td></tr>
+      <tr><td>\(x_5\)</td><td>\(5 \cdot 9 + 3 = 48 = 4 \cdot 11 + 4\)</td><td>\(4\)</td></tr>
+    </table>
+  </div>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>\(x_5 = 4\). Como \(x_5 = x_0\), la lista \(4, 1, 8, 10, 9\) se repite: el período es 5.</p>
+  </div>
+</div>

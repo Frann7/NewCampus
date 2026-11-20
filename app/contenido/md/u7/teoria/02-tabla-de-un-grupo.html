@@ -1,0 +1,239 @@
+<div class="bloque">
+  <p class="kicker">Grupos</p>
+  <h2>2. La tabla de un grupo y sus propiedades</h2>
+
+  <h3>Para qué sirve</h3>
+  <p>
+    Cuando el grupo es finito y chico, toda la operación entra en una tabla de doble entrada (se la
+    llama <strong>tabla de Cayley</strong>). De la tabla se leen sin hacer cuentas el neutro, los
+    inversos y si el grupo es abeliano. Los ejercicios piden armarla ("realizar la tabla para
+    \(\cdot\)") o leer una ya dada.
+  </p>
+
+  <h3>Orden de un grupo</h3>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Definición</span>
+    <p>
+      El <strong>orden</strong> de un grupo \(G\) es su cantidad de elementos, y se escribe
+      \(|G|\). Si tiene infinitos elementos, su orden es infinito.
+    </p>
+  </div>
+  <p>
+    Las barras \(|\ |\) acá no son valor absoluto: son "cuántos elementos tiene". Por ejemplo,
+    \(|(\mathbb{Z}, +)|\) es infinito y \(|(\mathbb{Z}_6, +)| = 6\).
+  </p>
+
+  <h3>Cómo se arma la tabla</h3>
+  <ul>
+    <li>Arriba (encabezado de columnas) y a la izquierda (encabezado de filas) van los elementos, <strong>en el mismo orden</strong>.</li>
+    <li>En el cruce de la fila \(a\) con la columna \(b\) va \(a \circ b\): <strong>primero la fila, después la columna</strong>. En un grupo no abeliano el orden importa.</li>
+  </ul>
+
+  <h3>Las dos familias que la cátedra pone de ejemplo</h3>
+  <ul>
+    <li>
+      \((\mathbb{Z}_n, +)\), para \(n \gt 1\): \(\mathbb{Z}_n = \{0, 1, \ldots, n-1\}\) son los
+      restos posibles al dividir por \(n\) (Unidad 6), y se suma "dando la vuelta": se suma como
+      siempre y se queda el resto de dividir por \(n\). Por ejemplo, en \(\mathbb{Z}_6\),
+      \(4 + 5 = 9\), y el resto de \(9 \div 6\) es 3, así que \(4 + 5 = 3\). Es un grupo abeliano de
+      orden \(n\), con neutro 0, y el opuesto de \(a\) es \(n - a\) (el de 0 es 0).
+    </li>
+    <li>
+      \((\mathbb{Z}_p^{*}, \cdot)\), con \(p\) primo: los restos sin el cero,
+      \(\{1, 2, \ldots, p - 1\}\), con el producto módulo \(p\) (se multiplica y se queda el
+      resto). Es un grupo abeliano de orden \(p - 1\), con neutro 1. Que \(p\) sea primo es lo que
+      garantiza que todos tengan inverso (sección 3).
+    </li>
+  </ul>
+
+  <h3>Propiedades que valen en cualquier grupo</h3>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Teorema</span>
+    <p>Para cualquier grupo \(G\):</p>
+    <ul>
+      <li>el neutro de \(G\) es único;</li>
+      <li>el inverso de cada elemento es único;</li>
+      <li>si \(ab = ac\), entonces \(b = c\) (<strong>cancelativa por izquierda</strong>);</li>
+      <li>si \(ba = ca\), entonces \(b = c\) (<strong>cancelativa por derecha</strong>).</li>
+    </ul>
+  </div>
+  <p>
+    Notación: cuando la operación es genérica se escribe \(ab\) en lugar de \(a \circ b\), como si
+    fuera un producto. Es solo para escribir menos.
+  </p>
+
+  <h4>De dónde sale cada una</h4>
+  <ul>
+    <li>
+      <strong>Neutro único.</strong> Si \(e\) y \(e'\) fueran dos neutros: \(e\,e' = e'\) (porque
+      \(e\) es neutro) y \(e\,e' = e\) (porque \(e'\) es neutro). Las dos cuentas son la misma, así
+      que \(e = e'\).
+    </li>
+    <li>
+      <strong>Inverso único.</strong> Si \(b\) y \(c\) fueran inversos de \(a\):
+      \(b = b\,e = b(a\,c) = (b\,a)c = e\,c = c\). En cada igualdad se usó, en orden: neutro, que
+      \(c\) es inverso, asociativa, que \(b\) es inverso, neutro.
+    </li>
+    <li>
+      <strong>Cancelativa por izquierda.</strong> Si \(ab = ac\), opero a la izquierda de los dos
+      lados con \(a^{-1}\): \(a^{-1}(ab) = a^{-1}(ac)\). Por asociativa,
+      \((a^{-1}a)b = (a^{-1}a)c\), o sea \(e\,b = e\,c\), y queda \(b = c\). La de la derecha es igual,
+      operando por la derecha.
+    </li>
+  </ul>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">La consecuencia que se ve en la tabla</span>
+    <p>
+      Por la cancelativa, en una misma fila no puede repetirse un resultado: si en la fila \(a\)
+      apareciera dos veces el mismo valor, en las columnas \(b\) y \(c\), sería \(ab = ac\) con
+      \(b \neq c\). Entonces <strong>en cada fila y en cada columna aparece cada elemento exactamente
+      una vez</strong>. Si una tabla tiene un elemento repetido en una fila, esa operación no forma un
+      grupo. Sirve para controlar una tabla armada a mano.
+    </p>
+  </div>
+
+  <h3>Cómo se lee la tabla</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Qué se busca</th><th>Dónde se mira</th></tr>
+      <tr><td class="lbl">El neutro</td><td>La fila que es <strong>idéntica al encabezado</strong> (y la columna idéntica al encabezado de la izquierda). Su rótulo es \(e\).</td></tr>
+      <tr><td class="lbl">El inverso de \(a\)</td><td>En la fila de \(a\), buscar dónde aparece \(e\): el rótulo de esa columna es \(a^{-1}\).</td></tr>
+      <tr><td class="lbl">Si es abeliano</td><td>La tabla tiene que ser <strong>simétrica respecto de la diagonal</strong> (la que va de arriba a la izquierda hacia abajo a la derecha): el cruce fila \(a\) columna \(b\) igual al cruce fila \(b\) columna \(a\).</td></tr>
+      <tr><td class="lbl">Elementos que son su propio inverso</td><td>Los que tienen \(e\) en la diagonal: \(a \circ a = e\).</td></tr>
+    </table>
+  </div>
+  <p>
+    La asociativa no se lee de la tabla (habría que probar todas las ternas). Cuando el ejercicio
+    dice "la siguiente tabla da la operación de un grupo", la asociativa ya viene dada.
+  </p>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; Las tablas de \((\mathbb{Z}_6, +)\) y de \((\mathbb{Z}_7^{*}, \cdot)\)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>
+      Armar las tablas de \((\mathbb{Z}_6, +)\) y de \((\mathbb{Z}_7^{*}, \cdot)\). En cada una,
+      leer el orden del grupo, el neutro, el inverso de cada elemento y si es abeliano.
+    </p>
+  </div>
+
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"\(\mathbb{Z}_6\)"</td><td>los restos de dividir por 6</td><td>&mdash;</td><td>\(\{0, 1, 2, 3, 4, 5\}\)</td></tr>
+      <tr><td>"\(+\)"</td><td>suma módulo 6</td><td>se suma y se queda el resto de \(\div 6\)</td><td>cada casilla de la primera tabla</td></tr>
+      <tr><td>"\(\mathbb{Z}_7^{*}\)"</td><td>los restos de dividir por 7, sin el 0</td><td>&mdash;</td><td>\(\{1, 2, 3, 4, 5, 6\}\)</td></tr>
+      <tr><td>"\(\cdot\)"</td><td>producto módulo 7</td><td>se multiplica y se queda el resto de \(\div 7\)</td><td>cada casilla de la segunda tabla</td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Paso 1 &mdash; La tabla de \((\mathbb{Z}_6, +)\)</span>
+  <p>
+    Cada casilla es la suma con la vuelta. Por ejemplo, fila 4 columna 5: \(4 + 5 = 9\), resto 3.
+    Fila 3 columna 3: \(3 + 3 = 6\), resto 0.
+  </p>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th>\(+\)</th><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th></tr>
+      <tr><td class="lbl">0</td><td>0</td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td></tr>
+      <tr><td class="lbl">1</td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>0</td></tr>
+      <tr><td class="lbl">2</td><td>2</td><td>3</td><td>4</td><td>5</td><td>0</td><td>1</td></tr>
+      <tr><td class="lbl">3</td><td>3</td><td>4</td><td>5</td><td>0</td><td>1</td><td>2</td></tr>
+      <tr><td class="lbl">4</td><td>4</td><td>5</td><td>0</td><td>1</td><td>2</td><td>3</td></tr>
+      <tr><td class="lbl">5</td><td>5</td><td>0</td><td>1</td><td>2</td><td>3</td><td>4</td></tr>
+    </table>
+  </div>
+  <ul>
+    <li><strong>Orden:</strong> \(|\mathbb{Z}_6| = 6\).</li>
+    <li><strong>Neutro:</strong> la fila del 0 repite el encabezado: \(e = 0\).</li>
+    <li><strong>Opuestos</strong> (dónde aparece el 0 en cada fila): \(-0 = 0\), \(-1 = 5\), \(-2 = 4\), \(-3 = 3\), \(-4 = 2\), \(-5 = 1\).</li>
+    <li><strong>Abeliano:</strong> la tabla es simétrica respecto de la diagonal.</li>
+  </ul>
+
+  <span class="paso">Paso 2 &mdash; La tabla de \((\mathbb{Z}_7^{*}, \cdot)\)</span>
+  <p>
+    Por ejemplo, fila 3 columna 5: \(3 \cdot 5 = 15\), y \(15 = 2 \cdot 7 + 1\), resto 1. Fila 4
+    columna 6: \(24 = 3 \cdot 7 + 3\), resto 3.
+  </p>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th>\(\cdot\)</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th></tr>
+      <tr><td class="lbl">1</td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td></tr>
+      <tr><td class="lbl">2</td><td>2</td><td>4</td><td>6</td><td>1</td><td>3</td><td>5</td></tr>
+      <tr><td class="lbl">3</td><td>3</td><td>6</td><td>2</td><td>5</td><td>1</td><td>4</td></tr>
+      <tr><td class="lbl">4</td><td>4</td><td>1</td><td>5</td><td>2</td><td>6</td><td>3</td></tr>
+      <tr><td class="lbl">5</td><td>5</td><td>3</td><td>1</td><td>6</td><td>4</td><td>2</td></tr>
+      <tr><td class="lbl">6</td><td>6</td><td>5</td><td>4</td><td>3</td><td>2</td><td>1</td></tr>
+    </table>
+  </div>
+  <ul>
+    <li><strong>Orden:</strong> \(|\mathbb{Z}_7^{*}| = 7 - 1 = 6\).</li>
+    <li><strong>Neutro:</strong> la fila del 1: \(e = 1\).</li>
+    <li><strong>Inversos</strong> (dónde aparece el 1 en cada fila): \(1^{-1} = 1\), \(2^{-1} = 4\), \(3^{-1} = 5\), \(4^{-1} = 2\), \(5^{-1} = 3\), \(6^{-1} = 6\).</li>
+    <li><strong>Abeliano:</strong> simétrica respecto de la diagonal.</li>
+  </ul>
+  <p>
+    Control: en las dos tablas, cada fila y cada columna tiene todos los elementos sin repetir.
+  </p>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; Estilo parcial: leer la tabla de un grupo dado</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>La siguiente tabla da la operación binaria de un grupo \((G, *)\) con \(G = \{e, r, s, t, u, v\}\):</p>
+    <div class="tabla-wrap">
+      <table class="t">
+        <tr><th>\(*\)</th><th>\(e\)</th><th>\(r\)</th><th>\(s\)</th><th>\(t\)</th><th>\(u\)</th><th>\(v\)</th></tr>
+        <tr><td class="lbl">\(e\)</td><td>\(e\)</td><td>\(r\)</td><td>\(s\)</td><td>\(t\)</td><td>\(u\)</td><td>\(v\)</td></tr>
+        <tr><td class="lbl">\(r\)</td><td>\(r\)</td><td>\(s\)</td><td>\(e\)</td><td>\(v\)</td><td>\(t\)</td><td>\(u\)</td></tr>
+        <tr><td class="lbl">\(s\)</td><td>\(s\)</td><td>\(e\)</td><td>\(r\)</td><td>\(u\)</td><td>\(v\)</td><td>\(t\)</td></tr>
+        <tr><td class="lbl">\(t\)</td><td>\(t\)</td><td>\(u\)</td><td>\(v\)</td><td>\(e\)</td><td>\(r\)</td><td>\(s\)</td></tr>
+        <tr><td class="lbl">\(u\)</td><td>\(u\)</td><td>\(v\)</td><td>\(t\)</td><td>\(s\)</td><td>\(e\)</td><td>\(r\)</td></tr>
+        <tr><td class="lbl">\(v\)</td><td>\(v\)</td><td>\(t\)</td><td>\(u\)</td><td>\(r\)</td><td>\(s\)</td><td>\(e\)</td></tr>
+      </table>
+    </div>
+    <p>a) ¿Cuál es el neutro? b) Dar el inverso de cada elemento. c) ¿Es abeliano?</p>
+  </div>
+
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"da la operación binaria de un grupo"</td><td>los axiomas (asociativa incluida) ya están garantizados</td><td>&mdash;</td><td>no hay que probar que es grupo</td></tr>
+      <tr><td>"el neutro"</td><td>la fila igual al encabezado</td><td>&mdash;</td><td>inciso a</td></tr>
+      <tr><td>"el inverso de cada elemento"</td><td>en cada fila, dónde está el neutro</td><td>&mdash;</td><td>inciso b</td></tr>
+      <tr><td>"¿es abeliano?"</td><td>¿simétrica respecto de la diagonal?</td><td>buscar un par que no conmute</td><td>inciso c</td></tr>
+    </table>
+  </div>
+
+  <h4>a) Neutro</h4>
+  <p>La fila de \(e\) es \(e, r, s, t, u, v\): idéntica al encabezado. El neutro es \(e\) (el nombre ya lo sugería, pero hay que mirarlo).</p>
+
+  <h4>b) Inversos</h4>
+  <ul>
+    <li>Fila \(r\): la \(e\) está en la columna \(s\). Entonces \(r^{-1} = s\) (y \(s^{-1} = r\)).</li>
+    <li>Fila \(t\): la \(e\) está en la columna \(t\). Entonces \(t^{-1} = t\).</li>
+    <li>Igual \(u^{-1} = u\), \(v^{-1} = v\), \(e^{-1} = e\): los cuatro tienen \(e\) en la diagonal.</li>
+  </ul>
+
+  <h4>c) ¿Abeliano?</h4>
+  <p>Busco un par que no conmute. Fila \(r\), columna \(t\): \(r * t = v\). Fila \(t\), columna \(r\): \(t * r = u\).</p>
+  <p>\[ r * t = v \neq u = t * r \]</p>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>
+      a) \(e\). b) \(e^{-1} = e\), \(r^{-1} = s\), \(s^{-1} = r\), \(t^{-1} = t\), \(u^{-1} = u\),
+      \(v^{-1} = v\). c) No es abeliano: \(r * t \neq t * r\) (la tabla no es simétrica).
+    </p>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">En un grupo no abeliano, primero la fila</span>
+    <p>
+      \(r * t\) se busca en la fila \(r\) y la columna \(t\). Si se lee al revés, da otro resultado.
+      Este grupo vuelve a aparecer en la sección 9 (clases laterales), donde ese detalle importa.
+    </p>
+  </div>
+</div>

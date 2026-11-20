@@ -1,0 +1,104 @@
+<div class="bloque">
+  <p class="kicker">Codificación</p>
+  <h2>16. Métrica de Hamming: peso y distancia</h2>
+
+  <h3>Para qué sirve</h3>
+  <p>
+    Para medir <strong>cuánto se parecen</strong> dos palabras. Un error de un bit lleva una palabra
+    a otra "a distancia 1"; si las palabras codificadas están lejos entre sí, un error chico no
+    alcanza para confundir una con otra. Todo lo que sigue (esferas, detección, corrección) se
+    calcula con esta distancia.
+  </p>
+
+  <h3>Definición (la de la cátedra)</h3>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Peso y distancia</span>
+    <p>Para \(x = x_1 x_2 \cdots x_n \in \mathbb{Z}_2^{n}\):</p>
+    <ul>
+      <li>el <strong>peso</strong> \(p(x)\) es la cantidad de componentes \(x_i = 1\);</li>
+      <li>si \(y \in \mathbb{Z}_2^{n}\), la <strong>distancia</strong> \(d(x, y)\) es la cantidad de posiciones \(i\) con \(x_i \neq y_i\).</li>
+    </ul>
+  </div>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Símbolo</th><th>Qué quiere decir</th><th>Ejemplo</th></tr>
+      <tr><td class="lbl">\(p(x)\)</td><td>Cuántos unos tiene \(x\). (No confundir con la \(p\) de probabilidad de la sección 14.)</td><td>\(p(10110) = 3\)</td></tr>
+      <tr><td class="lbl">\(d(x, y)\)</td><td>En cuántos lugares difieren.</td><td>\(d(10110, 00111) = 2\)</td></tr>
+    </table>
+  </div>
+  <div class="caja caja-formula">
+    <span class="caja-tit">El atajo: distancia = peso de la suma</span>
+    <p>\[ d(x, y) = p(x + y) \]</p>
+    <p>Porque \(x + y\) tiene un 1 exactamente donde \(x\) e \(y\) difieren (\(0 + 1 = 1 + 0 = 1\), \(0 + 0 = 1 + 1 = 0\)).</p>
+  </div>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Lema</span>
+    <p>Para todos \(x, y \in \mathbb{Z}_2^{n}\): \(\;p(x + y) \leq p(x) + p(y)\).</p>
+  </div>
+  <p>
+    <strong>De dónde sale:</strong> un 1 de \(x + y\) aparece solo en una posición donde exactamente
+    uno de los dos tiene 1. Cada uno de esos unos se cuenta en \(p(x)\) o en \(p(y)\), y los lugares
+    donde los dos tienen 1 se pierden en la suma. La suma no puede tener más unos que los que
+    aportan los dos.
+  </p>
+
+  <div class="caja caja-formula">
+    <span class="caja-tit">Teorema: \(d\) es una métrica</span>
+    <p>Para todos \(x, y, z \in \mathbb{Z}_2^{n}\):</p>
+    <ol type="a">
+      <li>\(d(x, y) \geq 0\)</li>
+      <li>\(d(x, y) = 0 \iff x = y\)</li>
+      <li>\(d(x, y) = d(y, x)\)</li>
+      <li>\(d(x, z) \leq d(x, y) + d(y, z)\) (desigualdad triangular)</li>
+    </ol>
+    <p>Una función con estas cuatro propiedades se llama <strong>distancia</strong> o <strong>métrica</strong>; \((\mathbb{Z}_2^{n}, d)\) es un <strong>espacio métrico</strong> y \(d\) es la <strong>métrica de Hamming</strong>.</p>
+  </div>
+  <h4>De dónde sale</h4>
+  <ul>
+    <li><strong>a, b, c:</strong> \(d\) cuenta posiciones (nunca da negativo); da 0 solo si no difieren en ninguna; "\(x\) difiere de \(y\)" es lo mismo que "\(y\) difiere de \(x\)".</li>
+    <li><strong>d:</strong> como \(y + y = 0\), \(x + z = (x + y) + (y + z)\). Por el atajo y el lema:
+      \(d(x, z) = p\big((x + y) + (y + z)\big) \leq p(x + y) + p(y + z) = d(x, y) + d(y, z)\).</li>
+  </ul>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; Actividad 3 de la cátedra</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>Para \(n = 5\), \(x = 01001\), \(y = 11101\): calcular \(p(x)\), \(p(y)\), \(p(x + y)\) y \(d(x, y)\).</p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"\(p(x)\)"</td><td>unos de \(01001\)</td><td>\(0+1+0+0+1\)</td><td>2</td></tr>
+      <tr><td>"\(p(y)\)"</td><td>unos de \(11101\)</td><td>\(1+1+1+0+1\)</td><td>4</td></tr>
+      <tr><td>"\(x + y\)"</td><td>suma bit a bit</td><td>\(01001 + 11101 = 10100\)</td><td>\(p(x+y) = 2\)</td></tr>
+    </table>
+  </div>
+  <p>Difieren en las posiciones 1 y 3: \(d(x, y) = 2 = p(x + y)\), como dice el atajo. Y el lema: \(2 \leq 2 + 4\).</p>
+  <div class="caja caja-resp"><span class="caja-tit">Respuesta</span><p>\(p(x) = 2\), \(p(y) = 4\), \(p(x + y) = 2\), \(d(x, y) = 2\).</p></div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; Estilo parcial: distancias y desigualdad triangular</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>En \(\mathbb{Z}_2^{7}\), con \(x = 1100110\), \(y = 1010101\), \(z = 1110000\): calcular los pesos, las tres distancias y verificar \(d(x, z) \leq d(x, y) + d(y, z)\).</p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"los pesos"</td><td>unos de cada una</td><td>contar</td><td>\(4, 4, 3\)</td></tr>
+      <tr><td>"las distancias"</td><td>peso de cada suma</td><td>\(d = p(\text{suma})\)</td><td>tres sumas</td></tr>
+    </table>
+  </div>
+  <p>\[ \begin{array}{r} 1100110 \\ +\;1010101 \\ \hline 0110011 \end{array} \qquad \begin{array}{r} 1010101 \\ +\;1110000 \\ \hline 0100101 \end{array} \qquad \begin{array}{r} 1100110 \\ +\;1110000 \\ \hline 0010110 \end{array} \]</p>
+  <ul>
+    <li>\(d(x, y) = p(0110011) = 4\)</li>
+    <li>\(d(y, z) = p(0100101) = 3\)</li>
+    <li>\(d(x, z) = p(0010110) = 3\)</li>
+  </ul>
+  <div class="caja caja-resp"><span class="caja-tit">Respuesta</span><p>\(p(x) = 4\), \(p(y) = 4\), \(p(z) = 3\); \(d(x, y) = 4\), \(d(y, z) = 3\), \(d(x, z) = 3\). Se cumple \(3 \leq 4 + 3 = 7\).</p></div>
+</div>

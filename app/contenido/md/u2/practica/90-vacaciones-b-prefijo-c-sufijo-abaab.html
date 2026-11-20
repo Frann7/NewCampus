@@ -1,0 +1,211 @@
+<div class="ej" data-examen="igual" data-examen-ref="Recuperatorio (Actividades de vacaciones) &middot; Act. B b)">
+  <span class="tag" data-num-ej="V-B.">Recuperatorio (Act. de vacaciones B) &middot; Parte b &middot; MEF, concatenación y conteo</span>
+  <h2>Prefijo c y sufijo abaab: máquina, lenguaje, palabras de largo 10 y cantidad de máquinas</h2>
+  <div class="enunciado">
+    <p>b) Dados \(I = \{a, b, c\}\) y \(O = \{0, 1\}\):</p>
+    <p>i. Realiza el diagrama de estados para la máquina de estados finitos que reconozca solamente y a todas las palabras con sufijo \(abaab\) y prefijo \(c\).</p>
+    <p>ii. Escribir \(A\), el conjunto de palabras detectadas en el ítem anterior como concatenación de lenguajes. ¿Cuántas palabras de \(A\) tienen longitud 10?</p>
+    <p>iii. Calcula el número total de máquinas de estados finitos que se pueden construir considerando la cantidad de estados, el alfabeto de entrada y salida dados.</p>
+  </div>
+
+  <span class="paso">Qué tema es y por qué</span>
+  <ul>
+    <li>i: máquina <strong>reconocedora</strong>: escribe 1 justo cuando lo leído desde el principio está en el lenguaje. Junta las dos técnicas: controlar un <strong>prefijo</strong> (con un sumidero si falla) y reconocer un <strong>sufijo</strong> (volviendo al estado correcto cuando falla o completa, como en "termina en abba" del parcial).</li>
+    <li>ii: escribir el lenguaje como concatenación y contar con la regla del producto.</li>
+    <li>iii: contar funciones \(\nu\) y \(\omega\) (cuántas maneras de llenar la tabla).</li>
+  </ul>
+
+  <span class="paso">Desarme del enunciado</span>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>A dónde va</th></tr>
+      <tr><td>"\(I = \{a, b, c\}\)"</td><td>3 símbolos de entrada</td><td>\(|I| = 3\)</td></tr>
+      <tr><td>"\(O = \{0, 1\}\)"</td><td>1 = "sí, está en el lenguaje"</td><td>\(|O| = 2\)</td></tr>
+      <tr><td>"solamente y a todas"</td><td>escribe 1 para cada palabra del lenguaje y para ninguna otra</td><td>reconocedor</td></tr>
+      <tr><td>"prefijo \(c\)"</td><td>empieza con \(c\)</td><td>estado inicial y sumidero</td></tr>
+      <tr><td>"sufijo \(abaab\)"</td><td>termina en \(abaab\)</td><td>estados que siguen el patrón</td></tr>
+      <tr><td>"longitud 10"</td><td>palabras de \(A\) de 10 símbolos</td><td>inciso ii</td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Paso 1 &mdash; i. ¿El prefijo y el sufijo se pueden pisar?</span>
+  <p>\(abaab\) empieza con \(a\) y el prefijo es \(c\): el primer símbolo de la palabra no puede ser a la vez la \(c\) y la \(a\) de \(abaab\). Entonces la palabra es \(c\,u\,abaab\), con \(u\) cualquiera (incluso vacía), y mide al menos 6. Después de la \(c\) inicial, la máquina solo tiene que reconocer "termina en \(abaab\)".</p>
+
+  <span class="paso">Paso 2 &mdash; i. Estados</span>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Estado</th><th>Qué significa</th></tr>
+      <tr><td>\(s_0\)</td><td>no leí nada</td></tr>
+      <tr><td>\(s_1\)</td><td>empezó con \(c\); del \(abaab\) no tengo nada</td></tr>
+      <tr><td>\(s_2\)</td><td>empezó con \(c\); tengo "a"</td></tr>
+      <tr><td>\(s_3\)</td><td>empezó con \(c\); tengo "ab"</td></tr>
+      <tr><td>\(s_4\)</td><td>empezó con \(c\); tengo "aba"</td></tr>
+      <tr><td>\(s_5\)</td><td>empezó con \(c\); tengo "abaa"</td></tr>
+      <tr><td>\(s_6\)</td><td><strong>sumidero</strong>: empezó con \(a\) o \(b\), nunca va a estar en el lenguaje</td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Paso 3 &mdash; i. Transiciones</span>
+  <p>Regla (para \(s_1\) a \(s_5\)): después de cada símbolo, el nuevo estado es el <strong>pedazo más largo del principio de \(abaab\) que aparece al final</strong> de lo que tengo. Una \(c\) siempre manda a \(s_1\) (\(abaab\) no tiene \(c\)).</p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Desde</th><th>Llega</th><th>Me queda</th><th>Mejor final que es principio de abaab</th><th>Va a</th><th>Escribe</th></tr>
+      <tr><td>\(s_0\)</td><td>\(c\)</td><td>c</td><td>(prefijo correcto)</td><td>\(s_1\)</td><td>0</td></tr>
+      <tr><td>\(s_0\)</td><td>\(a\), \(b\)</td><td>&mdash;</td><td>(prefijo incorrecto)</td><td>\(s_6\)</td><td>0</td></tr>
+      <tr><td>\(s_1\)</td><td>\(a\)</td><td>a</td><td>a</td><td>\(s_2\)</td><td>0</td></tr>
+      <tr><td>\(s_1\)</td><td>\(b\)</td><td>b</td><td>nada</td><td>\(s_1\)</td><td>0</td></tr>
+      <tr><td>\(s_2\)</td><td>\(a\)</td><td>aa</td><td>a</td><td>\(s_2\)</td><td>0</td></tr>
+      <tr><td>\(s_2\)</td><td>\(b\)</td><td>ab</td><td>ab</td><td>\(s_3\)</td><td>0</td></tr>
+      <tr><td>\(s_3\)</td><td>\(a\)</td><td>aba</td><td>aba</td><td>\(s_4\)</td><td>0</td></tr>
+      <tr><td>\(s_3\)</td><td>\(b\)</td><td>abb</td><td>nada</td><td>\(s_1\)</td><td>0</td></tr>
+      <tr><td>\(s_4\)</td><td>\(a\)</td><td>abaa</td><td>abaa</td><td>\(s_5\)</td><td>0</td></tr>
+      <tr><td>\(s_4\)</td><td>\(b\)</td><td>abab</td><td>ab (el final "ab")</td><td>\(s_3\)</td><td>0</td></tr>
+      <tr><td>\(s_5\)</td><td>\(b\)</td><td><strong>abaab</strong></td><td>ab (el final "ab" sirve para otro abaab)</td><td>\(s_3\)</td><td><strong>1</strong></td></tr>
+      <tr><td>\(s_5\)</td><td>\(a\)</td><td>abaaa</td><td>a</td><td>\(s_2\)</td><td>0</td></tr>
+      <tr><td>\(s_1\) a \(s_5\)</td><td>\(c\)</td><td>…c</td><td>nada</td><td>\(s_1\)</td><td>0</td></tr>
+      <tr><td>\(s_6\)</td><td>\(a, b, c\)</td><td>&mdash;</td><td>(sumidero)</td><td>\(s_6\)</td><td>0</td></tr>
+    </table>
+  </div>
+  <p>Los dos casos delicados: en \(s_4\) con \(b\) (\(abab\)) y en \(s_5\) con \(b\) (después de completar) se vuelve a \(s_3\), porque el final \(ab\) ya es el comienzo de otro \(abaab\). Así, en \(c\,abaabaab\) la máquina avisa dos veces (las apariciones se solapan en \(ab\)).</p>
+  <p>La tabla de estados:</p>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th rowspan="2"></th><th colspan="3">\(\nu\)</th><th colspan="3">\(\omega\)</th></tr>
+      <tr><th>\(a\)</th><th>\(b\)</th><th>\(c\)</th><th>\(a\)</th><th>\(b\)</th><th>\(c\)</th></tr>
+      <tr><td>&rarr; \(s_0\)</td><td>\(s_6\)</td><td>\(s_6\)</td><td>\(s_1\)</td><td>0</td><td>0</td><td>0</td></tr>
+      <tr><td>\(s_1\)</td><td>\(s_2\)</td><td>\(s_1\)</td><td>\(s_1\)</td><td>0</td><td>0</td><td>0</td></tr>
+      <tr><td>\(s_2\)</td><td>\(s_2\)</td><td>\(s_3\)</td><td>\(s_1\)</td><td>0</td><td>0</td><td>0</td></tr>
+      <tr><td>\(s_3\)</td><td>\(s_4\)</td><td>\(s_1\)</td><td>\(s_1\)</td><td>0</td><td>0</td><td>0</td></tr>
+      <tr><td>\(s_4\)</td><td>\(s_5\)</td><td>\(s_3\)</td><td>\(s_1\)</td><td>0</td><td>0</td><td>0</td></tr>
+      <tr><td>\(s_5\)</td><td>\(s_2\)</td><td>\(s_3\)</td><td>\(s_1\)</td><td>0</td><td>1</td><td>0</td></tr>
+      <tr><td>\(s_6\)</td><td>\(s_6\)</td><td>\(s_6\)</td><td>\(s_6\)</td><td>0</td><td>0</td><td>0</td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Paso 4 &mdash; i. Diagrama de estados</span>
+  <div class="pd-grafico af" data-g="u2pc-vb">
+    <svg viewBox="-90 -136 881 581" width="881" height="581" role="img" aria-label="Reconocedor de las palabras con prefijo c y sufijo abaab">
+      <path class="arco" d="M19.0,208.0 L341.0,208.0"/>
+      <path class="punta" d="M341.0,208.0 L332.0,212.5 L332.0,203.5 Z"/>
+      <text class="rot" x="180.0" y="198.0" text-anchor="middle" dominant-baseline="central">c,0</text>
+      <path class="arco" d="M0.0,227.0 L0.0,349.0"/>
+      <path class="punta" d="M0.0,349.0 L-4.5,340.0 L4.5,340.0 Z"/>
+      <text class="rot" x="-44.2" y="288.0" text-anchor="middle" dominant-baseline="central">a,0 | b,0</text>
+      <path class="arco" d="M8.9,384.8 C40.0,419.2 -40.0,419.2 -8.9,384.8"/>
+      <path class="punta" d="M-8.9,384.8 L-11.6,394.5 L-18.3,388.4 Z"/>
+      <text class="rot" x="0.0" y="424.0" text-anchor="middle" dominant-baseline="central">a,0 | b,0 | c,0</text>
+      <path class="arco" d="M368.9,224.8 C400.0,259.2 320.0,259.2 351.1,224.8"/>
+      <path class="punta" d="M351.1,224.8 L348.4,234.5 L341.7,228.4 Z"/>
+      <text class="rot" x="360.0" y="264.0" text-anchor="middle" dominant-baseline="central">b,0 | c,0</text>
+      <path class="arco" d="M343.9,197.9 Q234.1,129.0 169.5,16.5"/>
+      <path class="punta" d="M169.5,16.5 L177.8,22.0 L170.0,26.5 Z"/>
+      <text class="rot" x="232.2" y="130.7" text-anchor="middle" dominant-baseline="central">a,0</text>
+      <path class="arco" d="M143.2,8.9 C108.8,40.0 108.8,-40.0 143.2,-8.9"/>
+      <path class="punta" d="M143.2,-8.9 L133.5,-11.6 L139.6,-18.3 Z"/>
+      <text class="rot" x="97.6" y="0.0" text-anchor="middle" dominant-baseline="central">a,0</text>
+      <path class="arco" d="M179.0,0.0 L341.0,0.0"/>
+      <path class="punta" d="M341.0,0.0 L332.0,4.5 L332.0,-4.5 Z"/>
+      <text class="rot" x="260.0" y="-10.0" text-anchor="middle" dominant-baseline="central">b,0</text>
+      <path class="arco" d="M176.1,10.1 Q285.9,79.0 350.5,191.5"/>
+      <path class="punta" d="M350.5,191.5 L342.2,186.0 L350.0,181.5 Z"/>
+      <text class="rot" x="287.8" y="77.3" text-anchor="middle" dominant-baseline="central">c,0</text>
+      <path class="arco" d="M377.9,-6.4 Q460.0,-36.0 542.1,-6.4"/>
+      <path class="punta" d="M542.1,-6.4 L532.1,-5.3 L535.2,-13.7 Z"/>
+      <text class="rot" x="460.0" y="-31.2" text-anchor="middle" dominant-baseline="central">a,0</text>
+      <path class="arco" d="M360.0,19.0 L360.0,189.0"/>
+      <path class="punta" d="M360.0,189.0 L355.5,180.0 L364.5,180.0 Z"/>
+      <text class="rot" x="315.8" y="104.0" text-anchor="middle" dominant-baseline="central">b,0 | c,0</text>
+      <path class="arco" d="M579.0,0.0 L741.0,0.0"/>
+      <path class="punta" d="M741.0,0.0 L732.0,4.5 L732.0,-4.5 Z"/>
+      <text class="rot" x="660.0" y="-10.0" text-anchor="middle" dominant-baseline="central">a,0</text>
+      <path class="arco" d="M542.1,6.4 Q460.0,36.0 377.9,6.4"/>
+      <path class="punta" d="M377.9,6.4 L387.9,5.3 L384.8,13.7 Z"/>
+      <text class="rot" x="460.0" y="31.2" text-anchor="middle" dominant-baseline="central">b,0</text>
+      <path class="arco" d="M546.8,13.7 L373.2,194.3"/>
+      <path class="punta" d="M373.2,194.3 L376.2,184.7 L382.7,190.9 Z"/>
+      <text class="rot" x="446.9" y="91.4" text-anchor="middle" dominant-baseline="central">c,0</text>
+      <path class="arco" d="M742.7,-7.8 Q560.0,-90.0 377.3,-7.8"/>
+      <path class="punta" d="M377.3,-7.8 L383.7,-15.6 L387.4,-7.4 Z"/>
+      <text class="rot" x="560.0" y="-58.9" text-anchor="middle" dominant-baseline="central">b,1</text>
+      <path class="arco" d="M744.2,-10.5 Q460.0,-200.0 175.8,-10.5"/>
+      <path class="punta" d="M175.8,-10.5 L180.8,-19.3 L185.8,-11.8 Z"/>
+      <text class="rot" x="460.0" y="-115.3" text-anchor="middle" dominant-baseline="central">a,0</text>
+      <path class="arco" d="M743.1,8.8 L376.9,199.2"/>
+      <path class="punta" d="M376.9,199.2 L382.8,191.1 L386.9,199.1 Z"/>
+      <text class="rot" x="553.0" y="90.5" text-anchor="middle" dominant-baseline="central">c,0</text>
+      <path class="arco" d="M-49.0,208.0 L-19.0,208.0"/>
+      <path class="punta" d="M-19.0,208.0 L-28.0,212.5 L-28.0,203.5 Z"/>
+      <g class="estado">
+        <circle class="borde" cx="0.0" cy="208.0" r="19"/>
+        <text class="nom" x="0.0" y="208.0" text-anchor="middle" dominant-baseline="central">s0</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="0.0" cy="368.0" r="19"/>
+        <text class="nom" x="0.0" y="368.0" text-anchor="middle" dominant-baseline="central">s6</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="360.0" cy="208.0" r="19"/>
+        <text class="nom" x="360.0" y="208.0" text-anchor="middle" dominant-baseline="central">s1</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="160.0" cy="0.0" r="19"/>
+        <text class="nom" x="160.0" y="0.0" text-anchor="middle" dominant-baseline="central">s2</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="360.0" cy="0.0" r="19"/>
+        <text class="nom" x="360.0" y="0.0" text-anchor="middle" dominant-baseline="central">s3</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="560.0" cy="0.0" r="19"/>
+        <text class="nom" x="560.0" y="0.0" text-anchor="middle" dominant-baseline="central">s4</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="760.0" cy="0.0" r="19"/>
+        <text class="nom" x="760.0" y="0.0" text-anchor="middle" dominant-baseline="central">s5</text>
+      </g>
+    </svg>
+  </div>
+  <p>Pruebas: \(cabaab\) &rarr; salida \(000001\). \(ccbabaab\) &rarr; \(00000001\). \(abaab\) (sin la \(c\)) &rarr; cae en \(s_6\), salida \(00000\).</p>
+
+  <span class="paso">Paso 5 &mdash; ii. A como concatenación</span>
+  <p>Por el Paso 1, la palabra se arma en tres partes: la \(c\), cualquier cosa, y \(abaab\):</p>
+  <p>\[A = \{c\}\{a, b, c\}^*\{abaab\}\]</p>
+
+  <span class="paso">Paso 6 &mdash; ii. ¿Cuántas de largo 10?</span>
+  <p>Regla del producto, lugar por lugar. Una palabra de \(A\) de largo 10 es</p>
+  <p>\[\underbrace{c}_{1}\ \underbrace{\_\ \_\ \_\ \_}_{10 - 1 - 5 = 4 \text{ libres}}\ \underbrace{a\,b\,a\,a\,b}_{5}\]</p>
+  <ul>
+    <li>Lugar 1: fijo (\(c\)), 1 opción.</li>
+    <li>Lugares 2 a 5: cualquiera de \(a, b, c\), 3 opciones cada uno.</li>
+    <li>Lugares 6 a 10: fijos (\(abaab\)), 1 opción cada uno.</li>
+  </ul>
+  <p>\[1 \cdot 3^4 \cdot 1 = 81\]</p>
+  <p>Cada elección del medio da una palabra distinta, y cada palabra de largo 10 de \(A\) se arma de una sola manera (la \(c\) y el \(abaab\) tienen lugar fijo), así que no hay repetidas.</p>
+
+  <span class="paso">Paso 7 &mdash; iii. Cuántas máquinas se pueden construir</span>
+  <div class="caja caja-formula">
+    <p><strong>Cantidad de funciones</strong> de \(X\) en \(Y\): \(|Y|^{|X|}\) (cada elemento de \(X\) elige su imagen entre los \(|Y|\) de \(Y\); regla del producto).</p>
+    <p>Una MEF con \(S\), \(I\), \(O\) fijos queda definida por \(\nu : S \times I \to S\) y \(\omega : S \times I \to O\). Total: \(|S|^{|S||I|} \cdot |O|^{|S||I|}\).</p>
+  </div>
+  <p>Con la máquina del inciso i: \(|S| = 7\), \(|I| = 3\), \(|O| = 2\). La tabla tiene \(|S \times I| = 7 \cdot 3 = 21\) casilleros.</p>
+  <ul>
+    <li>\(\nu\): cada uno de los 21 casilleros elige entre 7 estados: \(7^{21}\).</li>
+    <li>\(\omega\): cada uno de los 21 casilleros elige entre 2 salidas: \(2^{21} = 2\,097\,152\).</li>
+  </ul>
+  <p>\[7^{21} \cdot 2^{21} = (7 \cdot 2)^{21} = 14^{21} \approx 1{,}17 \times 10^{24}\]</p>
+  <p>(El paso \(7^{21} \cdot 2^{21} = 14^{21}\) usa que \(a^n b^n = (ab)^n\).) El número exacto es \(1\,171\,355\,575\,953\,987\,221\,848\,064\); en el examen alcanza con dejarlo como \(14^{21}\).</p>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>i. La máquina de 7 estados de la tabla y el diagrama (\(s_6\) sumidero); escribe 1 solo en \(s_5\) con \(b\).</p>
+    <p>ii. \(A = \{c\}\{a, b, c\}^*\{abaab\}\). Palabras de largo 10: \(3^4 = 81\).</p>
+    <p>iii. \(7^{21} \cdot 2^{21} = 14^{21} \approx 1{,}17 \times 10^{24}\) máquinas.</p>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">El iii depende de cuántos estados te quedaron</span>
+    <p>"Considerando la cantidad de estados" es la de tu máquina del inciso i. Con \(n\) estados el resultado es \(n^{3n} \cdot 2^{3n} = (2n)^{3n}\). Con 7 (que es el mínimo posible para este lenguaje) da \(14^{21}\). Si te faltó el sumidero, la máquina queda incompleta (hay casilleros de \(\nu\) sin llenar): la máquina tiene que decir qué hace con <strong>cada</strong> entrada en <strong>cada</strong> estado.</p>
+  </div>
+
+  <span class="paso">Verificación</span>
+  <p>Las Actividades de vacaciones no traen resultados. La máquina se simuló en Python con todas las cadenas de \(\{a,b,c\}^*\) de largo hasta 10: escribe 1 exactamente cuando lo leído empieza con \(c\) y termina en \(abaab\); y no tiene estados equivalentes (7 es el mínimo). El 81 y \(14^{21}\) también se calcularon con Python.</p>
+</div>

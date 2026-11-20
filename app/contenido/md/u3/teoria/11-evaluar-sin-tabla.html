@@ -1,0 +1,136 @@
+<div class="bloque" data-examen="igual"
+     data-examen-ref="Parcial 1 2026 · ej. 3"
+     data-examen-nota="El parcial pidió f(1, 0, 1, 1) para f = ∏M(1, 3, 5, 6, 10, 12, 13), sin tabla y justificando: es el Ejemplo 2.">
+  <p class="kicker">El truco de la numeración</p>
+  <h2>11. Evaluar \(f\) en un punto sabiendo solo la lista</h2>
+
+  <h3>Para qué sirve</h3>
+  <p>
+    Si te dan \(f = \prod M(\ldots)\) o \(f = \sum m(\ldots)\), la lista de números
+    <strong>ya es la tabla</strong>, comprimida. Para saber cuánto vale \(f\) en un punto no
+    hace falta escribir 16 filas ni las sumas: alcanza con pasar el punto a número y fijarse si
+    está en la lista.
+  </p>
+
+  <h3>La regla</h3>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Valor de \(f\) en \((b_1, b_2, \ldots, b_n)\)</span>
+    <ol>
+      <li>Leer \(b_1 b_2 \ldots b_n\) como número binario: esa es la fila \(k\).</li>
+      <li>Si \(f = \prod M(\text{lista})\): \(k\) está en la lista &rarr; \(f = 0\); no está &rarr; \(f = 1\).</li>
+      <li>Si \(f = \sum m(\text{lista})\): \(k\) está en la lista &rarr; \(f = 1\); no está &rarr; \(f = 0\).</li>
+    </ol>
+  </div>
+
+  <h3>Por qué funciona (esto es la "justificación" que pide el parcial)</h3>
+  <p>Para \(f = \prod M(k_1, k_2, \ldots)\) = \(M_{k_1} \cdot M_{k_2} \cdots\):</p>
+  <ul>
+    <li><strong>Cada maxtérmino \(M_k\) vale 0 en una sola fila, la \(k\), y 1 en todas las demás</strong> (sección 10): es una suma de todas las variables, y una suma solo es 0 si todos sus sumandos son 0, cosa que pasa en una única combinación.</li>
+    <li>\(f\) es un <strong>producto</strong> de maxtérminos, y un producto es 0 si y solo si algún factor es 0.</li>
+    <li>Si la fila \(k\) está en la lista, el factor \(M_k\) es 0 ahí, y entonces \(f = 0\).</li>
+    <li>Si la fila \(k\) no está en la lista, todos los factores son maxtérminos de <strong>otras</strong> filas, y cada uno vale 1 en la fila \(k\). El producto de unos es 1: \(f = 1\).</li>
+  </ul>
+  <p>
+    Con \(\sum m\) es el razonamiento dual: cada \(m_k\) vale 1 solo en su fila, y una suma es 1
+    si algún sumando es 1.
+  </p>
+
+  <h3>Cómo pasar la tira a número</h3>
+  <p>
+    Cada posición pesa una potencia de 2, de derecha a izquierda: \(1, 2, 4, 8, 16\ldots\) Se
+    suman los pesos de las posiciones con 1. La primera variable (\(x_1\), o la primera en orden
+    alfabético) es la de más a la izquierda.
+  </p>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th>posición</th><th>\(x_1\)</th><th>\(x_2\)</th><th>\(x_3\)</th><th>\(x_4\)</th></tr>
+      <tr><td>peso</td><td>8</td><td>4</td><td>2</td><td>1</td></tr>
+      <tr><td>\((1, 0, 1, 1)\)</td><td>1</td><td>0</td><td>1</td><td>1</td></tr>
+      <tr><td>aporta</td><td>8</td><td>0</td><td>2</td><td>1</td></tr>
+    </table>
+  </div>
+  <p>\(8 + 0 + 2 + 1 = 11\): el punto \((1, 0, 1, 1)\) es la fila 11.</p>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; Con la función de la cátedra</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>Sea \(f = \prod M(0, 1, 2, 4, 5)\) de \(B^{3}\) en \(B\). Hallar \(f(1, 1, 0)\) y \(f(1, 0, 1)\) sin la tabla.</p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"\(\prod M(0, 1, 2, 4, 5)\)"</td><td>\(f\) es 0 exactamente en esas filas</td><td>&mdash;</td><td>la lista</td></tr>
+      <tr><td>"\(f(1, 1, 0)\)"</td><td>fila \(110\)</td><td>\(4 + 2 + 0 = 6\)</td><td>6 no está &rarr; \(f = 1\)</td></tr>
+      <tr><td>"\(f(1, 0, 1)\)"</td><td>fila \(101\)</td><td>\(4 + 0 + 1 = 5\)</td><td>5 está &rarr; \(f = 0\)</td></tr>
+    </table>
+  </div>
+  <p>
+    Comprobación con la expresión original de esa función (\(f = xy + yz\), secciones 9 y 10):
+    \(f(1, 1, 0) = 1 \cdot 1 + 1 \cdot 0 = 1\) y \(f(1, 0, 1) = 1 \cdot 0 + 0 \cdot 1 = 0\). &#10003;
+  </p>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>\(f(1, 1, 0) = 1\) y \(f(1, 0, 1) = 0\).</p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; Estilo parcial (Parcial 1 2026, ej. 3)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>
+      Para la función booleana \(f : B^{4} \to B \,/\, f = \prod M(1, 3, 5, 6, 10, 12, 13)\), sin
+      realizar la tabla y justificando claramente, hallar \(f(1, 0, 1, 1)\).
+    </p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"\(B^{4}\)"</td><td>cuatro variables \(x_1, x_2, x_3, x_4\)</td><td>pesos 8, 4, 2, 1</td><td>16 filas (de 0 a 15)</td></tr>
+      <tr><td>"\(\prod M(1, 3, 5, 6, 10, 12, 13)\)"</td><td>producto de 7 maxtérminos: \(f = 0\) exactamente en esas 7 filas</td><td>&mdash;</td><td>en las otras 9, \(f = 1\)</td></tr>
+      <tr><td>"\(f(1, 0, 1, 1)\)"</td><td>la fila \(1011\)</td><td>\(8 + 0 + 2 + 1 = 11\)</td><td>¿está el 11 en la lista?</td></tr>
+      <tr><td>"sin realizar la tabla"</td><td>no escribir las 16 filas</td><td>usar la numeración</td><td>la justificación</td></tr>
+    </table>
+  </div>
+
+  <h4>Resolución</h4>
+  <span class="paso">Paso 1 &mdash; Qué fila es el punto</span>
+  <p>\[ (1, 0, 1, 1) \to 1011_2 = 1 \cdot 8 + 0 \cdot 4 + 1 \cdot 2 + 1 \cdot 1 = 11 \]</p>
+
+  <span class="paso">Paso 2 &mdash; Está o no en la lista</span>
+  <p>La lista es \(1, 3, 5, 6, 10, 12, 13\). El 11 <strong>no está</strong>.</p>
+
+  <span class="paso">Paso 3 &mdash; Justificar</span>
+  <ul>
+    <li>\(f\) es el producto \(M_1 M_3 M_5 M_6 M_{10} M_{12} M_{13}\).</li>
+    <li>Cada maxtérmino \(M_k\) es una disyunción fundamental que vale 0 únicamente en la fila \(k\) (una suma es 0 solo si todos sus sumandos son 0, y eso pasa en una sola combinación de las variables).</li>
+    <li>Como 11 no está en la lista, ninguno de los siete factores es \(M_{11}\): cada uno vale 0 en otra fila, y por lo tanto vale 1 en la fila 11.</li>
+    <li>Entonces \(f(1, 0, 1, 1) = 1 \cdot 1 \cdot 1 \cdot 1 \cdot 1 \cdot 1 \cdot 1 = 1\).</li>
+  </ul>
+  <p>Si se quiere mostrar con las letras, alcanza con uno de los factores como muestra (todos dan 1; verificado):</p>
+  <p>\[ M_1 = x_1 + x_2 + x_3 + \overline{x_4} \quad\Rightarrow\quad M_1(1, 0, 1, 1) = 1 + 0 + 1 + \overline{1} = 1 + 0 + 1 + 0 = 1 \]</p>
+  <p>
+    Y el que <strong>no</strong> está, \(M_{11} = \overline{x_1} + x_2 + \overline{x_3} + \overline{x_4}\),
+    es el único que daría 0 en ese punto: \(0 + 0 + 0 + 0 = 0\).
+  </p>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>
+      \(f(1, 0, 1, 1) = 1\), porque \((1, 0, 1, 1)\) es la fila 11 y 11 no está entre los
+      maxtérminos de \(f\).
+    </p>
+  </div>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Si el punto sí está en la lista</span>
+    <p>
+      Con la misma \(f\), \(f(0, 1, 1, 0)\): \(0110_2 = 4 + 2 = 6\), y 6 está en la lista, así que
+      \(M_6\) vale 0 ahí y \(f(0, 1, 1, 0) = 0\). Y ojo con confundir \(\prod M\) con \(\sum m\):
+      con \(\sum m(\text{misma lista})\) las respuestas se dan vuelta.
+    </p>
+  </div>
+</div>

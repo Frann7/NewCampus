@@ -1,0 +1,68 @@
+<div class="ej" data-examen="variante" data-examen-ref="Parcial 1 2026 &middot; ej. 2" data-examen-nota="En el parcial se pide describir las cadenas de un lenguaje dado como concatenación (AB⁺C²) en términos de prefijo y sufijo; acá es el inciso c, con un lenguaje más corto.">
+  <span class="tag" data-num-ej="CL-3.">Complementaria P1 &middot; Lenguajes &middot; Ej. 3 &middot; Prefijo propio y pertenencia</span>
+  <h2>Prefijo propio bb, pertenencia a \(\{a,b,c\}^*\{b\}\) y \(\{a,b,c\}\{b\}^*\)</h2>
+  <div class="enunciado">
+    <p>Sea \(\Sigma = \{a, b, c\}\):</p>
+    <p>a. ¿Cuántas cadenas de \(\Sigma^*\) son tales que tienen longitud menor o igual a cinco, y prefijo propio \(bb\)?</p>
+    <p>b. ¿La cadena \(accccbccccabc \in \{a, b, c\}^*\{b\}\)? Justifique la respuesta.</p>
+    <p>c. Describa las cadenas de \(\{a, b, c\}\{b\}^*\).</p>
+  </div>
+
+  <span class="paso">Qué tema es y por qué</span>
+  <ul>
+    <li>a: prefijo propio + regla del producto (contar).</li>
+    <li>b y c: leer qué cadenas tiene un lenguaje escrito como <strong>concatenación</strong> (en la teoría, "Descripción de los elementos de un lenguaje").</li>
+  </ul>
+  <div class="caja caja-formula">
+    <p>Si \(w = xy\): \(x\) es <strong>prefijo</strong> de \(w\); es <strong>prefijo propio</strong> si además \(y \neq \lambda\) (o sea, \(x\) no es toda la cadena).</p>
+  </div>
+
+  <span class="paso">Desarme del enunciado</span>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>A dónde va</th></tr>
+      <tr><td>"\(\Sigma = \{a, b, c\}\)"</td><td>3 símbolos por lugar</td><td>\(|\Sigma| = 3\)</td></tr>
+      <tr><td>"longitud menor o igual a cinco"</td><td>largos 0 a 5</td><td>\(\|w\| \leq 5\)</td></tr>
+      <tr><td>"prefijo propio \(bb\)"</td><td>\(w = bb\,y\) con \(y \neq \lambda\): después de \(bb\) viene al menos un símbolo</td><td>\(\|w\| \geq 3\)</td></tr>
+      <tr><td>"\(\{a,b,c\}^*\{b\}\)"</td><td>cualquier cadena seguida de una \(b\)</td><td>las cadenas que terminan en \(b\)</td></tr>
+      <tr><td>"\(\{a,b,c\}\{b\}^*\)"</td><td>un símbolo seguido de cero o más \(b\)</td><td>inciso c</td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Paso 1 &mdash; Contar (inciso a)</span>
+  <p>Regla del producto: lugares fijos aportan 1 opción, lugares libres aportan \(|\Sigma| = 3\).</p>
+  <p>Como \(bb\) es prefijo <strong>propio</strong>, la cadena tiene que tener largo 3, 4 o 5 (largo 2 sería \(bb\) solo, y eso no es propio):</p>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th>Largo</th><th>Forma</th><th>Cuenta</th></tr>
+      <tr><td>3</td><td>\(b\,b\,\_\)</td><td>\(3^1 = 3\)</td></tr>
+      <tr><td>4</td><td>\(b\,b\,\_\,\_\)</td><td>\(3^2 = 9\)</td></tr>
+      <tr><td>5</td><td>\(b\,b\,\_\,\_\,\_\)</td><td>\(3^3 = 27\)</td></tr>
+    </table>
+  </div>
+  <p>Se suman porque son largos distintos (no hay cadena contada dos veces): \(3 + 9 + 27 = 39\).</p>
+
+  <span class="paso">Paso 2 &mdash; ¿Pertenece? (inciso b)</span>
+  <p>Regla: una cadena está en \(XY\) si se puede cortar en dos partes, la primera en \(X\) y la segunda en \(Y\).</p>
+  <ul>
+    <li>En \(\{a,b,c\}^*\{b\}\) la segunda parte es la cadena \(b\): toda cadena de este lenguaje <strong>termina en \(b\)</strong>. Y al revés, cualquier cadena que termina en \(b\) se corta como "todo lo de antes" (que está en \(\{a,b,c\}^*\)) más esa \(b\).</li>
+    <li>\(accccbccccab\underline{c}\) termina en \(c\), no en \(b\).</li>
+  </ul>
+
+  <span class="paso">Paso 3 &mdash; Describir \(\{a,b,c\}\{b\}^*\) (inciso c)</span>
+  <ul>
+    <li>Primera parte: <strong>un</strong> símbolo, \(a\), \(b\) o \(c\).</li>
+    <li>Segunda parte: \(\{b\}^* = \{\lambda, b, bb, bbb, \dots\}\), o sea, cero o más \(b\) seguidas (la clausura de Kleene, \(A^* = A^+ \cup \{\lambda\}\)).</li>
+  </ul>
+  <p>Elementos: \(a, b, c, ab, bb, cb, abb, bbb, cbb, \dots\)</p>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>a. <strong>39</strong> cadenas.</p>
+    <p>b. <strong>No</strong>: las cadenas de \(\{a,b,c\}^*\{b\}\) son exactamente las que terminan en \(b\), y \(accccbccccabc\) termina en \(c\).</p>
+    <p>c. Son las cadenas no vacías cuyo primer símbolo es \(a\), \(b\) o \(c\) y todos los demás (si hay) son \(b\). Dicho con prefijo y sufijo: tienen largo al menos 1 y, sacando el primer símbolo, lo que queda es \(\lambda\) o una tira de \(b\).</p>
+  </div>
+
+  <span class="paso">Verificación</span>
+  <p>El 39 se contó por fuerza bruta en Python (todas las cadenas de \(\{a,b,c\}^*\) de largo hasta 5 que empiezan con \(bb\) y tienen largo mayor que 2).</p>
+</div>

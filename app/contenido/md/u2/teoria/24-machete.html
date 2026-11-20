@@ -1,0 +1,79 @@
+<div class="bloque">
+  <p class="kicker">Para repasar</p>
+  <h2>24. Machete de la unidad</h2>
+
+  <h3>El vocabulario en una tabla</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Objeto</th><th>Qué es</th><th>Lo que hay que recordar</th></tr>
+      <tr><td class="lbl">\(\Sigma\)</td><td>alfabeto: conjunto finito, no vacío, de símbolos</td><td>ningún símbolo se puede armar pegando otros</td></tr>
+      <tr><td class="lbl">\(\lambda\)</td><td>la cadena vacía</td><td>\(\|\lambda\| = 0\); \(\lambda \notin \Sigma\); \(\{\lambda\} \neq \emptyset\)</td></tr>
+      <tr><td class="lbl">\(\Sigma^{n}\)</td><td>las cadenas de largo \(n\)</td><td>\(|\Sigma^{n}| = |\Sigma|^{n}\); \(\Sigma^{0} = \{\lambda\}\)</td></tr>
+      <tr><td class="lbl">\(\Sigma^{+}\), \(\Sigma^{*}\)</td><td>todas las de largo \(\geq 1\); todas</td><td>\(\Sigma^{*} = \Sigma^{+} \cup \{\lambda\}\)</td></tr>
+      <tr><td class="lbl">\(x^{n}\)</td><td>\(x\) pegada \(n\) veces</td><td>\(x^{0} = \lambda\); \(\|x^{n}\| = n\,\|x\|\)</td></tr>
+      <tr><td class="lbl">\(AB\)</td><td>cada cadena de \(A\) pegada adelante de cada una de \(B\)</td><td>\(AB \neq BA\) en general; \(|AB| \leq |A||B|\)</td></tr>
+      <tr><td class="lbl">\(A^{+}\), \(A^{*}\)</td><td>pegar 1 o más / 0 o más cadenas de \(A\)</td><td>\(A^{*} = A^{+} \cup \{\lambda\}\)</td></tr>
+      <tr><td class="lbl">Prefijos de \(w\), \(\|w\| = m\)</td><td>los cortes \(w = xy\), quedándose con \(x\)</td><td>\(m + 1\) prefijos, \(m\) propios (\(\lambda\) es propio; \(w\) no)</td></tr>
+    </table>
+  </div>
+
+  <h3>Lenguajes: qué hacer ante cada consigna</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Si la consigna dice...</th><th>Qué hacer</th><th>Dónde está</th></tr>
+      <tr><td>"Obtener \(\Sigma^{2}\), \(\Sigma^{3}\)" / "¿cuántos elementos tiene \(\Sigma^{n}\)?"</td><td>Listar en orden (como un odómetro) o contar \(|\Sigma|^{n}\). \(\Sigma^{+}\) y \(\Sigma^{*}\) son infinitos: se escriben con puntos suspensivos.</td><td>secciones 3 y 4</td></tr>
+      <tr><td>"Hallar \(x^{n}\) y \(\|x^{n}\|\)"</td><td>Pegar \(x\) consigo misma; el largo es \(n\,\|x\|\).</td><td>sección 5</td></tr>
+      <tr><td>"Listar prefijos, sufijos, subcadenas (propios)"</td><td>Cortar \(w\) en todos los lugares; "propio" saca el corte que deja todo de un lado.</td><td>sección 6</td></tr>
+      <tr><td>"¿Cuántas cadenas de largo \(\leq N\) empiezan con \(p\)?"</td><td>Por cada largo \(n\): los símbolos de \(p\) quedan fijos y los otros \(n - \|p\|\) son libres, \(|\Sigma|^{\,n - \|p\|}\). Sumar sobre los largos posibles (regla de la suma). Si dice "prefijo <strong>propio</strong>", el largo arranca en \(\|p\| + 1\).</td><td>secciones 4 y 6</td></tr>
+      <tr><td>"Determinar \(AB\), \(BA\), \(A^{3}\)"</td><td>Pegar cada una con cada una, en orden, y borrar las repetidas. \(A^{3} = A\,A\,A\).</td><td>secciones 7 y 8</td></tr>
+      <tr><td>"¿La cadena \(w\) está en \(AB\)?"</td><td>Probar todos los cortes \(w = uv\): está si en algún corte \(u \in A\) y \(v \in B\).</td><td>sección 7</td></tr>
+      <tr><td>"Verdadero o falso" con lenguajes</td><td>Si es una propiedad del teorema de la cátedra, citarla. Si es falsa, contraejemplo con lenguajes de una o dos cadenas. Ojo: \(A(B \cap C) \subseteq AB \cap AC\), sin igualdad.</td><td>sección 7</td></tr>
+      <tr><td>"Use lenguajes finitos y operaciones para describir..."</td><td>Moldes: prefijo \(\{p\}\Sigma^{*}\); sufijo \(\Sigma^{*}\{s\}\); subcadena \(\Sigma^{*}\{t\}\Sigma^{*}\); con "propio", \(\Sigma^{+}\) en lugar de \(\Sigma^{*}\); largo par \((\Sigma^{2})^{*}\); exactamente una \(b\): las otras letras con \({}^{*}\) a los dos lados de \(\{b\}\).</td><td>sección 9</td></tr>
+      <tr><td>"Describir unívocamente, en términos de prefijo y sufijo" &#9733;</td><td>Separar los bloques, decir qué da cada uno; el primero es el prefijo, el último el sufijo; calcular el <strong>largo mínimo</strong>; comprobar las dos direcciones.</td><td>secciones 8 y 9</td></tr>
+      <tr><td>"Definir recursivamente"</td><td>Base (las cadenas más chicas) + paso recursivo (cómo se fabrica una nueva desde una que está) + "nada más está".</td><td>sección 10</td></tr>
+    </table>
+  </div>
+
+  <h3>Máquinas: qué hacer ante cada consigna</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Si la consigna dice...</th><th>Qué hacer</th><th>Dónde está</th></tr>
+      <tr><td>"Determinar \(S\), \(I\), \(O\) y elementos de \(\nu\) y \(\omega\)"</td><td>\(S\) los estados, \(I\) lo que entra, \(O\) lo que sale; cada casilla de la tabla es un valor: \(\nu(s_i, x) = s_j\), \(\omega(s_i, x) = y\).</td><td>sección 12</td></tr>
+      <tr><td>"Hacer la tabla" / "dibujar el diagrama" / "completar" &#9733;</td><td>Cada flecha \(s_i \to s_j\) con "\(x, y\)" es una casilla de \(\nu\) (\(s_j\)) y una de \(\omega\) (\(y\)). Pasar todo lo que se sabe de un lado al otro; lo que no se sabe queda vacío.</td><td>sección 13</td></tr>
+      <tr><td>"Hallar \(\nu(s_0, x)\) y \(\omega(s_0, x)\)"</td><td>Tabla de seguimiento pulso por pulso. \(\nu\) da <strong>un estado</strong> (el último); \(\omega\) da <strong>una cadena</strong> del mismo largo que \(x\).</td><td>sección 14</td></tr>
+      <tr><td>"Reconocer cada aparición de \(p\)" / "las que terminan en \(p\)" (con solapamiento) &#9733;</td><td>Estados \(s_0, \ldots, s_{m-1}\) (\(m = \|p\|\)); \(s_k\) recuerda los \(k\) primeros de \(p\). Avanzar con el símbolo que sigue; el último escribe 1. Toda otra flecha: el sufijo más largo de lo leído que sea prefijo propio de \(p\). Nunca mandar todo a \(s_0\).</td><td>secciones 15 y 16</td></tr>
+      <tr><td>"Sin solapamiento"</td><td>Igual, pero después de escribir el 1 se vuelve a \(s_0\).</td><td>sección 15</td></tr>
+      <tr><td>"Solo en las posiciones múltiplo de \(k\)"</td><td>Bloques de \(k\): camino bueno de \(k\) estados y camino de descarte de \(k - 1\); al cerrar el bloque, siempre a \(s_0\). Total \(2k - 1\) estados.</td><td>sección 17</td></tr>
+      <tr><td>"Reconozca solamente y a todas las de \(\{p\}\Sigma^{*}\{s\}\)" &#9733;</td><td>Fila que revisa \(p\); si falla, sumidero que escribe siempre 0; con \(p\) aprobado, la reconocedora de "termina en \(s\)". Palabras de largo \(n\): \(|\Sigma|^{\,n - \|p\| - \|s\|}\).</td><td>sección 18</td></tr>
+      <tr><td>"Retardar la salida \(k\) posiciones"</td><td>Los estados recuerdan los últimos \(k\) símbolos; se escribe el más viejo.</td><td>sección 19</td></tr>
+      <tr><td>"Indicar estados transitorios / sumideros"</td><td>Transitorio: no se puede volver a él (sin lazo, fuera de todo ciclo). Sumidero: <strong>todas</strong> sus flechas son lazos.</td><td>sección 20</td></tr>
+      <tr><td>"Dar una submáquina" / "¿es fuertemente conexa?" &#9733;</td><td>Tomar un estado y todo lo alcanzable desde él: ninguna flecha sale del grupo. Fuertemente conexa: desde cada estado del grupo se llega a todos los otros.</td><td>sección 21</td></tr>
+      <tr><td>"¿Cuántas máquinas / funciones \(\nu\)?" &#9733;</td><td>Contar casillero por casillero: los dados valen 1; los libres de \(\nu\), \(|S|\) opciones; los de \(\omega\), \(|O|\). Si piden sumideros, fijar o prohibir filas enteras.</td><td>sección 22</td></tr>
+      <tr><td>"Escribir como concatenación de lenguajes lo que detecta" &#9733;</td><td>Marcar las flechas que escriben 1; para cada una, el camino desde \(s_0\) (lazos con \({}^{*}\)) y su símbolo al final; unir los casos. Probar con dos cadenas que estén y una que no.</td><td>sección 23</td></tr>
+      <tr><td>"Describir lo que realiza la máquina"</td><td>Preguntarse qué <strong>recuerda</strong> cada estado y probar con un par de cadenas.</td><td>secciones 11 y 23</td></tr>
+    </table>
+  </div>
+
+  <h3>Las fórmulas de contar</h3>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Máquinas con \(|S|\), \(|I|\), \(|O|\) dados</span>
+    <p>\[ \#\nu = |S|^{\,|S||I|}, \qquad \#\omega = |O|^{\,|S||I|}, \qquad \#\text{máquinas} = (|S| \cdot |O|)^{\,|S||I|} \]</p>
+    <ul>
+      <li>Sin bucles: cada casillero de \(\nu\) tiene \(|S| - 1\) opciones.</li>
+      <li>Un estado sumidero: su fila de \(\nu\) queda fija (1 forma); no sumidero: \(|S|^{|I|} - 1\) formas para su fila.</li>
+      <li>Exactamente \(k\) sumideros: \(\binom{|S|}{k}\) para elegir cuáles, por las formas de que los demás no lo sean.</li>
+    </ul>
+    <p>Ejemplo: \(|S| = 3\), \(|I| = 5\), \(|O| = 2\) dan \(6^{15}\) máquinas (sección 22).</p>
+  </div>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Los errores que más puntos cuestan</span>
+    <ul>
+      <li>En una reconocedora, mandar toda falla a \(s_0\) (se pierden apariciones solapadas).</li>
+      <li>Olvidar el largo mínimo al describir \(AB^{+}C^{2}\): \(B^{+}\) aporta al menos un símbolo.</li>
+      <li>Confundir \(\nu(s_0, x)\) (un estado) con \(\omega(s_0, x)\) (una cadena).</li>
+      <li>Decir que un estado es sumidero porque tiene <strong>un</strong> lazo: tienen que ser lazos con todas las entradas.</li>
+      <li>Contar funciones \(\nu\) cuando piden máquinas (falta multiplicar por las \(\omega\)).</li>
+    </ul>
+  </div>
+</div>

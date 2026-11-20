@@ -1,0 +1,78 @@
+<div class="bloque">
+  <p class="kicker">Lenguajes</p>
+  <h2>4. \(\Sigma^{+}\) y \(\Sigma^{*}\): todas las cadenas</h2>
+
+  <h3>Para qué sirve</h3>
+  <p>
+    \(\Sigma^{n}\) tiene las cadenas de <em>un</em> largo. Para hablar de "cualquier cadena, de
+    cualquier largo" se juntan todos los \(\Sigma^{n}\) en un solo conjunto. \(\Sigma^{*}\) aparece en
+    todos los enunciados de la unidad: "\(x \in I^{*}\)" quiere decir "\(x\) es cualquier cadena de
+    entrada".
+  </p>
+
+  <h3>Definición</h3>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Clausura positiva y clausura de Kleene del alfabeto</span>
+    <p>\[ \Sigma^{+} = \bigcup_{n=1}^{\infty} \Sigma^{n} = \bigcup_{n \in \mathbb{Z}^{+}} \Sigma^{n}, \qquad \Sigma^{*} = \bigcup_{n=0}^{\infty} \Sigma^{n} \]</p>
+    <p>\[ \Sigma^{*} = \Sigma^{+} \cup \Sigma^{0} = \Sigma^{+} \cup \{\lambda\} \]</p>
+  </div>
+
+  <h3>Qué significa cada símbolo</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Símbolo</th><th>Se lee</th><th>Qué es</th></tr>
+      <tr><td>\(\bigcup_{n=1}^{\infty}\)</td><td>unión desde \(n = 1\) hasta infinito</td><td>juntar en un solo conjunto \(\Sigma^{1}, \Sigma^{2}, \Sigma^{3}, \ldots\)</td></tr>
+      <tr><td>\(\mathbb{Z}^{+}\)</td><td>enteros positivos</td><td>\(\{1, 2, 3, \ldots\}\)</td></tr>
+      <tr><td>\(\Sigma^{+}\)</td><td>sigma más</td><td>todas las cadenas de largo 1 o más: todas menos la vacía</td></tr>
+      <tr><td>\(\Sigma^{*}\)</td><td>sigma estrella</td><td>todas las cadenas, la vacía incluida</td></tr>
+    </table>
+  </div>
+  <p>
+    La única diferencia entre las dos es \(\lambda\): el "\(+\)" arranca en largo 1 y la "\(*\)" en
+    largo 0. Las dos son conjuntos <strong>infinitos</strong>, pero cada cadena que contienen es
+    <strong>finita</strong>.
+  </p>
+
+  <h3>Cómo se cuentan sus partes</h3>
+  <p>
+    Lo que se cuenta es un trozo: "las cadenas de largo menor o igual a \(k\)". Como los
+    \(\Sigma^{n}\) no comparten cadenas (cada cadena tiene un solo largo), se suman:
+  </p>
+  <p>\[ |\Sigma^{0} \cup \Sigma^{1} \cup \cdots \cup \Sigma^{k}| = |\Sigma|^{0} + |\Sigma|^{1} + \cdots + |\Sigma|^{k} \]</p>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; Cadenas cortas de \(\Sigma^{*}\)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>Con \(\Sigma = \{0, 1\}\), ¿cuántas cadenas de \(\Sigma^{*}\) tienen largo menor o igual a 3? ¿Y de \(\Sigma^{+}\)?</p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"de \(\Sigma^{*}\)"</td><td>incluye a \(\lambda\)</td><td>se arranca en largo 0</td><td>\(n = 0, 1, 2, 3\)</td></tr>
+      <tr><td>"de \(\Sigma^{+}\)"</td><td>sin \(\lambda\)</td><td>se arranca en largo 1</td><td>\(n = 1, 2, 3\)</td></tr>
+    </table>
+  </div>
+  <p>\[ 2^{0} + 2^{1} + 2^{2} + 2^{3} = 1 + 2 + 4 + 8 = 15 \]</p>
+  <p>\[ 2^{1} + 2^{2} + 2^{3} = 14 \]</p>
+  <div class="caja caja-resp"><span class="caja-tit">Respuesta</span><p>15 en \(\Sigma^{*}\) y 14 en \(\Sigma^{+}\): la diferencia es justo \(\lambda\).</p></div>
+
+  <h3>Ejemplo 2 &mdash; Con forma de guía: largo acotado y un prefijo</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>Con \(\Sigma = \{a, b, c\}\), ¿cuántas cadenas de \(\Sigma^{*}\) de largo menor o igual a 4 empiezan con \(a\)?</p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"empiezan con \(a\)"</td><td>el primer casillero está fijo</td><td>1 opción</td><td>sobran \(n - 1\) casilleros libres</td></tr>
+      <tr><td>"largo menor o igual a 4"</td><td>largos posibles</td><td>la vacía no empieza con nada: se descarta</td><td>\(n = 1, 2, 3, 4\)</td></tr>
+      <tr><td>"\(\{a, b, c\}\)"</td><td>cada casillero libre</td><td>3 opciones</td><td>\(3^{n-1}\) por cada largo</td></tr>
+    </table>
+  </div>
+  <p>\[ \sum_{n=1}^{4} 3^{\,n-1} = 3^{0} + 3^{1} + 3^{2} + 3^{3} = 1 + 3 + 9 + 27 = 40 \]</p>
+  <div class="caja caja-resp"><span class="caja-tit">Respuesta</span><p>40 cadenas: \(a\), las 3 de largo 2 (\(aa, ab, ac\)), 9 de largo 3 y 27 de largo 4.</p></div>
+</div>

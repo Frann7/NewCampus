@@ -1,0 +1,173 @@
+<div class="bloque" data-examen="igual" data-examen-ref="Parcial 1 2026 · ej. 4 e" data-examen-nota="El ítem e) (10 puntos) pidió escribir como concatenación de lenguajes el conjunto de cadenas que detecta la máquina ya completada. El recuperatorio (B.b ii) pidió lo mismo para la máquina que se construía.">
+  <p class="kicker">Propiedades de las máquinas</p>
+  <h2>23. El lenguaje que detecta una máquina</h2>
+
+  <h3>Para qué sirve</h3>
+  <p>
+    Es el camino inverso de las secciones 16 a 18: dada la máquina, decir <strong>qué cadenas
+    detecta</strong> (las que hacen que la última salida sea 1), escritas con uniones,
+    concatenaciones y clausuras (secciones 7 a 9).
+  </p>
+
+  <h3>Definición</h3>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Lenguaje que detecta \(M\) desde \(s_0\)</span>
+    <p>\[ A = \{\, x \in I^{+} \,/\, \omega(s_0, x) \text{ tiene a } 1 \text{ como sufijo} \,\} \]</p>
+    <p>Son las cadenas cuyo <strong>último</strong> símbolo de salida es 1.</p>
+  </div>
+
+  <h3>El método</h3>
+  <ol>
+    <li><strong>Marcar las flechas que escriben 1.</strong> Una cadena está en \(A\) si y solo si su último símbolo recorre una de esas flechas.</li>
+    <li><strong>Para cada una, escribir los caminos de \(s_0\) hasta su origen:</strong> cada flecha que se recorre aporta su símbolo, y cada <strong>lazo</strong> por el que se puede dar vueltas aporta \(\{\text{símbolo}\}^{*}\) (si el lazo tiene varias entradas, \(\{a, b\}^{*}\)).</li>
+    <li><strong>Pegar al final el símbolo de la flecha marcada.</strong></li>
+    <li><strong>Unir</strong> lo que sale de cada flecha marcada (regla de la suma: son casos que no se pisan).</li>
+    <li><strong>Simplificar</strong> con \(\{a\}^{*}\{a\} = \{a\}^{+}\) y probar con dos cadenas que estén y una que no.</li>
+  </ol>
+
+  <h3>Qué significa cada pieza</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>En el diagrama</th><th>En el lenguaje</th></tr>
+      <tr><td>flecha \(s_i \to s_j\) con entrada \(a\)</td><td>\(\{a\}\)</td></tr>
+      <tr><td>lazo con entrada \(a\)</td><td>\(\{a\}^{*}\) (cero o más vueltas)</td></tr>
+      <tr><td>lazo con entradas \(a\) y \(b\)</td><td>\(\{a, b\}^{*}\)</td></tr>
+      <tr><td>dos caminos distintos</td><td>\(\cup\)</td></tr>
+      <tr><td>sumidero que escribe siempre 0</td><td>nada: lo que entra ahí no se detecta nunca más</td></tr>
+    </table>
+  </div>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Cuándo el método es así de directo</span>
+    <p>
+      Funciona camino por camino cuando los únicos ciclos son lazos (lo habitual en los parciales:
+      máquinas con sumidero). Si hay ciclos entre varios estados, como en los reconocedores de la
+      sección 16, conviene pensar al revés: qué recuerda cada estado (por ejemplo, la del Ejemplo 12
+      detecta \(\{0, 1\}^{*}\{101\}\)).
+    </p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; Con forma de parcial: la máquina de la sección 13</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>Escribir, como concatenación de lenguajes, el conjunto de cadenas que detecta esta máquina (\(I = O = \{0, 1\}\)).</p>
+  </div>
+  <div class="pd-grafico af" data-g="u2t-lenguaje">
+    <svg viewBox="-61 -77 544 314" width="544" height="314" role="img" aria-label="Máquina con un estado sumidero">
+      <path class="arco" d="M17.3,72.1 L158.7,7.9"/>
+      <path class="punta" d="M158.7,7.9 L152.4,15.7 L148.6,7.5 Z"/>
+      <text class="rot" x="81.9" y="26.6" text-anchor="middle" dominant-baseline="central">0,0</text>
+      <path class="arco" d="M17.3,87.9 L158.7,152.1"/>
+      <path class="punta" d="M158.7,152.1 L148.6,152.5 L152.4,144.3 Z"/>
+      <text class="rot" x="94.1" y="106.6" text-anchor="middle" dominant-baseline="central">1,0</text>
+      <path class="arco" d="M167.1,-16.8 C136.0,-51.2 216.0,-51.2 184.9,-16.8"/>
+      <path class="punta" d="M184.9,-16.8 L187.6,-26.5 L194.3,-20.4 Z"/>
+      <text class="rot" x="176.0" y="-56.0" text-anchor="middle" dominant-baseline="central">1,1</text>
+      <path class="arco" d="M193.3,7.9 L334.7,72.1"/>
+      <path class="punta" d="M334.7,72.1 L324.6,72.5 L328.4,64.3 Z"/>
+      <text class="rot" x="270.1" y="26.6" text-anchor="middle" dominant-baseline="central">0,0</text>
+      <path class="arco" d="M184.9,176.8 C216.0,211.2 136.0,211.2 167.1,176.8"/>
+      <path class="punta" d="M167.1,176.8 L164.4,186.5 L157.7,180.4 Z"/>
+      <text class="rot" x="176.0" y="216.0" text-anchor="middle" dominant-baseline="central">0,0</text>
+      <path class="arco" d="M193.3,152.1 L334.7,87.9"/>
+      <path class="punta" d="M334.7,87.9 L328.4,95.7 L324.6,87.5 Z"/>
+      <text class="rot" x="257.9" y="106.6" text-anchor="middle" dominant-baseline="central">1,1</text>
+      <path class="arco" d="M368.8,71.1 C403.2,40.0 403.2,120.0 368.8,88.9"/>
+      <path class="punta" d="M368.8,88.9 L378.5,91.6 L372.4,98.3 Z"/>
+      <text class="rot" x="437.2" y="80.0" text-anchor="middle" dominant-baseline="central">0,0 | 1,0</text>
+      <path class="arco" d="M-49.0,80.0 L-19.0,80.0"/>
+      <path class="punta" d="M-19.0,80.0 L-28.0,84.5 L-28.0,75.5 Z"/>
+      <g class="estado">
+        <circle class="borde" cx="0.0" cy="80.0" r="19"/>
+        <text class="nom" x="0.0" y="80.0" text-anchor="middle" dominant-baseline="central">s0</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="176.0" cy="0.0" r="19"/>
+        <text class="nom" x="176.0" y="0.0" text-anchor="middle" dominant-baseline="central">s1</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="176.0" cy="160.0" r="19"/>
+        <text class="nom" x="176.0" y="160.0" text-anchor="middle" dominant-baseline="central">s2</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="352.0" cy="80.0" r="19"/>
+        <text class="nom" x="352.0" y="80.0" text-anchor="middle" dominant-baseline="central">s3</text>
+      </g>
+    </svg>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Flecha con salida 1</th><th>Caminos de \(s_0\) a su origen</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>lazo de \(s_1\) "1,1"</td><td>\(s_0 \xrightarrow{0} s_1\), y en \(s_1\) se puede dar vueltas con 1</td><td>\(\{0\}\{1\}^{*}\) y después \(\{1\}\)</td><td>\(\{0\}\{1\}^{*}\{1\} = \{0\}\{1\}^{+}\)</td></tr>
+      <tr><td>\(s_2 \to s_3\) "1,1"</td><td>\(s_0 \xrightarrow{1} s_2\), y en \(s_2\) vueltas con 0</td><td>\(\{1\}\{0\}^{*}\) y después \(\{1\}\)</td><td>\(\{1\}\{0\}^{*}\{1\}\)</td></tr>
+      <tr><td>\(s_3\) (sumidero)</td><td>escribe siempre 0</td><td>&mdash;</td><td>no aporta</td></tr>
+    </table>
+  </div>
+  <p><span class="paso">Pruebas</span></p>
+  <ul>
+    <li>\(\omega(s_0, 0111) = 0111\): \(01\), \(011\) y \(0111\) se detectan, y están en \(\{0\}\{1\}^{+}\).</li>
+    <li>\(\omega(s_0, 1001) = 0001\): \(1001 \in \{1\}\{0\}^{*}\{1\}\).</li>
+    <li>\(\omega(s_0, 10011) = 00010\): \(10011\) no se detecta (el segundo 1 llevó a \(s_3\)).</li>
+  </ul>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>\(A = \{0\}\{1\}^{+} \cup \{1\}\{0\}^{*}\{1\}\). Verificado simulando todas las cadenas de largo hasta 10.</p>
+  </div>
+
+  <h3>Ejemplo 2 &mdash; Un lazo con dos entradas (máquina del Ejemplo 20)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>Escribir como concatenación de lenguajes las cadenas que detecta la máquina del diagrama.</p>
+  </div>
+  <div class="pd-grafico af" data-g="u2t-e20">
+    <svg viewBox="-61 -31 497 108" width="497" height="108" role="img" aria-label="Máquina de los Ejemplos 20 y 21 de la cátedra">
+      <path class="arco" d="M19.0,0.0 L173.0,0.0"/>
+      <path class="punta" d="M173.0,0.0 L164.0,4.5 L164.0,-4.5 Z"/>
+      <text class="rot" x="96.0" y="-10.0" text-anchor="middle" dominant-baseline="central">1,0 | 0,0</text>
+      <path class="arco" d="M200.9,16.8 C232.0,51.2 152.0,51.2 183.1,16.8"/>
+      <path class="punta" d="M183.1,16.8 L180.4,26.5 L173.7,20.4 Z"/>
+      <text class="rot" x="192.0" y="56.0" text-anchor="middle" dominant-baseline="central">0,0</text>
+      <path class="arco" d="M211.0,0.0 L365.0,0.0"/>
+      <path class="punta" d="M365.0,0.0 L356.0,4.5 L356.0,-4.5 Z"/>
+      <text class="rot" x="288.0" y="-10.0" text-anchor="middle" dominant-baseline="central">1,0</text>
+      <path class="arco" d="M392.9,16.8 C424.0,51.2 344.0,51.2 375.1,16.8"/>
+      <path class="punta" d="M375.1,16.8 L372.4,26.5 L365.7,20.4 Z"/>
+      <text class="rot" x="384.0" y="56.0" text-anchor="middle" dominant-baseline="central">1,1 | 0,0</text>
+      <path class="arco" d="M-49.0,0.0 L-19.0,0.0"/>
+      <path class="punta" d="M-19.0,0.0 L-28.0,4.5 L-28.0,-4.5 Z"/>
+      <g class="estado">
+        <circle class="borde" cx="0.0" cy="0.0" r="19"/>
+        <text class="nom" x="0.0" y="0.0" text-anchor="middle" dominant-baseline="central">s0</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="192.0" cy="0.0" r="19"/>
+        <text class="nom" x="192.0" y="0.0" text-anchor="middle" dominant-baseline="central">s1</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="384.0" cy="0.0" r="19"/>
+        <text class="nom" x="384.0" y="0.0" text-anchor="middle" dominant-baseline="central">s2</text>
+      </g>
+    </svg>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Tramo</th><th>Qué se ve</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>\(s_0 \to s_1\)</td><td>con 0 o con 1</td><td>&mdash;</td><td>\(\{0, 1\}\)</td></tr>
+      <tr><td>lazo de \(s_1\)</td><td>vueltas con 0</td><td>&mdash;</td><td>\(\{0\}^{*}\)</td></tr>
+      <tr><td>\(s_1 \to s_2\)</td><td>con 1</td><td>&mdash;</td><td>\(\{1\}\)</td></tr>
+      <tr><td>lazo de \(s_2\)</td><td>vueltas con 0 y con 1</td><td>&mdash;</td><td>\(\{0, 1\}^{*}\)</td></tr>
+      <tr><td>flecha marcada: lazo "1,1" de \(s_2\)</td><td>el último símbolo es un 1 leído en \(s_2\)</td><td>&mdash;</td><td>\(\{1\}\) al final</td></tr>
+    </table>
+  </div>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>
+      \(A = \{0, 1\}\{0\}^{*}\{1\}\{0, 1\}^{*}\{1\}\): un símbolo cualquiera, ceros, un 1 (que lleva a
+      \(s_2\)), cualquier cosa, y un 1 final. Verificado simulando todas las cadenas de largo hasta 10.
+    </p>
+  </div>
+</div>

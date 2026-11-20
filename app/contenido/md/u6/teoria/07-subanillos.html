@@ -1,0 +1,137 @@
+<div class="bloque">
+  <p class="kicker">Subestructuras</p>
+  <h2>7. Subanillos</h2>
+
+  <h3>Para qué sirve</h3>
+  <p>
+    Muchas veces un anillo vive "adentro" de otro más grande: los enteros pares adentro de
+    \(\mathbb{Z}\), ciertas matrices adentro de \(M_2(\mathbb{Z})\). En vez de chequear las seis
+    condiciones de nuevo, hay un <strong>criterio corto</strong> de dos renglones.
+  </p>
+
+  <h3>Definición y criterio (los de la cátedra)</h3>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Subanillo</span>
+    <p>Dado un anillo \((R, +, \cdot)\), un subconjunto no vacío \(S \subseteq R\) es un <strong>subanillo</strong> si \((S, +, \cdot)\) es un anillo (con las mismas operaciones).</p>
+    <p><strong>Criterio:</strong> si \(\emptyset \neq S \subseteq R\), \(S\) es subanillo de \(R\) si y solo si, para todos \(a, b \in S\):</p>
+    <p>\[ a - b \in S \qquad \text{y} \qquad ab \in S \]</p>
+    <p>Si \(S\) es <strong>finito</strong>, alcanza con \(a + b \in S\) y \(ab \in S\).</p>
+  </div>
+
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Símbolo</th><th>Se lee</th></tr>
+      <tr><td>\(S \subseteq R\)</td><td>\(S\) está contenido en \(R\) (todo elemento de \(S\) es de \(R\))</td></tr>
+      <tr><td>\(\emptyset \neq S\)</td><td>\(S\) no es vacío: tiene al menos un elemento</td></tr>
+      <tr><td>\(a - b \in S\)</td><td>la resta de dos elementos de \(S\) se queda en \(S\) ("resta cerrada")</td></tr>
+    </table>
+  </div>
+
+  <h4>Por qué alcanza con la resta y el producto</h4>
+  <ul>
+    <li>Las asociativas, la conmutativa de \(+\) y la distributiva ya valen en \(R\), así que valen
+      en \(S\) (son los mismos elementos y las mismas cuentas).</li>
+    <li>Lo único que podría fallar es que algo <strong>se escape</strong> de \(S\): el \(z\), los
+      opuestos, las sumas o los productos.</li>
+    <li>Con la resta cerrada: tomando \(b = a\), \(a - a = z \in S\); tomando \(a = z\),
+      \(z - b = -b \in S\); y \(a + b = a - (-b) \in S\). La resta sola trae el cero, los opuestos
+      y la suma.</li>
+  </ul>
+
+  <h3>El procedimiento</h3>
+  <ol>
+    <li>Mostrar que \(S\) <strong>no es vacío</strong> (un elemento concreto, en general \(z\)).</li>
+    <li>Tomar dos elementos <strong>genéricos</strong> de \(S\), con letras.</li>
+    <li>Calcular \(a - b\) y ver que tiene <strong>la forma</strong> que define a \(S\).</li>
+    <li>Calcular \(ab\) y ver lo mismo.</li>
+    <li>Si algo no tiene la forma, buscar un <strong>contraejemplo</strong> con números: no es subanillo.</li>
+  </ol>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; Los pares en \(\mathbb{Z}\)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>¿Es \(2\mathbb{Z} = \{\dots, -4, -2, 0, 2, 4, \dots\}\) un subanillo de \(\mathbb{Z}\)?</p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"\(2\mathbb{Z}\)"</td><td>los múltiplos de 2: los números de la forma \(2k\)</td><td>\(k \in \mathbb{Z}\)</td><td>\(S\)</td></tr>
+      <tr><td>"de \(\mathbb{Z}\)"</td><td>el anillo grande, con suma y producto usuales</td><td>&mdash;</td><td>\(R\)</td></tr>
+    </table>
+  </div>
+  <ol>
+    <li>No vacío: \(0 = 2 \cdot 0 \in 2\mathbb{Z}\).</li>
+    <li>Genéricos: \(a = 2k\), \(b = 2m\).</li>
+    <li>Resta: \(2k - 2m = 2(k - m)\), es \(2 \cdot\)(un entero) ✔.</li>
+    <li>Producto: \((2k)(2m) = 2(2km)\), también ✔.</li>
+  </ol>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>Sí, \(2\mathbb{Z}\) es subanillo de \(\mathbb{Z}\). (Es un anillo sin unidad: el \(1\) no es par.)</p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; Matrices con forma (cátedra, ejemplo 3)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>
+      En \(R = M_2(\mathbb{Z})\), ¿es subanillo
+      \(S = \left\{ \begin{bmatrix} x &amp; x + y \\ x + y &amp; x \end{bmatrix} \,/\, x, y \in \mathbb{Z} \right\}\)?
+    </p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>la forma de \(S\)</td><td>las dos casillas de la diagonal iguales (\(x\)) y las otras dos iguales entre sí (\(x + y\))</td><td>como \(y\) es cualquiera, \(x + y\) es cualquier entero</td><td>lo que hay que reconocer</td></tr>
+      <tr><td>"\(M_2(\mathbb{Z})\)"</td><td>matrices \(2 \times 2\) de enteros</td><td>sección 1</td><td>\(R\)</td></tr>
+    </table>
+  </div>
+  <p><span class="paso">Paso 1 — No vacío</span> Con \(x = y = 0\), la matriz nula está en \(S\).</p>
+  <p><span class="paso">Paso 2 — Resta</span></p>
+  <p>\[ \begin{bmatrix} a &amp; a + b \\ a + b &amp; a \end{bmatrix} - \begin{bmatrix} c &amp; c + d \\ c + d &amp; c \end{bmatrix} = \begin{bmatrix} a - c &amp; (a - c) + (b - d) \\ (a - c) + (b - d) &amp; a - c \end{bmatrix} \]</p>
+  <p>Tiene la forma de \(S\) con \(x = a - c\), \(y = b - d\) ✔.</p>
+  <p><span class="paso">Paso 3 — Producto</span> (fila por columna)</p>
+  <p>\[ \begin{bmatrix} a &amp; a + b \\ a + b &amp; a \end{bmatrix}\begin{bmatrix} c &amp; c + d \\ c + d &amp; c \end{bmatrix} = \begin{bmatrix} 2ac + ad + bc + bd &amp; 2ac + ad + bc \\ 2ac + ad + bc &amp; 2ac + ad + bc + bd \end{bmatrix} \]</p>
+  <p>
+    La diagonal es igual (\(x = 2ac + ad + bc + bd\)) y las otras dos casillas son iguales; se
+    escriben como \(x + y\) con \(y = -bd\). Tiene la forma ✔.
+  </p>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>\(S\) es subanillo de \(M_2(\mathbb{Z})\).</p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 3 &mdash; Forma de parcial: uno que no es (complementaria, ej. 2)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>
+      Sea \(S = \left\{ \begin{bmatrix} 0 &amp; a \\ a &amp; 0 \end{bmatrix} \,/\, a \in \mathbb{R} \right\}\)
+      un subconjunto del anillo \(M_{2 \times 2}\) (matrices \(2 \times 2\) reales). Determinar si
+      \(S\) es subanillo y/o ideal.
+    </p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>la forma de \(S\)</td><td>diagonal en cero y las otras dos casillas iguales</td><td>&mdash;</td><td>lo que hay que reconocer</td></tr>
+      <tr><td>"subanillo"</td><td>resta y producto cerrados</td><td>criterio</td><td>esta sección</td></tr>
+      <tr><td>"ideal"</td><td>más exigente que subanillo</td><td>sección 8</td><td>sale gratis si no es subanillo</td></tr>
+    </table>
+  </div>
+  <p><span class="paso">Paso 1 — Resta</span> \(\begin{bmatrix} 0 &amp; a \\ a &amp; 0 \end{bmatrix} - \begin{bmatrix} 0 &amp; b \\ b &amp; 0 \end{bmatrix} = \begin{bmatrix} 0 &amp; a - b \\ a - b &amp; 0 \end{bmatrix} \in S\) ✔.</p>
+  <p><span class="paso">Paso 2 — Producto</span></p>
+  <p>\[ \begin{bmatrix} 0 &amp; a \\ a &amp; 0 \end{bmatrix}\begin{bmatrix} 0 &amp; b \\ b &amp; 0 \end{bmatrix} = \begin{bmatrix} 0 \cdot 0 + a b &amp; 0 \cdot b + a \cdot 0 \\ a \cdot 0 + 0 \cdot b &amp; ab + 0 \cdot 0 \end{bmatrix} = \begin{bmatrix} ab &amp; 0 \\ 0 &amp; ab \end{bmatrix} \]</p>
+  <p>La diagonal ya no es cero. Contraejemplo con \(a = b = 1\): el producto da la identidad, que no está en \(S\) ✘.</p>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>\(S\) <strong>no</strong> es subanillo (el producto no es cerrado) y, por lo tanto, tampoco es ideal (todo ideal es subanillo, sección 8).</p>
+  </div>
+</div>

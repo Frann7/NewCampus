@@ -1,0 +1,49 @@
+<div class="ej">
+  <span class="tag" data-num-ej="6.1-12.">Grimaldi 6.1 &middot; Ej. 12 &middot; ¿Está la cadena en el lenguaje?</span>
+  <h2>¿Está \(00010\) en cada uno de estos seis lenguajes?</h2>
+  <div class="enunciado">
+    <p>Para \(\Sigma = \{0, 1\}\), determine si la cadena \(00010\) está en cada uno de los siguientes lenguajes (tomados de \(\Sigma^*\)).</p>
+    <p>a) \(\{0, 1\}^*\) &nbsp; b) \(\{000, 101\}\{10, 11\}\) &nbsp; c) \(\{00\}\{0\}^*\{10\}\) &nbsp; d) \(\{000\}^*\{1\}^*\{0\}\) &nbsp; e) \(\{00\}^*\{10\}^*\) &nbsp; f) \(\{0\}^*\{1\}^*\{0\}^*\)</p>
+  </div>
+
+  <span class="paso">Qué tema es y por qué</span>
+  <ul>
+    <li>Concatenación y clausura de Kleene de lenguajes (en la teoría, "Potencias y clausuras de lenguajes").</li>
+    <li>Para ver si una cadena está en una concatenación \(L_1L_2L_3\), hay que <strong>cortarla en pedazos</strong> de manera que el primero esté en \(L_1\), el segundo en \(L_2\), etc. Alcanza con encontrar un corte que funcione; para decir que no, hay que ver que <strong>ningún</strong> corte funciona.</li>
+  </ul>
+  <div class="caja caja-formula">
+    <p>\(\{u\}^* = \{\lambda, u, uu, uuu, \dots\}\): \(u\) repetida cero o más veces.</p>
+  </div>
+
+  <span class="paso">Paso 1 &mdash; a) \(\{0, 1\}^*\)</span>
+  <p>\(\{0,1\}^* = \Sigma^*\): todas las cadenas de ceros y unos. <strong>Sí</strong>.</p>
+
+  <span class="paso">Paso 2 &mdash; b) \(\{000, 101\}\{10, 11\}\)</span>
+  <p>Corte: \(00010 = \underbrace{000}_{\in \{000, 101\}}\,\underbrace{10}_{\in \{10, 11\}}\). <strong>Sí</strong>.</p>
+
+  <span class="paso">Paso 3 &mdash; c) \(\{00\}\{0\}^*\{10\}\)</span>
+  <p>Corte: \(\underbrace{00}_{\{00\}}\,\underbrace{0}_{\{0\}^*}\,\underbrace{10}_{\{10\}}\) (el del medio es \(0^1\)). <strong>Sí</strong>.</p>
+
+  <span class="paso">Paso 4 &mdash; d) \(\{000\}^*\{1\}^*\{0\}\)</span>
+  <p>Corte: \(\underbrace{000}_{\{000\}^*}\,\underbrace{1}_{\{1\}^*}\,\underbrace{0}_{\{0\}}\). <strong>Sí</strong>.</p>
+
+  <span class="paso">Paso 5 &mdash; e) \(\{00\}^*\{10\}^*\)</span>
+  <p>Hay que ver todos los cortes posibles. La parte de \(\{00\}^*\) solo tiene ceros y una cantidad <strong>par</strong> de ellos; la de \(\{10\}^*\) empieza con \(1\) (o es \(\lambda\)).</p>
+  <ul>
+    <li>La cadena empieza con tres ceros y después viene un \(1\). La parte \(\{10\}^*\), si no es vacía, empieza en ese \(1\) (es el único lugar donde podría empezar un \(10\)).</li>
+    <li>Entonces la parte \(\{00\}^*\) sería \(000\): tres ceros, cantidad impar. No está en \(\{00\}^*\).</li>
+    <li>Y si \(\{10\}^*\) es vacía, toda la cadena tendría que estar en \(\{00\}^*\), pero tiene un \(1\).</li>
+  </ul>
+  <p>Ningún corte sirve: <strong>No</strong>.</p>
+
+  <span class="paso">Paso 6 &mdash; f) \(\{0\}^*\{1\}^*\{0\}^*\)</span>
+  <p>Corte: \(\underbrace{000}_{\{0\}^*}\,\underbrace{1}_{\{1\}^*}\,\underbrace{0}_{\{0\}^*}\). <strong>Sí</strong>.</p>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>a) Sí &nbsp; b) Sí &nbsp; c) Sí &nbsp; d) Sí &nbsp; e) No &nbsp; f) Sí</p>
+  </div>
+
+  <span class="paso">Solución del libro</span>
+  <p>El libro en castellano no la da (es par); el manual en inglés: Yes, Yes, Yes, Yes, No, Yes. Coincide (y se comprobó con expresiones regulares en Python).</p>
+</div>

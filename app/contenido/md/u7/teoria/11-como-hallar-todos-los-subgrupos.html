@@ -1,0 +1,159 @@
+<div class="bloque">
+  <p class="kicker">Grupos</p>
+  <h2>11. Cómo hallar todos los subgrupos</h2>
+
+  <h3>Para qué sirve</h3>
+  <p>
+    "Hallar todos los subgrupos" es una consigna fija del parcial. Probar subconjuntos a ciegas no
+    termina nunca (un grupo de 8 elementos tiene 256 subconjuntos). Con lo de las secciones 6, 7 y 10
+    se resuelve con un método que no deja nada afuera:
+  </p>
+  <ul>
+    <li><strong>Lagrange</strong> (sección 10) dice qué tamaños pueden tener: los divisores de \(|G|\).</li>
+    <li><strong>\(\langle a \rangle\)</strong> (sección 6): cada elemento genera un subgrupo, el más chico que lo contiene.</li>
+    <li>Si el grupo es <strong>cíclico</strong> (sección 7), hay un atajo: un subgrupo por cada divisor, y ya se sabe quién lo genera.</li>
+  </ul>
+
+  <h3>Caso 1: el grupo es cíclico</h3>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Teorema (subgrupos de un grupo cíclico)</span>
+    <p>
+      Si \(G = \langle g \rangle\) tiene orden \(n\), para cada divisor \(d\) de \(n\) hay
+      <strong>exactamente un</strong> subgrupo de orden \(d\), y es
+    </p>
+    <p>\[ H_d = \langle g^{\,n/d} \rangle \]</p>
+    <p>
+      En \((\mathbb{Z}_n, +)\), con \(g = 1\), la potencia \(g^{n/d}\) es el número \(n/d\):
+      el subgrupo de orden \(d\) es \(\langle n/d \rangle = \{0,\ n/d,\ 2\,n/d,\ \dots\}\).
+    </p>
+  </div>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Símbolo</th><th>Qué quiere decir</th></tr>
+      <tr><td class="lbl">\(n\)</td><td>El orden del grupo, \(|G|\).</td></tr>
+      <tr><td class="lbl">\(d\)</td><td>Un divisor de \(n\): el tamaño del subgrupo que se busca.</td></tr>
+      <tr><td class="lbl">\(g^{\,n/d}\)</td><td>El generador \(g\) operado \(n/d\) veces consigo mismo; con la suma, \(\frac{n}{d} \cdot g\).</td></tr>
+    </table>
+  </div>
+  <h4>De dónde sale</h4>
+  <ul>
+    <li>
+      <strong>Existe:</strong> \(x = g^{n/d}\) cumple \(x^{d} = g^{n} = e\), y ninguna potencia más chica
+      da \(e\) (si \(x^{k} = e\) con \(0 \lt k \lt d\), sería \(g^{kn/d} = e\) con exponente menor que \(n\),
+      imposible porque \(o(g) = n\)). Entonces \(o(x) = d\) y \(\langle x \rangle\) tiene \(d\) elementos.
+    </li>
+    <li>
+      <strong>Es el único:</strong> todo subgrupo de un cíclico es cíclico (sección 7), así que un
+      subgrupo \(H\) de orden \(d\) es \(\langle g^{k} \rangle\) con \((g^{k})^{d} = e\). Por el teorema
+      de la sección 6, \(n \mid kd\), o sea \(\frac{n}{d} \mid k\): \(g^{k}\) es una potencia de
+      \(g^{n/d}\). Entonces \(H \subseteq H_d\), y como tienen el mismo tamaño, \(H = H_d\).
+    </li>
+  </ul>
+
+  <h3>Caso 2: el grupo no es cíclico (o no se sabe)</h3>
+  <ol>
+    <li><strong>Tamaños posibles:</strong> los divisores de \(|G|\) (Lagrange).</li>
+    <li><strong>Subgrupos cíclicos:</strong> calcular \(\langle a \rangle\) para cada \(a \in G\) (potencias hasta llegar a \(e\)). Varios elementos pueden generar el mismo: se anota una vez.</li>
+    <li>
+      <strong>Subgrupos no cíclicos:</strong> para cada tamaño posible que todavía no apareció, buscar
+      un subconjunto de ese tamaño que contenga a \(e\) y sea <strong>cerrado</strong> (sección 5, caso
+      finito: alcanza con que \(ab \in H\) para todo \(a, b \in H\)). Ayuda saber que un subgrupo
+      no cíclico no tiene ningún elemento cuyo orden sea su tamaño.
+    </li>
+    <li><strong>Los triviales:</strong> \(\{e\}\) y \(G\) siempre están.</li>
+  </ol>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">El error típico</span>
+    <p>
+      Quedarse solo con los \(\langle a \rangle\). En un grupo no cíclico eso deja afuera, como mínimo,
+      al propio \(G\), y a veces algún subgrupo intermedio (Ejemplo 2). Al revés, en un grupo cíclico
+      los \(\langle a \rangle\) ya son todos.
+    </p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; Todos los subgrupos de \((\mathbb{Z}_{18}, +)\)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>Hallar todos los subgrupos de \((\mathbb{Z}_{18}, +)\).</p>
+  </div>
+  <h4>Por qué este caso</h4>
+  <ul>
+    <li>\((\mathbb{Z}_n, +)\) siempre es cíclico: \(\langle 1 \rangle = \mathbb{Z}_n\) (sección 7). Vale el Caso 1.</li>
+  </ul>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"\((\mathbb{Z}_{18}, +)\)"</td><td>cíclico de orden 18, generado por 1</td><td>&mdash;</td><td>\(n = 18\)</td></tr>
+      <tr><td>"todos los subgrupos"</td><td>uno por cada divisor de 18</td><td>divisores: 1, 2, 3, 6, 9, 18</td><td>6 subgrupos</td></tr>
+    </table>
+  </div>
+  <h4>Resolución</h4>
+  <p>Para cada divisor \(d\), el generador es \(18 / d\) y el subgrupo son sus múltiplos (mód 18):</p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>\(d\)</th><th>Generador \(18/d\)</th><th>Subgrupo</th></tr>
+      <tr><td class="lbl">1</td><td>\(18 \to 0\)</td><td>\(\langle 0 \rangle = \{0\}\)</td></tr>
+      <tr><td class="lbl">2</td><td>9</td><td>\(\langle 9 \rangle = \{0, 9\}\)</td></tr>
+      <tr><td class="lbl">3</td><td>6</td><td>\(\langle 6 \rangle = \{0, 6, 12\}\)</td></tr>
+      <tr><td class="lbl">6</td><td>3</td><td>\(\langle 3 \rangle = \{0, 3, 6, 9, 12, 15\}\)</td></tr>
+      <tr><td class="lbl">9</td><td>2</td><td>\(\langle 2 \rangle = \{0, 2, 4, 6, 8, 10, 12, 14, 16\}\)</td></tr>
+      <tr><td class="lbl">18</td><td>1</td><td>\(\langle 1 \rangle = \mathbb{Z}_{18}\)</td></tr>
+    </table>
+  </div>
+  <p>
+    Control: cualquier otro elemento genera uno de estos. Por ejemplo, \(o(15) = 18 / mcd(15, 18) =
+    18 / 3 = 6\) (atajo de la sección 6), así que \(\langle 15 \rangle\) es el de orden 6:
+    \(\langle 15 \rangle = \langle 3 \rangle\).
+  </p>
+  <div class="caja caja-resp"><span class="caja-tit">Respuesta</span><p>Son 6: \(\{0\}\), \(\{0, 9\}\), \(\{0, 6, 12\}\), \(\{0, 3, 6, 9, 12, 15\}\), \(\{0, 2, 4, \dots, 16\}\) y \(\mathbb{Z}_{18}\).</p></div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; Estilo parcial: todos los subgrupos de \(U_{15}\)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>Dado el grupo \((U_{15}, \cdot)\): a) hallar el orden de cada elemento; b) ¿es cíclico?; c) hallar todos sus subgrupos.</p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"\(U_{15}\)"</td><td>los coprimos con 15, producto mód 15</td><td>\(\varphi(15) = \varphi(3)\varphi(5) = 2 \cdot 4 = 8\)</td><td>\(\{1, 2, 4, 7, 8, 11, 13, 14\}\)</td></tr>
+      <tr><td>"orden de cada elemento"</td><td>potencias hasta que dé 1</td><td>&mdash;</td><td>inciso a</td></tr>
+      <tr><td>"todos sus subgrupos"</td><td>tamaños posibles</td><td>divisores de 8: 1, 2, 4, 8</td><td>inciso c</td></tr>
+    </table>
+  </div>
+  <h4>a) Órdenes (potencias mód 15)</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>\(a\)</th><th>Potencias \(a, a^2, a^3, \dots\)</th><th>\(\langle a \rangle\)</th><th>\(o(a)\)</th></tr>
+      <tr><td class="lbl">1</td><td>1</td><td>\(\{1\}\)</td><td>1</td></tr>
+      <tr><td class="lbl">2</td><td>\(2,\ 4,\ 8,\ 16 \to 1\)</td><td>\(\{1, 2, 4, 8\}\)</td><td>4</td></tr>
+      <tr><td class="lbl">4</td><td>\(4,\ 16 \to 1\)</td><td>\(\{1, 4\}\)</td><td>2</td></tr>
+      <tr><td class="lbl">7</td><td>\(7,\ 49 \to 4,\ 28 \to 13,\ 91 \to 1\)</td><td>\(\{1, 4, 7, 13\}\)</td><td>4</td></tr>
+      <tr><td class="lbl">8</td><td>\(8,\ 64 \to 4,\ 32 \to 2,\ 16 \to 1\)</td><td>\(\{1, 2, 4, 8\}\)</td><td>4</td></tr>
+      <tr><td class="lbl">11</td><td>\(11,\ 121 \to 1\)</td><td>\(\{1, 11\}\)</td><td>2</td></tr>
+      <tr><td class="lbl">13</td><td>\(13,\ 169 \to 4,\ 52 \to 7,\ 91 \to 1\)</td><td>\(\{1, 4, 7, 13\}\)</td><td>4</td></tr>
+      <tr><td class="lbl">14</td><td>\(14,\ 196 \to 1\)</td><td>\(\{1, 14\}\)</td><td>2</td></tr>
+    </table>
+  </div>
+  <p>"\(49 \to 4\)" quiere decir: \(49 = 3 \cdot 15 + 4\), el resto es 4. Todos los órdenes (1, 2, 4) dividen a 8, como pide Lagrange.</p>
+  <h4>b) ¿Es cíclico?</h4>
+  <p>Haría falta un elemento de orden 8. El máximo es 4: <strong>no es cíclico</strong>. Por eso no vale el atajo del Caso 1 y se sigue el Caso 2.</p>
+  <h4>c) Subgrupos</h4>
+  <ul>
+    <li><strong>Cíclicos</strong> (de la tabla, sin repetir): \(\{1\}\), \(\{1, 4\}\), \(\{1, 11\}\), \(\{1, 14\}\), \(\{1, 2, 4, 8\}\), \(\{1, 4, 7, 13\}\).</li>
+    <li>
+      <strong>No cíclicos de orden 4:</strong> no tienen elementos de orden 4, así que son el 1 y tres
+      elementos de orden 2. Los de orden 2 son exactamente 4, 11 y 14: el candidato es
+      \(\{1, 4, 11, 14\}\). Se prueba que es cerrado:
+      \(4 \cdot 11 = 44 \to 14\), \(4 \cdot 14 = 56 \to 11\), \(11 \cdot 14 = 154 \to 4\), y cada uno al
+      cuadrado da 1. Es subgrupo.
+    </li>
+    <li><strong>De orden 8:</strong> solo \(U_{15}\) (no cíclico, por el inciso b).</li>
+  </ul>
+  <div class="caja caja-resp"><span class="caja-tit">Respuesta</span><p>a) \(o(1) = 1\); \(o(4) = o(11) = o(14) = 2\); \(o(2) = o(7) = o(8) = o(13) = 4\). b) No es cíclico. c) Son 8: \(\{1\}\), \(\{1, 4\}\), \(\{1, 11\}\), \(\{1, 14\}\), \(\{1, 2, 4, 8\}\), \(\{1, 4, 7, 13\}\), \(\{1, 4, 11, 14\}\) y \(U_{15}\).</p></div>
+</div>

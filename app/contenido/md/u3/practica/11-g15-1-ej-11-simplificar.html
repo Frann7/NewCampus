@@ -1,0 +1,99 @@
+<div class="ej" data-examen="variante" data-examen-ref="Parcial 1 2026 · ej. 5a" data-examen-nota="El parcial pidió escribir f(x, y, z) en su forma más simple (10 puntos). Son las mismas leyes, con otra expresión.">
+  <span class="tag" data-num-ej="15.1-11.">Grimaldi 15.1 &middot; Ej. 11 &middot; Simplificar con las leyes</span>
+  <h2>Simplificar cuatro expresiones booleanas</h2>
+  <div class="enunciado">
+    <p>Simplifique las siguientes expresiones booleanas.</p>
+    <p>
+      a) \(xy + (x + y)\overline{z} + y\) &nbsp;&nbsp;
+      b) \(x + y + \overline{(\overline{x} + y + z)}\)
+      <br>
+      c) \(yz + wx + z + [wz(xy + wz)]\) &nbsp;&nbsp;
+      d) \(x_1 + \overline{x}_1x_2 + \overline{x}_1\overline{x}_2x_3 + \overline{x}_1\overline{x}_2\overline{x}_3x_4 + \cdots\)
+    </p>
+  </div>
+
+  <span class="paso">Qué tema es y por qué</span>
+  <ul>
+    <li>Simplificar es reescribir la expresión con <strong>menos letras</strong>, usando las leyes de la tabla de la teoría de esta unidad. Cada renglón dice qué ley se usó.</li>
+    <li>Las que más se usan acá:
+      <ul>
+        <li>Distributiva: \(a(b + c) = ab + ac\) y \(a + bc = (a + b)(a + c)\).</li>
+        <li>Absorción: \(a + ab = a\) (si está \(a\) solo, cualquier término que lo contenga como factor sobra).</li>
+        <li>De Morgan: \(\overline{a + b} = \overline{a}\,\overline{b}\); doble complemento: \(\overline{\overline{a}} = a\).</li>
+        <li>Idempotencia: \(a + a = a\), \(aa = a\).</li>
+      </ul>
+    </li>
+    <li>Al final, cada resultado se controló con la tabla completa (las \(2^n\) entradas).</li>
+  </ul>
+
+  <span class="paso">Inciso a) — \(xy + (x + y)\overline{z} + y\)</span>
+  \[
+  \begin{aligned}
+  xy + (x + y)\overline{z} + y &= xy + x\overline{z} + y\overline{z} + y && \text{distributiva} \\
+    &= (y + xy + y\overline{z}) + x\overline{z} && \text{conmutativa y asociativa de +} \\
+    &= y + x\overline{z} && \text{absorción: } y + xy = y \text{ y } y + y\overline{z} = y
+  \end{aligned}
+  \]
+  <p>Este es el mismo ejemplo que muestra la teoría de la cátedra al presentar la tabla de leyes.</p>
+
+  <span class="paso">Inciso b) — \(x + y + \overline{(\overline{x} + y + z)}\)</span>
+  \[
+  \begin{aligned}
+  x + y + \overline{(\overline{x} + y + z)} &= x + y + \overline{\overline{x}}\;\overline{y}\;\overline{z} && \text{De Morgan} \\
+    &= x + y + x\overline{y}\,\overline{z} && \text{doble complemento} \\
+    &= (x + x\overline{y}\,\overline{z}) + y && \text{conmutativa y asociativa} \\
+    &= x + y && \text{absorción: } x + x(\overline{y}\,\overline{z}) = x
+  \end{aligned}
+  \]
+
+  <span class="paso">Inciso c) — \(yz + wx + z + [wz(xy + wz)]\)</span>
+  <p>Primero el corchete:</p>
+  \[
+  \begin{aligned}
+  wz(xy + wz) &= wzxy + wzwz && \text{distributiva} \\
+    &= wxyz + wz && \text{conmutativa e idempotencia } (ww = w,\ zz = z)
+  \end{aligned}
+  \]
+  <p>Ahora la expresión entera:</p>
+  \[
+  \begin{aligned}
+  yz + wx + z + wxyz + wz &= (z + yz + wz + wxyz) + wx && \text{conmutativa y asociativa} \\
+    &= z + wx && \text{absorción: los tres términos tienen el factor } z
+  \end{aligned}
+  \]
+
+  <span class="paso">Inciso d) — \(x_1 + \overline{x}_1x_2 + \overline{x}_1\overline{x}_2x_3 + \cdots\)</span>
+  <p>Una regla auxiliar, que sale de las leyes y se usa varias veces:</p>
+  <div class="caja caja-formula">
+    <span class="caja-tit">\(a + \overline{a}b = a + b\)</span>
+    <p>
+      \(a + \overline{a}b = (a + \overline{a})(a + b)\) (distributiva de \(+\) sobre \(\cdot\))
+      \(= 1 \cdot (a + b)\) (inversos) \(= a + b\) (identidad).
+    </p>
+  </div>
+  <ol>
+    <li>Con \(a = x_1\), \(b = x_2\): \(x_1 + \overline{x}_1x_2 = x_1 + x_2\).</li>
+    <li>
+      Lo que sigue es \((x_1 + x_2) + \overline{x}_1\overline{x}_2x_3\). Por De Morgan,
+      \(\overline{x}_1\overline{x}_2 = \overline{x_1 + x_2}\). Con \(a = x_1 + x_2\) y \(b = x_3\), la regla da
+      \(x_1 + x_2 + x_3\).
+    </li>
+    <li>
+      Igual con el siguiente: \(\overline{x}_1\overline{x}_2\overline{x}_3 = \overline{x_1 + x_2 + x_3}\),
+      y queda \(x_1 + x_2 + x_3 + x_4\).
+    </li>
+    <li>Cada término nuevo pierde todas las barras: si la suma termina en \(x_n\), el resultado es \(x_1 + x_2 + \cdots + x_n\).</li>
+  </ol>
+  <p>
+    Con palabras: el término \(k\)-ésimo vale 1 cuando \(x_k\) es el <em>primer</em> 1. La suma vale 1
+    si hay algún 1, que es lo mismo que \(x_1 + \cdots + x_n\).
+  </p>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>a) \(y + x\overline{z}\) &nbsp; b) \(x + y\) &nbsp; c) \(wx + z\) &nbsp; d) \(x_1 + x_2 + x_3 + x_4 + \cdots\)</p>
+  </div>
+
+  <span class="paso">Solución del libro</span>
+  <p>El libro da a) \(y + x\overline{z}\), b) \(x + y\), c) \(wx + z\), d) \(x_1 + x_2 + x_3 + x_4 + \cdots\). Coincide (la d se probó con 1 a 6 variables).</p>
+</div>

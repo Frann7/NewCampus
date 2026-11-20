@@ -1,0 +1,123 @@
+<!-- ==================== EJERCICIO 6 ==================== -->
+<section class="parcial-ej">
+  <div class="parcial-ej-cab">
+    <h2>Ejercicio 6</h2>
+    <span class="parcial-pts">20 puntos</span>
+    <span class="parcial-tema">Unidad 3 &middot; Sistema de ecuaciones booleanas</span>
+  </div>
+
+  <p>
+    Resolver el siguiente sistema de ecuaciones booleanas:
+    \(\overline{w + \overline{x}} = 0 \wedge w \cdot \overline{y} = 1 \wedge x + z = 1 \wedge \overline{y \cdot z} = 1\)
+  </p>
+
+  <div class="parcial-extras">
+    <details class="parcial-desp pd-resultados">
+      <summary>
+        <span class="pd-icono">&#10003;</span>
+        <span class="pd-txt"><b>Resultados</b><small>Solo las respuestas, sin procedimiento</small></span>
+      </summary>
+      <div class="pd-cuerpo">
+        <p>Tres soluciones \((w, x, y, z)\):</p>
+        <p>\[ (1, 0, 0, 1), \quad (1, 1, 0, 0), \quad (1, 1, 0, 1) \]</p>
+        <p>Es decir, \(w = 1\), \(y = 0\) y \(x + z = 1\) (al menos una de \(x\), \(z\) vale 1).</p>
+      </div>
+    </details>
+
+    <details class="parcial-desp pd-explicacion">
+      <summary>
+        <span class="pd-icono">&#9998;</span>
+        <span class="pd-txt"><b>Explicación detallada</b><small>Desde cero: teoría, desarme del enunciado, resolución</small></span>
+      </summary>
+      <div class="pd-cuerpo">
+
+        <div class="caja caja-ejemplo">
+          <span class="caja-tit">El enunciado, otra vez</span>
+          <p>Hallar todos los \((w, x, y, z)\) con valores en \(\{0, 1\}\) que cumplen a la vez:</p>
+          <p>\[ \begin{cases} \overline{w + \overline{x}} = 0 \\ w \cdot \overline{y} = 1 \\ x + z = 1 \\ \overline{y \cdot z} = 1 \end{cases} \]</p>
+        </div>
+
+        <h4>¿De qué tema es?</h4>
+        <p><strong>Unidad 3</strong>, álgebras de Boole: resolver ecuaciones con las tablas de \(+\), \(\cdot\) y el complemento.</p>
+
+        <h4>Los conceptos que hacen falta, desde cero</h4>
+        <div class="caja caja-formula">
+          <span class="caja-tit">1. Las tres operaciones en \(B = \{0, 1\}\)</span>
+          <ul>
+            <li>\(x \cdot y = 1\) <strong>solo</strong> si \(x = 1\) e \(y = 1\).</li>
+            <li>\(x + y = 0\) <strong>solo</strong> si \(x = 0\) e \(y = 0\); en cualquier otro caso da 1.</li>
+            <li>\(\overline{x}\) da vuelta el valor: \(\overline{0} = 1\), \(\overline{1} = 0\). Entonces \(\overline{A} = 0\) es lo mismo que \(A = 1\).</li>
+          </ul>
+        </div>
+        <div class="caja caja-formula">
+          <span class="caja-tit">2. Cómo se ataca un sistema</span>
+          <p>
+            Primero la ecuación que <strong>fija</strong> valores (un producto igual a 1 fija todos sus
+            factores), y después se reemplaza en las demás. El símbolo \(\wedge\) quiere decir que tienen
+            que cumplirse todas a la vez.
+          </p>
+        </div>
+
+        <h4>Desarme del enunciado</h4>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Ecuación</th><th>Qué significa</th><th>A dónde va</th></tr>
+            <tr><td>\(\overline{w + \overline{x}} = 0\)</td><td>complemento igual a 0: lo de adentro vale 1</td><td>\(w + \overline{x} = 1\)</td></tr>
+            <tr><td>\(w \cdot \overline{y} = 1\)</td><td>producto igual a 1: los dos factores valen 1</td><td>\(w = 1\), \(y = 0\)</td></tr>
+            <tr><td>\(x + z = 1\)</td><td>al menos uno vale 1</td><td>condición sobre \(x\), \(z\)</td></tr>
+            <tr><td>\(\overline{y \cdot z} = 1\)</td><td>complemento igual a 1: lo de adentro vale 0</td><td>\(y \cdot z = 0\)</td></tr>
+          </table>
+        </div>
+
+        <span class="paso">Paso 1 &mdash; La ecuación que fija valores</span>
+        <p>Regla: \(a \cdot b = 1\) solo si \(a = 1\) y \(b = 1\).</p>
+        <p>\[ w \cdot \overline{y} = 1 \ \Rightarrow \ w = 1 \ \text{ y } \ \overline{y} = 1 \Rightarrow y = 0 \]</p>
+
+        <span class="paso">Paso 2 &mdash; La primera ecuación</span>
+        <p>Regla: \(\overline{A} = 0\) equivale a \(A = 1\).</p>
+        <p>\[ \overline{w + \overline{x}} = 0 \ \Rightarrow \ w + \overline{x} = 1 \]</p>
+        <p>Con \(w = 1\): \(1 + \overline{x} = 1\) vale siempre. No pone condición sobre \(x\).</p>
+
+        <span class="paso">Paso 3 &mdash; La cuarta ecuación</span>
+        <p>Regla: \(\overline{A} = 1\) equivale a \(A = 0\).</p>
+        <p>\[ \overline{y \cdot z} = 1 \ \Rightarrow \ y \cdot z = 0 \]</p>
+        <p>Con \(y = 0\): \(0 \cdot z = 0\) vale siempre. Tampoco pone condición sobre \(z\).</p>
+
+        <span class="paso">Paso 4 &mdash; La tercera ecuación</span>
+        <p>Regla: \(x + z = 1\) salvo cuando \(x = z = 0\).</p>
+        <div class="tabla-wrap">
+          <table class="t">
+            <tr><th>\(x\)</th><th>\(z\)</th><th>\(x + z\)</th><th>¿Sirve?</th></tr>
+            <tr><td>0</td><td>0</td><td>0</td><td>no</td></tr>
+            <tr><td>0</td><td>1</td><td>1</td><td>sí</td></tr>
+            <tr><td>1</td><td>0</td><td>1</td><td>sí</td></tr>
+            <tr><td>1</td><td>1</td><td>1</td><td>sí</td></tr>
+          </table>
+        </div>
+        <div class="caja caja-resp">
+          <span class="caja-tit">Respuesta</span>
+          <p>\[ (w, x, y, z) \in \{(1, 0, 0, 1),\ (1, 1, 0, 0),\ (1, 1, 0, 1)\} \]</p>
+          <p>Se comprobó probando las 16 combinaciones: son las únicas tres.</p>
+        </div>
+
+        <h4>Parecido en la guía</h4>
+        <div class="tabla-wrap">
+          <table class="t full">
+            <tr><th>Ejercicio</th><th>Qué tiene igual</th><th>Qué cambia</th></tr>
+            <tr><td>Guía complementaria &middot; Boole, ej. 5</td><td>ecuaciones booleanas simultáneas</td><td>tres variables y una ecuación \(y + \overline{z} = x\) con variables a los dos lados</td></tr>
+            <tr><td>Guía complementaria &middot; Boole, ej. 2f</td><td>qué valores cumplen una igualdad booleana</td><td>una sola ecuación con cinco variables</td></tr>
+          </table>
+        </div>
+
+        <div class="caja caja-ojo">
+          <span class="caja-tit">Las trampas de este ejercicio</span>
+          <ol>
+            <li><strong>Leer \(\overline{w + \overline{x}} = 0\) como \(w + \overline{x} = 0\):</strong> la barra de afuera da vuelta el resultado.</li>
+            <li><strong>Usar De Morgan sin necesidad:</strong> \(\overline{w + \overline{x}} = \overline{w}\,x\) también sirve, pero es más directo usar que \(\overline{A} = 0\) equivale a \(A = 1\).</li>
+            <li><strong>Dar una sola solución:</strong> &ldquo;resolver&rdquo; es encontrar <em>todas</em>; acá son tres.</li>
+          </ol>
+        </div>
+      </div>
+    </details>
+  </div>
+</section>

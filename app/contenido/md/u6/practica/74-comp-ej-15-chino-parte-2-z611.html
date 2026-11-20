@@ -1,0 +1,82 @@
+<div class="ej">
+  <span class="tag" data-num-ej="C-15.">Complementaria P3 &middot; Anillos &middot; Ej. 15 &middot; Teorema Chino del Resto (parte 2)</span>
+  <h2>\(f^{-1}(7, 21)\) en \(f : \mathbb{Z}_{611} \to \mathbb{Z}_{13} \times \mathbb{Z}_{47}\)</h2>
+  <div class="enunciado">
+    <p>Utilizar el Teorema Chino del Resto (parte 2) para hallar \(f^{-1}(7, 21)\) en el isomorfismo \(f : \mathbb{Z}_{611} \to \mathbb{Z}_{13} \times \mathbb{Z}_{47}\).</p>
+  </div>
+
+  <span class="paso">Qué tema es y por qué</span>
+  <ul>
+    <li>\(f(n) = (n \bmod 13,\ n \bmod 47)\) (Teorema Chino del Resto parte 1, con \(611 = 13 \cdot 47\)).</li>
+    <li>Calcular la imagen es fácil; lo difícil es <strong>la preimagen</strong>: el \(n\) que deja resto 7 al dividir por 13 y resto 21 al dividir por 47. Con 611 elementos no conviene hacer la tabla: para eso está <strong>la parte 2 del teorema</strong>, que da una fórmula.</li>
+  </ul>
+
+  <span class="paso">Desarme del enunciado</span>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"\(\mathbb{Z}_{13} \times \mathbb{Z}_{47}\)"</td><td>los módulos</td><td>13 y 47 son primos, coprimos</td><td>\(m_1 = 13,\ m_2 = 47\)</td></tr>
+      <tr><td>"\(\mathbb{Z}_{611}\)"</td><td>el producto de los módulos</td><td>\(13 \cdot 47 = 611\)</td><td>\(M = 611\)</td></tr>
+      <tr><td>"\((7, 21)\)"</td><td>los restos pedidos</td><td>&mdash;</td><td>\(a_1 = 7,\ a_2 = 21\)</td></tr>
+    </table>
+  </div>
+  <p>Es decir, se resuelve el sistema \(x \equiv 7 \ (\text{mód } 13)\), \(x \equiv 21 \ (\text{mód } 47)\).</p>
+
+  <span class="paso">Paso 1 &mdash; La fórmula</span>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Teorema Chino del Resto (parte 2)</span>
+    <p>Si \(m_1, \dots, m_r\) son coprimos dos a dos y \(M = m_1 \cdots m_r\), el sistema \(x \equiv a_i \ (\text{mód } m_i)\) tiene una única solución módulo \(M\):</p>
+    \[ x = \sum_{i=1}^{r} M_i\, v_i\, a_i, \qquad M_i = \frac{M}{m_i}, \qquad v_i = M_i^{-1} \ (\text{mód } m_i) \]
+  </div>
+  <p>Por qué funciona: el sumando \(M_1 v_1 a_1\) da \(a_1\) módulo \(m_1\) (porque \(M_1 v_1 \equiv 1\)) y da 0 módulo \(m_2\) (porque \(M_1\) es múltiplo de \(m_2\)); y al revés con el otro sumando.</p>
+
+  <span class="paso">Paso 2 &mdash; Los \(M_i\)</span>
+  <ul>
+    <li>\(M_1 = 611 / 13 = 47\).</li>
+    <li>\(M_2 = 611 / 47 = 13\).</li>
+  </ul>
+
+  <span class="paso">Paso 3 &mdash; \(v_1 = 47^{-1}\) módulo 13</span>
+  <p>Primero se reduce: \(47 = 13 \cdot 3 + 8\), así que \(47 \equiv 8 \pmod{13}\) y hay que hallar \(8^{-1}\) módulo 13. Euclides extendido (arranque \(r = 13, s = 0\) y \(r = 8, s = 1\); \(s = s_{\text{2 arriba}} - q\, s_{\text{1 arriba}}\)):</p>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th>División</th><th>\(q\)</th><th>\(r\)</th><th>\(s\)</th></tr>
+      <tr><td>&mdash;</td><td>&mdash;</td><td>13</td><td>0</td></tr>
+      <tr><td>&mdash;</td><td>&mdash;</td><td>8</td><td>1</td></tr>
+      <tr><td>\(13 = 8 \cdot 1 + 5\)</td><td>1</td><td>5</td><td>\(0 - 1 = -1\)</td></tr>
+      <tr><td>\(8 = 5 \cdot 1 + 3\)</td><td>1</td><td>3</td><td>\(1 - (-1) = 2\)</td></tr>
+      <tr><td>\(5 = 3 \cdot 1 + 2\)</td><td>1</td><td>2</td><td>\(-1 - 2 = -3\)</td></tr>
+      <tr><td>\(3 = 2 \cdot 1 + 1\)</td><td>1</td><td>1</td><td>\(2 - (-3) = 5\)</td></tr>
+    </table>
+  </div>
+  <p>\(v_1 = 5\). Comprobación: \(47 \cdot 5 = 235 = 13 \cdot 18 + 1\). ✔</p>
+
+  <span class="paso">Paso 4 &mdash; \(v_2 = 13^{-1}\) módulo 47</span>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th>División</th><th>\(q\)</th><th>\(r\)</th><th>\(s\)</th></tr>
+      <tr><td>&mdash;</td><td>&mdash;</td><td>47</td><td>0</td></tr>
+      <tr><td>&mdash;</td><td>&mdash;</td><td>13</td><td>1</td></tr>
+      <tr><td>\(47 = 13 \cdot 3 + 8\)</td><td>3</td><td>8</td><td>\(0 - 3 = -3\)</td></tr>
+      <tr><td>\(13 = 8 \cdot 1 + 5\)</td><td>1</td><td>5</td><td>\(1 - (-3) = 4\)</td></tr>
+      <tr><td>\(8 = 5 \cdot 1 + 3\)</td><td>1</td><td>3</td><td>\(-3 - 4 = -7\)</td></tr>
+      <tr><td>\(5 = 3 \cdot 1 + 2\)</td><td>1</td><td>2</td><td>\(4 - (-7) = 11\)</td></tr>
+      <tr><td>\(3 = 2 \cdot 1 + 1\)</td><td>1</td><td>1</td><td>\(-7 - 11 = -18\)</td></tr>
+    </table>
+  </div>
+  <p>\(s = -18 \equiv -18 + 47 = 29\). \(v_2 = 29\). Comprobación: \(13 \cdot 29 = 377 = 47 \cdot 8 + 1\). ✔</p>
+
+  <span class="paso">Paso 5 &mdash; Armar \(x\)</span>
+  <p>Se repite la fórmula y se reemplaza:</p>
+  \[ x = M_1 v_1 a_1 + M_2 v_2 a_2 = 47 \cdot 5 \cdot 7 + 13 \cdot 29 \cdot 21 = 1645 + 7917 = 9562 \]
+  <p>Se reduce módulo \(M = 611\): \(611 \cdot 15 = 9165\) y \(9562 - 9165 = 397\).</p>
+  \[ x \equiv 397 \pmod{611} \]
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>\(f^{-1}(7, 21) = 397\).</p>
+  </div>
+
+  <span class="paso">Verificación (la guía no trae resultados)</span>
+  <p>A mano: \(397 = 13 \cdot 30 + 7\) (resto 7 ✔) y \(397 = 47 \cdot 8 + 21\) (resto 21 ✔), o sea \(f(397) = (7, 21)\). Con Python dan lo mismo los inversos (\(5\) y \(29\)), la suma 9562 y su resto 397.</p>
+</div>

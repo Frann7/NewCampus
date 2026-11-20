@@ -1,0 +1,204 @@
+<div class="bloque">
+  <p class="kicker">Estructura de anillo</p>
+  <h2>1. Qué es un anillo</h2>
+
+  <h3>Para qué sirve</h3>
+  <p>
+    Con los enteros sabés hacer un montón de cosas: sumar en cualquier orden, sacar factor común,
+    restar, etc. Esas mismas reglas valen también para las matrices, para los polinomios, para
+    los restos de una división... Un <strong>anillo</strong> es el nombre que se le da a
+    <em>cualquier</em> conjunto con una "suma" y un "producto" que cumplen esas reglas básicas.
+    La ventaja: todo lo que se demuestre para un anillo cualquiera vale automáticamente para
+    todos los ejemplos a la vez.
+  </p>
+
+  <h3>Antes: qué es una operación binaria cerrada</h3>
+  <ul>
+    <li>Una <strong>operación binaria</strong> sobre un conjunto \(R\) toma <strong>dos</strong>
+      elementos de \(R\) y devuelve un resultado. La suma de enteros es una: toma \(3\) y \(5\) y
+      devuelve \(8\).</li>
+    <li>Es <strong>cerrada</strong> si el resultado <strong>siempre</strong> cae dentro de \(R\).
+      La suma en \(\mathbb{Z}\) es cerrada (sumar dos enteros da un entero). La división en
+      \(\mathbb{Z}\) no lo es: \(1 \div 2 = 0{,}5\) no es entero.</li>
+  </ul>
+
+  <h3>Definición (la de la cátedra)</h3>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Anillo</span>
+    <p>
+      Sea \(R\) un conjunto no vacío con dos operaciones binarias cerradas, \(+\) y \(\cdot\)
+      (que pueden no ser la suma y el producto de siempre). \((R, +, \cdot)\) es un
+      <strong>anillo</strong> si para todos \(a, b, c \in R\) se cumple:
+    </p>
+    <ol>
+      <li>\(a + b = b + a\) &nbsp; (conmutativa de \(+\))</li>
+      <li>\(a + (b + c) = (a + b) + c\) &nbsp; (asociativa de \(+\))</li>
+      <li>existe \(z \in R\) tal que \(a + z = z + a = a\) para todo \(a\) &nbsp; (identidad para \(+\))</li>
+      <li>para cada \(a\) existe \(b \in R\) con \(a + b = b + a = z\) &nbsp; (inverso bajo \(+\))</li>
+      <li>\(a \cdot (b \cdot c) = (a \cdot b) \cdot c\) &nbsp; (asociativa de \(\cdot\))</li>
+      <li>\(a \cdot (b + c) = a \cdot b + a \cdot c\) &nbsp; y &nbsp; \((b + c) \cdot a = b \cdot a + c \cdot a\) &nbsp; (distributivas)</li>
+    </ol>
+  </div>
+
+  <h3>Qué significa cada símbolo</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Símbolo</th><th>Se lee</th><th>Qué es</th></tr>
+      <tr><td>\((R, +, \cdot)\)</td><td>"el anillo \(R\) con suma y producto"</td><td>el conjunto junto con sus dos operaciones: las tres cosas forman el anillo</td></tr>
+      <tr><td>\(z\)</td><td>"el cero del anillo"</td><td>la identidad de la suma: sumarlo no cambia nada (en \(\mathbb{Z}\) es el \(0\))</td></tr>
+      <tr><td>\(-a\)</td><td>"el opuesto de \(a\)"</td><td>el inverso bajo \(+\): lo que sumado a \(a\) da \(z\)</td></tr>
+      <tr><td>\(ab\)</td><td>"\(a\) por \(b\)"</td><td>abreviatura de \(a \cdot b\)</td></tr>
+      <tr><td>\(\forall\), \(\exists\)</td><td>"para todo", "existe"</td><td>cuantificadores</td></tr>
+    </table>
+  </div>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Lo que la definición NO pide</span>
+    <ul>
+      <li>Que el producto sea conmutativo (\(ab = ba\)). Eso es un extra (sección 2).</li>
+      <li>Que haya un "1" para el producto. También es un extra (sección 2).</li>
+      <li>Que se pueda dividir. Casi nunca se puede (secciones 3 y 5).</li>
+    </ul>
+    <p>
+      La suma tiene <strong>cuatro</strong> reglas (todas las buenas), el producto solo
+      <strong>una</strong> (asociativa) y la distributiva las conecta.
+    </p>
+  </div>
+
+  <h3>Cómo se prueba que algo es (o no es) un anillo</h3>
+  <ol>
+    <li><strong>Cierre:</strong> ver que \(a + b\) y \(a \cdot b\) caen siempre en \(R\).</li>
+    <li>Recorrer las <strong>seis condiciones</strong>, una por una, con letras genéricas
+      (no con números: un ejemplo no prueba un "para todo").</li>
+    <li>Para la 3, <strong>proponer</strong> el \(z\) despejándolo de \(a + z = a\); para la 4,
+      despejar \(b\) de \(a + b = z\).</li>
+    <li>Para probar que <strong>no</strong> es anillo alcanza un solo
+      <strong>contraejemplo</strong>: números concretos donde una condición falla.</li>
+  </ol>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; Los anillos de siempre</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>¿Son anillos \(\mathbb{Z}\), \(\mathbb{Q}\), \(\mathbb{R}\) y \(\mathbb{C}\) con la suma y el producto usuales? ¿Y \(\mathbb{N}\)?</p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"\(\mathbb{Z}\), \(\mathbb{Q}\), \(\mathbb{R}\), \(\mathbb{C}\)"</td><td>enteros, racionales, reales, complejos</td><td>&mdash;</td><td>el conjunto \(R\)</td></tr>
+      <tr><td>"suma y producto usuales"</td><td>las operaciones de la escuela</td><td>&mdash;</td><td>\(+\) y \(\cdot\)</td></tr>
+    </table>
+  </div>
+  <h4>Resolución</h4>
+  <ul>
+    <li>Las seis reglas son las que usás desde la primaria: valen en los cuatro conjuntos.</li>
+    <li>La identidad de la suma es \(z = 0\) y el opuesto de \(x\) es \(-x\), que está en el
+      mismo conjunto.</li>
+    <li>En \(\mathbb{N} = \{1, 2, 3, \dots\}\) falla la condición 3 (no está el \(0\)) y también
+      la 4: el opuesto de \(5\) sería \(-5\), que no es natural.</li>
+  </ul>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>\(\mathbb{Z}\), \(\mathbb{Q}\), \(\mathbb{R}\) y \(\mathbb{C}\) son anillos, con \(z = 0\) y opuesto \(-x\). \(\mathbb{N}\) no lo es: no tiene identidad para la suma ni opuestos.</p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; Las matrices \(2 \times 2\) de enteros, \(M_2(\mathbb{Z})\)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado (cátedra, ejemplo 2)</span>
+    <p>
+      \(M_2(\mathbb{Z})\) es el conjunto de las matrices \(2 \times 2\) con elementos enteros, con
+      la suma y el producto usuales de matrices. Se puede probar que es un anillo. ¿Cuál es su
+      \(z\)? ¿Y el opuesto de una matriz \(A\)? Calcular
+      \(\begin{bmatrix} 1 &amp; 2 \\ 1 &amp; 1 \end{bmatrix}\begin{bmatrix} 3 &amp; 7 \\ 1 &amp; 0 \end{bmatrix}\) y en el otro orden.
+    </p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"matrices \(2 \times 2\) con elementos enteros"</td><td>cuatro números enteros en dos filas y dos columnas</td><td>&mdash;</td><td>\(R = M_2(\mathbb{Z})\)</td></tr>
+      <tr><td>"suma usual"</td><td>casillero con casillero</td><td>\(\begin{bmatrix} a &amp; b \\ c &amp; d \end{bmatrix} + \begin{bmatrix} e &amp; f \\ g &amp; h \end{bmatrix} = \begin{bmatrix} a+e &amp; b+f \\ c+g &amp; d+h \end{bmatrix}\)</td><td>la operación \(+\)</td></tr>
+      <tr><td>"producto usual"</td><td>fila por columna</td><td>\(\begin{bmatrix} a &amp; b \\ c &amp; d \end{bmatrix}\begin{bmatrix} e &amp; f \\ g &amp; h \end{bmatrix} = \begin{bmatrix} ae+bg &amp; af+bh \\ ce+dg &amp; cf+dh \end{bmatrix}\)</td><td>la operación \(\cdot\)</td></tr>
+    </table>
+  </div>
+  <h4>El cero y los opuestos</h4>
+  <p>
+    La suma es casillero a casillero, así que el \(z\) es la matriz con todos ceros, y el opuesto
+    se arma cambiando el signo de cada casillero:
+  </p>
+  <p>\[ z = \begin{bmatrix} 0 &amp; 0 \\ 0 &amp; 0 \end{bmatrix} \qquad A = \begin{bmatrix} a &amp; b \\ c &amp; d \end{bmatrix} \;\Rightarrow\; -A = \begin{bmatrix} -a &amp; -b \\ -c &amp; -d \end{bmatrix} \]</p>
+  <h4>Los dos productos</h4>
+  <p>Fila por columna (primer casillero: fila 1 por columna 1, \(1 \cdot 3 + 2 \cdot 1 = 5\)):</p>
+  <p>\[ \begin{bmatrix} 1 &amp; 2 \\ 1 &amp; 1 \end{bmatrix}\begin{bmatrix} 3 &amp; 7 \\ 1 &amp; 0 \end{bmatrix} = \begin{bmatrix} 1\cdot 3 + 2 \cdot 1 &amp; 1 \cdot 7 + 2 \cdot 0 \\ 1 \cdot 3 + 1 \cdot 1 &amp; 1 \cdot 7 + 1 \cdot 0 \end{bmatrix} = \begin{bmatrix} 5 &amp; 7 \\ 4 &amp; 7 \end{bmatrix} \]</p>
+  <p>\[ \begin{bmatrix} 3 &amp; 7 \\ 1 &amp; 0 \end{bmatrix}\begin{bmatrix} 1 &amp; 2 \\ 1 &amp; 1 \end{bmatrix} = \begin{bmatrix} 3 + 7 &amp; 6 + 7 \\ 1 + 0 &amp; 2 + 0 \end{bmatrix} = \begin{bmatrix} 10 &amp; 13 \\ 1 &amp; 2 \end{bmatrix} \]</p>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>
+      \(z\) es la matriz nula y \(-A\) cambia el signo de cada casillero. Los dos productos dan
+      <strong>distinto</strong>: en este anillo el orden del producto importa. Es un anillo
+      igual, porque la definición no pide que el producto sea conmutativo (sección 2).
+    </p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 3 &mdash; Un anillo de conjuntos (cátedra, actividad 2)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>
+      Sea \(U = \{1, 2\}\) y \(R = \mathcal{P}(U)\) (todos los subconjuntos de \(U\)). Se define
+      \(A + B = A \,\Delta\, B = (A \cup B) - (A \cap B)\) y \(A \cdot B = A \cap B\). Analizar si
+      es un anillo.
+    </p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"\(\mathcal{P}(U)\)"</td><td>el conjunto de partes: los subconjuntos de \(U\)</td><td>\(2^2 = 4\) subconjuntos</td><td>\(R = \{\emptyset, \{1\}, \{2\}, U\}\)</td></tr>
+      <tr><td>"\(A \,\Delta\, B\)"</td><td>diferencia simétrica: lo que está en uno solo de los dos</td><td>\((A \cup B) - (A \cap B)\)</td><td>la "suma"</td></tr>
+      <tr><td>"\(A \cap B\)"</td><td>intersección: lo que está en los dos</td><td>&mdash;</td><td>el "producto"</td></tr>
+    </table>
+  </div>
+  <h4>Las tablas</h4>
+  <p>Como \(R\) tiene 4 elementos, las operaciones se escriben en dos tablas (fila operada con columna):</p>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th>\(+ \;(\Delta)\)</th><th>\(\emptyset\)</th><th>\(\{1\}\)</th><th>\(\{2\}\)</th><th>\(U\)</th></tr>
+      <tr><th>\(\emptyset\)</th><td>\(\emptyset\)</td><td>\(\{1\}\)</td><td>\(\{2\}\)</td><td>\(U\)</td></tr>
+      <tr><th>\(\{1\}\)</th><td>\(\{1\}\)</td><td>\(\emptyset\)</td><td>\(U\)</td><td>\(\{2\}\)</td></tr>
+      <tr><th>\(\{2\}\)</th><td>\(\{2\}\)</td><td>\(U\)</td><td>\(\emptyset\)</td><td>\(\{1\}\)</td></tr>
+      <tr><th>\(U\)</th><td>\(U\)</td><td>\(\{2\}\)</td><td>\(\{1\}\)</td><td>\(\emptyset\)</td></tr>
+    </table>
+  </div>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th>\(\cdot \;(\cap)\)</th><th>\(\emptyset\)</th><th>\(\{1\}\)</th><th>\(\{2\}\)</th><th>\(U\)</th></tr>
+      <tr><th>\(\emptyset\)</th><td>\(\emptyset\)</td><td>\(\emptyset\)</td><td>\(\emptyset\)</td><td>\(\emptyset\)</td></tr>
+      <tr><th>\(\{1\}\)</th><td>\(\emptyset\)</td><td>\(\{1\}\)</td><td>\(\emptyset\)</td><td>\(\{1\}\)</td></tr>
+      <tr><th>\(\{2\}\)</th><td>\(\emptyset\)</td><td>\(\emptyset\)</td><td>\(\{2\}\)</td><td>\(\{2\}\)</td></tr>
+      <tr><th>\(U\)</th><td>\(\emptyset\)</td><td>\(\{1\}\)</td><td>\(\{2\}\)</td><td>\(U\)</td></tr>
+    </table>
+  </div>
+  <h4>Condición por condición</h4>
+  <ul>
+    <li><strong>Cierre:</strong> en las dos tablas solo aparecen elementos de \(R\).</li>
+    <li><strong>Conmutativa de \(+\):</strong> la tabla de \(+\) es <strong>simétrica</strong>
+      respecto de la diagonal (el casillero fila \(A\), columna \(B\) es igual al fila \(B\),
+      columna \(A\)).</li>
+    <li><strong>Identidad para \(+\):</strong> buscar la fila que repite el encabezado: es la de
+      \(\emptyset\). Entonces \(z = \emptyset\).</li>
+    <li><strong>Inversos para \(+\):</strong> buscar el \(\emptyset\) en cada fila. Está siempre en
+      la diagonal: cada conjunto es su propio opuesto (\(A \,\Delta\, A = \emptyset\)).</li>
+    <li><strong>Asociativas y distributiva:</strong> son propiedades conocidas de \(\Delta\) y
+      \(\cap\) (teoría de conjuntos); con tablas, habría que chequear todas las ternas.</li>
+  </ul>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>Es un anillo, con \(z = \emptyset\) y \(-A = A\) para todo \(A\).</p>
+  </div>
+</div>

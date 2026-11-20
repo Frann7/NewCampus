@@ -1,0 +1,55 @@
+<div class="ej">
+  <span class="tag" data-num-ej="C-17.">Complementaria P3 &middot; Anillos &middot; Ej. 17 &middot; Generador congruencial</span>
+  <h2>Números pseudoaleatorios: \(x_5\) con \(x_{n+1} \equiv 7x_n + 4 \pmod 9\)</h2>
+  <div class="enunciado">
+    <p>Los números pseudoaleatorios se generan a través de la relación de recurrencia aplicada sucesivamente: \(x_{n+1} \equiv a x_n + c \ (\text{mód } m)\). Hallar \(x_5\) para \(m = 9\), \(a = 7\), \(c = 4\) y \(x_0 = 3\).</p>
+  </div>
+
+  <span class="paso">Qué tema es y por qué</span>
+  <ul>
+    <li>Es una <strong>relación de recurrencia</strong> (cada término sale del anterior) pero hecha <strong>en \(\mathbb{Z}_m\)</strong>: después de cada cuenta se toma el resto módulo \(m\).</li>
+    <li>Así funcionan los generadores de números "al azar" de las computadoras: una fórmula fija que, por el resto, salta de un valor a otro sin patrón a simple vista.</li>
+    <li>No hay truco: se aplica la fórmula cinco veces, desde \(x_0\) hasta \(x_5\).</li>
+  </ul>
+
+  <span class="paso">Desarme del enunciado</span>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"\(m = 9\)"</td><td>módulo: los valores van de 0 a 8</td><td>&mdash;</td><td>\(m = 9\)</td></tr>
+      <tr><td>"\(a = 7\)"</td><td>multiplicador</td><td>&mdash;</td><td>\(a = 7\)</td></tr>
+      <tr><td>"\(c = 4\)"</td><td>lo que se suma</td><td>&mdash;</td><td>\(c = 4\)</td></tr>
+      <tr><td>"\(x_0 = 3\)"</td><td>la semilla (valor inicial)</td><td>&mdash;</td><td>\(x_0 = 3\)</td></tr>
+      <tr><td>"Hallar \(x_5\)"</td><td>el quinto término después de la semilla</td><td>5 pasos</td><td>respuesta</td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Paso 1 &mdash; La fórmula con los datos</span>
+  <div class="caja caja-formula">
+    \[ x_{n+1} \equiv a\,x_n + c \pmod m \quad\Longrightarrow\quad x_{n+1} = (7x_n + 4) \bmod 9 \]
+  </div>
+
+  <span class="paso">Paso 2 &mdash; Aplicarla cinco veces</span>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th>\(n\)</th><th>\(x_n\)</th><th>\(7x_n + 4\)</th><th>División por 9</th><th>\(x_{n+1}\)</th></tr>
+      <tr><td>0</td><td>3</td><td>\(21 + 4 = 25\)</td><td>\(25 = 9 \cdot 2 + 7\)</td><td>\(x_1 = 7\)</td></tr>
+      <tr><td>1</td><td>7</td><td>\(49 + 4 = 53\)</td><td>\(53 = 9 \cdot 5 + 8\)</td><td>\(x_2 = 8\)</td></tr>
+      <tr><td>2</td><td>8</td><td>\(56 + 4 = 60\)</td><td>\(60 = 9 \cdot 6 + 6\)</td><td>\(x_3 = 6\)</td></tr>
+      <tr><td>3</td><td>6</td><td>\(42 + 4 = 46\)</td><td>\(46 = 9 \cdot 5 + 1\)</td><td>\(x_4 = 1\)</td></tr>
+      <tr><td>4</td><td>1</td><td>\(7 + 4 = 11\)</td><td>\(11 = 9 \cdot 1 + 2\)</td><td>\(x_5 = 2\)</td></tr>
+    </table>
+  </div>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>La sucesión es \(3, 7, 8, 6, 1, 2\): \(x_5 = 2\).</p>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Trampa</span>
+    <p>Se reduce módulo 9 <strong>en cada paso</strong>, antes de calcular el siguiente. Si se arrastra el número sin reducir (25, después \(7 \cdot 25 + 4 = 179\)...) el resultado final módulo 9 es el mismo, pero las cuentas crecen sin necesidad y es más fácil equivocarse.</p>
+  </div>
+
+  <span class="paso">Verificación (la guía no trae resultados)</span>
+  <p>Con Python, iterando <code>x = (7*x + 4) % 9</code> desde 3: da 7, 8, 6, 1, 2.</p>
+</div>

@@ -1,0 +1,64 @@
+<div class="ej">
+  <span class="tag" data-num-ej="C-11.">Complementaria P3 &middot; Anillos &middot; Ej. 11 &middot; Producto de anillos</span>
+  <h2>Opuesto e inverso en \(\mathbb{Z}_7 \times \mathbb{Z}_{15}\)</h2>
+  <div class="enunciado">
+    <p>Dado el anillo \(\mathbb{Z}_7 \times \mathbb{Z}_{15}\), hallar el opuesto de \((2, 8)\) y el inverso de \((6, 2)\).</p>
+  </div>
+
+  <span class="paso">Qué tema es y por qué</span>
+  <ul>
+    <li>Es un <strong>producto de anillos</strong>: los elementos son pares \((x, y)\) con \(x \in \mathbb{Z}_7\) e \(y \in \mathbb{Z}_{15}\).</li>
+    <li>Las operaciones se hacen <strong>componente a componente</strong>, cada una en su módulo: la primera coordenada módulo 7 y la segunda módulo 15.</li>
+    <li>Por eso el opuesto y el inverso de un par también se buscan coordenada por coordenada.</li>
+  </ul>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Operaciones en \(\mathbb{Z}_7 \times \mathbb{Z}_{15}\)</span>
+    <p>\[ (a, b) + (c, d) = \big((a + c) \bmod 7,\ (b + d) \bmod 15\big) \]</p>
+    <p>\[ (a, b) \cdot (c, d) = \big((a \cdot c) \bmod 7,\ (b \cdot d) \bmod 15\big) \]</p>
+    <p>Cero: \((0, 0)\). Unidad: \((1, 1)\).</p>
+  </div>
+
+  <span class="paso">Desarme del enunciado</span>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"el opuesto de \((2, 8)\)"</td><td>el par que sumado a \((2, 8)\) da el cero \((0, 0)\)</td><td>opuesto en cada coordenada</td><td>\(-(2, 8)\)</td></tr>
+      <tr><td>"el inverso de \((6, 2)\)"</td><td>el par que multiplicado por \((6, 2)\) da la unidad \((1, 1)\)</td><td>inverso en cada coordenada</td><td>\((6, 2)^{-1}\)</td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Paso 1 &mdash; El opuesto de \((2, 8)\)</span>
+  <div class="caja caja-formula">
+    <p>El opuesto de \(a\) en \(\mathbb{Z}_n\) es \(n - a\) (porque \(a + (n - a) = n \equiv 0\)). En el producto: \(-(a, b) = (7 - a,\ 15 - b)\).</p>
+  </div>
+  <ul>
+    <li>Primera coordenada, en \(\mathbb{Z}_7\): \(-2 = 7 - 2 = 5\).</li>
+    <li>Segunda coordenada, en \(\mathbb{Z}_{15}\): \(-8 = 15 - 8 = 7\).</li>
+  </ul>
+  <p>Control: \((2, 8) + (5, 7) = (7 \bmod 7,\ 15 \bmod 15) = (0, 0)\). ✔</p>
+
+  <span class="paso">Paso 2 &mdash; El inverso de \((6, 2)\)</span>
+  <div class="caja caja-formula">
+    <p>\((a, b)\) tiene inverso si y solo si \(a\) tiene inverso en \(\mathbb{Z}_7\) y \(b\) lo tiene en \(\mathbb{Z}_{15}\); y entonces \((a, b)^{-1} = (a^{-1}, b^{-1})\).</p>
+    <p>\(a\) tiene inverso en \(\mathbb{Z}_n\) si y solo si \(mcd(a, n) = 1\).</p>
+  </div>
+  <ul>
+    <li>\(mcd(6, 7) = 1\) y \(mcd(2, 15) = 1\): los dos tienen inverso, así que el par tiene inverso.</li>
+    <li><strong>\(6^{-1}\) en \(\mathbb{Z}_7\):</strong> como \(6 \equiv -1\), su inverso es él mismo: \(6 \cdot 6 = 36 = 7 \cdot 5 + 1 \equiv 1\). Entonces \(6^{-1} = 6\).</li>
+    <li><strong>\(2^{-1}\) en \(\mathbb{Z}_{15}\):</strong> se busca un número que por 2 dé "un múltiplo de 15 más 1". \(16 = 15 + 1\) y \(16 = 2 \cdot 8\), así que \(2 \cdot 8 \equiv 1\). Entonces \(2^{-1} = 8\).</li>
+  </ul>
+  <p>Control: \((6, 2) \cdot (6, 8) = (36 \bmod 7,\ 16 \bmod 15) = (1, 1)\). ✔</p>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>Opuesto: \(-(2, 8) = (5, 7)\).</p>
+    <p>Inverso: \((6, 2)^{-1} = (6, 8)\).</p>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Trampa</span>
+    <p>No se reduce todo con el mismo módulo: la primera coordenada vive en \(\mathbb{Z}_7\) y la segunda en \(\mathbb{Z}_{15}\). Y la unidad del producto es \((1, 1)\), no \((1, 0)\).</p>
+  </div>
+
+  <span class="paso">Verificación (la guía no trae resultados)</span>
+  <p>Con Python: \((-2 \bmod 7, -8 \bmod 15) = (5, 7)\), y los inversos modulares dan \(6^{-1} \equiv 6 \pmod 7\) y \(2^{-1} \equiv 8 \pmod{15}\).</p>
+</div>

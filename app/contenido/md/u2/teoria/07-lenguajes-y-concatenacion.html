@@ -1,0 +1,104 @@
+<div class="bloque">
+  <p class="kicker">Lenguajes</p>
+  <h2>7. Lenguajes y concatenación de lenguajes</h2>
+
+  <h3>Para qué sirve</h3>
+  <p>
+    Un lenguaje es un <strong>conjunto de cadenas</strong>: "las cadenas que terminan en \(abba\)", "los
+    números binarios pares". Lo que reconoce una máquina es siempre un lenguaje, y la forma de
+    escribirlo es armándolo con lenguajes chicos pegados (concatenados).
+  </p>
+
+  <h3>Definición</h3>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Lenguaje y concatenación</span>
+    <p>
+      Para un alfabeto \(\Sigma\), cualquier subconjunto \(A \subseteq \Sigma^{*}\) es un
+      <strong>lenguaje</strong> sobre \(\Sigma\). Incluye a \(\emptyset\), el <strong>lenguaje vacío</strong>.
+    </p>
+    <p>Para \(A, B \subseteq \Sigma^{*}\), la <strong>concatenación</strong> es</p>
+    <p>\[ AB = \{\, ab \,/\, a \in A,\ b \in B \,\} \]</p>
+  </div>
+
+  <h3>Qué significa cada símbolo</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Símbolo</th><th>Se lee</th><th>Qué es</th></tr>
+      <tr><td>\(A \subseteq \Sigma^{*}\)</td><td>\(A\) incluido en sigma estrella</td><td>\(A\) es un conjunto de cadenas armadas con \(\Sigma\)</td></tr>
+      <tr><td>\(\emptyset\)</td><td>vacío</td><td>el lenguaje sin ninguna cadena</td></tr>
+      <tr><td>\(\{\lambda\}\)</td><td>el lenguaje de la vacía</td><td>tiene una cadena, la vacía; <strong>no</strong> es \(\emptyset\)</td></tr>
+      <tr><td>\(AB\)</td><td>\(A\) concatenado \(B\)</td><td>todas las formas de pegar una cadena de \(A\) adelante y una de \(B\) atrás</td></tr>
+    </table>
+  </div>
+
+  <h3>Propiedades (teorema de la cátedra)</h3>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Para \(A, B, C \subseteq \Sigma^{*}\)</span>
+    <ul>
+      <li>\(A\{\lambda\} = \{\lambda\}A = A\)</li>
+      <li>\((AB)C = A(BC)\)</li>
+      <li>\(A(B \cup C) = AB \cup AC\) &nbsp; y &nbsp; \((B \cup C)A = BA \cup CA\)</li>
+      <li>\(A(B \cap C) \subseteq AB \cap AC\) &nbsp; y &nbsp; \((B \cap C)A \subseteq BA \cap CA\)</li>
+    </ul>
+  </div>
+  <h4>De dónde sale cada una</h4>
+  <ul>
+    <li><strong>\(\{\lambda\}\) es el neutro:</strong> pegar \(\lambda\) a cada cadena de \(A\) la deja igual (sección 5).</li>
+    <li><strong>Asociativa:</strong> pegar tres cadenas da lo mismo empezando por las dos primeras o por las dos últimas.</li>
+    <li><strong>Distribuye con la unión:</strong> una cadena de \(A(B \cup C)\) es \(ab\) con \(b\) en \(B\) o en \(C\); si está en \(B\), \(ab \in AB\); si está en \(C\), \(ab \in AC\). Y al revés igual.</li>
+    <li><strong>Con la intersección solo vale \(\subseteq\):</strong> si \(b \in B \cap C\), \(ab\) está en \(AB\) y en \(AC\). Pero una cadena de \(AB \cap AC\) puede venir de <em>dos cortes distintos</em>: \(a_1 b\) con \(b \in B\) y \(a_2 c\) con \(c \in C\), sin que haya un mismo final en los dos.
+      Contraejemplo: \(A = \{a, ab\}\), \(B = \{b\}\), \(C = \{bb\}\). \(B \cap C = \emptyset\), así que \(A(B \cap C) = \emptyset\); pero \(abb = ab \cdot b \in AB\) y \(abb = a \cdot bb \in AC\): \(AB \cap AC = \{abb\}\).</li>
+  </ul>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; \(AB\) y \(BA\) (Ejemplo 7 de la cátedra)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>Sea \(\Sigma = \{x, y, z\}\), \(A = \{x, xy, z\}\) y \(B = \{\lambda, y\}\). Hallar \(AB\) y \(BA\), y verificar que \(|AB| \neq |BA|\) y \(|AB| \neq |A||B|\).</p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"\(AB\)"</td><td>cada una de \(A\) adelante, cada una de \(B\) atrás</td><td>\(3 \cdot 2 = 6\) pegotes</td><td>se eliminan repetidos</td></tr>
+      <tr><td>"\(B = \{\lambda, y\}\)"</td><td>pegar \(\lambda\) deja igual</td><td>\(a\lambda = a\)</td><td>\(A \subseteq AB\)</td></tr>
+    </table>
+  </div>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>\(AB\)</th><th>\(\lambda\)</th><th>\(y\)</th></tr>
+      <tr><td class="lbl">\(x\)</td><td>\(x\)</td><td>\(xy\)</td></tr>
+      <tr><td class="lbl">\(xy\)</td><td>\(xy\) (repetida)</td><td>\(xyy\)</td></tr>
+      <tr><td class="lbl">\(z\)</td><td>\(z\)</td><td>\(zy\)</td></tr>
+    </table>
+  </div>
+  <p>\[ AB = \{x, xy, xyy, z, zy\} \qquad |AB| = 5 \]</p>
+  <p>\[ BA = \{x, xy, z, yx, yxy, yz\} \qquad |BA| = 6 \]</p>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>
+      \(|AB| = 5 \neq 6 = |BA|\): la concatenación no es conmutativa. Y \(|AB| = 5 \neq 3 \cdot 2 = |A||B|\)
+      porque \(x \cdot y\) y \(xy \cdot \lambda\) dan la misma cadena \(xy\), que se cuenta una vez.
+    </p>
+  </div>
+
+  <h3>Ejemplo 2 &mdash; Con forma de guía</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>Sean \(A = \{1011\}\) y \(B = \{00, 1\}\) sobre \(\Sigma = \{0, 1\}\). Hallar \(AB\), \(BA\) y decidir si \(10111 \in BA\).</p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"\(AB\)"</td><td>\(1011\) y atrás \(00\) o \(1\)</td><td>2 pegotes</td><td>\(\{101100, 10111\}\)</td></tr>
+      <tr><td>"\(BA\)"</td><td>\(00\) o \(1\) y atrás \(1011\)</td><td>2 pegotes</td><td>\(\{001011, 11011\}\)</td></tr>
+      <tr><td>"\(10111 \in BA\)"</td><td>¿coincide con alguna?</td><td>no está en la lista</td><td>no</td></tr>
+    </table>
+  </div>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>\(AB = \{101100, 10111\}\), \(BA = \{001011, 11011\}\); \(10111 \in AB\) pero \(10111 \notin BA\).</p>
+  </div>
+</div>

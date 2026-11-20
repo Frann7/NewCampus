@@ -1,0 +1,95 @@
+<div class="bloque">
+  <p class="kicker">Grupos</p>
+  <h2>7. Grupos cíclicos y generadores</h2>
+
+  <h3>Para qué sirve</h3>
+  <p>
+    Hay grupos en los que <strong>un solo elemento</strong>, operado consigo mismo, recorre todo el
+    grupo. Esos grupos son los más simples que existen: conociendo el generador se conoce todo (y
+    cada elemento se puede escribir como "el generador a la tanto", que es la idea del logaritmo
+    discreto de la sección 8).
+  </p>
+
+  <h3>Definición</h3>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Grupo cíclico</span>
+    <p>
+      Un grupo \(G\) es <strong>cíclico</strong> si existe \(x \in G\) tal que todo \(a \in G\) es
+      \(a = x^{n}\) para algún entero \(n\). A ese \(x\) se lo llama <strong>generador</strong> y se
+      escribe \(\langle x \rangle = G\).
+    </p>
+  </div>
+  <p>
+    Si un elemento no genera a \(G\), genera un subgrupo más chico (sección 6). Dicho con el orden:
+    en un grupo finito, <strong>\(x\) es generador si y solo si \(o(x) = |G|\)</strong>.
+  </p>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Teorema</span>
+    <p>Cualquier subgrupo de un grupo cíclico es cíclico.</p>
+  </div>
+
+  <h3>Cómo se resuelve "¿es cíclico?"</h3>
+  <ul>
+    <li><strong>Para probar que sí:</strong> mostrar un generador, listando sus potencias hasta ver que aparecen todos los elementos (o que su orden es \(|G|\)).</li>
+    <li><strong>Para probar que no:</strong> calcular el orden de <strong>todos</strong> los elementos y ver que ninguno llega a \(|G|\).</li>
+    <li><strong>En \((\mathbb{Z}_n, +)\):</strong> siempre es cíclico (el 1 genera todo), y los generadores son los \(a\) con \(mcd(a, n) = 1\), porque su orden es \(n / mcd(a, n) = n\) (atajo de la sección 6).</li>
+  </ul>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">No todo \(U_n\) es cíclico</span>
+    <p>
+      \(U_9\) y \(U_{10}\) lo son; \(U_8\) y \(U_{12}\) no (todos sus elementos distintos del 1 tienen
+      orden 2). Hay que calcularlo cada vez.
+    </p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; \((\mathbb{Z}_4, +)\) y \(U_9\) son cíclicos (Actividad 1 de la cátedra)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>Probar que \((\mathbb{Z}_4, +)\) y \(U_9\) son cíclicos.</p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"probar que es cíclico"</td><td>mostrar un generador</td><td>sus potencias recorren todo</td><td>\(\langle x \rangle = G\)</td></tr>
+      <tr><td>"\((\mathbb{Z}_4, +)\)"</td><td>\(\{0, 1, 2, 3\}\), suma mód 4</td><td>&mdash;</td><td>\(|G| = 4\)</td></tr>
+      <tr><td>"\(U_9\)"</td><td>\(\{1, 2, 4, 5, 7, 8\}\), producto mód 9</td><td>&mdash;</td><td>\(|G| = 6\)</td></tr>
+    </table>
+  </div>
+  <ul>
+    <li>\(\mathbb{Z}_4\): con el 1, \(1,\ 2,\ 3,\ 4 \to 0\). Aparecen los 4: \(\langle 1 \rangle = \mathbb{Z}_4\). También el 3: \(3,\ 6 \to 2,\ 9 \to 1,\ 12 \to 0\).</li>
+    <li>\(U_9\): con el 2, \(2, 4, 8, 7, 5, 1\) (sección 6). Aparecen los 6: \(\langle 2 \rangle = U_9\). También \(\langle 5 \rangle = U_9\).</li>
+  </ul>
+  <div class="caja caja-resp"><span class="caja-tit">Respuesta</span><p>\(\mathbb{Z}_4 = \langle 1 \rangle = \langle 3 \rangle\) y \(U_9 = \langle 2 \rangle = \langle 5 \rangle\): los dos son cíclicos.</p></div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; Estilo parcial: ¿\(U_{10}\) y \(U_8\) son cíclicos?</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>Decidir si \(U_{10}\) y \(U_8\) son cíclicos. Si lo son, dar todos sus generadores.</p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"\(U_{10}\)"</td><td>coprimos con 10</td><td>\(\varphi(10) = 4\)</td><td>\(\{1, 3, 7, 9\}\)</td></tr>
+      <tr><td>"\(U_8\)"</td><td>coprimos con 8</td><td>\(\varphi(8) = 4\)</td><td>\(\{1, 3, 5, 7\}\)</td></tr>
+      <tr><td>"todos sus generadores"</td><td>los de orden 4</td><td>orden de cada uno</td><td>la respuesta</td></tr>
+    </table>
+  </div>
+  <h4>\(U_{10}\)</h4>
+  <ul>
+    <li>\(3\): \(3,\ 9,\ 27 \to 7,\ 21 \to 1\). Orden 4.</li>
+    <li>\(7\): \(7,\ 49 \to 9,\ 63 \to 3,\ 21 \to 1\). Orden 4.</li>
+    <li>\(9\): \(9,\ 81 \to 1\). Orden 2. \(1\): orden 1.</li>
+  </ul>
+  <h4>\(U_8\)</h4>
+  <ul>
+    <li>\(3^2 = 9 \to 1\), \(5^2 = 25 \to 1\), \(7^2 = 49 \to 1\): los tres tienen orden 2, y el 1 orden 1.</li>
+    <li>Ninguno tiene orden \(4 = |U_8|\): ninguno genera todo.</li>
+  </ul>
+  <div class="caja caja-resp"><span class="caja-tit">Respuesta</span><p>\(U_{10}\) es cíclico, con generadores 3 y 7. \(U_8\) no es cíclico: todos sus elementos tienen orden 1 o 2.</p></div>
+</div>

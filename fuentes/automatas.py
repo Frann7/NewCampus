@@ -32,7 +32,9 @@ Un dibujo:
     )
 Opcionales del dibujo: `muertos` (gris y punteado), `marcados` (el estado que
 se está por eliminar), `entrada` (de dónde llega la flecha del inicial: izq,
-arriba, abajo), `alt`.
+arriba, abajo), `alt`, `sep` (cómo se juntan las etiquetas paralelas; por
+defecto ", ". Las máquinas de Mealy de Matemática Discreta, con etiquetas
+"entrada,salida", usan sep=" | " para que "0,0 | 1,0" no se lea mal).
 Una transición es (de, a, etiqueta[, opciones]). Dos transiciones con el mismo
 origen y destino se juntan en una sola etiqueta ("a, b"). Si hay ida y vuelta
 entre dos estados, las dos se curvan solas. Opciones: `curva` (px; positivo
@@ -102,7 +104,7 @@ def svg(d):
     cuerpo, puntos = [], []
     for (de, a) in orden:
         ets, op = juntas[(de, a)]
-        texto = ", ".join(ets)
+        texto = d.get("sep", ", ").join(ets)
         clase = "arco nueva" if op.get("nueva") else "arco"
         c1 = pos[de]
         if de == a:

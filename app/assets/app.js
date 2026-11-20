@@ -1358,6 +1358,38 @@ window.NC = window.NC || {};
     if (!caja) { return; }
     caja.innerHTML = "";
 
+    // Solapas por anio (contenido/materias.json, "anios"): una fila de botones
+    // y un grupo de materias por anio; se ve solo el grupo del anio elegido.
+    var anios = (window.Apuntes.indice || {}).anios || [];
+    var grupos = {};
+    if (anios.length) {
+      var fila = document.createElement("div");
+      fila.className = "anios";
+      fila.setAttribute("role", "tablist");
+      anios.forEach(function (a) {
+        var b = document.createElement("button");
+        b.type = "button";
+        b.className = "anio-btn";
+        b.setAttribute("role", "tab");
+        b.setAttribute("data-anio", a.clave);
+        b.textContent = a.nombre;
+        fila.appendChild(b);
+      });
+      caja.appendChild(fila);
+      anios.forEach(function (a) {
+        var g = document.createElement("div");
+        g.className = "anio-grupo";
+        g.setAttribute("data-anio", a.clave);
+        g.setAttribute("role", "tabpanel");
+        var vacio = document.createElement("p");
+        vacio.className = "anio-vacio";
+        vacio.textContent = "Todavía no hay materias de " + a.nombre + ".";
+        g.appendChild(vacio);
+        grupos[a.clave] = g;
+        caja.appendChild(g);
+      });
+    }
+
     materiasDelIndice().forEach(function (m) {
       var soloEvaluacion = !(m.unidades && m.unidades.length) && tieneEvaluacion(m.clave);
       var disponible = !!(m.unidades && m.unidades.length) || soloEvaluacion;
@@ -1429,8 +1461,55 @@ window.NC = window.NC || {};
         bloque.appendChild(lista);
       }
 
-      caja.appendChild(bloque);
+      var grupo = grupos[m.anio];
+      if (grupo) {
+        var vacio = $(".anio-vacio", grupo);
+        if (vacio) { grupo.removeChild(vacio); }
+        grupo.appendChild(bloque);
+      } else {
+        caja.appendChild(bloque);
+      }
     });
+  }
+
+  /* ---------- solapas de anio del menu ----------
+     Se recuerda la ultima elegida; al cambiar de materia (por una ruta o un
+     enlace) se pasa sola a la solapa de esa materia. */
+  var ANIO_KEY = "apuntes:anio";
+  var anioElegido = (function () {
+    try { return localStorage.getItem(ANIO_KEY) || ""; } catch (e) { return ""; }
+  })();
+  var materiaDelAnio = null;
+
+  function anioDeMateria(mat) {
+    var m = materiasDelIndice().filter(function (x) { return x.clave === mat; })[0];
+    return m && m.anio ? m.anio : "";
+  }
+
+  function mostrarAnio(clave) {
+    var btns = $$(".anio-btn");
+    if (!btns.length) { return; }
+    var existe = btns.some(function (b) { return b.getAttribute("data-anio") === clave; });
+    if (!existe) { clave = btns[0].getAttribute("data-anio"); }
+    anioElegido = clave;
+    try { localStorage.setItem(ANIO_KEY, clave); } catch (e) {}
+    btns.forEach(function (b) {
+      var si = b.getAttribute("data-anio") === clave;
+      b.classList.toggle("is-active", si);
+      b.setAttribute("aria-selected", String(si));
+    });
+    $$(".anio-grupo").forEach(function (g) {
+      g.hidden = g.getAttribute("data-anio") !== clave;
+    });
+  }
+
+  function sincronizarAnio() {
+    if (state.materia !== materiaDelAnio) {
+      materiaDelAnio = state.materia;
+      var deLaMateria = anioDeMateria(state.materia);
+      if (deLaMateria) { mostrarAnio(deLaMateria); return; }
+    }
+    mostrarAnio(anioElegido);
   }
 
   // Como se llaman las partes de una materia: "Unidad" en PyE, "Clase" en PA.
@@ -1546,6 +1625,7 @@ window.NC = window.NC || {};
 
   function pintarNavegacion(id) {
     // materias del sidebar (respeta si el usuario la plego a mano)
+    sincronizarAnio();
     sincronizarMaterias();
 
     // unidades del sidebar
@@ -1621,6 +1701,11 @@ window.NC = window.NC || {};
   /* ---------- eventos ---------- */
 
   function initEventos() {
+    // Solapas de anio: solo cambian que materias se ven en el menu.
+    $$(".anio-btn").forEach(function (b) {
+      b.addEventListener("click", function () { mostrarAnio(b.getAttribute("data-anio")); });
+    });
+
     // El boton de la materia SOLO despliega y pliega. No cambia lo que estas
     // leyendo: para eso hay que clickear una unidad.
     $$(".materia-btn").forEach(function (b) {

@@ -1,0 +1,51 @@
+<div class="ej" data-examen="variante" data-examen-ref="Parcial 1 2026 &middot; ej. 4e" data-examen-nota="En el parcial se escribe como concatenación de lenguajes lo que detecta una máquina; acá, lo que se describe en palabras (subcadena, sufijo propio y largo par).">
+  <span class="tag" data-num-ej="CL-7.">Complementaria P1 &middot; Lenguajes &middot; Ej. 7 &middot; Escribir lenguajes y definición recursiva</span>
+  <h2>Subcadena 011, largo par con sufijo propio 10, y \(b^n a b^n\) recursivo</h2>
+  <div class="enunciado">
+    <p>Sea \(\Sigma = \{0, 1\}\). Encontrar un lenguaje \(A\) para describir el conjunto de cadenas de \(\Sigma^*\) que tengan a \(011\) como subcadena.</p>
+    <p>a. Escribir simbólicamente el lenguaje \(A\), que contiene solamente a todas las palabras de longitud par, que tengan a \(10\) como sufijo propio.</p>
+    <p>b. Sea \(B\) el lenguaje de \(\Sigma^* = \{a, b\}^*\) que contiene todas las cadenas de longitud impar que sólo contiene \(a\) en la posición central (por ejemplo: \(bbabb\)). Definir recursivamente a \(B\).</p>
+  </div>
+
+  <span class="paso">Qué tema es y por qué</span>
+  <ul>
+    <li>Escribir un lenguaje con concatenación, \(^*\) y \(^+\) a partir de una descripción (en la teoría, "Descripción de los elementos de un lenguaje").</li>
+    <li>Definición recursiva: se da un <strong>caso base</strong> (qué está seguro en el conjunto) y una <strong>regla</strong> para armar elementos nuevos a partir de los que ya están; nada más pertenece.</li>
+  </ul>
+  <div class="caja caja-formula">
+    <p>Subcadena \(y\) de \(w\): \(w = xyz\) con \(x, z \in \Sigma^*\). &nbsp; Sufijo propio \(y\): \(w = xy\) con \(x \neq \lambda\).</p>
+  </div>
+
+  <span class="paso">Paso 1 &mdash; Subcadena 011 (el enunciado general)</span>
+  <p>Forma: (cualquier cosa) \(011\) (cualquier cosa). Cada "cualquier cosa" es \(\{0,1\}^*\), que admite la vacía:</p>
+  <p>\[A = \{0, 1\}^*\{011\}\{0, 1\}^*\]</p>
+  <p>Ejemplos: \(011\), \(1011\), \(01100\).</p>
+
+  <span class="paso">Paso 2 &mdash; a. Largo par y sufijo propio 10</span>
+  <ul>
+    <li>La cadena es \(x\,10\) con \(x \neq \lambda\) (sufijo <strong>propio</strong>).</li>
+    <li>\(\|x10\| = \|x\| + 2\) es par si y solo si \(\|x\|\) es par. Y \(x \neq \lambda\), así que \(\|x\| = 2, 4, 6, \dots\)</li>
+    <li>Las cadenas de largo par positivo son las que se arman pegando bloques de 2 símbolos: \(\{00, 01, 10, 11\}^+ = (\Sigma^2)^+\). (Es como el ejemplo de la teoría: \(\{xx, xy, yx, yy\}^*\) son las de largo par.)</li>
+  </ul>
+  <p>\[A = \{00, 01, 10, 11\}^+\{10\}\]</p>
+  <p>Los primeros: \(0010, 0110, 1010, 1110, 000010, \dots\) No entra \(10\) sola: su sufijo \(10\) no es propio.</p>
+
+  <span class="paso">Paso 3 &mdash; b. Definición recursiva de B</span>
+  <p>Las cadenas de \(B\) son \(a\), \(bab\), \(bbabb\), …: igual cantidad de \(b\) a cada lado de la única \(a\) (si no, la \(a\) no quedaría en el centro). Se pasa de una a la siguiente agregando una \(b\) a cada lado.</p>
+  <ol>
+    <li><strong>Base:</strong> \(a \in B\).</li>
+    <li><strong>Paso recursivo:</strong> si \(w \in B\), entonces \(bwb \in B\).</li>
+    <li><strong>Cierre:</strong> ninguna otra cadena está en \(B\) (solo las que se obtienen de 1 aplicando 2 una cantidad finita de veces).</li>
+  </ol>
+  <p>Comprobación con el ejemplo: \(a \to bab \to bbabb\) (dos aplicaciones del paso 2).</p>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>Subcadena \(011\): \(A = \{0,1\}^*\{011\}\{0,1\}^*\).</p>
+    <p>a. \(A = \{00, 01, 10, 11\}^+\{10\}\).</p>
+    <p>b. (1) \(a \in B\); (2) si \(w \in B\) entonces \(bwb \in B\); (3) nada más está en \(B\). Equivale a \(B = \{b^n a b^n \ / \ n \in \mathbb{N}\}\).</p>
+  </div>
+
+  <span class="paso">Verificación</span>
+  <p>Con Python se comparó \(\{00,01,10,11\}^+\{10\}\) contra "largo par, termina en 10 y largo mayor que 2" con todas las cadenas de largo hasta 8: coinciden.</p>
+</div>

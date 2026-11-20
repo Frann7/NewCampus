@@ -1,0 +1,158 @@
+<div class="bloque" data-examen="igual" data-examen-ref="Parcial 2 2026 · ej. 3" data-examen-nota="El ej. 3 b) fue el problema de la ferretería: se resuelve viendo que la ecuación diofántica no tiene solución. Está en el Ejemplo 4.">
+  <p class="kicker">Ecuaciones diofánticas</p>
+  <h2>11. Problemas que se resuelven con diofánticas</h2>
+
+  <h3>Para qué sirve</h3>
+  <p>
+    En los problemas con contexto, la ecuación hay que armarla, y después no sirven todas las
+    soluciones: solo las que tienen sentido (cantidades que no pueden ser negativas, un total
+    entre dos valores). Esta sección es el método para <strong>plantear y filtrar</strong>.
+  </p>
+
+  <h3>El método</h3>
+  <ol>
+    <li><strong>Nombrar las incógnitas</strong> con palabras: "\(x\) = cantidad de cajas A".</li>
+    <li><strong>Plantear</strong> \(ax + by = c\) a partir del enunciado.</li>
+    <li>Calcular \(d = mcd(a, b)\). Si \(d \nmid c\): <strong>el problema no tiene solución</strong>, y esa es la respuesta.</li>
+    <li>(Conviene) dividir toda la ecuación por \(d\): queda una equivalente con coeficientes coprimos y números más chicos.</li>
+    <li>Resolver: particular y general (sección 10).</li>
+    <li><strong>Filtrar:</strong> escribir cada condición del enunciado como una desigualdad en \(t\), despejar \(t\) y quedarse con los enteros que cumplen todas.</li>
+    <li>Responder con las soluciones que quedaron, en el contexto.</li>
+  </ol>
+
+  <h4>Cómo se despeja \(t\) en una desigualdad</h4>
+  <ul>
+    <li>Se pasa sumando o restando como en una ecuación.</li>
+    <li>Al <strong>dividir por un número negativo, la desigualdad se da vuelta</strong>: de \(-3t \geq 52\) sale \(t \leq -17{,}33\).</li>
+    <li>Como \(t\) es entero: \(t \geq -20{,}8\) quiere decir \(t \geq -20\), y \(t \leq -17{,}33\) quiere decir \(t \leq -18\). Se redondea "hacia adentro" del intervalo.</li>
+  </ul>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; Programas en Pascal y en Python</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado (Actividad 8 a de la cátedra)</span>
+    <p>Juan depura un programa en Pascal en 6 minutos, pero en Python tarda 10 minutos. Si trabaja en forma continua durante 104 minutos y no le sobró tiempo, ¿cuántos programas depuró en cada lenguaje?</p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"cuántos programas en cada lenguaje"</td><td>las incógnitas</td><td>&mdash;</td><td>\(x\) = Pascal, \(y\) = Python</td></tr>
+      <tr><td>"en Pascal en 6 minutos"</td><td>minutos en Pascal</td><td>&mdash;</td><td>\(6x\)</td></tr>
+      <tr><td>"en Python tarda 10 minutos"</td><td>minutos en Python</td><td>&mdash;</td><td>\(10y\)</td></tr>
+      <tr><td>"104 minutos y no le sobró tiempo"</td><td>el total es exacto</td><td>&mdash;</td><td>\(6x + 10y = 104\)</td></tr>
+      <tr><td>(sentido)</td><td>cantidades de programas</td><td>&mdash;</td><td>\(x \geq 0,\ y \geq 0\)</td></tr>
+    </table>
+  </div>
+  <p><span class="paso">Paso 1 &mdash; ¿Tiene solución?</span> \(mcd(6, 10) = 2\) y \(2 \mid 104\). Sí. Divido por 2: \(3x + 5y = 52\).</p>
+  <p><span class="paso">Paso 2 &mdash; Bézout</span> \(5 = 3 \cdot 1 + 2\); \(3 = 2 \cdot 1 + 1\). Hacia atrás: \(1 = 3 - 2 = 3 - (5 - 3) = 2 \cdot 3 - 1 \cdot 5\).</p>
+  <p><span class="paso">Paso 3 &mdash; Particular</span> Por 52: \(x_0 = 104,\ y_0 = -52\) (\(312 - 260 = 52\) ✔).</p>
+  <p><span class="paso">Paso 4 &mdash; General</span> Con \(a = 3,\ b = 5,\ d = 1\):</p>
+  <p>\[ x = 104 + 5t \qquad y = -52 - 3t \]</p>
+  <p><span class="paso">Paso 5 &mdash; Filtrar</span></p>
+  <ul>
+    <li>\(x \geq 0\): \(104 + 5t \geq 0 \Rightarrow t \geq -20{,}8 \Rightarrow t \geq -20\).</li>
+    <li>\(y \geq 0\): \(-52 - 3t \geq 0 \Rightarrow -3t \geq 52 \Rightarrow t \leq -17{,}33 \Rightarrow t \leq -18\) (se dio vuelta al dividir por \(-3\)).</li>
+  </ul>
+  <p>Quedan \(t = -20, -19, -18\):</p>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th>\(t\)</th><th>\(x\) (Pascal)</th><th>\(y\) (Python)</th><th>Control \(6x + 10y\)</th></tr>
+      <tr><td>\(-20\)</td><td>4</td><td>8</td><td>\(24 + 80 = 104\)</td></tr>
+      <tr><td>\(-19\)</td><td>9</td><td>5</td><td>\(54 + 50 = 104\)</td></tr>
+      <tr><td>\(-18\)</td><td>14</td><td>2</td><td>\(84 + 20 = 104\)</td></tr>
+    </table>
+  </div>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>Hay tres posibilidades: 4 en Pascal y 8 en Python, 9 y 5, o 14 y 2.</p>
+  </div>
+  <p>Con el mismo método sale la Actividad 8 b (sellos de 140 y 210 pesos para 7770 pesos): \(2x + 3y = 111\), y hay 19 formas, de \(x = 0,\ y = 37\) a \(x = 54,\ y = 1\) (la \(x\) sube de a 3 y la \(y\) baja de a 2).</p>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; Tiene soluciones enteras pero ninguna sirve</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado (Actividad 8 c de la cátedra)</span>
+    <p>Una ferretería arma combos de tornillos para clientes mayoristas. Hay dos tipos de cajas: Caja A con 37 tornillos, y Caja B con 102 tornillos. Un cliente pide exactamente 1017 tornillos. Determinar si es posible cumplir con el pedido.</p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"Caja A con 37 tornillos"</td><td>\(x\) cajas A</td><td>&mdash;</td><td>\(37x\)</td></tr>
+      <tr><td>"Caja B con 102 tornillos"</td><td>\(y\) cajas B</td><td>&mdash;</td><td>\(102y\)</td></tr>
+      <tr><td>"exactamente 1017"</td><td>el total</td><td>&mdash;</td><td>\(37x + 102y = 1017\)</td></tr>
+      <tr><td>(sentido)</td><td>no se entregan cajas negativas</td><td>&mdash;</td><td>\(x \geq 0,\ y \geq 0\)</td></tr>
+    </table>
+  </div>
+  <p><span class="paso">Paso 1</span> Euclides: \(102 = 37 \cdot 2 + 28\); \(37 = 28 \cdot 1 + 9\); \(28 = 9 \cdot 3 + 1\). \(d = 1\), que divide a 1017: <strong>hay soluciones enteras</strong>.</p>
+  <p><span class="paso">Paso 2</span> Hacia atrás: \(1 = 28 - 3 \cdot 9 = 28 - 3\,(37 - 28) = 4 \cdot 28 - 3 \cdot 37 = 4\,(102 - 2 \cdot 37) - 3 \cdot 37 = 4 \cdot 102 - 11 \cdot 37\).</p>
+  <p><span class="paso">Paso 3</span> Por 1017: \(x_0 = -11187,\ y_0 = 4068\). General: \(x = -11187 + 102t,\ y = 4068 - 37t\).</p>
+  <p><span class="paso">Paso 4 &mdash; Filtrar</span></p>
+  <ul>
+    <li>\(x \geq 0\): \(102t \geq 11187 \Rightarrow t \geq 109{,}68 \Rightarrow t \geq 110\).</li>
+    <li>\(y \geq 0\): \(37t \leq 4068 \Rightarrow t \leq 109{,}95 \Rightarrow t \leq 109\).</li>
+  </ul>
+  <p>No hay ningún entero que sea a la vez \(\geq 110\) y \(\leq 109\). Las soluciones más cercanas son \(t = 109\): \((-69, 35)\) y \(t = 110\): \((33, -2)\), y las dos tienen una cantidad negativa.</p>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>No es posible: la ecuación tiene soluciones enteras, pero ninguna con las dos cantidades no negativas.</p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 3 &mdash; Filtrar con "entre 1100 y 1800"</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado (guía complementaria, mcd 12)</span>
+    <p>Un distribuidor de equipos informáticos efectuó un pedido de entre 1100 y 1800 equipos a un fabricante que se los envió en contenedores completos con capacidad para 54 equipos cada uno. El distribuidor los repartió a los diferentes puntos de venta usando furgonetas con capacidad para 15 equipos y quedando 33 equipos sin repartir en el almacén. ¿Cuántos equipos pidió el distribuidor a la fábrica?</p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"contenedores completos de 54"</td><td>\(x\) contenedores</td><td>&mdash;</td><td>\(N = 54x\)</td></tr>
+      <tr><td>"furgonetas de 15 y quedan 33"</td><td>\(y\) furgonetas más 33</td><td>&mdash;</td><td>\(N = 15y + 33\)</td></tr>
+      <tr><td>(igualando)</td><td>la ecuación</td><td>\(54x = 15y + 33\)</td><td>\(54x - 15y = 33\)</td></tr>
+      <tr><td>"entre 1100 y 1800"</td><td>el filtro</td><td>&mdash;</td><td>\(1100 \leq N \leq 1800\)</td></tr>
+    </table>
+  </div>
+  <p><span class="paso">Paso 1</span> \(mcd(54, 15) = 3\) y \(3 \mid 33\). Divido por 3: \(18x - 5y = 11\).</p>
+  <p><span class="paso">Paso 2</span> Euclides con 18 y 5: \(18 = 5 \cdot 3 + 3\); \(5 = 3 \cdot 1 + 2\); \(3 = 2 \cdot 1 + 1\). Hacia atrás: \(1 = 3 - 2 = 3 - (5 - 3) = 2 \cdot 3 - 5 = 2\,(18 - 3 \cdot 5) - 5 = 2 \cdot 18 - 7 \cdot 5\). O sea \(1 = 18 \cdot 2 + (-5) \cdot 7\).</p>
+  <p><span class="paso">Paso 3</span> Por 11: \(x_0 = 22,\ y_0 = 77\) (\(396 - 385 = 11\) ✔). Con \(a = 18,\ b = -5\): \(x = 22 - 5t,\ y = 77 - 18t\).</p>
+  <p><span class="paso">Paso 4 &mdash; El filtro va sobre \(N\)</span> \(N = 54x = 54\,(22 - 5t) = 1188 - 270t\).</p>
+  <p>\[ 1100 \leq 1188 - 270t \leq 1800 \;\Rightarrow\; -88 \leq -270t \leq 612 \;\Rightarrow\; -2{,}27 \leq t \leq 0{,}33 \]</p>
+  <p>(Al dividir por \(-270\) se dieron vuelta las dos desigualdades.) Quedan \(t = -2, -1, 0\): \(N = 1728,\ 1458,\ 1188\).</p>
+  <p>Control con 1188: \(1188 = 54 \cdot 22\) y \(1188 - 33 = 1155 = 15 \cdot 77\). ✔</p>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>El enunciado admite tres valores: 1188, 1458 o 1728 equipos. (Saltan de a 270, que es \(mcm(54, 15)\).)</p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 4 &mdash; Estilo parcial: el vuelto imposible</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado (Parcial 2 2026, ej. 3 b)</span>
+    <p>Un cliente entra indignado a una ferretería y le reclama al dueño: "¡Ayer a la tarde vine a comprar cajas de tornillos y paquetes de tarugos! Las cajas de tornillos costaban 140 pesos cada una y los paquetes de tarugos 80 pesos cada uno. Estoy seguro de que te pagué con un billete de 2000 pesos y me diste 550 pesos de vuelto. Estuve haciendo cuentas y me cobraste mal, ¡quiero que me devuelvas lo que falta!". El ferretero, que tiene buena memoria pero mejor nivel de matemática, le responde sin siquiera mirar la caja registradora: "Es imposible que yo le haya dado exactamente 550 pesos de vuelto por esa compra. Posiblemente ha llevado además algún otro producto." ¿Cómo supo el ferretero de forma inmediata que el cliente estaba equivocado?</p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"cajas de tornillos a 140 pesos"</td><td>\(x\) cajas</td><td>&mdash;</td><td>\(140x\)</td></tr>
+      <tr><td>"paquetes de tarugos a 80 pesos"</td><td>\(y\) paquetes</td><td>&mdash;</td><td>\(80y\)</td></tr>
+      <tr><td>"billete de 2000 y 550 de vuelto"</td><td>lo que se gastó</td><td>\(2000 - 550\)</td><td>\(1450\) pesos</td></tr>
+      <tr><td>(la ecuación)</td><td>compra exacta</td><td>&mdash;</td><td>\(140x + 80y = 1450\)</td></tr>
+      <tr><td>"de forma inmediata"</td><td>sin resolver: alcanza con el criterio del mcd</td><td>&mdash;</td><td>¿\(d \mid 1450\)?</td></tr>
+    </table>
+  </div>
+  <p><span class="paso">Paso 1 &mdash; El mcd</span> \(140 = 80 \cdot 1 + 60\); \(80 = 60 \cdot 1 + 20\); \(60 = 20 \cdot 3 + 0\). \(mcd(140, 80) = 20\).</p>
+  <p><span class="paso">Paso 2 &mdash; ¿Divide a 1450?</span> \(1450 \div 20 = 72{,}5\). No: \(20 \nmid 1450\).</p>
+  <p><span class="paso">Paso 3 &mdash; Conclusión</span> Por el teorema de la sección 10, la ecuación \(140x + 80y = 1450\) <strong>no tiene ninguna solución entera</strong> (ni siquiera con negativos). Dicho en palabras: cualquier compra de cajas a 140 y paquetes a 80 cuesta un múltiplo de 20 pesos (\(140x + 80y = 20\,(7x + 4y)\)), y 1450 no es múltiplo de 20.</p>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>El cliente gastó \(2000 - 550 = 1450\) pesos. Para que fuera posible, \(140x + 80y = 1450\) tendría que tener solución entera, y no la tiene porque \(mcd(140, 80) = 20\) no divide a 1450. Todo lo que se compra con esos precios es múltiplo de 20; por eso el ferretero supo al instante que ese vuelto no correspondía solo a tornillos y tarugos.</p>
+  </div>
+</div>

@@ -1,0 +1,87 @@
+<div class="bloque">
+  <p class="kicker">Conteo</p>
+  <h2>14. Contar funciones con condiciones</h2>
+
+  <h3>Para qué sirve</h3>
+  <p>
+    La guía complementaria pregunta cuántas funciones cumplen alguna condición ("con exactamente
+    4 unos", "que valen 1 cuando..."). Todo sale de la idea de la sección 5:
+    <strong>una función es su columna</strong>, y cada fila se elige por separado.
+  </p>
+
+  <h3>La regla</h3>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Contar columnas</span>
+    <ol>
+      <li>Ver qué filas quedan <strong>fijas</strong> por la condición (ya tienen su valor).</li>
+      <li>Ver qué filas quedan <strong>libres</strong> (pueden ser 0 o 1).</li>
+      <li>Si las libres no dependen unas de otras: \(2^{\text{filas libres}}\).</li>
+      <li>Si la condición pide "exactamente \(k\) unos": se eligen qué \(k\) filas de las \(2^{n}\) llevan el 1, \(\binom{2^{n}}{k}\).</li>
+      <li>Si la condición obliga a que ciertas filas valgan <strong>lo mismo</strong>: se cuentan los grupos de filas atadas, y es \(2^{\text{grupos}}\).</li>
+    </ol>
+  </div>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Símbolo</th><th>Qué significa</th></tr>
+      <tr><td>\(\binom{N}{k}\)</td><td>Combinatorio: de cuántas maneras se eligen \(k\) cosas entre \(N\), sin importar el orden. \(\binom{N}{k} = \frac{N!}{k!\,(N - k)!}\)</td></tr>
+      <tr><td>conjunciones fundamentales de \(n\) variables</td><td>Cada variable va con barra o sin barra: \(2^{n}\) (son los \(2^{n}\) mintérminos, uno por fila)</td></tr>
+    </table>
+  </div>
+
+  <h3>Ejemplo 1 &mdash; Verdadero o falso (guía complementaria, Boole 1 b i)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>Para \(B^{3} \to B\), ¿existen solamente 6 funciones \(g\) tales que los términos 1 y 2 son mintérminos?</p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"\(B^{3}\)"</td><td>8 filas</td><td>\(2^{3}\)</td><td>&mdash;</td></tr>
+      <tr><td>"1 y 2 son mintérminos"</td><td>\(m_1\) y \(m_2\) están en la f.n.d.: \(g = 1\) en las filas 1 y 2</td><td>2 filas fijas</td><td>&mdash;</td></tr>
+      <tr><td>las demás filas</td><td>no se dice nada: libres</td><td>\(8 - 2 = 6\)</td><td>\(2^{6}\)</td></tr>
+    </table>
+  </div>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>
+      Falso: son \(2^{6} = 64\) funciones, no 6 (verificado contando las 256). El 6 es la
+      cantidad de filas libres, no la de funciones.
+    </p>
+  </div>
+
+  <h3>Ejemplo 2 &mdash; Estilo parcial (guía complementaria, Boole 2 b, c, d y e)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>Sea \(F_5\) la familia de todas las funciones \(f : B^{5} \to B\).</p>
+    <p>b) ¿Cuántas cumplen \(f(x_1, x_2, x_3, x_4, x_5) = f(x_1, x_2, \overline{x_3}, x_4, \overline{x_5})\)?</p>
+    <p>c) ¿Cuántas conjunciones fundamentales hay?</p>
+    <p>d) ¿Cuántas tienen exactamente 4 unos en su salida?</p>
+    <p>e) ¿Cuántas toman el valor 1 cuando exactamente dos de sus 5 variables valen 1 (en el resto no importa)?</p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"\(B^{5}\)"</td><td>32 filas</td><td>\(2^{5}\)</td><td>todas las partes</td></tr>
+      <tr><td>b) "\(f(\ldots x_3 \ldots x_5) = f(\ldots \overline{x_3} \ldots \overline{x_5})\)"</td><td>cada fila vale lo mismo que la que tiene \(x_3\) y \(x_5\) dados vuelta</td><td>las filas se atan de a pares</td><td>\(32 / 2 = 16\) grupos</td></tr>
+      <tr><td>c) "conjunciones fundamentales"</td><td>cada variable con o sin barra</td><td>\(2^{5}\)</td><td>32</td></tr>
+      <tr><td>d) "exactamente 4 unos"</td><td>elegir qué 4 filas de 32 llevan 1</td><td>\(\binom{32}{4}\)</td><td>combinatorio</td></tr>
+      <tr><td>e) "exactamente dos variables valen 1"</td><td>las filas con dos 1 en la tira quedan fijas en 1</td><td>\(\binom{5}{2} = 10\) filas fijas</td><td>\(32 - 10 = 22\) libres</td></tr>
+    </table>
+  </div>
+  <p>
+    <strong>b)</strong> Cambiar \(x_3\) y \(x_5\) lleva una fila a otra distinta (por ejemplo
+    \(00000 \leftrightarrow 00101\)), y volver a cambiarlos regresa a la primera: las 32 filas
+    quedan en 16 parejas. Cada pareja tiene un solo valor (0 o 1) para elegir:
+    \(2^{16} = 65\,536\).
+  </p>
+  <p><strong>c)</strong> \(2^{5} = 32\).</p>
+  <p><strong>d)</strong> \(\binom{32}{4} = \frac{32 \cdot 31 \cdot 30 \cdot 29}{4 \cdot 3 \cdot 2 \cdot 1} = 35\,960\).</p>
+  <p><strong>e)</strong> Hay \(\binom{5}{2} = 10\) tiras con exactamente dos unos (\(11000, 10100, \ldots\)); en esas \(f = 1\) obligado. Las otras 22 filas son libres: \(2^{22} = 4\,194\,304\).</p>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>b) \(2^{16} = 65\,536\) &nbsp; c) 32 &nbsp; d) \(\binom{32}{4} = 35\,960\) &nbsp; e) \(2^{22} = 4\,194\,304\)</p>
+    <p>(b verificado contando las parejas y, con el mismo razonamiento en 3 variables, probando las 256 funciones.)</p>
+  </div>
+</div>

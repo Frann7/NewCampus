@@ -1,0 +1,111 @@
+<div class="ej" data-examen="variante" data-examen-ref="Parcial 1 2026 · ej. 5" data-examen-nota="El parcial pidió simplificar, la tabla y la f.n.d. de una función de B³. Acá se pide la f.n.d., la f.n.c. y las dos expresiones con etiquetas; la tabla se arma igual.">
+  <span class="tag" data-num-ej="15.1-5.">Grimaldi 15.1 &middot; Ej. 5 &middot; f.n.d., f.n.c., mintérminos y maxtérminos</span>
+  <h2>f.n.d. y f.n.c. de una función con dos barras largas</h2>
+  <div class="enunciado">
+    <p>
+      Suponga que \(f : B^3 \to B\) está dada por
+      \(f(x, y, z) = \overline{\overline{(x + y)} + (\overline{x}z)}\).
+    </p>
+    <p>a) Determine la f.n.d. y f.n.c. de \(f\).</p>
+    <p>b) Escriba \(f\) como una suma de mintérminos y como un producto de maxtérminos (usando etiquetas en binario).</p>
+  </div>
+
+  <span class="paso">Qué tema es y por qué</span>
+  <ul>
+    <li><strong>f.n.d.</strong> (forma normal disyuntiva): suma de conjunciones fundamentales, una por cada fila donde \(f = 1\).</li>
+    <li><strong>f.n.c.</strong> (forma normal conjuntiva): producto de disyunciones fundamentales, una por cada fila donde \(f = 0\).</li>
+    <li><strong>Etiqueta en binario:</strong> cada fila \(xyz\) se lee como número en base 2 (\(101 = 4 + 0 + 1 = 5\)). \(\sum m(\dots)\) lista las filas con 1 y \(\prod M(\dots)\) las filas con 0.</li>
+    <li>La barra larga sobre todo se saca primero con De Morgan, así la tabla se hace con una expresión cómoda.</li>
+  </ul>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Leer bien las barras</span>
+    <p>
+      En el libro hay <strong>dos</strong> barras: una corta sobre \((x + y)\) y otra larga sobre toda
+      la suma. Si se olvida la larga, sale la función complementaria (los unos y los ceros
+      cambiados).
+    </p>
+  </div>
+
+  <span class="paso">Paso 1 — Sacar la barra larga</span>
+  <p>Reglas (tabla de leyes de la teoría de esta unidad):</p>
+  <ul>
+    <li>De Morgan: \(\overline{a + b} = \overline{a}\,\overline{b}\) y \(\overline{ab} = \overline{a} + \overline{b}\).</li>
+    <li>Doble complemento: \(\overline{\overline{a}} = a\).</li>
+  </ul>
+  \[
+  \begin{aligned}
+  f &= \overline{\overline{(x + y)} + \overline{x}z} \\
+    &= \overline{\overline{(x + y)}} \cdot \overline{\overline{x}z} && \text{De Morgan sobre la suma} \\
+    &= (x + y) \cdot \overline{\overline{x}z} && \text{doble complemento} \\
+    &= (x + y)(\overline{\overline{x}} + \overline{z}) && \text{De Morgan sobre el producto} \\
+    &= (x + y)(x + \overline{z}) && \text{doble complemento}
+  \end{aligned}
+  \]
+
+  <span class="paso">Paso 2 — La tabla</span>
+  <p>\(f = (x + y)(x + \overline{z})\): un producto vale 1 si los dos factores valen 1.</p>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th>et.</th><th>\(x\)</th><th>\(y\)</th><th>\(z\)</th><th>\(x + y\)</th><th>\(x + \overline{z}\)</th><th>\(f\)</th></tr>
+      <tr><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1</td><td>0</td></tr>
+      <tr><td>1</td><td>0</td><td>0</td><td>1</td><td>0</td><td>0</td><td>0</td></tr>
+      <tr><td>2</td><td>0</td><td>1</td><td>0</td><td>1</td><td>1</td><td>1</td></tr>
+      <tr><td>3</td><td>0</td><td>1</td><td>1</td><td>1</td><td>0</td><td>0</td></tr>
+      <tr><td>4</td><td>1</td><td>0</td><td>0</td><td>1</td><td>1</td><td>1</td></tr>
+      <tr><td>5</td><td>1</td><td>0</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
+      <tr><td>6</td><td>1</td><td>1</td><td>0</td><td>1</td><td>1</td><td>1</td></tr>
+      <tr><td>7</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Paso 3 — f.n.d. (inciso a)</span>
+  <p>Regla del mintérmino: en cada fila con \(f = 1\), la variable que vale 1 va sin barra y la que vale 0 va con barra.</p>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th>et.</th><th>\(xyz\)</th><th>conjunción fundamental</th></tr>
+      <tr><td>2</td><td>010</td><td>\(\overline{x}y\overline{z}\)</td></tr>
+      <tr><td>4</td><td>100</td><td>\(x\overline{y}\,\overline{z}\)</td></tr>
+      <tr><td>5</td><td>101</td><td>\(x\overline{y}z\)</td></tr>
+      <tr><td>6</td><td>110</td><td>\(xy\overline{z}\)</td></tr>
+      <tr><td>7</td><td>111</td><td>\(xyz\)</td></tr>
+    </table>
+  </div>
+  <p>
+    Sin tabla también sale: \((x + y)(x + \overline{z}) = x + y\overline{z}\) (distributiva de la
+    suma sobre el producto, \(a + bc = (a + b)(a + c)\), leída al revés). Después se completan las
+    variables que faltan multiplicando por \(1 = v + \overline{v}\):
+    \(x = x(y + \overline{y})(z + \overline{z})\) da \(xyz + xy\overline{z} + x\overline{y}z + x\overline{y}\,\overline{z}\),
+    y \(y\overline{z} = (x + \overline{x})y\overline{z}\) da \(xy\overline{z} + \overline{x}y\overline{z}\).
+    El \(xy\overline{z}\) repetido se escribe una vez (idempotencia, \(a + a = a\)). Son los mismos cinco.
+  </p>
+
+  <span class="paso">Paso 4 — f.n.c. (inciso a)</span>
+  <p>Regla del maxtérmino: en cada fila con \(f = 0\), la variable que vale 0 va sin barra y la que vale 1 va con barra.</p>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th>et.</th><th>\(xyz\)</th><th>disyunción fundamental</th></tr>
+      <tr><td>0</td><td>000</td><td>\(x + y + z\)</td></tr>
+      <tr><td>1</td><td>001</td><td>\(x + y + \overline{z}\)</td></tr>
+      <tr><td>3</td><td>011</td><td>\(x + \overline{y} + \overline{z}\)</td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Paso 5 — Con etiquetas (inciso b)</span>
+  <p>\(\sum m\) junta las etiquetas de las filas con 1; \(\prod M\), las de las filas con 0. Entre las dos listas están las 8 etiquetas, sin repetir.</p>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>a) f.n.d.: \(f = \overline{x}y\overline{z} + x\overline{y}\,\overline{z} + x\overline{y}z + xy\overline{z} + xyz\)</p>
+    <p>&nbsp;&nbsp;&nbsp; f.n.c.: \(f = (x + y + z)(x + y + \overline{z})(x + \overline{y} + \overline{z})\)</p>
+    <p>b) \(f = \sum m(2, 4, 5, 6, 7) = \prod M(0, 1, 3)\)</p>
+  </div>
+
+  <span class="paso">Solución del libro</span>
+  <p>
+    El libro da f.n.d. \(xyz + x\overline{y}z + x\overline{y}\,\overline{z} + xy\overline{z} + \overline{x}y\overline{z}\),
+    f.n.c. \((x + y + z)(x + y + \overline{z})(x + \overline{y} + \overline{z})\) y
+    \(f = \sum m(2, 4, 5, 6, 7) = \prod M(0, 1, 3)\). Coincide (los términos en otro orden, que en
+    una suma o un producto no cambia nada).
+  </p>
+</div>

@@ -1,0 +1,116 @@
+<div class="bloque">
+  <p class="kicker">Lenguajes</p>
+  <h2>6. Prefijo, sufijo y subcadena</h2>
+
+  <h3>Para qué sirve</h3>
+  <p>
+    Son las palabras con las que se describen los lenguajes ("las cadenas que empiezan con...",
+    "que terminan en...", "que contienen a..."). El ejercicio 2 del parcial pidió justamente
+    describir un lenguaje <strong>en términos de prefijo y sufijo</strong>, y las máquinas
+    reconocedoras de la sección 16 se arman pensando en prefijos y sufijos del patrón.
+  </p>
+
+  <h3>Definición</h3>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Prefijo y sufijo</span>
+    <p>Si \(x, y \in \Sigma^{*}\) y \(w = xy\), entonces:</p>
+    <ul>
+      <li>\(x\) es un <strong>prefijo</strong> de \(w\) (<strong>prefijo propio</strong> si \(y \neq \lambda\));</li>
+      <li>\(y\) es un <strong>sufijo</strong> de \(w\) (<strong>sufijo propio</strong> si \(x \neq \lambda\)).</li>
+    </ul>
+  </div>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Subcadena</span>
+    <p>
+      Si \(x, y, z \in \Sigma^{*}\) y \(w = xyz\), entonces \(y\) es una <strong>subcadena</strong> de
+      \(w\). Si \(x \neq \lambda\) o \(z \neq \lambda\) (o sea, \(y \neq w\)), es una
+      <strong>subcadena propia</strong>.
+    </p>
+  </div>
+
+  <h3>Qué significa cada símbolo</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Término</th><th>En palabras</th><th>Para \(w = abc\)</th></tr>
+      <tr><td>prefijo</td><td>un pedazo del principio (puede ser nada o todo)</td><td>\(\lambda, a, ab, abc\)</td></tr>
+      <tr><td>prefijo propio</td><td>un prefijo que <strong>no</strong> es toda la cadena</td><td>\(\lambda, a, ab\)</td></tr>
+      <tr><td>sufijo</td><td>un pedazo del final</td><td>\(\lambda, c, bc, abc\)</td></tr>
+      <tr><td>sufijo propio</td><td>un sufijo que no es toda la cadena</td><td>\(\lambda, c, bc\)</td></tr>
+      <tr><td>subcadena</td><td>un pedazo <strong>contiguo</strong> de cualquier lugar</td><td>\(\lambda, a, b, c, ab, bc, abc\) (no \(ac\): no está pegado)</td></tr>
+    </table>
+  </div>
+
+  <h3>De dónde sale cada lista</h3>
+  <ul>
+    <li>Partir \(w = xy\) es elegir <strong>dónde cortar</strong>. Una cadena de largo \(n\) tiene \(n + 1\) lugares de corte (antes del primer símbolo, entre cada par, después del último): tiene \(n + 1\) prefijos y \(n + 1\) sufijos.</li>
+    <li>"Propio" saca un solo corte: el que deja todo de un lado. Quedan \(n\) prefijos propios y \(n\) sufijos propios. La vacía <strong>sí</strong> es prefijo propio y sufijo propio.</li>
+  </ul>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">"Tiene a \(ab\) como prefijo propio"</span>
+    <p>
+      Quiere decir que empieza con \(ab\) <strong>y que después viene algo más</strong>: \(ab\) misma
+      no cuenta, \(aba\) sí. En los conteos esto sube en uno el largo mínimo.
+    </p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; Listar todo (Ejemplos 5 y 6 de la cátedra)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>Para \(w = 0100110\), listar todos los prefijos, prefijos propios, sufijos y sufijos propios, y cuatro subcadenas propias.</p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"\(w = 0100110\)"</td><td>largo 7</td><td>\(7 + 1 = 8\) cortes</td><td>8 prefijos y 8 sufijos</td></tr>
+      <tr><td>"propios"</td><td>sacar \(w\) misma</td><td>\(8 - 1\)</td><td>7 de cada uno</td></tr>
+    </table>
+  </div>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Corte después de</th><th>Prefijo \(x\)</th><th>Sufijo \(y\)</th></tr>
+      <tr><td class="lbl">0 símbolos</td><td>\(\lambda\)</td><td>\(0100110\)</td></tr>
+      <tr><td class="lbl">1</td><td>\(0\)</td><td>\(100110\)</td></tr>
+      <tr><td class="lbl">2</td><td>\(01\)</td><td>\(00110\)</td></tr>
+      <tr><td class="lbl">3</td><td>\(010\)</td><td>\(0110\)</td></tr>
+      <tr><td class="lbl">4</td><td>\(0100\)</td><td>\(110\)</td></tr>
+      <tr><td class="lbl">5</td><td>\(01001\)</td><td>\(10\)</td></tr>
+      <tr><td class="lbl">6</td><td>\(010011\)</td><td>\(0\)</td></tr>
+      <tr><td class="lbl">7</td><td>\(0100110\)</td><td>\(\lambda\)</td></tr>
+    </table>
+  </div>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>
+      Prefijos: los 8 de la columna del medio; propios: todos menos \(0100110\).
+      Sufijos: los 8 de la última columna; propios: todos menos \(0100110\).
+      Subcadenas propias, por ejemplo: \(100\), \(0011\), \(1001\), \(10\) (pedazos contiguos que no son toda \(w\)).
+    </p>
+  </div>
+
+  <h3>Ejemplo 2 &mdash; Lo que un patrón comparte consigo mismo</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>Para \(w = abba\), ¿qué cadenas son <strong>a la vez</strong> prefijo propio y sufijo propio?</p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"prefijo propio"</td><td>principios sin \(w\)</td><td>\(\lambda, a, ab, abb\)</td><td>lista 1</td></tr>
+      <tr><td>"sufijo propio"</td><td>finales sin \(w\)</td><td>\(\lambda, a, ba, bba\)</td><td>lista 2</td></tr>
+      <tr><td>"a la vez"</td><td>intersección</td><td>comparar</td><td>\(\lambda\) y \(a\)</td></tr>
+    </table>
+  </div>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>
+      \(\lambda\) y \(a\). Que la \(a\) final de \(abba\) sea también el comienzo de otra \(abba\) es
+      lo que se llama <strong>solapamiento</strong>: en \(abbabba\) aparece dos veces compartiendo esa
+      \(a\). Esta cuenta es la que se usa en la sección 16 para armar las máquinas.
+    </p>
+  </div>
+</div>

@@ -1,0 +1,89 @@
+<div class="bloque">
+  <p class="kicker">Lenguajes</p>
+  <h2>5. Concatenación y potencias de una cadena</h2>
+
+  <h3>Para qué sirve</h3>
+  <p>
+    Es la operación básica entre cadenas: <strong>pegar una detrás de la otra</strong>. Con ella se
+    definen prefijo, sufijo, la concatenación de lenguajes y, más adelante, lo que lee una máquina.
+  </p>
+
+  <h3>Definición</h3>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Concatenación</span>
+    <p>
+      Si \(w_1 = x_1 x_2 \ldots x_m\) y \(w_2 = y_1 y_2 \ldots y_n\), la concatenación es
+      \(w_1 w_2 = x_1 x_2 \ldots x_m y_1 y_2 \ldots y_n\).
+    </p>
+    <p>\[ w_1 \lambda = w_1, \qquad \lambda w_1 = w_1, \qquad \lambda\lambda = \lambda \]</p>
+    <p>\[ \|w_1 w_2\| = \|w_1\| + \|w_2\| \qquad (w_1, w_2 \in \Sigma^{*}) \]</p>
+  </div>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Potencias de una cadena \(x \in \Sigma^{*}\)</span>
+    <p>\[ x^{0} = \lambda, \quad x^{1} = x, \quad x^{n+1} = x\,x^{n} \quad (n \in \mathbb{N}) \]</p>
+    <p>\[ \|x^{n}\| = n\,\|x\| \]</p>
+  </div>
+
+  <h3>Qué significa cada símbolo</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Símbolo</th><th>Se lee</th><th>Qué es</th></tr>
+      <tr><td>\(w_1 w_2\)</td><td>\(w_1\) concatenada con \(w_2\)</td><td>primero todos los símbolos de \(w_1\), después los de \(w_2\)</td></tr>
+      <tr><td>\(x^{n}\)</td><td>\(x\) a la \(n\)</td><td>\(x\) pegada \(n\) veces consigo misma (no es una multiplicación de números)</td></tr>
+      <tr><td>\(x^{0} = \lambda\)</td><td>&mdash;</td><td>pegar cero veces es no escribir nada</td></tr>
+    </table>
+  </div>
+
+  <h3>De dónde salen las propiedades</h3>
+  <ul>
+    <li>\(\lambda\) funciona como el 0 de la suma: pegarla no agrega nada, de un lado o del otro.</li>
+    <li>El largo de un pegote es la suma de los largos porque no se pierde ni se agrega ningún símbolo.</li>
+    <li>\(\|x^{n}\| = n\|x\|\) sale de aplicar lo anterior \(n\) veces.</li>
+    <li><strong>No es conmutativa:</strong> \(01 \cdot 1 = 011\) pero \(1 \cdot 01 = 101\).</li>
+  </ul>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; Potencias de \(x = 10\) (Ejemplo 4 de la cátedra)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>Sea \(\Sigma = \{0, 1\}\) y \(x = 10\). Hallar \(x^{0}\), \(x^{2}\), \(x^{5}\), \(\|x^{3}\|\), \(\|x^{7}\|\) y una regla para \(\|x^{n}\|\).</p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"\(x = 10\)"</td><td>la cadena que se repite</td><td>\(\|x\| = 2\)</td><td>cada copia suma 2 símbolos</td></tr>
+      <tr><td>"\(x^{0}\)"</td><td>cero copias</td><td>&mdash;</td><td>\(\lambda\)</td></tr>
+      <tr><td>"\(\|x^{n}\|\)"</td><td>largo de \(n\) copias</td><td>\(n \cdot 2\)</td><td>\(2n\)</td></tr>
+    </table>
+  </div>
+  <ul>
+    <li>\(x^{0} = \lambda\)</li>
+    <li>\(x^{2} = 1010\)</li>
+    <li>\(x^{5} = 1010101010\)</li>
+    <li>\(\|x^{3}\| = 3 \cdot 2 = 6\)</li>
+    <li>\(\|x^{7}\| = 7 \cdot 2 = 14\)</li>
+  </ul>
+  <div class="caja caja-resp"><span class="caja-tit">Respuesta</span><p>\(\forall n \in \mathbb{N}: \|x^{n}\| = 2n\).</p></div>
+
+  <h3>Ejemplo 2 &mdash; Largos de pegotes</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>Con \(\Sigma = \{a, b\}\), \(u = ab\) y \(v = bba\): escribir \(uv\), \(vu\), \(u^{2}v\) y calcular \(\|u^{3}v^{2}\|\).</p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"\(uv\)" y "\(vu\)"</td><td>el orden cambia la cadena</td><td>pegar en cada orden</td><td>dos cadenas distintas</td></tr>
+      <tr><td>"\(\|u^{3}v^{2}\|\)"</td><td>largo, sin escribirla</td><td>\(3 \cdot 2 + 2 \cdot 3\)</td><td>12</td></tr>
+    </table>
+  </div>
+  <ul>
+    <li>\(uv = abbba\) y \(vu = bbaab\): mismo largo, distintas.</li>
+    <li>\(u^{2}v = abab\,bba = ababbba\).</li>
+    <li>\(\|u^{3}v^{2}\| = 3\|u\| + 2\|v\| = 6 + 6 = 12\).</li>
+  </ul>
+  <div class="caja caja-resp"><span class="caja-tit">Respuesta</span><p>\(uv \neq vu\), \(u^{2}v = ababbba\) y \(\|u^{3}v^{2}\| = 12\).</p></div>
+</div>

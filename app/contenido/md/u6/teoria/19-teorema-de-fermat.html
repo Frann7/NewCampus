@@ -1,0 +1,151 @@
+<div class="bloque">
+  <p class="kicker">Restos de potencias</p>
+  <h2>19. Pequeño Teorema de Fermat</h2>
+
+  <h3>Para qué sirve</h3>
+  <p>
+    Para calcular el <strong>resto de una potencia enorme</strong>, como \(5^{1235415}\) dividido
+    por \(13\), sin calcular la potencia (tiene casi un millón y medio de cifras). Cuando el
+    módulo es primo, Fermat dice que el exponente se puede achicar a su resto por \(p - 1\).
+  </p>
+
+  <h3>El teorema (el de la cátedra)</h3>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Teorema de Fermat</span>
+    <p>Si \(p\) es un número primo y \(a\) es un entero no divisible por \(p\), entonces</p>
+    <p>\[ a^{p-1} \equiv 1 \pmod{p} \]</p>
+  </div>
+
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Símbolo</th><th>Qué es</th></tr>
+      <tr><td>\(p\)</td><td>el módulo; <strong>tiene que ser primo</strong></td></tr>
+      <tr><td>\(a\)</td><td>la base; no puede ser múltiplo de \(p\) (si lo es, \(a^k \equiv 0\) y listo)</td></tr>
+      <tr><td>\(p - 1\)</td><td>el exponente "que se borra": cada \(p - 1\) factores \(a\), el producto vuelve a \(1\)</td></tr>
+    </table>
+  </div>
+
+  <h3>De dónde sale (renglón por renglón)</h3>
+  <ol>
+    <li>En \(\mathbb{Z}_p\) los no nulos son \(1, 2, \dots, p - 1\), y todos son unidades (sección 11).</li>
+    <li>Multiplico cada uno por \(a\): \(a \cdot 1,\ a \cdot 2,\ \dots,\ a(p - 1)\). Ninguno da \(0\) (\(a\) y \(k\) son unidades) y no hay dos iguales: si \(ak \equiv aj\), multiplicando por \(a^{-1}\) queda \(k \equiv j\). Entonces son <strong>los mismos</strong> \(1, \dots, p - 1\), en otro orden.</li>
+    <li>Multiplico todos los de cada lista; como son los mismos números, los productos coinciden: \(a^{p-1} \cdot (1 \cdot 2 \cdots (p - 1)) \equiv 1 \cdot 2 \cdots (p - 1)\).</li>
+    <li>\(1 \cdot 2 \cdots (p - 1)\) es un producto de unidades, así que es unidad: multiplico por su inverso y queda \(a^{p-1} \equiv 1\).</li>
+  </ol>
+  <p>Ejemplo de la cátedra: \(20^{10} \equiv 1 \pmod{11}\), porque \(11\) es primo y \(11 \nmid 20\).</p>
+
+  <h3>Cómo se usa: reducir el exponente</h3>
+  <div class="caja caja-formula">
+    <span class="caja-tit">El procedimiento</span>
+    <ol>
+      <li>Chequear: \(p\) primo y \(p \nmid a\). Reducir la base: \(a \bmod p\).</li>
+      <li>Dividir el exponente por \(p - 1\): \(k = q(p - 1) + r\), con \(0 \leq r \lt p - 1\).</li>
+      <li>\(a^k = \left(a^{p-1}\right)^q \cdot a^r \equiv 1^q \cdot a^r = a^r \pmod{p}\).</li>
+      <li>Calcular \(a^r \bmod p\), reduciendo en cada paso (sección 10).</li>
+    </ol>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">El exponente se reduce módulo \(p - 1\), no módulo \(p\)</span>
+    <p>
+      La base se reduce módulo \(p\) (es un número de \(\mathbb{Z}_p\)); el exponente módulo
+      \(p - 1\) (cuenta cuántas veces se multiplica). Mezclarlos es el error más común.
+    </p>
+  </div>
+  <p>
+    <strong>Una consecuencia</strong> (la usa la complementaria, ej. 16): para <strong>cualquier</strong>
+    entero \(a\) y \(p\) primo, \(a^p \equiv a \pmod{p}\). Si \(p \nmid a\), sale de multiplicar
+    \(a^{p-1} \equiv 1\) por \(a\); si \(p \mid a\), los dos lados son \(\equiv 0\).
+  </p>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; \(5^{1235415}\) dividido por \(13\) (cátedra, actividad 12)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>Hallar el resto de dividir \(5^{1235415}\) por \(13\).</p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"por 13"</td><td>módulo primo</td><td>\(13\) es primo</td><td>\(p = 13\), \(p - 1 = 12\)</td></tr>
+      <tr><td>"\(5^{\dots}\)"</td><td>la base, no múltiplo de 13</td><td>&mdash;</td><td>\(a = 5\)</td></tr>
+      <tr><td>"\(1235415\)"</td><td>el exponente, a reducir módulo 12</td><td>\(1235415 = 102951 \cdot 12 + 3\)</td><td>\(r = 3\)</td></tr>
+    </table>
+  </div>
+  <p>\[ 5^{1235415} = \left(5^{12}\right)^{102951} \cdot 5^3 \equiv 1 \cdot 5^3 = 125 = 9 \cdot 13 + 8 \equiv 8 \pmod{13} \]</p>
+  <div class="caja caja-calc">
+    <span class="caja-tit">En la calculadora</span>
+    <p>\(1235415 \div 12 = 102951{,}25\): parte entera \(102951\), resto \(1235415 - 12 \times 102951 = 3\). (Truco: el decimal \(0{,}25\) por \(12\) da el resto, \(3\).)</p>
+  </div>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>El resto es \(8\).</p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; Forma de parcial: resto y ecuación (parecido a la complementaria, ej. 7 y 8)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>a) Hallar el resto de dividir \(17^{2025}\) por \(13\) (Teorema de Fermat). b) Resolver \(17^{2025}x \equiv 5 \pmod{13}\).</p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"por 13"</td><td>módulo primo</td><td>&mdash;</td><td>\(p = 13\), \(p - 1 = 12\)</td></tr>
+      <tr><td>"\(17\)"</td><td>base, reducida módulo 13</td><td>\(17 - 13 = 4\)</td><td>\(a \equiv 4\)</td></tr>
+      <tr><td>"\(2025\)"</td><td>exponente, reducido módulo 12</td><td>\(2025 = 168 \cdot 12 + 9\)</td><td>\(r = 9\)</td></tr>
+      <tr><td>"\(17^{2025}x \equiv 5\)"</td><td>ecuación lineal (sección 14) con coeficiente = el resto del inciso a</td><td>&mdash;</td><td>inciso b</td></tr>
+    </table>
+  </div>
+  <h4>Inciso a</h4>
+  <p>\[ 17^{2025} \equiv 4^{2025} = \left(4^{12}\right)^{168} \cdot 4^9 \equiv 4^9 \pmod{13} \]</p>
+  <p>Para \(4^9\), conviene buscar una potencia chica fácil: \(4^3 = 64 = 4 \cdot 13 + 12 \equiv 12 \equiv -1\). Entonces</p>
+  <p>\[ 4^9 = \left(4^3\right)^3 \equiv (-1)^3 = -1 \equiv 12 \pmod{13} \]</p>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta a</span>
+    <p>El resto es \(12\).</p>
+  </div>
+  <h4>Inciso b</h4>
+  <p>
+    Por el inciso a, la ecuación es \(12x \equiv 5 \pmod{13}\). \(mcd(12, 13) = 1\): una sola
+    solución. El inverso de \(12 \equiv -1\) es él mismo (\((-1)(-1) = 1\)):
+  </p>
+  <p>\[ x \equiv 12 \cdot 5 = 60 = 4 \cdot 13 + 8 \equiv 8 \pmod{13} \]</p>
+  <p>Verificación: \(12 \cdot 8 = 96 = 7 \cdot 13 + 5\). ✔</p>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta b</span>
+    <p>\(S = \{8\}\) en \(\mathbb{Z}_{13}\).</p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 3 &mdash; Forma de parcial: una demostración con \(a^p \equiv a\) (parecido a la complementaria, ej. 16)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>Usando que \(a^p \equiv a \pmod{p}\) para todo entero \(a\) y todo primo \(p\), demostrar que \(\dfrac{n^5}{5} + \dfrac{n^3}{3} + \dfrac{7n}{15}\) es un número natural para todo \(n \in \mathbb{N}\).</p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"es un número natural"</td><td>el resultado es entero (y positivo)</td><td>común denominador 15</td><td>\(15 \mid 3n^5 + 5n^3 + 7n\)</td></tr>
+      <tr><td>"\(a^p \equiv a\)"</td><td>con \(p = 5\): \(n^5 \equiv n\); con \(p = 3\): \(n^3 \equiv n\)</td><td>&mdash;</td><td>la herramienta</td></tr>
+    </table>
+  </div>
+  <p><span class="paso">Paso 1 — Común denominador</span></p>
+  <p>\[ \frac{n^5}{5} + \frac{n^3}{3} + \frac{7n}{15} = \frac{3n^5 + 5n^3 + 7n}{15} \]</p>
+  <p>Hay que probar que \(15\) divide al numerador \(N = 3n^5 + 5n^3 + 7n\). Como \(15 = 3 \cdot 5\) con \(3\) y \(5\) coprimos, alcanza con que lo dividan \(3\) y \(5\) por separado.</p>
+  <p><span class="paso">Paso 2 — Módulo 3</span> \(3n^5 \equiv 0\) (tiene el factor 3) y \(n^3 \equiv n\) (con \(p = 3\)):</p>
+  <p>\[ N \equiv 0 + 5n + 7n = 12n \equiv 0 \pmod{3} \]</p>
+  <p><span class="paso">Paso 3 — Módulo 5</span> \(5n^3 \equiv 0\) y \(n^5 \equiv n\) (con \(p = 5\)):</p>
+  <p>\[ N \equiv 3n + 0 + 7n = 10n \equiv 0 \pmod{5} \]</p>
+  <p><span class="paso">Paso 4 — Concluir</span> \(3 \mid N\) y \(5 \mid N\), coprimos, entonces \(15 \mid N\): la expresión es entera. Y es positiva porque los tres sumandos lo son para \(n \geq 1\).</p>
+  <p>Control con números: \(n = 2\): \(\frac{32}{5} + \frac{8}{3} + \frac{14}{15} = \frac{96 + 40 + 14}{15} = \frac{150}{15} = 10\). ✔</p>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>Para todo \(n \in \mathbb{N}\), \(15 \mid 3n^5 + 5n^3 + 7n\), así que la expresión es un número natural.</p>
+  </div>
+</div>

@@ -1,0 +1,56 @@
+<div class="ej">
+  <span class="tag" data-num-ej="C-4.">Complementaria P2 &middot; Recurrencia &middot; Ej. 4 &middot; Plantear: palabras</span>
+  <h2>Palabras con una cantidad par de letras a</h2>
+  <div class="enunciado">
+    <p>Sea el alfabeto \(\Sigma = \{a, b, c\}\) y sea \(S_n\) el conjunto de palabras de longitud \(n\), formadas con las letras de \(\Sigma\), en las que todas las veces que aparece la letra \(a\) lo hace un número par de veces. Encontrar una relación de recurrencia para calcular \(S_n\) y resolverla.</p>
+  </div>
+
+  <span class="paso">Qué tema es y por qué</span>
+  <ul>
+    <li>Se cuentan palabras con una condición: plantear mirando la <strong>última letra</strong>.</li>
+    <li>"La \(a\) aparece un número par de veces" incluye 0 veces (0 es par): \(bcb\) sirve, \(aab\) sirve, \(abc\) no.</li>
+    <li>\(S_n\) es un conjunto; lo que se cuenta es su cantidad de elementos. Se llama \(s_n = |S_n|\).</li>
+    <li>Sale una relación de primer orden <strong>no homogénea</strong>.</li>
+  </ul>
+
+  <span class="paso">Desarme del enunciado</span>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"\(\Sigma = \{a, b, c\}\)"</td><td>3 letras; las de largo \(m\) son \(3^{m}\) en total</td><td>&mdash;</td><td>\(3^{n-1}\) palabras de largo \(n-1\)</td></tr>
+      <tr><td>"número par de veces"</td><td>cantidad de \(a\) par (0, 2, 4...)</td><td>&mdash;</td><td>\(s_n\)</td></tr>
+      <tr><td>(lo que sobra)</td><td>las de largo \(n-1\) con cantidad impar de \(a\)</td><td>\(3^{n-1} - s_{n-1}\)</td><td>caso "termina en \(a\)"</td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Paso 1 &mdash; Mirar la última letra</span>
+  <ul>
+    <li><strong>Termina en \(b\) o en \(c\)</strong> (2 opciones). No agrega \(a\): lo anterior tiene que tener cantidad par. \(2\,s_{n-1}\).</li>
+    <li><strong>Termina en \(a\).</strong> Agrega una \(a\): lo anterior tiene que tener cantidad <strong>impar</strong>, para que al sumar una quede par. Las de largo \(n - 1\) con impar son todas menos las de par: \(3^{n-1} - s_{n-1}\).</li>
+  </ul>
+  <p>\[ s_n = 2s_{n-1} + \left(3^{n-1} - s_{n-1}\right) = s_{n-1} + 3^{n-1},\ \forall n \geq 1,\qquad s_0 = 1 \]</p>
+  <p>(\(s_0 = 1\): la palabra vacía tiene 0 letras \(a\). Control: \(s_1 = 1 + 1 = 2\), las palabras \(b\) y \(c\).)</p>
+
+  <span class="paso">Paso 2 &mdash; Resolver</span>
+  <div class="caja caja-formula">
+    <p>\(s_n = s_n^{(h)} + s_n^{(p)}\); para \(k \cdot r^{n}\) se propone \(A\,r^{n}\) (por \(n\) si choca con la homogénea).</p>
+  </div>
+  <ul>
+    <li>Homogénea \(s_n = s_{n-1}\): \(s_n^{(h)} = C\).</li>
+    <li>\(g(n) = 3^{n-1} = \tfrac13\,3^{n}\) \(\to s_n^{(p)} = A\,3^{n}\) (no choca: 3 no es raíz).</li>
+    <li>Reemplazando: \(A\,3^{n} - A\,3^{n-1} = 3^{n-1}\). Dividiendo por \(3^{n-1}\): \(3A - A = 1 \Rightarrow A = \tfrac12\).</li>
+    <li>Completa: \(s_n = C + \tfrac12 3^{n}\). Con \(s_0 = 1\): \(C + \tfrac12 = 1 \Rightarrow C = \tfrac12\).</li>
+  </ul>
+  <p>\[ s_n = |S_n| = \frac{3^{n} + 1}{2},\ \forall n \geq 0 \]</p>
+
+  <span class="paso">Paso 3 &mdash; Comprobación</span>
+  <p>Contando todas las palabras con un programa: \(1, 2, 5, 14, 41, 122, 365\) para \(n = 0, \dots, 6\). La relación y la fórmula dan lo mismo (por ejemplo, \(n = 2\): \(\tfrac{9 + 1}{2} = 5\): \(aa, bb, bc, cb, cc\)).</p>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>\(s_n = s_{n-1} + 3^{n-1},\ n \geq 1,\ s_0 = 1\), con solución \(s_n = \dfrac{3^{n} + 1}{2}\).</p>
+  </div>
+
+  <span class="paso">Verificación</span>
+  <p>La guía no trae resultados; queda la comprobación por conteo de arriba.</p>
+</div>

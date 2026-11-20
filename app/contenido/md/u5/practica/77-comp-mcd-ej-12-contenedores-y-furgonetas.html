@@ -1,0 +1,103 @@
+<div class="ej" data-examen="variante" data-examen-ref="Parcial 2 2026 · ej. 3b" data-examen-nota="En el parcial también había que pasar un problema en palabras a una diofántica y decidir con el mcd; allí no tenía solución.">
+  <span class="tag" data-num-ej="CM-12.">Complementaria P2 &middot; MCD &middot; Ej. 12 &middot; Problema con diofántica</span>
+  <h2>Equipos en contenedores de 54 y furgonetas de 15</h2>
+  <div class="enunciado">
+    <p>Un distribuidor de equipos informáticos efectuó un pedido de entre 1100 y 1800 equipos a un fabricante que se los envió en contenedores completos con capacidad para 54 equipos cada uno. El distribuidor los repartió a los diferentes puntos de venta usando furgonetas con capacidad para 15 equipos y quedando 33 equipos sin repartir en el almacén. ¿Cuántos equipos pidió el distribuidor a la fábrica?</p>
+  </div>
+
+  <span class="paso">Qué tema es y por qué</span>
+  <ul>
+    <li>El total de equipos se escribe de dos formas (por contenedores y por furgonetas); igualándolas queda una <strong>ecuación diofántica</strong> (en la teoría de esta unidad).</li>
+    <li>El filtro de condiciones es el rango "entre 1100 y 1800".</li>
+  </ul>
+
+  <div class="caja caja-formula">
+    <span class="caja-tit">Ecuación diofántica \(ax + by = c\)</span>
+    <ul>
+      <li><strong>Tiene solución entera si y solo si \(d = mcd(a, b)\) divide a \(c\).</strong></li>
+      <li>Solución particular: se escribe \(d = a x' + b y'\) (Euclides extendido) y se multiplica todo por \(c / d\): \(x_0 = x' \cdot \frac{c}{d}\), \(y_0 = y' \cdot \frac{c}{d}\).</li>
+      <li>Solución general (todas): \(x = x_0 + \frac{b}{d}\,k\), \(\ y = y_0 - \frac{a}{d}\,k\), con \(k \in \mathbb{Z}\).</li>
+    </ul>
+  </div>
+
+  <span class="paso">Desarme del enunciado</span>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"contenedores completos con capacidad para 54"</td><td>\(x\) contenedores llenos</td><td>&mdash;</td><td>\(N = 54x\)</td></tr>
+      <tr><td>"furgonetas con capacidad para 15"</td><td>\(y\) furgonetas llenas</td><td>&mdash;</td><td>\(15y\) repartidos</td></tr>
+      <tr><td>"quedando 33 equipos sin repartir"</td><td>lo que sobra</td><td>&mdash;</td><td>\(N = 15y + 33\)</td></tr>
+      <tr><td>"entre 1100 y 1800"</td><td>rango del total</td><td>&mdash;</td><td>\(1100 \leq N \leq 1800\)</td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Paso 1 &mdash; Plantear la ecuación</span>
+  \[54x = 15y + 33 \quad\Rightarrow\quad 54x - 15y = 33\]
+  <p>Es \(ax + by = c\) con \(a = 54\), \(b = -15\), \(c = 33\).</p>
+
+  <span class="paso">Paso 2 &mdash; ¿Tiene solución? Euclides</span>
+  <p>El signo no cambia el mcd, así que se calcula \(mcd(54, 15)\): se divide el mayor por el menor, después el divisor por el resto, hasta resto 0; el mcd es el último resto no nulo.</p>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th>División</th><th>Cociente \(q\)</th><th>Resto \(r\)</th></tr>
+      <tr><td>\(54 = 3 \cdot 15 + 9\)</td><td>\(3\)</td><td>\(9\)</td></tr>
+      <tr><td>\(15 = 1 \cdot 9 + 6\)</td><td>\(1\)</td><td>\(6\)</td></tr>
+      <tr><td>\(9 = 1 \cdot 6 + 3\)</td><td>\(1\)</td><td>\(3\)</td></tr>
+      <tr><td>\(6 = 2 \cdot 3 + 0\)</td><td>\(2\)</td><td>\(0\)</td></tr>
+    </table>
+  </div>
+  <p>\(d = 3\) y \(3 \mid 33\): tiene solución.</p>
+
+  <span class="paso">Paso 3 &mdash; Solución particular (Euclides extendido)</span>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Euclides extendido (la regla de la tabla)</span>
+    <ul>
+      <li>Cada fila dice: <strong>resto \(= a \cdot x + b \cdot y\)</strong>. Las dos primeras son obvias: \(a = a \cdot 1 + b \cdot 0\) y \(b = a \cdot 0 + b \cdot 1\).</li>
+      <li>Para cada fila nueva, \(q\) es el cociente de la división de Euclides que produjo ese resto.</li>
+      <li><strong>Fila nueva = (fila de dos arriba) \(-\ q \cdot\) (fila de arriba)</strong>, en las columnas \(x\) y \(y\). Es lo mismo que despejar el resto (\(r = \text{dividendo} - q \cdot \text{divisor}\)) y reemplazar hacia atrás, pero hecho en orden.</li>
+      <li>La fila del último resto no nulo (el mcd) da los coeficientes buscados.</li>
+    </ul>
+  </div>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Fila</th><th>Resto \(r\)</th><th>\(q\)</th><th>\(x\)</th><th>\(y\)</th><th>Se lee \(r = 54\,x + 15\,y\)</th></tr>
+      <tr><td>1</td><td>\(54\)</td><td>&mdash;</td><td>\(1\)</td><td>\(0\)</td><td>\(54 = 54 \cdot 1 + 15 \cdot 0\)</td></tr>
+      <tr><td>2</td><td>\(15\)</td><td>&mdash;</td><td>\(0\)</td><td>\(1\)</td><td>\(15 = 54 \cdot 0 + 15 \cdot 1\)</td></tr>
+      <tr><td>3</td><td>\(9\)</td><td>\(3\)</td><td>\(1 - 3 \cdot 0 = 1\)</td><td>\(0 - 3 \cdot 1 = -3\)</td><td>\(9 = 54 \cdot 1 + 15 \cdot (-3)\)</td></tr>
+      <tr><td>4</td><td>\(6\)</td><td>\(1\)</td><td>\(0 - 1 \cdot 1 = -1\)</td><td>\(1 - 1 \cdot (-3) = 4\)</td><td>\(6 = 54 \cdot (-1) + 15 \cdot 4\)</td></tr>
+      <tr><td>5</td><td>\(3\)</td><td>\(1\)</td><td>\(1 - 1 \cdot (-1) = 2\)</td><td>\(-3 - 1 \cdot 4 = -7\)</td><td>\(3 = 54 \cdot 2 + 15 \cdot (-7)\)</td></tr>
+    </table>
+  </div>
+  <p>\(3 = 54 \cdot 2 + 15 \cdot (-7) = 54 \cdot 2 + (-15) \cdot 7\) (el signo pasa al 15, como pide la ecuación). Por \(c / d = 33 / 3 = 11\):</p>
+  \[33 = 54 \cdot 22 + (-15) \cdot 77 \quad\Rightarrow\quad x_0 = 22,\ \ y_0 = 77\]
+
+  <span class="paso">Paso 4 &mdash; Solución general</span>
+  <p>\(x = x_0 + \frac{b}{d}k\), \(y = y_0 - \frac{a}{d}k\), con \(\frac{b}{d} = \frac{-15}{3} = -5\) y \(\frac{a}{d} = \frac{54}{3} = 18\):</p>
+  \[x = 22 - 5k, \qquad y = 77 - 18k, \qquad k \in \mathbb{Z}\]
+  <p>Como \(k\) recorre todos los enteros, se puede cambiar \(k\) por \(-k\) y escribir más cómodo \(x = 22 + 5k\), \(y = 77 + 18k\). Entonces</p>
+  \[N = 54x = 54(22 + 5k) = 1188 + 270k\]
+
+  <span class="paso">Paso 5 &mdash; Filtro de condiciones</span>
+  <p>\(1100 \leq 1188 + 270k \leq 1800 \Rightarrow -0{,}33\dots \leq k \leq 2{,}27\dots\), o sea \(k = 0, 1, 2\):</p>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th>\(k\)</th><th>Contenedores \(x\)</th><th>Furgonetas \(y\)</th><th>\(N\)</th></tr>
+      <tr><td>0</td><td>22</td><td>77</td><td>\(1188 = 15 \cdot 77 + 33\)</td></tr>
+      <tr><td>1</td><td>27</td><td>95</td><td>\(1458 = 15 \cdot 95 + 33\)</td></tr>
+      <tr><td>2</td><td>32</td><td>113</td><td>\(1728 = 15 \cdot 113 + 33\)</td></tr>
+    </table>
+  </div>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Los datos no alcanzan para un único número</span>
+    <p>Con el rango "entre 1100 y 1800" quedan tres pedidos posibles: las soluciones están separadas por \(270 = mcm(54, 15)\), y en un rango de 700 entran tres. El enunciado no da otro dato para elegir.</p>
+  </div>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>Pidió 1188, 1458 o 1728 equipos (22, 27 o 32 contenedores).</p>
+  </div>
+
+  <span class="paso">Verificación</span>
+  <p>La guía no trae resultados; verificación propia con Python recorriendo de 1100 a 1800: los múltiplos de 54 que dejan 33 al restar furgonetas de 15 son exactamente 1188, 1458 y 1728.</p>
+</div>

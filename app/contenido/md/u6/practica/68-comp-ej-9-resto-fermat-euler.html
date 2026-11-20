@@ -1,0 +1,53 @@
+<div class="ej">
+  <span class="tag" data-num-ej="C-9.">Complementaria P3 &middot; Anillos &middot; Ej. 9 &middot; Resto con Fermat-Euler</span>
+  <h2>El resto de dividir \(7^{50}\) por 30</h2>
+  <div class="enunciado">
+    <p>¿Cuál es el resto de dividir \(7^{50}\) por 30? (Teorema de Fermat-Euler)</p>
+  </div>
+
+  <span class="paso">Qué tema es y por qué</span>
+  <ul>
+    <li>Como en el ejercicio 7, se busca el resto de una potencia enorme. Pero 30 <strong>no es primo</strong>: Fermat no se puede usar.</li>
+    <li>Se usa la generalización, el <strong>Teorema de Fermat-Euler</strong>, que cambia \(p - 1\) por \(\varphi(m)\).</li>
+  </ul>
+
+  <span class="paso">Desarme del enunciado</span>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"dividir ... por 30"</td><td>módulo \(m = 30\)</td><td>\(30 = 2 \cdot 3 \cdot 5\)</td><td>\(m = 30\)</td></tr>
+      <tr><td>"\(7^{50}\)"</td><td>base 7, exponente 50</td><td>\(mcd(7, 30) = 1\)</td><td>\(a = 7\)</td></tr>
+      <tr><td>"Fermat-Euler"</td><td>\(a^{\varphi(m)} \equiv 1 \pmod{m}\)</td><td>\(\varphi(30)\)</td><td>Paso 1</td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Paso 1 &mdash; Calcular \(\varphi(30)\)</span>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Función \(\varphi\) de Euler</span>
+    <p>\(\varphi(m)\) es la cantidad de naturales entre 1 y \(m\) coprimos con \(m\). Si \(m = p_1^{e_1} \cdots p_r^{e_r}\): \(\varphi(m) = m \left(\frac{p_1 - 1}{p_1}\right) \cdots \left(\frac{p_r - 1}{p_r}\right)\).</p>
+  </div>
+  \[ \varphi(30) = 30 \cdot \frac{1}{2} \cdot \frac{2}{3} \cdot \frac{4}{5} = 8 \]
+  <p>(Son 1, 7, 11, 13, 17, 19, 23, 29.)</p>
+
+  <span class="paso">Paso 2 &mdash; Fermat-Euler</span>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Teorema de Fermat-Euler</span>
+    <p>Si \(m\) es natural y \(a\) es un entero coprimo con \(m\), entonces \(a^{\varphi(m)} \equiv 1 \pmod{m}\).</p>
+  </div>
+  <p>\(7\) es primo y no divide a 30, así que \(mcd(7, 30) = 1\): \(7^8 \equiv 1 \pmod{30}\).</p>
+  <p>Se divide el exponente por \(\varphi(30) = 8\): \(50 = 8 \cdot 6 + 2\).</p>
+  \[ 7^{50} = \left(7^{8}\right)^{6} \cdot 7^{2} \equiv 1^{6} \cdot 7^{2} = 49 \pmod{30} \]
+  <p>Y \(49 = 30 + 19\), así que \(49 \equiv 19\).</p>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>\(7^{50} \equiv 19 \pmod{30}\): el resto es <strong>19</strong>.</p>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Antes de usar el teorema</span>
+    <p>Hay que chequear \(mcd(a, m) = 1\). Si la base compartiera un factor con 30 (por ejemplo \(6^{50}\)), el teorema no se aplica.</p>
+  </div>
+
+  <span class="paso">Verificación (la guía no trae resultados)</span>
+  <p>Con Python, <code>pow(7, 50, 30)</code> da 19. ✔</p>
+</div>

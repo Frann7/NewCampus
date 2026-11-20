@@ -1,0 +1,130 @@
+<div class="ej">
+  <span class="tag" data-num-ej="CM-11.">Complementaria P1 &middot; Máquinas &middot; Ej. 11 &middot; Prefijo propio xyxy</span>
+  <h2>Reconocer las cadenas que tienen xyxy como prefijo propio</h2>
+  <div class="enunciado">
+    <p>Sea \(\Sigma = \{x, y\}\), construir un diagrama de estados para la máquina de estados finitos que reconozca la ocurrencia de todas las cadenas de \(\Sigma^*\) que posean \(xyxy\) como prefijo propio.</p>
+  </div>
+
+  <span class="paso">Qué tema es y por qué</span>
+  <ul>
+    <li>Reconocedor del lenguaje \(\{xyxy\}\{x, y\}^+\): escribe 1 cada vez que lo leído desde el principio tiene a \(xyxy\) como prefijo propio.</li>
+    <li>Como es una condición sobre el <strong>comienzo</strong>, hay un camino que va controlando \(x, y, x, y\) y un <strong>sumidero</strong> para las cadenas que se desvían.</li>
+    <li>Entrada \(I = \{x, y\}\), salida \(O = \{0, 1\}\) (1 = "sí").</li>
+  </ul>
+
+  <span class="paso">Desarme del enunciado</span>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>A dónde va</th></tr>
+      <tr><td>"\(xyxy\) como prefijo"</td><td>los 4 primeros símbolos son \(x, y, x, y\)</td><td>camino \(s_0 \to s_4\)</td></tr>
+      <tr><td>"propio"</td><td>después viene al menos un símbolo más: \(xyxy\) sola no cuenta</td><td>el 1 recién en el 5.º símbolo</td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Paso 1 &mdash; Estados</span>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Estado</th><th>Qué significa</th></tr>
+      <tr><td>\(s_0\)</td><td>no leí nada</td></tr>
+      <tr><td>\(s_1, s_2, s_3\)</td><td>leí \(x\), \(xy\), \(xyx\) (va bien)</td></tr>
+      <tr><td>\(s_4\)</td><td>leí \(xyxy\): desde ahora, todo lo que se lea está en el lenguaje</td></tr>
+      <tr><td>\(s_5\)</td><td><strong>sumidero</strong>: el comienzo no fue \(xyxy\), nunca más</td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Paso 2 &mdash; Transiciones</span>
+  <ul>
+    <li>\(s_0 \xrightarrow{x,0} s_1 \xrightarrow{y,0} s_2 \xrightarrow{x,0} s_3 \xrightarrow{y,0} s_4\). En \(s_3\) con \(y\) se escribe <strong>0</strong>: \(xyxy\) sola no tiene a \(xyxy\) como prefijo propio.</li>
+    <li>Cualquier otro símbolo en \(s_0, \dots, s_3\) va al sumidero \(s_5\), escribiendo 0.</li>
+    <li>\(s_4\): con \(x\) o con \(y\) escribe <strong>1</strong> (ya hay algo después de \(xyxy\)) y se queda en \(s_4\).</li>
+    <li>\(s_5\): con \(x\) o \(y\) escribe 0 y se queda.</li>
+  </ul>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th rowspan="2"></th><th colspan="2">\(\nu\)</th><th colspan="2">\(\omega\)</th></tr>
+      <tr><th>\(x\)</th><th>\(y\)</th><th>\(x\)</th><th>\(y\)</th></tr>
+      <tr><td>&rarr; \(s_0\)</td><td>\(s_1\)</td><td>\(s_5\)</td><td>0</td><td>0</td></tr>
+      <tr><td>\(s_1\)</td><td>\(s_5\)</td><td>\(s_2\)</td><td>0</td><td>0</td></tr>
+      <tr><td>\(s_2\)</td><td>\(s_3\)</td><td>\(s_5\)</td><td>0</td><td>0</td></tr>
+      <tr><td>\(s_3\)</td><td>\(s_5\)</td><td>\(s_4\)</td><td>0</td><td>0</td></tr>
+      <tr><td>\(s_4\)</td><td>\(s_4\)</td><td>\(s_4\)</td><td>1</td><td>1</td></tr>
+      <tr><td>\(s_5\)</td><td>\(s_5\)</td><td>\(s_5\)</td><td>0</td><td>0</td></tr>
+    </table>
+  </div>
+  <div class="pd-grafico af" data-g="u2pc-cm11">
+    <svg viewBox="-61 -77 753 330" width="753" height="330" role="img" aria-label="Reconocedor de las cadenas con prefijo propio xyxy">
+      <path class="arco" d="M19.0,0.0 L141.0,0.0"/>
+      <path class="punta" d="M141.0,0.0 L132.0,4.5 L132.0,-4.5 Z"/>
+      <text class="rot" x="80.0" y="-10.0" text-anchor="middle" dominant-baseline="central">x,0</text>
+      <path class="arco" d="M16.6,9.2 L303.4,166.8"/>
+      <path class="punta" d="M303.4,166.8 L293.3,166.4 L297.6,158.6 Z"/>
+      <text class="rot" x="167.5" y="74.4" text-anchor="middle" dominant-baseline="central">y,0</text>
+      <path class="arco" d="M179.0,0.0 L301.0,0.0"/>
+      <path class="punta" d="M301.0,0.0 L292.0,4.5 L292.0,-4.5 Z"/>
+      <text class="rot" x="240.0" y="-10.0" text-anchor="middle" dominant-baseline="central">y,0</text>
+      <path class="arco" d="M172.8,14.1 L307.2,161.9"/>
+      <path class="punta" d="M307.2,161.9 L297.8,158.3 L304.5,152.3 Z"/>
+      <text class="rot" x="253.6" y="75.6" text-anchor="middle" dominant-baseline="central">x,0</text>
+      <path class="arco" d="M339.0,0.0 L461.0,0.0"/>
+      <path class="punta" d="M461.0,0.0 L452.0,4.5 L452.0,-4.5 Z"/>
+      <text class="rot" x="400.0" y="-10.0" text-anchor="middle" dominant-baseline="central">x,0</text>
+      <path class="arco" d="M320.0,19.0 L320.0,157.0"/>
+      <path class="punta" d="M320.0,157.0 L315.5,148.0 L324.5,148.0 Z"/>
+      <text class="rot" x="298.6" y="88.0" text-anchor="middle" dominant-baseline="central">y,0</text>
+      <path class="arco" d="M499.0,0.0 L621.0,0.0"/>
+      <path class="punta" d="M621.0,0.0 L612.0,4.5 L612.0,-4.5 Z"/>
+      <text class="rot" x="560.0" y="-10.0" text-anchor="middle" dominant-baseline="central">y,0</text>
+      <path class="arco" d="M467.2,14.1 L332.8,161.9"/>
+      <path class="punta" d="M332.8,161.9 L335.5,152.3 L342.2,158.3 Z"/>
+      <text class="rot" x="386.4" y="75.6" text-anchor="middle" dominant-baseline="central">x,0</text>
+      <path class="arco" d="M631.1,-16.8 C600.0,-51.2 680.0,-51.2 648.9,-16.8"/>
+      <path class="punta" d="M648.9,-16.8 L651.6,-26.5 L658.3,-20.4 Z"/>
+      <text class="rot" x="640.0" y="-56.0" text-anchor="middle" dominant-baseline="central">x,1 | y,1</text>
+      <path class="arco" d="M328.9,192.8 C360.0,227.2 280.0,227.2 311.1,192.8"/>
+      <path class="punta" d="M311.1,192.8 L308.4,202.5 L301.7,196.4 Z"/>
+      <text class="rot" x="320.0" y="232.0" text-anchor="middle" dominant-baseline="central">x,0 | y,0</text>
+      <path class="arco" d="M-49.0,0.0 L-19.0,0.0"/>
+      <path class="punta" d="M-19.0,0.0 L-28.0,4.5 L-28.0,-4.5 Z"/>
+      <g class="estado">
+        <circle class="borde" cx="0.0" cy="0.0" r="19"/>
+        <text class="nom" x="0.0" y="0.0" text-anchor="middle" dominant-baseline="central">s0</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="160.0" cy="0.0" r="19"/>
+        <text class="nom" x="160.0" y="0.0" text-anchor="middle" dominant-baseline="central">s1</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="320.0" cy="0.0" r="19"/>
+        <text class="nom" x="320.0" y="0.0" text-anchor="middle" dominant-baseline="central">s2</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="480.0" cy="0.0" r="19"/>
+        <text class="nom" x="480.0" y="0.0" text-anchor="middle" dominant-baseline="central">s3</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="640.0" cy="0.0" r="19"/>
+        <text class="nom" x="640.0" y="0.0" text-anchor="middle" dominant-baseline="central">s4</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="320.0" cy="176.0" r="19"/>
+        <text class="nom" x="320.0" y="176.0" text-anchor="middle" dominant-baseline="central">s5</text>
+      </g>
+    </svg>
+  </div>
+  <p>\(s_4\) y \(s_5\) son los dos sumideros de la máquina (de ninguno se sale); la diferencia es lo que escriben.</p>
+
+  <span class="paso">Paso 3 &mdash; Pruebas</span>
+  <ul>
+    <li>\(xyxyyx\): salida \(000011\) (sí desde el 5.º símbolo).</li>
+    <li>\(xyxy\): salida \(0000\) (no es prefijo propio).</li>
+    <li>\(xxyxy\): en el 2.º símbolo cae en \(s_5\); salida \(00000\).</li>
+  </ul>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>La máquina de 6 estados del diagrama: controla \(x, y, x, y\) al principio (si falla, sumidero \(s_5\)) y desde el 5.º símbolo escribe siempre 1 (\(s_4\)). Reconoce \(\{xyxy\}\{x, y\}^+\).</p>
+  </div>
+
+  <span class="paso">Verificación</span>
+  <p>Simulada en Python con todas las cadenas de \(\{x, y\}^*\) de largo hasta 11: escribe 1 exactamente cuando lo leído empieza con \(xyxy\) y mide más de 4. No tiene estados equivalentes.</p>
+</div>

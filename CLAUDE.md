@@ -1,10 +1,11 @@
 # NewCampus — cómo trabajar en este proyecto
 
 Campus de estudio personal de Fran (Abasto Franco), estudiante de la Licenciatura en Sistemas
-de Información (UADER, FCyT). Hoy tiene siete materias cargadas: **Probabilidad y Estadística (PyE)**,
+de Información (UADER, FCyT). Matemática Discreta la carga un compañero (contribuidor del repo). Hoy tiene ocho materias cargadas: **Probabilidad y Estadística (PyE)**,
 unidades 1 a 3 (1er parcial), 4 a 7 (2do parcial) y 8 (Estimación, 3er parcial), **Programación Avanzada (PA)**, clases 1 a 6 (con el Parcial PHP y el Examen teórico 2025), **Ingeniería de
 Software II**, **Paradigmas y Lenguajes (PyL)**, el parcial de autómatas, y **Bases de Datos
-(BD)**, el 2do parcial de SQL, y **SO Práctica** y **SO Teoría**, solo los parciales (cada materia tiene
+(BD)**, el 2do parcial de SQL, **SO Práctica** y **SO Teoría**, solo los parciales, y **Matemática
+Discreta (MD)**, unidades 1 a 7 con el Parcial 1 y el Parcial 2 2026 (cada materia tiene
 su `CLAUDE.md` en `app/contenido/<materia>/`). Repo público: https://github.com/Frann7/NewCampus (rama `main`).
 
 ## Tu rol
@@ -140,6 +141,11 @@ rioplatense con voseo) y **mantenedor** del campus (código, contenido, commits)
   resuelto, con banco de autoevaluación `so-teo-NN`), sin apuntes. También el 2do parcial 2026
   (filtrado, 27 preguntas, resuelto). Ver
   `app/contenido/so-teoria/CLAUDE.md`.
+- **Matemática Discreta (la carga un compañero, jcolman940):** las 7 unidades (teoría de las
+  diapositivas de la cátedra, práctica con las tres guías complementarias y las actividades de
+  vacaciones; del libro, solo algunos ejercicios de apoyo) y el Parcial 1 y el Parcial 2 2026 resueltos. Faltan los finales (los va a
+  pasar) y el banco de autoevaluación. Los libros quedan solo en su PC (`fuentes/md/LIBROS/`, fuera
+  del repo). Ver `app/contenido/md/CLAUDE.md`.
 - **"No pude abrir el examen" (compañero, Parcial PHP):** no se reprodujo (clon limpio, update
   desde antes de PA y el .exe sirven todo con 200). Si vuelve a pasar con 0.34.2, pedirle
   `git status` y `git log -1` de su carpeta y si el .exe mostró cartel.

@@ -1,0 +1,104 @@
+<div class="bloque">
+  <p class="kicker">Restos de potencias</p>
+  <h2>20. Teorema de Fermat-Euler</h2>
+
+  <h3>Para qué sirve</h3>
+  <p>
+    Fermat (sección 19) solo sirve si el módulo es primo. Para "las últimas dos cifras de
+    \(7^{4578963}\)" el módulo es \(100\), que no es primo. Euler generaliza: el exponente que "se
+    borra" ya no es \(p - 1\) sino \(\varphi(m)\), la función de la sección 13.
+  </p>
+
+  <h3>Definición y teorema (los de la cátedra)</h3>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Indicador de Euler y Teorema de Fermat-Euler</span>
+    <p>Si \(m\) es natural, \(\varphi(m)\) (<strong>indicador de Euler</strong>) es la cantidad de naturales menores o iguales a \(m\) y coprimos con \(m\); se calcula con la fórmula de la sección 13.</p>
+    <p><strong>Teorema:</strong> si \(m\) es natural y \(a\) es un entero coprimo con \(m\), entonces</p>
+    <p>\[ a^{\varphi(m)} \equiv 1 \pmod{m} \]</p>
+  </div>
+
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Símbolo</th><th>Qué es</th></tr>
+      <tr><td>\(m\)</td><td>el módulo, cualquiera (primo o no)</td></tr>
+      <tr><td>\(a\)</td><td>la base; <strong>tiene que ser coprima con \(m\)</strong>: \(mcd(a, m) = 1\)</td></tr>
+      <tr><td>\(\varphi(m)\)</td><td>la cantidad de unidades de \(\mathbb{Z}_m\) (sección 13); hace el papel del \(p - 1\) de Fermat</td></tr>
+    </table>
+  </div>
+
+  <h3>De dónde sale, y por qué incluye a Fermat</h3>
+  <ul>
+    <li>Es la misma demostración de la sección 19, pero en lugar de multiplicar <strong>todos</strong> los no nulos de \(\mathbb{Z}_m\) por \(a\), se multiplican solo las \(\varphi(m)\) <strong>unidades</strong>: \(a\) por una unidad es otra unidad, sin repetir. Comparando productos queda \(a^{\varphi(m)} \cdot (\text{producto de unidades}) \equiv \text{producto de unidades}\), y se cancela.</li>
+    <li>Si \(m = p\) es primo, \(\varphi(p) = p - 1\) (sección 13), y "coprimo con \(p\)" es "no divisible por \(p\)": queda exactamente el Teorema de Fermat. Esa es la respuesta al "¿por qué?" de la cátedra.</li>
+  </ul>
+
+  <div class="caja caja-formula">
+    <span class="caja-tit">El procedimiento</span>
+    <ol>
+      <li>Chequear \(mcd(a, m) = 1\). Reducir la base módulo \(m\).</li>
+      <li>Calcular \(\varphi(m)\) factorizando \(m\).</li>
+      <li>Reducir el exponente módulo \(\varphi(m)\): \(k = q\,\varphi(m) + r\), y \(a^k \equiv a^r \pmod{m}\).</li>
+      <li>Calcular \(a^r \bmod m\) reduciendo en cada paso.</li>
+    </ol>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Si \(a\) no es coprimo con \(m\), no vale</span>
+    <p>
+      \(2^{\varphi(4)} = 2^2 = 4 \equiv 0 \pmod{4}\), no \(1\). Antes de usar el teorema, el
+      \(mcd\) se chequea <strong>y se escribe</strong>: es parte de la justificación.
+    </p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; Las últimas dos cifras de \(7^{4578963}\) (cátedra, actividad 13)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>Determinar las últimas dos cifras del número \(7^{4578963}\).</p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"las últimas dos cifras"</td><td>el resto de dividir por \(100\) (por ejemplo, \(1234 = 12 \cdot 100 + 34\))</td><td>&mdash;</td><td>\(m = 100\)</td></tr>
+      <tr><td>"\(7^{\dots}\)"</td><td>la base</td><td>\(mcd(7, 100) = 1\)</td><td>\(a = 7\)</td></tr>
+      <tr><td>(sección 13)</td><td>\(\varphi(100)\)</td><td>\(100 = 2^2 \cdot 5^2\): \(100 \cdot \frac{1}{2} \cdot \frac{4}{5}\)</td><td>\(\varphi = 40\)</td></tr>
+      <tr><td>"\(4578963\)"</td><td>exponente, módulo 40</td><td>\(4578963 = 114474 \cdot 40 + 3\)</td><td>\(r = 3\)</td></tr>
+    </table>
+  </div>
+  <p>\[ 7^{4578963} = \left(7^{40}\right)^{114474} \cdot 7^3 \equiv 1 \cdot 343 \equiv 43 \pmod{100} \]</p>
+  <div class="caja caja-calc">
+    <span class="caja-tit">En la calculadora</span>
+    <p>Para el resto por 40 alcanza con mirar las últimas cifras: \(4578963 = 4578960 + 3\), y \(4578960\) termina en \(0\) y es múltiplo de 40 (\(4578960 \div 40 = 114474\)).</p>
+  </div>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>Las últimas dos cifras son \(43\).</p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; Forma de parcial: resto con módulo no primo (parecido a la complementaria, ej. 9)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>¿Cuál es el resto de dividir \(11^{100}\) por \(36\)? (Teorema de Fermat-Euler.)</p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"por 36"</td><td>módulo, no primo</td><td>\(36 = 2^2 \cdot 3^2\)</td><td>\(m = 36\)</td></tr>
+      <tr><td>"\(11\)"</td><td>base; ¿coprima?</td><td>\(11\) no tiene ni 2 ni 3</td><td>\(mcd(11, 36) = 1\) ✔</td></tr>
+      <tr><td>(sección 13)</td><td>\(\varphi(36)\)</td><td>\(36 \cdot \frac{1}{2} \cdot \frac{2}{3}\)</td><td>\(\varphi = 12\)</td></tr>
+      <tr><td>"\(100\)"</td><td>exponente, módulo 12</td><td>\(100 = 8 \cdot 12 + 4\)</td><td>\(r = 4\)</td></tr>
+    </table>
+  </div>
+  <p>\[ 11^{100} = \left(11^{12}\right)^{8} \cdot 11^4 \equiv 11^4 \pmod{36} \]</p>
+  <p>Calculo \(11^4\) de a dos, reduciendo cada vez (sección 10):</p>
+  <p>\[ 11^2 = 121 = 3 \cdot 36 + 13 \equiv 13 \qquad 11^4 = (11^2)^2 \equiv 13^2 = 169 = 4 \cdot 36 + 25 \equiv 25 \]</p>
+  <p>Control sin reducir: \(11^4 = 14641 = 406 \cdot 36 + 25\). ✔</p>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>El resto de dividir \(11^{100}\) por \(36\) es \(25\).</p>
+  </div>
+</div>

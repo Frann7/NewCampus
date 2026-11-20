@@ -1,0 +1,220 @@
+<div class="bloque">
+  <p class="kicker">Máquinas reconocedoras</p>
+  <h2>15. Máquinas reconocedoras y solapamiento</h2>
+
+  <h3>Para qué sirve</h3>
+  <p>
+    Es el uso principal de las máquinas en la unidad (y el ejercicio 1 del parcial): una máquina que
+    <strong>avisa con un 1</strong> cada vez que lo que leyó hasta ese momento cumple algo ("termina
+    en \(111\)", "está en tal lenguaje"), y escribe 0 en cualquier otro momento.
+  </p>
+
+  <h3>Definición</h3>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Máquina reconocedora de un lenguaje \(A \subseteq I^{*}\)</span>
+    <p>
+      Con \(O = \{0, 1\}\): la salida en el pulso \(i\) es 1 si y solo si lo leído hasta ahí,
+      \(x_1 x_2 \ldots x_i\), pertenece a \(A\). Se dice que la máquina <strong>reconoce</strong> (o
+      detecta) \(A\).
+    </p>
+  </div>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Solapamiento</span>
+    <p>
+      Dos apariciones del patrón se <strong>solapan</strong> si comparten símbolos: en \(1111\) hay
+      dos \(111\), en las posiciones 1-3 y 2-4, que comparten \(11\). Una máquina "con solapamiento"
+      avisa las dos; una "sin solapamiento", después de avisar, empieza a buscar de cero y no reusa
+      lo ya contado.
+    </p>
+  </div>
+
+  <h3>Qué significa cada símbolo</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase del enunciado</th><th>Qué quiere decir</th><th>Lenguaje que reconoce</th></tr>
+      <tr><td>"reconoce cada aparición de \(111\)"</td><td>1 cada vez que lo leído termina en \(111\)</td><td>\(\{0, 1\}^{*}\{111\}\)</td></tr>
+      <tr><td>"reconoce las cadenas que terminan en \(abba\)"</td><td>lo mismo, con otro patrón</td><td>\(\{a, b\}^{*}\{abba\}\)</td></tr>
+      <tr><td>"detecta solapamientos"</td><td>no se pierde las apariciones que comparten símbolos</td><td>el mismo; cambia cómo se vuelve después del aviso</td></tr>
+    </table>
+  </div>
+
+  <h3>De dónde sale la máquina del 111 (Ejemplo 14 de la cátedra)</h3>
+  <p>Cada estado <strong>recuerda cuánto del patrón acaba de aparecer al final</strong>:</p>
+  <ul>
+    <li>\(s_0\): nada útil (lo último fue un 0, o recién se empieza);</li>
+    <li>\(s_1\): lo último fue un \(1\);</li>
+    <li>\(s_2\): lo último fue \(11\).</li>
+  </ul>
+  <p>
+    Un 0 rompe todo: de cualquier estado vuelve a \(s_0\). Un 1 avanza un estado. En \(s_2\) un 1
+    completa \(111\): escribe 1, y como los dos últimos unos siguen siendo \(11\), <strong>se queda en
+    \(s_2\)</strong>. Ese lazo "1,1" es el solapamiento.
+  </p>
+  <div class="pd-grafico af" data-g="u2t-111">
+    <svg viewBox="-61 -77 465 163" width="465" height="163" role="img" aria-label="Reconocedor de 111 con solapamiento">
+      <path class="arco" d="M-8.9,-16.8 C-40.0,-51.2 40.0,-51.2 8.9,-16.8"/>
+      <path class="punta" d="M8.9,-16.8 L11.6,-26.5 L18.3,-20.4 Z"/>
+      <text class="rot" x="0.0" y="-56.0" text-anchor="middle" dominant-baseline="central">0,0</text>
+      <path class="arco" d="M17.6,-7.2 Q88.0,-36.0 158.4,-7.2"/>
+      <path class="punta" d="M158.4,-7.2 L148.4,-6.4 L151.8,-14.8 Z"/>
+      <text class="rot" x="88.0" y="-31.6" text-anchor="middle" dominant-baseline="central">1,0</text>
+      <path class="arco" d="M158.4,7.2 Q88.0,36.0 17.6,7.2"/>
+      <path class="punta" d="M17.6,7.2 L27.6,6.4 L24.2,14.8 Z"/>
+      <text class="rot" x="88.0" y="31.6" text-anchor="middle" dominant-baseline="central">0,0</text>
+      <path class="arco" d="M195.0,0.0 L333.0,0.0"/>
+      <path class="punta" d="M333.0,0.0 L324.0,4.5 L324.0,-4.5 Z"/>
+      <text class="rot" x="264.0" y="-10.0" text-anchor="middle" dominant-baseline="central">1,0</text>
+      <path class="arco" d="M343.1,-16.8 C312.0,-51.2 392.0,-51.2 360.9,-16.8"/>
+      <path class="punta" d="M360.9,-16.8 L363.6,-26.5 L370.3,-20.4 Z"/>
+      <text class="rot" x="352.0" y="-56.0" text-anchor="middle" dominant-baseline="central">1,1</text>
+      <path class="arco" d="M335.5,9.4 Q176.0,100.0 16.5,9.4"/>
+      <path class="punta" d="M16.5,9.4 L26.6,9.9 L22.1,17.7 Z"/>
+      <text class="rot" x="176.0" y="64.7" text-anchor="middle" dominant-baseline="central">0,0</text>
+      <path class="arco" d="M-49.0,0.0 L-19.0,0.0"/>
+      <path class="punta" d="M-19.0,0.0 L-28.0,4.5 L-28.0,-4.5 Z"/>
+      <g class="estado">
+        <circle class="borde" cx="0.0" cy="0.0" r="19"/>
+        <text class="nom" x="0.0" y="0.0" text-anchor="middle" dominant-baseline="central">s0</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="176.0" cy="0.0" r="19"/>
+        <text class="nom" x="176.0" y="0.0" text-anchor="middle" dominant-baseline="central">s1</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="352.0" cy="0.0" r="19"/>
+        <text class="nom" x="352.0" y="0.0" text-anchor="middle" dominant-baseline="central">s2</text>
+      </g>
+    </svg>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; Probar la máquina del 111 (de la cátedra)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>Con \(I = O = \{0, 1\}\), verificar que para \(x = 1110101111\) la salida es \(0010000011\).</p>
+  </div>
+  <div class="pd-grafico af" data-g="u2t-111">
+    <svg viewBox="-61 -77 465 163" width="465" height="163" role="img" aria-label="Reconocedor de 111 con solapamiento">
+      <path class="arco" d="M-8.9,-16.8 C-40.0,-51.2 40.0,-51.2 8.9,-16.8"/>
+      <path class="punta" d="M8.9,-16.8 L11.6,-26.5 L18.3,-20.4 Z"/>
+      <text class="rot" x="0.0" y="-56.0" text-anchor="middle" dominant-baseline="central">0,0</text>
+      <path class="arco" d="M17.6,-7.2 Q88.0,-36.0 158.4,-7.2"/>
+      <path class="punta" d="M158.4,-7.2 L148.4,-6.4 L151.8,-14.8 Z"/>
+      <text class="rot" x="88.0" y="-31.6" text-anchor="middle" dominant-baseline="central">1,0</text>
+      <path class="arco" d="M158.4,7.2 Q88.0,36.0 17.6,7.2"/>
+      <path class="punta" d="M17.6,7.2 L27.6,6.4 L24.2,14.8 Z"/>
+      <text class="rot" x="88.0" y="31.6" text-anchor="middle" dominant-baseline="central">0,0</text>
+      <path class="arco" d="M195.0,0.0 L333.0,0.0"/>
+      <path class="punta" d="M333.0,0.0 L324.0,4.5 L324.0,-4.5 Z"/>
+      <text class="rot" x="264.0" y="-10.0" text-anchor="middle" dominant-baseline="central">1,0</text>
+      <path class="arco" d="M343.1,-16.8 C312.0,-51.2 392.0,-51.2 360.9,-16.8"/>
+      <path class="punta" d="M360.9,-16.8 L363.6,-26.5 L370.3,-20.4 Z"/>
+      <text class="rot" x="352.0" y="-56.0" text-anchor="middle" dominant-baseline="central">1,1</text>
+      <path class="arco" d="M335.5,9.4 Q176.0,100.0 16.5,9.4"/>
+      <path class="punta" d="M16.5,9.4 L26.6,9.9 L22.1,17.7 Z"/>
+      <text class="rot" x="176.0" y="64.7" text-anchor="middle" dominant-baseline="central">0,0</text>
+      <path class="arco" d="M-49.0,0.0 L-19.0,0.0"/>
+      <path class="punta" d="M-19.0,0.0 L-28.0,4.5 L-28.0,-4.5 Z"/>
+      <g class="estado">
+        <circle class="borde" cx="0.0" cy="0.0" r="19"/>
+        <text class="nom" x="0.0" y="0.0" text-anchor="middle" dominant-baseline="central">s0</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="176.0" cy="0.0" r="19"/>
+        <text class="nom" x="176.0" y="0.0" text-anchor="middle" dominant-baseline="central">s1</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="352.0" cy="0.0" r="19"/>
+        <text class="nom" x="352.0" y="0.0" text-anchor="middle" dominant-baseline="central">s2</text>
+      </g>
+    </svg>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"\(1110101111\)"</td><td>10 pulsos</td><td>&mdash;</td><td>tabla de seguimiento (sección 14)</td></tr>
+      <tr><td>"cada aparición"</td><td>1 donde lo leído termina en \(111\)</td><td>posiciones 3, 9 y 10</td><td>lo que tiene que dar</td></tr>
+    </table>
+  </div>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Pulso</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th></tr>
+      <tr><td class="lbl">Estado</td><td>\(s_0\)</td><td>\(s_1\)</td><td>\(s_2\)</td><td>\(s_2\)</td><td>\(s_0\)</td><td>\(s_1\)</td><td>\(s_0\)</td><td>\(s_1\)</td><td>\(s_2\)</td><td>\(s_2\)</td></tr>
+      <tr><td class="lbl">Entrada</td><td>1</td><td>1</td><td>1</td><td>0</td><td>1</td><td>0</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
+      <tr><td class="lbl">Salida</td><td>0</td><td>0</td><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1</td><td>1</td></tr>
+    </table>
+  </div>
+  <div class="caja caja-resp"><span class="caja-tit">Respuesta</span><p>Sale \(0010000011\), y \(\nu(s_0, x) = s_2\). Los dos 1 del final son dos \(111\) solapados (\(\ldots\underline{111}1\) y \(\ldots1\underline{111}\)).</p></div>
+
+  <h3>Ejemplo 2 &mdash; Con y sin solapamiento</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>Construir una máquina que reconozca \(111\) <strong>sin</strong> solapamiento y comparar su salida con la de la anterior para \(x = 1111110111\).</p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"sin solapamiento"</td><td>los unos ya usados no cuentan para el próximo</td><td>después de avisar, a empezar de cero</td><td>\(s_2\) con 1 va a \(s_0\), no a \(s_2\)</td></tr>
+    </table>
+  </div>
+  <p>Cambia una sola flecha: la "1,1" de \(s_2\) ya no es un lazo, va a \(s_0\).</p>
+  <div class="pd-grafico af" data-g="u2t-111-sin">
+    <svg viewBox="-61 -77 444 163" width="444" height="163" role="img" aria-label="Reconocedor de 111 sin solapamiento">
+      <path class="arco" d="M-8.9,-16.8 C-40.0,-51.2 40.0,-51.2 8.9,-16.8"/>
+      <path class="punta" d="M8.9,-16.8 L11.6,-26.5 L18.3,-20.4 Z"/>
+      <text class="rot" x="0.0" y="-56.0" text-anchor="middle" dominant-baseline="central">0,0</text>
+      <path class="arco" d="M17.6,-7.2 Q88.0,-36.0 158.4,-7.2"/>
+      <path class="punta" d="M158.4,-7.2 L148.4,-6.4 L151.8,-14.8 Z"/>
+      <text class="rot" x="88.0" y="-31.6" text-anchor="middle" dominant-baseline="central">1,0</text>
+      <path class="arco" d="M158.4,7.2 Q88.0,36.0 17.6,7.2"/>
+      <path class="punta" d="M17.6,7.2 L27.6,6.4 L24.2,14.8 Z"/>
+      <text class="rot" x="88.0" y="31.6" text-anchor="middle" dominant-baseline="central">0,0</text>
+      <path class="arco" d="M195.0,0.0 L333.0,0.0"/>
+      <path class="punta" d="M333.0,0.0 L324.0,4.5 L324.0,-4.5 Z"/>
+      <text class="rot" x="264.0" y="-10.0" text-anchor="middle" dominant-baseline="central">1,0</text>
+      <path class="arco" d="M335.5,9.4 Q176.0,100.0 16.5,9.4"/>
+      <path class="punta" d="M16.5,9.4 L26.6,9.9 L22.1,17.7 Z"/>
+      <text class="rot" x="176.0" y="64.7" text-anchor="middle" dominant-baseline="central">0,0 | 1,1</text>
+      <path class="arco" d="M-49.0,0.0 L-19.0,0.0"/>
+      <path class="punta" d="M-19.0,0.0 L-28.0,4.5 L-28.0,-4.5 Z"/>
+      <g class="estado">
+        <circle class="borde" cx="0.0" cy="0.0" r="19"/>
+        <text class="nom" x="0.0" y="0.0" text-anchor="middle" dominant-baseline="central">s0</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="176.0" cy="0.0" r="19"/>
+        <text class="nom" x="176.0" y="0.0" text-anchor="middle" dominant-baseline="central">s1</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="352.0" cy="0.0" r="19"/>
+        <text class="nom" x="352.0" y="0.0" text-anchor="middle" dominant-baseline="central">s2</text>
+      </g>
+    </svg>
+  </div>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Entrada</th><th>1</th><th>1</th><th>1</th><th>1</th><th>1</th><th>1</th><th>0</th><th>1</th><th>1</th><th>1</th></tr>
+      <tr><td class="lbl">Con solapamiento</td><td>0</td><td>0</td><td>1</td><td>1</td><td>1</td><td>1</td><td>0</td><td>0</td><td>0</td><td>1</td></tr>
+      <tr><td class="lbl">Sin solapamiento</td><td>0</td><td>0</td><td>1</td><td>0</td><td>0</td><td>1</td><td>0</td><td>0</td><td>0</td><td>1</td></tr>
+    </table>
+  </div>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>
+      Con solapamiento: \(0011110001\) (los seis unos seguidos tienen 4 tríos). Sin solapamiento:
+      \(0010010001\) (los seis unos se parten en dos tríos que no comparten nada).
+    </p>
+  </div>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Una máquina no es "la" respuesta</span>
+    <p>
+      El Grimaldi muestra otra máquina de 4 estados que hace lo mismo que la de 3: se llaman
+      <strong>equivalentes</strong>. En el parcial vale cualquier máquina correcta; conviene la más
+      chica porque hay menos flechas para equivocarse.
+    </p>
+  </div>
+</div>

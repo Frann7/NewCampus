@@ -1,0 +1,162 @@
+<div class="bloque">
+  <p class="kicker">Máquinas de estados finitos</p>
+  <h2>14. La salida para una cadena de entrada</h2>
+
+  <h3>Para qué sirve</h3>
+  <p>
+    \(\nu\) y \(\omega\) dicen qué pasa con <strong>un</strong> símbolo. Una máquina, en cambio, lee
+    una cadena entera. Los enunciados escriben \(\nu(s_0, x)\) y \(\omega(s_0, x)\) con \(x\) una
+    cadena, y hay que saber qué significan y cómo se calculan.
+  </p>
+
+  <h3>Definición</h3>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Para \(x = x_1 x_2 \ldots x_n \in I^{*}\), partiendo de \(s_0\)</span>
+    <p>Se lee un símbolo por pulso: \(s_1 = \nu(s_0, x_1)\), \(s_2 = \nu(s_1, x_2)\), ..., \(s_n = \nu(s_{n-1}, x_n)\) (estos \(s_i\) son "el estado después de \(i\) pulsos").</p>
+    <ul>
+      <li>\(\nu(s_0, x) = s_n\): el <strong>último estado</strong>, un estado.</li>
+      <li>\(\omega(s_0, x) = \omega(s_0, x_1)\,\omega(s_1, x_2) \ldots \omega(s_{n-1}, x_n)\): la <strong>cadena de salida</strong>, del mismo largo que \(x\).</li>
+    </ul>
+  </div>
+
+  <h3>Qué significa cada símbolo</h3>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Símbolo</th><th>Qué devuelve</th><th>Ejemplo de respuesta</th></tr>
+      <tr><td>\(\nu(s_0, x)\)</td><td>un estado: dónde quedó la máquina</td><td>\(s_2\)</td></tr>
+      <tr><td>\(\omega(s_0, x)\)</td><td>una cadena de \(O^{*}\), un símbolo por cada símbolo de \(x\)</td><td>\(00101\)</td></tr>
+    </table>
+  </div>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">La trampa de la guía</span>
+    <p>
+      La guía complementaria pregunta si es cierto que "\(\nu(s_0, 001) = 000\); \(\omega(s_0, 001) = s_3\)".
+      Es falso sin hacer ninguna cuenta: \(\nu\) devuelve un <strong>estado</strong> y \(\omega\) una
+      <strong>cadena de salida</strong>; ahí están cambiados.
+    </p>
+  </div>
+
+  <h3>Cómo se hace: la tabla de seguimiento</h3>
+  <p>
+    Se arma una tabla con una columna por pulso: estado actual, entrada, salida (de la tabla
+    \(\omega\)) y estado siguiente (de la tabla \(\nu\)), que pasa a ser el estado actual de la
+    columna siguiente. Es la misma tabla que usó la cátedra para Ulises.
+  </p>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; Recorrer la máquina del Ejemplo 12</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>Con la máquina del diagrama, hallar \(\nu(s_0, 0110100)\) y \(\omega(s_0, 0110100)\).</p>
+  </div>
+  <div class="pd-grafico af" data-g="u2t-e12">
+    <svg viewBox="-61 -77 476 168" width="476" height="168" role="img" aria-label="Máquina del Ejemplo 12 de la cátedra">
+      <path class="arco" d="M-8.9,-16.8 C-40.0,-51.2 40.0,-51.2 8.9,-16.8"/>
+      <path class="punta" d="M8.9,-16.8 L11.6,-26.5 L18.3,-20.4 Z"/>
+      <text class="rot" x="0.0" y="-56.0" text-anchor="middle" dominant-baseline="central">0,0</text>
+      <path class="arco" d="M19.0,0.0 L173.0,0.0"/>
+      <path class="punta" d="M173.0,0.0 L164.0,4.5 L164.0,-4.5 Z"/>
+      <text class="rot" x="96.0" y="-10.0" text-anchor="middle" dominant-baseline="central">1,0</text>
+      <path class="arco" d="M183.1,-16.8 C152.0,-51.2 232.0,-51.2 200.9,-16.8"/>
+      <path class="punta" d="M200.9,-16.8 L203.6,-26.5 L210.3,-20.4 Z"/>
+      <text class="rot" x="192.0" y="-56.0" text-anchor="middle" dominant-baseline="central">1,0</text>
+      <path class="arco" d="M209.8,-6.7 Q288.0,-36.0 366.2,-6.7"/>
+      <path class="punta" d="M366.2,-6.7 L356.2,-5.6 L359.4,-14.0 Z"/>
+      <text class="rot" x="288.0" y="-31.3" text-anchor="middle" dominant-baseline="central">0,0</text>
+      <path class="arco" d="M366.2,6.7 Q288.0,36.0 209.8,6.7"/>
+      <path class="punta" d="M209.8,6.7 L219.8,5.6 L216.6,14.0 Z"/>
+      <text class="rot" x="288.0" y="31.3" text-anchor="middle" dominant-baseline="central">1,1</text>
+      <path class="arco" d="M367.5,9.4 Q192.0,110.0 16.5,9.4"/>
+      <path class="punta" d="M16.5,9.4 L26.5,10.0 L22.1,17.8 Z"/>
+      <text class="rot" x="192.0" y="69.7" text-anchor="middle" dominant-baseline="central">0,0</text>
+      <path class="arco" d="M-49.0,0.0 L-19.0,0.0"/>
+      <path class="punta" d="M-19.0,0.0 L-28.0,4.5 L-28.0,-4.5 Z"/>
+      <g class="estado">
+        <circle class="borde" cx="0.0" cy="0.0" r="19"/>
+        <text class="nom" x="0.0" y="0.0" text-anchor="middle" dominant-baseline="central">s0</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="192.0" cy="0.0" r="19"/>
+        <text class="nom" x="192.0" y="0.0" text-anchor="middle" dominant-baseline="central">s1</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="384.0" cy="0.0" r="19"/>
+        <text class="nom" x="384.0" y="0.0" text-anchor="middle" dominant-baseline="central">s2</text>
+      </g>
+    </svg>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"\(s_0\)"</td><td>se arranca ahí</td><td>&mdash;</td><td>primera columna</td></tr>
+      <tr><td>"\(0110100\)"</td><td>7 símbolos</td><td>7 pulsos</td><td>salida de largo 7</td></tr>
+    </table>
+  </div>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Pulso</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th></tr>
+      <tr><td class="lbl">Estado</td><td>\(s_0\)</td><td>\(s_0\)</td><td>\(s_1\)</td><td>\(s_1\)</td><td>\(s_2\)</td><td>\(s_1\)</td><td>\(s_2\)</td></tr>
+      <tr><td class="lbl">Entrada</td><td>0</td><td>1</td><td>1</td><td>0</td><td>1</td><td>0</td><td>0</td></tr>
+      <tr><td class="lbl">Salida</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1</td><td>0</td><td>0</td></tr>
+      <tr><td class="lbl">Siguiente</td><td>\(s_0\)</td><td>\(s_1\)</td><td>\(s_1\)</td><td>\(s_2\)</td><td>\(s_1\)</td><td>\(s_2\)</td><td>\(s_0\)</td></tr>
+    </table>
+  </div>
+  <div class="caja caja-resp"><span class="caja-tit">Respuesta</span><p>\(\nu(s_0, 0110100) = s_0\) y \(\omega(s_0, 0110100) = 0000100\). El único 1 sale en el pulso 5, justo cuando lo leído (\(01101\)) termina en \(101\).</p></div>
+
+  <h3>Ejemplo 2 &mdash; Sumar con el sumador en serie</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>Usar el sumador binario en serie para calcular \(x + y\) con \(x = 01011\) e \(y = 00110\).</p>
+  </div>
+  <div class="pd-grafico af" data-g="u2t-sumador">
+    <svg viewBox="-80 -77 417 129" width="417" height="129" role="img" aria-label="Sumador binario en serie">
+      <path class="arco" d="M-8.9,-16.8 C-40.0,-51.2 40.0,-51.2 8.9,-16.8"/>
+      <path class="punta" d="M8.9,-16.8 L11.6,-26.5 L18.3,-20.4 Z"/>
+      <text class="rot" x="0.0" y="-56.0" text-anchor="middle" dominant-baseline="central">00,0 | 01,1 | 10,1</text>
+      <path class="arco" d="M18.3,-5.1 Q128.0,-36.0 237.7,-5.1"/>
+      <path class="punta" d="M237.7,-5.1 L227.8,-3.2 L230.3,-11.9 Z"/>
+      <text class="rot" x="128.0" y="-30.6" text-anchor="middle" dominant-baseline="central">11,0</text>
+      <path class="arco" d="M237.7,5.1 Q128.0,36.0 18.3,5.1"/>
+      <path class="punta" d="M18.3,5.1 L28.2,3.2 L25.7,11.9 Z"/>
+      <text class="rot" x="128.0" y="30.6" text-anchor="middle" dominant-baseline="central">00,1</text>
+      <path class="arco" d="M247.1,-16.8 C216.0,-51.2 296.0,-51.2 264.9,-16.8"/>
+      <path class="punta" d="M264.9,-16.8 L267.6,-26.5 L274.3,-20.4 Z"/>
+      <text class="rot" x="256.0" y="-56.0" text-anchor="middle" dominant-baseline="central">01,0 | 10,0 | 11,1</text>
+      <path class="arco" d="M-49.0,0.0 L-19.0,0.0"/>
+      <path class="punta" d="M-19.0,0.0 L-28.0,4.5 L-28.0,-4.5 Z"/>
+      <g class="estado">
+        <circle class="borde" cx="0.0" cy="0.0" r="19"/>
+        <text class="nom" x="0.0" y="0.0" text-anchor="middle" dominant-baseline="central">s0</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="256.0" cy="0.0" r="19"/>
+        <text class="nom" x="256.0" y="0.0" text-anchor="middle" dominant-baseline="central">s1</text>
+      </g>
+    </svg>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"\(x + y\)"</td><td>se suma desde la derecha</td><td>pares \(x_1 y_1\), \(x_2 y_2\), ...</td><td>entrada: \(10, 11, 01, 10, 00\)</td></tr>
+      <tr><td>la salida</td><td>sale primero el bit de la derecha</td><td>leerla al revés</td><td>\(z = z_5 z_4 z_3 z_2 z_1\)</td></tr>
+    </table>
+  </div>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Pulso</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th></tr>
+      <tr><td class="lbl">Estado (acarreo)</td><td>\(s_0\)</td><td>\(s_0\)</td><td>\(s_1\)</td><td>\(s_1\)</td><td>\(s_1\)</td></tr>
+      <tr><td class="lbl">Entrada \(x_i y_i\)</td><td>10</td><td>11</td><td>01</td><td>10</td><td>00</td></tr>
+      <tr><td class="lbl">Cuenta</td><td>\(1+0+0 = 01\)</td><td>\(1+1+0 = 10\)</td><td>\(0+1+1 = 10\)</td><td>\(1+0+1 = 10\)</td><td>\(0+0+1 = 01\)</td></tr>
+      <tr><td class="lbl">Salida \(z_i\)</td><td>1</td><td>0</td><td>0</td><td>0</td><td>1</td></tr>
+      <tr><td class="lbl">Siguiente</td><td>\(s_0\)</td><td>\(s_1\)</td><td>\(s_1\)</td><td>\(s_1\)</td><td>\(s_0\)</td></tr>
+    </table>
+  </div>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>La salida en orden es \(10001\); leída como número, \(z = z_5 z_4 z_3 z_2 z_1 = 10001\). Control: \(01011 = 11\), \(00110 = 6\) y \(11 + 6 = 17 = 10001_2\).</p>
+  </div>
+</div>

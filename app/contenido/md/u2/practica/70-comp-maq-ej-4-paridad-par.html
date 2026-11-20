@@ -1,0 +1,96 @@
+<div class="ej">
+  <span class="tag" data-num-ej="CM-4.">Complementaria P1 &middot; Máquinas &middot; Ej. 4 &middot; Paridad par</span>
+  <h2>Reconocer las cadenas no vacías con una cantidad par de unos</h2>
+  <div class="enunciado">
+    <p>Para \(O = I = \{0, 1\}\), una cadena \(x \in I^*\) tiene paridad par si contiene un número par de unos. Construir un diagrama de estados para una máquina de estados finitos que reconozca todas las cadenas no vacías de paridad par.</p>
+  </div>
+
+  <span class="paso">Qué tema es y por qué</span>
+  <ul>
+    <li>Máquina reconocedora: cada vez que lee un símbolo escribe 1 si lo leído hasta ahí está en el lenguaje (no vacía y con cantidad par de unos), y 0 si no.</li>
+    <li>No hace falta contar los unos: alcanza con saber si van <strong>pares o impares</strong>. Son dos situaciones, dos estados.</li>
+  </ul>
+
+  <span class="paso">Desarme del enunciado</span>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>A dónde va</th></tr>
+      <tr><td>"número par de unos"</td><td>0, 2, 4… unos (los ceros no importan)</td><td>qué recuerda el estado</td></tr>
+      <tr><td>"cadenas no vacías"</td><td>\(\lambda\) no se reconoce aunque tenga 0 unos</td><td>ver el Paso 2</td></tr>
+    </table>
+  </div>
+
+  <span class="paso">Paso 1 &mdash; Estados y transiciones</span>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Estado</th><th>Qué significa</th></tr>
+      <tr><td>\(s_0\)</td><td>hasta ahora leí una cantidad <strong>par</strong> de unos (al principio, cero)</td></tr>
+      <tr><td>\(s_1\)</td><td>hasta ahora leí una cantidad <strong>impar</strong> de unos</td></tr>
+    </table>
+  </div>
+  <ul>
+    <li>Un 0 no cambia la paridad: se queda en el mismo estado.</li>
+    <li>Un 1 la da vuelta: de \(s_0\) a \(s_1\) y de \(s_1\) a \(s_0\).</li>
+    <li>La salida es 1 cuando, <strong>después</strong> de leer el símbolo, la cantidad quedó par: es decir, cuando se llega a \(s_0\).</li>
+  </ul>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th rowspan="2"></th><th colspan="2">\(\nu\)</th><th colspan="2">\(\omega\)</th></tr>
+      <tr><th>0</th><th>1</th><th>0</th><th>1</th></tr>
+      <tr><td>&rarr; \(s_0\)</td><td>\(s_0\)</td><td>\(s_1\)</td><td>1</td><td>0</td></tr>
+      <tr><td>\(s_1\)</td><td>\(s_1\)</td><td>\(s_0\)</td><td>0</td><td>1</td></tr>
+    </table>
+  </div>
+  <div class="pd-grafico af" data-g="u2pc-cm4">
+    <svg viewBox="-61 -77 321 129" width="321" height="129" role="img" aria-label="Reconocedor de las cadenas no vacías con una cantidad par de unos">
+      <path class="arco" d="M-8.9,-16.8 C-40.0,-51.2 40.0,-51.2 8.9,-16.8"/>
+      <path class="punta" d="M8.9,-16.8 L11.6,-26.5 L18.3,-20.4 Z"/>
+      <text class="rot" x="0.0" y="-56.0" text-anchor="middle" dominant-baseline="central">0,1</text>
+      <path class="arco" d="M18.0,-6.2 Q104.0,-36.0 190.0,-6.2"/>
+      <path class="punta" d="M190.0,-6.2 L180.1,-4.9 L183.0,-13.4 Z"/>
+      <text class="rot" x="104.0" y="-31.1" text-anchor="middle" dominant-baseline="central">1,0</text>
+      <path class="arco" d="M199.1,-16.8 C168.0,-51.2 248.0,-51.2 216.9,-16.8"/>
+      <path class="punta" d="M216.9,-16.8 L219.6,-26.5 L226.3,-20.4 Z"/>
+      <text class="rot" x="208.0" y="-56.0" text-anchor="middle" dominant-baseline="central">0,0</text>
+      <path class="arco" d="M190.0,6.2 Q104.0,36.0 18.0,6.2"/>
+      <path class="punta" d="M18.0,6.2 L27.9,4.9 L25.0,13.4 Z"/>
+      <text class="rot" x="104.0" y="31.1" text-anchor="middle" dominant-baseline="central">1,1</text>
+      <path class="arco" d="M-49.0,0.0 L-19.0,0.0"/>
+      <path class="punta" d="M-19.0,0.0 L-28.0,4.5 L-28.0,-4.5 Z"/>
+      <g class="estado">
+        <circle class="borde" cx="0.0" cy="0.0" r="19"/>
+        <text class="nom" x="0.0" y="0.0" text-anchor="middle" dominant-baseline="central">s0</text>
+      </g>
+      <g class="estado">
+        <circle class="borde" cx="208.0" cy="0.0" r="19"/>
+        <text class="nom" x="208.0" y="0.0" text-anchor="middle" dominant-baseline="central">s1</text>
+      </g>
+    </svg>
+  </div>
+
+  <span class="paso">Paso 2 &mdash; ¿Y lo de "no vacías"?</span>
+  <p>Una máquina de estados finitos escribe un símbolo <strong>solo cuando lee uno</strong>. Ante \(\lambda\) no escribe nada, así que nunca "reconoce" la cadena vacía. Cada 1 de la salida corresponde a una cadena de largo 1 o más. Por eso no hace falta un estado extra.</p>
+
+  <span class="paso">Paso 3 &mdash; Prueba</span>
+  <p>\(x = 0110\):</p>
+  <div class="tabla-wrap">
+    <table class="t">
+      <tr><th>Estado</th><td>\(s_0\)</td><td>\(s_0\)</td><td>\(s_1\)</td><td>\(s_0\)</td><td>(\(s_0\))</td></tr>
+      <tr><th>Entrada</th><td>0</td><td>1</td><td>1</td><td>0</td><td></td></tr>
+      <tr><th>Salida</th><td>1</td><td>0</td><td>1</td><td>1</td><td></td></tr>
+    </table>
+  </div>
+  <p>\(0\) (cero unos: par), \(01\) (impar), \(011\) (par), \(0110\) (par). Coincide.</p>
+
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>La máquina de 2 estados del diagrama: \(s_0\) "par" (inicial) y \(s_1\) "impar"; los 0 son lazos y los 1 cambian de estado; escribe 1 cada vez que llega a \(s_0\).</p>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Otra solución que también vale</span>
+    <p>Muchas resoluciones usan 3 estados (un \(s_0\) inicial aparte del "par") para separar la cadena vacía. Funciona igual, pero no hace falta, por lo del Paso 2.</p>
+  </div>
+
+  <span class="paso">Verificación</span>
+  <p>Se simuló en Python con todas las cadenas de largo hasta 10: escribe 1 exactamente cuando lo leído (no vacío) tiene una cantidad par de unos.</p>
+</div>

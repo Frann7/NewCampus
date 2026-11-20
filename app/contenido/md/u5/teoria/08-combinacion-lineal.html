@@ -1,0 +1,204 @@
+<div class="bloque" data-examen="igual" data-examen-ref="Parcial 2 2026 · ej. 3" data-examen-nota="El ej. 3 a) i) pidió escribir mcd(837, −341) como UNA combinación lineal de 837 y −341: está en el Ejemplo 3.">
+  <p class="kicker">Máximo común divisor</p>
+  <h2>8. El mcd como combinación lineal (Bézout)</h2>
+
+  <h3>Para qué sirve</h3>
+  <p>
+    Escribir el mcd como \(ax + by\) es la llave de las ecuaciones diofánticas (sección 10): de
+    esa combinación sale directamente una solución. También es la herramienta para varias
+    demostraciones (los lemas del final de esta sección).
+  </p>
+
+  <h3>La proposición</h3>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Identidad de Bézout</span>
+    <p>Si \(d = mcd(a, b)\), existen enteros \(x\) e \(y\) tales que</p>
+    <p>\[ d = a\,x + b\,y \]</p>
+    <p>Además, \(d\) es la <strong>menor combinación lineal positiva</strong> de \(a\) y \(b\).</p>
+  </div>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Símbolo</th><th>Qué significa</th></tr>
+      <tr><td>\(a, b\)</td><td>Los dos números (pueden ser negativos)</td></tr>
+      <tr><td>\(x, y\)</td><td>Los <strong>coeficientes</strong>: enteros, casi siempre uno positivo y otro negativo</td></tr>
+      <tr><td>\(ax + by\)</td><td>Combinación lineal de \(a\) y \(b\) (sección 2)</td></tr>
+    </table>
+  </div>
+
+  <h4>La combinación no es única</h4>
+  <p>Ejemplos de la cátedra:</p>
+  <ul>
+    <li>\(mcd(14, 25) = 1 = 9 \cdot 14 + (-5) \cdot 25 = 34 \cdot 14 + (-19) \cdot 25 = 59 \cdot 14 + (-33) \cdot 25\)</li>
+    <li>\(mcd(15, 33) = 3 = (-2) \cdot 15 + 1 \cdot 33 = 9 \cdot 15 + (-4) \cdot 33 = 20 \cdot 15 + (-9) \cdot 33\)</li>
+  </ul>
+  <p>Por eso el parcial dice "escribirlo como <strong>UNA</strong> combinación lineal": alcanza con una.</p>
+
+  <h4>Por qué es la menor positiva</h4>
+  <p>
+    Como \(d \mid a\) y \(d \mid b\), por la propiedad 8 de la sección 2 <strong>toda</strong>
+    combinación \(ax + by\) es múltiplo de \(d\). Entonces las positivas valen \(d, 2d, 3d, \ldots\):
+    ninguna es menor que \(d\). Y \(d\) mismo es una de ellas. Con 15 y 33 (mcd 3):
+  </p>
+  <ul>
+    <li>\((-1) \cdot 15 + 15 \cdot 33 = 480 = 3 \cdot 160\)</li>
+    <li>\((-3) \cdot 15 + (-4) \cdot 33 = -177 = 3 \cdot (-59)\)</li>
+    <li>\(2 \cdot 15 + (-1) \cdot 33 = -3\)</li>
+    <li>\((-33) \cdot 15 + 15 \cdot 33 = 0\)</li>
+  </ul>
+  <p>Todas múltiplos de 3; ninguna positiva por debajo de 3.</p>
+
+  <h3>Cómo se encuentran \(x\) e \(y\): Euclides hacia atrás</h3>
+  <p>La demostración de que \(x\) e \(y\) existen es, justamente, este procedimiento (siempre funciona):</p>
+  <ol>
+    <li><strong>Euclides hacia adelante</strong> (sección 7), anotando cada división.</li>
+    <li><strong>Despejar el resto</strong> de cada división no exacta: \(\text{resto} = \text{dividendo} - \text{cociente} \cdot \text{divisor}\).</li>
+    <li><strong>Empezar por el despeje del mcd</strong> (el último resto no nulo).</li>
+    <li><strong>Reemplazar</strong>, de abajo hacia arriba, cada resto por su despeje, y <strong>juntar</strong> términos iguales (sin hacer la multiplicación de los números grandes: se los trata como "letras").</li>
+    <li>Cuando solo quedan \(a\) y \(b\), está: los números que los multiplican son \(x\) e \(y\).</li>
+    <li><strong>Verificar</strong> haciendo la cuenta.</li>
+  </ol>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Dónde se equivoca todo el mundo</span>
+    <ul>
+      <li>Al reemplazar, el resto queda <strong>adentro de un paréntesis</strong> multiplicado: el signo menos se distribuye.</li>
+      <li>No multiplicar \(837 \cdot 2\) a 1674: dejar "\(837\)" y "\(341\)" como si fueran letras, y solo sumar sus coeficientes.</li>
+      <li>Siempre verificar al final: si la cuenta no da el mcd, hubo un error de signo.</li>
+    </ul>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; \(mcd(259, 111) = 37\) como combinación lineal</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado (Actividad 6 a de la cátedra)</span>
+    <p>Determinar el \(mcd(259, 111)\) y expresarlo como combinación lineal de estos enteros.</p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"combinación lineal de estos enteros"</td><td>\(37 = 259x + 111y\)</td><td>&mdash;</td><td>buscar \(x, y\)</td></tr>
+    </table>
+  </div>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Euclides</th><th>Despeje del resto</th></tr>
+      <tr><td>\(259 = 111 \cdot 2 + 37\)</td><td>\(37 = 259 - 2 \cdot 111\)</td></tr>
+      <tr><td>\(111 = 37 \cdot 3 + 0\)</td><td>(exacta: no se despeja)</td></tr>
+    </table>
+  </div>
+  <p>Hay una sola división no exacta: el despeje ya es la combinación.</p>
+  <p>\[ 37 = 1 \cdot 259 + (-2) \cdot 111 \]</p>
+  <p>Verifico: \(259 - 222 = 37\). ✔</p>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>\(mcd(259, 111) = 37 = 259 \cdot 1 + 111 \cdot (-2)\): \(x = 1,\ y = -2\).</p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; Uno más largo: \(mcd(84, 990)\)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado (guía complementaria, mcd 9 a y b)</span>
+    <p>Sea \(a = 84\) y \(b = 990\). Hallar el \(mcd(a, b)\) y expresarlo como combinación lineal de ambos.</p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"\(a = 84,\ b = 990\)"</td><td>Euclides empieza por el mayor</td><td>&mdash;</td><td>dividir 990 por 84</td></tr>
+      <tr><td>"combinación lineal de ambos"</td><td>\(d = 84x + 990y\)</td><td>&mdash;</td><td>buscar \(x, y\)</td></tr>
+    </table>
+  </div>
+  <p><span class="paso">Paso 1 &mdash; Euclides y despejes</span></p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>N.º</th><th>Euclides</th><th>Despeje del resto</th></tr>
+      <tr><td>1</td><td>\(990 = 84 \cdot 11 + 66\)</td><td>\(66 = 990 - 11 \cdot 84\)</td></tr>
+      <tr><td>2</td><td>\(84 = 66 \cdot 1 + 18\)</td><td>\(18 = 84 - 1 \cdot 66\)</td></tr>
+      <tr><td>3</td><td>\(66 = 18 \cdot 3 + 12\)</td><td>\(12 = 66 - 3 \cdot 18\)</td></tr>
+      <tr><td>4</td><td>\(18 = 12 \cdot 1 + 6\)</td><td>\(6 = 18 - 1 \cdot 12\)</td></tr>
+      <tr><td>5</td><td>\(12 = 6 \cdot 2 + 0\)</td><td>&mdash;</td></tr>
+    </table>
+  </div>
+  <p>El último resto no nulo es 6: \(mcd(84, 990) = 6\).</p>
+  <p><span class="paso">Paso 2 &mdash; Hacia atrás</span> Arranco del despeje 4 y voy subiendo:</p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Qué hago</th><th>Cómo queda</th></tr>
+      <tr><td>Despeje 4</td><td>\(6 = 18 - 12\)</td></tr>
+      <tr><td>Reemplazo el 12 (despeje 3)</td><td>\(6 = 18 - (66 - 3 \cdot 18) = 4 \cdot 18 - 66\)</td></tr>
+      <tr><td>Reemplazo el 18 (despeje 2)</td><td>\(6 = 4\,(84 - 66) - 66 = 4 \cdot 84 - 5 \cdot 66\)</td></tr>
+      <tr><td>Reemplazo el 66 (despeje 1)</td><td>\(6 = 4 \cdot 84 - 5\,(990 - 11 \cdot 84) = 59 \cdot 84 - 5 \cdot 990\)</td></tr>
+    </table>
+  </div>
+  <p>En cada renglón se juntan los términos iguales: por ejemplo, \(18 + 3 \cdot 18 = 4 \cdot 18\), y \(4 \cdot 84 + 55 \cdot 84 = 59 \cdot 84\).</p>
+  <p>Verifico: \(59 \cdot 84 = 4956\) y \(5 \cdot 990 = 4950\); \(4956 - 4950 = 6\). ✔</p>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>\(mcd(84, 990) = 6 = 84 \cdot 59 + 990 \cdot (-5)\).</p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 3 &mdash; Estilo parcial: \(mcd(837, -341)\) como combinación de 837 y \(-341\)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado (Parcial 2 2026, ej. 3 a) i))</span>
+    <p>Calcular \(mcd(837, -341)\) y escribirlo como UNA combinación lineal de 837 y \(-341\).</p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"\(mcd(837, -341)\)"</td><td>el signo no cambia el mcd</td><td>Euclides con 837 y 341</td><td>\(d = 31\) (sección 7)</td></tr>
+      <tr><td>"combinación lineal de 837 y \(-341\)"</td><td>el segundo número es \(-341\), con signo</td><td>&mdash;</td><td>\(31 = 837\,x + (-341)\,y\)</td></tr>
+    </table>
+  </div>
+  <p><span class="paso">Paso 1 &mdash; Euclides y despejes</span></p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>N.º</th><th>Euclides</th><th>Despeje del resto</th></tr>
+      <tr><td>1</td><td>\(837 = 341 \cdot 2 + 155\)</td><td>\(155 = 837 - 2 \cdot 341\)</td></tr>
+      <tr><td>2</td><td>\(341 = 155 \cdot 2 + 31\)</td><td>\(31 = 341 - 2 \cdot 155\)</td></tr>
+      <tr><td>3</td><td>\(155 = 31 \cdot 5 + 0\)</td><td>&mdash;</td></tr>
+    </table>
+  </div>
+  <p><span class="paso">Paso 2 &mdash; Hacia atrás</span></p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Qué hago</th><th>Cómo queda</th></tr>
+      <tr><td>Despeje 2</td><td>\(31 = 341 - 2 \cdot 155\)</td></tr>
+      <tr><td>Reemplazo el 155 (despeje 1)</td><td>\(31 = 341 - 2\,(837 - 2 \cdot 341) = 341 - 2 \cdot 837 + 4 \cdot 341\)</td></tr>
+      <tr><td>Junto los 341</td><td>\(31 = (-2) \cdot 837 + 5 \cdot 341\)</td></tr>
+    </table>
+  </div>
+  <p><span class="paso">Paso 3 &mdash; Pasar a \(-341\)</span> La consigna pide la combinación con \(-341\), no con 341. Como \(5 \cdot 341 = (-5) \cdot (-341)\):</p>
+  <p>\[ 31 = (-2) \cdot 837 + (-5) \cdot (-341) \]</p>
+  <p>Verifico: \((-2) \cdot 837 = -1674\) y \((-5)(-341) = 1705\); \(-1674 + 1705 = 31\). ✔</p>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>\(mcd(837, -341) = 31 = 837 \cdot (-2) + (-341) \cdot (-5)\).</p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Dos consecuencias que se usan en las demostraciones</h3>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Lema 1</span>
+    <p>Si \(mcd(a, b) = 1\) y \(a \mid bc\), entonces \(a \mid c\).</p>
+  </div>
+  <p>Demostración (guía complementaria, mcd 1):</p>
+  <ul>
+    <li>Por Bézout, \(1 = ax + by\) para algunos enteros \(x, y\).</li>
+    <li>Multiplico por \(c\): \(c = acx + bcy\).</li>
+    <li>\(a\) divide a \(acx\) (es \(a\) por un entero) y divide a \(bc\) (hipótesis), así que divide a \(bcy\) (propiedad 6).</li>
+    <li>Por la propiedad 8, \(a\) divide a la suma, que es \(c\).</li>
+  </ul>
+  <p>Es la versión correcta del V/F del parcial (sección 2, Ejemplo 3): de \(a \mid cx\) sale \(a \mid c\) <strong>solo si</strong> \(a\) y \(x\) son coprimos.</p>
+
+  <div class="caja caja-formula">
+    <span class="caja-tit">Lema 2</span>
+    <p>Si \(d = mcd(a, b)\), entonces \(mcd\!\left(\frac{a}{d}, \frac{b}{d}\right) = 1\).</p>
+  </div>
+  <p>Demostración (guía complementaria, mcd 7): de \(d = ax + by\), dividiendo por \(d\), \(1 = \frac{a}{d}x + \frac{b}{d}y\). Cualquier divisor común de \(\frac{a}{d}\) y \(\frac{b}{d}\) divide a esa combinación, o sea a 1. Ejemplo: \(mcd(837, 341) = 31\), y \(\frac{837}{31} = 27\), \(\frac{341}{31} = 11\) son coprimos.</p>
+</div>

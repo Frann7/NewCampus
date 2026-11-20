@@ -1,0 +1,174 @@
+<div class="bloque" data-examen="igual" data-examen-ref="Parcial 2 2026 · ej. 2" data-examen-nota="Parte II: el término que se suma es la exponencial de la parte I, y la particular se propone como A · 3ⁿ.">
+  <p class="kicker">No homogéneas</p>
+  <h2>11. Cómo se elige la solución particular</h2>
+
+  <h3>Para qué sirve</h3>
+  <p>
+    En la sección 10 la particular venía dada. En el parcial hay que encontrarla. La idea: se
+    propone una fórmula <strong>de la misma familia que \(g(n)\)</strong>, con coeficientes
+    desconocidos (\(A\), \(A_1\), \(A_0\)...), se reemplaza en la RR completa y se despejan.
+    De ahí el nombre "coeficientes indeterminados".
+  </p>
+
+  <h3>La tabla de la cátedra</h3>
+  <div class="caja caja-formula">
+    <span class="caja-tit">\(g(n)\) &rarr; forma de \(a_n^{(p)}\)</span>
+    <div class="tabla-wrap">
+      <table class="t full">
+        <tr><th>\(g(n)\)</th><th>\(a_n^{(p)}\) que se propone</th></tr>
+        <tr><td>\(c\), una constante</td><td>\(A\), una constante</td></tr>
+        <tr><td>\(n\)</td><td>\(A_1 n + A_0\) (polinomio <strong>completo</strong> de grado 1)</td></tr>
+        <tr><td>\(n^2\)</td><td>\(A_2 n^2 + A_1 n + A_0\)</td></tr>
+        <tr><td>\(n^3\)</td><td>\(A_3 n^3 + A_2 n^2 + A_1 n + A_0\)</td></tr>
+        <tr><td>\(n^t\)</td><td>polinomio completo de grado \(t\)</td></tr>
+        <tr><td>\(r^n\)</td><td>\(A\,r^n\): una constante por la misma exponencial</td></tr>
+        <tr><td>\(\operatorname{sen}(\theta n)\) o \(\cos(\theta n)\)</td><td>\(A_1\operatorname{sen}(\theta n) + A_2\cos(\theta n)\)</td></tr>
+      </table>
+    </div>
+  </div>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Palabra</th><th>Qué significa</th></tr>
+      <tr><td>polinomio <strong>completo</strong></td><td>con todas las potencias de \(n\) desde el grado pedido hasta \(n^0\), aunque \(g(n)\) no las tenga. Si \(g(n) = n^2\), igual se propone con \(A_1 n\) y \(A_0\).</td></tr>
+      <tr><td>"la misma exponencial"</td><td>la base de la potencia se copia: si \(g(n) = 5 \cdot 7^n\), se propone \(A \cdot 7^n\) (el 5 lo absorbe \(A\))</td></tr>
+    </table>
+  </div>
+
+  <h3>Combinaciones</h3>
+  <p>Si \(g(n)\) es una suma, se suman las propuestas; si es un producto, se multiplican las formas:</p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>\(g(n)\)</th><th>\(a_n^{(p)}\)</th><th>Por qué</th></tr>
+      <tr><td>\(3n^2 + 1\)</td><td>\(A_2 n^2 + A_1 n + A_0\)</td><td>es un polinomio de grado 2</td></tr>
+      <tr><td>\(3n \cdot 5^n\)</td><td>\((A_1 n + A_0) \cdot 5^n\)</td><td>polinomio de grado 1 por exponencial</td></tr>
+      <tr><td>\(3n + 5^n\)</td><td>\(A_1 n + A_0 + A\,5^n\)</td><td>suma: una propuesta por cada parte</td></tr>
+      <tr><td>\(7^n\operatorname{sen}(\theta n)\)</td><td>\(7^n\left[A_1\operatorname{sen}(\theta n) + A_2\cos(\theta n)\right]\)</td><td>exponencial por trigonométrica</td></tr>
+      <tr><td>\((-3)^n\cos(\theta n)\)</td><td>\((-3)^n\left[A_1\operatorname{sen}(\theta n) + A_2\cos(\theta n)\right]\)</td><td>ídem</td></tr>
+    </table>
+  </div>
+
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Antes de usar la tabla: mirar la homogénea</span>
+    <p>
+      La tabla vale cuando la propuesta <strong>no</strong> es parte de \(a_n^{(h)}\). Si
+      \(g(n) = 2 \cdot 5^n\) y 5 es raíz de la ecuación característica, o si \(g(n)\) es una
+      constante y 1 es raíz, la propuesta de la tabla falla. Ese caso está en la sección 12.
+      En los tres ejemplos de abajo no hay choque.
+    </p>
+  </div>
+
+  <h3>Cómo se despejan los coeficientes</h3>
+  <ol>
+    <li>Escribir \(a_n^{(p)}\), \(a_{n-1}^{(p)}\) (y \(a_{n-2}^{(p)}\)) cambiando \(n\) por \(n - 1\) (y \(n - 2\)).</li>
+    <li>Reemplazar en la RR completa.</li>
+    <li>Si hay exponenciales, dividir todo por la potencia más chica (por ejemplo \(3^{n-2}\)).</li>
+    <li>Si hay polinomios, agrupar por potencias de \(n\) e <strong>igualar coeficientes</strong>: lo que acompaña a \(n\) a la izquierda con lo que acompaña a \(n\) a la derecha, y lo mismo con los números sueltos.</li>
+  </ol>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; \(g(n)\) constante</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>Resolver \(a_n = 5a_{n-1} - 6a_{n-2} + 4\), \(\forall n \geq 2\), con \(a_0 = 3\), \(a_1 = 6\).</p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"\(5a_{n-1} - 6a_{n-2}\)"</td><td>homogénea asociada</td><td>\(a_n - 5a_{n-1} + 6a_{n-2} = 0\)</td><td>\(r^2 - 5r + 6 = 0\)</td></tr>
+      <tr><td>"\(+\,4\)"</td><td>\(g(n)\) constante</td><td>tabla: constante</td><td>\(a_n^{(p)} = A\)</td></tr>
+      <tr><td>"\(a_0 = 3\), \(a_1 = 6\)"</td><td>condiciones de la completa</td><td>al final</td><td>\(C_1\), \(C_2\)</td></tr>
+    </table>
+  </div>
+  <p><span class="paso">Paso 1 &mdash; Homogénea</span></p>
+  <p>\(r^2 - 5r + 6 = 0 \Rightarrow r = \frac{5 \pm 1}{2}\): \(r_1 = 3\), \(r_2 = 2\). Reales distintas (sección 6):</p>
+  <p>\[ a_n^{(h)} = C_1 2^n + C_2 3^n \]</p>
+  <p><span class="paso">Paso 2 &mdash; Particular</span></p>
+  <p>Ninguna raíz es 1, así que la constante no choca. Se propone \(a_n^{(p)} = A\); entonces también \(a_{n-1}^{(p)} = A\) y \(a_{n-2}^{(p)} = A\):</p>
+  <p>\[ A = 5A - 6A + 4 \;\Rightarrow\; A = -A + 4 \;\Rightarrow\; 2A = 4 \;\Rightarrow\; A = 2 \]</p>
+  <p><span class="paso">Paso 3 &mdash; Suma y constantes</span></p>
+  <p>Fórmula: \(a_n = a_n^{(h)} + a_n^{(p)}\)</p>
+  <p>\[ a_n = C_1 2^n + C_2 3^n + 2 \]</p>
+  <p>\[ \begin{cases} C_1 + C_2 + 2 = 3 \\ 2C_1 + 3C_2 + 2 = 6 \end{cases} \;\Leftrightarrow\; \begin{cases} C_1 + C_2 = 1 \\ 2C_1 + 3C_2 = 4 \end{cases} \]</p>
+  <p>Multiplicando la primera por 2 y restándola: \(C_2 = 2\), y \(C_1 = -1\).</p>
+  <p><span class="paso">Paso 4 &mdash; Verificar</span></p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>\(n\)</th><th>0</th><th>1</th><th>2</th><th>3</th></tr>
+      <tr><td>con la RR</td><td>3</td><td>6</td><td>\(30 - 18 + 4 = 16\)</td><td>\(80 - 36 + 4 = 48\)</td></tr>
+      <tr><td>con \(-2^n + 2 \cdot 3^n + 2\)</td><td>\(-1 + 2 + 2 = 3\)</td><td>\(-2 + 6 + 2 = 6\)</td><td>\(-4 + 18 + 2 = 16\)</td><td>\(-8 + 54 + 2 = 48\)</td></tr>
+    </table>
+  </div>
+  <div class="caja caja-resp"><span class="caja-tit">Respuesta</span><p>\(a_n = -2^n + 2 \cdot 3^n + 2\), \(\forall n \geq 0\).</p></div>
+
+  <h3>Ejemplo 2 &mdash; \(g(n)\) polinomio</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>Resolver \(a_n = 2a_{n-1} + n\), \(\forall n \geq 1\), con \(a_0 = 1\).</p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"\(2a_{n-1}\)"</td><td>homogénea de primer orden</td><td>\(d = 2\)</td><td>\(a_n^{(h)} = C \cdot 2^n\)</td></tr>
+      <tr><td>"\(+\,n\)"</td><td>polinomio de grado 1</td><td>tabla: completo de grado 1</td><td>\(a_n^{(p)} = A_1 n + A_0\)</td></tr>
+    </table>
+  </div>
+  <p><span class="paso">Paso 1 &mdash; Homogénea</span></p>
+  <p>Fórmula de la sección 4: \(a_n = A\,d^{\,n}\) &rarr; \(a_n^{(h)} = C \cdot 2^n\). La raíz es 2, no 1: el polinomio no choca.</p>
+  <p><span class="paso">Paso 2 &mdash; Particular</span></p>
+  <p>Con \(a_n^{(p)} = A_1 n + A_0\), el anterior es \(a_{n-1}^{(p)} = A_1 (n-1) + A_0\). En la RR:</p>
+  <p>\[ A_1 n + A_0 = 2\left[A_1(n-1) + A_0\right] + n = 2A_1 n - 2A_1 + 2A_0 + n \]</p>
+  <p>Se agrupa por potencias de \(n\) del lado derecho: \((2A_1 + 1)\,n + (-2A_1 + 2A_0)\). Igualando coeficientes:</p>
+  <ul>
+    <li>los que acompañan a \(n\): \(A_1 = 2A_1 + 1 \Rightarrow A_1 = -1\);</li>
+    <li>los números sueltos: \(A_0 = -2A_1 + 2A_0 \Rightarrow -A_0 = -2A_1 \Rightarrow A_0 = 2A_1 = -2\).</li>
+  </ul>
+  <p>\[ a_n^{(p)} = -n - 2 \]</p>
+  <p><span class="paso">Paso 3 &mdash; Suma y constante</span></p>
+  <p>\[ a_n = C \cdot 2^n - n - 2, \qquad a_0 = C - 2 = 1 \;\Rightarrow\; C = 3 \]</p>
+  <p><span class="paso">Paso 4 &mdash; Verificar</span></p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>\(n\)</th><th>0</th><th>1</th><th>2</th><th>3</th></tr>
+      <tr><td>con la RR</td><td>1</td><td>\(2 + 1 = 3\)</td><td>\(6 + 2 = 8\)</td><td>\(16 + 3 = 19\)</td></tr>
+      <tr><td>con \(3 \cdot 2^n - n - 2\)</td><td>\(3 - 2 = 1\)</td><td>\(6 - 3 = 3\)</td><td>\(12 - 4 = 8\)</td><td>\(24 - 5 = 19\)</td></tr>
+    </table>
+  </div>
+  <div class="caja caja-resp"><span class="caja-tit">Respuesta</span><p>\(a_n = 3 \cdot 2^n - n - 2\), \(\forall n \geq 0\).</p></div>
+
+  <h3>Ejemplo 3 &mdash; Con forma de parcial: Actividad 11 de la cátedra (\(g(n)\) exponencial)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>Resolver \(a_n - 6a_{n-1} + 5a_{n-2} = 2 \cdot 3^n\), \(\forall n \geq 2\), con \(a_0 = 1\), \(a_1 = 4\).</p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"\(a_n - 6a_{n-1} + 5a_{n-2}\)"</td><td>homogénea asociada (la de la actividad 5)</td><td>\(r^2 - 6r + 5 = 0\)</td><td>raíces 5 y 1</td></tr>
+      <tr><td>"\(= 2 \cdot 3^n\)"</td><td>exponencial de base 3</td><td>3 no es raíz: no choca</td><td>\(a_n^{(p)} = A \cdot 3^n\)</td></tr>
+    </table>
+  </div>
+  <p><span class="paso">Paso 1 &mdash; Homogénea</span></p>
+  <p>\(r^2 - 6r + 5 = 0\): \(r_1 = 5\), \(r_2 = 1\) (sección 6).</p>
+  <p>\[ a_n^{(h)} = C_1 + C_2 5^n \]</p>
+  <p><span class="paso">Paso 2 &mdash; Particular</span></p>
+  <p>\[ A\,3^n - 6A\,3^{n-1} + 5A\,3^{n-2} = 2 \cdot 3^n \]</p>
+  <p>Se divide por \(3^{n-2}\): \(\frac{3^n}{3^{n-2}} = 3^2 = 9\) y \(\frac{3^{n-1}}{3^{n-2}} = 3\):</p>
+  <p>\[ 9A - 18A + 5A = 18 \;\Rightarrow\; -4A = 18 \;\Rightarrow\; A = -\tfrac{9}{2} \]</p>
+  <p><span class="paso">Paso 3 &mdash; Suma y constantes</span></p>
+  <p>\[ a_n = C_1 + C_2 5^n - \tfrac{9}{2}\cdot 3^n \]</p>
+  <p>\[ \begin{cases} C_1 + C_2 - \tfrac{9}{2} = 1 \\ C_1 + 5C_2 - \tfrac{27}{2} = 4 \end{cases} \;\Leftrightarrow\; \begin{cases} C_1 + C_2 = \tfrac{11}{2} \\ C_1 + 5C_2 = \tfrac{35}{2} \end{cases} \]</p>
+  <p>Restando: \(4C_2 = 12 \Rightarrow C_2 = 3\), y \(C_1 = \frac{11}{2} - 3 = \frac{5}{2}\).</p>
+  <p><span class="paso">Paso 4 &mdash; Verificar</span></p>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>\(n\)</th><th>0</th><th>1</th><th>2</th><th>3</th></tr>
+      <tr><td>con la RR (\(a_n = 6a_{n-1} - 5a_{n-2} + 2 \cdot 3^n\))</td><td>1</td><td>4</td><td>\(24 - 5 + 18 = 37\)</td><td>\(222 - 20 + 54 = 256\)</td></tr>
+      <tr><td>con la fórmula</td><td>\(\frac{5}{2} + 3 - \frac{9}{2} = 1\)</td><td>\(\frac{5}{2} + 15 - \frac{27}{2} = 4\)</td><td>\(\frac{5}{2} + 75 - \frac{81}{2} = 37\)</td><td>\(\frac{5}{2} + 375 - \frac{243}{2} = 256\)</td></tr>
+    </table>
+  </div>
+  <div class="caja caja-resp"><span class="caja-tit">Respuesta</span><p>\(a_n = \frac{5}{2} + 3 \cdot 5^n - \frac{9}{2}\cdot 3^n\), \(\forall n \geq 0\).</p></div>
+</div>

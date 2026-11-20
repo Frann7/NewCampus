@@ -66,6 +66,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Net;
+using System.Net.NetworkInformation;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -177,11 +178,14 @@ static class NewCampus
                 return 1;
             }
 
+            // El navegador se abre antes de esperar la prueba de internet: si
+            // falta algo, el cartel sale igual, con el campus ya abierto.
+            bool abrio = abrirNavegador && Abrir(origen + "/");
             pruebaInternet.Join(5000);
             var faltan = Faltantes(hayInternet, origen, true);
             if (faltan.Count > 0) { Aviso(Cartel(faltan), MessageBoxIcon.Warning); }
 
-            if (abrirNavegador && !Abrir(origen + "/") && faltan.Count == 0)
+            if (abrirNavegador && !abrio && faltan.Count == 0)
             {
                 // habia navegador configurado, pero no se dejo abrir
                 Aviso("No se pudo abrir el navegador.\n\nPodes abrir el campus a mano escribiendo esta " +
@@ -609,10 +613,26 @@ static class NewCampus
 
     /* ---------------- varios ---------------- */
 
+    // Solo se pregunta en los puertos que tienen algo escuchando: en Windows,
+    // pedirle a un puerto vacio tarda ~0,8 s en fallar, y con los 10 libres
+    // (lo normal al abrir) se perdian 8 s antes de arrancar.
     static string BuscarAbierto()
     {
+        var escuchando = new HashSet<int>();
+        bool sabemos = false;
+        try
+        {
+            foreach (var ep in IPGlobalProperties.GetIPGlobalProperties().GetActiveTcpListeners())
+            {
+                escuchando.Add(ep.Port);
+            }
+            sabemos = true;
+        }
+        catch { }   // si no se puede saber, se pregunta en todos como antes
+
         for (int p = PUERTO_BASE; p < PUERTO_BASE + PUERTOS; p++)
         {
+            if (sabemos && !escuchando.Contains(p)) { continue; }
             try
             {
                 var pedido = (HttpWebRequest)WebRequest.Create("http://localhost:" + p + "/api/estado");

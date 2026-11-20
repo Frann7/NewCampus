@@ -1,0 +1,331 @@
+<div class="bloque" data-examen="variante" data-examen-ref="Finales 26/11/2025, 10/12/2025 y 29/07/2026" data-examen-nota="26/11/2025 ej. 3e: “los dos métodos, ¿confirman la veracidad de la afirmación del fabricante?” · 10/12/2025 ej. 4e: una prueba “con la que pueda relacionar el resultado con el ítem anterior” (el intervalo) · 29/07/2026 ej. 2f: el intervalo del 95 % y si es coherente con la prueba. Están resueltos acá como ejemplos 2, 3 y 4.">
+  <p class="kicker">El último inciso de los finales</p>
+  <h2>8. Intervalo de confianza y prueba bilateral</h2>
+
+  <h3>Cuándo se usa</h3>
+  <p>
+    Cuando el ejercicio pide un intervalo de confianza (Unidad 8) <strong>y</strong> una prueba de
+    hipótesis con los mismos datos, y después pregunta si "son consistentes", si "los dos métodos
+    confirman" la afirmación o si el resultado "es coherente". Tres de los cuatro finales lo piden.
+  </p>
+
+  <h3>La regla</h3>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Prueba bilateral con \(\alpha\) &harr; intervalo del \((1 - \alpha)\)</span>
+    <p>\[ \mu_0 \text{ está adentro del intervalo} \iff \text{no se rechaza } H_0:\ \mu = \mu_0 \]</p>
+    <p>\[ \mu_0 \text{ está afuera del intervalo} \iff \text{se rechaza } H_0 \]</p>
+    <p>(Con los mismos datos, el mismo estadístico \(Z\) o \(t\), y \(\alpha = 1 - \) confianza: 95&nbsp;% &harr; \(\alpha = 0{,}05\).)</p>
+  </div>
+
+  <h4>Qué significa cada letra</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Símbolo</th><th>Qué es</th></tr>
+      <tr><td>\(\mu_0\)</td><td>el valor de \(H_0\) (lo que afirma el fabricante, el valor nominal)</td></tr>
+      <tr><td>\(1 - \alpha\)</td><td>la confianza del intervalo: 95&nbsp;% va con \(\alpha = 0{,}05\)</td></tr>
+      <tr><td>\(E\)</td><td>el error del intervalo: \(z_{\alpha/2}\,\sigma/\sqrt{n}\) o \(t_{(\alpha/2;\ \nu)}\,S/\sqrt{n}\)</td></tr>
+    </table>
+  </div>
+
+  <h3>De dónde sale</h3>
+  <p>
+    Es la misma desigualdad escrita de dos maneras. En la prueba bilateral, <strong>no se rechaza</strong>
+    cuando el estadístico queda entre los dos valores críticos:
+  </p>
+  <p>\[ -z_{\alpha/2} \leq \frac{\bar{x} - \mu_0}{\sigma/\sqrt{n}} \leq z_{\alpha/2} \]</p>
+  <p>Multiplicando todo por \(\sigma/\sqrt{n}\) y despejando \(\mu_0\) queda:</p>
+  <p>\[ \bar{x} - z_{\alpha/2}\,\frac{\sigma}{\sqrt{n}} \leq \mu_0 \leq \bar{x} + z_{\alpha/2}\,\frac{\sigma}{\sqrt{n}} \]</p>
+  <p>
+    que es justo "\(\mu_0\) está adentro del intervalo de confianza". El intervalo es la lista de todos los
+    valores de \(\mu\) que la prueba <strong>no</strong> rechazaría. Con la \(t\) es igual, cambiando
+    \(z_{\alpha/2}\) por \(t_{(\alpha/2;\ \nu)}\) y \(\sigma\) por \(S\).
+  </p>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Con una prueba unilateral no es exacto</span>
+    <p>
+      El intervalo tiene dos lados (\(\alpha/2\) en cada cola, \(z = 1{,}96\)); la prueba unilateral pone
+      todo el \(\alpha\) en una cola (\(z = 1{,}645\)). Lo que sí vale: si \(\mu_0\) queda
+      <strong>afuera</strong> del intervalo, del lado al que apunta \(H_1\), la unilateral también rechaza
+      (el intervalo usó un criterio más exigente). Al revés no: \(\mu_0\) adentro pero cerca del borde
+      puede ser rechazado por la unilateral. El Ejemplo 4 es ese caso.
+    </p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; El peso medio (Ejemplo 1 de la cátedra)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>
+      El peso medio de las personas de una provincia es de <strong>68 kg</strong>. En una muestra de
+      <strong>36 individuos</strong>: \(\bar{x} = 70\) kg, \(S = 3{,}6\) kg. a) Construya el intervalo del
+      95&nbsp;% para el peso medio. b) ¿Es consistente con la prueba \(H_0: \mu = 68\) contra
+      \(H_1: \mu \neq 68\) al 5&nbsp;%, que rechazó \(H_0\) con \(z = 3{,}33\)?
+    </p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"36 individuos", "\(S = 3{,}6\)"</td><td>\(n \geq 30\): \(Z\) con \(S\)</td><td>\(S/\sqrt{n} = 3{,}6/6 = 0{,}6\)</td><td>desvío de la media</td></tr>
+      <tr><td>"95&nbsp;%"</td><td>confianza; va con \(\alpha = 0{,}05\) bilateral</td><td>buscar 0,975</td><td>\(z_{0{,}025} = 1{,}96\)</td></tr>
+      <tr><td>"68 kg"</td><td>el valor de \(H_0\)</td><td>&mdash;</td><td>\(\mu_0 = 68\): ¿adentro?</td></tr>
+    </table>
+  </div>
+  <p><strong>a) Paso 1 &mdash; Fórmula del intervalo:</strong></p>
+  <p>\[ \bar{x} - z_{\alpha/2}\,\frac{S}{\sqrt{n}} &lt; \mu &lt; \bar{x} + z_{\alpha/2}\,\frac{S}{\sqrt{n}} \]</p>
+  <p><strong>Paso 2 &mdash; El error:</strong> \(E = 1{,}96 \cdot 0{,}6 = 1{,}176\).</p>
+  <p><strong>Paso 3 &mdash; Reemplazar:</strong></p>
+  <p>\[ 70 - 1{,}176 &lt; \mu &lt; 70 + 1{,}176 \quad\Longrightarrow\quad 68{,}82 &lt; \mu &lt; 71{,}18 \]</p>
+  <p><strong>b) ¿Dónde queda el 68?</strong> \(68 &lt; 68{,}82\): queda <strong>afuera</strong>, por debajo.</p>
+  <div class="pd-grafico" data-g="u9-ic-peso">
+    <svg viewBox="0 0 620 150" role="img" aria-label="Recta con el intervalo de 68,82 a 71,18 y el valor 68 afuera, a la izquierda">
+  <line class="eje" x1="40" y1="80" x2="580" y2="80"/>
+  <line class="eje" x1="122.5" y1="76" x2="122.5" y2="84"/>
+  <text class="rotulo" x="122.5" y="102" text-anchor="middle">68</text>
+  <line class="eje" x1="247.5" y1="76" x2="247.5" y2="84"/>
+  <text class="rotulo" x="247.5" y="102" text-anchor="middle">69</text>
+  <line class="eje" x1="372.5" y1="76" x2="372.5" y2="84"/>
+  <text class="rotulo" x="372.5" y="102" text-anchor="middle">70</text>
+  <line class="eje" x1="497.5" y1="76" x2="497.5" y2="84"/>
+  <text class="rotulo" x="497.5" y="102" text-anchor="middle">71</text>
+  <path class="area" d="M 225,73 L 520,73 L 520,87 L 225,87 Z"/>
+  <line class="corte" x1="225" y1="62" x2="225" y2="98"/>
+  <line class="corte" x1="520" y1="62" x2="520" y2="98"/>
+  <text class="rotulo" x="225" y="54" text-anchor="middle">68,82</text>
+  <text class="rotulo" x="520" y="54" text-anchor="middle">71,18</text>
+  <line class="guia" x1="372.5" y1="70" x2="372.5" y2="90"/>
+  <text class="rotulo" x="372.5" y="124" text-anchor="middle">x̄ = 70,00</text>
+  <circle class="punto" cx="122.5" cy="80" r="5"/>
+  <text class="valor" x="122.5" y="34" text-anchor="middle">μ₀ = 68 (afuera)</text>
+</svg>
+    <p class="pd-pie">El intervalo va de 68,82 a 71,18; el 68 de \(H_0\) queda afuera, a la izquierda.</p>
+  </div>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>
+      a) \(IC_{95\%}(\mu) = (68{,}82\ ;\ 71{,}18)\) kg. b) Sí, es consistente: 68 queda afuera del intervalo y
+      la prueba bilateral al 5&nbsp;% rechazó \(\mu = 68\). Los dos dicen que el peso medio ya no es 68 kg
+      (y el intervalo, entero por encima, dice que subió).
+    </p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; Final 10/12/2025, ejercicio 4 d) y e)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>
+      La longitud de las piezas está <strong>normalmente distribuida</strong>, con desviación estándar de
+      <strong>0,5 mm</strong>. Después de un ajuste, las mediciones son: <strong>75,3 &nbsp; 76 &nbsp; 75
+      &nbsp; 77 &nbsp; 75,4 &nbsp; 76,3 &nbsp; 77 &nbsp; 74,9 &nbsp; 76,5 &nbsp; 75,8</strong>. d) Construya
+      un intervalo de confianza del <strong>95&nbsp;%</strong> para la verdadera longitud media de todas las
+      piezas. Interprete. e) Si se sabe por estudios anteriores que la media poblacional es de
+      <strong>76 mm</strong>, plantee una prueba de hipótesis conveniente con la que pueda relacionar el
+      resultado con el ítem anterior.
+    </p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>los 10 datos</td><td>con la calculadora (STAT 1-VAR)</td><td>\(759{,}2 \div 10\)</td><td>\(\bar{x} = 75{,}92\), \(n = 10\)</td></tr>
+      <tr><td>"desviación estándar de 0,5 mm"</td><td>\(\sigma\) conocida &rarr; \(Z\)</td><td>\(0{,}5/\sqrt{10} = 0{,}1581\)</td><td>desvío de la media</td></tr>
+      <tr><td>"95&nbsp;%"</td><td>confianza, y \(\alpha = 0{,}05\) para la prueba</td><td>buscar 0,975</td><td>\(z_{0{,}025} = 1{,}96\)</td></tr>
+      <tr><td>"relacionar con el ítem anterior"</td><td>la prueba que se corresponde con el intervalo</td><td>&mdash;</td><td>bilateral: \(H_1: \mu \neq 76\)</td></tr>
+    </table>
+  </div>
+  <p><strong>d) Paso 1 &mdash; Fórmula del intervalo</strong> (con \(\sigma\)):</p>
+  <p>\[ \bar{x} - z_{\alpha/2}\,\frac{\sigma}{\sqrt{n}} &lt; \mu &lt; \bar{x} + z_{\alpha/2}\,\frac{\sigma}{\sqrt{n}} \]</p>
+  <p><strong>Paso 2 &mdash; El error:</strong> \(E = 1{,}96 \cdot 0{,}1581 = 0{,}3099\).</p>
+  <p><strong>Paso 3 &mdash; Reemplazar:</strong></p>
+  <p>\[ 75{,}92 - 0{,}3099 &lt; \mu &lt; 75{,}92 + 0{,}3099 \quad\Longrightarrow\quad 75{,}61 &lt; \mu &lt; 76{,}23 \]</p>
+  <p><strong>e) La prueba</strong> (resuelta entera en la sección 5): \(H_0: \mu = 76\), \(H_1: \mu \neq 76\), \(\alpha = 0{,}05\), \(z = \dfrac{75{,}92 - 76}{0{,}1581} = -0{,}51\), entre \(-1{,}96\) y \(1{,}96\) &rarr; no se rechaza \(H_0\).</p>
+  <p><strong>La relación:</strong> 76 está <strong>adentro</strong> del intervalo (\(75{,}61 &lt; 76 &lt; 76{,}23\)), y la prueba no rechazó. Coinciden, como dice la regla.</p>
+  <div class="pd-grafico" data-g="u9-ic-f1012">
+    <svg viewBox="0 0 620 150" role="img" aria-label="Recta con el intervalo de 75,61 a 76,23 y el valor 76 adentro">
+  <line class="eje" x1="40" y1="80" x2="580" y2="80"/>
+  <line class="eje" x1="101.7" y1="76" x2="101.7" y2="84"/>
+  <text class="rotulo" x="101.7" y="102" text-anchor="middle">75,4</text>
+  <line class="eje" x1="185" y1="76" x2="185" y2="84"/>
+  <text class="rotulo" x="185" y="102" text-anchor="middle">75,6</text>
+  <line class="eje" x1="268.3" y1="76" x2="268.3" y2="84"/>
+  <text class="rotulo" x="268.3" y="102" text-anchor="middle">75,8</text>
+  <line class="eje" x1="351.7" y1="76" x2="351.7" y2="84"/>
+  <text class="rotulo" x="351.7" y="102" text-anchor="middle">76</text>
+  <line class="eje" x1="435" y1="76" x2="435" y2="84"/>
+  <text class="rotulo" x="435" y="102" text-anchor="middle">76,2</text>
+  <line class="eje" x1="518.3" y1="76" x2="518.3" y2="84"/>
+  <text class="rotulo" x="518.3" y="102" text-anchor="middle">76,4</text>
+  <path class="area" d="M 189.2,73 L 447.5,73 L 447.5,87 L 189.2,87 Z"/>
+  <line class="corte" x1="189.2" y1="62" x2="189.2" y2="98"/>
+  <line class="corte" x1="447.5" y1="62" x2="447.5" y2="98"/>
+  <text class="rotulo" x="189.2" y="54" text-anchor="middle">75,61</text>
+  <text class="rotulo" x="447.5" y="54" text-anchor="middle">76,23</text>
+  <line class="guia" x1="318.3" y1="70" x2="318.3" y2="90"/>
+  <text class="rotulo" x="318.3" y="124" text-anchor="middle">x̄ = 75,92</text>
+  <circle class="punto" cx="351.7" cy="80" r="5"/>
+  <text class="valor" x="351.7" y="34" text-anchor="middle">μ₀ = 76 (adentro)</text>
+</svg>
+    <p class="pd-pie">El intervalo va de 75,61 a 76,23; el 76 de \(H_0\) queda adentro.</p>
+  </div>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta d) y e)</span>
+    <p>
+      d) \(IC_{95\%}(\mu) = (75{,}61\ ;\ 76{,}23)\) mm: con un 95&nbsp;% de confianza, la longitud media de
+      todas las piezas que se producen después del ajuste está entre 75,61 y 76,23 mm.
+    </p>
+    <p>
+      e) \(H_0: \mu = 76\) contra \(H_1: \mu \neq 76\) con \(\alpha = 0{,}05\): \(z = -0{,}51\), no se rechaza.
+      Es la prueba que se relaciona con el intervalo: como 76 está adentro del intervalo del 95&nbsp;%, la
+      prueba bilateral al 5&nbsp;% no puede rechazarlo. No hay evidencia de que el ajuste haya cambiado la
+      longitud media.
+    </p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 3 &mdash; Final 26/11/2025, ejercicio 3 c), d) y e)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>
+      Una fábrica de baterías afirma que la duración promedio de sus productos es de <strong>520
+      horas</strong>. Una muestra de <strong>15 baterías</strong> dio (en horas): <strong>440, 452, 468, 480,
+      495, 505, 508, 511, 522, 530, 545, 550, 565, 575, 590</strong>. c) Construya un intervalo de confianza
+      del <strong>95&nbsp;%</strong> para la verdadera duración media. d) Plantee una prueba de hipótesis
+      conveniente. e) Los dos métodos utilizados, ¿confirman la veracidad de la afirmación del fabricante?
+      Justifique.
+    </p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>los 15 datos</td><td>calculadora: \(\bar{x}\) y \(sx\)</td><td>&mdash;</td><td>\(\bar{x} = 515{,}7333\), \(S = 44{,}4883\)</td></tr>
+      <tr><td>"15 baterías", sin \(\sigma\)</td><td>\(t\) con \(\nu = 14\)</td><td>\(S/\sqrt{15} = 44{,}4883/3{,}8730 = 11{,}4868\)</td><td>desvío de la media</td></tr>
+      <tr><td>"95&nbsp;%"</td><td>tabla \(t\): fila 14, columna 0,025</td><td>&mdash;</td><td>\(t_{(0{,}025;\ 14)} = 2{,}145\)</td></tr>
+      <tr><td>"afirma &hellip; 520 horas"</td><td>el valor de \(H_0\)</td><td>&mdash;</td><td>\(\mu_0 = 520\): ¿adentro?</td></tr>
+    </table>
+  </div>
+  <p><strong>c) Paso 1 &mdash; Fórmula del intervalo</strong> (con \(t\)):</p>
+  <p>\[ \bar{x} - t_{(\alpha/2;\ \nu)}\,\frac{S}{\sqrt{n}} &lt; \mu &lt; \bar{x} + t_{(\alpha/2;\ \nu)}\,\frac{S}{\sqrt{n}} \]</p>
+  <p><strong>Paso 2 &mdash; El error:</strong> \(E = 2{,}145 \cdot 11{,}4868 = 24{,}6393\).</p>
+  <p><strong>Paso 3 &mdash; Reemplazar:</strong></p>
+  <p>\[ 515{,}7333 - 24{,}6393 &lt; \mu &lt; 515{,}7333 + 24{,}6393 \quad\Longrightarrow\quad 491{,}09 &lt; \mu &lt; 540{,}37 \]</p>
+  <p><strong>d) La prueba</strong> (resuelta entera en la sección 6): \(H_0: \mu = 520\), \(H_1: \mu \neq 520\), \(t = -0{,}37\), entre \(\pm 2{,}145\) &rarr; no se rechaza.</p>
+  <p><strong>e) Comparar.</strong> 520 está <strong>adentro</strong> del intervalo (\(491{,}09 &lt; 520 &lt; 540{,}37\)), y la prueba no rechazó: los dos métodos dicen lo mismo.</p>
+  <div class="pd-grafico" data-g="u9-ic-f2611">
+    <svg viewBox="0 0 620 150" role="img" aria-label="Recta con el intervalo de 491,09 a 540,37 y el valor 520 adentro">
+  <line class="eje" x1="40" y1="80" x2="580" y2="80"/>
+  <line class="eje" x1="60" y1="76" x2="60" y2="84"/>
+  <text class="rotulo" x="60" y="102" text-anchor="middle">480</text>
+  <line class="eje" x1="131.4" y1="76" x2="131.4" y2="84"/>
+  <text class="rotulo" x="131.4" y="102" text-anchor="middle">490</text>
+  <line class="eje" x1="202.9" y1="76" x2="202.9" y2="84"/>
+  <text class="rotulo" x="202.9" y="102" text-anchor="middle">500</text>
+  <line class="eje" x1="274.3" y1="76" x2="274.3" y2="84"/>
+  <text class="rotulo" x="274.3" y="102" text-anchor="middle">510</text>
+  <line class="eje" x1="345.7" y1="76" x2="345.7" y2="84"/>
+  <text class="rotulo" x="345.7" y="102" text-anchor="middle">520</text>
+  <line class="eje" x1="417.1" y1="76" x2="417.1" y2="84"/>
+  <text class="rotulo" x="417.1" y="102" text-anchor="middle">530</text>
+  <line class="eje" x1="488.6" y1="76" x2="488.6" y2="84"/>
+  <text class="rotulo" x="488.6" y="102" text-anchor="middle">540</text>
+  <line class="eje" x1="560" y1="76" x2="560" y2="84"/>
+  <text class="rotulo" x="560" y="102" text-anchor="middle">550</text>
+  <path class="area" d="M 139.2,73 L 491.2,73 L 491.2,87 L 139.2,87 Z"/>
+  <line class="corte" x1="139.2" y1="62" x2="139.2" y2="98"/>
+  <line class="corte" x1="491.2" y1="62" x2="491.2" y2="98"/>
+  <text class="rotulo" x="139.2" y="54" text-anchor="middle">491,09</text>
+  <text class="rotulo" x="491.2" y="54" text-anchor="middle">540,37</text>
+  <line class="guia" x1="315.2" y1="70" x2="315.2" y2="90"/>
+  <text class="rotulo" x="315.2" y="124" text-anchor="middle">x̄ = 515,73</text>
+  <circle class="punto" cx="345.7" cy="80" r="5"/>
+  <text class="valor" x="345.7" y="34" text-anchor="middle">μ₀ = 520 (adentro)</text>
+</svg>
+    <p class="pd-pie">El intervalo va de 491,09 a 540,37; el 520 que afirma la fábrica queda adentro.</p>
+  </div>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta c), d) y e)</span>
+    <p>c) \(IC_{95\%}(\mu) = (491{,}09\ ;\ 540{,}37)\) horas: con un 95&nbsp;% de confianza, la duración media de todas las baterías está entre 491,09 y 540,37 horas.</p>
+    <p>d) \(H_0: \mu = 520\) contra \(H_1: \mu \neq 520\), \(\alpha = 0{,}05\): \(t = -0{,}37\), no se rechaza \(H_0\).</p>
+    <p>
+      e) Los dos métodos son <strong>coherentes</strong> y ninguno contradice al fabricante: 520 está dentro
+      del intervalo y la prueba no lo rechaza. Pero "confirmar" hay que decirlo con cuidado: no queda
+      demostrado que la duración media sea 520; lo que se puede afirmar es que los datos <strong>no dan
+      evidencia en contra</strong> de esa afirmación (el intervalo es ancho: también son creíbles 495 o 535).
+    </p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 4 &mdash; Final 29/07/2026, ejercicio 2 f) (con una prueba unilateral)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>
+      El contenido de las botellas es normal con \(\sigma = 4\) ml. En una muestra de <strong>36
+      botellas</strong> el contenido medio fue <strong>353,5 ml</strong>, y la prueba \(H_0: \mu = 355\)
+      contra \(H_1: \mu &lt; 355\) al 5&nbsp;% rechazó \(H_0\) (\(z = -2{,}25\), sección 5). f) Para esa muestra,
+      construir un intervalo de confianza del <strong>95&nbsp;%</strong> para el contenido medio poblacional.
+      Interpretar el intervalo y analizar si el resultado es coherente con la conclusión de la prueba de
+      hipótesis.
+    </p>
+  </div>
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"\(\sigma = 4\)", "36 botellas"</td><td>\(Z\) con \(\sigma\)</td><td>\(4/\sqrt{36} = 0{,}6667\)</td><td>desvío de la media</td></tr>
+      <tr><td>"353,5 ml"</td><td>media muestral</td><td>&mdash;</td><td>\(\bar{x} = 353{,}5\)</td></tr>
+      <tr><td>"95&nbsp;%"</td><td>confianza</td><td>buscar 0,975</td><td>\(z_{0{,}025} = 1{,}96\)</td></tr>
+      <tr><td>"coherente con la prueba"</td><td>¿dónde queda 355? Ojo: la prueba fue unilateral</td><td>&mdash;</td><td>\(\mu_0 = 355\)</td></tr>
+    </table>
+  </div>
+  <p><strong>Paso 1 &mdash; Fórmula del intervalo:</strong></p>
+  <p>\[ \bar{x} - z_{\alpha/2}\,\frac{\sigma}{\sqrt{n}} &lt; \mu &lt; \bar{x} + z_{\alpha/2}\,\frac{\sigma}{\sqrt{n}} \]</p>
+  <p><strong>Paso 2 &mdash; El error:</strong> \(E = 1{,}96 \cdot 0{,}6667 = 1{,}3067\).</p>
+  <p><strong>Paso 3 &mdash; Reemplazar:</strong></p>
+  <p>\[ 353{,}5 - 1{,}3067 &lt; \mu &lt; 353{,}5 + 1{,}3067 \quad\Longrightarrow\quad 352{,}19 &lt; \mu &lt; 354{,}81 \]</p>
+  <p><strong>Paso 4 &mdash; ¿Dónde queda 355?</strong> \(355 &gt; 354{,}81\): <strong>afuera</strong>, por encima. Todos los valores creíbles de \(\mu\) son menores que 355.</p>
+  <div class="pd-grafico" data-g="u9-ic-f2907">
+    <svg viewBox="0 0 620 150" role="img" aria-label="Recta con el intervalo de 352,19 a 354,81 y el valor 355 afuera, a la derecha">
+  <line class="eje" x1="40" y1="80" x2="580" y2="80"/>
+  <line class="eje" x1="122.5" y1="76" x2="122.5" y2="84"/>
+  <text class="rotulo" x="122.5" y="102" text-anchor="middle">352</text>
+  <line class="eje" x1="247.5" y1="76" x2="247.5" y2="84"/>
+  <text class="rotulo" x="247.5" y="102" text-anchor="middle">353</text>
+  <line class="eje" x1="372.5" y1="76" x2="372.5" y2="84"/>
+  <text class="rotulo" x="372.5" y="102" text-anchor="middle">354</text>
+  <line class="eje" x1="497.5" y1="76" x2="497.5" y2="84"/>
+  <text class="rotulo" x="497.5" y="102" text-anchor="middle">355</text>
+  <path class="area" d="M 146.2,73 L 473.8,73 L 473.8,87 L 146.2,87 Z"/>
+  <line class="corte" x1="146.2" y1="62" x2="146.2" y2="98"/>
+  <line class="corte" x1="473.8" y1="62" x2="473.8" y2="98"/>
+  <text class="rotulo" x="146.2" y="54" text-anchor="middle">352,19</text>
+  <text class="rotulo" x="473.8" y="54" text-anchor="middle">354,81</text>
+  <line class="guia" x1="310" y1="70" x2="310" y2="90"/>
+  <text class="rotulo" x="310" y="124" text-anchor="middle">x̄ = 353,50</text>
+  <circle class="punto" cx="497.5" cy="80" r="5"/>
+  <text class="valor" x="497.5" y="34" text-anchor="middle">μ₀ = 355 (afuera)</text>
+</svg>
+    <p class="pd-pie">El intervalo va de 352,19 a 354,81; el 355 nominal queda afuera, a la derecha.</p>
+  </div>
+  <p><strong>Paso 5 &mdash; La coherencia, con cuidado.</strong> La prueba fue <strong>unilateral</strong> (1,645) y el intervalo es de dos lados (1,96): no son exactamente la misma herramienta. Pero 355 quedó afuera del lado al que apunta \(H_1\) (los valores menores quedan adentro, 355 queda arriba), y eso equivale a rechazar con solo 0,025 en la cola, un criterio más exigente que el 0,05 de la prueba. Si rechaza el más exigente, rechaza el otro.</p>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta f)</span>
+    <p>
+      \(IC_{95\%}(\mu) = (352{,}19\ ;\ 354{,}81)\) ml: con un 95&nbsp;% de confianza, el contenido medio de
+      todas las botellas que llena la máquina está entre 352,19 y 354,81 ml. Es <strong>coherente</strong>
+      con la prueba: el valor nominal 355 queda afuera y por encima del intervalo, así que los dos métodos
+      indican que la máquina llena en promedio menos de 355 ml.
+    </p>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Lo que no hay que concluir</span>
+    <p>
+      Si 355 hubiera quedado <em>adentro</em> del intervalo pero cerca del borde (entre 354,60 y 354,81), la
+      prueba unilateral igual podría haber rechazado: su borde es \(353{,}5 + 1{,}645 \cdot 0{,}6667 = 354{,}60\).
+      "Adentro del intervalo &rarr; no se rechaza" vale seguro solo para la prueba <strong>bilateral</strong>.
+    </p>
+  </div>
+</div>

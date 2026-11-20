@@ -47,6 +47,8 @@ window.Apuntes.registrarIndice({
     "pye/u7/teoria": "panes/pye-u7-teoria.js",
     "pye/u8/practica": "panes/pye-u8-practica.js",
     "pye/u8/teoria": "panes/pye-u8-teoria.js",
+    "pye/u9/practica": "panes/pye-u9-practica.js",
+    "pye/u9/teoria": "panes/pye-u9-teoria.js",
     "pyl/u1/teoria": "panes/pyl-u1-teoria.js",
     "pyl/u2/practica": "panes/pyl-u2-practica.js",
     "pyl/u2/teoria": "panes/pyl-u2-teoria.js",
@@ -479,6 +481,11 @@ window.Apuntes.registrarIndice({
           "clave": "u8",
           "num": "Unidad 8",
           "nombre": "Estimacion (3er parcial)"
+        },
+        {
+          "clave": "u9",
+          "num": "Unidad 9",
+          "nombre": "Prueba de Hipotesis (final)"
         }
       ],
       "pdf": [
@@ -550,6 +557,10 @@ window.Apuntes.registrarIndice({
         "u8": [
           "formulas-u8",
           "mapa-dif",
+          "tablas",
+          "icph"
+        ],
+        "u9": [
           "tablas",
           "icph"
         ],

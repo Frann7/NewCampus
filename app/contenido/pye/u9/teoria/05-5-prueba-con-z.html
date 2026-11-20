@@ -1,0 +1,361 @@
+<div class="bloque" data-examen="variante" data-examen-ref="Finales 29/07/2026, 25/02/2026 y 10/12/2025" data-examen-nota="29/07/2026 ej. 2e: σ = 4 conocida, n = 36, ¿entrega menos de 355 ml? · 25/02/2026 ej. 4d: n = 30 con varianza muestral, ¿consumo inferior a 2,7 GB? · 10/12/2025 ej. 4e: σ = 0,5 conocida y 10 datos sueltos, prueba para μ = 76. Están resueltos acá como ejemplos 2, 3 y 4.">
+  <p class="kicker">Lo que más salió</p>
+  <h2>5. Prueba para \(\mu\) con Z</h2>
+
+  <h3>Cuándo se usa</h3>
+  <ul>
+    <li>Cuando se conoce \(\sigma\), el desvío de la <strong>población</strong> ("se sabe que", "la máquina está ajustada con desvío"), con cualquier \(n\).</li>
+    <li>Cuando no se conoce \(\sigma\) pero la muestra es grande, \(n \geq 30\): se usa \(S\) en su lugar.</li>
+  </ul>
+
+  <h3>Fórmula</h3>
+  <div class="caja caja-formula">
+    <span class="caja-tit">Estadístico Z</span>
+    <p>\[ z = \frac{\bar{x} - \mu_0}{\sigma/\sqrt{n}} \qquad\text{(con } S \text{ en lugar de } \sigma \text{ si } \sigma \text{ es desconocida y } n \geq 30\text{)} \]</p>
+    <div class="tabla-wrap">
+      <table class="t full">
+        <tr><th>\(H_1\)</th><th>Se rechaza \(H_0\) si</th><th>Con \(\alpha = 0{,}05\)</th></tr>
+        <tr><td>\(\mu &lt; \mu_0\)</td><td>\(z &lt; -z_{\alpha}\)</td><td>\(z &lt; -1{,}645\)</td></tr>
+        <tr><td>\(\mu &gt; \mu_0\)</td><td>\(z &gt; z_{\alpha}\)</td><td>\(z &gt; 1{,}645\)</td></tr>
+        <tr><td>\(\mu \neq \mu_0\)</td><td>\(z &lt; -z_{\alpha/2}\) o \(z &gt; z_{\alpha/2}\)</td><td>\(z &lt; -1{,}96\) o \(z &gt; 1{,}96\)</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <h4>Qué significa cada letra</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Símbolo</th><th>Qué es</th></tr>
+      <tr><td>\(\bar{x}\)</td><td>media de la muestra</td></tr>
+      <tr><td>\(\mu_0\)</td><td>el valor de \(H_0\), el que se pone a prueba</td></tr>
+      <tr><td>\(\sigma\) (o \(S\))</td><td>desvío de la población (o de la muestra, si \(n \geq 30\))</td></tr>
+      <tr><td>\(n\)</td><td>tamaño de la muestra</td></tr>
+      <tr><td>\(z_{\alpha}\), \(z_{\alpha/2}\)</td><td>valores críticos de la tabla \(Z\) (sección 3)</td></tr>
+    </table>
+  </div>
+
+  <h3>De dónde sale</h3>
+  <p>
+    Si \(H_0\) es cierta, \(\bar{X}\) es normal con media \(\mu_0\) y desvío \(\sigma/\sqrt{n}\): exactamente
+    si la población es normal, y aproximadamente si \(n \geq 30\) por el Teorema Central del Límite.
+    Estandarizar \(\bar{x}\) da una \(Z\) (sección 4), y la tabla \(Z\) dice qué tan raro es el resultado.
+  </p>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 1 &mdash; El tiempo de los backups</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>
+      Según el proveedor, el backup nocturno de una base de datos tarda en promedio
+      <strong>50 minutos</strong>, con distribución normal y desvío <strong>\(\sigma = 6\)</strong> minutos.
+      El administrador cronometra <strong>16 backups</strong> y obtiene un promedio de
+      <strong>53 minutos</strong>. Con \(\alpha = 0{,}05\), ¿hay evidencia de que el backup
+      <strong>tarda más</strong> de lo que dice el proveedor?
+    </p>
+  </div>
+
+  <h4>Por qué este estadístico</h4>
+  <ul>
+    <li>Es sobre el tiempo <strong>medio</strong> de todos los backups: prueba para \(\mu\).</li>
+    <li>\(\sigma = 6\) es del proveedor, de la población: <strong>conocida</strong> &rarr; \(Z\), aunque \(n = 16\) sea chico (la población es normal).</li>
+  </ul>
+
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"tarda en promedio 50 minutos"</td><td>lo que afirma el proveedor</td><td>&mdash;</td><td>\(\mu_0 = 50\)</td></tr>
+      <tr><td>"desvío \(\sigma = 6\)"</td><td>desvío de la población</td><td>&mdash;</td><td>\(\sigma = 6\) &rarr; \(Z\)</td></tr>
+      <tr><td>"16 backups"</td><td>tamaño de muestra</td><td>\(\sqrt{16} = 4\)</td><td>\(n = 16\)</td></tr>
+      <tr><td>"un promedio de 53 minutos"</td><td>media muestral</td><td>&mdash;</td><td>\(\bar{x} = 53\)</td></tr>
+      <tr><td>"¿tarda más?"</td><td>dirección: hacia arriba</td><td>&mdash;</td><td>\(H_1: \mu &gt; 50\)</td></tr>
+      <tr><td>"\(\alpha = 0{,}05\)"</td><td>una cola</td><td>buscar 0,95 en la tabla</td><td>\(z_{0{,}05} = 1{,}645\)</td></tr>
+    </table>
+  </div>
+  <p><strong>Paso 1 y 2 &mdash; Hipótesis.</strong></p>
+  <p>\[ H_0:\ \mu = 50 \qquad H_1:\ \mu &gt; 50 \]</p>
+  <p><strong>Paso 3 &mdash; \(\alpha = 0{,}05\).</strong></p>
+  <p><strong>Paso 4 &mdash; Región crítica.</strong> \(&gt;\): una cola a la derecha. Se rechaza si \(z &gt; 1{,}645\).</p>
+  <p><strong>Paso 5 &mdash; Estadístico.</strong> Fórmula:</p>
+  <p>\[ z = \frac{\bar{x} - \mu_0}{\sigma/\sqrt{n}} \]</p>
+  <p>\[ \frac{\sigma}{\sqrt{n}} = \frac{6}{\sqrt{16}} = \frac{6}{4} = 1{,}5 \qquad z = \frac{53 - 50}{1{,}5} = \frac{3}{1{,}5} = 2{,}00 \]</p>
+  <p><strong>Paso 6 &mdash; Decidir.</strong> \(2{,}00 &gt; 1{,}645\): cae en la región crítica &rarr; <strong>se rechaza \(H_0\)</strong>.</p>
+  <div class="pd-grafico" data-g="u9-backup">
+    <svg viewBox="0 0 620 250" role="img" aria-label="Prueba unilateral derecha del backup: rechazo a la derecha de 1,645; el estadístico 2 cae adentro">
+  <path class="area" d="M 421,200 L 421,161.2 L 423.7,163.7 L 426.3,166 L 429,168.3 L 431.6,170.4 L 434.3,172.5 L 436.9,174.4 L 439.6,176.2 L 442.2,178 L 444.9,179.6 L 447.5,181.2 L 450.2,182.6 L 452.8,184 L 455.5,185.3 L 458.1,186.5 L 460.8,187.6 L 463.4,188.7 L 466.1,189.6 L 468.7,190.6 L 471.4,191.4 L 474,192.2 L 476.7,192.9 L 479.3,193.5 L 482,194.2 L 484.6,194.7 L 487.3,195.2 L 489.9,195.7 L 492.6,196.1 L 495.2,196.5 L 497.9,196.9 L 500.5,197.2 L 503.2,197.5 L 505.8,197.8 L 508.5,198 L 511.1,198.2 L 513.8,198.4 L 516.4,198.6 L 519.1,198.8 L 521.7,198.9 L 524.4,199 L 527,199.1 L 529.7,199.2 L 532.3,199.3 L 535,199.4 L 537.6,199.5 L 540.3,199.6 L 542.9,199.6 L 545.6,199.7 L 548.2,199.7 L 550.9,199.7 L 553.5,199.8 L 556.2,199.8 L 558.8,199.8 L 561.5,199.9 L 564.1,199.9 L 566.8,199.9 L 569.4,199.9 L 572.1,199.9 L 574.7,199.9 L 577.4,199.9 L 580,199.9 L 580,200 Z"/>
+  <path class="campana" d="M 40,199.9 L 43.4,199.9 L 46.8,199.9 L 50.1,199.9 L 53.5,199.9 L 56.9,199.9 L 60.2,199.8 L 63.6,199.8 L 67,199.8 L 70.4,199.7 L 73.8,199.7 L 77.1,199.6 L 80.5,199.5 L 83.9,199.5 L 87.3,199.4 L 90.6,199.2 L 94,199.1 L 97.4,198.9 L 100.8,198.8 L 104.1,198.6 L 107.5,198.3 L 110.9,198.1 L 114.2,197.8 L 117.6,197.4 L 121,197 L 124.4,196.6 L 127.7,196.1 L 131.1,195.5 L 134.5,194.9 L 137.9,194.2 L 141.2,193.4 L 144.6,192.5 L 148,191.6 L 151.4,190.5 L 154.8,189.3 L 158.1,188.1 L 161.5,186.7 L 164.9,185.1 L 168.2,183.5 L 171.6,181.7 L 175,179.7 L 178.4,177.6 L 181.8,175.3 L 185.1,172.9 L 188.5,170.3 L 191.9,167.6 L 195.2,164.6 L 198.6,161.5 L 202,158.3 L 205.4,154.9 L 208.8,151.3 L 212.1,147.6 L 215.5,143.7 L 218.9,139.7 L 222.2,135.6 L 225.6,131.3 L 229,127 L 232.4,122.6 L 235.8,118.1 L 239.1,113.6 L 242.5,109 L 245.9,104.5 L 249.2,100 L 252.6,95.5 L 256,91.1 L 259.4,86.8 L 262.8,82.6 L 266.1,78.6 L 269.5,74.7 L 272.9,71.1 L 276.2,67.6 L 279.6,64.4 L 283,61.5 L 286.4,58.9 L 289.8,56.6 L 293.1,54.6 L 296.5,53 L 299.9,51.7 L 303.2,50.7 L 306.6,50.2 L 310,50 L 313.4,50.2 L 316.8,50.7 L 320.1,51.7 L 323.5,53 L 326.9,54.6 L 330.2,56.6 L 333.6,58.9 L 337,61.5 L 340.4,64.4 L 343.8,67.6 L 347.1,71.1 L 350.5,74.7 L 353.9,78.6 L 357.2,82.6 L 360.6,86.8 L 364,91.1 L 367.4,95.5 L 370.8,100 L 374.1,104.5 L 377.5,109 L 380.9,113.6 L 384.2,118.1 L 387.6,122.6 L 391,127 L 394.4,131.3 L 397.8,135.6 L 401.1,139.7 L 404.5,143.7 L 407.9,147.6 L 411.2,151.3 L 414.6,154.9 L 418,158.3 L 421.4,161.5 L 424.8,164.6 L 428.1,167.6 L 431.5,170.3 L 434.9,172.9 L 438.2,175.3 L 441.6,177.6 L 445,179.7 L 448.4,181.7 L 451.8,183.5 L 455.1,185.1 L 458.5,186.7 L 461.9,188.1 L 465.2,189.3 L 468.6,190.5 L 472,191.6 L 475.4,192.5 L 478.8,193.4 L 482.1,194.2 L 485.5,194.9 L 488.9,195.5 L 492.2,196.1 L 495.6,196.6 L 499,197 L 502.4,197.4 L 505.8,197.8 L 509.1,198.1 L 512.5,198.3 L 515.9,198.6 L 519.2,198.8 L 522.6,198.9 L 526,199.1 L 529.4,199.2 L 532.8,199.4 L 536.1,199.5 L 539.5,199.5 L 542.9,199.6 L 546.2,199.7 L 549.6,199.7 L 553,199.8 L 556.4,199.8 L 559.8,199.8 L 563.1,199.9 L 566.5,199.9 L 569.9,199.9 L 573.2,199.9 L 576.6,199.9 L 580,199.9"/>
+  <line class="eje" x1="30" y1="200" x2="590" y2="200"/>
+  <line class="guia" x1="310" y1="50" x2="310" y2="200"/>
+  <text class="rotulo" x="310" y="220" text-anchor="middle">0</text>
+  <line class="corte" x1="421" y1="149.2" x2="421" y2="200"/>
+  <text class="rotulo" x="421" y="220" text-anchor="middle">1,645</text>
+  <text class="valor" x="524.1" y="148" text-anchor="middle">rechazo</text>
+  <text class="rotulo" x="524.1" y="166" text-anchor="middle">área α = 0,05</text>
+  <text class="valor" x="310" y="130" text-anchor="middle">no se rechaza H₀</text>
+  <circle class="punto" cx="445" cy="200" r="5"/>
+  <text class="valor" x="445" y="240" text-anchor="middle">z = 2,00</text>
+</svg>
+    <p class="pd-pie">Región crítica a la derecha de 1,645; el estadístico \(z = 2\) cae adentro.</p>
+  </div>
+  <div class="caja caja-calc">
+    <span class="caja-tit">En la calculadora</span>
+    <p><code>(53 − 50) ÷ (6 ÷ √16) =</code> &rarr; 2.</p>
+  </div>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta</span>
+    <p>
+      Con un nivel de significación del 5&nbsp;%, hay evidencia suficiente para afirmar que el backup
+      nocturno <strong>tarda en promedio más de 50 minutos</strong>. Error posible: tipo I, con
+      probabilidad 0,05.
+    </p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 2 &mdash; Final 29/07/2026, ejercicio 2 e)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>
+      El contenido \(X\), en mililitros, de las botellas de gaseosa envasadas por una máquina automática
+      se distribuye normalmente, con media \(\mu = 355\) ml y desvío estándar \(\sigma = 4\) ml. [&hellip;]
+      e) Se selecciona una muestra aleatoria de <strong>36 botellas</strong> y se obtiene un contenido medio
+      de <strong>353,5 ml</strong>. Con un nivel de significación del <strong>5&nbsp;%</strong>, analizar si
+      existe evidencia estadística suficiente para afirmar que la máquina está entregando, en promedio,
+      <strong>menos contenido</strong> que el valor nominal de 355 ml.
+    </p>
+  </div>
+
+  <h4>Por qué este estadístico</h4>
+  <ul>
+    <li>Es sobre el contenido <strong>medio</strong>: prueba para \(\mu\).</li>
+    <li>\(\sigma = 4\) es de la población: <strong>conocida</strong> &rarr; \(Z\) con \(\sigma\).</li>
+  </ul>
+
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"el valor nominal de 355 ml"</td><td>valor de \(H_0\)</td><td>&mdash;</td><td>\(\mu_0 = 355\)</td></tr>
+      <tr><td>"desvío estándar \(\sigma = 4\)"</td><td>desvío de la población</td><td>&mdash;</td><td>\(\sigma = 4\) &rarr; \(Z\)</td></tr>
+      <tr><td>"36 botellas"</td><td>tamaño de muestra</td><td>\(\sqrt{36} = 6\)</td><td>\(n = 36\)</td></tr>
+      <tr><td>"contenido medio de 353,5 ml"</td><td>media muestral</td><td>&mdash;</td><td>\(\bar{x} = 353{,}5\)</td></tr>
+      <tr><td>"menos contenido que"</td><td>dirección: hacia abajo</td><td>&mdash;</td><td>\(H_1: \mu &lt; 355\)</td></tr>
+      <tr><td>"significación del 5&nbsp;%"</td><td>una cola</td><td>buscar 0,95</td><td>\(z_{0{,}05} = 1{,}645\)</td></tr>
+    </table>
+  </div>
+  <p><strong>Paso 1 y 2 &mdash; Hipótesis.</strong></p>
+  <p>\[ H_0:\ \mu = 355 \qquad H_1:\ \mu &lt; 355 \]</p>
+  <p><strong>Paso 3 &mdash; \(\alpha = 0{,}05\).</strong></p>
+  <p><strong>Paso 4 &mdash; Región crítica.</strong> \(&lt;\): una cola a la izquierda. Se rechaza si \(z &lt; -1{,}645\).</p>
+  <p><strong>Paso 5 &mdash; Estadístico.</strong> Fórmula:</p>
+  <p>\[ z = \frac{\bar{x} - \mu_0}{\sigma/\sqrt{n}} \]</p>
+  <p>\[ \frac{\sigma}{\sqrt{n}} = \frac{4}{\sqrt{36}} = \frac{4}{6} = 0{,}6667 \qquad z = \frac{353{,}5 - 355}{0{,}6667} = \frac{-1{,}5}{0{,}6667} = -2{,}25 \]</p>
+  <p><strong>Paso 6 &mdash; Decidir.</strong> \(-2{,}25 &lt; -1{,}645\): cae en la región crítica &rarr; <strong>se rechaza \(H_0\)</strong>.</p>
+  <div class="pd-grafico" data-g="u9-f2907">
+    <svg viewBox="0 0 620 250" role="img" aria-label="Prueba unilateral izquierda de las botellas: rechazo a la izquierda de −1,645; el estadístico −2,25 cae adentro">
+  <path class="area" d="M 40,200 L 40,199.9 L 42.6,199.9 L 45.3,199.9 L 47.9,199.9 L 50.6,199.9 L 53.2,199.9 L 55.9,199.9 L 58.5,199.9 L 61.2,199.8 L 63.8,199.8 L 66.5,199.8 L 69.1,199.7 L 71.8,199.7 L 74.4,199.7 L 77.1,199.6 L 79.7,199.6 L 82.4,199.5 L 85,199.4 L 87.7,199.3 L 90.3,199.2 L 93,199.1 L 95.6,199 L 98.3,198.9 L 100.9,198.8 L 103.6,198.6 L 106.2,198.4 L 108.9,198.2 L 111.5,198 L 114.2,197.8 L 116.8,197.5 L 119.5,197.2 L 122.1,196.9 L 124.8,196.5 L 127.4,196.1 L 130.1,195.7 L 132.7,195.2 L 135.4,194.7 L 138,194.2 L 140.7,193.5 L 143.3,192.9 L 146,192.2 L 148.6,191.4 L 151.3,190.6 L 153.9,189.6 L 156.6,188.7 L 159.2,187.6 L 161.9,186.5 L 164.5,185.3 L 167.2,184 L 169.8,182.6 L 172.5,181.2 L 175.1,179.6 L 177.8,178 L 180.4,176.2 L 183.1,174.4 L 185.7,172.5 L 188.4,170.4 L 191,168.3 L 193.7,166 L 196.3,163.7 L 199,161.2 L 199,200 Z"/>
+  <path class="campana" d="M 40,199.9 L 43.4,199.9 L 46.8,199.9 L 50.1,199.9 L 53.5,199.9 L 56.9,199.9 L 60.2,199.8 L 63.6,199.8 L 67,199.8 L 70.4,199.7 L 73.8,199.7 L 77.1,199.6 L 80.5,199.5 L 83.9,199.5 L 87.3,199.4 L 90.6,199.2 L 94,199.1 L 97.4,198.9 L 100.8,198.8 L 104.1,198.6 L 107.5,198.3 L 110.9,198.1 L 114.2,197.8 L 117.6,197.4 L 121,197 L 124.4,196.6 L 127.7,196.1 L 131.1,195.5 L 134.5,194.9 L 137.9,194.2 L 141.2,193.4 L 144.6,192.5 L 148,191.6 L 151.4,190.5 L 154.8,189.3 L 158.1,188.1 L 161.5,186.7 L 164.9,185.1 L 168.2,183.5 L 171.6,181.7 L 175,179.7 L 178.4,177.6 L 181.8,175.3 L 185.1,172.9 L 188.5,170.3 L 191.9,167.6 L 195.2,164.6 L 198.6,161.5 L 202,158.3 L 205.4,154.9 L 208.8,151.3 L 212.1,147.6 L 215.5,143.7 L 218.9,139.7 L 222.2,135.6 L 225.6,131.3 L 229,127 L 232.4,122.6 L 235.8,118.1 L 239.1,113.6 L 242.5,109 L 245.9,104.5 L 249.2,100 L 252.6,95.5 L 256,91.1 L 259.4,86.8 L 262.8,82.6 L 266.1,78.6 L 269.5,74.7 L 272.9,71.1 L 276.2,67.6 L 279.6,64.4 L 283,61.5 L 286.4,58.9 L 289.8,56.6 L 293.1,54.6 L 296.5,53 L 299.9,51.7 L 303.2,50.7 L 306.6,50.2 L 310,50 L 313.4,50.2 L 316.8,50.7 L 320.1,51.7 L 323.5,53 L 326.9,54.6 L 330.2,56.6 L 333.6,58.9 L 337,61.5 L 340.4,64.4 L 343.8,67.6 L 347.1,71.1 L 350.5,74.7 L 353.9,78.6 L 357.2,82.6 L 360.6,86.8 L 364,91.1 L 367.4,95.5 L 370.8,100 L 374.1,104.5 L 377.5,109 L 380.9,113.6 L 384.2,118.1 L 387.6,122.6 L 391,127 L 394.4,131.3 L 397.8,135.6 L 401.1,139.7 L 404.5,143.7 L 407.9,147.6 L 411.2,151.3 L 414.6,154.9 L 418,158.3 L 421.4,161.5 L 424.8,164.6 L 428.1,167.6 L 431.5,170.3 L 434.9,172.9 L 438.2,175.3 L 441.6,177.6 L 445,179.7 L 448.4,181.7 L 451.8,183.5 L 455.1,185.1 L 458.5,186.7 L 461.9,188.1 L 465.2,189.3 L 468.6,190.5 L 472,191.6 L 475.4,192.5 L 478.8,193.4 L 482.1,194.2 L 485.5,194.9 L 488.9,195.5 L 492.2,196.1 L 495.6,196.6 L 499,197 L 502.4,197.4 L 505.8,197.8 L 509.1,198.1 L 512.5,198.3 L 515.9,198.6 L 519.2,198.8 L 522.6,198.9 L 526,199.1 L 529.4,199.2 L 532.8,199.4 L 536.1,199.5 L 539.5,199.5 L 542.9,199.6 L 546.2,199.7 L 549.6,199.7 L 553,199.8 L 556.4,199.8 L 559.8,199.8 L 563.1,199.9 L 566.5,199.9 L 569.9,199.9 L 573.2,199.9 L 576.6,199.9 L 580,199.9"/>
+  <line class="eje" x1="30" y1="200" x2="590" y2="200"/>
+  <line class="guia" x1="310" y1="50" x2="310" y2="200"/>
+  <text class="rotulo" x="310" y="220" text-anchor="middle">0</text>
+  <line class="corte" x1="199" y1="149.2" x2="199" y2="200"/>
+  <text class="rotulo" x="199" y="220" text-anchor="middle">−1,645</text>
+  <text class="valor" x="95.9" y="148" text-anchor="middle">rechazo</text>
+  <text class="rotulo" x="95.9" y="166" text-anchor="middle">área α = 0,05</text>
+  <text class="valor" x="310" y="130" text-anchor="middle">no se rechaza H₀</text>
+  <circle class="punto" cx="158.1" cy="200" r="5"/>
+  <text class="valor" x="158.1" y="240" text-anchor="middle">z = −2,25</text>
+</svg>
+    <p class="pd-pie">Región crítica a la izquierda de \(-1{,}645\); el estadístico \(z = -2{,}25\) cae adentro.</p>
+  </div>
+  <div class="caja caja-calc">
+    <span class="caja-tit">En la calculadora</span>
+    <p><code>(353.5 − 355) ÷ (4 ÷ √36) =</code> &rarr; −2,25.</p>
+  </div>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta e)</span>
+    <p>
+      Se rechaza \(H_0\). Con un nivel de significación del 5&nbsp;%, hay evidencia estadística suficiente
+      para afirmar que la máquina está entregando, en promedio, <strong>menos de 355 ml</strong>.
+    </p>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Las trampas</span>
+    <ul>
+      <li>Dividir por \(\sigma = 4\) en vez de por \(\sigma/\sqrt{n} = 0{,}6667\): da \(z = -0{,}375\) y se concluye al revés. Se divide por el desvío <strong>de la media</strong>.</li>
+      <li>Usar 1,96: la prueba es de <strong>una</strong> cola, va 1,645.</li>
+    </ul>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 3 &mdash; Final 25/02/2026, ejercicio 4 d) (\(n \geq 30\), sin \(\sigma\))</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>
+      Se mide el consumo de memoria (en GB) de <strong>30 procesos</strong> en un servidor. Se obtuvo un
+      consumo promedio de <strong>2,4 GB</strong> y una <strong>varianza muestral de 0,36 GB²</strong>. Se
+      considera aceptable que el consumo medio no supere los <strong>2,7 GB</strong>. Suponiendo normalidad
+      y utilizando un nivel de significación del <strong>0,05</strong>: d) Pruebe la hipótesis de que el
+      consumo medio de memoria es <strong>inferior</strong> al nivel aceptable.
+    </p>
+  </div>
+
+  <h4>Por qué este estadístico</h4>
+  <ul>
+    <li>Es sobre el consumo <strong>medio</strong>: prueba para \(\mu\).</li>
+    <li>La varianza es "muestral": \(\sigma\) <strong>desconocida</strong>.</li>
+    <li>\(n = 30 \geq 30\): <strong>\(Z\) con \(S\)</strong> (30 justo va con \(Z\), como en la Unidad 8).</li>
+  </ul>
+
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"30 procesos"</td><td>tamaño, \(\geq 30\)</td><td>\(\sqrt{30} = 5{,}4772\)</td><td>\(n = 30\) &rarr; \(Z\)</td></tr>
+      <tr><td>"consumo promedio de 2,4 GB"</td><td>media muestral</td><td>&mdash;</td><td>\(\bar{x} = 2{,}4\)</td></tr>
+      <tr><td>"<strong>varianza</strong> muestral de 0,36"</td><td>es \(S^2\), no \(S\)</td><td>\(S = \sqrt{0{,}36} = 0{,}6\)</td><td>\(S = 0{,}6\)</td></tr>
+      <tr><td>"no supere los 2,7 GB"</td><td>el valor con el que se compara</td><td>&mdash;</td><td>\(\mu_0 = 2{,}7\)</td></tr>
+      <tr><td>"pruebe que &hellip; es inferior"</td><td>lo que se quiere probar: dirección hacia abajo</td><td>&mdash;</td><td>\(H_1: \mu &lt; 2{,}7\)</td></tr>
+      <tr><td>"significación del 0,05"</td><td>una cola</td><td>buscar 0,95</td><td>\(z_{0{,}05} = 1{,}645\)</td></tr>
+    </table>
+  </div>
+  <p><strong>Paso 1 y 2 &mdash; Hipótesis.</strong></p>
+  <p>\[ H_0:\ \mu = 2{,}7 \qquad H_1:\ \mu &lt; 2{,}7 \]</p>
+  <p><strong>Paso 3 &mdash; \(\alpha = 0{,}05\).</strong></p>
+  <p><strong>Paso 4 &mdash; Región crítica.</strong> Una cola a la izquierda: se rechaza si \(z &lt; -1{,}645\).</p>
+  <p><strong>Paso 5 &mdash; Estadístico.</strong> Fórmula (con \(S\)):</p>
+  <p>\[ z = \frac{\bar{x} - \mu_0}{S/\sqrt{n}} \]</p>
+  <p>\[ \frac{S}{\sqrt{n}} = \frac{0{,}6}{\sqrt{30}} = \frac{0{,}6}{5{,}4772} = 0{,}1095 \qquad z = \frac{2{,}4 - 2{,}7}{0{,}1095} = \frac{-0{,}3}{0{,}1095} = -2{,}74 \]</p>
+  <p><strong>Paso 6 &mdash; Decidir.</strong> \(-2{,}74 &lt; -1{,}645\): cae en la región crítica &rarr; <strong>se rechaza \(H_0\)</strong>.</p>
+  <div class="pd-grafico" data-g="u9-f2502">
+    <svg viewBox="0 0 620 250" role="img" aria-label="Prueba unilateral izquierda de la memoria: rechazo a la izquierda de −1,645; el estadístico −2,74 cae adentro">
+  <path class="area" d="M 40,200 L 40,199.9 L 42.6,199.9 L 45.3,199.9 L 47.9,199.9 L 50.6,199.9 L 53.2,199.9 L 55.9,199.9 L 58.5,199.9 L 61.2,199.8 L 63.8,199.8 L 66.5,199.8 L 69.1,199.7 L 71.8,199.7 L 74.4,199.7 L 77.1,199.6 L 79.7,199.6 L 82.4,199.5 L 85,199.4 L 87.7,199.3 L 90.3,199.2 L 93,199.1 L 95.6,199 L 98.3,198.9 L 100.9,198.8 L 103.6,198.6 L 106.2,198.4 L 108.9,198.2 L 111.5,198 L 114.2,197.8 L 116.8,197.5 L 119.5,197.2 L 122.1,196.9 L 124.8,196.5 L 127.4,196.1 L 130.1,195.7 L 132.7,195.2 L 135.4,194.7 L 138,194.2 L 140.7,193.5 L 143.3,192.9 L 146,192.2 L 148.6,191.4 L 151.3,190.6 L 153.9,189.6 L 156.6,188.7 L 159.2,187.6 L 161.9,186.5 L 164.5,185.3 L 167.2,184 L 169.8,182.6 L 172.5,181.2 L 175.1,179.6 L 177.8,178 L 180.4,176.2 L 183.1,174.4 L 185.7,172.5 L 188.4,170.4 L 191,168.3 L 193.7,166 L 196.3,163.7 L 199,161.2 L 199,200 Z"/>
+  <path class="campana" d="M 40,199.9 L 43.4,199.9 L 46.8,199.9 L 50.1,199.9 L 53.5,199.9 L 56.9,199.9 L 60.2,199.8 L 63.6,199.8 L 67,199.8 L 70.4,199.7 L 73.8,199.7 L 77.1,199.6 L 80.5,199.5 L 83.9,199.5 L 87.3,199.4 L 90.6,199.2 L 94,199.1 L 97.4,198.9 L 100.8,198.8 L 104.1,198.6 L 107.5,198.3 L 110.9,198.1 L 114.2,197.8 L 117.6,197.4 L 121,197 L 124.4,196.6 L 127.7,196.1 L 131.1,195.5 L 134.5,194.9 L 137.9,194.2 L 141.2,193.4 L 144.6,192.5 L 148,191.6 L 151.4,190.5 L 154.8,189.3 L 158.1,188.1 L 161.5,186.7 L 164.9,185.1 L 168.2,183.5 L 171.6,181.7 L 175,179.7 L 178.4,177.6 L 181.8,175.3 L 185.1,172.9 L 188.5,170.3 L 191.9,167.6 L 195.2,164.6 L 198.6,161.5 L 202,158.3 L 205.4,154.9 L 208.8,151.3 L 212.1,147.6 L 215.5,143.7 L 218.9,139.7 L 222.2,135.6 L 225.6,131.3 L 229,127 L 232.4,122.6 L 235.8,118.1 L 239.1,113.6 L 242.5,109 L 245.9,104.5 L 249.2,100 L 252.6,95.5 L 256,91.1 L 259.4,86.8 L 262.8,82.6 L 266.1,78.6 L 269.5,74.7 L 272.9,71.1 L 276.2,67.6 L 279.6,64.4 L 283,61.5 L 286.4,58.9 L 289.8,56.6 L 293.1,54.6 L 296.5,53 L 299.9,51.7 L 303.2,50.7 L 306.6,50.2 L 310,50 L 313.4,50.2 L 316.8,50.7 L 320.1,51.7 L 323.5,53 L 326.9,54.6 L 330.2,56.6 L 333.6,58.9 L 337,61.5 L 340.4,64.4 L 343.8,67.6 L 347.1,71.1 L 350.5,74.7 L 353.9,78.6 L 357.2,82.6 L 360.6,86.8 L 364,91.1 L 367.4,95.5 L 370.8,100 L 374.1,104.5 L 377.5,109 L 380.9,113.6 L 384.2,118.1 L 387.6,122.6 L 391,127 L 394.4,131.3 L 397.8,135.6 L 401.1,139.7 L 404.5,143.7 L 407.9,147.6 L 411.2,151.3 L 414.6,154.9 L 418,158.3 L 421.4,161.5 L 424.8,164.6 L 428.1,167.6 L 431.5,170.3 L 434.9,172.9 L 438.2,175.3 L 441.6,177.6 L 445,179.7 L 448.4,181.7 L 451.8,183.5 L 455.1,185.1 L 458.5,186.7 L 461.9,188.1 L 465.2,189.3 L 468.6,190.5 L 472,191.6 L 475.4,192.5 L 478.8,193.4 L 482.1,194.2 L 485.5,194.9 L 488.9,195.5 L 492.2,196.1 L 495.6,196.6 L 499,197 L 502.4,197.4 L 505.8,197.8 L 509.1,198.1 L 512.5,198.3 L 515.9,198.6 L 519.2,198.8 L 522.6,198.9 L 526,199.1 L 529.4,199.2 L 532.8,199.4 L 536.1,199.5 L 539.5,199.5 L 542.9,199.6 L 546.2,199.7 L 549.6,199.7 L 553,199.8 L 556.4,199.8 L 559.8,199.8 L 563.1,199.9 L 566.5,199.9 L 569.9,199.9 L 573.2,199.9 L 576.6,199.9 L 580,199.9"/>
+  <line class="eje" x1="30" y1="200" x2="590" y2="200"/>
+  <line class="guia" x1="310" y1="50" x2="310" y2="200"/>
+  <text class="rotulo" x="310" y="220" text-anchor="middle">0</text>
+  <line class="corte" x1="199" y1="149.2" x2="199" y2="200"/>
+  <text class="rotulo" x="199" y="220" text-anchor="middle">−1,645</text>
+  <text class="valor" x="95.9" y="148" text-anchor="middle">rechazo</text>
+  <text class="rotulo" x="95.9" y="166" text-anchor="middle">área α = 0,05</text>
+  <text class="valor" x="310" y="130" text-anchor="middle">no se rechaza H₀</text>
+  <circle class="punto" cx="125" cy="200" r="5"/>
+  <text class="valor" x="125" y="240" text-anchor="middle">z = −2,74</text>
+</svg>
+    <p class="pd-pie">Región crítica a la izquierda de \(-1{,}645\); el estadístico \(z = -2{,}74\) cae adentro.</p>
+  </div>
+  <div class="caja caja-calc">
+    <span class="caja-tit">En la calculadora</span>
+    <p>
+      Primero <code>0.6 ÷ √30 =</code> (da 0,10954) y después <code>(2.4 − 2.7) ÷ Ans =</code> &rarr;
+      −2,7386, que se escribe −2,74.
+    </p>
+  </div>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta d)</span>
+    <p>
+      Se rechaza \(H_0\). Con un nivel de significación de 0,05, hay evidencia suficiente para afirmar que
+      el consumo medio de memoria de los procesos es <strong>inferior a 2,7 GB</strong>: el consumo está
+      dentro de lo aceptable.
+    </p>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">¿Y con t?</span>
+    <p>
+      La resolución de este final que está en Evaluación usa \(t\) con 29 grados de libertad (valor
+      crítico \(-1{,}699\)), porque la población es normal y \(\sigma\) desconocida. Con la regla de la profe
+      (\(n \geq 30\) &rarr; \(Z\)) va \(-1{,}645\). El estadístico es el mismo número (\(-2{,}74\)) y la
+      decisión también: se rechaza con los dos.
+    </p>
+  </div>
+
+  <hr class="sep">
+
+  <h3>Ejemplo 4 &mdash; Final 10/12/2025, ejercicio 4 e) (\(\sigma\) conocida, datos sueltos)</h3>
+  <div class="caja caja-ejemplo">
+    <span class="caja-tit">Enunciado</span>
+    <p>
+      Cierto ajuste a una máquina cambiará la longitud de las piezas que produce. La longitud de las
+      piezas está <strong>normalmente distribuida</strong>, y la desviación estándar es de
+      <strong>0,5 mm</strong>. Después de hacer un ajuste, se toma una muestra aleatoria; las mediciones
+      son: <strong>75,3 &nbsp; 76 &nbsp; 75 &nbsp; 77 &nbsp; 75,4 &nbsp; 76,3 &nbsp; 77 &nbsp; 74,9 &nbsp;
+      76,5 &nbsp; 75,8</strong>. [&hellip;] e) Si se sabe por estudios anteriores que la media poblacional
+      es de <strong>76 mm</strong>, plantee una prueba de hipótesis conveniente con la que pueda relacionar
+      el resultado con el ítem anterior (el intervalo del 95&nbsp;%).
+    </p>
+  </div>
+
+  <h4>Por qué este estadístico</h4>
+  <ul>
+    <li>Es sobre la longitud <strong>media</strong>: prueba para \(\mu\).</li>
+    <li>"La desviación estándar es de 0,5" habla de la longitud de las piezas, de la población: \(\sigma\) <strong>conocida</strong> &rarr; \(Z\), aunque haya solo 10 datos (la población es normal).</li>
+    <li>"Relacionar con el intervalo del 95&nbsp;%": la prueba que se corresponde con un intervalo es la <strong>bilateral</strong> con \(\alpha = 1 - 0{,}95 = 0{,}05\) (sección 8).</li>
+  </ul>
+
+  <h4>Desarme del enunciado</h4>
+  <div class="tabla-wrap">
+    <table class="t full">
+      <tr><th>Frase</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
+      <tr><td>"75,3 &nbsp;76 &hellip; 75,8"</td><td>los datos sueltos</td><td>calculadora</td><td>\(n = 10\), \(\bar{x} = 75{,}92\)</td></tr>
+      <tr><td>"la desviación estándar es de 0,5 mm"</td><td>desvío de la población</td><td>\(\sqrt{10} = 3{,}1623\)</td><td>\(\sigma = 0{,}5\) &rarr; \(Z\)</td></tr>
+      <tr><td>"la media poblacional es de 76 mm"</td><td>valor de \(H_0\)</td><td>&mdash;</td><td>\(\mu_0 = 76\)</td></tr>
+      <tr><td>"conveniente &hellip; relacionar con el intervalo del 95&nbsp;%"</td><td>sin dirección, como el intervalo</td><td>\(\alpha = 0{,}05\), dos colas</td><td>\(H_1: \mu \neq 76\); \(z_{0{,}025} = 1{,}96\)</td></tr>
+    </table>
+  </div>
+  <div class="caja caja-calc">
+    <span class="caja-tit">La media con la calculadora (fx-991ES PLUS)</span>
+    <ol>
+      <li><strong>MODE 3 1</strong> (STAT, 1-VAR) y cargar cada dato con <strong>=</strong>: <code>75.3 =</code>, <code>76 =</code>, &hellip;, <code>75.8 =</code>.</li>
+      <li><strong>AC</strong>, después <strong>SHIFT 1</strong> &rarr; <strong>4</strong> (Var) &rarr; <strong>2</strong> (\(\bar{x}\)) &rarr; <strong>=</strong>: da 75,92.</li>
+      <li>Control: <strong>SHIFT 1 4 1 =</strong> (\(n\)) tiene que dar 10.</li>
+    </ol>
+    <p>A mano: la suma da 759,2 y \(759{,}2 \div 10 = 75{,}92\). El desvío de los datos no hace falta: se conoce \(\sigma\).</p>
+  </div>
+  <p><strong>Paso 1 y 2 &mdash; Hipótesis.</strong></p>
+  <p>\[ H_0:\ \mu = 76 \qquad H_1:\ \mu \neq 76 \]</p>
+  <p><strong>Paso 3 &mdash; \(\alpha = 0{,}05\).</strong></p>
+  <p><strong>Paso 4 &mdash; Región crítica.</strong> Dos colas de 0,025: se rechaza si \(z &lt; -1{,}96\) o \(z &gt; 1{,}96\).</p>
+  <p><strong>Paso 5 &mdash; Estadístico.</strong> Fórmula:</p>
+  <p>\[ z = \frac{\bar{x} - \mu_0}{\sigma/\sqrt{n}} \]</p>
+  <p>\[ \frac{\sigma}{\sqrt{n}} = \frac{0{,}5}{\sqrt{10}} = \frac{0{,}5}{3{,}1623} = 0{,}1581 \qquad z = \frac{75{,}92 - 76}{0{,}1581} = \frac{-0{,}08}{0{,}1581} = -0{,}51 \]</p>
+  <p><strong>Paso 6 &mdash; Decidir.</strong> \(-1{,}96 &lt; -0{,}51 &lt; 1{,}96\): cae en el medio, fuera de la región crítica &rarr; <strong>no se rechaza \(H_0\)</strong>.</p>
+  <div class="pd-grafico" data-g="u9-f1012">
+    <svg viewBox="0 0 620 250" role="img" aria-label="Prueba bilateral de las piezas: rechazo fuera de −1,96 y 1,96; el estadístico −0,51 cae en el medio">
+  <path class="area" d="M 40,200 L 40,199.9 L 42.3,199.9 L 44.6,199.9 L 46.9,199.9 L 49.2,199.9 L 51.5,199.9 L 53.8,199.9 L 56.1,199.9 L 58.4,199.9 L 60.7,199.8 L 62.9,199.8 L 65.2,199.8 L 67.5,199.8 L 69.8,199.7 L 72.1,199.7 L 74.4,199.7 L 76.7,199.6 L 79,199.6 L 81.3,199.5 L 83.6,199.5 L 85.9,199.4 L 88.2,199.3 L 90.5,199.2 L 92.8,199.2 L 95.1,199.1 L 97.4,198.9 L 99.7,198.8 L 102,198.7 L 104.3,198.6 L 106.6,198.4 L 108.8,198.2 L 111.1,198 L 113.4,197.8 L 115.7,197.6 L 118,197.4 L 120.3,197.1 L 122.6,196.8 L 124.9,196.5 L 127.2,196.2 L 129.5,195.8 L 131.8,195.4 L 134.1,195 L 136.4,194.5 L 138.7,194 L 141,193.5 L 143.3,192.9 L 145.6,192.3 L 147.9,191.6 L 150.2,190.9 L 152.5,190.2 L 154.8,189.3 L 157,188.5 L 159.3,187.6 L 161.6,186.6 L 163.9,185.6 L 166.2,184.5 L 168.5,183.3 L 170.8,182.1 L 173.1,180.8 L 175.4,179.5 L 177.7,178 L 177.7,200 Z"/>
+  <path class="area" d="M 442.3,200 L 442.3,178 L 444.6,179.5 L 446.9,180.8 L 449.2,182.1 L 451.5,183.3 L 453.8,184.5 L 456.1,185.6 L 458.4,186.6 L 460.7,187.6 L 463,188.5 L 465.2,189.3 L 467.5,190.2 L 469.8,190.9 L 472.1,191.6 L 474.4,192.3 L 476.7,192.9 L 479,193.5 L 481.3,194 L 483.6,194.5 L 485.9,195 L 488.2,195.4 L 490.5,195.8 L 492.8,196.2 L 495.1,196.5 L 497.4,196.8 L 499.7,197.1 L 502,197.4 L 504.3,197.6 L 506.6,197.8 L 508.9,198 L 511.2,198.2 L 513.4,198.4 L 515.7,198.6 L 518,198.7 L 520.3,198.8 L 522.6,198.9 L 524.9,199.1 L 527.2,199.2 L 529.5,199.2 L 531.8,199.3 L 534.1,199.4 L 536.4,199.5 L 538.7,199.5 L 541,199.6 L 543.3,199.6 L 545.6,199.7 L 547.9,199.7 L 550.2,199.7 L 552.5,199.8 L 554.8,199.8 L 557,199.8 L 559.3,199.8 L 561.6,199.9 L 563.9,199.9 L 566.2,199.9 L 568.5,199.9 L 570.8,199.9 L 573.1,199.9 L 575.4,199.9 L 577.7,199.9 L 580,199.9 L 580,200 Z"/>
+  <path class="campana" d="M 40,199.9 L 43.4,199.9 L 46.8,199.9 L 50.1,199.9 L 53.5,199.9 L 56.9,199.9 L 60.2,199.8 L 63.6,199.8 L 67,199.8 L 70.4,199.7 L 73.8,199.7 L 77.1,199.6 L 80.5,199.5 L 83.9,199.5 L 87.3,199.4 L 90.6,199.2 L 94,199.1 L 97.4,198.9 L 100.8,198.8 L 104.1,198.6 L 107.5,198.3 L 110.9,198.1 L 114.2,197.8 L 117.6,197.4 L 121,197 L 124.4,196.6 L 127.7,196.1 L 131.1,195.5 L 134.5,194.9 L 137.9,194.2 L 141.2,193.4 L 144.6,192.5 L 148,191.6 L 151.4,190.5 L 154.8,189.3 L 158.1,188.1 L 161.5,186.7 L 164.9,185.1 L 168.2,183.5 L 171.6,181.7 L 175,179.7 L 178.4,177.6 L 181.8,175.3 L 185.1,172.9 L 188.5,170.3 L 191.9,167.6 L 195.2,164.6 L 198.6,161.5 L 202,158.3 L 205.4,154.9 L 208.8,151.3 L 212.1,147.6 L 215.5,143.7 L 218.9,139.7 L 222.2,135.6 L 225.6,131.3 L 229,127 L 232.4,122.6 L 235.8,118.1 L 239.1,113.6 L 242.5,109 L 245.9,104.5 L 249.2,100 L 252.6,95.5 L 256,91.1 L 259.4,86.8 L 262.8,82.6 L 266.1,78.6 L 269.5,74.7 L 272.9,71.1 L 276.2,67.6 L 279.6,64.4 L 283,61.5 L 286.4,58.9 L 289.8,56.6 L 293.1,54.6 L 296.5,53 L 299.9,51.7 L 303.2,50.7 L 306.6,50.2 L 310,50 L 313.4,50.2 L 316.8,50.7 L 320.1,51.7 L 323.5,53 L 326.9,54.6 L 330.2,56.6 L 333.6,58.9 L 337,61.5 L 340.4,64.4 L 343.8,67.6 L 347.1,71.1 L 350.5,74.7 L 353.9,78.6 L 357.2,82.6 L 360.6,86.8 L 364,91.1 L 367.4,95.5 L 370.8,100 L 374.1,104.5 L 377.5,109 L 380.9,113.6 L 384.2,118.1 L 387.6,122.6 L 391,127 L 394.4,131.3 L 397.8,135.6 L 401.1,139.7 L 404.5,143.7 L 407.9,147.6 L 411.2,151.3 L 414.6,154.9 L 418,158.3 L 421.4,161.5 L 424.8,164.6 L 428.1,167.6 L 431.5,170.3 L 434.9,172.9 L 438.2,175.3 L 441.6,177.6 L 445,179.7 L 448.4,181.7 L 451.8,183.5 L 455.1,185.1 L 458.5,186.7 L 461.9,188.1 L 465.2,189.3 L 468.6,190.5 L 472,191.6 L 475.4,192.5 L 478.8,193.4 L 482.1,194.2 L 485.5,194.9 L 488.9,195.5 L 492.2,196.1 L 495.6,196.6 L 499,197 L 502.4,197.4 L 505.8,197.8 L 509.1,198.1 L 512.5,198.3 L 515.9,198.6 L 519.2,198.8 L 522.6,198.9 L 526,199.1 L 529.4,199.2 L 532.8,199.4 L 536.1,199.5 L 539.5,199.5 L 542.9,199.6 L 546.2,199.7 L 549.6,199.7 L 553,199.8 L 556.4,199.8 L 559.8,199.8 L 563.1,199.9 L 566.5,199.9 L 569.9,199.9 L 573.2,199.9 L 576.6,199.9 L 580,199.9"/>
+  <line class="eje" x1="30" y1="200" x2="590" y2="200"/>
+  <line class="guia" x1="310" y1="50" x2="310" y2="200"/>
+  <text class="rotulo" x="310" y="220" text-anchor="middle">0</text>
+  <line class="corte" x1="177.7" y1="166" x2="177.7" y2="200"/>
+  <text class="rotulo" x="177.7" y="220" text-anchor="middle">−1,96</text>
+  <line class="corte" x1="442.3" y1="166" x2="442.3" y2="200"/>
+  <text class="rotulo" x="442.3" y="220" text-anchor="middle">1,96</text>
+  <text class="valor" x="85.2" y="148" text-anchor="middle">rechazo</text>
+  <text class="rotulo" x="85.2" y="166" text-anchor="middle">α/2 = 0,025</text>
+  <text class="valor" x="534.8" y="148" text-anchor="middle">rechazo</text>
+  <text class="rotulo" x="534.8" y="166" text-anchor="middle">α/2 = 0,025</text>
+  <text class="valor" x="310" y="130" text-anchor="middle">no se rechaza H₀</text>
+  <circle class="punto" cx="275.6" cy="200" r="5"/>
+  <text class="valor" x="275.6" y="240" text-anchor="middle">z = −0,51</text>
+</svg>
+    <p class="pd-pie">El estadístico \(z = -0{,}51\) cae en la zona del medio: no se rechaza \(H_0\).</p>
+  </div>
+  <div class="caja caja-resp">
+    <span class="caja-tit">Respuesta e)</span>
+    <p>
+      No se rechaza \(H_0\). Con un nivel de significación del 5&nbsp;%, <strong>no hay evidencia
+      suficiente</strong> para afirmar que, después del ajuste, la longitud media de las piezas sea distinta
+      de 76 mm. La relación con el intervalo está en la sección 8.
+    </p>
+  </div>
+  <div class="caja caja-ojo">
+    <span class="caja-tit">Diez datos y igual Z</span>
+    <p>
+      La tentación es usar \(t\) porque \(n = 10 &lt; 30\). Pero acá se conoce \(\sigma\): no hay que
+      estimarla con \(S\), así que no hay motivo para la \(t\).
+    </p>
+  </div>
+</div>

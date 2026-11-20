@@ -3,7 +3,7 @@
   <div class="parcial-ej-cab">
     <h2>Ejercicio 4</h2>
     <span class="parcial-pts">22 puntos</span>
-    <span class="parcial-tema">Inferencia (unidad no cargada) &middot; Prueba de hipótesis para la media</span>
+    <span class="parcial-tema">Unidades 7 y 9 &middot; Prueba de hipótesis para la media</span>
   </div>
 
   <p>
@@ -35,7 +35,7 @@
             <tr><td class="lbl">a) Variable y parámetro</td><td>&mdash;</td><td>\(X\): consumo de memoria (GB) de un proceso. Parámetro: \(\mu\), consumo medio de todos los procesos.</td></tr>
             <tr><td class="lbl">b) Población o muestra</td><td>&mdash;</td><td>Se trabaja con una <strong>muestra</strong> de 30 procesos para concluir sobre la <strong>población</strong> (todos los procesos).</td></tr>
             <tr><td class="lbl">c) TCL</td><td>&mdash;</td><td>Para \(n\) grande, \(\bar{X}\) es aproximadamente normal con media \(\mu\) y desvío \(\frac{\sigma}{\sqrt{n}}\).</td></tr>
-            <tr><td class="lbl">d) Hipótesis</td><td>\(H_0: \mu \geq 2{,}7\) vs \(H_1: \mu &lt; 2{,}7\)</td><td>\(t = \frac{2{,}4 - 2{,}7}{0{,}6/\sqrt{30}} = \mathbf{-2{,}7386} &lt; -1{,}699\): <strong>se rechaza \(H_0\)</strong>. El consumo medio es inferior a 2,7 GB.</td></tr>
+            <tr><td class="lbl">d) Hipótesis</td><td>\(H_0: \mu \geq 2{,}7\) vs \(H_1: \mu &lt; 2{,}7\)</td><td>\(z = \frac{2{,}4 - 2{,}7}{0{,}6/\sqrt{30}} = \mathbf{-2{,}7386} &lt; -1{,}645\): <strong>se rechaza \(H_0\)</strong>. El consumo medio es inferior a 2,7 GB.</td></tr>
             <tr><td class="lbl">e) Valor \(p = 0{,}008\)</td><td>\(p\) vs \(\alpha\)</td><td>\(0{,}008 &lt; 0{,}05\): <strong>se rechaza \(H_0\)</strong>.</td></tr>
           </table>
         </div>
@@ -62,10 +62,7 @@
         <h4>¿De qué tema es?</h4>
         <p>
           <strong>Inferencia estadística</strong>: población y muestra, Teorema del Límite Central y
-          prueba de hipótesis para una media. Es una unidad que <strong>todavía no está
-          cargada</strong> en la app, así que abajo va cada herramienta explicada en general antes
-          de usarla. Lo único que se reutiliza de lo cargado es la idea de estandarizar de la
-          Unidad 6.
+          prueba de hipótesis para una media. El Teorema del Límite Central es de la Unidad 7 y la prueba de hipótesis, de la Unidad 9; igual, abajo va cada herramienta explicada en general antes de usarla.
         </p>
 
         <h4>Los conceptos que hacen falta, desde cero</h4>
@@ -134,59 +131,50 @@
         </div>
 
         <div class="caja caja-formula">
-          <span class="caja-tit">4. El estadístico de prueba \(t\) y los grados de libertad</span>
+          <span class="caja-tit">4. El estadístico de prueba: \(Z\) o \(t\)</span>
           <p>
             Para decidir, se mide <strong>a cuántos errores estándar</strong> está la media muestral
             del valor que dice \(H_0\) (\(\mu_0\)). Es la misma idea que el \(z\) de la Normal:
           </p>
-          <p>\[ z = \frac{\bar{x} - \mu_0}{\sigma / \sqrt{n}} \quad \text{(si se conoce } \sigma\text{)} \qquad t = \frac{\bar{x} - \mu_0}{s / \sqrt{n}} \quad \text{(si no se conoce)} \]</p>
+          <p>\[ z = \frac{\bar{x} - \mu_0}{\sigma / \sqrt{n}} \quad \text{(con } \sigma\text{)} \qquad z = \frac{\bar{x} - \mu_0}{s / \sqrt{n}} \quad \text{(con } s\text{, si } n \geq 30\text{)} \]</p>
           <p>
-            Cuando \(\sigma\) de la población es <strong>desconocida</strong> y se la reemplaza por
-            el desvío muestral \(s\), el cociente ya no es exactamente normal: sigue una
-            <strong>distribución \(t\) de Student</strong>. Es una campana simétrica centrada en 0,
-            parecida a la \(Z\) pero con colas más gruesas, porque suma la incertidumbre de haber
-            estimado \(\sigma\).
+            Cuál se usa lo decide la regla de la profe:
           </p>
+          <ul>
+            <li>\(\sigma\) de la población <strong>conocida</strong> &rarr; \(Z\), con cualquier \(n\).</li>
+            <li>\(\sigma\) <strong>desconocida</strong> y \(n \geq 30\) &rarr; \(Z\), poniendo el desvío muestral \(s\) en lugar de \(\sigma\).</li>
+            <li>\(\sigma\) <strong>desconocida</strong> y \(n &lt; 30\) &rarr; \(t\) de Student con \(\nu = n - 1\) grados de libertad.</li>
+          </ul>
           <p>
-            La \(t\) depende de los <strong>grados de libertad</strong>:
-          </p>
-          <p>\[ gl = n - 1 \]</p>
-          <p>
-            Son la cantidad de datos que pueden variar libremente una vez fijado el promedio (que ya
-            se usó para calcular \(s\)). Mini-ejemplo: tres números con promedio 5; si elegís 4 y 7,
-            el tercero está obligado a ser 4. Solo dos eran libres: 2 grados de libertad.
-          </p>
-          <p>
-            Cuantos más grados de libertad, más se parece la \(t\) a la \(Z\): con infinitos son
-            idénticas.
+            Mini-ejemplo: 15 datos con desvío muestral \(s\) &rarr; \(t\) con 14 grados de libertad;
+            40 datos con desvío muestral &rarr; \(Z\) con \(s\).
           </p>
         </div>
 
         <div class="caja caja-formula">
-          <span class="caja-tit">5. La tabla \(t\) y la región de rechazo</span>
+          <span class="caja-tit">5. El valor crítico y la región de rechazo</span>
           <p>
-            La tabla \(t\) se lee cruzando la fila de los <strong>grados de libertad</strong> con la
-            columna del <strong>área de la cola</strong> (\(\alpha\) para una cola). Da el valor
-            <strong>crítico</strong> \(t_\alpha\) que deja esa área en la cola derecha; por simetría,
-            el de la cola izquierda es el mismo con signo menos.
+            El valor <strong>crítico</strong> \(z_\alpha\) es el que deja un área \(\alpha\) en la cola
+            derecha de la Normal estándar: se busca en la tabla \(Z\) el valor con \(F(z) = 1 - \alpha\).
+            Por simetría, el de la cola izquierda es el mismo con signo menos.
           </p>
           <p>
-            La <strong>región de rechazo</strong> es la zona de valores de \(t\) tan extremos que, si
+            La <strong>región de rechazo</strong> es la zona de valores de \(z\) tan extremos que, si
             \(H_0\) fuera cierta, saldrían con probabilidad \(\alpha\) o menos. Está en el lado que
             marca \(H_1\):
           </p>
           <div class="tabla-wrap">
             <table class="t full">
               <tr><th>\(H_1\)</th><th>Tipo de prueba</th><th>Se rechaza \(H_0\) si</th></tr>
-              <tr><td>\(\mu &lt; \mu_0\)</td><td>unilateral izquierda</td><td>\(t &lt; -t_\alpha\)</td></tr>
-              <tr><td>\(\mu &gt; \mu_0\)</td><td>unilateral derecha</td><td>\(t &gt; t_\alpha\)</td></tr>
-              <tr><td>\(\mu \neq \mu_0\)</td><td>bilateral</td><td>\(|t| &gt; t_{\alpha/2}\)</td></tr>
+              <tr><td>\(\mu &lt; \mu_0\)</td><td>unilateral izquierda</td><td>\(z &lt; -z_\alpha\)</td></tr>
+              <tr><td>\(\mu &gt; \mu_0\)</td><td>unilateral derecha</td><td>\(z &gt; z_\alpha\)</td></tr>
+              <tr><td>\(\mu \neq \mu_0\)</td><td>bilateral</td><td>\(|z| &gt; z_{\alpha/2}\)</td></tr>
             </table>
           </div>
           <p>
-            Mini-ejemplo: con 10 grados de libertad y \(\alpha = 0{,}05\) a una cola, la tabla da
-            \(t = 1{,}812\). Si la prueba es unilateral izquierda, se rechaza \(H_0\) cuando el
-            \(t\) calculado es menor que \(-1{,}812\).
+            Mini-ejemplo: con \(\alpha = 0{,}01\) a una cola se busca \(F(z) = 0{,}99\): la tabla da
+            \(z = 2{,}33\). Si la prueba es unilateral izquierda, se rechaza \(H_0\) cuando el
+            \(z\) calculado es menor que \(-2{,}33\).
           </p>
         </div>
 
@@ -209,11 +197,11 @@
         <div class="tabla-wrap">
           <table class="t full">
             <tr><th>Frase del enunciado</th><th>Qué significa</th><th>La cuenta</th><th>A dónde va</th></tr>
-            <tr><td>&ldquo;30 procesos&rdquo;</td><td>tamaño de la muestra</td><td>&mdash;</td><td>\(n = 30\); \(gl = 29\)</td></tr>
+            <tr><td>&ldquo;30 procesos&rdquo;</td><td>tamaño de la muestra</td><td>&mdash;</td><td>\(n = 30\), \(n \geq 30\)</td></tr>
             <tr><td>&ldquo;consumo promedio de 2,4 GB&rdquo;</td><td>media de la muestra</td><td>&mdash;</td><td>\(\bar{x} = 2{,}4\)</td></tr>
             <tr><td>&ldquo;<strong>varianza</strong> muestral de 0,36 GB²&rdquo;</td><td>OJO: es \(s^{2}\), no \(s\)</td><td>\(s = \sqrt{0{,}36} = 0{,}6\)</td><td>\(s = 0{,}6\)</td></tr>
             <tr><td>&ldquo;no supere los 2,7 GB&rdquo;</td><td>el valor de referencia</td><td>&mdash;</td><td>\(\mu_0 = 2{,}7\)</td></tr>
-            <tr><td>&ldquo;suponiendo normalidad&rdquo;</td><td>la población es normal</td><td>&mdash;</td><td>vale usar \(t\)</td></tr>
+            <tr><td>&ldquo;suponiendo normalidad&rdquo;</td><td>la población es normal</td><td>&mdash;</td><td>\(\bar{X}\) es normal</td></tr>
             <tr><td>&ldquo;nivel de significación del 0,05&rdquo;</td><td>riesgo de error tipo I</td><td>&mdash;</td><td>\(\alpha = 0{,}05\)</td></tr>
             <tr><td>&ldquo;pruebe que el consumo medio es <strong>inferior</strong>&rdquo;</td><td>lo que se quiere probar: va en \(H_1\)</td><td>&mdash;</td><td>\(H_1: \mu &lt; 2{,}7\), cola izquierda</td></tr>
           </table>
@@ -308,60 +296,61 @@
         <p><strong>Paso 3 &mdash; Elegir el estadístico.</strong></p>
         <p>
           \(\sigma\) de la población es <strong>desconocida</strong> (solo tenemos la varianza de la
-          muestra) y la población es normal, así que corresponde el estadístico \(t\) con
-          \(gl = n - 1 = 29\). Fórmula:
+          muestra), pero \(n = 30 \geq 30\): con la regla de la profe corresponde \(Z\), usando
+          \(s\) en lugar de \(\sigma\) (30 justo ya va con \(Z\)). Fórmula:
         </p>
-        <p>\[ t = \frac{\bar{x} - \mu_0}{s / \sqrt{n}} \]</p>
+        <p>\[ z = \frac{\bar{x} - \mu_0}{s / \sqrt{n}} \]</p>
 
         <p><strong>Paso 4 &mdash; Calcularlo.</strong> Primero el desvío, porque nos dieron la varianza:</p>
         <p>\[ s = \sqrt{s^{2}} = \sqrt{0{,}36} = 0{,}6 \]</p>
         <p>El error estándar:</p>
         <p>\[ \frac{s}{\sqrt{n}} = \frac{0{,}6}{\sqrt{30}} = \frac{0{,}6}{5{,}4772} = 0{,}1095 \]</p>
         <p>Reemplazamos en la fórmula:</p>
-        <p>\[ t = \frac{2{,}4 - 2{,}7}{0{,}6 / \sqrt{30}} = \frac{-0{,}3}{0{,}1095} = \mathbf{-2{,}7386} \]</p>
+        <p>\[ z = \frac{2{,}4 - 2{,}7}{0{,}6 / \sqrt{30}} = \frac{-0{,}3}{0{,}1095} = \mathbf{-2{,}7386} \]</p>
         <p>La media muestral está casi 2,74 errores estándar por debajo de 2,7.</p>
 
         <p><strong>Paso 5 &mdash; Valor crítico y región de rechazo.</strong></p>
         <p>
-          Tabla \(t\): fila \(gl = 29\), columna \(\alpha = 0{,}05\) (una cola):
-          \(t_{0{,}05;\,29} = 1{,}699\). Como la prueba es a la izquierda, se usa con signo menos:
+          Tabla \(Z\): el área 0,05 a la izquierda queda entre \(z = -1{,}64\) (0,0505) y
+          \(z = -1{,}65\) (0,0495), justo en el medio, así que se toma \(z_{0{,}05} = 1{,}645\).
+          Como la prueba es a la izquierda, se usa con signo menos:
         </p>
-        <p>\[ \text{Región de rechazo: } t &lt; -1{,}699 \]</p>
+        <p>\[ \text{Región de rechazo: } z &lt; -1{,}645 \]</p>
 
         <div class="pd-grafico">
-          <svg viewBox="0 0 620 250" role="img" aria-label="Campana t con la región de rechazo en la cola izquierda desde -1,699 y el estadístico -2,74 dentro de ella">
+          <svg viewBox="0 0 620 250" role="img" aria-label="Campana normal con la región de rechazo en la cola izquierda desde -1,645 y el estadístico -2,74 dentro de ella">
             <defs>
-              <clipPath id="f26e4d"><rect x="40" y="0" width="174" height="205"/></clipPath>
+              <clipPath id="f26e4d"><rect x="40" y="0" width="177.5" height="205"/></clipPath>
             </defs>
             <path class="campana" d="M 40,205 L 51,205 L 62,205 L 74,205 L 85,205 L 96,205 L 108,205 L 119,205 L 130,204 L 141,203 L 152,202 L 164,200 L 175,196 L 186,191 L 198,184 L 209,174 L 220,162 L 231,147 L 242,130 L 254,111 L 265,92 L 276,76 L 288,62 L 299,53 L 310,50 L 321,53 L 332,62 L 344,76 L 355,92 L 366,111 L 378,130 L 389,147 L 400,162 L 411,174 L 422,184 L 434,191 L 445,196 L 456,200 L 468,202 L 479,203 L 490,204 L 501,205 L 512,205 L 524,205 L 535,205 L 546,205 L 558,205 L 569,205 L 580,205 Z"/>
             <path class="area" clip-path="url(#f26e4d)" d="M 40,205 L 51,205 L 62,205 L 74,205 L 85,205 L 96,205 L 108,205 L 119,205 L 130,204 L 141,203 L 152,202 L 164,200 L 175,196 L 186,191 L 198,184 L 209,174 L 220,162 L 231,147 L 242,130 L 254,111 L 265,92 L 276,76 L 288,62 L 299,53 L 310,50 L 321,53 L 332,62 L 344,76 L 355,92 L 366,111 L 378,130 L 389,147 L 400,162 L 411,174 L 422,184 L 434,191 L 445,196 L 456,200 L 468,202 L 479,203 L 490,204 L 501,205 L 512,205 L 524,205 L 535,205 L 546,205 L 558,205 L 569,205 L 580,205 Z"/>
             <line class="eje" x1="30" y1="205" x2="595" y2="205"/>
             <line class="guia" x1="310" y1="50" x2="310" y2="205"/>
-            <line class="corte" x1="214" y1="169" x2="214" y2="205"/>
+            <line class="corte" x1="217.5" y1="165" x2="217.5" y2="205"/>
             <circle class="punto" cx="156" cy="205" r="5"/>
             <text class="rotulo" x="310" y="228" text-anchor="middle">0</text>
-            <text class="rotulo" x="222" y="228" text-anchor="middle">−1,699</text>
-            <text class="rotulo" x="138" y="228" text-anchor="middle">t = −2,74</text>
+            <text class="rotulo" x="225" y="228" text-anchor="middle">−1,645</text>
+            <text class="rotulo" x="138" y="228" text-anchor="middle">z = −2,74</text>
             <text class="valor" x="150" y="175" text-anchor="middle">rechazo</text>
             <text class="rotulo" x="140" y="150" text-anchor="middle">área 0,05</text>
           </svg>
-          <p class="pd-pie">La zona sombreada es la región de rechazo; el \(t\) calculado cae adentro.</p>
+          <p class="pd-pie">La zona sombreada es la región de rechazo; el \(z\) calculado cae adentro.</p>
         </div>
 
         <p><strong>Paso 6 &mdash; Decisión.</strong></p>
-        <p>\[ t = -2{,}7386 &lt; -1{,}699 \;\Longrightarrow\; \text{se rechaza } H_0 \]</p>
+        <p>\[ z = -2{,}7386 &lt; -1{,}645 \;\Longrightarrow\; \text{se rechaza } H_0 \]</p>
         <p>
           Otra forma de verlo, en GB: el límite de la región de rechazo es
-          \(\bar{x}_c = 2{,}7 - 1{,}699 \cdot 0{,}1095 = 2{,}5139\). Cualquier media muestral por
-          debajo de 2,5139 GB lleva a rechazar, y la nuestra es 2,4.
+          \(\bar{x}_c = 2{,}7 - 1{,}645 \cdot 0{,}1095 = 2{,}5199\). Cualquier media muestral por
+          debajo de 2,5199 GB lleva a rechazar, y la nuestra es 2,4.
         </p>
 
         <p><strong>Paso 7 &mdash; Conclusión en contexto.</strong></p>
         <div class="caja caja-resp">
           <span class="caja-tit">Respuesta d</span>
           <p>
-            \(H_0: \mu \geq 2{,}7\) vs \(H_1: \mu &lt; 2{,}7\); \(t = -2{,}7386\) con 29 grados de
-            libertad; valor crítico \(-1{,}699\). Se rechaza \(H_0\).
+            \(H_0: \mu \geq 2{,}7\) vs \(H_1: \mu &lt; 2{,}7\); \(z = -2{,}7386\) (con \(s\), porque
+            \(n \geq 30\)); valor crítico \(-1{,}645\). Se rechaza \(H_0\).
           </p>
           <p>
             Con un nivel de significación de 0,05, los datos dan evidencia suficiente para afirmar
@@ -371,18 +360,16 @@
         </div>
 
         <div class="caja caja-calc">
-          <span class="caja-tit">¿Y si se usa \(z\) en vez de \(t\)?</span>
+          <span class="caja-tit">¿Y si se usa \(t\) en vez de \(z\)?</span>
           <p>
-            Algunos docentes, con \(n \geq 30\), aceptan aproximar con la Normal (por el TCL) y usar
-            \(s\) como si fuera \(\sigma\). La cuenta del estadístico es la misma
-            (\(z = -2{,}7386\)); cambia el valor crítico: en la tabla \(Z\) el área 0,05 a la
-            izquierda está entre \(z = -1{,}64\) (0,0505) y \(z = -1{,}65\) (0,0495), y se toma
-            \(-1{,}645\).
+            La regla de la profe: \(\sigma\) conocida &rarr; \(Z\) con cualquier \(n\); \(\sigma\)
+            desconocida &rarr; \(Z\) con \(s\) si \(n \geq 30\), y \(t\) con \(\nu = n - 1\) solo si
+            \(n &lt; 30\). Acá \(n = 30\), así que va \(Z\).
           </p>
           <p>
-            \(-2{,}7386 &lt; -1{,}645\): <strong>la decisión es la misma</strong>, se rechaza \(H_0\).
-            Lo correcto con \(\sigma\) desconocida y población normal es \(t\); con \(n = 30\) las dos
-            dan casi igual (1,699 contra 1,645).
+            Si se usara \(t\) con 29 grados de libertad, el estadístico sería el mismo número
+            (\(-2{,}7386\)) y el valor crítico sería \(-1{,}699\): \(-2{,}7386 &lt; -1{,}699\),
+            <strong>la decisión es la misma</strong>, se rechaza \(H_0\).
           </p>
         </div>
 
@@ -412,16 +399,15 @@
             medio es inferior a 2,7 GB. Coincide con la decisión del inciso d.
           </p>
           <p>
-            Dato: con los números del enunciado, la tabla \(t\) con 29 gl ubica el valor \(p\) entre
-            0,005 y 0,01 (porque 2,74 cae entre 2,462 y 2,756); el valor exacto es 0,0052. El 0,008
-            del inciso es hipotético, pero cae en ese mismo rango y lleva a la misma decisión.
+            Dato: con los números del enunciado, el valor \(p\) real es
+            \(P(Z &lt; -2{,}74) = 1 - 0{,}9969 = 0{,}0031\) (de tabla). El 0,008 del inciso es
+            hipotético, pero también es menor que 0,05 y lleva a la misma decisión.
           </p>
         </div>
 
         <h4>Parecido en la guía</h4>
         <p>
-          Es de inferencia, una unidad que todavía no está cargada: no hay ejercicio parecido en las
-          guías de las Unidades 4, 5 y 6.
+          Unidad 9, Práctica: el Ejercicio 1 (<em>latas de barniz</em>) es el mismo tipo: \(n\) grande, sin \(\sigma\), \(Z\) con \(S\) y cola izquierda. El enunciado del Teorema del Límite Central está en la Teoría de la Unidad 7.
         </p>
 
         <div class="caja caja-ojo">
@@ -429,7 +415,7 @@
           <ol>
             <li>
               <strong>Usar la varianza como desvío.</strong> 0,36 es \(s^{2}\); en la fórmula va
-              \(s = 0{,}6\). Con 0,36 daría \(t = -4{,}56\): la decisión no cambia, pero el valor está
+              \(s = 0{,}6\). Con 0,36 daría \(z = -4{,}56\): la decisión no cambia, pero el valor está
               mal y se descuenta.
             </li>
             <li>
@@ -438,11 +424,15 @@
             </li>
             <li>
               <strong>Olvidarse del signo del valor crítico.</strong> La prueba es a la izquierda: se
-              compara con \(-1{,}699\), no con \(+1{,}699\).
+              compara con \(-1{,}645\), no con \(+1{,}645\).
             </li>
             <li>
-              <strong>Dividir por \(n\) en vez de \(\sqrt{n}\)</strong> en el error estándar, o
-              buscar en la tabla con \(n = 30\) grados de libertad en vez de \(n - 1 = 29\).
+              <strong>Dividir por \(n\) en vez de \(\sqrt{n}\)</strong> en el error estándar.
+            </li>
+            <li>
+              <strong>Elegir \(t\) porque \(\sigma\) es desconocida.</strong> Con \(n \geq 30\) va
+              \(Z\) usando \(s\); la \(t\) es para \(\sigma\) desconocida y \(n &lt; 30\). Acá
+              \(n = 30\): 30 justo ya va con \(Z\).
             </li>
             <li>
               <strong>Quedarse en &ldquo;se rechaza \(H_0\)&rdquo;.</strong> Siempre hay que cerrar

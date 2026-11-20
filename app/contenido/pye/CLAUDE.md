@@ -10,6 +10,10 @@ solo lo propio de PyE. Si se toca el banco de preguntas: `evaluacion/preguntas/F
   `C:\Users\Fran\Desktop\SISTEMAS 3\PYE\PARCIAL 2\UNIDAD N\` (U1 a U3: `PARCIAL 1\UNIDAD N\`, más
   la hoja de fórmulas de descriptiva e integrales, `app/pdf/pye/formulas-descriptiva-e-integrales.pdf`).
   La prueba de hipótesis no es U7.
+- **U9 (Prueba de hipótesis, para el final):** fuente `PARCIAL 2\Tema 9\` (Tema 9, la guía y su
+  resolución en R). H₀ con "=" como la resolución de la cátedra; Z o t con la misma regla que el IC.
+  El Tema 9 no explica el valor p: la sección sale de los finales y de la guía de la t. El cálculo
+  de β y la prueba para dos poblaciones solo se nombran (no aparecieron en finales).
 - **1er parcial (U1 a U3):** cuartiles con la convención de la hoja de fórmulas (n par: promedio de
   las posiciones \(\frac{k}{4}n\) y \(\frac{k}{4}n+1\); coincide con los Resultados). Atípicos con las
   vallas \(Q_1 - 1{,}5\,IQ\) y \(Q_3 + 1{,}5\,IQ\).

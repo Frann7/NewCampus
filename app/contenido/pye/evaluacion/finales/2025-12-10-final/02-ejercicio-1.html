@@ -92,6 +92,86 @@
           </table>
         </div>
 
+        <p>
+          Antes de calcular conviene armar el árbol: muestra los cuatro caminos posibles (urna y color)
+          con su probabilidad. Se arma en tres pasos, de izquierda a derecha, en el orden en que pasan las cosas.
+        </p>
+
+        <p><strong>Paso 1 &mdash; Primer nivel: la moneda.</strong>
+          Del punto de partida (la raíz) sale una rama por cada resultado de la moneda: cara lleva a
+          \(U_1\) y cruz a \(U_2\). Sobre cada rama va su probabilidad: la moneda tiene dos caras con la
+          misma chance, así que \(P(U_1) = P(U_2) = \frac{1}{2}\). Control: las ramas que salen de un
+          mismo punto suman 1 (\(\frac{1}{2} + \frac{1}{2} = 1\)).
+        </p>
+        <div class="pd-grafico" data-g="f1210-arbol-1">
+          <svg viewBox="0 0 620 192" role="img" aria-label="Paso 1 del árbol: de la raíz salen dos ramas, cara (1/2) a la urna 1 y cruz (1/2) a la urna 2">
+  <text class="rotulo" x="170" y="18" text-anchor="middle">Moneda → urna</text>
+  <circle class="punto" cx="30" cy="110.0" r="4"/>
+  <line class="eje" x1="34" y1="110.0" x2="156" y2="74.0"/>
+  <text class="rotulo" x="95.0" y="86.0" text-anchor="middle">1/2</text>
+  <text class="valor" x="166" y="79.0">U₁</text>
+  <line class="eje" x1="34" y1="110.0" x2="156" y2="146.0"/>
+  <text class="rotulo" x="95.0" y="142.0" text-anchor="middle">1/2</text>
+  <text class="valor" x="166" y="151.0">U₂</text>
+</svg>
+        </div>
+
+        <p><strong>Paso 2 &mdash; Segundo nivel: el color de la bola.</strong>
+          De cada urna salen dos ramas, blanca (\(Bl\)) y roja (\(R\)). Su probabilidad se cuenta
+          <strong>dentro de esa urna</strong> (Laplace: bolas de ese color sobre el total de bolas de la urna),
+          porque ya se sabe de qué urna se saca: son las condicionales \(P(Bl/U_1)\), \(P(R/U_1)\), etc.
+        </p>
+        <ul>
+          <li>\(U_1\) tiene \(3 + 2 = 5\) bolas: blanca \(\frac{3}{5}\), roja \(\frac{2}{5}\). Control: \(\frac{3}{5} + \frac{2}{5} = 1\).</li>
+          <li>\(U_2\) tiene \(4 + 2 = 6\) bolas: blanca \(\frac{4}{6}\), roja \(\frac{2}{6}\). Control: \(\frac{4}{6} + \frac{2}{6} = 1\).</li>
+        </ul>
+        <div class="pd-grafico" data-g="f1210-arbol-2">
+          <svg viewBox="0 0 620 192" role="img" aria-label="Paso 2 del árbol: de la urna 1 salen blanca 3/5 y roja 2/5; de la urna 2, blanca 4/6 y roja 2/6">
+  <text class="rotulo" x="170" y="18" text-anchor="middle">Moneda → urna</text>
+  <text class="rotulo" x="310" y="18" text-anchor="middle">Bola</text>
+  <circle class="punto" cx="30" cy="110.0" r="4"/>
+  <line class="eje" x1="34" y1="110.0" x2="156" y2="74.0"/>
+  <text class="rotulo" x="95.0" y="86.0" text-anchor="middle">1/2</text>
+  <text class="valor" x="166" y="79.0">U₁</text>
+  <line class="eje" x1="180" y1="74.0" x2="296" y2="56.0"/>
+  <text class="rotulo" x="238.0" y="59.0" text-anchor="middle">3/5</text>
+  <text class="valor" x="306" y="61.0">Bl</text>
+  <line class="eje" x1="180" y1="74.0" x2="296" y2="92.0"/>
+  <text class="rotulo" x="238.0" y="97.0" text-anchor="middle">2/5</text>
+  <text class="valor" x="306" y="97.0">R</text>
+  <line class="eje" x1="34" y1="110.0" x2="156" y2="146.0"/>
+  <text class="rotulo" x="95.0" y="142.0" text-anchor="middle">1/2</text>
+  <text class="valor" x="166" y="151.0">U₂</text>
+  <line class="eje" x1="180" y1="146.0" x2="296" y2="128.0"/>
+  <text class="rotulo" x="238.0" y="131.0" text-anchor="middle">4/6</text>
+  <text class="valor" x="306" y="133.0">Bl</text>
+  <line class="eje" x1="180" y1="146.0" x2="296" y2="164.0"/>
+  <text class="rotulo" x="238.0" y="169.0" text-anchor="middle">2/6</text>
+  <text class="valor" x="306" y="169.0">R</text>
+</svg>
+        </div>
+
+        <p><strong>Paso 3 &mdash; Al final de cada camino, el producto.</strong>
+          Cada camino de la raíz a una punta es &ldquo;esa urna <strong>y</strong> ese color&rdquo;, y su
+          probabilidad es el producto de las ramas que recorre (regla multiplicativa:
+          \(P(U_1 \cap Bl) = P(U_1) \cdot P(Bl/U_1)\)). Las fracciones se multiplican numerador por
+          numerador y denominador por denominador:
+        </p>
+        <div class="tabla-wrap">
+          <table class="t">
+            <tr><th>Camino</th><th>La cuenta</th><th>Decimal</th></tr>
+            <tr><td>\(U_1\) y blanca</td><td>\(\frac{1}{2} \cdot \frac{3}{5} = \frac{3}{10}\)</td><td>0,3000</td></tr>
+            <tr><td>\(U_1\) y roja</td><td>\(\frac{1}{2} \cdot \frac{2}{5} = \frac{2}{10}\)</td><td>0,2000</td></tr>
+            <tr><td>\(U_2\) y blanca</td><td>\(\frac{1}{2} \cdot \frac{4}{6} = \frac{4}{12}\)</td><td>0,3333</td></tr>
+            <tr><td>\(U_2\) y roja</td><td>\(\frac{1}{2} \cdot \frac{2}{6} = \frac{2}{12}\)</td><td>0,1667</td></tr>
+          </table>
+        </div>
+        <p>
+          Control: los cuatro caminos son todo lo que puede pasar, así que suman 1:
+          \(0{,}3000 + 0{,}2000 + 0{,}3333 + 0{,}1667 = 1\). Los dos que terminan en blanca van en
+          negrita: son los que se suman en el inciso a.
+        </p>
+
         <div class="pd-grafico" data-g="f1210-arbol">
 <svg viewBox="0 0 620 192" role="img" aria-label="Árbol de las dos urnas: cara (1/2) a la urna 1 y cruz (1/2) a la urna 2; de la urna 1 blanca 3/5 y roja 2/5; de la urna 2 blanca 4/6 y roja 2/6">
   <text class="rotulo" x="170" y="18" text-anchor="middle">Moneda → urna</text>

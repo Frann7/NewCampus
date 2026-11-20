@@ -1,7 +1,8 @@
 """Gráficos del Final 10/12/2025 de PyE (app/contenido/pye/evaluacion/finales/2025-12-10-final/).
 
-Ej. 1: árbol de las dos urnas. Ej. 3: la campana de la glucosa con sus propiedades y el 25 % más
-alto. Ej. 4: la campana Z de la prueba de hipótesis.
+Ej. 1: árbol de las dos urnas, armado por niveles (moneda → bola → producto). Ej. 3: la campana de la
+glucosa armada paso a paso (ejes → puntos → curva), el 25 % más alto y sus propiedades. Ej. 4: la campana
+Z de la prueba de hipótesis en tres pasos (campana → región de rechazo → estadístico).
 Rellena el <svg> que está dentro de cada <div class="pd-grafico" data-g="NOMBRE"> (el pie no se toca).
 Uso, desde la raíz del repo:  python fuentes/pye/graficos_final_2025_12_10.py
 """
@@ -22,17 +23,23 @@ def num(v, dec=2):
 
 # ---------------------------------------------------------------- Ej. 1: árbol
 
-def arbol():
+def arbol(nivel=3):
+    """nivel 1: la moneda; 2: más el color de la bola; 3: más el producto de cada camino."""
     # fracciones sin simplificar, como salen de contar bolas (4/6, no 2/3)
     ramas = [("U₁", (1, 2), [("Bl", (3, 5)), ("R", (2, 5))]),
              ("U₂", (1, 2), [("Bl", (4, 6)), ("R", (2, 6))])]
     fr = lambda p: f"{p[0]}/{p[1]}"
     cols, paso, y0hoja = [30, 170, 310], 36, 56
-    s = ['<svg viewBox="0 0 620 192" role="img" aria-label="Árbol de las dos urnas: cara (1/2) a la urna 1 y '
-         'cruz (1/2) a la urna 2; de la urna 1 blanca 3/5 y roja 2/5; de la urna 2 blanca 4/6 y roja 2/6">',
-         f'  <text class="rotulo" x="{cols[1]}" y="18" text-anchor="middle">Moneda → urna</text>',
-         f'  <text class="rotulo" x="{cols[2]}" y="18" text-anchor="middle">Bola</text>',
-         '  <text class="rotulo" x="352" y="18" text-anchor="start">Producto de las ramas</text>']
+    aria = {1: "Paso 1 del árbol: de la raíz salen dos ramas, cara (1/2) a la urna 1 y cruz (1/2) a la urna 2",
+            2: "Paso 2 del árbol: de la urna 1 salen blanca 3/5 y roja 2/5; de la urna 2, blanca 4/6 y roja 2/6",
+            3: "Árbol de las dos urnas: cara (1/2) a la urna 1 y cruz (1/2) a la urna 2; de la urna 1 blanca 3/5 "
+               "y roja 2/5; de la urna 2 blanca 4/6 y roja 2/6"}[nivel]
+    s = [f'<svg viewBox="0 0 620 192" role="img" aria-label="{aria}">',
+         f'  <text class="rotulo" x="{cols[1]}" y="18" text-anchor="middle">Moneda → urna</text>']
+    if nivel >= 2:
+        s.append(f'  <text class="rotulo" x="{cols[2]}" y="18" text-anchor="middle">Bola</text>')
+    if nivel >= 3:
+        s.append('  <text class="rotulo" x="352" y="18" text-anchor="start">Producto de las ramas</text>')
     hojas_y = [y0hoja + i * paso for i in range(4)]
     urnas_y = [(hojas_y[0] + hojas_y[1]) / 2, (hojas_y[2] + hojas_y[3]) / 2]
     raiz_y = sum(urnas_y) / 2
@@ -45,6 +52,8 @@ def arbol():
         s.append(f'  <text class="rotulo" x="{(x1 + x2) / 2:.1f}" y="{(raiz_y + uy) / 2 + dy:.1f}" '
                  f'text-anchor="middle">{fr(pu)}</text>')
         s.append(f'  <text class="valor" x="{cols[1] - 4}" y="{uy + 5:.1f}">{urna}</text>')
+        if nivel < 2:
+            continue
         for j, (bola, pb) in enumerate(bolas):
             hy = hojas_y[2 * i + j]
             x1, x2 = cols[1] + 10, cols[2] - 14
@@ -53,6 +62,8 @@ def arbol():
             s.append(f'  <text class="rotulo" x="{(x1 + x2) / 2:.1f}" y="{(uy + hy) / 2 + dy:.1f}" '
                      f'text-anchor="middle">{fr(pb)}</text>')
             s.append(f'  <text class="valor" x="{cols[2] - 4}" y="{hy + 5:.1f}">{bola}</text>')
+            if nivel < 3:
+                continue
             prod = (pu[0] * pb[0], pu[1] * pb[1])
             cls = "valor" if bola == "Bl" else "rotulo"
             s.append(f'  <text class="{cls}" x="352" y="{hy + 5:.1f}">{fr(pu)} · {fr(pb)} = {fr(prod)} '
@@ -88,6 +99,68 @@ def x_de_px(p):
 def marcas(s, valores, y=217):
     for v in valores:
         s.append(f'  <text class="rotulo" x="{px(v):.1f}" y="{y}" text-anchor="middle">{num(v, 0) if v == int(v) else num(v)}</text>')
+
+
+def ejes_glucosa(aria):
+    s = [f'<svg viewBox="0 0 620 250" role="img" aria-label="{aria}">',
+         f'  <line class="eje" x1="34" y1="{BASE}" x2="586" y2="{BASE}"/>']
+    for k in range(-3, 4):
+        x = px(MU + k * SIGMA)
+        s.append(f'  <line class="eje" x1="{x:.1f}" y1="{BASE}" x2="{x:.1f}" y2="{BASE + 6}"/>')
+    marcas(s, [MU + k * SIGMA for k in range(-3, 4)])
+    return s
+
+
+ALTURAS = [(0, "0,0499"), (1, "0,0302"), (2, "0,0067"), (3, "0,0006")]   # f(x) en z = 0, ±1, ±2, ±3
+
+
+def puntos_glucosa(s, con_valores=True):
+    for k, txt in ALTURAS:
+        for signo in ((1,) if k == 0 else (-1, 1)):
+            x = MU + signo * k * SIGMA
+            s.append(f'  <circle class="punto" cx="{px(x):.1f}" cy="{py(x):.1f}" r="4"/>')
+            if not con_valores:
+                continue
+            if k == 0:
+                s.append(f'  <text class="valor" x="{px(x) + 9:.1f}" y="{py(x) - 2:.1f}" text-anchor="start">{txt}</text>')
+            else:
+                dx, ancla = (9, "start") if signo > 0 else (-9, "end")
+                s.append(f'  <text class="valor" x="{px(x) + dx:.1f}" y="{py(x) - 8:.1f}" text-anchor="{ancla}">{txt}</text>')
+
+
+def paso_glucosa_ejes():
+    s = ejes_glucosa("Paso 2: el eje horizontal de la glucosa con 106 en el centro y marcas cada 8 (un desvío), "
+                     "de 82 a 130")
+    y = BASE - 20
+    s += [f'  <line class="flecha" x1="{px(MU):.1f}" y1="{y}" x2="{px(MU + SIGMA):.1f}" y2="{y}"/>',
+          f'  <line class="flecha" x1="{px(MU):.1f}" y1="{y - 5}" x2="{px(MU):.1f}" y2="{y + 5}"/>',
+          f'  <line class="flecha" x1="{px(MU + SIGMA):.1f}" y1="{y - 5}" x2="{px(MU + SIGMA):.1f}" y2="{y + 5}"/>',
+          f'  <text class="valor" x="{px(MU + SIGMA / 2):.1f}" y="{y - 9}" text-anchor="middle">8 = un desvío</text>',
+          "</svg>"]
+    return "\n".join(s)
+
+
+def paso_glucosa_puntos():
+    s = ejes_glucosa("Paso 3: los siete puntos de la tabla; el más alto en 106 (0,0499), en 98 y 114 a 0,0302, en 90 y "
+                     "122 a 0,0067 y en 82 y 130 a 0,0006, casi sobre el eje; líneas punteadas desde cada marca")
+    for k in range(-3, 4):
+        x = MU + k * SIGMA
+        s.append(f'  <line class="guia" x1="{px(x):.1f}" y1="{py(x):.1f}" x2="{px(x):.1f}" y2="{BASE}"/>')
+    puntos_glucosa(s)
+    s.append("</svg>")
+    return "\n".join(s)
+
+
+def paso_glucosa_campana():
+    a, b = x_de_px(X0), x_de_px(X1)
+    s = ejes_glucosa("Paso 4: la curva suave que une los siete puntos, una campana con el pico en 106, que a la "
+                     "izquierda de 82 y a la derecha de 130 sigue pegada al eje sin tocarlo")
+    s.insert(1, f'  <path class="campana" d="M {X0},{py(a):.1f} {trazo(a, b)}"/>')
+    puntos_glucosa(s, con_valores=False)
+    s += [f'  <text class="rotulo" x="47.5" y="{BASE - 10}" text-anchor="start">no toca el eje</text>',
+          f'  <text class="rotulo" x="572.5" y="{BASE - 10}" text-anchor="end">no toca el eje</text>',
+          "</svg>"]
+    return "\n".join(s)
 
 
 def normal_propiedades():
@@ -140,7 +213,8 @@ def normal_cuartil():
 
 # ---------------------------------------------------------------- Ej. 4: prueba de hipótesis
 
-def campana_z(nombre, critico, est, rango=4.0):
+def campana_z(nombre, critico, est, rango=4.0, etapa=3):
+    """etapa 1: campana y centro; 2: más los cortes y las colas de rechazo; 3: más el estadístico."""
     base, pico, c = 205, 50, 310
     pdf = stats.norm.pdf
     esc = (base - pico) / pdf(0)
@@ -149,8 +223,12 @@ def campana_z(nombre, critico, est, rango=4.0):
     pts = [(-rango + 2 * rango * i / 96) for i in range(97)]
     d = f"M 40,{base} " + " ".join(f"L {zx(z):.1f},{zy(z):.1f}" for z in pts) + f" L 580,{base} Z"
     clip = f"c-{nombre}"
-    s = [f'<svg viewBox="0 0 620 255" role="img" aria-label="Campana normal estándar Z; región de rechazo en las dos '
-         f'colas desde ±{num(critico)}; el estadístico z = {num(est)} marcado sobre el eje">',
+    aria = {1: "Paso 1: la campana normal estándar Z, con el pico en 0 y una línea punteada en el centro",
+            2: f"Paso 2: la campana Z con los cortes en ±{num(critico)} y las dos colas sombreadas, de área 0,025 "
+               f"cada una: la región de rechazo",
+            3: f"Campana normal estándar Z; región de rechazo en las dos colas desde ±{num(critico)}; el estadístico "
+               f"z = {num(est)} marcado sobre el eje"}[etapa]
+    s = [f'<svg viewBox="0 0 620 255" role="img" aria-label="{aria}">',
          f'  <defs><clipPath id="{clip}"><rect x="40" y="0" width="{zx(-critico) - 40:.1f}" height="{base}"/>'
          f'<rect x="{zx(critico):.1f}" y="0" width="{580 - zx(critico):.1f}" height="{base}"/></clipPath></defs>',
          f'  <path class="campana" d="{d}"/>',
@@ -158,6 +236,10 @@ def campana_z(nombre, critico, est, rango=4.0):
          f'  <line class="eje" x1="30" y1="{base}" x2="595" y2="{base}"/>',
          f'  <line class="guia" x1="{c}" y1="{pico}" x2="{c}" y2="{base}"/>',
          f'  <text class="rotulo" x="{c}" y="228" text-anchor="middle">0</text>']
+    if etapa == 1:
+        s = [l for l in s if "clip" not in l]     # sin colas sombreadas
+        s.append("</svg>")
+        return "\n".join(s)
     for v in (-critico, critico):
         x = zx(v)
         tx = x - 62 if v < 0 else x + 62
@@ -165,17 +247,27 @@ def campana_z(nombre, critico, est, rango=4.0):
               f'  <text class="rotulo" x="{x:.1f}" y="228" text-anchor="middle">{num(v)}</text>',
               f'  <text class="valor" x="{tx:.1f}" y="168" text-anchor="middle">rechazo</text>',
               f'  <text class="rotulo" x="{tx:.1f}" y="148" text-anchor="middle">área 0,025</text>']
-    s += [f'  <text class="rotulo" x="{c}" y="28" text-anchor="middle">zona de no rechazo de H₀</text>',
-          f'  <circle class="punto" cx="{zx(est):.1f}" cy="{base}" r="5"/>',
+    s.append(f'  <text class="rotulo" x="{c}" y="28" text-anchor="middle">zona de no rechazo de H₀</text>')
+    if etapa == 2:
+        s.append("</svg>")
+        return "\n".join(s)
+    s += [f'  <circle class="punto" cx="{zx(est):.1f}" cy="{base}" r="5"/>',
           f'  <text class="rotulo" x="{zx(est):.1f}" y="246" text-anchor="middle">z = {num(est)}</text>',
           "</svg>"]
     return "\n".join(s)
 
 
 GRAFICOS = {
+    "f1210-arbol-1": lambda: arbol(1),
+    "f1210-arbol-2": lambda: arbol(2),
     "f1210-arbol": arbol,
+    "f1210-c-ejes": paso_glucosa_ejes,
+    "f1210-c-puntos": paso_glucosa_puntos,
+    "f1210-c-campana": paso_glucosa_campana,
     "f1210-normal-prop": normal_propiedades,
     "f1210-normal-c": normal_cuartil,
+    "f1210-ph-1": lambda: campana_z("f1210-ph-1", 1.96, -0.51, etapa=1),
+    "f1210-ph-2": lambda: campana_z("f1210-ph-2", 1.96, -0.51, etapa=2),
     "f1210-ph": lambda: campana_z("f1210-ph", 1.96, -0.51),
 }
 

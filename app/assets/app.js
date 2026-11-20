@@ -1351,8 +1351,8 @@ window.NC = window.NC || {};
               Object.keys((ind.preguntas || {})[clave] || {}).length);
   }
 
-  // Una materia con evaluaciones pero sin apuntes (SO Practica) no queda en
-  // "pronto": su lista tiene una sola entrada, que lleva a la Evaluacion.
+  // Toda materia con evaluaciones tiene la entrada Evaluacion primera en su
+  // lista. Una sin apuntes (SO Practica) no queda en "pronto": tiene solo esa.
   function construirMenu() {
     var caja = $("#materias");
     if (!caja) { return; }
@@ -1426,7 +1426,20 @@ window.NC = window.NC || {};
       if (disponible) {
         var lista = document.createElement("ul");
         lista.className = "unidades";
-        m.unidades.forEach(function (u) {
+        // La Evaluacion es de toda la materia: va primera, sin elegir unidad.
+        if (tieneEvaluacion(m.clave)) {
+          var liEv = document.createElement("li");
+          var bEv = document.createElement("button");
+          bEv.type = "button";
+          bEv.setAttribute("data-evaluacion", "1");
+          var numEv = document.createElement("span");
+          numEv.className = "u-num";
+          numEv.textContent = "Evaluación";
+          bEv.appendChild(numEv);
+          liEv.appendChild(bEv);
+          lista.appendChild(liEv);
+        }
+        (m.unidades || []).forEach(function (u) {
           var li = document.createElement("li");
           var bu = document.createElement("button");
           bu.type = "button";
@@ -1446,18 +1459,6 @@ window.NC = window.NC || {};
           li.appendChild(bu);
           lista.appendChild(li);
         });
-        if (soloEvaluacion) {
-          var liEv = document.createElement("li");
-          var bEv = document.createElement("button");
-          bEv.type = "button";
-          bEv.setAttribute("data-evaluacion", "1");
-          var numEv = document.createElement("span");
-          numEv.className = "u-num";
-          numEv.textContent = "Evaluación";
-          bEv.appendChild(numEv);
-          liEv.appendChild(bEv);
-          lista.appendChild(liEv);
-        }
         bloque.appendChild(lista);
       }
 
@@ -1720,8 +1721,17 @@ window.NC = window.NC || {};
 
     $$(".unidades button").forEach(function (b) {
       b.addEventListener("click", function () {
+        // Evaluacion conserva la unidad que se estaba leyendo (o la primera de
+        // la materia), asi Teoria y Practica siguen llevando a algun lado.
         if (b.hasAttribute("data-evaluacion")) {
-          ir({ materia: b.closest(".materia").getAttribute("data-materia"), unidad: "", tab: EVALUACION });
+          var mat = b.closest(".materia").getAttribute("data-materia");
+          var primera = $('.unidades button[data-unidad]', b.closest(".materia"));
+          ir({
+            materia: mat,
+            unidad: mat === state.materia && state.unidad ? state.unidad
+                  : (primera ? primera.getAttribute("data-unidad") : ""),
+            tab: EVALUACION
+          });
           return;
         }
         // desde Evaluacion o Calendario, elegir una unidad lleva a su teoria

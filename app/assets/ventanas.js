@@ -141,6 +141,12 @@ window.NC = window.NC || {};
   // La copia de una unidad del menu: solo esa unidad, con Teoria y Practica.
   function urlDeUnidad(b) {
     var materia = b.closest(".materia");
+    // La Evaluacion de la materia: la copia va con la primera unidad (o ninguna)
+    if (materia && b.hasAttribute("data-evaluacion")) {
+      var primera = materia.querySelector(".unidades button[data-unidad]");
+      return "index.html?panel=1#" + materia.getAttribute("data-materia") + "/" +
+        (primera ? primera.getAttribute("data-unidad") : "") + "/evaluacion";
+    }
     var ruta = materia && window.NC.rutaDeUnidad
       ? window.NC.rutaDeUnidad(materia.getAttribute("data-materia"), b.getAttribute("data-unidad"))
       : null;
@@ -265,8 +271,9 @@ window.NC = window.NC || {};
     tabs.forEach(prepararPestania);
 
     $$(".unidades button").forEach(function (b) {
-      prepararSostener(b, function () { return urlDeUnidad(b); },
-        "Clic para abrirla acá. Mantené apretado para abrir solo esta unidad en otra ventana.");
+      prepararSostener(b, function () { return urlDeUnidad(b); }, b.hasAttribute("data-evaluacion")
+        ? "Clic para abrirla acá. Mantené apretado para sacarla en otra ventana."
+        : "Clic para abrirla acá. Mantené apretado para abrir solo esta unidad en otra ventana.");
     });
 
     // Tareas y Calendario, en el menu lateral: la copia es index.html?panel=1#tareas

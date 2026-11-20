@@ -53,7 +53,7 @@ window.NC = window.NC || {};
         tono: (TONO_BASE + i * PASO_TONO) % 360,
         // "Unidades" en PyE, "Clases" en PA (lo pone app.js al armar el menu)
         terminos: m.getAttribute("data-terminos") || "Unidades",
-        unidades: $$(".unidades button", m).map(function (b) {
+        unidades: $$(".unidades button[data-unidad]", m).map(function (b) {
           return {
             clave: b.getAttribute("data-unidad"),
             nombre: texto(b.querySelector(".u-num")),
